@@ -1,8 +1,6 @@
 {
   "workspace": {
-    "roots": [
-      "C:/dev/toolforge"
-    ],
-    "description": "Dedicated workspace for all generated tools, daemons, scaffolds, and prototypes for Rewrite Labs and CIC."
+    "roots": ["C:/dev/toolforge"],
+    "description": "Toolforge workspace"
   }
 }
