@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-06-28T09:00:00Z",
+  "tools": [
+    {
+      "name": "multiRepoRoadmapSync",
+      "category": "sync-tools",
+      "path": "C:/dev/toolforge/sync-tools/multiRepoRoadmapSync",
+      "description": "Unified drift detector + roadmap updater for sorensencc-dotcom repos.",
+      "entrypoint": "run.ps1",
+      "status": "active",
+      "version": "0.1.0"
+    }
+  ]
+}
