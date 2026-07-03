@@ -1,0 +1,21 @@
+skills/work-summarizer/src/index.ts
+  s_748e5ab68ae704::t_f8e8de9280cb48 178-179
+  s_748e5ab68ae704::t_cb899c404f501f 173
+  s_748e5ab68ae704::t_3f4dba46cece71 83,85-87,91,98-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "7137b52aceb17cf53886322ce178731c3fa52987",
+  "prompts": {},
+  "sessions": {
+    "s_748e5ab68ae704": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "17f1198e-3730-4433-8b16-f492ccb56939",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
