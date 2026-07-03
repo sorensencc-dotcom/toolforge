@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-03T14:18:21.7267046Z
+**Generated:** 2026-07-03T14:38:45.1744328Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -123,16 +123,16 @@ Depth 0 = Leaf node (no dependencies)
 Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
-|-------|-------|| rollback-phase | 0 |
-| scale-ingestion-service | 0 |
-| work-summarizer | 0 |
-| reconcile-vector-store | 0 |
-| tool-lifecycle-manager | 0 |
-| toolforge-drift-monitor | 0 |
+|-------|-------|| run-adapter-diagnostic | 0 |
 | analyze-token-burn | 0 |
-| roadmap-validator | 0 |
-| run-adapter-diagnostic | 0 |
 | kb-sync-nightly | 0 |
+| rollback-phase | 0 |
+| reconcile-vector-store | 0 |
+| work-summarizer | 0 |
+| tool-lifecycle-manager | 0 |
+| roadmap-validator | 0 |
+| toolforge-drift-monitor | 0 |
+| scale-ingestion-service | 0 |
 
 ---
 

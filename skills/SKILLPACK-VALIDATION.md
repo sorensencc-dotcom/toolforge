@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-03T14:18:20.5055635Z
+**Generated**: 2026-07-03T14:38:43.8206481Z
 
 ---
 
@@ -8,7 +8,7 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 28 | 7 | 0 | ❌ |
+| Canonical | 0 | 12 | 0 | ✅ |
 | Distributed | 0 | 8 | 0 | ✅ |
 | Manifest | 0 | 1 | 0 | ✅ |
 | Cowork | 0 | 10 | 0 | ✅ |
@@ -16,10 +16,10 @@
 | Runtime | 0 | 0 | 10 | ✅ |
 | Audit | 0 | 0 | 1 | ℹ️ |
 
-**Total Errors**: 28
-**Total Warnings**: 26
+**Total Errors**: 0
+**Total Warnings**: 31
 
-**Overall Status**: ❌ FAIL
+**Overall Status**: ✅ PASS
 
 ---
 
@@ -42,40 +42,17 @@
 
 ## Canonical Validation
 
-❌ **analyze-token-burn**: Missing: SKILL.md
-❌ **analyze-token-burn**: Missing: INTEGRATION_DIAGRAM.md
-❌ **analyze-token-burn**: Entrypoint not specified
-❌ **analyze-token-burn**: Missing: runtime
+⚠️ **analyze-token-burn**: Entrypoint missing: src/index.ts
 ⚠️ **analyze-token-burn**: Category missing (using fallback: utility)
 ⚠️ **kb-sync-nightly**: Invalid category: documentation
-❌ **kb-sync-nightly**: Entrypoint not specified
-❌ **kb-sync-nightly**: Missing: runtime
-❌ **kb-sync-nightly**: Missing: SKILL.md
-❌ **kb-sync-nightly**: Missing: INTEGRATION_DIAGRAM.md
-❌ **reconcile-vector-store**: Missing: SKILL.md
-❌ **reconcile-vector-store**: Missing: INTEGRATION_DIAGRAM.md
-❌ **reconcile-vector-store**: Entrypoint not specified
-❌ **reconcile-vector-store**: Missing: runtime
+⚠️ **reconcile-vector-store**: Entrypoint missing: src/index.ts
 ⚠️ **reconcile-vector-store**: Category missing (using fallback: utility)
+⚠️ **rollback-phase**: Entrypoint missing: src/index.ts
 ⚠️ **rollback-phase**: Category missing (using fallback: utility)
-❌ **rollback-phase**: Missing: runtime
-❌ **rollback-phase**: Entrypoint not specified
-❌ **rollback-phase**: Missing: INTEGRATION_DIAGRAM.md
-❌ **rollback-phase**: Missing: SKILL.md
-❌ **run-adapter-diagnostic**: Missing: SKILL.md
-❌ **run-adapter-diagnostic**: Missing: INTEGRATION_DIAGRAM.md
-❌ **run-adapter-diagnostic**: Entrypoint not specified
-❌ **run-adapter-diagnostic**: Missing: runtime
+⚠️ **run-adapter-diagnostic**: Entrypoint missing: src/index.ts
 ⚠️ **run-adapter-diagnostic**: Category missing (using fallback: utility)
+⚠️ **scale-ingestion-service**: Entrypoint missing: src/index.ts
 ⚠️ **scale-ingestion-service**: Category missing (using fallback: utility)
-❌ **scale-ingestion-service**: Missing: runtime
-❌ **scale-ingestion-service**: Missing: INTEGRATION_DIAGRAM.md
-❌ **scale-ingestion-service**: Missing: SKILL.md
-❌ **scale-ingestion-service**: Entrypoint not specified
-❌ **work-summarizer**: Missing: runtime
-❌ **work-summarizer**: Missing: SKILL.md
-❌ **work-summarizer**: Missing: INTEGRATION_DIAGRAM.md
-❌ **work-summarizer**: Entrypoint not specified
 ⚠️ **work-summarizer**: Invalid category: development-observability
 
 ## Distributed Validation

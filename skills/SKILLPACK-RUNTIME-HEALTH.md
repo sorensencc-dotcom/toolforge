@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-03T14:18:18.7625877Z
+**Generated:** 2026-07-03T14:38:40.1543377Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 29 | 24 | 7 | 60 |
-| % Pass | 48.3% | 40% | 11.7% | 100% |
+| **Totals** | 33 | 22 | 5 | 60 |
+| % Pass | 55% | 36.7% | 8.3% | 100% |
 
 ---
 
@@ -21,21 +21,21 @@
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
-| Runtime | ⚠️ WARN | Unknown runtime:  |
+| Entrypoint | ❌ FAIL | File not found: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Runtime  (dry-run not applicable) |
+| DryRun | ⚠️ WARN | No exports detected in entrypoint |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
-### kb-sync-nightly — ❌ ERROR
+### kb-sync-nightly — ⚠️ WARN
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
-| Runtime | ⚠️ WARN | Unknown runtime:  |
+| Entrypoint | ✅ PASS | Valid: src/run.sh |
+| Runtime | ✅ PASS | Found: bash |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Runtime  (dry-run not applicable) |
+| DryRun | ✅ PASS | Runtime bash (dry-run not applicable) |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
@@ -43,10 +43,10 @@
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
-| Runtime | ⚠️ WARN | Unknown runtime:  |
+| Entrypoint | ❌ FAIL | File not found: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Runtime  (dry-run not applicable) |
+| DryRun | ⚠️ WARN | No exports detected in entrypoint |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
@@ -65,10 +65,10 @@
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
-| Runtime | ⚠️ WARN | Unknown runtime:  |
+| Entrypoint | ❌ FAIL | File not found: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Runtime  (dry-run not applicable) |
+| DryRun | ⚠️ WARN | No exports detected in entrypoint |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
@@ -76,10 +76,10 @@
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
-| Runtime | ⚠️ WARN | Unknown runtime:  |
+| Entrypoint | ❌ FAIL | File not found: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Runtime  (dry-run not applicable) |
+| DryRun | ⚠️ WARN | No exports detected in entrypoint |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
@@ -87,10 +87,10 @@
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
-| Runtime | ⚠️ WARN | Unknown runtime:  |
+| Entrypoint | ❌ FAIL | File not found: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Runtime  (dry-run not applicable) |
+| DryRun | ⚠️ WARN | No exports detected in entrypoint |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
@@ -116,14 +116,14 @@
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ⚠️ WARN | No audit log found |
 
-### work-summarizer — ❌ ERROR
+### work-summarizer — ⚠️ WARN
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
-| Runtime | ⚠️ WARN | Unknown runtime:  |
+| Entrypoint | ✅ PASS | Valid: dist/index.js |
+| Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Runtime  (dry-run not applicable) |
+| DryRun | ✅ PASS | Syntax valid |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
@@ -138,20 +138,20 @@ Skills passing all checks:
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
+- kb-sync-nightly
 - roadmap-validator
 - tool-lifecycle-manager
 - toolforge-drift-monitor
+- work-summarizer
 
 ### ❌ Error Health
 
 Skills with critical failures:
 - analyze-token-burn
-- kb-sync-nightly
 - reconcile-vector-store
 - rollback-phase
 - run-adapter-diagnostic
 - scale-ingestion-service
-- work-summarizer
 
 ---
 

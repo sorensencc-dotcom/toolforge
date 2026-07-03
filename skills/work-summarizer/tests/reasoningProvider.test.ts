@@ -62,13 +62,15 @@ describe("ReasoningProvider implementations", () => {
     expect(output.message).toBe("Fake reasoning provider used.");
   });
 
-  it("OllamaProvider returns deterministic stub", async () => {
+  it("OllamaProvider returns deterministic fallback (no server)", async () => {
     const provider = new OllamaProvider("llama3");
     const output = await provider.synthesize(baseInput);
 
+    // OllamaProvider attempts HTTP call, falls back to deterministic on connection failure
     expect(output.subsystem_impacts).toHaveLength(1);
-    expect(output.subsystem_impacts[0].impact_summary).toContain("stub");
-    expect(output.message).toContain("stub");
+    expect(output.subsystem_impacts[0].subsystem).toBe("cic-core");
+    expect(output.subsystem_impacts[0].impact_summary).toContain("Ollama");
+    expect(output.message).toContain("Ollama");
   });
 
   it("Output structure matches ReasoningOutput schema", async () => {

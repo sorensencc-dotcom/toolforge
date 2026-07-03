@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-03T14:18:21.9753685Z
+**Generated:** 2026-07-03T14:38:45.4609394Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -33,7 +33,7 @@
 | Category | unknown |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | unknown |
+| Runtime | node |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |
@@ -46,7 +46,7 @@
 | Category | documentation |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | unknown |
+| Runtime | bash |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |
@@ -59,7 +59,7 @@
 | Category | unknown |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | unknown |
+| Runtime | node |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |
@@ -85,7 +85,7 @@
 | Category | unknown |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | unknown |
+| Runtime | node |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |
@@ -98,7 +98,7 @@
 | Category | unknown |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | unknown |
+| Runtime | node |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |
@@ -111,7 +111,7 @@
 | Category | unknown |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | unknown |
+| Runtime | node |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |
@@ -150,7 +150,7 @@
 | Category | development-observability |
 | Version | 4.0.0 |
 | Owner | unknown |
-| Runtime | unknown |
+| Runtime | node |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |
