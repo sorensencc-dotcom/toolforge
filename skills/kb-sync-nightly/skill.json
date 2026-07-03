@@ -1,0 +1,32 @@
+{
+  "name": "kb-sync-nightly",
+  "version": "1.0.0",
+  "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
+  "type": "operational",
+  "category": "documentation",
+  "entry": "src/run.sh",
+  "docs": "docs/USAGE.md",
+  "triggers": [
+    "kb-sync",
+    "sync-nightly",
+    "knowledge base sync",
+    "wiki sync"
+  ],
+  "dependencies": [
+    "python3",
+    "pathlib",
+    "json",
+    "re"
+  ],
+  "outputs": [
+    "wiki/index-unified.md",
+    "_integration/cross-refs.json",
+    "_integration/report.json"
+  ],
+  "metadata": {
+    "created": "2026-07-02",
+    "author": "Chris",
+    "maintained": true,
+    "tested": true
+  }
+}
