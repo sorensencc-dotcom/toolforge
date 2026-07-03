@@ -1,8 +1,8 @@
 {
   "name": "work-summarizer",
-  "version": "2.0.0",
+  "version": "4.0.0",
   "type": "module",
-  "description": "Daily/weekly dev work summaries from repo scans and Claude Code transcripts",
+  "description": "Daily/weekly dev work summaries from repo scans, transcripts, and LLM-assisted reasoning",
   "exports": {
     ".": {
       "import": "src/index.ts",
@@ -10,6 +10,7 @@
     }
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0",
     "@types/node": "^26.1.0",
     "typescript": "^6.0.3"
   }

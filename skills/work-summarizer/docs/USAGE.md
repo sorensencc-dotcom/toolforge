@@ -42,7 +42,7 @@ const weekly = await run({
 const enhanced = await run({
   mode: 'weekly',
   reasoningEnabled: true,
-  anthropicModel: 'claude-opus-4-1',
+  anthropicModel: 'claude-haiku-4-5-20251001',  // Default; use any valid Anthropic model ID
   reasoningTimeoutMs: 30000
 });
 
@@ -56,32 +56,47 @@ if (enhanced.status === 'ok') {
 ## Output Files
 
 ### Daily Reports
-- `work-summary-daily-YYYY-MM-DD.json` — Structured report (v3.0.0 schema)
+
+- `work-summary-daily-YYYY-MM-DD.json` — Structured report (v4.0.0 schema)
 - `work-summary-daily-YYYY-MM-DD.txt` — Plaintext summary
 
 ### Weekly Reports
-- `work-summary-weekly-YYYY-MM-DD.json` — Aggregated 7-day report
+
+- `work-summary-weekly-YYYY-MM-DD.json` — Aggregated 7-day report with optional LLM synthesis
 - `work-summary-weekly-YYYY-MM-DD.txt` — Plaintext summary
 - `work-summary.artifact.json` — MAAL routing artifact (if `includeRoutingArtifact: true`)
 
 ## Schema Versioning
 
-### v3.0.0 Fields
+### v4.0.0 Fields (Current)
 
-**New in v3.0.0:**
-- `schema_version: "3.0.0"`
-- `subsystem_impacts[]` — Per-subsystem LLM analysis (if reasoning enabled)
-- `cross_repo_impacts[]` — Dependency graph analysis
-- `transcript_excerpts[]` — Activity-related code/message snippets
-- `transcript_sessions_scanned` — Real count (was hardcoded 0 in v2)
-- `repo_deltas[].lines_added`, `lines_deleted`, `active_subsystems` — Real values
+**New in v4.0.0:**
 
-**Changed in v3.0.0:**
-- `notable_changes[]`: `string[]` → `{ file, risk_level, subsystems }[]`
+- `schema_version: "4.0.0"`
+- `subsystem_impacts[]` — Per-active-category LLM-synthesized impact analysis (populated only if `reasoningEnabled: true` and API key set)
+- `cross_repo_impacts[]` — Inferred downstream impacts via dependency graph (always populated)
+- `transcript_excerpts[]` — Relevant transcript chunks with optional `reasoning_summary` (LLM-synthesized if reasoning enabled)
+- `notable_changes[].title`, `.description`, `.risk_level` — Structured format (synthesized by LLM if enabled, fallback to deterministic)
+- `risks_or_followups[].area`, `.risk_summary`, `.recommended_next_steps[]` — Structured format (synthesized by LLM if enabled)
+- `message` — Top-level summary (LLM-synthesized if enabled)
 
 **Backward Compatibility:**
-- `work_by_category` remains flat `Record<string, number>` for external consumers
-- Old v2 reports trigger forced full rescan during weekly aggregation
+
+- v3.0.0 reports automatically trigger full rescan (v3→v4 incompatible for aggregation)
+- Deterministic fallback populates all v4.0.0 fields even if LLM disabled or unavailable
+
+### Environment Variables
+
+**LLM Reasoning:**
+
+- `ANTHROPIC_API_KEY` — Required if `reasoningEnabled: true`. Must be visible to skill runtime (use machine-level env var for Task Scheduler).
+- Default model: `claude-haiku-4-5-20251001` (override with `anthropicModel` input)
+- Default timeout: 30000 ms (override with `reasoningTimeoutMs` input)
+
+**Fallback:**
+
+- If `reasoningEnabled: false` or `ANTHROPIC_API_KEY` missing, skill runs in deterministic-only mode (no LLM calls).
+- Fallback reason logged in `risks_or_followups` array.
 
 ## Troubleshooting
 

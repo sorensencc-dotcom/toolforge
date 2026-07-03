@@ -23,6 +23,9 @@ import {
   writeRoutingArtifact,
   SubsystemActivity
 } from "./routing-artifact.js";
+import { getCrossImpact } from "./dependency-graph.js";
+import { extractTranscriptExcerpts } from "./transcript-excerpts.js";
+import { AnthropicProvider, LLMSynthesis } from "./llm-provider.js";
 
 export interface SkillInput {
   mode?: "daily" | "weekly";
@@ -31,6 +34,9 @@ export interface SkillInput {
   outputDir?: string;
   queueDir?: string;
   includeRoutingArtifact?: boolean;
+  reasoningEnabled?: boolean;
+  anthropicModel?: string;
+  reasoningTimeoutMs?: number;
 }
 
 export interface SkillOutput {
@@ -49,8 +55,12 @@ async function run(input: SkillInput): Promise<SkillOutput> {
     const outputDir =
       input.outputDir ?? "C:\\dev\\CIP\\CIC\\logs\\work-summaries";
     const queueDir =
-      input.queueDir ?? "C:\\dev\\CIP\\CIC\\ingestion\\queue";
+      input.queueDir ?? "C:\\dev\\CIC\\ingestion\\queue";
     const includeRoutingArtifact = input.includeRoutingArtifact ?? false;
+    const reasoningEnabled = input.reasoningEnabled ?? false;
+    const anthropicModel =
+      input.anthropicModel ?? "claude-haiku-4-5-20251001";
+    const reasoningTimeoutMs = input.reasoningTimeoutMs ?? 30000;
 
     ensureDir(outputDir);
 
@@ -159,6 +169,49 @@ async function run(input: SkillInput): Promise<SkillOutput> {
     const driftSignal = scanTranscriptsForDrift(transcriptsRoot);
     const driftScore = scoreDriftLikelihood(driftSignal);
 
+    // Compute active categories (count > 0)
+    const activeCategories = Object.entries(workByCategory)
+      .filter(([, count]) => count > 0)
+      .map(([cat]) => cat);
+
+    // Compute cross-repo impacts
+    const crossImpacts = getCrossImpact(activeCategories);
+
+    // Extract transcript excerpts
+    const transcriptExcerpts = extractTranscriptExcerpts(
+      transcriptsRoot,
+      allModifiedFiles,
+      activeCategories
+    );
+
+    // Initialize synthesis result
+    let synthesis: LLMSynthesis | null = null;
+    let synthesisError: string | null = null;
+
+    // Call LLM reasoning if enabled and API key available
+    if (reasoningEnabled && process.env.ANTHROPIC_API_KEY) {
+      try {
+        const provider = new AnthropicProvider(
+          process.env.ANTHROPIC_API_KEY,
+          anthropicModel,
+          reasoningTimeoutMs
+        );
+
+        synthesis = await provider.synthesize({
+          period: mode,
+          activeCategories,
+          workByCategory,
+          allModifiedFiles,
+          repo_deltas,
+          driftSignal,
+          crossImpacts,
+          transcriptExcerpts
+        });
+      } catch (error: any) {
+        synthesisError = error?.message || "Unknown LLM error";
+      }
+    }
+
     // Detect risks (empty categories)
     const risks: string[] = [];
     for (const [category, count] of Object.entries(workByCategory)) {
@@ -166,11 +219,13 @@ async function run(input: SkillInput): Promise<SkillOutput> {
         risks.push(`No activity in ${category}`);
       }
     }
-
+    if (synthesisError) {
+      risks.push(`LLM reasoning synthesis skipped: ${synthesisError}`);
+    }
 
     // Build report
-    const report = {
-      schema_version: "3.0.0",
+    const report: any = {
+      schema_version: "4.0.0",
       period: mode,
       window_start: start.toISOString(),
       window_end: end.toISOString(),
@@ -188,12 +243,32 @@ async function run(input: SkillInput): Promise<SkillOutput> {
         summary: summarizeDriftSignals(driftSignal)
       },
       repo_deltas,
-      notable_changes: allModifiedFiles.slice(0, 5),
-      risks_or_followups: risks,
+      subsystem_impacts: synthesis?.subsystem_impacts ?? [],
+      cross_repo_impacts: synthesis?.cross_repo_impacts ?? [],
+      transcript_excerpts: transcriptExcerpts.map((exc, idx) => ({
+        ...exc,
+        reasoning_summary:
+          synthesis?.transcript_reasoning?.[`[${idx}]`] ?? undefined
+      })),
+      notable_changes:
+        synthesis?.notable_changes ??
+        allModifiedFiles.slice(0, 5).map(f => ({
+          title: f.split("\\").pop() || f,
+          description: "File modified",
+          risk_level: "low" as const
+        })),
+      risks_or_followups:
+        synthesis?.risks_or_followups ??
+        risks.map(r => ({
+          area: "General",
+          risk_summary: r,
+          recommended_next_steps: []
+        })),
       message:
-        allModifiedFiles.length === 0
+        synthesis?.message ??
+        (allModifiedFiles.length === 0
           ? "No changes detected"
-          : `Scanned ${repoPaths.length} repos, found ${allModifiedFiles.length} modified files`
+          : `Scanned ${repoPaths.length} repos, found ${allModifiedFiles.length} modified files`)
     };
 
     // Write JSON report

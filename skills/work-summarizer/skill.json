@@ -1,8 +1,8 @@
 {
   "id": "work-summarizer",
-  "name": "Work Summarizer v3.0",
-  "version": "3.0.0",
-  "description": "Daily/weekly dev work summaries from repo scans + Claude Code transcripts. LLM-assisted subsystem-aware analysis, deterministic fallback, schema versioning.",
+  "name": "Work Summarizer v4.0",
+  "version": "4.0.0",
+  "description": "Daily/weekly dev work summaries with LLM reasoning. Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
   "category": "development-observability",
   "metadata": {
     "runtime": "node",
@@ -50,7 +50,7 @@
       },
       "anthropicModel": {
         "type": "string",
-        "default": "claude-opus-4-1",
+        "default": "claude-haiku-4-5-20251001",
         "description": "Anthropic model to use for reasoning synthesis"
       },
       "reasoningTimeoutMs": {
@@ -69,6 +69,7 @@
         "data": {
           "type": "object",
           "properties": {
+            "schema_version": { "type": "string" },
             "period": { "type": "string", "enum": ["daily", "weekly"] },
             "window_start": { "type": "string", "format": "date-time" },
             "window_end": { "type": "string", "format": "date-time" },
@@ -78,11 +79,15 @@
             "modified_files": { "type": "integer" },
             "transcript_sessions_scanned": { "type": "integer" },
             "transcript_files_touched": { "type": "integer" },
-            "work_by_category": { "type": "object" },
-            "drift_signals": { "type": "object" },
-            "repo_deltas": { "type": "object" },
-            "notable_changes": { "type": "array", "items": { "type": "string" } },
-            "risks_or_followups": { "type": "array", "items": { "type": "string" } }
+            "work_by_category": { "type": "object", "description": "File count by category" },
+            "drift_signals": { "type": "object", "description": "Drift signal type, count, score, summary" },
+            "repo_deltas": { "type": "array", "description": "Per-repo file/line changes and active subsystems" },
+            "subsystem_impacts": { "type": "array", "items": { "type": "object" }, "description": "LLM-synthesized impact per active category" },
+            "cross_repo_impacts": { "type": "array", "items": { "type": "object" }, "description": "Inferred downstream impacts via dependency graph" },
+            "transcript_excerpts": { "type": "array", "items": { "type": "object" }, "description": "Relevant transcript chunks with LLM reasoning_summary" },
+            "notable_changes": { "type": "array", "items": { "type": "object" }, "description": "Structured notable changes with title, description, risk_level" },
+            "risks_or_followups": { "type": "array", "items": { "type": "object" }, "description": "Structured risks with area, risk_summary, recommended_next_steps" },
+            "message": { "type": "string" }
           }
         }
       }

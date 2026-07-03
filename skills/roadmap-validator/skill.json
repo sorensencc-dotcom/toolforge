@@ -1,0 +1,128 @@
+{
+  "id": "roadmap-validator",
+  "name": "Roadmap Validator",
+  "version": "1.0.0",
+  "description": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
+  "author": "Toolforge Team",
+  "license": "MIT",
+  "category": "validation",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+
+  "metadata": {
+    "timeout": 30000,
+    "retryPolicy": "exponential",
+    "maxRetries": 3,
+    "tags": ["roadmap", "validation", "sync-markers"],
+    "keywords": ["roadmap", "validator", "sync", "documentation"]
+  },
+
+  "inputs": {
+    "required": [
+      {
+        "name": "roadmapPath",
+        "type": "string",
+        "description": "File path to ROADMAP.md to validate"
+      }
+    ],
+    "optional": [
+      {
+        "name": "verbose",
+        "type": "boolean",
+        "description": "Enable detailed validation reporting",
+        "default": false
+      },
+      {
+        "name": "strict",
+        "type": "boolean",
+        "description": "Enforce strict validation (fail on warnings)",
+        "default": false
+      }
+    ]
+  },
+
+  "outputs": {
+    "success": {
+      "type": "object",
+      "description": "Validation passed with results",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "message": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "isValid": { "type": "boolean" },
+              "findings": { "type": "array" },
+              "syncMarkersPresent": { "type": "boolean" },
+              "contentLength": { "type": "number" },
+              "validated": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "description": "Validation failed with error details",
+      "schema": {
+        "properties": {
+          "error": { "type": "string" },
+          "code": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    }
+  },
+
+  "permissions": {
+    "required": ["read:repo"],
+    "optional": [],
+    "restrictions": ["delete:permanent"]
+  },
+
+  "integrations": {
+    "toolforge": {
+      "registered": false,
+      "manifestPath": "manifest.json",
+      "docPath": "docs/skills/roadmap-validator.md"
+    },
+    "cic": {
+      "compatible": false,
+      "adapterPath": null,
+      "registryPath": null
+    },
+    "distributed": {
+      "syncable": true,
+      "distributedPath": "rewrite-mcp/toolforge/skills/roadmap-validator"
+    }
+  },
+
+  "errorConditions": [
+    {
+      "code": "INVALID_INPUT",
+      "message": "File path validation failed",
+      "handler": "fail"
+    },
+    {
+      "code": "FILE_NOT_FOUND",
+      "message": "ROADMAP.md file does not exist",
+      "handler": "fail"
+    },
+    {
+      "code": "VALIDATION_FAILED",
+      "message": "Roadmap validation failed",
+      "handler": "fail"
+    },
+    {
+      "code": "TIMEOUT",
+      "message": "Validation exceeded timeout",
+      "handler": "fail"
+    }
+  ],
+
+  "dependencies": {
+    "internal": [],
+    "external": []
+  }
+}

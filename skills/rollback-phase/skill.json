@@ -1,0 +1,8 @@
+{
+  "name": "rollback-phase",
+  "version": "1.0.0",
+  "description": "Revert CIC pipeline to prior phase checkpoint",
+  "triggers": ["rollback-phase", "rollback cic", "revert phase"],
+  "role": "ops",
+  "entry_point": "src/index.ts"
+}

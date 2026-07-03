@@ -1,0 +1,108 @@
+{
+  "id": "template-skill",
+  "name": "Template Skill",
+  "version": "0.1.0",
+  "description": "Template skill demonstrating required metadata structure",
+  "author": "author-name",
+  "license": "MIT",
+  "category": "category-name",
+
+  "metadata": {
+    "runtime": "typescript",
+    "entrypoint": "src/index.ts",
+    "timeout": 30000,
+    "retryPolicy": "exponential",
+    "maxRetries": 3,
+    "tags": ["template", "example"],
+    "keywords": ["template", "scaffold"]
+  },
+
+  "inputs": {
+    "required": [
+      {
+        "name": "input1",
+        "type": "string",
+        "description": "Required input parameter"
+      }
+    ],
+    "optional": [
+      {
+        "name": "verbose",
+        "type": "boolean",
+        "description": "Enable verbose logging",
+        "default": false
+      }
+    ]
+  },
+
+  "outputs": {
+    "success": {
+      "type": "object",
+      "description": "Success output object",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "message": { "type": "string" },
+          "data": { "type": "object" }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "description": "Error output object",
+      "schema": {
+        "properties": {
+          "error": { "type": "string" },
+          "code": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    }
+  },
+
+  "permissions": {
+    "required": ["read:repo"],
+    "optional": ["write:file"],
+    "restrictions": ["delete:permanent"]
+  },
+
+  "integrations": {
+    "toolforge": {
+      "registered": false,
+      "manifestPath": "manifest.json",
+      "docPath": "docs/skills/template-skill.md"
+    },
+    "cic": {
+      "compatible": false,
+      "adapterPath": null,
+      "registryPath": null
+    },
+    "distributed": {
+      "syncable": true,
+      "distributedPath": "rewrite-mcp/toolforge/skills/template-skill"
+    }
+  },
+
+  "errorConditions": [
+    {
+      "code": "INVALID_INPUT",
+      "message": "Input validation failed",
+      "handler": "fail"
+    },
+    {
+      "code": "TIMEOUT",
+      "message": "Execution exceeded timeout",
+      "handler": "fail"
+    },
+    {
+      "code": "PERMISSION_DENIED",
+      "message": "Insufficient permissions",
+      "handler": "fail"
+    }
+  ],
+
+  "dependencies": {
+    "internal": [],
+    "external": []
+  }
+}

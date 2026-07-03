@@ -1,0 +1,95 @@
+{
+  "summary": {
+    "health_warn": 1,
+    "health_error": 0,
+    "total": 3,
+    "deprecated": 0,
+    "health_good": 2,
+    "active": 3
+  },
+  "skills": [
+    {
+      "tags": [],
+      "description": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
+      "entrypoint": "src/index.ts",
+      "health": {
+        "overall": "warn",
+        "canonical": true,
+        "distributed": false,
+        "runtime": "untested"
+      },
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "id": "roadmap-validator",
+      "status": "active",
+      "runtime": "typescript",
+      "owner": "unknown",
+      "category": "validation",
+      "name": "Roadmap Validator",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-06-28T21:13:03.9917617Z",
+        "created": "2026-06-28T21:13:03.9917617Z"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "tags": [],
+      "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
+      "entrypoint": "src/index.ts",
+      "health": {
+        "overall": "good",
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested"
+      },
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "id": "tool-lifecycle-manager",
+      "status": "active",
+      "runtime": "typescript",
+      "owner": "soren",
+      "category": "automation",
+      "name": "Tool Lifecycle Manager",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-06-28T16:28:57.6955303Z",
+        "created": "2026-06-28T16:28:57.6955303Z"
+      },
+      "version": "0.1.0"
+    },
+    {
+      "tags": [],
+      "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
+      "entrypoint": "src/index.ts",
+      "health": {
+        "overall": "good",
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested"
+      },
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "id": "toolforge-drift-monitor",
+      "status": "active",
+      "runtime": "typescript",
+      "owner": "soren",
+      "category": "monitoring",
+      "name": "Toolforge Drift Monitor",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-06-28T16:29:01.4625445Z",
+        "created": "2026-06-28T16:29:01.4625445Z"
+      },
+      "version": "0.1.0"
+    }
+  ],
+  "version": "1.0.0",
+  "timestamp": "2026-06-29T16:08:11.8753628Z"
+}

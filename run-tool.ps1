@@ -38,6 +38,7 @@ param(
 $ErrorActionPreference = "Stop"
 $TOOLFORGE_ROOT = Split-Path -Parent $PSCommandPath
 $MANIFEST_FILE = Join-Path $TOOLFORGE_ROOT "manifest.json"
+$SKILLS_DIR = Join-Path $TOOLFORGE_ROOT "skills"
 $CATEGORIES = @("sync-tools", "daemons", "adapters", "mcp-servers", "utilities", "scaffolds", "prototypes")
 
 function Load-Manifest {
@@ -55,7 +56,7 @@ function Discover-Tools {
     $categoryPath = Join-Path $TOOLFORGE_ROOT $category
     if (-not (Test-Path $categoryPath)) { continue }
 
-    Get-ChildItem -Path $categoryPath -File -Filter "*.cjs", "*.ts", "*.ps1", "*.sh" | ForEach-Object {
+    Get-ChildItem -Path $categoryPath -File -Include "*.cjs", "*.ts", "*.ps1", "*.sh" | ForEach-Object {
       $tool = @{
         name        = [System.IO.Path]::GetFileNameWithoutExtension($_.Name)
         category    = $category
@@ -71,52 +72,132 @@ function Discover-Tools {
   return $tools
 }
 
-function Update-Manifest {
-  $discovered = Discover-Tools
-  $current = Load-Manifest
+function Discover-Skills {
+  Write-Host "🎯 Scanning skills directory..." -ForegroundColor Cyan
+  $skills = @()
 
-  if ($null -eq $current) {
-    $current = @{ version = "1.0.0"; generated = (Get-Date -AsUTC -Format o); tools = @() }
+  if (-not (Test-Path $SKILLS_DIR)) {
+    Write-Host "⚠️  Skills directory not found: $SKILLS_DIR" -ForegroundColor Yellow
+    return $skills
   }
 
-  # Preserve existing metadata, update discovery status
-  $merged = @()
-  foreach ($tool in $discovered) {
-    $existing = $current.tools | Where-Object { $_.name -eq $tool.name }
-    if ($existing) {
-      $existing | Add-Member -MemberType NoteProperty -Name "discovered" -Value $true -Force
-      $merged += $existing
-    } else {
-      $tool | Add-Member -MemberType NoteProperty -Name status -Value "beta"
-      $tool | Add-Member -MemberType NoteProperty -Name version -Value "0.1.0"
-      $merged += $tool
+  Get-ChildItem -Path $SKILLS_DIR -Directory | ForEach-Object {
+    $skillDir = $_.FullName
+    $skillJsonPath = Join-Path $skillDir "skill.json"
+
+    if (Test-Path $skillJsonPath) {
+      try {
+        $skillJson = Get-Content $skillJsonPath | ConvertFrom-Json
+        $skill = @{
+          name        = $skillJson.id
+          displayName = $skillJson.name
+          category    = "skills"
+          version     = $skillJson.version ?? "0.1.0"
+          description = $skillJson.description ?? ""
+          entrypoint  = $skillJson.metadata.entrypoint ?? "src/index.ts"
+          path        = $skillDir
+          discovered  = $true
+          skillType   = $skillJson.metadata.runtime ?? "typescript"
+        }
+        $skills += $skill
+      } catch {
+        Write-Host "⚠️  Failed to parse skill.json in $($_.Name): $($_.Exception.Message)" -ForegroundColor Yellow
+      }
     }
   }
 
-  $current.tools = $merged
-  $current.generated = (Get-Date -AsUTC -Format o)
-  $current | ConvertTo-Json -Depth 5 | Set-Content $MANIFEST_FILE
+  Write-Host "✓ Found $($skills.Count) skills" -ForegroundColor Green
+  return $skills
+}
+
+function Update-Manifest {
+  $discoveredTools = Discover-Tools
+  $discoveredSkills = Discover-Skills
+  $current = Load-Manifest
+
+  if ($null -eq $current) {
+    $current = @{ version = "1.0.0"; generated = (Get-Date -AsUTC -Format o); tools = @(); skills = @() }
+  }
+
+  # Preserve existing tools, update discovery status
+  $mergedTools = @()
+  foreach ($tool in $discoveredTools) {
+    $existing = $current.tools | Where-Object { $_.name -eq $tool.name }
+    if ($existing) {
+      $existing | Add-Member -MemberType NoteProperty -Name "discovered" -Value $true -Force
+      $mergedTools += $existing
+    } else {
+      $tool | Add-Member -MemberType NoteProperty -Name status -Value "beta"
+      $tool | Add-Member -MemberType NoteProperty -Name version -Value "0.1.0"
+      $mergedTools += $tool
+    }
+  }
+
+  # Preserve existing skills, update discovery status
+  $mergedSkills = @()
+  $existingSkills = $current.skills
+  if ($null -eq $existingSkills) { $existingSkills = @() }
+
+  foreach ($skill in $discoveredSkills) {
+    $existing = $existingSkills | Where-Object { $_.name -eq $skill.name }
+    if ($existing) {
+      $existing | Add-Member -MemberType NoteProperty -Name "discovered" -Value $true -Force
+      $existing | Add-Member -MemberType NoteProperty -Name "version" -Value $skill.version -Force
+      $existing | Add-Member -MemberType NoteProperty -Name "entrypoint" -Value $skill.entrypoint -Force
+      $mergedSkills += $existing
+    } else {
+      $skill | Add-Member -MemberType NoteProperty -Name status -Value "beta"
+      $mergedSkills += $skill
+    }
+  }
+
+  # Create new manifest object to ensure clean structure
+  $newManifest = @{
+    version   = $current.version ?? "1.0.0"
+    generated = (Get-Date -AsUTC -Format o)
+    tools     = $mergedTools
+    skills    = $mergedSkills
+  }
+
+  $newManifest | ConvertTo-Json -Depth 5 | Set-Content $MANIFEST_FILE
   Write-Host "✓ Manifest updated: $MANIFEST_FILE" -ForegroundColor Green
 }
 
 function List-Tools {
   $manifest = Load-Manifest
-  if ($null -eq $manifest -or $manifest.tools.Count -eq 0) {
-    Write-Host "No tools found. Run with -Refresh to scan." -ForegroundColor Yellow
+  if ($null -eq $manifest -or ($manifest.tools.Count -eq 0 -and $manifest.skills.Count -eq 0)) {
+    Write-Host "No tools or skills found. Run with -Refresh to scan." -ForegroundColor Yellow
     return
   }
 
   Write-Host ""
-  Write-Host "📦 Toolforge Tools (v$($manifest.version))" -ForegroundColor Cyan
+  Write-Host "📦 Toolforge Tools & Skills (v$($manifest.version))" -ForegroundColor Cyan
   Write-Host ""
 
-  $manifest.tools | Group-Object -Property category | ForEach-Object {
-    Write-Host "  [$($_.Name)]" -ForegroundColor Blue
-    $_.Group | ForEach-Object {
+  # List tools
+  if ($manifest.tools.Count -gt 0) {
+    Write-Host "  [Tools]" -ForegroundColor Blue
+    $manifest.tools | Group-Object -Property category | ForEach-Object {
+      Write-Host "    [$($_.Name)]" -ForegroundColor Gray
+      $_.Group | ForEach-Object {
+        $status = $_.status ?? "unknown"
+        $ver = $_.version ?? "0.0.0"
+        Write-Host "      • $($_.name) ($ver) [$status]" -ForegroundColor White
+        if ($_.description) { Write-Host "        $($_.description)" -ForegroundColor DarkGray }
+      }
+    }
+    Write-Host ""
+  }
+
+  # List skills
+  if ($manifest.skills.Count -gt 0) {
+    Write-Host "  [Skills]" -ForegroundColor Blue
+    $manifest.skills | ForEach-Object {
       $status = $_.status ?? "unknown"
       $ver = $_.version ?? "0.0.0"
-      Write-Host "    • $($_.name) ($ver) [$status]" -ForegroundColor White
-      if ($_.description) { Write-Host "      $($_.description)" -ForegroundColor Gray }
+      $displayName = $_.displayName ?? $_.name
+      Write-Host "    • $($_.name) — $displayName ($ver) [$status]" -ForegroundColor White
+      if ($_.description) { Write-Host "      $($_.description)" -ForegroundColor DarkGray }
     }
     Write-Host ""
   }
@@ -126,23 +207,33 @@ function Inspect-Tool {
   param([string]$ToolName)
 
   $manifest = Load-Manifest
-  $tool = $manifest.tools | Where-Object { $_.name -eq $ToolName }
+  $item = $manifest.tools | Where-Object { $_.name -eq $ToolName }
+  $itemType = "Tool"
 
-  if (-not $tool) {
-    Write-Host "❌ Tool not found: $ToolName" -ForegroundColor Red
+  if (-not $item) {
+    $item = $manifest.skills | Where-Object { $_.name -eq $ToolName }
+    $itemType = "Skill"
+  }
+
+  if (-not $item) {
+    Write-Host "❌ Tool or skill not found: $ToolName" -ForegroundColor Red
     exit 1
   }
 
   Write-Host ""
-  Write-Host "📋 Tool: $($tool.name)" -ForegroundColor Cyan
-  Write-Host "  Category:     $($tool.category)"
-  Write-Host "  Version:      $($tool.version ?? '0.0.0')"
-  Write-Host "  Status:       $($tool.status ?? 'unknown')"
-  Write-Host "  Description:  $($tool.description ?? '(none)')"
-  Write-Host "  Path:         $($tool.path)"
-  Write-Host "  Entrypoint:   $($tool.entrypoint ?? 'run.ps1')"
-  if ($tool.dependencies) {
-    Write-Host "  Dependencies: $($tool.dependencies -join ', ')"
+  Write-Host "📋 $itemType`: $($item.name)" -ForegroundColor Cyan
+  Write-Host "  Display Name: $($item.displayName ?? $item.name)"
+  Write-Host "  Category:     $($item.category)"
+  Write-Host "  Version:      $($item.version ?? '0.0.0')"
+  Write-Host "  Status:       $($item.status ?? 'unknown')"
+  Write-Host "  Description:  $($item.description ?? '(none)')"
+  Write-Host "  Path:         $($item.path)"
+  Write-Host "  Entrypoint:   $($item.entrypoint ?? 'run.ps1')"
+  if ($item.skillType) {
+    Write-Host "  Runtime:      $($item.skillType)"
+  }
+  if ($item.dependencies) {
+    Write-Host "  Dependencies: $($item.dependencies -join ', ')"
   }
   Write-Host ""
 }
@@ -151,16 +242,22 @@ function Invoke-Tool {
   param([string]$ToolName, [string]$ConfigPath)
 
   $manifest = Load-Manifest
-  $tool = $manifest.tools | Where-Object { $_.name -eq $ToolName }
+  $item = $manifest.tools | Where-Object { $_.name -eq $ToolName }
+  $itemType = "Tool"
 
-  if (-not $tool) {
-    Write-Host "❌ Tool not found: $ToolName" -ForegroundColor Red
+  if (-not $item) {
+    $item = $manifest.skills | Where-Object { $_.name -eq $ToolName }
+    $itemType = "Skill"
+  }
+
+  if (-not $item) {
+    Write-Host "❌ Tool or skill not found: $ToolName" -ForegroundColor Red
     exit 1
   }
 
-  $entrypoint = $tool.entrypoint ?? "run.ps1"
-  $toolDir = Split-Path -Parent $tool.path
-  $runPath = Join-Path $toolDir $entrypoint
+  $entrypoint = $item.entrypoint ?? "run.ps1"
+  $itemDir = $item.path
+  $runPath = Join-Path $itemDir $entrypoint
 
   if (-not (Test-Path $runPath)) {
     Write-Host "❌ Entrypoint not found: $runPath" -ForegroundColor Red
@@ -168,8 +265,8 @@ function Invoke-Tool {
   }
 
   Write-Host ""
-  Write-Host "▶️  Running: $($tool.name) v$($tool.version ?? '0.0.0')" -ForegroundColor Cyan
-  Write-Host "   Category: $($tool.category)" -ForegroundColor Gray
+  Write-Host "▶️  Running $itemType`: $($item.name) v$($item.version ?? '0.0.0')" -ForegroundColor Cyan
+  Write-Host "   Category: $($item.category)" -ForegroundColor Gray
   Write-Host ""
 
   $args = @()
@@ -195,7 +292,7 @@ function Invoke-Tool {
   }
 
   if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ Tool exited with code $LASTEXITCODE" -ForegroundColor Red
+    Write-Host "❌ $itemType exited with code $LASTEXITCODE" -ForegroundColor Red
     exit $LASTEXITCODE
   }
   Write-Host ""
