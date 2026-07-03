@@ -1,0 +1,108 @@
+{
+  "id": "work-summarizer",
+  "name": "Work Summarizer v3.0",
+  "version": "3.0.0",
+  "description": "Daily/weekly dev work summaries from repo scans + Claude Code transcripts. LLM-assisted subsystem-aware analysis, deterministic fallback, schema versioning.",
+  "category": "development-observability",
+  "metadata": {
+    "runtime": "node",
+    "entrypoint": "dist/index.js",
+    "timeout_ms": 120000,
+    "memory_mb": 512
+  },
+  "inputs": {
+    "optional": {
+      "mode": {
+        "type": "string",
+        "enum": ["daily", "weekly"],
+        "default": "daily",
+        "description": "Report window: daily (24h) or weekly (7d)"
+      },
+      "registryPath": {
+        "type": "string",
+        "default": "C:\\dev\\repo-registry.json",
+        "description": "Path to repo registry JSON (repos.repos array)"
+      },
+      "transcriptsRoot": {
+        "type": "string",
+        "default": "C:\\Users\\soren\\.claude\\projects",
+        "description": "Root directory for Claude Code session transcripts"
+      },
+      "outputDir": {
+        "type": "string",
+        "default": "C:\\dev\\CIP\\CIC\\logs\\work-summaries",
+        "description": "Directory for output JSON/TXT reports"
+      },
+      "queueDir": {
+        "type": "string",
+        "default": "C:\\dev\\CIP\\CIC\\ingestion\\queue",
+        "description": "Optional: CIC ingestion queue directory for routing artifacts"
+      },
+      "includeRoutingArtifact": {
+        "type": "boolean",
+        "default": false,
+        "description": "Write MAAL routing artifact to queueDir"
+      },
+      "reasoningEnabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Enable Claude reasoning synthesis (requires ANTHROPIC_API_KEY env var)"
+      },
+      "anthropicModel": {
+        "type": "string",
+        "default": "claude-opus-4-1",
+        "description": "Anthropic model to use for reasoning synthesis"
+      },
+      "reasoningTimeoutMs": {
+        "type": "number",
+        "default": 30000,
+        "description": "Per-subsystem reasoning call timeout in milliseconds"
+      }
+    }
+  },
+  "outputs": {
+    "success": {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["ok"] },
+        "message": { "type": "string" },
+        "data": {
+          "type": "object",
+          "properties": {
+            "period": { "type": "string", "enum": ["daily", "weekly"] },
+            "window_start": { "type": "string", "format": "date-time" },
+            "window_end": { "type": "string", "format": "date-time" },
+            "generated_at": { "type": "string", "format": "date-time" },
+            "repos_scanned": { "type": "integer" },
+            "repos_skipped_missing": { "type": "array", "items": { "type": "string" } },
+            "modified_files": { "type": "integer" },
+            "transcript_sessions_scanned": { "type": "integer" },
+            "transcript_files_touched": { "type": "integer" },
+            "work_by_category": { "type": "object" },
+            "drift_signals": { "type": "object" },
+            "repo_deltas": { "type": "object" },
+            "notable_changes": { "type": "array", "items": { "type": "string" } },
+            "risks_or_followups": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["error"] },
+        "message": { "type": "string" },
+        "data": { "type": "null" }
+      }
+    }
+  },
+  "permissions": {
+    "required": ["filesystem:read", "filesystem:write"]
+  },
+  "errorConditions": {
+    "REGISTRY_NOT_FOUND": "repo-registry.json missing or invalid JSON",
+    "TRANSCRIPTS_NOT_FOUND": "transcripts root directory missing or empty",
+    "OUTPUT_DIR_INVALID": "output directory not writable",
+    "NO_MODIFIED_FILES": "no files modified in window (returns 'no changes detected' message)"
+  }
+}
