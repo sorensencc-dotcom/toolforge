@@ -1,0 +1,70 @@
+skills/SKILLPACK-METADATA.json
+  s_d3640c043b3d74::t_f438fcdf9f7656 4,8-9,11,14,17-18,23-25,27-28,30,32-34,38-42,44-45,50-52,54-55,57,59-61,65-69,71-72,77-79,81-82,84,86-88,92-96,99,104-106,108,111,113-115,119-123,125-126,131-133,135-136,138,140-142,146-148,153,165,175,180,192,202,219,229,246,256,273
+  s_d3640c043b3d74::t_6c848a33d1a76e 149-150
+  s_d3640c043b3d74::t_6e12d7cb6b9fee 152
+  s_d3640c043b3d74::t_e07f820bf6d9bc 173-174
+  s_d3640c043b3d74::t_8164872b87cc93 176-177
+  s_d3640c043b3d74::t_20f45fa7526338 179
+  s_d3640c043b3d74::t_9a9b3db9a2ac73 200-201
+  s_d3640c043b3d74::t_02125f116fd95c 203-204
+  s_d3640c043b3d74::t_b3b8255a6751e7 227-228
+  s_d3640c043b3d74::t_763acb03638611 230-231
+  s_d3640c043b3d74::t_039ca5010b8db5 254-255
+  s_d3640c043b3d74::t_796a9eeff2260f 257-258
+skills/work-summarizer/tests/reasoningProvider.test.ts
+  s_e62e9e4eccc8a9::t_0f789b9628c0f1 65,69,71-73
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_7008a9810d4867::t_7f8a04805f65c8 3,126-129,131,134-135
+skills/SKILLPACK-VALIDATION.md
+  s_1c8c72bfe5bcd2::t_9c43da53586b8f 3,11,19-20,22,45,48,50,52,54
+skills/work-summarizer/src/providers/ollamaProvider.ts
+  s_0a97f98aab9ab3::t_9e2abe83e2cb51 8-18,21-134,143,149
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "4d45dda3cfaedccd4227ed75eb3a20f4bac2a879",
+  "prompts": {},
+  "sessions": {
+    "s_0a97f98aab9ab3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "326ed19a-b6bc-4fa5-bc92-39ad09aec125",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d3640c043b3d74": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6a3bc7a-e5d5-4837-8509-3c2a67fc7c7d",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e62e9e4eccc8a9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "364e34f8-c169-4845-8a19-418f94d74faa",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
