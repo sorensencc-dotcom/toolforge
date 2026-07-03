@@ -248,7 +248,7 @@ async function run(input: SkillInput): Promise<SkillOutput> {
       transcript_excerpts: transcriptExcerpts.map((exc, idx) => ({
         ...exc,
         reasoning_summary:
-          synthesis?.transcript_reasoning?.[`[${idx}]`] ?? undefined
+          synthesis?.transcript_reasoning?.[`excerpt_${idx}`] ?? undefined
       })),
       notable_changes:
         synthesis?.notable_changes ??

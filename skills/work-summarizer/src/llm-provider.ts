@@ -53,47 +53,57 @@ export class AnthropicProvider {
   async synthesize(context: LLMContext): Promise<LLMSynthesis> {
     const prompt = this.buildPrompt(context);
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("LLM reasoning timeout")), this.timeoutMs)
+    );
 
-    try {
-      const response = await this.client.messages.create(
-        {
-          model: this.model,
-          max_tokens: 4096,
-          messages: [
-            {
-              role: "user",
-              content: prompt
-            }
-          ]
-        },
-        { signal: controller.signal as any }
-      );
+    const response = await Promise.race([
+      this.client.messages.create({
+        model: this.model,
+        max_tokens: 4096,
+        messages: [
+          {
+            role: "user",
+            content: prompt
+          }
+        ]
+      }),
+      timeoutPromise
+    ]);
 
-      clearTimeout(timeoutId);
-
-      const content = response.content[0];
-      if (content.type !== "text") {
-        throw new Error("Unexpected response type from LLM");
-      }
-
-      // Extract JSON from markdown code blocks if present
-      let jsonText = content.text;
-      const jsonMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-      if (jsonMatch) {
-        jsonText = jsonMatch[1];
-      }
-
-      const parsed = JSON.parse(jsonText) as LLMSynthesis;
-      return parsed;
-    } catch (error: any) {
-      clearTimeout(timeoutId);
-      if (error.name === "AbortError") {
-        throw new Error("LLM reasoning timeout");
-      }
-      throw error;
+    const content = response.content[0];
+    if (content.type !== "text") {
+      throw new Error("Unexpected response type from LLM");
     }
+
+    // Extract JSON from markdown code blocks if present
+    let jsonText = content.text;
+    const jsonMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (jsonMatch) {
+      jsonText = jsonMatch[1];
+    }
+
+    const parsed = JSON.parse(jsonText) as LLMSynthesis;
+    if (!parsed.subsystem_impacts || !Array.isArray(parsed.subsystem_impacts)) {
+      throw new Error("Invalid LLM response: missing subsystem_impacts array");
+    }
+    if (!parsed.cross_repo_impacts || !Array.isArray(parsed.cross_repo_impacts)) {
+      throw new Error("Invalid LLM response: missing cross_repo_impacts array");
+    }
+    if (!parsed.notable_changes || !Array.isArray(parsed.notable_changes)) {
+      throw new Error("Invalid LLM response: missing notable_changes array");
+    }
+    if (!parsed.risks_or_followups || !Array.isArray(parsed.risks_or_followups)) {
+      throw new Error("Invalid LLM response: missing risks_or_followups array");
+    }
+    if (!parsed.transcript_reasoning || typeof parsed.transcript_reasoning !== "object") {
+      throw new Error("Invalid LLM response: missing transcript_reasoning object");
+    }
+    if (typeof parsed.message !== "string") {
+      throw new Error("Invalid LLM response: missing message string");
+    }
+
+    return parsed;
   }
 
   private buildPrompt(context: LLMContext): string {
@@ -172,8 +182,8 @@ Produce a strict JSON object with this exact structure:
     }
   ],
   "transcript_reasoning": {
-    "[0]": "<why this excerpt matters>",
-    "[1]": "<why this excerpt matters>",
+    "excerpt_0": "<why excerpt 0 matters>",
+    "excerpt_1": "<why excerpt 1 matters>",
     ...
   },
   "message": "<1–2 sentence top-level summary of the period>"
