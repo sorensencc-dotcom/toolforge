@@ -80,17 +80,58 @@ async function run(input: SkillInput): Promise<SkillOutput> {
       }
     }
 
-    // Full scan if daily or aggregation insufficient
+    // Full scan if daily or aggregation insufficient; build repo_deltas inline
     const diffResultCache: Record<string, any[]> = {};
+    const repo_deltas: any[] = [];
+    const scannedRepos = new Set<string>();
+
     if (shouldDoFullScan) {
       for (const repoPath of repoPaths) {
         if (!existsSync(repoPath)) continue;
+        scannedRepos.add(repoPath);
         try {
           const diffEntries = getDiffStat(repoPath);
           diffResultCache[repoPath] = diffEntries;
           for (const entry of diffEntries) {
             allModifiedFiles.push(entry.file);
           }
+
+          // Build repo delta inline with cached diff results
+          const activity = analyzeRepoActivity(repoPath);
+          const activeSubsystems = new Set<string>();
+          for (const entry of diffEntries) {
+            const category = getCategoryForPath(entry.file);
+            activeSubsystems.add(category);
+          }
+
+          repo_deltas.push({
+            repo_name: repoPath.split("\\").pop() || repoPath,
+            files_changed: activity.filesChanged,
+            lines_added: activity.linesAdded,
+            lines_deleted: activity.linesDeleted,
+            active_subsystems: Array.from(activeSubsystems)
+          });
+        } catch {
+          // Skip repos we can't diff
+        }
+      }
+    } else {
+      // Aggregated path: still populate repo_deltas with basic metadata, but empty active_subsystems
+      for (const repoPath of repoPaths) {
+        if (!existsSync(repoPath)) {
+          scannedRepos.add(repoPath);
+          continue;
+        }
+        scannedRepos.add(repoPath);
+        try {
+          const activity = analyzeRepoActivity(repoPath);
+          repo_deltas.push({
+            repo_name: repoPath.split("\\").pop() || repoPath,
+            files_changed: activity.filesChanged,
+            lines_added: activity.linesAdded,
+            lines_deleted: activity.linesDeleted,
+            active_subsystems: [] // Empty on aggregated path since diffResultCache not populated
+          });
         } catch {
           // Skip repos we can't diff
         }
@@ -126,36 +167,16 @@ async function run(input: SkillInput): Promise<SkillOutput> {
       }
     }
 
-    // Build repo deltas with real activity data
-    const repo_deltas = repoPaths.map(p => {
-      const activity = analyzeRepoActivity(p);
-      const repoFiles = diffResultCache[p] || [];
-
-      // Classify changed files to subsystems
-      const activeSubsystems = new Set<string>();
-      for (const entry of repoFiles) {
-        const category = getCategoryForPath(entry.file);
-        activeSubsystems.add(category);
-      }
-
-      return {
-        repo_name: p.split("\\").pop() || p,
-        files_changed: activity.filesChanged,
-        lines_added: activity.linesAdded,
-        lines_deleted: activity.linesDeleted,
-        active_subsystems: Array.from(activeSubsystems)
-      };
-    });
 
     // Build report
     const report = {
-      schema_version: "2.0.0",
+      schema_version: "3.0.0",
       period: mode,
       window_start: start.toISOString(),
       window_end: end.toISOString(),
       generated_at: new Date().toISOString(),
-      repos_scanned: repoPaths.length,
-      repos_skipped_missing: repoPaths.filter(p => !existsSync(p)),
+      repos_scanned: scannedRepos.size,
+      repos_skipped_missing: repoPaths.filter(p => !scannedRepos.has(p)),
       modified_files: allModifiedFiles.length,
       transcript_sessions_scanned: driftSignal.sessions_scanned ?? 0,
       transcript_files_touched: driftSignal.files.length,
