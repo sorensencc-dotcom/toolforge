@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-06-29T16:08:11.8753628Z
+**Generated:** 2026-07-03T14:18:21.9753685Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,21 +10,60 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 3 | 100% |
-| Active | 3 | 100% |
+| **Total Skills** | 10 | 100% |
+| Active | 10 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 2 | 66.7% |
-| ⚠️ Warning | 1 | 33.3% |
+| ✅ Good | 2 | 20% |
+| ⚠️ Warning | 8 | 80% |
 | ❌ Error | 0 | 0% |
 
 ---
 
 ## Skills Inventory
+### analyze-token-burn
+
+| Field | Value |
+|-------|-------|
+| Name | analyze-token-burn |
+| Category | unknown |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | unknown |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### kb-sync-nightly
+
+| Field | Value |
+|-------|-------|
+| Name | kb-sync-nightly |
+| Category | documentation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | unknown |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### reconcile-vector-store
+
+| Field | Value |
+|-------|-------|
+| Name | reconcile-vector-store |
+| Category | unknown |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | unknown |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### roadmap-validator
 
 | Field | Value |
@@ -34,6 +73,45 @@
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | typescript |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### rollback-phase
+
+| Field | Value |
+|-------|-------|
+| Name | rollback-phase |
+| Category | unknown |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | unknown |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### run-adapter-diagnostic
+
+| Field | Value |
+|-------|-------|
+| Name | run-adapter-diagnostic |
+| Category | unknown |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | unknown |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### scale-ingestion-service
+
+| Field | Value |
+|-------|-------|
+| Name | scale-ingestion-service |
+| Category | unknown |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | unknown |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |
@@ -62,6 +140,19 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### work-summarizer
+
+| Field | Value |
+|-------|-------|
+| Name | Work Summarizer v4.0 |
+| Category | development-observability |
+| Version | 4.0.0 |
+| Owner | unknown |
+| Runtime | unknown |
+| Status | active |
+| Health | ⚠️ WARN |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 

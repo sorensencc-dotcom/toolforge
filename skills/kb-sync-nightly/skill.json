@@ -1,4 +1,5 @@
 {
+  "id": "kb-sync-nightly",
   "name": "kb-sync-nightly",
   "version": "1.0.0",
   "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
@@ -28,5 +29,7 @@
     "author": "Chris",
     "maintained": true,
     "tested": true
-  }
+  },
+  "runtime": "bash",
+  "entrypoint": "src/run.sh"
 }

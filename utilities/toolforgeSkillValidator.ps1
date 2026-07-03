@@ -195,7 +195,9 @@ function Validate-CanonicalSkills {
     }
 
     # Check for duplicates
-    if ($seenIds[$skillJson.id]) {
+    if (-not $skillJson.id) {
+      Add-Finding "canonical" $skillId "error" "Missing required field: id"
+    } elseif ($seenIds[$skillJson.id]) {
       Add-Finding "canonical" $skillId "error" "Duplicate ID: $($skillJson.id)"
     } else {
       $seenIds[$skillJson.id] = $true

@@ -1,8 +1,15 @@
 {
+  "id": "reconcile-vector-store",
   "name": "reconcile-vector-store",
   "version": "1.0.0",
   "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
-  "triggers": ["reconcile-vector-store", "sync vector store", "check qdrant health"],
+  "triggers": [
+    "reconcile-vector-store",
+    "sync vector store",
+    "check qdrant health"
+  ],
   "role": "ops",
-  "entry_point": "src/index.ts"
+  "entry_point": "src/index.ts",
+  "runtime": "node",
+  "entrypoint": "src/index.ts"
 }

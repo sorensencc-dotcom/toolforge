@@ -26,6 +26,8 @@ import {
 import { getCrossImpact } from "./dependency-graph.js";
 import { extractTranscriptExcerpts } from "./transcript-excerpts.js";
 import { AnthropicProvider, LLMSynthesis } from "./llm-provider.js";
+import { ReasoningProvider } from "./reasoningProvider.js";
+import { createProviderFromEnv } from "./providers/index.js";
 
 export interface SkillInput {
   mode?: "daily" | "weekly";
@@ -35,6 +37,7 @@ export interface SkillInput {
   queueDir?: string;
   includeRoutingArtifact?: boolean;
   reasoningEnabled?: boolean;
+  reasoningProvider?: "claude" | "ollama";
   anthropicModel?: string;
   reasoningTimeoutMs?: number;
 }
@@ -58,6 +61,7 @@ async function run(input: SkillInput): Promise<SkillOutput> {
       input.queueDir ?? "C:\\dev\\CIC\\ingestion\\queue";
     const includeRoutingArtifact = input.includeRoutingArtifact ?? false;
     const reasoningEnabled = input.reasoningEnabled ?? false;
+    const reasoningProviderType = input.reasoningProvider ?? "claude";
     const anthropicModel =
       input.anthropicModel ?? "claude-haiku-4-5-20251001";
     const reasoningTimeoutMs = input.reasoningTimeoutMs ?? 30000;
@@ -189,7 +193,65 @@ async function run(input: SkillInput): Promise<SkillOutput> {
     let synthesisError: string | null = null;
 
     // Call LLM reasoning if enabled and API key available
-    if (reasoningEnabled && process.env.ANTHROPIC_API_KEY) {
+    // Try new ReasoningProvider interface first if provider type specified
+    if (reasoningEnabled && reasoningProviderType && reasoningProviderType !== "claude") {
+      try {
+        const provider = createProviderFromEnv(reasoningProviderType, reasoningTimeoutMs);
+        if (provider) {
+          const newSynthesis = await provider.synthesize({
+            period: mode,
+            subsystemContexts: activeCategories.map(cat => ({
+              subsystem: cat,
+              phase: "Current",
+              files: allModifiedFiles.filter(f => getCategoryForPath(f) === cat),
+              repos: repo_deltas.map(r => r.repo_name),
+              impactLevel: (workByCategory[cat] || 0) > 10 ? "high" : "medium",
+              driftSignals: driftSignal.count > 0 ? [{ signalType: driftSignal.type, count: driftSignal.count, score: driftScore }] : [],
+              transcriptChunks: transcriptExcerpts.map(exc => ({
+                source: "ClaudeCode",
+                timestamp: exc.timestamp,
+                text: exc.excerpt
+              }))
+            })),
+            dependencyGraph: Object.fromEntries(
+              crossImpacts.map(ci => [ci.source, ci.affected_categories])
+            ),
+            driftSignals: driftSignal.count > 0 ? [{ signalType: driftSignal.type, count: driftSignal.count, score: driftScore }] : []
+          });
+
+          // Convert ReasoningOutput to LLMSynthesis format
+          synthesis = {
+            subsystem_impacts: newSynthesis.subsystem_impacts.map(si => ({
+              subsystem: si.subsystem,
+              impact_summary: si.impact_summary,
+              operator_actions: si.operator_actions
+            })),
+            cross_repo_impacts: newSynthesis.cross_repo_impacts.map(ci => ({
+              source_category: ci.source_repo,
+              affected_categories: ci.affected_repos,
+              impact_summary: ci.impact_summary,
+              recommended_actions: ci.recommended_actions
+            })),
+            notable_changes: newSynthesis.notable_changes.map(nc => ({
+              title: nc.title,
+              description: nc.description,
+              risk_level: nc.risk_level as "low" | "medium" | "high" | "critical"
+            })),
+            risks_or_followups: newSynthesis.risks_or_followups,
+            transcript_reasoning: Object.fromEntries(
+              newSynthesis.transcript_excerpts.map((te, idx) => [
+                `excerpt_${idx}`,
+                te.reasoning_summary
+              ])
+            ),
+            message: newSynthesis.message
+          };
+        }
+      } catch (error: any) {
+        synthesisError = error?.message || "Unknown provider error";
+      }
+    } else if (reasoningEnabled && process.env.ANTHROPIC_API_KEY) {
+      // Fall back to old AnthropicProvider for backward compatibility
       try {
         const provider = new AnthropicProvider(
           process.env.ANTHROPIC_API_KEY,
