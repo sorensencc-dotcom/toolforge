@@ -137,6 +137,24 @@ ls -la ./harness-v3/Dockerfile ./onnx-sidecar/Dockerfile
 docker build -t harness-v3:latest ./harness-v3
 ```
 
+### Build times out or stalls
+
+Slow filesystem (antivirus scanning, network drives, WSL with poor sync) can cause Docker operations to hang.
+
+**Check environment:**
+```bash
+# Time filesystem operation
+time docker ps
+
+# If > 5s: environment is slow
+# Check antivirus exclusions: C:\dev\node_modules, C:\dev\.git, C:\dev\dist
+# Or disable real-time scanning temporarily
+
+# For WSL: use native PowerShell, not bash from WSL2
+```
+
+See `docs/operations/environment-optimization.md` for detailed mitigation strategies.
+
 ## Integration with CI/CD
 
 **GitHub Actions:**
