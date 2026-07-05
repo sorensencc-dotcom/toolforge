@@ -1,0 +1,29 @@
+{
+  "name": "operator-image-build",
+  "version": "1.0.0",
+  "description": "Deterministic Docker image build, tag, push, and verification for CIC harness components",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "docker",
+    "ci",
+    "build",
+    "automation"
+  ],
+  "author": "CIC Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {}
+}
