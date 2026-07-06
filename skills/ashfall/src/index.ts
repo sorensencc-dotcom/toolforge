@@ -52,8 +52,12 @@ interface AshfallOutput {
 async function gather(cwd: string = process.cwd()): Promise<GatherOutput> {
   const exec = (cmd: string) => {
     try {
-      return execSync(cmd, { cwd, encoding: 'utf-8' }).trim();
-    } catch {
+      return execSync(cmd, { cwd, encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] }).trim();
+    } catch (e) {
+      const err = e as { status?: number; message?: string };
+      if (err.status !== 0) {
+        console.warn(`[ASHFALL] exec failed: ${cmd} (exit ${err.status})`);
+      }
       return '';
     }
   };
@@ -209,13 +213,15 @@ function audit(gathered: GatherOutput): AuditFinding[] {
 // Phase 4: SEAL — Memory manifest
 function seal(gathered: GatherOutput, audit: AuditFinding[]): string {
   const lines: string[] = [];
+  const now = new Date();
+  const dateStamp = now.toISOString().split('T')[0];
 
   lines.push('---');
-  lines.push('name: session-ashfall-wrap');
+  lines.push(`name: ashfall-wrap-${dateStamp}`);
   lines.push('description: ASHFALL session termination audit and context handoff');
   lines.push('metadata:');
   lines.push('  type: project');
-  lines.push('  timestamp: ' + new Date().toISOString());
+  lines.push('  timestamp: ' + now.toISOString());
   lines.push('---');
   lines.push('');
 
@@ -307,7 +313,9 @@ function handoff(gathered: GatherOutput, auditFindings: AuditFinding[]): Roadmap
     blocker: false,
   });
 
-  return items.sort((a, b) => (a.blocker ? -1 : 1) || a.priority - b.priority);
+  return items.sort((a, b) =>
+    a.blocker && !b.blocker ? -1 : b.blocker && !a.blocker ? 1 : a.priority - b.priority
+  );
 }
 
 // Main ASHFALL orchestrator
@@ -332,8 +340,9 @@ export async function ashfall(options: {
   // Audit
   console.log('[ASHFALL] Phase 3: AUDIT (Four Questions)...');
   const auditFindings = audit(gatherOutput);
+  const severityRank = { HIGH: 3, MEDIUM: 2, LOW: 1 };
   const leastConfident = auditFindings.reduce((a, b) =>
-    a.severity === 'HIGH' && b.severity !== 'HIGH' ? a : b
+    severityRank[a.severity] >= severityRank[b.severity] ? a : b
   );
 
   // Seal
