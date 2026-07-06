@@ -1,0 +1,51 @@
+{
+  "id": "ashfall",
+  "name": "ashfall",
+  "version": "1.0.0",
+  "description": "Deterministic session-termination and context-handoff engine for Cast Iron systems",
+  "author": "Soren (Cast Iron Forge)",
+  "license": "MIT",
+  "repository": "https://github.com/anthropics/cast-iron-forge",
+  "category": "session-management",
+  "runtime": "node",
+  "keywords": [
+    "session-management",
+    "context-handoff",
+    "audit",
+    "memory-compression",
+    "roadmap"
+  ],
+  "entry": "src/index.ts",
+  "commands": {
+    "invoke": "ashfall",
+    "usage": "ashfall [--scope=PHASE-26|full|partial] [--verify] [--output-format=json|markdown]"
+  },
+  "phases": [
+    "gather",
+    "burn",
+    "audit",
+    "seal",
+    "handoff"
+  ],
+  "output-contract": {
+    "summary": {
+      "modifiedFiles": "array<string>",
+      "architecturalChanges": "string",
+      "pendingCommits": "array<{hash, subject, scope}>",
+      "contextBoundaries": "array<string>"
+    },
+    "blindSpotAudit": {
+      "leastConfident": {
+        "topic": "string",
+        "risk": "string",
+        "evidenceGap": "string",
+        "nextCheck": "string"
+      },
+      "userBlindSpots": "array<string>",
+      "criticalAssumption": "string",
+      "verificationSteps": "array<string>"
+    },
+    "prioritizedRoadmap": "array<{priority: 1-5, task: string, context: string, source: string, blocker: boolean}>",
+    "nextSessionMemory": "markdown"
+  }
+}

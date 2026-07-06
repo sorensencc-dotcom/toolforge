@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-03T14:40:49.1439078Z
+**Generated:** 2026-07-06T00:16:27.8262806Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 10 | 100% |
-| Active | 10 | 100% |
+| **Total Skills** | 12 | 100% |
+| Active | 12 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 2 | 20% |
-| ⚠️ Warning | 8 | 80% |
+| ✅ Good | 2 | 16.7% |
+| ⚠️ Warning | 10 | 83.3% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -38,6 +38,19 @@
 | Health | ⚠️ WARN |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
+### ashfall
+
+| Field | Value |
+|-------|-------|
+| Name | ashfall |
+| Category | session-management |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### kb-sync-nightly
 
 | Field | Value |
@@ -47,6 +60,19 @@
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | bash |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### operator-image-build
+
+| Field | Value |
+|-------|-------|
+| Name | Operator Image Build |
+| Category | infrastructure-automation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
 | Status | active |
 | Health | ⚠️ WARN |
 | Last Run | Never |

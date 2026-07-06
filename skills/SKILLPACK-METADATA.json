@@ -1,284 +1,338 @@
 {
-  "version": "1.0.0",
   "summary": {
-    "health_good": 2,
-    "total": 10,
-    "active": 10,
-    "health_error": 0,
+    "active": 12,
+    "health_warn": 10,
     "deprecated": 0,
-    "health_warn": 8
+    "health_error": 0,
+    "total": 12,
+    "health_good": 2
   },
-  "timestamp": "2026-07-03T14:40:49.1439078Z",
+  "timestamp": "2026-07-06T00:16:27.8262806Z",
+  "version": "1.0.0",
   "skills": [
     {
-      "category": "unknown",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-07-03T14:22:55.2630873Z",
-        "created": "2026-07-03T14:22:55.2630873Z",
-        "lastRun": null
+      "runtime": "node",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": false,
-        "runtime": "untested",
+        "overall": "warn",
         "canonical": true,
-        "overall": "warn"
+        "distributed": false,
+        "runtime": "untested"
       },
       "id": "analyze-token-burn",
       "entrypoint": "src/index.ts",
-      "name": "analyze-token-burn",
-      "runtime": "node",
-      "owner": "unknown",
-      "description": "Project month-end token costs and identify high-spend adapters",
       "status": "active",
-      "version": "1.0.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "unknown",
+      "name": "analyze-token-burn",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-03T14:22:55.2630873Z",
+        "created": "2026-07-03T14:22:55.2630873Z"
+      },
+      "description": "Project month-end token costs and identify high-spend adapters",
+      "version": "1.0.0"
     },
     {
-      "category": "documentation",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-07-03T14:22:55.3013875Z",
-        "created": "2026-07-03T14:22:55.3013875Z",
-        "lastRun": null
+      "runtime": "node",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": false,
-        "runtime": "untested",
+        "overall": "warn",
         "canonical": true,
-        "overall": "warn"
+        "distributed": false,
+        "runtime": "untested"
+      },
+      "id": "ashfall",
+      "entrypoint": "",
+      "status": "active",
+      "tags": [],
+      "category": "session-management",
+      "name": "ashfall",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-05T21:12:52.7571271Z",
+        "created": "2026-07-05T21:12:52.7571271Z"
+      },
+      "description": "Deterministic session-termination and context-handoff engine for Cast Iron systems",
+      "version": "1.0.0"
+    },
+    {
+      "runtime": "bash",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
+      },
+      "health": {
+        "overall": "warn",
+        "canonical": true,
+        "distributed": false,
+        "runtime": "untested"
       },
       "id": "kb-sync-nightly",
       "entrypoint": "src/run.sh",
-      "name": "kb-sync-nightly",
-      "runtime": "bash",
-      "owner": "unknown",
-      "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
       "status": "active",
-      "version": "1.0.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "documentation",
+      "name": "kb-sync-nightly",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-03T14:22:55.3013875Z",
+        "created": "2026-07-03T14:22:55.3013875Z"
+      },
+      "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
+      "version": "1.0.0"
     },
     {
-      "category": "unknown",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-07-03T14:22:55.1885482Z",
-        "created": "2026-07-03T14:22:55.1885482Z",
-        "lastRun": null
+      "runtime": "node",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": false,
-        "runtime": "untested",
+        "overall": "warn",
         "canonical": true,
-        "overall": "warn"
+        "distributed": false,
+        "runtime": "untested"
+      },
+      "id": "operator-image-build",
+      "entrypoint": "dist/index.js",
+      "status": "active",
+      "tags": [],
+      "category": "infrastructure-automation",
+      "name": "Operator Image Build",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-04T18:02:37.3983609Z",
+        "created": "2026-07-04T18:02:37.3983609Z"
+      },
+      "description": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
+      "version": "1.0.0"
+    },
+    {
+      "runtime": "node",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
+      },
+      "health": {
+        "overall": "warn",
+        "canonical": true,
+        "distributed": false,
+        "runtime": "untested"
       },
       "id": "reconcile-vector-store",
       "entrypoint": "src/index.ts",
-      "name": "reconcile-vector-store",
-      "runtime": "node",
-      "owner": "unknown",
-      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
       "status": "active",
-      "version": "1.0.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "unknown",
+      "name": "reconcile-vector-store",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-03T14:22:55.1885482Z",
+        "created": "2026-07-03T14:22:55.1885482Z"
+      },
+      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
+      "version": "1.0.0"
     },
     {
-      "category": "validation",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-06-28T21:13:03.9917617Z",
-        "created": "2026-06-28T21:13:03.9917617Z",
-        "lastRun": null
+      "runtime": "typescript",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": false,
-        "runtime": "untested",
+        "overall": "warn",
         "canonical": true,
-        "overall": "warn"
+        "distributed": false,
+        "runtime": "untested"
       },
       "id": "roadmap-validator",
       "entrypoint": "src/index.ts",
-      "name": "Roadmap Validator",
-      "runtime": "typescript",
-      "owner": "unknown",
-      "description": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
       "status": "active",
-      "version": "1.0.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "validation",
+      "name": "Roadmap Validator",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-06-28T21:13:03.9917617Z",
+        "created": "2026-06-28T21:13:03.9917617Z"
+      },
+      "description": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
+      "version": "1.0.0"
     },
     {
-      "category": "unknown",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-07-03T14:22:55.1164640Z",
-        "created": "2026-07-03T14:22:55.1164640Z",
-        "lastRun": null
+      "runtime": "node",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": false,
-        "runtime": "untested",
+        "overall": "warn",
         "canonical": true,
-        "overall": "warn"
+        "distributed": false,
+        "runtime": "untested"
       },
       "id": "rollback-phase",
       "entrypoint": "src/index.ts",
-      "name": "rollback-phase",
-      "runtime": "node",
-      "owner": "unknown",
-      "description": "Revert CIC pipeline to prior phase checkpoint",
       "status": "active",
-      "version": "1.0.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "unknown",
+      "name": "rollback-phase",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-03T14:22:55.1164640Z",
+        "created": "2026-07-03T14:22:55.1164640Z"
+      },
+      "description": "Revert CIC pipeline to prior phase checkpoint",
+      "version": "1.0.0"
     },
     {
-      "category": "unknown",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-07-03T14:22:55.1440641Z",
-        "created": "2026-07-03T14:22:55.1440641Z",
-        "lastRun": null
+      "runtime": "node",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": false,
-        "runtime": "untested",
+        "overall": "warn",
         "canonical": true,
-        "overall": "warn"
+        "distributed": false,
+        "runtime": "untested"
       },
       "id": "run-adapter-diagnostic",
       "entrypoint": "src/index.ts",
-      "name": "run-adapter-diagnostic",
-      "runtime": "node",
-      "owner": "unknown",
-      "description": "Check adapter health, latency percentiles, and error rates in real time",
       "status": "active",
-      "version": "1.0.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "unknown",
+      "name": "run-adapter-diagnostic",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-03T14:22:55.1440641Z",
+        "created": "2026-07-03T14:22:55.1440641Z"
+      },
+      "description": "Check adapter health, latency percentiles, and error rates in real time",
+      "version": "1.0.0"
     },
     {
-      "category": "unknown",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-07-03T14:22:55.0373455Z",
-        "created": "2026-07-03T14:22:55.0373455Z",
-        "lastRun": null
+      "runtime": "node",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": false,
-        "runtime": "untested",
+        "overall": "warn",
         "canonical": true,
-        "overall": "warn"
+        "distributed": false,
+        "runtime": "untested"
       },
       "id": "scale-ingestion-service",
       "entrypoint": "src/index.ts",
-      "name": "scale-ingestion-service",
-      "runtime": "node",
-      "owner": "unknown",
-      "description": "Adjust RL ingestion service worker count & queue depth based on backlog",
       "status": "active",
-      "version": "1.0.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "unknown",
+      "name": "scale-ingestion-service",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-03T14:22:55.0373455Z",
+        "created": "2026-07-03T14:22:55.0373455Z"
+      },
+      "description": "Adjust RL ingestion service worker count & queue depth based on backlog",
+      "version": "1.0.0"
     },
     {
-      "category": "automation",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-06-28T16:28:57.6955303Z",
-        "created": "2026-06-28T16:28:57.6955303Z",
-        "lastRun": null
+      "runtime": "typescript",
+      "owner": "soren",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": true,
-        "runtime": "untested",
+        "overall": "good",
         "canonical": true,
-        "overall": "good"
+        "distributed": true,
+        "runtime": "untested"
       },
       "id": "tool-lifecycle-manager",
       "entrypoint": "src/index.ts",
-      "name": "Tool Lifecycle Manager",
-      "runtime": "typescript",
-      "owner": "soren",
-      "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
       "status": "active",
-      "version": "0.1.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "automation",
+      "name": "Tool Lifecycle Manager",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-06-28T16:28:57.6955303Z",
+        "created": "2026-06-28T16:28:57.6955303Z"
+      },
+      "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
+      "version": "0.1.0"
     },
     {
-      "category": "monitoring",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-06-28T16:29:01.4625445Z",
-        "created": "2026-06-28T16:29:01.4625445Z",
-        "lastRun": null
+      "runtime": "typescript",
+      "owner": "soren",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": true,
-        "runtime": "untested",
+        "overall": "good",
         "canonical": true,
-        "overall": "good"
+        "distributed": true,
+        "runtime": "untested"
       },
       "id": "toolforge-drift-monitor",
       "entrypoint": "src/index.ts",
-      "name": "Toolforge Drift Monitor",
-      "runtime": "typescript",
-      "owner": "soren",
-      "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
       "status": "active",
-      "version": "0.1.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "monitoring",
+      "name": "Toolforge Drift Monitor",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-06-28T16:29:01.4625445Z",
+        "created": "2026-06-28T16:29:01.4625445Z"
+      },
+      "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
+      "version": "0.1.0"
     },
     {
-      "category": "development-observability",
-      "tags": [],
-      "timestamps": {
-        "lastValidation": "2026-07-03T14:22:55.3400018Z",
-        "created": "2026-07-03T14:22:55.3400018Z",
-        "lastRun": null
+      "runtime": "node",
+      "owner": "unknown",
+      "dependencies": {
+        "external": [],
+        "internal": []
       },
       "health": {
-        "distributed": false,
-        "runtime": "untested",
+        "overall": "warn",
         "canonical": true,
-        "overall": "warn"
+        "distributed": false,
+        "runtime": "untested"
       },
       "id": "work-summarizer",
       "entrypoint": "dist/index.js",
-      "name": "Work Summarizer v4.0",
-      "runtime": "node",
-      "owner": "unknown",
-      "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
       "status": "active",
-      "version": "4.0.0",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      }
+      "tags": [],
+      "category": "development-observability",
+      "name": "Work Summarizer v4.0",
+      "timestamps": {
+        "lastRun": null,
+        "lastValidation": "2026-07-03T14:22:55.3400018Z",
+        "created": "2026-07-03T14:22:55.3400018Z"
+      },
+      "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
+      "version": "4.0.0"
     }
   ]
 }

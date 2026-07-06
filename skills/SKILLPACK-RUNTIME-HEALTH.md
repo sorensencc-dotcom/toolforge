@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-03T14:40:49.2633909Z
+**Generated:** 2026-07-06T00:16:28.7408255Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 33 | 22 | 5 | 60 |
-| % Pass | 55% | 36.7% | 8.3% | 100% |
+| **Totals** | 39 | 27 | 6 | 72 |
+| % Pass | 54.2% | 37.5% | 8.3% | 100% |
 
 ---
 
@@ -28,6 +28,17 @@
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
+### ashfall — ❌ ERROR
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ❌ FAIL | No entrypoint specified |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ⚠️ WARN | No exports detected in entrypoint |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No audit log found |
+
 ### kb-sync-nightly — ⚠️ WARN
 
 | Check | Result | Details |
@@ -36,6 +47,17 @@
 | Runtime | ✅ PASS | Found: bash |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Runtime bash (dry-run not applicable) |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No audit log found |
+
+### operator-image-build — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: dist/index.js |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
@@ -139,6 +161,7 @@ Skills passing all checks:
 
 Skills with warnings but no failures:
 - kb-sync-nightly
+- operator-image-build
 - roadmap-validator
 - tool-lifecycle-manager
 - toolforge-drift-monitor
@@ -148,6 +171,7 @@ Skills with warnings but no failures:
 
 Skills with critical failures:
 - analyze-token-burn
+- ashfall
 - reconcile-vector-store
 - rollback-phase
 - run-adapter-diagnostic

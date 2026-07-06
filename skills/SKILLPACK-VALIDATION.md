@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-03T14:40:48.6676527Z
+**Generated**: 2026-07-06T00:16:39.9416109Z
 
 ---
 
@@ -8,18 +8,18 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 0 | 12 | 0 | ✅ |
-| Distributed | 0 | 8 | 0 | ✅ |
+| Canonical | 3 | 14 | 0 | ❌ |
+| Distributed | 0 | 10 | 0 | ✅ |
 | Manifest | 0 | 1 | 0 | ✅ |
-| Cowork | 0 | 10 | 0 | ✅ |
+| Cowork | 0 | 12 | 0 | ✅ |
 | Dependencies | 0 | 0 | 1 | ✅ |
-| Runtime | 0 | 0 | 10 | ✅ |
+| Runtime | 0 | 0 | 12 | ✅ |
 | Audit | 0 | 0 | 1 | ℹ️ |
 
-**Total Errors**: 0
-**Total Warnings**: 31
+**Total Errors**: 3
+**Total Warnings**: 37
 
-**Overall Status**: ✅ PASS
+**Overall Status**: ❌ FAIL
 
 ---
 
@@ -28,7 +28,9 @@
 | ID | Name | Version | Status | Canonical | Distributed | Manifest | Cowork | Runtime |
 |----|------|---------|--------|-----------|-------------|----------|--------|---------|
 | analyze-token-burn | analyze-token-burn | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| ashfall | ashfall | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | kb-sync-nightly | kb-sync-nightly | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | reconcile-vector-store | reconcile-vector-store | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | roadmap-validator | Roadmap Validator | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | rollback-phase | rollback-phase | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
@@ -44,9 +46,14 @@
 
 ⚠️ **analyze-token-burn**: Entrypoint missing: src/index.ts
 ⚠️ **analyze-token-burn**: Category missing (using fallback: utility)
+❌ **ashfall**: Entrypoint not specified
+⚠️ **ashfall**: Invalid category: session-management
 ⚠️ **kb-sync-nightly**: Invalid category: documentation
-⚠️ **reconcile-vector-store**: Entrypoint missing: src/index.ts
+❌ **operator-image-build**: Missing: SKILL.md
+❌ **operator-image-build**: Missing: INTEGRATION_DIAGRAM.md
+⚠️ **operator-image-build**: Invalid category: infrastructure-automation
 ⚠️ **reconcile-vector-store**: Category missing (using fallback: utility)
+⚠️ **reconcile-vector-store**: Entrypoint missing: src/index.ts
 ⚠️ **rollback-phase**: Entrypoint missing: src/index.ts
 ⚠️ **rollback-phase**: Category missing (using fallback: utility)
 ⚠️ **run-adapter-diagnostic**: Entrypoint missing: src/index.ts
@@ -58,7 +65,9 @@
 ## Distributed Validation
 
 ⚠️ **analyze-token-burn**: Directory missing in distributed
+⚠️ **ashfall**: Directory missing in distributed
 ⚠️ **kb-sync-nightly**: Directory missing in distributed
+⚠️ **operator-image-build**: Directory missing in distributed
 ⚠️ **reconcile-vector-store**: Directory missing in distributed
 ⚠️ **roadmap-validator**: Directory missing in distributed
 ⚠️ **rollback-phase**: Directory missing in distributed
@@ -73,7 +82,9 @@
 ## Cowork Validation
 
 ⚠️ **analyze-token-burn**: Not registered (installer will register on next run)
+⚠️ **ashfall**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-nightly**: Not registered (installer will register on next run)
+⚠️ **operator-image-build**: Not registered (installer will register on next run)
 ⚠️ **reconcile-vector-store**: Not registered (installer will register on next run)
 ⚠️ **roadmap-validator**: Not registered (installer will register on next run)
 ⚠️ **rollback-phase**: Not registered (installer will register on next run)
@@ -86,7 +97,9 @@
 ## Runtime Validation
 
 ℹ️ **analyze-token-burn**: Skill inactive (status: )
+ℹ️ **ashfall**: Skill inactive (status: )
 ℹ️ **kb-sync-nightly**: Skill inactive (status: )
+ℹ️ **operator-image-build**: Skill inactive (status: )
 ℹ️ **reconcile-vector-store**: Skill inactive (status: )
 ℹ️ **roadmap-validator**: Skill inactive (status: )
 ℹ️ **rollback-phase**: Skill inactive (status: )
