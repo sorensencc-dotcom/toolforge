@@ -1,0 +1,87 @@
+skills/pre-wrap-audit/docs/HARNESS-IMPLEMENTATION-GUIDE.md
+  s_eaf7b68a8592fd::t_ffe182f48ee01b 1-772
+skills/pre-wrap-audit/docs/OPERATOR-RUNBOOK.md
+  s_eaf7b68a8592fd::t_459da34055db66 1-344
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_9df6068d39c023::t_17d8da68ef498a 3
+  s_eaf7b68a8592fd::t_92416a1d4d9bde 13-14,21-22,80-92
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_9df6068d39c023::t_e3fe7889aff644 158-168
+  s_9df6068d39c023::t_17d8da68ef498a 3
+  s_9df6068d39c023::t_a5bc85e62f608f 4-5
+  s_9df6068d39c023::t_bcdae9fe922128 155-157
+  s_7008a9810d4867::t_fd426a9e743496 1,9,11-18,24,26,28-30,32,34-36,38,40-42,44,46-48,50,52-54,56,58-60,62,64-66,68,70-72,74,76-78,80,82-84,86,88-90,92,94-96,98,100-102,104,106,108-109,111-113,115,117-118,120-121,123-124,126-127,129-130,132-133,135-136,138-139,141-142,144-145,147-148,150-154,170,172-174,176,178-180,182-198,204-208,212
+skills/pre-wrap-audit/README.md
+  s_eaf7b68a8592fd::t_9dfe00f36208b9 88-89
+  s_eaf7b68a8592fd::t_24000508dfad7c 41
+skills/SKILLPACK-METADATA.json
+  s_9df6068d39c023::t_17d8da68ef498a 163,217,244,271,352
+  s_9df6068d39c023::t_e3fe7889aff644 12-13,17-20,22,24,26-28,39-40,44-47,49-51,53-55,66-67,71-74,76,78,80-82,93-94,98-101,103,105,107-109,115-117,122-123,125-126,129-151,154-157,159,161,164,176-177,181-183,188,191,203-204,208-210,215,218,230-231,235-237,242,245,257-258,262-264,269,272,284,289-291,296,311,316-318,323,338-339,343-345,350
+  s_9df6068d39c023::t_8751beb3e1f8d4 165
+  s_9df6068d39c023::t_a598ae74cd392c 184
+  s_9df6068d39c023::t_0bb6e66ce4f8d3 190
+  s_9df6068d39c023::t_aaeadb511c4827 192
+  s_9df6068d39c023::t_14c9c4c65a6c3a 211
+  s_9df6068d39c023::t_377b4965489758 219
+  s_9df6068d39c023::t_38b9773ed4296c 238
+  s_9df6068d39c023::t_05d4b9e47b8ce5 246
+  s_9df6068d39c023::t_be9e5a33fac53e 265
+  s_9df6068d39c023::t_473787a48afb4e 273
+  s_9df6068d39c023::t_e9714b6ff0354b 285
+  s_9df6068d39c023::t_1632d47adc8867 292
+  s_9df6068d39c023::t_6ed443de6ca181 312
+  s_9df6068d39c023::t_6b8175c1032cbc 319
+  s_9df6068d39c023::t_aafeab482cbdbf 346
+  s_9df6068d39c023::t_9a6c47eb14c725 353-354
+  s_eaf7b68a8592fd::t_01a572adb3f451 186,213,240,267,294,298-300,321,325-327,348,356-366
+audit/COWORK-REGISTERED-SKILLS.md
+  s_9df6068d39c023::t_17d8da68ef498a 3,7,17,30-58
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_9df6068d39c023::t_17d8da68ef498a 3
+  s_eaf7b68a8592fd::t_2d791b72d96412 13-14,64-74,186
+skills/SKILLPACK-VALIDATION.md
+  s_9df6068d39c023::t_17d8da68ef498a 3
+  s_1c8c72bfe5bcd2::t_3737aa7911206d 11-12,14,16,19-20,34,56-59,61,67,76,94,110
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_eaf7b68a8592fd::t_41c7941a2e7be7 3,13,22,27,29,42-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "45e9ed3a84138391fc65d685028f2da96b8719f4",
+  "prompts": {},
+  "sessions": {
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9df6068d39c023": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd3a8b0d-47f8-4f0f-a511-393c978880be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_eaf7b68a8592fd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0547e723-ba1b-434f-bf82-37e8f88c2262",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
