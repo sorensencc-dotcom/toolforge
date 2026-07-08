@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-06T00:16:28.7408255Z
+**Generated:** 2026-07-08T09:20:40.1738735Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 39 | 27 | 6 | 72 |
-| % Pass | 54.2% | 37.5% | 8.3% | 100% |
+| **Totals** | 41 | 30 | 7 | 78 |
+| % Pass | 52.6% | 38.5% | 9% | 100% |
 
 ---
 
@@ -58,6 +58,17 @@
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No audit log found |
+
+### pre-wrap-audit — ❌ ERROR
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ❌ FAIL | No entrypoint specified |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | All 1 internal deps available |
+| DryRun | ⚠️ WARN | No exports detected in entrypoint |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No audit log found |
 
@@ -172,6 +183,7 @@ Skills with warnings but no failures:
 Skills with critical failures:
 - analyze-token-burn
 - ashfall
+- pre-wrap-audit
 - reconcile-vector-store
 - rollback-phase
 - run-adapter-diagnostic

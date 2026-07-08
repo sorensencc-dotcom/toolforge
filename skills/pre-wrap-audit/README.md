@@ -38,7 +38,7 @@ Session wrap audit — 12-point blind-spot assessment before termination.
 
 ## Integration with ASHFALL
 
-```
+```text
 Implementation → Tests → PRE-WRAP AUDIT (NEW)
   ├─ Run 12-point audit
   ├─ If RED: Block termination, escalate
@@ -85,4 +85,6 @@ See [HARNESS-INTEGRATION.md](docs/HARNESS-INTEGRATION.md) for `/finish` auto-tri
 - [USAGE.md](docs/USAGE.md) — Detailed workflow and verdict rules
 - [HARNESS-INTEGRATION.md](docs/HARNESS-INTEGRATION.md) — Claude Code harness integration (`/finish` trigger)
 - [EXAMPLES.md](docs/EXAMPLES.md) — Real-world audit examples (RED/YELLOW/GREEN verdicts)
+- [OPERATOR-RUNBOOK.md](docs/OPERATOR-RUNBOOK.md) — For on-call team (Chris, operators): RED/YELLOW/GREEN handling, escalation matrix
+- [HARNESS-IMPLEMENTATION-GUIDE.md](docs/HARNESS-IMPLEMENTATION-GUIDE.md) — For harness team: TypeScript implementation, test cases, deployment checklist
 - [ASHFALL Skill](../ashfall/) — Session termination engine (now calls pre-wrap-audit)

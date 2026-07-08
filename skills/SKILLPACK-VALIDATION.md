@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-06T00:16:39.9416109Z
+**Generated**: 2026-07-08T09:20:42.3098732Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 3 | 14 | 0 | ❌ |
-| Distributed | 0 | 10 | 0 | ✅ |
+| Canonical | 6 | 15 | 0 | ❌ |
+| Distributed | 0 | 11 | 0 | ✅ |
 | Manifest | 0 | 1 | 0 | ✅ |
-| Cowork | 0 | 12 | 0 | ✅ |
+| Cowork | 0 | 13 | 0 | ✅ |
 | Dependencies | 0 | 0 | 1 | ✅ |
-| Runtime | 0 | 0 | 12 | ✅ |
+| Runtime | 0 | 0 | 13 | ✅ |
 | Audit | 0 | 0 | 1 | ℹ️ |
 
-**Total Errors**: 3
-**Total Warnings**: 37
+**Total Errors**: 6
+**Total Warnings**: 40
 
 **Overall Status**: ❌ FAIL
 
@@ -31,6 +31,7 @@
 | ashfall | ashfall | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | kb-sync-nightly | kb-sync-nightly | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| pre-wrap-audit | pre-wrap-audit | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | reconcile-vector-store | reconcile-vector-store | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | roadmap-validator | Roadmap Validator | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | rollback-phase | rollback-phase | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
@@ -52,14 +53,18 @@
 ❌ **operator-image-build**: Missing: SKILL.md
 ❌ **operator-image-build**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **operator-image-build**: Invalid category: infrastructure-automation
-⚠️ **reconcile-vector-store**: Category missing (using fallback: utility)
+⚠️ **pre-wrap-audit**: Invalid category: session-management
+❌ **pre-wrap-audit**: Entrypoint not specified
+❌ **pre-wrap-audit**: Missing: SKILL.md
+❌ **pre-wrap-audit**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **reconcile-vector-store**: Entrypoint missing: src/index.ts
+⚠️ **reconcile-vector-store**: Category missing (using fallback: utility)
 ⚠️ **rollback-phase**: Entrypoint missing: src/index.ts
 ⚠️ **rollback-phase**: Category missing (using fallback: utility)
 ⚠️ **run-adapter-diagnostic**: Entrypoint missing: src/index.ts
 ⚠️ **run-adapter-diagnostic**: Category missing (using fallback: utility)
-⚠️ **scale-ingestion-service**: Entrypoint missing: src/index.ts
 ⚠️ **scale-ingestion-service**: Category missing (using fallback: utility)
+⚠️ **scale-ingestion-service**: Entrypoint missing: src/index.ts
 ⚠️ **work-summarizer**: Invalid category: development-observability
 
 ## Distributed Validation
@@ -68,6 +73,7 @@
 ⚠️ **ashfall**: Directory missing in distributed
 ⚠️ **kb-sync-nightly**: Directory missing in distributed
 ⚠️ **operator-image-build**: Directory missing in distributed
+⚠️ **pre-wrap-audit**: Directory missing in distributed
 ⚠️ **reconcile-vector-store**: Directory missing in distributed
 ⚠️ **roadmap-validator**: Directory missing in distributed
 ⚠️ **rollback-phase**: Directory missing in distributed
@@ -85,6 +91,7 @@
 ⚠️ **ashfall**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-nightly**: Not registered (installer will register on next run)
 ⚠️ **operator-image-build**: Not registered (installer will register on next run)
+⚠️ **pre-wrap-audit**: Not registered (installer will register on next run)
 ⚠️ **reconcile-vector-store**: Not registered (installer will register on next run)
 ⚠️ **roadmap-validator**: Not registered (installer will register on next run)
 ⚠️ **rollback-phase**: Not registered (installer will register on next run)
@@ -100,6 +107,7 @@
 ℹ️ **ashfall**: Skill inactive (status: )
 ℹ️ **kb-sync-nightly**: Skill inactive (status: )
 ℹ️ **operator-image-build**: Skill inactive (status: )
+ℹ️ **pre-wrap-audit**: Skill inactive (status: )
 ℹ️ **reconcile-vector-store**: Skill inactive (status: )
 ℹ️ **roadmap-validator**: Skill inactive (status: )
 ℹ️ **rollback-phase**: Skill inactive (status: )

@@ -1,10 +1,10 @@
 # Cowork Registered Skills
 
-**Last Sync:** 2026-07-06T00:16:37.8065196Z
+**Last Sync:** 2026-07-08T09:20:42.1685559Z
 
 **Registered:** 0
 **Updated:** 0
-**Total:** 12
+**Total:** 13
 
 ---
 
@@ -14,6 +14,7 @@
 | ashfall | 1.0.0 | active | session-management | — |
 | kb-sync-nightly | 1.0.0 | active | documentation | — |
 | operator-image-build | 1.0.0 | active | infrastructure-automation | — |
+| pre-wrap-audit | 1.0.0 | active | session-management | — |
 | reconcile-vector-store | 1.0.0 | active | unknown | — |
 | roadmap-validator | 1.0.0 | active | validation | — |
 | rollback-phase | 1.0.0 | active | unknown | — |
@@ -26,33 +27,35 @@
 
 ## Sync History
 
-- **2026-07-06T00:16:37.9206566Z** [INFO] Scanned: analyze-token-burn (v1.0.0)
-- **2026-07-06T00:16:38.0568359Z** [INFO] Scanned: ashfall (v1.0.0)
-- **2026-07-06T00:16:38.0834242Z** [INFO] Scanned: kb-sync-nightly (v1.0.0)
-- **2026-07-06T00:16:38.1151985Z** [INFO] Scanned: operator-image-build (v1.0.0)
-- **2026-07-06T00:16:38.1521135Z** [INFO] Scanned: reconcile-vector-store (v1.0.0)
-- **2026-07-06T00:16:38.1885785Z** [INFO] Scanned: roadmap-validator (v1.0.0)
-- **2026-07-06T00:16:38.2141831Z** [INFO] Scanned: rollback-phase (v1.0.0)
-- **2026-07-06T00:16:38.2577417Z** [INFO] Scanned: run-adapter-diagnostic (v1.0.0)
-- **2026-07-06T00:16:38.2916942Z** [INFO] Scanned: scale-ingestion-service (v1.0.0)
-- **2026-07-06T00:16:38.3298070Z** [INFO] Scanned: tool-lifecycle-manager (v0.1.0)
-- **2026-07-06T00:16:38.3607676Z** [INFO] Scanned: toolforge-drift-monitor (v0.1.0)
-- **2026-07-06T00:16:38.3960095Z** [INFO] Scanned: work-summarizer (v4.0.0)
-- **2026-07-06T00:16:38.4071331Z** [INFO] Phase 1 complete: 12 skills scanned
-- **2026-07-06T00:16:38.7886137Z** [INFO] Loaded Cowork registry: 12 entries
-- **2026-07-06T00:16:38.8185500Z** [INFO] Skill up-to-date: ashfall
-- **2026-07-06T00:16:38.8330525Z** [INFO] Skill up-to-date: run-adapter-diagnostic
-- **2026-07-06T00:16:38.8645102Z** [INFO] Skill up-to-date: scale-ingestion-service
-- **2026-07-06T00:16:38.8844132Z** [INFO] Skill up-to-date: reconcile-vector-store
-- **2026-07-06T00:16:39.0034748Z** [INFO] Skill up-to-date: operator-image-build
-- **2026-07-06T00:16:39.0722173Z** [INFO] Skill up-to-date: work-summarizer
-- **2026-07-06T00:16:39.1797704Z** [INFO] Skill up-to-date: tool-lifecycle-manager
-- **2026-07-06T00:16:39.2194417Z** [INFO] Skill up-to-date: rollback-phase
-- **2026-07-06T00:16:39.2854575Z** [INFO] Skill up-to-date: kb-sync-nightly
-- **2026-07-06T00:16:39.3783301Z** [INFO] Skill up-to-date: analyze-token-burn
-- **2026-07-06T00:16:39.4117226Z** [INFO] Skill up-to-date: roadmap-validator
-- **2026-07-06T00:16:39.4521541Z** [INFO] Skill up-to-date: toolforge-drift-monitor
-- **2026-07-06T00:16:39.4713205Z** [INFO] Phase 3 complete: 0 registered, 0 updated
+- **2026-07-08T09:20:42.2066454Z** [INFO] Scanned: analyze-token-burn (v1.0.0)
+- **2026-07-08T09:20:42.2089453Z** [INFO] Scanned: ashfall (v1.0.0)
+- **2026-07-08T09:20:42.2113848Z** [INFO] Scanned: kb-sync-nightly (v1.0.0)
+- **2026-07-08T09:20:42.2179418Z** [INFO] Scanned: operator-image-build (v1.0.0)
+- **2026-07-08T09:20:42.2220694Z** [INFO] Scanned: pre-wrap-audit (v1.0.0)
+- **2026-07-08T09:20:42.2243859Z** [INFO] Scanned: reconcile-vector-store (v1.0.0)
+- **2026-07-08T09:20:42.2277812Z** [INFO] Scanned: roadmap-validator (v1.0.0)
+- **2026-07-08T09:20:42.2305511Z** [INFO] Scanned: rollback-phase (v1.0.0)
+- **2026-07-08T09:20:42.2344954Z** [INFO] Scanned: run-adapter-diagnostic (v1.0.0)
+- **2026-07-08T09:20:42.2383345Z** [INFO] Scanned: scale-ingestion-service (v1.0.0)
+- **2026-07-08T09:20:42.2416964Z** [INFO] Scanned: tool-lifecycle-manager (v0.1.0)
+- **2026-07-08T09:20:42.2453498Z** [INFO] Scanned: toolforge-drift-monitor (v0.1.0)
+- **2026-07-08T09:20:42.2611793Z** [INFO] Scanned: work-summarizer (v4.0.0)
+- **2026-07-08T09:20:42.2624008Z** [INFO] Phase 1 complete: 13 skills scanned
+- **2026-07-08T09:20:42.2703085Z** [INFO] Loaded Cowork registry: 13 entries
+- **2026-07-08T09:20:42.2717019Z** [INFO] Skill up-to-date: kb-sync-nightly
+- **2026-07-08T09:20:42.2725582Z** [INFO] Skill up-to-date: run-adapter-diagnostic
+- **2026-07-08T09:20:42.2741858Z** [INFO] Skill up-to-date: reconcile-vector-store
+- **2026-07-08T09:20:42.2754382Z** [INFO] Skill up-to-date: tool-lifecycle-manager
+- **2026-07-08T09:20:42.2766168Z** [INFO] Skill up-to-date: pre-wrap-audit
+- **2026-07-08T09:20:42.2795898Z** [INFO] Skill up-to-date: rollback-phase
+- **2026-07-08T09:20:42.2808407Z** [INFO] Skill up-to-date: work-summarizer
+- **2026-07-08T09:20:42.2820553Z** [INFO] Skill up-to-date: analyze-token-burn
+- **2026-07-08T09:20:42.2827580Z** [INFO] Skill up-to-date: operator-image-build
+- **2026-07-08T09:20:42.2839164Z** [INFO] Skill up-to-date: roadmap-validator
+- **2026-07-08T09:20:42.2847999Z** [INFO] Skill up-to-date: ashfall
+- **2026-07-08T09:20:42.2859373Z** [INFO] Skill up-to-date: scale-ingestion-service
+- **2026-07-08T09:20:42.2866949Z** [INFO] Skill up-to-date: toolforge-drift-monitor
+- **2026-07-08T09:20:42.2875678Z** [INFO] Phase 3 complete: 0 registered, 0 updated
 ---
 
 **Auto-generated by cowork-auto-sync.ps1 — Phase 1.7**

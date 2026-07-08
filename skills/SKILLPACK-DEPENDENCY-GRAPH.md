@@ -1,128 +1,213 @@
-# Toolforge Skillpack Dependency Graph
+# Toolforge Skill Dependency Graph
 
-**Generated**: 2026-07-06T00:16:44.6888324Z
+**Generated:** 2026-07-08T09:20:42.8183749Z
+
+**Phase:** 1.4 — Dependency Graph Implementation
 
 ---
 
-## Graph Summary
+## Summary
 
-- **Total Skills**: 12
-- **Total External Dependencies**: 0
-- **Missing Internal Dependencies**: 0
-- **Missing External Dependencies**: 0
+| Metric | Value |
+|--------|-------|
+| Total Skills | 13 |
+| Total Dependencies | 1 |
+| Max Depth | 1 |
+| Cyclic Skills | 0 |
+| Missing Internal Deps | 0 |
+| Orphan Skills | 12 |
 
 ---
 
 ## Adjacency List
-### analyze-token-burn (depth: 0)
 
-**Internal Dependencies:** (none)
+### Outbound Dependencies (Skill → Dependencies)
 
-**External Dependencies:** (none)
+### analyze-token-burn
 
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-### ashfall (depth: 0)
+### ashfall
 
-**Internal Dependencies:** (none)
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-**External Dependencies:** (none)
+### kb-sync-nightly
 
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-### kb-sync-nightly (depth: 0)
+### operator-image-build
 
-**Internal Dependencies:** (none)
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-**External Dependencies:** (none)
+### pre-wrap-audit
 
+| Dependency | Type | Status |
+|------------|------|--------|
+| ashfall | internal | ✅ Found |
 
-### operator-image-build (depth: 0)
+### reconcile-vector-store
 
-**Internal Dependencies:** (none)
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-**External Dependencies:** (none)
+### roadmap-validator
 
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-### reconcile-vector-store (depth: 0)
+### rollback-phase
 
-**Internal Dependencies:** (none)
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-**External Dependencies:** (none)
+### run-adapter-diagnostic
 
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-### roadmap-validator (depth: 0)
+### scale-ingestion-service
 
-**Internal Dependencies:** (none)
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-**External Dependencies:** (none)
+### tool-lifecycle-manager
 
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-### rollback-phase (depth: 0)
+### toolforge-drift-monitor
 
-**Internal Dependencies:** (none)
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-**External Dependencies:** (none)
+### work-summarizer
 
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
-### run-adapter-diagnostic (depth: 0)
+### Inbound Dependencies (What Depends on Each Skill)
 
-**Internal Dependencies:** (none)
+### analyze-token-burn
 
-**External Dependencies:** (none)
+No inbound dependencies (root skill)\n
+### ashfall
 
+| Dependent | Type |
+|-----------|------|
+| pre-wrap-audit | internal |
 
-### scale-ingestion-service (depth: 0)
+### kb-sync-nightly
 
-**Internal Dependencies:** (none)
+No inbound dependencies (root skill)\n
+### operator-image-build
 
-**External Dependencies:** (none)
+No inbound dependencies (root skill)\n
+### pre-wrap-audit
 
+No inbound dependencies (root skill)\n
+### reconcile-vector-store
 
-### tool-lifecycle-manager (depth: 0)
+No inbound dependencies (root skill)\n
+### roadmap-validator
 
-**Internal Dependencies:** (none)
+No inbound dependencies (root skill)\n
+### rollback-phase
 
-**External Dependencies:** (none)
+No inbound dependencies (root skill)\n
+### run-adapter-diagnostic
 
+No inbound dependencies (root skill)\n
+### scale-ingestion-service
 
-### toolforge-drift-monitor (depth: 0)
+No inbound dependencies (root skill)\n
+### tool-lifecycle-manager
 
-**Internal Dependencies:** (none)
+No inbound dependencies (root skill)\n
+### toolforge-drift-monitor
 
-**External Dependencies:** (none)
+No inbound dependencies (root skill)\n
+### work-summarizer
 
+No inbound dependencies (root skill)\n
+---
 
-### work-summarizer (depth: 0)
+## Dependency Depth (Leaf → Root)
 
-**Internal Dependencies:** (none)
+Depth 0 = Leaf node (no dependencies)
+Depth N = Depends on at least one skill at depth N-1
 
-**External Dependencies:** (none)
+| Skill | Depth |
+|-------|-------|| pre-wrap-audit | 1 |
+| kb-sync-nightly | 0 |
+| run-adapter-diagnostic | 0 |
+| reconcile-vector-store | 0 |
+| tool-lifecycle-manager | 0 |
+| rollback-phase | 0 |
+| work-summarizer | 0 |
+| analyze-token-burn | 0 |
+| operator-image-build | 0 |
+| roadmap-validator | 0 |
+| ashfall | 0 |
+| scale-ingestion-service | 0 |
+| toolforge-drift-monitor | 0 |
 
+---
 
-## Dependency Depth Metrics
+## Cycles (Circular Dependencies)
+✅ No cycles detected.\n
+---
 
-| Skill | Depth | Dependencies |
-|-------|-------|--------------|
-| analyze-token-burn | 0 | 0 |
-| ashfall | 0 | 0 |
-| kb-sync-nightly | 0 | 0 |
-| operator-image-build | 0 | 0 |
-| reconcile-vector-store | 0 | 0 |
-| roadmap-validator | 0 | 0 |
-| rollback-phase | 0 | 0 |
-| run-adapter-diagnostic | 0 | 0 |
-| scale-ingestion-service | 0 | 0 |
-| tool-lifecycle-manager | 0 | 0 |
-| toolforge-drift-monitor | 0 | 0 |
-| work-summarizer | 0 | 0 |
+## Missing Internal Dependencies
+
+Dependencies referenced but not found in canonical skills.
+✅ All internal dependencies resolved.\n
+---
+
+## Orphan Skills
+
+Skills that have no inbound dependencies (nothing depends on them).
+| Skill |
+|-------|
+| analyze-token-burn |
+| kb-sync-nightly |
+| operator-image-build |
+| pre-wrap-audit |
+| reconcile-vector-store |
+| roadmap-validator |
+| rollback-phase |
+| run-adapter-diagnostic |
+| scale-ingestion-service |
+| tool-lifecycle-manager |
+| toolforge-drift-monitor |
+| work-summarizer |
 
 ---
 
 ## Health Summary
 
-✅ PASS — no cycles, no missing dependencies
-
+| Category | Status | Details |
+|----------|--------|---------|
+| Cycles | ✅ PASS | 0 cycle(s) detected |
+| Missing Deps | ✅ PASS | 0 missing dep(s) |
+| Orphans | ⚠️ WARN | 12 orphan skill(s) |
 
 ---
 
-**Dependency Graph v1.0.0** | Toolforge Team
+**Report generated by 	oolforgeDependencyGraph.ps1 — Phase 1.4**
 

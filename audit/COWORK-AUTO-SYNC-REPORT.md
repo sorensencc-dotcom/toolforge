@@ -1,6 +1,6 @@
 # Cowork Auto-Sync Daemon Report
 
-**Execution:** 2026-07-03T12:13:50.2285512Z
+**Execution:** 2026-07-05T21:26:33.0461290Z
 
 **Phase:** 1.7 — Cowork Auto-Sync Implementation
 
@@ -10,7 +10,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Skills Scanned | 10 |
+| Skills Scanned | 12 |
 | Skills Registered | 0 |
 | Skills Updated | 0 |
 | Errors | 0 |
@@ -19,12 +19,14 @@
 
 ## Canonical State
 
-**Skills:** 10
+**Skills:** 12
 
 | ID | Name | Version | Category | Status |
 |--------|------|---------|----------|--------|
 | analyze-token-burn | analyze-token-burn | 1.0.0 | unknown | active |
+| ashfall | ashfall | 1.0.0 | session-management | active |
 | kb-sync-nightly | kb-sync-nightly | 1.0.0 | documentation | active |
+| operator-image-build | Operator Image Build | 1.0.0 | infrastructure-automation | active |
 | reconcile-vector-store | reconcile-vector-store | 1.0.0 | unknown | active |
 | roadmap-validator | Roadmap Validator | 1.0.0 | validation | active |
 | rollback-phase | rollback-phase | 1.0.0 | unknown | active |
@@ -37,41 +39,39 @@
 
 ## Action Log
 
-- ℹ️ [2026-07-03T12:13:51.6860315Z] Scanned: analyze-token-burn (v1.0.0)
-- ⚠️ [2026-07-03T12:13:51.6915463Z] Skipping configure-cic-environment (no SKILL.json)
-- ⚠️ [2026-07-03T12:13:51.6934800Z] Skipping debug-cic-issue (no SKILL.json)
-- ⚠️ [2026-07-03T12:13:51.6951048Z] Skipping investigate-data-flow (no SKILL.json)
-- ℹ️ [2026-07-03T12:13:51.7076547Z] Scanned: kb-sync-nightly (v1.0.0)
-- ⚠️ [2026-07-03T12:13:51.7098092Z] Skipping monitor-phase-health (no SKILL.json)
-- ⚠️ [2026-07-03T12:13:51.7556855Z] Skipping onboard-new-extractor (no SKILL.json)
-- ℹ️ [2026-07-03T12:13:51.7773678Z] Scanned: reconcile-vector-store (v1.0.0)
-- ℹ️ [2026-07-03T12:13:51.7949457Z] Scanned: roadmap-validator (v1.0.0)
-- ℹ️ [2026-07-03T12:13:51.8082592Z] Scanned: rollback-phase (v1.0.0)
-- ℹ️ [2026-07-03T12:13:51.8216994Z] Scanned: run-adapter-diagnostic (v1.0.0)
-- ⚠️ [2026-07-03T12:13:51.8280302Z] Skipping run-cic-phase (no SKILL.json)
-- ℹ️ [2026-07-03T12:13:51.8388902Z] Scanned: scale-ingestion-service (v1.0.0)
-- ℹ️ [2026-07-03T12:13:51.8547492Z] Scanned: tool-lifecycle-manager (v0.1.0)
-- ℹ️ [2026-07-03T12:13:51.8743199Z] Scanned: toolforge-drift-monitor (v0.1.0)
-- ℹ️ [2026-07-03T12:13:51.8947533Z] Scanned: work-summarizer (v4.0.0)
-- ℹ️ [2026-07-03T12:13:51.8953404Z] Phase 1 complete: 10 skills scanned
-- ℹ️ [2026-07-03T12:13:52.0760856Z] Loaded Cowork registry: 10 entries
-- ℹ️ [2026-07-03T12:13:52.1174200Z] Skill up-to-date: kb-sync-nightly
-- ℹ️ [2026-07-03T12:13:52.1177678Z] Skill up-to-date: toolforge-drift-monitor
-- ℹ️ [2026-07-03T12:13:52.1180305Z] Skill up-to-date: reconcile-vector-store
-- ℹ️ [2026-07-03T12:13:52.1182907Z] Skill up-to-date: roadmap-validator
-- ℹ️ [2026-07-03T12:13:52.1185114Z] Skill up-to-date: tool-lifecycle-manager
-- ℹ️ [2026-07-03T12:13:52.1187097Z] Skill up-to-date: work-summarizer
-- ℹ️ [2026-07-03T12:13:52.1213024Z] Skill up-to-date: analyze-token-burn
-- ℹ️ [2026-07-03T12:13:52.1217449Z] Skill up-to-date: scale-ingestion-service
-- ℹ️ [2026-07-03T12:13:52.1225187Z] Skill up-to-date: run-adapter-diagnostic
-- ℹ️ [2026-07-03T12:13:52.1236633Z] Skill up-to-date: rollback-phase
-- ℹ️ [2026-07-03T12:13:52.1305233Z] Phase 3 complete: 0 registered, 0 updated
-- ℹ️ [2026-07-03T12:13:52.1893024Z] Registry updated: C:\dev\toolforge\audit\COWORK-REGISTERED-SKILLS.md
-- ℹ️ [2026-07-03T13:37:31.5397394Z] Triggered: Validator
-- ℹ️ [2026-07-03T13:37:31.6157207Z] Triggered: Dependency Graph
-- ℹ️ [2026-07-03T13:37:31.7206518Z] Triggered: Metadata Generator
-- ℹ️ [2026-07-03T13:37:32.1744844Z] Triggered: Health Check
-- ℹ️ [2026-07-03T13:37:32.1745314Z] Phase 5 complete
+- ℹ️ [2026-07-05T21:26:33.1192279Z] Scanned: analyze-token-burn (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.1429743Z] Scanned: ashfall (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.1599592Z] Scanned: kb-sync-nightly (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.1939067Z] Scanned: operator-image-build (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.1984323Z] Scanned: reconcile-vector-store (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.2194489Z] Scanned: roadmap-validator (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.2239250Z] Scanned: rollback-phase (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.2274248Z] Scanned: run-adapter-diagnostic (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.2303780Z] Scanned: scale-ingestion-service (v1.0.0)
+- ℹ️ [2026-07-05T21:26:33.2335195Z] Scanned: tool-lifecycle-manager (v0.1.0)
+- ℹ️ [2026-07-05T21:26:33.2376498Z] Scanned: toolforge-drift-monitor (v0.1.0)
+- ℹ️ [2026-07-05T21:26:33.2486633Z] Scanned: work-summarizer (v4.0.0)
+- ℹ️ [2026-07-05T21:26:33.2501816Z] Phase 1 complete: 12 skills scanned
+- ℹ️ [2026-07-05T21:26:33.3192334Z] Loaded Cowork registry: 12 entries
+- ℹ️ [2026-07-05T21:26:33.3273317Z] Skill up-to-date: ashfall
+- ℹ️ [2026-07-05T21:26:33.3411586Z] Skill up-to-date: run-adapter-diagnostic
+- ℹ️ [2026-07-05T21:26:33.3425902Z] Skill up-to-date: scale-ingestion-service
+- ℹ️ [2026-07-05T21:26:33.3434767Z] Skill up-to-date: reconcile-vector-store
+- ℹ️ [2026-07-05T21:26:33.3464855Z] Skill up-to-date: operator-image-build
+- ℹ️ [2026-07-05T21:26:33.3479673Z] Skill up-to-date: work-summarizer
+- ℹ️ [2026-07-05T21:26:33.3491468Z] Skill up-to-date: tool-lifecycle-manager
+- ℹ️ [2026-07-05T21:26:33.3510168Z] Skill up-to-date: rollback-phase
+- ℹ️ [2026-07-05T21:26:33.3580605Z] Skill up-to-date: kb-sync-nightly
+- ℹ️ [2026-07-05T21:26:33.3608607Z] Skill up-to-date: analyze-token-burn
+- ℹ️ [2026-07-05T21:26:33.3670228Z] Skill up-to-date: roadmap-validator
+- ℹ️ [2026-07-05T21:26:33.3722341Z] Skill up-to-date: toolforge-drift-monitor
+- ℹ️ [2026-07-05T21:26:33.3807439Z] Phase 3 complete: 0 registered, 0 updated
+- ℹ️ [2026-07-05T21:26:33.4358522Z] Registry updated: C:\dev\toolforge\audit\COWORK-REGISTERED-SKILLS.md
+- ℹ️ [2026-07-06T02:17:54.2320864Z] Triggered: Validator
+- ℹ️ [2026-07-06T02:17:54.3797633Z] Triggered: Dependency Graph
+- ℹ️ [2026-07-06T02:17:54.5259114Z] Triggered: Metadata Generator
+- ℹ️ [2026-07-06T02:17:59.3230390Z] Triggered: Health Check
+- ℹ️ [2026-07-06T02:17:59.3243076Z] Phase 5 complete
 ---
 
 ## Health Status

@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-06T00:16:27.8262806Z
+**Generated:** 2026-07-08T09:20:42.9490139Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 12 | 100% |
-| Active | 12 | 100% |
+| **Total Skills** | 13 | 100% |
+| Active | 13 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 2 | 16.7% |
-| ⚠️ Warning | 10 | 83.3% |
+| ✅ Good | 2 | 15.4% |
+| ⚠️ Warning | 11 | 84.6% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -77,6 +77,19 @@
 | Health | ⚠️ WARN |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
+### pre-wrap-audit
+
+| Field | Value |
+|-------|-------|
+| Name | pre-wrap-audit |
+| Category | session-management |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 1 internal, 0 external |
 ### reconcile-vector-store
 
 | Field | Value |
