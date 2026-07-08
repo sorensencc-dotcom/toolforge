@@ -2,6 +2,16 @@ import { execSync } from 'child_process';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
 
+// Import pre-wrap-audit if available (graceful fallback if not found)
+let runAudit: ((context: any) => Promise<any>) | null = null;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const preWrapAudit = require('../../../pre-wrap-audit/src/index.ts');
+  runAudit = preWrapAudit.runAudit;
+} catch (e) {
+  console.warn('[ASHFALL] pre-wrap-audit skill not found, continuing without audit gate');
+}
+
 interface GatherOutput {
   modifiedFiles: string[];
   uncommittedChanges: { staged: string[]; unstaged: string[] };
@@ -31,6 +41,15 @@ interface RoadmapItem {
   estimatedTokens?: number;
 }
 
+interface PreWrapAuditResult {
+  verdict: 'RED' | 'YELLOW' | 'GREEN';
+  blockers: string[];
+  risks: string[];
+  ready: string[];
+  nextSteps: Array<{ action: string; owner?: string; deadline?: string }>;
+  timestamp: string;
+}
+
 interface AshfallOutput {
   summary: {
     modifiedFiles: string[];
@@ -42,6 +61,7 @@ interface AshfallOutput {
     findings: AuditFinding[];
     leastConfident: AuditFinding;
   };
+  preWrapAudit?: PreWrapAuditResult;
   prioritizedRoadmap: RoadmapItem[];
   nextSessionMemory: string;
   timestamp: string;
@@ -345,12 +365,64 @@ export async function ashfall(options: {
     severityRank[a.severity] >= severityRank[b.severity] ? a : b
   );
 
+  // Pre-Wrap Audit (NEW Phase 3.5)
+  let preWrapAuditResult: PreWrapAuditResult | undefined;
+  if (runAudit) {
+    console.log('[ASHFALL] Phase 3.5: PRE-WRAP AUDIT (12-point blind-spot assessment)...');
+    try {
+      const auditReport = await runAudit({
+        sessionId: `ashfall-${Date.now()}`,
+        projectContext: scope,
+        timestamp: new Date().toISOString(),
+        interactive: options.verify === true
+      });
+
+      preWrapAuditResult = {
+        verdict: auditReport.verdict,
+        blockers: auditReport.assessment.blockers,
+        risks: auditReport.assessment.risks,
+        ready: auditReport.assessment.ready,
+        nextSteps: auditReport.assessment.nextSteps,
+        timestamp: auditReport.timestamp
+      };
+
+      // RED flag blocks termination
+      if (preWrapAuditResult.verdict === 'RED') {
+        console.error('\n🛑 RED FLAG from pre-wrap audit. Session termination BLOCKED.');
+        console.error('Blockers:');
+        preWrapAuditResult.blockers.forEach((b) => console.error(`  ✗ ${b}`));
+        console.error('\nFix blockers before attempting session wrap again.\n');
+        throw new Error('PRE_WRAP_AUDIT_RED: Critical blockers must be resolved');
+      }
+
+      // YELLOW flag requires escalation
+      if (preWrapAuditResult.verdict === 'YELLOW') {
+        console.warn('\n⚠️  YELLOW FLAG from pre-wrap audit. Risks identified:');
+        preWrapAuditResult.risks.forEach((r) => console.warn(`  ⚠ ${r}`));
+        console.warn('\nEscalate for decision before proceeding.\n');
+        if (options.verify !== true) {
+          console.warn('(Use --verify to get user acceptance prompt)\n');
+        }
+      }
+
+      if (preWrapAuditResult.verdict === 'GREEN') {
+        console.log('✅ Pre-wrap audit GREEN. All checks pass.\n');
+      }
+    } catch (e) {
+      const err = e as { message?: string };
+      if (err.message?.includes('RED')) {
+        throw e; // Re-throw RED flag errors
+      }
+      console.warn(`[ASHFALL] Pre-wrap audit error (non-blocking): ${err.message}`);
+    }
+  }
+
   // Seal
-  console.log('[ASHFALL] Phase 4: SEAL...');
+  console.log('[ASHFALL] Phase 5: SEAL...');
   const memoryManifest = seal(gatherOutput, auditFindings);
 
   // Handoff
-  console.log('[ASHFALL] Phase 5: HANDOFF (Roadmap ranking)...');
+  console.log('[ASHFALL] Phase 6: HANDOFF (Roadmap ranking)...');
   const roadmap = handoff(gatherOutput, auditFindings);
 
   const output: AshfallOutput = {
@@ -364,6 +436,7 @@ export async function ashfall(options: {
       findings: auditFindings,
       leastConfident,
     },
+    preWrapAudit: preWrapAuditResult,
     prioritizedRoadmap: roadmap,
     nextSessionMemory: memoryManifest,
     timestamp: new Date().toISOString(),
@@ -377,9 +450,26 @@ export async function ashfall(options: {
 
 // CLI entry
 if (require.main === module) {
-  ashfall().then((output) => {
+  const args = process.argv.slice(2);
+  const options: { scope?: 'full' | string; outputFormat?: 'json' | 'markdown'; verify?: boolean } = {};
+
+  args.forEach((arg) => {
+    if (arg.startsWith('--scope=')) {
+      options.scope = arg.replace('--scope=', '') as 'full' | string;
+    } else if (arg.startsWith('--output-format=')) {
+      options.outputFormat = arg.replace('--output-format=', '') as 'json' | 'markdown';
+    } else if (arg === '--verify') {
+      options.verify = true;
+    }
+  });
+
+  ashfall(options).then((output) => {
     console.log('\n=== ASHFALL OUTPUT ===\n');
-    console.log(JSON.stringify(output, null, 2));
+    if (options.outputFormat === 'json' || !options.outputFormat) {
+      console.log(JSON.stringify(output, null, 2));
+    } else {
+      console.log(output.nextSessionMemory);
+    }
   });
 }
 

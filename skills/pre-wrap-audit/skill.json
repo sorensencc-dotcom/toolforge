@@ -1,0 +1,51 @@
+{
+  "id": "pre-wrap-audit",
+  "name": "pre-wrap-audit",
+  "version": "1.0.0",
+  "description": "Session wrap audit — 12-point blind-spot assessment before termination",
+  "author": "Soren (Cast Iron Forge)",
+  "license": "MIT",
+  "category": "session-management",
+  "runtime": "node",
+  "keywords": [
+    "session-wrap",
+    "risk-assessment",
+    "deployment-gate",
+    "ashfall-dependency",
+    "blind-spot-audit"
+  ],
+  "entry": "src/index.ts",
+  "commands": {
+    "invoke": "pre-wrap-audit",
+    "usage": "pre-wrap-audit [--context=PROJECT-CONTEXT] [--format=json|markdown|summary]"
+  },
+  "outputs": {
+    "auditReport": {
+      "verdict": "RED | YELLOW | GREEN",
+      "blockers": "array<string>",
+      "risks": "array<string>",
+      "ready": "array<string>",
+      "nextSteps": "array<{action: string, owner: string, deadline: string}>",
+      "coreAnswers": "object",
+      "extendedAnswers": "object",
+      "timestamp": "ISO 8601",
+      "signedOffBy": "string"
+    }
+  },
+  "dependencies": {
+    "internal": ["ashfall"],
+    "external": []
+  },
+  "errorConditions": [
+    {
+      "code": "BLOCKER_FOUND",
+      "message": "RED flag must be resolved before deployment",
+      "handler": "escalate"
+    },
+    {
+      "code": "RISK_UNACCEPTED",
+      "message": "User did not accept YELLOW flag risks",
+      "handler": "fail"
+    }
+  ]
+}
