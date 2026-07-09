@@ -1,6 +1,6 @@
 {
   "id": "kb-sync-nightly",
-  "name": "kb-sync-nightly",
+  "name": "Kb Sync Nightly",
   "version": "1.0.0",
   "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
   "type": "operational",
@@ -31,5 +31,15 @@
     "tested": true
   },
   "runtime": "bash",
-  "entrypoint": "src/run.sh"
+  "entrypoint": "src/run.sh",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/kb-sync-nightly",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/."
 }

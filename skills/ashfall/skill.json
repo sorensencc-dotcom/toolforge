@@ -1,6 +1,6 @@
 {
   "id": "ashfall",
-  "name": "ashfall",
+  "name": "Ashfall",
   "version": "1.0.0",
   "description": "Deterministic session-termination and context-handoff engine for Cast Iron systems",
   "author": "Soren (Cast Iron Forge)",
@@ -48,5 +48,15 @@
     },
     "prioritizedRoadmap": "array<{priority: 1-5, task: string, context: string, source: string, blocker: boolean}>",
     "nextSessionMemory": "markdown"
-  }
+  },
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/ashfall",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Deterministic session-termination and context-handoff engine for Cast Iron systems"
 }

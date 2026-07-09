@@ -1,6 +1,6 @@
 {
   "id": "reconcile-vector-store",
-  "name": "reconcile-vector-store",
+  "name": "Reconcile Vector Store",
   "version": "1.0.0",
   "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
   "category": "data-management",
@@ -11,5 +11,15 @@
   ],
   "role": "ops",
   "runtime": "node",
-  "entrypoint": "src/index.ts"
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/reconcile-vector-store",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)"
 }

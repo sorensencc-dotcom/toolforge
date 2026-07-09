@@ -8,15 +8,22 @@
   "category": "governance",
   "runtime": "typescript",
   "entrypoint": "src/index.ts",
-
   "metadata": {
     "timeout": 30000,
     "retryPolicy": "exponential",
     "maxRetries": 3,
-    "tags": ["roadmap", "validation", "sync-markers"],
-    "keywords": ["roadmap", "validator", "sync", "documentation"]
+    "tags": [
+      "roadmap",
+      "validation",
+      "sync-markers"
+    ],
+    "keywords": [
+      "roadmap",
+      "validator",
+      "sync",
+      "documentation"
+    ]
   },
-
   "inputs": {
     "required": [
       {
@@ -40,23 +47,36 @@
       }
     ]
   },
-
   "outputs": {
     "success": {
       "type": "object",
       "description": "Validation passed with results",
       "schema": {
         "properties": {
-          "status": { "type": "string" },
-          "message": { "type": "string" },
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
           "data": {
             "type": "object",
             "properties": {
-              "isValid": { "type": "boolean" },
-              "findings": { "type": "array" },
-              "syncMarkersPresent": { "type": "boolean" },
-              "contentLength": { "type": "number" },
-              "validated": { "type": "string" }
+              "isValid": {
+                "type": "boolean"
+              },
+              "findings": {
+                "type": "array"
+              },
+              "syncMarkersPresent": {
+                "type": "boolean"
+              },
+              "contentLength": {
+                "type": "number"
+              },
+              "validated": {
+                "type": "string"
+              }
             }
           }
         }
@@ -67,37 +87,37 @@
       "description": "Validation failed with error details",
       "schema": {
         "properties": {
-          "error": { "type": "string" },
-          "code": { "type": "string" },
-          "details": { "type": "object" }
+          "error": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          }
         }
       }
     }
   },
-
   "permissions": {
-    "required": ["read:repo"],
+    "required": [
+      "read:repo"
+    ],
     "optional": [],
-    "restrictions": ["delete:permanent"]
+    "restrictions": [
+      "delete:permanent"
+    ]
   },
-
   "integrations": {
-    "toolforge": {
+    "cowork": {
       "registered": false,
-      "manifestPath": "manifest.json",
-      "docPath": "docs/skills/roadmap-validator.md"
-    },
-    "cic": {
-      "compatible": false,
-      "adapterPath": null,
-      "registryPath": null
-    },
-    "distributed": {
-      "syncable": true,
-      "distributedPath": "rewrite-mcp/toolforge/skills/roadmap-validator"
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/roadmap-validator",
+      "status": "pending_registration"
     }
   },
-
   "errorConditions": [
     {
       "code": "INVALID_INPUT",
@@ -120,9 +140,9 @@
       "handler": "fail"
     }
   ],
-
   "dependencies": {
     "internal": [],
     "external": []
-  }
+  },
+  "tooltip": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity"
 }

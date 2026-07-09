@@ -15,7 +15,14 @@
     "optional": {
       "action": {
         "type": "string",
-        "enum": ["build", "tag", "push", "verify", "import", "all"],
+        "enum": [
+          "build",
+          "tag",
+          "push",
+          "verify",
+          "import",
+          "all"
+        ],
         "default": "all",
         "description": "Action to perform: build|tag|push|verify|import|all"
       },
@@ -45,15 +52,33 @@
     "success": {
       "type": "object",
       "properties": {
-        "status": {"type": "string", "enum": ["ok"]},
-        "message": {"type": "string"},
+        "status": {
+          "type": "string",
+          "enum": [
+            "ok"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
         "data": {
           "type": "object",
           "properties": {
-            "action": {"type": "string"},
-            "images": {"type": "array", "items": {"type": "object"}},
-            "registry": {"type": "string"},
-            "duration_ms": {"type": "number"}
+            "action": {
+              "type": "string"
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "registry": {
+              "type": "string"
+            },
+            "duration_ms": {
+              "type": "number"
+            }
           }
         }
       }
@@ -61,15 +86,38 @@
     "error": {
       "type": "object",
       "properties": {
-        "status": {"type": "string", "enum": ["error"]},
-        "message": {"type": "string"},
-        "data": {"type": "null"}
+        "status": {
+          "type": "string",
+          "enum": [
+            "error"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "null"
+        }
       }
     }
   },
   "permissions": {
-    "required": ["filesystem:read", "filesystem:write", "exec:docker"]
+    "required": [
+      "filesystem:read",
+      "filesystem:write",
+      "exec:docker"
+    ]
   },
   "runtime": "node",
-  "entrypoint": "src/index.ts"
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/operator-image-build",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support."
 }

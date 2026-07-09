@@ -1,6 +1,6 @@
 {
   "id": "rollback-phase",
-  "name": "rollback-phase",
+  "name": "Rollback Phase",
   "version": "1.0.0",
   "description": "Revert CIC pipeline to prior phase checkpoint",
   "category": "pipeline",
@@ -11,5 +11,15 @@
   ],
   "role": "ops",
   "runtime": "node",
-  "entrypoint": "src/index.ts"
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/rollback-phase",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Revert CIC pipeline to prior phase checkpoint"
 }

@@ -1,6 +1,6 @@
 {
   "id": "pre-wrap-audit",
-  "name": "pre-wrap-audit",
+  "name": "Pre Wrap Audit",
   "version": "1.0.0",
   "description": "Session wrap audit — 12-point blind-spot assessment before termination",
   "author": "Soren (Cast Iron Forge)",
@@ -33,7 +33,9 @@
     }
   },
   "dependencies": {
-    "internal": ["ashfall"],
+    "internal": [
+      "ashfall"
+    ],
     "external": []
   },
   "errorConditions": [
@@ -47,5 +49,15 @@
       "message": "User did not accept YELLOW flag risks",
       "handler": "fail"
     }
-  ]
+  ],
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/pre-wrap-audit",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Session wrap audit — 12-point blind-spot assessment before termination"
 }

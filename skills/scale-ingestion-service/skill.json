@@ -1,6 +1,6 @@
 {
   "id": "scale-ingestion-service",
-  "name": "scale-ingestion-service",
+  "name": "Scale Ingestion Service",
   "version": "1.0.0",
   "description": "Adjust RL ingestion service worker count & queue depth based on backlog",
   "category": "pipeline",
@@ -11,5 +11,15 @@
   ],
   "role": "ops",
   "runtime": "node",
-  "entrypoint": "src/index.ts"
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/scale-ingestion-service",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Adjust RL ingestion service worker count & queue depth based on backlog"
 }

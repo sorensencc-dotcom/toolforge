@@ -1,6 +1,6 @@
 {
   "id": "analyze-token-burn",
-  "name": "analyze-token-burn",
+  "name": "Analyze Token Burn",
   "version": "1.0.0",
   "description": "Project month-end token costs and identify high-spend adapters",
   "category": "observability",
@@ -12,5 +12,15 @@
   ],
   "role": "ops",
   "runtime": "node",
-  "entrypoint": "src/index.ts"
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/analyze-token-burn",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Project month-end token costs and identify high-spend adapters"
 }

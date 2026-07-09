@@ -1,6 +1,6 @@
 {
   "id": "run-adapter-diagnostic",
-  "name": "run-adapter-diagnostic",
+  "name": "Run Adapter Diagnostic",
   "version": "1.0.0",
   "description": "Check adapter health, latency percentiles, and error rates in real time",
   "category": "monitoring",
@@ -16,5 +16,15 @@
     "pino": "^8.16.0"
   },
   "runtime": "node",
-  "entrypoint": "src/index.ts"
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/run-adapter-diagnostic",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Check adapter health, latency percentiles, and error rates in real time"
 }
