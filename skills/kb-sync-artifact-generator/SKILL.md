@@ -194,3 +194,4 @@ Both approaches update the persisted artifact, so the latest report is always av
 - Artifact is self-contained — no external dependencies except CDN libraries
 - Static HTML file also saved for offline sharing/archival
 - All data is embedded in HTML (no network calls after load)
+

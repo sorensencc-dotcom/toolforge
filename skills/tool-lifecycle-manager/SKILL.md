@@ -1,6 +1,7 @@
 ---
 skill_name: tool-lifecycle-manager
 version: 0.1.0
+name: Tool Lifecycle Manager
 category: operations
 description: Manage tool lifecycle, versioning, classification, and deployment readiness
 author: Chris Sorensen
@@ -184,3 +185,4 @@ Invoke-CliScript -Skill tool-lifecycle-manager -Action validate-registry
 **Status:** beta (ready for integration into audit workflows)  
 **Owner:** soren  
 **Last Updated:** 2026-06-28
+

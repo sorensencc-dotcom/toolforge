@@ -1,6 +1,7 @@
 ---
 skill_name: scale-ingestion-service
 version: 1.0.0
+name: scale-ingestion-service
 category: pipeline
 description: Adjust RL ingestion service worker count & queue depth based on backlog
 author: unknown
@@ -23,4 +24,5 @@ Adjust RL ingestion service worker count & queue depth based on backlog
 ## Reference
 
 See README.md for usage and docs/ for details.
+
 

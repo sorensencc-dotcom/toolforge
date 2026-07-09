@@ -1,6 +1,7 @@
 ---
 skill_name: kb-sync-nightly
 version: 1.0.0
+name: kb-sync-nightly
 category: governance
 description: Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.
 author: unknown
@@ -23,4 +24,5 @@ Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wik
 ## Reference
 
 See README.md for usage and docs/ for details.
+
 

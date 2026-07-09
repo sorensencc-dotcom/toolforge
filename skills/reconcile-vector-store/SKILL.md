@@ -1,6 +1,7 @@
 ---
 skill_name: reconcile-vector-store
 version: 1.0.0
+name: reconcile-vector-store
 category: data-management
 description: Verify Qdrant vector store is in sync with extraction state (PostgreSQL)
 author: unknown
@@ -23,4 +24,5 @@ Verify Qdrant vector store is in sync with extraction state (PostgreSQL)
 ## Reference
 
 See README.md for usage and docs/ for details.
+
 

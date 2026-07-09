@@ -1,6 +1,7 @@
 ---
 skill_name: operator-image-build
 version: 1.0.0
+name: Operator Image Build
 category: pipeline
 description: Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.
 author: unknown
@@ -66,4 +67,5 @@ verify: boolean        # Run security scan
 ---
 
 See README.md for CLI usage and docs/USAGE.md for workflows.
+
 

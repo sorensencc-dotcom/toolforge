@@ -1,6 +1,7 @@
 ---
 skill_name: work-summarizer
 version: 4.0.0
+name: Work Summarizer v4.0
 category: observability
 description: Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.
 author: unknown
@@ -23,4 +24,5 @@ Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Olla
 ## Reference
 
 See README.md for usage and docs/ for details.
+
 

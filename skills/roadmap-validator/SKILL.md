@@ -1,6 +1,7 @@
 ---
 skill_name: roadmap-validator
 version: 1.0.0
+name: Roadmap Validator
 category: governance
 description: Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity
 author: Toolforge Team
@@ -92,4 +93,5 @@ Toolforge Roadmap Validator scans ROADMAP.md files for:
 - validator
 - sync
 - documentation
+
 

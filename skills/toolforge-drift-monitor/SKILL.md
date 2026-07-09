@@ -1,6 +1,7 @@
 ---
 skill_name: toolforge-drift-monitor
 version: 0.1.0
+name: Toolforge Drift Monitor
 category: operations
 description: Weekly preventive drift detection for Toolforge canonical vs distributed instances
 author: Chris Sorensen
@@ -116,3 +117,4 @@ Invoke-CliScript -Skill toolforge-drift-monitor -Action scan
 **Status:** beta (ready for testing; schedule integration pending)  
 **Owner:** soren  
 **Last Updated:** 2026-06-28
+

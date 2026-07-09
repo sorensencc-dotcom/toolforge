@@ -1,6 +1,7 @@
 ---
 skill_name: pre-wrap-audit
 version: 1.0.0
+name: pre-wrap-audit
 category: session-management
 description: Session wrap audit — 12-point blind-spot assessment before termination
 author: Soren (Cast Iron Forge)
@@ -84,4 +85,5 @@ format: 'json' | 'markdown' | 'summary'
 ---
 
 See [README.md](README.md) for quick start.
+
 

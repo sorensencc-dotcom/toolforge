@@ -1,6 +1,7 @@
 ---
 skill_name: rollback-phase
 version: 1.0.0
+name: rollback-phase
 category: pipeline
 description: Revert CIC pipeline to prior phase checkpoint
 author: unknown
@@ -23,4 +24,5 @@ Revert CIC pipeline to prior phase checkpoint
 ## Reference
 
 See README.md for usage and docs/ for details.
+
 

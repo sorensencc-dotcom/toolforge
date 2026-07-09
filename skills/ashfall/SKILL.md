@@ -1,6 +1,7 @@
 ---
 skill_name: ashfall
 version: 1.0.0
+name: ashfall
 category: session-management
 description: Deterministic session-termination and context-handoff engine for Cast Iron systems
 author: Soren (Cast Iron Forge)
@@ -48,4 +49,5 @@ Structured summary, blind spot audit, prioritized roadmap, and next session memo
 ## Philosophy
 
 **Burn the noise. Keep the signal. Seal the truth. Prepare the next phase.**
+
 
