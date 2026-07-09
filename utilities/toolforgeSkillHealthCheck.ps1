@@ -310,7 +310,37 @@ function Check-AuditLog {
 }
 
 # ============================================================================
-# G. RUN ALL CHECKS
+# G. CHECK SKILL.MD FRONTMATTER
+# ============================================================================
+
+function Check-SkillMarkdownFrontmatter {
+  param([string]$SkillId, [string]$SkillPath)
+
+  $skillMdPath = Join-Path $SkillPath "SKILL.md"
+
+  if (-not (Test-Path $skillMdPath)) {
+    Add-Check $SkillId "SkillMD" "warn" "SKILL.md not found"
+    return $false
+  }
+
+  try {
+    $firstLine = Get-Content $skillMdPath -First 1
+
+    if ($firstLine -ne "---") {
+      Add-Check $SkillId "SkillMD" "fail" "Missing YAML frontmatter (---)"
+      return $false
+    }
+
+    Add-Check $SkillId "SkillMD" "pass" "Frontmatter valid"
+    return $true
+  } catch {
+    Add-Check $SkillId "SkillMD" "fail" "Error reading SKILL.md: $_"
+    return $false
+  }
+}
+
+# ============================================================================
+# H. RUN ALL CHECKS
 # ============================================================================
 
 function Run-HealthChecks {
@@ -342,6 +372,7 @@ function Run-HealthChecks {
       Check-DryRun $skillId $dir.FullName $skillJson.runtime $skillJson.entrypoint
       Check-ManifestConsistency $skillId $skillJson.version
       Check-AuditLog $skillId
+      Check-SkillMarkdownFrontmatter $skillId $dir.FullName
 
       # Calculate skill health
       $skillChecks = $health.skills[$skillId].checks

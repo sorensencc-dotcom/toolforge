@@ -1,3 +1,11 @@
+---
+skill_name: run-adapter-diagnostic
+version: 1.0.0
+category: monitoring
+description: Check adapter health, latency percentiles, and error rates in real time
+author: unknown
+tags: []
+---
 # run-adapter-diagnostic
 
 Check adapter health, latency percentiles, and error rates in real time
@@ -15,3 +23,4 @@ Check adapter health, latency percentiles, and error rates in real time
 ## Reference
 
 See README.md for usage and docs/ for details.
+

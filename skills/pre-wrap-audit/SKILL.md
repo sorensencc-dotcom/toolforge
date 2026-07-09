@@ -1,3 +1,11 @@
+---
+skill_name: pre-wrap-audit
+version: 1.0.0
+category: session-management
+description: Session wrap audit — 12-point blind-spot assessment before termination
+author: Soren (Cast Iron Forge)
+tags: ["session-wrap","risk-assessment","deployment-gate","ashfall-dependency","blind-spot-audit"]
+---
 # Pre-Wrap-Audit — Session Termination Audit Engine
 
 **Status: ACTIVE**  
@@ -76,3 +84,4 @@ format: 'json' | 'markdown' | 'summary'
 ---
 
 See [README.md](README.md) for quick start.
+

@@ -1,3 +1,11 @@
+---
+skill_name: analyze-token-burn
+version: 1.0.0
+category: observability
+description: Project month-end token costs and identify high-spend adapters
+author: unknown
+tags: []
+---
 # analyze-token-burn
 
 Project month-end token costs and identify high-spend adapters
@@ -15,3 +23,4 @@ Project month-end token costs and identify high-spend adapters
 ## Reference
 
 See README.md for usage and docs/ for details.
+

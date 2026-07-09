@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-09T03:06:01.0243380Z
+**Generated:** 2026-07-09T03:28:25.8614536Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,7 +10,7 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 78 | 0 | 0 | 78 |
+| **Totals** | 91 | 0 | 0 | 91 |
 | % Pass | 100% | 0% | 0% | 100% |
 
 ---
@@ -27,6 +27,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### ashfall — ✅ GOOD
 
@@ -38,6 +39,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### kb-sync-nightly — ✅ GOOD
 
@@ -49,6 +51,7 @@
 | DryRun | ✅ PASS | Runtime bash (dry-run not applicable) |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### operator-image-build — ✅ GOOD
 
@@ -60,6 +63,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### pre-wrap-audit — ✅ GOOD
 
@@ -71,6 +75,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### reconcile-vector-store — ✅ GOOD
 
@@ -82,6 +87,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### roadmap-validator — ✅ GOOD
 
@@ -93,6 +99,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### rollback-phase — ✅ GOOD
 
@@ -104,6 +111,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### run-adapter-diagnostic — ✅ GOOD
 
@@ -115,6 +123,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### scale-ingestion-service — ✅ GOOD
 
@@ -126,6 +135,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### tool-lifecycle-manager — ✅ GOOD
 
@@ -137,6 +147,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### toolforge-drift-monitor — ✅ GOOD
 
@@ -148,6 +159,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### work-summarizer — ✅ GOOD
 
@@ -159,6 +171,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ---
 
