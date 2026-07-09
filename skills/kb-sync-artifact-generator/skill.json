@@ -1,0 +1,29 @@
+{
+  "id": "kb-sync-artifact-generator",
+  "name": "KB Sync Artifact Generator",
+  "version": "1.0.0",
+  "description": "Generates synchronization artifacts and reports for the knowledge base.",
+  "type": "operational",
+  "category": "governance",
+  "entrypoint": "src/index.ts",
+  "docs": "docs/USAGE.md",
+  "triggers": [
+    "kb-sync-artifact"
+  ],
+  "dependencies": [],
+  "outputs": [],
+  "metadata": {
+    "created": "2026-07-09",
+    "author": "CIC Team",
+    "maintained": true,
+    "tested": true
+  },
+  "runtime": "node",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "registrationPath": "cowork://toolforge/skills/kb-sync-artifact-generator"
+    }
+  }
+}

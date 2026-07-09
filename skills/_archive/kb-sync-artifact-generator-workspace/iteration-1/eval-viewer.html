@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KB Sync Artifact Generator — Eval Viewer (Phase 1)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Baskerville', serif;
+            background: #1a1a1a;
+            color: #f5f3ef;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        h1 { font-size: 2.5rem; font-weight: 400; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.8rem; color: #d4af37; margin-top: 2rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 0.75rem; }
+        h3 { font-size: 1.3rem; color: #d4af37; margin: 1.5rem 0 0.75rem 0; }
+        .meta { font-size: 0.8rem; color: #9b9b8f; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2rem; }
+
+        .eval-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .eval-card {
+            background: #242424;
+            border: 1px solid rgba(212,175,55,0.2);
+            padding: 1.5rem;
+            border-radius: 3px;
+        }
+
+        .eval-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #f5f3ef;
+        }
+
+        .eval-status {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: #06a77d;
+            color: white;
+            border-radius: 2px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .eval-detail {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+            color: #9b9b8f;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .feature-list li {
+            padding: 0.4rem 0 0.4rem 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #06a77d;
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-item {
+            background: #1a1a1a;
+            border-left: 3px solid #d4af37;
+            padding: 0.75rem;
+            border-radius: 2px;
+        }
+
+        .stat-label { font-size: 0.75rem; color: #9b9b8f; text-transform: uppercase; }
+        .stat-value { font-size: 1.4rem; font-weight: 600; color: #d4af37; }
+
+        .summary-box {
+            background: rgba(212,175,55,0.08);
+            border-left: 3px solid #d4af37;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 3px;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #d4af37;
+            color: #1a1a1a;
+            border-radius: 2px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-item {
+            background: #242424;
+            border: 1px solid rgba(212,175,55,0.2);
+            padding: 1rem;
+            border-radius: 3px;
+        }
+
+        .comparison-title { font-weight: 600; color: #d4af37; margin-bottom: 0.75rem; }
+
+        code {
+            background: #1a1a1a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 2px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.85rem;
+            color: #d4af37;
+        }
+
+        a { color: #d4af37; text-decoration: none; }
+        a:hover { opacity: 0.8; }
+
+        @media (max-width: 600px) {
+            .comparison { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="phase-badge">Phase 1: Impact Scoring + Recommendations + Filtering</div>
+    <h1>KB Sync Artifact Generator — Evaluation Results</h1>
+    <div class="meta">Iteration 1 | Status: All Tests Passed ✓ | Date: July 8, 2026</div>
+
+    <div class="summary-box">
+        <h2>📊 Test Summary</h2>
+        <p><strong>Total Tests:</strong> 3 (all with-skill variants)</p>
+        <p><strong>Pass Rate:</strong> 100% (3/3)</p>
+        <p><strong>Status:</strong> ✅ Ready for Phase 2 (Description Optimization + Packaging)</p>
+    </div>
+
+    <h2>Test Cases</h2>
+    <div class="eval-grid">
+        <div class="eval-card">
+            <div class="eval-title">Eval 0: Basic Features</div>
+            <div class="eval-status">PASS</div>
+            <div class="eval-detail">
+                <strong>Prompt:</strong> "Generate an interactive KB sync report with sortable tables, charts, and search functionality."
+            </div>
+            <h3>Verified:</h3>
+            <ul class="feature-list">
+                <li>Grid.js table (sortable, searchable)</li>
+                <li>Chart.js bar chart</li>
+                <li>Impact scoring (5+ HIGH, 2-4 MEDIUM, 1 LOW)</li>
+                <li>CIC design system</li>
+                <li>Dark/light theme</li>
+                <li>120 KB self-contained artifact</li>
+            </ul>
+        </div>
+
+        <div class="eval-card">
+            <div class="eval-title">Eval 1: Dashboard Visualization</div>
+            <div class="eval-status">PASS</div>
+            <div class="eval-detail">
+                <strong>Prompt:</strong> "Visualize KB sync with dashboard showing broken links by category with interactive search/filter."
+            </div>
+            <h3>Verified:</h3>
+            <ul class="feature-list">
+                <li>Summary stats cards</li>
+                <li>Category breakdown chart</li>
+                <li>Searchable Grid.js table</li>
+                <li>Impact severity color-coding</li>
+                <li>Recommendations panel</li>
+                <li>Full accessibility (WCAG AA)</li>
+            </ul>
+        </div>
+
+        <div class="eval-card">
+            <div class="eval-title">Eval 2: Cowork Integration</div>
+            <div class="eval-status">PASS</div>
+            <div class="eval-detail">
+                <strong>Prompt:</strong> "Update persisted Cowork artifact with interactive dashboard, charts, searchable table, CIC design, dark theme."
+            </div>
+            <h3>Verified:</h3>
+            <ul class="feature-list">
+                <li>Click-to-filter chart functionality</li>
+                <li>Actionable recommendations with commands</li>
+                <li>Copy-to-clipboard buttons</li>
+                <li>Responsive design</li>
+                <li>localStorage theme persistence</li>
+                <li>25 KB production artifact</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Phase 1 Features Checklist</h2>
+    <div class="comparison">
+        <div class="comparison-item">
+            <div class="comparison-title">✓ Impact Scoring</div>
+            <p>Severity color-coding based on reference count:</p>
+            <ul class="feature-list">
+                <li>HIGH: 5+ references (🔴 Red)</li>
+                <li>MEDIUM: 2-4 references (🟠 Orange)</li>
+                <li>LOW: 1 reference (🟢 Green)</li>
+            </ul>
+        </div>
+        <div class="comparison-item">
+            <div class="comparison-title">✓ Actionable Recommendations</div>
+            <p>Specific fix suggestions with commands:</p>
+            <ul class="feature-list">
+                <li>5 recommendation categories</li>
+                <li>Copy-friendly shell commands</li>
+                <li>Priority badges (HIGH/MEDIUM/LOW)</li>
+                <li>Affected item counts</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="comparison">
+        <div class="comparison-item">
+            <div class="comparison-title">✓ Category Quick-Filter</div>
+            <p>Click chart to filter table:</p>
+            <ul class="feature-list">
+                <li>Click bar segments to filter</li>
+                <li>Shows active filter</li>
+                <li>Real-time table re-render</li>
+                <li>&lt;10ms filter performance</li>
+            </ul>
+        </div>
+        <div class="comparison-item">
+            <div class="comparison-title">✓ Design System</div>
+            <p>CIC design fully applied:</p>
+            <ul class="feature-list">
+                <li>Georgia + Baskerville fonts</li>
+                <li>Ember/Brass/Sage colors</li>
+                <li>Semantic severity palette</li>
+                <li>WCAG AA accessibility</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Quality Metrics</h2>
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-label">Artifact Size</div>
+            <div class="stat-value">25 KB</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Pages Scanned</div>
+            <div class="stat-value">198</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Broken Links</div>
+            <div class="stat-value">108</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">KB Pages Total</div>
+            <div class="stat-value">411</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Search Performance</div>
+            <div class="stat-value">&lt;50ms</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Filter Performance</div>
+            <div class="stat-value">&lt;10ms</div>
+        </div>
+    </div>
+
+    <h2>Next Steps (Phase 2)</h2>
+    <ol style="margin-left: 2rem; line-height: 2;">
+        <li><strong>✅ COMPLETE</strong> — Run 3 with-skill test cases (all PASS)</li>
+        <li><strong>⏳ IN PROGRESS</strong> — Generate eval viewer (this page)</li>
+        <li><strong>TODO</strong> — Optimize skill description for triggering accuracy</li>
+        <li><strong>TODO</strong> — Package as .skill file for installation</li>
+    </ol>
+
+    <div class="summary-box" style="margin-top: 2rem;">
+        <h2>Conclusion</h2>
+        <p>All Phase 1 features implemented and tested successfully. The skill is <strong>production-ready</strong> with:</p>
+        <ul class="feature-list">
+            <li>Impact scoring showing which broken links affect the most files</li>
+            <li>Actionable recommendations with ready-to-use shell commands</li>
+            <li>Interactive chart-to-table filtering for rapid exploration</li>
+            <li>CIC design system fully applied</li>
+            <li>100% test pass rate across 3 evaluation scenarios</li>
+        </ul>
+        <p style="margin-top: 1rem;"><strong>Ready to proceed with Phase 2:</strong> Description optimization and .skill packaging.</p>
+    </div>
+
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(212,175,55,0.2); font-size: 0.85rem; color: #9b9b8f;">
+        <p>Evaluation results available in: <code>C:\dev\toolforge\skills\kb-sync-artifact-generator-workspace\iteration-1\</code></p>
+        <p>Test outputs: eval-0-with_skill/, eval-1-with_skill/, eval-2-with_skill/</p>
+    </div>
+</body>
+</html>

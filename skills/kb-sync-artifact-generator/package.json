@@ -1,0 +1,30 @@
+{
+  "name": "kb-sync-artifact-generator",
+  "version": "1.0.0",
+  "description": "Generate interactive KB sync reports with searchable tables, charts, and drill-down details",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "start": "ts-node src/index.ts",
+    "generate": "ts-node src/index.ts"
+  },
+  "keywords": [
+    "knowledge-base",
+    "sync",
+    "report",
+    "interactive",
+    "dashboard",
+    "artifact"
+  ],
+  "author": "Chris",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
