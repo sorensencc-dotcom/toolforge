@@ -3,10 +3,10 @@
   "name": "Work Summarizer v4.0",
   "version": "4.0.0",
   "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
-  "category": "development-observability",
+  "category": "observability",
   "metadata": {
     "runtime": "node",
-    "entrypoint": "dist/index.js",
+    "entrypoint": "src/index.ts",
     "timeout_ms": 120000,
     "memory_mb": 512
   },
@@ -14,10 +14,7 @@
     "optional": {
       "mode": {
         "type": "string",
-        "enum": [
-          "daily",
-          "weekly"
-        ],
+        "enum": ["daily", "weekly"],
         "default": "daily",
         "description": "Report window: daily (24h) or weekly (7d)"
       },
@@ -53,10 +50,7 @@
       },
       "reasoningProvider": {
         "type": "string",
-        "enum": [
-          "claude",
-          "ollama"
-        ],
+        "enum": ["claude", "ollama"],
         "default": "claude",
         "description": "Reasoning provider: 'claude' (Anthropic) or 'ollama' (local)"
       },
@@ -76,108 +70,30 @@
     "success": {
       "type": "object",
       "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "ok"
-          ]
-        },
-        "message": {
-          "type": "string"
-        },
+        "status": {"type": "string", "enum": ["ok"]},
+        "message": {"type": "string"},
         "data": {
           "type": "object",
           "properties": {
-            "schema_version": {
-              "type": "string"
-            },
-            "period": {
-              "type": "string",
-              "enum": [
-                "daily",
-                "weekly"
-              ]
-            },
-            "window_start": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "window_end": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "generated_at": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "repos_scanned": {
-              "type": "integer"
-            },
-            "repos_skipped_missing": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "modified_files": {
-              "type": "integer"
-            },
-            "transcript_sessions_scanned": {
-              "type": "integer"
-            },
-            "transcript_files_touched": {
-              "type": "integer"
-            },
-            "work_by_category": {
-              "type": "object",
-              "description": "File count by category"
-            },
-            "drift_signals": {
-              "type": "object",
-              "description": "Drift signal type, count, score, summary"
-            },
-            "repo_deltas": {
-              "type": "array",
-              "description": "Per-repo file/line changes and active subsystems"
-            },
-            "subsystem_impacts": {
-              "type": "array",
-              "items": {
-                "type": "object"
-              },
-              "description": "LLM-synthesized impact per active category"
-            },
-            "cross_repo_impacts": {
-              "type": "array",
-              "items": {
-                "type": "object"
-              },
-              "description": "Inferred downstream impacts via dependency graph"
-            },
-            "transcript_excerpts": {
-              "type": "array",
-              "items": {
-                "type": "object"
-              },
-              "description": "Relevant transcript chunks with LLM reasoning_summary"
-            },
-            "notable_changes": {
-              "type": "array",
-              "items": {
-                "type": "object"
-              },
-              "description": "Structured notable changes with title, description, risk_level"
-            },
-            "risks_or_followups": {
-              "type": "array",
-              "items": {
-                "type": "object"
-              },
-              "description": "Structured risks with area, risk_summary, recommended_next_steps"
-            },
-            "message": {
-              "type": "string"
-            }
+            "schema_version": {"type": "string"},
+            "period": {"type": "string", "enum": ["daily", "weekly"]},
+            "window_start": {"type": "string", "format": "date-time"},
+            "window_end": {"type": "string", "format": "date-time"},
+            "generated_at": {"type": "string", "format": "date-time"},
+            "repos_scanned": {"type": "integer"},
+            "repos_skipped_missing": {"type": "array", "items": {"type": "string"}},
+            "modified_files": {"type": "integer"},
+            "transcript_sessions_scanned": {"type": "integer"},
+            "transcript_files_touched": {"type": "integer"},
+            "work_by_category": {"type": "object"},
+            "drift_signals": {"type": "object"},
+            "repo_deltas": {"type": "array"},
+            "subsystem_impacts": {"type": "array", "items": {"type": "object"}},
+            "cross_repo_impacts": {"type": "array", "items": {"type": "object"}},
+            "transcript_excerpts": {"type": "array", "items": {"type": "object"}},
+            "notable_changes": {"type": "array", "items": {"type": "object"}},
+            "risks_or_followups": {"type": "array", "items": {"type": "object"}},
+            "message": {"type": "string"}
           }
         }
       }
@@ -185,33 +101,15 @@
     "error": {
       "type": "object",
       "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "error"
-          ]
-        },
-        "message": {
-          "type": "string"
-        },
-        "data": {
-          "type": "null"
-        }
+        "status": {"type": "string", "enum": ["error"]},
+        "message": {"type": "string"},
+        "data": {"type": "null"}
       }
     }
   },
   "permissions": {
-    "required": [
-      "filesystem:read",
-      "filesystem:write"
-    ]
-  },
-  "errorConditions": {
-    "REGISTRY_NOT_FOUND": "repo-registry.json missing or invalid JSON",
-    "TRANSCRIPTS_NOT_FOUND": "transcripts root directory missing or empty",
-    "OUTPUT_DIR_INVALID": "output directory not writable",
-    "NO_MODIFIED_FILES": "no files modified in window (returns 'no changes detected' message)"
+    "required": ["filesystem:read", "filesystem:write"]
   },
   "runtime": "node",
-  "entrypoint": "dist/index.js"
+  "entrypoint": "src/index.ts"
 }

@@ -3,13 +3,13 @@
   "name": "scale-ingestion-service",
   "version": "1.0.0",
   "description": "Adjust RL ingestion service worker count & queue depth based on backlog",
+  "category": "pipeline",
   "triggers": [
     "scale-ingestion-service",
     "scale rl ingestion",
     "adjust worker count"
   ],
   "role": "ops",
-  "entry_point": "src/index.ts",
   "runtime": "node",
   "entrypoint": "src/index.ts"
 }

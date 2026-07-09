@@ -1,6 +1,6 @@
 {
   "status": "active",
-  "category": "automation",
+  "category": "pipeline",
   "runtime": "typescript",
   "permissions": {
     "required": [],

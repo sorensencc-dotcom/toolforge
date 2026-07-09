@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-08T09:20:40.1738735Z
+**Generated:** 2026-07-09T03:06:01.0243380Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,36 +10,36 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 41 | 30 | 7 | 78 |
-| % Pass | 52.6% | 38.5% | 9% | 100% |
+| **Totals** | 78 | 0 | 0 | 78 |
+| % Pass | 100% | 0% | 0% | 100% |
 
 ---
 
 ## Skills Health Status
 
-### analyze-token-burn — ❌ ERROR
+### analyze-token-burn — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | File not found: src/index.ts |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ⚠️ WARN | No exports detected in entrypoint |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 
-### ashfall — ❌ ERROR
+### ashfall — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
-| DryRun | ⚠️ WARN | No exports detected in entrypoint |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 
-### kb-sync-nightly — ⚠️ WARN
+### kb-sync-nightly — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -47,43 +47,32 @@
 | Runtime | ✅ PASS | Found: bash |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Runtime bash (dry-run not applicable) |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 
-### operator-image-build — ⚠️ WARN
+### operator-image-build — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: dist/index.js |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 
-### pre-wrap-audit — ❌ ERROR
+### pre-wrap-audit — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ❌ FAIL | No entrypoint specified |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | All 1 internal deps available |
-| DryRun | ⚠️ WARN | No exports detected in entrypoint |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 
-### reconcile-vector-store — ❌ ERROR
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ❌ FAIL | File not found: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ⚠️ WARN | No exports detected in entrypoint |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
-
-### roadmap-validator — ⚠️ WARN
+### reconcile-vector-store — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -92,42 +81,9 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No audit log found |
+| AuditLog | ✅ PASS | Runtime history exists |
 
-### rollback-phase — ❌ ERROR
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ❌ FAIL | File not found: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ⚠️ WARN | No exports detected in entrypoint |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
-
-### run-adapter-diagnostic — ❌ ERROR
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ❌ FAIL | File not found: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ⚠️ WARN | No exports detected in entrypoint |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
-
-### scale-ingestion-service — ❌ ERROR
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ❌ FAIL | File not found: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ⚠️ WARN | No exports detected in entrypoint |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
-
-### tool-lifecycle-manager — ⚠️ WARN
+### roadmap-validator — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -136,9 +92,9 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No audit log found |
+| AuditLog | ✅ PASS | Runtime history exists |
 
-### toolforge-drift-monitor — ⚠️ WARN
+### rollback-phase — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -147,18 +103,62 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No audit log found |
+| AuditLog | ✅ PASS | Runtime history exists |
 
-### work-summarizer — ⚠️ WARN
+### run-adapter-diagnostic — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: dist/index.js |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No audit log found |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+
+### scale-ingestion-service — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+
+### tool-lifecycle-manager — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+
+### toolforge-drift-monitor — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+
+### work-summarizer — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 
 ---
 
@@ -167,28 +167,28 @@
 ### ✅ Good Health
 
 Skills passing all checks:
-*(none)*\n
-### ⚠️ Warning Health
-
-Skills with warnings but no failures:
+- analyze-token-burn
+- ashfall
 - kb-sync-nightly
 - operator-image-build
+- pre-wrap-audit
+- reconcile-vector-store
 - roadmap-validator
+- rollback-phase
+- run-adapter-diagnostic
+- scale-ingestion-service
 - tool-lifecycle-manager
 - toolforge-drift-monitor
 - work-summarizer
 
+### ⚠️ Warning Health
+
+Skills with warnings but no failures:
+*(none)*\n
 ### ❌ Error Health
 
 Skills with critical failures:
-- analyze-token-burn
-- ashfall
-- pre-wrap-audit
-- reconcile-vector-store
-- rollback-phase
-- run-adapter-diagnostic
-- scale-ingestion-service
-
+*(none)*\n
 ---
 
 **Report generated by 	oolforgeSkillHealthCheck.ps1 — Phase 1.6**

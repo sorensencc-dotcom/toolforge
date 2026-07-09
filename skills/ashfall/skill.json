@@ -15,7 +15,7 @@
     "memory-compression",
     "roadmap"
   ],
-  "entry": "src/index.ts",
+  "entrypoint": "src/index.ts",
   "commands": {
     "invoke": "ashfall",
     "usage": "ashfall [--scope=PHASE-26|full|partial] [--verify] [--output-format=json|markdown]"

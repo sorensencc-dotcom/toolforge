@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
   "type": "operational",
-  "category": "documentation",
+  "category": "governance",
   "entry": "src/run.sh",
   "docs": "docs/USAGE.md",
   "triggers": [

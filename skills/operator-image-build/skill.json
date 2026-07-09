@@ -3,10 +3,10 @@
   "name": "Operator Image Build",
   "version": "1.0.0",
   "description": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
-  "category": "infrastructure-automation",
+  "category": "pipeline",
   "metadata": {
     "runtime": "node",
-    "entrypoint": "dist/index.js",
+    "entrypoint": "src/index.ts",
     "timeout_ms": 600000,
     "memory_mb": 1024
   },
@@ -15,14 +15,7 @@
     "optional": {
       "action": {
         "type": "string",
-        "enum": [
-          "build",
-          "tag",
-          "push",
-          "verify",
-          "import",
-          "all"
-        ],
+        "enum": ["build", "tag", "push", "verify", "import", "all"],
         "default": "all",
         "description": "Action to perform: build|tag|push|verify|import|all"
       },
@@ -52,33 +45,15 @@
     "success": {
       "type": "object",
       "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "ok"
-          ]
-        },
-        "message": {
-          "type": "string"
-        },
+        "status": {"type": "string", "enum": ["ok"]},
+        "message": {"type": "string"},
         "data": {
           "type": "object",
           "properties": {
-            "action": {
-              "type": "string"
-            },
-            "images": {
-              "type": "array",
-              "items": {
-                "type": "object"
-              }
-            },
-            "registry": {
-              "type": "string"
-            },
-            "duration_ms": {
-              "type": "number"
-            }
+            "action": {"type": "string"},
+            "images": {"type": "array", "items": {"type": "object"}},
+            "registry": {"type": "string"},
+            "duration_ms": {"type": "number"}
           }
         }
       }
@@ -86,35 +61,15 @@
     "error": {
       "type": "object",
       "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "error"
-          ]
-        },
-        "message": {
-          "type": "string"
-        },
-        "data": {
-          "type": "null"
-        }
+        "status": {"type": "string", "enum": ["error"]},
+        "message": {"type": "string"},
+        "data": {"type": "null"}
       }
     }
   },
   "permissions": {
-    "required": [
-      "filesystem:read",
-      "filesystem:write",
-      "exec:docker"
-    ]
-  },
-  "errorConditions": {
-    "DOCKER_NOT_FOUND": "Docker CLI not installed or not in PATH",
-    "BUILD_FAILED": "docker build returned non-zero exit code",
-    "PUSH_FAILED": "docker push authentication or network error",
-    "REGISTRY_UNREACHABLE": "Registry endpoint not responding",
-    "WORKDIR_NOT_FOUND": "Working directory or image subdirs missing"
+    "required": ["filesystem:read", "filesystem:write", "exec:docker"]
   },
   "runtime": "node",
-  "entrypoint": "dist/index.js"
+  "entrypoint": "src/index.ts"
 }

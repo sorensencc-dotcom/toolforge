@@ -3,6 +3,7 @@
   "name": "analyze-token-burn",
   "version": "1.0.0",
   "description": "Project month-end token costs and identify high-spend adapters",
+  "category": "observability",
   "triggers": [
     "analyze-token-burn",
     "token burn",
@@ -10,7 +11,6 @@
     "budget projection"
   ],
   "role": "ops",
-  "entry_point": "src/index.ts",
   "runtime": "node",
   "entrypoint": "src/index.ts"
 }
