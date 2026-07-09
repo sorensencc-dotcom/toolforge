@@ -5,7 +5,7 @@
       "description": "Project month-end token costs and identify high-spend adapters",
       "timestamps": {
         "created": "2026-07-08T18:45:49.9964781Z",
-        "lastValidation": "2026-07-08T18:45:49.9964781Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -32,7 +32,7 @@
       "description": "Deterministic session-termination and context-handoff engine for Cast Iron systems",
       "timestamps": {
         "created": "2026-07-08T18:27:22.4188931Z",
-        "lastValidation": "2026-07-08T18:27:22.4188931Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -59,7 +59,7 @@
       "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
       "timestamps": {
         "created": "2026-07-08T18:45:16.8947422Z",
-        "lastValidation": "2026-07-08T18:45:16.8947422Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -86,7 +86,7 @@
       "description": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
       "timestamps": {
         "created": "2026-07-08T18:48:51.4869622Z",
-        "lastValidation": "2026-07-08T18:48:51.4869622Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -113,7 +113,7 @@
       "description": "Session wrap audit — 12-point blind-spot assessment before termination",
       "timestamps": {
         "created": "2026-07-08T18:28:04.4823311Z",
-        "lastValidation": "2026-07-08T18:28:04.4823311Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -142,7 +142,7 @@
       "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
       "timestamps": {
         "created": "2026-07-08T18:45:57.2962538Z",
-        "lastValidation": "2026-07-08T18:45:57.2962538Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -169,7 +169,7 @@
       "description": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
       "timestamps": {
         "created": "2026-07-08T18:45:28.9199147Z",
-        "lastValidation": "2026-07-08T18:45:28.9199147Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -196,7 +196,7 @@
       "description": "Revert CIC pipeline to prior phase checkpoint",
       "timestamps": {
         "created": "2026-07-08T18:46:04.4228684Z",
-        "lastValidation": "2026-07-08T18:46:04.4228684Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -223,7 +223,7 @@
       "description": "Check adapter health, latency percentiles, and error rates in real time",
       "timestamps": {
         "created": "2026-07-08T18:46:12.4220083Z",
-        "lastValidation": "2026-07-08T18:46:12.4220083Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -250,7 +250,7 @@
       "description": "Adjust RL ingestion service worker count & queue depth based on backlog",
       "timestamps": {
         "created": "2026-07-08T18:46:19.9288494Z",
-        "lastValidation": "2026-07-08T18:46:19.9288494Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -277,7 +277,7 @@
       "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
       "timestamps": {
         "created": "2026-07-08T18:45:34.2046221Z",
-        "lastValidation": "2026-07-08T18:45:34.2046221Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -304,7 +304,7 @@
       "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
       "timestamps": {
         "created": "2026-06-28T16:29:01.4625445Z",
-        "lastValidation": "2026-06-28T16:29:01.4625445Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -331,7 +331,7 @@
       "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
       "timestamps": {
         "created": "2026-07-08T18:49:07.2372698Z",
-        "lastValidation": "2026-07-08T18:49:07.2372698Z",
+        "lastValidation": "2026-07-09T03:21:53.3879858Z",
         "lastRun": null
       },
       "tags": [],
@@ -362,6 +362,6 @@
     "health_good": 13,
     "health_warn": 0
   },
-  "timestamp": "2026-07-09T02:07:45.9593663Z",
+  "timestamp": "2026-07-09T03:21:53.3879858Z",
   "version": "1.0.0"
 }
