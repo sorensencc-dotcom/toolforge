@@ -1,0 +1,287 @@
+{
+  "audit_metadata": {
+    "audit_timestamp": "2026-07-10T17:30:00Z",
+    "audit_version": "1.0",
+    "directories_scanned": [
+      "C:\\dev\\rewrite-mcp\\skills",
+      "C:\\dev\\claude-skills"
+    ],
+    "total_scanned": 25,
+    "total_approved": 0,
+    "total_rejected": 25,
+    "approval_rate": 0
+  },
+  "scan_results": {
+    "rewrite_mcp_skills": {
+      "total": 25,
+      "approved": 0,
+      "rejected": 25,
+      "structure_type": "JavaScript MCP implementations",
+      "file_pattern": "index.js + schema.json",
+      "missing_toolforge_structure": true,
+      "rejected_skills": [
+        {
+          "skill_id": "agent-drift-detector",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts",
+            "Conflict with Phase 1/2.A inventory"
+          ]
+        },
+        {
+          "skill_id": "audit-logger",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "auto-docs",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "cic-benchmark-runner",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "cic-roadmap-updater",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts",
+            "Conflict with Phase 1/2.A inventory"
+          ]
+        },
+        {
+          "skill_id": "cic-section-summarizer",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts",
+            "Conflict with Phase 1/2.A inventory"
+          ]
+        },
+        {
+          "skill_id": "context-memory-manager",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "cost-optimizer",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "dependency-analyzer",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "environment-diagnostics",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "environment-validator",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "helm-daily-brief",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "idea-inbox-harvester",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "mee-finding-assessor",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "mee-phase-executor",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "multi-endpoint-orchestrator",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "operator-grade-procedures",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "performance-profiler",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "phase-validator",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "rewrite-labs-orchestrator",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts",
+            "Conflict with Phase 1/2.A inventory"
+          ]
+        },
+        {
+          "skill_id": "rewritelabs",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "security-scanner",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "session-boundary-manager",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "session-wrap",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        },
+        {
+          "skill_id": "shared",
+          "errors": [
+            "Missing skill.json",
+            "Missing src/index.ts"
+          ]
+        }
+      ]
+    },
+    "claude_skills": {
+      "total": "unknown (not structured as skill packages)",
+      "approved": 0,
+      "rejected": "all (no toolforge structure)",
+      "structure_type": "Domain-organized strategy repository",
+      "file_pattern": "CLAUDE.md + strategy folders",
+      "missing_toolforge_structure": true,
+      "note": "Not a skill package directory; strategy/knowledge base"
+    }
+  },
+  "conflict_flags": [
+    {
+      "skill_id": "agent-drift-detector",
+      "existing_in": "Phase 2.A Tier A inventory",
+      "conflict_type": "ID collision"
+    },
+    {
+      "skill_id": "cic-roadmap-updater",
+      "existing_in": "Phase 2.A Tier A inventory",
+      "conflict_type": "ID collision"
+    },
+    {
+      "skill_id": "cic-section-summarizer",
+      "existing_in": "Phase 2.A Tier A inventory",
+      "conflict_type": "ID collision"
+    },
+    {
+      "skill_id": "rewrite-labs-orchestrator",
+      "existing_in": "Phase 2.A Tier A inventory",
+      "conflict_type": "ID collision"
+    }
+  ],
+  "risk_summary": {
+    "zero_candidates": {
+      "severity": "CRITICAL",
+      "status": "CONFIRMED",
+      "detail": "0 of 25 rewrite-mcp skills approved for migration"
+    },
+    "scaffolding_required": {
+      "severity": "HIGH",
+      "status": "CONFIRMED",
+      "detail": "MCP implementations would need skill.json + src/index.ts wrappers"
+    },
+    "id_conflicts": {
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "detail": "4 rewrite-mcp skill IDs already exist in Phase 1/2.A"
+    },
+    "timeline_pressure": {
+      "severity": "HIGH",
+      "status": "ACTIVE",
+      "detail": "Phase 3 entry must occur by 2026-07-15"
+    }
+  },
+  "tier1_decision_options": {
+    "option_1_defer": {
+      "title": "Defer Phase 2.B",
+      "action": "Skip phase 2.B entirely, focus on Phase 3",
+      "impact": "Phase 3 stays on critical path",
+      "recommended": true
+    },
+    "option_2_scaffold": {
+      "title": "Accept Scaffolding Model",
+      "action": "Phase 2.B.2 wraps 3-5 MCP implementations into toolforge skills",
+      "impact": "Expands scope; timeline risk; must complete by 2026-07-12",
+      "recommended": false
+    },
+    "option_3_conditional": {
+      "title": "Conditional Proceed",
+      "action": "Approve only if audit finds production-ready candidates",
+      "impact": "Audit result: 0 candidates → Auto-defer",
+      "recommended": false
+    }
+  },
+  "recommendation": "DEFER_PHASE_2B",
+  "recommendation_rationale": [
+    "Audit completed; zero production-ready candidates identified",
+    "rewrite-mcp/skills require scaffolding, not simple migration",
+    "Phase 3 (Cowork Gateway) is on critical path by 2026-07-15",
+    "Deferring Phase 2.B allows focus on Phase 3 delivery"
+  ],
+  "next_step": "Tier 1 decision required by 2026-07-11 14:00",
+  "decision_deadline": "2026-07-11T14:00:00Z"
+}
