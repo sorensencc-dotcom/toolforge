@@ -4,10 +4,12 @@
   "description": "Cowork plugin registration gateway for Toolforge skill network",
   "gatewayId": "toolforge-gateway",
   "endpoints": {
-    "register": "/cowork/register",
-    "sync": "/cowork/sync",
-    "manifest": "/cowork/manifest",
-    "status": "/cowork/status"
+    "register": "/v1/skills/register",
+    "manifest": "/v1/manifests/push",
+    "manifestHash": "/v1/manifests/hash",
+    "sync": "/v1/sync/state",
+    "heartbeat": "/v1/gateways/heartbeat",
+    "status": "/v1/gateways/status"
   },
   "capabilities": [
     "skill-registration",

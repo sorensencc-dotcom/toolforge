@@ -1,0 +1,13 @@
+{
+  "id": "test-valid-skill",
+  "name": "Valid Test Skill",
+  "version": "1.0.0",
+  "category": "test",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false
+    }
+  }
+}

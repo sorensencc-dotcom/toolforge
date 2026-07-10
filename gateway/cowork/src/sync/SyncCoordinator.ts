@@ -8,12 +8,9 @@ import { SyncError } from '../utils/errors';
 import { CoworkClient, SyncStateUpdate } from '../client';
 import { SyncState } from './SyncState';
 import {
-  SyncMessage,
   SyncMessageType,
   HandshakeMessage,
-  StateUpdateMessage,
   validateSyncMessage,
-  DEFAULT_RETRY_POLICY,
 } from './SyncProtocol';
 import crypto from 'crypto';
 
@@ -100,7 +97,10 @@ class SyncCoordinator {
       const response = await this.client.syncState(stateUpdate);
 
       this.logger.info('State synced successfully', { syncId: response.sync_id });
-      return response;
+      return {
+        syncId: response.sync_id,
+        ack: response.ack,
+      };
     } catch (error) {
       throw new SyncError(
         `State sync failed: ${error instanceof Error ? error.message : String(error)}`,

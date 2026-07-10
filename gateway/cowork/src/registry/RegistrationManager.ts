@@ -4,8 +4,7 @@
  */
 
 import { Logger } from '../utils/logger';
-import { RegistrationError } from '../utils/errors';
-import { CoworkClient, SkillManifest, RegistrationResponse } from '../client';
+import { CoworkClient, SkillManifest } from '../client';
 import { RegisteredSkill } from './SkillRegistry';
 
 interface RegistrationResult {

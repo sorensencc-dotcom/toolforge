@@ -169,6 +169,81 @@ class CoworkClient {
       );
     }
   }
+
+  /**
+   * Pull manifest hash from Cowork.
+   */
+  async pullManifestHash(): Promise<{
+    gateway: string;
+    hash: string;
+    updated_at: string;
+  }> {
+    try {
+      this.logger.debug('Fetching manifest hash');
+
+      const response = await this.http.request<{
+        gateway: string;
+        hash: string;
+        updated_at: string;
+      }>('/v1/manifests/hash', {
+        method: 'GET',
+        headers: this.auth.getAuthHeader(),
+        retries: 2,
+      });
+
+      this.logger.info('Manifest hash fetched', { hash: response.data.hash });
+      return response.data;
+    } catch (error) {
+      throw new SyncError(
+        `Failed to pull manifest hash: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+
+  /**
+   * Send gateway heartbeat to Cowork.
+   */
+  async heartbeat(): Promise<{
+    status: string;
+    received_at: string;
+  }> {
+    try {
+      this.logger.debug('Sending heartbeat');
+
+      const payload = {
+        gateway_id: this.auth.getGatewayIdentity().gatewayId,
+        timestamp: new Date().toISOString(),
+      };
+
+      const response = await this.http.request<{
+        status: string;
+        received_at: string;
+      }>('/v1/gateways/heartbeat', {
+        method: 'POST',
+        headers: this.auth.getAuthHeader(),
+        body: payload,
+        retries: 2,
+      });
+
+      this.logger.info('Heartbeat sent', { status: response.data.status });
+      return response.data;
+    } catch (error) {
+      throw new SyncError(
+        `Failed to send heartbeat: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+}
+
+interface ManifestHashResponse {
+  gateway: string;
+  hash: string;
+  updated_at: string;
+}
+
+interface HeartbeatResponse {
+  status: string;
+  received_at: string;
 }
 
 export {
@@ -177,4 +252,6 @@ export {
   GatewayManifest,
   RegistrationResponse,
   SyncStateUpdate,
+  ManifestHashResponse,
+  HeartbeatResponse,
 };

@@ -10,6 +10,6 @@ module.exports = {
     '!src/**/index.ts',
   ],
   coveragePathIgnorePatterns: ['/node_modules/', '/dist/'],
-  testTimeout: 10000,
+  testTimeout: 20000,
   verbose: true,
 };

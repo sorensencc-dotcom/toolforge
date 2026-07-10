@@ -53,7 +53,7 @@ class SkillRegistry {
     try {
       this.logger.info('Loading skill registry', { path: this.skillsPath });
       const skillDirs = readdirSync(this.skillsPath, { withFileTypes: true })
-        .filter((d) => d.isDirectory())
+        .filter((d) => d.isDirectory() && !d.name.startsWith('_'))
         .map((d) => d.name);
 
       this.logger.info('Found skill directories', { count: skillDirs.length });

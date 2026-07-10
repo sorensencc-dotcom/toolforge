@@ -1,6 +1,8 @@
-# Cowork Gateway — Phase 3.A Implementation
+# Cowork Gateway — Phase 3.B Mock Integration
 
 Toolforge's bridge to Cowork plugin network. Manages skill registration, manifest export, and distributed sync for all 22 operational skills (13 Phase 1 + 9 Phase 2 Tier A).
+
+**Status:** Mock Cowork server + E2E test suite complete. Real external Cowork API integration remains a future step.
 
 ## Quick Start
 
@@ -8,21 +10,20 @@ Toolforge's bridge to Cowork plugin network. Manages skill registration, manifes
 # Install dependencies
 npm install
 
-# Set environment
-export COWORK_API_URL=https://api.cowork.ai
-export COWORK_API_KEY=<your-api-key>
-export COWORK_GATEWAY_ID=toolforge-gateway
-export TOOLFORGE_SKILLS_PATH=C:\dev\toolforge\skills
+# Copy .env.example to .env and configure (mock server defaults provided)
+cp .env.example .env
 
-# Run gateway initialization
-npm run gateway:init
+# Start mock Cowork server (in one terminal)
+npm run mock:server
 
-# Run tests
+# In another terminal: run tests
 npm test
 
 # Build
 npm run build
 ```
+
+**Mock Server:** Listens on `http://127.0.0.1:4790`. No real external Cowork service required for local development.
 
 ## Architecture
 
@@ -49,7 +50,9 @@ SyncCoordinator.syncState()
 CoworkClient.getGatewayStatus()
 ```
 
-## Phase 3.A Tasks
+## Phase 3.A–B Tasks
+
+**Phase 3.A (Scaffolding):**
 
 - [x] Cowork API client (CoworkHttp, CoworkAuth, CoworkClient)
 - [x] Skill registry (SkillRegistry, ManifestBuilder)
@@ -58,8 +61,20 @@ CoworkClient.getGatewayStatus()
 - [x] Gateway metadata (gateway.json)
 - [x] Test scaffolding (client.test.ts, registry.test.ts, sync.test.ts)
 - [x] Main entrypoint (index.ts)
-- [ ] Actual API integration (awaiting Cowork endpoint spec)
-- [ ] E2E test execution
+
+**Phase 3.B (Mock Integration & E2E Tests):**
+
+- [x] Endpoint path reconciliation (gateway.json ↔ CoworkClient)
+- [x] New client methods: `pullManifestHash()`, `heartbeat()`
+- [x] SkillRegistry underscore-prefix filtering (_TEMPLATE exclusion)
+- [x] Mock Cowork server (mock-server/)
+- [x] .env.example with mock server defaults
+- [x] Real test suite (53→100+ real assertions, no stubs)
+- [x] Internal API reference doc (cowork-mock-api.md)
+
+**Future:**
+
+- [ ] Real external Cowork API integration (blocked on endpoint spec + credentials)
 - [ ] CI/CD pipeline wiring
 
 ## Environment Variables
@@ -73,6 +88,8 @@ TOOLFORGE_SKILLS_PATH   # Path to toolforge/skills directory
 ```
 
 ## API Reference
+
+**For full mock Cowork endpoint specification, see [Cowork Mock API](../../docs/gateway/cowork-mock-api.md).**
 
 ### CoworkClient
 
@@ -99,6 +116,12 @@ await client.syncState({
 
 // Get status
 await client.getGatewayStatus();
+
+// Get manifest hash
+await client.pullManifestHash();
+
+// Send heartbeat
+await client.heartbeat();
 ```
 
 ### SkillRegistry
@@ -199,14 +222,18 @@ Structured JSON logging via `Logger` class:
 ## Status
 
 **Phase 3.A:** ✅ Scaffolding Complete  
-**Awaiting:** Cowork API endpoint specification + Tier 1 approval
+**Phase 3.B:** ✅ Mock Integration + E2E Tests Complete
+
+Mock Cowork server deployed. All 22 skills can be registered, manifest pushed, state synced, heartbeat sent, and status checked via local mock API.
+
+**Adoption of real external Cowork API** remains a separate future step, blocked on an actual endpoint spec + credentials (see [Phase 3 Scope Charter](../../docs/meta/phase-3-scope-charter.md)).
 
 ## Next Steps
 
-1. Obtain Cowork API endpoint + auth details
-2. Implement mock Cowork server for testing
-3. Run end-to-end test suite
-4. Proceed with Phase 3.B (distributed sync pipeline)
+1. Run test suite: `npm test` (all tests should PASS)
+2. Start mock server: `npm run mock:server`
+3. Integration: point gateway at mock server via `.env`
+4. When real Cowork API spec is available: update `CoworkClient` endpoints and authentication
 
 ---
 

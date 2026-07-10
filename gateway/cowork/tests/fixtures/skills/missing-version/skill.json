@@ -1,0 +1,7 @@
+{
+  "id": "test-missing-version",
+  "name": "Missing Version Skill",
+  "category": "test",
+  "runtime": "node",
+  "entrypoint": "src/index.ts"
+}

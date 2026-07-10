@@ -1,0 +1,8 @@
+{
+  "id": "_template",
+  "name": "Template Skill (should be skipped)",
+  "version": "1.0.0",
+  "category": "template",
+  "runtime": "node",
+  "entrypoint": "src/index.ts"
+}
