@@ -18,6 +18,22 @@ export function assessVerdict(
   const ready: string[] = [];
   const nextSteps: Array<{ action: string; owner?: string; deadline?: string }> = [];
 
+  // Check for missing/empty answers — audit cannot proceed without user input
+  const coreEmpty = Object.values(coreAnswers).filter((a) => !a || a === '[skipped]' || a === '').length;
+  const extendedEmpty = Object.values(extendedAnswers).filter((a) => !a || a === '[skipped]' || a === '').length;
+
+  if (coreEmpty === 4) {
+    // All core answers missing — audit incomplete
+    blockers.push(
+      'Audit incomplete: All 4 core questions skipped or unanswered. MUST: Complete blind-spot assessment before deployment.'
+    );
+  } else if (coreEmpty > 0) {
+    // Some core answers missing
+    risks.push(
+      `Audit incomplete: ${coreEmpty}/4 core questions unanswered. Should complete for full assessment.`
+    );
+  }
+
   // Assess Core Questions
   const q1 = coreAnswers[1] || '';
   const q2 = coreAnswers[2] || '';

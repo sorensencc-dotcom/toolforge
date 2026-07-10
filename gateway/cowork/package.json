@@ -17,6 +17,10 @@
     "sync:rollback": "ts-node src/cli/rollback.ts",
     "audit:log": "ts-node src/cli/audit-log.ts",
     "mock:server": "ts-node mock-server/bin/start.ts",
+    "load:test:1x": "ts-node load-test/runner.ts --multiplier 1 --duration 60",
+    "load:test:10x": "ts-node load-test/runner.ts --multiplier 10 --duration 120",
+    "load:test:100x": "ts-node load-test/runner.ts --multiplier 100 --duration 180",
+    "load:test:500x": "ts-node load-test/runner.ts --multiplier 500 --duration 300",
     "lint": "eslint src tests",
     "clean": "rm -rf dist"
   },

@@ -1,5 +1,6 @@
 import { CORE_QUESTIONS, EXTENDED_FIELDS, ALL_QUESTIONS, AuditAnswer } from './questions';
 import { assessVerdict, AuditAssessment } from './verdict';
+import * as readline from 'readline';
 
 export interface SessionContext {
   sessionId: string;
@@ -141,14 +142,20 @@ export async function runAudit(context: SessionContext): Promise<AuditReport> {
 }
 
 /**
- * Capture answer from user input (simplified for non-interactive environments).
- * In real implementation, would use prompt/readline or Claude Code harness integration.
+ * Capture answer from user input via interactive readline prompt.
  */
 async function captureAnswer(questionNumber: number): Promise<string> {
-  // In a real implementation, this would prompt the user interactively.
-  // For testing/non-interactive mode, return empty string (auditor must provide via context).
-  // The harness integration will provide actual answers from user input.
-  return '';
+  return new Promise((resolve) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
+    rl.question('Your answer: ', (answer: string) => {
+      rl.close();
+      resolve(answer.trim() || '[skipped]');
+    });
+  });
 }
 
 /**
