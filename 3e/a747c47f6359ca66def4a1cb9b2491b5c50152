@@ -1,0 +1,19 @@
+PHASE_4_WAVE_1_LOAD_TEST_HARNESS.md
+  s_bfb81b8e0acf35::t_bfe39c90ac46e3 1-96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "3ea747c47f6359ca66def4a1cb9b2491b5c50152",
+  "prompts": {},
+  "sessions": {
+    "s_bfb81b8e0acf35": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "06095a09-c81a-4a53-85ba-3d31e899287b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
