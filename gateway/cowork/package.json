@@ -11,6 +11,11 @@
     "test:watch": "jest --watch",
     "gateway:init": "ts-node src/index.ts",
     "gateway:status": "ts-node src/utils/status.ts",
+    "sync:pull": "ts-node src/cli/sync.ts pull",
+    "sync:push": "ts-node src/cli/sync.ts push",
+    "sync:audit": "ts-node src/cli/sync.ts audit",
+    "sync:rollback": "ts-node src/cli/rollback.ts",
+    "audit:log": "ts-node src/cli/audit-log.ts",
     "lint": "eslint src tests",
     "clean": "rm -rf dist"
   },
