@@ -1,0 +1,88 @@
+gateway/cowork/tests/load-test/report.test.ts
+  s_bfb81b8e0acf35::t_45829a401701ba 1-177
+gateway/cowork/load-test/assertions.ts
+  s_bfb81b8e0acf35::t_6cdfc6aba42255 1-120
+skills/pre-wrap-audit/src/index.ts
+  s_c4e2e0ad144627::t_7c8ed9eb61f77d 3
+  s_c4e2e0ad144627::t_dee8b05f941c41 145,148-158
+gateway/cowork/load-test/report.ts
+  s_bfb81b8e0acf35::t_ae5f7ce5157247 1-158
+gateway/cowork/load-test/multiplier.ts
+  s_bfb81b8e0acf35::t_9e88e83671d529 1-30
+gateway/cowork/.gitignore
+  s_bfb81b8e0acf35::t_6b68cf416e997e 1-6
+gateway/cowork/tests/load-test/multiplier.test.ts
+  s_bfb81b8e0acf35::t_e3c477e3efe8ac 1-51
+gateway/cowork/load-test/README.md
+  s_bfb81b8e0acf35::t_5c4c751beaa697 1-118
+gateway/cowork/tests/load-test/scenario.test.ts
+  s_bfb81b8e0acf35::t_c5caf1f79b4d60 1-51
+gateway/cowork/load-test/runner.ts
+  s_bfb81b8e0acf35::t_2fd30f19f6e97d 1-215
+gateway/cowork/package.json
+  s_bfb81b8e0acf35::t_e046cc7f59b93f 20-23
+skills/pre-wrap-audit/src/verdict.ts
+  s_c4e2e0ad144627::t_a128b89a2dd57c 21-36
+gateway/cowork/load-test/collectors.ts
+  s_bfb81b8e0acf35::t_b13976d11aee9e 1-230
+gateway/cowork/tests/load-test/collectors.test.ts
+  s_bfb81b8e0acf35::t_227a43f7271027 1-143
+gateway/cowork/tests/load-test/assertions.test.ts
+  s_bfb81b8e0acf35::t_4463e369e862e6 1-97
+gateway/cowork/load-test/scenario.ts
+  s_bfb81b8e0acf35::t_bc424744b0ac07 1-96
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_7008a9810d4867::t_65188a70e52976 3,238-244,250,252-253,256-258
+skills/SKILLPACK-VALIDATION.md
+  s_c01c5887199fb9::t_225fb376f354cc 3
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_bfb81b8e0acf35::t_5b2961381b2459 3,52-104
+audit/COWORK-REGISTERED-SKILLS.md
+  s_bfb81b8e0acf35::t_c1fdbfa3a6ff3b 3,39-85
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_bfb81b8e0acf35::t_449f79110fb367 3
+skills/SKILLPACK-METADATA.json
+  s_bfb81b8e0acf35::t_1eb17cee6f9b70 2,8,10-15,17-22,25-26,28-39,43,45,48,50-59,62,64,66,70,72,75,77-86,89,91,93,97,99,102,104-113,116,118,120,124,126,129,131-140,143,145,147,151,153,156,160-161,163-174,178,180,189,191-200,203,205,207,211,213,216,220-221,223-234,238,240,243,245-254,257,259,261,265,267,270,272-281,284,286,288,292,294,297,299-308,311,313,315,319,321,324,328-329,331-332,338,340,342,348-350,353,355-364,367,369,371-381,384-385,387-398,402,404,407,409-418,421,423,425,429,431,434,436-445,448,450,452,456,458,461,463-472,475,477,479,483,485,488,490-499,502,504,506,510,512,515,517-526,529,531,533,537,539,542,544-553,556,558,560,564,566,569,571-580,583,585,587,591,593,596,600-601,603-604,607,609,612
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_bfb81b8e0acf35::t_ec6c165deaac04 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "019e34b25b80b4340197d8efdb97ddfc6d1fcd33",
+  "prompts": {},
+  "sessions": {
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bfb81b8e0acf35": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "06095a09-c81a-4a53-85ba-3d31e899287b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c01c5887199fb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f9fcb8-8183-4409-91aa-b2f076438001",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
