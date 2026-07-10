@@ -125,7 +125,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "main()"
     },
     {
       "version": "1.0.0",
@@ -152,7 +154,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "ashfall()"
     },
     {
       "version": "1.0.0",
@@ -179,7 +183,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "bash src/run.sh",
+      "exports": "N/A"
     },
     {
       "version": "1.0.0",
@@ -206,7 +212,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "main()"
     },
     {
       "version": "1.0.0",
@@ -235,7 +243,9 @@
         "internal": [
           "ashfall"
         ]
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "runAudit(), formatAuditReport()"
     },
     {
       "version": "1.0.0",
@@ -262,7 +272,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "main()"
     },
     {
       "version": "1.0.0",
@@ -289,7 +301,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "validateRoadmap()"
     },
     {
       "version": "1.0.0",
@@ -316,7 +330,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "main()"
     },
     {
       "version": "1.0.0",
@@ -343,7 +359,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "main()"
     },
     {
       "version": "1.0.0",
@@ -370,7 +388,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "main()"
     },
     {
       "version": "0.1.0",
@@ -397,7 +417,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "LifecycleManager"
     },
     {
       "version": "0.1.0",
@@ -424,7 +446,9 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "DriftMonitor"
     },
     {
       "version": "4.0.0",
@@ -451,17 +475,23 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "main()"
     },
     {
       "version": "1.0.0",
       "description": "Autonomous execution context detection, validation, and storage",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
-      "tags": ["session", "autonomous", "governance"],
+      "tags": [
+        "session",
+        "autonomous",
+        "governance"
+      ],
       "status": "active",
       "name": "Context Manager",
       "runtime": "typescript",
@@ -478,17 +508,23 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "ContextManager"
     },
     {
       "version": "1.0.0",
       "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
-      "tags": ["permissions", "security", "governance"],
+      "tags": [
+        "permissions",
+        "security",
+        "governance"
+      ],
       "status": "active",
       "name": "Permission Governor",
       "runtime": "typescript",
@@ -505,17 +541,23 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "PermissionManager"
     },
     {
       "version": "1.0.0",
       "description": "Unified entry point for CodeFlow extraction into CIC stores",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
-      "tags": ["codeflow", "extraction", "integration"],
+      "tags": [
+        "codeflow",
+        "extraction",
+        "integration"
+      ],
       "status": "active",
       "name": "Plan Extractor Integration",
       "runtime": "typescript",
@@ -532,17 +574,23 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "extractPlan()"
     },
     {
       "version": "1.0.0",
       "description": "Auto-summarize CIC phase progress and files reviewed",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
-      "tags": ["analysis", "roadmap", "progress"],
+      "tags": [
+        "analysis",
+        "roadmap",
+        "progress"
+      ],
       "status": "active",
       "name": "CIC Section Summarizer",
       "runtime": "typescript",
@@ -559,17 +607,23 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "summarizeSection()"
     },
     {
       "version": "1.0.0",
       "description": "Detect schema drift in agent messages and APIs",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
-      "tags": ["drift", "schema", "validation"],
+      "tags": [
+        "drift",
+        "schema",
+        "validation"
+      ],
       "status": "active",
       "name": "Agent Drift Detector",
       "runtime": "typescript",
@@ -586,17 +640,23 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "detectDrift()"
     },
     {
       "version": "1.0.0",
       "description": "Orchestrates multi-stage development pipelines and handles blockers",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
-      "tags": ["pipeline", "stages", "orchestration"],
+      "tags": [
+        "pipeline",
+        "stages",
+        "orchestration"
+      ],
       "status": "active",
       "name": "Rewrite Labs Orchestrator",
       "runtime": "typescript",
@@ -613,17 +673,23 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "orchestrate()"
     },
     {
       "version": "1.0.0",
       "description": "Calculates progress and updates versions for CIC roadmaps",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
-      "tags": ["roadmap", "planning", "versioning"],
+      "tags": [
+        "roadmap",
+        "planning",
+        "versioning"
+      ],
       "status": "active",
       "name": "CIC Roadmap Updater",
       "runtime": "typescript",
@@ -640,17 +706,23 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "npx ts-node src/index.ts",
+      "exports": "updateRoadmap()"
     },
     {
       "version": "1.0.0",
       "description": "Generates synchronization artifacts and reports for the knowledge base.",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
-      "tags": ["kb-sync", "artifacts", "governance"],
+      "tags": [
+        "kb-sync",
+        "artifacts",
+        "governance"
+      ],
       "status": "active",
       "name": "KB Sync Artifact Generator",
       "runtime": "node",
@@ -667,21 +739,59 @@
       "dependencies": {
         "external": [],
         "internal": []
-      }
+      },
+      "invocation": "node src/index.ts",
+      "exports": "main()"
+    },
+    {
+      "version": "1.0.0",
+      "description": "Validate, test, and auto-fix local HTML files for visual correctness: syntax check, WCAG contrast validation, Playwright screenshot + interaction tests, headless rendering",
+      "timestamps": {
+        "created": "2026-07-09T23:45:00Z",
+        "lastValidation": "2026-07-09T23:45:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "html",
+        "validation",
+        "testing",
+        "wcag",
+        "visual"
+      ],
+      "status": "active",
+      "name": "HTML Visual Verify",
+      "runtime": "node",
+      "id": "html-visual-verify",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "validation",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [
+          "@playwright/test"
+        ],
+        "internal": []
+      },
+      "invocation": "node src/index.ts <path>",
+      "exports": "validateHtml(), testInteractive(), autoFix()"
     }
   ],
   "summary": {
-    "total": 21,
+    "total": 22,
     "health_error": 0,
     "deprecated": 0,
-    "active": 21,
-    "health_good": 21,
+    "active": 22,
+    "health_good": 22,
     "health_warn": 0
   },
-  "timestamp": "2026-07-09T23:41:00Z",
+  "timestamp": "2026-07-09T23:45:00Z",
   "version": "1.1.0"
 }
-
 </script>
 
 <script>
@@ -747,6 +857,16 @@
       "<span class=\"meta-label\">TAGS</span>" +
       "<span class=\"meta-value\">" + skill.tags.join(", ") + "</span>" +
       "</div>" : "";
+    const invocationHtml = skill.invocation ?
+      "<div class=\"meta-row\">" +
+      "<span class=\"meta-label\">INVOCATION</span>" +
+      "<span class=\"meta-value\" style=\"font-family: 'Courier New', monospace; font-size: 0.75rem;\">" + skill.invocation + "</span>" +
+      "</div>" : "";
+    const exportsHtml = skill.exports ?
+      "<div class=\"meta-row\">" +
+      "<span class=\"meta-label\">EXPORTS</span>" +
+      "<span class=\"meta-value\" style=\"font-family: 'Courier New', monospace; font-size: 0.75rem;\">" + skill.exports + "</span>" +
+      "</div>" : "";
     const html = "<div class=\"skill-card\" tabindex=\"0\">" +
       "<div class=\"skill-header\">" +
       "<span class=\"skill-category\">" + (skill.category || "UNCATEGORIZED") + "</span>" +
@@ -776,6 +896,8 @@
       "<span class=\"meta-value\">" + (skill.owner || "—") + "</span>" +
       "</div>" +
       tagsHtml +
+      invocationHtml +
+      exportsHtml +
       "</div>" +
       "</div>" +
       "</div>";
@@ -812,3 +934,5 @@
 
 </body>
 </html>
+
+
