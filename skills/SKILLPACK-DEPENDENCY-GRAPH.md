@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-10T02:34:11.4724632Z
+**Generated:** 2026-07-10T02:36:49.3267354Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -235,27 +235,27 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| pre-wrap-audit | 1 |
-| run-adapter-diagnostic | 0 |
-| plan-extractor-integration | 0 |
-| html-visual-verify | 0 |
-| scale-ingestion-service | 0 |
-| permission-governor | 0 |
+| operator-image-build | 0 |
 | toolforge-drift-monitor | 0 |
-| rollback-phase | 0 |
+| run-adapter-diagnostic | 0 |
+| html-visual-verify | 0 |
+| kb-sync-nightly | 0 |
 | agent-drift-detector | 0 |
 | ashfall | 0 |
-| cic-roadmap-updater | 0 |
+| tool-lifecycle-manager | 0 |
+| roadmap-validator | 0 |
+| reconcile-vector-store | 0 |
 | analyze-token-burn | 0 |
-| operator-image-build | 0 |
-| rewrite-labs-orchestrator | 0 |
 | cic-section-summarizer | 0 |
+| work-summarizer | 0 |
 | kb-sync-artifact-generator | 0 |
 | context-manager | 0 |
-| work-summarizer | 0 |
-| reconcile-vector-store | 0 |
-| roadmap-validator | 0 |
-| tool-lifecycle-manager | 0 |
-| kb-sync-nightly | 0 |
+| scale-ingestion-service | 0 |
+| plan-extractor-integration | 0 |
+| rollback-phase | 0 |
+| permission-governor | 0 |
+| cic-roadmap-updater | 0 |
+| rewrite-labs-orchestrator | 0 |
 
 ---
 
