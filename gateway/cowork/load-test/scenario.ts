@@ -1,13 +1,12 @@
 import { CoworkClient } from '../src/client/CoworkClient';
 import { SyncCoordinator } from '../src/sync/SyncCoordinator';
-import { SyncState } from '../src/sync/SyncState';
 
 export interface GatewaySimulatorResult {
   gatewayId: string;
   cycleCount: number;
   errors: Array<{ cycle: number; stage: string; error: string }>;
   lastHash: string | null;
-  lastState: Record<string, unknown> | null;
+  lastStatus: Record<string, unknown> | null;
 }
 
 export class GatewaySimulator {
@@ -19,14 +18,14 @@ export class GatewaySimulator {
 
   constructor(gatewayId: string, baseUrl: string, apiKey: string) {
     this.gatewayId = gatewayId;
-    this.client = new CoworkClient({ baseUrl, apiKey });
-    this.coordinator = new SyncCoordinator(this.client);
+    this.client = new CoworkClient(baseUrl, apiKey, gatewayId);
+    this.coordinator = new SyncCoordinator(gatewayId, this.client);
     this.result = {
       gatewayId,
       cycleCount: 0,
       errors: [],
       lastHash: null,
-      lastState: null,
+      lastStatus: null,
     };
   }
 
@@ -39,36 +38,33 @@ export class GatewaySimulator {
       this.result.cycleCount++;
 
       try {
-        // handshake
-        await this.coordinator.handshake();
+        // handshake with empty capabilities and 0 skills (placeholder for load test)
+        await this.coordinator.handshake([], 0);
 
         // syncState
-        await this.coordinator.syncState();
-        const state = this.coordinator.getGatewayStatus();
-        this.result.lastState = state;
+        await this.coordinator.syncState(0, 0);
 
         // pullManifestHash
         const pullResponse = await this.client.pullManifestHash();
         const pulledHash = pullResponse.hash;
         this.result.lastHash = pulledHash;
 
-        // detectDrift and possibly push
-        const syncState = this.coordinator.getGatewayStatus();
-        const driftDetected = this.coordinator.detectDrift(
-          syncState.lastManifestHash || '',
-          pulledHash
-        );
-        if (driftDetected) {
-          // In real code, would call DistributedSyncOrchestrator.sync().
-          // For this harness, just record the drift and push the current state.
-          await this.client.pushManifest({ skills: [] });
-        }
+        // detectDrift against empty hash (no change in this simplified harness)
+        this.coordinator.detectDrift('', pulledHash);
 
-        // heartbeat
-        await this.client.heartbeat({
-          gateway_id: this.gatewayId,
+        // push minimal manifest
+        await this.client.pushManifest({
+          gateway: this.gatewayId,
+          skills: [],
           timestamp: new Date().toISOString(),
         });
+
+        // heartbeat
+        await this.client.heartbeat();
+
+        // get gateway status
+        const status = await this.coordinator.getGatewayStatus();
+        this.result.lastStatus = status;
       } catch (err) {
         const error = err instanceof Error ? err.message : String(err);
         this.result.errors.push({

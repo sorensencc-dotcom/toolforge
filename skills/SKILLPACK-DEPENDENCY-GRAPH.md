@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-10T21:32:01.9098318Z
+**Generated:** 2026-07-10T21:54:11.3084089Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -235,27 +235,27 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| pre-wrap-audit | 1 |
-| work-summarizer | 0 |
-| html-visual-verify | 0 |
-| toolforge-drift-monitor | 0 |
-| roadmap-validator | 0 |
-| permission-governor | 0 |
-| cic-section-summarizer | 0 |
-| tool-lifecycle-manager | 0 |
-| cic-roadmap-updater | 0 |
-| ashfall | 0 |
-| rollback-phase | 0 |
-| agent-drift-detector | 0 |
-| run-adapter-diagnostic | 0 |
-| analyze-token-burn | 0 |
-| plan-extractor-integration | 0 |
-| rewrite-labs-orchestrator | 0 |
-| context-manager | 0 |
-| kb-sync-nightly | 0 |
-| kb-sync-artifact-generator | 0 |
-| reconcile-vector-store | 0 |
-| scale-ingestion-service | 0 |
 | operator-image-build | 0 |
+| plan-extractor-integration | 0 |
+| context-manager | 0 |
+| work-summarizer | 0 |
+| ashfall | 0 |
+| cic-section-summarizer | 0 |
+| analyze-token-burn | 0 |
+| cic-roadmap-updater | 0 |
+| reconcile-vector-store | 0 |
+| agent-drift-detector | 0 |
+| kb-sync-artifact-generator | 0 |
+| tool-lifecycle-manager | 0 |
+| permission-governor | 0 |
+| roadmap-validator | 0 |
+| run-adapter-diagnostic | 0 |
+| kb-sync-nightly | 0 |
+| toolforge-drift-monitor | 0 |
+| html-visual-verify | 0 |
+| scale-ingestion-service | 0 |
+| rollback-phase | 0 |
+| rewrite-labs-orchestrator | 0 |
 
 ---
 
