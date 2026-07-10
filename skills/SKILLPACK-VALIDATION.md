@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-08T09:20:42.3098732Z
+**Generated**: 2026-07-10T01:15:07.5462235Z
 
 ---
 
@@ -8,18 +8,18 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 6 | 15 | 0 | ❌ |
-| Distributed | 0 | 11 | 0 | ✅ |
-| Manifest | 0 | 1 | 0 | ✅ |
-| Cowork | 0 | 13 | 0 | ✅ |
+| Canonical | 0 | 12 | 0 | ✅ |
+| Distributed | 0 | 2 | 0 | ✅ |
+| Manifest | 0 | 52 | 0 | ✅ |
+| Cowork | 0 | 21 | 0 | ✅ |
 | Dependencies | 0 | 0 | 1 | ✅ |
-| Runtime | 0 | 0 | 13 | ✅ |
-| Audit | 0 | 0 | 1 | ℹ️ |
+| Runtime | 0 | 0 | 21 | ✅ |
+| Audit | 0 | 0 | 0 | ℹ️ |
 
-**Total Errors**: 6
-**Total Warnings**: 40
+**Total Errors**: 0
+**Total Warnings**: 87
 
-**Overall Status**: ❌ FAIL
+**Overall Status**: ✅ PASS
 
 ---
 
@@ -27,72 +27,121 @@
 
 | ID | Name | Version | Status | Canonical | Distributed | Manifest | Cowork | Runtime |
 |----|------|---------|--------|-----------|-------------|----------|--------|---------|
-| analyze-token-burn | analyze-token-burn | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| ashfall | ashfall | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| kb-sync-nightly | kb-sync-nightly | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| pre-wrap-audit | pre-wrap-audit | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| reconcile-vector-store | reconcile-vector-store | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| roadmap-validator | Roadmap Validator | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
-| rollback-phase | rollback-phase | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| run-adapter-diagnostic | run-adapter-diagnostic | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| scale-ingestion-service | scale-ingestion-service | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| tool-lifecycle-manager | Tool Lifecycle Manager | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
+| agent-drift-detector | Agent Drift Detector | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| analyze-token-burn | Analyze Token Burn | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| ashfall | Ashfall | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| cic-roadmap-updater | CIC Roadmap Updater | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| cic-section-summarizer | CIC Section Summarizer | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| context-manager | Context Manager | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| kb-sync-artifact-generator | KB Sync Artifact Generator | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| kb-sync-nightly | Kb Sync Nightly | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| permission-governor | Permission Governor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| plan-extractor-integration | Plan Extractor Integration | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| pre-wrap-audit | Pre Wrap Audit | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| reconcile-vector-store | Reconcile Vector Store | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| rewrite-labs-orchestrator | Rewrite Labs Orchestrator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| roadmap-validator | Roadmap Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| rollback-phase | Rollback Phase | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| run-adapter-diagnostic | Run Adapter Diagnostic | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| scale-ingestion-service | Scale Ingestion Service | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| tool-lifecycle-manager | Tool Lifecycle Manager | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | toolforge-drift-monitor | Toolforge Drift Monitor | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
-| work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 
 ---
 
 ## Canonical Validation
 
-⚠️ **analyze-token-burn**: Entrypoint missing: src/index.ts
-⚠️ **analyze-token-burn**: Category missing (using fallback: utility)
-❌ **ashfall**: Entrypoint not specified
+⚠️ **analyze-token-burn**: Invalid category: observability
 ⚠️ **ashfall**: Invalid category: session-management
-⚠️ **kb-sync-nightly**: Invalid category: documentation
-❌ **operator-image-build**: Missing: SKILL.md
-❌ **operator-image-build**: Missing: INTEGRATION_DIAGRAM.md
-⚠️ **operator-image-build**: Invalid category: infrastructure-automation
+⚠️ **kb-sync-artifact-generator**: Invalid category: governance
+⚠️ **kb-sync-nightly**: Invalid category: governance
+⚠️ **operator-image-build**: Invalid category: pipeline
 ⚠️ **pre-wrap-audit**: Invalid category: session-management
-❌ **pre-wrap-audit**: Entrypoint not specified
-❌ **pre-wrap-audit**: Missing: SKILL.md
-❌ **pre-wrap-audit**: Missing: INTEGRATION_DIAGRAM.md
-⚠️ **reconcile-vector-store**: Entrypoint missing: src/index.ts
-⚠️ **reconcile-vector-store**: Category missing (using fallback: utility)
-⚠️ **rollback-phase**: Entrypoint missing: src/index.ts
-⚠️ **rollback-phase**: Category missing (using fallback: utility)
-⚠️ **run-adapter-diagnostic**: Entrypoint missing: src/index.ts
-⚠️ **run-adapter-diagnostic**: Category missing (using fallback: utility)
-⚠️ **scale-ingestion-service**: Category missing (using fallback: utility)
-⚠️ **scale-ingestion-service**: Entrypoint missing: src/index.ts
-⚠️ **work-summarizer**: Invalid category: development-observability
+⚠️ **reconcile-vector-store**: Invalid category: data-management
+⚠️ **roadmap-validator**: Invalid category: governance
+⚠️ **rollback-phase**: Invalid category: pipeline
+⚠️ **scale-ingestion-service**: Invalid category: pipeline
+⚠️ **tool-lifecycle-manager**: Invalid category: pipeline
+⚠️ **work-summarizer**: Invalid category: observability
 
 ## Distributed Validation
 
-⚠️ **analyze-token-burn**: Directory missing in distributed
-⚠️ **ashfall**: Directory missing in distributed
-⚠️ **kb-sync-nightly**: Directory missing in distributed
-⚠️ **operator-image-build**: Directory missing in distributed
-⚠️ **pre-wrap-audit**: Directory missing in distributed
-⚠️ **reconcile-vector-store**: Directory missing in distributed
-⚠️ **roadmap-validator**: Directory missing in distributed
-⚠️ **rollback-phase**: Directory missing in distributed
-⚠️ **run-adapter-diagnostic**: Directory missing in distributed
-⚠️ **scale-ingestion-service**: Directory missing in distributed
-⚠️ **work-summarizer**: Directory missing in distributed
+⚠️ **kb-sync-artifact-generator**: Directory missing in distributed
+⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
 
 ## Manifest Validation
 
-⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest 'validation, roadmap'
+⚠️ **agent-drift-detector**: Tags mismatch: canonical '', manifest 'drift, schema, validation'
+⚠️ **agent-drift-detector**: Path mismatch: expected 'skills/agent-drift-detector', got ''
+⚠️ **analyze-token-burn**: Path mismatch: expected 'skills/analyze-token-burn', got ''
+⚠️ **analyze-token-burn**: Invalid category in manifest: observability
+⚠️ **analyze-token-burn**: Tags mismatch: canonical '', manifest ''
+⚠️ **ashfall**: Path mismatch: expected 'skills/ashfall', got ''
+⚠️ **ashfall**: Invalid category in manifest: session-management
+⚠️ **ashfall**: Tags mismatch: canonical '', manifest ''
+⚠️ **cic-roadmap-updater**: Tags mismatch: canonical '', manifest 'roadmap, planning, versioning'
+⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
+⚠️ **cic-section-summarizer**: Tags mismatch: canonical '', manifest 'analysis, roadmap, progress'
+⚠️ **cic-section-summarizer**: Path mismatch: expected 'skills/cic-section-summarizer', got ''
+⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
+⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
+⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
+⚠️ **kb-sync-artifact-generator**: Invalid category in manifest: governance
+⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
+⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
+⚠️ **kb-sync-nightly**: Invalid category in manifest: governance
+⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
+⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
+⚠️ **operator-image-build**: Invalid category in manifest: pipeline
+⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
+⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
+⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
+⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
+⚠️ **plan-extractor-integration**: Path mismatch: expected 'skills/plan-extractor-integration', got ''
+⚠️ **pre-wrap-audit**: Invalid category in manifest: session-management
+⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
+⚠️ **pre-wrap-audit**: Path mismatch: expected 'skills/pre-wrap-audit', got ''
+⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
+⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
+⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
+⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
+⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
+⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
+⚠️ **roadmap-validator**: Invalid category in manifest: governance
+⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
+⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
+⚠️ **rollback-phase**: Invalid category in manifest: pipeline
+⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
+⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
+⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
+⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
+⚠️ **scale-ingestion-service**: Invalid category in manifest: pipeline
+⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
+⚠️ **tool-lifecycle-manager**: Invalid category in manifest: pipeline
+⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
+⚠️ **toolforge-drift-monitor**: Path mismatch: expected 'skills/toolforge-drift-monitor', got ''
+⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
+⚠️ **work-summarizer**: Invalid category in manifest: observability
+⚠️ **work-summarizer**: Tags mismatch: canonical '', manifest ''
 
 ## Cowork Validation
 
+⚠️ **agent-drift-detector**: Not registered (installer will register on next run)
 ⚠️ **analyze-token-burn**: Not registered (installer will register on next run)
 ⚠️ **ashfall**: Not registered (installer will register on next run)
+⚠️ **cic-roadmap-updater**: Not registered (installer will register on next run)
+⚠️ **cic-section-summarizer**: Not registered (installer will register on next run)
+⚠️ **context-manager**: Not registered (installer will register on next run)
+⚠️ **kb-sync-artifact-generator**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-nightly**: Not registered (installer will register on next run)
 ⚠️ **operator-image-build**: Not registered (installer will register on next run)
+⚠️ **permission-governor**: Not registered (installer will register on next run)
+⚠️ **plan-extractor-integration**: Not registered (installer will register on next run)
 ⚠️ **pre-wrap-audit**: Not registered (installer will register on next run)
 ⚠️ **reconcile-vector-store**: Not registered (installer will register on next run)
+⚠️ **rewrite-labs-orchestrator**: Not registered (installer will register on next run)
 ⚠️ **roadmap-validator**: Not registered (installer will register on next run)
 ⚠️ **rollback-phase**: Not registered (installer will register on next run)
 ⚠️ **run-adapter-diagnostic**: Not registered (installer will register on next run)
@@ -103,12 +152,20 @@
 
 ## Runtime Validation
 
+ℹ️ **agent-drift-detector**: Skill inactive (status: )
 ℹ️ **analyze-token-burn**: Skill inactive (status: )
 ℹ️ **ashfall**: Skill inactive (status: )
+ℹ️ **cic-roadmap-updater**: Skill inactive (status: )
+ℹ️ **cic-section-summarizer**: Skill inactive (status: )
+ℹ️ **context-manager**: Skill inactive (status: )
+ℹ️ **kb-sync-artifact-generator**: Skill inactive (status: )
 ℹ️ **kb-sync-nightly**: Skill inactive (status: )
 ℹ️ **operator-image-build**: Skill inactive (status: )
+ℹ️ **permission-governor**: Skill inactive (status: )
+ℹ️ **plan-extractor-integration**: Skill inactive (status: )
 ℹ️ **pre-wrap-audit**: Skill inactive (status: )
 ℹ️ **reconcile-vector-store**: Skill inactive (status: )
+ℹ️ **rewrite-labs-orchestrator**: Skill inactive (status: )
 ℹ️ **roadmap-validator**: Skill inactive (status: )
 ℹ️ **rollback-phase**: Skill inactive (status: )
 ℹ️ **run-adapter-diagnostic**: Skill inactive (status: )
@@ -116,10 +173,6 @@
 ℹ️ **tool-lifecycle-manager**: Discoverable
 ℹ️ **toolforge-drift-monitor**: Discoverable
 ℹ️ **work-summarizer**: Skill inactive (status: )
-
-## Audit Validation
-
-ℹ️ **system**: No runtime log yet (skills not executed)
 
 ---
 
