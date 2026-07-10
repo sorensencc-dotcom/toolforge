@@ -1,0 +1,37 @@
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_7008a9810d4867::t_1e1318c7398dd0 3
+skills/SKILLPACK-VALIDATION.md
+  s_1c8c72bfe5bcd2::t_d20fbbc69a0a2a 3
+audit/COWORK-REGISTERED-SKILLS.md
+  s_1c8c72bfe5bcd2::t_e5f58f578cfc13 3,27-49
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_1c8c72bfe5bcd2::t_5f325676d31eed 3
+skills/SKILLPACK-METADATA.json
+  s_1c8c72bfe5bcd2::t_6705d24b06370e 11
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_1c8c72bfe5bcd2::t_1a4451266bcdd9 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "297e3ff04e25990bbbe147de1888e7db59ac7d11",
+  "prompts": {},
+  "sessions": {
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

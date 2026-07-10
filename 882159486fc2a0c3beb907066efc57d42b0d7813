@@ -1,0 +1,22 @@
+skills/work-summarizer/src/index.ts
+  s_1a0b2d4c5a3d0a::t_87cec1aa3e8a91 251
+skills/work-summarizer/src/llm-provider.ts
+  s_1a0b2d4c5a3d0a::t_b8c299a02ec10f 56-76,78-106
+  s_1a0b2d4c5a3d0a::t_170b4a193d7ad5 185-186
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "882159486fc2a0c3beb907066efc57d42b0d7813",
+  "prompts": {},
+  "sessions": {
+    "s_1a0b2d4c5a3d0a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dabad09c-d51b-4d48-8cfa-23d82621b26c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,73 @@
+daemons/cowork-auto-sync.ps1
+  s_439fbcbd69e0f4::t_058292ef1ece34 27-32,383,394,401,413
+manifest.json
+  s_009762e0c47c61::t_7545a823a93cca 355-570,574,577-578,581-582
+skills/agent-drift-detector/docs/USAGE.md
+  s_009762e0c47c61::t_735fe641a63f68 1-60
+skills/agent-drift-detector/tests/test.ts
+  s_009762e0c47c61::t_5967d70ea4f876 1-9
+skills/cic-roadmap-updater/docs/USAGE.md
+  s_009762e0c47c61::t_e8a50c0cbac381 1-64
+skills/cic-roadmap-updater/tests/test.ts
+  s_009762e0c47c61::t_861452c38bdfd2 1-9
+skills/cic-section-summarizer/docs/USAGE.md
+  s_009762e0c47c61::t_3bd4cb69737a8f 1-49
+skills/context-manager/docs/USAGE.md
+  s_009762e0c47c61::t_df30ae4ebff8da 1-56
+skills/permission-governor/docs/USAGE.md
+  s_009762e0c47c61::t_e7e921f2246c99 1-58
+skills/permission-governor/tests/test.ts
+  s_009762e0c47c61::t_a20b8cac94dc99 1-9
+skills/plan-extractor-integration/docs/USAGE.md
+  s_009762e0c47c61::t_1922f9d1e5977d 1-64
+skills/plan-extractor-integration/tests/test.ts
+  s_009762e0c47c61::t_cc6ba16df4ebfc 1-5
+skills/rewrite-labs-orchestrator/docs/USAGE.md
+  s_009762e0c47c61::t_b6db70c2aa75b0 1-65
+skills/tool-lifecycle-manager/SKILL.json
+  s_fe4a607b589077::t_f92f294f4831e3 20-30
+skills/toolforge-drift-monitor/SKILL.json
+  s_fe4a607b589077::t_51e71a3fdca9bd 20-30
+utilities/toolforgeSkillValidator.ps1
+  s_d3640c043b3d74::t_d66db161f1b93a 33-38,1150,1155
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "a8fc9905f90b94ebdef136d0b913d907675b29cc",
+  "prompts": {},
+  "sessions": {
+    "s_009762e0c47c61": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1e684a20-d25a-4bda-a0b6-18f4dbfd616d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_439fbcbd69e0f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1e0c90b7-1611-4695-bcb6-9841018ce05a",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d3640c043b3d74": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6a3bc7a-e5d5-4837-8509-3c2a67fc7c7d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fe4a607b589077": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2a3b4a99-5f1a-480f-a4ab-8ef682040cbc",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+docs/sync-tools/multiRepoRoadmapSync.md
+  s_1c8c72bfe5bcd2::t_c1f1916d1319e0 1-107
+drift/DRIFT-REPORT.md
+  s_1c8c72bfe5bcd2::t_11dd452c3e22cd 73
+  s_1c8c72bfe5bcd2::t_d23f50cf758d53 1-2,4-5,7-11,13,21,23,25,27,29,36,40,46,77,79,86,90,93,95,120,122,126,132,137,141,143,145,151,155,161,167,169,174,181-183,185,188,192,197,199-200
+  s_1c8c72bfe5bcd2::t_d472a4e1e390a6 45
+  s_1c8c72bfe5bcd2::t_05f7015ff51e72 15
+  s_1c8c72bfe5bcd2::t_ebc8fe7245a811 3,6,12,14,16-20,22,24,26,28,30-35,37-39,41-44,47-72,74-76,78,80-85,87-89,91-92,94,96-119,121,123-125,127-131,133-136,138-140,142,144,146-150,152-154,156-160,162-166,168,170-173,175-180,184,186-187,189-191,193-196,198
+docs/DOCS_INDEX.md
+  s_1c8c72bfe5bcd2::t_36997c09e033bc 1-179
+docs/daemons/toolforgeIndexSync.md
+  s_1c8c72bfe5bcd2::t_49d9f87dc24417 1-118
+docs/daemons/toolforgeManifestSync.md
+  s_1c8c72bfe5bcd2::t_e6740c0af17384 1-88
+CHANGELOG.md
+  s_1c8c72bfe5bcd2::t_9f702575aeace8 1-2
+  s_1c8c72bfe5bcd2::t_0b4f35ff229754 3-15
+docs/daemons/toolforgeDocsSync.md
+  s_1c8c72bfe5bcd2::t_87dcc0d90757b2 1-115
+docs/utilities/setupTaskScheduler.md
+  s_1c8c72bfe5bcd2::t_e734731942cafc 1-126
+VERSION.md
+  s_1c8c72bfe5bcd2::t_bec37f13d2c40f 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "ed042da88dc920fc71441077db6e56da882a39a4",
+  "prompts": {},
+  "sessions": {
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
