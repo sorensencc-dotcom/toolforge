@@ -1,0 +1,49 @@
+{
+  "name": "toolforge-cowork-gateway",
+  "version": "1.0.0",
+  "description": "Cowork plugin registration gateway for Toolforge skill network",
+  "gatewayId": "toolforge-gateway",
+  "endpoints": {
+    "register": "/cowork/register",
+    "sync": "/cowork/sync",
+    "manifest": "/cowork/manifest",
+    "status": "/cowork/status"
+  },
+  "capabilities": [
+    "skill-registration",
+    "distributed-sync",
+    "manifest-export",
+    "drift-detection",
+    "state-propagation"
+  ],
+  "skillsManaged": 22,
+  "tier-a-skills": 9,
+  "tier-a-list": [
+    "agent-drift-detector",
+    "cic-roadmap-updater",
+    "cic-section-summarizer",
+    "context-manager",
+    "html-visual-verify",
+    "kb-sync-artifact-generator",
+    "permission-governor",
+    "plan-extractor-integration",
+    "rewrite-labs-orchestrator"
+  ],
+  "features": {
+    "handshake": true,
+    "heartbeat": true,
+    "retry": true,
+    "backoff": true,
+    "drift-detection": true,
+    "manifest-validation": true,
+    "error-recovery": true
+  },
+  "config": {
+    "syncInterval": 300,
+    "heartbeatInterval": 60,
+    "maxRetries": 3,
+    "timeoutMs": 30000
+  },
+  "createdAt": "2026-07-10T16:30:00Z",
+  "status": "active"
+}
