@@ -42,7 +42,7 @@
       "id": "ashfall",
       "entrypoint": "src/index.ts",
       "owner": "unknown",
-      "category": "session-management",
+      "category": "automation",
       "health": {
         "canonical": true,
         "runtime": "untested",

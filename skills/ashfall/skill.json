@@ -6,7 +6,7 @@
   "author": "Soren (Cast Iron Forge)",
   "license": "MIT",
   "repository": "https://github.com/anthropics/cast-iron-forge",
-  "category": "session-management",
+  "category": "automation",
   "runtime": "node",
   "keywords": [
     "session-management",

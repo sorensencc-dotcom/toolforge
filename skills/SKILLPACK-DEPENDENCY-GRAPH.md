@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-10T01:15:17.7302638Z
+**Generated:** 2026-07-10T01:19:55.7204971Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -226,26 +226,26 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| pre-wrap-audit | 1 |
-| operator-image-build | 0 |
-| cic-roadmap-updater | 0 |
-| agent-drift-detector | 0 |
-| tool-lifecycle-manager | 0 |
-| ashfall | 0 |
-| permission-governor | 0 |
-| analyze-token-burn | 0 |
-| plan-extractor-integration | 0 |
-| toolforge-drift-monitor | 0 |
-| kb-sync-artifact-generator | 0 |
-| cic-section-summarizer | 0 |
-| reconcile-vector-store | 0 |
-| rollback-phase | 0 |
 | run-adapter-diagnostic | 0 |
 | context-manager | 0 |
-| rewrite-labs-orchestrator | 0 |
+| operator-image-build | 0 |
+| toolforge-drift-monitor | 0 |
+| plan-extractor-integration | 0 |
 | scale-ingestion-service | 0 |
-| kb-sync-nightly | 0 |
+| kb-sync-artifact-generator | 0 |
+| permission-governor | 0 |
+| tool-lifecycle-manager | 0 |
+| analyze-token-burn | 0 |
+| cic-roadmap-updater | 0 |
 | roadmap-validator | 0 |
+| rewrite-labs-orchestrator | 0 |
+| agent-drift-detector | 0 |
+| rollback-phase | 0 |
+| reconcile-vector-store | 0 |
+| kb-sync-nightly | 0 |
+| cic-section-summarizer | 0 |
 | work-summarizer | 0 |
+| ashfall | 0 |
 
 ---
 

@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-10T01:15:07.5462235Z
+**Generated**: 2026-07-10T01:19:44.5793358Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 0 | 12 | 0 | ✅ |
+| Canonical | 0 | 11 | 0 | ✅ |
 | Distributed | 0 | 2 | 0 | ✅ |
-| Manifest | 0 | 52 | 0 | ✅ |
+| Manifest | 0 | 51 | 0 | ✅ |
 | Cowork | 0 | 21 | 0 | ✅ |
 | Dependencies | 0 | 0 | 1 | ✅ |
 | Runtime | 0 | 0 | 21 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 87
+**Total Warnings**: 85
 
 **Overall Status**: ✅ PASS
 
@@ -54,7 +54,6 @@
 ## Canonical Validation
 
 ⚠️ **analyze-token-burn**: Invalid category: observability
-⚠️ **ashfall**: Invalid category: session-management
 ⚠️ **kb-sync-artifact-generator**: Invalid category: governance
 ⚠️ **kb-sync-nightly**: Invalid category: governance
 ⚠️ **operator-image-build**: Invalid category: pipeline
@@ -79,7 +78,6 @@
 ⚠️ **analyze-token-burn**: Invalid category in manifest: observability
 ⚠️ **analyze-token-burn**: Tags mismatch: canonical '', manifest ''
 ⚠️ **ashfall**: Path mismatch: expected 'skills/ashfall', got ''
-⚠️ **ashfall**: Invalid category in manifest: session-management
 ⚠️ **ashfall**: Tags mismatch: canonical '', manifest ''
 ⚠️ **cic-roadmap-updater**: Tags mismatch: canonical '', manifest 'roadmap, planning, versioning'
 ⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
@@ -90,35 +88,35 @@
 ⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-artifact-generator**: Invalid category in manifest: governance
 ⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
-⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
-⚠️ **kb-sync-nightly**: Invalid category in manifest: governance
 ⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
-⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
+⚠️ **kb-sync-nightly**: Invalid category in manifest: governance
+⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
 ⚠️ **operator-image-build**: Invalid category in manifest: pipeline
 ⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
+⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
 ⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
 ⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
 ⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
 ⚠️ **plan-extractor-integration**: Path mismatch: expected 'skills/plan-extractor-integration', got ''
+⚠️ **pre-wrap-audit**: Path mismatch: expected 'skills/pre-wrap-audit', got ''
 ⚠️ **pre-wrap-audit**: Invalid category in manifest: session-management
 ⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
-⚠️ **pre-wrap-audit**: Path mismatch: expected 'skills/pre-wrap-audit', got ''
-⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
 ⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
 ⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
-⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
+⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
 ⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
-⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
+⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
 ⚠️ **roadmap-validator**: Invalid category in manifest: governance
+⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
 ⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
-⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
 ⚠️ **rollback-phase**: Invalid category in manifest: pipeline
 ⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
+⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
 ⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
 ⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
+⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
 ⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
 ⚠️ **scale-ingestion-service**: Invalid category in manifest: pipeline
-⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
 ⚠️ **tool-lifecycle-manager**: Invalid category in manifest: pipeline
 ⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
 ⚠️ **toolforge-drift-monitor**: Path mismatch: expected 'skills/toolforge-drift-monitor', got ''

@@ -1,46 +1,568 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Toolforge Dashboard</title>
-<style>
-  body { background:#0a0a0a; color:#eee; font-family:Consolas, monospace; padding:20px; }
-  h1 { color:#00ff88; }
-  .tool { margin-bottom:12px; padding:10px; border:1px solid #333; }
-  .category { color:#00ff88; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toolforge Dashboard</title>
+  <style>
+    /* Font faces via data URIs — Playfair, Baskerville, Barlow */
+    @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Libre+Baskerville:wght@400;700&family=Barlow+Condensed:wght@400;600;700&display=swap");
+
+    /* CSS Custom Properties */
+    :root {
+      --black: #0a0806;
+      --forge: #1a1410;
+      --iron: #2c2420;
+      --rust: #8B3A1A;
+      --ember: #C4501A;
+      --brass: #B8922A;
+      --ash: #9a9088;
+      --bone: #e8e0d4;
+      --paper: #f2ece2;
+      --white: #faf6f0;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --black: #faf6f0;
+        --forge: #f2ece2;
+        --iron: #e8e0d4;
+        --rust: #8B3A1A;
+        --ember: #C4501A;
+        --brass: #8B6914;
+        --ash: #5a5248;
+        --bone: #0a0806;
+        --paper: #0a0806;
+        --white: #1a1410;
+      }
+    }
+
+    :root[data-theme="light"] {
+      --black: #faf6f0;
+      --forge: #f2ece2;
+      --iron: #e8e0d4;
+      --rust: #8B3A1A;
+      --ember: #C4501A;
+      --brass: #8B6914;
+      --ash: #5a5248;
+      --bone: #0a0806;
+      --paper: #0a0806;
+      --white: #1a1410;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--bone);
+      font-family: "Libre Baskerville", serif;
+      font-size: 16px;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml;utf8,<svg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"><filter id=\"noise\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.8\" numOctaves=\"4\" result=\"noise\" seed=\"2\"/></filter><rect width=\"200\" height=\"200\" filter=\"url(%23noise)\" opacity=\"0.04\"/></svg>");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(to bottom, rgba(10, 8, 6, 0.95), transparent);
+      padding: 2rem 4rem;
+      border-bottom: 1px solid rgba(196, 80, 26, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ash);
+      margin-top: 0.5rem;
+    }
+
+    /* Controls */
+    .controls {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      background: rgba(26, 20, 16, 0.8);
+      color: var(--ash);
+      border: 1px solid rgba(154, 144, 136, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: rgba(196, 80, 26, 0.4);
+      color: var(--bone);
+    }
+
+    .filter-btn.active {
+      background: rgba(196, 80, 26, 0.2);
+      border-color: rgba(196, 80, 26, 0.6);
+      color: var(--ember);
+    }
+
+    .stats {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+
+    .stat-value {
+      font-weight: 700;
+      color: var(--ember);
+      margin-right: 0.5rem;
+    }
+
+    /* Main container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      header {
+        padding: 1.5rem 2rem;
+      }
+    }
+
+    /* Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    /* Skill Card */
+    .skill-card {
+      background: rgba(26, 20, 16, 0.6);
+      border: 1px solid rgba(154, 144, 136, 0.12);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(196, 80, 26, 0.4);
+      background: rgba(26, 20, 16, 0.8);
+    }
+
+    .skill-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(154, 144, 136, 0.08);
+    }
+
+    .skill-category {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .skill-name {
+      font-family: "Playfair Display", serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .skill-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .skill-description {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--bone);
+    }
+
+    .skill-metadata {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(154, 144, 136, 0.08);
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .meta-label {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ash);
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--bone);
+    }
+
+    /* Status pill */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(26, 20, 16, 0.8);
+      border: 1px solid rgba(154, 144, 136, 0.2);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .status-badge::before {
+      content: "●";
+      font-size: 0.5rem;
+    }
+
+    .status-badge.active {
+      border-color: rgba(232, 224, 212, 0.3);
+      color: var(--bone);
+    }
+
+    .status-badge.active::before {
+      color: var(--bone);
+    }
+
+    .status-badge.inactive {
+      border-color: rgba(154, 144, 136, 0.2);
+      color: var(--ash);
+    }
+
+    .status-badge.inactive::before {
+      color: var(--ash);
+    }
+
+    .health-good {
+      border-color: rgba(232, 224, 212, 0.3);
+    }
+
+    .health-good::before {
+      color: var(--bone);
+    }
+
+    .health-warn {
+      border-color: rgba(139, 58, 26, 0.4);
+    }
+
+    .health-warn::before {
+      color: var(--rust);
+    }
+
+    .health-error {
+      border-color: rgba(196, 80, 26, 0.4);
+    }
+
+    .health-error::before {
+      color: var(--ember);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--ash);
+    }
+
+    .empty-state p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Divider */
+    hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(139, 58, 26, 0.3), transparent);
+      margin: 2rem 0;
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--ash);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(196, 80, 26, 0.2);
+      border-top-color: var(--ember);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Keyboard focus */
+    .skill-card:focus-visible {
+      outline: 2px solid var(--ember);
+      outline-offset: -1px;
+    }
+
+    .filter-btn:focus-visible {
+      outline: 2px solid var(--ember);
+      outline-offset: 2px;
+    }
+
+    /* Responsive */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 <body>
-<h1>Toolforge Dashboard</h1>
-<div id="tools"></div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Toolforge</div>
+    <h1>Skill Inventory</h1>
+    <p class="subtitle">Operational and Governance Skills</p>
+
+    <div class="controls">
+      <div class="filter-group" id="filters"></div>
+      <div class="stats">
+        <span class="stat-value" id="total-count">0</span>TOTAL
+        <span class="stat-value" id="active-count">0</span>ACTIVE
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div id="skills-container" class="skills-grid">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading skills</p>
+    </div>
+  </div>
+</main>
 
 <script>
-async function loadTools() {
-  const root = "C:/dev/toolforge";
-  const categories = ["mcp-servers","adapters","daemons","sync-tools","scaffolds","prototypes","utilities"];
+  // Configuration
+  const MANIFEST_PATH = "./manifest.json";
 
-  const container = document.getElementById("tools");
+  // State
+  let allSkills = [];
+  let activeCategory = "all";
 
-  for (const cat of categories) {
-    const div = document.createElement("div");
-    div.innerHTML = `<h2 class="category">${cat}</h2>`;
-    container.appendChild(div);
-
+  // Load manifest
+  async function loadManifest() {
     try {
-      const entries = await window.fs.readdir(`${root}/${cat}`);
-      entries.forEach(e => {
-        if (!e.startsWith("_")) {
-          const t = document.createElement("div");
-          t.className = "tool";
-          t.textContent = e;
-          div.appendChild(t);
-        }
-      });
-    } catch {}
+      const response = await fetch(MANIFEST_PATH);
+      if (!response.ok) throw new Error("Failed to load manifest");
+      const data = await response.json();
+      allSkills = data.skills || [];
+      render();
+    } catch (error) {
+      console.error("Error loading manifest:", error);
+      showError("Failed to load skill inventory. Check console for details.");
+    }
   }
-}
 
-loadTools();
+  // Render skills
+  function render() {
+    renderFilters();
+    renderSkills();
+    updateStats();
+  }
+
+  function renderFilters() {
+    const container = document.getElementById("filters");
+    container.innerHTML = "";
+
+    // Get unique categories
+    const categories = new Set(["all"]);
+    allSkills.forEach(skill => {
+      if (skill.category) categories.add(skill.category);
+    });
+
+    Array.from(categories).sort().forEach(cat => {
+      const btn = document.createElement("button");
+      btn.className = "filter-btn " + (cat === activeCategory ? "active" : "");
+      btn.textContent = cat === "all" ? "All Skills" : cat.toUpperCase();
+      btn.onclick = () => {
+        activeCategory = cat;
+        render();
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function renderSkills() {
+    const container = document.getElementById("skills-container");
+    let filtered = allSkills;
+
+    if (activeCategory !== "all") {
+      filtered = allSkills.filter(s => s.category === activeCategory);
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = "<div class=\"empty-state\"><p>No skills found in this category.</p></div>";
+      return;
+    }
+
+    container.innerHTML = filtered
+      .sort((a, b) => (a.name || "").localeCompare(b.name || ""))
+      .map(skill => createSkillCard(skill))
+      .join("");
+  }
+
+  function createSkillCard(skill) {
+    const statusClass = skill.status === "active" ? "active" : "inactive";
+    const healthClass = skill.health?.overall === "good" ? "health-good" :
+                       skill.health?.overall === "warn" ? "health-warn" : "health-error";
+
+    return `
+      <div class="skill-card" tabindex="0">
+        <div class="skill-header">
+          <span class="skill-category">${skill.category || "UNCATEGORIZED"}</span>
+          <h2 class="skill-name">${skill.name || skill.id || "Unknown"}</h2>
+        </div>
+        <div class="skill-body">
+          <p class="skill-description">${skill.description || "No description available."}</p>
+          <div class="skill-metadata">
+            <div class="meta-row">
+              <span class="meta-label">VERSION</span>
+              <span class="meta-value">${skill.version || "—"}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">STATUS</span>
+              <span class="status-badge ${statusClass}">${skill.status || "unknown"}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">HEALTH</span>
+              <span class="status-badge ${healthClass}">${skill.health?.overall || "unknown"}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">OWNER</span>
+              <span class="meta-value">${skill.owner || "—"}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function updateStats() {
+    const activeSkills = allSkills.filter(s => s.status === "active").length;
+    document.getElementById("total-count").textContent = allSkills.length;
+    document.getElementById("active-count").textContent = activeSkills;
+  }
+
+  function showError(message) {
+    const container = document.getElementById("skills-container");
+    container.innerHTML = "<div class=\"empty-state\"><p>" + message + "</p></div>";
+  }
+
+  // Initialize
+  loadManifest();
+
+  // Auto-refresh every 30 seconds
+  setInterval(loadManifest, 30000);
 </script>
+
 </body>
 </html>

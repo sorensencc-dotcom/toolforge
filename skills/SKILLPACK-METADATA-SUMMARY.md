@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-10T01:15:17.9799547Z
+**Generated:** 2026-07-10T01:19:56.1405229Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -56,7 +56,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Ashfall |
-| Category | session-management |
+| Category | automation |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | node |

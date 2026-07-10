@@ -2,7 +2,7 @@
 skill_name: ashfall
 version: 1.0.0
 name: ashfall
-category: session-management
+category: automation
 description: Deterministic session-termination and context-handoff engine for Cast Iron systems
 author: Soren (Cast Iron Forge)
 tags: ["session-management","context-handoff","audit","memory-compression","roadmap"]
