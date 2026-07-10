@@ -17,5 +17,15 @@
     "internal": []
   },
   "owner": "soren",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/tool-lifecycle-manager",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Manages skill lifecycle: registration, distribution, validation, deprecation"
 }

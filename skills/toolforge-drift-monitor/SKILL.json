@@ -17,5 +17,15 @@
     "internal": []
   },
   "owner": "soren",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/toolforge-drift-monitor",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Detects drift between canonical, distributed, manifest, and Cowork systems"
 }

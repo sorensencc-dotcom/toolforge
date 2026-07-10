@@ -352,16 +352,232 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Autonomous execution context detection, validation, and storage",
+      "timestamps": {
+        "created": "2026-07-09T00:00:00.000Z",
+        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["session", "autonomous", "governance"],
+      "status": "active",
+      "name": "Context Manager",
+      "runtime": "typescript",
+      "id": "context-manager",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "utility",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
+      "timestamps": {
+        "created": "2026-07-09T00:00:00.000Z",
+        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["permissions", "security", "governance"],
+      "status": "active",
+      "name": "Permission Governor",
+      "runtime": "typescript",
+      "id": "permission-governor",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "validation",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Unified entry point for CodeFlow extraction into CIC stores",
+      "timestamps": {
+        "created": "2026-07-09T00:00:00.000Z",
+        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["codeflow", "extraction", "integration"],
+      "status": "active",
+      "name": "Plan Extractor Integration",
+      "runtime": "typescript",
+      "id": "plan-extractor-integration",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "integration",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Auto-summarize CIC phase progress and files reviewed",
+      "timestamps": {
+        "created": "2026-07-09T00:00:00.000Z",
+        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["analysis", "roadmap", "progress"],
+      "status": "active",
+      "name": "CIC Section Summarizer",
+      "runtime": "typescript",
+      "id": "cic-section-summarizer",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "analysis",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Detect schema drift in agent messages and APIs",
+      "timestamps": {
+        "created": "2026-07-09T00:00:00.000Z",
+        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["drift", "schema", "validation"],
+      "status": "active",
+      "name": "Agent Drift Detector",
+      "runtime": "typescript",
+      "id": "agent-drift-detector",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "validation",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Orchestrates multi-stage development pipelines and handles blockers",
+      "timestamps": {
+        "created": "2026-07-09T00:00:00.000Z",
+        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["pipeline", "stages", "orchestration"],
+      "status": "active",
+      "name": "Rewrite Labs Orchestrator",
+      "runtime": "typescript",
+      "id": "rewrite-labs-orchestrator",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "automation",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Calculates progress and updates versions for CIC roadmaps",
+      "timestamps": {
+        "created": "2026-07-09T00:00:00.000Z",
+        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["roadmap", "planning", "versioning"],
+      "status": "active",
+      "name": "CIC Roadmap Updater",
+      "runtime": "typescript",
+      "id": "cic-roadmap-updater",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "analysis",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Generates synchronization artifacts and reports for the knowledge base.",
+      "timestamps": {
+        "created": "2026-07-09T00:00:00.000Z",
+        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["kb-sync", "artifacts", "governance"],
+      "status": "active",
+      "name": "KB Sync Artifact Generator",
+      "runtime": "node",
+      "id": "kb-sync-artifact-generator",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "governance",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 13,
+    "total": 21,
     "health_error": 0,
     "deprecated": 0,
-    "active": 13,
-    "health_good": 13,
+    "active": 21,
+    "health_good": 21,
     "health_warn": 0
   },
-  "timestamp": "2026-07-09T03:21:53.3879858Z",
-  "version": "1.0.0"
+  "timestamp": "2026-07-09T23:41:00Z",
+  "version": "1.1.0"
 }

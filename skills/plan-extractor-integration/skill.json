@@ -1,0 +1,26 @@
+{
+  "id": "plan-extractor-integration",
+  "name": "Plan Extractor Integration",
+  "version": "1.0.0",
+  "description": "Unified entry point for CodeFlow extraction into CIC stores",
+  "category": "integration",
+  "triggers": [
+    "plan-extractor-integration",
+    "codeflow extraction",
+    "extract nodes",
+    "extractor orchestrator"
+  ],
+  "role": "ops",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "share",
+      "registrationPath": "cowork://toolforge/skills/plan-extractor-integration",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Unified entry point for CodeFlow extraction into CIC stores"
+}

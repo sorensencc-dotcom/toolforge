@@ -1,0 +1,26 @@
+{
+  "id": "context-manager",
+  "name": "Context Manager",
+  "version": "1.0.0",
+  "description": "Autonomous execution context detection, validation, and storage",
+  "category": "utility",
+  "triggers": [
+    "context-manager",
+    "autonomous context",
+    "load context",
+    "clear context"
+  ],
+  "role": "ops",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "box",
+      "registrationPath": "cowork://toolforge/skills/context-manager",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Autonomous execution context detection, validation, and storage"
+}

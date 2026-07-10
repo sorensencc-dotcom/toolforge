@@ -1,0 +1,26 @@
+{
+  "id": "rewrite-labs-orchestrator",
+  "name": "Rewrite Labs Orchestrator",
+  "version": "1.0.0",
+  "description": "Orchestrates multi-stage development pipelines and handles blockers",
+  "category": "automation",
+  "triggers": [
+    "rewrite-labs-orchestrator",
+    "orchestrate pipeline",
+    "pipeline state",
+    "stage progress"
+  ],
+  "role": "ops",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "git-pull-request",
+      "registrationPath": "cowork://toolforge/skills/rewrite-labs-orchestrator",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Orchestrates multi-stage development pipelines and handles blockers"
+}

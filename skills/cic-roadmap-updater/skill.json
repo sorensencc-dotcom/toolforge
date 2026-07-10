@@ -1,0 +1,26 @@
+{
+  "id": "cic-roadmap-updater",
+  "name": "CIC Roadmap Updater",
+  "version": "1.0.0",
+  "description": "Calculates progress and updates versions for CIC roadmaps",
+  "category": "analysis",
+  "triggers": [
+    "cic-roadmap-updater",
+    "update roadmap",
+    "roadmap progress",
+    "version bump"
+  ],
+  "role": "ops",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "trending-up",
+      "registrationPath": "cowork://toolforge/skills/cic-roadmap-updater",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Calculates progress and updates versions for CIC roadmaps"
+}

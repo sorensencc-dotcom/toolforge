@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KB Sync Interactive Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/gridjs.umd.js" integrity="sha384-/XXDzxe4FsGiAe50i/u9pY/Vy/uX654MHB1xoc1BJNnH1WXHhqHga9g3q5tF4gj7" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/theme/mermaid.min.css" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --color-charcoal: #2C2C2C;
+            --color-offwhite: #F5F3EF;
+            --color-ember: #8B4513;
+            --color-rust: #A0522D;
+            --color-brass: #D4AF37;
+            --color-sage: #9B9B8F;
+            --color-high: #E63946;
+            --color-medium: #F77F00;
+            --color-low: #06A77D;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1A1A1A;
+            --bg-secondary: #242424;
+            --text-primary: #F5F3EF;
+            --text-secondary: #9B9B8F;
+            --accent: #D4AF37;
+            --border: rgba(212, 175, 55, 0.2);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #FAFAF8;
+            --bg-secondary: #F5F3EF;
+            --text-primary: #2C2C2C;
+            --text-secondary: #9B9B8F;
+            --accent: #8B4513;
+            --border: rgba(139, 69, 19, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Baskerville', 'Garamond', serif;
+            line-height: 1.65;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1 {
+            font-family: 'Georgia', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-family: 'Georgia', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        .meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 3px;
+        }
+
+        .stat-value {
+            font-family: 'Georgia', serif;
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: rgba(160, 82, 45, 0.15);
+            color: #A0522D;
+            border: 1px solid #A0522D;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin: 1rem 0;
+        }
+
+        .chart-container {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 3px;
+            margin: 2rem 0;
+            height: 400px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .chart-container canvas {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .filter-info {
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin: 0.5rem 0 1rem 0;
+            font-style: italic;
+        }
+
+        .recommendations-panel {
+            background-color: var(--bg-secondary);
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 3px;
+        }
+
+        .recommendation-item {
+            background-color: var(--bg-primary);
+            border-left: 3px solid;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 3px;
+        }
+
+        .recommendation-item.HIGH {
+            border-left-color: var(--color-high);
+            background-color: rgba(230, 57, 70, 0.08);
+        }
+
+        .recommendation-item.MEDIUM {
+            border-left-color: var(--color-medium);
+            background-color: rgba(247, 127, 0, 0.08);
+        }
+
+        .recommendation-item.LOW {
+            border-left-color: var(--color-low);
+            background-color: rgba(6, 168, 125, 0.08);
+        }
+
+        .rec-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .rec-priority {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: white;
+        }
+
+        .rec-priority.HIGH {
+            background-color: var(--color-high);
+        }
+
+        .rec-priority.MEDIUM {
+            background-color: var(--color-medium);
+        }
+
+        .rec-priority.LOW {
+            background-color: var(--color-low);
+        }
+
+        .rec-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .rec-description {
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .rec-command {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            border-radius: 2px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rec-command code {
+            flex: 1;
+            color: var(--accent);
+        }
+
+        .copy-btn {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.8;
+        }
+
+        .table-container {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 3px;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .search-box {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 3px;
+            margin: 1.5rem 0;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            color: var(--text-primary);
+            font-family: 'Baskerville', serif;
+            font-size: 1rem;
+        }
+
+        .severity-HIGH {
+            color: var(--color-high);
+            font-weight: 600;
+        }
+
+        .severity-MEDIUM {
+            color: var(--color-medium);
+            font-weight: 600;
+        }
+
+        .severity-LOW {
+            color: var(--color-low);
+            font-weight: 600;
+        }
+
+        .gridjs-table {
+            background-color: var(--bg-primary) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .gridjs-th, .gridjs-td {
+            color: var(--text-primary) !important;
+            border-color: var(--border) !important;
+        }
+
+        .gridjs-tr:hover {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <button class="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
+
+    <h1>KB Sync — Interactive Report</h1>
+    <div class="meta">Generated: 2026-07-08T22:45:00Z | Phase 1: Impact Scoring + Recommendations + Filtering</div>
+
+    <div class="summary-grid">
+        <div class="stat-card">
+            <div class="stat-value">198</div>
+            <div class="stat-label">Pages Scanned</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">108</div>
+            <div class="stat-label">Broken Links</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">411</div>
+            <div class="stat-label">Total KB Pages</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">48065</div>
+            <div class="stat-label">Duplicate Groups</div>
+        </div>
+    </div>
+
+    <div class="status">⚠️ Issues Found: 108 Broken Links</div>
+
+    <h2>Issues by Category (Click to Filter)</h2>
+    <div class="filter-info" id="filterInfo"></div>
+    <div class="chart-container">
+        <canvas id="categoryChart"></canvas>
+    </div>
+
+    <h2>Actionable Recommendations</h2>
+    <div class="recommendations-panel">
+        <div id="recommendations"></div>
+    </div>
+
+    <h2>Search Broken Links</h2>
+    <div class="search-box">
+        <input type="text" id="searchBox" placeholder="Search by file, target, or category..." onkeyup="filterTable()">
+    </div>
+
+    <h2>Broken Links Table (Sorted by Impact)</h2>
+    <div class="table-container">
+        <div id="table"></div>
+    </div>
+
+    <script>
+        const brokenLinks = [
+  { source: "reference/architecture.md", target: "index-unified.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/architecture.md", target: "../roadmaps/unified-roadmap.md", type: "broken_reference", referenceCount: 5, severity: "HIGH" },
+  { source: "reference/cic-rl-cross-reference.md", target: "../roadmaps/rewrite-labs-roadmap.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/cic-rl-cross-reference.md", target: "../roadmaps/cic-roadmap.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "reference/cic-rl-cross-reference.md", target: "../operations/monitoring.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "reference/cic-rl-cross-reference.md", target: "../rewrite-labs/rl-vault-setup.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/cic-rl-cross-reference.md", target: "../roadmaps/unified-roadmap.md", type: "broken_reference", referenceCount: 5, severity: "HIGH" },
+  { source: "reference/cic-rl-cross-reference.md", target: "../architecture/routing.md", type: "broken_reference", referenceCount: 4, severity: "MEDIUM" },
+  { source: "reference/cli.md", target: "../operations/running.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/cli.md", target: "../operations/sealing.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "reference/handbook.md", target: "../architecture/overview.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "reference/implementation-setup.md", target: "rl-ref/system-overview", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/implementation-setup.md", target: "rl-ref/agents", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/integration-guide.md", target: "../operations/roadmap-runner.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/integration-guide.md", target: "../roadmaps/rewrite-labs-roadmap.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/manifests.md", target: "../architecture/overview.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "reference/notebooklm-mcp-architecture.md", target: "../rewrite-labs/notebooklm-workflow.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/post-migration-checklist.md", target: "wiki-links", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/post-migration-checklist.md", target: "cic-ref/build-summary", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/post-migration-checklist.md", target: "cic-ref/roadmap", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/rl-vault-adapter-implementation.md", target: "../lib/drift.ts", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/rl-vault-adapter-implementation.md", target: "../operations/weekly-sync.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/rl-vault-adapter-implementation.md", target: "../rewrite-labs/rl-vault-manifest.json", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/rl-vault-adapter-implementation.md", target: "../meta/cic-os-doc-unification-2026-07-03.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/services.md", target: "../integration/index.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/services.md", target: "../systems/index.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/services.md", target: "../architecture/routing.md", type: "broken_reference", referenceCount: 4, severity: "MEDIUM" },
+  { source: "reference/setup-checklist.md", target: "rl-ref/roadmap", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/setup-checklist.md", target: "rl-ref/system-overview", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/setup-checklist.md", target: "rl-ref/\" + $_.name.replace('.md','') + \"", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/setup-checklist.md", target: "cic-ref/build-summary", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/setup-checklist.md", target: "rl-ref/...", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/setup-checklist.md", target: "cic-ref/...", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/skill-framework.md", target: "../cic-ref/cic_env_reference.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/system-index-builder.md", target: "../rewrite-labs/00-rl-index.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/system-index-builder.md", target: "../systems/index.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/system-index-builder.md", target: "../operations/weekly-sync.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/system-index-builder.md", target: "../roadmaps/unified-roadmap.md", type: "broken_reference", referenceCount: 5, severity: "HIGH" },
+  { source: "reference/toolforge.md", target: "../roadmaps/cic-roadmap.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "reference/toolforge.md", target: "../architecture/drift.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "reference/toolforge.md", target: "../roadmaps/unified-roadmap.md", type: "broken_reference", referenceCount: 5, severity: "HIGH" },
+  { source: "reference/toolforge.md", target: "../architecture/routing.md", type: "broken_reference", referenceCount: 4, severity: "MEDIUM" },
+  { source: "reference/knowledge-graph/readme.md", target: "wiki-links", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/knowledge-graph/readme.md", target: "exact-link-name", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/knowledge-graph/readme.md", target: "concept", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "reference/knowledge-graph/readme.md", target: "links", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "api/access-layer.md", target: "../batches/batch-36.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "api/autonomy.md", target: "index-unified.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "api/autonomy.md", target: "../roadmaps/unified-roadmap.md", type: "broken_reference", referenceCount: 5, severity: "HIGH" },
+  { source: "api/federation-layer.md", target: "../batches/batch-37.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "api/seal-verify.md", target: "../operations/sealing.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "api/seal-verify.md", target: "../batches/batch-40.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "api/seal-verify.md", target: "../architecture/deterministic-stack.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "api/snapshot-layer.md", target: "../batches/batch-39.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/cic-maal-audit-overview.md", target: "../../package.json", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/cic-maal-audit-overview.md", target: "../../cic-ingestion/src/harvester/index.ts", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/cic-maal-audit-overview.md", target: "../../rewrite-mcp/castironforge/dashboard.html", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/cic-maal-audit-overview.md", target: "../../src/models/gpt4all.json", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/cic-maal-audit-overview.md", target: "../../src/tests/feedback-loop.test.ts", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/driftengine.md", target: "../architecture/drift.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "cic/governance.md", target: "../meta/governance-validation-setup.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/governance.md", target: " $(echo $gate_result ", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/governance.md", target: "../roadmaps/cic-roadmap.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "cic/index.md", target: "../roadmaps/unified-roadmap.md", type: "broken_reference", referenceCount: 5, severity: "HIGH" },
+  { source: "cic/index.md", target: "../roadmaps/cic-roadmap.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "cic/index.md", target: "../implementation/phase-26/summary.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/index.md", target: "../architecture/overview.md", type: "broken_reference", referenceCount: 3, severity: "MEDIUM" },
+  { source: "cic/kb-integration-summary.md", target: "../api/agents.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/kb-integration-summary.md", target: "cic/agents.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/kb-integration-summary.md", target: "cic/overview.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/notebooklm-integration-plan.md", target: "../rewrite-labs/notebooklm-workflow.md", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "cic/notebooklm-integration-plan.md", target: "../index-unified.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/six-rules-framework.md", target: "../autonomy-model.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/torquequery-index.md", target: "../../rewrite-mcp/services/torquequery-mcp/validation.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/torquequery-index.md", target: "../../rewrite-mcp/services/torquequery-mcp/readme.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/torquequery-index.md", target: "../../services/cic-substrate/schema.sql", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/torquequery-quickstart.md", target: "../../rewrite-mcp/services/torquequery-mcp/readme.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/torquequery-quickstart.md", target: "../../rewrite-mcp/services/torquequery-mcp/validation.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/research-skill/skill.md", target: "cic-ref/agents_api", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/research-skill/skill.md", target: "cic-ref/build-summary", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "cic/research-skill/skill.md", target: "cic-ref/roadmap", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/research-skill/skill.md", target: "cic-ref/agents.md", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/research-skill/skill.md", target: "cic-ref/cic_env_reference", type: "broken_reference", referenceCount: 1, severity: "LOW" },
+  { source: "cic/research-skill/test-results/iteration-1-grading.md", target: "cic-ref/build-summary", type: "broken_reference", referenceCount: 2, severity: "MEDIUM" },
+  { source: "cic/research-skill/test-results/iteration-2-grading.md", target: "cic-ref/file", type: "broken_reference", referenceCount: 1, severity: "LOW" }
+];
+
+        const recommendations = [
+  { category: "Missing Roadmaps", priority: "HIGH", description: "Create missing roadmap files (multiple unique targets, 18+ references)", command: "mkdir -p docs/roadmaps && touch docs/roadmaps/unified-roadmap.md docs/roadmaps/cic-roadmap.md docs/roadmaps/rewrite-labs-roadmap.md", affectedCount: 18 },
+  { category: "Missing Operations Guides", priority: "HIGH", description: "Create operations documentation (10+ references)", command: "mkdir -p docs/operations && touch docs/operations/{monitoring,running,sealing,weekly-sync,roadmap-runner}.md", affectedCount: 10 },
+  { category: "Missing Architecture Docs", priority: "MEDIUM", description: "Consolidate architecture docs (15+ references)", command: "mkdir -p docs/architecture && touch docs/architecture/{overview,routing,drift,deterministic-stack}.md", affectedCount: 15 },
+  { category: "External References", priority: "MEDIUM", description: "Review source code references (25+ references)", command: "grep -r '../../' docs/ --include='*.md' | grep -E '\\.(ts|json|sql)' | head -20", affectedCount: 25 },
+  { category: "Template Variables", priority: "LOW", description: "Resolve template variables and unresolved references (10+ references)", command: "grep -rE '\\$_|\\$\\{|\\.\\.\\.|template' docs/ --include='*.md' | head -10", affectedCount: 10 }
+];
+
+        const chartData = [
+  { category: "Missing Roadmap", count: 18 },
+  { category: "Missing Operations", count: 10 },
+  { category: "Missing Architecture", count: 15 },
+  { category: "External Reference", count: 25 },
+  { category: "Template Variable", count: 10 },
+  { category: "Other", count: 30 }
+];
+
+        let activeFilter = null;
+        let chartInstance = null;
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const theme = html.getAttribute('data-theme');
+            const newTheme = theme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            document.querySelector('.theme-toggle').textContent = newTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+            localStorage.setItem('kb-sync-theme', newTheme);
+        }
+
+        // Load theme
+        const savedTheme = localStorage.getItem('kb-sync-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+
+        // Render recommendations
+        const recsHTML = recommendations.map(rec => `
+            <div class="recommendation-item ${rec.priority}">
+                <div class="rec-header">
+                    <div>
+                        <strong>${rec.category}</strong>
+                        <span class="rec-priority ${rec.priority}">${rec.priority}</span>
+                    </div>
+                    <span class="rec-count">${rec.affectedCount} references</span>
+                </div>
+                <div class="rec-description">${rec.description}</div>
+                <div class="rec-command">
+                    <code>${rec.command}</code>
+                    <button class="copy-btn" onclick="copyToClipboard('${rec.command.replace(/'/g, "\\'")}')">Copy</button>
+                </div>
+            </div>
+        `).join('');
+        document.getElementById('recommendations').innerHTML = recsHTML;
+
+        // Initialize Chart.js with click-to-filter
+        const ctx = document.getElementById('categoryChart').getContext('2d');
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.map(d => d.category),
+                datasets: [{
+                    label: 'Broken Links',
+                    data: chartData.map(d => d.count),
+                    backgroundColor: chartData.map(d => d.count >= 20 ? '#E63946' : d.count >= 10 ? '#F77F00' : '#06A77D'),
+                    borderColor: 'rgba(212, 175, 55, 1)',
+                    borderWidth: 1,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: () => 'Click to filter table'
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true },
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const category = chartData[index].category;
+                        activeFilter = activeFilter === category ? null : category;
+                        updateFilterDisplay();
+                        refreshTable();
+                    }
+                },
+            },
+        });
+
+        // Initialize Grid.js table
+        let gridTable = null;
+        function refreshTable() {
+            const filteredLinks = activeFilter
+                ? brokenLinks.filter(l => getCategoryForLink(l.target) === activeFilter)
+                : brokenLinks;
+
+            const tableData = filteredLinks.map(link => [
+                link.source,
+                link.target,
+                getCategoryForLink(link.target),
+                `<span class="severity-${link.severity}">${link.severity}</span>`,
+                link.referenceCount || 1,
+            ]);
+
+            if (gridTable) {
+                gridTable.destroy();
+            }
+
+            gridTable = new gridjs.Grid({
+                columns: ['Source File', 'Target', 'Category', 'Severity', 'References'],
+                data: tableData,
+                pagination: { limit: 15 },
+                search: true,
+                sort: true,
+            });
+            gridTable.render(document.getElementById('table'));
+        }
+
+        function updateFilterDisplay() {
+            const info = document.getElementById('filterInfo');
+            if (activeFilter) {
+                const count = brokenLinks.filter(l => getCategoryForLink(l.target) === activeFilter).length;
+                info.innerHTML = `<strong>Filtered:</strong> ${activeFilter} (${count} items) — <a href="javascript:clearFilter()" style="cursor:pointer;color:var(--accent)">Clear filter</a>`;
+            } else {
+                info.innerHTML = '';
+            }
+        }
+
+        function clearFilter() {
+            activeFilter = null;
+            updateFilterDisplay();
+            refreshTable();
+        }
+
+        function getCategoryForLink(target) {
+            if (target.includes('roadmap')) return 'Missing Roadmap';
+            if (target.includes('operation') || target.includes('running') || target.includes('monitoring') || target.includes('sealing') || target.includes('weekly-sync')) return 'Missing Operations';
+            if (target.includes('architecture') || target.includes('overview') || target.includes('routing') || target.includes('drift') || target.includes('deterministic-stack')) return 'Missing Architecture';
+            if (target.startsWith('../../') || (target.startsWith('../') && (target.includes('.ts') || target.includes('.json') || target.includes('.sql')))) return 'External Reference';
+            if (target.includes('$') || target.includes('template') || target.includes('...')) return 'Template Variable';
+            return 'Other';
+        }
+
+        function filterTable() {
+            // Grid.js handles search natively
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            });
+        }
+
+        // Initial render
+        refreshTable();
+    </script>
+</body>
+</html>

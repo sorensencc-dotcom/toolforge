@@ -24,6 +24,12 @@
 
 param([switch]$Verbose)
 
+if ($env:TOOLFORGE_SYNC_RUNNING) {
+  Write-Host "⚠️ Cowork Auto-Sync is already running in this execution chain. Skipping to prevent loop." -ForegroundColor Yellow
+  exit 0
+}
+$env:TOOLFORGE_SYNC_RUNNING = $true
+
 $ErrorActionPreference = "Continue"
 
 # Paths
@@ -374,6 +380,7 @@ Write-Host "Start time: $($sync.timestamp)`n" -ForegroundColor Gray
 if (-not (Phase-LoadCanonical)) {
   Log "FATAL: Failed to load canonical skills" "ERROR"
   Generate-SyncReport
+  $env:TOOLFORGE_SYNC_RUNNING = $null
   exit 1
 }
 
@@ -384,12 +391,14 @@ if (-not (Phase-LoadCowork)) {
 if (-not (Phase-SyncSkills)) {
   Log "FATAL: Failed to sync skills" "ERROR"
   Generate-SyncReport
+  $env:TOOLFORGE_SYNC_RUNNING = $null
   exit 1
 }
 
 if (-not (Phase-UpdateRegistry)) {
   Log "FATAL: Failed to update Cowork registry" "ERROR"
   Generate-SyncReport
+  $env:TOOLFORGE_SYNC_RUNNING = $null
   exit 1
 }
 
@@ -401,3 +410,4 @@ Generate-SyncReport
 
 Write-Host "`n✅ Cowork Auto-Sync complete." -ForegroundColor Green
 Write-Host "📋 Report: $SYNC_REPORT`n" -ForegroundColor Gray
+$env:TOOLFORGE_SYNC_RUNNING = $null

@@ -30,6 +30,12 @@ param(
   [switch]$Verbose
 )
 
+if ($env:TOOLFORGE_VALIDATOR_RUNNING) {
+  Write-Host "⚠️ Toolforge Skill Validator is already running in this execution chain. Skipping to prevent loop." -ForegroundColor Yellow
+  exit 0
+}
+$env:TOOLFORGE_VALIDATOR_RUNNING = $true
+
 $ErrorActionPreference = "Stop"
 
 # Paths
@@ -1141,9 +1147,11 @@ $totalErrors = $validation.canonical.errors + $validation.distributed.errors + $
 if ($totalErrors -eq 0) {
   Write-Host "✅ Validation PASSED" -ForegroundColor Green
   Write-Host "📄 Report: $OutputPath" -ForegroundColor Cyan
+  $env:TOOLFORGE_VALIDATOR_RUNNING = $null
   exit 0
 } else {
   Write-Host "❌ Validation FAILED ($totalErrors errors)" -ForegroundColor Red
   Write-Host "📄 Report: $OutputPath" -ForegroundColor Cyan
+  $env:TOOLFORGE_VALIDATOR_RUNNING = $null
   exit 1
 }
