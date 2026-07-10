@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-10T01:19:56.8904921Z
+**Generated:** 2026-07-10T02:34:12.5082470Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 139 | 8 | 0 | 147 |
-| % Pass | 94.6% | 5.4% | 0% | 100% |
+| **Totals** | 145 | 9 | 0 | 154 |
+| % Pass | 94.2% | 5.8% | 0% | 100% |
 
 ---
 
@@ -78,6 +78,18 @@
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### context-manager — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### html-visual-verify — ⚠️ WARN
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -297,6 +309,7 @@ Skills with warnings but no failures:
 - cic-roadmap-updater
 - cic-section-summarizer
 - context-manager
+- html-visual-verify
 - kb-sync-artifact-generator
 - permission-governor
 - plan-extractor-integration

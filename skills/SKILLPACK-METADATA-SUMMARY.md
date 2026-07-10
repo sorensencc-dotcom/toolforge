@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-10T01:19:56.1405229Z
+**Generated:** 2026-07-10T02:34:11.8186650Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 21 | 100% |
-| Active | 21 | 100% |
+| **Total Skills** | 22 | 100% |
+| Active | 22 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 20 | 95.2% |
-| ⚠️ Warning | 1 | 4.8% |
+| ✅ Good | 20 | 90.9% |
+| ⚠️ Warning | 2 | 9.1% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -101,6 +101,19 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### html-visual-verify
+
+| Field | Value |
+|-------|-------|
+| Name | HTML Visual Verify |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | soren |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### kb-sync-artifact-generator

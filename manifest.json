@@ -14,7 +14,7 @@
       "runtime": "node",
       "id": "analyze-token-burn",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "observability",
       "health": {
         "canonical": true,
@@ -41,7 +41,7 @@
       "runtime": "node",
       "id": "ashfall",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "automation",
       "health": {
         "canonical": true,
@@ -68,7 +68,7 @@
       "runtime": "bash",
       "id": "kb-sync-nightly",
       "entrypoint": "src/run.sh",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "governance",
       "health": {
         "canonical": true,
@@ -95,7 +95,7 @@
       "runtime": "node",
       "id": "operator-image-build",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "pipeline",
       "health": {
         "canonical": true,
@@ -122,7 +122,7 @@
       "runtime": "node",
       "id": "pre-wrap-audit",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "session-management",
       "health": {
         "canonical": true,
@@ -151,7 +151,7 @@
       "runtime": "node",
       "id": "reconcile-vector-store",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "data-management",
       "health": {
         "canonical": true,
@@ -178,7 +178,7 @@
       "runtime": "typescript",
       "id": "roadmap-validator",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "governance",
       "health": {
         "canonical": true,
@@ -205,7 +205,7 @@
       "runtime": "node",
       "id": "rollback-phase",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "pipeline",
       "health": {
         "canonical": true,
@@ -232,7 +232,7 @@
       "runtime": "node",
       "id": "run-adapter-diagnostic",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "monitoring",
       "health": {
         "canonical": true,
@@ -259,7 +259,7 @@
       "runtime": "node",
       "id": "scale-ingestion-service",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "pipeline",
       "health": {
         "canonical": true,
@@ -340,7 +340,7 @@
       "runtime": "node",
       "id": "work-summarizer",
       "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "owner": "soren",
       "category": "observability",
       "health": {
         "canonical": true,
@@ -568,16 +568,43 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Validate, test, and auto-fix local HTML files for visual correctness: syntax check, WCAG contrast validation, Playwright screenshot + interaction tests, headless rendering",
+      "timestamps": {
+        "created": "2026-07-09T23:45:00.000Z",
+        "lastValidation": "2026-07-09T23:45:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["html", "validation", "testing", "wcag", "visual"],
+      "status": "active",
+      "name": "HTML Visual Verify",
+      "runtime": "node",
+      "id": "html-visual-verify",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "validation",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": ["@playwright/test"],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 21,
+    "total": 22,
     "health_error": 0,
     "deprecated": 0,
-    "active": 21,
-    "health_good": 21,
+    "active": 22,
+    "health_good": 22,
     "health_warn": 0
   },
-  "timestamp": "2026-07-09T23:41:00Z",
+  "timestamp": "2026-07-09T23:45:00Z",
   "version": "1.1.0"
 }

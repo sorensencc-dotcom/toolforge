@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-10T01:19:44.5793358Z
+**Generated**: 2026-07-10T02:33:58.8547717Z
 
 ---
 
@@ -9,15 +9,15 @@
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 11 | 0 | ✅ |
-| Distributed | 0 | 2 | 0 | ✅ |
-| Manifest | 0 | 51 | 0 | ✅ |
-| Cowork | 0 | 21 | 0 | ✅ |
-| Dependencies | 0 | 0 | 1 | ✅ |
-| Runtime | 0 | 0 | 21 | ✅ |
+| Distributed | 0 | 3 | 0 | ✅ |
+| Manifest | 0 | 52 | 0 | ✅ |
+| Cowork | 0 | 22 | 0 | ✅ |
+| Dependencies | 0 | 1 | 1 | ✅ |
+| Runtime | 0 | 0 | 22 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 85
+**Total Warnings**: 89
 
 **Overall Status**: ✅ PASS
 
@@ -33,6 +33,7 @@
 | cic-roadmap-updater | CIC Roadmap Updater | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-section-summarizer | CIC Section Summarizer | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | context-manager | Context Manager | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| html-visual-verify | HTML Visual Verify | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | kb-sync-artifact-generator | KB Sync Artifact Generator | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | kb-sync-nightly | Kb Sync Nightly | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -67,6 +68,7 @@
 
 ## Distributed Validation
 
+⚠️ **html-visual-verify**: Directory missing in distributed
 ⚠️ **kb-sync-artifact-generator**: Directory missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
 
@@ -85,32 +87,33 @@
 ⚠️ **cic-section-summarizer**: Path mismatch: expected 'skills/cic-section-summarizer', got ''
 ⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
 ⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
+⚠️ **html-visual-verify**: Path mismatch: expected 'skills/html-visual-verify', got ''
 ⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-artifact-generator**: Invalid category in manifest: governance
 ⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
+⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
 ⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
 ⚠️ **kb-sync-nightly**: Invalid category in manifest: governance
-⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
+⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
 ⚠️ **operator-image-build**: Invalid category in manifest: pipeline
 ⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
-⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
 ⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
 ⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
 ⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
 ⚠️ **plan-extractor-integration**: Path mismatch: expected 'skills/plan-extractor-integration', got ''
+⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
 ⚠️ **pre-wrap-audit**: Path mismatch: expected 'skills/pre-wrap-audit', got ''
 ⚠️ **pre-wrap-audit**: Invalid category in manifest: session-management
-⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
+⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
 ⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
 ⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
-⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
-⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
 ⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
+⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
+⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
 ⚠️ **roadmap-validator**: Invalid category in manifest: governance
 ⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
-⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
-⚠️ **rollback-phase**: Invalid category in manifest: pipeline
 ⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
+⚠️ **rollback-phase**: Invalid category in manifest: pipeline
 ⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
 ⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
 ⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
@@ -121,8 +124,8 @@
 ⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
 ⚠️ **toolforge-drift-monitor**: Path mismatch: expected 'skills/toolforge-drift-monitor', got ''
 ⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
-⚠️ **work-summarizer**: Invalid category in manifest: observability
 ⚠️ **work-summarizer**: Tags mismatch: canonical '', manifest ''
+⚠️ **work-summarizer**: Invalid category in manifest: observability
 
 ## Cowork Validation
 
@@ -132,6 +135,7 @@
 ⚠️ **cic-roadmap-updater**: Not registered (installer will register on next run)
 ⚠️ **cic-section-summarizer**: Not registered (installer will register on next run)
 ⚠️ **context-manager**: Not registered (installer will register on next run)
+⚠️ **html-visual-verify**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-artifact-generator**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-nightly**: Not registered (installer will register on next run)
 ⚠️ **operator-image-build**: Not registered (installer will register on next run)
@@ -148,6 +152,10 @@
 ⚠️ **toolforge-drift-monitor**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
 
+## Dependencies Validation
+
+⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
+
 ## Runtime Validation
 
 ℹ️ **agent-drift-detector**: Skill inactive (status: )
@@ -156,6 +164,7 @@
 ℹ️ **cic-roadmap-updater**: Skill inactive (status: )
 ℹ️ **cic-section-summarizer**: Skill inactive (status: )
 ℹ️ **context-manager**: Skill inactive (status: )
+ℹ️ **html-visual-verify**: Discoverable
 ℹ️ **kb-sync-artifact-generator**: Skill inactive (status: )
 ℹ️ **kb-sync-nightly**: Skill inactive (status: )
 ℹ️ **operator-image-build**: Skill inactive (status: )
