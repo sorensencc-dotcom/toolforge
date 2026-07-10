@@ -1,0 +1,182 @@
+site_name: CIC + Rewrite Labs Knowledge Base
+site_description: >
+  Unified governance documentation for the Cognitive Intelligence Core (CIC)
+  and Rewrite Labs (RL) platform — covering architecture, knowledge-base
+  operations, skill governance, system state, and operational runbooks.
+site_author: Rewrite Labs Engineering
+docs_dir: docs
+site_dir: site
+
+repo_url: https://github.com/rewrite-labs/cic-kb
+repo_name: rewrite-labs/cic-kb
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.tabs.link
+    - content.code.annotate
+    - content.code.copy
+    - toc.follow
+    - toc.integrate
+
+plugins:
+  - search:
+      lang: en
+  - minify:
+      minify_html: true
+  - tags
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+      title: On this page
+
+nav:
+  - Home: index-unified.md
+
+  - Architecture:
+    - Overview: architecture/overview.md
+    - CIC System: architecture/CIC_SYSTEM.md
+    - CIC State: architecture/CIC_STATE.md
+    - Data Flow: architecture/data-flow.md
+    - Routing Engine: architecture/routing.md
+    - Drift Detection: architecture/drift.md
+    - Deterministic Stack: architecture/deterministic-stack.md
+    - Design Principles: architecture/design.md
+    - Ingestion Pipeline: architecture/ingestion.md
+    - Security Model: architecture/security.md
+
+  - Roadmaps:
+    - Unified Roadmap: roadmaps/unified-roadmap.md
+    - CIC Roadmap: roadmaps/cic-roadmap.md
+    - Rewrite Labs Roadmap: roadmaps/rewrite-labs-roadmap.md
+    - Risk Register: roadmaps/risk-register-phases-23-27.md
+    - Execution Blueprint: roadmaps/execution-blueprint-phases-23-27.md
+
+  - Knowledge Base:
+    - KB Operations: kb/KB-OPERATIONS.md
+    - Naming Conventions: kb/naming-conventions.md
+    - File Movement Protocol: kb/file-movement-protocol.md
+    - Validation Workflows: kb/validation-workflows.md
+    - Taxonomy & Tags: kb/taxonomy.md
+    - NotebookLM Sync:
+      - Architecture: kb/notebooklm-sync/architecture.md
+      - Pipeline: kb/notebooklm-sync/pipeline.md
+      - Operator Rules: kb/notebooklm-sync/operator-rules.md
+      - Error Boundaries: kb/notebooklm-sync/error-boundaries.md
+      - Authentication: kb/notebooklm-sync/authentication.md
+
+  - Skills & Toolforge:
+    - Skills Governance Guide: skills/toolforge-skills-governance.md
+    - Phase 2 Scope Charter: meta/phase-2-scope-charter.md
+    - Phase 2.B Optional Migrations: meta/phase-2b-scope-charter.md
+    - Sub-Charter 2B.1 Audit: meta/phase-2b1-audit-charter.md
+    - Phase 3 Scope Charter: meta/phase-3-scope-charter.md
+    - Skill Authoring: skills/authoring.md
+    - Skill Versioning: skills/versioning.md
+    - Skill Testing: skills/testing.md
+    - Skill Registry: skills/registry.md
+
+  - Operations:
+    - Runbooks: ops/runbooks.md
+    - Incident Response: ops/incident-response.md
+    - Change Management: ops/change-management.md
+    - Monitoring & Alerts: operations/monitoring.md
+    - Running Services: operations/running.md
+    - Sealing & Verification: operations/sealing.md
+    - Weekly Sync Cadence: operations/weekly-sync.md
+    - Cost Tracking: operations/cost-tracking.md
+    - Drift Forecast: operations/drift-forecast.md
+    - Troubleshooting: operations/troubleshooting.md
+    - Verification: operations/verification.md
+
+  - CIC:
+    - Overview: cic/index.md
+    - KB Integration Summary: cic/kb-integration-summary.md
+    - Phase 27 Architecture: cic/phase-27-wave-f-architecture.md
+    - Phase 27 Runbook: cic/phase-27-wave-f-runbook.md
+    - Phase 27 Rollback: cic/phase-27-wave-f-rollback.md
+    - Phase 27 Troubleshooting: cic/phase-27-wave-f-troubleshooting.md
+    - Ashfall State: cic/CIC_ASHFALL_STATE.md
+    - Governance: cic/governance.md
+    - Six Rules Framework: cic/six-rules-framework.md
+
+  - Gateway:
+    - Cowork Mock API: gateway/cowork-mock-api.md
+    - Phase 3.C Kickoff Charter: gateway/phase-3c-kickoff-charter.md
+
+  - Reference:
+    - Glossary: reference/glossary.md
+    - API Reference: reference/api.md
+    - Agents API: reference/agents-api.md
+    - CLI Reference: reference/cli.md
+    - CIC–RL Cross Reference: reference/cic-rl-cross-reference.md
+    - Integration Guide: reference/integration-guide.md
+    - Handbook: reference/handbook.md
+    - Knowledge Graph: reference/knowledge-graph/readme.md
+    - Changelog: reference/changelog.md
+
+  - Archive:
+    - Projects: archive/projects/
+    - Build Output: archive/build-output/
+    - Phases (Completed): archive/phases/
+    - Research: archive/research/
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/rewrite-labs/cic-kb
+  version:
+    provider: mike
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
