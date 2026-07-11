@@ -1,7 +1,7 @@
 ---
 title: Global Operating Rules — CIC + Rewrite Labs
 date: 2026-07-11
-version: "1.4"
+version: "1.5"
 status: ACTIVE
 owner: "Tier 1 (Chris)"
 review_cadence: "Quarterly (Jan, Apr, Jul, Oct)"
@@ -9,7 +9,7 @@ review_cadence: "Quarterly (Jan, Apr, Jul, Oct)"
 
 # Global Operating Rules — CIC + Rewrite Labs
 
-**Authoritative Version:** 1.4 (Amended July 11, 2026 — Phase 0 gate added)
+**Authoritative Version:** 1.5 (Amended July 11, 2026 — Phase 0 gate + Audit-First Scope Lock + Data Contracts + Parallelism Matrix + Observability spec-time)
 
 **Document Scope:** Governance charter for CIC + Rewrite Labs system. Defines operator tiers, memory architecture, output taxonomy, reasoning modes, automation workflows, drift detection, and safety boundaries.
 
@@ -334,8 +334,7 @@ ELSE
 | 1.1 | 2026-07-08 | Chris | 6 edge case fixes (see MEMORY.md) | Tier 1 |
 | 1.2 | 2026-07-08 | Chris | Design system authority + accessibility | Tier 1 |
 | 1.3 | 2026-07-08 | Chris | Copy standards + artifact contexts | Tier 1 |
-| 1.4 | 2026-07-11 | Claude Code Agent | Phase 0 gate mandate (new major components) | Pending Tier 1 |
-| 1.5 | 2026-07-11 | Claude Code Agent | Section 14: Audit-First Scope Lock gate, Phase ABC audit phases | Pending Tier 1 |
+| 1.5 | 2026-07-11 | Claude Code Agent | Multi-amendment batch: Phase 0 gate + Audit-First Scope Lock + Data Contracts (multi-agent shared state) + Parallelism Matrix (wave declarations) + Observability spec-time (Phase D planning) | Pending Tier 1 |
 
 ---
 

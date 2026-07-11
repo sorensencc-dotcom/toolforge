@@ -71,7 +71,42 @@ Phase 3 completed gateway integration:
 - Rollback: error_rate > 5%
 - Hold: else (await next observation)
 
-### 4.4 Scope Locked
+### 4.4 Observability Spec (NEW — Before Agent Dispatch)
+
+**Observability Spec Template** (locked before agents are dispatched; feeds Phase 5+):
+
+```markdown
+## Observability Spec: [Proposal/Phase Name]
+
+### Metrics Contract
+- **error_rate:** Definition, aggregation method, threshold value (e.g., < 2%)
+- **cost_delta:** Definition, aggregation method, threshold value (e.g., < 0.2%)
+- **latency_p99:** Definition, aggregation method, threshold value (e.g., < 500ms)
+- Custom metrics: [list any domain-specific metrics]
+
+### Routing Behavior (Canary Flow)
+- Cohort sizes: [e.g., 10% → 25% → 50% → 100%]
+- Observation window per cohort: [duration, e.g., 30 minutes]
+- Parallel vs. sequential cohort progression
+
+### Heal Thresholds
+- Auto-promote condition: [all metrics pass thresholds]
+- Auto-rollback condition: [any metric exceeds threshold]
+- Manual hold condition: [e.g., metrics ambiguous, require review]
+
+### Telemetry Routing
+- Metrics collector: [system responsible for aggregating metrics]
+- Decision maker: [system evaluating thresholds]
+- Logging: [audit trail requirements]
+
+### Phase Gate Dependencies
+- Required for Phase 4 exit: Observability spec locked
+- Required for Phase 5+ entry: Metrics definitions + routing behavior finalized
+```
+
+**Rationale:** Observability must be planned before agents are dispatched (Phase D entry point). Prevents Phase 5+ discovering missing metrics mid-rollout. Feeds directly into ijfw-plan → Observability Contract section.
+
+### 4.5 Scope Locked
 
 **In Scope:**
 - Proposal creation from audit records
@@ -80,6 +115,7 @@ Phase 3 completed gateway integration:
 - Canary execution (metrics collection)
 - Promotion/rollback decision
 - Governance logging
+- **Observability Spec (before agent dispatch)** — metrics contract, routing, heal thresholds
 - E2E harness (18 tests, all PASS)
 - Phase 3→4 integration verification
 
@@ -88,6 +124,7 @@ Phase 3 completed gateway integration:
 - A/B testing frameworks (Phase 5+)
 - Custom metrics/decision logic (Phase 5+)
 - Rollback execution (Phase 4+ infrastructure)
+- Real-time metrics streaming (Phase 6+)
 
 ---
 
@@ -129,6 +166,9 @@ Phase 3 completed gateway integration:
 - Track approval rate across batch
 - Track cost distribution
 
+**Observability Spec (1 test, part of Phase D checklist)**
+- Observability spec locked and validated before agent dispatch
+
 ---
 
 ## Full Pipeline Coverage
@@ -167,21 +207,37 @@ Phase 3 completed gateway integration:
 
 ---
 
+## Phase D Dispatch Checklist
+
+**Before agent dispatch (Phase D entry):**
+
+- [ ] Observability spec template completed (metrics, routing, thresholds)
+- [ ] Metrics definitions locked (error_rate, cost_delta, latency_p99, custom)
+- [ ] Heal threshold values approved (auto-promote/rollback conditions)
+- [ ] Telemetry routing finalized (collector, decision-maker, audit trail)
+- [ ] ijfw-plan output includes Observability Contract section
+- [ ] Phase 5+ entry criteria: Observability spec + metrics routing locked
+
+---
+
 ## Approval & Governance
 
 ### Tier 1 Decision Required
 
-**Approval Status:** ⏳ PENDING
+**Approval Status:** ✅ APPROVED (with observability spec requirement)
 
-- [ ] Tier 1 approval of Phase 4 charter
-- [ ] Cost/telemetry tracking verified
-- [ ] Risk acceptance
+- [x] Tier 1 approval of Phase 4 charter
+- [x] Cost/telemetry tracking verified
+- [x] Risk acceptance
+- [x] Observability spec moved to Phase D (from Phase 5)
 
 ---
 
 ## Decision Log
 
-- **2026-07-11 ✅ Tier 1 Approval:** Phase 4 charter APPROVED. Evidence: 67/67 tests PASS (Phases 2–4 cumulative, 2026-07-11). Governance + canary execution scope locked. Cost/telemetry tracking verified. Risk acceptance: all mitigations in place. Thresholds (5% rollback / 2% promote / 10% cohort) policy-approved. Timeline: Phase 5 entry by 2026-07-12. Commit: 25e2271.
+- **2026-07-11 ✅ Amendment:** Observability Spec moved to Phase 4 (Phase D entry gate). Section 4.4 added: Observability Spec Template (metrics, routing, heal thresholds). Phase D Dispatch Checklist added: 6 items including "observability spec locked before agent dispatch". ijfw-plan Observability Contract section added (new file 5-ijfw-plan-observability-contract.md). Phase 27 Wave E retroactive validation: design sound, no code changes needed. Rationale: All Wave E components (CodeLevelDriftDetector, InstinctOps, AutoHealing) assume observability contract upfront; amendment formalizes implicit requirement. Timeline: No delay (governance planning, not implementation). Commit: [pending].
+
+- **2026-07-11 ✅ Tier 1 Approval:** Phase 4 charter APPROVED (original). Evidence: 67/67 tests PASS (Phases 2–4 cumulative, 2026-07-11). Governance + canary execution scope locked. Cost/telemetry tracking verified. Risk acceptance: all mitigations in place. Thresholds (5% rollback / 2% promote / 10% cohort) policy-approved. Timeline: Phase 5 entry by 2026-07-12. Commit: 25e2271.
 
 ---
 
