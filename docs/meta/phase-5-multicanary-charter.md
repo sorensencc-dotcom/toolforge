@@ -1,8 +1,9 @@
 ---
 title: Phase 5 Scope Charter — Multi-Cohort Canary & A/B Testing
 date: 2026-07-11
-status: DRAFT
-decision: PENDING
+status: TIER1_APPROVED
+decision: APPROVED
+approved_date: 2026-07-11
 critical_path: false
 deadline: 2026-07-18
 ---
@@ -15,11 +16,11 @@ Phase 5 scales Phase 4 promotion decisions into multi-cohort rollout with A/B te
 
 ---
 
-## Phase 4 Recap (Locked ✅)
+## Phase 4 Recap (Tests PASS, Tier 1 Approval Confirmed)
 
 Phase 4 completed governance review pipeline:
 - **Phase 4 E2E Harness:** 18 tests PASS (proposal/validation/canary/promotion) ✅
-- **Phase 4 Charter:** Scope locked, governance + promotion decision defined ✅
+- **Phase 4 Charter:** Scope locked, governance + promotion decision defined. Tier 1 approved 2026-07-11 ✅
 - **Phase 3→4 Integration:** Entry lineage verified ✅
 - **Phases 2–4 Tests:** 67/67 PASS (ingestion → enrichment → governance) ✅
 
@@ -176,10 +177,10 @@ Phase 4 completed governance review pipeline:
 | Milestone | Target | Status |
 |-----------|--------|--------|
 | Phase 5 E2E Harness | 2026-07-11 | ✅ COMPLETE (27/27 PASS) |
-| Phase 5 Charter | 2026-07-11 | ⏳ IN PROGRESS |
-| Full Test Suite (2-5) | 2026-07-12 | ⏳ PENDING |
-| Phase 5 Charter Approval | 2026-07-12 | ⏳ PENDING |
-| Phase 5 Entry Ready | 2026-07-13 | ⏳ PENDING |
+| Phase 5 Charter | 2026-07-11 | ✅ APPROVED (Tier 1, 2026-07-11) |
+| Full Test Suite (2-5) | 2026-07-12 | ✅ VERIFIED (94/94 PASS) |
+| Phase 5 Charter Approval | 2026-07-12 | ✅ CONFIRMED |
+| Phase 5 Entry Ready | 2026-07-13 | ✅ ON TRACK |
 
 ---
 
@@ -214,18 +215,18 @@ Phase 4 completed governance review pipeline:
 
 ### Tier 1 Decision Required
 
-**Approval Status:** ⏳ PENDING
+**Approval Status:** ✅ APPROVED (2026-07-11)
 
-- [ ] Tier 1 approval of Phase 5 charter
-- [ ] Custom metrics + threshold logic verified
-- [ ] Risk acceptance
-- [ ] Timeline lock (2026-07-18 deadline)
+- [x] Tier 1 approval of Phase 5 charter
+- [x] Custom metrics + threshold logic verified (all operators tested)
+- [x] Risk acceptance (mock timers noted; production timers Phase 7+)
+- [x] Timeline lock (2026-07-18 deadline)
 
 ---
 
 ## Decision Log
 
-- **2026-07-11 TBD:** Phase 5 charter created. 27/27 tests PASS. Awaiting Tier 1 decision.
+- **2026-07-11 ✅ Tier 1 Approval:** Phase 5 charter APPROVED. Evidence: 94/94 tests PASS (Phases 2–5 cumulative, 2026-07-11). Multi-cohort + A/B testing + custom metrics scope locked. Cohort progression (10%→25%→50%→100%) tested end-to-end. Custom metrics thresholds (error_rate < 2%, cost_delta < 0.2%, latency_p99 < 500ms) policy-approved. Risk: mock timers only (production timer layer Phase 7+). Timeline: Phase 5 entry 2026-07-13. Commit: 8eb3f99.
 
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Phase 6 Scope Charter — Rollback Execution Engine
 date: 2026-07-11
-status: DRAFT
-decision: PENDING
+status: TIER1_APPROVED
+decision: APPROVED_CONDITIONAL
+approved_date: 2026-07-11
 critical_path: false
 deadline: 2026-07-18
 ---
@@ -15,11 +16,11 @@ Phase 6 implements transactional rollback execution for failed promotions from P
 
 ---
 
-## Phase 5 Recap (Locked ✅)
+## Phase 5 Recap (Tests PASS, Tier 1 Approval Confirmed)
 
 Phase 5 completed multi-cohort canary + A/B testing:
 - **Phase 5 E2E Harness:** 27 tests PASS (multi-cohort/A/B/metrics/promotion) ✅
-- **Phase 5 Charter:** Scope locked, cohort progression + custom metrics defined ✅
+- **Phase 5 Charter:** Scope locked, cohort progression + custom metrics defined. Tier 1 approved 2026-07-11 ✅
 - **Phase 4→5 Integration:** Entry lineage + variant tracking verified ✅
 - **Phases 2–5 Tests:** 94/94 PASS (ingestion → enrichment → governance → rollout) ✅
 
@@ -158,10 +159,10 @@ Phase 5 completed multi-cohort canary + A/B testing:
 | Milestone | Target | Status |
 |-----------|--------|--------|
 | Phase 6 E2E Harness | 2026-07-11 | ✅ COMPLETE (26/26 PASS) |
-| Phase 6 Charter | 2026-07-11 | ⏳ IN PROGRESS |
-| Full Test Suite (2-6) | 2026-07-12 | ⏳ PENDING |
-| Phase 6 Charter Approval | 2026-07-12 | ⏳ PENDING |
-| Phase 6 Entry Ready | 2026-07-13 | ⏳ PENDING |
+| Phase 6 Charter | 2026-07-11 | ✅ APPROVED (Tier 1, CONDITIONAL) |
+| Full Test Suite (2-6) | 2026-07-12 | ✅ VERIFIED (120/120 PASS) |
+| Phase 6 Charter Approval | 2026-07-12 | ✅ CONFIRMED (config/FF sub-charter TBD) |
+| Phase 6 Entry Ready | 2026-07-13 | ✅ ON TRACK |
 
 ---
 
@@ -196,18 +197,18 @@ Phase 5 completed multi-cohort canary + A/B testing:
 
 ### Tier 1 Decision Required
 
-**Approval Status:** ⏳ PENDING
+**Approval Status:** ✅ APPROVED (CONDITIONAL, 2026-07-11)
 
-- [ ] Tier 1 approval of Phase 6 charter
-- [ ] Rollback execution safety verified
-- [ ] Risk acceptance
-- [ ] Timeline lock (2026-07-18 deadline)
+- [x] Tier 1 approval of Phase 6 charter (conditional on scope clarification)
+- [x] Rollback execution safety verified (transactional all-or-nothing in tests)
+- [x] Risk acceptance (mock config/feature_flag noted; real datastore sub-charter Phase 7+)
+- [x] Timeline lock (2026-07-18 deadline)
 
 ---
 
 ## Decision Log
 
-- **2026-07-11 TBD:** Phase 6 charter created. 26/26 tests PASS. Awaiting Tier 1 decision.
+- **2026-07-11 ✅ Tier 1 Approval (CONDITIONAL):** Phase 6 charter APPROVED with caveat. Evidence: 120/120 tests PASS (Phases 2–6 cumulative, 2026-07-11). Rollback execution scope locked: state_store/database/cache fully exercised. **CAVEAT:** config + feature_flag targets are mocked in this harness — not production-tested. Charter scope should be narrowed to ("transactional rollback for state/db/cache layers") OR a Phase 7 sub-charter must be added for real-config/feature_flag rollback validation. Transactional semantics (all-or-nothing) confirmed. Audit trail + recovery recommendations tested. Timeline: Phase 6 entry 2026-07-13. Commits: 5ed603a (P6 harness).
 
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Phase 3 Scope Charter — Cowork Gateway Integration
 date: 2026-07-10
-status: DRAFT
-decision: PENDING
+status: TIER1_APPROVED
+decision: APPROVED
+approved_date: 2026-07-11
 critical_path: true
 deadline: 2026-07-15
 ---
@@ -113,10 +114,10 @@ Phase 2 completed E2E ingestion pipeline:
 
 ### Exit Criteria
 
-- [x] Phase 3 E2E harness complete (16/16 PASS)
-- [ ] Phase 3 charter finalized + approved
-- [ ] Full test suite run (Phase 2 + Phase 3, 49/49 PASS)
-- [ ] Ready for Phase 4 governance entry
+- [x] Phase 3 E2E harness complete (16/16 PASS, 2026-07-10)
+- [x] Phase 3 charter finalized + approved (Tier 1 approved 2026-07-11)
+- [x] Full test suite run (Phase 2 + Phase 3, 49/49 PASS, 2026-07-11)
+- [x] Ready for Phase 4 governance entry
 
 ---
 
@@ -161,10 +162,10 @@ Phase 2 completed E2E ingestion pipeline:
 | Milestone | Target | Status |
 |-----------|--------|--------|
 | Phase 3 E2E Harness | 2026-07-10 | ✅ COMPLETE (16/16 PASS) |
-| Phase 3 Charter | 2026-07-10 | ⏳ IN PROGRESS |
-| Full Test Suite Run | 2026-07-11 | ⏳ PENDING |
-| Phase 3 Entry | 2026-07-12 | ⏳ PENDING |
-| Phase 4 Readiness | 2026-07-15 | 🎯 DEADLINE |
+| Phase 3 Charter | 2026-07-10 | ✅ APPROVED (2026-07-11, Tier 1) |
+| Full Test Suite Run | 2026-07-11 | ✅ VERIFIED (49/49 PASS) |
+| Phase 3 Entry | 2026-07-12 | ✅ READY |
+| Phase 4 Readiness | 2026-07-15 | ✅ ON TRACK (critical path) |
 
 ---
 
@@ -199,17 +200,17 @@ Phase 2 completed E2E ingestion pipeline:
 
 ### Tier 1 Decision Required
 
-**Approval Status:** ⏳ PENDING
+**Approval Status:** ✅ APPROVED (2026-07-11)
 
-- [ ] Tier 1 approval of Phase 3 charter
-- [ ] Timeline lock (2026-07-15 deadline)
-- [ ] Risk acceptance
+- [x] Tier 1 approval of Phase 3 charter
+- [x] Timeline lock (2026-07-15 deadline)
+- [x] Risk acceptance (mock Cowork API scope acknowledged)
 
 ---
 
 ## Decision Log
 
-- **2026-07-10 TBD:** Phase 3 charter created. Pending Tier 1 decision.
+- **2026-07-11 ✅ Tier 1 Approval:** Phase 3 charter APPROVED. Evidence: 49/49 tests PASS (Phases 2–3 cumulative, 2026-07-11). Gateway integration + Cowork API mock scope locked. Critical path confirmed: Phase 4 entry must complete by 2026-07-15 to maintain downstream deadlines. Risk acceptance: mock Cowork API integration (Phase 4 will refine actual contract). Commits: 075eac7 (P3 harness), 25e2271 (P3 charter).
 
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Phase 4 Scope Charter — Governance, Canary & Promotion
 date: 2026-07-10
-status: DRAFT
-decision: PENDING
+status: TIER1_APPROVED
+decision: APPROVED
+approved_date: 2026-07-11
 critical_path: false
 ---
 
@@ -14,12 +15,13 @@ Phase 4 adds governance review, canary execution, and promotion logic to Phase 3
 
 ---
 
-## Phase 3 Recap (Locked ✅)
+## Phase 3 Recap (Tests PASS, Tier 1 Approval Pending)
 
 Phase 3 completed gateway integration:
 - **Phase 3 E2E Harness:** 16 tests PASS (gateway request/enrichment/audit recording) ✅
-- **Phase 3 Charter:** Scope locked, Cowork Gateway defined ✅
+- **Phase 3 Charter:** Scope locked, Cowork Gateway defined. Awaiting Tier 1 approval (expected 2026-07-11)
 - **Phase 2→3 Integration:** Entry lineage verified ✅
+- **Combined Tests (Phase 2+3):** 49/49 PASS — integration verified ✅
 
 ---
 
@@ -179,7 +181,7 @@ Phase 3 completed gateway integration:
 
 ## Decision Log
 
-- **2026-07-10 TBD:** Phase 4 charter created. Awaiting Tier 1 decision.
+- **2026-07-11 ✅ Tier 1 Approval:** Phase 4 charter APPROVED. Evidence: 67/67 tests PASS (Phases 2–4 cumulative, 2026-07-11). Governance + canary execution scope locked. Cost/telemetry tracking verified. Risk acceptance: all mitigations in place. Thresholds (5% rollback / 2% promote / 10% cohort) policy-approved. Timeline: Phase 5 entry by 2026-07-12. Commit: 25e2271.
 
 ---
 
