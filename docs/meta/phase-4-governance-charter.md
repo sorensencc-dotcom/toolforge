@@ -71,7 +71,32 @@ Phase 3 completed gateway integration:
 - Rollback: error_rate > 5%
 - Hold: else (await next observation)
 
-### 4.4 Observability Spec (NEW — Before Agent Dispatch)
+### 4.4 Parallelism Matrix
+
+| Wave | Spec | Category | Depends On | Parallelism Tag | Notes |
+|---|---|---|---|---|---|
+| W.1 | ProposalValidator | core | None | `no-block` | Schema + constraint validation; independent setup |
+| W.1 | GovernanceEngine | core | None | `no-block` | Approval/rejection logic; independent setup |
+| W.1 | CanaryEngine | core | None | `no-block` | Cohort metrics collection framework; independent setup |
+| W.1 | PromotionEngine | core | None | `no-block` | Rollback/promotion decision logic; independent setup |
+| W.2 | ProposalCreation + Integration | integration | W.1 | `blocks-on: W.1` | Convert Phase 3 audit record to proposal; uses validator |
+| W.2 | E2E Governance Pipeline | test | W.1 | `blocks-on: W.1` | Full workflow (proposal → validation → review → canary → promotion) |
+| W.3 | Governance Log + Metrics | integration | W.2 | `blocks-on: W.2` | Record decision outcomes; track approval rate + cost distribution |
+
+**Parallelization Plan:**
+- **W.1 (Component Definition):** 4-wide parallel (ProposalValidator + GovernanceEngine + CanaryEngine + PromotionEngine run independently)
+- **W.2 (Integration Tests):** 2-wide parallel (ProposalCreation and E2E Pipeline can run in parallel after W.1)
+- **W.3 (Metrics Recording):** Sequential (depends on W.2 completion)
+
+**Critical Path:** W.1 (0 deps) → W.2 (4 agents, 40 min) → W.3 (2 agents, 50 min) = 90 min total
+
+**Verification:**
+- [x] No cycles (W.1 → W.2 → W.3 is acyclic DAG)
+- [x] All deps declared (W.2 blocks on W.1, W.3 blocks on W.2)
+- [x] Width honest (W.1 4-wide has no inter-dependencies; W.2 2-wide runs after W.1)
+- [x] Test wave final (W.3 metrics collection depends on W.2 completion)
+
+### 4.5 Observability Spec (NEW — Before Agent Dispatch)
 
 **Observability Spec Template** (locked before agents are dispatched; feeds Phase 5+):
 
@@ -106,7 +131,7 @@ Phase 3 completed gateway integration:
 
 **Rationale:** Observability must be planned before agents are dispatched (Phase D entry point). Prevents Phase 5+ discovering missing metrics mid-rollout. Feeds directly into ijfw-plan → Observability Contract section.
 
-### 4.5 Scope Locked
+### 4.6 Scope Locked
 
 **In Scope:**
 - Proposal creation from audit records
