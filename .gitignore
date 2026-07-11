@@ -8,3 +8,22 @@ out/
 .DS_Store
 .vscode/
 .idea/
+
+# Separate projects / research
+bookstack-docker/
+charlie-deep-research/
+cic-ingestion/
+claude-config-backup/
+claude-configs/
+claude-skills/
+engines/
+kb-sync/
+rewrite-mcp/
+task-observatory/
+tiny-app/
+toolforge/
+windows-task-manager/
+.distro/
+
+# Stray files
+null
