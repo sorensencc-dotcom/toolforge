@@ -67,7 +67,38 @@ Phase 5 completed multi-cohort canary + A/B testing:
 - Cyclic dependencies detected + safely skipped
 - Execution order: dependencies first, reverse of deployment order
 
-### 6.4 Scope Locked
+### 6.4 Parallelism Matrix
+
+| Wave | Spec | Dependencies | Parallelism Tag |
+|------|------|--------------|-----------------|
+| W1 | RollbackTargetDetector (Component) | None | 4-wide |
+| W1 | StateStore (Component) | None | 4-wide |
+| W1 | DatabaseRollback (Component) | None | 4-wide |
+| W1 | CacheRollback (Component) | None | 4-wide |
+| W1 | RollbackExecutor (Component) | None | 4-wide |
+| W2 | Rollback Target Detection (4 tests) | RollbackTargetDetector | blocks-on W1 |
+| W2 | State Store Rollback (3 tests) | StateStore | blocks-on W1 |
+| W2 | Database Rollback (3 tests) | DatabaseRollback | blocks-on W1 |
+| W2 | Cache Rollback (3 tests) | CacheRollback | blocks-on W1 |
+| W3 | Rollback Executor (5 tests) | All W1 components | blocks-on W2 |
+| W3 | Error Handling & Safety (3 tests) | RollbackExecutor, All components | blocks-on W2 |
+| W4 | Phase 5→6 Integration (2 tests) | All W1 components | blocks-on W3 |
+| W4 | Batch Rollbacks (2 tests) | RollbackExecutor, RollbackTargetDetector | blocks-on W3 |
+| W5 | Full Phase 2-6 Integration (1 test) | All components | sequential |
+
+**Parallelism Analysis:**
+- **W1 (Component Definition):** 4-wide parallel (5 independent components)
+- **W2 (Unit Tests):** 4-wide parallel (4 independent component test suites, 13 tests total)
+- **W3 (Executor & Safety Tests):** 2-wide parallel (Executor tests + Error Handling can run in parallel after W2)
+- **W4 (Integration Tests):** 2-wide parallel (Phase 5→6 Integration + Batch Rollbacks depend on executor tests)
+- **W5 (Full E2E):** Sequential (depends on all prior waves)
+
+**Critical Path:** W1 (0) → W2 (13 tests, 4-wide) → W3 (8 tests, 2-wide) → W4 (4 tests, 2-wide) → W5 (1 test)
+**Test Parallelism Width:** 4-wide (W2 components), 2-wide (W3/W4 batches)
+
+---
+
+### 6.5 Scope Locked
 
 **In Scope:**
 - Rollback target detection from deployment log
