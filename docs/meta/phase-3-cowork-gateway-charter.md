@@ -66,7 +66,35 @@ Phase 2 completed E2E ingestion pipeline:
 - Governance trigger: Proposal + approval workflow
 - Canary execution: Cost/latency/correctness metrics
 
-### 3.4 Scope Locked
+### 3.4 Parallelism Matrix
+
+| Wave | Spec | Dependencies | Parallelism Tag |
+|------|------|--------------|-----------------|
+| W1 | GatewayRequest (Component) | None | 4-wide |
+| W1 | MockCoworkAPI (Component) | None | 4-wide |
+| W1 | MockGateway (Component) | None | 4-wide |
+| W2 | Gateway Request Formatting (Tests) | GatewayRequest | blocks-on W1 |
+| W2 | Cowork API Enrichment (Tests) | MockCoworkAPI | blocks-on W1 |
+| W2 | Gateway Error Handling (Tests) | MockGateway | blocks-on W1 |
+| W2 | Cost & Telemetry (Tests) | MockCoworkAPI, MockGateway | 2-wide |
+| W3 | Gateway Processing Pipeline (Tests) | GatewayRequest, MockGateway | blocks-on W2 |
+| W3 | Phase 2→3 Integration (Tests) | Phase 2 output, GatewayRequest | blocks-on W2 |
+| W4 | Full E2E Pipeline (Tests) | All W1-W3 components | sequential |
+
+**Parallelism Analysis:**
+- **W1 (Component Definition):** 4-wide parallel (3 independent components)
+- **W2 (Unit/Integration Tests):** 2-wide parallel (4 test suites, grouped by dependencies)
+  - Gateway Request + Cowork Enrichment (independent)
+  - Error Handling + Cost/Telemetry (independent)
+- **W3 (Cross-Component Tests):** Sequential per suite (Pipeline, Integration depend on W2)
+- **W4 (E2E Tests):** Sequential (full pipeline depends on all earlier waves)
+
+**Critical Path:** W1 (0) → W2 (16 tests, 2 batches) → W3 (4 tests) → W4 (2 tests)
+**Test Parallelism Width:** 2-wide (W2 can split into 2 parallel batches)
+
+---
+
+### 3.5 Scope Locked
 
 **In Scope:**
 - Gateway request/response formatting
