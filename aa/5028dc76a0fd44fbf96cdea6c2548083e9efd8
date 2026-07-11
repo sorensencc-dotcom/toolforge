@@ -1,0 +1,20 @@
+src/governance/ab-testing-e2e.ts
+  s_970389637ddcef::t_ba47a3b507b879 1-215,217-1038
+  s_970389637ddcef::t_f08fc8eccaad5c 216
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "aa5028dc76a0fd44fbf96cdea6c2548083e9efd8",
+  "prompts": {},
+  "sessions": {
+    "s_970389637ddcef": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31370f92-89b8-4321-b817-d1500000411c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
