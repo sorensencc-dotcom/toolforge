@@ -84,6 +84,38 @@ Phase 4 completed governance review pipeline:
 - Metrics pass but no next cohort scheduled
 - Wait for next observation window
 
+### 5.4 Parallelism Matrix
+
+| Wave | Spec | Dependencies | Parallelism Tag |
+|------|------|--------------|-----------------|
+| W1 | MultiCohortEngine (Component) | None | 4-wide |
+| W1 | ABTestEngine (Component) | None | 4-wide |
+| W1 | CustomMetricsEngine (Component) | None | 4-wide |
+| W1 | CohortPromotionEngine (Component) | None | 4-wide |
+| W2 | Multi-Cohort Engine Tests (4 tests) | MultiCohortEngine | blocks-on W1 |
+| W2 | A/B Test Engine Tests (3 tests) | ABTestEngine | blocks-on W1 |
+| W2 | Custom Metrics Engine Tests (7 tests) | CustomMetricsEngine | blocks-on W1 |
+| W2 | Cohort Promotion Engine Tests (3 tests) | CohortPromotionEngine | blocks-on W1 |
+| W3 | Multi-Cohort Rollout Pipeline (2 tests) | All W1 components | blocks-on W2 |
+| W3 | Phase 4→5 Integration (2 tests) | ABTestEngine, MultiCohortEngine | blocks-on W2 |
+| W3 | Batch Cohort Rollout (2 tests) | All W1 components | blocks-on W2 |
+| W3 | A/B Variant Decision Trees (2 tests) | ABTestEngine, CustomMetricsEngine | 2-wide |
+| W4 | Custom Metrics Thresholds (2 tests) | CustomMetricsEngine | blocks-on W3 |
+| W4 | Full Phase 2-5 Integration (2 tests) | All components | sequential |
+
+**Parallelism Analysis:**
+- **W1 (Component Definition):** 4-wide parallel (4 independent engines)
+- **W2 (Unit Tests):** 4-wide parallel (4 independent test suites, 17 tests total)
+- **W3 (Integration Tests):** 2-wide parallel
+  - Batch 1: Rollout Pipeline, Phase 4→5 Integration, Batch Rollout (3 suites blocked on W2)
+  - Batch 2: A/B Variant Decision Trees (2-wide execution within W3)
+- **W4 (E2E & Complex Tests):** Sequential (depends on W3 for full lineage)
+
+**Critical Path:** W1 (0) → W2 (17 tests, 4-wide) → W3 (8 tests, 2-wide) → W4 (4 tests)
+**Test Parallelism Width:** 4-wide (W2 components), 2-wide (W3 batches)
+
+---
+
 ### 5.5 Scope Locked
 
 **In Scope:**
