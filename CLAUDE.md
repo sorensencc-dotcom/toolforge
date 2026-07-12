@@ -1,5 +1,18 @@
 # Claude Code Configuration
 
+## Governance Framework
+
+**Authority Model:** 3-tier (Tier 1: decision | Tier 2: execution | Tier 3: automation)
+
+**Core Principles:**
+1. Tier 1 Decides, Tier 2 Executes, Tier 3 Automates
+2. Memory Shapes Strategy (long-term > project > working)
+3. Safety > Process (boundaries absolute; gates flex)
+4. Conform Before Shipping (patterns, infra, design align at charter phase)
+5. Document Decisions, Not Steps (why/what, not how-to minutiae)
+
+**See:** `docs/meta/global-operating-rules-cic-rewrite-labs.md` (v2.0) — comprehensive governance, 3-class output taxonomy, conformance gate, safety boundaries, drift response.
+
 ## gstack
 
 Use `/browse` skill from gstack for all web browsing. Never use `mcp__claude-in-chrome__*` tools.
@@ -84,7 +97,7 @@ Example: obsidian:ingest-wiki (bash module in kb-sync, invoked via `npm run wiki
 
 ### Governance Changes
 
-Any change to skill approval rules or Tier 0/1 classification requires Tier 1 approval.
+Any change to skill approval rules or tier classification requires Tier 1 approval.
 
 ## Drift Prevention: Embedded Workflow Checklists
 
