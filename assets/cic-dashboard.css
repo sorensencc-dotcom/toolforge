@@ -443,3 +443,86 @@ select:focus-visible,
   .container { padding: 1rem; }
   .filters { padding: 1rem; }
 }
+
+/* ============================================================
+   Errors tab (Step 2)
+   ============================================================ */
+.taxonomy-panel {
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  background: rgba(26, 20, 16, 0.6);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.taxonomy-heading {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: 1rem;
+}
+.taxonomy-chart { display: flex; flex-direction: column; gap: 0.6rem; }
+.taxonomy-row {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr 3rem;
+  align-items: center;
+  gap: 0.75rem;
+}
+.tax-code {
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--bone);           /* text stays high-contrast; color != sole signal */
+  border-left: 3px solid var(--err-accent);
+  padding-left: 0.5rem;
+}
+.tax-bar-track { background: rgba(154, 144, 136, 0.12); height: 0.75rem; }
+.tax-bar { height: 100%; background: var(--err-accent); transition: width 0.3s ease; }
+.tax-count {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--ash);
+  text-align: right;
+}
+
+.errors-table { min-width: 820px; }
+.errors-table thead th {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+  text-align: left;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(154, 144, 136, 0.2);
+}
+.errors-table tbody td {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--bone);
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(154, 144, 136, 0.08);
+  vertical-align: top;
+}
+/* Severity accent = left border + dot only (text stays --bone for AA). */
+.errors-table tbody tr.error-row { border-left: 3px solid var(--err-accent); }
+.err-code-cell { white-space: nowrap; }
+.err-dot { color: var(--err-accent); margin-right: 0.4rem; }
+.err-code-text { font-family: var(--font-label); letter-spacing: 0.1em; }
+.err-message { color: var(--bone); }
+.err-detail-row td {
+  background: rgba(10, 8, 6, 0.6);
+  color: var(--ash);
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.err-detail-row[hidden] { display: none; }
+
+/* Severity ramp — dashboard-scoped, applied via --err-accent (see design §4). */
+.err-E_RUNTIME     { --err-accent: #C4501A; } /* ember  — red    (CRITICAL) */
+.err-E_TIMEOUT     { --err-accent: #D98324; } /* orange          (WARNING)  */
+.err-E_DEPENDENCY  { --err-accent: #8B3A1A; } /* rust   — deep red(CRITICAL)*/
+.err-E_ENVIRONMENT { --err-accent: #B8922A; } /* brass  — yellow (WARNING)  */
+.err-E_VALIDATION  { --err-accent: #C9A24B; } /* gold   — pale   (WARNING)  */
