@@ -1,0 +1,19 @@
+skills/tool-lifecycle-manager/src/index.ts
+  s_ae6c36133a3b6d::t_e70de87195302a 2,4,6,10-19,21-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "88df1113ad09de58f7f9527c9ca8915ce24b2409",
+  "prompts": {},
+  "sessions": {
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
