@@ -54,6 +54,9 @@
       } else if (document.getElementById('autopoll-toggle').checked) {
         startAutopoll();
       }
+
+      // Lazy-load the Errors tab on activation (Step 2).
+      if (button.dataset.tab === 'errors') { loadErrors(); }
     }
 
     tabButtons.forEach((btn, idx) => {
@@ -334,6 +337,192 @@
   }
 
   // ============================================================
+  // Errors tab (Step 2)
+  // ============================================================
+  const ERR_ACCENTS = ['E_RUNTIME', 'E_TIMEOUT', 'E_DEPENDENCY', 'E_ENVIRONMENT', 'E_VALIDATION'];
+
+  let errState = { offset: 0, limit: 50, tool: '', errorCode: '', window: '24h' };
+  let errRowsById = Object.create(null); // error_id -> row (for stack-trace detail)
+
+  function buildErrorQuery() {
+    const params = new URLSearchParams();
+    params.set('limit', errState.limit);
+    params.set('offset', errState.offset);
+    params.set('window', errState.window);
+    if (errState.tool) params.set('tool', errState.tool);
+    if (errState.errorCode) params.set('error_code', errState.errorCode);
+    return params.toString();
+  }
+
+  async function loadErrors() {
+    const statusEl = document.getElementById('errors-status');
+    statusEl.textContent = 'Loading…';
+    try {
+      const res = await fetch(`${API_BASE}/errors?${buildErrorQuery()}`);
+      const data = await res.json();
+      if (!res.ok) {
+        const msg = (data && data.error && data.error.message) || `Request failed (${res.status})`;
+        statusEl.textContent = `Error: ${msg}`;
+        return;
+      }
+      renderErrorsTable(data.errors);
+      renderErrorPagination(data.pagination);
+      statusEl.textContent = data.errors.length === 0 ? 'No errors found.' : '';
+      loadErrorTaxonomy();
+    } catch (err) {
+      statusEl.textContent = `Error: ${err.message}`;
+    }
+  }
+
+  function renderErrorsTable(errors) {
+    const tbody = document.getElementById('errors-tbody');
+    tbody.innerHTML = '';
+    errRowsById = Object.create(null);
+
+    errors.forEach((e) => {
+      errRowsById[e.error_id] = e;
+      const codeClass = ERR_ACCENTS.includes(e.error_code) ? `err-${e.error_code}` : 'err-E_RUNTIME';
+
+      const tr = document.createElement('tr');
+      tr.className = `error-row ${codeClass}`;
+
+      const tdTs = document.createElement('td');
+      tdTs.textContent = formatTimestamp(e.timestamp);
+      tr.appendChild(tdTs);
+
+      const tdTool = document.createElement('td');
+      tdTool.textContent = e.tool;                 // textContent — untrusted
+      tr.appendChild(tdTool);
+
+      const tdCode = document.createElement('td');
+      tdCode.className = 'err-code-cell';
+      tdCode.setAttribute('aria-label', `Error code: ${e.error_code}`);
+      const dot = document.createElement('span');
+      dot.className = 'err-dot';
+      dot.setAttribute('aria-hidden', 'true');
+      dot.textContent = '●';
+      const codeText = document.createElement('span');
+      codeText.className = 'err-code-text';
+      codeText.textContent = e.error_code;
+      tdCode.appendChild(dot);
+      tdCode.appendChild(codeText);
+      tr.appendChild(tdCode);
+
+      const tdMsg = document.createElement('td');
+      tdMsg.className = 'err-message';
+      tdMsg.textContent = e.error_message || '—';  // textContent — untrusted
+      tr.appendChild(tdMsg);
+
+      const tdAct = document.createElement('td');
+      const btn = document.createElement('button');
+      btn.className = 'link-btn';
+      btn.textContent = 'Stack →';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.addEventListener('click', () => toggleStack(e.error_id, tr, btn));
+      tdAct.appendChild(btn);
+      tr.appendChild(tdAct);
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function toggleStack(errorId, tr, btn) {
+    const next = tr.nextElementSibling;
+    if (next && next.classList.contains('err-detail-row')) {
+      const willHide = !next.hidden ? true : false;
+      next.hidden = willHide;
+      btn.setAttribute('aria-expanded', String(!willHide));
+      return;
+    }
+    const rec = errRowsById[errorId];
+    const detail = document.createElement('tr');
+    detail.className = 'err-detail-row';
+    const td = document.createElement('td');
+    td.colSpan = 5;
+    td.textContent = (rec && rec.stack_trace) ? rec.stack_trace : 'No stack trace recorded.';
+    detail.appendChild(td);
+    tr.insertAdjacentElement('afterend', detail);
+    btn.setAttribute('aria-expanded', 'true');
+  }
+
+  async function loadErrorTaxonomy() {
+    try {
+      const res = await fetch(`${API_BASE}/errors/taxonomy?window=${encodeURIComponent(errState.window)}`);
+      const data = await res.json();
+      if (!res.ok) return;
+      renderTaxonomy(data.taxonomy);
+    } catch (err) {
+      /* taxonomy is non-critical; silent on failure */
+    }
+  }
+
+  function renderTaxonomy(taxonomy) {
+    const chart = document.getElementById('taxonomy-chart');
+    chart.innerHTML = '';
+    const maxCount = taxonomy.reduce((m, t) => Math.max(m, t.count), 0) || 1; // scale by max (D12)
+
+    taxonomy.forEach((t) => {
+      const codeClass = ERR_ACCENTS.includes(t.error_code) ? `err-${t.error_code}` : 'err-E_RUNTIME';
+      const row = document.createElement('div');
+      row.className = `taxonomy-row ${codeClass}`;
+      row.setAttribute('aria-label', `${t.error_code}: ${t.count} errors`);
+
+      const code = document.createElement('span');
+      code.className = 'tax-code';
+      code.textContent = t.error_code;
+
+      const track = document.createElement('span');
+      track.className = 'tax-bar-track';
+      const bar = document.createElement('span');
+      bar.className = 'tax-bar';
+      bar.style.width = `${Math.round((t.count / maxCount) * 100)}%`;
+      track.appendChild(bar);
+
+      const count = document.createElement('span');
+      count.className = 'tax-count';
+      count.textContent = t.count;
+
+      row.appendChild(code);
+      row.appendChild(track);
+      row.appendChild(count);
+      chart.appendChild(row);
+    });
+  }
+
+  function renderErrorPagination(p) {
+    document.getElementById('err-prev-page').disabled = !p.hasPrev;
+    document.getElementById('err-next-page').disabled = !p.hasNext;
+    const currentPage = Math.floor(p.offset / p.limit) + 1;
+    const totalPages = Math.max(1, Math.ceil(p.total / p.limit));
+    document.getElementById('err-page-info').textContent =
+      `Page ${currentPage} of ${totalPages} — ${p.total} errors`;
+  }
+
+  function initErrors() {
+    document.getElementById('error-filters').addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      errState.tool = document.getElementById('filter-error-tool').value.trim();
+      errState.errorCode = document.getElementById('filter-error-code').value;
+      errState.window = document.getElementById('filter-error-window').value;
+      errState.offset = 0;
+      loadErrors();
+    });
+    document.getElementById('err-page-size').addEventListener('change', (ev) => {
+      errState.limit = parseInt(ev.target.value, 10);
+      errState.offset = 0;
+      loadErrors();
+    });
+    document.getElementById('err-prev-page').addEventListener('click', () => {
+      errState.offset = Math.max(0, errState.offset - errState.limit);
+      loadErrors();
+    });
+    document.getElementById('err-next-page').addEventListener('click', () => {
+      errState.offset = errState.offset + errState.limit;
+      loadErrors();
+    });
+  }
+
+  // ============================================================
   // Init
   // ============================================================
   document.addEventListener('DOMContentLoaded', () => {
@@ -341,6 +530,7 @@
     loadFiltersFromStorage();
     applyFiltersToForm();
     initHistoryControls();
+    initErrors();
     loadRuns();
   });
 })();
