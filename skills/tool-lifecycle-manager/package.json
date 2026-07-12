@@ -1,0 +1,24 @@
+{
+  "name": "tool-lifecycle-manager",
+  "version": "0.1.0",
+  "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "lifecycle",
+    "registration",
+    "deprecation"
+  ],
+  "author": "soren",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  }
+}
