@@ -1,0 +1,102 @@
+{
+  "id": "obsidian-ingest-wiki",
+  "name": "Obsidian Wiki Ingest",
+  "version": "1.0.0",
+  "description": "Validates staged Obsidian raw sources and generates Claude Code prompt for 8-phase wiki semantic synthesis",
+  "type": "operational",
+  "category": "knowledge-base",
+  "entrypoint": "src/index.ts",
+  "docs": "docs/README.md",
+  "triggers": [
+    "obsidian:validate",
+    "obsidian:prompt"
+  ],
+  "dependencies": [],
+  "outputs": [
+    {
+      "name": "validation",
+      "type": "object",
+      "description": "Staging validation result (exists, manifest present, file count)"
+    },
+    {
+      "name": "prompt",
+      "type": "string",
+      "description": "Claude Code prompt with resolved paths for 8-phase workflow"
+    }
+  ],
+  "metadata": {
+    "created": "2026-07-11",
+    "author": "CIC Team",
+    "maintained": true,
+    "tested": true,
+    "tags": ["obsidian", "wiki", "synthesis", "lvm-pattern"],
+    "keywords": ["vault", "staging", "validation", "prompt-generation"]
+  },
+  "runtime": "node",
+  "timeout": 30000,
+  "inputs": {
+    "required": [
+      {
+        "name": "action",
+        "type": "string",
+        "enum": ["validate", "prompt"],
+        "description": "Action to perform: validate staging or generate prompt"
+      }
+    ],
+    "optional": [
+      {
+        "name": "stagingPath",
+        "type": "string",
+        "description": "Path to staging directory. Auto-discovered if not provided."
+      },
+      {
+        "name": "vaultRoot",
+        "type": "string",
+        "description": "Obsidian vault root path. Reads from config if not provided."
+      }
+    ]
+  },
+  "errorConditions": [
+    {
+      "code": "STAGING_NOT_FOUND",
+      "message": "Staging directory does not exist",
+      "handler": "fail"
+    },
+    {
+      "code": "MANIFEST_MISSING",
+      "message": "Manifest file not found in staging",
+      "handler": "fail"
+    },
+    {
+      "code": "INVALID_ACTION",
+      "message": "Unknown action. Use 'validate' or 'prompt'.",
+      "handler": "fail"
+    },
+    {
+      "code": "CONFIG_MISSING",
+      "message": "Obsidian configuration not found",
+      "handler": "fail"
+    }
+  ],
+  "permissions": {
+    "required": ["read:repo", "read:config"],
+    "optional": [],
+    "restrictions": []
+  },
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "registrationPath": "cowork://toolforge/skills/obsidian-ingest-wiki"
+    },
+    "kb-sync": {
+      "compatible": true,
+      "source": "kb-sync/modules/obsidian/ingest-wiki.sh",
+      "wrapper": true
+    },
+    "cic": {
+      "compatible": true,
+      "adapterPath": "src/cic-adapter.ts"
+    }
+  }
+}
