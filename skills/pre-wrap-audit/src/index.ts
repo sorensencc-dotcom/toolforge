@@ -216,5 +216,3 @@ export function formatAuditReport(
   return md;
 }
 
-// Export types for external use
-export type { AuditReport, SessionContext };

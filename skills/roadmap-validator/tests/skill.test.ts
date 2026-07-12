@@ -8,7 +8,7 @@
 import handler, {
   RoadmapValidatorInput,
   RoadmapValidatorOutput,
-} from "../src/index.ts";
+} from "../src/index";
 import * as fs from "fs";
 import * as path from "path";
 
