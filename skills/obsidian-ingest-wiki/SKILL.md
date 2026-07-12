@@ -1,3 +1,13 @@
+---
+name: obsidian-ingest-wiki
+description: Validates staged Obsidian raw sources and generates Claude Code prompts for 8-phase wiki semantic synthesis. Implements Karpathy LLM-wiki pattern with human-in-the-loop workflow.
+compatibility: |
+  - Node.js 18+
+  - TypeScript 5.0+
+  - configs/obsidian.yaml (kb-sync project)
+  - Read access to vault/_kb-sync-staging/
+---
+
 # obsidian-ingest-wiki Skill Specification
 
 **ID**: `obsidian-ingest-wiki`  

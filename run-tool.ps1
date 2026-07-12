@@ -32,7 +32,8 @@ param(
   [switch]$Run,
   [string]$Config,
   [switch]$Inspect,
-  [switch]$Refresh
+  [switch]$Refresh,
+  [string]$DbPath = "C:\dev\toolforge\run-store.db"
 )
 
 $ErrorActionPreference = "Stop"
@@ -40,6 +41,70 @@ $TOOLFORGE_ROOT = Split-Path -Parent $PSCommandPath
 $MANIFEST_FILE = Join-Path $TOOLFORGE_ROOT "manifest.json"
 $SKILLS_DIR = Join-Path $TOOLFORGE_ROOT "skills"
 $CATEGORIES = @("sync-tools", "daemons", "adapters", "mcp-servers", "utilities", "scaffolds", "prototypes")
+
+function Get-ErrorCode {
+  # Step 1: constant classifier. Step 2 replaces this with real error taxonomy.
+  return "E_RUNTIME"
+}
+
+function Write-Telemetry {
+  param(
+    [Parameter(Mandatory)][string]$InvocationId,
+    [Parameter(Mandatory)][string]$Tool,
+    [Parameter(Mandatory)][ValidateSet("success", "fail")][string]$Status,
+    [Parameter(Mandatory)][int]$DurationMs,
+    [string]$ErrorCode,
+    [string]$ErrorMessage,
+    [string]$Version,
+    [Parameter(Mandatory)][string]$DbPath
+  )
+
+  # Telemetry must NEVER change the tool's own outcome. Any failure here is
+  # swallowed and surfaced only as a warning (§5.1 isolation guarantee).
+  try {
+    if (-not (Get-Module -ListAvailable PSSQLite)) {
+      Write-Warning "telemetry: PSSQLite module not installed; skipping write for $InvocationId. Install with: Install-Module PSSQLite -Scope CurrentUser -Force"
+      return
+    }
+    Import-Module PSSQLite -ErrorAction Stop
+
+    $ts = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+
+    $sql = @"
+BEGIN IMMEDIATE;
+
+INSERT INTO tools (name, first_seen, last_run)
+VALUES (@tool, @ts, @ts)
+ON CONFLICT(name) DO UPDATE SET last_run = @ts;
+
+INSERT INTO runs
+  (invocation_id, tool, timestamp, duration_ms, status, error_code, error_message, version)
+VALUES
+  (@invocation_id, @tool, @ts, @duration_ms, @status, @error_code, @error_message, @version);
+
+COMMIT;
+"@
+
+    $params = @{
+      tool          = $Tool
+      ts            = $ts
+      invocation_id = $InvocationId
+      duration_ms   = $DurationMs
+      status        = $Status
+      error_code    = if ($ErrorCode) { $ErrorCode } else { $null }
+      error_message = if ($ErrorMessage) { $ErrorMessage } else { $null }
+      version       = if ($Version) { $Version } else { $null }
+    }
+
+    Invoke-SqliteQuery -DataSource $DbPath -Query "PRAGMA foreign_keys=ON;" | Out-Null
+    Invoke-SqliteQuery -DataSource $DbPath -Query "PRAGMA busy_timeout=5000;" | Out-Null
+    Invoke-SqliteQuery -DataSource $DbPath -Query $sql -SqlParameters $params | Out-Null
+
+    Write-Verbose "telemetry written id=$InvocationId tool=$Tool status=$Status duration_ms=$DurationMs"
+  } catch {
+    Write-Warning "telemetry: failed to write invocation $InvocationId for tool '$Tool': $($_.Exception.Message)"
+  }
+}
 
 function Load-Manifest {
   if (Test-Path $MANIFEST_FILE) {
@@ -239,7 +304,7 @@ function Inspect-Tool {
 }
 
 function Invoke-Tool {
-  param([string]$ToolName, [string]$ConfigPath)
+  param([string]$ToolName, [string]$ConfigPath, [string]$DbPath = "C:\dev\toolforge\run-store.db")
 
   $manifest = Load-Manifest
   $item = $manifest.tools | Where-Object { $_.name -eq $ToolName }
@@ -269,34 +334,59 @@ function Invoke-Tool {
   Write-Host "   Category: $($item.category)" -ForegroundColor Gray
   Write-Host ""
 
-  $args = @()
-  if ($ConfigPath) { $args += $ConfigPath }
+  $toolArgs = @()
+  if ($ConfigPath) { $toolArgs += $ConfigPath }
 
-  switch ([System.IO.Path]::GetExtension($runPath)) {
-    ".ps1" {
-      & $runPath @args
-    }
-    ".cjs" {
-      node $runPath @args
-    }
-    ".ts" {
-      npx ts-node $runPath @args
-    }
-    ".sh" {
-      bash $runPath @args
-    }
-    default {
-      Write-Host "❌ Unknown entrypoint type: $([System.IO.Path]::GetExtension($runPath))" -ForegroundColor Red
-      exit 1
-    }
-  }
+  # ---- Telemetry: capture invocation identity + start time (§4.1) ----
+  $invocationId = [guid]::NewGuid().ToString().ToLower()
+  $startTime    = Get-Date
+  $version      = $item.version
+  Write-Verbose "telemetry start id=$invocationId tool=$ToolName"   # start = console only (C2)
 
-  if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ $itemType exited with code $LASTEXITCODE" -ForegroundColor Red
-    exit $LASTEXITCODE
+  try {
+    switch ([System.IO.Path]::GetExtension($runPath)) {
+      ".ps1" {
+        & $runPath @toolArgs
+      }
+      ".cjs" {
+        node $runPath @toolArgs
+      }
+      ".ts" {
+        npx ts-node $runPath @toolArgs
+      }
+      ".sh" {
+        bash $runPath @toolArgs
+      }
+      default {
+        Write-Host "❌ Unknown entrypoint type: $([System.IO.Path]::GetExtension($runPath))" -ForegroundColor Red
+        exit 1
+      }
+    }
+
+    if ($LASTEXITCODE -ne 0) {
+      # native/node/ts/sh non-zero exit (C4: telemetry written before this exit)
+      $dur = [int]((Get-Date) - $startTime).TotalMilliseconds
+      Write-Telemetry -InvocationId $invocationId -Tool $ToolName -Status 'fail' `
+        -DurationMs $dur -ErrorCode (Get-ErrorCode) -ErrorMessage "exit code $LASTEXITCODE" `
+        -Version $version -DbPath $DbPath
+      Write-Host "❌ $itemType exited with code $LASTEXITCODE" -ForegroundColor Red
+      exit $LASTEXITCODE
+    }
+
+    $dur = [int]((Get-Date) - $startTime).TotalMilliseconds
+    Write-Telemetry -InvocationId $invocationId -Tool $ToolName -Status 'success' `
+      -DurationMs $dur -Version $version -DbPath $DbPath
+    Write-Host ""
+    Write-Host "✓ Complete" -ForegroundColor Green
   }
-  Write-Host ""
-  Write-Host "✓ Complete" -ForegroundColor Green
+  catch {
+    # PS terminating error (ErrorActionPreference = Stop)
+    $dur = [int]((Get-Date) - $startTime).TotalMilliseconds
+    Write-Telemetry -InvocationId $invocationId -Tool $ToolName -Status 'fail' `
+      -DurationMs $dur -ErrorCode (Get-ErrorCode) -ErrorMessage $_.Exception.Message `
+      -Version $version -DbPath $DbPath
+    throw
+  }
 }
 
 # Main dispatcher
@@ -324,7 +414,7 @@ if ($Run) {
     Write-Host "Error: -Run requires -Name" -ForegroundColor Red
     exit 1
   }
-  Invoke-Tool -ToolName $Name -ConfigPath $Config
+  Invoke-Tool -ToolName $Name -ConfigPath $Config -DbPath $DbPath
   exit 0
 }
 
