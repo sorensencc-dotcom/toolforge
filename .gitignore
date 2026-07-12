@@ -8,6 +8,7 @@ out/
 .DS_Store
 .vscode/
 .idea/
+.obsidian/workspace.json
 
 # Separate projects / research
 bookstack-docker/
