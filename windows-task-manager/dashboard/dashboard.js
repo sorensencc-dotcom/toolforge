@@ -52,6 +52,21 @@ function showError(msg) {
     setTimeout(() => { el.style.display = "none"; }, 5000);
 }
 
+function createPanelItems(panelId, title, items, renderFn, emptyMsg) {
+    const el = document.getElementById(panelId);
+    if (!el) return;
+    el.innerHTML = `<div class='panel-title'>${title}</div>`;
+
+    items.slice(0, 5).forEach(item => {
+        if (!item) return;
+        renderFn(el, item);
+    });
+
+    if (items.length === 0) {
+        el.innerHTML += `<p style='color: #9a9088;'>${emptyMsg}</p>`;
+    }
+}
+
 function formatTimeAgo(date) {
     const now = new Date();
     const diffMs = now - date;
@@ -484,20 +499,20 @@ function renderTaskHealth(tasks) {
     const healthPercent = total > 0 ? (ready / total) * 100 : 0;
 
     const healthStat = document.getElementById("healthStat");
-    const healthBar = document.getElementById("healthBar");
-    const runningCount = document.getElementById("runningCount");
-    const errorCount = document.getElementById("errorCount");
+    if (!healthStat) return;
+    healthStat.textContent = `${ready}/${total}`;
 
-    if (healthStat) healthStat.textContent = `${ready}/${total}`;
+    const healthBar = document.getElementById("healthBar");
     if (healthBar) healthBar.style.width = `${healthPercent}%`;
+
+    const runningCount = document.getElementById("runningCount");
     if (runningCount) runningCount.textContent = running;
+
+    const errorCount = document.getElementById("errorCount");
     if (errorCount) errorCount.textContent = error;
 }
 
 function renderTriggers(tasks) {
-    const el = document.getElementById("triggersPanel");
-    el.innerHTML = "<div class='panel-title'>Triggers (Top 5)</div>";
-
     const allTriggers = [];
     tasks.forEach(task => {
         if (task.triggers && Array.isArray(task.triggers)) {
@@ -512,8 +527,7 @@ function renderTriggers(tasks) {
         }
     });
 
-    allTriggers.slice(0, 5).forEach(trig => {
-        if (!trig) return;
+    createPanelItems("triggersPanel", "Triggers (Top 5)", allTriggers, (el, trig) => {
         const item = document.createElement("div");
         item.className = "trigger-item";
         const taskName = (trig.taskName || "Unknown").substring(0, 20);
@@ -527,17 +541,10 @@ function renderTriggers(tasks) {
         item.appendChild(document.createElement("br"));
         item.appendChild(document.createTextNode(`Schedule: ${schedule}`));
         el.appendChild(item);
-    });
-
-    if (allTriggers.length === 0) {
-        el.innerHTML += "<p style='color: #9a9088;'>No triggers.</p>";
-    }
+    }, "No triggers.");
 }
 
 function renderActions(tasks) {
-    const el = document.getElementById("actionsPanel");
-    el.innerHTML = "<div class='panel-title'>Actions (Top 5)</div>";
-
     const allActions = [];
     tasks.forEach(task => {
         if (task.actions && Array.isArray(task.actions)) {
@@ -552,8 +559,7 @@ function renderActions(tasks) {
         }
     });
 
-    allActions.slice(0, 5).forEach(act => {
-        if (!act) return;
+    createPanelItems("actionsPanel", "Actions (Top 5)", allActions, (el, act) => {
         const item = document.createElement("div");
         item.className = "action-item";
         const taskName = (act.taskName || "Unknown").substring(0, 20);
@@ -567,11 +573,7 @@ function renderActions(tasks) {
         item.appendChild(document.createElement("br"));
         item.appendChild(document.createTextNode(`Path: ${path}`));
         el.appendChild(item);
-    });
-
-    if (allActions.length === 0) {
-        el.innerHTML += "<p style='color: #9a9088;'>No actions.</p>";
-    }
+    }, "No actions.");
 }
 
 function renderEventLog(tasks) {

@@ -8,7 +8,10 @@ describe("html-visual-verify", () => {
 
   beforeAll(() => {
     testFile = path.join(__dirname, "test-fixture.html");
-    dashboardFile = path.join(__dirname, "..", "..", "..", "dashboard.html");
+    dashboardFile = path.join(__dirname, "..", "..", "..", "windows-task-manager", "dashboard", "dashboard.html");
+    if (!fs.existsSync(dashboardFile)) {
+      throw new Error(`Dashboard file not found at ${dashboardFile}`);
+    }
     const validHtml = `
       <!DOCTYPE html>
       <html>
@@ -113,8 +116,8 @@ describe("html-visual-verify", () => {
       const html = fs.readFileSync(testFile, "utf-8");
       expect(html).toContain('id="refresh-btn"');
       expect(html).toContain('id="hard-refresh-btn"');
-      expect(html).toContain('refresh-btn").onclick');
-      expect(html).toContain('hard-refresh-btn").onclick');
+      expect(html).toContain('getElementById("refresh-btn").onclick');
+      expect(html).toContain('getElementById("hard-refresh-btn").onclick');
     });
 
     it("detects malformed JSON in embedded blocks", () => {

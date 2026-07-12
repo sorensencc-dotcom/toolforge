@@ -19,14 +19,13 @@ export class RollbackOrchestrator {
     // HEALTH_CHECK → FAIL: if health failed (trigger rollback of rollback?)
     // Log event for each state transition
 
-    // Stub: return pending status matching test contract (3 fields: phaseId, rollbackStatus, restored)
-    // Real implementation will add: checkpointId, events, error
-    const result: Partial<RollbackResult> = {
+    const result: RollbackResult = {
       phaseId: checkpointId,
       rollbackStatus: "pending",
       restored: false,
+      events: this.events,
     };
-    return result as RollbackResult;
+    return result;
   }
 
   private emitEvent(type: RollbackEvent["type"], details: Record<string, unknown>): void {
