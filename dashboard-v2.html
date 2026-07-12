@@ -77,7 +77,69 @@
       </nav>
     </section>
 
-    <section id="tab-errors"  class="tab-content" role="tabpanel" aria-labelledby="tab-btn-errors"  hidden><p class="placeholder">Errors — Step 2.</p></section>
+    <section id="tab-errors" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-errors" hidden>
+      <form class="filters" role="search" id="error-filters">
+        <div class="field">
+          <label for="filter-error-tool">Tool</label>
+          <input type="text" id="filter-error-tool" class="filter-input" placeholder="Filter by tool…" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="filter-error-code">Error Code</label>
+          <select id="filter-error-code" class="filter-select">
+            <option value="">All codes</option>
+            <option value="E_RUNTIME">E_RUNTIME</option>
+            <option value="E_VALIDATION">E_VALIDATION</option>
+            <option value="E_DEPENDENCY">E_DEPENDENCY</option>
+            <option value="E_ENVIRONMENT">E_ENVIRONMENT</option>
+            <option value="E_TIMEOUT">E_TIMEOUT</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="filter-error-window">Window</label>
+          <select id="filter-error-window" class="filter-select">
+            <option value="24h" selected>Last 24h</option>
+            <option value="7d">Last 7 days</option>
+            <option value="all">All time</option>
+          </select>
+        </div>
+        <button type="submit" id="apply-error-filters" class="filter-button">Apply</button>
+      </form>
+
+      <section class="taxonomy-panel" aria-labelledby="taxonomy-heading">
+        <h3 id="taxonomy-heading" class="taxonomy-heading">Error Distribution</h3>
+        <div id="taxonomy-chart" class="taxonomy-chart" role="img"
+             aria-label="Error distribution by code"></div>
+      </section>
+
+      <div class="table-scroll">
+        <table class="errors-table" id="errors-table" aria-label="Tool error log">
+          <caption class="sr-only">Tool error log, newest first</caption>
+          <thead>
+            <tr>
+              <th scope="col">Timestamp</th>
+              <th scope="col">Tool</th>
+              <th scope="col">Error Code</th>
+              <th scope="col">Message</th>
+              <th scope="col">Stack Trace</th>
+            </tr>
+          </thead>
+          <tbody id="errors-tbody"></tbody>
+        </table>
+      </div>
+      <p id="errors-status" role="status" aria-live="polite" class="runs-status"></p>
+
+      <nav class="pagination" role="navigation" aria-label="Errors pagination">
+        <button id="err-prev-page" class="page-button" aria-label="Previous page" disabled>&larr; Prev</button>
+        <span id="err-page-info" class="page-info">Page 1</span>
+        <button id="err-next-page" class="page-button" aria-label="Next page">Next &rarr;</button>
+        <label class="page-size-label" for="err-page-size">Rows</label>
+        <select id="err-page-size" class="filter-select" aria-label="Rows per page">
+          <option value="25">25</option>
+          <option value="50" selected>50</option>
+          <option value="100">100</option>
+        </select>
+      </nav>
+    </section>
     <section id="tab-release" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-release" hidden><p class="placeholder">Release Pipeline — Step 3.</p></section>
     <section id="tab-badges"  class="tab-content" role="tabpanel" aria-labelledby="tab-btn-badges"  hidden><p class="placeholder">Status Badges — Step 4.</p></section>
   </main>
