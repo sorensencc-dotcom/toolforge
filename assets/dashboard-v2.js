@@ -57,6 +57,8 @@
 
       // Lazy-load the Errors tab on activation (Step 2).
       if (button.dataset.tab === 'errors') { loadErrors(); }
+      // Lazy-load the Badges tab on activation (Step 4).
+      if (button.dataset.tab === 'badges') { loadBadges(); }
     }
 
     tabButtons.forEach((btn, idx) => {
@@ -520,6 +522,117 @@
       errState.offset = errState.offset + errState.limit;
       loadErrors();
     });
+  }
+
+  // ============================================================
+  // Badges tab (Step 4)
+  // ============================================================
+  function badgeUrl(kind, tool) {
+    return `${API_BASE}/badge/${kind}/${encodeURIComponent(tool)}`;
+  }
+
+  function buildMarkdownSnippet(tool) {
+    return [
+      `![${tool} health](${badgeUrl('health', tool)})`,
+      `![${tool} p95 latency](${badgeUrl('latency', tool)})`,
+      `![${tool} errors (24h)](${badgeUrl('errors', tool)})`
+    ].join('\n');
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    // file:// contexts / older browsers may not expose the async Clipboard
+    // API — fall back to a hidden textarea + execCommand so "copy" still
+    // works instead of silently failing.
+    return new Promise((resolve, reject) => {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  function renderBadgeCard(tool) {
+    const card = document.createElement('div');
+    card.className = 'badge-card';
+
+    const name = document.createElement('div');
+    name.className = 'badge-card-name';
+    name.textContent = tool; // textContent — untrusted field
+
+    const images = document.createElement('div');
+    images.className = 'badge-card-images';
+    ['health', 'latency', 'errors'].forEach((kind) => {
+      const img = document.createElement('img');
+      img.src = badgeUrl(kind, tool);
+      img.alt = `${tool} ${kind}`;
+      img.width = 100;
+      img.height = 20;
+      img.loading = 'lazy';
+      images.appendChild(img);
+    });
+
+    const snippet = document.createElement('pre');
+    snippet.className = 'badge-card-snippet';
+    snippet.textContent = buildMarkdownSnippet(tool);
+
+    const copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'badge-copy-btn';
+    copyBtn.textContent = 'Copy markdown';
+    copyBtn.setAttribute('aria-expanded', 'false');
+    copyBtn.addEventListener('click', () => {
+      const isVisible = snippet.classList.toggle('visible');
+      copyBtn.setAttribute('aria-expanded', String(isVisible));
+      copyText(buildMarkdownSnippet(tool))
+        .then(() => { copyBtn.textContent = 'Copied!'; })
+        .catch(() => { copyBtn.textContent = 'Copy markdown (select above)'; })
+        .finally(() => {
+          setTimeout(() => { copyBtn.textContent = 'Copy markdown'; }, 2000);
+        });
+    });
+
+    card.appendChild(name);
+    card.appendChild(images);
+    card.appendChild(copyBtn);
+    card.appendChild(snippet);
+    return card;
+  }
+
+  async function loadBadges() {
+    const statusEl = document.getElementById('badges-status');
+    const grid = document.getElementById('badges-grid');
+    statusEl.textContent = 'Loading…';
+
+    try {
+      const res = await fetch(`${API_BASE}/tools`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        const msg = (data && data.error && data.error.message) || `Request failed (${res.status})`;
+        statusEl.textContent = `Error: ${msg}`;
+        return;
+      }
+
+      grid.innerHTML = '';
+      const tools = data.tools || [];
+      tools.forEach((t) => grid.appendChild(renderBadgeCard(t.name)));
+
+      statusEl.textContent = tools.length === 0 ? 'No tools recorded yet.' : '';
+    } catch (err) {
+      statusEl.textContent = `Error: ${err.message}`;
+    }
   }
 
   // ============================================================

@@ -141,7 +141,11 @@
       </nav>
     </section>
     <section id="tab-release" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-release" hidden><p class="placeholder">Release Pipeline — Step 3.</p></section>
-    <section id="tab-badges"  class="tab-content" role="tabpanel" aria-labelledby="tab-btn-badges"  hidden><p class="placeholder">Status Badges — Step 4.</p></section>
+    <section id="tab-badges" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-badges" hidden>
+      <p class="badges-intro">Live per-tool status badges (health / p95 latency / 24h errors). Click a badge card's snippet to copy a markdown embed for README.md.</p>
+      <div id="badges-grid" class="badges-grid" aria-live="polite"></div>
+      <p id="badges-status" role="status" aria-live="polite" class="runs-status"></p>
+    </section>
   </main>
 
   <script src="./assets/dashboard-v2.js"></script>

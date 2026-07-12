@@ -460,6 +460,168 @@ function listAlerts(req, res, next) {
   } catch (e) { next(e); }
 }
 
+// Route 8: GET /api/toolforge/tools
+// [Rule 2 auto-add] The plan's Step 4 Badges-tab snippet derived the tool
+// list by fetching `runs?limit=1` and de-duping — that only ever sees the
+// single most-recent run's tool, so the badges grid would show at most one
+// tool. A real listing endpoint is required for "Badges tab displays all
+// tools" (Step 4.2 success criterion) to be achievable at all.
+function listTools(req, res, next) {
+  // 'system' is a placeholder row seeded for the alerts FK (see dbWrite.serialize
+  // above) and is not a real tool — exclude it from the public listing.
+  db.all(
+    `SELECT name, category, version, first_seen, last_run FROM tools WHERE name != 'system' ORDER BY name ASC`,
+    [],
+    (err, rows) => {
+      if (err) return next(err);
+      res.status(200).json({ tools: rows, count: rows.length });
+    }
+  );
+}
+
+// ============================================================
+// Badges (Step 4). Read-only SVG generation over `db`, small in-memory
+// cache to bound query volume if a README/dashboard embeds many badges
+// (risk mitigation table: "Badge endpoint overload -> Cache badges 5min").
+// ============================================================
+const BADGE_CACHE_TTL_MS = 5 * 60 * 1000;
+const badgeCache = new Map(); // key -> { expires: number, svg: string }
+
+function getCachedBadge(key) {
+  const hit = badgeCache.get(key);
+  if (hit && hit.expires > Date.now()) return hit.svg;
+  if (hit) badgeCache.delete(key);
+  return null;
+}
+
+function setCachedBadge(key, svg) {
+  badgeCache.set(key, { expires: Date.now() + BADGE_CACHE_TTL_MS, svg });
+}
+
+// Approximate flat-square text width (no canvas available server-side).
+// Good enough to avoid clipped/overlapping labels for real tool names.
+function textWidth(s) {
+  return Math.round(String(s).length * 6.5) + 14;
+}
+
+function escapeXml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// label side uses the CIC "iron" tone; value side uses a semantic status
+// color (kept close to shields.io convention so badges scan correctly at a
+// glance regardless of surrounding theme — READMEs render on GitHub's own
+// light/dark chrome, not the dashboard's).
+function generateBadgeSvg(label, message, color) {
+  const labelText = escapeXml(label);
+  const messageText = escapeXml(message);
+  const labelW = textWidth(labelText);
+  const msgW = textWidth(messageText);
+  const totalW = labelW + msgW;
+  const labelX = Math.round(labelW / 2);
+  const msgX = labelW + Math.round(msgW / 2);
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${totalW}" height="20" role="img" aria-label="${labelText}: ${messageText}">
+  <g shape-rendering="crispEdges">
+    <rect width="${labelW}" height="20" fill="#1e1a17"/>
+    <rect x="${labelW}" width="${msgW}" height="20" fill="${color}"/>
+  </g>
+  <g fill="#e8e0d4" text-anchor="middle" font-family="Verdana,Geneva,sans-serif" font-size="11">
+    <text x="${labelX}" y="14">${labelText}</text>
+    <text x="${msgX}" y="14">${messageText}</text>
+  </g>
+</svg>`;
+}
+
+function sendBadge(res, cacheKey, label, message, color) {
+  let svg = getCachedBadge(cacheKey);
+  if (!svg) {
+    svg = generateBadgeSvg(label, message, color);
+    setCachedBadge(cacheKey, svg);
+  }
+  res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=300'); // overrides global no-store (C12-style: badges are embeddable, must be cacheable)
+  res.status(200).send(svg);
+}
+
+const BADGE_COLORS = {
+  online: '#3fb950',
+  degraded: '#d4a72c',
+  down: '#da3633',
+  unknown: '#9a9088',
+  neutral: '#B8922A',
+  error: '#da3633',
+  clean: '#3fb950'
+};
+
+// Route 9: GET /api/toolforge/badge/health/:tool
+function badgeHealth(req, res, next) {
+  const { tool } = req.params;
+  const cutoff = isoAgo(WINDOW_MS['24h']);
+
+  db.get(
+    `SELECT COUNT(*) total, SUM(CASE WHEN status='fail' THEN 1 ELSE 0 END) fail_count
+     FROM runs WHERE tool = ? AND timestamp > ?`,
+    [tool, cutoff],
+    (err, row) => {
+      if (err) return next(err);
+      const total = row.total || 0;
+      const fails = row.fail_count || 0;
+
+      let health = 'unknown';
+      let color = BADGE_COLORS.unknown;
+      if (total > 0) {
+        const failRate = fails / total;
+        if (failRate > 0.2) { health = 'down'; color = BADGE_COLORS.down; }
+        else if (failRate > 0.05) { health = 'degraded'; color = BADGE_COLORS.degraded; }
+        else { health = 'online'; color = BADGE_COLORS.online; }
+      }
+
+      sendBadge(res, `health:${tool}`, tool, health.toUpperCase(), color);
+    }
+  );
+}
+
+// Route 10: GET /api/toolforge/badge/latency/:tool — p95 over last 24h, successful runs only.
+function badgeLatency(req, res, next) {
+  const { tool } = req.params;
+  const cutoff = isoAgo(WINDOW_MS['24h']);
+
+  db.all(
+    `SELECT duration_ms FROM runs WHERE tool = ? AND status = 'success' AND timestamp > ? ORDER BY duration_ms ASC`,
+    [tool, cutoff],
+    (err, rows) => {
+      if (err) return next(err);
+      if (!rows.length) {
+        return sendBadge(res, `latency:${tool}`, 'latency', 'no data', BADGE_COLORS.unknown);
+      }
+      const p95 = percentileNearestRank(rows.map((r) => r.duration_ms), 95);
+      sendBadge(res, `latency:${tool}`, 'p95 latency', `${p95}ms`, BADGE_COLORS.neutral);
+    }
+  );
+}
+
+// Route 11: GET /api/toolforge/badge/errors/:tool — count over last 24h.
+function badgeErrors(req, res, next) {
+  const { tool } = req.params;
+  const cutoff = isoAgo(WINDOW_MS['24h']);
+
+  db.get(
+    `SELECT COUNT(*) c FROM errors WHERE tool = ? AND timestamp > ?`,
+    [tool, cutoff],
+    (err, row) => {
+      if (err) return next(err);
+      const count = row.c || 0;
+      const color = count > 0 ? BADGE_COLORS.error : BADGE_COLORS.clean;
+      sendBadge(res, `errors:${tool}`, 'errors (24h)', String(count), color);
+    }
+  );
+}
+
 // ============================================================
 // Alert engine (Step 2). Internal scheduler; writes via dbWrite only.
 // ============================================================
@@ -596,6 +758,10 @@ app.get('/health', health);
 app.get('/api/toolforge/errors', listErrors);
 app.get('/api/toolforge/errors/taxonomy', errorTaxonomy);
 app.get('/api/toolforge/alerts', listAlerts);
+app.get('/api/toolforge/tools', listTools);
+app.get('/api/toolforge/badge/health/:tool', badgeHealth);
+app.get('/api/toolforge/badge/latency/:tool', badgeLatency);
+app.get('/api/toolforge/badge/errors/:tool', badgeErrors);
 
 // ---- 404 + central error handler (resolves C8) ----
 function notFoundHandler(req, res) {

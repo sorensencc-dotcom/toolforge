@@ -526,3 +526,88 @@ select:focus-visible,
 .err-E_DEPENDENCY  { --err-accent: #8B3A1A; } /* rust   — deep red(CRITICAL)*/
 .err-E_ENVIRONMENT { --err-accent: #B8922A; } /* brass  — yellow (WARNING)  */
 .err-E_VALIDATION  { --err-accent: #C9A24B; } /* gold   — pale   (WARNING)  */
+
+/* ============================================================
+   Badges tab — Phase 2b Step 4
+   ============================================================ */
+.badges-intro {
+  color: var(--ash);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  max-width: 60ch;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.badge-card {
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  background: rgba(26, 20, 16, 0.6);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.2s ease;
+}
+
+.badge-card:hover {
+  border-color: rgba(196, 80, 26, 0.4);
+}
+
+.badge-card-name {
+  font-family: var(--font-label);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--bone);
+  word-break: break-word;
+}
+
+.badge-card-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.badge-card-images img {
+  display: block;
+  height: 20px;
+  width: auto;
+}
+
+.badge-copy-btn {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid rgba(154, 144, 136, 0.25);
+  color: var(--ash);
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.badge-copy-btn:hover,
+.badge-copy-btn:focus-visible {
+  border-color: var(--ember);
+  color: var(--ember);
+}
+
+.badge-card-snippet {
+  display: none;
+  background: rgba(10, 8, 6, 0.6);
+  color: var(--ash);
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  padding: 0.5rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid rgba(154, 144, 136, 0.1);
+}
+
+.badge-card-snippet.visible { display: block; }
