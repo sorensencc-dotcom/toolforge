@@ -1,19 +1,19 @@
-/**
- * rollback-phase
- * Rolls back a specific phase of ingestion pipeline
- */
+import { RollbackOrchestrator } from "./rollbackOrchestrator";
+import type { RollbackResult } from "./types";
 
-export async function main(input: {
+interface RollbackPhaseInput {
   phaseId: string;
   targetState?: string;
-}): Promise<{ phaseId: string; rollbackStatus: string; restored: boolean }> {
-  console.log(`Rolling back phase: ${input.phaseId}`);
+}
 
-  return {
-    phaseId: input.phaseId,
-    rollbackStatus: "pending",
-    restored: false,
-  };
+export async function execute(input: RollbackPhaseInput): Promise<RollbackResult> {
+  console.log(`Rolling back phase: ${input.phaseId}`);
+  const orchestrator = new RollbackOrchestrator();
+  return orchestrator.execute(input.phaseId);
+}
+
+export async function main(input: RollbackPhaseInput): Promise<RollbackResult> {
+  return execute(input);
 }
 
 export default main;
