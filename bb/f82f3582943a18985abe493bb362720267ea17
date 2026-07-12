@@ -1,0 +1,22 @@
+skills/analyze-token-burn/tests/skill.test.ts
+  s_bda1e8f1bfba9e::t_756a2063e91615 2,4-39,41
+  s_bda1e8f1bfba9e::t_0ed3afb68ea7dd 40
+skills/roadmap-validator/tests/skill.test.ts
+  s_bda1e8f1bfba9e::t_62ec82e39f35bf 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "bbf82f3582943a18985abe493bb362720267ea17",
+  "prompts": {},
+  "sessions": {
+    "s_bda1e8f1bfba9e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39bf75cb-e57c-46e8-a733-d913c769f1bf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
