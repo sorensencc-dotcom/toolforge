@@ -1,0 +1,25 @@
+skills/cic-roadmap-updater/package-lock.json
+  s_7cbe892bfbb449::t_3d063e999e639a 1-3861
+skills/context-manager/package-lock.json
+  s_7cbe892bfbb449::t_362e8d6ff8508f 1-3861
+skills/kb-sync-artifact-generator/package-lock.json
+  s_7cbe892bfbb449::t_f8d5e1fce6e5f2 1-4025
+skills/reconcile-vector-store/package-lock.json
+  s_7cbe892bfbb449::t_3dde0365a6a480 1-3861
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "6c7b6c67662240222c0e62271b5d050d74d85c67",
+  "prompts": {},
+  "sessions": {
+    "s_7cbe892bfbb449": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c047833-a9dd-49b9-9c7f-f6cbe419fbd3",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
