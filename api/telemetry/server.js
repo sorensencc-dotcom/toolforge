@@ -121,8 +121,12 @@ app.disable('x-powered-by');
 
 const corsOptions = {
   origin(origin, cb) {
-    // Allow file:// (origin === undefined/null) and any loopback origin.
-    if (!origin) return cb(null, true);
+    // Allow file:// callers. Per the Fetch spec, an opaque (file://) origin
+    // serializes to the literal string "null" in the Origin header — browsers
+    // do not omit the header entirely, so both cases must be handled (fixes
+    // a design-doc snippet bug found via live file:// E2E test: the header
+    // is never actually undefined for a real browser request).
+    if (!origin || origin === 'null') return cb(null, true);
     if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return cb(null, true);
     return cb(new Error('CORS: origin not allowed'));
   },
