@@ -3,7 +3,9 @@
     "allow": [
       "WebFetch(domain:gist.github.com)",
       "mcp__claude_ai_Slack__slack_send_message",
-      "mcp__claude_ai_AgentMail__list_inboxes"
+      "mcp__claude_ai_AgentMail__list_inboxes",
+      "mcp__claude_ai_Slack__slack_search_channels",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
