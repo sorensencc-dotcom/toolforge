@@ -1,0 +1,445 @@
+/* ============================================================
+   Toolforge Dashboard v2 — Cast Iron Charlie design system
+   Phase 2b Step 1 (docs/meta/toolforge-phase-2b-step1-design.md §3)
+   ============================================================ */
+
+:root {
+  --black: #0a0806;
+  --forge: #1a1410;
+  --iron:  #2c2420;
+  --rust:  #8B3A1A;
+  --ember: #C4501A;
+  --brass: #B8922A;
+  --ash:   #9a9088;
+  --bone:  #e8e0d4;
+  --paper: #f2ece2;
+  --white: #faf6f0;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Libre Baskerville', serif;
+  --font-label: 'Barlow Condensed', sans-serif;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+h1, h2, h3, h4, p, ul, ol, fieldset, legend { margin: 0; padding: 0; }
+button { font: inherit; cursor: pointer; }
+table { border-collapse: collapse; width: 100%; }
+img { max-width: 100%; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Base ---- */
+body {
+  background: var(--black);
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Film grain overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Focus visibility — every interactive element */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[role="tab"]:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+}
+
+/* ---- Divider ---- */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(139, 58, 26, 0.4), transparent);
+  border: none;
+}
+
+/* ============================================================
+   Header + tabs
+   ============================================================ */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: var(--forge);
+  border-bottom: 1px solid rgba(154, 144, 136, 0.12);
+}
+
+.logo {
+  font-family: var(--font-label);
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  color: var(--brass);
+  font-size: 1.1rem;
+}
+
+.dashboard-header h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--white);
+  flex: 0 0 auto;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--ash);
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.9rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.tab-button:hover {
+  color: var(--bone);
+}
+
+.tab-button.active {
+  color: var(--white);
+  border-bottom-color: var(--ember);
+}
+
+.refresh-button {
+  background: transparent;
+  border: 1px solid rgba(154, 144, 136, 0.3);
+  color: var(--bone);
+  font-family: var(--font-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.refresh-button:hover {
+  border-color: var(--ember);
+  color: var(--white);
+}
+
+.autopoll {
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--ash);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.tab-content { display: block; }
+.tab-content[hidden] { display: none; }
+
+.placeholder {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--ash);
+  padding: 3rem 1rem;
+  text-align: center;
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  background: rgba(26, 20, 16, 0.6);
+}
+
+/* ============================================================
+   Filters
+   ============================================================ */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  background: rgba(26, 20, 16, 0.6);
+  transition: border-color 0.2s ease;
+}
+
+.filters:hover {
+  border-color: rgba(196, 80, 26, 0.4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label,
+.status-group legend {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+.status-group {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.status-group > div,
+.status-group label:not(:first-child) {
+  display: inline-flex;
+}
+
+.status-group label {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--bone);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-right: 0.75rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.filter-input,
+.filter-select {
+  background: var(--black);
+  border: 1px solid rgba(154, 144, 136, 0.3);
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0;
+  transition: border-color 0.2s ease;
+}
+
+.filter-input:hover,
+.filter-select:hover {
+  border-color: var(--ember);
+}
+
+.filter-button {
+  background: var(--ember);
+  border: 1px solid var(--ember);
+  color: var(--white);
+  font-family: var(--font-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  padding: 0.55rem 1.2rem;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.filter-button:hover {
+  opacity: 0.85;
+}
+
+/* ============================================================
+   Stats panel
+   ============================================================ */
+.stats-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-item {
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  background: rgba(26, 20, 16, 0.6);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: border-color 0.2s ease;
+}
+
+.stat-item:hover {
+  border-color: rgba(196, 80, 26, 0.4);
+}
+
+.stat-label {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--ember);
+}
+
+.stat-sublabel {
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+/* ============================================================
+   Runs table
+   ============================================================ */
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  background: rgba(26, 20, 16, 0.6);
+}
+
+.runs-table {
+  min-width: 720px;
+}
+
+.runs-table thead th {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+  text-align: left;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(154, 144, 136, 0.2);
+}
+
+.runs-table tbody td {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--bone);
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(154, 144, 136, 0.08);
+}
+
+.runs-table tbody tr.run-fail {
+  background: rgba(196, 80, 26, 0.06);
+}
+
+.runs-table tbody tr.run-success {
+  background: transparent;
+}
+
+.status-success .dot { color: var(--bone); }
+.status-fail .dot { color: var(--ember); }
+
+.link-btn {
+  background: transparent;
+  border: none;
+  color: var(--ember);
+  font-family: var(--font-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 0.2rem 0;
+  transition: opacity 0.2s ease;
+}
+
+.link-btn:hover { opacity: 0.75; }
+
+.runs-status {
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--ash);
+  padding: 0.75rem 0;
+}
+
+/* ============================================================
+   Pagination
+   ============================================================ */
+.pagination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.page-button {
+  background: transparent;
+  border: 1px solid rgba(154, 144, 136, 0.3);
+  color: var(--bone);
+  font-family: var(--font-label);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 0.45rem 0.9rem;
+  transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.page-button:hover:not(:disabled) {
+  border-color: var(--ember);
+  color: var(--white);
+}
+
+.page-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ash);
+}
+
+.page-size-label {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-left: auto;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 720px) {
+  .dashboard-header { padding: 1rem; }
+  .container { padding: 1rem; }
+  .filters { padding: 1rem; }
+}

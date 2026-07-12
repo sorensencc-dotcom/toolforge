@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toolforge — Operational Dashboard v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/cic-dashboard.css">
+</head>
+<body>
+  <header class="dashboard-header">
+    <div class="logo">TOOLFORGE</div>
+    <h1>Operational Dashboard</h1>
+    <nav class="nav-tabs" role="tablist" aria-label="Dashboard sections">
+      <button class="tab-button" role="tab" id="tab-btn-skills"  aria-selected="false" aria-controls="tab-skills"  data-tab="skills">Skills</button>
+      <button class="tab-button active" role="tab" id="tab-btn-history" aria-selected="true"  aria-controls="tab-history" data-tab="history">Execution History</button>
+      <button class="tab-button" role="tab" id="tab-btn-errors"  aria-selected="false" aria-controls="tab-errors"  data-tab="errors">Errors</button>
+      <button class="tab-button" role="tab" id="tab-btn-release" aria-selected="false" aria-controls="tab-release" data-tab="release">Release Pipeline</button>
+      <button class="tab-button" role="tab" id="tab-btn-badges"  aria-selected="false" aria-controls="tab-badges"  data-tab="badges">Status Badges</button>
+    </nav>
+    <button id="refresh-btn" class="refresh-button" aria-label="Refresh data">REFRESH</button>
+    <label class="autopoll"><input type="checkbox" id="autopoll-toggle"> Auto-refresh (30s)</label>
+  </header>
+
+  <main class="container">
+    <section id="tab-skills" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-skills" hidden>
+      <p class="placeholder">Skills inventory — existing dashboard.html embeds here (deferred).</p>
+    </section>
+
+    <section id="tab-history" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-history">
+      <form class="filters" role="search" id="history-filters">
+        <div class="field">
+          <label for="filter-tool">Tool</label>
+          <input type="text" id="filter-tool" class="filter-input" placeholder="Filter by tool…" autocomplete="off">
+        </div>
+        <fieldset class="field status-group">
+          <legend>Status</legend>
+          <label><input type="radio" name="status" value=""        checked> All</label>
+          <label><input type="radio" name="status" value="success"> Success</label>
+          <label><input type="radio" name="status" value="fail"> Failed</label>
+        </fieldset>
+        <div class="field"><label for="filter-from">From</label><input type="date" id="filter-from" class="filter-input"></div>
+        <div class="field"><label for="filter-to">To</label><input type="date" id="filter-to" class="filter-input"></div>
+        <button type="submit" id="apply-filters" class="filter-button">Apply</button>
+      </form>
+
+      <div class="stats-panel" aria-live="polite">
+        <div class="stat-item"><span class="stat-label">Total Runs</span><span id="stat-total" class="stat-value">0</span><span id="stat-window" class="stat-sublabel">ALL TIME</span></div>
+        <div class="stat-item"><span class="stat-label">Success Rate</span><span id="stat-success-rate" class="stat-value">0%</span></div>
+        <div class="stat-item"><span class="stat-label">Avg Duration</span><span id="stat-avg-duration" class="stat-value">—</span></div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="runs-table" id="runs-table">
+          <caption class="sr-only">Tool execution history</caption>
+          <thead>
+            <tr>
+              <th scope="col">Timestamp</th><th scope="col">Tool</th><th scope="col">Duration</th>
+              <th scope="col">Status</th><th scope="col">Version</th><th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="runs-tbody"></tbody>
+        </table>
+      </div>
+      <p id="runs-status" role="status" aria-live="polite" class="runs-status"></p>
+
+      <nav class="pagination" role="navigation" aria-label="Runs pagination">
+        <button id="prev-page" class="page-button" aria-label="Previous page" disabled>&larr; Prev</button>
+        <span id="page-info" class="page-info">Page 1</span>
+        <button id="next-page" class="page-button" aria-label="Next page">Next &rarr;</button>
+        <label class="page-size-label" for="page-size">Rows</label>
+        <select id="page-size" class="filter-select" aria-label="Rows per page">
+          <option value="25" selected>25</option><option value="50">50</option><option value="100">100</option>
+        </select>
+      </nav>
+    </section>
+
+    <section id="tab-errors"  class="tab-content" role="tabpanel" aria-labelledby="tab-btn-errors"  hidden><p class="placeholder">Errors — Step 2.</p></section>
+    <section id="tab-release" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-release" hidden><p class="placeholder">Release Pipeline — Step 3.</p></section>
+    <section id="tab-badges"  class="tab-content" role="tabpanel" aria-labelledby="tab-btn-badges"  hidden><p class="placeholder">Status Badges — Step 4.</p></section>
+  </main>
+
+  <script src="./assets/dashboard-v2.js"></script>
+</body>
+</html>
