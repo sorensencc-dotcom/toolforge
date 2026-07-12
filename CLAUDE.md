@@ -56,3 +56,32 @@ For semantic code questions ("where's the auth logic?", "how's billing handled?"
 - `gbrain code-callers <symbol>` — find callers
 
 Faster than Grep for concept questions. Setup: `/setup-gbrain --full`
+
+## Skill Approval & Registration
+
+### Toolforge Skill (Auto-Install)
+
+Skills auto-install to toolforge library on merge to main IF:
+
+- Registered in `manifest.json` with complete metadata (name, runtime, entrypoint, owner, category, status)
+- Structure: skill.json + src/ + tests/ + docs/ (or equivalent for bash/node)
+- Tests pass locally (`npm test` or equivalent)
+- Documentation complete (README or docs/ with usage examples)
+- Caveman review pass (no blockers)
+
+Example: kb-sync-nightly (bash skill, registered, tested, documented)
+
+### Project Tool (No Auto-Install)
+
+Project tools do NOT auto-install if:
+
+- Located in project `/modules/<category>/` subdirectory
+- Invoked via `npm run` scripts (defined in package.json)
+- Part of larger project (not standalone skill distributed externally)
+- No toolforge manifest.json registration entry
+
+Example: obsidian:ingest-wiki (bash module in kb-sync, invoked via `npm run wiki:ingest:obsidian:validate`, no external distribution)
+
+### Governance Changes
+
+Any change to skill approval rules or Tier 0/1 classification requires Tier 1 approval.
