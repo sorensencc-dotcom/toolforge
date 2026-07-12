@@ -42,9 +42,20 @@ $MANIFEST_FILE = Join-Path $TOOLFORGE_ROOT "manifest.json"
 $SKILLS_DIR = Join-Path $TOOLFORGE_ROOT "skills"
 $CATEGORIES = @("sync-tools", "daemons", "adapters", "mcp-servers", "utilities", "scaffolds", "prototypes")
 
-function Get-ErrorCode {
-  # Step 1: constant classifier. Step 2 replaces this with real error taxonomy.
-  return "E_RUNTIME"
+function Classify-Error {
+  # Total, deterministic error classifier (Step 2). First-match-wins over the
+  # ordered rule set below; the final default guarantees totality.
+  param([string]$ErrorMessage)
+
+  if ([string]::IsNullOrWhiteSpace($ErrorMessage)) { return "E_RUNTIME" }
+
+  switch -Regex ($ErrorMessage) {
+    '(?i)timeout|timed out|has timed out|operation.*timed'                                              { return "E_TIMEOUT" }
+    '(?i)not found|cannot find|no such file|module not found|could not load|unable to (resolve|load)|is not recognized|command not found|ENOENT' { return "E_DEPENDENCY" }
+    '(?i)invalid|validation|malformed|is required|must be (a|an|non-|greater|less)|bad request|parse error|failed to parse|schema' { return "E_VALIDATION" }
+    '(?i)environment variable|env var|\.env|access is denied|permission denied|unauthorized|not set|missing.*variable|configuration (error|missing)' { return "E_ENVIRONMENT" }
+    default { return "E_RUNTIME" }
+  }
 }
 
 function Write-Telemetry {
@@ -55,6 +66,7 @@ function Write-Telemetry {
     [Parameter(Mandatory)][int]$DurationMs,
     [string]$ErrorCode,
     [string]$ErrorMessage,
+    [string]$StackTrace,     # <-- ADD: only used on fail; error stack for the errors table
     [string]$Version,
     [Parameter(Mandatory)][string]$DbPath
   )
@@ -70,6 +82,25 @@ function Write-Telemetry {
 
     $ts = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
 
+    # errors.error_code is NOT NULL. Guarantee a non-null code on every fail so the
+    # (co-transactional) errors insert can never roll back the runs insert.
+    $effectiveCode = if ($ErrorCode) { $ErrorCode }
+                     elseif ($Status -eq 'fail') { 'E_RUNTIME' }
+                     else { $null }
+
+    # On fail, insert a structured errors row in the SAME transaction, AFTER the runs
+    # insert (FK errors.invocation_id -> runs.invocation_id resolves in-txn).
+    $errorInsert = ""
+    if ($Status -eq 'fail') {
+      $errorInsert = @"
+
+INSERT INTO errors
+  (error_id, invocation_id, tool, timestamp, error_code, error_message, stack_trace)
+VALUES
+  (@error_id, @invocation_id, @tool, @ts, @error_code, @error_message, @stack_trace);
+"@
+    }
+
     $sql = @"
 BEGIN IMMEDIATE;
 
@@ -81,7 +112,7 @@ INSERT INTO runs
   (invocation_id, tool, timestamp, duration_ms, status, error_code, error_message, version)
 VALUES
   (@invocation_id, @tool, @ts, @duration_ms, @status, @error_code, @error_message, @version);
-
+$errorInsert
 COMMIT;
 "@
 
@@ -91,9 +122,13 @@ COMMIT;
       invocation_id = $InvocationId
       duration_ms   = $DurationMs
       status        = $Status
-      error_code    = if ($ErrorCode) { $ErrorCode } else { $null }
+      error_code    = $effectiveCode
       error_message = if ($ErrorMessage) { $ErrorMessage } else { $null }
       version       = if ($Version) { $Version } else { $null }
+    }
+    if ($Status -eq 'fail') {
+      $params['error_id']    = [guid]::NewGuid().ToString().ToLower()
+      $params['stack_trace'] = if ($StackTrace) { $StackTrace } else { $null }
     }
 
     Invoke-SqliteQuery -DataSource $DbPath -Query "PRAGMA foreign_keys=ON;" | Out-Null
@@ -365,9 +400,10 @@ function Invoke-Tool {
 
     if ($LASTEXITCODE -ne 0) {
       # native/node/ts/sh non-zero exit (C4: telemetry written before this exit)
-      $dur = [int]((Get-Date) - $startTime).TotalMilliseconds
+      $dur     = [int]((Get-Date) - $startTime).TotalMilliseconds
+      $failMsg = "exit code $LASTEXITCODE"
       Write-Telemetry -InvocationId $invocationId -Tool $ToolName -Status 'fail' `
-        -DurationMs $dur -ErrorCode (Get-ErrorCode) -ErrorMessage "exit code $LASTEXITCODE" `
+        -DurationMs $dur -ErrorCode (Classify-Error -ErrorMessage $failMsg) -ErrorMessage $failMsg `
         -Version $version -DbPath $DbPath
       Write-Host "❌ $itemType exited with code $LASTEXITCODE" -ForegroundColor Red
       exit $LASTEXITCODE
@@ -381,10 +417,11 @@ function Invoke-Tool {
   }
   catch {
     # PS terminating error (ErrorActionPreference = Stop)
-    $dur = [int]((Get-Date) - $startTime).TotalMilliseconds
+    $dur     = [int]((Get-Date) - $startTime).TotalMilliseconds
+    $failMsg = $_.Exception.Message
     Write-Telemetry -InvocationId $invocationId -Tool $ToolName -Status 'fail' `
-      -DurationMs $dur -ErrorCode (Get-ErrorCode) -ErrorMessage $_.Exception.Message `
-      -Version $version -DbPath $DbPath
+      -DurationMs $dur -ErrorCode (Classify-Error -ErrorMessage $failMsg) -ErrorMessage $failMsg `
+      -StackTrace $_.ScriptStackTrace -Version $version -DbPath $DbPath
     throw
   }
 }
