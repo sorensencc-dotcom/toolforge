@@ -1,0 +1,131 @@
+name: Toolforge Release
+
+# Phase 2b Step 3.1 (see docs/meta/toolforge-phase-2b-implementation-plan.md §STEP 3).
+#
+# [Rule 1/2 deviations from the plan's snippet, documented here per the
+# executor's deviation rules — no separate ask needed, all in-scope]:
+#   - toolforge is its OWN git repository (remote: sorensencc-dotcom/toolforge),
+#     not a subdirectory of a larger monorepo. The plan assumed
+#     `paths: ['toolforge/**']`; that prefix does not exist inside this repo,
+#     so it is dropped and this file lives at the toolforge repo root.
+#   - Bump-type detection now reads Conventional Commit prefixes
+#     (feat -> minor, fix/other -> patch, "!"/BREAKING CHANGE -> major)
+#     instead of always bumping patch — the plan's snippet only checked
+#     "commits exist", which would misclassify every feature as a patch.
+#   - Uses bump-version.ps1's GITHUB_OUTPUT integration instead of the
+#     deprecated `::set-output` workflow command used in the plan's snippet.
+#   - No custom secrets required: softprops/action-gh-release and git push
+#     both use the automatically-provisioned GITHUB_TOKEN. Per the dispatch
+#     instructions ("if release workflow needs [secrets], skip and
+#     document") — none are needed, so none are configured.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - '.github/workflows/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: toolforge-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, 'chore(release):')"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Determine version bump from commits since last tag
+        id: bump
+        shell: pwsh
+        run: |
+          $lastTag = $null
+          $tagOut = git describe --tags --abbrev=0 2>$null
+          if ($LASTEXITCODE -eq 0 -and $tagOut) { $lastTag = $tagOut.Trim() }
+          $range = if ($lastTag) { "$lastTag..HEAD" } else { "HEAD" }
+
+          $subjects = git log $range --pretty=format:"%s"
+          $lines = @()
+          if ($subjects) { $lines = $subjects -split "`n" | Where-Object { $_.Trim() -ne "" } }
+
+          if ($lines.Count -eq 0) {
+            Write-Host "No commits since $(if ($lastTag) { $lastTag } else { 'repo start' }) — skipping release."
+            "bump_type=" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            exit 0
+          }
+
+          $bumpType = "patch"
+          foreach ($line in $lines) {
+            if ($line -match "BREAKING CHANGE" -or $line -match "^[a-zA-Z]+(\(.+\))?!:") {
+              $bumpType = "major"
+              break
+            }
+          }
+          if ($bumpType -ne "major") {
+            foreach ($line in $lines) {
+              if ($line -match "^feat(\(.+\))?:") { $bumpType = "minor"; break }
+            }
+          }
+
+          Write-Host "Commits since $(if ($lastTag) { $lastTag } else { 'repo start' }): $($lines.Count) -> bump_type=$bumpType"
+          "bump_type=$bumpType" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Bump version
+        id: version
+        if: steps.bump.outputs.bump_type != ''
+        shell: pwsh
+        run: |
+          $newVersion = & ./utilities/bump-version.ps1 -BumpType ${{ steps.bump.outputs.bump_type }} -VersionFile "$PWD/VERSION.md"
+          Write-Host "New version: $newVersion"
+
+      - name: Generate release notes
+        if: steps.bump.outputs.bump_type != ''
+        shell: pwsh
+        run: |
+          ./utilities/generate-changelog.ps1 -OutputFile "$PWD/CHANGELOG.md" -VersionFile "$PWD/VERSION.md" -RepoRoot "$PWD"
+
+          # Extract just the newest "## Version ..." section for the GitHub
+          # release body (CHANGELOG.md itself keeps full history and is
+          # attached as a release asset below).
+          $full = Get-Content "$PWD/CHANGELOG.md" -Raw
+          $sections = [regex]::Matches($full, '(?ms)^## Version .*?(?=^## Version |\z)')
+          $notes = if ($sections.Count -gt 0) { $sections[0].Value.Trim() } else { $full }
+          Set-Content -Path "$PWD/RELEASE_NOTES.md" -Value $notes -Encoding utf8
+
+      - name: Commit VERSION.md + CHANGELOG.md
+        if: steps.bump.outputs.bump_type != ''
+        run: |
+          git config user.name "toolforge-release-bot"
+          git config user.email "actions@github.com"
+          git add VERSION.md CHANGELOG.md
+          git commit -m "chore(release): v$(grep -m1 '^version:' VERSION.md | sed 's/version:[[:space:]]*//')"
+          git push origin HEAD:main
+
+      - name: Create + push tag
+        if: steps.bump.outputs.bump_type != ''
+        run: |
+          NEW_VERSION=$(grep -m1 '^version:' VERSION.md | sed 's/version:[[:space:]]*//')
+          echo "NEW_VERSION=$NEW_VERSION" >> "$GITHUB_ENV"
+          git tag "v$NEW_VERSION"
+          git push origin "v$NEW_VERSION"
+
+      - name: Publish GitHub release
+        if: steps.bump.outputs.bump_type != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.NEW_VERSION }}
+          name: v${{ env.NEW_VERSION }}
+          body_path: RELEASE_NOTES.md
+          files: CHANGELOG.md
+          # GITHUB_TOKEN is provisioned automatically by Actions; no repo
+          # secret configuration is required for this workflow.
+          token: ${{ secrets.GITHUB_TOKEN }}
