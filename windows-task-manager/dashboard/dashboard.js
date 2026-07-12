@@ -476,9 +476,6 @@ function renderTimeline(tasks) {
 }
 
 function renderTaskHealth(tasks) {
-    const el = document.getElementById("taskHealth");
-    el.innerHTML = "<div class='panel-title'>Health</div>";
-
     const total = tasks.length;
     const ready = tasks.filter(t => t.status === "Ready").length;
     const running = tasks.filter(t => t.status === "Running").length;
@@ -486,10 +483,15 @@ function renderTaskHealth(tasks) {
 
     const healthPercent = total > 0 ? (ready / total) * 100 : 0;
 
-    el.innerHTML += `<div style='font-size: 10px; margin: 4px 0;'>Ready: ${ready}/${total}</div>`;
-    el.innerHTML += `<div class='health-bar'><div class='health-fill' style='width: ${healthPercent}%;'></div></div>`;
-    el.innerHTML += `<div style='font-size: 10px; color: #B8922A;'>Running: ${running}</div>`;
-    el.innerHTML += `<div style='font-size: 10px; color: #8B3A1A;'>Error: ${error}</div>`;
+    const healthStat = document.getElementById("healthStat");
+    const healthBar = document.getElementById("healthBar");
+    const runningCount = document.getElementById("runningCount");
+    const errorCount = document.getElementById("errorCount");
+
+    if (healthStat) healthStat.textContent = `${ready}/${total}`;
+    if (healthBar) healthBar.style.width = `${healthPercent}%`;
+    if (runningCount) runningCount.textContent = running;
+    if (errorCount) errorCount.textContent = error;
 }
 
 function renderTriggers(tasks) {
