@@ -29,3 +29,10 @@ windows-task-manager/
 
 # Stray files
 null
+
+# Phase 2b Step 1: telemetry store (runtime data, not source)
+run-store.db
+run-store.db-wal
+run-store.db-shm
+run-store-backup-*.db
+api/telemetry/.env
