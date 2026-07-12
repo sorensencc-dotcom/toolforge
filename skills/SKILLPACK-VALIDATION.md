@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-10T21:53:49.9542757Z
+**Generated**: 2026-07-12T05:26:26.5324432Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 0 | 11 | 0 | ✅ |
-| Distributed | 0 | 3 | 0 | ✅ |
+| Canonical | 0 | 12 | 0 | ✅ |
+| Distributed | 0 | 4 | 0 | ✅ |
 | Manifest | 0 | 52 | 0 | ✅ |
-| Cowork | 0 | 22 | 0 | ✅ |
+| Cowork | 0 | 23 | 0 | ✅ |
 | Dependencies | 0 | 1 | 1 | ✅ |
-| Runtime | 0 | 0 | 22 | ✅ |
+| Runtime | 0 | 0 | 23 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 89
+**Total Warnings**: 92
 
 **Overall Status**: ✅ PASS
 
@@ -36,6 +36,7 @@
 | html-visual-verify | HTML Visual Verify | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | kb-sync-artifact-generator | KB Sync Artifact Generator | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | kb-sync-nightly | Kb Sync Nightly | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| obsidian-ingest-wiki | Obsidian Wiki Ingest | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | permission-governor | Permission Governor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | plan-extractor-integration | Plan Extractor Integration | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -57,6 +58,7 @@
 ⚠️ **analyze-token-burn**: Invalid category: observability
 ⚠️ **kb-sync-artifact-generator**: Invalid category: governance
 ⚠️ **kb-sync-nightly**: Invalid category: governance
+⚠️ **obsidian-ingest-wiki**: Invalid category: knowledge-base
 ⚠️ **operator-image-build**: Invalid category: pipeline
 ⚠️ **pre-wrap-audit**: Invalid category: session-management
 ⚠️ **reconcile-vector-store**: Invalid category: data-management
@@ -70,6 +72,7 @@
 
 ⚠️ **html-visual-verify**: Directory missing in distributed
 ⚠️ **kb-sync-artifact-generator**: Directory missing in distributed
+⚠️ **obsidian-ingest-wiki**: Directory missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
 
 ## Manifest Validation
@@ -138,6 +141,7 @@
 ⚠️ **html-visual-verify**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-artifact-generator**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-nightly**: Not registered (installer will register on next run)
+⚠️ **obsidian-ingest-wiki**: Not registered (installer will register on next run)
 ⚠️ **operator-image-build**: Not registered (installer will register on next run)
 ⚠️ **permission-governor**: Not registered (installer will register on next run)
 ⚠️ **plan-extractor-integration**: Not registered (installer will register on next run)
@@ -167,6 +171,7 @@
 ℹ️ **html-visual-verify**: Discoverable
 ℹ️ **kb-sync-artifact-generator**: Skill inactive (status: )
 ℹ️ **kb-sync-nightly**: Skill inactive (status: )
+ℹ️ **obsidian-ingest-wiki**: Skill inactive (status: )
 ℹ️ **operator-image-build**: Skill inactive (status: )
 ℹ️ **permission-governor**: Skill inactive (status: )
 ℹ️ **plan-extractor-integration**: Skill inactive (status: )

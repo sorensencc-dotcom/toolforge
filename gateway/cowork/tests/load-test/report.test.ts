@@ -150,7 +150,7 @@ describe('Report', () => {
       const writer = new ReportWriter();
       await writer.writeReport(report, tmpDir);
 
-      const mdPath = path.join(tmpDir, 'report.md');
+      const mdPath = path.join(tmpDir, 'summary.md');
       const mdContent = fs.readFileSync(mdPath, 'utf-8');
       expect(mdContent).toContain('# Load Test Report');
       expect(mdContent).toContain('Multiplier 1x');

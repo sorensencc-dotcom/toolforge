@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-10T21:54:11.6086486Z
+**Generated:** 2026-07-12T05:26:54.4532532Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 22 | 100% |
-| Active | 22 | 100% |
+| **Total Skills** | 23 | 100% |
+| Active | 23 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 20 | 90.9% |
-| ⚠️ Warning | 2 | 9.1% |
+| ✅ Good | 20 | 87% |
+| ⚠️ Warning | 3 | 13% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -141,6 +141,19 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### obsidian-ingest-wiki
+
+| Field | Value |
+|-------|-------|
+| Name | Obsidian Wiki Ingest |
+| Category | knowledge-base |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### operator-image-build
 

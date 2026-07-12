@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-10T21:54:11.9796648Z
+**Generated:** 2026-07-12T05:26:55.2663914Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 145 | 9 | 0 | 154 |
-| % Pass | 94.2% | 5.8% | 0% | 100% |
+| **Totals** | 150 | 11 | 0 | 161 |
+| % Pass | 93.2% | 6.8% | 0% | 100% |
 
 ---
 
@@ -123,6 +123,18 @@
 | DryRun | ✅ PASS | Runtime bash (dry-run not applicable) |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### obsidian-ingest-wiki — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### operator-image-build — ✅ GOOD
@@ -311,6 +323,7 @@ Skills with warnings but no failures:
 - context-manager
 - html-visual-verify
 - kb-sync-artifact-generator
+- obsidian-ingest-wiki
 - permission-governor
 - plan-extractor-integration
 - rewrite-labs-orchestrator

@@ -80,8 +80,8 @@ describe('Collectors', () => {
 
     it('detects drift when intervals vary', () => {
       const collector = createHeartbeatCollector();
+      collector.recordHeartbeat(20000);
       collector.recordHeartbeat(25000);
-      collector.recordHeartbeat(35000);
       const stats = collector.getStats(30000);
       expect(stats.driftMs).toBeGreaterThan(0);
     });

@@ -5,32 +5,30 @@ export const CATEGORY_MAP = {
   "CIC Ingestion": {
     keywords: ["ingestion", "adapters", "webhooks", "routes"],
     paths: [
-      "cic-ingestion/src/ingestion",
-      "cic-ingestion/src/adapters",
-      "cic-ingestion/src/webhooks",
-      "cic-ingestion/src/routes"
+      "../../../cic-ingestion/src/ingestion",
+      "../../../cic-ingestion/src/adapters",
+      "../../../cic-ingestion/src/webhooks",
+      "../../../cic-ingestion/src/routes"
     ]
   },
   "CIC Drift Engine": {
     keywords: ["drift", "driftScore", "semanticVariance", "lengthDelta"],
-    paths: ["cic-ingestion/src/drift"]
+    paths: ["../../../cic-ingestion/src/drift"]
   },
   "CIC Extractors": {
     keywords: ["extractor", "detector", "extraction"],
-    paths: ["cic-ingestion/src/extractors", "cic-ingestion/src/detectors"]
+    paths: ["../../../cic-ingestion/src/extractors", "../../../cic-ingestion/src/detectors"]
   },
   "CIC Harvester": {
     keywords: ["harvester", "harvest"],
     paths: [
-      "cic-ingestion/src/harvester",
-      "rewrite-mcp/projects/rewrite-labs/harvester"
+      "../../../cic-ingestion/src/harvester"
     ]
   },
   "CIC Orchestrator": {
     keywords: ["orchestrator", "orchestrate"],
     paths: [
-      "cic-ingestion/src/orchestrator",
-      "rewrite-mcp/packages/orchestrator"
+      "../../../cic-ingestion/src/orchestrator"
     ]
   },
   "Governance": {
@@ -47,7 +45,7 @@ export const CATEGORY_MAP = {
   },
   "Rewrite Labs": {
     keywords: ["rewrite", "rl-"],
-    paths: ["rewrite-mcp/projects/rewrite-labs", "rewrite-mcp/projects/rl"]
+    paths: []
   },
   "Offline Runtime Integration": {
     keywords: ["runtime", "executor", "sandbox"],
@@ -65,19 +63,19 @@ export const CATEGORY_MAP = {
   },
   "Memory and Observability": {
     keywords: ["memory", "observe", "telemetry"],
-    paths: ["cic-ingestion/src/memory", "cic-ingestion/src/metrics"]
+    paths: ["../../../cic-ingestion/src/memory", "../../../cic-ingestion/src/metrics"]
   },
   "Learning and Evaluation": {
     keywords: ["learning", "maal", "eval"],
-    paths: ["cic-ingestion/src/learning"]
+    paths: ["../../../cic-ingestion/src/learning"]
   },
   "Validation and Testing": {
     keywords: ["test", "validation", "verify"],
-    paths: ["cic-ingestion/src/validation", "cic-ingestion/src/harness"]
+    paths: ["../../../cic-ingestion/src/validation", "../../../cic-ingestion/src/harness"]
   },
   "Automation and Configuration": {
     keywords: ["automation", "config", "schedule"],
-    paths: ["cic-ingestion/src/automation", "cic-ingestion/src/config"]
+    paths: ["../../../cic-ingestion/src/automation", "../../../cic-ingestion/src/config"]
   },
   "Miscellaneous": {
     keywords: [],

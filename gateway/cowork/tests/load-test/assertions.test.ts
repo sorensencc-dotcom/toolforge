@@ -3,7 +3,6 @@ import {
   checkRetryThreshold,
   checkSuccessRateThreshold,
   ThresholdChecker,
-  DEFAULT_BUDGETS,
 } from '../../load-test/assertions';
 
 describe('Assertions', () => {

@@ -14,7 +14,7 @@ const crypto = require('crypto');
 
 // DB_PATH derived from __dirname, never from env / committed absolute path (C12).
 const DB_PATH = path.join(__dirname, '..', '..', 'run-store.db');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // ---- Single process-lifetime DB handle (no pool; read-only workload) ----
 const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
