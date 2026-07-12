@@ -216,7 +216,7 @@ const corsOptions = {
     // a design-doc snippet bug found via live file:// E2E test: the header
     // is never actually undefined for a real browser request).
     if (!origin || origin === 'null') return cb(null, true);
-    if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return cb(null, true);
+    if (/^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/.test(origin)) return cb(null, true);
     return cb(new Error('CORS: origin not allowed'));
   },
   methods: ['GET'],
@@ -370,6 +370,24 @@ function health(req, res) {
       status: 'healthy',
       runs_recorded: row.run_count,
       db: 'run-store.db'
+    });
+  });
+}
+
+// Route 4b: GET /health/alerts — monitor alert engine dbWrite handle
+function healthAlerts(req, res) {
+  dbWrite.get('SELECT 1', [], (err) => {
+    if (err) {
+      return res.status(503).json({
+        status: 'unavailable',
+        service: 'alert-engine',
+        error: err.message
+      });
+    }
+    res.status(200).json({
+      status: 'healthy',
+      service: 'alert-engine',
+      evaluationIntervalMin: THRESHOLDS.evaluation_interval_minutes || 5
     });
   });
 }
@@ -635,7 +653,10 @@ function getAlertCfg(name) {
 // already exists inside the alert's window (acts as a cooldown). After the window
 // elapses, a fresh alert may fire even if the old one is still 'active' — no resolver
 // is in Step 2 scope. Single-timer engine + one dbWrite handle => the check-then-insert
-// race is practically nil (documented, accepted).
+// race is practically nil (documented, accepted). Known race: if the server restarts
+// between the SELECT check and the INSERT, a duplicate active alert may be created on
+// recovery. Mitigation: future Step 3 release automation will add a DB uniqueness
+// constraint or implement resolver logic to clear expired 'active' alerts.
 function maybeCreateAlert(type, tool, actualValue, thresholdValue, cooldownMinutes) {
   const cooldownCutoff = isoAgo(cooldownMinutes * 60 * 1000);
   dbWrite.get(
@@ -755,6 +776,7 @@ app.get('/api/toolforge/runs', listRuns);
 app.get('/api/toolforge/runs/:invocationId', getRun);
 app.get('/api/toolforge/tools/:tool/stats', getToolStats);
 app.get('/health', health);
+app.get('/health/alerts', healthAlerts);
 app.get('/api/toolforge/errors', listErrors);
 app.get('/api/toolforge/errors/taxonomy', errorTaxonomy);
 app.get('/api/toolforge/alerts', listAlerts);

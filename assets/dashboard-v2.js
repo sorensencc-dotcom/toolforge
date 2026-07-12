@@ -6,7 +6,7 @@
 // ============================================================
 
 (function () {
-  const API_BASE = 'http://127.0.0.1:3001/api/toolforge';
+  const API_BASE = `${window.location.origin}/api/toolforge`;
   const FILTERS_KEY = 'tf.filters';
   const DEBOUNCE_MS = 300;
   const AUTOPOLL_MS = 30000;
