@@ -1,6 +1,6 @@
 # Cowork Registered Skills
 
-**Last Sync:** 2026-07-12T06:12:49.8284129Z
+**Last Sync:** 2026-07-12T06:21:38.0780489Z
 
 **Registered:** 0
 **Updated:** 0
@@ -37,55 +37,55 @@
 
 ## Sync History
 
-- **2026-07-12T06:12:50.0296276Z** [INFO] Scanned: agent-drift-detector (v1.0.0)
-- **2026-07-12T06:12:50.0389902Z** [INFO] Scanned: analyze-token-burn (v1.0.0)
-- **2026-07-12T06:12:50.1073025Z** [INFO] Scanned: ashfall (v1.0.0)
-- **2026-07-12T06:12:50.2203459Z** [INFO] Scanned: cic-roadmap-updater (v1.0.0)
-- **2026-07-12T06:12:50.2389825Z** [INFO] Scanned: cic-section-summarizer (v1.0.0)
-- **2026-07-12T06:12:50.2497169Z** [INFO] Scanned: context-manager (v1.0.0)
-- **2026-07-12T06:12:50.2823628Z** [INFO] Scanned: html-visual-verify (v1.0.0)
-- **2026-07-12T06:12:50.3070232Z** [INFO] Scanned: kb-sync-artifact-generator (v1.0.0)
-- **2026-07-12T06:12:50.4400374Z** [INFO] Scanned: kb-sync-nightly (v1.0.0)
-- **2026-07-12T06:12:50.5045895Z** [INFO] Scanned: obsidian-ingest-wiki (v1.0.0)
-- **2026-07-12T06:12:50.6528329Z** [INFO] Scanned: operator-image-build (v1.0.0)
-- **2026-07-12T06:12:50.6971118Z** [INFO] Scanned: permission-governor (v1.0.0)
-- **2026-07-12T06:12:50.7363037Z** [INFO] Scanned: plan-extractor-integration (v1.0.0)
-- **2026-07-12T06:12:50.8865760Z** [INFO] Scanned: pre-wrap-audit (v1.0.0)
-- **2026-07-12T06:12:51.0196913Z** [INFO] Scanned: reconcile-vector-store (v1.0.0)
-- **2026-07-12T06:12:51.1208741Z** [INFO] Scanned: rewrite-labs-orchestrator (v1.0.0)
-- **2026-07-12T06:12:51.2145129Z** [INFO] Scanned: roadmap-validator (v1.0.0)
-- **2026-07-12T06:12:51.2459537Z** [INFO] Scanned: rollback-phase (v1.0.0)
-- **2026-07-12T06:12:51.3862575Z** [INFO] Scanned: run-adapter-diagnostic (v1.0.0)
-- **2026-07-12T06:12:51.5061916Z** [INFO] Scanned: scale-ingestion-service (v1.0.0)
-- **2026-07-12T06:12:51.6133426Z** [INFO] Scanned: tool-lifecycle-manager (v0.1.0)
-- **2026-07-12T06:12:51.6782130Z** [INFO] Scanned: toolforge-drift-monitor (v0.1.0)
-- **2026-07-12T06:12:51.7174619Z** [INFO] Scanned: work-summarizer (v4.0.0)
-- **2026-07-12T06:12:51.7952846Z** [INFO] Phase 1 complete: 23 skills scanned
-- **2026-07-12T06:12:51.9532657Z** [INFO] Loaded Cowork registry: 23 entries
-- **2026-07-12T06:12:52.0046360Z** [INFO] Skill up-to-date: kb-sync-artifact-generator
-- **2026-07-12T06:12:52.0368653Z** [INFO] Skill up-to-date: work-summarizer
-- **2026-07-12T06:12:52.0704041Z** [INFO] Skill up-to-date: plan-extractor-integration
-- **2026-07-12T06:12:52.0885583Z** [INFO] Skill up-to-date: rewrite-labs-orchestrator
-- **2026-07-12T06:12:52.1172082Z** [INFO] Skill up-to-date: tool-lifecycle-manager
-- **2026-07-12T06:12:52.1602594Z** [INFO] Skill up-to-date: cic-roadmap-updater
-- **2026-07-12T06:12:52.1815793Z** [INFO] Skill up-to-date: html-visual-verify
-- **2026-07-12T06:12:52.1948893Z** [INFO] Skill up-to-date: agent-drift-detector
-- **2026-07-12T06:12:52.2055259Z** [INFO] Skill up-to-date: obsidian-ingest-wiki
-- **2026-07-12T06:12:52.2254399Z** [INFO] Skill up-to-date: cic-section-summarizer
-- **2026-07-12T06:12:52.2325139Z** [INFO] Skill up-to-date: run-adapter-diagnostic
-- **2026-07-12T06:12:52.2650153Z** [INFO] Skill up-to-date: context-manager
-- **2026-07-12T06:12:52.2705548Z** [INFO] Skill up-to-date: pre-wrap-audit
-- **2026-07-12T06:12:52.2863601Z** [INFO] Skill up-to-date: rollback-phase
-- **2026-07-12T06:12:52.3042744Z** [INFO] Skill up-to-date: analyze-token-burn
-- **2026-07-12T06:12:52.3483801Z** [INFO] Skill up-to-date: roadmap-validator
-- **2026-07-12T06:12:52.3514414Z** [INFO] Skill up-to-date: ashfall
-- **2026-07-12T06:12:52.3676122Z** [INFO] Skill up-to-date: scale-ingestion-service
-- **2026-07-12T06:12:52.3684537Z** [INFO] Skill up-to-date: operator-image-build
-- **2026-07-12T06:12:52.3691533Z** [INFO] Skill up-to-date: kb-sync-nightly
-- **2026-07-12T06:12:52.3698528Z** [INFO] Skill up-to-date: permission-governor
-- **2026-07-12T06:12:52.3705931Z** [INFO] Skill up-to-date: toolforge-drift-monitor
-- **2026-07-12T06:12:52.3715604Z** [INFO] Skill up-to-date: reconcile-vector-store
-- **2026-07-12T06:12:52.3767920Z** [INFO] Phase 3 complete: 0 registered, 0 updated
+- **2026-07-12T06:21:39.1069734Z** [INFO] Scanned: agent-drift-detector (v1.0.0)
+- **2026-07-12T06:21:39.3623962Z** [INFO] Scanned: analyze-token-burn (v1.0.0)
+- **2026-07-12T06:21:39.6305846Z** [INFO] Scanned: ashfall (v1.0.0)
+- **2026-07-12T06:21:39.6750375Z** [INFO] Scanned: cic-roadmap-updater (v1.0.0)
+- **2026-07-12T06:21:40.1421502Z** [INFO] Scanned: cic-section-summarizer (v1.0.0)
+- **2026-07-12T06:21:40.3841918Z** [INFO] Scanned: context-manager (v1.0.0)
+- **2026-07-12T06:21:40.6039784Z** [INFO] Scanned: html-visual-verify (v1.0.0)
+- **2026-07-12T06:21:40.9324062Z** [INFO] Scanned: kb-sync-artifact-generator (v1.0.0)
+- **2026-07-12T06:21:41.1411684Z** [INFO] Scanned: kb-sync-nightly (v1.0.0)
+- **2026-07-12T06:21:41.4604002Z** [INFO] Scanned: obsidian-ingest-wiki (v1.0.0)
+- **2026-07-12T06:21:41.7584925Z** [INFO] Scanned: operator-image-build (v1.0.0)
+- **2026-07-12T06:21:41.9800073Z** [INFO] Scanned: permission-governor (v1.0.0)
+- **2026-07-12T06:21:42.0783761Z** [INFO] Scanned: plan-extractor-integration (v1.0.0)
+- **2026-07-12T06:21:42.2448939Z** [INFO] Scanned: pre-wrap-audit (v1.0.0)
+- **2026-07-12T06:21:42.3262420Z** [INFO] Scanned: reconcile-vector-store (v1.0.0)
+- **2026-07-12T06:21:42.3404067Z** [INFO] Scanned: rewrite-labs-orchestrator (v1.0.0)
+- **2026-07-12T06:21:42.3878793Z** [INFO] Scanned: roadmap-validator (v1.0.0)
+- **2026-07-12T06:21:42.4264419Z** [INFO] Scanned: rollback-phase (v1.0.0)
+- **2026-07-12T06:21:42.4332942Z** [INFO] Scanned: run-adapter-diagnostic (v1.0.0)
+- **2026-07-12T06:21:42.4374366Z** [INFO] Scanned: scale-ingestion-service (v1.0.0)
+- **2026-07-12T06:21:42.4534749Z** [INFO] Scanned: tool-lifecycle-manager (v0.1.0)
+- **2026-07-12T06:21:42.4822339Z** [INFO] Scanned: toolforge-drift-monitor (v0.1.0)
+- **2026-07-12T06:21:42.5037656Z** [INFO] Scanned: work-summarizer (v4.0.0)
+- **2026-07-12T06:21:42.5047174Z** [INFO] Phase 1 complete: 23 skills scanned
+- **2026-07-12T06:21:43.3269000Z** [INFO] Loaded Cowork registry: 23 entries
+- **2026-07-12T06:21:43.7561571Z** [INFO] Skill up-to-date: html-visual-verify
+- **2026-07-12T06:21:43.8013165Z** [INFO] Skill up-to-date: ashfall
+- **2026-07-12T06:21:43.9201315Z** [INFO] Skill up-to-date: obsidian-ingest-wiki
+- **2026-07-12T06:21:44.0009836Z** [INFO] Skill up-to-date: scale-ingestion-service
+- **2026-07-12T06:21:44.1040786Z** [INFO] Skill up-to-date: toolforge-drift-monitor
+- **2026-07-12T06:21:44.1845503Z** [INFO] Skill up-to-date: analyze-token-burn
+- **2026-07-12T06:21:44.2411052Z** [INFO] Skill up-to-date: cic-section-summarizer
+- **2026-07-12T06:21:44.2990463Z** [INFO] Skill up-to-date: rewrite-labs-orchestrator
+- **2026-07-12T06:21:44.3245691Z** [INFO] Skill up-to-date: run-adapter-diagnostic
+- **2026-07-12T06:21:44.3583936Z** [INFO] Skill up-to-date: roadmap-validator
+- **2026-07-12T06:21:44.4040840Z** [INFO] Skill up-to-date: kb-sync-nightly
+- **2026-07-12T06:21:44.5660046Z** [INFO] Skill up-to-date: plan-extractor-integration
+- **2026-07-12T06:21:44.6479820Z** [INFO] Skill up-to-date: work-summarizer
+- **2026-07-12T06:21:44.7008716Z** [INFO] Skill up-to-date: permission-governor
+- **2026-07-12T06:21:44.7502622Z** [INFO] Skill up-to-date: pre-wrap-audit
+- **2026-07-12T06:21:44.7983858Z** [INFO] Skill up-to-date: kb-sync-artifact-generator
+- **2026-07-12T06:21:44.8213119Z** [INFO] Skill up-to-date: agent-drift-detector
+- **2026-07-12T06:21:44.8759472Z** [INFO] Skill up-to-date: rollback-phase
+- **2026-07-12T06:21:44.9413102Z** [INFO] Skill up-to-date: reconcile-vector-store
+- **2026-07-12T06:21:44.9854845Z** [INFO] Skill up-to-date: tool-lifecycle-manager
+- **2026-07-12T06:21:44.9866445Z** [INFO] Skill up-to-date: operator-image-build
+- **2026-07-12T06:21:44.9874056Z** [INFO] Skill up-to-date: context-manager
+- **2026-07-12T06:21:44.9884351Z** [INFO] Skill up-to-date: cic-roadmap-updater
+- **2026-07-12T06:21:45.0632623Z** [INFO] Phase 3 complete: 0 registered, 0 updated
 ---
 
 **Auto-generated by cowork-auto-sync.ps1 — Phase 1.7**

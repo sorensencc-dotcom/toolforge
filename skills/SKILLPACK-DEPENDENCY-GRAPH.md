@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-12T06:12:52.6206788Z
+**Generated:** 2026-07-12T06:21:45.3169735Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -244,28 +244,28 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| pre-wrap-audit | 1 |
-| toolforge-drift-monitor | 0 |
-| roadmap-validator | 0 |
-| kb-sync-nightly | 0 |
-| operator-image-build | 0 |
-| scale-ingestion-service | 0 |
 | html-visual-verify | 0 |
-| ashfall | 0 |
+| roadmap-validator | 0 |
+| operator-image-build | 0 |
+| tool-lifecycle-manager | 0 |
+| reconcile-vector-store | 0 |
+| agent-drift-detector | 0 |
+| kb-sync-artifact-generator | 0 |
+| rewrite-labs-orchestrator | 0 |
+| permission-governor | 0 |
+| context-manager | 0 |
+| work-summarizer | 0 |
+| kb-sync-nightly | 0 |
+| toolforge-drift-monitor | 0 |
+| run-adapter-diagnostic | 0 |
+| cic-section-summarizer | 0 |
 | analyze-token-burn | 0 |
 | rollback-phase | 0 |
-| cic-section-summarizer | 0 |
-| kb-sync-artifact-generator | 0 |
-| run-adapter-diagnostic | 0 |
-| work-summarizer | 0 |
+| scale-ingestion-service | 0 |
 | obsidian-ingest-wiki | 0 |
-| agent-drift-detector | 0 |
-| permission-governor | 0 |
-| tool-lifecycle-manager | 0 |
-| cic-roadmap-updater | 0 |
-| rewrite-labs-orchestrator | 0 |
+| ashfall | 0 |
 | plan-extractor-integration | 0 |
-| context-manager | 0 |
-| reconcile-vector-store | 0 |
+| cic-roadmap-updater | 0 |
 
 ---
 
