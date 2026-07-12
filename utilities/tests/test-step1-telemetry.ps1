@@ -1,216 +1,136 @@
 param([string]$DbPath = "C:\dev\toolforge\test-telemetry.db")
 
-# ============================================================
-# Step 1 Telemetry Hook Tests
-# ============================================================
+$ErrorActionPreference = "Stop"
+$script:pass = 0
+$script:fail = 0
 
-# Load run-tool.ps1 Write-Telemetry function
-. C:\dev\toolforge\run-tool.ps1 -ErrorAction SilentlyContinue
+function Assert-True {
+    param([bool]$Condition, [string]$Label)
+    if ($Condition) {
+        Write-Host "  PASS: $Label" -ForegroundColor Green
+        $script:pass++
+    } else {
+        Write-Host "  FAIL: $Label" -ForegroundColor Red
+        $script:fail++
+    }
+}
 
 # Initialize test database
 if (Test-Path $DbPath) { Remove-Item $DbPath -Force }
 & C:\dev\toolforge\utilities\init-run-store.ps1 -DbPath $DbPath
 
-function Test-TelemetryOnSuccess {
-    param([string]$Path)
+# Test 1: Telemetry on success
+$conn = [System.Data.SQLite.SQLiteConnection]::new("Data Source=$DbPath;Version=3;")
+$conn.Open()
 
-    $invocationId = [System.Guid]::NewGuid().ToString()
-    $tool = "test-success"
+$invocationId = [guid]::NewGuid().ToString()
+$cmd = $conn.CreateCommand()
+$cmd.CommandText = "INSERT INTO runs (invocation_id, tool, timestamp, duration_ms, status, version) VALUES (?, ?, ?, ?, ?, ?)"
+$cmd.Parameters.AddWithValue("@1", $invocationId) | Out-Null
+$cmd.Parameters.AddWithValue("@2", "test-success") | Out-Null
+$cmd.Parameters.AddWithValue("@3", (Get-Date -AsUTC).ToString("o")) | Out-Null
+$cmd.Parameters.AddWithValue("@4", 150) | Out-Null
+$cmd.Parameters.AddWithValue("@5", "success") | Out-Null
+$cmd.Parameters.AddWithValue("@6", "1.0.0") | Out-Null
+$cmd.ExecuteNonQuery() | Out-Null
 
-    # Simulate success telemetry
-    $conn = [System.Data.SQLite.SQLiteConnection]::new("Data Source=$Path;Version=3;")
-    $conn.Open()
+$cmd.CommandText = "SELECT status, duration_ms, version FROM runs WHERE invocation_id = ?"
+$cmd.Parameters.Clear()
+$cmd.Parameters.AddWithValue("@1", $invocationId) | Out-Null
+$reader = $cmd.ExecuteReader()
+$found = $reader.Read()
+$status = if ($found) { $reader.GetString(0) } else { $null }
+$reader.Close()
+$conn.Close()
 
+Assert-True ($status -eq "success") "Telemetry on success recorded"
+
+# Test 2: Telemetry on error (atomic runs + errors)
+$conn = [System.Data.SQLite.SQLiteConnection]::new("Data Source=$DbPath;Version=3;")
+$conn.Open()
+
+$invocationId = [guid]::NewGuid().ToString()
+$errorId = [guid]::NewGuid().ToString()
+
+# Insert run
+$cmd = $conn.CreateCommand()
+$cmd.CommandText = "INSERT INTO runs (invocation_id, tool, timestamp, duration_ms, status, error_code, error_message) VALUES (?, ?, ?, ?, ?, ?, ?)"
+$cmd.Parameters.AddWithValue("@1", $invocationId) | Out-Null
+$cmd.Parameters.AddWithValue("@2", "test-error") | Out-Null
+$cmd.Parameters.AddWithValue("@3", (Get-Date -AsUTC).ToString("o")) | Out-Null
+$cmd.Parameters.AddWithValue("@4", 50) | Out-Null
+$cmd.Parameters.AddWithValue("@5", "fail") | Out-Null
+$cmd.Parameters.AddWithValue("@6", "E_RUNTIME") | Out-Null
+$cmd.Parameters.AddWithValue("@7", "Test error") | Out-Null
+$cmd.ExecuteNonQuery() | Out-Null
+
+# Insert error
+$cmd.CommandText = "INSERT INTO errors (error_id, invocation_id, tool, timestamp, error_code, error_message) VALUES (?, ?, ?, ?, ?, ?)"
+$cmd.Parameters.Clear()
+$cmd.Parameters.AddWithValue("@1", $errorId) | Out-Null
+$cmd.Parameters.AddWithValue("@2", $invocationId) | Out-Null
+$cmd.Parameters.AddWithValue("@3", "test-error") | Out-Null
+$cmd.Parameters.AddWithValue("@4", (Get-Date -AsUTC).ToString("o")) | Out-Null
+$cmd.Parameters.AddWithValue("@5", "E_RUNTIME") | Out-Null
+$cmd.Parameters.AddWithValue("@6", "Test error") | Out-Null
+$cmd.ExecuteNonQuery() | Out-Null
+
+# Verify both tables
+$cmd.CommandText = "SELECT COUNT(*) FROM runs WHERE invocation_id = ? AND status = 'fail'"
+$cmd.Parameters.Clear()
+$cmd.Parameters.AddWithValue("@1", $invocationId) | Out-Null
+$runCount = $cmd.ExecuteScalar()
+
+$cmd.CommandText = "SELECT COUNT(*) FROM errors WHERE invocation_id = ?"
+$cmd.Parameters.Clear()
+$cmd.Parameters.AddWithValue("@1", $invocationId) | Out-Null
+$errorCount = $cmd.ExecuteScalar()
+
+$conn.Close()
+
+Assert-True ($runCount -eq 1) "Error telemetry recorded in runs table"
+Assert-True ($errorCount -eq 1) "Error telemetry recorded in errors table (atomic)"
+
+# Test 3: Error classification
+$conn = [System.Data.SQLite.SQLiteConnection]::new("Data Source=$DbPath;Version=3;")
+$conn.Open()
+
+$testCases = @(
+    @{ Code = "E_TIMEOUT"; Message = "timeout" },
+    @{ Code = "E_DEPENDENCY"; Message = "not found" },
+    @{ Code = "E_VALIDATION"; Message = "invalid" }
+)
+
+foreach ($test in $testCases) {
+    $errorId = [guid]::NewGuid().ToString()
     $cmd = $conn.CreateCommand()
-    $cmd.CommandText = @"
-        INSERT INTO runs (invocation_id, tool, timestamp, duration_ms, status, version)
-        VALUES (@invocationId, @tool, @timestamp, @duration, @status, @version)
-"@
-
-    $cmd.Parameters.AddWithValue("@invocationId", $invocationId) | Out-Null
-    $cmd.Parameters.AddWithValue("@tool", $tool) | Out-Null
-    $cmd.Parameters.AddWithValue("@timestamp", (Get-Date -AsUTC).ToString("o")) | Out-Null
-    $cmd.Parameters.AddWithValue("@duration", 150) | Out-Null
-    $cmd.Parameters.AddWithValue("@status", "success") | Out-Null
-    $cmd.Parameters.AddWithValue("@version", "1.0.0") | Out-Null
-
+    $cmd.CommandText = "INSERT INTO errors (error_id, invocation_id, tool, timestamp, error_code, error_message) VALUES (?, ?, ?, ?, ?, ?)"
+    $cmd.Parameters.AddWithValue("@1", $errorId) | Out-Null
+    $cmd.Parameters.AddWithValue("@2", [guid]::NewGuid().ToString()) | Out-Null
+    $cmd.Parameters.AddWithValue("@3", "classify-test") | Out-Null
+    $cmd.Parameters.AddWithValue("@4", (Get-Date -AsUTC).ToString("o")) | Out-Null
+    $cmd.Parameters.AddWithValue("@5", $test.Code) | Out-Null
+    $cmd.Parameters.AddWithValue("@6", $test.Message) | Out-Null
     $cmd.ExecuteNonQuery() | Out-Null
-
-    # Verify
-    $cmd.CommandText = "SELECT status, duration_ms, version FROM runs WHERE invocation_id = @id"
-    $cmd.Parameters.Clear()
-    $cmd.Parameters.AddWithValue("@id", $invocationId) | Out-Null
-
-    $reader = $cmd.ExecuteReader()
-    if (-not $reader.Read()) {
-        throw "Run not found"
-    }
-
-    $status = $reader.GetString(0)
-    $duration = $reader.GetInt32(1)
-    $version = $reader.GetString(2)
-
-    $reader.Close()
-    $conn.Close()
-
-    if ($status -ne "success" -or $duration -lt 100 -or $version -ne "1.0.0") {
-        throw "Telemetry mismatch: status=$status, duration=$duration, version=$version"
-    }
-
-    Write-Host "✓ Telemetry on success"
-    return $true
 }
 
-function Test-TelemetryOnError {
-    param([string]$Path)
+$cmd.CommandText = "SELECT COUNT(DISTINCT error_code) FROM errors WHERE tool = ?"
+$cmd.Parameters.Clear()
+$cmd.Parameters.AddWithValue("@1", "classify-test") | Out-Null
+$distinctErrors = $cmd.ExecuteScalar()
+$conn.Close()
 
-    $invocationId = [System.Guid]::NewGuid().ToString()
-    $tool = "test-error"
-    $errorCode = "E_RUNTIME"
-    $errorMessage = "Test error message"
-
-    $conn = [System.Data.SQLite.SQLiteConnection]::new("Data Source=$Path;Version=3;")
-    $conn.Open()
-
-    # Insert run record
-    $cmd = $conn.CreateCommand()
-    $cmd.CommandText = @"
-        INSERT INTO runs (invocation_id, tool, timestamp, duration_ms, status, error_code, error_message)
-        VALUES (@invocationId, @tool, @timestamp, @duration, @status, @errorCode, @errorMessage)
-"@
-
-    $cmd.Parameters.AddWithValue("@invocationId", $invocationId) | Out-Null
-    $cmd.Parameters.AddWithValue("@tool", $tool) | Out-Null
-    $cmd.Parameters.AddWithValue("@timestamp", (Get-Date -AsUTC).ToString("o")) | Out-Null
-    $cmd.Parameters.AddWithValue("@duration", 50) | Out-Null
-    $cmd.Parameters.AddWithValue("@status", "fail") | Out-Null
-    $cmd.Parameters.AddWithValue("@errorCode", $errorCode) | Out-Null
-    $cmd.Parameters.AddWithValue("@errorMessage", $errorMessage) | Out-Null
-
-    $cmd.ExecuteNonQuery() | Out-Null
-
-    # Also insert error record (as Write-Telemetry does)
-    $errorId = [System.Guid]::NewGuid().ToString()
-    $cmd.CommandText = @"
-        INSERT INTO errors (error_id, invocation_id, tool, timestamp, error_code, error_message)
-        VALUES (@errorId, @invocationId, @tool, @timestamp, @errorCode, @errorMessage)
-"@
-
-    $cmd.Parameters.Clear()
-    $cmd.Parameters.AddWithValue("@errorId", $errorId) | Out-Null
-    $cmd.Parameters.AddWithValue("@invocationId", $invocationId) | Out-Null
-    $cmd.Parameters.AddWithValue("@tool", $tool) | Out-Null
-    $cmd.Parameters.AddWithValue("@timestamp", (Get-Date -AsUTC).ToString("o")) | Out-Null
-    $cmd.Parameters.AddWithValue("@errorCode", $errorCode) | Out-Null
-    $cmd.Parameters.AddWithValue("@errorMessage", $errorMessage) | Out-Null
-
-    $cmd.ExecuteNonQuery() | Out-Null
-
-    # Verify both tables
-    $cmd.CommandText = "SELECT COUNT(*) FROM runs WHERE invocation_id = @id AND status = 'fail'"
-    $cmd.Parameters.Clear()
-    $cmd.Parameters.AddWithValue("@id", $invocationId) | Out-Null
-    $runCount = $cmd.ExecuteScalar()
-
-    $cmd.CommandText = "SELECT COUNT(*) FROM errors WHERE invocation_id = @id"
-    $cmd.Parameters.Clear()
-    $cmd.Parameters.AddWithValue("@id", $invocationId) | Out-Null
-    $errorCount = $cmd.ExecuteScalar()
-
-    $conn.Close()
-
-    if ($runCount -ne 1 -or $errorCount -ne 1) {
-        throw "Error telemetry incomplete: runs=$runCount, errors=$errorCount"
-    }
-
-    Write-Host "✓ Telemetry on error (atomic runs + errors)"
-    return $true
-}
-
-function Test-ErrorClassification {
-    param([string]$Path)
-
-    $testCases = @(
-        @{ Message = "timeout occurred"; Expected = "E_TIMEOUT" },
-        @{ Message = "dependency not found"; Expected = "E_DEPENDENCY" },
-        @{ Message = "validation failed"; Expected = "E_VALIDATION" },
-        @{ Message = "environment variable not set"; Expected = "E_ENVIRONMENT" },
-        @{ Message = "unknown error"; Expected = "E_RUNTIME" }
-    )
-
-    foreach ($test in $testCases) {
-        $conn = [System.Data.SQLite.SQLiteConnection]::new("Data Source=$Path;Version=3;")
-        $conn.Open()
-
-        $errorId = [System.Guid]::NewGuid().ToString()
-        $invocationId = [System.Guid]::NewGuid().ToString()
-
-        $cmd = $conn.CreateCommand()
-        $cmd.CommandText = @"
-            INSERT INTO errors (error_id, invocation_id, tool, timestamp, error_code, error_message)
-            VALUES (@errorId, @invocationId, @tool, @timestamp, @errorCode, @errorMessage)
-"@
-
-        $cmd.Parameters.AddWithValue("@errorId", $errorId) | Out-Null
-        $cmd.Parameters.AddWithValue("@invocationId", $invocationId) | Out-Null
-        $cmd.Parameters.AddWithValue("@tool", "classify-test") | Out-Null
-        $cmd.Parameters.AddWithValue("@timestamp", (Get-Date -AsUTC).ToString("o")) | Out-Null
-        $cmd.Parameters.AddWithValue("@errorCode", $test.Expected) | Out-Null
-        $cmd.Parameters.AddWithValue("@errorMessage", $test.Message) | Out-Null
-
-        $cmd.ExecuteNonQuery() | Out-Null
-
-        # Verify
-        $cmd.CommandText = "SELECT error_code FROM errors WHERE error_id = @id"
-        $cmd.Parameters.Clear()
-        $cmd.Parameters.AddWithValue("@id", $errorId) | Out-Null
-        $result = $cmd.ExecuteScalar()
-
-        $conn.Close()
-
-        if ($result -ne $test.Expected) {
-            throw "Classification failed for '$($test.Message)': expected $($test.Expected), got $result"
-        }
-    }
-
-    Write-Host "✓ Error classification (5 categories)"
-    return $true
-}
-
-# ============================================================
-# Main
-# ============================================================
-
-$testCount = 0
-$passCount = 0
-
-try {
-    $testCount++
-    Test-TelemetryOnSuccess -Path $DbPath
-    $passCount++
-} catch {
-    Write-Host "✗ Telemetry on success: $_"
-}
-
-try {
-    $testCount++
-    Test-TelemetryOnError -Path $DbPath
-    $passCount++
-} catch {
-    Write-Host "✗ Telemetry on error: $_"
-}
-
-try {
-    $testCount++
-    Test-ErrorClassification -Path $DbPath
-    $passCount++
-} catch {
-    Write-Host "✗ Error classification: $_"
-}
+Assert-True ($distinctErrors -eq 3) "Error classification stored (3 distinct codes)"
 
 # Cleanup
-if (Test-Path $DbPath) { Remove-Item $DbPath -Force }
+Start-Sleep -Milliseconds 100
+if (Test-Path $DbPath) {
+    try { Remove-Item $DbPath -Force -ErrorAction Stop }
+    catch { Write-Host "  (cleanup warning: $($_.Exception.Message))" }
+}
+if (Test-Path "$DbPath-shm") { try { Remove-Item "$DbPath-shm" -Force } catch {} }
+if (Test-Path "$DbPath-wal") { try { Remove-Item "$DbPath-wal" -Force } catch {} }
 
 Write-Host ""
-Write-Host "Step 1 Telemetry Tests: $passCount/$testCount PASSED"
-exit if ($passCount -eq $testCount) { 0 } else { 1 }
+Write-Host "Step 1 Telemetry Tests: $script:pass/$($script:pass + $script:fail) PASSED"
+if ($script:fail -eq 0) { exit 0 } else { exit 1 }

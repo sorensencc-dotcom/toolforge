@@ -18,6 +18,22 @@ const API_BASE = `http://127.0.0.1:${API_PORT}`;
 // Test Utils
 // ============================================================
 
+async function serverReady(url, timeoutMs = 3000) {
+  const start = Date.now();
+
+  while (Date.now() - start < timeoutMs) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) return true;
+    } catch (_) {
+      // server not ready yet
+    }
+    await new Promise(r => setTimeout(r, 50));
+  }
+
+  throw new Error("Server did not become ready in time");
+}
+
 function makeRequest(method, path, body = null) {
   return new Promise((resolve, reject) => {
     const options = {
@@ -70,8 +86,11 @@ function seedDatabase(dbPath) {
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    // Initialize schema
-    const schemaPath = path.join(__dirname, '../../schema.sql');
+    // Initialize schema (try multiple locations)
+    let schemaPath = path.join(__dirname, '../../schema.sql');
+    if (!fs.existsSync(schemaPath)) {
+      schemaPath = path.join(__dirname, '../../../schema.sql');
+    }
     if (!fs.existsSync(schemaPath)) {
       reject(new Error(`schema.sql not found at ${schemaPath}`));
       return;
@@ -83,24 +102,17 @@ function seedDatabase(dbPath) {
 
     const db = new sqlite3.Database(dbPath);
 
-    db.serialize(() => {
-      db.run('PRAGMA foreign_keys = ON;');
+    db.run('PRAGMA foreign_keys = ON;');
 
-      // Read and execute schema
-      const schema = fs.readFileSync(schemaPath, 'utf-8');
-      const statements = schema.split(';').filter(s => s.trim());
-
-      let executed = 0;
-      statements.forEach(stmt => {
-        db.run(stmt, (err) => {
-          if (err) console.warn('Schema statement failed:', err);
-          executed++;
-          if (executed === statements.length) {
-            // Seed test data
-            seedTestData(db, dbPath, resolve, reject);
-          }
-        });
-      });
+    // Read and execute schema using exec() which handles multiline SQL
+    const schema = fs.readFileSync(schemaPath, 'utf-8');
+    db.exec(schema, (err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      // Schema executed, now seed test data
+      seedTestData(db, dbPath, resolve, reject);
     });
   });
 }
@@ -202,8 +214,15 @@ async function runTests() {
     console.log(`[server stderr] ${data}`);
   });
 
-  // Give server time to start
-  await new Promise(r => setTimeout(r, 1000));
+  // Wait for server to be ready
+  try {
+    await serverReady(`http://127.0.0.1:${API_PORT}/health`);
+    console.log(`API server ready on port ${API_PORT}`);
+  } catch (err) {
+    serverChild.kill();
+    console.error('Server failed to start:', err.message);
+    process.exit(1);
+  }
 
   let testCount = 0;
   let passCount = 0;
