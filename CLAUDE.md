@@ -99,6 +99,20 @@ Example: obsidian:ingest-wiki (bash module in kb-sync, invoked via `npm run wiki
 
 Any change to skill approval rules or tier classification requires Tier 1 approval.
 
+## Productivity & Health Habits (2026-07-12 onward)
+
+**3 Habits for Next Week:**
+
+1. **git push as the last command of each session** — 5 seconds, kills the 35-commit exposure. Main risk: unshipped work = single-disk loss on a productive week.
+2. **Run /retro compare next Sunday** — snapshot at .context/retros/2026-07-12-1.json is baseline. Trends visible from second compare.
+3. **Write test contract into charter BEFORE dispatching Builder wave** — locks acceptance criteria up-front. Prevents 4-commit fix-chains post-dispatch (Wave C pattern, 2026-07-12).
+
+**3 Things to Improve:**
+
+1. **Push cadence** — end every active day with main pushed. 35 unpushed commits is the finding; daily push is the fix.
+2. **Lockfile LOC accounting** — exclude `package-lock.json`, `yarn.lock`, etc. from all LOC metrics. 2026-07-12 retro reported 111k net that was ~90% lockfile; metric tracked noise.
+3. **Rebound-binge pattern** — dark days (Jul 6-7) followed by late-night commit clusters (01:28, 05:20 Jul 8; 00:57-02:29 Jul 12). Watch timestamps 00:00-05:59 after gap days; flag pattern for energy/health review.
+
 ## Drift Prevention: Embedded Workflow Checklists
 
 **Active immediately (2026-07-12).** Run checklist BEFORE critical action.
