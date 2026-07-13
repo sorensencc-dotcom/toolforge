@@ -10,7 +10,8 @@
     ],
     "additionalDirectories": [
       "C:\\Users\\soren\\.claude\\projects\\c--dev",
-      "C:\\Users\\soren\\.ijfw\\claude\\skills\\ijfw-handoff"
+      "C:\\Users\\soren\\.ijfw\\claude\\skills\\ijfw-handoff",
+      "C:\\dev\\kb-sync\\.git"
     ]
   }
 }

@@ -1,0 +1,38 @@
+{
+  "date": "2026-07-12",
+  "window": "7d",
+  "sequence": 2,
+  "note": "End-of-day rerun; supersedes 2026-07-12-1.json baseline saved same day at 17:54",
+  "metrics": {
+    "commits": 70,
+    "contributors": 1,
+    "prs_merged": 0,
+    "insertions": 120140,
+    "deletions": 9496,
+    "net_loc": 110644,
+    "test_loc": 5129,
+    "test_ratio": 0.043,
+    "test_ratio_note": "raw denominator inflated by package-lock.json files (~39k LOC); excluding lockfiles effective ratio ~6.3%",
+    "active_days": 6,
+    "sessions": 23,
+    "deep_sessions": 1,
+    "avg_session_minutes": 21,
+    "feat_pct": 0.14,
+    "fix_pct": 0.11,
+    "docs_pct": 0.27,
+    "peak_hour": 23,
+    "ai_assisted_commits": 70
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 70, "insertions": 120140, "deletions": 9496, "test_ratio": 0.043, "top_area": "skills/" }
+  },
+  "streak_days": 5,
+  "unpushed_commits": 1,
+  "tweetable": "Week of Jul 5: 70 commits (solo), 110k net LOC, 23 skills test-backfilled (226+ tests), governance v2.0, CIC treatment draft v1 assembled+pushed, 5-day streak",
+  "test_health": {
+    "total_test_files": 25,
+    "regression_test_commits": 5,
+    "test_files_changed": 24
+  },
+  "external_repos_note": "charlie-deep-research: 3 commits Jul 12 (framework spec locked b975ece, repo tooling 0ee903b, Treatment Draft v1 assembled ae8cd6e — all 8 sections expanded, pushed to origin/main)"
+}
