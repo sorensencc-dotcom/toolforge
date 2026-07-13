@@ -72,9 +72,9 @@ Faster than Grep for concept questions. Setup: `/setup-gbrain --full`
 
 ## Skill Approval & Registration
 
-### Toolforge Skill (Auto-Install)
+### Toolforge Skill (Candidate Criteria)
 
-Skills auto-install to toolforge library on merge to main IF:
+Skills are eligible for toolforge if they meet these criteria:
 
 - Registered in `manifest.json` with complete metadata (name, runtime, entrypoint, owner, category, status)
 - Structure: skill.json + src/ + tests/ + docs/ (or equivalent for bash/node)
@@ -82,7 +82,9 @@ Skills auto-install to toolforge library on merge to main IF:
 - Documentation complete (README or docs/ with usage examples)
 - Caveman review pass (no blockers)
 
-Example: kb-sync-nightly (bash skill, registered, tested, documented)
+**Note:** Auto-install CI pipeline does not yet exist. Skills meeting criteria are candidates for future automation.
+
+Example: kb-sync-nightly (bash skill, meets all criteria)
 
 ### Project Tool (No Auto-Install)
 
@@ -139,6 +141,6 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 - [ ] Can I point to code/config that proves it?
 - [ ] No "automatic" claims without verification?
 
-**Reference**: See memory/workflow-checklists-embedded.md for full details.
+**Reference**: See `memory/workflow-checklists-embedded.md` for full details.
 
 **Prevents**: Unauthorized artifacts, design non-compliance, wrong storage, false governance claims.
