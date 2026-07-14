@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import SkillList from './pages/SkillList.jsx';
 import SkillDetail from './pages/SkillDetail.jsx';
+import Trending from './pages/Trending.jsx';
 import SearchBar from './components/SearchBar.jsx';
 
 export default function App() {
-  const [view, setView] = useState('list'); // 'list' or 'detail'
+  const [view, setView] = useState('list'); // 'list' | 'trending' | 'detail'
   const [selectedSkillId, setSelectedSkillId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState('');
@@ -33,9 +34,27 @@ export default function App() {
       <header className="app-header">
         <h1>Toolforge Marketplace</h1>
         <p>Discover and install skills</p>
+        <nav className="app-nav" aria-label="Primary">
+          <button
+            type="button"
+            className={`app-nav-btn ${view !== 'trending' ? 'active' : ''}`}
+            aria-current={view !== 'trending' ? 'page' : undefined}
+            onClick={() => setView('list')}
+          >
+            Browse
+          </button>
+          <button
+            type="button"
+            className={`app-nav-btn ${view === 'trending' ? 'active' : ''}`}
+            aria-current={view === 'trending' ? 'page' : undefined}
+            onClick={() => setView('trending')}
+          >
+            Trending
+          </button>
+        </nav>
       </header>
 
-      {view === 'list' ? (
+      {view === 'list' && (
         <>
           <SearchBar onSearch={handleSearch} onCategoryChange={handleCategoryChange} activeCategory={category} />
           <SkillList
@@ -44,9 +63,11 @@ export default function App() {
             onSelectSkill={handleViewDetail}
           />
         </>
-      ) : (
-        <SkillDetail skillId={selectedSkillId} onBack={handleBack} />
       )}
+
+      {view === 'trending' && <Trending onSelectSkill={handleViewDetail} />}
+
+      {view === 'detail' && <SkillDetail skillId={selectedSkillId} onBack={handleBack} />}
     </div>
   );
 }

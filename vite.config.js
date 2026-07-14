@@ -17,4 +17,10 @@ export default defineConfig({
     outDir: '../../dist',
     sourcemap: false,
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./test-setup.js'],
+    include: ['components/**/*.test.jsx', 'pages/**/*.test.jsx'],
+  },
 });

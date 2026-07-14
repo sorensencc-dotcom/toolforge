@@ -509,6 +509,564 @@ body {
   background: var(--rust);
 }
 
+/* ============================================================
+   Wave C components — Cast Iron Charlie tokens
+   ============================================================ */
+
+/* Global focus-visible (WCAG AA) */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+}
+
+/* Primary nav */
+.app-nav {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.app-nav-btn {
+  padding: 0.5rem 1.4rem;
+  background: transparent;
+  border: 1px solid rgba(154, 144, 136, 0.25);
+  border-radius: 0;
+  cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: var(--ash);
+  transition: all 0.2s;
+}
+
+.app-nav-btn:hover {
+  border-color: var(--ember);
+  color: var(--white);
+}
+
+.app-nav-btn.active {
+  background: var(--ember);
+  border-color: var(--ember);
+  color: var(--white);
+}
+
+/* Section headings */
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  margin: 2rem 0 1.25rem;
+  letter-spacing: -0.3px;
+}
+
+.section-subheading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: var(--ash);
+  margin-left: 0.5rem;
+}
+
+/* Shared field label */
+.field-label {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--ash);
+  margin-bottom: 0.5rem;
+}
+
+.field-optional {
+  color: var(--rust);
+  letter-spacing: 0.1em;
+}
+
+/* Rating stars */
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
+  color: var(--brass);
+  line-height: 1;
+}
+
+.rating-stars .star.empty {
+  color: rgba(154, 144, 136, 0.4);
+}
+
+.rating-stars-sm { font-size: 0.9rem; }
+.rating-stars-md { font-size: 1.15rem; }
+.rating-stars-lg { font-size: 1.6rem; }
+
+.rating-stars-editable .star-btn {
+  background: none;
+  border: none;
+  padding: 0 0.05rem;
+  cursor: pointer;
+  color: rgba(154, 144, 136, 0.4);
+  line-height: 1;
+  font-size: inherit;
+  transition: color 0.15s;
+}
+
+.rating-stars-editable .star-btn.filled {
+  color: var(--brass);
+}
+
+.rating-stars-editable .star-btn:hover {
+  color: var(--ember);
+}
+
+/* Review form */
+.review-form {
+  background: rgba(26, 20, 16, 0.5);
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  padding: 1.75rem;
+  margin-top: 1rem;
+}
+
+.review-form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1.25rem;
+}
+
+.review-form-field {
+  margin-bottom: 1.25rem;
+}
+
+.review-textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--forge);
+  border: 1px solid rgba(154, 144, 136, 0.2);
+  border-radius: 0;
+  color: var(--bone);
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.92rem;
+  resize: vertical;
+}
+
+.review-textarea:focus {
+  outline: none;
+  border-color: var(--ember);
+}
+
+.review-textarea::placeholder {
+  color: var(--ash);
+}
+
+.char-count {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--ash);
+}
+
+.char-count-low {
+  color: var(--ember);
+}
+
+.review-form-error {
+  color: #ff8b8b;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.review-submit-button,
+.signin-button {
+  padding: 0.7rem 1.75rem;
+  background: var(--ember);
+  color: var(--white);
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+
+.review-submit-button:hover,
+.signin-button:hover {
+  background: var(--rust);
+}
+
+.review-form-signin {
+  text-align: center;
+}
+
+.signin-prompt {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  color: var(--ash);
+  margin-bottom: 1rem;
+}
+
+/* Review list */
+.review-list-status {
+  padding: 1.5rem;
+}
+
+.review-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.review-item {
+  border-bottom: 1px solid rgba(154, 144, 136, 0.12);
+  padding-bottom: 1.25rem;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-item-meta {
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--ash);
+}
+
+.review-item-text {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--bone);
+}
+
+.review-list-more {
+  text-align: center;
+  padding-top: 1.5rem;
+}
+
+/* Trending */
+.trending-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.window-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.window-btn {
+  padding: 0.45rem 1.1rem;
+  background: var(--forge);
+  border: 1px solid rgba(154, 144, 136, 0.2);
+  border-radius: 0;
+  cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--ash);
+  transition: all 0.2s;
+}
+
+.window-btn:hover { border-color: var(--ember); color: var(--white); }
+.window-btn.active { background: var(--ember); border-color: var(--ember); color: var(--white); }
+
+.trending-grid,
+.related-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.trending-card,
+.related-card {
+  display: flex;
+}
+
+.trending-card-btn,
+.related-card-btn {
+  text-align: left;
+  width: 100%;
+  background: rgba(26, 20, 16, 0.6);
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  border-radius: 0;
+  padding: 1.5rem;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.2s;
+}
+
+.trending-card-btn:hover,
+.related-card-btn:hover {
+  border-color: rgba(196, 80, 26, 0.4);
+}
+
+.trending-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trending-rank {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: rgba(154, 144, 136, 0.35);
+}
+
+.trend-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid currentColor;
+}
+
+.trend-glyph { font-size: 0.7rem; }
+
+/* Direction indicators: green up / amber stable / red down (warm-muted) */
+.trend-up { color: #8fb87a; }
+.trend-stable { color: var(--brass); }
+.trend-down { color: #d6795f; }
+
+.trending-name,
+.related-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.trending-desc {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.88rem;
+  color: var(--ash);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.trending-card-foot,
+.related-rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.trending-installs {
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--ash);
+}
+
+.related-rating-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  color: var(--bone);
+  font-size: 0.85rem;
+}
+
+.related-rating-count { color: var(--ash); }
+
+/* Category nav */
+.category-nav {
+  margin: 0 0 1.5rem;
+}
+
+.category-nav-select-wrap {
+  position: relative;
+  display: inline-block;
+  min-width: 240px;
+}
+
+.category-nav-select {
+  appearance: none;
+  width: 100%;
+  padding: 0.7rem 2.2rem 0.7rem 1rem;
+  background: var(--forge);
+  border: 1px solid rgba(154, 144, 136, 0.2);
+  border-radius: 0;
+  color: var(--bone);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.category-nav-select:focus {
+  outline: none;
+  border-color: var(--ember);
+}
+
+.category-nav-caret {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--ember);
+  font-size: 0.75rem;
+}
+
+/* Version pin */
+.version-pin {
+  background: rgba(26, 20, 16, 0.5);
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.version-pin-row,
+.version-pin-resolved,
+.version-pin-available {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.version-constraint-input {
+  padding: 0.6rem 0.9rem;
+  background: var(--forge);
+  border: 1px solid rgba(154, 144, 136, 0.2);
+  border-radius: 0;
+  color: var(--bone);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+  max-width: 200px;
+}
+
+.version-constraint-input:focus { outline: none; border-color: var(--ember); }
+
+.version-constraint-code {
+  font-family: 'Barlow Condensed', sans-serif;
+  color: var(--brass);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+}
+
+.version-resolved-tag {
+  align-self: flex-start;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  background: var(--rust);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.version-resolved-none {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  color: var(--ash);
+}
+
+.version-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.version-list-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid rgba(154, 144, 136, 0.2);
+  padding: 0.25rem 0.6rem;
+}
+
+.version-list-item.version-matched {
+  border-color: var(--ember);
+  background: rgba(196, 80, 26, 0.12);
+}
+
+.version-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--bone);
+}
+
+.version-matched-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ember);
+}
+
+/* Detail rating row */
+.skill-detail-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.skill-detail-rating .rating-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.08em;
+  color: var(--ash);
+  font-size: 0.85rem;
+}
+
+.skill-detail {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .app-header {
