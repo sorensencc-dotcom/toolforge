@@ -12,9 +12,6 @@ $WarningPreference = if ($Verbose) { "Continue" } else { "SilentlyContinue" }
 $testDir = $PSScriptRoot
 $registryPath = Join-Path $testDir "registry.json"
 $auditLogPath = Join-Path $testDir "registry-audit.log"
-$registryManagerPath = "c:\dev\skills\toolforge-registry-manager\src\registry.ps1"
-$checksumPath = "c:\dev\skills\toolforge-registry-manager\src\checksum.ps1"
-$validatorDir = "c:\dev\skills\toolforge-submission-validator"
 
 $results = @{
     scenarios = @()
@@ -53,11 +50,11 @@ function Test-Scenario {
         & $Test
         $results.scenarios += @{ name = $Name; status = "PASS" }
         $results.passed++
-        Write-Host "✓ PASS" -ForegroundColor Green
+        Write-Host "[OK] PASS" -ForegroundColor Green
     } catch {
         $results.scenarios += @{ name = $Name; status = "FAIL"; error = $_.Exception.Message }
         $results.failed++
-        Write-Host "✗ FAIL: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[FAIL] FAIL: $($_.Exception.Message)" -ForegroundColor Red
         if ($StopOnError) { throw }
     }
 }
@@ -86,7 +83,7 @@ Test-Scenario "Scenario 1: Valid Skill → Registry → Install" {
     Set-Content -Path "$skillDir\SKILL.json" -Value $skillJson
 
     # Create README with required sections
-    $readme = @"
+    $readme = @'
 # Integration Test Skill
 
 ## Purpose
@@ -97,13 +94,13 @@ Import and use this skill in your project.
 
 ## Permissions
 Requires file.read permission.
-"@
-    Set-Content -Path "$skillDir\README.md" -Value $readme
+'@
+    $readme | Set-Content -Path "$skillDir\README.md"
 
     # Create test directory
     New-Item -ItemType Directory -Path "$skillDir\tests" -Force | Out-Null
-    $testContent = "describe('test', () => { it('passes', () => { expect(true).toBe(true); }); });"
-    Set-Content -Path "$skillDir\tests\test.ts" -Value $testContent
+    $testContent = 'describe("test", () => { it("passes", () => { expect(true).toBe(true); }); });'
+    $testContent | Set-Content -Path "$skillDir\tests\test.ts"
 
     # Create package.json
     $pkg = @{
@@ -111,7 +108,7 @@ Requires file.read permission.
         version = "1.0.0"
         scripts = @{ test = "jest" }
     } | ConvertTo-Json
-    Set-Content -Path "$skillDir\package.json" -Value $pkg
+    $pkg | Set-Content -Path "$skillDir\package.json"
 
     # Verify manifest
     $skillJsonContent = Get-Content "$skillDir\SKILL.json" | ConvertFrom-Json
@@ -120,7 +117,7 @@ Requires file.read permission.
     # Verify docs
     if (-not (Test-Path "$skillDir\README.md")) { throw "README missing" }
     $docContent = Get-Content "$skillDir\README.md" -Raw
-    if ($docContent -notmatch "#{1,}.*Purpose|#{1,}.*Usage|#{1,}.*Permissions") { throw "Required sections missing" }
+    if ($docContent -notmatch '#.*(Purpose|Usage|Permissions)') { throw "Required sections missing" }
 
     # Calculate checksum
     $checksum = "sha256-abc123def456"  # Mock for now
@@ -291,7 +288,7 @@ Test-Scenario "Scenario 5: Audit Log Append-Only" {
 
     # Verify append, not rewrite
     if ($updatedLineCount -le $initialLineCount) {
-        throw "Audit log not appended (count didn't increase)"
+        throw 'Audit log not appended (count did not increase)'
     }
 
     # Verify new entry at end
@@ -308,7 +305,7 @@ Write-Host "Failed: $($results.failed)" -ForegroundColor $(if ($results.failed -
 Write-Host ""
 
 foreach ($scenario in $results.scenarios) {
-    $icon = if ($scenario.status -eq "PASS") { "✓" } else { "✗" }
+    $icon = if ($scenario.status -eq "PASS") { "[OK]" } else { "[FAIL]" }
     $color = if ($scenario.status -eq "PASS") { "Green" } else { "Red" }
     Write-Host "$icon $($scenario.name)" -ForegroundColor $color
     if ($scenario.error) {
@@ -318,9 +315,9 @@ foreach ($scenario in $results.scenarios) {
 
 Write-Host ""
 if ($results.failed -eq 0) {
-    Write-Host "✓ ALL SCENARIOS PASSED - Integration test complete" -ForegroundColor Green
+    Write-Host "[OK] ALL SCENARIOS PASSED - Integration test complete" -ForegroundColor Green
     exit 0
 } else {
-    Write-Host "✗ SOME SCENARIOS FAILED - Review errors above" -ForegroundColor Red
+    Write-Host "[FAIL] SOME SCENARIOS FAILED - Review errors above" -ForegroundColor Red
     exit 1
 }
