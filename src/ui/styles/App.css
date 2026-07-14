@@ -1,13 +1,38 @@
+/* Cast Iron Charlie Design System */
+/* Palette: Ember #c85a37, Rust #8b4513, Brass #b8860b */
+/* Typography: Playfair (headlines), Baskerville (body), Barlow (UI) */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@400;500;600&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  background: linear-gradient(135deg, rgba(200, 90, 55, 0.03) 0%, rgba(139, 69, 19, 0.03) 100%),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background: #f5f5f5;
-  color: #333;
+  font-family: 'Baskerville', 'Georgia', serif;
+  background: #faf8f3;
+  color: #3a3a3a;
+  line-height: 1.6;
 }
 
 .app {
@@ -17,28 +42,33 @@ body {
 }
 
 .app-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 2rem;
+  background: linear-gradient(135deg, #c85a37 0%, #8b4513 100%);
+  color: #faf8f3;
+  padding: 3rem 2rem;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
 }
 
 .app-header h1 {
+  font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
+  font-weight: 900;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
 }
 
 .app-header p {
-  font-size: 1.1rem;
-  opacity: 0.9;
+  font-size: 1rem;
+  opacity: 0.95;
+  letter-spacing: 0.3px;
 }
 
 /* Search Bar */
 .search-bar {
-  background: white;
+  background: #fff;
   padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #e8dcc8;
 }
 
 .search-form {
@@ -49,43 +79,53 @@ body {
 
 .search-input {
   flex: 1;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.875rem 1rem;
+  border: 1px solid #d4c4b0;
+  border-radius: 2px;
+  font-family: 'Barlow', sans-serif;
   font-size: 1rem;
+  background: #faf8f3;
+  color: #3a3a3a;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #c85a37;
+  box-shadow: 0 0 0 3px rgba(200, 90, 55, 0.1);
+  background: #fff;
 }
 
 .search-button {
-  padding: 0.75rem 1.5rem;
-  background: #667eea;
-  color: white;
+  padding: 0.875rem 1.5rem;
+  background: #c85a37;
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 2px;
   cursor: pointer;
+  font-family: 'Barlow', sans-serif;
   font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s;
 }
 
 .search-button:hover {
-  background: #5568d3;
+  background: #a84729;
 }
 
 /* Category Filter */
 .category-filter {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
   flex-wrap: wrap;
 }
 
 .category-filter label {
+  font-family: 'Barlow', sans-serif;
   font-weight: 600;
-  color: #555;
+  color: #3a3a3a;
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
 }
 
 .category-buttons {
@@ -96,23 +136,26 @@ body {
 
 .category-btn {
   padding: 0.5rem 1rem;
-  background: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 20px;
+  background: #e8dcc8;
+  border: 1px solid #d4c4b0;
+  border-radius: 2px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #5a4a3a;
   transition: all 0.2s;
 }
 
 .category-btn:hover {
-  background: #e8e8e8;
-  border-color: #999;
+  background: #d4c4b0;
+  border-color: #c85a37;
 }
 
 .category-btn.active {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
+  background: #c85a37;
+  color: #fff;
+  border-color: #c85a37;
 }
 
 /* Skill List */
@@ -133,18 +176,20 @@ body {
 
 /* Skill Card */
 .skill-card {
-  background: white;
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 2px;
   padding: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.3s;
   display: flex;
   flex-direction: column;
+  border: 1px solid #e8dcc8;
 }
 
 .skill-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(200, 90, 55, 0.12);
+  border-color: #c85a37;
   transform: translateY(-2px);
 }
 
@@ -157,32 +202,37 @@ body {
 .skill-icon {
   width: 40px;
   height: 40px;
-  border-radius: 4px;
+  border-radius: 2px;
   object-fit: cover;
+  background: #e8dcc8;
 }
 
 .skill-info h3 {
-  font-size: 1.1rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #3a3a3a;
 }
 
 .category-badge {
   display: inline-block;
-  background: #f0f0f0;
-  color: #666;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  background: #e8dcc8;
+  color: #5a4a3a;
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.8rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .skill-description {
-  color: #666;
+  color: #5a5a5a;
   font-size: 0.95rem;
   margin-bottom: 1rem;
   flex: 1;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .skill-card-footer {
@@ -191,7 +241,7 @@ body {
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #e8dcc8;
 }
 
 .rating {
@@ -201,39 +251,45 @@ body {
 }
 
 .stars {
-  color: #ffc107;
-  font-size: 1.2rem;
+  color: #b8860b;
+  font-size: 1.1rem;
 }
 
 .rating-value {
+  font-family: 'Barlow', sans-serif;
   font-weight: 600;
-  color: #333;
+  color: #3a3a3a;
+  font-size: 0.95rem;
 }
 
 .rating-count {
   color: #999;
-  font-size: 0.9rem;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
 }
 
 .owner {
   color: #999;
-  font-size: 0.9rem;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
 }
 
 .view-button {
   width: 100%;
   padding: 0.75rem;
-  background: #667eea;
-  color: white;
+  background: #c85a37;
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 2px;
   cursor: pointer;
+  font-family: 'Barlow', sans-serif;
   font-weight: 600;
+  font-size: 0.95rem;
   transition: background 0.2s;
 }
 
 .view-button:hover {
-  background: #5568d3;
+  background: #a84729;
 }
 
 /* Skill Detail */
@@ -247,23 +303,26 @@ body {
 .back-button {
   background: none;
   border: none;
-  color: #667eea;
+  color: #c85a37;
   cursor: pointer;
-  font-size: 1rem;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
   margin-bottom: 1.5rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
   font-weight: 600;
+  transition: color 0.2s;
 }
 
 .back-button:hover {
-  color: #5568d3;
+  color: #a84729;
 }
 
 .skill-detail {
-  background: white;
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 2px;
   padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8dcc8;
 }
 
 .skill-detail-header {
@@ -271,24 +330,32 @@ body {
   gap: 2rem;
   margin-bottom: 2rem;
   align-items: flex-start;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e8dcc8;
 }
 
 .skill-detail-icon {
   width: 80px;
   height: 80px;
-  border-radius: 8px;
+  border-radius: 2px;
   object-fit: cover;
   flex-shrink: 0;
+  background: #e8dcc8;
+  border: 1px solid #d4c4b0;
 }
 
 .skill-detail-header h1 {
+  font-family: 'Playfair Display', serif;
   font-size: 2rem;
+  font-weight: 900;
   margin-bottom: 0.5rem;
+  color: #3a3a3a;
 }
 
 .skill-owner {
-  color: #666;
-  font-size: 1rem;
+  color: #5a5a5a;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
 }
 
 .skill-meta {
@@ -297,21 +364,25 @@ body {
   gap: 1.5rem;
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: #faf8f3;
+  border-radius: 2px;
+  border: 1px solid #e8dcc8;
 }
 
 .meta-item label {
   display: block;
   color: #999;
-  font-size: 0.9rem;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .meta-item span {
+  font-family: 'Barlow', sans-serif;
   font-weight: 500;
-  color: #333;
+  color: #3a3a3a;
 }
 
 .skill-section {
@@ -319,14 +390,16 @@ body {
 }
 
 .skill-section h2 {
-  font-size: 1.5rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
   margin-bottom: 1rem;
-  color: #333;
+  color: #3a3a3a;
 }
 
 .skill-section p {
-  color: #666;
-  line-height: 1.6;
+  color: #5a5a5a;
+  line-height: 1.7;
   margin-bottom: 1rem;
 }
 
@@ -338,59 +411,71 @@ body {
 
 .version-item {
   padding: 1rem;
-  background: #f9f9f9;
-  border-left: 3px solid #667eea;
-  border-radius: 4px;
+  background: #faf8f3;
+  border-left: 3px solid #c85a37;
+  border-radius: 2px;
+  border: 1px solid #e8dcc8;
+  border-left: 3px solid #c85a37;
 }
 
 .version-tag {
   display: inline-block;
-  background: #667eea;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
+  background: #c85a37;
+  color: #fff;
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+  font-family: 'Barlow', sans-serif;
   font-weight: 600;
+  font-size: 0.85rem;
   margin-right: 0.5rem;
 }
 
 .version-date {
   color: #999;
-  font-size: 0.9rem;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
 }
 
 .version-changelog {
-  color: #666;
+  color: #5a5a5a;
   margin-top: 0.5rem;
   font-size: 0.95rem;
 }
 
 .more-versions {
-  color: #667eea;
+  color: #c85a37;
+  font-family: 'Barlow', sans-serif;
   font-weight: 600;
   cursor: pointer;
+  transition: color 0.2s;
+}
+
+.more-versions:hover {
+  color: #a84729;
 }
 
 .skill-actions {
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid #e8dcc8;
 }
 
 .install-button {
   width: 100%;
   padding: 1rem;
-  background: #28a745;
-  color: white;
+  background: #c85a37;
+  color: #fff;
   border: none;
-  border-radius: 4px;
-  font-size: 1.1rem;
+  border-radius: 2px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .install-button:hover:not(:disabled) {
-  background: #218838;
+  background: #a84729;
 }
 
 .install-button:disabled {
@@ -401,21 +486,23 @@ body {
 .install-status {
   margin-top: 1rem;
   padding: 1rem;
-  border-radius: 4px;
+  border-radius: 2px;
   text-align: center;
+  font-family: 'Barlow', sans-serif;
   font-weight: 600;
+  border: 1px solid;
 }
 
 .install-status.success {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-color: #c8e6c9;
 }
 
 .install-status.error {
-  background: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background: #ffebee;
+  color: #c62828;
+  border-color: #ef9a9a;
 }
 
 /* Loading & Empty States */
@@ -424,30 +511,32 @@ body {
 .error-message {
   text-align: center;
   padding: 3rem 2rem;
-  color: #666;
+  color: #5a5a5a;
+  font-family: 'Barlow', sans-serif;
 }
 
 .loading {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .error-message {
-  background: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-  border-radius: 4px;
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+  border-radius: 2px;
   margin-bottom: 2rem;
 }
 
 .empty-state {
-  background: white;
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 2px;
   padding: 4rem 2rem;
+  border: 1px solid #e8dcc8;
 }
 
 .empty-state p {
   color: #999;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 /* Load More */
@@ -458,17 +547,19 @@ body {
 
 .load-more-button {
   padding: 0.75rem 2rem;
-  background: #667eea;
-  color: white;
+  background: #c85a37;
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 2px;
   cursor: pointer;
+  font-family: 'Barlow', sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  transition: background 0.2s;
 }
 
 .load-more-button:hover {
-  background: #5568d3;
+  background: #a84729;
 }
 
 /* Responsive */
@@ -496,5 +587,17 @@ body {
 
   .skill-detail {
     padding: 1rem;
+  }
+
+  .app-header {
+    padding: 2rem 1.5rem;
+  }
+
+  .search-bar {
+    padding: 1.5rem;
+  }
+
+  .skill-list-container {
+    padding: 1.5rem;
   }
 }
