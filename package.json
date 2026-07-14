@@ -7,6 +7,10 @@
   "scripts": {
     "migrate": "node src/db/migrate.js",
     "trending:refresh": "node src/services/trending-batch.js",
+    "trending:schedule": "pwsh src/services/trending-scheduler.ps1",
+    "trending:unschedule": "pwsh src/services/trending-scheduler.ps1 -Unregister",
+    "e2e": "node src/e2e/harness.js",
+    "load:marketplace": "node src/load-tests/marketplace-load.js",
     "migrate:reset": "psql $DATABASE_URL -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;' && npm run migrate",
     "api:dev": "node --watch src/api/server.js",
     "api:build": "echo 'ESM, no build needed'",
