@@ -97,6 +97,25 @@ Project tools do NOT auto-install if:
 
 Example: obsidian:ingest-wiki (bash module in kb-sync, invoked via `npm run wiki:ingest:obsidian:validate`, no external distribution)
 
+### Toolforge Marketplace (Phase 8 Wave D)
+
+**Tier 1 Decision (2026-07-13):**  
+TOOLFORGE-MARKETPLACE-SPEC-v1.0 is approved. Scope locked to four deliverables: plugin manifest schema, registry service, CLI (list/install/submit), submission validator. Phase 8 Wave D, target 2026-07-26. Changes require Tier 1 amendment. See `docs/meta/TOOLFORGE-MARKETPLACE-SPEC-v1.0.md`.
+
+**Marketplace Publication Workflow:**
+1. Developer writes skill → passes caveman review (existing)
+2. Developer runs `toolforge submit <path>` (new)
+3. Validator checks: manifest valid, tests pass, docs complete, governance aligned (new)
+4. Validator creates conformance report + PR (new)
+5. Tier 1 reviews + approves/rejects (new)
+6. Approved → Registry updated, users can `toolforge install` (new)
+
+**Registry Authority:**  
+- Tier 1: approves submissions  
+- Tier 2: runs validator, fixes issues, resubmits  
+- Tier 3: CI publishes registry.json after approval  
+- No manual edits to registry; tool-only mutations
+
 ### Governance Changes
 
 Any change to skill approval rules or tier classification requires Tier 1 approval.
