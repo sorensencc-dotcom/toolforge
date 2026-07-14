@@ -3,6 +3,7 @@ dist/
 build/
 out/
 *.log
+!docs/toolforge/registry-audit.log
 *.tmp
 *.cache
 .DS_Store
