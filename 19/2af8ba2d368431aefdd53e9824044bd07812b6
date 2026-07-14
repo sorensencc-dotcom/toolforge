@@ -1,0 +1,40 @@
+src/ui/pages/SkillList.jsx
+  s_1e2a7070ffa23f::t_e94f956a43a7ad 1-86
+vite.config.js
+  s_1e2a7070ffa23f::t_8ee0319d0d3e18 1-19
+package.json
+  s_1e2a7070ffa23f::t_2a15bf0fc810cd 33-36,40-42
+  s_1e2a7070ffa23f::t_89fdd01711ad68 12-14,18-19
+src/ui/styles/App.css
+  s_1e2a7070ffa23f::t_21fa23cdccae90 1-500
+src/ui/components/SkillCard.jsx
+  s_1e2a7070ffa23f::t_872cc7c1a0effb 1-33
+src/ui/README.md
+  s_1e2a7070ffa23f::t_d23ca5615ecd44 1-66
+src/ui/main.jsx
+  s_1e2a7070ffa23f::t_b83e0c3e29cc8e 1-10
+src/ui/components/SearchBar.jsx
+  s_1e2a7070ffa23f::t_9942e1e8631d60 1-55
+src/ui/index.html
+  s_1e2a7070ffa23f::t_596dae2a77226f 1-12
+src/ui/pages/SkillDetail.jsx
+  s_1e2a7070ffa23f::t_5acab8bf29ef56 1-150
+src/ui/App.jsx
+  s_1e2a7070ffa23f::t_b736916107079f 1-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "192af8ba2d368431aefdd53e9824044bd07812b6",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
