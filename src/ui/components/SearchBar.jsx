@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 
 const CATEGORIES = [
-  { id: '', label: 'All Categories' },
-  { id: 'linting', label: 'Linting' },
-  { id: 'auth', label: 'Auth' },
-  { id: 'analytics', label: 'Analytics' },
-  { id: 'deployment', label: 'Deployment' },
-  { id: 'testing', label: 'Testing' },
-  { id: 'devtools', label: 'DevTools' },
-  { id: 'security', label: 'Security' },
+  { id: '', label: 'ALL CATEGORIES' },
+  { id: 'linting', label: 'LINTING' },
+  { id: 'auth', label: 'AUTH' },
+  { id: 'analytics', label: 'ANALYTICS' },
+  { id: 'deployment', label: 'DEPLOYMENT' },
+  { id: 'testing', label: 'TESTING' },
+  { id: 'devtools', label: 'DEVTOOLS' },
+  { id: 'security', label: 'SECURITY' },
 ];
 
-export default function SearchBar({ onSearch, onCategoryChange }) {
+export default function SearchBar({ onSearch, onCategoryChange, activeCategory = '' }) {
   const [query, setQuery] = useState('');
 
   const handleSubmit = (e) => {
@@ -37,13 +37,13 @@ export default function SearchBar({ onSearch, onCategoryChange }) {
       </form>
 
       <div className="category-filter">
-        <label>Filter by category:</label>
+        <label>FILTER BY CATEGORY:</label>
         <div className="category-buttons">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
               onClick={() => handleCategorySelect(cat.id)}
-              className="category-btn"
+              className={`category-btn ${activeCategory === cat.id ? 'active' : ''}`}
             >
               {cat.label}
             </button>

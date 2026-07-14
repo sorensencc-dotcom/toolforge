@@ -37,7 +37,7 @@ export default function App() {
 
       {view === 'list' ? (
         <>
-          <SearchBar onSearch={handleSearch} onCategoryChange={handleCategoryChange} />
+          <SearchBar onSearch={handleSearch} onCategoryChange={handleCategoryChange} activeCategory={category} />
           <SkillList
             searchQuery={searchQuery}
             category={category}
