@@ -1,10 +1,11 @@
 # Phase 9 Charter: Marketplace UI + Discovery API + Advanced Features
 
-**Status:** ACTIVE  
+**Status:** APPROVED (Tier 1: 2026-07-14)  
 **Gate Sign-off:** 2026-07-26 (Phase 8 closure)  
 **Target Delivery:** 2026-08-09  
 **Authority:** Tier 1 approved  
 **Version:** 1.0
+**Tier 1 Sign-off:** Chris Sorensen (2026-07-14)
 
 ---
 
@@ -266,9 +267,9 @@ Phase 9 builds the marketplace UX layer and discovery infrastructure that phase 
 
 | Role | Name | Date | Status |
 |------|------|------|--------|
-| **Tier 1** | Chris Sorensen | 2026-07-14 | PENDING APPROVAL |
-| **Tier 2 (Codex)** | — | — | — |
-| **Tier 2 (Antigravity)** | — | — | — |
+| **Tier 1** | Chris Sorensen | 2026-07-14 | ✅ APPROVED |
+| **Tier 2 (Codex)** | — | TBD (post-dispatch) | Ready for dispatch |
+| **Tier 2 (Antigravity)** | — | TBD (post-dispatch) | Ready for dispatch |
 
 **Gate Closure Authority:** Tier 1 (Tier 2 execution)
 
