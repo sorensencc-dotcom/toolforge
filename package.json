@@ -26,6 +26,9 @@
   ],
   "author": "CIC Team",
   "license": "MIT",
+  "bin": {
+    "toolforge": "src/cli/index.js"
+  },
   "dependencies": {
     "pg": "^8.11.3",
     "express": "^4.18.2",
@@ -33,7 +36,8 @@
     "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "axios": "^1.6.5"
+    "axios": "^1.6.5",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "eslint": "^8.52.0",
