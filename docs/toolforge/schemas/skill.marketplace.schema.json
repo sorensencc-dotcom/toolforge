@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Toolforge Plugin Manifest",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "version",
+    "description",
+    "status",
+    "category",
+    "runtime",
+    "entrypoint",
+    "owner"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "enum": ["active", "deprecated", "inactive"]
+    },
+    "category": {
+      "enum": ["monitoring", "pipeline", "utility", "integration", "governance"]
+    },
+    "runtime": {
+      "enum": ["typescript", "powershell", "bash", "node"]
+    },
+    "entrypoint": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "tooltip": {
+      "type": ["string", "null"]
+    },
+    "timeout": {
+      "type": "integer"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "external": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "internal": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "_marketplace": {
+      "type": "object",
+      "required": ["registry_entry"],
+      "properties": {
+        "registry_entry": {
+          "const": "toolforge-marketplace:1.0"
+        },
+        "submission_status": {
+          "enum": ["pending", "approved", "published", "rejected", "deprecated"]
+        },
+        "published_date": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "installed_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "marketplace_visibility": {
+          "enum": ["public", "private", "deprecated"]
+        },
+        "submission_id": {
+          "type": ["string", "null"]
+        },
+        "conformance_check": {
+          "type": "object",
+          "properties": {
+            "passed": {
+              "type": "boolean"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "checks": {
+              "type": "object",
+              "properties": {
+                "manifest_valid": {
+                  "type": "boolean"
+                },
+                "tests_pass": {
+                  "type": ["boolean", "null"]
+                },
+                "docs_complete": {
+                  "type": ["boolean", "null"]
+                },
+                "governance_aligned": {
+                  "type": ["boolean", "null"]
+                },
+                "caveman_review": {
+                  "enum": ["pending", "pass", "fail"]
+                }
+              }
+            },
+            "blockers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

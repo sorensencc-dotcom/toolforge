@@ -27,5 +27,25 @@
       "status": "pending_registration"
     }
   },
-  "tooltip": "Manages skill lifecycle: registration, distribution, validation, deprecation"
+  "tooltip": "Manages skill lifecycle: registration, distribution, validation, deprecation",
+  "_marketplace": {
+    "registry_entry": "toolforge-marketplace:1.0",
+    "submission_status": "pending",
+    "published_date": null,
+    "installed_count": 0,
+    "marketplace_visibility": "private",
+    "submission_id": null,
+    "conformance_check": {
+      "passed": false,
+      "timestamp": "2026-07-13T00:00:00Z",
+      "checks": {
+        "manifest_valid": true,
+        "tests_pass": null,
+        "docs_complete": null,
+        "governance_aligned": null,
+        "caveman_review": "pending"
+      },
+      "blockers": []
+    }
+  }
 }

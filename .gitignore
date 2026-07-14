@@ -22,7 +22,7 @@ kb-sync/
 rewrite-mcp/
 task-observatory/
 tiny-app/
-toolforge/
+/toolforge/
 windows-task-manager/
 .distro/
 
