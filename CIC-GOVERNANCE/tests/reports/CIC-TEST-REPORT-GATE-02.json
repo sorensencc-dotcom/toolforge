@@ -1,0 +1,117 @@
+{
+  "report_id": "CIC-TEST-REPORT-GATE-02",
+  "gate_id": "GATE-02",
+  "gate_name": "Publication and Retries",
+  "spec_version": "2.4.0",
+  "gate_closure_spec_version": "1.0.0",
+  "gate_closure_spec_ref": "CIC-GATE-SPEC-001 § 4",
+  "test_environment": {
+    "os": "Windows 11 10.0.26200.0 (AMD64)",
+    "runtime": "CPython 3.12.2; pytest 9.1.0",
+    "storage_backend": "Local filesystem at C:/dev; Windows filesystem type unavailable because volume query returned Access denied",
+    "cic_governance_path": "C:/dev/CIC-GOVERNANCE"
+  },
+  "executed_by": "ACT-20260713-0001",
+  "execution_timestamp": "2026-07-13T18:09:32.663792Z",
+  "test_cases": [
+    {
+      "test_id": "TC-02-001",
+      "description": "Successful publication — all consumers receive artifact within SLA",
+      "acceptance_criterion": "AC-02-007",
+      "trigger_condition": "Valid commit, all consumers reachable",
+      "expected_outcome": "All consumers receive artifact within 60s",
+      "pass_criterion": "Delivery confirmed for all consumers within 60s",
+      "outcome": "PASS",
+      "execution_time_ms": 14.0,
+      "notes": "In-memory registered consumer received artifact immediately."
+    },
+    {
+      "test_id": "TC-02-002",
+      "description": "Publication decoupled from commit — publication failure does not trigger rollback",
+      "acceptance_criterion": "AC-02-001",
+      "trigger_condition": "Injected publication failure post-commit",
+      "expected_outcome": "Artifact remains committed, no rollback triggered",
+      "pass_criterion": "Artifact retrievable from store after publication failure",
+      "outcome": "PASS",
+      "execution_time_ms": 119.0,
+      "notes": "Committed artifact remained retrievable after publication failure."
+    },
+    {
+      "test_id": "TC-02-003",
+      "description": "Retry schedule — exponential backoff fires at correct intervals",
+      "acceptance_criterion": "AC-02-002",
+      "trigger_condition": "Repeated injected publication failures",
+      "expected_outcome": "Retries at: 0s, 5s, 25s, 125s, 600s (±2s tolerance each)",
+      "pass_criterion": "All 5 retry timestamps match schedule within ±2s",
+      "outcome": "FAIL",
+      "execution_time_ms": 71.0,
+      "notes": "Retry count exercised with zero-delay test schedule; required 0/5/25/125/600-second intervals were not measured."
+    },
+    {
+      "test_id": "TC-02-004",
+      "description": "PUBLICATION_FAILED state — artifact queryable after exhausting all 5 retries",
+      "acceptance_criterion": "AC-02-004",
+      "trigger_condition": "All 5 retry attempts exhausted with injected failures",
+      "expected_outcome": "Artifact enters PUBLICATION_FAILED state, queryable via engine",
+      "pass_criterion": "State is PUBLICATION_FAILED; all 5 sub-events logged on parent lineage record",
+      "outcome": "FAIL",
+      "execution_time_ms": 61.0,
+      "notes": "Failure state query exercised, but test used one attempt and did not prove five logged attempts."
+    },
+    {
+      "test_id": "TC-02-005",
+      "description": "Manual re-publication — PUBLICATION_FAILED artifact re-delivered on operator action",
+      "acceptance_criterion": "AC-02-005",
+      "trigger_condition": "Operator triggers re-publication on PUBLICATION_FAILED artifact",
+      "expected_outcome": "Artifact delivered to consumer; original artifact_id and lineage chain preserved",
+      "pass_criterion": "Consumer receives artifact; no new artifact_id issued; lineage chain intact",
+      "outcome": "PASS",
+      "execution_time_ms": 44.0,
+      "notes": "Re-publication reused artifact_id and parent lineage reference."
+    },
+    {
+      "test_id": "TC-02-006",
+      "description": "Idempotent delivery — duplicate delivery produces no duplicate consumer ingestion",
+      "acceptance_criterion": "AC-02-006",
+      "trigger_condition": "Same artifact delivered twice to same consumer",
+      "expected_outcome": "Second delivery produces no duplicate ingestion at consumer",
+      "pass_criterion": "Consumer state identical before and after second delivery",
+      "outcome": "PASS",
+      "execution_time_ms": 15.0,
+      "notes": "Second delivery suppressed for same artifact-consumer key."
+    },
+    {
+      "test_id": "TC-02-007",
+      "description": "Consumer isolation — one consumer unreachable does not delay others",
+      "acceptance_criterion": "AC-02-008",
+      "trigger_condition": "One consumer made unreachable; remaining consumers available",
+      "expected_outcome": "Reachable consumers receive artifact within 60s without delay",
+      "pass_criterion": "Delivery to reachable consumers ≤60s; unreachable consumer enters retry cycle independently",
+      "outcome": "PASS",
+      "execution_time_ms": 96.0,
+      "notes": "Unavailable consumer did not block reachable consumer."
+    },
+    {
+      "test_id": "TC-02-008",
+      "description": "Sub-event logging — every publication attempt logged on parent lineage record",
+      "acceptance_criterion": "AC-02-003",
+      "trigger_condition": "Any publication attempt (success or failure)",
+      "expected_outcome": "Sub-event logged with attempt number, timestamp, consumer_id, outcome, failure_reason",
+      "pass_criterion": "Sub-event present on parent INGESTED lineage record and schema-valid",
+      "outcome": "PASS",
+      "execution_time_ms": 124.0,
+      "notes": "Append-only child publication event contains parent lineage reference and attempt metadata."
+    }
+  ],
+  "_additional_test_cases_note": "Append any implementation-side test cases beyond the spec-defined set below. total_cases, passed, failed, skipped must reflect all cases including additions.",
+  "additional_test_cases": [],
+  "total_cases": 8,
+  "passed": 6,
+  "failed": 2,
+  "skipped": 0,
+  "overall_result": "FAIL",
+  "anomalies": "Pytest full suite passed 45/45, but strict gate mapping identified spec cases not exercised at required production fidelity. Production target equivalence and Windows filesystem type are unverified. executed_by uses candidate harness actor ID; no durable production actor binding was available.",
+  "submitted_for_ratification": null,
+  "_amendment_target": "AMD-v2.4.0-GATE-02-CLOSED",
+  "_minimum_passing_threshold": "8/8 spec-defined cases (plus all additional cases)"
+}

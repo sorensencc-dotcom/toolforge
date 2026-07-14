@@ -1,0 +1,12 @@
+{
+  "document_id": "CIC-GATE-SPEC-001",
+  "version": "1.0.1-candidate.1",
+  "status": "CANDIDATE",
+  "gates": {
+    "GATE-01": {"name": "Artifact-Store Transaction / Rollback", "status": "OPEN"},
+    "GATE-02": {"name": "Publication and Retries", "status": "OPEN"},
+    "GATE-03": {"name": "Persistent Actor Registry", "status": "OPEN"},
+    "GATE-04": {"name": "Cross-Process Lineage Locking", "status": "OPEN"},
+    "GATE-05": {"name": "Tier 1 Ratification", "status": "OPEN"}
+  }
+}

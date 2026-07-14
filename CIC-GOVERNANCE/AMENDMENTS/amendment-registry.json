@@ -1,0 +1,24 @@
+{
+  "registry_version": "1.0.0-draft",
+  "status": "DRAFT",
+  "amendments": [
+    {
+      "amendment_id": "AMD-v2.4.0-0001",
+      "title": "Append-Only Rollback Semantics for GATE-01",
+      "status": "RATIFIED",
+      "submitted_date": "2026-07-13",
+      "ratified_date": "2026-07-13",
+      "submitted_by": "ACT-20260713-0001",
+      "ratified_by": "Tier 1 (Chris)",
+      "affected_sections": [
+        "CIC-GATE-SPEC-001 AC-01-003",
+        "CIC-GATE-SPEC-001 TC-01-003"
+      ],
+      "change_summary": "Replace VOID or reversal semantics with immutable ROLLBACK evidence plus partial-tail quarantine and CORRUPT_RECORD repair evidence.",
+      "breaking_change": false,
+      "linked_lineage_id": "LIN-07edcfa722e14ed39c7242b30c4da1ad",
+      "proposal_path": "AMENDMENTS/AMD-v2.4.0-0001.md",
+      "review_note": "Tier 1 approval received in-session on 2026-07-13. Durable actor binding remains required before operational activation."
+    }
+  ]
+}

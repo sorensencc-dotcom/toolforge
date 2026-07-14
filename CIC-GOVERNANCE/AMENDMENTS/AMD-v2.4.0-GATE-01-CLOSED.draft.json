@@ -1,0 +1,21 @@
+{
+  "amendment_id": "AMD-v2.4.0-GATE-01-CLOSED",
+  "title": "GATE-01 closure — Artifact-Store Transaction / Rollback",
+  "status": "PROPOSED",
+  "submitted_date": "2026-07-13",
+  "ratified_date": null,
+  "submitted_by": "ACT-20260713-0001",
+  "ratified_by": null,
+  "affected_sections": [
+    "CIC-GATE-SPEC-001 § 3",
+    "MANIFEST/gate-registry.json"
+  ],
+  "change_summary": "GATE-01 declared CLOSED. CIC-TEST-REPORT-GATE-01-R2 passed 15/15 (7/7 spec + 8/8 additional). True mid-lineage-write fault injection exercised under ROLLBACK semantics per AMD-v2.4.0-0001. Hash chain valid. Supersedes CIC-TEST-REPORT-GATE-01 (6/7, FAIL).",
+  "breaking_change": false,
+  "linked_lineage_id": null,
+  "linked_report_id": "CIC-TEST-REPORT-GATE-01-R2",
+  "linked_amendment_refs": [
+    "AMD-v2.4.0-0001"
+  ],
+  "draft_state": "UNFILED — awaiting R2 submission, Manifest Owner environmental acknowledgment, and Tier 1 ratification"
+}
