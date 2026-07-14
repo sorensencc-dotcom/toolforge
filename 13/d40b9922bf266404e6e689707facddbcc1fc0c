@@ -1,0 +1,110 @@
+CIC-GOVERNANCE/WRAPPERS/Codex-Governance-Engine-Wrapper.py
+  s_ddfadb443c9ee9::t_aca25c163cf07e 1-151
+CIC-GOVERNANCE/MANIFEST/CIC-GOV-MANIFEST-001.md
+  s_ddfadb443c9ee9::t_6e583feae994e7 1-26,31-40,46-56
+  s_ddfadb443c9ee9::t_1d977c341b8bcb 27-29,41-45
+  s_ddfadb443c9ee9::t_9aff1915fae6a1 30
+CIC-GOVERNANCE/README/CIC-README.md
+  s_ddfadb443c9ee9::t_d6cf4545d61052 1-9
+CIC-GOVERNANCE/README.md
+  s_ddfadb443c9ee9::t_1d977c341b8bcb 46-49
+  s_ddfadb443c9ee9::t_6e583feae994e7 1-45,50-58
+CIC-GOVERNANCE/tests/test_governance_engine.py
+  s_ddfadb443c9ee9::t_aca25c163cf07e 1-2,4-12,14-75
+  s_ddfadb443c9ee9::t_1a184a21656e73 3,13
+CIC-GOVERNANCE/MANIFEST/gate-registry.json
+  s_ddfadb443c9ee9::t_495d100a17fa76 1-2,4-12
+  s_ddfadb443c9ee9::t_99cba1c87793fa 3
+CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-GATE-01-CLOSED.draft.json
+  s_ddfadb443c9ee9::t_9aff1915fae6a1 1-21
+CIC-GOVERNANCE/WRAPPERS/governance_runtime.py
+  s_ddfadb443c9ee9::t_495d100a17fa76 1-43,45-78,80-84,92-102,118,120-136,138-142,144-151,155,157-166,168,171-181,183-185,187-193,195-221
+  s_ddfadb443c9ee9::t_7b8421651a3e5c 79,85-91,137,143
+  s_ddfadb443c9ee9::t_2af804b9b01902 103-104,106-112,114,119,152-154,156,167,169-170,182,186,194
+  s_ddfadb443c9ee9::t_710cecd7548344 44
+  s_ddfadb443c9ee9::t_2e7e376b05ad03 105,113,115-117
+CIC-GOVERNANCE/SCHEMA/CIC-Ingestion-Schema-v2.4.0.json
+  s_ddfadb443c9ee9::t_094fe31e0da604 1-27
+CIC-GOVERNANCE/WRAPPERS/wrapper-registry.json
+  s_ddfadb443c9ee9::t_094fe31e0da604 1-16
+CIC-GOVERNANCE/AMENDMENTS/amendment-registry.json
+  s_ddfadb443c9ee9::t_3e5a64b67296e4 4-7,9,11,13-18,20,22-23
+  s_ddfadb443c9ee9::t_99cba1c87793fa 8,10,12,19,21
+  s_ddfadb443c9ee9::t_094fe31e0da604 1-3,24
+CIC-GOVERNANCE/AMENDMENTS/README.md
+  s_ddfadb443c9ee9::t_d6cf4545d61052 1-5
+CIC-GOVERNANCE/SPEC/Spec_v2.4.0.md
+  s_ddfadb443c9ee9::t_094fe31e0da604 1-28
+CIC-GOVERNANCE/PIPELINE/CIC-Pipeline-v2.4.0.md
+  s_ddfadb443c9ee9::t_094fe31e0da604 1-14
+CIC-GOVERNANCE/SCHEMA/README.md
+  s_ddfadb443c9ee9::t_6e583feae994e7 1-4
+CIC-GOVERNANCE/tests/test_gate_runtime.py
+  s_ddfadb443c9ee9::t_7b8421651a3e5c 36-44
+  s_ddfadb443c9ee9::t_b090be5a9d2c28 1-16,18-35,45-159
+  s_ddfadb443c9ee9::t_9b04625b082271 17
+CIC-GOVERNANCE/MANIFEST/gate-implementation-status.md
+  s_ddfadb443c9ee9::t_1d977c341b8bcb 1-7,9-22
+  s_ddfadb443c9ee9::t_9aff1915fae6a1 8
+CIC-GOVERNANCE/LINEAGE/README.md
+  s_ddfadb443c9ee9::t_6e583feae994e7 1-5
+CIC-GOVERNANCE/SPEC/CIC-GATE-SPEC-001.md
+  s_ddfadb443c9ee9::t_495d100a17fa76 1-3,5-37
+  s_ddfadb443c9ee9::t_99cba1c87793fa 4,38-57
+CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-0001.md
+  s_ddfadb443c9ee9::t_99cba1c87793fa 3,5,70-73
+  s_ddfadb443c9ee9::t_3e5a64b67296e4 1-2,4,6-69
+CIC-GOVERNANCE/WRAPPERS/README.md
+  s_ddfadb443c9ee9::t_6e583feae994e7 1-6
+CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-01-R2.json
+  s_ddfadb443c9ee9::t_dd74dd20ff4b3a 1-10,12-166,168-171
+  s_ddfadb443c9ee9::t_9aff1915fae6a1 11,167
+CIC-GOVERNANCE/LINEAGE/CIC-Lineage-v2.4.jsonl
+  s_fcda7fb6f58ab1::t_012e07484a770a 1-3
+CIC-GOVERNANCE/MANIFEST/README.md
+  s_ddfadb443c9ee9::t_fc642d60fb700e 1-8
+CIC-GOVERNANCE/PIPELINE/README.md
+  s_fcda7fb6f58ab1::t_97646fb931fde6 1-6
+CIC-GOVERNANCE/SPEC/README.md
+  s_ddfadb443c9ee9::t_b9a9769142d78b 1-5
+CIC-GOVERNANCE/WRAPPERS/actor-registry.json
+  s_ddfadb443c9ee9::t_2d19524cef37f6 1
+CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-01.json
+  s_ddfadb443c9ee9::t_3337adcda767d3 1-163
+CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-02.json
+  s_ddfadb443c9ee9::t_55159dc9e218f2 1-117
+CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-03.json
+  s_ddfadb443c9ee9::t_08a60c348e696a 1-137
+CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-04.json
+  s_ddfadb443c9ee9::t_155d9772f3fa46 1-159
+CIC-GOVERNANCE/tests/reports/pytest-full-suite.xml
+  s_ddfadb443c9ee9::t_76bb704cd54f72 1
+CIC-GOVERNANCE/tests/reports/pytest-gate-01-r2.xml
+  s_ddfadb443c9ee9::t_cf669713a706df 1
+CIC-GOVERNANCE/tests/reports/pytest-gate-runtime.xml
+  s_ddfadb443c9ee9::t_9952ea31cfd636 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "13d40b9922bf266404e6e689707facddbcc1fc0c",
+  "prompts": {},
+  "sessions": {
+    "s_ddfadb443c9ee9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5968-5c87-71d3-b3e1-14f1386972af",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fcda7fb6f58ab1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "98a6963f-dbac-4c1d-a6ba-ebf2cbe45d1f",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
