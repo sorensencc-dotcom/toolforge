@@ -21,13 +21,14 @@ record approved operations but cannot ratify amendments or resolve conflicts.
 | Ingestion schema | 2.4.0 | Candidate | `SCHEMA/CIC-Ingestion-Schema-v2.4.0.json` |
 | Wrapper | 3.1.0-candidate.1 | Candidate | `WRAPPERS/Codex-Governance-Engine-Wrapper.py` |
 | Wrapper registry | 1.0.0-draft | Candidate | `WRAPPERS/wrapper-registry.json` |
-| Amendment registry | 1.0.0-draft | Draft | `AMENDMENTS/amendment-registry.json` |
-| Lineage | 2.4 | Empty | `LINEAGE/CIC-Lineage-v2.4.jsonl` |
+| Amendment registry | 1.0.1-draft | Draft; GATE-01 closure ratified | `AMENDMENTS/amendment-registry.json` |
+| Lineage | 2.4 | Active evidence; four records | `LINEAGE/CIC-Lineage-v2.4.jsonl` |
 | Pipeline | 2.4.0 | Candidate | `PIPELINE/CIC-Pipeline-v2.4.0.md` |
 | Gate specification | 1.0.0-candidate.1 | Candidate | `SPEC/CIC-GATE-SPEC-001.md` |
-| Gate registry | 1.0.0-candidate.1 | Open | `MANIFEST/gate-registry.json` |
+| Gate registry | 1.0.2-candidate.1 | GATE-01 closed; GATE-02 through GATE-05 open | `MANIFEST/gate-registry.json` |
 | Gate runtime | candidate.1 | Candidate | `WRAPPERS/governance_runtime.py` |
 | Actor registry | candidate.1 | Candidate | `WRAPPERS/actor-registry.json` |
+| Phase 9 Charter | 1.0 | ACTIVE — Tier 1 approved 2026-07-14 | `MANIFEST/PHASE-09-CHARTER.md` |
 
 ## Implemented Controls
 
@@ -46,7 +47,8 @@ record approved operations but cannot ratify amendments or resolve conflicts.
 
 ## Open Activation Gates
 
-- Artifact-store transaction and rollback integration.
+- GATE-01 artifact-store transaction and rollback integration is closed by
+  `AMD-v2.4.0-GATE-01-CLOSED`; this does not activate governance runtime.
 - Downstream publication and retry policy.
 - Persistent actor registry and authorization administration.
 - Cross-process lineage locking and concurrency tests.
