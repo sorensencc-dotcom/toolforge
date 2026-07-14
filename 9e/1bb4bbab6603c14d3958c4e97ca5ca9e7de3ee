@@ -1,0 +1,21 @@
+skills/toolforge-cli/src/cli.ps1
+  s_bd67b7a956c5e4::t_d97b1d236151f6 1-301
+skills/toolforge-cli/SKILL.json
+  s_bd67b7a956c5e4::t_1900df7e2ff210 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "9e1bb4bbab6603c14d3958c4e97ca5ca9e7de3ee",
+  "prompts": {},
+  "sessions": {
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
