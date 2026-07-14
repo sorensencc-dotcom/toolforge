@@ -33,7 +33,7 @@ export default function SearchBar({ onSearch, onCategoryChange, activeCategory =
           onChange={(e) => setQuery(e.target.value)}
           className="search-input"
         />
-        <button type="submit" className="search-button">Search</button>
+        <button type="submit" className="search-button">SEARCH</button>
       </form>
 
       <div className="category-filter">

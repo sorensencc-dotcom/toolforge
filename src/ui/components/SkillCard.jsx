@@ -27,7 +27,7 @@ export default function SkillCard({ skill, onSelect }) {
         <span className="owner">by {skill.owner}</span>
       </div>
 
-      <button className="view-button">View Details</button>
+      <button className="view-button">INSTALL</button>
     </div>
   );
 }

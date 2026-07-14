@@ -52,7 +52,7 @@ export default function SkillDetail({ skillId, onBack }) {
   if (loading) {
     return (
       <div className="skill-detail-container">
-        <button onClick={onBack} className="back-button">← Back</button>
+        <button onClick={onBack} className="back-button">×</button>
         <div className="loading">Loading skill details...</div>
       </div>
     );
@@ -61,7 +61,7 @@ export default function SkillDetail({ skillId, onBack }) {
   if (error) {
     return (
       <div className="skill-detail-container">
-        <button onClick={onBack} className="back-button">← Back</button>
+        <button onClick={onBack} className="back-button">×</button>
         <div className="error-message">{error}</div>
       </div>
     );
@@ -70,7 +70,7 @@ export default function SkillDetail({ skillId, onBack }) {
   if (!skill) {
     return (
       <div className="skill-detail-container">
-        <button onClick={onBack} className="back-button">← Back</button>
+        <button onClick={onBack} className="back-button">×</button>
         <div className="empty-state">Skill not found</div>
       </div>
     );
@@ -81,16 +81,17 @@ export default function SkillDetail({ skillId, onBack }) {
 
   return (
     <div className="skill-detail-container">
-      <button onClick={onBack} className="back-button">← Back</button>
+      <button onClick={onBack} className="back-button">×</button>
 
       <div className="skill-detail">
+        <span className="category-badge">{skill.category?.toUpperCase()}</span>
         <div className="skill-detail-header">
           {skill.icon_url && (
             <img src={skill.icon_url} alt={skill.name} className="skill-detail-icon" />
           )}
           <div>
             <h1>{skill.name}</h1>
-            <p className="skill-owner">by {skill.owner}</p>
+            <p className="skill-owner">By {skill.owner}</p>
           </div>
         </div>
 
@@ -136,7 +137,7 @@ export default function SkillDetail({ skillId, onBack }) {
             disabled={installing}
             className="install-button"
           >
-            {installing ? 'Installing...' : 'Install Skill'}
+            {installing ? 'INSTALLING...' : 'INSTALL'}
           </button>
           {installStatus && (
             <div className={`install-status ${installStatus.startsWith('✓') ? 'success' : 'error'}`}>
