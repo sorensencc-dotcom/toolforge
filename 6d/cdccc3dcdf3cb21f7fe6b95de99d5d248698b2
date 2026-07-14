@@ -1,0 +1,25 @@
+docs/toolforge/integration-test.ps1
+  s_bd67b7a956c5e4::t_694f0f253503fd 111
+  s_bd67b7a956c5e4::t_5813d68018635b 120
+  s_bd67b7a956c5e4::t_e018471eec515a 308,318,321
+  s_bd67b7a956c5e4::t_1b60684b39b6f0 53,57
+  s_bd67b7a956c5e4::t_f2a6d1305eb9c4 102-103
+  s_bd67b7a956c5e4::t_63c18401af7913 291
+  s_bd67b7a956c5e4::t_3fb08632e8b9a9 86,97-98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "6dcdccc3dcdf3cb21f7fe6b95de99d5d248698b2",
+  "prompts": {},
+  "sessions": {
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
