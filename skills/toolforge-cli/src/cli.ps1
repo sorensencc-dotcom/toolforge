@@ -133,52 +133,102 @@ function Invoke-ToolforgeSubmit {
 
     # Load skill manifest
     $skill = Get-Content $skillJsonPath | ConvertFrom-Json
-    $submissionId = "sub-$(New-Guid)"
 
-    Write-Host "Submission ID: $submissionId"
+    Write-Host "Submission ID: sub-$(Get-Date -Format yyyyMMddHHmmssffff)"
     Write-Host "Skill: $($skill.id) ($($skill.version))"
     Write-Host ""
     Write-Host "Conformance Checks:"
 
-    # Minimal conformance check (simplified for now)
-    $manifest_valid = $true
-    $tests_pass = $true
-    $docs_complete = $true
-    $governance_aligned = $true
-    $caveman_review = "pending"
+    # Run validator via npm (if installed)
+    $validatorDir = "c:\dev\skills\toolforge-submission-validator"
+    $reportJson = $null
 
-    if ($manifest_valid) { Write-Host "  ✓ manifest_valid" }
-    if ($tests_pass) { Write-Host "  ✓ tests_pass" }
-    if ($docs_complete) { Write-Host "  ✓ docs_complete" }
-    if ($governance_aligned) { Write-Host "  ✓ governance_aligned" }
-    Write-Host "  ◐ caveman_review (pending)"
+    if ((Test-Path "$validatorDir\package.json") -and (Get-Command npm -ErrorAction SilentlyContinue)) {
+        try {
+            $reportJson = npm run validate -- "$SkillPath" 2>$null
+            $report = $reportJson | ConvertFrom-Json
+        } catch {
+            Write-Warning "Validator not available, using simplified checks"
+            $report = $null
+        }
+    }
 
-    Write-Host ""
-    Write-Host "Status: HOLD FOR CAVEMAN REVIEW"
+    # Use validator report if available, otherwise fall back to manual checks
+    if ($report) {
+        $checks = $report.checks
+        $blockers = $report.blockers
+        $recommendation = $report.recommendation
+
+        # Display check results
+        if ($checks.manifest_valid) { Write-Host "  ✓ manifest_valid" } else { Write-Host "  ✗ manifest_valid" }
+        if ($checks.tests_pass) { Write-Host "  ✓ tests_pass" } elseif ($null -eq $checks.tests_pass) { Write-Host "  ◐ tests_pass (not found)" } else { Write-Host "  ✗ tests_pass" }
+        if ($checks.docs_complete) { Write-Host "  ✓ docs_complete" } else { Write-Host "  ✗ docs_complete" }
+        if ($checks.governance_aligned) { Write-Host "  ✓ governance_aligned" } else { Write-Host "  ✗ governance_aligned" }
+        Write-Host "  ◐ caveman_review (pending)"
+
+        Write-Host ""
+
+        if ($blockers.Count -gt 0) {
+            Write-Host "Blockers:"
+            foreach ($blocker in $blockers) {
+                Write-Host "  - $blocker"
+            }
+            Write-Host ""
+        }
+
+        switch ($recommendation) {
+            "approve" { Write-Host "Status: APPROVED FOR CAVEMAN REVIEW" }
+            "hold" { Write-Host "Status: ON HOLD - Fix blockers above" }
+            "reject" { Write-Host "Status: REJECTED - Fix critical errors" }
+        }
+    } else {
+        # Fallback to simplified checks
+        Write-Host "  ✓ manifest_valid"
+        Write-Host "  ◐ tests_pass (not verified)"
+        Write-Host "  ◐ docs_complete (not verified)"
+        Write-Host "  ◐ governance_aligned (not verified)"
+        Write-Host "  ◐ caveman_review (pending)"
+        Write-Host ""
+        Write-Host "Status: HOLD FOR CAVEMAN REVIEW"
+    }
+
     Write-Host ""
     Write-Host "Next: Await Tier 1 approval"
 
     if (-not $DryRunMode) {
-        # Create submission record (simplified)
+        # Create submission record
         $submissionsDir = "$HOME\.toolforge\submissions"
         New-Item -ItemType Directory -Path $submissionsDir -Force | Out-Null
 
-        $submissionRecord = @{
-            submission_id = $submissionId
-            skill_id = $skill.id
-            skill_version = $skill.version
-            timestamp = Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"
-            status = "pending_approval"
-            conformance_checks = @{
-                manifest_valid = $manifest_valid
-                tests_pass = $tests_pass
-                docs_complete = $docs_complete
-                governance_aligned = $governance_aligned
-                caveman_review = $caveman_review
+        if ($report) {
+            $submissionRecord = @{
+                submission_id = $report.submission_id
+                skill_id = $report.skill_id
+                skill_version = $report.skill_version
+                timestamp = $report.timestamp
+                status = "pending_approval"
+                recommendation = $report.recommendation
+                conformance_checks = $report.checks
+                blockers = $report.blockers
+            }
+        } else {
+            $submissionRecord = @{
+                submission_id = "sub-$(Get-Date -Format yyyyMMddHHmmssffff)"
+                skill_id = $skill.id
+                skill_version = $skill.version
+                timestamp = Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"
+                status = "pending_approval"
+                conformance_checks = @{
+                    manifest_valid = $true
+                    tests_pass = $null
+                    docs_complete = $null
+                    governance_aligned = $null
+                    caveman_review = "pending"
+                }
             }
         }
 
-        $submissionRecord | ConvertTo-Json | Set-Content (Join-Path $submissionsDir "$submissionId.json")
+        $submissionRecord | ConvertTo-Json -Depth 10 | Set-Content (Join-Path $submissionsDir "$($submissionRecord.submission_id).json")
     }
 
     return $true
