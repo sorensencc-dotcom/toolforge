@@ -1,0 +1,167 @@
+{
+  "report_id": "CIC-TEST-REPORT-GATE-02-R2",
+  "supersedes": "CIC-TEST-REPORT-GATE-02",
+  "gate_id": "GATE-02",
+  "gate_name": "Publication and Retries",
+  "spec_version": "2.4.0",
+  "gate_closure_spec_version": "1.0.3-candidate.1",
+  "gate_closure_spec_ref": "CIC-GATE-SPEC-001 section 4",
+  "executed_by": "ACT-20260714-0001",
+  "actor_registry_state": "ACTIVE",
+  "execution_timestamp": "2026-07-14T19:04:35.431728Z",
+  "test_environment": {
+    "platform": "win32",
+    "python": "3.12.2",
+    "filesystem": "NTFS",
+    "root": "C:/dev/CIC-GOVERNANCE"
+  },
+  "test_cases": [
+    {
+      "test_id": "TC-02-001",
+      "description": "Successful publication",
+      "acceptance_criterion": "AC-02-007",
+      "expected_outcome": "All reachable consumers receive artifact and state becomes PUBLISHED.",
+      "outcome": "PASS",
+      "execution_time_ms": 31.0,
+      "failure": null,
+      "evidence": {
+        "result": {
+          "status": "PUBLISHED",
+          "failed_consumers": []
+        },
+        "received": 1
+      }
+    },
+    {
+      "test_id": "TC-02-002",
+      "description": "Publication decoupled from commit",
+      "acceptance_criterion": "AC-02-001",
+      "expected_outcome": "Publication failure leaves committed artifact bytes unchanged.",
+      "outcome": "PASS",
+      "execution_time_ms": 234.0,
+      "failure": null,
+      "evidence": {
+        "artifact_hash": "49c987621f206f09e5fbe23b516b55a36f838cb14867961f1d84a554d3a35b6b",
+        "attempts": 5
+      }
+    },
+    {
+      "test_id": "TC-02-003",
+      "description": "Retry schedule",
+      "acceptance_criterion": "AC-02-002",
+      "expected_outcome": "Attempts use delays 0, 5, 25, 125, and 600 seconds.",
+      "outcome": "PASS",
+      "execution_time_ms": 125.0,
+      "failure": null,
+      "evidence": {
+        "scheduled_delays": [
+          0,
+          5,
+          25,
+          125,
+          600
+        ]
+      }
+    },
+    {
+      "test_id": "TC-02-004",
+      "description": "PUBLICATION_FAILED state",
+      "acceptance_criterion": "AC-02-004",
+      "expected_outcome": "Five failed attempts remain queryable and linked to parent lineage.",
+      "outcome": "PASS",
+      "execution_time_ms": 188.0,
+      "failure": null,
+      "evidence": {
+        "state": "PUBLICATION_FAILED",
+        "events": 5,
+        "attempts": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "test_id": "TC-02-005",
+      "description": "Manual re-publication",
+      "acceptance_criterion": "AC-02-005",
+      "expected_outcome": "Operator retry delivers same artifact and preserves lineage linkage.",
+      "outcome": "PASS",
+      "execution_time_ms": 78.0,
+      "failure": null,
+      "evidence": {
+        "first": "PUBLICATION_FAILED",
+        "second": "PUBLISHED",
+        "events": 2
+      }
+    },
+    {
+      "test_id": "TC-02-006",
+      "description": "Idempotent delivery",
+      "acceptance_criterion": "AC-02-006",
+      "expected_outcome": "Duplicate publication produces no duplicate consumer ingestion.",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "failure": null,
+      "evidence": {
+        "consumer_deliveries": 1,
+        "events": 1
+      }
+    },
+    {
+      "test_id": "TC-02-007",
+      "description": "Consumer isolation",
+      "acceptance_criterion": "AC-02-008",
+      "expected_outcome": "Unreachable consumer does not delay reachable consumer delivery.",
+      "outcome": "PASS",
+      "execution_time_ms": 547.0,
+      "failure": null,
+      "evidence": {
+        "good_delivery_ms": 15.0,
+        "failed_consumers": [
+          "bad"
+        ]
+      }
+    },
+    {
+      "test_id": "TC-02-008",
+      "description": "Publication event logging",
+      "acceptance_criterion": "AC-02-003",
+      "expected_outcome": "Every attempt records parent, consumer, attempt, outcome, and failure reason.",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "failure": null,
+      "evidence": {
+        "event": {
+          "action": "PUBLICATION_EVENT",
+          "actor": "governance-publisher",
+          "artifact_id": "ART-02-008",
+          "details": {
+            "attempt": 1,
+            "consumer_id": "consumer",
+            "failure_reason": null,
+            "outcome": "SUCCESS",
+            "parent_lineage_id": "LIN-PARENT"
+          },
+          "lineage_id": "LIN-7ae49548218640a699386e0cfee3bfb3",
+          "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "record_hash": "cd66e9f69d37a1963de841485ebc8a7078df81177c9a8e4fe5eb492266593260",
+          "timestamp": "2026-07-14T19:04:35.393006Z"
+        }
+      }
+    }
+  ],
+  "additional_test_cases": [],
+  "total_cases": 8,
+  "passed": 8,
+  "failed": 0,
+  "skipped": 0,
+  "overall_result": "PASS",
+  "anomalies": null,
+  "submitted_for_ratification": null,
+  "_amendment_target": "AMD-v2.4.0-GATE-02-CLOSED",
+  "_minimum_passing_threshold": "8/8 deterministic cases",
+  "_submission_ready": true
+}

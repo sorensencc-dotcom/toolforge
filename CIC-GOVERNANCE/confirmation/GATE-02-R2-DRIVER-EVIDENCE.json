@@ -1,0 +1,129 @@
+{
+  "driver_version": "1.0.0-candidate.1",
+  "gate_id": "GATE-02",
+  "executed_at": "2026-07-14T19:04:35.431728Z",
+  "environment": {
+    "platform": "win32",
+    "python": "3.12.2",
+    "filesystem": "NTFS",
+    "root": "C:/dev/CIC-GOVERNANCE"
+  },
+  "cases": [
+    {
+      "test_id": "TC-02-001",
+      "outcome": "PASS",
+      "execution_time_ms": 31.0,
+      "failure": null,
+      "details": {
+        "result": {
+          "status": "PUBLISHED",
+          "failed_consumers": []
+        },
+        "received": 1
+      }
+    },
+    {
+      "test_id": "TC-02-002",
+      "outcome": "PASS",
+      "execution_time_ms": 234.0,
+      "failure": null,
+      "details": {
+        "artifact_hash": "49c987621f206f09e5fbe23b516b55a36f838cb14867961f1d84a554d3a35b6b",
+        "attempts": 5
+      }
+    },
+    {
+      "test_id": "TC-02-003",
+      "outcome": "PASS",
+      "execution_time_ms": 125.0,
+      "failure": null,
+      "details": {
+        "scheduled_delays": [
+          0,
+          5,
+          25,
+          125,
+          600
+        ]
+      }
+    },
+    {
+      "test_id": "TC-02-004",
+      "outcome": "PASS",
+      "execution_time_ms": 188.0,
+      "failure": null,
+      "details": {
+        "state": "PUBLICATION_FAILED",
+        "events": 5,
+        "attempts": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "test_id": "TC-02-005",
+      "outcome": "PASS",
+      "execution_time_ms": 78.0,
+      "failure": null,
+      "details": {
+        "first": "PUBLICATION_FAILED",
+        "second": "PUBLISHED",
+        "events": 2
+      }
+    },
+    {
+      "test_id": "TC-02-006",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "failure": null,
+      "details": {
+        "consumer_deliveries": 1,
+        "events": 1
+      }
+    },
+    {
+      "test_id": "TC-02-007",
+      "outcome": "PASS",
+      "execution_time_ms": 547.0,
+      "failure": null,
+      "details": {
+        "good_delivery_ms": 15.0,
+        "failed_consumers": [
+          "bad"
+        ]
+      }
+    },
+    {
+      "test_id": "TC-02-008",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "failure": null,
+      "details": {
+        "event": {
+          "action": "PUBLICATION_EVENT",
+          "actor": "governance-publisher",
+          "artifact_id": "ART-02-008",
+          "details": {
+            "attempt": 1,
+            "consumer_id": "consumer",
+            "failure_reason": null,
+            "outcome": "SUCCESS",
+            "parent_lineage_id": "LIN-PARENT"
+          },
+          "lineage_id": "LIN-7ae49548218640a699386e0cfee3bfb3",
+          "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "record_hash": "cd66e9f69d37a1963de841485ebc8a7078df81177c9a8e4fe5eb492266593260",
+          "timestamp": "2026-07-14T19:04:35.393006Z"
+        }
+      }
+    }
+  ],
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "overall_result": "PASS"
+}

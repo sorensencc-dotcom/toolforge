@@ -21,13 +21,14 @@ record approved operations but cannot ratify amendments or resolve conflicts.
 | Ingestion schema | 2.4.0 | Candidate | `SCHEMA/CIC-Ingestion-Schema-v2.4.0.json` |
 | Wrapper | 3.1.0-candidate.1 | Candidate | `WRAPPERS/Codex-Governance-Engine-Wrapper.py` |
 | Wrapper registry | 1.0.0-draft | Candidate | `WRAPPERS/wrapper-registry.json` |
-| Amendment registry | 1.0.3-draft | GATE-01 and GATE-04 closures ratified | `AMENDMENTS/amendment-registry.json` |
-| Lineage | 2.4 | Active evidence; nine records | `LINEAGE/CIC-Lineage-v2.4.jsonl` |
+| Amendment registry | 1.0.4-draft | GATE-01, GATE-02, and GATE-04 closures ratified | `AMENDMENTS/amendment-registry.json` |
+| Lineage | 2.4 | Active evidence; twelve records | `LINEAGE/CIC-Lineage-v2.4.jsonl` |
 | Pipeline | 2.4.0 | Candidate | `PIPELINE/CIC-Pipeline-v2.4.0.md` |
 | Gate specification | 1.0.0-candidate.1 | Candidate | `SPEC/CIC-GATE-SPEC-001.md` |
-| Gate registry | 1.0.3-candidate.1 | GATE-01 and GATE-04 closed; GATE-02, GATE-03, and GATE-05 open | `MANIFEST/gate-registry.json` |
+| Gate registry | 1.0.4-candidate.1 | GATE-01, GATE-02, and GATE-04 closed; GATE-03 and GATE-05 open | `MANIFEST/gate-registry.json` |
 | Gate runtime | candidate.1 | Candidate | `WRAPPERS/governance_runtime.py` |
 | Actor registry | candidate.1 | Candidate | `WRAPPERS/actor-registry.json` |
+| GATE-02 R2 harness | 1.0.0-candidate.1 | R2 ratified; gate closed | `GATES/GATE-02/harness/` |
 | GATE-04 R2 harness | 1.0.0-candidate.1 | R2 ratified; gate closed | `GATES/GATE-04/harness/` |
 | Phase 9 Charter | 1.0 | ACTIVE — Tier 1 approved 2026-07-14 | `MANIFEST/PHASE-09-CHARTER.md` |
 
@@ -42,6 +43,7 @@ record approved operations but cannot ratify amendments or resolve conflicts.
 - Corrupt-lineage halt.
 - Candidate artifact transactions and rollback lineage.
 - Candidate publication retry and consumer isolation.
+- Deterministic GATE-02 evidence driver, report builder, and fail-closed submission orchestrator.
 - Persistent actor registry with ordered state transitions.
 - Atomic lineage lock, hash chain, integrity verification, and tail repair.
 - Activation declaration validation with fail-closed gate checks.
@@ -51,7 +53,8 @@ record approved operations but cannot ratify amendments or resolve conflicts.
 
 - GATE-01 artifact-store transaction and rollback integration is closed by
   `AMD-v2.4.0-GATE-01-CLOSED`; this does not activate governance runtime.
-- Downstream publication and retry policy.
+- GATE-02 publication and retry policy is closed by
+  `AMD-v2.4.0-GATE-02-CLOSED`; this does not activate governance runtime.
 - Persistent actor registry and authorization administration.
 - GATE-04 cross-process lineage locking is closed by
   `AMD-v2.4.0-GATE-04-CLOSED`; this does not activate governance runtime.

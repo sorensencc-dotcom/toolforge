@@ -71,9 +71,18 @@ class Gate02PublicationTests(Base):
         calls=[]
         def fail(*_): calls.append(1); raise RuntimeError("down")
         rt.Publisher(self.lineage,{"c":fail},delays=(0,0,0)).publish("ART-1",{},"LIN-1"); self.assertEqual(3,len(calls))
+    def test_retry_schedule(self):
+        sleeps=[]
+        p=rt.Publisher(self.lineage,{"c":lambda *_:(_ for _ in ()).throw(RuntimeError("down"))},sleep=sleeps.append)
+        p.publish("ART-1",{},"LIN-1"); self.assertEqual([0,5,25,125,600],sleeps)
     def test_failed_queryable(self):
         p=rt.Publisher(self.lineage,{"c":lambda *_:(_ for _ in ()).throw(RuntimeError())},delays=(0,))
-        p.publish("ART-1",{},"LIN-1"); self.assertIn("ART-1",p.failed)
+        p.publish("ART-1",{},"LIN-1"); self.assertIn("ART-1",p.failed); self.assertEqual("PUBLICATION_FAILED",p.get_artifact_state("ART-1"))
+    def test_failed_state_has_five_linked_events(self):
+        p=rt.Publisher(self.lineage,{"c":lambda *_:(_ for _ in ()).throw(RuntimeError("down"))},sleep=lambda _:None)
+        p.publish("ART-1",{},"LIN-PARENT"); rows=self.lineage.records()
+        self.assertEqual("PUBLICATION_FAILED",p.get_artifact_state("ART-1")); self.assertEqual(5,len(rows))
+        self.assertTrue(all(r["details"]["parent_lineage_id"]=="LIN-PARENT" and r["details"]["outcome"]=="FAILURE" for r in rows))
     def test_manual_republish(self):
         calls=[]
         def flaky(*_):

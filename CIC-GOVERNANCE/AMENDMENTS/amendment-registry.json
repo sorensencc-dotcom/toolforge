@@ -1,5 +1,5 @@
 {
-  "registry_version": "1.0.3-draft",
+  "registry_version": "1.0.4-draft",
   "status": "DRAFT",
   "amendments": [
     {
@@ -58,6 +58,26 @@
       "linked_report_id": "CIC-TEST-REPORT-GATE-04-R2",
       "artifact_path": "AMENDMENTS/AMD-v2.4.0-GATE-04-CLOSED.json",
       "review_note": "Tier 1 ratified closure after process-level R2 passed 8/8 on NTFS. Runtime activation remains gated."
+    },
+    {
+      "amendment_id": "AMD-v2.4.0-GATE-02-CLOSED",
+      "title": "GATE-02 closure - Publication and Retries",
+      "status": "RATIFIED",
+      "submitted_date": "2026-07-14",
+      "ratified_date": "2026-07-14",
+      "submitted_by": "ACT-20260714-0001",
+      "ratified_by": "Tier 1 (Chris)",
+      "affected_sections": [
+        "CIC-GATE-SPEC-001 section 4",
+        "MANIFEST/gate-registry.json"
+      ],
+      "change_summary": "Close GATE-02 after deterministic R2 passed 8/8.",
+      "breaking_change": false,
+      "linked_lineage_id": "LIN-28d8025f38ef470fbc3238377fe7d056",
+      "submission_lineage_id": "LIN-8c734c0e13f04e628a76ea7a3f461c2e",
+      "linked_report_id": "CIC-TEST-REPORT-GATE-02-R2",
+      "artifact_path": "AMENDMENTS/AMD-v2.4.0-GATE-02-CLOSED.json",
+      "review_note": "Tier 1 authorized Gate-02 preparation, submission, and ratification on 2026-07-14. Remaining gates stay open."
     }
   ]
 }

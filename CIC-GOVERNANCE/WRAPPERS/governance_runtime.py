@@ -9,6 +9,7 @@ import shutil
 import threading
 import time
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -235,26 +236,41 @@ class ActorRegistry:
 
 class Publisher:
     def __init__(self,lineage:HashChainLineage,consumers:dict[str,Callable[[str,dict],None]],delays=(0,5,25,125,600),sleep=time.sleep):
-        self.lineage=lineage; self.consumers=consumers; self.delays=delays; self.sleep=sleep; self.failed={}; self.delivered=set()
+        self.lineage=lineage; self.consumers=consumers; self.delays=delays; self.sleep=sleep; self.failed={}; self.delivered=set(); self.state_lock=threading.Lock()
+    def _publish_consumer(self,cid,consumer,artifact_id,payload,parent_lineage_id):
+        with self.state_lock:
+            if (artifact_id,cid) in self.delivered: return True
+        delivered=False
+        for attempt,delay in enumerate(self.delays,1):
+            self.sleep(delay)
+            try:
+                consumer(artifact_id,payload); outcome="SUCCESS"; reason=None; delivered=True
+            except Exception as exc: outcome="FAILURE"; reason=str(exc)
+            self.lineage.append("PUBLICATION_EVENT","governance-publisher",artifact_id,parent_lineage_id=parent_lineage_id,consumer_id=cid,attempt=attempt,outcome=outcome,failure_reason=reason)
+            if delivered:
+                with self.state_lock: self.delivered.add((artifact_id,cid))
+                break
+        return delivered
     def publish(self,artifact_id,payload,parent_lineage_id):
-        failures=[]
-        for cid,consumer in self.consumers.items():
-            if (artifact_id,cid) in self.delivered: continue
-            delivered=False
-            for attempt,delay in enumerate(self.delays,1):
-                if delay: self.sleep(delay)
-                try:
-                    consumer(artifact_id,payload); outcome="SUCCESS"; reason=None; delivered=True
-                except Exception as exc: outcome="FAILURE"; reason=str(exc)
-                self.lineage.append("PUBLICATION_EVENT","governance-publisher",artifact_id,parent_lineage_id=parent_lineage_id,consumer_id=cid,attempt=attempt,outcome=outcome,failure_reason=reason)
-                if delivered: self.delivered.add((artifact_id,cid)); break
-            if not delivered: failures.append(cid)
-        if failures: self.failed[artifact_id]={"payload":payload,"parent_lineage_id":parent_lineage_id,"consumers":failures}
+        pending=[]
+        with self.state_lock:
+            for cid,consumer in self.consumers.items():
+                if (artifact_id,cid) not in self.delivered: pending.append((cid,consumer))
+        with ThreadPoolExecutor(max_workers=max(1,len(pending))) as pool:
+            results={cid:pool.submit(self._publish_consumer,cid,consumer,artifact_id,payload,parent_lineage_id) for cid,consumer in pending}
+            failures=[cid for cid,future in results.items() if not future.result()]
+        with self.state_lock:
+            if failures: self.failed[artifact_id]={"payload":payload,"parent_lineage_id":parent_lineage_id,"consumers":failures}
         return {"status":"PUBLICATION_FAILED" if failures else "PUBLISHED","failed_consumers":failures}
     def republish(self,artifact_id):
         row=self.failed[artifact_id]; result=self.publish(artifact_id,row["payload"],row["parent_lineage_id"])
         if result["status"]=="PUBLISHED": self.failed.pop(artifact_id,None)
         return result
+    def get_artifact_state(self,artifact_id):
+        with self.state_lock:
+            if artifact_id in self.failed: return "PUBLICATION_FAILED"
+            if any(aid==artifact_id for aid,_ in self.delivered): return "PUBLISHED"
+        return "UNKNOWN"
 
 
 class ActivationController:

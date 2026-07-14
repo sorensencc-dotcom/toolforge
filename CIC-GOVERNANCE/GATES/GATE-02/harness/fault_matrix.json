@@ -1,0 +1,14 @@
+{
+  "gate_id": "GATE-02",
+  "specification": "CIC-GATE-SPEC-001 section 4",
+  "cases": [
+    {"test_id":"TC-02-001","description":"Successful publication","acceptance_criterion":"AC-02-007","expected":"All reachable consumers receive artifact and state becomes PUBLISHED."},
+    {"test_id":"TC-02-002","description":"Publication decoupled from commit","acceptance_criterion":"AC-02-001","expected":"Publication failure leaves committed artifact bytes unchanged."},
+    {"test_id":"TC-02-003","description":"Retry schedule","acceptance_criterion":"AC-02-002","expected":"Attempts use delays 0, 5, 25, 125, and 600 seconds."},
+    {"test_id":"TC-02-004","description":"PUBLICATION_FAILED state","acceptance_criterion":"AC-02-004","expected":"Five failed attempts remain queryable and linked to parent lineage."},
+    {"test_id":"TC-02-005","description":"Manual re-publication","acceptance_criterion":"AC-02-005","expected":"Operator retry delivers same artifact and preserves lineage linkage."},
+    {"test_id":"TC-02-006","description":"Idempotent delivery","acceptance_criterion":"AC-02-006","expected":"Duplicate publication produces no duplicate consumer ingestion."},
+    {"test_id":"TC-02-007","description":"Consumer isolation","acceptance_criterion":"AC-02-008","expected":"Unreachable consumer does not delay reachable consumer delivery."},
+    {"test_id":"TC-02-008","description":"Publication event logging","acceptance_criterion":"AC-02-003","expected":"Every attempt records parent, consumer, attempt, outcome, and failure reason."}
+  ]
+}
