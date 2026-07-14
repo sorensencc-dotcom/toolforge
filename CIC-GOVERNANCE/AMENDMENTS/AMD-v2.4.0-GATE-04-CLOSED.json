@@ -1,0 +1,19 @@
+{
+  "amendment_id": "AMD-v2.4.0-GATE-04-CLOSED",
+  "title": "GATE-04 closure - Cross-Process Lineage Locking",
+  "status": "RATIFIED",
+  "submitted_date": "2026-07-14",
+  "ratified_date": "2026-07-14",
+  "submitted_by": "ACT-20260714-0001",
+  "ratified_by": "Tier 1 (Chris)",
+  "affected_sections": [
+    "CIC-GATE-SPEC-001 section 6",
+    "MANIFEST/gate-registry.json"
+  ],
+  "change_summary": "GATE-04 declared CLOSED after CIC-TEST-REPORT-GATE-04-R2 passed all 8 process-level cases on NTFS, including contention, timeout, stale-lock recovery, crash repair, hash verification, and ten-process stress.",
+  "breaking_change": false,
+  "linked_lineage_id": "LIN-dd33c1542ff643b7948bcee9d4c864cd",
+  "submission_lineage_id": "LIN-36e65b1721784fdfa5754e113f7e0af1",
+  "linked_report_id": "CIC-TEST-REPORT-GATE-04-R2",
+  "decision_note": "Tier 1 ratified Gate-04 closure on 2026-07-14. Closure does not activate governance runtime or close any other gate."
+}

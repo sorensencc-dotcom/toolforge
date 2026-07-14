@@ -1,0 +1,68 @@
+{
+  "confirmation_id": "CIC-GOV-GATE-01-RATIFICATION-20260714-0001",
+  "status": "EXECUTED",
+  "scope": "GATE-01_ONLY",
+  "authorized_at": "2026-07-14",
+  "executed_at": "2026-07-14T06:45:46.438Z",
+  "authorization": {
+    "tier": 1,
+    "principal": "Tier 1 (Chris)",
+    "instruction": "go execute"
+  },
+  "operator_actor": "ACT-20260713-0001",
+  "decision": {
+    "gate": "GATE-01",
+    "transition": "OPEN_TO_CLOSED",
+    "closure_amendment": "AMD-v2.4.0-GATE-01-CLOSED",
+    "report": "CIC-TEST-REPORT-GATE-01-R2",
+    "manifest_owner_ntfs_acknowledgment": true,
+    "runtime_activation_granted": false
+  },
+  "lineage": {
+    "lineage_id": "LIN-0b123be52f804b57b9fd42a67ced8cbb",
+    "record_hash": "72f556764c6546008937da54e06976d304112518a2f577ede094f1766987bcf2",
+    "chain_valid": true,
+    "record_count": 4
+  },
+  "resulting_gate_states": {
+    "GATE-01": "CLOSED",
+    "GATE-02": "OPEN",
+    "GATE-03": "OPEN",
+    "GATE-04": "OPEN",
+    "GATE-05": "OPEN"
+  },
+  "verification": {
+    "cross_file_links": "PASS",
+    "lineage_hash_chain": "PASS",
+    "gate_01_targeted_tests": {
+      "result": "PASS",
+      "passed": 20,
+      "failed": 0
+    },
+    "full_suite": {
+      "result": "FAIL",
+      "passed_before_stop": 30,
+      "failed": 1,
+      "failed_test": "Gate04LineageTests.test_ten_writer_stress",
+      "observed_records": 84,
+      "expected_records": 100,
+      "effect": "GATE-04 remains open; no effect on GATE-01 closure evidence."
+    }
+  },
+  "artifact_hashes": {
+    "AMENDMENTS/amendment-registry.json": "a075fe7944ee93dd877cc0b17c8dca17e7d0c503a964ccca321f4f0c24ae593c",
+    "AMENDMENTS/AMD-v2.4.0-GATE-01-CLOSED.json": "95fca69f62210a44c48ea7514fcadf5805d1317a8ae73c176aabde81910c96ef",
+    "LINEAGE/CIC-Lineage-v2.4.jsonl": "1f801bee055255d2fcf85caafc160c1d095b93fc4b82065261d3e3eb1d3b5310",
+    "MANIFEST/CIC-GOV-MANIFEST-001.md": "289b20f24dc9463e66ed91ca1947b7448d23f68c9b4b778a5d89632166223786",
+    "MANIFEST/gate-implementation-status.md": "ad34881021f10f25c63394169a6fe4b0d58f586173877d65aaf25b5b7a80a395",
+    "MANIFEST/gate-registry.json": "070835a2550a3f728cfd7f43d3caaa70474719993d597d161402785302362f31",
+    "tests/reports/CIC-TEST-REPORT-GATE-01-R2.json": "2fbf12771357634f86e290ac73a7cedffde296cf0ead60b79d7880e0047946c7"
+  },
+  "remaining_blockers": [
+    "GATE-02 R2 is incomplete.",
+    "GATE-03 has no passing R2 report.",
+    "GATE-04 has no passing R2 report and failed current ten-writer stress validation.",
+    "GATE-05 Tier 1 activation ratification remains open.",
+    "Approved runtime execution and confirmation entrypoint remains unimplemented."
+  ]
+}

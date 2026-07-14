@@ -165,7 +165,7 @@
   "skipped": 0,
   "overall_result": "PASS",
   "anomalies": "All GATE-01 spec and additional tests passed under ratified AMD-v2.4.0-0001 semantics. NTFS is asserted by Windows 11 local-volume inference because Get-Volume, WMIC, and normal/elevated fsutil could not return filesystem type; Manifest Owner acknowledgment is required at ratification. ACT-20260713-0001 is durably registered as ACTIVE HUMAN and was verified from a fresh Python process without reseeding.",
-  "submitted_for_ratification": null,
+  "submitted_for_ratification": "2026-07-14T06:42:24.229738Z",
   "_amendment_target": "AMD-v2.4.0-GATE-01-CLOSED",
   "_minimum_passing_threshold": "7/7 spec-defined cases (plus all additional cases)"
 }

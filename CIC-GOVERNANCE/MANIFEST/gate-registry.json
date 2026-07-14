@@ -1,12 +1,12 @@
 {
   "document_id": "CIC-GATE-SPEC-001",
-  "version": "1.0.1-candidate.1",
+  "version": "1.0.3-candidate.1",
   "status": "CANDIDATE",
   "gates": {
-    "GATE-01": {"name": "Artifact-Store Transaction / Rollback", "status": "OPEN"},
+    "GATE-01": {"name": "Artifact-Store Transaction / Rollback", "status": "CLOSED", "closure_amendment": "AMD-v2.4.0-GATE-01-CLOSED", "closure_lineage_id": "LIN-0b123be52f804b57b9fd42a67ced8cbb"},
     "GATE-02": {"name": "Publication and Retries", "status": "OPEN"},
     "GATE-03": {"name": "Persistent Actor Registry", "status": "OPEN"},
-    "GATE-04": {"name": "Cross-Process Lineage Locking", "status": "OPEN"},
+    "GATE-04": {"name": "Cross-Process Lineage Locking", "status": "CLOSED", "closure_amendment": "AMD-v2.4.0-GATE-04-CLOSED", "closure_lineage_id": "LIN-dd33c1542ff643b7948bcee9d4c864cd"},
     "GATE-05": {"name": "Tier 1 Ratification", "status": "OPEN"}
   }
 }

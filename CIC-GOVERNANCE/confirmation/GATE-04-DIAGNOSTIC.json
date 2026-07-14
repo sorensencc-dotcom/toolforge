@@ -1,0 +1,70 @@
+{
+  "diagnostic_id": "CIC-GOV-GATE-04-DIAGNOSTIC-20260714-0001",
+  "mode": "CIC_GOVERNANCE_DIAGNOSTIC",
+  "status": "COMPLETE",
+  "generated_at": "2026-07-14T07:00:00Z",
+  "requested_actor": "ACT-20260714-0001",
+  "actor_registry_status": "UNREGISTERED_FOR_GOVERNANCE_MUTATION",
+  "target_gate": "GATE-04",
+  "gate_state": "OPEN",
+  "implementation": "C:/dev/CIC-GOVERNANCE/WRAPPERS/governance_runtime.py",
+  "declared_gate_implementation_path": {
+    "path": "C:/dev/CIC-GOVERNANCE/GATES/GATE-04/",
+    "exists": false,
+    "normalized_to_deployed_implementation": true
+  },
+  "symptom": {
+    "expected_writes": 100,
+    "initial_observed_writes": 84,
+    "initial_failed_test": "Gate04LineageTests.test_ten_writer_stress",
+    "intermittent": true
+  },
+  "hypotheses": [
+    {
+      "rank": 1,
+      "hypothesis": "A writer can exhaust the 2000 ms acquisition deadline while other threads repeatedly reacquire the file lock.",
+      "result": "CONFIRMED"
+    },
+    {
+      "rank": 2,
+      "hypothesis": "Lock release removes a different owner's lock.",
+      "result": "NOT_OBSERVED"
+    },
+    {
+      "rank": 3,
+      "hypothesis": "Partial-write repair discards valid concurrent records.",
+      "result": "NOT_IMPLICATED"
+    }
+  ],
+  "failure_matrix": [
+    {"trial": 1, "writes": 100, "failures": 0, "elapsed_ms": 2047},
+    {"trial": 2, "writes": 100, "failures": 0, "elapsed_ms": 2266},
+    {"trial": 3, "writes": 100, "failures": 0, "elapsed_ms": 2265},
+    {"trial": 4, "writes": 99, "failures": 1, "elapsed_ms": 2453, "failure_code": "LINEAGE_CONFLICT", "failure_message": "lock acquisition timeout", "worker": 5, "sequence": 0},
+    {"trial": 5, "writes": 100, "failures": 0, "elapsed_ms": 2406},
+    {"trial": 6, "writes": 100, "failures": 0, "elapsed_ms": 2594},
+    {"trial": 7, "writes": 100, "failures": 0, "elapsed_ms": 2656},
+    {"trial": 8, "writes": 100, "failures": 0, "elapsed_ms": 2641},
+    {"trial": 9, "writes": 100, "failures": 0, "elapsed_ms": 2422},
+    {"trial": 10, "writes": 100, "failures": 0, "elapsed_ms": 2281}
+  ],
+  "trace_summary": {
+    "total_expected_writes": 1000,
+    "total_observed_writes": 999,
+    "acquisition_timeouts": 1,
+    "partial_writes": 0,
+    "hash_chain_failures": 0,
+    "hash_repairs": 0,
+    "quarantine_events": 0,
+    "lock_files_left_behind": 0,
+    "recovery": "Writer exception returned; missing append was not retried."
+  },
+  "root_cause": {
+    "component": "AtomicFileLock.acquire",
+    "mechanism": "Unfair polling allows same-process writers to reacquire while a waiting writer approaches its fixed 2000 ms deadline.",
+    "constraint": "Default timeout cannot be increased because TC-04-002 requires LINEAGE_CONFLICT within 2100 ms.",
+    "repair_direction": "Add fair process-local admission before existing atomic file lock; retain file lock and timeout for cross-process exclusion."
+  },
+  "gate_closure_performed": false,
+  "governance_files_modified": false
+}

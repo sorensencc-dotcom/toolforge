@@ -1,5 +1,5 @@
 {
-  "registry_version": "1.0.0-draft",
+  "registry_version": "1.0.3-draft",
   "status": "DRAFT",
   "amendments": [
     {
@@ -19,6 +19,45 @@
       "linked_lineage_id": "LIN-07edcfa722e14ed39c7242b30c4da1ad",
       "proposal_path": "AMENDMENTS/AMD-v2.4.0-0001.md",
       "review_note": "Tier 1 approval received in-session on 2026-07-13. Durable actor binding remains required before operational activation."
+    },
+    {
+      "amendment_id": "AMD-v2.4.0-GATE-01-CLOSED",
+      "title": "GATE-01 closure - Artifact-Store Transaction / Rollback",
+      "status": "RATIFIED",
+      "submitted_date": "2026-07-13",
+      "ratified_date": "2026-07-14",
+      "submitted_by": "ACT-20260713-0001",
+      "ratified_by": "Tier 1 (Chris)",
+      "affected_sections": [
+        "CIC-GATE-SPEC-001 section 3",
+        "MANIFEST/gate-registry.json"
+      ],
+      "change_summary": "Close GATE-01 after CIC-TEST-REPORT-GATE-01-R2 passed 15/15 under ratified rollback semantics.",
+      "breaking_change": false,
+      "linked_lineage_id": "LIN-0b123be52f804b57b9fd42a67ced8cbb",
+      "linked_report_id": "CIC-TEST-REPORT-GATE-01-R2",
+      "artifact_path": "AMENDMENTS/AMD-v2.4.0-GATE-01-CLOSED.json",
+      "review_note": "Tier 1 approved execution on 2026-07-14 and acknowledged inferred NTFS evidence. Remaining gates stay open."
+    },
+    {
+      "amendment_id": "AMD-v2.4.0-GATE-04-CLOSED",
+      "title": "GATE-04 closure - Cross-Process Lineage Locking",
+      "status": "RATIFIED",
+      "submitted_date": "2026-07-14",
+      "ratified_date": "2026-07-14",
+      "submitted_by": "ACT-20260714-0001",
+      "ratified_by": "Tier 1 (Chris)",
+      "affected_sections": [
+        "CIC-GATE-SPEC-001 section 6",
+        "MANIFEST/gate-registry.json"
+      ],
+      "change_summary": "Propose GATE-04 closure after process-level R2 passed 8/8 on NTFS.",
+      "breaking_change": false,
+      "linked_lineage_id": "LIN-dd33c1542ff643b7948bcee9d4c864cd",
+      "submission_lineage_id": "LIN-36e65b1721784fdfa5754e113f7e0af1",
+      "linked_report_id": "CIC-TEST-REPORT-GATE-04-R2",
+      "artifact_path": "AMENDMENTS/AMD-v2.4.0-GATE-04-CLOSED.json",
+      "review_note": "Tier 1 ratified closure after process-level R2 passed 8/8 on NTFS. Runtime activation remains gated."
     }
   ]
 }

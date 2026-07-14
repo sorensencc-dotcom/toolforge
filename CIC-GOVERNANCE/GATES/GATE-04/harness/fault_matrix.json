@@ -1,0 +1,54 @@
+{
+  "gate_id": "GATE-04",
+  "specification": "CIC-GATE-SPEC-001 section 6",
+  "cases": [
+    {
+      "test_id": "TC-04-001",
+      "description": "Two-process exclusive lineage lock",
+      "acceptance_criterion": "AC-04-001",
+      "expected": "Second process waits for lock, then appends without overlap or loss."
+    },
+    {
+      "test_id": "TC-04-002",
+      "description": "Default lock timeout",
+      "acceptance_criterion": "AC-04-002 / AC-04-003",
+      "expected": "Contender returns LINEAGE_CONFLICT within 2100 ms."
+    },
+    {
+      "test_id": "TC-04-003",
+      "description": "Stale lock expiry",
+      "acceptance_criterion": "AC-04-004",
+      "expected": "Lock older than 30 seconds is removed and append succeeds."
+    },
+    {
+      "test_id": "TC-04-004",
+      "description": "Fifty-process lineage ID uniqueness",
+      "acceptance_criterion": "AC-04-005",
+      "expected": "Fifty commits produce fifty unique lineage IDs."
+    },
+    {
+      "test_id": "TC-04-005",
+      "description": "Crash during lineage write",
+      "acceptance_criterion": "AC-04-006",
+      "expected": "Partial bytes are quarantined and CORRUPT_RECORD evidence is appended."
+    },
+    {
+      "test_id": "TC-04-006",
+      "description": "One hundred-record hash chain",
+      "acceptance_criterion": "AC-04-007",
+      "expected": "One hundred sequential records verify end to end."
+    },
+    {
+      "test_id": "TC-04-007",
+      "description": "Exact hash-break detection",
+      "acceptance_criterion": "AC-04-007",
+      "expected": "Integrity audit identifies exact corrupted record."
+    },
+    {
+      "test_id": "TC-04-008",
+      "description": "Ten-process, one-hundred-write stress",
+      "acceptance_criterion": "AC-04-008",
+      "expected": "Exactly one hundred valid records; no loss, corruption, or hung process."
+    }
+  ]
+}

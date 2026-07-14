@@ -141,10 +141,14 @@ class Gate04LineageTests(Base):
         self.lineage.append("MUTATED","A"); rows=self.lineage.records(); rows[0]["actor"]="X"; self.lineage.path.write_text(json.dumps(rows[0])+"\n")
         self.assertEqual(1,self.lineage.verify()["corrupt_record"])
     def test_ten_writer_stress(self):
+        barrier=threading.Barrier(10); failures=[]
         def batch():
-            for _ in range(10): self.lineage.append("MUTATED","A")
+            barrier.wait()
+            for _ in range(10):
+                try: self.lineage.append("MUTATED","A")
+                except Exception as exc: failures.append(exc)
         ts=[threading.Thread(target=batch) for _ in range(10)]; [t.start() for t in ts]; [t.join() for t in ts]
-        self.assertEqual(100,len(self.lineage.records())); self.assertTrue(self.lineage.verify()["valid"])
+        self.assertFalse(failures); self.assertEqual(100,len(self.lineage.records())); self.assertTrue(self.lineage.verify()["valid"])
 
 
 class Gate05ActivationTests(Base):

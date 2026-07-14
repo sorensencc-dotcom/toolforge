@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import shutil
+import threading
 import time
 import uuid
 from datetime import datetime, timezone
@@ -30,30 +31,85 @@ def digest(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
 
+class _LocalTicketLock:
+    """Fair admission for threads before cross-process file-lock contention."""
+
+    def __init__(self):
+        self.condition = threading.Condition()
+        self.next_ticket = 0
+        self.serving = 0
+        self.cancelled: set[int] = set()
+
+    def acquire(self, deadline: float) -> int:
+        with self.condition:
+            ticket = self.next_ticket
+            self.next_ticket += 1
+            while ticket != self.serving:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    self.cancelled.add(ticket)
+                    self.condition.notify_all()
+                    raise GateError("LINEAGE_CONFLICT", "lock acquisition timeout")
+                self.condition.wait(remaining)
+            return ticket
+
+    def release(self, ticket: int) -> None:
+        with self.condition:
+            if ticket != self.serving:
+                raise RuntimeError("local ticket lock released out of order")
+            self.serving += 1
+            while self.serving in self.cancelled:
+                self.cancelled.remove(self.serving)
+                self.serving += 1
+            self.condition.notify_all()
+
+
+_LOCAL_LOCKS_GUARD = threading.Lock()
+_LOCAL_LOCKS: dict[str, _LocalTicketLock] = {}
+
+
+def _local_lock_for(path: Path) -> _LocalTicketLock:
+    key = str(path.resolve()).casefold()
+    with _LOCAL_LOCKS_GUARD:
+        return _LOCAL_LOCKS.setdefault(key, _LocalTicketLock())
+
+
 class AtomicFileLock:
     def __init__(self, path: str | Path, timeout_ms: int = 2000, stale_seconds: float = 30):
         self.path = Path(path); self.timeout_ms = timeout_ms; self.stale_seconds = stale_seconds; self.owned = False
+        self.local_lock = _local_lock_for(self.path); self.local_ticket: int | None = None
 
     def acquire(self) -> None:
         deadline = time.monotonic() + self.timeout_ms / 1000
-        while True:
-            try:
-                fd = os.open(self.path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-                os.write(fd, canonical({"pid": os.getpid(), "created": time.time()})); os.close(fd)
-                self.owned = True; return
-            except (FileExistsError, PermissionError):
+        try:
+            self.local_ticket = self.local_lock.acquire(deadline)
+            while True:
                 try:
-                    if time.time() - self.path.stat().st_mtime > self.stale_seconds:
-                        self.path.unlink(missing_ok=True); continue
-                except FileNotFoundError:
-                    continue
-                if time.monotonic() >= deadline:
-                    raise GateError("LINEAGE_CONFLICT", "lock acquisition timeout")
-                time.sleep(0.01)
+                    fd = os.open(self.path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                    os.write(fd, canonical({"pid": os.getpid(), "created": time.time()})); os.close(fd)
+                    self.owned = True; return
+                except (FileExistsError, PermissionError):
+                    try:
+                        if time.time() - self.path.stat().st_mtime > self.stale_seconds:
+                            self.path.unlink(missing_ok=True); continue
+                    except FileNotFoundError:
+                        continue
+                    if time.monotonic() >= deadline:
+                        raise GateError("LINEAGE_CONFLICT", "lock acquisition timeout")
+                    time.sleep(0.01)
+        except Exception:
+            if self.local_ticket is not None:
+                self.local_lock.release(self.local_ticket); self.local_ticket = None
+            raise
 
     def release(self) -> None:
         if self.owned:
-            self.path.unlink(missing_ok=True); self.owned = False
+            try:
+                self.path.unlink(missing_ok=True)
+            finally:
+                self.owned = False
+                if self.local_ticket is not None:
+                    self.local_lock.release(self.local_ticket); self.local_ticket = None
 
     def __enter__(self): self.acquire(); return self
     def __exit__(self, *_): self.release()
