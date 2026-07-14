@@ -1,0 +1,44 @@
+package.json
+  s_7e0aaf4c0aba69::t_a544aba61157c0 10-13
+docs/wave-d/TRENDING-SCHEDULER.md
+  s_7e0aaf4c0aba69::t_35df3382491bd9 1-106
+src/e2e/04-update.e2e.js
+  s_7e0aaf4c0aba69::t_16316a7558034e 1-58
+WAVE-D-REPORT.md
+  s_7e0aaf4c0aba69::t_a87d94e02e1c4c 1-124
+src/e2e/01-discover.e2e.js
+  s_7e0aaf4c0aba69::t_cdfd6c849680f6 1-67
+src/e2e/05-trending.e2e.js
+  s_7e0aaf4c0aba69::t_e0c18e822f44fb 1-65
+src/load-tests/marketplace-load.js
+  s_7e0aaf4c0aba69::t_352db2e7a1d47d 261
+  s_7e0aaf4c0aba69::t_1bdb05f1cdc6f9 1-260,262-318
+src/services/trending-scheduler.ps1
+  s_7e0aaf4c0aba69::t_9039650bf24d76 1-153
+src/e2e/harness.js
+  s_7e0aaf4c0aba69::t_70c6185fa837b6 208-209
+  s_7e0aaf4c0aba69::t_c70f0de60f5adf 2
+  s_7e0aaf4c0aba69::t_14555b43fce56a 1,3-207,210-214
+src/e2e/03-rate.e2e.js
+  s_7e0aaf4c0aba69::t_7a55b8177b3d75 1-77
+src/e2e/02-install.e2e.js
+  s_7e0aaf4c0aba69::t_e4986305a74ddd 1-65
+docs/wave-d/LOAD-TEST.md
+  s_7e0aaf4c0aba69::t_8f182f1ebc54b9 1-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "8fc6911ba907d5b45e69312bb0792cf81b8339da",
+  "prompts": {},
+  "sessions": {
+    "s_7e0aaf4c0aba69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d1f977af-bb9c-46d5-a2bc-16b5a00fcf3b",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
