@@ -1,15 +1,26 @@
-import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
-let projectRoot: string;
-try {
-    const gitRoot = execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).trim();
-    projectRoot = gitRoot.endsWith('kb-sync') ? gitRoot : path.join(gitRoot, 'kb-sync');
-    if (!fs.existsSync(projectRoot)) {
-        projectRoot = gitRoot;
+function findGitRoot(startDir: string): string | null {
+    let dir = startDir;
+    while (true) {
+        if (fs.existsSync(path.join(dir, '.git'))) {
+            return dir;
+        }
+        const parent = path.dirname(dir);
+        if (parent === dir) {
+            return null;
+        }
+        dir = parent;
     }
-} catch {
+}
+
+let projectRoot: string;
+const gitRoot = findGitRoot(process.cwd());
+if (gitRoot) {
+    const kbSyncDir = gitRoot.endsWith('kb-sync') ? gitRoot : path.join(gitRoot, 'kb-sync');
+    projectRoot = fs.existsSync(kbSyncDir) ? kbSyncDir : gitRoot;
+} else {
     projectRoot = path.resolve(process.cwd());
 }
 
