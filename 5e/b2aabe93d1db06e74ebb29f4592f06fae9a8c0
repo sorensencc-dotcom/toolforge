@@ -1,0 +1,34 @@
+skills/obsidian-ingest-wiki/SKILL.md
+  s_d05a08dc3db088::t_5c068746d76533 1-10
+run-tool.ps1
+  s_ae6c36133a3b6d::t_97db0e1fe3ea84 417
+  s_ae6c36133a3b6d::t_71ee28d1dccd32 337-338,340-363,365-373,376-388
+  s_ae6c36133a3b6d::t_3d1af7986cd862 71
+  s_ae6c36133a3b6d::t_7eaddf39f158df 35-36,45-70,72-107
+  s_ae6c36133a3b6d::t_5ed791d2a84590 307
+  s_ae6c36133a3b6d::t_72dd5c0378f1cd 108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "5eb2aabe93d1db06e74ebb29f4592f06fae9a8c0",
+  "prompts": {},
+  "sessions": {
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d05a08dc3db088": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9837535e-c768-4223-a214-59099185e3e1",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

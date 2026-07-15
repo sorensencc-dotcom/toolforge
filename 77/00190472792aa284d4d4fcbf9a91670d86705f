@@ -1,0 +1,23 @@
+assets/dashboard-v2.js
+  s_ae6c36133a3b6d::t_94814eeaca61c4 1-346
+assets/cic-dashboard.css
+  s_ae6c36133a3b6d::t_e79c6c8fbe59b9 1-445
+dashboard-v2.html
+  s_ae6c36133a3b6d::t_4176dc91ea5b82 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "7700190472792aa284d4d4fcbf9a91670d86705f",
+  "prompts": {},
+  "sessions": {
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

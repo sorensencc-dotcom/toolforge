@@ -1,0 +1,23 @@
+api/telemetry/server.js
+  s_ae6c36133a3b6d::t_3170f2c6e2092b 219
+  s_ae6c36133a3b6d::t_be78572a8d2abb 377-394,779
+  s_ae6c36133a3b6d::t_5717a4a6e17df8 656-659
+assets/dashboard-v2.js
+  s_ae6c36133a3b6d::t_90256733e886fb 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "7098e9f1d545d75fc26df23ffd9529dbeb680d37",
+  "prompts": {},
+  "sessions": {
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
