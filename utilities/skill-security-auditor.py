@@ -785,7 +785,7 @@ def scan_filesystem(skill_path: Path, report: AuditReport):
             ".gitignore", ".gitkeep", ".editorconfig", ".prettierrc",
             ".eslintrc", ".pylintrc", ".flake8",
             ".claude-plugin", ".codex", ".gemini",
-            ".mcp.json", ".env.example",
+            ".mcp.json", ".env.example", ".gitattributes",
         ):
             severity = Severity.CRITICAL if item.name == ".env" else Severity.HIGH
             report.findings.append(
