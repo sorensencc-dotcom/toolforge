@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.2.1
+Date: 2026-07-15
+
+### Changes
+- 663b5e0 - fix(kb-sync-nightly): replace execSync git-root lookup with fs-based walk (Chris Sorensen)
+- 82932f1 - chore: bump CIC submodule (work-summarizer automation wiring) (Chris Sorensen)
+
 ## Version 2.2.0
 Date: 2026-07-15
 
