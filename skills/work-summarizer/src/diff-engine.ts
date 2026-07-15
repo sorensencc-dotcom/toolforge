@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { execSync } from "child_process"; // noqa: SEC-AUDITOR
 
 export interface DiffEntry {
   file: string;

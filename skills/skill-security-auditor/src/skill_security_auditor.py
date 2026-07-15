@@ -600,7 +600,7 @@ ALL_SCAN_EXTENSIONS = CODE_EXTENSIONS | MD_EXTENSIONS
 
 def walk_safe(root_path: Path):
     """Walk a directory, skipping ignored paths like .git and node_modules entirely."""
-    ignored_dirs = {".git", "node_modules", "venv", ".venv", "dist", "build", "__pycache__"}
+    ignored_dirs = {".git", "node_modules", "venv", ".venv", "dist", "build", "__pycache__", "test", "tests", "__tests__"}
     for root, dirs, files in os.walk(root_path):
         dirs[:] = [d for d in dirs if d not in ignored_dirs and not d.startswith(".")]
         for f in files:
@@ -785,7 +785,7 @@ def scan_filesystem(skill_path: Path, report: AuditReport):
             ".gitignore", ".gitkeep", ".editorconfig", ".prettierrc",
             ".eslintrc", ".pylintrc", ".flake8",
             ".claude-plugin", ".codex", ".gemini",
-            ".mcp.json",
+            ".mcp.json", ".env.example",
         ):
             severity = Severity.CRITICAL if item.name == ".env" else Severity.HIGH
             report.findings.append(

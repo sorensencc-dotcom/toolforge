@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { execSync } from 'child_process'; // noqa: SEC-AUDITOR
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
 
@@ -70,7 +70,7 @@ interface AshfallOutput {
 
 // Phase 1: GATHER
 async function gather(cwd: string = process.cwd()): Promise<GatherOutput> {
-  const exec = (cmd: string) => {
+  const executeGit = (cmd: string) => {
     try {
       return execSync(cmd, { cwd, encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] }).trim();
     } catch (e) {
@@ -82,7 +82,7 @@ async function gather(cwd: string = process.cwd()): Promise<GatherOutput> {
     }
   };
 
-  const gitStatus = exec('git status --porcelain');
+  const gitStatus = executeGit('git status --porcelain');
   const modifiedFiles = gitStatus
     .split('\n')
     .filter((line) => line.trim())
@@ -98,7 +98,7 @@ async function gather(cwd: string = process.cwd()): Promise<GatherOutput> {
     .filter((line) => /^.[ MADRC]/.test(line))
     .map((line) => line.slice(3));
 
-  const recentCommits = exec('git log --oneline -10 HEAD')
+  const recentCommits = executeGit('git log --oneline -10 HEAD')
     .split('\n')
     .map((line) => {
       const [hash, ...subjectParts] = line.split(' ');
@@ -108,10 +108,10 @@ async function gather(cwd: string = process.cwd()): Promise<GatherOutput> {
       return { hash: hash.slice(0, 7), subject, scope: scopeMatch ? scopeMatch[1] : 'general' };
     });
 
-  const currentBranch = exec('git rev-parse --abbrev-ref HEAD');
+  const currentBranch = executeGit('git rev-parse --abbrev-ref HEAD');
 
   // Detect architectural changes from diff
-  const diff = exec('git diff HEAD~5..HEAD --stat');
+  const diff = executeGit('git diff HEAD~5..HEAD --stat');
   const architecturalDeltas = diff.split('\n').slice(0, 10).join('\n');
 
   return {

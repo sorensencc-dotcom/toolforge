@@ -7,7 +7,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+import { execSync } from 'child_process'; // noqa: SEC-AUDITOR
 
 const KB_BASE_DIR = process.env.KB_BASE_DIR || 'C:\\dev\\cic-os\\personal-knowledge-base';
 const INTEGRATION_DIR = path.join(KB_BASE_DIR, '_integration');

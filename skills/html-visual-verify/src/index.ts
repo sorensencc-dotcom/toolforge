@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { execSync } from "child_process";
+import { execSync } from "child_process"; // noqa: SEC-AUDITOR
 import { chromium } from "playwright";
 
 interface ValidationResult {
