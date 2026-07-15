@@ -1,0 +1,114 @@
+post_seal_ops/ops/resolve_actor.py
+  s_9d619f014d4d85::t_2ba7054fc30eb2 1-6
+post_seal_ops/run_tests.py
+  s_9d619f014d4d85::t_1dee8a72f07448 1-26,29-39
+  s_9d619f014d4d85::t_647c0a8642eb46 28
+  s_9d619f014d4d85::t_a144232c52ef9c 27
+post_seal_ops/ops/submit_ratification.py
+  s_9d619f014d4d85::t_2ba7054fc30eb2 1-6
+post_seal_ops/ops/verify_governance_signature.py
+  s_9d619f014d4d85::t_b76b6225c45c3f 1-6
+post_seal_ops/ops/compute_drift.py
+  s_9d619f014d4d85::t_647c0a8642eb46 4,8
+  s_9d619f014d4d85::t_b4acf886aa5a90 3,5-7
+  s_9d619f014d4d85::t_d6afc738a4e370 1-2
+post_seal_ops/wave5_integration_prep.ps1
+  s_9d619f014d4d85::t_56427eb738d3ff 1-46
+post_seal_ops/ops/validate_hash_chain.py
+  s_9d619f014d4d85::t_5a34e294a3e2f4 1
+  s_9d619f014d4d85::t_b76b6225c45c3f 2-5
+post_seal_ops/ops/verify_immutable_storage.py
+  s_9d619f014d4d85::t_b76b6225c45c3f 2-7
+  s_9d619f014d4d85::t_5a34e294a3e2f4 1
+post_seal_ops/ops/semantic_diff.py
+  s_9d619f014d4d85::t_b4acf886aa5a90 2-7
+  s_9d619f014d4d85::t_d6afc738a4e370 1
+post_seal_ops/ops/publish_artifact.py
+  s_9d619f014d4d85::t_b76b6225c45c3f 2-7
+  s_9d619f014d4d85::t_29ad5f7c1c769f 1
+post_seal_ops/ops/recompute_seal_hash.py
+  s_9d619f014d4d85::t_5a34e294a3e2f4 1
+  s_9d619f014d4d85::t_b76b6225c45c3f 2-5
+post_seal_ops/ops/emit_event.py
+  s_9d619f014d4d85::t_b76b6225c45c3f 1,3-6
+  s_9d619f014d4d85::t_5a34e294a3e2f4 2
+post_seal_ops/ops/register_artifact.py
+  s_9d619f014d4d85::t_b76b6225c45c3f 1,3-7
+  s_9d619f014d4d85::t_29ad5f7c1c769f 2
+post_seal_ops/ops/detect_fs_type.py
+  s_9d619f014d4d85::t_2ba7054fc30eb2 1-4
+post_seal_ops/ops/lock_lineage.py
+  s_9d619f014d4d85::t_29ad5f7c1c769f 2
+  s_9d619f014d4d85::t_b76b6225c45c3f 1,3-6
+post_seal_ops/ops/validate_treatment_graph.py
+  s_9d619f014d4d85::t_d6afc738a4e370 1-2
+  s_9d619f014d4d85::t_b4acf886aa5a90 3-10
+post_seal_ops/ops/fault_replay.py
+  s_9d619f014d4d85::t_2ba7054fc30eb2 1-3
+post_seal_ops/ops/check_redesign_alignment.py
+  s_9d619f014d4d85::t_d6afc738a4e370 1-2
+  s_9d619f014d4d85::t_b4acf886aa5a90 3-10
+post_seal_ops/validate_post_seal_ops.py
+  s_9d619f014d4d85::t_824089d23559c6 1-81
+post_seal_ops/ops/freeze_promotion.py
+  s_9d619f014d4d85::t_b76b6225c45c3f 1,3-6
+  s_9d619f014d4d85::t_29ad5f7c1c769f 2
+post_seal_ops/ops/validate_wrapper_logs.py
+  s_9d619f014d4d85::t_2ba7054fc30eb2 1-7
+post_seal_ops/actor_map.json
+  s_fda856bf205e0d::t_4d154d213a7fea 1-3
+post_seal_ops/codex_loader.py
+  s_9d619f014d4d85::t_e671f186526909 1-10
+post_seal_ops/commit_prep_checklist.txt
+  s_fda856bf205e0d::t_a5023f6e210d27 1-17
+post_seal_ops/event_log.json
+  s_fda856bf205e0d::t_78fd3ccce46b2d 1-62
+post_seal_ops/integration_manifest.json
+  s_fda856bf205e0d::t_ef9f92f0f22cc8 1-45
+post_seal_ops/lineage_lock.json
+  s_fda856bf205e0d::t_ebd0e8a370cd9c 1-6
+post_seal_ops/post_seal_ops.yaml
+  s_9d619f014d4d85::t_fc3b774d3d4fdb 1-132
+post_seal_ops/promotion_freeze.json
+  s_fda856bf205e0d::t_a453606853451d 1-6
+post_seal_ops/ratification_queue.json
+  s_fda856bf205e0d::t_10923c77d810e5 1-26
+post_seal_ops/registry.json
+  s_fda856bf205e0d::t_48beeaed95287a 1-22
+post_seal_ops/sealed_store/seal-789.bin
+  s_fda856bf205e0d::t_940c816f3bcea3 1
+post_seal_ops/baseline.txt
+  s_9d619f014d4d85::t_ddf207ef75f1c0 1-3
+post_seal_ops/redesign_signal.json
+  s_9d619f014d4d85::t_05df111508954a 1
+post_seal_ops/sample_artifact.bin
+  s_9d619f014d4d85::t_99a9b381739336 1
+post_seal_ops/sealed.txt
+  s_9d619f014d4d85::t_68354b919f2ea6 1-3
+post_seal_ops/treatment_graph.json
+  s_9d619f014d4d85::t_0b1dcf78b10e9e 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f193623cf05dbebae6082fb4f27f3a9edfdd7c54",
+  "prompts": {},
+  "sessions": {
+    "s_9d619f014d4d85": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6325-775e-70d1-8528-27ff822b3073",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fda856bf205e0d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77d54c09-1b77-4d8b-b6fa-44351f19c78d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
