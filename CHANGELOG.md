@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.2.2
+Date: 2026-07-15
+
+### Changes
+- 275acae - chore: stop tracking .obsidian/workspace.json (UI-state churn, never meaningfully reviewed) (Chris Sorensen)
+
 ## Version 2.2.1
 Date: 2026-07-15
 
