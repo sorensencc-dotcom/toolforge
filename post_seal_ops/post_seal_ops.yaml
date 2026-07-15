@@ -1,0 +1,132 @@
+# codex-module: post_seal_ops
+# version: 1.0.0
+# status: operational
+
+module:
+  id: post_seal_ops
+  namespace: cic.post_seal
+  description: Deterministic post-seal operations module.
+
+workflows:
+  SVW:
+    name: Seal Verification Workflow
+    steps:
+      - op: validate_hash_chain
+        in: {prev_id, current_id, seal_id}
+        out: {hash_chain_valid}
+      - op: verify_immutable_storage
+        in: {artifact_path}
+        out: {storage_verified}
+      - op: recompute_seal_hash
+        in: {artifact_bytes}
+        out: {seal_hash}
+      - op: verify_governance_signature
+        in: {seal_hash, gov_sig_profile}
+        out: {signature_valid}
+      - op: emit_event
+        params: {type: seal_verified}
+        in: {seal_id}
+        out: {}
+
+  PSPW:
+    name: Post-Seal Publication Workflow
+    steps:
+      - op: register_artifact
+        in: {seal_id, manifest_path}
+        out: {registry_id}
+      - op: publish_artifact
+        in: {seal_id, artifact_path}
+        out: {store_ref}
+      - op: emit_event
+        params: {type: artifact_published}
+        in: {seal_id}
+        out: {}
+      - op: lock_lineage
+        in: {seal_id}
+        out: {lineage_lock_id}
+      - op: freeze_promotion
+        in: {seal_id}
+        out: {promotion_state}
+
+  GRW:
+    name: Governance Ratification Workflow
+    steps:
+      - op: validate_wrapper_logs
+        in: {log_path}
+        out: {log_valid}
+      - op: resolve_actor
+        in: {actor_placeholder}
+        out: {actor_id}
+      - op: fault_replay
+        in: {test_case_id, seal_id}
+        out: {fault_replay_result}
+      - op: detect_fs_type
+        in: {mount_point}
+        out: {filesystem_type}
+      - op: submit_ratification
+        in: {seal_id, actor_id}
+        out: {ratification_packet_id}
+
+  PSDAW:
+    name: Post-Seal Drift Audit Workflow
+    steps:
+      - op: compute_drift
+        params: {ceiling: 0.03}
+        in: {seal_id, baseline_ref}
+        out: {drift_score}
+      - op: semantic_diff
+        in: {baseline_ref, sealed_ref}
+        out: {semantic_diff_report}
+      - op: validate_treatment_graph
+        in: {treatment_graph_ref}
+        out: {treatment_graph_valid}
+      - op: check_redesign_alignment
+        in: {redesign_signal_ref}
+        out: {alignment_valid}
+      - op: emit_event
+        params: {type: drift_audit_completed}
+        in: {seal_id}
+        out: {}
+
+events:
+  seal_verified:
+    fields: {seal_id: string, timestamp: iso8601}
+  artifact_published:
+    fields: {seal_id: string, store_ref: string, timestamp: iso8601}
+  drift_audit_completed:
+    fields: {seal_id: string, drift_score: float, timestamp: iso8601}
+
+execution_contract:
+  version: 1.0.0
+  guarantees:
+    - deterministic_execution
+    - append_only_storage
+    - lineage_lock_enforced
+    - event_emission_required
+
+registry:
+  artifact_type: cic.sealed
+  routes:
+    - workflow: SVW
+      produces: seal_verification_report.json
+    - workflow: PSPW
+      produces: publication_certificate.md
+    - workflow: GRW
+      produces: ratification_packet/
+    - workflow: PSDAW
+      produces: drift_audit_report.json
+
+test_harness:
+  matrix:
+    - id: TC-PS-01
+      workflow: SVW
+      expect: {hash_chain_valid: true, signature_valid: true}
+    - id: TC-PS-02
+      workflow: PSPW
+      expect: {registry_id: not_null, store_ref: not_null}
+    - id: TC-PS-03
+      workflow: GRW
+      expect: {log_valid: true, fault_replay_result: PASS}
+    - id: TC-PS-04
+      workflow: PSDAW
+      expect: {drift_score: <=0.03, alignment_valid: true}

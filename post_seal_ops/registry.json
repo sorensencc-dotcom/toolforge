@@ -1,0 +1,22 @@
+{
+  "reg-seal-789-1784087429": {
+    "seal_id": "seal-789",
+    "manifest_path": "C:\\dev\\post_seal_ops\\sample_artifact.bin",
+    "timestamp": "2026-07-15T03:50:29Z"
+  },
+  "reg-seal-789-1784087433": {
+    "seal_id": "seal-789",
+    "manifest_path": "C:\\dev\\post_seal_ops\\sample_artifact.bin",
+    "timestamp": "2026-07-15T03:50:33Z"
+  },
+  "reg-seal-789-1784088125": {
+    "seal_id": "seal-789",
+    "manifest_path": "C:\\dev\\post_seal_ops\\sample_artifact.bin",
+    "timestamp": "2026-07-15T04:02:05Z"
+  },
+  "reg-seal-789-1784088185": {
+    "seal_id": "seal-789",
+    "manifest_path": "C:\\dev\\post_seal_ops\\sample_artifact.bin",
+    "timestamp": "2026-07-15T04:03:05Z"
+  }
+}
