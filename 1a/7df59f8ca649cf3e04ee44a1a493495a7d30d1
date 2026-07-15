@@ -1,0 +1,75 @@
+api/telemetry/server.js
+  s_7dcb05f04ef810::t_15a315b1518f44 17
+assets/dashboard-v2.js
+  s_7dcb05f04ef810::t_72684e99f38499 9
+gateway/cowork/tests/load-test/scenario.test.ts
+  s_bfb81b8e0acf35::t_7e961dc7f96ed3 37,39
+  s_bfb81b8e0acf35::t_ef329231a3f382 20,24
+gateway/cowork/tests/load-test/collectors.test.ts
+  s_bfb81b8e0acf35::t_846012ae65dd02 83
+gateway/cowork/tests/load-test/report.test.ts
+  s_bfb81b8e0acf35::t_4ff6d7094e9341 153
+skills/work-summarizer/src/category-map.ts
+  s_692ee940a08bb4::t_fb419ba89875e0 16
+  s_692ee940a08bb4::t_897a0b1acae5a5 20
+  s_692ee940a08bb4::t_4ee315e191b7f9 31
+  s_692ee940a08bb4::t_79716af96adc11 78
+  s_692ee940a08bb4::t_4ba96a3a6e6a7d 74
+  s_692ee940a08bb4::t_a423f9d56ddfcc 25
+  s_692ee940a08bb4::t_2caa59441224d5 8-11
+  s_692ee940a08bb4::t_eca0b6b9400f31 66
+  s_692ee940a08bb4::t_4bdfd19ba0355a 70
+  s_692ee940a08bb4::t_aaa9c88e0061d0 48
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_7008a9810d4867::t_9a235e73d8e78a 3,13,18,80-85,195-197,247,249-253,255-256,258-260,262-264,267-268,295,318
+skills/SKILLPACK-VALIDATION.md
+  s_c01c5887199fb9::t_e3e3f9d1fbbc85 3,11-12,14,16,20,39,61,75,144,174
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "1a7df59f8ca649cf3e04ee44a1a493495a7d30d1",
+  "prompts": {},
+  "sessions": {
+    "s_692ee940a08bb4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7ce40ef2-3f3b-44cb-8082-782e623311bd",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7dcb05f04ef810": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3580a60-f5b2-4772-b7b6-3974f712fb99",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bfb81b8e0acf35": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "06095a09-c81a-4a53-85ba-3d31e899287b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c01c5887199fb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f9fcb8-8183-4409-91aa-b2f076438001",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
