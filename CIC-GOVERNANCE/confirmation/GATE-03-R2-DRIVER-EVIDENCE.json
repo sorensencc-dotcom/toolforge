@@ -1,0 +1,81 @@
+{
+  "driver_version": "1.0.0-candidate.1",
+  "gate_id": "GATE-03",
+  "executed_at": "2026-07-14T19:46:41.450466Z",
+  "cases": [
+    {
+      "test_id": "TC-03-001",
+      "outcome": "PASS",
+      "execution_time_ms": 62.0,
+      "failure": null,
+      "details": {}
+    },
+    {
+      "test_id": "TC-03-002",
+      "outcome": "PASS",
+      "execution_time_ms": 32.0,
+      "failure": null,
+      "details": {}
+    },
+    {
+      "test_id": "TC-03-003",
+      "outcome": "PASS",
+      "execution_time_ms": 93.0,
+      "failure": null,
+      "details": {}
+    },
+    {
+      "test_id": "TC-03-004",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "failure": null,
+      "details": {
+        "records": 7,
+        "tail_before": "bb98bf6bd77e094c91bc25c3840c9d5ceac66f346cf6757794e09ce043eee2c5",
+        "tail_after": "23f2681d183ef8870d60b5809c7b88f588116e0171631517e34d646f7bd20500"
+      }
+    },
+    {
+      "test_id": "TC-03-005",
+      "outcome": "PASS",
+      "execution_time_ms": 0.0,
+      "failure": null,
+      "details": {}
+    },
+    {
+      "test_id": "TC-03-006",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "failure": null,
+      "details": {
+        "actors": 1000,
+        "elapsed_ms": 0.0
+      }
+    },
+    {
+      "test_id": "TC-03-007",
+      "outcome": "PASS",
+      "execution_time_ms": 31.0,
+      "failure": null,
+      "details": {}
+    },
+    {
+      "test_id": "TC-03-008",
+      "outcome": "PASS",
+      "execution_time_ms": 32.0,
+      "failure": null,
+      "details": {}
+    },
+    {
+      "test_id": "TC-03-009",
+      "outcome": "PASS",
+      "execution_time_ms": 140.0,
+      "failure": null,
+      "details": {}
+    }
+  ],
+  "total": 9,
+  "passed": 9,
+  "failed": 0,
+  "overall_result": "PASS"
+}

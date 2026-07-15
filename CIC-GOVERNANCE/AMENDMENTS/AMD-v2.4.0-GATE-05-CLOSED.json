@@ -1,0 +1,19 @@
+{
+  "amendment_id": "AMD-v2.4.0-GATE-05-CLOSED",
+  "title": "GATE-05 closure - Tier 1 Ratification",
+  "status": "RATIFIED",
+  "submitted_date": "2026-07-14",
+  "ratified_date": "2026-07-14",
+  "submitted_by": "ACT-20260714-0001",
+  "ratified_by": "Tier 1 (Chris)",
+  "affected_sections": [
+    "CIC-GATE-SPEC-001 section 7",
+    "MANIFEST/gate-registry.json"
+  ],
+  "change_summary": "Propose GATE-05 closure after deterministic R2 passed 1/1.",
+  "breaking_change": false,
+  "linked_lineage_id": "LIN-0a21beff40c04db5b6643d8f3c5105d6",
+  "submission_lineage_id": "LIN-fcfe54e966874863a2d71fe6266e09f2",
+  "linked_report_id": "CIC-TEST-REPORT-GATE-05-R2",
+  "decision_note": "Tier 1 ratified Gate-05 closure on 2026-07-14. Runtime activation remains separate."
+}

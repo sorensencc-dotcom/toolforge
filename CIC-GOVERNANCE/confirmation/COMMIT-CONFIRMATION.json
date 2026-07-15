@@ -1,0 +1,25 @@
+{
+  "status": "STABLE / SEALED",
+  "commit": "SUCCESS",
+  "runtime_active": true,
+  "gate_states": {
+    "GATE-01": "CLOSED",
+    "GATE-02": "CLOSED",
+    "GATE-03": "CLOSED",
+    "GATE-04": "CLOSED",
+    "GATE-05": "CLOSED"
+  },
+  "amendment_statuses": {
+    "AMD-v2.4.0-0001": "RATIFIED",
+    "AMD-v2.4.0-GATE-01-CLOSED": "RATIFIED",
+    "AMD-v2.4.0-GATE-04-CLOSED": "RATIFIED",
+    "AMD-v2.4.0-GATE-02-CLOSED": "RATIFIED",
+    "AMD-v2.4.0-GATE-03-CLOSED": "RATIFIED",
+    "AMD-v2.4.0-GATE-05-CLOSED": "RATIFIED"
+  },
+  "activation_lineage_id": "LIN-ce71078bb0f740609fc815842e7f4142",
+  "lineage_tail_hash": "9ac84b67beca4c61c509a1a489ea22dcbab2dd2257a1a9860e90dce3d3f5c562",
+  "manifest_sha256": "8a3a6ae714526d70d36c8fef56d8441adca8023c936fa361b3ba8a431813b154",
+  "amendment_registry_sha256": "1805974005e7d5938ac2e6004c30ef0bd78d2030405b987d33c25c9c9e42696f",
+  "lineage_sha256": "bf655be0e0d63818e66248e99ff98774f60bbe984b257bd29cf9c3049d3e51fa"
+}
