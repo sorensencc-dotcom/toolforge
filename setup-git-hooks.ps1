@@ -112,18 +112,31 @@ exec pwsh -NoProfile -File "`$(dirname "`$0")/post-merge.ps1" "`$@"
     Write-HookLog "+ Post-merge hook installed (full pipeline)" INFO
 
     # Pre-push: security auditor
+    # Scoped to skills/ (per-skill, matching the auditor's documented
+    # "audit one skill directory before install" purpose) and utilities/ --
+    # NOT the whole repo toplevel, which pulls in every sibling project
+    # (vendored binaries, unrelated .env files) the auditor was never meant
+    # to gate.
     $prePushHook = @"
 #!/bin/bash
 
 # Prevent pushes if security audit fails
 echo -e "\033[36m[Hook]\033[0m Executing pre-push static analysis audit..."
 
-# Run the auditor against the local directory
-python "`$(git rev-parse --show-toplevel)/skills/skill-security-auditor/src/skill_security_auditor.py" "`$(git rev-parse --show-toplevel)"
+REPO_ROOT="`$(git rev-parse --show-toplevel)"
+AUDITOR="`$REPO_ROOT/skills/skill-security-auditor/src/skill_security_auditor.py"
+FAIL=0
 
-AUDIT_EXIT_CODE=`$?
+for d in "`$REPO_ROOT"/skills/*/; do
+  [ -d "`$d" ] || continue
+  python "`$AUDITOR" "`$d" || FAIL=1
+done
 
-if [ `$AUDIT_EXIT_CODE -ne 0 ]; then
+if [ -d "`$REPO_ROOT/utilities" ]; then
+  python "`$AUDITOR" "`$REPO_ROOT/utilities" || FAIL=1
+fi
+
+if [ `$FAIL -ne 0 ]; then
   echo -e "\033[31m[Hook Fail]\033[0m Security vulnerabilities detected. Push blocked."
   exit 1
 fi

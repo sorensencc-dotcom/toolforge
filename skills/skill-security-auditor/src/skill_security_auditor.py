@@ -27,6 +27,14 @@ from enum import IntEnum
 from pathlib import Path
 from typing import Optional
 
+# Windows consoles default stdout/stderr to the system codepage (e.g. cp1252),
+# which can't encode em-dashes and other punctuation used throughout the
+# finding messages below. Force UTF-8 with a safe fallback so report printing
+# never crashes mid-audit.
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+
 
 class Severity(IntEnum):
     INFO = 0
