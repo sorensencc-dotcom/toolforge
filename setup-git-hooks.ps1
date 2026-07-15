@@ -47,8 +47,9 @@ function Install-Hooks {
     New-Item -ItemType Directory -Path $hooksDir -Force | Out-Null
 
     # Pre-commit: validator only (fast)
+    # pwsh refuses to run extensionless script files even via -File, so the
+    # git hook itself is a POSIX shim that execs a real .ps1 sidecar.
     $preCommitHook = @"
-#!/usr/bin/env pwsh
 # Auto-generated pre-commit hook. Do not edit.
 # Fast validation gate: validator only
 
@@ -69,15 +70,18 @@ if (`$exitCode -eq 1) {
 exit 0
 "@
 
-    $preCommitHook | Out-File -FilePath "$hooksDir\pre-commit" -Encoding UTF8 -Force
-    if ($env:OS -notlike "*Windows*") {
-        chmod +x "$hooksDir\pre-commit" 2>$null
-    }
-    Write-HookLog "✓ Pre-commit hook installed (validator only)" INFO
+    $preCommitShim = @"
+#!/bin/sh
+exec pwsh -NoProfile -File "`$(dirname "`$0")/pre-commit.ps1" "`$@"
+"@
+
+    $preCommitHook | Out-File -FilePath "$hooksDir\pre-commit.ps1" -Encoding utf8NoBOM -Force
+    $preCommitShim | Out-File -FilePath "$hooksDir\pre-commit" -Encoding utf8NoBOM -Force
+    chmod +x "$hooksDir\pre-commit" 2>$null
+    Write-HookLog "+ Pre-commit hook installed (validator only)" INFO
 
     # Post-merge: full pipeline (integration)
     $postMergeHook = @"
-#!/usr/bin/env pwsh
 # Auto-generated post-merge hook. Do not edit.
 # Integration check: full pipeline
 
@@ -97,11 +101,15 @@ if (`$exitCode -ge 1) {
 exit 0
 "@
 
-    $postMergeHook | Out-File -FilePath "$hooksDir\post-merge" -Encoding UTF8 -Force
-    if ($env:OS -notlike "*Windows*") {
-        chmod +x "$hooksDir\post-merge" 2>$null
-    }
-    Write-HookLog "✓ Post-merge hook installed (full pipeline)" INFO
+    $postMergeShim = @"
+#!/bin/sh
+exec pwsh -NoProfile -File "`$(dirname "`$0")/post-merge.ps1" "`$@"
+"@
+
+    $postMergeHook | Out-File -FilePath "$hooksDir\post-merge.ps1" -Encoding utf8NoBOM -Force
+    $postMergeShim | Out-File -FilePath "$hooksDir\post-merge" -Encoding utf8NoBOM -Force
+    chmod +x "$hooksDir\post-merge" 2>$null
+    Write-HookLog "+ Post-merge hook installed (full pipeline)" INFO
 
     # Pre-push: security auditor
     $prePushHook = @"
@@ -111,7 +119,7 @@ exit 0
 echo -e "\033[36m[Hook]\033[0m Executing pre-push static analysis audit..."
 
 # Run the auditor against the local directory
-python "`$(git rev-parse --show-toplevel)/utilities/skill-security-auditor.py" "`$(git rev-parse --show-toplevel)"
+python "`$(git rev-parse --show-toplevel)/skills/skill-security-auditor/src/skill_security_auditor.py" "`$(git rev-parse --show-toplevel)"
 
 AUDIT_EXIT_CODE=`$?
 
@@ -124,13 +132,11 @@ echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceedin
 exit 0
 "@
 
-    $prePushHook | Out-File -FilePath "$hooksDir\pre-push" -Encoding UTF8 -Force
-    if ($env:OS -notlike "*Windows*") {
-        chmod +x "$hooksDir\pre-push" 2>$null
-    }
-    Write-HookLog "✓ Pre-push hook installed (security auditor)" INFO
+    $prePushHook | Out-File -FilePath "$hooksDir\pre-push" -Encoding utf8NoBOM -Force
+    chmod +x "$hooksDir\pre-push" 2>$null
+    Write-HookLog "+ Pre-push hook installed (security auditor)" INFO
 
-    Write-Host "✓ Git hooks installed in $Repo"
+    Write-Host "+ Git hooks installed in $Repo"
 }
 
 function Uninstall-Hooks {
@@ -139,11 +145,13 @@ function Uninstall-Hooks {
     $prePushPath = "$hooksDir\pre-push"
 
     Remove-Item -Path $preCommitPath -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$preCommitPath.ps1" -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $postMergePath -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$postMergePath.ps1" -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $prePushPath -Force -ErrorAction SilentlyContinue
 
-    Write-HookLog "✓ Git hooks removed from $Repo" INFO
-    Write-Host "✓ Git hooks removed"
+    Write-HookLog "+ Git hooks removed from $Repo" INFO
+    Write-Host "+ Git hooks removed"
 }
 
 function Test-Hooks {
@@ -195,7 +203,7 @@ function Test-Hooks {
         Write-HookLog "Pre-push hook NOT found" WARN
     }
 
-    Write-Host "✓ Hook tests complete"
+    Write-Host "+ Hook tests complete"
 }
 
 function Get-HookStatus {
@@ -207,21 +215,21 @@ function Get-HookStatus {
     $prePushPath = "$hooksDir\pre-push"
 
     if (Test-Path $preCommitPath) {
-        Write-Host "✓ Pre-commit hook installed"
+        Write-Host "+ Pre-commit hook installed"
     }
     else {
         Write-Host "✗ Pre-commit hook missing"
     }
 
     if (Test-Path $postMergePath) {
-        Write-Host "✓ Post-merge hook installed"
+        Write-Host "+ Post-merge hook installed"
     }
     else {
         Write-Host "✗ Post-merge hook missing"
     }
 
     if (Test-Path $prePushPath) {
-        Write-Host "✓ Pre-push hook installed"
+        Write-Host "+ Pre-push hook installed"
     }
     else {
         Write-Host "✗ Pre-push hook missing"

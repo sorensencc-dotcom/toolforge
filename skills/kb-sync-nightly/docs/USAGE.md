@@ -1,156 +1,159 @@
 # Knowledge Base Sync (kb-sync-nightly) — Usage Guide
 
-**Version:** 1.0  
+**Version:** 1.0.1  
 **Maintained:** Active  
-**Type:** Operational Skill
+**Type:** Operational Skill  
+**Fixed:** 2026-07-13 (path correction)
 
 ---
 
 ## Quick Start
 
 ```bash
-cd C:\dev\cic-os\personal-knowledge-base
-python3 sync-all.py
+cd C:\dev\kb-sync
+npm run kb:sync:all
 ```
 
 ## What It Does
 
-Executes a two-stage pipeline:
+Orchestrates a multi-stage npm pipeline:
 
-### Stage 1: Wiki Sync (sync.py)
-- Reads 7 predetermined CIC architecture documents from C:\dev root
-- Detects changes using MD5 file hashing (incremental updates)
-- Synthesizes each doc with summary + source attribution + timestamp
-- Outputs: `wiki/cic/*.md`, `wiki/index.md`, `sources/.sync-state.json`
+### Stage 1: NotebookLM Sync
+- Pulls latest NotebookLM data via MCP server
+- Stages raw sources in `_kb-sync-staging/` (timestamped)
 
-### Stage 2: Integration Layer (integrate.py)
-- Scans `wiki/` (hand-curated) + `docs/` (auto-generated)
-- Extracts topics from content using configurable patterns
-- Builds cross-reference index (wiki ↔ docs)
-- Detects duplicate topics (>30% similarity by default)
-- Generates analysis and recommendations
+### Stage 2: Obsidian Sync
+- Ingests staged docs from `obsidian/vault/`
+- Validates staging manifest integrity
+- Generates ingest prompts for wiki synthesis
+
+### Stage 3: Artifact Generation
+- Scans staging + wiki content
+- Builds interactive HTML report with impact scoring
+- Generates searchable recommendations
 
 ## Output Files
 
-### After sync-all.py:
+### After `npm run kb:sync:all`:
 
 ```
-wiki/
-├── cic/
-│   ├── overview.md
-│   ├── agents.md
-│   ├── agents-api.md
-│   ├── environment.md
-│   ├── observability.md
-│   ├── token-packs.md
-│   └── roadmap.md
-├── index.md                    # (from sync.py)
-├── index-unified.md            # (from integrate.py) ← UNIFIED INDEX
-└── ...
-
-_integration/
-├── cross-refs.json             # Topic mappings (machine-readable)
-├── report.json                 # Duplicates, gaps, recommendations
-└── ...
+C:\dev\kb-sync/
+├── obsidian/vault/
+│   ├── wiki/
+│   │   ├── index.md           # ← Master TOC
+│   │   └── (entity pages)
+│   └── _kb-sync-staging/
+│       └── kb-sync/
+│           └── <YYYYMMDD-HHMMSS>/   # ← Raw staging (immutable)
+│               └── FILES.manifest.txt
+├── _integration/
+│   └── kb-sync-interactive-report.html  # ← Interactive artifact
+└── .validation-report.json   # ← Validation results
 ```
 
 ### Key Files to Review
 
 | File | Purpose | Use Case |
 |------|---------|----------|
-| `wiki/index-unified.md` | Master table of contents | Team reference, new member onboarding |
-| `_integration/report.json` | Integration analysis | Find duplicates, identify coverage gaps |
-| `_integration/cross-refs.json` | Topic-to-page mappings | Power search tools, audit automation |
+| `_integration/kb-sync-interactive-report.html` | Interactive dashboard | Impact analysis, recommendations |
+| `obsidian/vault/wiki/index.md` | Master documentation index | Team reference, onboarding |
+| `.validation-report.json` | Staging validation results | Pipeline health check |
 
 ## Running Specific Stages
 
 ```bash
-# Wiki sync only (fast, incremental)
-python3 sync.py
+# Full pipeline (NotebookLM + Obsidian + artifact)
+npm run kb:sync:all
 
-# Integration analysis only (after manual wiki edit)
-python3 integrate.py
+# Obsidian staging only (faster iteration)
+npm run kb:sync:obsidian
 
-# Both stages (recommended)
-python3 sync-all.py
+# Validation check
+npm run wiki:validate-staging
+
+# Regenerate artifact only
+npm run artifact:generate:all
 ```
 
 ## Automation
 
-### Nightly Schedule (Windows Task Scheduler)
+### Scheduled Task (Cowork)
 
-1. Open Task Scheduler
-2. Create Basic Task
-3. **Name:** KB Sync Nightly
-4. **Trigger:** Daily at 8:00 AM
-5. **Action:**
-   - Program: `python`
-   - Args: `C:\dev\cic-os\personal-knowledge-base\sync-all.py`
-   - Start in: `C:\dev\cic-os\personal-knowledge-base`
+The skill is registered as a scheduled automation:
 
-### Nightly Schedule (Linux/Mac Cron)
+```yaml
+Skill: kb-sync-nightly
+Schedule: Daily at 8:00 AM
+Entry: src/run.sh
+Working Directory: C:\dev\kb-sync
+```
+
+When triggered, it runs: `npm run kb:sync:all`
+
+### Manual Schedule (Command Line)
 
 ```bash
-0 8 * * * cd /path/to/cic-os/personal-knowledge-base && python3 sync-all.py
+cd C:\dev\kb-sync && npm run kb:sync:all
 ```
 
 ## Configuration
 
-Edit `C:\dev\cic-os\personal-knowledge-base\integration-config.json` to customize:
+Edit files in `C:\dev\kb-sync/configs/`:
 
-### Add Custom Topics
+### Obsidian Mapping Rules (`obsidian.yaml`)
 
-```json
-"topic_patterns": {
-  "machine-learning": ["ml", "neural", "model", "training", "inference"],
-  "distributed": ["distributed", "cluster", "replica", "consensus"]
-}
+```yaml
+mappings:
+  rewrite-mcp/: "CIC/Rewrite Labs"
+  torquequery/: "CIC/TorqueQuery"
+  default: "Unsorted"
 ```
 
-### Adjust Duplicate Detection
+### Global Settings (`global.yaml`)
 
-```json
-"cross_reference_rules": {
-  "min_topic_overlap": 3,      # More strict (require 3 common topics)
-  "min_similarity_score": 0.5  # Stricter (50% similarity to flag)
-}
+```yaml
+limits:
+  warning_threshold: 5MB
+  hard_limit: 8MB
+  chunk_size: 4MB
 ```
 
-### Filter Content
+### Artifact Generation (`artifact-generator.yaml`)
 
-```json
-"exclude_patterns": [
-  "_archive",
-  "old_docs",
-  "draft"
-]
+```yaml
+impact_scoring:
+  min_reference_count: 1
+  high_impact_threshold: 10
 ```
 
 ## Troubleshooting
 
-### Error: "sync.py not found"
-Ensure you're running from: `C:\dev\cic-os\personal-knowledge-base`
+### Error: "npm not found"
+Install Node.js 18+ and npm. Then run: `npm install` in `C:\dev\kb-sync/`
 
-### Error: "docs/ not found"
-The integration layer expects docs/ at `C:\dev\docs`. If it's elsewhere, edit `integrate.py` line 14.
+### Error: "module not found"
+```bash
+cd C:\dev\kb-sync
+npm install
+```
 
-### Error: "No pages found"
-Check wiki/ has at least one .md file: `ls wiki/`
+### Artifact not generated
+```bash
+# Regenerate artifact separately
+npm run artifact:generate:all
+```
 
-### Too many duplicates detected?
-Increase `min_similarity_score` in `integration-config.json` (e.g., 0.5 instead of 0.3).
-
-### Missing cross-references?
-Lower `min_topic_overlap` in `integration-config.json` (e.g., 1 instead of 2).
+### Permission denied on staging
+Ensure `C:\dev\kb-sync` and subdirectories are writable.
 
 ## Performance
 
-- **sync.py only:** <5 seconds (incremental)
-- **integrate.py only:** 5-10 seconds (150 pages)
-- **sync-all.py:** 10-15 seconds (full run)
+- **Obsidian staging:** 10-20 seconds
+- **Artifact generation:** 5-10 seconds
+- **Full pipeline:** 30-60 seconds (all stages)
 
 ## Support
 
-- **Configuration:** See `integration-config.json` inline comments
-- **Daily reference:** See INTEGRATION_GUIDE.md
-- **Architecture:** See SYNC_ANALYSIS.md in C:\dev/
+- **Skill Status:** See `SKILL.md` in this directory
+- **Architecture:** See `INTEGRATION_DIAGRAM.md` in this directory
+- **Configuration:** See inline comments in `configs/` files

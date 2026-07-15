@@ -1,6 +1,6 @@
 # GitHub Copilot Toolbox — MCP & Skills awareness
 
-_Generated: 2026-07-11T15:43:26.377Z_
+_Generated: 2026-07-15T11:57:44.809Z_
 
 ## How to use this report
 
@@ -202,6 +202,9 @@ _None found (or no workspace open)._
 
 - **spanner-data** — `C:\Users\soren\.copilot\skills\spanner-data`
   - Use these skills when you need to explore the database structure, discover
+
+- **gstack** — `C:\Users\soren\.claude\skills\gstack`
+  - Router for the gstack skill suite. (gstack)
 
 - **cavecrew** — `C:\Users\soren\.agents\skills\cavecrew`
   - >

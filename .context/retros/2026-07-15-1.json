@@ -1,0 +1,16 @@
+{
+  "date": "2026-07-15",
+  "window": "7d",
+  "since": "2026-07-08T00:00:00",
+  "until": "2026-07-15",
+  "base_branch": "main",
+  "commits": 105,
+  "contributors": 1,
+  "loc_insertions_raw": 145316,
+  "loc_deletions_raw": 9790,
+  "loc_insertions_filtered": 68966,
+  "loc_deletions_filtered": 9952,
+  "test_loc_insertions": 9468,
+  "test_loc_ratio_pct": 13.7,
+  "prior_retro_baseline": ".context/retros/2026-07-12-1.json"
+}

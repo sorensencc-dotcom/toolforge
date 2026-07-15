@@ -1,11 +1,16 @@
 # GitHub Copilot instructions
 
 
+
+
+
+
+
 <!-- github-copilot-toolbox:mcp-skills-awareness-begin -->
 
 ### MCP & Skills awareness (GitHub Copilot Toolbox)
 
-_Last synced: 2026-07-11T15:43:26.532Z._
+_Last synced: 2026-07-15T11:57:44.881Z._
 
 - **Full report:** `.github/copilot-toolbox-mcp-skills-awareness.md` in this workspace (auto-overwritten on each scan). Use it as ground truth for configured servers and skill folders.
 - **MCP:** For **live tools**, use **Copilot Chat → Agent** and **trust/start** the right servers in the MCP UI.
@@ -143,6 +148,8 @@ _None found (or no workspace open)._
 - **skill-repair** — `C:\Users\soren\.copilot\skills\skill-repair` — |
 
 - **spanner-data** — `C:\Users\soren\.copilot\skills\spanner-data` — Use these skills when you need to explore the database structure, discover
+
+- **gstack** — `C:\Users\soren\.claude\skills\gstack` — Router for the gstack skill suite. (gstack)
 
 - **cavecrew** — `C:\Users\soren\.agents\skills\cavecrew` — >
 

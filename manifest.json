@@ -602,7 +602,7 @@
       "version": "1.0.0",
       "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
       "category": "utilities",
-      "entrypoint": "utilities/skill-security-auditor.py",
+      "entrypoint": "skills/skill-security-auditor/src/skill_security_auditor.py",
       "status": "active"
     }
   ],

@@ -5,7 +5,7 @@ import subprocess
 
 # Find the canonical auditor script path relative to this file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-canonical_script = os.path.abspath(os.path.join(script_dir, "..", "skills", "skill-security-auditor", "src", "skill_security_auditor.py"))
+canonical_script = os.path.join(script_dir, "skills", "skill-security-auditor", "src", "skill_security_auditor.py")
 
 if __name__ == "__main__":
     if not os.path.exists(canonical_script):

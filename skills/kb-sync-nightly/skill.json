@@ -1,37 +1,41 @@
 {
   "id": "kb-sync-nightly",
-  "name": "Kb Sync Nightly",
-  "version": "1.0.0",
-  "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
+  "name": "KB Sync Nightly",
+  "version": "1.0.2",
+  "description": "Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\\dev\\kb-sync.",
   "type": "operational",
-  "category": "governance",
-  "entry": "src/run.sh",
+  "category": "sync-tools",
+  "entry": "src/index.ts",
+  "entrypoint": "src/index.ts",
+  "runtime": "typescript",
   "docs": "docs/USAGE.md",
   "triggers": [
     "kb-sync",
-    "sync-nightly",
+    "kb-sync-nightly",
     "knowledge base sync",
+    "nightly sync",
     "wiki sync"
   ],
-  "dependencies": [
-    "python3",
-    "pathlib",
-    "json",
-    "re"
-  ],
+  "dependencies": {
+    "runtime": "node",
+    "packages": ["js-yaml"]
+  },
   "outputs": [
-    "wiki/index-unified.md",
-    "_integration/cross-refs.json",
-    "_integration/report.json"
+    "obsidian/vault/wiki/index.md",
+    "_integration/kb-sync-interactive-report.html",
+    "obsidian/vault/_kb-sync-staging/"
   ],
   "metadata": {
     "created": "2026-07-02",
+    "updated": "2026-07-14",
     "author": "Chris",
     "maintained": true,
-    "tested": true
+    "tested": true,
+    "fixedPath": "C:\\dev\\kb-sync",
+    "scheduledCommand": "npx ts-node C:\\dev\\skills\\kb-sync-nightly\\src\\index.ts",
+    "verificationDate": "2026-07-14",
+    "status": "active_verified"
   },
-  "runtime": "bash",
-  "entrypoint": "src/run.sh",
   "integrations": {
     "cowork": {
       "registered": false,
@@ -41,5 +45,5 @@
       "status": "pending_registration"
     }
   },
-  "tooltip": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/."
+  "tooltip": "Nightly KB sync. Runs npm pipeline for staging + artifact generation. Scheduled: npx ts-node C:\\dev\\skills\\kb-sync-nightly\\src\\index.ts"
 }
