@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-12T06:20:47.2222027Z
+**Generated:** 2026-07-15T05:39:11.7893988Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 150 | 11 | 0 | 161 |
-| % Pass | 93.2% | 6.8% | 0% | 100% |
+| **Totals** | 156 | 12 | 0 | 168 |
+| % Pass | 92.9% | 7.1% | 0% | 100% |
 
 ---
 
@@ -257,6 +257,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### skill-security-auditor — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/skill_security_auditor.py |
+| Runtime | ✅ PASS | Found: python |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Runtime python (dry-run not applicable) |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### tool-lifecycle-manager — ✅ GOOD
 
 | Check | Result | Details |
@@ -327,6 +339,7 @@ Skills with warnings but no failures:
 - permission-governor
 - plan-extractor-integration
 - rewrite-labs-orchestrator
+- skill-security-auditor
 
 ### ❌ Error Health
 

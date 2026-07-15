@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-12T06:21:45.3169735Z
+**Generated:** 2026-07-15T05:39:10.0477472Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 23 |
+| Total Skills | 24 |
 | Total Dependencies | 1 |
 | Max Depth | 1 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 22 |
+| Orphan Skills | 23 |
 
 ---
 
@@ -143,6 +143,12 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### skill-security-auditor
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| python3 | external | ❌ Missing |
+
 ### tool-lifecycle-manager
 
 | Dependency | Type | Status |
@@ -226,6 +232,9 @@ No inbound dependencies (root skill)\n
 ### scale-ingestion-service
 
 No inbound dependencies (root skill)\n
+### skill-security-auditor
+
+No inbound dependencies (root skill)\n
 ### tool-lifecycle-manager
 
 No inbound dependencies (root skill)\n
@@ -244,28 +253,29 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| pre-wrap-audit | 1 |
-| html-visual-verify | 0 |
-| roadmap-validator | 0 |
-| operator-image-build | 0 |
-| tool-lifecycle-manager | 0 |
-| reconcile-vector-store | 0 |
-| agent-drift-detector | 0 |
-| kb-sync-artifact-generator | 0 |
-| rewrite-labs-orchestrator | 0 |
-| permission-governor | 0 |
-| context-manager | 0 |
+| skill-security-auditor | 1 |
 | work-summarizer | 0 |
-| kb-sync-nightly | 0 |
 | toolforge-drift-monitor | 0 |
-| run-adapter-diagnostic | 0 |
+| operator-image-build | 0 |
+| plan-extractor-integration | 0 |
+| kb-sync-artifact-generator | 0 |
+| scale-ingestion-service | 0 |
+| kb-sync-nightly | 0 |
+| reconcile-vector-store | 0 |
+| context-manager | 0 |
 | cic-section-summarizer | 0 |
+| run-adapter-diagnostic | 0 |
+| ashfall | 0 |
+| agent-drift-detector | 0 |
+| rewrite-labs-orchestrator | 0 |
+| roadmap-validator | 0 |
+| tool-lifecycle-manager | 0 |
+| cic-roadmap-updater | 0 |
 | analyze-token-burn | 0 |
 | rollback-phase | 0 |
-| scale-ingestion-service | 0 |
 | obsidian-ingest-wiki | 0 |
-| ashfall | 0 |
-| plan-extractor-integration | 0 |
-| cic-roadmap-updater | 0 |
+| permission-governor | 0 |
+| html-visual-verify | 0 |
 
 ---
 
@@ -303,6 +313,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | rollback-phase |
 | run-adapter-diagnostic |
 | scale-ingestion-service |
+| skill-security-auditor |
 | tool-lifecycle-manager |
 | toolforge-drift-monitor |
 | work-summarizer |
@@ -315,7 +326,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 22 orphan skill(s) |
+| Orphans | ⚠️ WARN | 23 orphan skill(s) |
 
 ---
 

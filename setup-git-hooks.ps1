@@ -70,7 +70,7 @@ exit 0
 "@
 
     $preCommitHook | Out-File -FilePath "$hooksDir\pre-commit" -Encoding UTF8 -Force
-    if ($PSVersionTable.Platform -ne 'Win32NT') {
+    if ($env:OS -notlike "*Windows*") {
         chmod +x "$hooksDir\pre-commit" 2>$null
     }
     Write-HookLog "✓ Pre-commit hook installed (validator only)" INFO
@@ -98,10 +98,37 @@ exit 0
 "@
 
     $postMergeHook | Out-File -FilePath "$hooksDir\post-merge" -Encoding UTF8 -Force
-    if ($PSVersionTable.Platform -ne 'Win32NT') {
+    if ($env:OS -notlike "*Windows*") {
         chmod +x "$hooksDir\post-merge" 2>$null
     }
     Write-HookLog "✓ Post-merge hook installed (full pipeline)" INFO
+
+    # Pre-push: security auditor
+    $prePushHook = @"
+#!/bin/bash
+
+# Prevent pushes if security audit fails
+echo -e "\033[36m[Hook]\033[0m Executing pre-push static analysis audit..."
+
+# Run the auditor against the local directory
+python "`$(git rev-parse --show-toplevel)/utilities/skill-security-auditor.py" "`$(git rev-parse --show-toplevel)"
+
+AUDIT_EXIT_CODE=`$?
+
+if [ `$AUDIT_EXIT_CODE -ne 0 ]; then
+  echo -e "\033[31m[Hook Fail]\033[0m Security vulnerabilities detected. Push blocked."
+  exit 1
+fi
+
+echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceeding with push."
+exit 0
+"@
+
+    $prePushHook | Out-File -FilePath "$hooksDir\pre-push" -Encoding UTF8 -Force
+    if ($env:OS -notlike "*Windows*") {
+        chmod +x "$hooksDir\pre-push" 2>$null
+    }
+    Write-HookLog "✓ Pre-push hook installed (security auditor)" INFO
 
     Write-Host "✓ Git hooks installed in $Repo"
 }
@@ -109,9 +136,11 @@ exit 0
 function Uninstall-Hooks {
     $preCommitPath = "$hooksDir\pre-commit"
     $postMergePath = "$hooksDir\post-merge"
+    $prePushPath = "$hooksDir\pre-push"
 
     Remove-Item -Path $preCommitPath -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $postMergePath -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path $prePushPath -Force -ErrorAction SilentlyContinue
 
     Write-HookLog "✓ Git hooks removed from $Repo" INFO
     Write-Host "✓ Git hooks removed"
@@ -128,6 +157,7 @@ function Test-Hooks {
 
     $preCommitPath = "$hooksDir\pre-commit"
     $postMergePath = "$hooksDir\post-merge"
+    $prePushPath = "$hooksDir\pre-push"
 
     # Test pre-commit
     Write-Host "Testing pre-commit hook..."
@@ -153,6 +183,18 @@ function Test-Hooks {
         Write-HookLog "Post-merge hook NOT found" WARN
     }
 
+    # Test pre-push
+    Write-Host "Testing pre-push hook..."
+    if (Test-Path $prePushPath) {
+        Write-HookLog "Pre-push hook exists: $prePushPath" INFO
+        & $prePushPath
+        $exitCode = $LASTEXITCODE
+        Write-HookLog "Pre-push test exit code: $exitCode" INFO
+    }
+    else {
+        Write-HookLog "Pre-push hook NOT found" WARN
+    }
+
     Write-Host "✓ Hook tests complete"
 }
 
@@ -162,6 +204,7 @@ function Get-HookStatus {
 
     $preCommitPath = "$hooksDir\pre-commit"
     $postMergePath = "$hooksDir\post-merge"
+    $prePushPath = "$hooksDir\pre-push"
 
     if (Test-Path $preCommitPath) {
         Write-Host "✓ Pre-commit hook installed"
@@ -177,7 +220,14 @@ function Get-HookStatus {
         Write-Host "✗ Post-merge hook missing"
     }
 
-    if ((Test-Path $preCommitPath) -and (Test-Path $postMergePath)) {
+    if (Test-Path $prePushPath) {
+        Write-Host "✓ Pre-push hook installed"
+    }
+    else {
+        Write-Host "✗ Pre-push hook missing"
+    }
+
+    if ((Test-Path $preCommitPath) -and (Test-Path $postMergePath) -and (Test-Path $prePushPath)) {
         Write-Host ""
         Write-Host "Log file: $logDir\hooks.log"
     }

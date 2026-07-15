@@ -1,0 +1,29 @@
+{
+  "id": "skill-security-auditor",
+  "name": "Skill Security Auditor",
+  "version": "1.0.0",
+  "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
+  "type": "operational",
+  "category": "utilities",
+  "entrypoint": "src/skill_security_auditor.py",
+  "docs": "docs/USAGE.md",
+  "triggers": [
+    "audit-skill",
+    "security-audit",
+    "scan-skill"
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [
+      "python3"
+    ]
+  },
+  "outputs": [],
+  "metadata": {
+    "created": "2026-07-15",
+    "author": "Antigravity",
+    "maintained": true,
+    "tested": true
+  },
+  "runtime": "python"
+}

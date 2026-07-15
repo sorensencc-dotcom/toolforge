@@ -368,7 +368,7 @@
       "id": "context-manager",
       "entrypoint": "src/index.ts",
       "owner": "soren",
-      "category": "utility",
+      "category": "utilities",
       "health": {
         "canonical": true,
         "runtime": "untested",
@@ -595,16 +595,25 @@
         "external": ["@playwright/test"],
         "internal": []
       }
+    },
+    {
+      "id": "skill-security-auditor",
+      "name": "skill-security-auditor",
+      "version": "1.0.0",
+      "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
+      "category": "utilities",
+      "entrypoint": "utilities/skill-security-auditor.py",
+      "status": "active"
     }
   ],
   "summary": {
-    "total": 22,
+    "total": 23,
     "health_error": 0,
     "deprecated": 0,
-    "active": 22,
-    "health_good": 22,
+    "active": 23,
+    "health_good": 23,
     "health_warn": 0
   },
-  "timestamp": "2026-07-09T23:45:00Z",
+  "timestamp": "2026-07-15T00:00:00Z",
   "version": "1.1.0"
 }

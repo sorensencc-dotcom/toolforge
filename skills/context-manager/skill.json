@@ -3,7 +3,7 @@
   "name": "Context Manager",
   "version": "1.0.0",
   "description": "Autonomous execution context detection, validation, and storage",
-  "category": "utility",
+  "category": "utilities",
   "triggers": [
     "context-manager",
     "autonomous context",

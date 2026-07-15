@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Toolforge Skill Validator Refinement
   Multi-system consistency check for skill lifecycle.
@@ -171,9 +171,9 @@ function Validate-CanonicalSkills {
     }
 
     # Validate category
-    $canonicalCategories = @("automation", "analysis", "monitoring", "validation", "integration", "lifecycle", "utility")
+    $canonicalCategories = @("automation", "analysis", "monitoring", "validation", "integration", "lifecycle", "utilities")
     if (-not $skillJson.category -or [string]::IsNullOrWhiteSpace($skillJson.category)) {
-      Add-Finding "canonical" $skillId "warning" "Category missing (using fallback: utility)"
+      Add-Finding "canonical" $skillId "warning" "Category missing (using fallback: utilities)"
     } elseif ($skillJson.category -notin $canonicalCategories) {
       Add-Finding "canonical" $skillId "warning" "Invalid category: $($skillJson.category)"
     } elseif ($skillJson.category -in @("misc", "general", "none", "tbd")) {
@@ -387,7 +387,7 @@ function Validate-ManifestConsistency {
     }
 
     # Validate category quality
-    $canonicalCategories = @("automation", "analysis", "monitoring", "validation", "integration", "lifecycle", "utility")
+    $canonicalCategories = @("automation", "analysis", "monitoring", "validation", "integration", "lifecycle", "utilities")
     if ($entry.category -notin $canonicalCategories) {
       Add-Finding "manifest" $skillId "warning" "Invalid category in manifest: $($entry.category)"
     }

@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-12T06:21:46.2874384Z
+**Generated:** 2026-07-15T05:39:10.7993160Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 23 | 100% |
-| Active | 23 | 100% |
+| **Total Skills** | 24 | 100% |
+| Active | 24 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 20 | 87% |
-| ⚠️ Warning | 3 | 13% |
+| ✅ Good | 20 | 83.3% |
+| ⚠️ Warning | 4 | 16.7% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -95,7 +95,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Context Manager |
-| Category | utility |
+| Category | utilities |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | typescript |
@@ -285,6 +285,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### skill-security-auditor
+
+| Field | Value |
+|-------|-------|
+| Name | Skill Security Auditor |
+| Category | utilities |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 1 external |
 ### tool-lifecycle-manager
 
 | Field | Value |

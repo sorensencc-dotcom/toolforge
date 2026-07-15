@@ -173,6 +173,19 @@ function Generate-Json {
 
   Set-Content -Path $OutputPath -Value $json -Encoding UTF8
   Write-Host "✅ Metadata saved: $OutputPath" -ForegroundColor Green
+
+  # Update dashboard.html if it exists to prevent metadata drift
+  $dashboardPath = Join-Path $PSScriptRoot "..\dashboard.html"
+  if (Test-Path $dashboardPath) {
+      Log "Updating dashboard.html embedded manifest-data to prevent drift..."
+      $html = Get-Content $dashboardPath -Raw
+      $pattern = '(?s)(<script type="application/json" id="manifest-data">).*?(</script>)'
+      $safeJson = $json.Replace("$", "$$")
+      $replacement = "`$1`n" + $safeJson + "`n`$2"
+      $newHtml = [regex]::Replace($html, $pattern, $replacement)
+      Set-Content -Path $dashboardPath -Value $newHtml -Encoding UTF8
+      Write-Host "✅ Dashboard metadata updated: $dashboardPath" -ForegroundColor Green
+  }
 }
 
 # ============================================================================
