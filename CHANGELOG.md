@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.2.0
+Date: 2026-07-15
+
+### Changes
+- c9f070f - fix: scope pre-push auditor to skills/utilities, fix stdout encoding crash (Chris Sorensen)
+- caeb21c - fix: repair broken git hooks, consolidate skill-security-auditor, kb-sync cleanup (Chris Sorensen)
+- 59ba62c - feat(post-seal): implement sealed ops workflows (Chris Sorensen)
+
 ## Version 2.1.0
 Date: 2026-07-15
 
