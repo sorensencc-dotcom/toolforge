@@ -598,6 +598,17 @@ MD_EXTENSIONS = {".md", ".mdx", ".markdown"}
 ALL_SCAN_EXTENSIONS = CODE_EXTENSIONS | MD_EXTENSIONS
 
 
+def walk_safe(root_path: Path):
+    """Walk a directory, skipping ignored paths like .git and node_modules entirely."""
+    ignored_dirs = {".git", "node_modules", "venv", ".venv", "dist", "build", "__pycache__"}
+    for root, dirs, files in os.walk(root_path):
+        dirs[:] = [d for d in dirs if d not in ignored_dirs and not d.startswith(".")]
+        for f in files:
+            yield Path(root) / f
+        for d in dirs:
+            yield Path(root) / d
+
+
 def scan_file_code(filepath: Path, report: AuditReport):
     """Scan a code file for dangerous patterns."""
     try:
@@ -721,7 +732,7 @@ def scan_dependencies(skill_path: Path, report: AuditReport):
                 )
 
     # Check for pip/npm install in code
-    for code_file in skill_path.rglob("*"):
+    for code_file in walk_safe(skill_path):
         if code_file.suffix.lower() not in CODE_EXTENSIONS:
             continue
         try:
@@ -763,13 +774,9 @@ def scan_dependencies(skill_path: Path, report: AuditReport):
 
 def scan_filesystem(skill_path: Path, report: AuditReport):
     """Scan the skill directory structure for suspicious files."""
-    for item in skill_path.rglob("*"):
+    for item in walk_safe(skill_path):
         rel = item.relative_to(skill_path)
         rel_str = str(rel)
-
-        # Skip .git directory
-        if ".git" in rel.parts:
-            continue
 
         report.files_scanned += 1
 
@@ -879,17 +886,13 @@ def scan_skill(skill_path: Path) -> AuditReport:
     scan_filesystem(skill_path, report)
 
     # 2. Code scanning
-    for code_file in skill_path.rglob("*"):
-        if ".git" in code_file.parts:
-            continue
+    for code_file in walk_safe(skill_path):
         if code_file.is_file() and code_file.suffix.lower() in CODE_EXTENSIONS:
             report.scripts_scanned += 1
             scan_file_code(code_file, report)
 
     # 3. Prompt injection scanning
-    for md_file in skill_path.rglob("*"):
-        if ".git" in md_file.parts:
-            continue
+    for md_file in walk_safe(skill_path):
         if md_file.is_file() and md_file.suffix.lower() in MD_EXTENSIONS:
             report.md_files_scanned += 1
             scan_file_prompt_injection(md_file, report)
