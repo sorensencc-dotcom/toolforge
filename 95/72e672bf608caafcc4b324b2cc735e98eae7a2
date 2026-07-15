@@ -1,0 +1,63 @@
+CIC-GOVERNANCE/MANIFEST/CIC-GOV-MANIFEST-001.md
+  s_7eee6cf86f7c97::t_db5f28e9e5caf0 24-25,28,31,56-57
+  s_7eee6cf86f7c97::t_6e36be9f49e21d 46
+CIC-GOVERNANCE/AMENDMENTS/amendment-registry.json
+  s_7eee6cf86f7c97::t_db5f28e9e5caf0 2,61-80
+CIC-GOVERNANCE/GATES/GATE-02/harness/submission_orchestrator.py
+  s_7eee6cf86f7c97::t_e19ef1b55ad5a5 1-150
+CIC-GOVERNANCE/GATES/GATE-02/harness/driver.py
+  s_7eee6cf86f7c97::t_b031b0605dac90 1-117
+CIC-GOVERNANCE/GATES/GATE-02/harness/fault_matrix.json
+  s_7eee6cf86f7c97::t_b031b0605dac90 1-14
+CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-GATE-02-CLOSED.json
+  s_7eee6cf86f7c97::t_db5f28e9e5caf0 1-19
+CIC-GOVERNANCE/GATES/GATE-02/harness/evidence_builder.py
+  s_7eee6cf86f7c97::t_e19ef1b55ad5a5 1-88
+CIC-GOVERNANCE/MANIFEST/gate-registry.json
+  s_7eee6cf86f7c97::t_db5f28e9e5caf0 3,7
+CIC-GOVERNANCE/confirmation/GATE-02-RATIFICATION-CONFIRMATION.json
+  s_7eee6cf86f7c97::t_8999451b632061 1-66
+CIC-GOVERNANCE/WRAPPERS/governance_runtime.py
+  s_7eee6cf86f7c97::t_92c5e840c75ad9 12,239-253,255-263,269-273
+CIC-GOVERNANCE/tests/test_gate_runtime.py
+  s_7eee6cf86f7c97::t_92c5e840c75ad9 74-77,80-85
+.ijfw/memory/handoff.md
+  s_7eee6cf86f7c97::t_6d9fb1ff0394bc 1,6-7,11-14,17-22,25-28,31
+  s_09fca4723acab3::t_b903675dc8553c 2-5,8-10,15-16,23-24,29-30
+CIC-GOVERNANCE/confirmation/GATE-02-R2-PREP.json
+  s_7eee6cf86f7c97::t_fdc0f0da54c7f0 1-61
+CIC-GOVERNANCE/LINEAGE/CIC-Lineage-v2.4.jsonl
+  s_7eee6cf86f7c97::t_db5f28e9e5caf0 10-12
+CIC-GOVERNANCE/artifacts/CIC-TEST-REPORT-GATE-02-R2.json
+  s_7eee6cf86f7c97::t_be58a18ced1b48 1-167
+CIC-GOVERNANCE/confirmation/GATE-02-R2-CONFIRMATION.json
+  s_7eee6cf86f7c97::t_900306fb965cd4 1-15
+CIC-GOVERNANCE/confirmation/GATE-02-R2-DRIVER-EVIDENCE.json
+  s_7eee6cf86f7c97::t_21345a4a787db0 1-129
+CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-02-R2.json
+  s_7eee6cf86f7c97::t_e519616093c41c 1-167
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "9572e672bf608caafcc4b324b2cc735e98eae7a2",
+  "prompts": {},
+  "sessions": {
+    "s_09fca4723acab3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f581b-b904-7c72-adf6-c7a98ecc2029",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7eee6cf86f7c97": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5df6-a2ea-7821-919a-bb340fc11c9f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

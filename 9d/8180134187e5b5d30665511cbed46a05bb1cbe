@@ -1,0 +1,94 @@
+docs/meta/5-ijfw-plan-observability-contract.md
+  s_7a9219f317eb85::t_a3da813ce642c8 1-263
+docs/meta/audit/README.md
+  s_7a9219f317eb85::t_c2fbda0e63ddd6 1-74
+docs/meta/parallelism-matrix-template.md
+  s_7a9219f317eb85::t_1c8544a3fe7a2e 1-244
+docs/meta/OBSERVABILITY_PHASE_D_SUMMARY.md
+  s_7a9219f317eb85::t_cb5e6ef8b63467 1-271
+docs/meta/parallelism-matrix-retrofit-example-phase3.md
+  s_7a9219f317eb85::t_21915eb2f97f15 1-310
+docs/meta/parallelism-matrix-governance-rule.md
+  s_7a9219f317eb85::t_6a75e316982c34 1-200
+docs/meta/phase-27-wave-e-retroactive-validation.md
+  s_7a9219f317eb85::t_8ba699b827556e 1-296
+docs/meta/audit-first-scope-lock-formalization-summary.md
+  s_7a9219f317eb85::t_1e4c534450f426 1-215
+docs/meta/PARALLELISM_MATRIX_DELIVERY_INDEX.md
+  s_7a9219f317eb85::t_cc04689db197b7 1-204
+docs/meta/phase-4-governance-charter.md
+  s_7a9219f317eb85::t_22610af892c013 74-108
+  s_7a9219f317eb85::t_4ae71ef82f22df 109,118,127
+  s_7a9219f317eb85::t_6157e9be9a8707 210-222,227,229-232
+  s_7a9219f317eb85::t_7fca8b0e2c56db 238-240
+  s_7a9219f317eb85::t_2dae1a1106320c 169-170
+  s_7a9219f317eb85::t_fd60874b46d3ed 171
+docs/meta/global-operating-rules-cic-rewrite-labs.md
+  s_7a9219f317eb85::t_201e7ec9b688cf 12
+  s_7a9219f317eb85::t_d760acdd6406a2 4
+  s_7a9219f317eb85::t_f8fae425848b1a 337
+docs/meta/PARALLELISM_MATRIX_SYSTEM.md
+  s_7a9219f317eb85::t_a980de816ce30c 1-243
+docs/meta/ijfw-verify-parallelism-checks.md
+  s_7a9219f317eb85::t_3052d8168543f7 1-289
+docs/meta/governance-amendment-observability-phase-d.md
+  s_7a9219f317eb85::t_9264df77df61e8 1-209
+docs/meta/1-parallelism-matrix-template.md
+  s_f21895800f6236::t_c3566529b8f0a4 1-128
+docs/meta/2-ijfw-plan-integration-spec.md
+  s_f21895800f6236::t_d6ebb540065cb6 1-188
+docs/meta/3-ijfw-verify-parallelism-checks.md
+  s_f21895800f6236::t_bb4ea16330a81b 1-269
+docs/meta/4-parallelism-matrix-governance-rule.md
+  s_f21895800f6236::t_f31a4e0b2d91c3 1-222
+docs/meta/DATA_CONTRACT_SPEC.md
+  s_f21895800f6236::t_900763bf83d2e9 1-237
+docs/meta/GOVERNANCE_UPDATE_DATA_CONTRACTS.md
+  s_c57362b65e0120::t_94e91cdc3a3bf3 1-334
+docs/meta/IJFW_SPEC_PHASE_DATA_CONTRACT_GATE.md
+  s_c57362b65e0120::t_d2c77bf3463de7 1-260
+docs/meta/PHASE27_WAVE_E_DATA_CONTRACT.md
+  s_f21895800f6236::t_1cba4aa68342e2 1-534
+docs/meta/global-rules-amendment-v1.4.md
+  s_f21895800f6236::t_fbefd5625dca34 1-132
+docs/meta/governance-rule-audit-first-scope-lock.md
+  s_f21895800f6236::t_13a9fda6b79c33 1-108
+docs/meta/ijfw-spec-phase-audit-gate-integration.md
+  s_f21895800f6236::t_00ef64a75d33e2 1-103
+docs/meta/phase-abc-audit-phases-addition.md
+  s_f21895800f6236::t_313066c05080bf 1-140
+docs/meta/pre-charter-audit-checklist.md
+  s_f21895800f6236::t_d432e85cbc8818 1-83
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "9d8180134187e5b5d30665511cbed46a05bb1cbe",
+  "prompts": {},
+  "sessions": {
+    "s_7a9219f317eb85": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a5bd5ef-3f82-4819-941f-6a4b651c1e08",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c57362b65e0120": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36b19781-eb2f-4b0e-b505-cee5cd2a36be",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f21895800f6236": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a8dd8214ab836ba9e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

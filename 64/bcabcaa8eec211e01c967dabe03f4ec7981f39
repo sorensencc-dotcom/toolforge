@@ -1,0 +1,20 @@
+CIC-GOVERNANCE/MANIFEST/PHASE-09-CHARTER.md
+  s_1e2a7070ffa23f::t_2c9959e7ed19b3 3,8
+  s_1e2a7070ffa23f::t_0c700638c9c967 270-272
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "64bcabcaa8eec211e01c967dabe03f4ec7981f39",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

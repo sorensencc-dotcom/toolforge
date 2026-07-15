@@ -1,0 +1,39 @@
+docs/meta/phase-4-governance-charter.md
+  s_659aefbaf5fabf::t_3743327d12c1a2 18,22,24
+  s_659aefbaf5fabf::t_992c455cb78bc1 184
+  s_659aefbaf5fabf::t_f29c23cced55d9 4-6
+docs/meta/phase-3-cowork-gateway-charter.md
+  s_659aefbaf5fabf::t_02dbe66c038672 213
+  s_659aefbaf5fabf::t_a549d6f3f8d898 165-168
+  s_659aefbaf5fabf::t_5d19c5d3e3f307 117-120
+  s_659aefbaf5fabf::t_1e2d734d31c638 4-6
+  s_659aefbaf5fabf::t_2a64647ecf3058 203,205-207
+docs/meta/phase-5-multicanary-charter.md
+  s_659aefbaf5fabf::t_3d94c6cdb1b18f 229
+  s_659aefbaf5fabf::t_7a832f3a72d61e 218,220-223
+  s_659aefbaf5fabf::t_d40c3394f74290 180-183
+  s_659aefbaf5fabf::t_0f90fa0fd39348 4-6
+  s_659aefbaf5fabf::t_3eb07b743e2bab 19,23
+docs/meta/phase-6-rollback-charter.md
+  s_659aefbaf5fabf::t_acc109f587a169 162-165
+  s_659aefbaf5fabf::t_12cb5ac234c8d8 200,202-205
+  s_659aefbaf5fabf::t_b59213f41dc4a9 211
+  s_659aefbaf5fabf::t_391656b5fe09f1 4-6
+  s_659aefbaf5fabf::t_b44db785d2122f 19,23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "9fdefe3c14287573d57f99217236d9f615f5b870",
+  "prompts": {},
+  "sessions": {
+    "s_659aefbaf5fabf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "154d4d74-8bba-4a86-af10-c33faf83fe81",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+skills/toolforge-drift-monitor/tests/skill.test.ts
+  s_56dd30092cbf2f::t_bfbec77a5f04bc 1
+  s_56dd30092cbf2f::t_72f578feea7dd4 2-4
+  s_56dd30092cbf2f::t_a38c725801e3d8 5-7
+skills/agent-drift-detector/tests/skill.test.ts
+  s_56dd30092cbf2f::t_a58c59e3a134c0 1-2
+  s_56dd30092cbf2f::t_7e36d9fdcaca25 3-5
+  s_56dd30092cbf2f::t_0fcb73e7eab743 6-11
+skills/analyze-token-burn/tests/skill.test.ts
+  s_56dd30092cbf2f::t_a282447f26a307 1
+  s_56dd30092cbf2f::t_6321469aba91e4 2-4
+  s_56dd30092cbf2f::t_fcf175de9e51c4 5-7
+skills/kb-sync-nightly/tests/skill.test.ts
+  s_56dd30092cbf2f::t_f594b0ac58cdde 1-35
+skills/run-adapter-diagnostic/tests/skill.test.ts
+  s_56dd30092cbf2f::t_a7d275f2a5ed6d 1
+  s_56dd30092cbf2f::t_1923437d23cdfd 2-4
+  s_56dd30092cbf2f::t_35f982b75a105f 5-7
+skills/html-visual-verify/tests/skill.test.ts
+  s_c4e2e0ad144627::t_750aa644d0b650 1-225
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "d7e581e2a8d29dbac7913abe1eeb99eece43b861",
+  "prompts": {},
+  "sessions": {
+    "s_56dd30092cbf2f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1c065b5e-b0c1-4121-b669-25aaeb9cfefb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

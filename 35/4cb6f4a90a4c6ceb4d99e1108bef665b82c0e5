@@ -1,0 +1,19 @@
+CIC-GOVERNANCE/MANIFEST/PHASE-09-ONBOARDING.md
+  s_1e2a7070ffa23f::t_08d7f96c04f4b0 1-242
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "354cb6f4a90a4c6ceb4d99e1108bef665b82c0e5",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

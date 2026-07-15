@@ -1,0 +1,20 @@
+CLAUDE.md
+  s_48c2845743e4c7::t_bde604d11aa866 65,77
+  s_48c2845743e4c7::t_104839c9e1623c 59-64,66-76,78-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "59fd8c2509b3e4aea7c468c7b132c3cab2963e42",
+  "prompts": {},
+  "sessions": {
+    "s_48c2845743e4c7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "146a440d-b5c6-4651-b2a2-05a61fdbb397",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

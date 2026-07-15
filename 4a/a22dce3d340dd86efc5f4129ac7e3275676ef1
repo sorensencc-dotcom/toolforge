@@ -1,0 +1,19 @@
+.ijfw/governance-enforcement.json
+  s_c5771b26be6bcd::t_54ca7680963e52 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "4aa22dce3d340dd86efc5f4129ac7e3275676ef1",
+  "prompts": {},
+  "sessions": {
+    "s_c5771b26be6bcd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "98296098-0f4d-4c86-8888-7fd33d5f5692",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

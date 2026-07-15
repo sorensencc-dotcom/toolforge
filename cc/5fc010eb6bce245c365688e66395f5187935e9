@@ -1,0 +1,23 @@
+src/api/README.md
+  s_1e2a7070ffa23f::t_ef76cac91f83bf 1-178
+src/api/server.test.js
+  s_1e2a7070ffa23f::t_5e163631fa857f 1-85
+src/api/server.js
+  s_1e2a7070ffa23f::t_20efa3a249f5ce 1-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "cc5fc010eb6bce245c365688e66395f5187935e9",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

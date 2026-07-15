@@ -1,0 +1,19 @@
+docs/meta/phase-4-governance-charter.md
+  s_19e803433dc32b::t_c6e11a1464ba7d 1-193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "2857b89a91c218cd0f5627b966d7cb7e3cffa881",
+  "prompts": {},
+  "sessions": {
+    "s_19e803433dc32b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "00bcb37e-9e4c-47df-9f18-83402dbc5734",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

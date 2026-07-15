@@ -1,0 +1,25 @@
+docs/meta/phase-2b-scope-charter.md
+  s_c01c5887199fb9::t_65f24da57bd014 1-186
+data/phase-2b1-audit-report.md
+  s_c01c5887199fb9::t_6587d1ae295395 1-164
+data/phase-2b1-audit-data.json
+  s_c01c5887199fb9::t_25c41b888ca132 1-287
+docs/meta/phase-2b1-audit-charter.md
+  s_c01c5887199fb9::t_573de7e14e0b2e 1-217
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "f63038b723b002b156d68ba44a8768da5237b73e",
+  "prompts": {},
+  "sessions": {
+    "s_c01c5887199fb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f9fcb8-8183-4409-91aa-b2f076438001",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

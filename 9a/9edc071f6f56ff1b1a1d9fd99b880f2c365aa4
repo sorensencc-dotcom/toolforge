@@ -1,0 +1,35 @@
+skills/tool-lifecycle-manager/package.json
+  s_7cbe892bfbb449::t_1f0cdf79ae1383 1-24
+skills/tool-lifecycle-manager/jest.config.js
+  s_7cbe892bfbb449::t_d7ce17911f33e2 1-7
+skills/tool-lifecycle-manager/tests/skill.test.ts
+  s_7cbe892bfbb449::t_0e0edb43fa733d 1-95
+skills/tool-lifecycle-manager/tsconfig.json
+  s_7cbe892bfbb449::t_629991ff4229c6 1-22
+skills/tool-lifecycle-manager/package-lock.json
+  s_793713c76da777::t_0c81cbb222bffc 1-3861
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "9a9edc071f6f56ff1b1a1d9fd99b880f2c365aa4",
+  "prompts": {},
+  "sessions": {
+    "s_793713c76da777": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ab0a3cfd19d377b0e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7cbe892bfbb449": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c047833-a9dd-49b9-9c7f-f6cbe419fbd3",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

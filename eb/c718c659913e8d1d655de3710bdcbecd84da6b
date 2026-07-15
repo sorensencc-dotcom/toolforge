@@ -1,0 +1,55 @@
+CLAUDE.md
+  s_d784d9e30fa087::t_725a86c5ad4293 1-42
+docs/ROLLBACK_RUNBOOK.md
+  s_31fbaa890cfd27::t_4d3d03a5e31584 1-546
+docs/meta/phase-7-unleash-integration-spec.md
+  s_31fbaa890cfd27::t_fbdfcf55e05775 1-581
+docs/meta/phase-7-rollback-health-check-gate.md
+  s_31fbaa890cfd27::t_4d6b27ef8cf692 1-525
+docs/meta/toolforge-phase-2b-step2-design.md
+  s_ae6c36133a3b6d::t_1391a3739b2b88 1-1275
+docs/meta/phase-7-etcd-integration-spec.md
+  s_31fbaa890cfd27::t_30bc18a5492798 1-412
+.claude/settings.json
+  s_c57362b65e0120::t_c60a857b6d163b 6-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "ebc718c659913e8d1d655de3710bdcbecd84da6b",
+  "prompts": {},
+  "sessions": {
+    "s_31fbaa890cfd27": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e54e9bb-ce71-40ed-801a-923fd76ed9be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c57362b65e0120": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36b19781-eb2f-4b0e-b505-cee5cd2a36be",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d784d9e30fa087": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3849f2e7-22eb-4310-8f8e-4a34dcd33f0a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

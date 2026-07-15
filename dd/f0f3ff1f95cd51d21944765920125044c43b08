@@ -1,0 +1,23 @@
+EXTERNAL_TEAM_INSTRUCTIONS.md
+  s_c57362b65e0120::t_d4c42dd0a61693 1-285
+HANDOFF.md
+  s_c57362b65e0120::t_cdc0688346fac6 1-123
+.obsidian/core-plugins.json
+  s_c57362b65e0120::t_01a31114ae6f32 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "ddf0f3ff1f95cd51d21944765920125044c43b08",
+  "prompts": {},
+  "sessions": {
+    "s_c57362b65e0120": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36b19781-eb2f-4b0e-b505-cee5cd2a36be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

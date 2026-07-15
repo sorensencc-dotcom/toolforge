@@ -1,0 +1,21 @@
+docs/meta/phase-7-rollback-config-featureflag-charter.md
+  s_31fbaa890cfd27::t_ff6cfb790e7e0c 282
+  s_31fbaa890cfd27::t_1dd5df8b5c6cd6 300-301
+  s_31fbaa890cfd27::t_987b1df3232c07 298-299
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "385d57edf0de2c1bd91bc10cac6dd455d1bb7e33",
+  "prompts": {},
+  "sessions": {
+    "s_31fbaa890cfd27": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e54e9bb-ce71-40ed-801a-923fd76ed9be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

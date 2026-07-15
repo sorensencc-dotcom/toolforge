@@ -1,0 +1,37 @@
+skills/context-manager/package.json
+  s_7cbe892bfbb449::t_1c52668acc1e62 1-24
+skills/reconcile-vector-store/jest.config.js
+  s_7cbe892bfbb449::t_3c1d49eeea2b91 1-7
+skills/context-manager/tsconfig.json
+  s_7cbe892bfbb449::t_5c421c8639b6fa 1-22
+skills/cic-roadmap-updater/tsconfig.json
+  s_7cbe892bfbb449::t_fd9d5b1c772300 1-22
+skills/context-manager/jest.config.js
+  s_7cbe892bfbb449::t_b8a95614b386b3 1-7
+skills/reconcile-vector-store/tsconfig.json
+  s_7cbe892bfbb449::t_0599782ea839e2 1-22
+skills/cic-roadmap-updater/jest.config.js
+  s_7cbe892bfbb449::t_f6fc235a6efba0 1-7
+skills/kb-sync-artifact-generator/jest.config.js
+  s_7cbe892bfbb449::t_c168bcff65ec5f 1-7
+skills/cic-roadmap-updater/package.json
+  s_7cbe892bfbb449::t_7827a1b6caa855 1-24
+skills/reconcile-vector-store/package.json
+  s_7cbe892bfbb449::t_c14c89ba4c170d 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "a90ebc6f0c29c793daec533a55382b54e23c0c0c",
+  "prompts": {},
+  "sessions": {
+    "s_7cbe892bfbb449": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c047833-a9dd-49b9-9c7f-f6cbe419fbd3",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

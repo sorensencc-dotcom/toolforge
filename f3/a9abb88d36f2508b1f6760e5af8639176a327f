@@ -1,0 +1,24 @@
+src/ui/components/SkillCard.jsx
+  s_1e2a7070ffa23f::t_c92d0510b95d30 30
+src/ui/pages/SkillDetail.jsx
+  s_1e2a7070ffa23f::t_98388bc1f79224 87,94
+  s_1e2a7070ffa23f::t_eadd86ad76ee13 140
+  s_1e2a7070ffa23f::t_ff30d64b49b39f 64,73,84
+  s_1e2a7070ffa23f::t_9e37fdd0d74b3a 55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "f3a9abb88d36f2508b1f6760e5af8639176a327f",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

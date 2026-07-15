@@ -1,0 +1,25 @@
+.context/retros/2026-07-12-1.json
+  s_738c7e781952de::t_9d3f7db201e391 1-35
+skills/permission-governor/tsconfig.json
+  s_738c7e781952de::t_15f3aec7560c11 4-5
+skills/kb-sync-artifact-generator/tsconfig.json
+  s_738c7e781952de::t_707b281dbf231e 4,13
+.obsidian/workspace.json
+  s_738c7e781952de::t_166d07c271caa5 181-220,226
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "dc5c0861a1975af24919ae9d84f871359a73f3b9",
+  "prompts": {},
+  "sessions": {
+    "s_738c7e781952de": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "177afbb0-4654-4097-804b-047e8393b138",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

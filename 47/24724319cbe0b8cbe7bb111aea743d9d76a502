@@ -1,0 +1,19 @@
+docs/meta/toolforge-phase-2b-charter.md
+  s_ae6c36133a3b6d::t_58bb2cb56e14c4 1-284
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "4724724319cbe0b8cbe7bb111aea743d9d76a502",
+  "prompts": {},
+  "sessions": {
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

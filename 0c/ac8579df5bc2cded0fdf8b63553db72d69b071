@@ -1,0 +1,29 @@
+src/db/migrations/0001_create_marketplace_schema.sql
+  s_1e2a7070ffa23f::t_78a4a7aebe9fac 1-98
+src/db/migrate.js
+  s_1e2a7070ffa23f::t_7bfc4af93c5700 1-96
+src/db/connect.js
+  s_1e2a7070ffa23f::t_e56b15d54d94de 1-51
+src/db/schema.js
+  s_1e2a7070ffa23f::t_fdf1c08df75729 1-206
+src/db/README.md
+  s_1e2a7070ffa23f::t_64935fac15e84e 1-116
+package.json
+  s_1e2a7070ffa23f::t_63b104b52e11b9 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "0cac8579df5bc2cded0fdf8b63553db72d69b071",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
