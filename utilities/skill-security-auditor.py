@@ -35,9 +35,9 @@ class Severity(IntEnum):
 
 
 SEVERITY_LABELS = {
-    Severity.INFO: "⚪ INFO",
-    Severity.HIGH: "🟡 HIGH",
-    Severity.CRITICAL: "🔴 CRITICAL",
+    Severity.INFO: "[INFO]",
+    Severity.HIGH: "[HIGH]",
+    Severity.CRITICAL: "[CRITICAL]",
 }
 
 SEVERITY_NAMES = {
@@ -936,27 +936,27 @@ def clone_repo(url: str, skill_name: Optional[str] = None, cleanup: bool = False
 
 def print_report(report: AuditReport):
     """Print formatted audit report to stdout."""
-    verdict_symbols = {"PASS": "✅", "WARN": "⚠️", "FAIL": "❌"}
+    verdict_symbols = {"PASS": "[PASS]", "WARN": "[WARN]", "FAIL": "[FAIL]"}
     v = report.verdict
     sym = verdict_symbols[v]
 
     print()
-    print("╔" + "═" * 54 + "╗")
-    print(f"║  SKILL SECURITY AUDIT REPORT{' ' * 25}║")
-    print(f"║  Skill: {report.skill_name:<44} ║")
-    print(f"║  Verdict: {sym} {v:<42}║")
-    print("╠" + "═" * 54 + "╣")
+    print("+" + "-" * 54 + "+")
+    print(f"|  SKILL SECURITY AUDIT REPORT{' ' * 25}|")
+    print(f"|  Skill: {report.skill_name:<44} |")
+    print(f"|  Verdict: {sym} {v:<40}|")
+    print("+" + "-" * 54 + "+")
     print(
-        f"║  🔴 CRITICAL: {report.critical_count:<3} "
-        f"🟡 HIGH: {report.high_count:<3} "
-        f"⚪ INFO: {report.info_count:<3}{' ' * 10}║"
+        f"|  CRITICAL: {report.critical_count:<3} "
+        f"HIGH: {report.high_count:<3} "
+        f"INFO: {report.info_count:<3}{' ' * 14}|"
     )
     print(
-        f"║  Files: {report.files_scanned}  "
+        f"|  Files: {report.files_scanned}  "
         f"Scripts: {report.scripts_scanned}  "
-        f"Markdown: {report.md_files_scanned}{' ' * (17 - len(str(report.files_scanned)) - len(str(report.scripts_scanned)) - len(str(report.md_files_scanned)))}║"
+        f"Markdown: {report.md_files_scanned}{' ' * (17 - len(str(report.files_scanned)) - len(str(report.scripts_scanned)) - len(str(report.md_files_scanned)))}|"
     )
-    print("╚" + "═" * 54 + "╝")
+    print("+" + "-" * 54 + "+")
 
     if not report.findings:
         print("\n  No security issues found. Skill is safe to install.\n")
