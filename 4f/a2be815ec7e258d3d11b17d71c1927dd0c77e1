@@ -1,0 +1,29 @@
+skills/skill-security-auditor/src/skill_security_auditor.py
+  s_fda856bf205e0d::t_b1291adec8da20 587,601-611,685,735,777,889,895
+utilities/skill-security-auditor.py
+  s_9d619f014d4d85::t_4f0772dc7a85ac 601-611,735,777,889,895
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4fa2be815ec7e258d3d11b17d71c1927dd0c77e1",
+  "prompts": {},
+  "sessions": {
+    "s_9d619f014d4d85": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6325-775e-70d1-8528-27ff822b3073",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fda856bf205e0d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77d54c09-1b77-4d8b-b6fa-44351f19c78d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
