@@ -1,0 +1,56 @@
+skills/cic-run-gate/src/index.ts
+  s_f3f810462d7935::t_24b31734224de8 1
+docs/meta/cic-tool-surface-phase2-plan.md
+  s_52a58e3648601b::t_38d9fca4c040bf 635,637-648,650-651,654-655
+  s_52a58e3648601b::t_bc67ed1d67284f 1-634,636,649,652-653,656-674
+.context/retros/2026-07-16-3.json
+  s_08b9cdeabfac84::t_e138bc51d789a4 1-37
+.ijfw/memory/handoff.md
+  s_08b9cdeabfac84::t_c8017622e6b9e1 1,6,8,12-14,18-20,24-25,29-30
+.claude/settings.json
+  s_0a64724398d5ca::t_54ae52dc54f60f 17-19
+.gitignore
+  s_08b9cdeabfac84::t_d46eab41de1f4b 13
+skills/work-summarizer/src/index.ts
+  s_08b9cdeabfac84::t_27ecc58a691f5d 27-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c1cb3f2c78076edc5f5d6c565d7b9431e140dcbe",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0a64724398d5ca": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a168e16f644afdebf",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_52a58e3648601b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe578398-e318-4b94-be55-9ab1dba919b0",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f3f810462d7935": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6c78-bdf1-7002-9c67-2967051fa9b9",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
