@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.2.3
+Date: 2026-07-16
+
+### Changes
+- 877de43 - fix(kb-sync-nightly): restore missing execSync import, annotate suppressions (Chris Sorensen)
+- ece5b53 - chore: add TODOS.md backlog file (Chris Sorensen)
+
 ## Version 2.2.2
 Date: 2026-07-15
 
