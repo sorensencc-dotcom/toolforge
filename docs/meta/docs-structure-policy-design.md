@@ -72,9 +72,9 @@ docs/meta/
     PHASE27_WAVE_E_DATA_CONTRACT.md -> phase-27-wave-e-data-contract.md
     phase-27-wave-e-retroactive-validation.md
     phase-abc-audit-phases-addition.md
+    toolforge-phase-2b-charter.md
     cic-ashfall-state.md
     skill-regression-backfill-charter.md
-    cic-tool-surface-phase1-design.md   # phase-numbered, lives here not specs/
   plans/
     README.md
     1-parallelism-matrix-template.md -> parallelism-matrix-template.md
@@ -95,8 +95,8 @@ docs/meta/
     README.md
     toolforge-phase-2b-step1-design.md
     toolforge-phase-2b-step2-design.md
-    toolforge-phase-2b-charter.md
-    ijfw-agent-integration-guide-v1.5.md
+    cic-tool-surface-phase1-design.md
+    ijfw-agent-integration-guide-v1.5.md   # version suffix kept: formal spec release tag
     audit-first-scope-lock-formalization-summary.md
   reviews/
     README.md
@@ -109,17 +109,37 @@ docs/meta/
     CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx
 ```
 
-Files not explicitly listed above (there are ~60 total) get placed by the same rule during
-implementation: governance rule/policy → `governance/`, phase-numbered charter/report/state →
-`phases/`, implementation plan → `plans/`, design/integration spec not tied to a phase number
-→ `specs/`, `*-REVIEW.md` → `reviews/`, superseded/duplicate → `archive/`.
+Files not explicitly listed above (there are ~60 total) get placed by this precedence order
+(first match wins — check top to bottom, don't guess from filename alone):
+
+1. `*-REVIEW.md` → `reviews/`
+2. superseded/duplicate content (confirmed by diff, not by filename guess) → `archive/`
+3. doc is a charter, completion/status report, or state doc, whether or not phase-numbered →
+   `phases/` (e.g. `toolforge-phase-2b-charter.md`, `cic-ashfall-state.md`)
+4. doc is an implementation plan (task breakdown, step sequence for building something) →
+   `plans/`
+5. doc is a design/integration spec (architecture, contract, schema — not a build task list,
+   not a charter) → `specs/` (phase-numbered or not — `cic-tool-surface-phase1-design.md`
+   lives here, not in `phases/`, because it's a design doc, not a charter)
+6. doc is a durable rule/policy/gate that governs how work gets done, not a single
+   deliverable's spec → `governance/`
+7. none of the above fits → ask, don't force a guess
+
+Charter vs spec vs plan is the recurring ambiguity: charter = "what we're doing and why,
+scoped/approved"; spec = "how it's built, technically"; plan = "the ordered task list to
+build it." A single phase can have all three as separate files in three different folders —
+that's expected, not a bug (see `toolforge-phase-2b-*`: charter in `phases/`, step designs in
+`specs/`, implementation plan in `plans/`).
 
 ## Naming Convention
 
 - kebab-case, all lowercase, `.md` extension
 - no numbered prefixes (`1-`, `4-`) — folder groups by type, not by artificial global order
 - no SCREAMING_SNAKE_CASE
-- version suffixes (`-v1.0`, `-v1.5`) kept where they disambiguate an actual revision history
+- version suffix (`-v1.0`, `-v1.5`) kept only when the doc is itself a formally versioned
+  spec/governance artifact (its own title/content declares a version, e.g.
+  "TOOLFORGE-MARKETPLACE-SPEC-v1.0", "ijfw-agent-integration-guide-v1.5") — not kept just
+  because the filename happens to have a number in it
 
 ## Duplicate Resolution
 
@@ -133,11 +153,11 @@ pattern: one-line purpose + list of contents. `docs/meta/README.md` links to all
 
 ## Policy Going Forward
 
-New file: `docs/meta/governance/documentation-policy.md` — states:
-- new meta docs go in the matching subfolder by type
-- kebab-case naming, no numbered prefixes
-- superseded/dead docs move to `archive/`, never deleted
-- any new subfolder needs a `README.md`
+New file: `docs/meta/governance/documentation-policy.md` — canonical home for the "Naming
+Convention" section and the precedence list above, copied there verbatim as the durable
+policy. This design doc keeps them for context but `documentation-policy.md` is the source of
+truth once written; if the two ever disagree, the policy file wins and this design doc should
+be corrected to match, not the other way around.
 
 `CLAUDE.md` gets a one-line pointer to this policy file (not the full policy inline).
 
