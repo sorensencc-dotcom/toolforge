@@ -1,0 +1,19 @@
+docs/meta/docs-structure-policy-plan.md
+  s_08b9cdeabfac84::t_398225a6887cbf 273-274,276-277,370-371,373-374,499-500,502-503,568-569,571-572
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "e0f08cec11323926bc27ab105efd82060fe6ea07",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
