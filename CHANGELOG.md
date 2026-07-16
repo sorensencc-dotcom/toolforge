@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.2.4
+Date: 2026-07-16
+
+### Changes
+- 05406d6 - merge: sync v2.2.3 release-bot commit (Chris Sorensen)
+- b3d4de3 - chore: log bun toolchain gap in TODOS, sync local settings permissions (Chris Sorensen)
+
 ## Version 2.2.3
 Date: 2026-07-16
 
