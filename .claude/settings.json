@@ -13,14 +13,17 @@
       "Bash(chmod +x .git/hooks/pre-commit)",
       "Bash(bash -n .git/hooks/pre-commit)",
       "Bash(cd /c/dev/kb-sync *)",
-      "Bash(cd /c/dev *)"
+      "Bash(cd /c/dev *)",
+      "Edit(~/.claude/skills/gstack/**)"
     ],
     "additionalDirectories": [
       "C:\\Users\\soren\\.claude\\projects\\c--dev",
       "C:\\Users\\soren\\.ijfw\\claude\\skills\\ijfw-handoff",
       "C:\\dev\\kb-sync\\.git",
       "C:\\dev\\kb-sync\\.git\\hooks",
-      "C:\\dev\\.git\\hooks"
+      "C:\\dev\\.git\\hooks",
+      "C:\\Users\\soren\\.claude\\hooks",
+      "C:\\Users\\soren\\.claude"
     ]
   }
 }
