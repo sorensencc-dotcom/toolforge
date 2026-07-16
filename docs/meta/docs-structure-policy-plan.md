@@ -270,7 +270,11 @@ Charters, completion reports, and state docs — "what we're doing and why, scop
 
 - [ ] **Step 5: Commit**
 
+Step 2's referrer-fix loop modifies files outside `docs/meta/phases/` (e.g. `CLAUDE.md`, other still-flat `docs/meta/*.md` files, `CIC-GOVERNANCE/**`). `git mv` already stages the moved files, but referrer fixes are unstaged modifications elsewhere — run `git status --short` first and confirm every modified file shown is an expected referrer fix (not something unrelated), then stage everything shown:
+
 ```bash
+git status --short
+git add -u
 git add docs/meta/phases
 git commit -m "docs: move phase charters/reports into docs/meta/phases/"
 ```
@@ -363,7 +367,11 @@ Design and integration specs — "how it's built, technically." Not a charter (s
 
 - [ ] **Step 5: Commit**
 
+Step 2's referrer-fix loop modifies files outside `docs/meta/specs/` too. Run `git status --short` first, confirm every modified file is an expected referrer fix, then stage everything:
+
 ```bash
+git status --short
+git add -u
 git add docs/meta/specs
 git commit -m "docs: move design/integration specs into docs/meta/specs/"
 ```
@@ -488,7 +496,11 @@ Ordered task breakdowns — "the ordered task list to build it." Not a charter (
 
 - [ ] **Step 5: Commit**
 
+Step 2's referrer-fix loop modifies files outside `docs/meta/plans/` too (this category has the most internal cross-links — expect several). Run `git status --short` first, confirm every modified file is an expected referrer fix, then stage everything:
+
 ```bash
+git status --short
+git add -u
 git add docs/meta/plans
 git commit -m "docs: move implementation plans into docs/meta/plans/"
 ```
@@ -553,7 +565,11 @@ Expected: no output.
 
 - [ ] **Step 5: Commit**
 
+Run `git status --short` first, confirm every modified file is an expected referrer fix, then stage everything:
+
 ```bash
+git status --short
+git add -u
 git add docs/meta/reviews
 git commit -m "docs: move review docs into docs/meta/reviews/"
 ```
