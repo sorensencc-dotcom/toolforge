@@ -182,48 +182,50 @@ git commit -m "docs: move governance docs into docs/meta/governance/"
 ```bash
 cd C:\dev
 mkdir -p docs/meta/phases
-git mv docs/meta/phases/phase-2b-scope-charter.md docs/meta/phases/phase-2b-scope-charter.md
-git mv docs/meta/phases/phase-2b1-audit-charter.md docs/meta/phases/phase-2b1-audit-charter.md
-git mv docs/meta/phases/phase-3-cowork-gateway-charter.md docs/meta/phases/phase-3-cowork-gateway-charter.md
-git mv docs/meta/phases/phase-4-governance-charter.md docs/meta/phases/phase-4-governance-charter.md
-git mv docs/meta/phases/phase-4-observability-contract.md docs/meta/phases/phase-4-observability-contract.md
-git mv docs/meta/phases/phase-4-completion-report.md docs/meta/phases/phase-4-completion-report.md
-git mv docs/meta/phases/phase-5-multicanary-charter.md docs/meta/phases/phase-5-multicanary-charter.md
-git mv docs/meta/phases/phase-5-exit-wave-completion.md docs/meta/phases/phase-5-exit-wave-completion.md
-git mv docs/meta/phases/phase-6-rollback-charter.md docs/meta/phases/phase-6-rollback-charter.md
-git mv docs/meta/phases/phase-7-rollback-config-featureflag-charter.md docs/meta/phases/phase-7-rollback-config-featureflag-charter.md
-git mv docs/meta/phases/phase-7-rollback-health-check-gate.md docs/meta/phases/phase-7-rollback-health-check-gate.md
-git mv docs/meta/phases/phase-8-gate-sign-off.md docs/meta/phases/phase-8-gate-sign-off.md
-git mv docs/meta/phases/phase-27-wave-e-data-contract.md docs/meta/phases/phase-27-wave-e-data-contract.md
-git mv docs/meta/phases/phase-27-wave-e-retroactive-validation.md docs/meta/phases/phase-27-wave-e-retroactive-validation.md
-git mv docs/meta/phases/phase-abc-audit-phases-addition.md docs/meta/phases/phase-abc-audit-phases-addition.md
-git mv docs/meta/phases/toolforge-phase-2b-charter.md docs/meta/phases/toolforge-phase-2b-charter.md
-git mv docs/meta/phases/cic-ashfall-state.md docs/meta/phases/cic-ashfall-state.md
-git mv docs/meta/phases/skill-regression-backfill-charter.md docs/meta/phases/skill-regression-backfill-charter.md
+git mv docs/meta/phase-2b-scope-charter.md docs/meta/phases/phase-2b-scope-charter.md
+git mv docs/meta/phase-2b1-audit-charter.md docs/meta/phases/phase-2b1-audit-charter.md
+git mv docs/meta/phase-3-cowork-gateway-charter.md docs/meta/phases/phase-3-cowork-gateway-charter.md
+git mv docs/meta/phase-4-governance-charter.md docs/meta/phases/phase-4-governance-charter.md
+git mv docs/meta/phase-4-observability-contract.md docs/meta/phases/phase-4-observability-contract.md
+git mv docs/meta/phase-4-completion-report.md docs/meta/phases/phase-4-completion-report.md
+git mv docs/meta/phase-5-multicanary-charter.md docs/meta/phases/phase-5-multicanary-charter.md
+git mv docs/meta/phase-5-exit-wave-completion.md docs/meta/phases/phase-5-exit-wave-completion.md
+git mv docs/meta/phase-6-rollback-charter.md docs/meta/phases/phase-6-rollback-charter.md
+git mv docs/meta/phase-7-rollback-config-featureflag-charter.md docs/meta/phases/phase-7-rollback-config-featureflag-charter.md
+git mv docs/meta/phase-7-rollback-health-check-gate.md docs/meta/phases/phase-7-rollback-health-check-gate.md
+git mv docs/meta/phase-8-gate-sign-off.md docs/meta/phases/phase-8-gate-sign-off.md
+git mv docs/meta/PHASE27_WAVE_E_DATA_CONTRACT.md docs/meta/phases/phase-27-wave-e-data-contract.md
+git mv docs/meta/phase-27-wave-e-retroactive-validation.md docs/meta/phases/phase-27-wave-e-retroactive-validation.md
+git mv docs/meta/phase-abc-audit-phases-addition.md docs/meta/phases/phase-abc-audit-phases-addition.md
+git mv docs/meta/toolforge-phase-2b-charter.md docs/meta/phases/toolforge-phase-2b-charter.md
+git mv docs/meta/cic-ashfall-state.md docs/meta/phases/cic-ashfall-state.md
+git mv docs/meta/skill-regression-backfill-charter.md docs/meta/phases/skill-regression-backfill-charter.md
 ```
+
+**[Note added post-execution 2026-07-16: Task 2 is complete. Same self-corruption as Task 1's blocks (see that task's note) — restored here.]**
 
 - [ ] **Step 2: Fix every referrer**
 
 ```bash
 for pair in \
-  "docs/meta/phases/phase-2b-scope-charter.md=docs/meta/phases/phase-2b-scope-charter.md" \
-  "docs/meta/phases/phase-2b1-audit-charter.md=docs/meta/phases/phase-2b1-audit-charter.md" \
-  "docs/meta/phases/phase-3-cowork-gateway-charter.md=docs/meta/phases/phase-3-cowork-gateway-charter.md" \
-  "docs/meta/phases/phase-4-governance-charter.md=docs/meta/phases/phase-4-governance-charter.md" \
-  "docs/meta/phases/phase-4-observability-contract.md=docs/meta/phases/phase-4-observability-contract.md" \
-  "docs/meta/phases/phase-4-completion-report.md=docs/meta/phases/phase-4-completion-report.md" \
-  "docs/meta/phases/phase-5-multicanary-charter.md=docs/meta/phases/phase-5-multicanary-charter.md" \
-  "docs/meta/phases/phase-5-exit-wave-completion.md=docs/meta/phases/phase-5-exit-wave-completion.md" \
-  "docs/meta/phases/phase-6-rollback-charter.md=docs/meta/phases/phase-6-rollback-charter.md" \
-  "docs/meta/phases/phase-7-rollback-config-featureflag-charter.md=docs/meta/phases/phase-7-rollback-config-featureflag-charter.md" \
-  "docs/meta/phases/phase-7-rollback-health-check-gate.md=docs/meta/phases/phase-7-rollback-health-check-gate.md" \
-  "docs/meta/phases/phase-8-gate-sign-off.md=docs/meta/phases/phase-8-gate-sign-off.md" \
-  "docs/meta/phases/phase-27-wave-e-data-contract.md=docs/meta/phases/phase-27-wave-e-data-contract.md" \
-  "docs/meta/phases/phase-27-wave-e-retroactive-validation.md=docs/meta/phases/phase-27-wave-e-retroactive-validation.md" \
-  "docs/meta/phases/phase-abc-audit-phases-addition.md=docs/meta/phases/phase-abc-audit-phases-addition.md" \
-  "docs/meta/phases/toolforge-phase-2b-charter.md=docs/meta/phases/toolforge-phase-2b-charter.md" \
-  "docs/meta/phases/cic-ashfall-state.md=docs/meta/phases/cic-ashfall-state.md" \
-  "docs/meta/phases/skill-regression-backfill-charter.md=docs/meta/phases/skill-regression-backfill-charter.md" \
+  "docs/meta/phase-2b-scope-charter.md=docs/meta/phases/phase-2b-scope-charter.md" \
+  "docs/meta/phase-2b1-audit-charter.md=docs/meta/phases/phase-2b1-audit-charter.md" \
+  "docs/meta/phase-3-cowork-gateway-charter.md=docs/meta/phases/phase-3-cowork-gateway-charter.md" \
+  "docs/meta/phase-4-governance-charter.md=docs/meta/phases/phase-4-governance-charter.md" \
+  "docs/meta/phase-4-observability-contract.md=docs/meta/phases/phase-4-observability-contract.md" \
+  "docs/meta/phase-4-completion-report.md=docs/meta/phases/phase-4-completion-report.md" \
+  "docs/meta/phase-5-multicanary-charter.md=docs/meta/phases/phase-5-multicanary-charter.md" \
+  "docs/meta/phase-5-exit-wave-completion.md=docs/meta/phases/phase-5-exit-wave-completion.md" \
+  "docs/meta/phase-6-rollback-charter.md=docs/meta/phases/phase-6-rollback-charter.md" \
+  "docs/meta/phase-7-rollback-config-featureflag-charter.md=docs/meta/phases/phase-7-rollback-config-featureflag-charter.md" \
+  "docs/meta/phase-7-rollback-health-check-gate.md=docs/meta/phases/phase-7-rollback-health-check-gate.md" \
+  "docs/meta/phase-8-gate-sign-off.md=docs/meta/phases/phase-8-gate-sign-off.md" \
+  "docs/meta/PHASE27_WAVE_E_DATA_CONTRACT.md=docs/meta/phases/phase-27-wave-e-data-contract.md" \
+  "docs/meta/phase-27-wave-e-retroactive-validation.md=docs/meta/phases/phase-27-wave-e-retroactive-validation.md" \
+  "docs/meta/phase-abc-audit-phases-addition.md=docs/meta/phases/phase-abc-audit-phases-addition.md" \
+  "docs/meta/toolforge-phase-2b-charter.md=docs/meta/phases/toolforge-phase-2b-charter.md" \
+  "docs/meta/cic-ashfall-state.md=docs/meta/phases/cic-ashfall-state.md" \
+  "docs/meta/skill-regression-backfill-charter.md=docs/meta/phases/skill-regression-backfill-charter.md" \
 ; do
   old="${pair%%=*}"
   new="${pair##*=}"
@@ -239,7 +241,7 @@ Also check bare relative links the same way as Task 1 Step 2 (e.g. `](phase-4-go
 - [ ] **Step 3: Verify**
 
 ```bash
-git grep -n "docs/meta/phases/phase-2b-scope-charter.md\|docs/meta/phases/phase-2b1-audit-charter.md\|docs/meta/phases/phase-3-cowork-gateway-charter.md\|docs/meta/phases/phase-4-governance-charter.md\|docs/meta/phases/phase-4-observability-contract.md\|docs/meta/phases/phase-4-completion-report.md\|docs/meta/phases/phase-5-multicanary-charter.md\|docs/meta/phases/phase-5-exit-wave-completion.md\|docs/meta/phases/phase-6-rollback-charter.md\|docs/meta/phases/phase-7-rollback-config-featureflag-charter.md\|docs/meta/phases/phase-7-rollback-health-check-gate.md\|docs/meta/phases/phase-8-gate-sign-off.md\|docs/meta/phases/phase-27-wave-e-data-contract.md\|docs/meta/phases/phase-27-wave-e-retroactive-validation.md\|docs/meta/phases/phase-abc-audit-phases-addition.md\|docs/meta/phases/toolforge-phase-2b-charter.md\|docs/meta/phases/cic-ashfall-state.md\|docs/meta/phases/skill-regression-backfill-charter.md" -- . ':!docs/archive'
+git grep -n "docs/meta/phase-2b-scope-charter.md\|docs/meta/phase-2b1-audit-charter.md\|docs/meta/phase-3-cowork-gateway-charter.md\|docs/meta/phase-4-governance-charter.md\|docs/meta/phase-4-observability-contract.md\|docs/meta/phase-4-completion-report.md\|docs/meta/phase-5-multicanary-charter.md\|docs/meta/phase-5-exit-wave-completion.md\|docs/meta/phase-6-rollback-charter.md\|docs/meta/phase-7-rollback-config-featureflag-charter.md\|docs/meta/phase-7-rollback-health-check-gate.md\|docs/meta/phase-8-gate-sign-off.md\|docs/meta/PHASE27_WAVE_E_DATA_CONTRACT.md\|docs/meta/phase-27-wave-e-retroactive-validation.md\|docs/meta/phase-abc-audit-phases-addition.md\|docs/meta/toolforge-phase-2b-charter.md\|docs/meta/cic-ashfall-state.md\|docs/meta/skill-regression-backfill-charter.md" -- . ':!docs/archive'
 ```
 
 Expected: no output.
