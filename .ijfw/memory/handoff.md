@@ -3,28 +3,29 @@ Handoff: 2026-07-16
 
 Status
 ------
-| Phase 1 | Tool Surface | Tasks 1-7 | done |
+| Phase 8 | Wave NA | Session wrap | done |
 
-CIC tool surface implemented and validated. Five skill suites pass; Python adapter tests pass; live GATE-01 returns PASS; validator reports 0 errors and known warnings.
+Archival governance JSON outputs generated from remediation and consolidated verification artifacts. Git divergence merged; branch synchronized with origin/main at `3c5d889`.
 
 Decisions
 ---------
-- Preserve Windows artifact paths under `<repo-root>/cic/artifacts/...`.
-- Restore user-completed Task 2 via commits `b2c094b` and `e7799ad`, not reimplement it.
-- Keep GATE-01 live status as PASS; do not force adapter output.
+- V-5.3 remains memoir-attributed until independent corroboration.
+- V-6.5 remains open until independent timeline and causal corroboration.
+- Pre-push auditor finding resolved with explicit justified suppression for fixed adapter subprocess.
 
 Modified Files
 --------------
-- `skills/cic-*` — four Toolforge skills, tests, docs, package metadata.
-- `CIC-GOVERNANCE/adapters/run_gate_adapter.py` and adapter tests.
-- `manifest.json` — four registered skills; `_cic-shared` remains unregistered.
+- `skills/cic-run-gate/src/index.ts` — justified intentional adapter subprocess.
+- `.ijfw/memory/handoff.md` — session handoff.
 
 Next Steps
 ----------
-1. Review commits against design and plan.
-2. Push or merge if approved.
+1. Review untracked `rewrite-docs/` and generated `_cic-shared` JavaScript before staging.
+2. Continue BFRC archival visit ingestion after 2026-07-24.
+3. Update treatment and registry only from qualifying evidence.
 
 Blockers
 --------
-- Unrelated pre-existing workspace changes remain dirty; do not stage them.
-- Python `__pycache__` directories are untracked/generated and outside task scope.
+- BFRC physical review pending for V-5.3 and V-6.5.
+- Untracked workspace artifacts remain; preserve until reviewed.
+- Git warns that `C:\Users\soren\.config\git\ignore` is inaccessible.

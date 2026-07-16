@@ -1,9 +1,11 @@
 import { describe, it, expect } from '@jest/globals';
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import { generateRunId, generateBundleId } from '../src/runId';
 import { artifactPaths } from '../src/artifactPaths';
 import { writeResultJson } from '../src/writeResultJson';
+import { findRepoRoot } from '../src/findRepoRoot';
 
 describe('runId', () => {
   it('generateRunId matches run-<compact-iso>-<6hex>', () => {
@@ -23,11 +25,45 @@ describe('runId', () => {
   });
 });
 
+describe('findRepoRoot', () => {
+  it('finds the .git ancestor from a nested dir', () => {
+    const root = findRepoRoot(__dirname);
+    expect(fs.existsSync(path.join(root, '.git'))).toBe(true);
+  });
+
+  it('throws when no .git is found within the bound', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'cic-norepo-'));
+    try {
+      expect(() => findRepoRoot(tmp)).toThrow(/no \.git found/i);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+});
+
 describe('artifactPaths', () => {
-  it('builds dir and resultFile under cic/artifacts/<kind>/<id>', () => {
+  it('builds dir and resultFile under <repoRoot>/cic/artifacts/<kind>/<id>', () => {
+    const repoRoot = findRepoRoot(__dirname);
     const { dir, resultFile } = artifactPaths('gates', 'run-test-1');
-    expect(dir).toBe(path.join(process.cwd(), 'cic', 'artifacts', 'gates', 'run-test-1'));
+    expect(dir).toBe(path.join(repoRoot, 'cic', 'artifacts', 'gates', 'run-test-1'));
     expect(resultFile).toBe(path.join(dir, 'result.json'));
+  });
+
+  it('resolves the same dir regardless of process.cwd()', () => {
+    const before = artifactPaths('gates', 'run-repo-root-test');
+    const originalCwd = process.cwd();
+    process.chdir(path.parse(originalCwd).root);
+    try {
+      const after = artifactPaths('gates', 'run-repo-root-test');
+      expect(after.dir).toBe(before.dir);
+    } finally {
+      process.chdir(originalCwd);
+    }
+  });
+
+  it('accepts an explicit repoRoot override', () => {
+    const { dir } = artifactPaths('gates', 'run-test-2', 'C:\\fake-root');
+    expect(dir).toBe(path.join('C:\\fake-root', 'cic', 'artifacts', 'gates', 'run-test-2'));
   });
 });
 
