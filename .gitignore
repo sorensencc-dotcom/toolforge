@@ -10,6 +10,7 @@ out/
 .vscode/
 .idea/
 .obsidian/workspace.json
+skills/*/cic/
 .worktrees/
 
 # Separate projects / research

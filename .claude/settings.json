@@ -14,7 +14,9 @@
       "Bash(bash -n .git/hooks/pre-commit)",
       "Bash(cd /c/dev/kb-sync *)",
       "Bash(cd /c/dev *)",
-      "Edit(~/.claude/skills/gstack/**)"
+      "Edit(~/.claude/skills/gstack/**)",
+      "WebSearch",
+      "WebFetch(domain:findingaids.thehenryford.org)"
     ],
     "additionalDirectories": [
       "C:\\Users\\soren\\.claude\\projects\\c--dev",

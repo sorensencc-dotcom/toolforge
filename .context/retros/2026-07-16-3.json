@@ -1,0 +1,37 @@
+{
+  "date": "2026-07-16",
+  "window": "7d",
+  "since": "2026-07-10T00:00:00",
+  "until": "2026-07-16T19:38:48",
+  "base_branch": "main",
+  "commits": 142,
+  "contributors": 2,
+  "authors": {
+    "Chris Sorensen": { "commits": 135 },
+    "toolforge-release-bot": { "commits": 7 }
+  },
+  "prior_retro_baseline": ".context/retros/2026-07-16-2.json",
+  "note": "Third retro today (sequence 3). No new c:\\dev commits since sequence 2 (still 142/window, contributor count drifted +1 on a window-boundary commit, not new work) -- this entry's session_focus covers a separate repo (charlie-deep-research) not reflected in c:\\dev's own commit count.",
+  "session_focus": {
+    "summary": "CIC documentary archival verification: resumed a locked, re-verified provenance sweep (39 units, 37 NEEDS_REVISION), built a remediation plan + two keystone sourcing packets (V-5.3 hotel-room sketch, V-6.5 1944 exit mechanics), then did live verification of the user's Benson Ford Research Center box list against the real online finding aids -- fetched and text-extracted 9 separate PDFs via WebSearch/WebFetch/pdftotext, catching 3 mislabeled boxes and 1 wrongly-dropped accession, surfacing 4 new independent-witness leads. Closed by correcting a fabricated Jan-March 1944 chronology in a pasted research checklist and rebuilding it around 4 real dated anchors, shipped as both a repo doc and a published web artifact for on-site reference.",
+    "repo": "charlie-deep-research (github.com/sorensencc-dotcom/charlie-deep-research)",
+    "commits_this_session": [
+      "0b11142 docs: lock remediation plan + open V-5.3/V-6.5 sourcing runbooks",
+      "e017f2d docs: log web-sweep results for V-5.3/V-6.5 sourcing packets",
+      "7ec0f12 docs: add BFRC box request for July 24 2026 research visit",
+      "4b820a0 docs: verify BFRC box list against live finding aids",
+      "08972d4 docs: correct Acc. 823 drop, add Acc. 13 lead, finalize 15-box list",
+      "98a369a docs: add corrected arrival-day research checklist for V-6.5"
+    ],
+    "verification_result": "9 of 15 originally-listed archive boxes confirmed exact against live finding-aid PDFs; 3 boxes (Acc.38 #51/54/56) found mislabeled -- claimed 'Alphabetical Files'/'Personal Records' content, actually an unrelated Subject Files subsubseries; Acc.823 (P.E. Martin papers) was wrongly marked unlocatable on first pass, corrected via a broader keyword search rather than filename-guessing. Final list: 15 confirmed boxes, both keystones covered 3-4 candidates deep.",
+    "process_learnings": [
+      "PDF text extraction: WebFetch cannot parse binary PDF streams -- fetch saves the binary locally, then `pdftotext file.pdf -` via Bash reliably extracts it. This unlocked verifying 9 separate archive finding-aid PDFs in one session.",
+      "Archive site search caveat: findingaids.thehenryford.org's `?keyword=` search is not accession-number-aware -- searching 'Acc.833' returned an unrelated record. Broader term searches (e.g. 'sorensen') surfaced accessions that targeted filename-guessing and PDF-name searches missed entirely (Acc.823, Acc.13) -- broaden the search before concluding something doesn't exist.",
+      "Two-column archival PDFs can misorder box-header vs. content in text extraction -- box attribution near a page break carries +/-1 box uncertainty; flag rather than assert exact."
+    ],
+    "drift_caught": [
+      "User-pasted 'verification results' for the 37 NEEDS_REVISION items were fabricated placeholder content (generic IDs like V-9.1a, an invented 4th defect category) that didn't match the real, already-verified consolidated file -- caught by comparing against the actual file content read earlier in-session rather than trusting the paste.",
+      "A separately pasted 'arrival-day checklist' invented a Jan-March 1944 confrontation chronology with no source, misattributed the Treatment's cited p.912 passage to that invented window, and proposed a non-existent 'read stress from pencil pressure' forensic technique -- caught before building the artifact from it, rebuilt around the 4 dates that actually have documentary support."
+    ]
+  }
+}

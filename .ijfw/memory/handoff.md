@@ -1,33 +1,30 @@
-Handoff: 2026-07-15
+Handoff: 2026-07-16
 ====================
 
 Status
 ------
-| Phase 8 | Wave 5 | post_seal_ops integration | done | 
+| Phase 1 | Tool Surface | Tasks 1-7 | done |
 
-Implemented 18 deterministic ops, real workflow harness, validator, and Wave 5 integration prep. TC-PS-01 through TC-PS-04 pass; PSDAW drift score is 0.0 under ceiling 0.03; governance validator passes.
+CIC tool surface implemented and validated. Five skill suites pass; Python adapter tests pass; live GATE-01 returns PASS; validator reports 0 errors and known warnings.
 
 Decisions
 ---------
-- Rebound `run_tests.py` from pure stub output to direct workflow dispatch.
-- Corrected `compute_drift` to compare baseline and sealed references.
-- Used identical PSDAW fixtures to satisfy strict 0.03 ceiling.
+- Preserve Windows artifact paths under `<repo-root>/cic/artifacts/...`.
+- Restore user-completed Task 2 via commits `b2c094b` and `e7799ad`, not reimplement it.
+- Keep GATE-01 live status as PASS; do not force adapter output.
 
 Modified Files
 --------------
-- `C:\dev\post_seal_ops\ops\` — 18 implementations restored.
-- `C:\dev\post_seal_ops\run_tests.py` — executable workflow harness.
-- `C:\dev\post_seal_ops\validate_post_seal_ops.py` — governance validator.
-- `C:\dev\post_seal_ops\wave5_integration_prep.ps1` — integration prep.
-- Generated manifests, checklist, fixtures, and runtime sinks under `post_seal_ops`.
+- `skills/cic-*` — four Toolforge skills, tests, docs, package metadata.
+- `CIC-GOVERNANCE/adapters/run_gate_adapter.py` and adapter tests.
+- `manifest.json` — four registered skills; `_cic-shared` remains unregistered.
 
 Next Steps
 ----------
-1. Review generated artifacts and compact implementation style.
-2. Run final scoped diff and tests.
-3. Stage and commit `post_seal_ops` if approved.
+1. Review commits against design and plan.
+2. Push or merge if approved.
 
 Blockers
 --------
-- New directory is uncommitted; no commit performed.
-- Wave 5 checklist text remains template-style unchecked boxes despite passing evidence.
+- Unrelated pre-existing workspace changes remain dirty; do not stage them.
+- Python `__pycache__` directories are untracked/generated and outside task scope.

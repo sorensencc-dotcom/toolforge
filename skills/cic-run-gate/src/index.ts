@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { spawn } from 'child_process'; // noqa: SEC-AUDITOR — fixed Python adapter path; shell disabled by default
 import * as path from 'path';
 import * as fs from 'fs/promises';
 import { generateRunId } from '../../_cic-shared/src/runId';
