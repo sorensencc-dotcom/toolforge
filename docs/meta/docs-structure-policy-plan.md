@@ -402,6 +402,8 @@ git commit -m "docs: move design/integration specs into docs/meta/specs/"
 
 **Correction to design doc:** the design mapped `1-parallelism-matrix-template.md` → `plans/parallelism-matrix-template.md` and implied the root-level `parallelism-matrix-template.md` was the duplicate to archive. Verified by diff: the two files are **not** near-duplicates — they're divergent drafts (244 lines vs 128 lines, different section structure). Checked every inbound link across `docs/meta/` (`4-parallelism-matrix-governance-rule.md`, `PARALLELISM_MATRIX_DELIVERY_INDEX.md`, `PARALLELISM_MATRIX_SYSTEM.md`, `parallelism-matrix-governance-rule.md`): **all of them link to `parallelism-matrix-template.md` (root, unqualified)**. Zero inbound links to `1-parallelism-matrix-template.md`. So the root file is canonical (live, linked, dated 2026-07-12 "Template version: 1.0"); `1-parallelism-matrix-template.md` is the orphaned duplicate. This task moves the **root** file to `plans/parallelism-matrix-template.md` (name unchanged, directory only). `1-parallelism-matrix-template.md` goes to `archive/` in **Task 6**, not here.
 
+**Second correction, found mid-execution (not caught at design or planning time):** the same numbered-prefix-vs-bare-filename duplicate pattern exists for two more files in this task's set: `3-ijfw-verify-parallelism-checks.md` (numbered) vs `ijfw-verify-parallelism-checks.md` (bare, at `docs/meta/` root, NOT in this task's original file list) — and `4-parallelism-matrix-governance-rule.md` (numbered) vs `parallelism-matrix-governance-rule.md` (bare, also not in the original list). Both bare files existed in the repo the whole time; the original file inventory this plan was built from simply missed them. Diffed each pair: both are genuinely divergent drafts, same as the template pair, not near-duplicates. Zero inbound full-path references to either numbered-prefix name anywhere in the repo. Resolution: same as the template — the bare file is canonical (this task moves it to `docs/meta/plans/`, replacing what would otherwise have been the numbered file's destination), and the numbered file is the orphan (goes to `archive/` in Task 6, alongside `1-parallelism-matrix-template.md`). If executing this task fresh (not recovering from a partial run), move the BARE files (`docs/meta/ijfw-verify-parallelism-checks.md`, `docs/meta/parallelism-matrix-governance-rule.md`) to `docs/meta/plans/`, not the numbered ones — the Step 1 `git mv` list below has already been corrected to reflect this.
+
 **Interfaces:**
 - Consumes: nothing from other tasks.
 - Produces: `docs/meta/plans/` populated.
@@ -412,9 +414,9 @@ git commit -m "docs: move design/integration specs into docs/meta/specs/"
 cd C:\dev
 mkdir -p docs/meta/plans
 git mv docs/meta/2-ijfw-plan-integration-spec.md docs/meta/plans/ijfw-plan-integration-spec.md
-git mv docs/meta/3-ijfw-verify-parallelism-checks.md docs/meta/plans/ijfw-verify-parallelism-checks.md
+git mv docs/meta/ijfw-verify-parallelism-checks.md docs/meta/plans/ijfw-verify-parallelism-checks.md
 git mv docs/meta/4-ijfw-plan-phase-4-governance.md docs/meta/plans/ijfw-plan-phase-4-governance.md
-git mv docs/meta/4-parallelism-matrix-governance-rule.md docs/meta/plans/parallelism-matrix-governance-rule.md
+git mv docs/meta/parallelism-matrix-governance-rule.md docs/meta/plans/parallelism-matrix-governance-rule.md
 git mv docs/meta/5-ijfw-plan-observability-contract.md docs/meta/plans/ijfw-plan-observability-contract.md
 git mv docs/meta/5-ijfw-plan-phase-5-multicanary.md docs/meta/plans/ijfw-plan-phase-5-multicanary.md
 git mv docs/meta/toolforge-phase-2b-implementation-plan.md docs/meta/plans/toolforge-phase-2b-implementation-plan.md
@@ -436,9 +438,9 @@ Note: there are now two files named `1-parallelism-matrix-template.md` (untouche
 ```bash
 for pair in \
   "docs/meta/2-ijfw-plan-integration-spec.md=docs/meta/plans/ijfw-plan-integration-spec.md" \
-  "docs/meta/3-ijfw-verify-parallelism-checks.md=docs/meta/plans/ijfw-verify-parallelism-checks.md" \
+  "docs/meta/ijfw-verify-parallelism-checks.md=docs/meta/plans/ijfw-verify-parallelism-checks.md" \
   "docs/meta/4-ijfw-plan-phase-4-governance.md=docs/meta/plans/ijfw-plan-phase-4-governance.md" \
-  "docs/meta/4-parallelism-matrix-governance-rule.md=docs/meta/plans/parallelism-matrix-governance-rule.md" \
+  "docs/meta/parallelism-matrix-governance-rule.md=docs/meta/plans/parallelism-matrix-governance-rule.md" \
   "docs/meta/5-ijfw-plan-observability-contract.md=docs/meta/plans/ijfw-plan-observability-contract.md" \
   "docs/meta/5-ijfw-plan-phase-5-multicanary.md=docs/meta/plans/ijfw-plan-phase-5-multicanary.md" \
   "docs/meta/toolforge-phase-2b-implementation-plan.md=docs/meta/plans/toolforge-phase-2b-implementation-plan.md" \
@@ -475,7 +477,7 @@ Also check bare relative links (`](parallelism-matrix-template.md`, `](PARALLELI
 git grep -n "docs/meta/2-ijfw-plan-integration-spec.md\|docs/meta/3-ijfw-verify-parallelism-checks.md\|docs/meta/4-ijfw-plan-phase-4-governance.md\|docs/meta/4-parallelism-matrix-governance-rule.md\|docs/meta/5-ijfw-plan-observability-contract.md\|docs/meta/5-ijfw-plan-phase-5-multicanary.md\|docs/meta/toolforge-phase-2b-implementation-plan.md\|docs/meta/cic-tool-surface-phase1-plan.md\|docs/meta/PARALLELISM_MATRIX_DELIVERY_INDEX.md\|docs/meta/PARALLELISM_MATRIX_SYSTEM.md\|docs/meta/OBSERVABILITY_PHASE_D_SUMMARY.md" -- . ':!docs/archive'
 ```
 
-Expected: no output. (Note: don't grep bare `docs/meta/plans/parallelism-matrix-template.md` or `docs/meta/plans/parallelism-matrix-retrofit-example-phase3.md` or `docs/meta/plans/governance-amendment-observability-phase-d.md` as "old path gone" checks here — their filename didn't change, only their directory, so the string `docs/meta/plans/parallelism-matrix-template.md` legitimately still won't appear anywhere as a *correct* reference post-move; verify instead that `docs/meta/plans/parallelism-matrix-template.md` **does** appear in referrers that used to point to the old location.)
+Expected: no output. (Note: don't grep bare `docs/meta/parallelism-matrix-template.md` or `docs/meta/parallelism-matrix-retrofit-example-phase3.md` or `docs/meta/governance-amendment-observability-phase-d.md` as "old path gone" checks here — their filename didn't change, only their directory, so the string `docs/meta/parallelism-matrix-template.md` legitimately still won't appear anywhere as a *correct* reference post-move; verify instead that `docs/meta/plans/parallelism-matrix-template.md` **does** appear in referrers that used to point to the old location.)
 
 ```bash
 git grep -c "docs/meta/plans/parallelism-matrix-template.md" -- docs/meta/plans/parallelism-matrix-governance-rule.md docs/meta/plans/parallelism-matrix-delivery-index.md docs/meta/plans/parallelism-matrix-system.md
@@ -583,22 +585,24 @@ git commit -m "docs: move review docs into docs/meta/reviews/"
 ### Task 6: Archive category
 
 **Files:**
-- Move (3 files, `C:\dev\docs\meta\` → `C:\dev\docs\meta\archive\`):
+- Move (5 files, `C:\dev\docs\meta\` → `C:\dev\docs\meta\archive\`):
   - `1-parallelism-matrix-template.md` (unchanged name — orphaned duplicate, see Task 4 correction note)
+  - `3-ijfw-verify-parallelism-checks.md` (unchanged name — orphaned duplicate, discovered during Task 4 execution, same pattern as the template pair. Diffed against the bare `docs/meta/ijfw-verify-parallelism-checks.md`: genuinely divergent draft content, not a near-duplicate. Zero inbound references to this numbered-prefix name anywhere in the repo; the bare unprefixed file was the one all sibling docs' bare relative links actually resolved to, confirming it was the live/canonical one. The bare file has already been moved to `docs/meta/plans/ijfw-verify-parallelism-checks.md` as part of Task 4 — this numbered one is the leftover orphan.)
+  - `4-parallelism-matrix-governance-rule.md` (unchanged name — orphaned duplicate, same discovery and same resolution as above: bare `docs/meta/parallelism-matrix-governance-rule.md` was canonical and already moved to `docs/meta/plans/` in Task 4; this numbered one is the orphan.)
   - `CIC-GOV-MANIFEST-001_DRAFT.docx` (unchanged name)
   - `CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx` (unchanged name)
 - Create: `C:\dev\docs\meta\archive\README.md`
 
-**`.docx` verification note:** these are binary Word docs — `diff` and `git grep` can't inspect their content meaningfully. The filenames themselves state the supersession (`_DRAFT` vs `_v1.1_RECONCILED`), and neither is referenced anywhere in the repo (confirm with Step 2's search before moving — if either turns up referenced, stop and ask the user before archiving it, don't guess). Do not delete either file — archive both, preserving the draft for history.
+**`.docx` verification note:** these are binary Word docs — `diff` and `git grep` can't inspect their content meaningfully. The filenames themselves state the supersession (`_DRAFT` vs `_v1.1_RECONCILED`), and neither is referenced anywhere in the repo (confirm with Step 1's search before moving — if either turns up referenced, stop and ask the user before archiving it, don't guess). Do not delete either file — archive both, preserving the draft for history.
 
 **Interfaces:**
-- Consumes: Task 4's finding that `1-parallelism-matrix-template.md` has zero inbound references (root `parallelism-matrix-template.md` is canonical, already moved to `docs/meta/plans/` in Task 4).
+- Consumes: Task 4's finding that `1-parallelism-matrix-template.md`, `3-ijfw-verify-parallelism-checks.md`, and `4-parallelism-matrix-governance-rule.md` all have zero inbound references (their bare-named counterparts are canonical and already moved to `docs/meta/plans/` in Task 4).
 - Produces: `docs/meta/archive/` populated.
 
 - [ ] **Step 1: Confirm zero references before moving (don't skip this — archiving a referenced file silently breaks links)**
 
 ```bash
-git grep -n "docs/meta/1-parallelism-matrix-template.md\|CIC-GOV-MANIFEST-001_DRAFT.docx\|CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx" -- . ':!docs/archive'
+git grep -n "docs/meta/1-parallelism-matrix-template.md\|docs/meta/3-ijfw-verify-parallelism-checks.md\|docs/meta/4-parallelism-matrix-governance-rule.md\|CIC-GOV-MANIFEST-001_DRAFT.docx\|CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx" -- . ':!docs/archive'
 ```
 
 Expected: no output (or only self-references from `docs-structure-policy-design.md`/`docs-structure-policy-plan.md`, which describe these files by name and don't need fixing — they're historical/planning narrative, not live links). If a hit turns up anywhere else, stop and confirm with the user before proceeding.
@@ -609,6 +613,8 @@ Expected: no output (or only self-references from `docs-structure-policy-design.
 cd C:\dev
 mkdir -p docs/meta/archive
 git mv docs/meta/1-parallelism-matrix-template.md docs/meta/archive/1-parallelism-matrix-template.md
+git mv docs/meta/3-ijfw-verify-parallelism-checks.md docs/meta/archive/3-ijfw-verify-parallelism-checks.md
+git mv docs/meta/4-parallelism-matrix-governance-rule.md docs/meta/archive/4-parallelism-matrix-governance-rule.md
 git mv docs/meta/CIC-GOV-MANIFEST-001_DRAFT.docx docs/meta/archive/CIC-GOV-MANIFEST-001_DRAFT.docx
 git mv docs/meta/CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx docs/meta/archive/CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx
 ```
@@ -621,6 +627,8 @@ git mv docs/meta/CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx docs/meta/archive/CIC
 Superseded or orphaned docs, kept for history — never deleted.
 
 - `1-parallelism-matrix-template.md` — early draft of the Parallelism Matrix Template. Superseded by `docs/meta/plans/parallelism-matrix-template.md` (canonical: every other doc in the Parallelism Matrix family links to that one, none link to this one — verified 2026-07-16).
+- `3-ijfw-verify-parallelism-checks.md` — early draft of the ijfw-verify Parallelism Checks doc. Superseded by `docs/meta/plans/ijfw-verify-parallelism-checks.md` (same discovery pattern as the template above — found during Task 4 execution, not caught at design time).
+- `4-parallelism-matrix-governance-rule.md` — early draft of the Parallelism Matrix Governance Rule. Superseded by `docs/meta/plans/parallelism-matrix-governance-rule.md` (same discovery pattern).
 - `CIC-GOV-MANIFEST-001_DRAFT.docx` — draft governance manifest, superseded by `CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx`.
 - `CIC-GOV-MANIFEST-001_v1.1_RECONCILED.docx` — reconciled v1.1 governance manifest. Also archived (not moved to `governance/`) because it's a `.docx`, not the repo's living `.md` governance format — if this content is still needed day-to-day, port it to a `.md` file in `governance/` as a separate follow-up.
 ```

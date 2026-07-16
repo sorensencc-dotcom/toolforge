@@ -25,7 +25,7 @@
 ## Quick Navigation
 
 **New to the system?** Start here:
-1. Read [PARALLELISM_MATRIX_SYSTEM.md(parallelism-matrix-system.md) (~5 min)
+1. Read [PARALLELISM_MATRIX_SYSTEM.md](parallelism-matrix-system.md) (~5 min)
 2. Review example in [parallelism-matrix-template.md](parallelism-matrix-template.md) (~5 min)
 
 **Adding matrix to your charter?**
