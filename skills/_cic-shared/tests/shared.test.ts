@@ -6,6 +6,10 @@ import { generateRunId, generateBundleId } from '../src/runId';
 import { artifactPaths } from '../src/artifactPaths';
 import { writeResultJson } from '../src/writeResultJson';
 import { findRepoRoot } from '../src/findRepoRoot';
+import { lineagePaths } from '../src/lineagePaths';
+import { reportPaths } from '../src/reportPaths';
+import { writeLineageEntry } from '../src/writeLineageEntry';
+import { writeReportEntry } from '../src/writeReportEntry';
 
 describe('runId', () => {
   it('generateRunId matches run-<compact-iso>-<6hex>', () => {
@@ -82,5 +86,45 @@ describe('writeResultJson', () => {
     expect(written).toBe(artifactPaths(kind, id).resultFile);
     const onDisk = JSON.parse(fs.readFileSync(written, 'utf-8'));
     expect(onDisk).toEqual(payload);
+  });
+});
+
+describe('lineagePaths / reportPaths', () => {
+  it('builds a single json file per id under <repoRoot>/cic/lineage/<kind>', () => {
+    const repoRoot = findRepoRoot(__dirname);
+    const { dir, file } = lineagePaths('ingest', 'run-lineage-test');
+    expect(dir).toBe(path.join(repoRoot, 'cic', 'lineage', 'ingest'));
+    expect(file).toBe(path.join(dir, 'run-lineage-test.json'));
+  });
+
+  it('builds a single json file per id under <repoRoot>/cic/reports/<kind>', () => {
+    const repoRoot = findRepoRoot(__dirname);
+    const { dir, file } = reportPaths('gates', 'run-report-test');
+    expect(dir).toBe(path.join(repoRoot, 'cic', 'reports', 'gates'));
+    expect(file).toBe(path.join(dir, 'run-report-test.json'));
+  });
+});
+
+describe('writeLineageEntry / writeReportEntry', () => {
+  const kind = 'test-kind';
+  const id = 'run-index-write-test';
+
+  afterEach(() => {
+    fs.rmSync(lineagePaths(kind, id).dir, { recursive: true, force: true });
+    fs.rmSync(reportPaths(kind, id).dir, { recursive: true, force: true });
+  });
+
+  it('writeLineageEntry writes payload to file and returns its path', async () => {
+    const payload = { runId: id, lineageRef: 'lineage:test:x', status: 'stub' };
+    const written = await writeLineageEntry(kind, id, payload);
+    expect(written).toBe(lineagePaths(kind, id).file);
+    expect(JSON.parse(fs.readFileSync(written, 'utf-8'))).toEqual(payload);
+  });
+
+  it('writeReportEntry writes payload to file and returns its path', async () => {
+    const payload = { runId: id, gateId: 'GATE-01', status: 'PASS' };
+    const written = await writeReportEntry(kind, id, payload);
+    expect(written).toBe(reportPaths(kind, id).file);
+    expect(JSON.parse(fs.readFileSync(written, 'utf-8'))).toEqual(payload);
   });
 });
