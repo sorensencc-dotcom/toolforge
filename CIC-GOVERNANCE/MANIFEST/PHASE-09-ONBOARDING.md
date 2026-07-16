@@ -209,8 +209,8 @@
 |----------|----------|------|
 | **Phase 9 Charter** | All | `CIC-GOVERNANCE/MANIFEST/PHASE-09-CHARTER.md` |
 | **Phase 8 Charter** | Reference (validator infra) | `CIC-GOVERNANCE/MANIFEST/PHASE-08-CHARTER.md` |
-| **Global Operating Rules v2.0** | Governance | `docs/meta/global-operating-rules-cic-rewrite-labs.md` |
-| **Toolforge Marketplace Spec v1.0** | Architecture | `docs/meta/TOOLFORGE-MARKETPLACE-SPEC-v1.0.md` |
+| **Global Operating Rules v2.0** | Governance | `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` |
+| **Toolforge Marketplace Spec v1.0** | Architecture | `docs/meta/governance/toolforge-marketplace-spec-v1.0.md` |
 | **CIC Governance Manifest** | System state | `CIC-GOVERNANCE/MANIFEST/CIC-GOV-MANIFEST-001.md` |
 
 ---

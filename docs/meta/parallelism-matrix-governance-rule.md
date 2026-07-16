@@ -168,7 +168,7 @@ Add to every charter after approval:
 - [Parallelism Matrix System](PARALLELISM_MATRIX_SYSTEM.md) — Master reference
 - [Parallelism Matrix Template](parallelism-matrix-template.md) — Copy-paste template
 - [ijfw-verify Checks](ijfw-verify-parallelism-checks.md) — 5 automated rules
-- [CIC + Rewrite Labs Global Rules](global-operating-rules-cic-rewrite-labs.md) — Parent governance
+- [CIC + Rewrite Labs Global Rules](governance/global-operating-rules-cic-rewrite-labs.md) — Parent governance
 
 ---
 

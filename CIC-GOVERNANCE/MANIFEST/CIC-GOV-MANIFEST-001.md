@@ -10,7 +10,7 @@ Automation role: Tier 3
 
 This manifest indexes CIC governance components. It remains subordinate to
 Tier 1 decisions, `CLAUDE.md`, and
-`docs/meta/global-operating-rules-cic-rewrite-labs.md`. Codex may validate and
+`docs/meta/governance/global-operating-rules-cic-rewrite-labs.md`. Codex may validate and
 record approved operations but cannot ratify amendments or resolve conflicts.
 
 ## Component Registry

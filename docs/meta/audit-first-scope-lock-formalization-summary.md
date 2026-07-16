@@ -18,7 +18,7 @@ approval_path: Pending Tier 1
 
 ### 1. Pre-Charter Audit Checklist
 
-**File:** `docs/meta/pre-charter-audit-checklist.md`
+**File:** `docs/meta/governance/pre-charter-audit-checklist.md`
 
 Three mandatory parallel audit streams (30-min SLA):
 
@@ -32,7 +32,7 @@ Three mandatory parallel audit streams (30-min SLA):
 
 ### 2. ijfw-spec-phase Integration
 
-**File:** `docs/meta/ijfw-spec-phase-audit-gate-integration.md`
+**File:** `docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md`
 
 Workflow sequence (audit runs before charter scope freeze):
 
@@ -50,7 +50,7 @@ PLAN → DISCUSS → AUDIT [NEW] → Scope Freeze Decision
 
 ### 3. Governance Rule: Charter Lifecycle & Audit-First Scope Lock
 
-**File:** `docs/meta/global-operating-rules-cic-rewrite-labs.md` (Section 14 added)
+**File:** `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` (Section 14 added)
 
 **New Rule (Section 14):**
 > Charter cannot transition to LOCKED status without passing Audit-First Scope Lock gate. Gate comprises three parallel audit streams (codebase mapping, infrastructure alignment, pattern conformance). Charter YAML fields: `audit_report_id`, `audit_verdict`, `audit_waived` (optional).
@@ -79,8 +79,8 @@ Three new audit phases integrated into Phase ABC:
 
 | File | Purpose |
 |------|---------|
-| `docs/meta/governance-rule-audit-first-scope-lock.md` | Standalone rule document (governance detail) |
-| `docs/meta/global-rules-amendment-v1.4.md` | Amendment summary for review |
+| `docs/meta/governance/governance-rule-audit-first-scope-lock.md` | Standalone rule document (governance detail) |
+| `docs/meta/governance/global-rules-amendment-v1.4.md` | Amendment summary for review |
 | Audit reports directory | `docs/meta/audit/` (created during Phase A.5) |
 
 ---

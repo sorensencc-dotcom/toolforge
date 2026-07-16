@@ -68,7 +68,7 @@ audit_verdict: PASS
 
 ## References
 
-- **Audit Checklist:** docs/meta/pre-charter-audit-checklist.md
-- **ijfw-spec-phase Integration:** docs/meta/ijfw-spec-phase-audit-gate-integration.md
-- **Governance Rule:** docs/meta/global-operating-rules-cic-rewrite-labs.md (Section 14)
+- **Audit Checklist:** docs/meta/governance/pre-charter-audit-checklist.md
+- **ijfw-spec-phase Integration:** docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md
+- **Governance Rule:** docs/meta/governance/global-operating-rules-cic-rewrite-labs.md (Section 14)
 - **Phase ABC Phases:** docs/meta/phase-abc-audit-phases-addition.md
