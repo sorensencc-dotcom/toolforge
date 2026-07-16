@@ -63,7 +63,7 @@ PLAN → DISCUSS → AUDIT [NEW] → Scope Freeze Decision
 
 ### 4. Phase ABC Model — Audit Phases (Permanent Fixture)
 
-**File:** `docs/meta/phase-abc-audit-phases-addition.md`
+**File:** `docs/meta/phases/phase-abc-audit-phases-addition.md`
 
 Three new audit phases integrated into Phase ABC:
 

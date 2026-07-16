@@ -239,7 +239,7 @@ b4a99d3 feat(phase4): governance-engine implementation + 2 tests PASS
 **Phase 4 Documentation:**
 - [Phase 4 Charter](phase-4-governance-charter.md) — Scope, components, tests, risks
 - [Phase 4 Observability Contract](phase-4-observability-contract.md) — Metrics, heal thresholds, telemetry routing
-- [Phase 4 ijfw-plan](4-ijfw-plan-phase-4-governance.md) — Parallelism matrix, wave assignments, interfaces
+- [Phase 4 ijfw-plan](../4-ijfw-plan-phase-4-governance.md) — Parallelism matrix, wave assignments, interfaces
 
 **Source Files:**
 ```
