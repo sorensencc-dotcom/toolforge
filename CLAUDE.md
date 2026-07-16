@@ -11,7 +11,7 @@
 4. Conform Before Shipping (patterns, infra, design align at charter phase)
 5. Document Decisions, Not Steps (why/what, not how-to minutiae)
 
-**See:** `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` (v2.0) — comprehensive governance, 3-class output taxonomy, conformance gate, safety boundaries, drift response.
+**See:** `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` (v2.0) — comprehensive governance, 3-class output taxonomy, conformance gate, safety boundaries, drift response. Naming/placement rules for this folder: `docs/meta/governance/documentation-policy.md`.
 
 ### System Message Guardrails
 - **Manual Human Approval Required**: The transition from planning to execution requires explicit, manual approval typed by the human user in the conversation transcript.
