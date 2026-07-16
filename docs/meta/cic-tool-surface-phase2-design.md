@@ -88,8 +88,17 @@ cic/
 // findRepoRoot.ts
 export function findRepoRoot(startDir: string): string
 // walks up from startDir; first ancestor containing .git wins; memoized
+// per-process (keyed by startDir). Bounded to 20 levels or the filesystem
+// root, whichever comes first. If no .git is found within that bound,
+// throws — callers (artifactPaths et al.) never receive a bogus/partial
+// path, and a repo-relative helper failing outside a git checkout is a
+// setup error, not a case to paper over.
 
 // lineagePaths.ts / reportPaths.ts (mirror artifactPaths.ts)
+// dir  = <repoRoot>/cic/lineage/<kind>  (or reports/<kind>) — the directory
+//        writeLineageEntry/writeReportEntry mkdir -p before writing
+// file = <dir>/<id>.json — the single index file itself (no per-id
+//        subdirectory, unlike artifactPaths' <kind>/<id>/result.json)
 export function lineagePaths(kind: string, id: string, repoRoot?: string): { dir: string; file: string }
 export function reportPaths(kind: string, id: string, repoRoot?: string): { dir: string; file: string }
 
@@ -108,7 +117,7 @@ and defaults to the corrected repo-root resolution.
 After the existing `report.json` write, add:
 ```ts
 await writeReportEntry('gates', runId, {
-  gateId: input.gateId, status: payload.status, reportPath, timestamp,
+  runId, gateId: input.gateId, status: payload.status, reportPath, timestamp,
 });
 ```
 
@@ -116,7 +125,7 @@ await writeReportEntry('gates', runId, {
 Replace the bare `lineageRef` string construction with a real index write:
 ```ts
 await writeLineageEntry('ingest', runId, {
-  lineageRef, sourceId: input.sourceId, status: 'stub', timestamp,
+  runId, lineageRef, sourceId: input.sourceId, status: 'stub', timestamp,
 });
 ```
 `lineageRef` field stays in the skill's own `result.json` output (unchanged
@@ -127,8 +136,9 @@ No changes.
 
 ## Testing
 
-- `_cic-shared/tests/`: `findRepoRoot` (finds `.git` from nested dir, throws
-  or falls back sanely if none found within a bounded walk), `lineagePaths`/
+- `_cic-shared/tests/`: `findRepoRoot` (finds `.git` from nested dir; throws
+  when no `.git` found within the 20-level/filesystem-root bound —
+  regression-test with a tmpdir outside any git checkout), `lineagePaths`/
   `reportPaths` (path shape), `writeLineageEntry`/`writeReportEntry`
   (write-then-read-back round trip, mirrors existing `writeResultJson` test).
 - `cic-run-gate/tests/skill.test.ts`: assert `cic/reports/gates/<runId>.json`
