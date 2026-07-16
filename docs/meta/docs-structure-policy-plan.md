@@ -48,18 +48,20 @@
 ```bash
 cd C:\dev
 mkdir -p docs/meta/governance
-git mv docs/meta/governance/global-operating-rules-cic-rewrite-labs.md docs/meta/governance/global-operating-rules-cic-rewrite-labs.md
-git mv docs/meta/governance/global-rules-amendment-v1.4.md docs/meta/governance/global-rules-amendment-v1.4.md
-git mv docs/meta/governance/governance-rule-audit-first-scope-lock.md docs/meta/governance/governance-rule-audit-first-scope-lock.md
-git mv docs/meta/governance/governance-update-data-contracts.md docs/meta/governance/governance-update-data-contracts.md
-git mv docs/meta/governance/toolforge-marketplace-spec-v1.0.md docs/meta/governance/toolforge-marketplace-spec-v1.0.md
-git mv docs/meta/governance/data-contract-spec.md docs/meta/governance/data-contract-spec.md
-git mv docs/meta/governance/ijfw-spec-phase-data-contract-gate.md docs/meta/governance/ijfw-spec-phase-data-contract-gate.md
-git mv docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md
-git mv docs/meta/governance/ijfw-spec-phase-phase0-integration.md docs/meta/governance/ijfw-spec-phase-phase0-integration.md
-git mv docs/meta/governance/pre-charter-audit-checklist.md docs/meta/governance/pre-charter-audit-checklist.md
-git mv docs/meta/governance/phase-0-pattern-research-gate-template.md docs/meta/governance/phase-0-pattern-research-gate-template.md
+git mv docs/meta/global-operating-rules-cic-rewrite-labs.md docs/meta/governance/global-operating-rules-cic-rewrite-labs.md
+git mv docs/meta/global-rules-amendment-v1.4.md docs/meta/governance/global-rules-amendment-v1.4.md
+git mv docs/meta/governance-rule-audit-first-scope-lock.md docs/meta/governance/governance-rule-audit-first-scope-lock.md
+git mv docs/meta/GOVERNANCE_UPDATE_DATA_CONTRACTS.md docs/meta/governance/governance-update-data-contracts.md
+git mv docs/meta/TOOLFORGE-MARKETPLACE-SPEC-v1.0.md docs/meta/governance/toolforge-marketplace-spec-v1.0.md
+git mv docs/meta/DATA_CONTRACT_SPEC.md docs/meta/governance/data-contract-spec.md
+git mv docs/meta/IJFW_SPEC_PHASE_DATA_CONTRACT_GATE.md docs/meta/governance/ijfw-spec-phase-data-contract-gate.md
+git mv docs/meta/ijfw-spec-phase-audit-gate-integration.md docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md
+git mv docs/meta/ijfw-spec-phase-phase0-integration.md docs/meta/governance/ijfw-spec-phase-phase0-integration.md
+git mv docs/meta/pre-charter-audit-checklist.md docs/meta/governance/pre-charter-audit-checklist.md
+git mv docs/meta/phase-0-pattern-research-gate-template.md docs/meta/governance/phase-0-pattern-research-gate-template.md
 ```
+
+**[Note added post-execution 2026-07-16: Task 1 is complete. This block is now a historical record — the `docs/meta/governance/` blind repo-wide sed in Step 2 also rewrote this illustrative code block's left-hand (old-path) column, since it textually matched the same search strings. Restored to the original historical form here so the record stays accurate for anyone reading it later. Watch for the same self-corruption risk in Tasks 2-9's own Step 1 code blocks once their Step 2 runs.]**
 
 - [ ] **Step 2: Fix every referrer, for every renamed/moved file**
 
@@ -67,17 +69,17 @@ Run once per old path (old path on the left, new path on the right — the sed p
 
 ```bash
 for pair in \
-  "docs/meta/governance/global-operating-rules-cic-rewrite-labs.md=docs/meta/governance/global-operating-rules-cic-rewrite-labs.md" \
-  "docs/meta/governance/global-rules-amendment-v1.4.md=docs/meta/governance/global-rules-amendment-v1.4.md" \
-  "docs/meta/governance/governance-rule-audit-first-scope-lock.md=docs/meta/governance/governance-rule-audit-first-scope-lock.md" \
-  "docs/meta/governance/governance-update-data-contracts.md=docs/meta/governance/governance-update-data-contracts.md" \
-  "docs/meta/governance/toolforge-marketplace-spec-v1.0.md=docs/meta/governance/toolforge-marketplace-spec-v1.0.md" \
-  "docs/meta/governance/data-contract-spec.md=docs/meta/governance/data-contract-spec.md" \
-  "docs/meta/governance/ijfw-spec-phase-data-contract-gate.md=docs/meta/governance/ijfw-spec-phase-data-contract-gate.md" \
-  "docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md=docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md" \
-  "docs/meta/governance/ijfw-spec-phase-phase0-integration.md=docs/meta/governance/ijfw-spec-phase-phase0-integration.md" \
-  "docs/meta/governance/pre-charter-audit-checklist.md=docs/meta/governance/pre-charter-audit-checklist.md" \
-  "docs/meta/governance/phase-0-pattern-research-gate-template.md=docs/meta/governance/phase-0-pattern-research-gate-template.md" \
+  "docs/meta/global-operating-rules-cic-rewrite-labs.md=docs/meta/governance/global-operating-rules-cic-rewrite-labs.md" \
+  "docs/meta/global-rules-amendment-v1.4.md=docs/meta/governance/global-rules-amendment-v1.4.md" \
+  "docs/meta/governance-rule-audit-first-scope-lock.md=docs/meta/governance/governance-rule-audit-first-scope-lock.md" \
+  "docs/meta/GOVERNANCE_UPDATE_DATA_CONTRACTS.md=docs/meta/governance/governance-update-data-contracts.md" \
+  "docs/meta/TOOLFORGE-MARKETPLACE-SPEC-v1.0.md=docs/meta/governance/toolforge-marketplace-spec-v1.0.md" \
+  "docs/meta/DATA_CONTRACT_SPEC.md=docs/meta/governance/data-contract-spec.md" \
+  "docs/meta/IJFW_SPEC_PHASE_DATA_CONTRACT_GATE.md=docs/meta/governance/ijfw-spec-phase-data-contract-gate.md" \
+  "docs/meta/ijfw-spec-phase-audit-gate-integration.md=docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md" \
+  "docs/meta/ijfw-spec-phase-phase0-integration.md=docs/meta/governance/ijfw-spec-phase-phase0-integration.md" \
+  "docs/meta/pre-charter-audit-checklist.md=docs/meta/governance/pre-charter-audit-checklist.md" \
+  "docs/meta/phase-0-pattern-research-gate-template.md=docs/meta/governance/phase-0-pattern-research-gate-template.md" \
 ; do
   old="${pair%%=*}"
   new="${pair##*=}"
@@ -100,13 +102,13 @@ For any hit inside a file that itself now lives in `docs/meta/governance/`, the 
 
 ```bash
 for old in \
-  "docs/meta/governance/global-operating-rules-cic-rewrite-labs.md" \
-  "docs/meta/governance/global-rules-amendment-v1.4.md" \
-  "docs/meta/governance/governance-rule-audit-first-scope-lock.md" \
-  "docs/meta/governance/governance-update-data-contracts.md" \
-  "docs/meta/governance/toolforge-marketplace-spec-v1.0.md" \
-  "docs/meta/governance/data-contract-spec.md" \
-  "docs/meta/governance/ijfw-spec-phase-data-contract-gate.md" \
+  "docs/meta/global-operating-rules-cic-rewrite-labs.md" \
+  "docs/meta/global-rules-amendment-v1.4.md" \
+  "docs/meta/governance-rule-audit-first-scope-lock.md" \
+  "docs/meta/GOVERNANCE_UPDATE_DATA_CONTRACTS.md" \
+  "docs/meta/TOOLFORGE-MARKETPLACE-SPEC-v1.0.md" \
+  "docs/meta/DATA_CONTRACT_SPEC.md" \
+  "docs/meta/IJFW_SPEC_PHASE_DATA_CONTRACT_GATE.md" \
 ; do
   git grep -n "$old" -- . ':!docs/archive' && echo "FAIL: $old still referenced" || echo "OK: $old clear"
 done
@@ -737,7 +739,9 @@ git commit -m "docs: add docs/meta root index"
 
 - [ ] **Step 1: Fix `CLAUDE.md`'s two direct `docs/meta/` references**
 
-`CLAUDE.md:14` currently reads:
+**[Note added post-Task-1 2026-07-16: Task 1's repo-wide referrer-fix loop already rewrote both of CLAUDE.md's `docs/meta/...` paths below to their new `docs/meta/governance/...` locations — that part of this step is already done. What's left for line 14 is appending the new trailing sentence pointing at `documentation-policy.md` (added in Task 7, not yet written when Task 1 ran). Line 108 needs no further change at all — it was already fully correct after Task 1's fix, verify it reads as shown below and move on if so.]**
+
+`CLAUDE.md:14` currently reads (path already fixed by Task 1; sentence not yet added):
 ```
 **See:** `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` (v2.0) — comprehensive governance, 3-class output taxonomy, conformance gate, safety boundaries, drift response.
 ```
@@ -746,16 +750,13 @@ Change to:
 **See:** `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` (v2.0) — comprehensive governance, 3-class output taxonomy, conformance gate, safety boundaries, drift response. Naming/placement rules for this folder: `docs/meta/governance/documentation-policy.md`.
 ```
 
-`CLAUDE.md:108` currently reads:
+`CLAUDE.md:108` — already fully fixed by Task 1, should already read:
 ```
 TOOLFORGE-MARKETPLACE-SPEC-v1.0 is approved. Scope locked to four deliverables: plugin manifest schema, registry service, CLI (list/install/submit), submission validator. Phase 8 Wave D, target 2026-07-26. Changes require Tier 1 amendment. See `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`.
 ```
-Change to:
-```
-TOOLFORGE-MARKETPLACE-SPEC-v1.0 is approved. Scope locked to four deliverables: plugin manifest schema, registry service, CLI (list/install/submit), submission validator. Phase 8 Wave D, target 2026-07-26. Changes require Tier 1 amendment. See `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`.
-```
+No edit needed for line 108 — confirm it matches the above, then move on.
 
-Use the Edit tool for both — exact string match on the two blocks above.
+Use the Edit tool for line 14 only — exact string match on the "currently reads" block above.
 
 - [ ] **Step 2: Final full-repo verification — every old flat path must be gone**
 

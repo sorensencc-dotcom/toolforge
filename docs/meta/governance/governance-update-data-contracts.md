@@ -287,11 +287,11 @@ Failure Modes:
 
 ## Related Documents
 
-- [Data Contract Specification Template](../meta/DATA_CONTRACT_SPEC.md)
+- [Data Contract Specification Template](data-contract-spec.md)
 - [Phase 27 Wave E Data Contract](../contracts/phase-27-wave-e-six-rules-framework.md)
-- [ijfw-spec-phase Data Contract Gate](../meta/ijfw-spec-phase-data-contract-gate.md)
+- [ijfw-spec-phase Data Contract Gate](ijfw-spec-phase-data-contract-gate.md)
 - [Architecture Spec Checklist](../meta/UI_SPEC_ARCHITECTURE_CHECKLIST.md)
-- [CIC Global Operating Rules v1.3](../meta/global-operating-rules-cic-rewrite-labs.md)
+- [CIC Global Operating Rules v1.3](global-operating-rules-cic-rewrite-labs.md)
 - [Phase 27 Wave E Six Rules Framework](../memory/phase-27-wave-e-six-rules-framework.md)
 
 ---
