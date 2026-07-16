@@ -338,17 +338,17 @@ done
 `toolforge-phase-2b-step1-design.md` is referenced by non-doc code files (`api/telemetry/server.js`, `assets/dashboard-v2.js`, `assets/cic-dashboard.css` per the design doc's Cross-Repo Impact list) — the loop above covers these too since `git grep` searches all tracked file types, not just markdown. Double check these three specifically:
 
 ```bash
-git grep -n "docs/meta/toolforge-phase-2b-step1-design.md" -- api/telemetry/server.js assets/dashboard-v2.js assets/cic-dashboard.css
+git grep -n "docs/meta/specs/toolforge-phase-2b-step1-design.md" -- api/telemetry/server.js assets/dashboard-v2.js assets/cic-dashboard.css
 ```
 
-Expected: no output (already fixed by the loop). If it still shows old path, the loop's sed didn't run on that extension — fix manually with `sed -i "s#docs/meta/toolforge-phase-2b-step1-design.md#docs/meta/specs/toolforge-phase-2b-step1-design.md#g" api/telemetry/server.js assets/dashboard-v2.js assets/cic-dashboard.css`.
+Expected: no output (already fixed by the loop). If it still shows old path, the loop's sed didn't run on that extension — fix manually with `sed -i "s#docs/meta/specs/toolforge-phase-2b-step1-design.md#docs/meta/specs/toolforge-phase-2b-step1-design.md#g" api/telemetry/server.js assets/dashboard-v2.js assets/cic-dashboard.css`.
 
 Also check bare relative links (same pattern as prior tasks) for any referrer staying outside `docs/meta/specs/`.
 
 - [ ] **Step 3: Verify**
 
 ```bash
-git grep -n "docs/meta/toolforge-phase-2b-step1-design.md\|docs/meta/toolforge-phase-2b-step2-design.md\|docs/meta/cic-tool-surface-phase1-design.md\|docs/meta/ijfw-agent-integration-guide-v1.5.md\|docs/meta/audit-first-scope-lock-formalization-summary.md\|docs/meta/phase-7-etcd-integration-spec.md\|docs/meta/phase-7-unleash-integration-spec.md" -- . ':!docs/archive'
+git grep -n "docs/meta/specs/toolforge-phase-2b-step1-design.md\|docs/meta/specs/toolforge-phase-2b-step2-design.md\|docs/meta/specs/cic-tool-surface-phase1-design.md\|docs/meta/specs/ijfw-agent-integration-guide-v1.5.md\|docs/meta/specs/audit-first-scope-lock-formalization-summary.md\|docs/meta/specs/phase-7-etcd-integration-spec.md\|docs/meta/specs/phase-7-unleash-integration-spec.md" -- . ':!docs/archive'
 ```
 
 Expected: no output.

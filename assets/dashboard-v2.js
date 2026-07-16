@@ -2,7 +2,7 @@
 
 // ============================================================
 // Toolforge Dashboard v2 — Execution History tab logic
-// Phase 2b Step 1 (docs/meta/toolforge-phase-2b-step1-design.md §3/§4/§5)
+// Phase 2b Step 1 (docs/meta/specs/toolforge-phase-2b-step1-design.md §3/§4/§5)
 // ============================================================
 
 (function () {
