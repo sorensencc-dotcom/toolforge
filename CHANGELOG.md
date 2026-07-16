@@ -1,5 +1,29 @@
 # Changelog
 
+## Version 2.3.0
+Date: 2026-07-16
+
+### Changes
+- 4e98415 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- abf66c5 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- f2b0da1 - chore(retro): save 2026-07-16 session snapshots (Chris Sorensen)
+- 64ec58c - chore(cic-tool-surface): remove test cache pollution (Chris Sorensen)
+- f1df94c - chore(cic-tool-surface): gitignore per-skill cic/ artifact dirs, remove committed test pollution (Chris Sorensen)
+- d919175 - feat(cic-tool-surface): add cic-ingest-world stub skill (Chris Sorensen)
+- 168cdca - feat(cic-tool-surface): add cic-run-gate skill wrapping GATE-01 adapter (Chris Sorensen)
+- 1d972cc - feat(cic-tool-surface): add run_gate_adapter.py for GATE-01 (Chris Sorensen)
+- d096e2c - feat(cic-tool-surface): add cic-consolidate-artifacts stub skill (Chris Sorensen)
+- b60f56b - feat(cic-tool-surface): add cic-repair-pipeline stub skill (Chris Sorensen)
+- 5d3abe7 - chore: ignore .worktrees/ for local git worktree isolation (Chris Sorensen)
+- 24ce78f - docs: add implementation plan for docs/meta restructure (Chris Sorensen)
+- 2437724 - feat(cic-tool-surface): add _cic-shared helper module (Chris Sorensen)
+- eab52fa - docs: fix precedence ambiguities and duplication in docs-structure design spec (Chris Sorensen)
+- e50e87b - docs: mirror missing SKILL.md/README.md/INTEGRATION_DIAGRAM.md for toolforge-cli, toolforge-registry-manager, toolforge-submission-validator (Chris Sorensen)
+- c11ab75 - docs: add docs/meta restructure + documentation policy design spec (Chris Sorensen)
+- 0d571fa - docs: add CIC tool surface Phase 1 implementation plan (Chris Sorensen)
+- e08af30 - fix: move CIC tool surface spec to docs/meta (repo convention) (Chris Sorensen)
+- 1e80fd4 - docs: add CIC tool surface Phase 1 design spec (Chris Sorensen)
+
 ## Version 2.2.5
 Date: 2026-07-16
 
