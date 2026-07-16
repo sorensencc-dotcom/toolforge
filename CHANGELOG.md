@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.2.5
+Date: 2026-07-16
+
+### Changes
+- 3e39dd0 - chore: update retros, copilot instructions, and deployment status reports (Chris Sorensen)
+
 ## Version 2.2.4
 Date: 2026-07-16
 
