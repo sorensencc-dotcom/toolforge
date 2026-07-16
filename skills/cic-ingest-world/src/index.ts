@@ -1,6 +1,7 @@
 import { generateRunId } from '../../_cic-shared/src/runId';
 import { writeResultJson } from '../../_cic-shared/src/writeResultJson';
 import { artifactPaths } from '../../_cic-shared/src/artifactPaths';
+import { writeLineageEntry } from '../../_cic-shared/src/writeLineageEntry';
 
 export interface IngestInput {
   sourceId: string;
@@ -19,14 +20,19 @@ export interface IngestOutput {
 export async function main(input: IngestInput): Promise<IngestOutput> {
   const runId = generateRunId();
   const { dir } = artifactPaths('ingest', runId);
+  const timestamp = new Date().toISOString();
+  const lineageRef = `lineage:ingest:${input.sourceId}:${runId}`;
   const result: IngestOutput = {
     runId,
     status: 'stub',
     artifactsPath: dir,
-    lineageRef: `lineage:ingest:${input.sourceId}:${runId}`,
-    timestamp: new Date().toISOString(),
+    lineageRef,
+    timestamp,
   };
   await writeResultJson('ingest', runId, result as unknown as Record<string, unknown>);
+  await writeLineageEntry('ingest', runId, {
+    runId, lineageRef, sourceId: input.sourceId, status: 'stub', timestamp,
+  });
   return result;
 }
 
