@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.5.0
+Date: 2026-07-16
+
+### Changes
+- 43f4f06 - fix(cic-run-gate): add SEC-AUDITOR exemption for child_process spawn (Chris Sorensen)
+- 3abed4a - feat(toolforge): add PDF ingestion plugin + generic plugin exec system (Chris Sorensen)
+
 ## Version 2.4.0
 Date: 2026-07-16
 
