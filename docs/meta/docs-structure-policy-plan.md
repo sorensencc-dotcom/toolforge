@@ -427,6 +427,8 @@ git mv docs/meta/governance-amendment-observability-phase-d.md docs/meta/plans/g
 git mv docs/meta/parallelism-matrix-template.md docs/meta/plans/parallelism-matrix-template.md
 ```
 
+**[Note added post-execution 2026-07-16: Task 4 is complete. Same self-corruption as Tasks 1-3's blocks — restored here.]**
+
 Note: there are now two files named `1-parallelism-matrix-template.md` (untouched, still at `docs/meta/`) and `docs/meta/plans/parallelism-matrix-template.md` (just moved). This is expected — `1-parallelism-matrix-template.md` is handled in Task 6.
 
 - [ ] **Step 2: Fix every referrer**
@@ -473,7 +475,7 @@ Also check bare relative links (`](parallelism-matrix-template.md`, `](PARALLELI
 git grep -n "docs/meta/2-ijfw-plan-integration-spec.md\|docs/meta/3-ijfw-verify-parallelism-checks.md\|docs/meta/4-ijfw-plan-phase-4-governance.md\|docs/meta/4-parallelism-matrix-governance-rule.md\|docs/meta/5-ijfw-plan-observability-contract.md\|docs/meta/5-ijfw-plan-phase-5-multicanary.md\|docs/meta/toolforge-phase-2b-implementation-plan.md\|docs/meta/cic-tool-surface-phase1-plan.md\|docs/meta/PARALLELISM_MATRIX_DELIVERY_INDEX.md\|docs/meta/PARALLELISM_MATRIX_SYSTEM.md\|docs/meta/OBSERVABILITY_PHASE_D_SUMMARY.md" -- . ':!docs/archive'
 ```
 
-Expected: no output. (Note: don't grep bare `docs/meta/parallelism-matrix-template.md` or `docs/meta/parallelism-matrix-retrofit-example-phase3.md` or `docs/meta/governance-amendment-observability-phase-d.md` as "old path gone" checks here — their filename didn't change, only their directory, so the string `docs/meta/parallelism-matrix-template.md` legitimately still won't appear anywhere as a *correct* reference post-move; verify instead that `docs/meta/plans/parallelism-matrix-template.md` **does** appear in referrers that used to point to the old location.)
+Expected: no output. (Note: don't grep bare `docs/meta/plans/parallelism-matrix-template.md` or `docs/meta/plans/parallelism-matrix-retrofit-example-phase3.md` or `docs/meta/plans/governance-amendment-observability-phase-d.md` as "old path gone" checks here — their filename didn't change, only their directory, so the string `docs/meta/plans/parallelism-matrix-template.md` legitimately still won't appear anywhere as a *correct* reference post-move; verify instead that `docs/meta/plans/parallelism-matrix-template.md` **does** appear in referrers that used to point to the old location.)
 
 ```bash
 git grep -c "docs/meta/plans/parallelism-matrix-template.md" -- docs/meta/plans/parallelism-matrix-governance-rule.md docs/meta/plans/parallelism-matrix-delivery-index.md docs/meta/plans/parallelism-matrix-system.md
