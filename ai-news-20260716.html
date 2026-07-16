@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI NEWS Summary — July 16, 2026</title>
+    <style>
+        :root {
+            --ember: #8B4513;
+            --rust: #A0522D;
+            --brass: #D4AF37;
+            --charcoal: #2C2C2C;
+            --off-white: #F5F3EF;
+            --sage: #9B9B8F;
+            --high: #C84C3C;
+            --medium: #E6A84C;
+            --low: #7A8C6C;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --charcoal: #F5F3EF;
+                --off-white: #2C2C2C;
+                --sage: #B8B8A3;
+            }
+        }
+
+        [data-theme="dark"] {
+            --charcoal: #F5F3EF;
+            --off-white: #2C2C2C;
+            --sage: #B8B8A3;
+        }
+
+        [data-theme="light"] {
+            --charcoal: #2C2C2C;
+            --off-white: #F5F3EF;
+            --sage: #9B9B8F;
+        }
+
+        body {
+            font-family: Baskerville, Georgia, serif;
+            background-color: var(--off-white);
+            color: var(--charcoal);
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--ember);
+            margin: 0 0 0.5rem 0;
+            font-weight: 700;
+        }
+
+        .header {
+            border-bottom: 3px solid var(--brass);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .date {
+            font-size: 0.95rem;
+            color: var(--sage);
+            font-family: Barlow, sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        .section {
+            margin: 2.5rem 0;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--charcoal);
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .confidence-badge {
+            font-family: Barlow, sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.4rem 0.7rem;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+        }
+
+        .high {
+            background-color: var(--high);
+            color: var(--off-white);
+        }
+
+        .medium {
+            background-color: var(--medium);
+            color: var(--charcoal);
+        }
+
+        .low {
+            background-color: var(--low);
+            color: var(--off-white);
+        }
+
+        .theme-item {
+            background-color: rgba(139, 69, 19, 0.04);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--brass);
+        }
+
+        .theme-title {
+            font-family: Barlow, sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ember);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .theme-desc {
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            margin: 0.5rem 0;
+        }
+
+        .sources {
+            font-size: 0.85rem;
+            color: var(--sage);
+            font-style: italic;
+            margin-top: 0.75rem;
+        }
+
+        .action-item {
+            background-color: rgba(155, 155, 143, 0.06);
+            padding: 1.25rem;
+            margin: 1.25rem 0;
+            border-left: 4px solid var(--sage);
+        }
+
+        .action-label {
+            font-family: Barlow, sans-serif;
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background-color: var(--rust);
+            color: var(--off-white);
+            padding: 0.3rem 0.6rem;
+            border-radius: 2px;
+            letter-spacing: 0.05em;
+            margin-right: 0.5rem;
+        }
+
+        .action-title {
+            font-family: Barlow, sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin: 0.5rem 0;
+        }
+
+        .action-desc {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            line-height: 1.5;
+            margin: 0.75rem 0 0 0;
+        }
+
+        .trend-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: rgba(212, 175, 55, 0.08);
+            border-radius: 4px;
+        }
+
+        .source-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .source-card {
+            padding: 1rem;
+            background-color: rgba(165, 82, 45, 0.06);
+            border: 1px solid var(--brass);
+            border-radius: 4px;
+        }
+
+        .source-name {
+            font-family: Barlow, sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--ember);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .source-contrib {
+            font-size: 0.85rem;
+            color: var(--charcoal);
+        }
+
+        .theme-icon {
+            font-size: 1.4rem;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--sage);
+            font-size: 0.85rem;
+            color: var(--sage);
+            text-align: center;
+        }
+
+        .toggle-theme {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--brass);
+            color: var(--charcoal);
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: Barlow, sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .toggle-theme:hover {
+            background-color: var(--rust);
+            color: var(--off-white);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <button class="toggle-theme" onclick="toggleTheme()">🌙 Dark</button>
+
+    <div class="header">
+        <h1>🔍 AI NEWS Summary</h1>
+        <p class="date">Wednesday, July 16, 2026 • 7:45 AM ET</p>
+        <p style="font-size: 0.95rem; color: var(--charcoal); margin-top: 1rem;">
+            <strong>6 newsletters ingested</strong> • 5 themes extracted • 4 action items • Updated daily
+        </p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            <span class="theme-icon">🔥</span> High Confidence (80%+)
+        </div>
+
+        <div class="theme-item">
+            <div class="theme-title">Model Economics &amp; Cost Efficiency</div>
+            <div class="theme-desc">
+                Poorly managed AI agents can cost more than employees they replace. Open models dropping costs toward zero, making the entire stack accessible. Token spend discipline and cost-per-task optimization emerging as critical differentiators.
+            </div>
+            <div class="sources">
+                Sources: TLDR (×2), Claude Code for Non-Coders, The Deep View
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            <span class="theme-icon">⚡</span> Medium Confidence (50–67%)
+        </div>
+
+        <div class="theme-item">
+            <div class="theme-title">Embodied AI &amp; Hardware</div>
+            <div class="theme-desc">
+                ChatGPT gaining physical embodiment via robotics. OpenAI hardware debut includes Codex control interface. Emerging trend: AI moving from software-only to hardware-integrated systems.
+            </div>
+            <div class="sources">
+                Sources: The Neuron Daily, The Rundown AI (67% confidence, 2/3 sources)
+            </div>
+        </div>
+
+        <div class="theme-item">
+            <div class="theme-title">Developer Tools &amp; Integration</div>
+            <div class="theme-desc">
+                Zapier MCP expanding automation capabilities. Manus voice-native tool for LinkedIn post generation. Integration layer becoming critical for workflow speed and personalization.
+            </div>
+            <div class="sources">
+                Sources: TLDR (50% confidence, 1/6 weighted)
+            </div>
+        </div>
+
+        <div class="theme-item">
+            <div class="theme-title">Company Valuations &amp; Funding</div>
+            <div class="theme-desc">
+                DeepSeek exploring $1.5B raise at $71B valuation; possible IPO late 2026 or 2027. Kalshi compute markets emerging. Competitive pressure on Claude/OpenAI positioning.
+            </div>
+            <div class="sources">
+                Sources: TLDR (50% confidence, 1/6 weighted)
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            <span class="theme-icon">✅</span> Action Items (4 total)
+        </div>
+
+        <div class="action-item">
+            <span class="action-label">EVALUATE</span>
+            <div class="action-title">Compare Claude vs. Open-Source Model Cost-Efficiency</div>
+            <div class="action-desc">
+                Agent token costs rising. Evaluate cost/benefit of managed (Claude, OpenAI) vs. self-hosted (open-source) models for your workloads. Related: track pricing updates.
+            </div>
+        </div>
+
+        <div class="action-item">
+            <span class="action-label">RESEARCH</span>
+            <div class="action-title">Track OpenAI Hardware Expansion Strategy</div>
+            <div class="action-desc">
+                ChatGPT robotics + Codex control interface signal hardware diversification. Assess market impact and competitive implications for Claude positioning.
+            </div>
+        </div>
+
+        <div class="action-item">
+            <span class="action-label">MONITOR</span>
+            <div class="action-title">Watch DeepSeek IPO Timeline &amp; Valuation</div>
+            <div class="action-desc">
+                Target: late 2026 or 2027 at $71B+ valuation. Track competitive pressure and market sentiment shifts. Set calendar reminder for Q4 2026 update.
+            </div>
+        </div>
+
+        <div class="action-item">
+            <span class="action-label">EVALUATE</span>
+            <div class="action-title">Test Manus &amp; Zapier MCP for Workflow Automation</div>
+            <div class="action-desc">
+                Voice-native LinkedIn automation + MCP integration emerging. Potential for content creation speedup and personalization at scale.
+            </div>
+        </div>
+    </div>
+
+    <div class="section trend-section">
+        <div class="section-title">
+            <span class="theme-icon">📊</span> Source Contributions
+        </div>
+        <div class="source-grid">
+            <div class="source-card">
+                <div class="source-name">TLDR Newsletter</div>
+                <div class="source-contrib">2 newsletters (1.5× weight) • Model costs, valuations, tools</div>
+            </div>
+            <div class="source-card">
+                <div class="source-name">The Neuron Daily</div>
+                <div class="source-contrib">1 newsletter • Embodied AI, ChatGPT robotics</div>
+            </div>
+            <div class="source-card">
+                <div class="source-name">The Rundown AI</div>
+                <div class="source-contrib">1 newsletter • OpenAI hardware, Codex control</div>
+            </div>
+            <div class="source-card">
+                <div class="source-name">Claude Code for Non-Coders</div>
+                <div class="source-contrib">1 newsletter • Open models cost, stack accessibility</div>
+            </div>
+            <div class="source-card">
+                <div class="source-name">The Deep View</div>
+                <div class="source-contrib">1 newsletter • AI alignment, model fairness, cost discipline</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Generated 2026-07-16 07:45 ET • Next update: 2026-07-17 07:45 ET</p>
+        <p>📰 <strong>AI NEWS Summary</strong> — Daily synthesis of 6 AI newsletters with ranked themes, confidence scores, and prioritized actions.</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.querySelector('.toggle-theme');
+            const current = html.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            btn.textContent = next === 'light' ? '🌙 Dark' : '☀️ Light';
+            localStorage.setItem('ai-news-theme', next);
+        }
+
+        // Load saved theme preference
+        const saved = localStorage.getItem('ai-news-theme');
+        if (saved) {
+            document.documentElement.setAttribute('data-theme', saved);
+            document.querySelector('.toggle-theme').textContent =
+                saved === 'light' ? '🌙 Dark' : '☀️ Light';
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.querySelector('.toggle-theme').textContent = '☀️ Light';
+        }
+    </script>
+</body>
+</html>
