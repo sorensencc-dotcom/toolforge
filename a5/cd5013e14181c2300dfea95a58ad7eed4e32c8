@@ -1,0 +1,29 @@
+docs/meta/archive/README.md
+  s_08b9cdeabfac84::t_ef09ee346a604d 1-9
+CIC-GOVERNANCE/MANIFEST/README.md
+  s_2582d405663e29::t_3f38d294dbd1e3 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a5cd5013e14181c2300dfea95a58ad7eed4e32c8",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2582d405663e29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a05b408d5474e2b7c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
