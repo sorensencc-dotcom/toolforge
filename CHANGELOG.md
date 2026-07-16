@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.3.2
+Date: 2026-07-16
+
+### Changes
+- 44d3f99 - chore(retro): update handoff memory and shared skill tests (Chris Sorensen)
+
 ## Version 2.3.1
 Date: 2026-07-16
 
