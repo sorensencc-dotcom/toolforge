@@ -1,0 +1,43 @@
+docs/meta/specs/toolforge-phase-2b-step1-design.md
+  s_08b9cdeabfac84::t_a0989a97c97dc1 1-850
+api/telemetry/server.js
+  s_08b9cdeabfac84::t_d42ddc938cdcac 5
+assets/cic-dashboard.css
+  s_08b9cdeabfac84::t_2c1ce79db69aa5 3
+assets/dashboard-v2.js
+  s_08b9cdeabfac84::t_4d8e2652e67e6e 5
+docs/meta/phases/phase-7-rollback-health-check-gate.md
+  s_08b9cdeabfac84::t_68876cf53dd912 522-523
+docs/meta/specs/phase-7-unleash-integration-spec.md
+  s_08b9cdeabfac84::t_00591dac234387 577
+docs/meta/specs/toolforge-phase-2b-step2-design.md
+  s_08b9cdeabfac84::t_136c597ee7d66d 7
+docs/meta/docs-structure-policy-plan.md
+  s_f3f810462d7935::t_973453580f1512 341,344,351
+docs/meta/specs/README.md
+  s_f3f810462d7935::t_5c19f99685266d 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "db76e4d83618f9ec509c0ba2f42f06d2eb82c4d0",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f3f810462d7935": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6c78-bdf1-7002-9c67-2967051fa9b9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
