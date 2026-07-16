@@ -10,6 +10,7 @@ out/
 .vscode/
 .idea/
 .obsidian/workspace.json
+.worktrees/
 
 # Separate projects / research
 bookstack-docker/
