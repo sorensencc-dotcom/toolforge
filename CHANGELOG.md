@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.3.1
+Date: 2026-07-16
+
+### Changes
+- c1cb3f2 - docs: add CIC tool surface Phase 2 implementation plan (Chris Sorensen)
+- 346937e - docs: address caveman-review findings on Phase 2 spec (Chris Sorensen)
+- 1a1ca42 - Merge remote-tracking branch 'origin/main' (Chris Sorensen)
+- 1e9de63 - docs: add CIC tool surface Phase 2 design spec (Chris Sorensen)
+
 ## Version 2.3.0
 Date: 2026-07-16
 
