@@ -1,0 +1,35 @@
+skills/cic-consolidate-artifacts/docs/USAGE.md
+  s_a8524015512eea::t_6df934d5b5cfa1 1-10
+skills/cic-consolidate-artifacts/tsconfig.json
+  s_a8524015512eea::t_13c9f9a080f0c7 1
+skills/cic-consolidate-artifacts/src/index.ts
+  s_a8524015512eea::t_6df934d5b5cfa1 1-15
+skills/cic-consolidate-artifacts/skill.json
+  s_a8524015512eea::t_6df934d5b5cfa1 1
+skills/cic-consolidate-artifacts/tests/skill.test.ts
+  s_a8524015512eea::t_13c9f9a080f0c7 1-12
+skills/cic-consolidate-artifacts/package.json
+  s_a8524015512eea::t_13c9f9a080f0c7 1
+skills/cic-consolidate-artifacts/jest.config.js
+  s_a8524015512eea::t_13c9f9a080f0c7 1
+manifest.json
+  s_a8524015512eea::t_c1f3662e2019d4 621-635
+skills/cic-consolidate-artifacts/package-lock.json
+  s_a8524015512eea::t_a470bc45fcb52a 1-3860
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d096e2c95b4416f9bd8c1a643d55833c9670be5e",
+  "prompts": {},
+  "sessions": {
+    "s_a8524015512eea": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6ba3-2cb9-7bd2-aae6-61642dae94c4",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
