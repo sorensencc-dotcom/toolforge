@@ -1,5 +1,36 @@
 # Changelog
 
+## Version 2.4.0
+Date: 2026-07-16
+
+### Changes
+- a9afc29 - chore(cic-tool-surface): Phase 2 validation pass (Chris Sorensen)
+- f521e77 - feat(cic-tool-surface): cic-ingest-world writes lineage index entry (Chris Sorensen)
+- 191a884 - feat(cic-tool-surface): cic-run-gate writes report index entry (Chris Sorensen)
+- 8f054f5 - feat(cic-tool-surface): add lineage/report index path+writer helpers (Chris Sorensen)
+- 3e1d9aa - Merge branch 'docs-meta-restructure' (Chris Sorensen)
+- 5d7ccac - fix(cic-tool-surface): anchor artifactPaths at repo root, not process.cwd() (Chris Sorensen)
+- c17211a - docs: fix stale phase-charter glob path in global operating rules (final review finding) (Chris Sorensen)
+- f640482 - docs: point CLAUDE.md governance references at new docs/meta subfolder paths (Chris Sorensen)
+- 7ce1d97 - docs: add docs/meta root index (Chris Sorensen)
+- 66eea53 - docs: add docs/meta documentation policy (Chris Sorensen)
+- a5cd501 - docs: archive orphaned parallelism-matrix draft and superseded governance manifest drafts (Chris Sorensen)
+- 0bd545e - docs: fix Task 5 plan-doc self-corruption (same class as Tasks 1-4) (Chris Sorensen)
+- 0c7a1ae - docs: move review docs into docs/meta/reviews/ (Chris Sorensen)
+- 2fbb6e3 - docs: fix Task 4 reviewer findings + newly-discovered duplicate pair (ijfw-verify-parallelism-checks, parallelism-matrix-governance-rule) (Chris Sorensen)
+- a10b847 - docs: fix Task 4 plan-doc self-corruption (same class as Tasks 1-3) (Chris Sorensen)
+- 00ad5ce - docs: move implementation plans into docs/meta/plans/ (Chris Sorensen)
+- c8d8a30 - docs: complete Task 3 plan-doc self-corruption fix (2 blocks the implementer missed) (Chris Sorensen)
+- db76e4d - docs: move design/integration specs into docs/meta/specs/ (Chris Sorensen)
+- f48d80e - docs: fix README wording implying phase-8-toolforge-marketplace/ is nested in phases/ (Chris Sorensen)
+- fb62d48 - docs: fix Task 2 plan-doc self-corruption (same class as Task 1) (Chris Sorensen)
+- fbb5d32 - docs: move phase charters/reports into docs/meta/phases/ (Chris Sorensen)
+- e0f08ce - docs: apply Step 5 staging fix to the correct checkout (was mistakenly edited on main earlier) (Chris Sorensen)
+- 34a1b11 - docs: fix 2 more doubled-path links from same sed root cause (re-review finding) (Chris Sorensen)
+- 2b047db - docs: fix Task 1 reviewer findings (broken outgoing links, plan doc self-corruption) (Chris Sorensen)
+- 4eb8b39 - docs: fix docs/meta/governance/ referrers outside the moved folder (Task 1 completion) (Chris Sorensen)
+- 68513aa - docs: move governance docs into docs/meta/governance/ (Chris Sorensen)
+
 ## Version 2.3.2
 Date: 2026-07-16
 
