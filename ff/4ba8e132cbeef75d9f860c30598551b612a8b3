@@ -1,0 +1,43 @@
+skills/SKILLPACK-VALIDATION.md
+  s_c01c5887199fb9::t_294c6c16947971 3,11-12,14,16,20,52,54-55,73-75,86-88,171,173-174,206,208-209
+skills/toolforge-cli/INTEGRATION_DIAGRAM.md
+  s_c83ac9271709b1::t_3d8ab4df30ea89 1-21
+skills/toolforge-cli/README.md
+  s_c83ac9271709b1::t_32c7bedea923f4 1-39
+skills/toolforge-cli/SKILL.md
+  s_c83ac9271709b1::t_dd43c62e847f79 1-32
+skills/toolforge-registry-manager/INTEGRATION_DIAGRAM.md
+  s_c83ac9271709b1::t_ec5d7fe87c387c 1-17
+skills/toolforge-registry-manager/README.md
+  s_c83ac9271709b1::t_6dea1da1246419 1-41
+skills/toolforge-registry-manager/SKILL.md
+  s_c83ac9271709b1::t_ac45c5817bdde9 1-33
+skills/toolforge-submission-validator/INTEGRATION_DIAGRAM.md
+  s_c83ac9271709b1::t_4ae821889badf8 1-22
+skills/toolforge-submission-validator/SKILL.md
+  s_c83ac9271709b1::t_246e4eff283af0 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "ff4ba8e132cbeef75d9f860c30598551b612a8b3",
+  "prompts": {},
+  "sessions": {
+    "s_c01c5887199fb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f9fcb8-8183-4409-91aa-b2f076438001",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c83ac9271709b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "42f01400-e2ad-495c-8aab-219a5fbcf7c9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
