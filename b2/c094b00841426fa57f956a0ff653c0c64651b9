@@ -1,0 +1,48 @@
+skills/cic-ingest-world/skill.json
+  s_a8524015512eea::t_524a209cb382f8 1
+skills/cic-ingest-world/package.json
+  s_a8524015512eea::t_e8b7b56aa563fb 1
+skills/cic-ingest-world/src/index.ts
+  s_a8524015512eea::t_97c008c98c5f9c 29
+  s_a8524015512eea::t_524a209cb382f8 1-28,30-33
+skills/cic-ingest-world/tsconfig.json
+  s_a8524015512eea::t_e8b7b56aa563fb 1
+skills/cic-ingest-world/tests/skill.test.ts
+  s_a8524015512eea::t_e8b7b56aa563fb 1-18
+skills/cic-ingest-world/docs/USAGE.md
+  s_a8524015512eea::t_524a209cb382f8 1-15
+skills/cic-ingest-world/jest.config.js
+  s_a8524015512eea::t_e8b7b56aa563fb 1-7
+manifest.json
+  s_a8524015512eea::t_93aad034ad4dd4 607-621
+skills/cic-ingest-world/cic/artifacts/ingest/run-20260716T163520Z-3f99cd/result.json
+  s_a8524015512eea::t_8e58ac901ab42e 1-7
+skills/cic-ingest-world/cic/artifacts/ingest/run-20260716T163520Z-f53128/result.json
+  s_a8524015512eea::t_299097af10dd37 1-7
+skills/cic-ingest-world/package-lock.json
+  s_4dfa8c09d4b212::t_6ffa3675f52df7 1-3860
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "b2c094b00841426fa57f956a0ff653c0c64651b9",
+  "prompts": {},
+  "sessions": {
+    "s_4dfa8c09d4b212": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6bc4-1104-7123-88f4-4dce1812515b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a8524015512eea": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6ba3-2cb9-7bd2-aae6-61642dae94c4",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
