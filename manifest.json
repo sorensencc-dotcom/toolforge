@@ -604,6 +604,36 @@
       "category": "utilities",
       "entrypoint": "skills/skill-security-auditor/src/skill_security_auditor.py",
       "status": "active"
+    },
+    {
+      "version": "1.0.0",
+      "description": "Stub: ingest a world/source into CIC (Phase 1 placeholder, no TorqueQuery yet)",
+      "timestamps": { "created": "2026-07-16T16:35:00Z", "lastValidation": null, "lastRun": null },
+      "tags": ["cic", "governance", "phase1"],
+      "status": "active",
+      "name": "cic-ingest-world",
+      "runtime": "node",
+      "id": "cic-ingest-world",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "governance",
+      "health": { "canonical": true, "runtime": "untested", "distributed": false, "overall": "good" },
+      "dependencies": { "external": [], "internal": ["_cic-shared"] }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Stub: repair a CIC pipeline failure (Phase 1 placeholder)",
+      "timestamps": { "created": "2026-07-16T16:40:00Z", "lastValidation": null, "lastRun": null },
+      "tags": ["cic", "governance", "phase1"],
+      "status": "active",
+      "name": "cic-repair-pipeline",
+      "runtime": "node",
+      "id": "cic-repair-pipeline",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "governance",
+      "health": { "canonical": true, "runtime": "untested", "distributed": false, "overall": "good" },
+      "dependencies": { "external": [], "internal": ["_cic-shared"] }
     }
   ],
   "summary": {
