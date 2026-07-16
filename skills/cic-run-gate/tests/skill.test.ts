@@ -1,5 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
+import * as fs from 'fs';
 import main from '../src/index';
+import { reportPaths } from '../../_cic-shared/src/reportPaths';
 
 describe('cic-run-gate', () => {
   it('GATE-01 returns a well-formed PASS/FAIL/ERROR result', async () => {
@@ -23,4 +25,20 @@ describe('cic-run-gate', () => {
     expect(result.status).toBe('ERROR');
     expect(result.message).toMatch(/invalid gateId/i);
   });
+});
+
+describe('cic-run-gate report index', () => {
+  it('writes a report index entry under cic/reports/gates/<runId>.json', async () => {
+    const result = await main({ gateId: 'GATE-01' });
+    const { file } = reportPaths('gates', result.runId);
+    expect(fs.existsSync(file)).toBe(true);
+    const entry = JSON.parse(fs.readFileSync(file, 'utf-8'));
+    expect(entry).toEqual({
+      runId: result.runId,
+      gateId: 'GATE-01',
+      status: result.status,
+      reportPath: result.reportPath,
+      timestamp: result.timestamp,
+    });
+  }, 20000);
 });

@@ -1,9 +1,10 @@
-import { spawn } from 'child_process'; // noqa: SEC-AUDITOR — fixed Python adapter path; shell disabled by default
+import { spawn } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs/promises';
 import { generateRunId } from '../../_cic-shared/src/runId';
 import { writeResultJson } from '../../_cic-shared/src/writeResultJson';
 import { artifactPaths } from '../../_cic-shared/src/artifactPaths';
+import { writeReportEntry } from '../../_cic-shared/src/writeReportEntry';
 
 export interface RunGateInput { gateId: string; scope?: string; profile?: string; }
 interface AdapterPayload { status: 'PASS' | 'FAIL' | 'ERROR'; violations: { testId: string; description: string; outcome: string }[]; message: string; }
@@ -31,7 +32,10 @@ export async function main(input: RunGateInput): Promise<RunGateOutput> {
   if (!GATE_ID_PATTERN.test(input.gateId)) payload = { status: 'ERROR', violations: [], message: `invalid gateId: ${input.gateId}` };
   else payload = await runAdapter(input.gateId);
   const reportPath = path.join(dir, 'report.json'); await fs.mkdir(dir, { recursive: true }); await fs.writeFile(reportPath, JSON.stringify(payload, null, 2), 'utf-8');
-  const result: RunGateOutput = { ...payload, runId, gateId: input.gateId, reportPath, artifactsPath: dir, timestamp: new Date().toISOString() };
-  await writeResultJson('gates', runId, result as unknown as Record<string, unknown>); return result;
+  const timestamp = new Date().toISOString();
+  const result: RunGateOutput = { ...payload, runId, gateId: input.gateId, reportPath, artifactsPath: dir, timestamp };
+  await writeResultJson('gates', runId, result as unknown as Record<string, unknown>);
+  await writeReportEntry('gates', runId, { runId, gateId: input.gateId, status: payload.status, reportPath, timestamp });
+  return result;
 }
 export default main;
