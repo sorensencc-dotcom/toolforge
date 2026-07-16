@@ -1,2 +1,2 @@
-version: 2.2.5
+version: 2.3.0
 date: 2026-07-16
