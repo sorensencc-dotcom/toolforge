@@ -5,7 +5,7 @@ Manages the Toolforge plugin registry with append-only semantics.
 ## Purpose
 
 Sole writer of `docs/toolforge/registry.json`. Per the Toolforge Marketplace
-governance model (`CLAUDE.md` / `docs/meta/TOOLFORGE-MARKETPLACE-SPEC-v1.0.md`):
+governance model (`CLAUDE.md` / `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`):
 Tier 1 approves submissions, Tier 2 runs the validator, Tier 3 (this skill,
 via CI) publishes the registry after approval. No manual edits to the
 registry file — mutations go through this skill so every change is

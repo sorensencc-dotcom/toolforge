@@ -11,7 +11,7 @@ Authority follows, in descending order:
 
 1. Tier 1 decisions and approvals.
 2. `CLAUDE.md` project instructions.
-3. `docs/meta/global-operating-rules-cic-rewrite-labs.md`.
+3. `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md`.
 4. Ratified phase charters and amendments.
 5. Ratified artifacts in this directory.
 6. Operational implementations and historical records.

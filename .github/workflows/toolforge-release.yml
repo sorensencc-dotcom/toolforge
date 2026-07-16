@@ -1,6 +1,6 @@
 name: Toolforge Release
 
-# Phase 2b Step 3.1 (see docs/meta/toolforge-phase-2b-implementation-plan.md §STEP 3).
+# Phase 2b Step 3.1 (see docs/meta/plans/toolforge-phase-2b-implementation-plan.md §STEP 3).
 #
 # [Rule 1/2 deviations from the plan's snippet, documented here per the
 # executor's deviation rules — no separate ask needed, all in-scope]:

@@ -155,7 +155,7 @@ Can we revert to consistent state? How long?
 ```
 
 ### Example: Phase 27 Wave E Validation
-Reference: `docs/meta/PHASE27_WAVE_E_DATA_CONTRACT.md` (already written, approved)
+Reference: `docs/meta/phases/phase-27-wave-e-data-contract.md` (already written, approved)
 
 ---
 

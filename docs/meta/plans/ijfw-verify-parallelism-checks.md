@@ -285,5 +285,5 @@ Optional `.claude/settings.json`:
 
 ---
 
-**Reference:** [Parallelism Matrix System](PARALLELISM_MATRIX_SYSTEM.md)
+**Reference:** [Parallelism Matrix System](parallelism-matrix-system.md)
 

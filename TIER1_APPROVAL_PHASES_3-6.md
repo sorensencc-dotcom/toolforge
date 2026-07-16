@@ -23,7 +23,7 @@ deadline that is now tight relative to today's date (2026-07-11).
 ## 1. Charter Summary (per phase)
 
 ### Phase 3 — Cowork Gateway Integration
-*Source: `docs/meta/phase-3-cowork-gateway-charter.md`*
+*Source: `docs/meta/phases/phase-3-cowork-gateway-charter.md`*
 
 | | |
 |---|---|
@@ -44,7 +44,7 @@ skill-based enrichment workflows.
   (16 tests).
 
 ### Phase 4 — Governance, Canary & Promotion
-*Source: `docs/meta/phase-4-governance-charter.md`*
+*Source: `docs/meta/phases/phase-4-governance-charter.md`*
 
 | | |
 |---|---|
@@ -71,7 +71,7 @@ validation → governance approval → canary testing → rollback/promotion.
   tests PASS.
 
 ### Phase 5 — Multi-Cohort Canary & A/B Testing
-*Source: `docs/meta/phase-5-multicanary-charter.md`*
+*Source: `docs/meta/phases/phase-5-multicanary-charter.md`*
 
 | | |
 |---|---|
@@ -94,7 +94,7 @@ custom metrics.
   CohortPromotionEngine, E2E harness (27 tests).
 
 ### Phase 6 — Rollback Execution Engine
-*Source: `docs/meta/phase-6-rollback-charter.md`*
+*Source: `docs/meta/phases/phase-6-rollback-charter.md`*
 
 | | |
 |---|---|
@@ -346,7 +346,7 @@ Tier 1 signature: ______________________  Date: ______________
 ---
 
 *This submission consolidates four TIER1_APPROVED scope charters
-(`docs/meta/phase-3-cowork-gateway-charter.md` through
+(`docs/meta/phases/phase-3-cowork-gateway-charter.md` through
 `phase-6-rollback-charter.md`) into a single evidence package. This
 document records the consolidated approval evidence — it does not replace
 the per-charter Decision Log entries, which remain the source of record

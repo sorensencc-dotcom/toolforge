@@ -86,7 +86,7 @@ date: 2026-07-11
 
 2. **Governance Rule Documentation**
    - Document new Section 12 (Charter Lifecycle & Audit-First Scope Lock)
-   - Publish to docs/meta/global-operating-rules-cic-rewrite-labs.md
+   - Publish to docs/meta/governance/global-operating-rules-cic-rewrite-labs.md
    - Link from CLAUDE.md governance section
 
 3. **Exception Path Hardening**

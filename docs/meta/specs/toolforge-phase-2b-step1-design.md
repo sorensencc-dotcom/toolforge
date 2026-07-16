@@ -4,7 +4,7 @@ date: 2026-07-11
 status: DESIGN_LOCKED
 version: 1.0
 scope: Step 1 (W1–W3) only — runs + tools tables, telemetry hook, Express API, Dashboard v2 Execution History tab
-supersedes_ambiguity_in: docs/meta/toolforge-phase-2b-implementation-plan.md (Step 1 sections)
+supersedes_ambiguity_in: docs/meta/plans/toolforge-phase-2b-implementation-plan.md (Step 1 sections)
 ---
 
 # Toolforge Phase 2b — Step 1 Architecture (DESIGN_LOCKED)

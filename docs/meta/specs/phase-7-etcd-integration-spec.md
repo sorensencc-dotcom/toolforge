@@ -408,5 +408,5 @@ const etcdClient = new Etcd3({
 
 - Phase 5 snapshot capture test: `src/tests/phase7-snapshot-capture-precondition.test.ts`
 - Phase 6 rollback executor: `src/rollback/executor.ts` (Phase 7 extends via composition)
-- Phase 7 charter: `docs/meta/phase-7-rollback-config-featureflag-charter.md`
+- Phase 7 charter: `docs/meta/phases/phase-7-rollback-config-featureflag-charter.md`
 - Tier 1 decision pack: `https://claude.ai/code/artifact/fd501469-be18-43de-b700-413a592e215f`

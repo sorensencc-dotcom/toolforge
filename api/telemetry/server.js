@@ -2,7 +2,7 @@
 
 // ============================================================
 // Toolforge Telemetry API — read-only Express server over run-store.db
-// Phase 2b Step 1 (see docs/meta/toolforge-phase-2b-step1-design.md §2)
+// Phase 2b Step 1 (see docs/meta/specs/toolforge-phase-2b-step1-design.md §2)
 // ============================================================
 
 const express = require('express');

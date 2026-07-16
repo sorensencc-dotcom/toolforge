@@ -122,8 +122,8 @@ ELSE Charter → DISCUSS (Tier 1 decides: revise | consolidate | defer | proceed
 
 **Authoritative Governance Documents:**
 - `CLAUDE.md` — Long-term instructions (Tier 1 owned)
-- `docs/meta/global-operating-rules-cic-rewrite-labs.md` — This document (Tier 1 owned)
-- Phase charters (`docs/meta/phase-*.md`) — Phase scope + approval (Tier 1 approves; Tier 2 drafts)
+- `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` — This document (Tier 1 owned)
+- Phase charters (`docs/meta/phases/phase-*.md`) — Phase scope + approval (Tier 1 approves; Tier 2 drafts)
 - `MEMORY.md` — Session-persistent facts (Tier 2 updates; 60-day TTL then archive)
 
 **Update Authority:**

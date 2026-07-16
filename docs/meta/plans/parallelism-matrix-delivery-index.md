@@ -25,7 +25,7 @@
 ## Quick Navigation
 
 **New to the system?** Start here:
-1. Read [PARALLELISM_MATRIX_SYSTEM.md](PARALLELISM_MATRIX_SYSTEM.md) (~5 min)
+1. Read [PARALLELISM_MATRIX_SYSTEM.md](parallelism-matrix-system.md) (~5 min)
 2. Review example in [parallelism-matrix-template.md](parallelism-matrix-template.md) (~5 min)
 
 **Adding matrix to your charter?**
@@ -177,7 +177,7 @@ parallelism-matrix-retrofit-example-phase3.md   ← Walkthrough
 
 ## Reference
 
-**Parent governance:** [CIC + Rewrite Labs Global Rules](global-operating-rules-cic-rewrite-labs.md)
+**Parent governance:** [CIC + Rewrite Labs Global Rules](../governance/global-operating-rules-cic-rewrite-labs.md)
 
 **Related:** [Phase 3–6 Approval Package](../TIER1_APPROVAL_PHASES_3-6.md)
 

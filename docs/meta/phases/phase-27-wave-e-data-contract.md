@@ -529,6 +529,6 @@ PHASE 27 WAVE E: SIX RULES FRAMEWORK DATA FLOW
 
 - [Data Contract Specification Template](#DATA_CONTRACT_SPEC.md)
 - [Phase 27 Wave E Six Rules Framework](../memory/phase-27-wave-e-six-rules-framework.md)
-- [CIC Global Operating Rules v1.3](../docs/meta/global-operating-rules-cic-rewrite-labs.md)
+- [CIC Global Operating Rules v1.3](../governance/global-operating-rules-cic-rewrite-labs.md)
 - [ExecutionPolicy Architecture](../docs/cic/execution-policy.md)
 - [Drift Detection & Response Playbook](../docs/cic/drift-playbook.md)

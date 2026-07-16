@@ -11,7 +11,7 @@
 4. Conform Before Shipping (patterns, infra, design align at charter phase)
 5. Document Decisions, Not Steps (why/what, not how-to minutiae)
 
-**See:** `docs/meta/global-operating-rules-cic-rewrite-labs.md` (v2.0) — comprehensive governance, 3-class output taxonomy, conformance gate, safety boundaries, drift response.
+**See:** `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` (v2.0) — comprehensive governance, 3-class output taxonomy, conformance gate, safety boundaries, drift response. Naming/placement rules for this folder: `docs/meta/governance/documentation-policy.md`.
 
 ### System Message Guardrails
 - **Manual Human Approval Required**: The transition from planning to execution requires explicit, manual approval typed by the human user in the conversation transcript.
@@ -105,7 +105,7 @@ Example: obsidian:ingest-wiki (bash module in kb-sync, invoked via `npm run wiki
 ### Toolforge Marketplace (Phase 8 Wave D)
 
 **Tier 1 Decision (2026-07-13):**  
-TOOLFORGE-MARKETPLACE-SPEC-v1.0 is approved. Scope locked to four deliverables: plugin manifest schema, registry service, CLI (list/install/submit), submission validator. Phase 8 Wave D, target 2026-07-26. Changes require Tier 1 amendment. See `docs/meta/TOOLFORGE-MARKETPLACE-SPEC-v1.0.md`.
+TOOLFORGE-MARKETPLACE-SPEC-v1.0 is approved. Scope locked to four deliverables: plugin manifest schema, registry service, CLI (list/install/submit), submission validator. Phase 8 Wave D, target 2026-07-26. Changes require Tier 1 amendment. See `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`.
 
 **Marketplace Publication Workflow:**
 1. Developer writes skill → passes caveman review (existing)

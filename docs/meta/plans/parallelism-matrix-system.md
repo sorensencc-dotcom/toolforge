@@ -239,5 +239,5 @@ A: No. It reports; author/Tier 1 decides on fix.
 **Next review:** After Phase 7 charter (evaluate agent integration)  
 **Owner:** Rewrite Labs / Tier 1  
 
-See: [CIC + Rewrite Labs Global Rules](global-operating-rules-cic-rewrite-labs.md)
+See: [CIC + Rewrite Labs Global Rules](../governance/global-operating-rules-cic-rewrite-labs.md)
 

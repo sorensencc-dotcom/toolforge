@@ -574,8 +574,8 @@ curl http://127.0.0.1:4242/api/admin/audit-events \
 ## References
 
 - Phase 5 snapshot capture test: `src/tests/phase7-snapshot-capture-precondition.test.ts`
-- Phase 7 etcd integration spec: `docs/meta/phase-7-etcd-integration-spec.md`
+- Phase 7 etcd integration spec: `docs/meta/specs/phase-7-etcd-integration-spec.md`
 - Phase 6 rollback executor: `src/rollback/executor.ts` (Phase 7 extends via composition)
-- Phase 7 charter: `docs/meta/phase-7-rollback-config-featureflag-charter.md`
+- Phase 7 charter: `docs/meta/phases/phase-7-rollback-config-featureflag-charter.md`
 - Unleash documentation: https://docs.getunleash.io/
 - Tier 1 decision pack: `https://claude.ai/code/artifact/fd501469-be18-43de-b700-413a592e215f`
