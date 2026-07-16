@@ -23,7 +23,7 @@ Data Contracts formalize shared-state semantics for multi-agent flows. This gove
 ## Artifacts Delivered
 
 ### 1. DATA_CONTRACT_SPEC.md (Template)
-**Location:** `/docs/meta/DATA_CONTRACT_SPEC.md`
+**Location:** `/docs/meta/governance/data-contract-spec.md`
 
 Reusable template for designing shared-state semantics:
 - State schema (ownership, readers, writers, invariants, atomicity)

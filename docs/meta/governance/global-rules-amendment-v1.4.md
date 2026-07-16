@@ -127,6 +127,6 @@ ELSE
 
 ## References
 
-- Pre-Charter Audit Checklist: docs/meta/pre-charter-audit-checklist.md
-- ijfw-spec-phase Integration: docs/meta/ijfw-spec-phase-audit-gate-integration.md
+- Pre-Charter Audit Checklist: docs/meta/governance/pre-charter-audit-checklist.md
+- ijfw-spec-phase Integration: docs/meta/governance/ijfw-spec-phase-audit-gate-integration.md
 - Phase ABC Audit Phases: docs/meta/phase-abc-audit-phases-fixture.md
