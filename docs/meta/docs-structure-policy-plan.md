@@ -530,16 +530,16 @@ git commit -m "docs: move implementation plans into docs/meta/plans/"
 ```bash
 cd C:\dev
 mkdir -p docs/meta/reviews
-git mv docs/meta/toolforge-phase-2b-step2-REVIEW.md docs/meta/reviews/toolforge-phase-2b-step2-review.md
-git mv docs/meta/phase-7-rollback-config-featureflag-charter-REVIEW.md docs/meta/reviews/phase-7-rollback-config-featureflag-charter-review.md
+git mv docs/meta/reviews/toolforge-phase-2b-step2-review.md docs/meta/reviews/toolforge-phase-2b-step2-review.md
+git mv docs/meta/reviews/phase-7-rollback-config-featureflag-charter-review.md docs/meta/reviews/phase-7-rollback-config-featureflag-charter-review.md
 ```
 
 - [ ] **Step 2: Fix every referrer**
 
 ```bash
 for pair in \
-  "docs/meta/toolforge-phase-2b-step2-REVIEW.md=docs/meta/reviews/toolforge-phase-2b-step2-review.md" \
-  "docs/meta/phase-7-rollback-config-featureflag-charter-REVIEW.md=docs/meta/reviews/phase-7-rollback-config-featureflag-charter-review.md" \
+  "docs/meta/reviews/toolforge-phase-2b-step2-review.md=docs/meta/reviews/toolforge-phase-2b-step2-review.md" \
+  "docs/meta/reviews/phase-7-rollback-config-featureflag-charter-review.md=docs/meta/reviews/phase-7-rollback-config-featureflag-charter-review.md" \
 ; do
   old="${pair%%=*}"
   new="${pair##*=}"
@@ -553,7 +553,7 @@ done
 - [ ] **Step 3: Verify**
 
 ```bash
-git grep -n "docs/meta/toolforge-phase-2b-step2-REVIEW.md\|docs/meta/phase-7-rollback-config-featureflag-charter-REVIEW.md" -- . ':!docs/archive'
+git grep -n "docs/meta/reviews/toolforge-phase-2b-step2-review.md\|docs/meta/reviews/phase-7-rollback-config-featureflag-charter-review.md" -- . ':!docs/archive'
 ```
 
 Expected: no output.
