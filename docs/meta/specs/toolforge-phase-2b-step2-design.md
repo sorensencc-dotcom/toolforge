@@ -5,7 +5,7 @@ status: DESIGN_LOCKED
 version: 1.0
 scope: Step 2 (W3–W4) only — errors table population, error taxonomy, alert engine, Dashboard v2 Errors tab
 depends_on: docs/meta/specs/toolforge-phase-2b-step1-design.md
-supersedes_ambiguity_in: docs/meta/toolforge-phase-2b-implementation-plan.md (Step 2 sections, lines ~790–1114)
+supersedes_ambiguity_in: docs/meta/plans/toolforge-phase-2b-implementation-plan.md (Step 2 sections, lines ~790–1114)
 ---
 
 # Toolforge Phase 2b — Step 2 Architecture (DESIGN_LOCKED)

@@ -165,8 +165,8 @@ Add to every charter after approval:
 
 ## Related Documents
 
-- [Parallelism Matrix System](PARALLELISM_MATRIX_SYSTEM.md) — Master reference
-- [Parallelism Matrix Template](parallelism-matrix-template.md) — Copy-paste template
+- [Parallelism Matrix System(plans/parallelism-matrix-system.md) — Master reference
+- [Parallelism Matrix Template(plans/parallelism-matrix-template.md) — Copy-paste template
 - [ijfw-verify Checks](ijfw-verify-parallelism-checks.md) — 5 automated rules
 - [CIC + Rewrite Labs Global Rules](governance/global-operating-rules-cic-rewrite-labs.md) — Parent governance
 
@@ -196,5 +196,5 @@ A: Yes. Full visibility + audit trail.
 **Last updated:** 2026-07-12  
 **Next review:** After Phase 7 charter (evaluate effectiveness)
 
-See: [Parallelism Matrix System](PARALLELISM_MATRIX_SYSTEM.md)
+See: [Parallelism Matrix System(plans/parallelism-matrix-system.md)
 

@@ -306,5 +306,5 @@ Repeat for Phases 2, 4, 5, 6 by 2026-07-12.
 
 ---
 
-**Reference:** [Parallelism Matrix System](PARALLELISM_MATRIX_SYSTEM.md)
+**Reference:** [Parallelism Matrix System(parallelism-matrix-system.md)
 

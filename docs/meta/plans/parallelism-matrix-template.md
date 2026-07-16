@@ -240,5 +240,5 @@ See: [ijfw-verify Checks](ijfw-verify-parallelism-checks.md)
 
 **Template version:** 1.0  
 **Updated:** 2026-07-12  
-**Questions?** See [Parallelism Matrix System](PARALLELISM_MATRIX_SYSTEM.md)
+**Questions?** See [Parallelism Matrix System(parallelism-matrix-system.md)
 
