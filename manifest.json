@@ -622,6 +622,21 @@
     },
     {
       "version": "1.0.0",
+      "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
+      "timestamps": { "created": "2026-07-16T16:50:00Z", "lastValidation": null, "lastRun": null },
+      "tags": ["cic", "governance", "phase1", "gate"],
+      "status": "active",
+      "name": "cic-run-gate",
+      "runtime": "node",
+      "id": "cic-run-gate",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "governance",
+      "health": { "canonical": true, "runtime": "untested", "distributed": false, "overall": "good" },
+      "dependencies": { "external": ["python3.12"], "internal": ["_cic-shared"] }
+    },
+    {
+      "version": "1.0.0",
       "description": "Stub: consolidate CIC artifacts (Phase 1 placeholder)",
       "timestamps": { "created": "2026-07-16T16:45:00Z", "lastValidation": null, "lastRun": null },
       "tags": ["cic", "governance", "phase1"],
