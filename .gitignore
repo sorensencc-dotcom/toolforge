@@ -11,6 +11,7 @@ out/
 .idea/
 .obsidian/workspace.json
 skills/*/cic/
+/cic/
 .worktrees/
 
 # Separate projects / research
