@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.5.1
+Date: 2026-07-17
+
+### Changes
+- 387ce37 - fix(toolforge-pdf): replace xberg-mock stub with real pdf-parse extraction (Chris Sorensen)
+
 ## Version 2.5.0
 Date: 2026-07-16
 
