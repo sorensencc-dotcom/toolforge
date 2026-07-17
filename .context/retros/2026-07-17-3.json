@@ -1,0 +1,49 @@
+{
+  "date": "2026-07-17",
+  "window": "7d",
+  "since": "2026-07-10T00:00:00",
+  "base_branch": "main",
+  "metrics": {
+    "commits": 228,
+    "commits_no_merge": 224,
+    "contributors": 1,
+    "automation_commits": 22,
+    "insertions_raw": 199611,
+    "deletions_raw": 12855,
+    "net_loc_raw": 186756,
+    "lockfile_insertions": 118793,
+    "lockfile_deletions": 1189,
+    "insertions_filtered": 80818,
+    "filter_note": "excludes package-lock.json/yarn.lock/pnpm-lock.yaml only",
+    "test_insertions": 13986,
+    "test_ratio_filtered": 0.173,
+    "commit_types": {
+      "chore": 56, "docs": 54, "feat": 51, "fix": 32, "test": 10,
+      "charter": 4, "refactor": 3, "governance": 2, "other": 4
+    },
+    "peak_hour": 12,
+    "sessions": 46,
+    "deep_sessions": 9,
+    "medium_sessions": 12,
+    "micro_sessions": 25,
+    "active_minutes": 1335,
+    "loc_per_active_hour": 3650,
+    "version_range": ["v2.1.0", "v2.8.1"],
+    "release_commits_this_window": 22,
+    "team_streak_days": 10,
+    "personal_streak_days": 10,
+    "active_days": 8,
+    "backlog_open_todos": 5,
+    "backlog_closed_this_period": 3,
+    "focus_area": "skills/",
+    "focus_score_pct": 32.2
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 202, "role": "human" },
+    "toolforge-release-bot": { "commits": 22, "role": "automation" }
+  },
+  "prior_retro_baseline": ".context/retros/2026-07-17-2.json",
+  "session_focus": {
+    "summary": "This session: triaged 6 candidate global Claude Code skills for redundancy against gstack/toolforge, migrated 3 (session-wrap, skill-health-monitor, automation-audit) into toolforge/skills with deep-review rewrites, retired 3 broken/redundant ones. Registered 4 orphaned skill directories into manifest.json. Traced and fixed 6 real bugs in run-tool.ps1 (skill discovery/execution pipeline) plus the telemetry API's DB_PATH. Verified end-to-end with a real recorded skill run. Investigated and fixed a security-scanner FS-BINARY false-positive in both tracked copies of skill-security-auditor.py, after first trying (and correctly reverting) a file-rename approach that would have silently undone itself. Fixed two broken git hooks (pre-commit pwsh -File/.ps1 mismatch) blocking every commit in the toolforge repo. Closed out TODOS.md TorqueQuery hardening item and cleaned up scratch/stale files."
+  }
+}
