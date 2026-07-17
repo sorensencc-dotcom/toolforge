@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.8.4
+Date: 2026-07-17
+
+### Changes
+- 5f7d1d8 - perf: scope pre-commit/pre-push hooks to changed files (Chris Sorensen)
+
 ## Version 2.8.3
 Date: 2026-07-17
 
