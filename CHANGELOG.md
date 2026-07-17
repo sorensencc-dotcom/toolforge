@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.7.2
+Date: 2026-07-17
+
+### Changes
+- 1e10451 - chore: sync copilot toolbox reports, TODOS backlog, sqlite3 6.0.1 verified (Chris Sorensen)
+
 ## Version 2.7.1
 Date: 2026-07-17
 
