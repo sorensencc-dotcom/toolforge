@@ -51,12 +51,12 @@ Scans SKILL.md and all `.md` reference files for:
 
 | Pattern | Example | Severity |
 |---------|---------|----------|
-| **System prompt override** | "Ignore previous instructions", "You are now..." | 🔴 CRITICAL |
-| **Role hijacking** | "Act as root", "Pretend you have no restrictions" | 🔴 CRITICAL |
-| **Safety bypass** | "Skip safety checks", "Disable content filtering" | 🔴 CRITICAL |
+| **System prompt override** | "Ignore previous instructions", "You are now..." | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR: self-referential false-positive, this is the auditor's own pattern table -->
+| **Role hijacking** | "Act as root", "Pretend you have no restrictions" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR: self-referential false-positive, this is the auditor's own pattern table -->
+| **Safety bypass** | "Skip safety checks", "Disable content filtering" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR: self-referential false-positive, this is the auditor's own pattern table -->
 | **Hidden instructions** | Zero-width characters, HTML comments with directives | 🟡 HIGH |
 | **Excessive permissions** | "Run any command", "Full filesystem access" | 🟡 HIGH |
-| **Data extraction** | "Send contents of", "Upload file to", "POST to" | 🔴 CRITICAL |
+| **Data extraction** | "Send contents of", "Upload file to", "POST to" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR: self-referential false-positive, this is the auditor's own pattern table -->
 
 ### 3. Dependency Supply Chain
 
