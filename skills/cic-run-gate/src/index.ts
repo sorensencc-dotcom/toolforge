@@ -1,4 +1,4 @@
-import { spawn } from 'child_process'; // noqa: SEC-AUDITOR
+import { spawn } from 'child_process'; // noqa: SEC-AUDITOR: gateId validated by pattern, adapter path fixed, no user-controlled commands (Tier 1 approved, commit 43f4f06)
 import * as path from 'path';
 import * as fs from 'fs/promises';
 import { generateRunId } from '../../_cic-shared/src/runId';

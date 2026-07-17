@@ -51,12 +51,12 @@ Scans SKILL.md and all `.md` reference files for:
 
 | Pattern | Example | Severity |
 |---------|---------|----------|
-| **System prompt override** | "Ignore previous instructions", "You are now..." | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR -->
-| **Role hijacking** | "Act as root", "Pretend you have no restrictions" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR -->
-| **Safety bypass** | "Skip safety checks", "Disable content filtering" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR -->
+| **System prompt override** | "Ignore previous instructions", "You are now..." | 🔴 CRITICAL |
+| **Role hijacking** | "Act as root", "Pretend you have no restrictions" | 🔴 CRITICAL |
+| **Safety bypass** | "Skip safety checks", "Disable content filtering" | 🔴 CRITICAL |
 | **Hidden instructions** | Zero-width characters, HTML comments with directives | 🟡 HIGH |
 | **Excessive permissions** | "Run any command", "Full filesystem access" | 🟡 HIGH |
-| **Data extraction** | "Send contents of", "Upload file to", "POST to" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR -->
+| **Data extraction** | "Send contents of", "Upload file to", "POST to" | 🔴 CRITICAL |
 
 ### 3. Dependency Supply Chain
 
@@ -112,7 +112,7 @@ For skills with `requirements.txt`, `package.json`, or inline `pip install`:
    Fix: Remove outbound network calls or verify destination is trusted
 
 🟡 HIGH [FS-BOUNDARY] scripts/scanner.py:15
-   Pattern: open(os.path.expanduser("~/.ssh/id_rsa")) <!-- noqa: SEC-AUDITOR -->
+   Pattern: open(os.path.expanduser("~/.ssh/id_rsa"))
    Risk: Reads SSH private key outside skill scope
    Fix: Remove filesystem access outside skill directory
 
@@ -149,6 +149,27 @@ for skill in skills/*/; do
   python3 scripts/skill_security_auditor.py "$skill" --json >> audit-results.jsonl
 done
 ```
+
+## Exemption Policy
+
+A flagged pattern can be silenced with an inline marker:
+
+```
+<code>  # noqa: SEC-AUDITOR: <reason>
+```
+
+(`//` or `<!--…-->` per file's comment syntax.) Two distinct uses — don't conflate them:
+
+| Class | Example | Who approves |
+|-------|---------|---------------|
+| **Self-referential false-positive** — the auditor's own pattern table contains the strings it's matching against (e.g. `skill_security_auditor.py`'s `CODE_PATTERNS` list) | the `risk`/`fix` text for `eval()` itself contains the word `eval(` | Tier 2 — no safety exception, just a scanner matching its own source |
+| **Genuine exemption** — real executable code that trips a CRITICAL/HIGH pattern but is reviewed safe | `child_process.spawn()` with a validated, non-user-controlled command ([skills/cic-run-gate/src/index.ts:1](../cic-run-gate/src/index.ts#L1), commit `43f4f06`) | **Tier 1** — this is a safety-gate exception per Global Operating Rules §Safety Boundaries ("Exceptions require Tier 1 approval + documented reason") |
+
+Rules:
+- `<reason>` is required, not optional — must state *why* the flagged call is safe (e.g. "gateId validated by pattern, no user-controlled input"), not just restate the pattern name.
+- For genuine exemptions, the reason must also appear in the commit message — the inline comment is the searchable marker, the commit is the audit trail. Neither alone is sufficient.
+- Adding a genuine exemption without Tier 1 sign-off is a governance violation (undocumented safety-gate bypass) — halt and escalate per the drift-response rule, don't self-approve.
+- `grep -rn "noqa: SEC-AUDITOR"` across the repo is the standing way to inventory every live exemption; re-review the genuine-class ones whenever the auditor's `CODE_PATTERNS` list changes.
 
 ## Threat Model Reference
 
