@@ -1,0 +1,28 @@
+docs/meta/phases/cic-ashfall-state.md
+  s_19b6035df5cd47::t_577a057bc1f1a0 5,13-25,31
+  s_19b6035df5cd47::t_67d206a29a46a6 26-30
+  s_19b6035df5cd47::t_2d1099942e91bd 32-34
+  s_19b6035df5cd47::t_08654a36ade524 35-36
+docs/meta/phases/torquequery-reconciliation-charter.md
+  s_19b6035df5cd47::t_958479b79e9686 5-6
+  s_19b6035df5cd47::t_92d1d9b9367869 4
+  s_19b6035df5cd47::t_e35cb892edfd04 31,84-88,95-100,104,106
+TODOS.md
+  s_19b6035df5cd47::t_37481e53e8a977 10,16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4f3b5ab217a00e8b4acbd43c9bc9898da1c304b7",
+  "prompts": {},
+  "sessions": {
+    "s_19b6035df5cd47": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "feb35b8b-3e13-4d8b-b3c2-79b5c0ac19b5",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
