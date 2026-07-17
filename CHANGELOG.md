@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.6.0
+Date: 2026-07-17
+
+### Changes
+- e358a48 - feat(cic): Phase 4 tool surface - RUN-ID/GATE-ID/PROFILE-ID tagging (Chris Sorensen)
+- 300e047 - test(toolforge-pdf): add smoke test guarding real extraction (Chris Sorensen)
+- 08813d7 - feat(cic): add cic-orchestrate-flow (Phase 3 tool surface) (Chris Sorensen)
+
 ## Version 2.5.3
 Date: 2026-07-17
 
