@@ -2,7 +2,7 @@
 title: "CIC Ashfall Handoff — Project State"
 summary: "State document tracking volatile dates, status, and progress for Ashfall"
 created: "2026-07-04"
-updated: "2026-07-10"
+updated: "2026-07-17"
 tags:
   - state
   - ashfall
@@ -10,8 +10,30 @@ tags:
 ---
 # CIC Ashfall Handoff — Project State
 
-**Last Updated:** 2026-07-10  
-**Session:** Phase 3.B Cowork Gateway Integration + Phase 3.C Charter Complete
+**Last Updated:** 2026-07-17
+**Session:** Phase 3.B Cowork Gateway Integration + Phase 3.C Charter Complete (see addendum below for 2026-07-17 update)
+
+---
+
+## Addendum 2026-07-17 — TorqueQuery Ownership Resolved
+
+Line 122 below ("TorqueQuery: Split out entirely as a separate initiative")
+left TorqueQuery unowned after the 2026-07-10 split, which let two
+uncoordinated implementations accumulate under the same name. Tier 1
+decision 2026-07-17 (Option i, split and rename) resolved it:
+
+```
+TorqueQuery (memory/drift search) — owned by CIC-Ingestion
+  cic-ingestion/src/services/torquequery/TorqueQueryV2Server.py
+
+torque-query-docs (documentation RAG) — owned by Rewrite Labs
+  rewrite-docs/castironforge/torque-query-docs/
+```
+
+The empty `cic/torquequery/` scaffold referenced implicitly by this doc's
+history was retired (deleted; it was gitignored, never tracked, never
+contained code). Full decision record:
+`docs/meta/phases/torquequery-reconciliation-charter.md`.
 
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: TorqueQuery Reconciliation Charter
 date: 2026-07-17
-status: DRAFT_PENDING_APPROVAL
-decision: PENDING
+status: TIER1_APPROVED
+decision: APPROVED
+approved_date: 2026-07-17
 critical_path: false
 deadline: TBD
 ---
@@ -27,7 +28,7 @@ TorqueQuery has no owning charter or phase doc since the 2026-07-10 Ashfall clea
 - **Purpose:** FastAPI memory/drift semantic search server for CIC agent memory (MMR/RRF fast-path, deterministic scoring)
 - **Status:** Per `memory/phase-5-torquequery-v2-complete.md` (2026-07-02) — deployed, 3 validation harnesses PASS, canary gate **APPROVED**. Unclear if canary A/B/C rollout was ever executed post-approval; not evidenced in current repo state.
 
-### 3. `rewrite-docs/castironforge/torque-query/` (standalone Python package)
+### 3. `rewrite-docs/castironforge/torque-query-docs/` (standalone Python package, renamed 2026-07-17 from `torque-query/` — see Decision Log)
 - **Files:** Full project — `pyproject.toml`, Dockerfile, Makefile, `src/{fs,ingestion,rag,tools}`, `tests/`, `scripts/{ingest,watch}.py`
 - **Purpose:** Local, deterministic, MkDocs-aware documentation RAG service (Chroma vector store, Ollama embeddings, BGE reranker, CIC agent wrapper + autoscheduler rule)
 - **Status:** Self-declared `PHASE-26-READINESS.md` — every checklist item complete except "Snapshot tests added." Most functionally complete of the three.
@@ -80,20 +81,26 @@ No recommendation is executed without Tier 1 approval — this charter surfaces 
 
 ## Exit Criteria
 
-- [ ] Canonical decision made (Tier 1) and recorded in Decision Log below
-- [ ] Empty `cic/torquequery/` scaffold resolved (deleted or repurposed)
-- [ ] Adapter(s) confirmed pointed at canonical implementation(s)
-- [ ] Naming disambiguated if two services retained (Option 1)
-- [ ] This doc or a successor added to whatever state doc supersedes `cic-ashfall-state.md`, so status stays visible
+- [x] Canonical decision made (Tier 1) and recorded in Decision Log below
+- [x] Empty `cic/torquequery/` scaffold resolved (deleted — was gitignored, never tracked, contained zero files)
+- [x] Adapter(s) confirmed pointed at canonical implementation(s) (`torqueQueryV2.ts` already exclusively called the memory-search service; never touched the doc-RAG service; scope comment added confirming this is permanent, not incidental)
+- [x] Naming disambiguated (Option 1 executed — two services retained, one renamed)
+- [x] This doc's decision reflected in `docs/meta/phases/cic-ashfall-state.md` (2026-07-17 addendum)
 
 ---
 
 ## Decision Log
 
 - 2026-07-17: Charter drafted after user flagged "Phase 5 (TorqueQuery) still blocked — untracked." Investigation found no code-level blocker — three uncoordinated implementations exist across `cic/torquequery` (empty), `cic-ingestion/services/torquequery` (canary-approved 2026-07-02), `rewrite-docs/castironforge/torque-query` (self-reported near-complete). Gap is governance-doc-level only, traced to the Ashfall split (2026-07-10) leaving no owner. Charter pending Tier 1 review.
+- 2026-07-17 ✅ **Tier 1 Approval:** Option 1 (referred to as "Option i" in the companion decision-packet artifact — same option, different numbering style) APPROVED. Decision, typed directly in the conversation transcript per the manual-approval guardrail:
+  - **TorqueQuery (canonical)** keeps the name — the memory/drift search server at `cic-ingestion/src/services/torquequery/TorqueQueryV2Server.py`. Owner: CIC-Ingestion.
+  - **torque-query-docs** — new name for the doc-KB RAG service, renamed from `rewrite-docs/castironforge/torque-query/` to `rewrite-docs/castironforge/torque-query-docs/`. Owner: Rewrite Labs.
+  - Empty `cic/torquequery/` scaffold deleted (gitignored, untracked, zero files — no commit required for its removal).
+  - Execution: directory renamed via `git mv` (60 files, history preserved); `pyproject.toml` name field, README, CI workflow paths, HARDENING-NOTES.md, PHASE-26-READINESS.md, and the draft TS client updated to the new name in `rewrite-docs` (commit pending push at time of writing); `TorqueQueryV2Server.py` module docstring, `/health` service_description, test docstring, HARDENING-NOTES.md, and CANARY-VERIFICATION-2026-07-17.md updated to reflect the approved (not pending) decision in `cic-ingestion`; `torqueQueryV2.ts` adapter given an explicit scope comment confirming it stays memory-search-only per this decision.
+  - Fast-path determinism bug (found during pre-decision hardening) and the two doc-RAG bugs (frontmatter parse failure, `limit=0` validation gap) were fixed same-day, separately from this naming decision — see `memory/finding-torquequery-fastpath-nondeterminism-2026-07-17.md`.
 
 ---
 
-**Charter Status:** DRAFT → PENDING APPROVAL
+**Charter Status:** APPROVED — EXECUTED
 
-**Next Step:** Tier 1 review — confirm reconciliation option (1/2/3 above) or redirect scope.
+**Next Step:** None outstanding on this charter. Follow-up: if `torque-query-docs` is ever wired into a CIC adapter, that is new work requiring its own scoping, not covered by this charter.
