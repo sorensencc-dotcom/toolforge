@@ -1,0 +1,11 @@
+{
+  "id": "_cic-shared",
+  "name": "CIC Shared Utilities",
+  "version": "1.0.0",
+  "description": "Shared utilities and constants for CIC (internal)",
+  "category": "utilities",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "visibility": "internal",
+  "status": "active"
+}
