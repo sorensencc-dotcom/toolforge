@@ -1,0 +1,47 @@
+{
+  "date": "2026-07-17",
+  "window": "7d",
+  "since": "2026-07-10T00:00:00",
+  "until": "2026-07-17T03:40:39",
+  "base_branch": "main",
+  "metrics": {
+    "commits": 207,
+    "commits_no_merge": 203,
+    "contributors": 2,
+    "insertions_raw": 178660,
+    "deletions_raw": 10871,
+    "net_loc_raw": 167789,
+    "insertions_filtered": 70803,
+    "deletions_filtered": 6527,
+    "net_loc_filtered": 64276,
+    "filter_note": "excludes package-lock.json/yarn.lock/pnpm-lock.yaml and hook-generated report files (SKILLPACK-*, COWORK-*, CHANGELOG.md, VERSION.md) -- same methodology as prior retro",
+    "test_insertions": 13202,
+    "test_deletions": 975,
+    "feat_pct": 0.227,
+    "fix_pct": 0.130,
+    "docs_pct": 0.246,
+    "chore_pct": 0.232,
+    "test_pct": 0.043,
+    "refactor_pct": 0.014,
+    "peak_hour": 12,
+    "late_night_commits_22_to_04": 50,
+    "sessions": 44,
+    "deep_sessions": 7,
+    "medium_sessions": 13,
+    "micro_sessions": 24,
+    "version_range": ["v2.0.0", "v2.5.3"],
+    "team_streak_days": 10,
+    "personal_streak_days": 10,
+    "backlog_open_todos": 6,
+    "focus_score_pct": 0.293,
+    "focus_area": "skills/"
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 188, "role": "human" },
+    "toolforge-release-bot": { "commits": 15, "role": "automation" }
+  },
+  "prior_retro_baseline": ".context/retros/2026-07-16-5.json",
+  "session_focus": {
+    "summary": "This session (tail of the window): swapped toolforge-pdf's mock xberg.exe stub for real pdf-parse extraction, ingested a 1072-page Sorensen oral-history transcript for the CIC documentary treatment, cross-referenced it against 22 of 37 blocked verification items in charlie-deep-research, then ran an extensive manual Chronicling America newspaper search (user-driven, ~60+ hits triaged) that resolved V-8.1c outright and produced new leads for V-5.3, V-6.3, and V-4.5a."
+  }
+}

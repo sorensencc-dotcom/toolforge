@@ -1,31 +1,32 @@
-Handoff: 2026-07-16 22:06 -04:00
+Handoff: 2026-07-17 09:35 -04:00
 ====================
 
 Status
 ------
-| Phase 2 | Wave NA | Tasks 1–5 | done |
+| Phase 8 | Wave NA | Security audit/remediation | done |
 
-CIC Tool Surface Phase 2 is complete and committed. No Phase 3 or Toolforge registration work started.
+Repo security audit completed; fixes committed and pushed to `origin/main` at `ba336ec`.
 
 Decisions
 ---------
-- Followed phase2-design.md as spec of record; no conflicts found.
-- Preserved unrelated worktree changes.
-- Accepted known Toolforge validator baseline: 19 pre-existing errors; no Phase 2-specific failures.
+- Require `TELEMETRY_API_KEY` bearer auth on `/api/toolforge` routes.
+- Redact `Authorization` headers from mock gateway request logs.
+- Pin release workflow actions to immutable SHAs.
+- Preserve unrelated dirty files; rebase used autostash before push.
 
 Modified Files
 --------------
-- skills/_cic-shared/src/findRepoRoot.ts, artifactPaths.ts: repo-root anchoring.
-- skills/_cic-shared/src/lineagePaths.ts, reportPaths.ts, writer helpers: index paths and JSON writes.
-- cic-run-gate and cic-ingest-world: report/lineage index side effects plus tests.
-- .gitignore: added /cic/.
+- `api/telemetry/server.js`, `.env.example`, endpoint tests: auth enforcement and test credentials.
+- `gateway/cowork/mock-server/src/mockCoworkServer.ts`: header redaction.
+- `.github/workflows/toolforge-release.yml`: action SHA pins.
 
 Next Steps
 ----------
-1. Review commits 5d7ccac, 8f054f5, 191a884, f521e77, a9afc29 if needed.
-2. Continue only with separately authorized Phase 3 scope.
+1. Upgrade telemetry `sqlite3` from 5.x to 6.0.1 and rerun service tests.
+2. Review unrelated dirty files before next commit.
 
 Blockers
 --------
-- Git requires elevated permission to create .git/index.lock on this machine.
-- Validator must run under PowerShell 7; Windows PowerShell rejects ?? syntax.
+- Telemetry audit reports 5 high and 2 low dependency vulnerabilities via `sqlite3`.
+- Local telemetry tests could not run because `api/telemetry/node_modules` lacks `sqlite3`.
+- Git index writes and pushes require elevated permission; pre-push security hook is slow.

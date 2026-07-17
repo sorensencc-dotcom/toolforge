@@ -2,6 +2,7 @@ node_modules/
 dist/
 build/
 out/
+.playwright-mcp/
 *.log
 !docs/toolforge/registry-audit.log
 *.tmp

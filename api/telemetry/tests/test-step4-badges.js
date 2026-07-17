@@ -17,7 +17,7 @@ const http = require('http');
 const { spawn } = require('child_process');
 const sqlite3 = require('sqlite3');
 
-const DB_PATH = path.join(__dirname, '..', '..', '..', 'run-store.db');
+const DB_PATH = path.join(__dirname, '..', '..', '..', 'toolforge', 'run-store.db');
 const SERVER_PATH = path.join(__dirname, '..', 'server.js');
 // A non-default port: keeps this test isolated from whatever else may be
 // bound to :3000 on the dev box (found live: an unrelated pre-existing

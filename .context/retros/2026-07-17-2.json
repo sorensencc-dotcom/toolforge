@@ -1,0 +1,46 @@
+{
+  "date": "2026-07-17",
+  "window": "7d",
+  "since": "2026-07-10T00:00:00",
+  "until": "2026-07-17T05:00:00",
+  "base_branch": "main",
+  "metrics": {
+    "commits": 211,
+    "commits_no_merge": 207,
+    "contributors": 2,
+    "insertions_raw": 183207,
+    "deletions_raw": 10900,
+    "net_loc_raw": 172307,
+    "insertions_filtered": 76136,
+    "deletions_filtered": 10638,
+    "net_loc_filtered": 65498,
+    "filter_note": "excludes package-lock.json/yarn.lock/pnpm-lock.yaml/Cargo.lock only (lighter filter than 2026-07-17-1, which also excluded SKILLPACK-*/COWORK-*/CHANGELOG.md/VERSION.md hook-generated files)",
+    "test_insertions": 6409,
+    "test_ratio": 0.084,
+    "feat_pct": 0.243,
+    "fix_pct": 0.134,
+    "docs_pct": 0.252,
+    "chore_pct": 0.243,
+    "test_pct": 0.050,
+    "peak_hour": 12,
+    "sessions": 44,
+    "deep_sessions": 8,
+    "medium_sessions": 12,
+    "micro_sessions": 24,
+    "avg_session_min": 28,
+    "version_range": ["v2.1.0", "v2.6.0"],
+    "team_streak_days": 10,
+    "personal_streak_days": 10,
+    "backlog_open_todos": 4,
+    "backlog_closed_this_period": 2,
+    "focus_area": "skills/"
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 195, "role": "human" },
+    "toolforge-release-bot": { "commits": 16, "role": "automation" }
+  },
+  "prior_retro_baseline": ".context/retros/2026-07-17-1.json",
+  "session_focus": {
+    "summary": "This session: closed the recurring 'bun not installed' backlog item (npm install -g bun v1.3.14, bun install deps, ran gen:skill-docs live end-to-end, verified gstack-upgrade SKILL.md/.tmpl pair has no drift). Ran a dedicated TODOS.md backlog pass -- closed the stale 'uncommitted root files' item (confirmed committed in 3e39dd0), left 4 genuinely-blocked items open (xberg OCR deferral, Wave D PG-gated conformance, CHANGELOG watch, session-continuity process gap)."
+  }
+}
