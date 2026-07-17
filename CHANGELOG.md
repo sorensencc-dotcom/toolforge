@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.5.2
+Date: 2026-07-17
+
+### Changes
+- 67585e7 - docs(sec-auditor): document noqa:SEC-AUDITOR exemption policy (Chris Sorensen)
+- e4647aa - chore: gitignore build junk, commit retro snapshots + handoff (Chris Sorensen)
+
 ## Version 2.5.1
 Date: 2026-07-17
 
