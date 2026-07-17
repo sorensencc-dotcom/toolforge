@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.7.1
+Date: 2026-07-17
+
+### Changes
+- 4716083 - fix(toolforge): repair run-tool.ps1 skill discovery/execution + telemetry DB path (Chris Sorensen)
+
 ## Version 2.7.0
 Date: 2026-07-17
 
