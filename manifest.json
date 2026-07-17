@@ -664,14 +664,29 @@
       "category": "governance",
       "health": { "canonical": true, "runtime": "untested", "distributed": false, "overall": "good" },
       "dependencies": { "external": [], "internal": ["_cic-shared"] }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Phase 3: compose ingest/gate/repair/consolidate into one fixed pipeline call",
+      "timestamps": { "created": "2026-07-16T18:00:00Z", "lastValidation": null, "lastRun": null },
+      "tags": ["cic", "governance", "phase3", "orchestration"],
+      "status": "active",
+      "name": "cic-orchestrate-flow",
+      "runtime": "node",
+      "id": "cic-orchestrate-flow",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "governance",
+      "health": { "canonical": true, "runtime": "untested", "distributed": false, "overall": "good" },
+      "dependencies": { "external": [], "internal": ["_cic-shared", "cic-ingest-world", "cic-run-gate", "cic-repair-pipeline", "cic-consolidate-artifacts"] }
     }
   ],
   "summary": {
-    "total": 23,
+    "total": 24,
     "health_error": 0,
     "deprecated": 0,
-    "active": 23,
-    "health_good": 23,
+    "active": 24,
+    "health_good": 24,
     "health_warn": 0
   },
   "timestamp": "2026-07-15T00:00:00Z",
