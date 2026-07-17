@@ -605,6 +605,18 @@ CODE_EXTENSIONS = {".py", ".sh", ".bash", ".js", ".ts", ".mjs", ".cjs", ".ps1"}
 MD_EXTENSIONS = {".md", ".mdx", ".markdown"}
 ALL_SCAN_EXTENSIONS = CODE_EXTENSIONS | MD_EXTENSIONS
 
+# FS-BINARY exemptions: exact relative paths (POSIX-style, forward slashes)
+# known to be intentional non-executable artifacts, not payloads. Each entry
+# needs a one-line reason. Path-scoped, not a directory skip, so every other
+# check (hidden-file, large-file, code-pattern) still runs on these trees.
+FS_BINARY_ALLOWLIST = {
+    # post_seal_ops's sealing subsystem writes artifacts to <seal_id>.bin by
+    # design (see publish_artifact.py) as an immutable-storage convention --
+    # content is opaque bytes, not executable code. Reviewed 2026-07-17.
+    "post_seal_ops/sample_artifact.bin",
+    "post_seal_ops/sealed_store/seal-789.bin",
+}
+
 
 def walk_safe(root_path: Path):
     """Walk a directory, skipping ignored paths like .git and node_modules entirely."""
@@ -809,9 +821,13 @@ def scan_filesystem(skill_path: Path, report: AuditReport):
             )
 
         # Binary files
-        if item.is_file() and item.suffix.lower() in (
-            ".exe", ".dll", ".so", ".dylib", ".bin", ".elf",
-            ".com", ".msi", ".deb", ".rpm", ".apk",
+        if (
+            item.is_file()
+            and item.suffix.lower() in (
+                ".exe", ".dll", ".so", ".dylib", ".bin", ".elf",
+                ".com", ".msi", ".deb", ".rpm", ".apk",
+            )
+            and rel.as_posix() not in FS_BINARY_ALLOWLIST
         ):
             report.findings.append(
                 Finding(
