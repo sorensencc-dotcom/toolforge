@@ -16,7 +16,10 @@
       "Bash(cd /c/dev *)",
       "Edit(~/.claude/skills/gstack/**)",
       "WebSearch",
-      "WebFetch(domain:findingaids.thehenryford.org)"
+      "WebFetch(domain:findingaids.thehenryford.org)",
+      "WebFetch(domain:www.findagrave.com)",
+      "WebFetch(domain:chroniclingamerica.loc.gov)",
+      "WebFetch(domain:www.loc.gov)"
     ],
     "additionalDirectories": [
       "C:\\Users\\soren\\.claude\\projects\\c--dev",
