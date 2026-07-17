@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.7.0
+Date: 2026-07-17
+
+### Changes
+- ba336ec - fix(security): protect telemetry surfaces (Chris Sorensen)
+- 6841c1e - feat(cic): wire GATE-02/03/05 into cic-run-gate adapter (Chris Sorensen)
+- c1a1c5c - docs(cic): spec GATE-02/03/05 support for cic-run-gate (Chris Sorensen)
+
 ## Version 2.6.0
 Date: 2026-07-17
 
