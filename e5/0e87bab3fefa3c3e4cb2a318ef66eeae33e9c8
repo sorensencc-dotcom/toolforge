@@ -1,0 +1,33 @@
+skills/toolforge-registry-manager/INTEGRATION_DIAGRAM.md
+  s_c83ac9271709b1::t_0446105b972e54 1-17
+skills/toolforge-cli/SKILL.md
+  s_c83ac9271709b1::t_8a4bb39530039d 1-32
+skills/toolforge-cli/README.md
+  s_c83ac9271709b1::t_126c8b2662d920 1-39
+skills/toolforge-submission-validator/SKILL.md
+  s_c83ac9271709b1::t_4f8a402c3789a3 1-31
+skills/toolforge-registry-manager/README.md
+  s_c83ac9271709b1::t_0c2824e7c49123 1-41
+skills/toolforge-submission-validator/INTEGRATION_DIAGRAM.md
+  s_c83ac9271709b1::t_aacb69acaec8a9 1-22
+skills/toolforge-registry-manager/SKILL.md
+  s_c83ac9271709b1::t_f5ea084f803fc9 1-33
+skills/toolforge-cli/INTEGRATION_DIAGRAM.md
+  s_c83ac9271709b1::t_cdf73bce4c6771 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "e50e87bab3fefa3c3e4cb2a318ef66eeae33e9c8",
+  "prompts": {},
+  "sessions": {
+    "s_c83ac9271709b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "42f01400-e2ad-495c-8aab-219a5fbcf7c9",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

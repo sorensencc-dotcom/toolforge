@@ -1,0 +1,49 @@
+.ijfw/memory/handoff.md
+  s_217263389faf70::t_909e4fec578c8a 1,6,8,12-14,18-21,25-26,30-31
+.context/retros/2026-07-16-5.json
+  s_08b9cdeabfac84::t_846765d74da353 1-52
+.context/retros/2026-07-16-4.json
+  s_52a58e3648601b::t_a64148b74e4885 1-42
+.gitignore
+  s_b60f2a30a9edc1::t_018f6a18a0d274 27,36-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c42db37c2a42ffb1641ec65f91ffcbf6c50a9b75",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_217263389faf70": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6c91-7b6a-7d82-8cb9-fbaf5aadb5f2",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_52a58e3648601b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe578398-e318-4b94-be55-9ab1dba919b0",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_b60f2a30a9edc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2a1c64df-c449-4aed-88d4-82539ebda9a8",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

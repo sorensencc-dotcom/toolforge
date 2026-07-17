@@ -1,0 +1,21 @@
+docs/meta/PHASE27_WAVE_E_DATA_CONTRACT.md
+  s_08b9cdeabfac84::t_4aefdbcba12597 532
+docs/meta/governance/ijfw-spec-phase-data-contract-gate.md
+  s_08b9cdeabfac84::t_d12346f0dcf22e 259
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "34a1b11dc3c404b2da736684c446428618aaf298",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

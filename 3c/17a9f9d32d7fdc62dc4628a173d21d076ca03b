@@ -1,0 +1,21 @@
+skills/cic-run-gate/src/index.ts
+  s_2a3bd3a99c5f77::t_cef63f00db8cf3 1
+skills/skill-security-auditor/SKILL.md
+  s_2a3bd3a99c5f77::t_cb26e0399821b9 54-56,59,115,153-173
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "3c17a9f9d32d7fdc62dc4628a173d21d076ca03b",
+  "prompts": {},
+  "sessions": {
+    "s_2a3bd3a99c5f77": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6b69e087-9403-44bc-916e-257123b76bd1",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

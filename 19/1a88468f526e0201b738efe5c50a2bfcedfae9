@@ -1,0 +1,22 @@
+skills/cic-run-gate/tests/skill.test.ts
+  s_217263389faf70::t_1c9c84127f7834 2,4,29-43
+  s_217263389faf70::t_7afbcd35ac72da 44
+skills/cic-run-gate/src/index.ts
+  s_217263389faf70::t_c9c7a99b5e3cc0 1,7,35-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "191a88468f526e0201b738efe5c50a2bfcedfae9",
+  "prompts": {},
+  "sessions": {
+    "s_217263389faf70": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6c91-7b6a-7d82-8cb9-fbaf5aadb5f2",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

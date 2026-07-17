@@ -1,0 +1,54 @@
+skills/cic-orchestrate-flow/skill.json
+  s_4d8e0aed4ef174::t_986cf67cd5d7e0 1
+docs/meta/specs/cic-tool-surface-phase3-design.md
+  s_4d8e0aed4ef174::t_d1cebc7d883485 4
+  s_4d8e0aed4ef174::t_dde2f70c683448 1-3,6-20,23-39,46-57,59-61,63-64,66-69,72-93,101,104-111,114-118,121-128,131-135,138-139,142-165
+  s_4d8e0aed4ef174::t_b2a5cd0f16bc82 103
+  s_4d8e0aed4ef174::t_63416aca8cdc89 5
+  s_4d8e0aed4ef174::t_49706c69d334e0 21-22
+  s_4d8e0aed4ef174::t_82d611138346b2 40-45
+  s_4d8e0aed4ef174::t_a439cd98f7f928 58
+  s_4d8e0aed4ef174::t_c20e4f349317ca 62
+  s_4d8e0aed4ef174::t_d4dd8eceec8434 65
+  s_4d8e0aed4ef174::t_ed97e1c74cfbaa 70-71
+  s_4d8e0aed4ef174::t_2849da3d406e12 94-96,98-100
+  s_4d8e0aed4ef174::t_5ba380840c875b 102
+  s_4d8e0aed4ef174::t_42833feeb11119 112-113
+  s_4d8e0aed4ef174::t_2f5825e93e6a40 119-120
+  s_4d8e0aed4ef174::t_1cdb3318cf8728 129-130
+  s_4d8e0aed4ef174::t_f88359b492da26 136-137
+  s_4d8e0aed4ef174::t_d2537961cd3749 140-141
+  s_4d8e0aed4ef174::t_13c3bb4fca23a0 97
+skills/cic-orchestrate-flow/tests/skill.test.ts
+  s_4d8e0aed4ef174::t_204dd68658756b 1-50
+skills/cic-orchestrate-flow/jest.config.js
+  s_4d8e0aed4ef174::t_8af3c0910570b2 1
+skills/cic-orchestrate-flow/src/index.ts
+  s_4d8e0aed4ef174::t_485107fb697762 1-102
+skills/cic-orchestrate-flow/package.json
+  s_4d8e0aed4ef174::t_48e9fcb1281712 1
+skills/cic-orchestrate-flow/tsconfig.json
+  s_4d8e0aed4ef174::t_28868a74dc70d2 1
+skills/cic-orchestrate-flow/docs/USAGE.md
+  s_4d8e0aed4ef174::t_308ae91107ce78 1-18
+manifest.json
+  s_4d8e0aed4ef174::t_95f42d23e1640d 667-681,685,688-689
+skills/cic-orchestrate-flow/package-lock.json
+  s_4d8e0aed4ef174::t_68b0a6507e5da0 1-3860
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "08813d7ba3cfc2e7fb3d4bf349d9c1004a3550a6",
+  "prompts": {},
+  "sessions": {
+    "s_4d8e0aed4ef174": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "82f15449-69ab-480a-9f7a-0d05046bc692",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

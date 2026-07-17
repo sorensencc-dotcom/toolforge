@@ -1,0 +1,45 @@
+toolforge-pdf/server.js
+  s_3eff2f821192fa::t_6e50dd5dcf39b0 3,5-8,12,14-15,17-18,28,30,32-38,40,42-44
+  s_3eff2f821192fa::t_61ebad6c5e1b2c 9,13,16
+  s_3eff2f821192fa::t_94ff7f12a2e2bf 2,19-21,23-27,29,41
+  s_3eff2f821192fa::t_d6b3f7be23c028 45-47
+  s_3eff2f821192fa::t_7087ed471e5af5 48-51
+TODOS.md
+  s_3eff2f821192fa::t_a789c06dc0ed4f 7
+package-lock.json
+  s_1e2a7070ffa23f::t_645954e390f429 16,1037-1235,4402-4433
+package.json
+  s_193f1d985c0268::t_cf0861d751f0ed 43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "387ce37161c15d6a747c8eb98981121a1e7a4b31",
+  "prompts": {},
+  "sessions": {
+    "s_193f1d985c0268": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ab6c07016c8295a3d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_3eff2f821192fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e647d8c9-19b2-4849-95a0-d8ffc0179a13",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

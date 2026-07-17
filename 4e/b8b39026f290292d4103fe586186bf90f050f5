@@ -1,0 +1,61 @@
+CIC-GOVERNANCE/MANIFEST/CIC-GOV-MANIFEST-001.md
+  s_08b9cdeabfac84::t_7d2d845a46eb0c 13
+CIC-GOVERNANCE/MANIFEST/PHASE-09-ONBOARDING.md
+  s_08b9cdeabfac84::t_38e3f4efdec560 212-213
+CIC-GOVERNANCE/README.md
+  s_08b9cdeabfac84::t_9472657a0f14a7 14
+CIC-GOVERNANCE/README/CIC-README.md
+  s_08b9cdeabfac84::t_473bbec09defdf 4
+CLAUDE.md
+  s_08b9cdeabfac84::t_e7e23e7e6fd22a 14,108
+docs/meta/PHASE27_WAVE_E_DATA_CONTRACT.md
+  s_08b9cdeabfac84::t_600c88395d2d29 532
+docs/meta/audit-first-scope-lock-formalization-summary.md
+  s_08b9cdeabfac84::t_60e3ce672c116e 21,35,53,82-83
+docs/meta/audit/README.md
+  s_08b9cdeabfac84::t_089132406f399c 71-73
+docs/meta/docs-structure-policy-plan.md
+  s_08b9cdeabfac84::t_dda8a7ca487d84 51-61,70-80,103-109,742,751
+docs/meta/phase-abc-audit-phases-addition.md
+  s_08b9cdeabfac84::t_68350bae443dcf 89
+skills/toolforge-registry-manager/README.md
+  s_08b9cdeabfac84::t_597433ed0ed2c7 8
+docs/meta/PARALLELISM_MATRIX_DELIVERY_INDEX.md
+  s_a8524015512eea::t_de2df5186413fe 180
+docs/meta/PARALLELISM_MATRIX_SYSTEM.md
+  s_0a64724398d5ca::t_643f8ab471739d 242
+docs/meta/parallelism-matrix-governance-rule.md
+  s_a8524015512eea::t_e949dd75037967 171
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4eb8b39026f290292d4103fe586186bf90f050f5",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0a64724398d5ca": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a168e16f644afdebf",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a8524015512eea": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6ba3-2cb9-7bd2-aae6-61642dae94c4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

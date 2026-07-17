@@ -1,0 +1,43 @@
+skills/cic-repair-pipeline/tests/skill.test.ts
+  s_a8524015512eea::t_71428d86a30a28 1-13
+skills/cic-repair-pipeline/skill.json
+  s_a8524015512eea::t_019de9db0bd865 1
+skills/cic-repair-pipeline/package.json
+  s_a8524015512eea::t_71428d86a30a28 1
+skills/cic-repair-pipeline/jest.config.js
+  s_a8524015512eea::t_71428d86a30a28 1
+skills/cic-repair-pipeline/tsconfig.json
+  s_a8524015512eea::t_71428d86a30a28 1
+skills/cic-repair-pipeline/src/index.ts
+  s_a8524015512eea::t_019de9db0bd865 1-15
+skills/cic-repair-pipeline/docs/USAGE.md
+  s_a8524015512eea::t_019de9db0bd865 1-10
+skills/cic-repair-pipeline/package-lock.json
+  s_08b9cdeabfac84::t_a10a9ed16c6d87 1-3860
+manifest.json
+  s_a8524015512eea::t_214cd6e1f356c8 607-636
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "b60f56bc408ee4213400b4c6a715185f8340826c",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a8524015512eea": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6ba3-2cb9-7bd2-aae6-61642dae94c4",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
