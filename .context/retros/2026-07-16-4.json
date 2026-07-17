@@ -1,0 +1,42 @@
+{
+  "date": "2026-07-16",
+  "window": "7d",
+  "since": "7 days ago",
+  "base_branch": "main",
+  "metrics": {
+    "commits": 200,
+    "contributors": 2,
+    "raw_insertions": 187850,
+    "raw_deletions": 16114,
+    "raw_net_loc": 171736,
+    "filtered_insertions": 84871,
+    "filtered_deletions": 15852,
+    "filtered_net_loc": 69019,
+    "lockfile_insertions_excluded": 102963,
+    "test_loc": 13492,
+    "test_ratio": 0.159,
+    "active_days": 8,
+    "streak_days": 9,
+    "fix_pct": 0.12,
+    "peak_hours": [12, 18]
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 185, "note": "human" },
+    "toolforge-release-bot": { "commits": 11, "note": "automation, excluded from team breakdown" }
+  },
+  "backlog": {
+    "total_open": 4,
+    "p0_p1": 0,
+    "p2": 0,
+    "completed_this_period": 0,
+    "added_this_period": 0
+  },
+  "prior_retro_baseline": ".context/retros/2026-07-16-3.json",
+  "note": "2026-07-16-3.json covered a different repo's session_focus (charlie-deep-research) layered on a c:\\dev retro shell; this entry is a fresh full c:\\dev metrics pass, not a delta off that file.",
+  "tweetable": "Week of Jul 10-16: 200 commits (1 human + release bot), 85k logical LOC (16% test), 4 open TODOs, 9-day streak, peak 12:00/18:00",
+  "top_wins": [
+    "CIC Tool Surface Phase 1 shipped: 4 skills + GATE-01 live wrapper, 12/12 tests",
+    "CIC Tool Surface Phase 2 shipped: lineage/reports index + repo-root path fix, 20/20 tests, Codex-built from verbatim plan",
+    "4-of-5-repo CI green sweep, fabricated diagnostic caught before acting on it"
+  ]
+}

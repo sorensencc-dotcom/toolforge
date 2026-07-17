@@ -24,6 +24,7 @@ claude-skills/
 engines/
 kb-sync/
 rewrite-mcp/
+rewrite-docs/
 task-observatory/
 tiny-app/
 /toolforge/
@@ -32,6 +33,9 @@ windows-task-manager/
 
 # Stray files
 null
+sync.ffs_db
+sync.ffs_lock
+__pycache__/
 
 # Phase 2b Step 1: telemetry store (runtime data, not source)
 run-store.db

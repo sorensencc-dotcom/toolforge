@@ -1,31 +1,31 @@
-Handoff: 2026-07-16
+Handoff: 2026-07-16 22:06 -04:00
 ====================
 
 Status
 ------
-| Phase 8 | Wave NA | Session wrap | done |
+| Phase 2 | Wave NA | Tasks 1–5 | done |
 
-Archival governance JSON outputs generated from remediation and consolidated verification artifacts. Git divergence merged; branch synchronized with origin/main at `3c5d889`.
+CIC Tool Surface Phase 2 is complete and committed. No Phase 3 or Toolforge registration work started.
 
 Decisions
 ---------
-- V-5.3 remains memoir-attributed until independent corroboration.
-- V-6.5 remains open until independent timeline and causal corroboration.
-- Pre-push auditor finding resolved with explicit justified suppression for fixed adapter subprocess.
+- Followed phase2-design.md as spec of record; no conflicts found.
+- Preserved unrelated worktree changes.
+- Accepted known Toolforge validator baseline: 19 pre-existing errors; no Phase 2-specific failures.
 
 Modified Files
 --------------
-- `skills/cic-run-gate/src/index.ts` — justified intentional adapter subprocess.
-- `.ijfw/memory/handoff.md` — session handoff.
+- skills/_cic-shared/src/findRepoRoot.ts, artifactPaths.ts: repo-root anchoring.
+- skills/_cic-shared/src/lineagePaths.ts, reportPaths.ts, writer helpers: index paths and JSON writes.
+- cic-run-gate and cic-ingest-world: report/lineage index side effects plus tests.
+- .gitignore: added /cic/.
 
 Next Steps
 ----------
-1. Review untracked `rewrite-docs/` and generated `_cic-shared` JavaScript before staging.
-2. Continue BFRC archival visit ingestion after 2026-07-24.
-3. Update treatment and registry only from qualifying evidence.
+1. Review commits 5d7ccac, 8f054f5, 191a884, f521e77, a9afc29 if needed.
+2. Continue only with separately authorized Phase 3 scope.
 
 Blockers
 --------
-- BFRC physical review pending for V-5.3 and V-6.5.
-- Untracked workspace artifacts remain; preserve until reviewed.
-- Git warns that `C:\Users\soren\.config\git\ignore` is inaccessible.
+- Git requires elevated permission to create .git/index.lock on this machine.
+- Validator must run under PowerShell 7; Windows PowerShell rejects ?? syntax.
