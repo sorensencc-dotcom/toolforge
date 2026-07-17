@@ -1,0 +1,21 @@
+SESSION_WRAP_20260716.md
+  s_3eff2f821192fa::t_3770864c68c796 1-85
+skills/skill-security-auditor/SKILL.md
+  s_3eff2f821192fa::t_e44b9170d6a8b0 54-56,59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c086979eac6a0ed1979bdff39862bdd9c8a8e7c6",
+  "prompts": {},
+  "sessions": {
+    "s_3eff2f821192fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e647d8c9-19b2-4849-95a0-d8ffc0179a13",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
