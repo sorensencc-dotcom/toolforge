@@ -51,7 +51,15 @@ function Install-Hooks {
     # git hook itself is a POSIX shim that execs a real .ps1 sidecar.
     $preCommitHook = @"
 # Auto-generated pre-commit hook. Do not edit.
-# Fast validation gate: validator only
+# Fast validation gate: validator only, skipped when commit touches no
+# skills/ or utilities/ files (validator scans the whole skill tree, so
+# there's nothing changed-file-scoped to gain by running it otherwise).
+
+`$staged = git diff --cached --name-only
+if (-not (`$staged -match '^(skills/|utilities/)')) {
+    Write-Host "No skills/ or utilities/ files staged, skipping validator"
+    exit 0
+}
 
 `$ciScript = 'C:\dev\ci-pipeline.ps1'
 if (-not (Test-Path `$ciScript)) {
@@ -127,13 +135,34 @@ REPO_ROOT="`$(git rev-parse --show-toplevel)"
 AUDITOR="`$REPO_ROOT/skills/skill-security-auditor/src/skill_security_auditor.py"
 FAIL=0
 
-for d in "`$REPO_ROOT"/skills/*/; do
-  [ -d "`$d" ] || continue
-  python "`$AUDITOR" "`$d" || FAIL=1
-done
+# Scope to skill dirs actually touched vs upstream, not all 40+ skills on
+# every push. Falls back to a full scan when there's no upstream to diff
+# against (new branch) or the diff can't be determined.
+UPSTREAM=`$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+if [ -n "`$UPSTREAM" ]; then
+  CHANGED_FILES=`$(git diff --name-only "`$UPSTREAM"...HEAD)
+else
+  CHANGED_FILES=""
+fi
 
-if [ -d "`$REPO_ROOT/utilities" ]; then
-  python "`$AUDITOR" "`$REPO_ROOT/utilities" || FAIL=1
+if [ -z "`$CHANGED_FILES" ]; then
+  for d in "`$REPO_ROOT"/skills/*/; do
+    [ -d "`$d" ] || continue
+    python "`$AUDITOR" "`$d" || FAIL=1
+  done
+  if [ -d "`$REPO_ROOT/utilities" ]; then
+    python "`$AUDITOR" "`$REPO_ROOT/utilities" || FAIL=1
+  fi
+else
+  CHANGED_SKILL_DIRS=`$(echo "`$CHANGED_FILES" | grep -o '^skills/[^/]*' | sort -u)
+  for skill in `$CHANGED_SKILL_DIRS; do
+    d="`$REPO_ROOT/`$skill"
+    [ -d "`$d" ] || continue
+    python "`$AUDITOR" "`$d" || FAIL=1
+  done
+  if echo "`$CHANGED_FILES" | grep -q '^utilities/'; then
+    python "`$AUDITOR" "`$REPO_ROOT/utilities" || FAIL=1
+  fi
 fi
 
 if [ `$FAIL -ne 0 ]; then
