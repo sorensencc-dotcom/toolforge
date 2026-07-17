@@ -18,7 +18,7 @@
     "ui:build": "vite build src/ui",
     "ui:preview": "vite preview src/ui",
     "ui:test": "vitest run",
-    "test": "node --test src/**/*.test.js",
+    "test": "node --test src/**/*.test.js toolforge-pdf/*.test.js",
     "test:watch": "node --test --watch src/**/*.test.js",
     "lint": "eslint src/**/*.js",
     "stress:gate04": "node src/stress-tests/gate04-fairness.js",
