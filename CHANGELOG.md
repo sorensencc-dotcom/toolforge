@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.8.3
+Date: 2026-07-17
+
+### Changes
+- 12bd607 - fix: collapse dual git clone, repair hardcoded nested-toolforge paths (Chris Sorensen)
+- 2774763 - docs: log run-tool.ps1 smoke test completion in TODOS.md (Chris Sorensen)
+- 4f3b5ab - docs(governance): close TorqueQuery reconciliation — Tier 1 approved Option i (Chris Sorensen)
+
 ## Version 2.8.2
 Date: 2026-07-17
 
