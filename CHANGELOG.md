@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.8.2
+Date: 2026-07-17
+
+### Changes
+- 5f37b1c - docs: log skill migration + run-tool.ps1 repair session in TODOS.md (Chris Sorensen)
+
 ## Version 2.8.1
 Date: 2026-07-17
 
