@@ -1,0 +1,19 @@
+.github/workflows/toolforge-wave-d.yml
+  s_e65ac6bcfb1b93::t_bc5225b82656b2 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "bff25a95ab5cf6d28d7bffd7ca039262d3d4db4b",
+  "prompts": {},
+  "sessions": {
+    "s_e65ac6bcfb1b93": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2341cd8e-76a7-4be5-932f-45adb2baf9e1",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
