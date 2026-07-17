@@ -10,7 +10,12 @@ from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tests"))
 
-from test_gate_runtime import Gate01TransactionTests  # noqa: E402
+from test_gate_runtime import (  # noqa: E402
+    Gate01TransactionTests,
+    Gate02PublicationTests,
+    Gate03ActorTests,
+    Gate05ActivationTests,
+)
 
 
 class JsonCollectingResult(unittest.TestResult):
@@ -59,6 +64,9 @@ def run_unittest_case(case_cls) -> dict:
 
 GATE_HANDLERS: dict[str, Callable[[], dict]] = {
     "GATE-01": lambda: run_unittest_case(Gate01TransactionTests),
+    "GATE-02": lambda: run_unittest_case(Gate02PublicationTests),
+    "GATE-03": lambda: run_unittest_case(Gate03ActorTests),
+    "GATE-05": lambda: run_unittest_case(Gate05ActivationTests),
 }
 
 

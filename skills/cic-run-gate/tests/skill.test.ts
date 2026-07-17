@@ -15,6 +15,27 @@ describe('cic-run-gate', () => {
     expect(() => new Date(result.timestamp).toISOString()).not.toThrow();
   }, 20000);
 
+  it('GATE-02 returns a well-formed PASS/FAIL/ERROR result', async () => {
+    const result = await main({ gateId: 'GATE-02' });
+    expect(result.gateId).toBe('GATE-02');
+    expect(['PASS', 'FAIL', 'ERROR']).toContain(result.status);
+    expect(Array.isArray(result.violations)).toBe(true);
+  }, 20000);
+
+  it('GATE-03 returns a well-formed PASS/FAIL/ERROR result', async () => {
+    const result = await main({ gateId: 'GATE-03' });
+    expect(result.gateId).toBe('GATE-03');
+    expect(['PASS', 'FAIL', 'ERROR']).toContain(result.status);
+    expect(Array.isArray(result.violations)).toBe(true);
+  }, 20000);
+
+  it('GATE-05 returns a well-formed PASS/FAIL/ERROR result', async () => {
+    const result = await main({ gateId: 'GATE-05' });
+    expect(result.gateId).toBe('GATE-05');
+    expect(['PASS', 'FAIL', 'ERROR']).toContain(result.status);
+    expect(Array.isArray(result.violations)).toBe(true);
+  }, 20000);
+
   it('unknown gateId shape (GATE-99) returns ERROR without spawning', async () => {
     const result = await main({ gateId: 'GATE-99' });
     expect(result.status).toBe('ERROR');

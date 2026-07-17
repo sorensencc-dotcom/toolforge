@@ -1,7 +1,7 @@
 # cic-run-gate — GATE-02/03/05 Support Design
 
 Date: 2026-07-17
-Status: Draft, pending user approval
+Status: Approved, implemented
 
 ## Context
 
@@ -41,11 +41,13 @@ integration, still blocked/untracked).
 
 1. **Add exactly three `GATE_HANDLERS` entries: GATE-02, GATE-03, GATE-05.**
    One-line dict additions, matching the GATE-01 pattern precisely:
+
    ```python
    "GATE-02": lambda: run_unittest_case(Gate02PublicationTests),
    "GATE-03": lambda: run_unittest_case(Gate03ActorTests),
    "GATE-05": lambda: run_unittest_case(Gate05ActivationTests),
    ```
+
    No new adapter logic, no change to `run_unittest_case` or
    `JsonCollectingResult` — both already generic.
 2. **GATE-04 excluded from this change.** It's already `CLOSED` and has a
@@ -73,6 +75,7 @@ GATE_HANDLERS: dict[str, Callable[[], dict]] = {
     "GATE-05": lambda: run_unittest_case(Gate05ActivationTests),
 }
 ```
+
 Import line gains the three new names from `test_gate_runtime`.
 
 ## Testing
