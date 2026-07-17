@@ -38,7 +38,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$toolforgeRoot = 'C:\dev\toolforge'
+$toolforgeRoot = 'C:\dev'
 $logDir = "$toolforgeRoot\logs"
 $timestamp = Get-Date -Format 'yyyy-MM-dd_HHmmss'
 

@@ -5,7 +5,7 @@
 
 .DESCRIPTION
   Detects divergence between:
-  - C:\dev\toolforge\ (canonical)
+  - C:\dev\ (canonical)
   - C:\dev\rewrite-mcp\toolforge\ (distributed)
 
   Checks:
@@ -15,7 +15,7 @@
   - Documentation (docs/)
   - manifest.json versions
 
-  Generates: C:\dev\toolforge\drift\DRIFT-REPORT.md
+  Generates: C:\dev\drift\DRIFT-REPORT.md
 
 .PARAMETER OutputPath
   Where to save drift report (default: DRIFT-REPORT.md)
@@ -29,13 +29,13 @@
 #>
 
 param(
-  [string]$OutputPath = "C:\dev\toolforge\drift\DRIFT-REPORT.md",
+  [string]$OutputPath = "C:\dev\drift\DRIFT-REPORT.md",
   [switch]$Verbose
 )
 
 $ErrorActionPreference = "Stop"
 
-$CANONICAL = "C:\dev\toolforge"
+$CANONICAL = "C:\dev"
 $DISTRIBUTED = "C:\dev\rewrite-mcp\toolforge"
 
 $drift = @{

@@ -50,7 +50,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $registryPath = 'C:\dev\repo-registry.json'
-$logDir = 'C:\dev\toolforge\logs\orchestrator'
+$logDir = 'C:\dev\logs\orchestrator'
 $timestamp = Get-Date -Format 'yyyy-MM-dd_HHmmss'
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 $reportFile = "$logDir\orchestrator-report-$timestamp.json"
@@ -108,7 +108,7 @@ function Run-RepoCI {
     try {
         # Change to repo directory and run CI
         Push-Location $repoPath
-        $ciScript = 'C:\dev\toolforge\ci-pipeline.ps1'
+        $ciScript = 'C:\dev\ci-pipeline.ps1'
 
         if (-not (Test-Path $ciScript)) {
             Write-Log "  ✗ CI script not found" ERROR
@@ -187,7 +187,7 @@ function Run-OrchestrationParallel {
     Write-Log "Stage: $Stage | Parallel: $Parallel | Skip: $SkipRepos" INFO
 
     $results = $Repos | ForEach-Object -Parallel {
-        $ciScript = 'C:\dev\toolforge\ci-pipeline.ps1'
+        $ciScript = 'C:\dev\ci-pipeline.ps1'
         & $ciScript -Stage $using:Stage -Verbose:$using:Verbose -SkipCowork
         return @{
             name = $_.name

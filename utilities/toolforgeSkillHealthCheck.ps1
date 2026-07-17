@@ -13,7 +13,7 @@
   - Dependency availability
   - Manifest ↔ runtime consistency
 
-  Output: C:\dev\toolforge\skills\SKILLPACK-RUNTIME-HEALTH.md
+  Output: C:\dev\skills\SKILLPACK-RUNTIME-HEALTH.md
 
 .PARAMETER OutputPath
   Where to save health report (default: SKILLPACK-RUNTIME-HEALTH.md)
@@ -30,7 +30,7 @@
 #>
 
 param(
-  [string]$OutputPath = "C:\dev\toolforge\skills\SKILLPACK-RUNTIME-HEALTH.md",
+  [string]$OutputPath = "C:\dev\skills\SKILLPACK-RUNTIME-HEALTH.md",
   [bool]$DryRun = $true,
   [switch]$Verbose
 )
@@ -38,9 +38,9 @@ param(
 $ErrorActionPreference = "Continue"
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\toolforge\skills"
-$MANIFEST_FILE = "C:\dev\toolforge\manifest.json"
-$RUNTIME_LOG = "C:\dev\toolforge\audit\SKILL-RUN-LOG.md"
+$CANONICAL_SKILLS = "C:\dev\skills"
+$MANIFEST_FILE = "C:\dev\manifest.json"
+$RUNTIME_LOG = "C:\dev\audit\SKILL-RUN-LOG.md"
 
 # Health state
 $health = @{

@@ -29,7 +29,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $hooksDir = "$Repo\.git\hooks"
-$logDir = "C:\dev\toolforge\logs\hooks"
+$logDir = "C:\dev\logs\hooks"
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 
 function Write-HookLog {
@@ -53,7 +53,7 @@ function Install-Hooks {
 # Auto-generated pre-commit hook. Do not edit.
 # Fast validation gate: validator only
 
-`$ciScript = 'C:\dev\toolforge\ci-pipeline.ps1'
+`$ciScript = 'C:\dev\ci-pipeline.ps1'
 if (-not (Test-Path `$ciScript)) {
     Write-Error "CI pipeline not found at `$ciScript"
     exit 1
@@ -85,7 +85,7 @@ exec pwsh -NoProfile -File "`$(dirname "`$0")/pre-commit.ps1" "`$@"
 # Auto-generated post-merge hook. Do not edit.
 # Integration check: full pipeline
 
-`$ciScript = 'C:\dev\toolforge\ci-pipeline.ps1'
+`$ciScript = 'C:\dev\ci-pipeline.ps1'
 if (-not (Test-Path `$ciScript)) {
     Write-Error "CI pipeline not found at `$ciScript"
     exit 0

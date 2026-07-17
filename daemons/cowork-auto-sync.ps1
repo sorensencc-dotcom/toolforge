@@ -33,14 +33,14 @@ $env:TOOLFORGE_SYNC_RUNNING = $true
 $ErrorActionPreference = "Continue"
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\toolforge\skills"
-$COWORK_REGISTRY = "C:\dev\toolforge\audit\COWORK-REGISTERED-SKILLS.md"
-$MANIFEST_FILE = "C:\dev\toolforge\manifest.json"
-$SYNC_REPORT = "C:\dev\toolforge\audit\COWORK-AUTO-SYNC-REPORT.md"
-$VALIDATOR = "C:\dev\toolforge\utilities\toolforgeSkillValidator.ps1"
-$METADATA_GEN = "C:\dev\toolforge\utilities\toolforgeMetadataGenerator.ps1"
-$HEALTH_CHECK = "C:\dev\toolforge\utilities\toolforgeSkillHealthCheck.ps1"
-$DEP_GRAPH = "C:\dev\toolforge\utilities\toolforgeDependencyGraph.ps1"
+$CANONICAL_SKILLS = "C:\dev\skills"
+$COWORK_REGISTRY = "C:\dev\audit\COWORK-REGISTERED-SKILLS.md"
+$MANIFEST_FILE = "C:\dev\manifest.json"
+$SYNC_REPORT = "C:\dev\audit\COWORK-AUTO-SYNC-REPORT.md"
+$VALIDATOR = "C:\dev\utilities\toolforgeSkillValidator.ps1"
+$METADATA_GEN = "C:\dev\utilities\toolforgeMetadataGenerator.ps1"
+$HEALTH_CHECK = "C:\dev\utilities\toolforgeSkillHealthCheck.ps1"
+$DEP_GRAPH = "C:\dev\utilities\toolforgeDependencyGraph.ps1"
 
 # Sync state
 $sync = @{

@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
   Toolforge Skill Validator Refinement
   Multi-system consistency check for skill lifecycle.
@@ -12,7 +12,7 @@
   - Runtime discovery (run-tool.ps1 integration)
   - Audit logs (SKILL-RUN-LOG.md)
 
-  Generates: C:\dev\toolforge\skills\SKILLPACK-VALIDATION.md
+  Generates: C:\dev\skills\SKILLPACK-VALIDATION.md
 
 .PARAMETER OutputPath
   Where to save validation report (default: SKILLPACK-VALIDATION.md)
@@ -26,7 +26,7 @@
 #>
 
 param(
-  [string]$OutputPath = "C:\dev\toolforge\skills\SKILLPACK-VALIDATION.md",
+  [string]$OutputPath = "C:\dev\skills\SKILLPACK-VALIDATION.md",
   [switch]$Verbose
 )
 
@@ -39,11 +39,11 @@ $env:TOOLFORGE_VALIDATOR_RUNNING = $true
 $ErrorActionPreference = "Stop"
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\toolforge\skills"
+$CANONICAL_SKILLS = "C:\dev\skills"
 $DISTRIBUTED_SKILLS = "C:\dev\rewrite-mcp\toolforge\skills"
-$MANIFEST_FILE = "C:\dev\toolforge\manifest.json"
-$COWORK_REGISTRY = "C:\dev\toolforge\audit\COWORK-REGISTERED-SKILLS.md"
-$RUNTIME_LOG = "C:\dev\toolforge\audit\SKILL-RUN-LOG.md"
+$MANIFEST_FILE = "C:\dev\manifest.json"
+$COWORK_REGISTRY = "C:\dev\audit\COWORK-REGISTERED-SKILLS.md"
+$RUNTIME_LOG = "C:\dev\audit\SKILL-RUN-LOG.md"
 
 # Validation state
 $validation = @{
@@ -581,9 +581,9 @@ function Build-DependencyGraph {
             }
 
             # Check if external dependency exists in tools/daemons/adapters
-            $toolPath = Join-Path "C:\dev\toolforge\tools" $dep
-            $daemonPath = Join-Path "C:\dev\toolforge\daemons" $dep
-            $adapterPath = Join-Path "C:\dev\toolforge\adapters" $dep
+            $toolPath = Join-Path "C:\dev\tools" $dep
+            $daemonPath = Join-Path "C:\dev\daemons" $dep
+            $adapterPath = Join-Path "C:\dev\adapters" $dep
 
             if (-not ((Test-Path $toolPath) -or (Test-Path $daemonPath) -or (Test-Path $adapterPath))) {
               $graph.missingExternal += @{ skill = $skillId; dependency = $dep }
@@ -1113,10 +1113,10 @@ Write-Host ""
 Write-Host "🔄 Running Phase 1.4–1.7 generators..." -ForegroundColor Cyan
 
 $generators = @(
-  @{ name = "Dependency Graph (1.4)"; path = "C:\dev\toolforge\utilities\toolforgeDependencyGraph.ps1" }
-  @{ name = "Metadata Schema (1.5)"; path = "C:\dev\toolforge\utilities\toolforgeMetadataGenerator.ps1" }
-  @{ name = "Health Check (1.6)"; path = "C:\dev\toolforge\utilities\toolforgeSkillHealthCheck.ps1" }
-  @{ name = "Cowork Auto-Sync (1.7)"; path = "C:\dev\toolforge\daemons\cowork-auto-sync.ps1" }
+  @{ name = "Dependency Graph (1.4)"; path = "C:\dev\utilities\toolforgeDependencyGraph.ps1" }
+  @{ name = "Metadata Schema (1.5)"; path = "C:\dev\utilities\toolforgeMetadataGenerator.ps1" }
+  @{ name = "Health Check (1.6)"; path = "C:\dev\utilities\toolforgeSkillHealthCheck.ps1" }
+  @{ name = "Cowork Auto-Sync (1.7)"; path = "C:\dev\daemons\cowork-auto-sync.ps1" }
 )
 
 $genErrors = 0

@@ -33,11 +33,11 @@ param(
   [string]$Config,
   [switch]$Inspect,
   [switch]$Refresh,
-  [string]$DbPath = "C:\dev\toolforge\run-store.db"
+  [string]$DbPath = "C:\dev\run-store.db"
 )
 
 $ErrorActionPreference = "Stop"
-# Canonical skill tree is C:\dev\toolforge (see CLAUDE.md RULE 2), not the script's
+# Canonical skill tree is C:\dev (see CLAUDE.md RULE 2), not the script's
 # own directory. C:\dev\manifest.json / C:\dev\skills\ is a separate, stale mirror.
 $TOOLFORGE_ROOT = Join-Path (Split-Path -Parent $PSCommandPath) "toolforge"
 $MANIFEST_FILE = Join-Path $TOOLFORGE_ROOT "manifest.json"
@@ -342,7 +342,7 @@ function Inspect-Tool {
 }
 
 function Invoke-Tool {
-  param([string]$ToolName, [string]$ConfigPath, [string]$DbPath = "C:\dev\toolforge\run-store.db")
+  param([string]$ToolName, [string]$ConfigPath, [string]$DbPath = "C:\dev\run-store.db")
 
   $manifest = Load-Manifest
   $item = $manifest.tools | Where-Object { $_.name -eq $ToolName }

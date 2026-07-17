@@ -8,7 +8,7 @@
   lifecycle: installs into canonical Toolforge, syncs to distributed,
   registers in manifest.json, registers with Cowork, and cleans up pending.
 
-  Generates: C:\dev\toolforge\audit\SKILL-INSTALL-REPORT.md
+  Generates: C:\dev\audit\SKILL-INSTALL-REPORT.md
 
 .PARAMETER PendingDir
   Directory containing pending skills (default: audit/new-skills-pending-install/)
@@ -26,20 +26,20 @@
 #>
 
 param(
-  [string]$PendingDir = "C:\dev\toolforge\audit\new-skills-pending-install",
+  [string]$PendingDir = "C:\dev\audit\new-skills-pending-install",
   [switch]$Verbose
 )
 
 $ErrorActionPreference = "Stop"
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\toolforge\skills"
+$CANONICAL_SKILLS = "C:\dev\skills"
 $DISTRIBUTED_SKILLS = "C:\dev\rewrite-mcp\toolforge\skills"
-$MANIFEST_PATH = "C:\dev\toolforge\manifest.json"
-$AUDIT_DIR = "C:\dev\toolforge\audit"
+$MANIFEST_PATH = "C:\dev\manifest.json"
+$AUDIT_DIR = "C:\dev\audit"
 $INSTALLED_DIR = Join-Path $AUDIT_DIR "installed-skills"
 $REPORT_PATH = Join-Path $AUDIT_DIR "SKILL-INSTALL-REPORT.md"
-$COWORK_WRAPPER = "C:\dev\toolforge\utilities\Invoke-CoworkSkillInstall.ps1"
+$COWORK_WRAPPER = "C:\dev\utilities\Invoke-CoworkSkillInstall.ps1"
 
 $timestamp = Get-Date -AsUTC -Format "o"
 $installResults = @{
@@ -367,9 +367,9 @@ function Update-Manifest {
       # Check external dependencies
       if ($Metadata.dependencies.external -and $Metadata.dependencies.external.Count -gt 0) {
         foreach ($dep in $Metadata.dependencies.external) {
-          $toolPath = Join-Path "C:\dev\toolforge\tools" $dep
-          $daemonPath = Join-Path "C:\dev\toolforge\daemons" $dep
-          $adapterPath = Join-Path "C:\dev\toolforge\adapters" $dep
+          $toolPath = Join-Path "C:\dev\tools" $dep
+          $daemonPath = Join-Path "C:\dev\daemons" $dep
+          $adapterPath = Join-Path "C:\dev\adapters" $dep
 
           if (-not ((Test-Path $toolPath) -or (Test-Path $daemonPath) -or (Test-Path $adapterPath))) {
             Log "Missing external dependency: $SkillId → $dep" "WARN"
@@ -551,7 +551,7 @@ function Generate-Report {
 ## Next Steps
 
 1. Run skill validator: \`./toolforgeSkillValidator.ps1 -Verbose\`
-2. Check Cowork registration: \`Get-Content C:\dev\toolforge\audit\COWORK-REGISTERED-SKILLS.md\`
+2. Check Cowork registration: \`Get-Content C:\dev\audit\COWORK-REGISTERED-SKILLS.md\`
 3. Verify distributed sync: \`./toolforgeDriftDetector.ps1\`
 
 ---

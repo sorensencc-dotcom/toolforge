@@ -1,7 +1,7 @@
 # bootstrap-toolforge.ps1
 # Creates the full toolforge directory structure and standard templates
 
-$root = "C:\dev\toolforge"
+$root = "C:\dev"
 
 $dirs = @(
     "$root",
@@ -47,4 +47,4 @@ Any repo-specific or CIC/Rewrite Labs integration details.
 
 Set-Content -Path "$root\_TEMPLATE\README.md" -Value $templateReadme
 
-Write-Output "Toolforge bootstrap complete at C:\dev\toolforge"
+Write-Output "Toolforge bootstrap complete at C:\dev"

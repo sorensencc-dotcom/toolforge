@@ -15,23 +15,23 @@
   behavior is deterministic on both Windows PowerShell 5.1 and pwsh 7+.
 
 .PARAMETER OutputFile
-  Path to CHANGELOG.md. Default: C:\dev\toolforge\CHANGELOG.md
+  Path to CHANGELOG.md. Default: C:\dev\CHANGELOG.md
 
 .PARAMETER VersionFile
-  Path to VERSION.md. Default: C:\dev\toolforge\VERSION.md
+  Path to VERSION.md. Default: C:\dev\VERSION.md
 
 .PARAMETER RepoRoot
-  Git repository root to read history from. Default: C:\dev\toolforge
+  Git repository root to read history from. Default: C:\dev
 
 .EXAMPLE
   ./generate-changelog.ps1
-  ./generate-changelog.ps1 -OutputFile C:\dev\toolforge\CHANGELOG.md
+  ./generate-changelog.ps1 -OutputFile C:\dev\CHANGELOG.md
 #>
 
 param(
-  [string]$OutputFile  = "C:\dev\toolforge\CHANGELOG.md",
-  [string]$VersionFile = "C:\dev\toolforge\VERSION.md",
-  [string]$RepoRoot    = "C:\dev\toolforge"
+  [string]$OutputFile  = "C:\dev\CHANGELOG.md",
+  [string]$VersionFile = "C:\dev\VERSION.md",
+  [string]$RepoRoot    = "C:\dev"
 )
 
 $ErrorActionPreference = "Stop"

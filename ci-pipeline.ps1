@@ -41,7 +41,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$toolforgeRoot = 'C:\dev\toolforge'
+$toolforgeRoot = 'C:\dev'
 $timestamp = Get-Date -Format 'yyyy-MM-dd_HHmmss'
 $logDir = "$toolforgeRoot\logs\ci"
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null

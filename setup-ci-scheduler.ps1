@@ -8,7 +8,7 @@ Creates two tasks:
 1. Post-commit hook trigger (runs after git commit)
 2. Nightly run (21:00 daily)
 
-Both log to C:\dev\toolforge\logs\ci
+Both log to C:\dev\logs\ci
 
 .PARAMETER Action
 Register, Unregister, List, Test
@@ -26,8 +26,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $taskName = 'Toolforge-CI-Pipeline'
 $nightlyTaskName = 'Toolforge-CI-Nightly'
-$scriptPath = 'C:\dev\toolforge\ci-pipeline.ps1'
-$logDir = 'C:\dev\toolforge\logs\ci'
+$scriptPath = 'C:\dev\ci-pipeline.ps1'
+$logDir = 'C:\dev\logs\ci'
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 
 function Register-Tasks {

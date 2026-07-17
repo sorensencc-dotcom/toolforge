@@ -1,4 +1,4 @@
-$root = "C:\dev\toolforge"
+$root = "C:\dev"
 
 # Environment variable
 [Environment]::SetEnvironmentVariable("TOOLFORGE_ROOT", $root, "User")
@@ -17,4 +17,4 @@ $workspace = @"
 
 Set-Content -Path "$root\CLAUDE_WORKSPACE.json" -Value $workspace
 
-Write-Output "Toolforge installed. Claude Desktop now targets C:\dev\toolforge."
+Write-Output "Toolforge installed. Claude Desktop now targets C:\dev."

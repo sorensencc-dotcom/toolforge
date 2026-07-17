@@ -1,7 +1,7 @@
 # toolforge-install.ps1
 # Full Toolforge platform scaffolding installer
 
-$root = "C:\dev\toolforge"
+$root = "C:\dev"
 
 Write-Output "Installing Toolforge platform into $root ..."
 

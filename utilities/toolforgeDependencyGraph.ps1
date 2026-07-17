@@ -12,7 +12,7 @@
   - Orphan dependencies (unreferenced)
   - Health summary per skill
 
-  Output: C:\dev\toolforge\skills\SKILLPACK-DEPENDENCY-GRAPH.md
+  Output: C:\dev\skills\SKILLPACK-DEPENDENCY-GRAPH.md
 
 .PARAMETER OutputPath
   Where to save graph report (default: SKILLPACK-DEPENDENCY-GRAPH.md)
@@ -26,15 +26,15 @@
 #>
 
 param(
-  [string]$OutputPath = "C:\dev\toolforge\skills\SKILLPACK-DEPENDENCY-GRAPH.md",
+  [string]$OutputPath = "C:\dev\skills\SKILLPACK-DEPENDENCY-GRAPH.md",
   [switch]$Verbose
 )
 
 $ErrorActionPreference = "Stop"
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\toolforge\skills"
-$MANIFEST_FILE = "C:\dev\toolforge\manifest.json"
+$CANONICAL_SKILLS = "C:\dev\skills"
+$MANIFEST_FILE = "C:\dev\manifest.json"
 
 # State
 $graph = @{

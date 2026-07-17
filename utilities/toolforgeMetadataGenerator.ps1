@@ -12,7 +12,7 @@
   - Dependencies summary
   - Owner and category info
 
-  Output: C:\dev\toolforge\skills\SKILLPACK-METADATA.json
+  Output: C:\dev\skills\SKILLPACK-METADATA.json
 
 .PARAMETER OutputPath
   Where to save metadata (default: SKILLPACK-METADATA.json)
@@ -26,18 +26,18 @@
 #>
 
 param(
-  [string]$OutputPath = "C:\dev\toolforge\skills\SKILLPACK-METADATA.json",
+  [string]$OutputPath = "C:\dev\skills\SKILLPACK-METADATA.json",
   [switch]$Verbose
 )
 
 $ErrorActionPreference = "Stop"
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\toolforge\skills"
+$CANONICAL_SKILLS = "C:\dev\skills"
 $DISTRIBUTED_SKILLS = "C:\dev\rewrite-mcp\toolforge\skills"
-$MANIFEST_FILE = "C:\dev\toolforge\manifest.json"
-$RUNTIME_LOG = "C:\dev\toolforge\audit\SKILL-RUN-LOG.md"
-$VALIDATION_LOG = "C:\dev\toolforge\skills\SKILLPACK-VALIDATION.md"
+$MANIFEST_FILE = "C:\dev\manifest.json"
+$RUNTIME_LOG = "C:\dev\audit\SKILL-RUN-LOG.md"
+$VALIDATION_LOG = "C:\dev\skills\SKILLPACK-VALIDATION.md"
 
 # Metadata state
 $metadata = @{

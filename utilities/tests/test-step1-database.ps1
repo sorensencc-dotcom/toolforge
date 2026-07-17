@@ -1,4 +1,4 @@
-param([string]$DbPath = "C:\dev\toolforge\test-run-store.db")
+param([string]$DbPath = "C:\dev\test-run-store.db")
 
 $ErrorActionPreference = "Stop"
 $script:pass = 0
@@ -19,7 +19,7 @@ function Assert-True {
 if (Test-Path $DbPath) { Remove-Item $DbPath -Force }
 
 # Initialize database
-& C:\dev\toolforge\utilities\init-run-store.ps1 -DbPath $DbPath
+& C:\dev\utilities\init-run-store.ps1 -DbPath $DbPath
 
 # Test 1: File exists
 Assert-True (Test-Path $DbPath) "Database file created"

@@ -1,4 +1,4 @@
-param([string]$DbPath = "C:\dev\toolforge\test-telemetry.db")
+param([string]$DbPath = "C:\dev\test-telemetry.db")
 
 $ErrorActionPreference = "Stop"
 $script:pass = 0
@@ -17,7 +17,7 @@ function Assert-True {
 
 # Initialize test database
 if (Test-Path $DbPath) { Remove-Item $DbPath -Force }
-& C:\dev\toolforge\utilities\init-run-store.ps1 -DbPath $DbPath
+& C:\dev\utilities\init-run-store.ps1 -DbPath $DbPath
 
 # Test 1: Telemetry on success
 $conn = [System.Data.SQLite.SQLiteConnection]::new("Data Source=$DbPath;Version=3;")

@@ -21,7 +21,7 @@
   'patch' | 'minor' | 'major'. Default: 'patch'.
 
 .PARAMETER VersionFile
-  Path to VERSION.md. Default: C:\dev\toolforge\VERSION.md
+  Path to VERSION.md. Default: C:\dev\VERSION.md
 
 .OUTPUTS
   Writes the new semver string to the pipeline (e.g. "1.2.0") so callers can
@@ -29,14 +29,14 @@
 
 .EXAMPLE
   ./bump-version.ps1 -BumpType patch
-  ./bump-version.ps1 -BumpType minor -VersionFile C:\dev\toolforge\VERSION.md
+  ./bump-version.ps1 -BumpType minor -VersionFile C:\dev\VERSION.md
 #>
 
 param(
   [ValidateSet('patch', 'minor', 'major')]
   [string]$BumpType = 'patch',
 
-  [string]$VersionFile = "C:\dev\toolforge\VERSION.md"
+  [string]$VersionFile = "C:\dev\VERSION.md"
 )
 
 $ErrorActionPreference = "Stop"

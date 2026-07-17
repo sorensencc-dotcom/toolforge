@@ -1,7 +1,7 @@
 # create-toolforge.ps1
 # Creates the full toolforge directory structure under C:\dev
 
-$root = "C:\dev\toolforge"
+$root = "C:\dev"
 
 $dirs = @(
     "$root",
@@ -20,4 +20,4 @@ foreach ($d in $dirs) {
     }
 }
 
-Write-Output "toolforge directory structure created at C:\dev\toolforge"
+Write-Output "toolforge directory structure created at C:\dev"

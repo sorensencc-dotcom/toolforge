@@ -6,7 +6,7 @@
   STRATEGY section. Exits 1 on any failure so it can gate a commit.
 
 .EXAMPLE
-  pwsh -NoProfile -File C:\dev\toolforge\utilities\tests\test-step3-release-automation.ps1
+  pwsh -NoProfile -File C:\dev\utilities\tests\test-step3-release-automation.ps1
 #>
 
 $ErrorActionPreference = "Stop"

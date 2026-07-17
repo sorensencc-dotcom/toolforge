@@ -37,8 +37,8 @@ param(
 $ErrorActionPreference = "Stop"
 
 # Paths
-$MANIFEST_PATH = "C:\dev\toolforge\manifest.json"
-$CANONICAL_SKILLS = "C:\dev\toolforge\skills"
+$MANIFEST_PATH = "C:\dev\manifest.json"
+$CANONICAL_SKILLS = "C:\dev\skills"
 
 function Log {
   param([string]$Message, [string]$Level = "INFO")

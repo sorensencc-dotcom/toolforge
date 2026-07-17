@@ -9,22 +9,22 @@
   table set exists.
 
 .PARAMETER DbPath
-  Path to the SQLite database file. Default: C:\dev\toolforge\run-store.db
+  Path to the SQLite database file. Default: C:\dev\run-store.db
 
 .PARAMETER SchemaPath
-  Path to the canonical DDL. Default: C:\dev\toolforge\schema.sql
+  Path to the canonical DDL. Default: C:\dev\schema.sql
 
 .PREREQUISITE
   PSSQLite module: Install-Module PSSQLite -Scope CurrentUser -Force
 
 .EXAMPLE
   ./init-run-store.ps1
-  ./init-run-store.ps1 -DbPath C:\dev\toolforge\run-store.db
+  ./init-run-store.ps1 -DbPath C:\dev\run-store.db
 #>
 
 param(
-  [string]$DbPath     = "C:\dev\toolforge\run-store.db",
-  [string]$SchemaPath = "C:\dev\toolforge\schema.sql"
+  [string]$DbPath     = "C:\dev\run-store.db",
+  [string]$SchemaPath = "C:\dev\schema.sql"
 )
 
 $ErrorActionPreference = "Stop"

@@ -19,7 +19,7 @@
   Show detailed registration logs
 
 .EXAMPLE
-  Invoke-CoworkSkillInstall -SkillId "roadmap-validator" -SourcePath "C:\dev\toolforge\skills\roadmap-validator"
+  Invoke-CoworkSkillInstall -SkillId "roadmap-validator" -SourcePath "C:\dev\skills\roadmap-validator"
 
 .OUTPUTS
   Exit code 0 = success
@@ -38,7 +38,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$AUDIT_DIR = "C:\dev\toolforge\audit"
+$AUDIT_DIR = "C:\dev\audit"
 $REGISTERED_LOG = Join-Path $AUDIT_DIR "COWORK-REGISTERED-SKILLS.md"
 $ERROR_LOG = Join-Path $AUDIT_DIR "COWORK-REGISTRATION-ERRORS.md"
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
