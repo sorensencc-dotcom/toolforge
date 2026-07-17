@@ -13,7 +13,8 @@ const fs = require('fs');
 const crypto = require('crypto');
 
 // DB_PATH derived from __dirname, never from env / committed absolute path (C12).
-const DB_PATH = path.join(__dirname, '..', '..', 'run-store.db');
+// run-store.db lives under toolforge/ (canonical skill tree root), not repo root.
+const DB_PATH = path.join(__dirname, '..', '..', 'toolforge', 'run-store.db');
 const PORT = process.env.PORT || 3001;
 const TELEMETRY_API_KEY = process.env.TELEMETRY_API_KEY;
 

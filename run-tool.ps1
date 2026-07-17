@@ -37,7 +37,9 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$TOOLFORGE_ROOT = Split-Path -Parent $PSCommandPath
+# Canonical skill tree is C:\dev\toolforge (see CLAUDE.md RULE 2), not the script's
+# own directory. C:\dev\manifest.json / C:\dev\skills\ is a separate, stale mirror.
+$TOOLFORGE_ROOT = Join-Path (Split-Path -Parent $PSCommandPath) "toolforge"
 $MANIFEST_FILE = Join-Path $TOOLFORGE_ROOT "manifest.json"
 $SKILLS_DIR = Join-Path $TOOLFORGE_ROOT "skills"
 $CATEGORIES = @("sync-tools", "daemons", "adapters", "mcp-servers", "utilities", "scaffolds", "prototypes")
@@ -189,15 +191,16 @@ function Discover-Skills {
       try {
         $skillJson = Get-Content $skillJsonPath | ConvertFrom-Json
         $skill = @{
+          id          = $skillJson.id
           name        = $skillJson.id
           displayName = $skillJson.name
-          category    = "skills"
+          category    = $skillJson.category ?? "skills"
           version     = $skillJson.version ?? "0.1.0"
           description = $skillJson.description ?? ""
-          entrypoint  = $skillJson.metadata.entrypoint ?? "src/index.ts"
+          entrypoint  = $skillJson.entrypoint ?? "src/index.ts"
           path        = $skillDir
           discovered  = $true
-          skillType   = $skillJson.metadata.runtime ?? "typescript"
+          skillType   = $skillJson.runtime ?? "typescript"
         }
         $skills += $skill
       } catch {
@@ -239,7 +242,7 @@ function Update-Manifest {
   if ($null -eq $existingSkills) { $existingSkills = @() }
 
   foreach ($skill in $discoveredSkills) {
-    $existing = $existingSkills | Where-Object { $_.name -eq $skill.name }
+    $existing = $existingSkills | Where-Object { $_.id -eq $skill.id }
     if ($existing) {
       $existing | Add-Member -MemberType NoteProperty -Name "discovered" -Value $true -Force
       $existing | Add-Member -MemberType NoteProperty -Name "version" -Value $skill.version -Force
@@ -311,7 +314,7 @@ function Inspect-Tool {
   $itemType = "Tool"
 
   if (-not $item) {
-    $item = $manifest.skills | Where-Object { $_.name -eq $ToolName }
+    $item = $manifest.skills | Where-Object { $_.id -eq $ToolName -or $_.name -eq $ToolName }
     $itemType = "Skill"
   }
 
@@ -346,7 +349,7 @@ function Invoke-Tool {
   $itemType = "Tool"
 
   if (-not $item) {
-    $item = $manifest.skills | Where-Object { $_.name -eq $ToolName }
+    $item = $manifest.skills | Where-Object { $_.id -eq $ToolName -or $_.name -eq $ToolName }
     $itemType = "Skill"
   }
 
@@ -356,7 +359,13 @@ function Invoke-Tool {
   }
 
   $entrypoint = $item.entrypoint ?? "run.ps1"
-  $itemDir = $item.path
+  # Hand-curated manifest.json entries have no "path" field (only Discover-Skills
+  # output does) — fall back to the standard SKILLS_DIR/id layout.
+  $itemDir = if ($item.path) { $item.path } elseif ($itemType -eq "Skill") { Join-Path $SKILLS_DIR $item.id } else { $null }
+  if (-not $itemDir) {
+    Write-Host "❌ Cannot resolve directory for $itemType`: $ToolName (no path field, not a skill)" -ForegroundColor Red
+    exit 1
+  }
   $runPath = Join-Path $itemDir $entrypoint
 
   if (-not (Test-Path $runPath)) {
