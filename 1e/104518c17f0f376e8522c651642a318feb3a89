@@ -1,0 +1,63 @@
+.ijfw/memory/handoff.md
+  s_b2b0627ddda6f1::t_9e1b676dddd54b 1,6,8,12-15,19-21,25-26,30-32
+api/telemetry/package.json
+  s_19b6035df5cd47::t_4014481402a070 14
+.context/retros/2026-07-17-1.json
+  s_cb8fde1a059c42::t_2c7efbf66e5caa 1-47
+.context/retros/2026-07-17-2.json
+  s_6bdaf896effdaf::t_6ac03aaed440fd 1-46
+.gitignore
+  s_b2b0627ddda6f1::t_a1fbbcb4ca95f8 5
+TODOS.md
+  s_19b6035df5cd47::t_4a7bde8dc2f123 10-12,22
+api/telemetry/package-lock.json
+  s_b2b0627ddda6f1::t_5fecf6a18bef1f 13,19-22,25,28,31-35,38,275-278,280,499-505,869,872-876,879,989-991,994,998-1000,1003,1006,1049-1055,1058-1060,1065,1067-1068,1070-1073,1079,1137-1139,1143,1149,1259-1262,1266,1601-1603,1608-1613,1616,1619,1668-1671,1673-1677,1680,1717-1726,1728-1762,1829-1833,1835-1836,1873-1875,1879,1882,1885,1895-1901
+api/telemetry/tests/test-step4-badges.js
+  s_b2b0627ddda6f1::t_be68cbc4fc1a7f 20
+docs/meta/phases/torquequery-reconciliation-charter.md
+  s_cb8fde1a059c42::t_1e18ac127ffead 1-99
+.github/copilot-instructions.md
+  s_b2b0627ddda6f1::t_d6b01671c65e5a 11,16
+.github/copilot-toolbox-mcp-skills-awareness.md
+  s_b2b0627ddda6f1::t_b2876adc8744af 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "1e104518c17f0f376e8522c651642a318feb3a89",
+  "prompts": {},
+  "sessions": {
+    "s_19b6035df5cd47": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "feb35b8b-3e13-4d8b-b3c2-79b5c0ac19b5",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_6bdaf896effdaf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1f008052-b60d-44f9-a8e8-a0b55864f435",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_b2b0627ddda6f1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4e14930-d8e9-4be4-ad89-e2a1859a4645",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_cb8fde1a059c42": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6e4d-2adc-7273-8170-57f82e0e170c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
