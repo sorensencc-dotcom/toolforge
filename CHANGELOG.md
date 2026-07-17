@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.8.1
+Date: 2026-07-17
+
+### Changes
+- a50093c - docs: fill required doc gaps for CIC Phase 1/3 skills (Chris Sorensen)
+- a8767b2 - docs: close TorqueQuery hardening follow-up bugs (all 3 fixed+verified+pushed) (Chris Sorensen)
+
 ## Version 2.8.0
 Date: 2026-07-17
 
