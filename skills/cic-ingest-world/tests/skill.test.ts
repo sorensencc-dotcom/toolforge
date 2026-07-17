@@ -10,6 +10,7 @@ describe('cic-ingest-world', () => {
     expect(result.runId).toMatch(/^run-/);
     expect(typeof result.artifactsPath).toBe('string');
     expect(typeof result.lineageRef).toBe('string');
+    expect(result.governanceTag).toMatch(/^\[RUN-ID:run-.*\]\[PROFILE-ID:default\]$/);
     expect(() => new Date(result.timestamp).toISOString()).not.toThrow();
   });
 

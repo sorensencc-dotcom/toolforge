@@ -11,6 +11,7 @@ describe('cic-run-gate', () => {
     expect(Array.isArray(result.violations)).toBe(true);
     expect(typeof result.reportPath).toBe('string');
     expect(typeof result.artifactsPath).toBe('string');
+    expect(result.governanceTag).toMatch(/^\[RUN-ID:run-.*\]\[GATE-ID:GATE-01\]\[PROFILE-ID:default\]$/);
     expect(() => new Date(result.timestamp).toISOString()).not.toThrow();
   }, 20000);
 

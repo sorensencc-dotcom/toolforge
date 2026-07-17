@@ -5,10 +5,11 @@ import { generateRunId } from '../../_cic-shared/src/runId';
 import { writeResultJson } from '../../_cic-shared/src/writeResultJson';
 import { artifactPaths } from '../../_cic-shared/src/artifactPaths';
 import { writeReportEntry } from '../../_cic-shared/src/writeReportEntry';
+import { formatGovernanceTag } from '../../_cic-shared/src/governanceTag';
 
 export interface RunGateInput { gateId: string; scope?: string; profile?: string; }
 interface AdapterPayload { status: 'PASS' | 'FAIL' | 'ERROR'; violations: { testId: string; description: string; outcome: string }[]; message: string; }
-export interface RunGateOutput extends AdapterPayload { runId: string; gateId: string; reportPath: string; artifactsPath: string; timestamp: string; }
+export interface RunGateOutput extends AdapterPayload { runId: string; gateId: string; reportPath: string; artifactsPath: string; governanceTag: string; timestamp: string; }
 const GATE_ID_PATTERN = /^GATE-\d{2}$/;
 const ADAPTER_PATH = path.resolve(__dirname, '../../../CIC-GOVERNANCE/adapters/run_gate_adapter.py');
 const ADAPTER_CWD = path.resolve(__dirname, '../../../CIC-GOVERNANCE');
@@ -33,7 +34,8 @@ export async function main(input: RunGateInput): Promise<RunGateOutput> {
   else payload = await runAdapter(input.gateId);
   const reportPath = path.join(dir, 'report.json'); await fs.mkdir(dir, { recursive: true }); await fs.writeFile(reportPath, JSON.stringify(payload, null, 2), 'utf-8');
   const timestamp = new Date().toISOString();
-  const result: RunGateOutput = { ...payload, runId, gateId: input.gateId, reportPath, artifactsPath: dir, timestamp };
+  const governanceTag = formatGovernanceTag({ runId, gateId: input.gateId, profileId: input.profile });
+  const result: RunGateOutput = { ...payload, runId, gateId: input.gateId, reportPath, artifactsPath: dir, governanceTag, timestamp };
   await writeResultJson('gates', runId, result as unknown as Record<string, unknown>);
   await writeReportEntry('gates', runId, { runId, gateId: input.gateId, status: payload.status, reportPath, timestamp });
   return result;

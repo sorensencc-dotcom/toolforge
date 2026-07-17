@@ -7,6 +7,7 @@ describe('cic-consolidate-artifacts', () => {
     expect(result.status).toBe('stub');
     expect(result.bundleId).toMatch(/^bundle-/);
     expect(typeof result.bundlePath).toBe('string');
+    expect(result.governanceTag).toMatch(/^\[RUN-ID:bundle-.*\]\[PROFILE-ID:default\]$/);
     expect(() => new Date(result.timestamp).toISOString()).not.toThrow();
   });
 });

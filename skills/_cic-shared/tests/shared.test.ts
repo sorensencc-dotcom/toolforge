@@ -10,6 +10,7 @@ import { lineagePaths } from '../src/lineagePaths';
 import { reportPaths } from '../src/reportPaths';
 import { writeLineageEntry } from '../src/writeLineageEntry';
 import { writeReportEntry } from '../src/writeReportEntry';
+import { formatGovernanceTag } from '../src/governanceTag';
 
 describe('runId', () => {
   it('generateRunId matches run-<compact-iso>-<6hex>', () => {
@@ -102,6 +103,23 @@ describe('lineagePaths / reportPaths', () => {
     const { dir, file } = reportPaths('gates', 'run-report-test');
     expect(dir).toBe(path.join(repoRoot, 'cic', 'reports', 'gates'));
     expect(file).toBe(path.join(dir, 'run-report-test.json'));
+  });
+});
+
+describe('formatGovernanceTag', () => {
+  it('includes GATE-ID when provided', () => {
+    expect(formatGovernanceTag({ runId: 'run-x', gateId: 'GATE-01', profileId: 'ci' }))
+      .toBe('[RUN-ID:run-x][GATE-ID:GATE-01][PROFILE-ID:ci]');
+  });
+
+  it('omits GATE-ID segment when not provided', () => {
+    expect(formatGovernanceTag({ runId: 'run-x', profileId: 'ci' }))
+      .toBe('[RUN-ID:run-x][PROFILE-ID:ci]');
+  });
+
+  it('defaults PROFILE-ID to "default" when omitted', () => {
+    expect(formatGovernanceTag({ runId: 'run-x' }))
+      .toBe('[RUN-ID:run-x][PROFILE-ID:default]');
   });
 });
 

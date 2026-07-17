@@ -8,6 +8,7 @@ describe('cic-repair-pipeline', () => {
     expect(result.runId).toMatch(/^run-/);
     expect(typeof result.patchSetPath).toBe('string');
     expect(Array.isArray(result.commands)).toBe(true);
+    expect(result.governanceTag).toMatch(/^\[RUN-ID:run-.*\]\[PROFILE-ID:default\]$/);
     expect(() => new Date(result.timestamp).toISOString()).not.toThrow();
   });
 });

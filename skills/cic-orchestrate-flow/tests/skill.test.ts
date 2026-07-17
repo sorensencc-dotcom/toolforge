@@ -8,6 +8,7 @@ describe('cic-orchestrate-flow', () => {
     expect(['PASS', 'FAIL', 'ERROR']).toContain(result.overallStatus);
     expect(result.steps.map((s) => s.step)).toEqual(['ingest', 'gate', 'repair', 'consolidate']);
     expect(typeof result.flowPath).toBe('string');
+    expect(result.governanceTag).toMatch(/^\[RUN-ID:run-.*\]\[GATE-ID:GATE-01\]\[PROFILE-ID:default\]$/);
     expect(() => new Date(result.timestamp).toISOString()).not.toThrow();
 
     const gateStep = result.steps.find((s) => s.step === 'gate')!;

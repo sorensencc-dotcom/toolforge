@@ -1,5 +1,6 @@
 import { generateRunId } from '../../_cic-shared/src/runId';
 import { writeResultJson } from '../../_cic-shared/src/writeResultJson';
+import { formatGovernanceTag } from '../../_cic-shared/src/governanceTag';
 import ingestMain from '../../cic-ingest-world/src/index';
 import gateMain from '../../cic-run-gate/src/index';
 import repairMain from '../../cic-repair-pipeline/src/index';
@@ -25,27 +26,32 @@ export interface OrchestrateOutput {
   steps: FlowStep[];
   bundleId?: string;
   bundlePath?: string;
+  governanceTag: string;
   flowPath: string;
   timestamp: string;
 }
 
 async function writeFlowResult(
   flowId: string,
+  gateId: string,
+  profile: string | undefined,
   steps: FlowStep[],
   overallStatus: 'PASS' | 'FAIL' | 'ERROR',
   bundleId?: string,
   bundlePath?: string
 ): Promise<OrchestrateOutput> {
   const timestamp = new Date().toISOString();
+  const governanceTag = formatGovernanceTag({ runId: flowId, gateId, profileId: profile });
   const flowPath = await writeResultJson('flow', flowId, {
     flowId,
     overallStatus,
     steps,
     bundleId,
     bundlePath,
+    governanceTag,
     timestamp,
   });
-  return { flowId, overallStatus, steps, bundleId, bundlePath, flowPath, timestamp };
+  return { flowId, overallStatus, steps, bundleId, bundlePath, governanceTag, flowPath, timestamp };
 }
 
 export async function main(input: OrchestrateInput): Promise<OrchestrateOutput> {
@@ -55,11 +61,11 @@ export async function main(input: OrchestrateInput): Promise<OrchestrateOutput> 
 
   let ingestResult;
   try {
-    ingestResult = await ingestMain({ sourceId: input.sourceId });
+    ingestResult = await ingestMain({ sourceId: input.sourceId, profile: input.profile });
     steps.push({ step: 'ingest', runId: ingestResult.runId, status: ingestResult.status });
   } catch {
     steps.push({ step: 'ingest', status: 'ERROR' });
-    return writeFlowResult(flowId, steps, 'ERROR');
+    return writeFlowResult(flowId, gateId, input.profile, steps, 'ERROR');
   }
 
   let gateResult: { status: 'PASS' | 'FAIL' | 'ERROR'; message: string; runId?: string };
@@ -74,7 +80,7 @@ export async function main(input: OrchestrateInput): Promise<OrchestrateOutput> 
 
   if (gateResult.status !== 'PASS') {
     try {
-      const repairResult = await repairMain({ pipelineId: gateId, failureContext: gateResult.message });
+      const repairResult = await repairMain({ pipelineId: gateId, failureContext: gateResult.message, profile: input.profile });
       steps.push({ step: 'repair', runId: repairResult.runId, status: repairResult.status });
     } catch {
       steps.push({ step: 'repair', status: 'ERROR' });
@@ -96,7 +102,7 @@ export async function main(input: OrchestrateInput): Promise<OrchestrateOutput> 
   }
 
   const overallStatus = steps.some((s) => s.status === 'ERROR') ? 'ERROR' : gateResult.status;
-  return writeFlowResult(flowId, steps, overallStatus, bundleId, bundlePath);
+  return writeFlowResult(flowId, gateId, input.profile, steps, overallStatus, bundleId, bundlePath);
 }
 
 export default main;
