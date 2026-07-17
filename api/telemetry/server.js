@@ -15,6 +15,12 @@ const crypto = require('crypto');
 // DB_PATH derived from __dirname, never from env / committed absolute path (C12).
 const DB_PATH = path.join(__dirname, '..', '..', 'run-store.db');
 const PORT = process.env.PORT || 3001;
+const TELEMETRY_API_KEY = process.env.TELEMETRY_API_KEY;
+
+if (!TELEMETRY_API_KEY) {
+  console.error('[toolforge-api] TELEMETRY_API_KEY is required');
+  process.exit(1);
+}
 
 // ---- Single process-lifetime DB handle (no pool; read-only workload) ----
 const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
@@ -223,6 +229,17 @@ const corsOptions = {
   optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
+
+function requireApiKey(req, res, next) {
+  const authorization = req.get('authorization') || '';
+  const supplied = authorization.startsWith('Bearer ') ? authorization.slice(7) : '';
+  const expected = Buffer.from(TELEMETRY_API_KEY || '');
+  const actual = Buffer.from(supplied);
+  if (!supplied || actual.length !== expected.length || !crypto.timingSafeEqual(actual, expected)) {
+    return res.status(401).json({ error: { code: 'UNAUTHORIZED', message: 'Authentication required' } });
+  }
+  next();
+}
 
 function securityHeaders(req, res, next) {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -772,6 +789,7 @@ function evaluateAlerts() {
   const dur = getAlertCfg('duration_anomaly');    if (dur) evalDurationAnomaly(dur);
 }
 
+app.use('/api/toolforge', requireApiKey);
 app.get('/api/toolforge/runs', listRuns);
 app.get('/api/toolforge/runs/:invocationId', getRun);
 app.get('/api/toolforge/tools/:tool/stats', getToolStats);

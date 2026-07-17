@@ -42,7 +42,8 @@ function assert(cond, label) {
 
 function get(pathAndQuery) {
   return new Promise((resolve, reject) => {
-    http.get({ host: '127.0.0.1', port: PORT, path: pathAndQuery }, (res) => {
+    http.get({ host: '127.0.0.1', port: PORT, path: pathAndQuery,
+      headers: { Authorization: 'Bearer test-telemetry-key' } }, (res) => {
       let body = '';
       res.on('data', (chunk) => { body += chunk; });
       res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, body }));
@@ -154,7 +155,7 @@ async function main() {
   const child = spawn(process.execPath, [SERVER_PATH], {
     cwd: path.join(__dirname, '..'),
     stdio: 'pipe',
-    env: { ...process.env, PORT: String(PORT) }
+    env: { ...process.env, TELEMETRY_API_KEY: 'test-telemetry-key', PORT: String(PORT) }
   });
   let serverLog = '';
   child.stdout.on('data', (d) => { serverLog += d.toString(); });

@@ -28,6 +28,12 @@ interface MockCoworkState {
   >;
 }
 
+function safeHeaders(headers: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(headers).map(([key, value]) =>
+    key.toLowerCase() === 'authorization' ? [key, '[REDACTED]'] : [key, value]
+  ));
+}
+
 export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
   const apiKey = opts.apiKey || 'mock-api-key-1234567890ab';
   let httpServer: Server | null = null;
@@ -52,7 +58,7 @@ export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
       state.requestLog.push({
         method: req.method,
         path: req.path,
-        headers: req.headers,
+        headers: safeHeaders(req.headers),
         timestamp: new Date().toISOString(),
       });
       res.status(401).json({ error: 'unauthorized' });
@@ -64,7 +70,7 @@ export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
       state.requestLog.push({
         method: req.method,
         path: req.path,
-        headers: req.headers,
+        headers: safeHeaders(req.headers),
         timestamp: new Date().toISOString(),
       });
       res.status(401).json({ error: 'unauthorized' });
@@ -95,7 +101,7 @@ export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
     state.requestLog.push({
       method: req.method,
       path: req.path,
-      headers: req.headers,
+      headers: safeHeaders(req.headers),
       timestamp: new Date().toISOString(),
     });
 
@@ -124,7 +130,7 @@ export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
     state.requestLog.push({
       method: req.method,
       path: req.path,
-      headers: req.headers,
+      headers: safeHeaders(req.headers),
       timestamp: new Date().toISOString(),
     });
 
@@ -155,7 +161,7 @@ export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
     state.requestLog.push({
       method: req.method,
       path: req.path,
-      headers: req.headers,
+      headers: safeHeaders(req.headers),
       timestamp: new Date().toISOString(),
     });
 
@@ -182,7 +188,7 @@ export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
     state.requestLog.push({
       method: req.method,
       path: req.path,
-      headers: req.headers,
+      headers: safeHeaders(req.headers),
       timestamp: new Date().toISOString(),
     });
 
@@ -204,7 +210,7 @@ export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
     state.requestLog.push({
       method: req.method,
       path: req.path,
-      headers: req.headers,
+      headers: safeHeaders(req.headers),
       timestamp: new Date().toISOString(),
     });
 
@@ -226,7 +232,7 @@ export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
     state.requestLog.push({
       method: req.method,
       path: req.path,
-      headers: req.headers,
+      headers: safeHeaders(req.headers),
       timestamp: new Date().toISOString(),
     });
 

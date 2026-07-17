@@ -43,7 +43,8 @@ function makeRequest(method, path, body = null) {
       method,
       headers: {
         'Content-Type': 'application/json',
-        'Connection': 'close'
+        'Connection': 'close',
+        'Authorization': 'Bearer test-telemetry-key'
       }
     };
 
@@ -206,7 +207,7 @@ async function runTests() {
   const serverChild = require('child_process').spawn('node', [
     path.join(__dirname, '../server.js')
   ], {
-    env: { ...process.env, PORT: API_PORT, DB_PATH: TEST_DB_PATH },
+    env: { ...process.env, TELEMETRY_API_KEY: 'test-telemetry-key', PORT: API_PORT, DB_PATH: TEST_DB_PATH },
     stdio: 'pipe'
   });
 
