@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.8.0
+Date: 2026-07-17
+
+### Changes
+- 3399ca5 - fix(skill-security-auditor): add narrow FS-BINARY allowlist for post_seal_ops (Chris Sorensen)
+- be006d4 - fix(session-wrap): justify execFileSync per Tier 1 sign-off (Chris Sorensen)
+- eb978dd - feat(skills): migrate session-wrap, skill-health-monitor, automation-audit from global (Chris Sorensen)
+
 ## Version 2.7.3
 Date: 2026-07-17
 
