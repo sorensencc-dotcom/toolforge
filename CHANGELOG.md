@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.7.3
+Date: 2026-07-17
+
+### Changes
+- c819100 - fix(skill-security-auditor): add narrow FS-BINARY allowlist for post_seal_ops (Chris Sorensen)
+
 ## Version 2.7.2
 Date: 2026-07-17
 
