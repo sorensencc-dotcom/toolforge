@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-15T05:39:10.7993160Z
+**Generated:** 2026-07-17T15:13:38.9309392Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,21 +10,34 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 24 | 100% |
-| Active | 24 | 100% |
+| **Total Skills** | 35 | 100% |
+| Active | 35 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 20 | 83.3% |
-| ⚠️ Warning | 4 | 16.7% |
+| ✅ Good | 20 | 57.1% |
+| ⚠️ Warning | 15 | 42.9% |
 | ❌ Error | 0 | 0% |
 
 ---
 
 ## Skills Inventory
+### _cic-shared
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Shared Utilities |
+| Category | utilities |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### agent-drift-detector
 
 | Field | Value |
@@ -64,6 +77,58 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### automation-audit
+
+| Field | Value |
+|-------|-------|
+| Name | Automation Audit |
+| Category | operations |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### cic-consolidate-artifacts
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Consolidate Artifacts |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### cic-ingest-world
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Ingest World |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### cic-repair-pipeline
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Repair Pipeline |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### cic-roadmap-updater
 
 | Field | Value |
@@ -75,6 +140,19 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### cic-run-gate
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Run Gate |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### cic-section-summarizer
@@ -133,11 +211,11 @@
 
 | Field | Value |
 |-------|-------|
-| Name | Kb Sync Nightly |
-| Category | governance |
-| Version | 1.0.0 |
+| Name | KB Sync Nightly |
+| Category | sync-tools |
+| Version | 1.0.2 |
 | Owner | unknown |
-| Runtime | bash |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
@@ -285,6 +363,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### session-wrap
+
+| Field | Value |
+|-------|-------|
+| Name | Session Wrap |
+| Category | session-management |
+| Version | 1.1.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### skill-health-monitor
+
+| Field | Value |
+|-------|-------|
+| Name | Skill Health Monitor |
+| Category | monitoring |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### skill-security-auditor
 
 | Field | Value |
@@ -311,6 +415,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### toolforge-cli
+
+| Field | Value |
+|-------|-------|
+| Name | Toolforge CLI |
+| Category | utility |
+| Version | 0.1.0 |
+| Owner | soren |
+| Runtime | powershell |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 2 internal, 0 external |
 ### toolforge-drift-monitor
 
 | Field | Value |
@@ -323,6 +440,32 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### toolforge-registry-manager
+
+| Field | Value |
+|-------|-------|
+| Name | Toolforge Registry Manager |
+| Category | pipeline |
+| Version | 0.1.0 |
+| Owner | soren |
+| Runtime | powershell |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### toolforge-submission-validator
+
+| Field | Value |
+|-------|-------|
+| Name | Toolforge Submission Validator |
+| Category | governance |
+| Version | 0.1.0 |
+| Owner | soren |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### work-summarizer
 

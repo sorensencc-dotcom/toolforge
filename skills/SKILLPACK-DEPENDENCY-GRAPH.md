@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-15T05:39:10.0477472Z
+**Generated:** 2026-07-17T15:13:26.7283797Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,18 +10,24 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 24 |
-| Total Dependencies | 1 |
+| Total Skills | 35 |
+| Total Dependencies | 3 |
 | Max Depth | 1 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 23 |
+| Orphan Skills | 32 |
 
 ---
 
 ## Adjacency List
 
 ### Outbound Dependencies (Skill → Dependencies)
+
+### _cic-shared
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
 ### agent-drift-detector
 
@@ -41,7 +47,37 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### automation-audit
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### cic-consolidate-artifacts
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### cic-ingest-world
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### cic-repair-pipeline
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### cic-roadmap-updater
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### cic-run-gate
 
 | Dependency | Type | Status |
 |------------|------|--------|
@@ -143,6 +179,18 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### session-wrap
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### skill-health-monitor
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### skill-security-auditor
 
 | Dependency | Type | Status |
@@ -155,7 +203,26 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### toolforge-cli
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| toolforge-registry-manager | internal | ✅ Found |
+| toolforge-submission-validator | internal | ✅ Found |
+
 ### toolforge-drift-monitor
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### toolforge-registry-manager
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### toolforge-submission-validator
 
 | Dependency | Type | Status |
 |------------|------|--------|
@@ -169,6 +236,9 @@
 
 ### Inbound Dependencies (What Depends on Each Skill)
 
+### _cic-shared
+
+No inbound dependencies (root skill)\n
 ### agent-drift-detector
 
 No inbound dependencies (root skill)\n
@@ -181,7 +251,22 @@ No inbound dependencies (root skill)\n
 |-----------|------|
 | pre-wrap-audit | internal |
 
+### automation-audit
+
+No inbound dependencies (root skill)\n
+### cic-consolidate-artifacts
+
+No inbound dependencies (root skill)\n
+### cic-ingest-world
+
+No inbound dependencies (root skill)\n
+### cic-repair-pipeline
+
+No inbound dependencies (root skill)\n
 ### cic-roadmap-updater
+
+No inbound dependencies (root skill)\n
+### cic-run-gate
 
 No inbound dependencies (root skill)\n
 ### cic-section-summarizer
@@ -232,15 +317,36 @@ No inbound dependencies (root skill)\n
 ### scale-ingestion-service
 
 No inbound dependencies (root skill)\n
+### session-wrap
+
+No inbound dependencies (root skill)\n
+### skill-health-monitor
+
+No inbound dependencies (root skill)\n
 ### skill-security-auditor
 
 No inbound dependencies (root skill)\n
 ### tool-lifecycle-manager
 
 No inbound dependencies (root skill)\n
+### toolforge-cli
+
+No inbound dependencies (root skill)\n
 ### toolforge-drift-monitor
 
 No inbound dependencies (root skill)\n
+### toolforge-registry-manager
+
+| Dependent | Type |
+|-----------|------|
+| toolforge-cli | internal |
+
+### toolforge-submission-validator
+
+| Dependent | Type |
+|-----------|------|
+| toolforge-cli | internal |
+
 ### work-summarizer
 
 No inbound dependencies (root skill)\n
@@ -252,30 +358,41 @@ Depth 0 = Leaf node (no dependencies)
 Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
-|-------|-------|| pre-wrap-audit | 1 |
-| skill-security-auditor | 1 |
-| work-summarizer | 0 |
-| toolforge-drift-monitor | 0 |
-| operator-image-build | 0 |
-| plan-extractor-integration | 0 |
-| kb-sync-artifact-generator | 0 |
-| scale-ingestion-service | 0 |
-| kb-sync-nightly | 0 |
-| reconcile-vector-store | 0 |
-| context-manager | 0 |
-| cic-section-summarizer | 0 |
-| run-adapter-diagnostic | 0 |
-| ashfall | 0 |
+|-------|-------|| skill-security-auditor | 1 |
+| toolforge-cli | 1 |
+| pre-wrap-audit | 1 |
 | agent-drift-detector | 0 |
-| rewrite-labs-orchestrator | 0 |
-| roadmap-validator | 0 |
-| tool-lifecycle-manager | 0 |
+| cic-consolidate-artifacts | 0 |
+| cic-run-gate | 0 |
+| ashfall | 0 |
+| cic-ingest-world | 0 |
 | cic-roadmap-updater | 0 |
-| analyze-token-burn | 0 |
-| rollback-phase | 0 |
+| toolforge-drift-monitor | 0 |
+| kb-sync-artifact-generator | 0 |
+| plan-extractor-integration | 0 |
+| cic-repair-pipeline | 0 |
 | obsidian-ingest-wiki | 0 |
+| run-adapter-diagnostic | 0 |
 | permission-governor | 0 |
+| tool-lifecycle-manager | 0 |
+| analyze-token-burn | 0 |
+| scale-ingestion-service | 0 |
+| operator-image-build | 0 |
+| roadmap-validator | 0 |
+| cic-section-summarizer | 0 |
+| automation-audit | 0 |
+| session-wrap | 0 |
 | html-visual-verify | 0 |
+| kb-sync-nightly | 0 |
+| skill-health-monitor | 0 |
+| rewrite-labs-orchestrator | 0 |
+| context-manager | 0 |
+| rollback-phase | 0 |
+| work-summarizer | 0 |
+| toolforge-registry-manager | 0 |
+| toolforge-submission-validator | 0 |
+| _cic-shared | 0 |
+| reconcile-vector-store | 0 |
 
 ---
 
@@ -294,9 +411,15 @@ Dependencies referenced but not found in canonical skills.
 Skills that have no inbound dependencies (nothing depends on them).
 | Skill |
 |-------|
+| _cic-shared |
 | agent-drift-detector |
 | analyze-token-burn |
+| automation-audit |
+| cic-consolidate-artifacts |
+| cic-ingest-world |
+| cic-repair-pipeline |
 | cic-roadmap-updater |
+| cic-run-gate |
 | cic-section-summarizer |
 | context-manager |
 | html-visual-verify |
@@ -313,8 +436,11 @@ Skills that have no inbound dependencies (nothing depends on them).
 | rollback-phase |
 | run-adapter-diagnostic |
 | scale-ingestion-service |
+| session-wrap |
+| skill-health-monitor |
 | skill-security-auditor |
 | tool-lifecycle-manager |
+| toolforge-cli |
 | toolforge-drift-monitor |
 | work-summarizer |
 
@@ -326,7 +452,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 23 orphan skill(s) |
+| Orphans | ⚠️ WARN | 32 orphan skill(s) |
 
 ---
 
