@@ -1,0 +1,87 @@
+name: Wave D Gate
+run-name: Wave D Gate (v1.0.0)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/db/**"
+      - "src/e2e/**"
+      - "src/load-tests/**"
+      - "src/api/**"
+      - "src/services/**"
+      - "package.json"
+      - ".github/workflows/toolforge-wave-d.yml"
+  pull_request:
+    paths:
+      - "src/db/**"
+      - "src/e2e/**"
+      - "src/load-tests/**"
+      - "src/api/**"
+      - "src/services/**"
+      - "package.json"
+      - ".github/workflows/toolforge-wave-d.yml"
+
+jobs:
+  wave-d-gate:
+    name: Wave D Gate (PG + migrate + e2e + load)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: toolforge
+          POSTGRES_PASSWORD: toolforge
+          POSTGRES_DB: toolforge_local
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U toolforge"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgres://toolforge:toolforge@localhost:5432/toolforge_local
+      LOAD_REPORT_OUT: ${{ github.workspace }}/wave-d-artifacts/load-report.json
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Wait for Postgres to be ready
+        run: |
+          for i in $(seq 1 20); do
+            pg_isready -h localhost -p 5432 -U toolforge && break
+            echo "Postgres not ready yet..."
+            sleep 2
+          done
+
+      - name: Prepare artifacts dir
+        run: mkdir -p wave-d-artifacts
+
+      - name: Run migrations
+        run: npm run migrate
+
+      - name: Run E2E tests
+        run: npm run e2e | tee wave-d-artifacts/e2e-output.log
+
+      - name: Run marketplace load tests
+        run: npm run load:marketplace | tee wave-d-artifacts/load-output.log
+
+      - name: Upload Wave D artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wave-d-artifacts
+          path: wave-d-artifacts/**
