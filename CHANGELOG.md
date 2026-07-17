@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.5.3
+Date: 2026-07-17
+
+### Changes
+- 2bdec40 - chore: allowlist WebFetch domains used this session (Chris Sorensen)
+- c086979 - fix(sec-auditor): noqa self-referential false-positive in SKILL.md pattern table (Chris Sorensen)
+
 ## Version 2.5.2
 Date: 2026-07-17
 
