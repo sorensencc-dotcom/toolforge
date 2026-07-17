@@ -1,0 +1,43 @@
+skills/_cic-shared/SKILL.json
+  s_b2b0627ddda6f1::t_f86afc281eabc1 1-11
+skills/cic-consolidate-artifacts/INTEGRATION_DIAGRAM.md
+  s_b2b0627ddda6f1::t_eb199194baef42 1-28
+skills/cic-consolidate-artifacts/README.md
+  s_b2b0627ddda6f1::t_c0b9432459af18 1-24
+skills/cic-consolidate-artifacts/SKILL.md
+  s_b2b0627ddda6f1::t_71473a56de7d22 1-36
+skills/cic-ingest-world/INTEGRATION_DIAGRAM.md
+  s_b2b0627ddda6f1::t_17a4ed7ee251ef 1-24
+skills/cic-ingest-world/README.md
+  s_b2b0627ddda6f1::t_91789f9df038fa 1-29
+skills/cic-ingest-world/SKILL.md
+  s_b2b0627ddda6f1::t_d346ef4813e179 1-40
+skills/cic-repair-pipeline/INTEGRATION_DIAGRAM.md
+  s_b2b0627ddda6f1::t_c5b54133e00118 1-33
+skills/cic-repair-pipeline/README.md
+  s_b2b0627ddda6f1::t_e1a9f302162681 1-29
+skills/cic-repair-pipeline/SKILL.md
+  s_b2b0627ddda6f1::t_47e6202ba0b07d 1-36
+skills/cic-run-gate/INTEGRATION_DIAGRAM.md
+  s_b2b0627ddda6f1::t_3ad59e4c265297 1-36
+skills/cic-run-gate/README.md
+  s_b2b0627ddda6f1::t_a74908a493d1ff 1-31
+skills/cic-run-gate/SKILL.md
+  s_b2b0627ddda6f1::t_8095411361e493 1-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a50093c3fd99012320de5d51c0f8677d85ba6785",
+  "prompts": {},
+  "sessions": {
+    "s_b2b0627ddda6f1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4e14930-d8e9-4be4-ad89-e2a1859a4645",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
