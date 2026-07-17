@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.8.5
+Date: 2026-07-17
+
+### Changes
+- 9c19f5f - chore(retro): save 2026-07-17 session snapshot (hook scoping) (Chris Sorensen)
+
 ## Version 2.8.4
 Date: 2026-07-17
 
