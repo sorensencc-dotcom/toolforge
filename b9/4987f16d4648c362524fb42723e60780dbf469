@@ -1,0 +1,33 @@
+docs/meta/specs/2026-07-17-trm-topic-research-module-design.md
+  s_5759a4a6e849a6::t_0209123f516b6d 272
+  s_5759a4a6e849a6::t_3bf8df3e9e459f 15-29
+  s_5759a4a6e849a6::t_8463e23294744e 256
+  s_5759a4a6e849a6::t_6f9e814fb90268 259
+  s_5759a4a6e849a6::t_63e02fe899a079 292
+  s_5759a4a6e849a6::t_1975de10312472 286,293,295
+  s_5759a4a6e849a6::t_185c032224fd90 249-251
+  s_5759a4a6e849a6::t_54c381e6ec3a3b 241,243
+  s_5759a4a6e849a6::t_c3382ddd61de1d 219-229,232-234
+  s_5759a4a6e849a6::t_4f47e571fdc60d 255,257-258,260-263
+  s_5759a4a6e849a6::t_4daa13db5f0352 242
+  s_5759a4a6e849a6::t_c09b79378b8a1e 265
+  s_5759a4a6e849a6::t_2733d1e289cc89 266-271,273-284
+  s_5759a4a6e849a6::t_6db57a6ad7e6a4 264
+  s_5759a4a6e849a6::t_eeadbceccd53a4 45,83-84,88,154-169,174
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "b94987f16d4648c362524fb42723e60780dbf469",
+  "prompts": {},
+  "sessions": {
+    "s_5759a4a6e849a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3907d804-0ddd-450b-80cf-b027b66fd331",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
