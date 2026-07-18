@@ -206,7 +206,7 @@ topics/
 
 - Path is identity: `cuba/industry/automotive`. `topic` field in topic.json is the leaf slug; `path` is the full route.
 - `trm create <a>/<b>/<c>` creates missing intermediate nodes as `status: "container"`; a node becomes `"active"` once sources are ingested into it directly.
-- **Rollup**: `trm score <path> --rollup` walks descendants and reports an aggregated view of promoted facts/scores. Read-only, computed on demand — never written to a file, so parent/child data can't drift out of sync.
+- **Rollup**: `trm score <path> --rollup` walks descendants and reports an aggregated view of promoted facts/scores. Read-only, computed on demand — never written to a file, so parent/child data can't drift out of sync. `fact_id` is only unique within a single node's `score.json` (§5), so rolled-up entries are tagged with a `topic_path` field to disambiguate which node each score came from — a rollup-only addition, not part of the closed per-node `ScoreResult` shape.
 
 ## 5. Scoring adapter (TorqueQuery decoupling)
 
