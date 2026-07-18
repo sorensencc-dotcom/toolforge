@@ -30,5 +30,32 @@
       "C:\\Users\\soren\\.claude\\hooks",
       "C:\\Users\\soren\\.claude"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/c/dev/.claude/hooks/block-env-edit.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"/c/dev/.claude/hooks/post-push-ci-check.sh\"",
+            "if": "Bash(git push*)",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
   }
 }
