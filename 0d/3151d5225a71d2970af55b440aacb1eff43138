@@ -1,0 +1,19 @@
+docs/meta/plans/2026-07-17-trm-claude-extraction-runner-plan.md
+  s_5759a4a6e849a6::t_8399d3805b7189 835-842
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "0d3151d5225a71d2970af55b440aacb1eff43138",
+  "prompts": {},
+  "sessions": {
+    "s_5759a4a6e849a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3907d804-0ddd-450b-80cf-b027b66fd331",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
