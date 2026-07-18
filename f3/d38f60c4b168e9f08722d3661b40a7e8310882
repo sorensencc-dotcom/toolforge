@@ -1,0 +1,19 @@
+docs/meta/specs/2026-07-18-trm-data-governance-design.md
+  s_5759a4a6e849a6::t_36fe0232f095e7 1-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f3d38f60c4b168e9f08722d3661b40a7e8310882",
+  "prompts": {},
+  "sessions": {
+    "s_5759a4a6e849a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3907d804-0ddd-450b-80cf-b027b66fd331",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
