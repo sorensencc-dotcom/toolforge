@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.11.0
+Date: 2026-07-18
+
+### Changes
+- d16c13b - feat(context): add Context Index Policy — Wave B governance (Chris Sorensen)
+- 879ad95 - feat(context): add token optimization Wave A — lockfile exclusions + agent-scan.ignore (Chris Sorensen)
+
 ## Version 2.10.1
 Date: 2026-07-18
 
