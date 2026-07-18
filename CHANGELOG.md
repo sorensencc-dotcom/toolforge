@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.10.1
+Date: 2026-07-18
+
+### Changes
+- f72b171 - docs: enforce skill documentation compliance with Skill Operator Guide (Chris Sorensen)
+
 ## Version 2.10.0
 Date: 2026-07-18
 
