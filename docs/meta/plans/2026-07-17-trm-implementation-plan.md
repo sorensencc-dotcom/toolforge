@@ -2192,7 +2192,7 @@ describe('runCrosslink', () => {
     runCrosslink(root, 'cuba', { actor: 'ACTOR-001', relatedTopic: 'willys', relationship: 'industrial context overlap' });
     const related = JSON.parse(fs.readFileSync(path.join(root, 'topics', 'cuba', 'crosslinks', 'related_topics.json'), 'utf-8'));
     expect(related.related[0]).toMatchObject({ topic: 'willys', relationship: 'industrial context overlap' });
-    expect(related.related[0].strength).toBeCloseTo(1 / 3);
+    expect(related.related[0].strength).toBeCloseTo(1 / 2);
   });
 
   it('writes treatment.json as a promotion pointer', () => {
