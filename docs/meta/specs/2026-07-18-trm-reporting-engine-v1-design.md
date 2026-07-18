@@ -83,8 +83,9 @@ export function renderHtml(bundle: ReportBundle): string; // throws if bundle.th
 trm report <path> [--theme <name>]
 ```
 
+- Validates `--theme` at the CLI action handler, *before* calling `exportBundle` — rejects any value other than `"cic"` immediately with a clear error. This is a duplicate of `renderHtml`'s own check, deliberately: it fails fast before any file I/O (export stage) runs, rather than doing the read/export work only to discard it on a render-time throw.
 - Calls `exportBundle(root, path, opts.theme)`, then `renderHtml(bundle)`.
-- Writes both files to `<vault-root>/reports/<topicSlug>-<timestamp>.json` and `.html`, where `topicSlug` is the full topic path with `/` replaced by `-` (e.g. `charlie/cuba` → `charlie-cuba`) — never a nested path, so `reports/` stays a single flat directory regardless of topic nesting depth.
+- Writes both files to `<vault-root>/reports/<topicSlug>-<timestamp>.json` and `.html`, where `topicSlug` is the full topic path with `/` replaced by `-` (e.g. `charlie/cuba` → `charlie-cuba`) — never a nested path, so `reports/` stays a single flat directory regardless of topic nesting depth. `<timestamp>` is `Date.now()` (milliseconds since epoch) plus a 4-character random suffix (e.g. `crypto.randomBytes(2).toString('hex')`) — guards against filename collisions when `trm report` runs more than once per millisecond in scripted/batch use.
 - Creates the `reports/` directory recursively (`fs.mkdirSync(reportsDir, { recursive: true })`) before writing, since it won't exist on a fresh vault.
 - Prints both output paths to stdout.
 - `--theme` defaults to `"cic"`; any other value produces a clear CLI error (not a silent fallback).
@@ -96,30 +97,34 @@ trm report <path> [--theme <name>]
 ## Data Flow
 
 ```text
+CLI: --theme validated (fail fast if not "cic")
+        |
+        v
 vault topic node (topic.json, sources/, extracts/extract.json)
         |
         v
   exportBundle()  →  ReportBundle (versioned JSON)
         |
         v
-  renderHtml()    →  HTML string (CIC theme)
+  renderHtml()    →  HTML string (CIC theme)   ── throws if bundle.theme !== "cic" (belt-and-suspenders)
         |
         v
-  trm-vault/reports/<slug>-<ts>.json
+  trm-vault/reports/<slug>-<ts>.json   (ts = Date.now() + random suffix)
   trm-vault/reports/<slug>-<ts>.html
 ```
 
 ## Error Handling
 
-- `exportBundle` throws if the topic node doesn't exist (reuses existing `topicNode`/`paths` error conventions already in `src/core`).
+- `exportBundle` throws if the topic node doesn't exist — it calls `readTopicMeta(root, topicPath)` (`src/core/topicNode.ts:11`), which lets `fs.readFileSync`'s native `ENOENT` propagate rather than wrapping it in a custom message. No new error-handling code needed here; this is existing behavior being reused as-is.
 - `renderHtml` throws immediately on unsupported `theme` — no silent CIC fallback, since a wrong report style shipped to a client is worse than a crash.
 - No special handling for empty `facts`/`sources` arrays beyond rendering empty sections cleanly (tested explicitly, not treated as an error).
 
 ## Testing
 
-- **Unit — `exportBundle`:** given a fixture topic dir (mirroring the tmpdir pattern already used in `tests/core/rootSafety.test.ts` and the existing `run*` command tests), produces a bundle with correct shape, correct counts, correct slug/path derivation.
+- **Unit — `exportBundle`:** given a fixture topic dir (mirroring the tmpdir pattern already used in `tests/core/rootSafety.test.ts` and the existing `run*` command tests), produces a bundle with correct shape and counts, `topicPath` passed through unchanged, and `topicSlug` correctly transformed from it (see next line for the nested-path case).
 - **Unit — `renderHtml`:** given a hand-built bundle, output HTML contains expected data (topic name, fact text, source citations); throws on `theme !== "cic"`; renders cleanly with empty `facts`/`sources`; escapes `<`, `>`, `&`, `"`, `'` in injected fact/source text rather than passing them through raw; groups a multi-category fact under only its first category, never duplicated; groups a no-category fact under `"Uncategorized"`; renders `[Unknown Source]` for a fact whose `sourceId` has no match in `bundle.sources[]`.
 - **Unit — `exportBundle`:** slug derivation test explicitly covers a nested topic path (`charlie/cuba` → `charlie-cuba`) to confirm flattening, not just a single-segment path.
+- **Unit — CLI wiring:** `--theme bogus` rejected before `exportBundle` runs (verify via a spy/mock that `exportBundle` is never called); two `trm report` calls in immediate succession produce two distinct filenames (proves the random-suffix collision guard, not just millisecond precision).
 - **Live smoke test:** run `trm report charlie/cuba` against the real vault (`C:\Users\soren\trm-vault`) as final proof — same pattern as the `assertSafeRoot` live verification already done for this repo. Confirms the guardrail (`assertSafeRoot`) still fires correctly for this new command too, since it's wired through the same `cli/index.ts` entrypoint.
 
 ## Spec Self-Review
