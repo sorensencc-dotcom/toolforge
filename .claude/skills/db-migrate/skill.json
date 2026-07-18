@@ -1,0 +1,11 @@
+{
+  "name": "db-migrate",
+  "version": "1.0.0",
+  "description": "Generate, review, and validate PostgreSQL migrations",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "disable-model-invocation": true,
+  "category": "database",
+  "author": "CIC Team",
+  "license": "MIT"
+}

@@ -40,11 +40,31 @@
             "type": "command",
             "command": "node \"/c/dev/.claude/hooks/block-env-edit.js\"",
             "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "node \"/c/dev/.claude/hooks/block-lockfile-edit.js\"",
+            "timeout": 10
           }
         ]
       }
     ],
     "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/c/dev/.claude/hooks/lint-on-edit.js\"",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "node \"/c/dev/.claude/hooks/e2e-snapshots.js\"",
+            "timeout": 120
+          }
+        ]
+      },
       {
         "matcher": "Bash",
         "hooks": [

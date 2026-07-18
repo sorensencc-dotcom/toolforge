@@ -1,0 +1,11 @@
+{
+  "name": "play-e2e",
+  "version": "1.0.0",
+  "description": "Run, debug, and manage Playwright E2E tests",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "disable-model-invocation": true,
+  "category": "testing",
+  "author": "CIC Team",
+  "license": "MIT"
+}

@@ -9,6 +9,14 @@
         "${DATABASE_URL}"
       ],
       "env": {}
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropic-ai/playwright-mcp"
+      ]
     }
   }
 }
