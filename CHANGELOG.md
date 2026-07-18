@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.10.0
+Date: 2026-07-18
+
+### Changes
+- ea12f9f - feat: Claude Code automation — hooks + skills + MCP wiring (Chris Sorensen)
+- dcbb811 - docs: add TRM Harvester mock-wiring implementation plan (Chris Sorensen)
+- 1ff95bc - docs: address caveman-review findings on harvester mock-wiring spec (Chris Sorensen)
+
 ## Version 2.9.0
 Date: 2026-07-18
 
