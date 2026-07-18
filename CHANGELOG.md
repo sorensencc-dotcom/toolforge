@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2.9.0
+Date: 2026-07-18
+
+### Changes
+- adda8e0 - feat: add CI-triage skill, workflow-lint skill, env/push hooks, governance-auditor agent (Chris Sorensen)
+- d2095d7 - docs: add TRM Harvester mock-wiring design spec (Chris Sorensen)
+- 9140504 - fix: exclude lockfiles from diff/LOC stats via -diff attribute (Chris Sorensen)
+- a62f07e - docs: reconcile ingest --file spec's Architecture/Error-Handling ordering contradiction (Chris Sorensen)
+- 6a095b4 - docs: add trm ingest --file implementation plan (Chris Sorensen)
+- fd0e644 - docs: add trm ingest --file auto-conversion design spec (Chris Sorensen)
+- e43052b - docs: add trm reporting engine v1 implementation plan (Chris Sorensen)
+- fa0a250 - docs: fix theme fail-fast ordering, timestamp collision risk in reporting spec (Chris Sorensen)
+- 5e4ffd5 - docs: resolve category cardinality, escaping, slugification, orphan-ref gaps in reporting spec (Chris Sorensen)
+- 55b014f - docs: add trm reporting engine v1 design spec (Chris Sorensen)
+
 ## Version 2.8.6
 Date: 2026-07-18
 
