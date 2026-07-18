@@ -1,0 +1,21 @@
+agent-scan.ignore
+  s_2d0543fc69f59c::t_28c71a675f837d 1-47
+.gitignore
+  s_2d0543fc69f59c::t_0ecaed96cd7402 18-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "3c3f778bf44a683bd4092b3f1b2c8711e92113d2",
+  "prompts": {},
+  "sessions": {
+    "s_2d0543fc69f59c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2fdd07d2-3e7a-470d-91fd-eba2b27dfb9c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
