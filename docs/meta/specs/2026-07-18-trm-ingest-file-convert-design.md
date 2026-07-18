@@ -46,10 +46,11 @@ export async function runIngest(
     throw new Error('trm ingest: either <url> or --file must be provided');
   }
 
+  const text = cliArgs.file ? await convertFileToText(cliArgs.file) : undefined;
+
   const entry = addSource(root, topicPath, actor, { type: cliArgs.type, title: cliArgs.title, origin: cliArgs.origin, url });
 
-  if (cliArgs.file) {
-    const text = await convertFileToText(cliArgs.file);
+  if (text !== undefined) {
     const rawPath = path.join(nodeDir(root, topicPath), 'sources', 'raw', `${entry.id}.txt`);
     fs.writeFileSync(rawPath, text);
   }
@@ -60,7 +61,7 @@ export async function runIngest(
 
 **Dry-run ordering:** unchanged from today's `ingest.ts` — the `dryRun` check runs first, before any conversion, addSource call, or write. This means a bad `--file` path or unsupported format will NOT surface during a dry run; it only surfaces on a real run. This is an intentional, accepted tradeoff (matches this file's existing early-return convention) — not a gap to fix here.
 
-**`addSource`-before-write ordering:** `addSource` (which writes `sources/metadata.json` and appends a lineage `INGEST` op) runs before the raw-file write. If the raw-file write then fails (disk full, permissions), the source is registered with no backing raw file. This is accepted as non-fatal: `extract.ts:32` (`if (!fs.existsSync(rawFile)) continue;`) already silently skips any source with a missing raw file during extraction — the existing pipeline already tolerates this exact state, so no new error-handling code is needed to cover it.
+**Convert-before-`addSource` ordering:** `convertFileToText` runs before `addSource` (which writes `sources/metadata.json` and appends a lineage `INGEST` op), so an unsupported extension or empty-content error throws before any mutation happens — no orphaned source registration. The raw-file write itself still happens after `addSource`; if that write fails (disk full, permissions), the source is registered with no backing raw file. This residual case is accepted as non-fatal: `extract.ts:32` (`if (!fs.existsSync(rawFile)) continue;`) already silently skips any source with a missing raw file during extraction — the existing pipeline already tolerates this exact state, so no new error-handling code is needed to cover it.
 
 ### CLI wiring (`src/cli/index.ts`)
 
