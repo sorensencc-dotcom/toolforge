@@ -15,7 +15,7 @@ any design work, per the memory system's "verify before recommending" rule.
 **Verification result — claim was largely false:**
 
 | Claimed | Actual |
-|---|---|
+| --- | --- |
 | `ImageAnalyzerV3` (scene/context/people/place/geolocation) | Does not exist anywhere in the repo. No such capability. |
 | `ReverseImageSearchExtractor`, full test coverage | Exists at `cic-ingestion/src/extractors/ReverseImageSearchExtractor.ts`, registered in `ExtractorRegistry`. **Zero test files found** (`*ReverseImageSearch*test*` glob: no matches). |
 | Production-grade Vision API integration | `_callVisionApi()` is a hardcoded stub returning 2 fake URLs (comment: "Mock API call — in production would call actual Vision API"). No `VISION_API_KEY` exists anywhere. |
@@ -42,6 +42,13 @@ build config). This is a deliberate throwaway stage: once real vision analysis
 exists in `cic-ingestion`, TRM should call it as a live HTTP service instead of
 importing vendored mock code — see Migration Path below.
 
+**Accepted risk:** the vendored copy has no automated drift check against
+`cic-ingestion`'s source. If `cic-ingestion`'s extractor changes before
+migration, the two copies silently diverge. Low stakes since both are
+mock-only, and Migration Path below deletes the vendored copy outright rather
+than reconciling it — this is a known tradeoff for the mock stage, not an
+oversight.
+
 `trm ingest --file` auto-detects image extensions (`jpg`, `jpeg`, `png`,
 `webp`, `gif`) and routes to the new extractor path instead of
 `convertFileToText`, using the same extension-dispatch pattern
@@ -60,20 +67,24 @@ importing vendored mock code — see Migration Path below.
 - `trm/src/ingestion/fileConvert.ts` — extension check moved earlier: image
   extensions no longer reach `convertFileToText`.
 - `trm/src/cli/commands/ingest.ts` — new branch: for image files, calls
-  `extractImage()`, wraps the result as
-  `{ mock: !result.metadata.visionApiUsed, ...result }`, and writes it to
-  `sources/raw/SRC-###.json` (not `.txt`). `addSource()` registration is
-  unchanged — same `type`/`title`/`origin`/`url` shape, `url` stays the
-  existing `local:<basename>` pattern used for `--file`.
+  `extractImage()` **before** `addSource()` (same order as the existing
+  `--file` docx/pdf path — extract first, register only on success, so a
+  failed extraction never orphans a registered source), wraps the result as
+  `{ ...result, mock: !result.metadata.visionApiUsed }` (flag last, so it
+  always wins if `ExtractionResult` ever grows its own `mock` field
+  upstream), and writes it to `sources/raw/SRC-###.json` (not `.txt`).
+  `addSource()` registration is unchanged — same `type`/`title`/`origin`/`url`
+  shape, `url` stays the existing `local:<basename>` pattern used for
+  `--file`.
 
 ## Data Flow
 
-```
+```text
 trm ingest --file photo.jpg <topic>
   -> extension check (image type detected)
   -> extractImage(path) -> Buffer -> ReverseImageSearchExtractor.extract()
   -> ExtractionResult { matches[], metadata }
-  -> wrap: { mock: !metadata.visionApiUsed, ...ExtractionResult }
+  -> wrap: { ...ExtractionResult, mock: !metadata.visionApiUsed }
   -> write sources/raw/SRC-###.json
   -> addSource() registers entry (unchanged path)
 ```
@@ -87,7 +98,11 @@ trm ingest --file photo.jpg <topic>
   sources, not `ingest`.
 - Bad file path: `extractImage()` throws on read failure before the extractor
   runs; propagates uncaught, same as `convertFileToText`'s existing failure
-  mode (non-zero exit, stack trace).
+  mode (non-zero exit, stack trace). This happens **before** `addSource()` is
+  called (see Data Flow / Components ordering above), so a bad path never
+  leaves an orphaned registered source with no backing file — same fix
+  applied to the `--file` docx/pdf path in the prior ingest-file-convert
+  spec.
 - No special-case needed for a missing Vision API key — the extractor's mock
   fallback is automatic and is expected to fire on every call until real
   vision integration exists.
