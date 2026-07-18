@@ -2,6 +2,9 @@
 -- Created: 2026-07-14
 -- Target: PostgreSQL 15+
 
+-- Required for gin_trgm_ops indexes below
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 -- Skills table: core skill metadata
 CREATE TABLE IF NOT EXISTS skills (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
