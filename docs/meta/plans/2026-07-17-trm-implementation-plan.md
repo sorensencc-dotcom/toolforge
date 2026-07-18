@@ -2736,7 +2736,7 @@ program
   .requiredOption('--title <title>')
   .requiredOption('--origin <origin>')
   .option('--actor <actor>')
-  .option('--dry-run', false)
+  .option('--dry-run')
   .action((path, url, opts) => {
     const entry = runIngest(root, path, { ...opts, url, dryRun: opts.dryRun });
     console.log(entry ? JSON.stringify(entry, null, 2) : '(dry-run, nothing written)');
@@ -2745,7 +2745,7 @@ program
 program
   .command('extract <path>')
   .option('--actor <actor>')
-  .option('--dry-run', false)
+  .option('--dry-run')
   .action((path, opts) => {
     const result = runExtract(root, path, { ...opts, dryRun: opts.dryRun });
     console.log(result ? `${result.facts.length} fact(s) extracted` : '(dry-run)');
@@ -2754,8 +2754,8 @@ program
 program
   .command('score <path>')
   .option('--actor <actor>')
-  .option('--dry-run', false)
-  .option('--rollup', false)
+  .option('--dry-run')
+  .option('--rollup')
   .action((path, opts) => {
     const result = runScore(root, path, opts);
     console.log(JSON.stringify(result, null, 2));
@@ -2789,7 +2789,7 @@ program
 
 program
   .command('validate <path>')
-  .option('--recursive', false)
+  .option('--recursive')
   .action((path, opts) => {
     const reports = runValidate(root, path, opts);
     console.log(JSON.stringify(reports, null, 2));
