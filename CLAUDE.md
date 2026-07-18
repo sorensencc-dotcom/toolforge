@@ -163,3 +163,14 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 ## Operational Workflows
 
 Embedded workflow checklists (Pre-Artifact, Pre-Write, Pre-Governance) live in `memory/workflow-checklists-embedded.md`. Reference before critical actions.
+
+## Context Index Policy
+
+**See:** `docs/meta/context-index-policy.md` — Agent context freshness, lockfile exclusions, refresh cycle.
+
+**Quick reference:**
+
+- `agent-scan.ignore` — Canonical exclusion list (committed; filters auto-generated/noisy files from agent loads)
+- `.gitignore` — Git exclusions (includes lockfiles: package-lock.json, yarn.lock, pnpm-lock.yaml)
+- **Refresh trigger:** Per-phase charter (validate stale paths, add new generated dirs)
+- **Current impact:** 184 lockfiles (15.68 MB) excluded; ~11% discovery-time reduction projected
