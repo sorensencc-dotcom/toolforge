@@ -26,7 +26,9 @@ Reads a vault topic node and produces a normalized, versioned JSON bundle. This 
 export interface ReportBundle {
   version: string;          // "1.0.0" — bump on any breaking shape change
   topicPath: string;        // "charlie/cuba"
-  topicSlug: string;        // "cuba"
+  topicSlug: string;        // "charlie-cuba" — full path flattened, NOT just the leaf
+                             // (leaf-only slugs collide across different parents; see
+                             // Refinement 3 below)
   generatedAt: string;      // ISO 8601
   sourceCount: number;      // top-level, mirrors stats.sourceCount
   factCount: number;        // top-level, mirrors stats.factCount
@@ -62,23 +64,28 @@ Takes a `ReportBundle`, injects it into the CIC HTML template via plain template
 export function renderHtml(bundle: ReportBundle): string; // throws if bundle.theme !== "cic"
 ```
 
+**Defensive rendering — HTML escaping:** because this uses native template literals (no auto-escaping templating library), every string field pulled from bundle data (`facts[].text`, `sources[].title`, `sources[].url`, etc.) is passed through a zero-dependency `escapeHtml()` helper defined in `renderHtml.ts` before injection, converting `&`, `<`, `>`, `"`, `'` to their HTML entities. Prevents markup corruption or injection from raw vault text (e.g. a fact containing a literal `<` or `&`).
+
+**Defensive rendering — orphaned source references:** a fact's `sourceId` is looked up against `bundle.sources[]` when rendering evidence citations. If no matching source exists, the renderer emits the fallback label `[Unknown Source]` instead of throwing or rendering `undefined`. This is a renderer-level guard, not an export-stage validation — `exportBundle` does not reject topic nodes with dangling `source_id` references (`trm validate` already owns that integrity check via its lineage chain validation).
+
 **Sections rendered (v1):**
 - **Cover** — topic name, generated date.
 - **Stats bar** — source count, fact count (real counts; not the richer 6-metric version from the sample, since entities/relationships/timeline/gaps don't exist in trm's data).
 - **Narrative** — blank/manual-fill placeholder paragraph (not auto-generated from facts).
 - **Evidence register** — one entry per `sources[]` item, formatted as a citation line.
-- **Facts list** — facts grouped by `categories`, replacing the entity grid/timeline from the sample report (the honest v1 substitute for data trm doesn't have).
+- **Facts list** — facts grouped by category, replacing the entity grid/timeline from the sample report (the honest v1 substitute for data trm doesn't have). **Grouping rule:** a fact is grouped under its *first* declared `categories[0]` entry only — never duplicated across multiple category sections. A fact with an empty `categories` array is grouped under a synthetic `"Uncategorized"` section.
 
 **Sections NOT rendered:** entity grid, relationship map, chronological timeline, gap analysis, archive-sources-queried (all depend on data trm doesn't extract yet).
 
 ### CLI wiring (`src/cli/index.ts`)
 
-```
+```text
 trm report <path> [--theme <name>]
 ```
 
 - Calls `exportBundle(root, path, opts.theme)`, then `renderHtml(bundle)`.
-- Writes both files to `<vault-root>/reports/<topicSlug>-<timestamp>.json` and `.html`.
+- Writes both files to `<vault-root>/reports/<topicSlug>-<timestamp>.json` and `.html`, where `topicSlug` is the full topic path with `/` replaced by `-` (e.g. `charlie/cuba` → `charlie-cuba`) — never a nested path, so `reports/` stays a single flat directory regardless of topic nesting depth.
+- Creates the `reports/` directory recursively (`fs.mkdirSync(reportsDir, { recursive: true })`) before writing, since it won't exist on a fresh vault.
 - Prints both output paths to stdout.
 - `--theme` defaults to `"cic"`; any other value produces a clear CLI error (not a silent fallback).
 
@@ -88,7 +95,7 @@ trm report <path> [--theme <name>]
 
 ## Data Flow
 
-```
+```text
 vault topic node (topic.json, sources/, extracts/extract.json)
         |
         v
@@ -111,7 +118,8 @@ vault topic node (topic.json, sources/, extracts/extract.json)
 ## Testing
 
 - **Unit — `exportBundle`:** given a fixture topic dir (mirroring the tmpdir pattern already used in `tests/core/rootSafety.test.ts` and the existing `run*` command tests), produces a bundle with correct shape, correct counts, correct slug/path derivation.
-- **Unit — `renderHtml`:** given a hand-built bundle, output HTML contains expected data (topic name, fact text, source citations); throws on `theme !== "cic"`; renders cleanly with empty `facts`/`sources`.
+- **Unit — `renderHtml`:** given a hand-built bundle, output HTML contains expected data (topic name, fact text, source citations); throws on `theme !== "cic"`; renders cleanly with empty `facts`/`sources`; escapes `<`, `>`, `&`, `"`, `'` in injected fact/source text rather than passing them through raw; groups a multi-category fact under only its first category, never duplicated; groups a no-category fact under `"Uncategorized"`; renders `[Unknown Source]` for a fact whose `sourceId` has no match in `bundle.sources[]`.
+- **Unit — `exportBundle`:** slug derivation test explicitly covers a nested topic path (`charlie/cuba` → `charlie-cuba`) to confirm flattening, not just a single-segment path.
 - **Live smoke test:** run `trm report charlie/cuba` against the real vault (`C:\Users\soren\trm-vault`) as final proof — same pattern as the `assertSafeRoot` live verification already done for this repo. Confirms the guardrail (`assertSafeRoot`) still fires correctly for this new command too, since it's wired through the same `cli/index.ts` entrypoint.
 
 ## Spec Self-Review
@@ -119,4 +127,4 @@ vault topic node (topic.json, sources/, extracts/extract.json)
 - **Placeholder scan:** none — all fields and behaviors are concretely specified; "narrative" section is explicitly a manual-fill placeholder by design, not a TBD.
 - **Internal consistency:** bundle schema, render sections, and CLI behavior all agree; no section references data not present in the bundle.
 - **Scope check:** single cohesive unit (export + render + one CLI command); no decomposition needed.
-- **Ambiguity check:** theme handling made explicit (hard error on non-"cic"); output location made explicit (vault-root `reports/`, not per-topic); "facts list" as entity-grid/timeline substitute made explicit rather than left as an implied gap.
+- **Ambiguity check:** theme handling made explicit (hard error on non-"cic"); output location made explicit (vault-root `reports/`, not per-topic); "facts list" as entity-grid/timeline substitute made explicit rather than left as an implied gap; fact-to-category cardinality resolved (first category wins, no duplication, `"Uncategorized"` fallback); HTML escaping made explicit (zero-dep `escapeHtml()` helper, applied to all injected strings); slug derivation made explicit (full path flattened with hyphens, not leaf-only, avoiding collisions and nested-directory writes); orphaned `sourceId` references resolved (renderer-level `[Unknown Source]` fallback, not an export-stage validation concern).
