@@ -1922,7 +1922,7 @@ export function runExtract(
     summaries.push(summary);
   }
 
-  if (cliArgs.dryRun) return { facts: allFacts, summary: summaries.join('\n') };
+  if (cliArgs.dryRun) return null;
 
   const extractsDir = path.join(dir, 'extracts');
   fs.mkdirSync(extractsDir, { recursive: true });
