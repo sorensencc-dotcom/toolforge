@@ -1,203 +1,117 @@
-# Template Skill
+# [Skill Name]
 
-Template skill demonstrating Toolforge skill structure.
+[One-sentence unique pitch.]
 
-**Status**: Template (reference only)  
-**Version**: 0.1.0  
+**Status**: [Active|Experimental|Deprecated]
+**Version**: 0.1.0
 **Runtime**: TypeScript
 
 ---
 
-## What is This?
+## What it does
 
-This is a reference scaffold for creating new Toolforge skills. Copy this entire directory and customize the files.
+[2–3 bullets: outcomes, not process]
+
+- Outcome 1
+- Outcome 2
+- Outcome 3
 
 ---
 
-## Structure
+## Quick Start
+
+```bash
+# Invoke directly
+claude -p "[Exact trigger text from SKILL.md]"
+
+# Or use as tool
+invoke skill-name { input1: "value" }
+```
+
+---
+
+## Setup & Requirements
+
+See [Skill Operator Guide — Setup](../../docs/meta/skill-operator-guide.md#setup--installation) for standard installation.
+
+This skill requires:
+
+- Node.js 18+
+- Permission: `read:repo` / `write:artifacts`
+- [Any unique dependencies here]
+
+---
+
+## Inputs & Outputs
+
+See [SKILL.md](./SKILL.md) for complete schema.
+
+Quick reference:
+
+- **Input**: `input1` (string, required)
+- **Output**: `{ status: "success" | "error", data?: any }`
+
+---
+
+## Troubleshooting & Examples
+
+See [docs/USAGE.md](./docs/USAGE.md) for troubleshooting, examples, and integration patterns.
+
+---
+
+## Reference
+
+### Directory Structure
 
 ```
-_TEMPLATE/
-├── skill.json           # Metadata (REQUIRED - edit this first)
-├── README.md            # This file (quick reference)
+[skill-name]/
+├── SKILL.md             # Metadata + execution spec
+├── README.md            # This file (public pitch)
 ├── src/
-│   └── index.ts         # Implementation (REQUIRED)
+│   └── index.ts         # Implementation
 ├── tests/
-│   └── skill.test.ts    # Test suite (REQUIRED)
+│   └── skill.test.ts    # Test suite
 └── docs/
-    └── USAGE.md         # Full documentation (REQUIRED)
+    └── USAGE.md         # Deep workflow docs
 ```
 
----
+### Getting Started
 
-## Getting Started
+Copy this template and customize `SKILL.md` first:
 
 1. Copy template:
    ```bash
    cp -r _TEMPLATE my-new-skill
    ```
 
-2. Edit `skill.json`:
-   - Change `id` (kebab-case)
-   - Change `name` (display name)
-   - Set `category`
-   - Update `description`
-   - Update `inputs`/`outputs`
+2. Edit `SKILL.md` (metadata first):
+   - Set `name` (kebab-case ID)
+   - Write `description` (1–2 sentences)
+   - List `compatibility` (runtime + deps)
 
-3. Implement `src/index.ts`:
-   - Export default handler function
-   - Match signature in skill.json
-   - Handle all error conditions
+3. Update this README.md:
+   - Write pitch (one sentence)
+   - List "What it does" bullets
+   - Link remaining sections to Skill Operator Guide
 
-4. Write tests in `tests/skill.test.ts`:
-   - Test happy path
-   - Test error conditions
-   - Test all inputs
+4. Implement `src/index.ts` (match SKILL.md schema)
 
-5. Document in `docs/USAGE.md`:
-   - Purpose
-   - Inputs/outputs with examples
-   - Error handling
-   - Dependencies
-   - Related skills
+5. Write tests in `tests/skill.test.ts` (80%+ coverage)
 
-6. Register in `manifest.json`:
-   ```json
-   {
-     "name": "my-new-skill",
-     "category": "skills",
-     "version": "0.1.0",
-     "path": "skills/my-new-skill"
-   }
-   ```
+6. Document workflow in `docs/USAGE.md` (if complex)
 
-7. Sync to distributed instance:
-   ```bash
-   .\toolforgeSkillSync.ps1 my-new-skill
-   ```
-
----
-
-## Metadata Fields
-
-See [../SKILLPACK-VALIDATION.md](../SKILLPACK-VALIDATION.md) for complete schema.
-
-Key fields:
-- `id`: Unique identifier (kebab-case, 3-50 chars)
-- `version`: Semantic version (X.Y.Z)
-- `inputs`: Required and optional parameters
-- `outputs`: Success and error return shapes
-- `permissions`: Required capabilities
-- `errorConditions`: Documented failures
-
----
-
-## Implementation Pattern
-
-```typescript
-// src/index.ts
-
-export interface SkillInput {
-  input1: string;
-  verbose?: boolean;
-}
-
-export interface SkillOutput {
-  status: string;
-  message: string;
-  data?: Record<string, any>;
-}
-
-export default async function handler(input: SkillInput): Promise<SkillOutput> {
-  try {
-    // Validate input
-    if (!input.input1) {
-      throw new Error("INVALID_INPUT: input1 required");
-    }
-
-    // Implement logic
-    const result = await doWork(input.input1);
-
-    // Return success
-    return {
-      status: "success",
-      message: "Work completed",
-      data: result
-    };
-  } catch (error) {
-    // Handle error
-    throw {
-      status: "error",
-      message: error.message,
-      code: "HANDLER_ERROR"
-    };
-  }
-}
-
-async function doWork(input: string): Promise<any> {
-  // Implementation here
-  return {};
-}
-```
-
----
-
-## Testing Pattern
-
-```typescript
-// tests/skill.test.ts
-
-import handler from "../src/index.ts";
-
-describe("Template Skill", () => {
-  it("should succeed with valid input", async () => {
-    const result = await handler({ input1: "test" });
-    expect(result.status).toBe("success");
-  });
-
-  it("should fail with missing input", async () => {
-    try {
-      await handler({ input1: "" });
-      fail("Should have thrown");
-    } catch (error) {
-      expect(error.message).toContain("INVALID_INPUT");
-    }
-  });
-});
-```
-
----
-
-## Before Submitting
-
-Checklist:
-- [ ] skill.json is valid JSON
-- [ ] All required metadata fields present
-- [ ] src/index.ts compiles and exports default
-- [ ] tests/ directory has test suite
-- [ ] Tests pass: `npm test`
-- [ ] docs/USAGE.md is complete
-- [ ] README.md updated with skill details
-- [ ] No console.log (use structured logging)
-- [ ] Error handling covers all error conditions
-- [ ] Dependencies documented
-
----
-
-## Submit for Review
-
-1. Check skill into git
-2. Create pull request
-3. Reference this template
-4. Explain integration points (CIC, distributed, etc.)
+7. Verify compliance:
+   - `npm test` passes
+   - README.md < 100 lines
+   - SKILL.md < 150 lines
+   - Both reference [Skill Operator Guide](../../docs/meta/skill-operator-guide.md)
 
 ---
 
 ## See Also
 
-- [../SKILLPACK-VALIDATION.md](../SKILLPACK-VALIDATION.md) — Full validation spec
-- [../README.md](../README.md) — Skillpack overview
+- [Skill Operator Guide](../../docs/meta/skill-operator-guide.md) — Canonical reference (Setup, Requirements, Testing, Error Handling, etc.)
+- [SKILL.md](./SKILL.md) — Full metadata spec
+- [docs/USAGE.md](./docs/USAGE.md) — Implementation guide + examples
+- [../SKILLPACK-VALIDATION.md](../SKILLPACK-VALIDATION.md) — Validation spec
 - [../../manifest.json](../../manifest.json) — Tool registry
-- [../../GOVERNANCE.md](../../GOVERNANCE.md) — Code standards
-
----
