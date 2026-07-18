@@ -1,6 +1,6 @@
 # CIC Ingest World
 
-**Ingest external data sources and worlds into the CIC pipeline.**
+Ingest external data sources into the CIC pipeline and register in lineage graph.
 
 ## Quick Start
 
@@ -8,22 +8,12 @@
 cic ingest-world --uri=s3://my-data --mode=full
 ```
 
-## What It Does
+## What it does
 
-Ingests a world (data source) and registers it in the CIC lineage graph.
-
-## Ingestion Modes
-
-| Mode | Behavior |
-|------|----------|
-| full | Complete re-ingest from source |
-| delta | Incremental ingest since last marker |
-
-## Output
-
-- ingestion manifest
-- lineage index entry for downstream lineage tracking
+- Ingests data sources and worlds into CIC pipeline
+- Registers entries in lineage graph for downstream tracking
+- Supports full re-ingest and incremental delta modes
 
 ---
 
-See [INTEGRATION_DIAGRAM.md](INTEGRATION_DIAGRAM.md) for pipeline context.
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

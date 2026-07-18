@@ -1,53 +1,48 @@
 ---
-skill_name: ashfall
-version: 1.0.0
 name: ashfall
-category: automation
-description: Deterministic session-termination and context-handoff engine for Cast Iron systems
-author: Soren (Cast Iron Forge)
-tags: ["session-management","context-handoff","audit","memory-compression","roadmap"]
----
-# Ashfall — Session Termination & Context Handoff Engine
-
-**Status: ACTIVE**  
-**Version: 1.0.0**  
-**Category: automation**  
-**Owner: Soren**
-
+description: Deterministic session-termination engine for Cast Iron systems. Gathers changes, burns irrelevant context, audits assumptions, seals memory manifest, and ranks roadmap for next session.
+compatibility: |
+  - Node.js 18+
+  - Git access (local repo)
 ---
 
-## Purpose
+# Ashfall
 
-Deterministic session-termination and context-handoff engine for Cast Iron systems.
+Five-step deterministic engine for session termination and context handoff.
 
-## Five-Step Burn Process
-
-1. **Gather** — Collect modified files, architectural deltas, uncommitted changes
-2. **Burn** — Incinerate irrelevant context, compress memory, prune drift
-3. **Audit** — Apply Four Questions to surface blind spots (pre-wrap-audit integration)
-4. **Seal** — Generate deterministic memory manifest, verify atomic write integrity
-5. **Handoff** — Rank roadmap, emit pruned token-bounded memory for next session
-
-## Inputs
+## Trigger
 
 ```
-scope: 'full' | 'PHASE-XX' | 'partial'
-verify: boolean
-outputFormat: 'json' | 'markdown'
+Let the ash fall.
 ```
 
-## Outputs
+## Input Schema
 
-Structured summary, blind spot audit, prioritized roadmap, and next session memory.
+```typescript
+interface SkillInput {
+  scope?: "full" | "PHASE-XX" | "partial";  // default: "full"
+  verify?: boolean;                          // default: true
+  outputFormat?: "json" | "markdown";        // default: "json"
+}
+```
 
-## Exit Codes
+## Output Schema
 
-- 0: Success
-- 1: Warning
-- 2: Error
+```typescript
+interface SkillOutput {
+  status: "success" | "error";
+  summary: {
+    modifiedFiles: string[];
+    uncommittedChanges: number;
+    architecturalDeltas: Array<{ component: string; change: string }>;
+  };
+  blindSpotAudit: Array<{ question: string; gap: string }>;
+  prioritizedRoadmap: Array<{ rank: number; task: string; blocker: boolean }>;
+  nextSessionMemory: string;
+  timestamp: string;
+}
+```
 
-## Philosophy
+---
 
-**Burn the noise. Keep the signal. Seal the truth. Prepare the next phase.**
-
-
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md). For workflow: [docs/USAGE.md](docs/USAGE.md).

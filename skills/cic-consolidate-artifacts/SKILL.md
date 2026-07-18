@@ -1,36 +1,44 @@
 ---
-skill_name: cic-consolidate-artifacts
-version: 1.0.0
-name: CIC Consolidate Artifacts
-category: governance
-description: CIC artifact consolidation and verification (Phase 1 placeholder)
-author: Soren
-tags: ["cic","governance","phase1"]
+name: cic-consolidate-artifacts
+description: Consolidate artifacts from multiple sources and verify integrity. Supports strict and lenient validation modes.
+compatibility: |
+  - Node.js 18+
 ---
 
 # CIC Consolidate Artifacts
 
-**Status: ACTIVE**  
-**Version: 1.0.0**  
-**Category: governance**  
-**Owner: Soren**
+Consolidate and verify CIC artifacts across pipeline stages.
 
-## Purpose
+## Trigger
 
-Consolidate and verify CIC artifacts across the pipeline.
+```
+Consolidate CIC artifacts in [mode] mode
+```
 
-## Inputs
+## Input Schema
 
-- artifact sources (multiple)
-- verification mode (strict | lenient)
+```typescript
+interface SkillInput {
+  sources: string[];          // artifact source paths
+  mode?: "strict" | "lenient"; // default: "strict"
+}
+```
 
-## Outputs
+## Output Schema
 
-- consolidated artifact manifest
-- verification report
+```typescript
+interface SkillOutput {
+  status: "success" | "error";
+  manifest: {
+    sourceCount: number;
+    artifactCount: number;
+    validationErrors: Array<{ source: string; error: string }>;
+  };
+  verified: boolean;
+  timestamp: string;
+}
+```
 
-## Exit Codes
+---
 
-- 0: Success
-- 1: Warning
-- 2: Error
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

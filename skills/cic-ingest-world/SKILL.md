@@ -1,40 +1,44 @@
 ---
-skill_name: cic-ingest-world
-version: 1.0.0
-name: CIC Ingest World
-category: governance
-description: Ingest a world/source into CIC (Phase 1 placeholder, no TorqueQuery yet)
-author: Soren
-tags: ["cic","governance","phase1"]
+name: cic-ingest-world
+description: Ingest external data sources into CIC pipeline and register in lineage graph. Supports full re-ingest and delta modes.
+compatibility: |
+  - Node.js 18+
 ---
 
 # CIC Ingest World
 
-**Status: ACTIVE**  
-**Version: 1.0.0**  
-**Category: governance**  
-**Owner: Soren**
+Ingest worlds/sources into CIC pipeline with lineage tracking.
 
-## Purpose
+## Trigger
 
-Ingest a world (source, data stream, or external system) into the CIC pipeline.
+```
+Ingest world from [uri] in [mode] mode
+```
 
-## Inputs
+## Input Schema
 
-- world URI (source identifier)
-- ingestion mode (full | delta)
+```typescript
+interface SkillInput {
+  uri: string;               // required: source URI (s3://, file://, etc)
+  mode?: "full" | "delta";   // optional: default "full"
+}
+```
 
-## Outputs
+## Output Schema
 
-- ingestion manifest
-- lineage index entry
+```typescript
+interface SkillOutput {
+  status: "success" | "error";
+  manifest: {
+    uri: string;
+    mode: string;
+    recordsIngested: number;
+    lineageEntry: string;
+  };
+  timestamp: string;
+}
+```
 
-## Exit Codes
+---
 
-- 0: Success
-- 1: Warning
-- 2: Error
-
-## Notes
-
-Phase 1 stub; full TorqueQuery integration planned for Phase 2.
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

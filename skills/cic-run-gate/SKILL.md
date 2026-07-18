@@ -1,40 +1,45 @@
 ---
-skill_name: cic-run-gate
-version: 1.0.0
-name: CIC Run Gate
-category: governance
-description: Run CIC validation gate and generate report (Phase 1 placeholder)
-author: Soren
-tags: ["cic","governance","phase1","gate"]
+name: cic-run-gate
+description: Execute CIC validation gate across pipeline stages. Validates dependencies, generates conformance reports with pass/warn/fail verdicts.
+compatibility: |
+  - Node.js 18+
+  - Python 3.10+ (for adapter)
 ---
 
 # CIC Run Gate
 
-**Status: ACTIVE**  
-**Version: 1.0.0**  
-**Category: governance**  
-**Owner: Soren**
+Run CIC validation gate and generate conformance report.
 
-## Purpose
+## Trigger
 
-Execute CIC validation gate and emit structured report.
+```
+Run CIC gate with [scope] scope
+```
 
-## Inputs
+## Input Schema
 
-- gate scope (full | partial | single-stage)
-- reporting mode (verbose | summary)
+```typescript
+interface SkillInput {
+  scope?: "full" | "partial" | "single-stage";  // default: "full"
+  format?: "verbose" | "summary";               // default: "summary"
+}
+```
 
-## Outputs
+## Output Schema
 
-- gate validation report
-- pass/fail verdict
+```typescript
+interface SkillOutput {
+  status: "success" | "error";
+  verdict: "PASS" | "WARN" | "FAIL";
+  report: {
+    stagesValidated: number;
+    failedChecks: Array<{ stage: string; check: string; error: string }>;
+    remediationSteps: string[];
+  };
+  timestamp: string;
+}
+```
 
-## Exit Codes
+---
 
-- 0: Gate PASS
-- 1: Gate WARN
-- 2: Gate FAIL
-
-## Security Notes
-
-Uses Node.js `child_process.spawn()` to invoke Python adapter with validated arguments (gateId validated against `/^GATE-\d{2}$/` pattern). Adapter path is fixed at build time. No user input in command line.
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

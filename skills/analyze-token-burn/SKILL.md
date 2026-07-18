@@ -1,28 +1,43 @@
 ---
-skill_name: analyze-token-burn
-version: 1.0.0
 name: analyze-token-burn
-category: observability
-description: Project month-end token costs and identify high-spend adapters
-author: unknown
-tags: []
+description: Project month-end token costs and identify high-spend adapters by mode (daily/monthly/by-adapter).
+compatibility: |
+  - Node.js 18+
+  - Access to token usage metrics
 ---
+
 # analyze-token-burn
 
-Project month-end token costs and identify high-spend adapters
+Analyze token burn rate and forecast monthly costs by spend driver.
 
-**Status: PLANNED (stub)** — implementation not yet written; entrypoint is the intended location.
+## Trigger
 
-## Metadata
+```
+analyze-token-burn [daily|monthly|by-adapter]
+```
 
-- **ID:** analyze-token-burn
-- **Version:** 1.0.0
-- **Category:** 
-- **Runtime:** node
-- **Entrypoint:** src/index.ts
+## Input Schema
 
-## Reference
+```typescript
+interface SkillInput {
+  mode?: "daily" | "monthly" | "by-adapter";  // default: "daily"
+}
+```
 
-See README.md for usage and docs/ for details.
+## Output Schema
 
+```typescript
+interface SkillOutput {
+  status: "success" | "error";
+  mode: string;
+  budget: number;
+  spent: number;
+  projectedEndOfMonth: number;
+  topDrivers?: Array<{ name: string; cost: number; percent: number }>;
+  timestamp: string;
+}
+```
 
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

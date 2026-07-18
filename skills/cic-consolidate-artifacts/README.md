@@ -1,6 +1,6 @@
 # CIC Consolidate Artifacts
 
-**CIC artifact consolidation and verification tool.**
+Consolidate artifacts from multiple sources and verify integrity.
 
 ## Quick Start
 
@@ -8,17 +8,12 @@
 cic consolidate-artifacts --mode=strict
 ```
 
-## What It Does
+## What it does
 
-Consolidates artifacts from multiple sources and verifies integrity.
-
-## Verification Modes
-
-| Mode | Behavior |
-|------|----------|
-| strict | Fail on any validation error |
-| lenient | Warn on errors, continue |
+- Consolidates artifacts from multiple pipeline sources
+- Verifies integrity with strict or lenient validation modes
+- Generates consolidated artifact manifest and verification report
 
 ---
 
-See [INTEGRATION_DIAGRAM.md](INTEGRATION_DIAGRAM.md) for architecture.
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

@@ -1,31 +1,19 @@
 # CIC Run Gate
 
-**Execute CIC validation gates and produce conformance reports.**
+Execute CIC validation gates across pipeline stages and produce conformance reports.
 
 ## Quick Start
 
 ```bash
-cic run-gate --scope=full --format=verbose
+cic run-gate --scope=full
 ```
 
-## What It Does
+## What it does
 
-Runs the comprehensive CIC validation gate across all pipeline stages.
-
-## Scope Options
-
-| Scope | Target |
-|-------|--------|
-| full | All stages and cross-dependencies |
-| partial | Selected stage group |
-| single-stage | Individual stage only |
-
-## Output
-
-- gate validation report
-- pass/warn/fail verdict
-- remediation suggestions
+- Runs comprehensive CIC validation gate across all pipeline stages
+- Validates dependencies and cross-stage integrity
+- Generates conformance report with pass/warn/fail verdicts and remediation suggestions
 
 ---
 
-See [INTEGRATION_DIAGRAM.md](INTEGRATION_DIAGRAM.md) for gate architecture.
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
