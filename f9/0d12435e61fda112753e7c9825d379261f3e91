@@ -1,0 +1,19 @@
+docs/meta/plans/2026-07-17-trm-implementation-plan.md
+  s_5759a4a6e849a6::t_f607a137f9abb2 1925
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f90d12435e61fda112753e7c9825d379261f3e91",
+  "prompts": {},
+  "sessions": {
+    "s_5759a4a6e849a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3907d804-0ddd-450b-80cf-b027b66fd331",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
