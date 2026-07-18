@@ -253,6 +253,7 @@ git commit -m "chore: scaffold trm repo (TS + Jest + ajv + commander)"
 `tests/core/paths.test.ts`:
 
 ```ts
+import * as path from 'node:path';
 import { validateSlug, splitPath, deriveNodeType, parentPath, leafSlug, nodeDir } from '../../src/core/paths';
 
 describe('paths', () => {
@@ -286,7 +287,7 @@ describe('paths', () => {
   });
 
   it('resolves node directory under root', () => {
-    expect(nodeDir('/root', 'cuba/industry')).toBe('/root/topics/cuba/industry');
+    expect(nodeDir('/root', 'cuba/industry')).toBe(path.join('/root', 'topics', 'cuba', 'industry'));
   });
 });
 ```
