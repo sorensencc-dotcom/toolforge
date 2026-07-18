@@ -1,69 +1,51 @@
-# KB Sync Nightly Skill
+# KB Sync Nightly
 
-Automated knowledge base synchronization and artifact generation. Runs Stage 1 (sync) automatically on schedule; Stage 2 (artifact generation) integrates with the `kb-sync-artifact-generator` skill for interactive report creation.
+Automated knowledge base sync to NotebookLM and Obsidian, with interactive artifact generation.
 
-## Two-Stage Pipeline
+**Status**: Active  
+**Version**: 1.0.2  
+**Runtime**: bash
 
-### Stage 1: Synchronization (Automatic)
-- **When:** Nightly schedule (configurable)
-- **What:** Syncs CIC and project docs into the wiki via `npm run kb:sync:all`
-  - NotebookLM target: flattens repo, creates knowledge pack, backs up source
-  - Obsidian target: optional (skipped if vault not configured)
-- **Output:** Knowledge pack files in `.nlm_pack/`
-- **Status:** ✅ Fully operational
+---
 
-### Stage 2: Artifact Generation (Skill-Integrated)
-- **Trigger:** Manual via `kb-sync-artifact-generator` skill
-- **What:** Analyzes synced content, generates interactive HTML report with:
-  - Broken link detection & impact scoring
-  - Actionable recommendations
-  - Category-based filtering & dashboard
-  - WCAG AA accessibility compliance
-- **Output:** `_integration/kb-sync-interactive-report.html`
-- **Status:** ✅ Skill phase 2 complete, ready for Cowork integration
+## What it does
 
-## Usage
+- Syncs CIC and project docs to NotebookLM and Obsidian on nightly schedule
+- Generates interactive HTML reports with broken link detection and impact scoring
+- Supports fail-soft pipeline; partial failures continue to artifact generation
 
-### Automated (Stage 1 only)
+---
+
+## Quick Start
+
+Scheduled via Cowork automation. Manual invocation:
+
 ```bash
-# Runs on configured schedule via Cowork automation
-# Default: Daily at configured time
+bash C:\dev\skills\kb-sync-nightly\src\run.sh
 ```
 
-### Manual (Stage 2)
-```bash
-# Invoke the artifact generator skill from Cowork or Claude Code
-kb-sync-artifact-generator
-# or
-/kb-sync-artifact-generator
-```
+For artifact generation, use the `kb-sync-artifact-generator` skill.
 
-## Files
+---
 
-- **src/run.sh** — Bash orchestrator (Stage 1)
-- **SKILL.md** — Skill definition for Cowork
-- **README.md** — This file
+## Setup & Requirements
 
-## Configuration
+See [Skill Operator Guide — Setup](../../docs/meta/skill-operator-guide.md#setup--installation).
 
-Scheduling is configured in Cowork automation settings. Artifact generation is configured in the `kb-sync-artifact-generator` skill.
+This skill requires:
 
-## Integration Notes
+- bash 4.0+
+- Node.js 18+, npm
+- Cowork automation (for scheduling)
 
-**Cowork Integration Path:**
-1. Install `kb-sync-artifact-generator` skill
-2. Create Cowork artifact bound to `_integration/kb-sync-interactive-report.html`
-3. Artifact auto-updates after each Stage 2 run
+---
 
-**Future Enhancement:**
-- Combine into single automated workflow (Stage 1 → Stage 2) once Cowork MCP integration is finalized
+## Integration
 
-## Phase History
+See [SKILL.md](./SKILL.md) for execution metadata and [docs/USAGE.md](./docs/USAGE.md) for workflow examples.
 
-- **Phase 1** (2026-07-10): KB Sync nightly shell script + scheduling
-- **Phase 2** (2026-07-12): Artifact generator skill (impact scoring, dashboards)
-- **Phase 3** (2026-07-13): Directory cleanup fix, two-stage pipeline documentation
+---
 
-## Status
+## Reference
 
-✅ **Operational** — Stage 1 fully automated; Stage 2 ready for skill invocation
+→ See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md) for Setup, Requirements, Error Handling, Testing.

