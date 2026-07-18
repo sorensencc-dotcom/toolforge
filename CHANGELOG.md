@@ -1,5 +1,26 @@
 # Changelog
 
+## Version 2.8.6
+Date: 2026-07-18
+
+### Changes
+- abf9fa5 - fix: create pg_trgm extension before trigram GIN index in migration 0001 (Chris Sorensen)
+- a3d0b38 - docs: add TRM data governance implementation plan (Chris Sorensen)
+- f3d38f6 - docs: add TRM data governance design spec (Chris Sorensen)
+- a20971c - docs: document rollup topic_path disambiguation in TRM spec §4 (Chris Sorensen)
+- 0d3151d - docs: record Task 5 live-verification findings in the extraction runner plan (Chris Sorensen)
+- 067be66 - docs: record Task 4's integration-test fix in the extraction runner plan (Chris Sorensen)
+- 7c7b48e - docs: add TRM Claude Code extraction runner implementation plan (5 tasks, TDD) (Chris Sorensen)
+- b94987f - docs: add TRM real extraction runner design (§8) (Chris Sorensen)
+- d13cd3a - docs: fix TRM plan Task 16 commander option() boolean-flag signature (Chris Sorensen)
+- f1332a3 - docs: fix TRM plan Task 13 crosslink strength math (Chris Sorensen)
+- f90d124 - docs: fix TRM plan Task 11 runExtract dry-run return value (Chris Sorensen)
+- fb06c9c - docs: fix TRM plan Task 2 nodeDir test for Windows path separators (Chris Sorensen)
+- 657a665 - docs: add TRM implementation plan (16 tasks, TDD, TS/Jest/commander/ajv) (Chris Sorensen)
+- 4365068 - docs: move TRM spec to docs/meta/specs/ per pending restructure policy, apply review tightenings (Chris Sorensen)
+- d799cd3 - docs: add TRM (Topic Research Module) design spec v1.0.0 (Chris Sorensen)
+- bff25a9 - ci: add Wave D gate workflow (PG + migrate + e2e + load) (Chris Sorensen)
+
 ## Version 2.8.5
 Date: 2026-07-17
 
