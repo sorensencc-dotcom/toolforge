@@ -15,6 +15,12 @@ skills/*/cic/
 /cic/
 .worktrees/
 
+# Dependency lock files (Wave A: token optimization)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+Gemfile.lock
+
 # Separate projects / research
 bookstack-docker/
 charlie-deep-research/

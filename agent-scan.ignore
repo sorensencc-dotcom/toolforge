@@ -1,0 +1,47 @@
+# agent-scan.ignore
+# Files/dirs excluded from agent context load but kept in git
+# Use this when a file is useful in-repo but noisy in agent scans
+
+# Generated directories
+node_modules/
+dist/
+build/
+.next/
+.webpack/
+coverage/
+.cache/
+out/
+target/
+
+# Auto-regenerated reports
+audit/COWORK-*.md
+dashboard.html
+skills/SKILLPACK-*.md
+
+# Archives & backups
+*.bak
+*.backup
+archive/
+
+# Temporary/session-specific
+.context/retros/
+.session-*
+*.tmp
+
+# Vendor lock files (also in .gitignore)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+Gemfile.lock
+
+# Large generated data
+*.db
+*.sqlite
+*.log
+
+# IDE/tool cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
