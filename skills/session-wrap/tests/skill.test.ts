@@ -132,4 +132,40 @@ describe("session-wrap", () => {
 
     expect(result.jsonExportPath).toBeUndefined();
   });
+
+  it("does not fail the whole session wrap when JSON export write fails", async () => {
+    const cwd = initRepo();
+
+    // Mock the fs module (not spyOn — the ESM namespace binding isn't
+    // reconfigurable in this environment) so writeFileSync throws only for
+    // the metrics export path, simulating an inaccessible AppData dir.
+    jest.resetModules();
+    jest.doMock("fs", () => {
+      const actual = jest.requireActual("fs");
+      return {
+        ...actual,
+        writeFileSync: (filePath: unknown, ...rest: any[]) => {
+          if (typeof filePath === "string" && filePath.includes("session-wrap-export.json")) {
+            throw new Error("EACCES: permission denied (simulated AppData failure)");
+          }
+          return actual.writeFileSync(filePath, ...rest);
+        },
+      };
+    });
+
+    try {
+      const { sessionWrap: sessionWrapWithMockedFs } = require("../src/index");
+      const result = await sessionWrapWithMockedFs({
+        commitMessage: "[claude] test export failure",
+        metrics: { tokens: 100, model: "haiku", durationMinutes: 5 },
+        cwd,
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.jsonExportPath).toBeUndefined();
+    } finally {
+      jest.dontMock("fs");
+      jest.resetModules();
+    }
+  });
 });

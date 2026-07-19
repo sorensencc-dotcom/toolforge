@@ -198,13 +198,22 @@ export async function sessionWrap(params: SessionWrapParams): Promise<SessionWra
   // Export structured JSON for reporting agents
   let jsonExportPath: string | undefined;
   if (params.metrics) {
-    jsonExportPath = exportSessionWrapJSON(
-      params.metrics.commits,
-      params.metrics.skills,
-      params.metrics.tokens,
-      params.metrics.model,
-      params.metrics.durationMinutes
-    );
+    try {
+      jsonExportPath = exportSessionWrapJSON(
+        params.metrics.commits,
+        params.metrics.skills,
+        params.metrics.tokens,
+        params.metrics.model,
+        params.metrics.durationMinutes
+      );
+    } catch (err) {
+      // Metrics export is an optional reporting enhancement, not core to
+      // wrapping — never let it fail the whole session wrap.
+      jsonExportPath = undefined;
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`session-wrap: JSON metrics export failed, continuing without it: ${message}`);
+      report.nextSteps.push(`Metrics export failed and was skipped: ${message}`);
+    }
   }
 
   return {
