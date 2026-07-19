@@ -1,0 +1,19 @@
+trm
+  s_20acfa7b86d843::t_3a5cb7572eaebf 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f11df00af6cc8ee1de1a8fb00f6c98a8b4262123",
+  "prompts": {},
+  "sessions": {
+    "s_20acfa7b86d843": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f72ae-e645-7c52-ae5b-91335d6d0173",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
