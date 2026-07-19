@@ -1,0 +1,19 @@
+skills/session-wrap/tests/skill.test.ts
+  s_1024517e40fa3f::t_4dbb91603882ef 135-170
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "18bcd4e6eefb1ae82e937b46f90171ebd92dfda0",
+  "prompts": {},
+  "sessions": {
+    "s_1024517e40fa3f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a2610056ed01223d4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
