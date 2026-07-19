@@ -1,0 +1,26 @@
+docs/meta/2026-07-19-daily-weekly-reports-design.md
+  s_be92be7ea0d8a4::t_159bf5bd5e1b7a 57,60
+  s_be92be7ea0d8a4::t_2d76d5f5c86a5b 159-164,166
+  s_be92be7ea0d8a4::t_e02ec07952e141 203-212
+  s_be92be7ea0d8a4::t_1ceb87cc1b05a3 24
+  s_be92be7ea0d8a4::t_b7c31fbb664bea 36-38
+  s_be92be7ea0d8a4::t_f19ab71fd0d120 65-66
+  s_be92be7ea0d8a4::t_89ff26367b761e 25-35
+  s_be92be7ea0d8a4::t_084db3338717fe 220,222-225
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "9363b86d9c1de4473df66f18edb18a4ce5a76993",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
