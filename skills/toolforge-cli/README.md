@@ -2,38 +2,22 @@
 
 CLI for the Toolforge Marketplace: list, install, submit plugins.
 
-## Purpose
-
-Single entry point operators/agents use to browse the plugin registry, install
-a plugin, or submit a new one for conformance validation — instead of calling
-`toolforge-registry-manager` and `toolforge-submission-validator` directly.
-
-## Usage
+## Quick Start
 
 ```powershell
-pwsh skills/toolforge-cli/src/cli.ps1 -Command list -Category governance -Format json
-pwsh skills/toolforge-cli/src/cli.ps1 -Command install -Id <plugin-id>
-pwsh skills/toolforge-cli/src/cli.ps1 -Command submit -Path <skill-path> -DryRun
+pwsh src/cli.ps1 -Command list -Category governance -Format json
+pwsh src/cli.ps1 -Command install -Id my-plugin
+pwsh src/cli.ps1 -Command submit -Path ./skills/my-plugin -DryRun
 ```
 
-## Inputs
+## What it does
 
-- `-Command` (string, required): `list` | `install` | `submit`
-- `-Id` (string): plugin id, required for `install`
-- `-Path` (string): skill directory, required for `submit`
-- `-Version`, `-Category`, `-Status`, `-Format`: filters/output for `list`
-- `-Force`, `-DryRun`, `-Help`: switches
+- **list:** Browse registry with filters by category, status, version
+- **install:** Deploy a plugin from the registry
+- **submit:** Validate skill and submit for conformance review
+- Delegates to registry-manager and submission-validator
+- Supports dry-run preview and multiple output formats
 
-## Outputs
+---
 
-- `list`: table or JSON of matching registry entries (registry read via
-  `toolforge-registry-manager`)
-- `install`: install result for the given plugin id
-- `submit`: delegates to `toolforge-submission-validator` and returns its
-  ConformanceReport
-
-## Permissions
-
-- `file.read`: read the registry (`docs/toolforge/registry.json`)
-- `file.write`: write install/submission artifacts
-- `network`: reserved for future remote registry support (unused in v0.1.0)
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

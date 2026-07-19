@@ -1,24 +1,46 @@
 ---
-skill_name: permission-governor
-version: 1.0.0
-name: Permission Governor
-category: validation
-description: Auto-approval of whitelisted operations, cache and bottleneck analysis
-author: soren
-tags: ["permissions", "security", "governance"]
+name: permission-governor
+description: Auto-approve whitelisted operations to reduce operator prompts. Analyzes approval cache and identifies bottlenecks.
+compatibility: |
+  - Runtime: Node.js 18+
+  - Dependencies: (see package.json)
 ---
+
 # Permission Governor
 
-Auto-approval of whitelisted operations, caching, and bottleneck analysis.
+Auto-approve whitelisted operations and analyze bottlenecks.
 
-## Metadata
+## Trigger
 
-- **ID:** permission-governor
-- **Version:** 1.0.0
-- **Category:** validation
-- **Runtime:** node
-- **Entrypoint:** src/index.js
+`/skill permission-governor` — invoke from gstack or CLI
 
-## Usage
+## Input Schema
 
-Whitelists safe/trusted operations (such as read-only queries or specific shell utilities) to automate approvals and reduce operator prompts.
+```typescript
+interface Input {
+  operation: string;            // operation to check (e.g., "read-repo")
+  whitelist?: string[];         // operations to auto-approve (default: built-in)
+  analyzeCalls?: boolean;       // analyze approval patterns (default: false)
+}
+```
+
+## Output Schema
+
+```typescript
+interface Output {
+  status: "success" | "error";
+  approved: boolean;
+  reason?: string;
+  analysis?: {
+    totalCalls: number;
+    approved_count: number;
+    denied_count: number;
+    bottlenecks: string[];
+  };
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

@@ -1,32 +1,46 @@
 ---
-skill_name: toolforge-cli
-version: 0.1.0
-name: Toolforge CLI
-category: utility
-description: CLI for Toolforge Marketplace - list, install, submit plugins
-author: soren
-tags: ["cli", "toolforge", "marketplace"]
+name: toolforge-cli
+description: CLI entry point for Toolforge Marketplace. Delegates to registry-manager and submission-validator.
+compatibility: |
+  - Runtime: PowerShell 5.1+
+  - Dependencies: toolforge-registry-manager, toolforge-submission-validator
 ---
+
 # Toolforge CLI
 
-Command-line entry point for the Toolforge Marketplace (list/install/submit).
+Command-line entry point for Toolforge Marketplace operations (list/install/submit).
 
-## Metadata
-
-- **ID:** toolforge-cli
-- **Version:** 0.1.0
-- **Category:** utility
-- **Runtime:** powershell
-- **Entrypoint:** src/cli.ps1
-
-## Usage
+## Trigger
 
 ```powershell
-pwsh src/cli.ps1 -Command list [-Category <name>] [-Status <name>] [-Format table|json]
-pwsh src/cli.ps1 -Command install -Id <plugin-id>
-pwsh src/cli.ps1 -Command submit -Path <skill-path> [-DryRun]
+pwsh src/cli.ps1 -Command <list|install|submit> [options]
 ```
 
-Delegates registry reads/writes to `toolforge-registry-manager` and
-submission checks to `toolforge-submission-validator` (declared as internal
-dependencies in `SKILL.json`).
+## Input Schema
+
+```typescript
+interface CliInput {
+  command: "list" | "install" | "submit";
+  id?: string;                // For install
+  path?: string;              // For submit
+  category?: string;          // Filter for list
+  status?: string;            // Filter for list
+  format?: "table" | "json";  // Output format
+  dryRun?: boolean;
+}
+```
+
+## Output Schema
+
+```typescript
+interface CliOutput {
+  status: "success" | "error";
+  command: string;
+  result: Array<any> | object;
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

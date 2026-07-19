@@ -1,31 +1,52 @@
 ---
-skill_name: toolforge-submission-validator
-version: 0.1.0
-name: Toolforge Submission Validator
-category: governance
-description: Validates skill submissions against conformance gate (manifest, tests, docs, governance, caveman review)
-author: soren
-tags: ["validation", "conformance", "toolforge", "marketplace"]
+name: toolforge-submission-validator
+description: Validates skill submissions against conformance gate (manifest, tests, docs, governance). Returns report and recommendation.
+compatibility: |
+  - Runtime: Node.js 18+
+  - Dependencies: None
 ---
+
 # Toolforge Submission Validator
 
-Validates a skill submission against the Toolforge Marketplace conformance
-gate before it reaches caveman review / Tier 1 approval.
+Validates skill submissions before caveman review / Tier 1 approval.
 
-## Metadata
-
-- **ID:** toolforge-submission-validator
-- **Version:** 0.1.0
-- **Category:** governance
-- **Runtime:** node
-- **Entrypoint:** src/validate.ts
-
-## Usage
+## Trigger
 
 ```bash
 npm run validate -- <skill-path>
 ```
 
-Returns a ConformanceReport JSON (`manifest_valid`, `tests_pass`,
-`docs_complete`, `governance_aligned`, `caveman_review`) with an
-approve/hold/reject recommendation. See `README.md` for the full check list.
+## Input Schema
+
+```typescript
+interface ValidatorInput {
+  skillPath: string;  // Absolute path to skill directory
+}
+```
+
+## Output Schema
+
+```typescript
+interface ConformanceReport {
+  status: "success" | "error";
+  submissionId: string;
+  skillId: string;
+  skillVersion: string;
+  checks: {
+    manifestValid: boolean;
+    testPass: boolean | null;
+    docsComplete: boolean;
+    governanceAligned: boolean;
+    cavemanReview: "pending";
+  };
+  blockers: string[];
+  recommendation: "approve" | "hold" | "reject";
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
+
+**For check definitions, recommendation logic, examples:** See [docs/USAGE.md](docs/USAGE.md).

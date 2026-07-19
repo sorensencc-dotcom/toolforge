@@ -1,24 +1,45 @@
 ---
-skill_name: rewrite-labs-orchestrator
-version: 1.0.0
-name: Rewrite Labs Orchestrator
-category: orchestration
-description: Orchestrates multi-stage development pipelines and handles blockers
-author: soren
-tags: ["pipeline", "stages", "orchestration"]
+name: rewrite-labs-orchestrator
+description: Orchestrates multi-stage development pipelines. Analyzes stage statuses, calculates completion %, identifies blockers, suggests next steps.
+compatibility: |
+  - Runtime: Node.js 18+
+  - Dependencies: None
 ---
+
 # Rewrite Labs Orchestrator
 
-Orchestrates multi-stage development pipelines and handles blockers.
+Analyzes pipeline stage statuses, calculates completion percent, identifies blockers, and suggests next execution steps.
 
-## Metadata
+## Trigger
 
-- **ID:** rewrite-labs-orchestrator
-- **Version:** 1.0.0
-- **Category:** orchestration
-- **Runtime:** node
-- **Entrypoint:** src/index.js
+```bash
+npm run orchestrate -- pipeline.json
+```
 
-## Usage
+## Input Schema
 
-Takes a pipeline state input containing an array of stages and their statuses, calculating percent completion, blocked stages, and suggesting next execution steps.
+```typescript
+interface PipelineInput {
+  stages: Array<{
+    id: string;
+    status: "pending" | "in-progress" | "completed" | "blocked";
+    blocker?: string;
+  }>;
+}
+```
+
+## Output Schema
+
+```typescript
+interface PipelineOutput {
+  status: "success" | "error";
+  completionPercent: number;
+  blockedStages: string[];
+  nextSteps: string[];
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

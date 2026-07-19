@@ -1,71 +1,53 @@
 ---
-skill_name: operator-image-build
-version: 1.0.0
-name: Operator Image Build
-category: pipeline
-description: Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.
-author: unknown
-tags: []
----
-# Operator Image Build — Docker Image Builder for CIC Systems
-
-**Status: ACTIVE**  
-**Version: 1.0.0**  
-**Category: automation**  
-**Owner: Soren**
-
+name: operator-image-build
+description: Deterministic Docker build, tag, push for harness-v3 and onnx-sidecar. SOURCE_DATE_EPOCH sealed, multi-stage builds, registry verification, air-gapped import.
+compatibility: |
+  - Runtime: Node.js 18+
+  - System: Docker daemon, curl, ctr (air-gapped)
+  - Dependencies: (see package.json)
 ---
 
-## Purpose
+# Operator Image Build
 
-Builds and manages Docker images for CIC ingestion, runtime, and operator environments. Multi-stage builds with deterministic layering.
+Deterministic Docker build, tag, push, verify for CIC harness components.
 
-## Features
+## Trigger
 
-- Multi-stage builds (compile, test, package)
-- Deterministic layer caching
-- Security scanning pre-push
-- Registry push with tag management
-- Rollback support
+`/skill operator-image-build` — invoke with action and options
 
-## Inputs
+## Input Schema
 
-```
-image: string           # Image name (cic-ingestion, cic-runtime, etc.)
-tag: string            # Image tag (commit sha, version, etc.)
-registry: string       # Registry URL
-push: boolean          # Push to registry after build
-verify: boolean        # Run security scan
-```
-
-## Outputs
-
-```
-{
-  status: "ok" | "error",
-  image: string,
-  tag: string,
-  digest: string,
-  pushed: boolean,
-  scanResults?: object
+```typescript
+interface Input {
+  action: "build" | "tag" | "push" | "verify" | "import" | "all";
+  registry?: string;            // default: registry.internal:5000
+  workdir?: string;             // default: .
+  dryRun?: boolean;             // preview commands (default: false)
+  verbose?: boolean;            // detailed output (default: true)
 }
 ```
 
-## Build Stages
+## Output Schema
 
-1. **Builder**: Compile TypeScript, run linters
-2. **Tester**: Run test suite, coverage report
-3. **Packager**: Bundle runtime, copy artifacts
-4. **Release**: Final image with minimal footprint
-
-## Exit Codes
-
-- 0: Build success
-- 1: Build failure
-- 2: Security scan warning
+```typescript
+interface Output {
+  status: "ok" | "error" | "warning";
+  message: string;
+  data: {
+    action: string;
+    images: Array<{
+      name: string;
+      status: string;
+      digest?: string;
+    }>;
+    registry?: string;
+    duration_ms: number;
+  };
+}
+```
 
 ---
 
-See README.md for CLI usage and docs/USAGE.md for workflows.
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
 
-
+**For CLI usage, programmatic API, and troubleshooting:** See [docs/USAGE.md](docs/USAGE.md).

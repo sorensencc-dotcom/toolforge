@@ -1,89 +1,48 @@
 ---
-skill_name: pre-wrap-audit
-version: 1.0.0
 name: pre-wrap-audit
-category: session-management
-description: Session wrap audit — 12-point blind-spot assessment before termination
-author: Soren (Cast Iron Forge)
-tags: ["session-wrap","risk-assessment","deployment-gate","ashfall-dependency","blind-spot-audit"]
----
-# Pre-Wrap-Audit — Session Termination Audit Engine
-
-**Status: ACTIVE**  
-**Version: 1.0.0**  
-**Category: automation**  
-**Owner: Soren**
-
+description: 12-point blind-spot assessment before session termination. Assesses core + extended fields, returns RED/YELLOW/GREEN verdict.
+compatibility: |
+  - Runtime: Node.js 18+ or TypeScript
+  - Dependencies: None (self-contained audit framework)
 ---
 
-## Purpose
+# pre-wrap-audit — Session Termination Audit Engine
 
 12-point blind-spot assessment before session termination. Returns RED/YELLOW/GREEN verdict for deployment gates.
 
-## Audit Questions (12-Point)
+## Trigger
 
-**Core (4 questions):**
-1. Are all modified files committed and pushed?
-2. Are all TODOs and FIXMEs resolved or documented?
-3. Are all tests passing?
-4. Have all architectural decisions been recorded?
-
-**Extended (8 additional questions):**
-- Memory state coherence
-- Drift signal routing
-- Dependency completeness
-- Risk register updated
-- Cross-subsystem impact assessed
-- Rollback plan documented
-- Stakeholder notification sent
-- Next session roadmap ranked
-
-## Verdicts
-
-| Verdict | Meaning | Exit Code | Action |
-|---------|---------|-----------|--------|
-| 🟢 GREEN | Ready | 0 | Proceed to deployment |
-| 🟡 YELLOW | Warnings | 2 | Operator review required |
-| 🔴 RED | Blocker | 1 | Block termination |
-
-## Inputs
-
-```
-context: PROJECT-CONTEXT (optional)
-format: 'json' | 'markdown' | 'summary'
+```bash
+/pre-wrap-audit [context-description]
 ```
 
-## Outputs
+## Input Schema
 
-```
-{
-  verdict: "RED" | "YELLOW" | "GREEN",
-  blockers: string[],
-  risks: string[],
-  ready: string[],
-  nextSteps: { action, owner, deadline }[],
-  coreAnswers: object,
-  extendedAnswers: object,
-  timestamp: ISO 8601,
-  signedOffBy: string
+```typescript
+interface AuditInput {
+  context?: string;           // Project context or phase description
+  format?: "json" | "markdown" | "summary";  // Output format
 }
 ```
 
-## Integration
+## Output Schema
 
-- **Ashfall**: Called during Phase 3 (Audit)
-- **Claude Code Hook**: Runs before session termination
-- **Drift Engine**: Checks drift signal routing
-- **Memory System**: Validates memory coherence
-
-## Exit Codes
-
-- 0: GREEN (proceed)
-- 1: RED (block)
-- 2: YELLOW (review)
+```typescript
+interface AuditOutput {
+  status: "success" | "error";
+  verdict: "RED" | "YELLOW" | "GREEN";
+  blockers: string[];
+  risks: string[];
+  ready: string[];
+  timestamp: string;
+  signedOffBy: string;
+}
+```
 
 ---
 
-See [README.md](README.md) for quick start.
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
+
+**For framework details, examples, verdict rules:** See [docs/USAGE.md](docs/USAGE.md).
 
 

@@ -1,24 +1,41 @@
 ---
-skill_name: agent-drift-detector
-version: 1.0.0
-name: Agent Drift Detector
-category: validation
-description: Detect schema drift in agent messages and APIs
-author: soren
-tags: ["drift", "schema", "validation"]
+name: agent-drift-detector
+description: Detect schema drift in agent messages and APIs. Compares expected vs. observed schema and alerts on field mismatches.
+compatibility: |
+  - Runtime: Node.js 18+
+  - Dependencies: (see package.json)
 ---
+
 # Agent Drift Detector
 
 Detect schema drift in agent messages and APIs.
 
-## Metadata
+## Trigger
 
-- **ID:** agent-drift-detector
-- **Version:** 1.0.0
-- **Category:** validation
-- **Runtime:** node
-- **Entrypoint:** src/index.js
+`/skill agent-drift-detector` — invoke from gstack or CLI
 
-## Usage
+## Input Schema
 
-Compares an expected schema against the actual observed schema of an agent's outputs, alerting if fields are missing or unexpected.
+```typescript
+interface Input {
+  expectedSchema: Record<string, unknown>;
+  observedOutput: Record<string, unknown>;
+  strict?: boolean;  // flag missing + unexpected fields (default: true)
+}
+```
+
+## Output Schema
+
+```typescript
+interface Output {
+  status: "success" | "error";
+  passed: boolean;
+  missingFields: string[];
+  unexpectedFields: string[];
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

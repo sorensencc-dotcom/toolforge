@@ -1,24 +1,24 @@
 # Tool Lifecycle Manager
 
-Manages skill lifecycle: registration, distribution, validation, deprecation.
+Enforce Toolforge governance rules for tool classification, versioning, status transitions, and deployment readiness.
 
-## Installation
-
-Requires: Node 18+, TypeScript
-
-## Usage
+## Quick Start
 
 ```bash
-npx toolforge skill-manager --action <register|distribute|validate|deprecate>
+npx toolforge-validate-tool -Name myTool -Action readiness-check
+npx toolforge-validate-registry -Action full-audit
 ```
 
-## Metadata
+## What it does
 
-- **Category**: automation
-- **Owner**: soren
-- **Runtime**: TypeScript
-- **Timeout**: 30s
+- Validates tool classification (sync-tools, daemons, adapters, etc.)
+- Enforces semantic versioning and status progression
+- Checks manifest registration and quality gates
+- Reports production readiness or blockers
+- Audits entire registry for drift and misclassification
 
-## API
+---
 
-See `src/index.ts` for interface.
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
+
+**For governance rules, quality gates, output examples:** See [docs/USAGE.md](docs/USAGE.md).

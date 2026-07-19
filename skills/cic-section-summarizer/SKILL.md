@@ -1,24 +1,43 @@
 ---
-skill_name: cic-section-summarizer
-version: 1.0.0
-name: CIC Section Summarizer
-category: analysis
-description: Auto-summarize CIC phase progress and files reviewed
-author: soren
-tags: ["analysis", "roadmap", "progress"]
+name: cic-section-summarizer
+description: Analyze file coverage to estimate phase completion. Identifies coverage gaps and test deficits.
+compatibility: |
+  - Runtime: Node.js 18+
+  - Dependencies: (see package.json)
 ---
+
 # CIC Section Summarizer
 
-Auto-summarize CIC phase progress and files reviewed.
+Auto-summarize CIC phase progress and file coverage.
 
-## Metadata
+## Trigger
 
-- **ID:** cic-section-summarizer
-- **Version:** 1.0.0
-- **Category:** analysis
-- **Runtime:** node
-- **Entrypoint:** src/index.js
+`/skill cic-section-summarizer` — invoke from gstack or CLI
 
-## Usage
+## Input Schema
 
-Analyzes given lists of file paths to determine estimated percent completion and identifies files missing unit tests.
+```typescript
+interface Input {
+  filePaths: string[];          // files to analyze
+  phase?: string;               // optional phase name
+  includeTestGaps?: boolean;    // flag files missing tests (default: true)
+}
+```
+
+## Output Schema
+
+```typescript
+interface Output {
+  status: "success" | "error";
+  estimatedCompletion: number;
+  totalFiles: number;
+  filesWithTests: number;
+  testGaps: string[];
+  phaseSummary?: string;
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

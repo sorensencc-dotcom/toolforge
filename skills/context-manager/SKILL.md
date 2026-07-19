@@ -1,24 +1,45 @@
 ---
-skill_name: context-manager
-version: 1.0.0
-name: Context Manager
-category: session-management
-description: Autonomous execution context detection, validation, and storage
-author: soren
-tags: ["session", "autonomous", "governance"]
+name: context-manager
+description: Detect autonomous execution context via env var and JSON file. Prevents operator prompts during non-interactive sessions.
+compatibility: |
+  - Runtime: Node.js 18+
+  - Dependencies: (see package.json)
 ---
+
 # Context Manager
 
-Autonomous execution context detection, validation, and storage.
+Detect and manage autonomous execution context.
 
-## Metadata
+## Trigger
 
-- **ID:** context-manager
-- **Version:** 1.0.0
-- **Category:** session-management
-- **Runtime:** node
-- **Entrypoint:** src/index.ts
+`/skill context-manager` — invoke from gstack or CLI
 
-## Usage
+## Input Schema
 
-Manages context detection from `AUTONOMOUS_EXECUTION` and `.autonomous-context.json` to prevent prompts during long-running tasks.
+```typescript
+interface Input {
+  checkEnv?: boolean;           // check AUTONOMOUS_EXECUTION env (default: true)
+  contextFile?: string;         // path to .autonomous-context.json (default: cwd)
+  validate?: boolean;           // validate context freshness (default: true)
+}
+```
+
+## Output Schema
+
+```typescript
+interface Output {
+  status: "success" | "error";
+  isAutonomous: boolean;
+  context?: {
+    mode: string;
+    initiator: string;
+    startTime: string;
+    timeout?: number;
+  };
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

@@ -1,33 +1,46 @@
 ---
-skill_name: toolforge-registry-manager
-version: 0.1.0
-name: Toolforge Registry Manager
-category: pipeline
-description: Manages Toolforge plugin registry with append-only semantics
-author: soren
-tags: ["registry", "toolforge", "marketplace"]
+name: toolforge-registry-manager
+description: Sole writer of Toolforge registry.json. Append-only semantics with audit logging for all mutations.
+compatibility: |
+  - Runtime: PowerShell 5.1+
+  - Dependencies: None
 ---
+
 # Toolforge Registry Manager
 
-Manages the Toolforge plugin registry (`docs/toolforge/registry.json`) with
-append-only semantics — no manual edits, tool-only mutations, audit log per
-change (`docs/toolforge/registry-audit.log`).
+Manages `docs/toolforge/registry.json` with append-only semantics and audit trail.
 
-## Metadata
-
-- **ID:** toolforge-registry-manager
-- **Version:** 0.1.0
-- **Category:** pipeline
-- **Runtime:** powershell
-- **Entrypoint:** src/registry.ps1
-
-## Usage
+## Trigger
 
 ```powershell
-pwsh src/registry.ps1 -Action add -PluginId <id> -Path <path> -Checksum <sha256>
-pwsh src/registry.ps1 -Action get -PluginId <id>
-pwsh src/registry.ps1 -Action list [-Category <name>]
-pwsh src/registry.ps1 -Action quarantine -PluginId <id> -Reason <text>
+pwsh src/registry.ps1 -Action <add|get|list|quarantine> [options]
 ```
 
-Checksums are computed via the sibling `src/checksum.ps1` script.
+## Input Schema
+
+```typescript
+interface RegistryInput {
+  action: "add" | "get" | "list" | "quarantine";
+  pluginId?: string;      // Required for add, get, quarantine
+  path?: string;          // Required for add
+  checksum?: string;      // Required for add
+  category?: string;      // Optional filter for list
+  reason?: string;        // Required for quarantine
+}
+```
+
+## Output Schema
+
+```typescript
+interface RegistryOutput {
+  status: "success" | "error";
+  action: string;
+  result: any;           // Entry, array, or confirmation
+  auditEntry?: string;   // Audit log line written
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).

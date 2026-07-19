@@ -1,28 +1,46 @@
 ---
-skill_name: run-adapter-diagnostic
-version: 1.0.0
 name: run-adapter-diagnostic
-category: monitoring
-description: Check adapter health, latency percentiles, and error rates in real time
-author: unknown
-tags: []
+description: Check adapter health, latency percentiles, and error rates in real time. Reports against SLA targets.
+compatibility: |
+  - Runtime: Node.js 18+
+  - Dependencies: Adapter telemetry service access
 ---
+
 # run-adapter-diagnostic
 
-Check adapter health, latency percentiles, and error rates in real time
+Reports adapter health: success rate, latency percentiles, and error rate against SLA targets.
 
-**Status: PLANNED (stub)** — implementation not yet written; entrypoint is the intended location.
+## Trigger
 
-## Metadata
+```bash
+run-adapter-diagnostic [adapter-name] [time-window]
+```
 
-- **ID:** run-adapter-diagnostic
-- **Version:** 1.0.0
-- **Category:** 
-- **Runtime:** node
-- **Entrypoint:** src/index.ts
+## Input Schema
 
-## Reference
+```typescript
+interface DiagnosticInput {
+  adapterName?: string;  // e.g., "BrowserNavigate", "ModelGenerate" (optional)
+  timeWindow?: string;   // "5m" | "1h" | "24h" (default: "5m")
+}
+```
 
-See README.md for usage and docs/ for details.
+## Output Schema
+
+```typescript
+interface DiagnosticOutput {
+  status: "success" | "error";
+  adapter: string;
+  successRate: number;
+  latency: { p50: number; p95: number; p99: number };
+  errorRate: number;
+  recentErrors: string[];
+  timestamp: string;
+}
+```
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
 
 
