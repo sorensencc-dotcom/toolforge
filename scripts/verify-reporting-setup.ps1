@@ -51,6 +51,56 @@ $24hAgo = $now.AddHours(-24)
 $diff = ($now - $24hAgo).TotalHours
 Test-Result "date-arithmetic" ($diff -ge 23.99 -and $diff -le 24.01) "Diff: $diff hours"
 
+# Test 4: Cowork daemon logs exist and are readable
+Write-Host "Test 4: Cowork daemon logs..."
+$coworkPaths = @(
+    "$env:USERPROFILE\.cowork\sessions",
+    "$env:USERPROFILE\.cowork\logs",
+    "$env:APPDATA\.cowork",
+    ".ijfw\cowork"
+)
+
+$coworkFound = $false
+$coworkPath = $null
+
+foreach ($path in $coworkPaths) {
+    if (Test-Path $path) {
+        $files = Get-ChildItem $path -File -ErrorAction SilentlyContinue
+        if ($files.Count -gt 0) {
+            $coworkFound = $true
+            $coworkPath = $path
+            Test-Result "cowork-logs-found" $true "Path: $path, files: $($files.Count)"
+            break
+        }
+    }
+}
+
+if (-not $coworkFound) {
+    Test-Result "cowork-logs-found" $false "No cowork logs found in standard locations"
+}
+
+# Test 5: Cowork log format validation (if found)
+if ($coworkFound) {
+    Write-Host "Test 5: Cowork log schema..."
+    try {
+        $logFile = Get-ChildItem $coworkPath -File | Select-Object -First 1
+        $content = Get-Content $logFile.FullName -Raw
+
+        # Try JSON parse
+        if ($content -match '^\{' -or $content -match '^\[') {
+            $parsed = $content | ConvertFrom-Json
+            Test-Result "cowork-log-json" $true "Valid JSON, $($parsed | Measure-Object).Count items"
+        } else {
+            Test-Result "cowork-log-json" $false "Not JSON format (plain text or other)"
+        }
+    } catch {
+        Test-Result "cowork-log-json" $false "Parse error: $_"
+    }
+}
+
+# Store cowork path for later use
+$results.cowork_path = $coworkPath
+
 # Output results
 $resultsJson = $results | ConvertTo-Json -Depth 10
 Write-Output $resultsJson
