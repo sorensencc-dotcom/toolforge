@@ -1,0 +1,40 @@
+.claude/hooks/token-budget-gate.js
+  s_da0ccad02c88a3::t_ee9307accc5d83 1-96
+.ijfw/BLOCKERS-IMPLEMENTED.md
+  s_da0ccad02c88a3::t_c6671351f1de65 1-101
+.ijfw/BLOCKERS-README.md
+  s_da0ccad02c88a3::t_734d249b6a579e 1-237
+.ijfw/startup-checklist.ps1
+  s_da0ccad02c88a3::t_1d1cd6c3bd0d05 1-186,189-194
+  s_da0ccad02c88a3::t_ac750c67f90913 187-188
+.ijfw/phase-gate-git-guard.ps1
+  s_da0ccad02c88a3::t_16e643296c09b3 1-93
+trm
+  s_20acfa7b86d843::t_373a639cf4b8f2 1
+.claude/settings.json
+  s_da0ccad02c88a3::t_106b5a4c45e0eb 36-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d3e04a5deae40f3f568af8cdcfbdef7f18ed1993",
+  "prompts": {},
+  "sessions": {
+    "s_20acfa7b86d843": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f72ae-e645-7c52-ae5b-91335d6d0173",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_da0ccad02c88a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a93499f4-6577-4680-bdd3-467b313ad54c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
