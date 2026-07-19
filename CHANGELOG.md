@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.12.3
+Date: 2026-07-19
+
+### Changes
+- 5175857 - chore(submodule): update TRM to include Phase A EPUB support (Chris Sorensen)
+
 ## Version 2.12.2
 Date: 2026-07-19
 
