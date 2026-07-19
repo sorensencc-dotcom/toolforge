@@ -1,0 +1,28 @@
+ROADMAP.md
+  s_da0ccad02c88a3::t_7159a8098d4144 200-201,208-209
+  s_da0ccad02c88a3::t_84d00f804d4ca7 184
+  s_da0ccad02c88a3::t_605dadce06f32b 215
+  s_da0ccad02c88a3::t_29a145fa0d22ad 149
+  s_da0ccad02c88a3::t_2704d0127d0b84 3,5-6,8-12,20,22,26,28,30,37-42,44,52-53,56,58,60-120,122,126,128,132-148,150-153,155-158,165-166,172-174,183,185-192,196-198,202-206,210-213,216-220,226-242,244
+  s_da0ccad02c88a3::t_bf38af384de211 154,160-163,167-171,175-177
+  s_da0ccad02c88a3::t_c59b0b5f4cdd18 159
+  s_da0ccad02c88a3::t_5c1483eac77e20 164
+  s_da0ccad02c88a3::t_cda61869ae71a2 199
+  s_da0ccad02c88a3::t_7dab875b388f90 207
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4360f3424d649695f95bbb5718c68e068db368eb",
+  "prompts": {},
+  "sessions": {
+    "s_da0ccad02c88a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a93499f4-6577-4680-bdd3-467b313ad54c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
