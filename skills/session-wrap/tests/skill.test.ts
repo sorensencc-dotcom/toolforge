@@ -74,4 +74,62 @@ describe("session-wrap", () => {
     });
     expect(result.stagedFiles).toContain("other.txt");
   });
+
+  it("exports JSON schema v1.0 with session metrics when provided", async () => {
+    const cwd = initRepo();
+    const testMetrics = {
+      commits: [
+        { hash: "abc123", message: "feat: test", files: ["file.ts"], repo: "test-repo" },
+        { hash: "def456", message: "fix: bug", files: ["bug.ts", "test.ts"], repo: "test-repo" },
+      ],
+      skills: [
+        { name: "brainstorming", count: 1 },
+        { name: "code-review", count: 3 },
+      ],
+      tokens: 156000,
+      model: "haiku",
+      durationMinutes: 42,
+    };
+
+    const result = await sessionWrap({
+      commitMessage: "[claude] test with metrics",
+      metrics: testMetrics,
+      cwd,
+    });
+
+    expect(result.jsonExportPath).toBeDefined();
+    expect(result.jsonExportPath).toContain("session-wrap-export.json");
+
+    // Verify JSON file exists and is valid
+    if (result.jsonExportPath && fs.existsSync(result.jsonExportPath)) {
+      const jsonContent = fs.readFileSync(result.jsonExportPath, "utf-8");
+      const parsed = JSON.parse(jsonContent);
+
+      // Verify schema
+      expect(parsed.version).toBe("1.0");
+      expect(parsed.timestamp).toBeDefined();
+      expect(parsed.commits).toHaveLength(2);
+      expect(parsed.commits[0]).toEqual({
+        hash: "abc123",
+        message: "feat: test",
+        files: ["file.ts"],
+        repo: "test-repo",
+      });
+      expect(parsed.skills).toHaveLength(2);
+      expect(parsed.skills[0]).toEqual({ name: "brainstorming", count: 1 });
+      expect(parsed.tokens).toBe(156000);
+      expect(parsed.model).toBe("haiku");
+      expect(parsed.duration_minutes).toBe(42);
+    }
+  });
+
+  it("handles missing metrics gracefully", async () => {
+    const cwd = initRepo();
+    const result = await sessionWrap({
+      commitMessage: "[claude] test without metrics",
+      cwd,
+    });
+
+    expect(result.jsonExportPath).toBeUndefined();
+  });
 });

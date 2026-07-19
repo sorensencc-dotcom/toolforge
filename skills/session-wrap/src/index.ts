@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as os from "os";
 import { execFileSync } from "child_process"; // noqa: SEC-AUDITOR: execFileSync with a fixed command ("git") and array args, no shell interpolation -- not the string-concat injection pattern this rule targets (Tier 1 approved)
 
 const PREFIX_RE = /^\[(claude|copilot|gemini|human)\]/;
@@ -7,6 +8,14 @@ const PREFIX_RE = /^\[(claude|copilot|gemini|human)\]/;
 export interface DocUpdate {
   path: string;
   content: string;
+}
+
+export interface SessionMetrics {
+  commits?: Array<{ hash: string; message: string; files?: string[]; repo?: string }>;
+  skills?: Array<{ name: string; count: number }>;
+  tokens?: number;
+  model?: string;
+  durationMinutes?: number;
 }
 
 export interface SessionWrapParams {
@@ -17,6 +26,7 @@ export interface SessionWrapParams {
   stageAll?: boolean;
   dryRun?: boolean;
   cwd?: string;
+  metrics?: SessionMetrics;
 }
 
 export interface DocUpdateResult {
@@ -38,6 +48,7 @@ export interface SessionWrapResult {
   stagedFiles: string[];
   skippedCommit: boolean;
   report: SessionWrapReport;
+  jsonExportPath?: string;
 }
 
 function git(cwd: string, args: string[]): string {
@@ -77,6 +88,51 @@ function resolveStageSet(
     ...stageFiles,
   ]);
   return Array.from(explicit);
+}
+
+function exportSessionWrapJSON(
+  commits?: Array<{ hash: string; message: string; files?: string[]; repo?: string }>,
+  skills?: Array<{ name: string; count: number }>,
+  tokens?: number,
+  model?: string,
+  durationMinutes?: number
+): string {
+  const schema = {
+    version: "1.0",
+    timestamp: new Date().toISOString(),
+    commits: (commits || []).map((c) => ({
+      hash: c.hash,
+      message: c.message,
+      files: c.files || [],
+      repo: c.repo || "",
+    })),
+    skills: (skills || []).map((s) => ({
+      name: s.name,
+      count: typeof s.count === "number" ? s.count : 0,
+    })),
+    tokens: typeof tokens === "number" ? tokens : 0,
+    model: typeof model === "string" ? model : "",
+    duration_minutes: typeof durationMinutes === "number" ? durationMinutes : 0,
+  };
+
+  // Determine export path based on OS
+  const appDataPath =
+    process.platform === "win32"
+      ? path.join(os.homedir(), "AppData", "Roaming")
+      : path.join(os.homedir(), ".config");
+
+  const exportDir = path.join(appDataPath, "Claude");
+  const exportPath = path.join(exportDir, "session-wrap-export.json");
+
+  // Create directory if it doesn't exist
+  if (!fs.existsSync(exportDir)) {
+    fs.mkdirSync(exportDir, { recursive: true });
+  }
+
+  // Write JSON file
+  fs.writeFileSync(exportPath, JSON.stringify(schema, null, 2), "utf-8");
+
+  return exportPath;
 }
 
 export async function sessionWrap(params: SessionWrapParams): Promise<SessionWrapResult> {
@@ -139,6 +195,18 @@ export async function sessionWrap(params: SessionWrapParams): Promise<SessionWra
       : [],
   };
 
+  // Export structured JSON for reporting agents
+  let jsonExportPath: string | undefined;
+  if (params.metrics) {
+    jsonExportPath = exportSessionWrapJSON(
+      params.metrics.commits,
+      params.metrics.skills,
+      params.metrics.tokens,
+      params.metrics.model,
+      params.metrics.durationMinutes
+    );
+  }
+
   return {
     success,
     commitHash,
@@ -146,6 +214,7 @@ export async function sessionWrap(params: SessionWrapParams): Promise<SessionWra
     stagedFiles,
     skippedCommit,
     report,
+    jsonExportPath,
   };
 }
 
