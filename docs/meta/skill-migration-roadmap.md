@@ -105,4 +105,5 @@ Each skill needs:
 - `skills/_TEMPLATE/` — Reference implementation
 - `utilities/skill-doc-validator.ps1` — Compliance checker
 - `docs/meta/context-index-policy.md` — Agent context optimization
+- `docs/meta/toolforge-platform-roadmap.md` — Platform phases (Phases 1–5)
 
