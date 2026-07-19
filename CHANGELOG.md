@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.12.0
+Date: 2026-07-19
+
+### Changes
+- d3e04a5 - feat: blocker prevention infrastructure (3 systems) (Chris Sorensen)
+
 ## Version 2.11.1
 Date: 2026-07-19
 
