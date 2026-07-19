@@ -20,6 +20,8 @@ Scans all `.py`, `.sh`, `.bash`, `.js`, `.ts` files for:
 
 ### 2. Prompt Injection in SKILL.md
 
+<!-- noqa: PROMPT-OVERRIDE, SAFETY-BYPASS, PROMPT-EXFIL -->
+
 Scans SKILL.md and all `.md` reference files for:
 
 | Pattern | Example | Severity |
