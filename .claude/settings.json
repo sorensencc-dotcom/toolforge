@@ -34,6 +34,16 @@
   "hooks": {
     "PreToolUse": [
       {
+        "matcher": "Edit|Write|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/c/dev/.claude/hooks/token-budget-gate.js\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
         "matcher": "Edit|Write",
         "hooks": [
           {
