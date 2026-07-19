@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 2.11.1
+Date: 2026-07-19
+
+### Changes
+- c11000a - docs: cowork sync + TorqueQuery deferred backlog (Chris Sorensen)
+- d26df79 - refactor: reword prompt injection patterns to avoid scanner false positives (Chris Sorensen)
+- 00eb163 - fix: suppress false-positive security scanner alerts in skill-security-auditor USAGE.md (Chris Sorensen)
+- ae0bf01 - docs: migrate Tier 3 skills to Skill Operator Guide template (Waves 1-2) (Chris Sorensen)
+- af82072 - docs: migrate Tier 2b skills to Skill Operator Guide template (Chris Sorensen)
+- 3cb514c - docs: migrate Tier 2a skills to Skill Operator Guide template (Wave B) (Chris Sorensen)
+- 4b23394 - docs: migrate Tier 1 skills to Skill Operator Guide template (Wave A) (Chris Sorensen)
+- cce0a45 - docs: add Skill Migration Roadmap — Wave C analysis (Chris Sorensen)
+
 ## Version 2.11.0
 Date: 2026-07-18
 
