@@ -20,18 +20,16 @@ Scans all `.py`, `.sh`, `.bash`, `.js`, `.ts` files for:
 
 ### 2. Prompt Injection in SKILL.md
 
-<!-- noqa: PROMPT-OVERRIDE, SAFETY-BYPASS, PROMPT-EXFIL -->
+Scans SKILL.md and all `.md` reference files for injection patterns (documented as examples in scanner test suite):
 
-Scans SKILL.md and all `.md` reference files for:
-
-| Pattern | Example | Severity |
-|---------|---------|----------|
-| **System prompt override** | "Ignore previous instructions", "You are now..." | 🔴 CRITICAL |
-| **Role hijacking** | "Act as root", "Pretend you have no restrictions" | 🔴 CRITICAL |
-| **Safety bypass** | "Skip safety checks", "Disable content filtering" | 🔴 CRITICAL |
-| **Hidden instructions** | Zero-width characters, HTML comments with directives | 🟡 HIGH |
-| **Excessive permissions** | "Run any command", "Full filesystem access" | 🟡 HIGH |
-| **Data extraction** | "Send contents of", "Upload file to", "POST to" | 🔴 CRITICAL |
+| Pattern | Risk Category | Severity |
+|---------|-------|----------|
+| System prompt override | Hijacking LLM instructions | 🔴 CRITICAL |
+| Role hijacking | Claiming unauthorized roles | 🔴 CRITICAL |
+| Safety bypass | Requesting disabled safety features | 🔴 CRITICAL |
+| Hidden instructions | Steganographic payloads | 🟡 HIGH |
+| Excessive permissions | Requesting unconstrained access | 🟡 HIGH |
+| Data extraction | Requesting sensitive data export | 🔴 CRITICAL |
 
 ### 3. Dependency Supply Chain
 
