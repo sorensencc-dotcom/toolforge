@@ -51,6 +51,11 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 - Cloud agents read directly via `git log --since` (all repos under C:\dev)
 - No enhancement needed
 
+**Cowork activity:**
+- Cowork daemon logs concurrent sessions (location TBD, likely `~/.cowork/sessions/` or similar)
+- Extract: session count, agent types, handoff count, total duration, coordination errors
+- Cloud agents consume directly; verify path + format in Phase 0
+
 ### Layer 2: Scheduled Aggregation (New Cloud Agents)
 
 **Daily Agent** (runs 6 AM every day)
@@ -91,6 +96,9 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 | Tests Passed | 22 |
 | Tokens Used | 156,000 |
 | Models Used | haiku (60%), opus (40%) |
+| Cowork Sessions | 2 |
+| Concurrent Agents | 4 (Claude + Codex + Antigravity + 1 peer) |
+| Handoffs | 3 |
 
 ## Summary
 
@@ -105,6 +113,14 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 
 - haiku: 93,600 (60%)
 - opus: 62,400 (40%)
+
+## Cowork Activity
+
+**Sessions:** 2
+- Session 1 (Phase 8 Wave C): Claude + Codex (1h 23m, 3 handoffs)
+- Session 2 (TRM Harvester wiring): Claude + Antigravity (48m, 1 handoff, 1 coordination error — resolved)
+
+**Agent Mix:** Claude (lead), Codex (skill execution), Antigravity (parallel validation)
 ```
 
 ## Weekly Report Format
@@ -122,6 +138,9 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 | Tests Run | 156 | 22.3 | ↑ |
 | Tests Passed | 149 | 21.3 | ↑ |
 | Tokens Used | 1,247,000 | 178,143 | ↑ |
+| Cowork Sessions | 12 | 1.7 | ↔ |
+| Handoffs | 28 | 4 | ↑ |
+| Coordination Errors | 2 | 0.29 | ↓ |
 
 ## Busiest Days
 
@@ -153,6 +172,7 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 | Session wrap JSON | Per session | Commits, skills, tokens, model |
 | ijfw_metrics | Per session | Tokens, cost, model routing |
 | Retro JSON | Per session | Tests, blockers, summary |
+| Cowork daemon logs | Per session | Sessions, agents, handoffs, errors |
 
 ## Implementation Phases
 
@@ -160,6 +180,8 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 - Verify PowerShell + `git log --since` works across all repos under C:\dev (encoding, path separators)
 - Test `git log --since "24 hours ago"` on 3+ repos
 - Verify schedule tool timezone mapping (6 AM in user's local TZ, not UTC)
+- Locate + verify cowork daemon log format (path, schema, data completeness)
+- Test extraction of: session count, agent types, handoff count, coordination errors
 - Document results before Phase 1
 
 ### Phase 1: Enhance Existing Skills (Parallel)
@@ -200,7 +222,7 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 - ✓ Historical record in git (can `git log docs/reports/`)
 - ✓ Setup requires zero manual data entry from user
 
-## Resolved Issues (from caveman review)
+## Resolved Issues (from caveman review + scope expansion)
 
 - ✓ JSON schema for session-wrap defined (schema v1.0, required fields specified, nullability rules)
 - ✓ "Since yesterday midnight" changed to "last 24h from agent start" (handles clock skew)
@@ -209,6 +231,7 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 - ✓ Report path format specified: ISO 8601 weeks (YYYY-W##)
 - ✓ PowerShell + git verification added as Phase 0 (pre-implementation)
 - ✓ TZ mapping verification added to Phase 0
+- ✓ Cowork activity added to daily/weekly reports (sessions, agents, handoffs, errors)
 
 ## Open Questions / Deferred
 
