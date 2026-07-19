@@ -2,30 +2,24 @@
 
 Verify Qdrant is in sync with PostgreSQL extraction state.
 
-## Usage
+---
+
+## Quick Start
 
 ```bash
-reconcile-vector-store [check | repair]
+reconcile-vector-store check
 ```
 
-- `check`: Compare counts, detect drift (default)
-- `repair`: Re-index missing vectors
+---
 
-## Output (check mode)
+## What it does
 
-```
-PostgreSQL extraction state: 45,000 records
-Qdrant vectors indexed: 45,000 vectors
-Status: ✓ IN SYNC
+- Compares vector store with PostgreSQL extraction state and detects drift
+- Repairs missing vectors by re-indexing from PostgreSQL
+- Reports sync status, count discrepancies, and operation duration
 
-Last sync: 2026-07-02 19:35:00Z
-Drift: 0%
-```
+---
 
-## Output (repair mode)
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
 
-```
-Detected 23 missing vectors
-Re-indexing from PostgreSQL...
-✓ Completed (2m 14s)
-Vectors now: 45,023
+For detailed workflow and examples: See [SKILL.md](./SKILL.md).

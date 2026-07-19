@@ -1,6 +1,8 @@
-# CIC Repair Pipeline
+# cic-repair-pipeline
 
-**Detect and repair broken CIC pipeline stages.**
+Detect and repair broken CIC pipeline stages.
+
+---
 
 ## Quick Start
 
@@ -8,22 +10,16 @@
 cic repair-pipeline --stage=INGEST --mode=auto
 ```
 
-## What It Does
+---
 
-Scans a pipeline stage, diagnoses failures, and applies repairs.
+## What it does
 
-## Repair Modes
-
-| Mode | Behavior |
-|------|----------|
-| auto | Automatic repair attempt |
-| manual | Report only, no changes |
-
-## Output
-
-- repair diagnostics
-- restored stage manifest
+- Scans pipeline stage and diagnoses failures
+- Applies automatic repairs or generates diagnostic report
+- Restores stage manifest and validates readiness
 
 ---
 
-See [INTEGRATION_DIAGRAM.md](INTEGRATION_DIAGRAM.md) for pipeline stages.
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
+
+For detailed workflow and examples: See [SKILL.md](./SKILL.md).
