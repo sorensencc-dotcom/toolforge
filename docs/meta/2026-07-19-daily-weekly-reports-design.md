@@ -21,7 +21,21 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 
 **Session wrap enhancement:**
 - Currently outputs markdown narrative
-- Add JSON export: `{ commits: [hash, msg, files], skills: [name, count], tokens: number, model: string }`
+- Add JSON export (schema v1.0):
+
+```json
+{
+  "commits": [{"hash": "abc123", "message": "...", "files": ["..."], "repo": "c:\\dev"}],
+  "skills": [{"name": "brainstorming", "count": 1}],
+  "tokens": 156000,
+  "model": "haiku",
+  "duration_minutes": 42
+}
+```
+
+- Required fields: commits, skills, tokens, model
+- commits array can be empty (0 commits in session)
+- model cannot be null (infer from transcript if missing)
 - Triggered at session end (existing flow)
 
 **Retro skill enhancement:**
@@ -40,14 +54,16 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 ### Layer 2: Scheduled Aggregation (New Cloud Agents)
 
 **Daily Agent** (runs 6 AM every day)
-- Input: git commits (since yesterday midnight), staged JSON from session wrap, ijfw metrics (today)
+- Input: git commits (last 24h from agent start time), staged JSON from session wrap, ijfw metrics (today)
 - Processing: aggregate commits by repo, count skills, sum tokens, identify model mix
 - Output: markdown report → artifact + commit to `docs/reports/daily/YYYY-MM-DD.md`
+- Retention: keep artifacts 90 days, auto-delete older ones; git history kept forever
 
 **Weekly Agent** (runs 6 AM every Sunday)
 - Input: 7 daily JSON files + git commits (this week)
 - Processing: rollup totals, compute averages, detect trends (↑↓ indicators), identify busiest days
-- Output: markdown report → artifact + commit to `docs/reports/weekly/YYYY-MM-WW.md`
+- Fallback: if a daily JSON missing (daily agent failed), skip that day's data + continue (no abort)
+- Output: markdown report → artifact + commit to `docs/reports/weekly/YYYY-W##.md` (ISO 8601 week format, e.g. 2026-W29)
 
 ### Layer 3: Output
 
@@ -140,8 +156,14 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 
 ## Implementation Phases
 
+### Phase 0: Verification (Pre-Implementation)
+- Verify PowerShell + `git log --since` works across all repos under C:\dev (encoding, path separators)
+- Test `git log --since "24 hours ago"` on 3+ repos
+- Verify schedule tool timezone mapping (6 AM in user's local TZ, not UTC)
+- Document results before Phase 1
+
 ### Phase 1: Enhance Existing Skills (Parallel)
-- Modify session-wrap to export JSON
+- Modify session-wrap to export JSON (schema v1.0 as defined)
 - Modify retro to export JSON
 - Commit enhancements to git
 
@@ -178,20 +200,29 @@ Automated daily and weekly reports that aggregate work across all repos under `C
 - ✓ Historical record in git (can `git log docs/reports/`)
 - ✓ Setup requires zero manual data entry from user
 
+## Resolved Issues (from caveman review)
+
+- ✓ JSON schema for session-wrap defined (schema v1.0, required fields specified, nullability rules)
+- ✓ "Since yesterday midnight" changed to "last 24h from agent start" (handles clock skew)
+- ✓ Artifact retention policy locked: keep 90 days, auto-delete older; git history kept forever
+- ✓ Weekly fallback defined: skip missing daily JSONs, continue (no abort)
+- ✓ Report path format specified: ISO 8601 weeks (YYYY-W##)
+- ✓ PowerShell + git verification added as Phase 0 (pre-implementation)
+- ✓ TZ mapping verification added to Phase 0
+
 ## Open Questions / Deferred
 
-- Timezone for "6 AM" scheduling (assume user's local TZ from schedule skill)
-- Artifact retention policy (how long to keep old artifacts accessible?)
 - Whether to include cross-repo skips/errors in reports (e.g., repo with no commits that day)
 
 ## Rollout Plan
 
 1. Write spec ← you are here
-2. User reviews + approves
+2. User reviews + approves (caveman review findings incorporated)
 3. Invoke writing-plans for implementation plan
-4. Dispatch Phase 1 (skill enhancements) in parallel with Phase 2/3
-5. Test backfill
-6. Go live with first daily report
+4. Execute Phase 0 (verification: PowerShell + git, TZ mapping)
+5. Dispatch Phase 1 (skill enhancements) in parallel with Phase 2/3
+6. Test backfill with 3-day history
+7. Go live with first daily report
 
 ---
 
