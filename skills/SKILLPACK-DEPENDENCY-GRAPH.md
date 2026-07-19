@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-19T00:34:49.9205370Z
+**Generated:** 2026-07-19T01:21:45.8133258Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -368,41 +368,41 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| skill-security-auditor | 1 |
-| pre-wrap-audit | 1 |
 | toolforge-cli | 1 |
-| cic-ingest-world | 0 |
-| skill-health-monitor | 0 |
+| pre-wrap-audit | 1 |
+| cic-run-gate | 0 |
+| work-summarizer | 0 |
+| rollback-phase | 0 |
+| analyze-token-burn | 0 |
+| scale-ingestion-service | 0 |
+| cic-orchestrate-flow | 0 |
+| ashfall | 0 |
+| agent-drift-detector | 0 |
+| toolforge-drift-monitor | 0 |
+| _cic-shared | 0 |
+| html-visual-verify | 0 |
+| context-manager | 0 |
 | cic-repair-pipeline | 0 |
-| cic-consolidate-artifacts | 0 |
+| toolforge-registry-manager | 0 |
 | kb-sync-nightly | 0 |
+| rewrite-labs-orchestrator | 0 |
+| permission-governor | 0 |
+| session-wrap | 0 |
+| tool-lifecycle-manager | 0 |
+| toolforge-submission-validator | 0 |
+| operator-image-build | 0 |
+| run-adapter-diagnostic | 0 |
+| cic-section-summarizer | 0 |
+| reconcile-vector-store | 0 |
 | roadmap-validator | 0 |
 | obsidian-ingest-wiki | 0 |
-| cic-section-summarizer | 0 |
-| cic-orchestrate-flow | 0 |
-| toolforge-submission-validator | 0 |
-| session-wrap | 0 |
-| cic-run-gate | 0 |
-| context-manager | 0 |
-| rewrite-labs-orchestrator | 0 |
-| html-visual-verify | 0 |
-| agent-drift-detector | 0 |
-| toolforge-registry-manager | 0 |
-| toolforge-drift-monitor | 0 |
-| analyze-token-burn | 0 |
-| automation-audit | 0 |
-| tool-lifecycle-manager | 0 |
-| scale-ingestion-service | 0 |
-| kb-sync-artifact-generator | 0 |
-| ashfall | 0 |
-| permission-governor | 0 |
-| run-adapter-diagnostic | 0 |
-| reconcile-vector-store | 0 |
-| rollback-phase | 0 |
-| cic-roadmap-updater | 0 |
-| _cic-shared | 0 |
-| operator-image-build | 0 |
-| work-summarizer | 0 |
+| cic-consolidate-artifacts | 0 |
+| skill-health-monitor | 0 |
 | plan-extractor-integration | 0 |
+| cic-roadmap-updater | 0 |
+| automation-audit | 0 |
+| kb-sync-artifact-generator | 0 |
+| cic-ingest-world | 0 |
 
 ---
 

@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-19T00:34:21.8255068Z
+**Generated**: 2026-07-19T01:21:05.5444104Z
 
 ---
 
@@ -113,9 +113,9 @@
 ⚠️ **context-manager**: Category mismatch: canonical 'utilities', distributed 'utility'
 ⚠️ **html-visual-verify**: Directory missing in distributed
 ⚠️ **kb-sync-artifact-generator**: Directory missing in distributed
-⚠️ **kb-sync-nightly**: Version mismatch: canonical 1.0.2, distributed 1.0.0
-⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
+⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
+⚠️ **kb-sync-nightly**: Version mismatch: canonical 1.0.2, distributed 1.0.0
 ⚠️ **obsidian-ingest-wiki**: Directory missing in distributed
 ⚠️ **session-wrap**: Directory missing in distributed
 ⚠️ **skill-health-monitor**: Directory missing in distributed

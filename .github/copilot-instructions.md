@@ -9,11 +9,16 @@
 
 
 
+
+
+
+
+
 <!-- github-copilot-toolbox:mcp-skills-awareness-begin -->
 
 ### MCP & Skills awareness (GitHub Copilot Toolbox)
 
-_Last synced: 2026-07-17T04:37:54.650Z._
+_Last synced: 2026-07-19T03:14:46.729Z._
 
 - **Full report:** `.github/copilot-toolbox-mcp-skills-awareness.md` in this workspace (auto-overwritten on each scan). Use it as ground truth for configured servers and skill folders.
 - **MCP:** For **live tools**, use **Copilot Chat → Agent** and **trust/start** the right servers in the MCP UI.
@@ -36,7 +41,13 @@ _No active workspace servers in mcp.json._
 
 #### Project skills
 
-_None found (or no workspace open)._
+- **ci-triage** — `c:\dev\.claude\skills\ci-triage` — Use when a CI/GitHub-Actions failure is reported (by the user, an email summary, another tool, or a pasted "analysis") before proposing or applying any fix. Verifies the claim against real gh run logs, reproduces the roo
+
+- **db-migrate** — `c:\dev\.claude\skills\db-migrate` — Generate, review, validate, and manage PostgreSQL migrations with confidence.
+
+- **play-e2e** — `c:\dev\.claude\skills\play-e2e` — Run, debug, and manage Playwright snapshot tests in rewrite-docs.
+
+- **workflow-lint** — `c:\dev\.claude\skills\workflow-lint` — Scan GitHub Actions workflow YAML across one or all local repos for known deprecated-action versions, retired runner images, and PowerShell scripting footguns before they cause a live CI failure. Run before a release wav
 
 #### User skills
 
@@ -167,5 +178,59 @@ _None found (or no workspace open)._
 - **caveman-review** — `C:\Users\soren\.agents\skills\caveman-review` — >
 
 - **caveman-stats** — `C:\Users\soren\.agents\skills\caveman-stats` — >
+
+- **gstack** — `C:\Users\soren\.agents\skills\gstack` — |
+
+- **gstack-autoplan** — `C:\Users\soren\.agents\skills\gstack-autoplan` — |
+
+- **gstack-benchmark** — `C:\Users\soren\.agents\skills\gstack-benchmark` — |
+
+- **gstack-browse** — `C:\Users\soren\.agents\skills\gstack-browse` — |
+
+- **gstack-canary** — `C:\Users\soren\.agents\skills\gstack-canary` — |
+
+- **gstack-careful** — `C:\Users\soren\.agents\skills\gstack-careful` — |
+
+- **gstack-cso** — `C:\Users\soren\.agents\skills\gstack-cso` — |
+
+- **gstack-design-consultation** — `C:\Users\soren\.agents\skills\gstack-design-consultation` — |
+
+- **gstack-design-review** — `C:\Users\soren\.agents\skills\gstack-design-review` — |
+
+- **gstack-document-release** — `C:\Users\soren\.agents\skills\gstack-document-release` — |
+
+- **gstack-freeze** — `C:\Users\soren\.agents\skills\gstack-freeze` — |
+
+- **gstack-guard** — `C:\Users\soren\.agents\skills\gstack-guard` — |
+
+- **gstack-investigate** — `C:\Users\soren\.agents\skills\gstack-investigate` — |
+
+- **gstack-land-and-deploy** — `C:\Users\soren\.agents\skills\gstack-land-and-deploy` — |
+
+- **gstack-office-hours** — `C:\Users\soren\.agents\skills\gstack-office-hours` — |
+
+- **gstack-plan-ceo-review** — `C:\Users\soren\.agents\skills\gstack-plan-ceo-review` — |
+
+- **gstack-plan-design-review** — `C:\Users\soren\.agents\skills\gstack-plan-design-review` — |
+
+- **gstack-plan-eng-review** — `C:\Users\soren\.agents\skills\gstack-plan-eng-review` — |
+
+- **gstack-qa** — `C:\Users\soren\.agents\skills\gstack-qa` — |
+
+- **gstack-qa-only** — `C:\Users\soren\.agents\skills\gstack-qa-only` — |
+
+- **gstack-retro** — `C:\Users\soren\.agents\skills\gstack-retro` — |
+
+- **gstack-review** — `C:\Users\soren\.agents\skills\gstack-review` — |
+
+- **gstack-setup-browser-cookies** — `C:\Users\soren\.agents\skills\gstack-setup-browser-cookies` — |
+
+- **gstack-setup-deploy** — `C:\Users\soren\.agents\skills\gstack-setup-deploy` — |
+
+- **gstack-ship** — `C:\Users\soren\.agents\skills\gstack-ship` — |
+
+- **gstack-unfreeze** — `C:\Users\soren\.agents\skills\gstack-unfreeze` — |
+
+- **gstack-upgrade** — `C:\Users\soren\.agents\skills\gstack-upgrade` — |
 
 <!-- github-copilot-toolbox:mcp-skills-awareness-end -->
