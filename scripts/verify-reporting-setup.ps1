@@ -101,6 +101,23 @@ if ($coworkFound) {
 # Store cowork path for later use
 $results.cowork_path = $coworkPath
 
+# Test 6: Timezone verification
+Write-Host "Test 6: Timezone for schedule skill..."
+$tzInfo = [System.TimeZoneInfo]::Local
+$utcNow = [System.DateTime]::UtcNow
+$localNow = [System.TimeZoneInfo]::ConvertTimeFromUtc($utcNow, $tzInfo)
+$offset = $tzInfo.GetUtcOffset($localNow)
+
+Test-Result "timezone-detected" $true "TZ: $($tzInfo.Id), Offset: $($offset.ToString())"
+
+# Note: Schedule skill should use user's local TZ, not UTC
+# Verify with: schedule skill documentation or test run
+$results.timezone = @{
+    id = $tzInfo.Id
+    offset = $offset.ToString()
+    note = "Verify with /schedule skill that 6 AM = local time, not UTC"
+}
+
 # Output results
 $resultsJson = $results | ConvertTo-Json -Depth 10
 Write-Output $resultsJson
