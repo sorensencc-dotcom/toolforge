@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2.12.2
+Date: 2026-07-19
+
+### Changes
+- 53050d7 - docs: books-for-bots TRM integration plan (Phase A approved, Phase B deferred) (Chris Sorensen)
+- 115e3ec - test(phase0): add cowork daemon log validation (Chris Sorensen)
+- 5d75318 - test(phase0): add reporting setup verification script (Chris Sorensen)
+- 339e4b3 - docs: add daily/weekly reporting implementation plan with 20 tasks (Chris Sorensen)
+- 6de81df - scope: add cowork activity to daily/weekly reports (Chris Sorensen)
+- 9363b86 - refine: address caveman-review findings in daily/weekly report spec (Chris Sorensen)
+- df13379 - docs: daily/weekly report system design spec (Chris Sorensen)
+- 48504e1 - docs: move platform roadmap to governed location (Chris Sorensen)
+- b36e7c3 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- 4360f34 - docs: full roadmap sync — Phase 3 TRM + Phase 4 Marketplace status (Chris Sorensen)
+
 ## Version 2.12.1
 Date: 2026-07-19
 
