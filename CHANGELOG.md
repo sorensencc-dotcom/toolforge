@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.12.1
+Date: 2026-07-19
+
+### Changes
+- 47ad1c4 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- 11aacd2 - chore: cowork sync + audit reports (Chris Sorensen)
+
 ## Version 2.12.0
 Date: 2026-07-19
 
