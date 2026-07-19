@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-17T15:11:44.3280394Z
+**Generated**: 2026-07-19T00:34:21.8255068Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 6 | 22 | 0 | ❌ |
-| Distributed | 0 | 20 | 0 | ✅ |
-| Manifest | 2 | 86 | 0 | ❌ |
-| Cowork | 0 | 35 | 0 | ✅ |
-| Dependencies | 4 | 3 | 0 | ❌ |
-| Runtime | 1 | 0 | 34 | ❌ |
+| Canonical | 9 | 23 | 0 | ❌ |
+| Distributed | 0 | 21 | 0 | ✅ |
+| Manifest | 2 | 89 | 0 | ❌ |
+| Cowork | 0 | 36 | 0 | ✅ |
+| Dependencies | 5 | 3 | 0 | ❌ |
+| Runtime | 1 | 0 | 35 | ❌ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
-**Total Errors**: 13
-**Total Warnings**: 166
+**Total Errors**: 17
+**Total Warnings**: 172
 
 **Overall Status**: ❌ FAIL
 
@@ -34,6 +34,7 @@
 | automation-audit | Automation Audit | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | cic-consolidate-artifacts | CIC Consolidate Artifacts | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | cic-ingest-world | CIC Ingest World | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| cic-orchestrate-flow | CIC Orchestrate Flow | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | cic-repair-pipeline | CIC Repair Pipeline | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | cic-roadmap-updater | CIC Roadmap Updater | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-run-gate | CIC Run Gate | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
@@ -76,6 +77,10 @@
 ⚠️ **automation-audit**: Invalid category: operations
 ⚠️ **cic-consolidate-artifacts**: Invalid category: governance
 ⚠️ **cic-ingest-world**: Invalid category: governance
+❌ **cic-orchestrate-flow**: Missing: SKILL.md
+❌ **cic-orchestrate-flow**: Missing: README.md
+❌ **cic-orchestrate-flow**: Missing: INTEGRATION_DIAGRAM.md
+⚠️ **cic-orchestrate-flow**: Invalid category: governance
 ⚠️ **cic-repair-pipeline**: Invalid category: governance
 ⚠️ **cic-run-gate**: Invalid category: governance
 ⚠️ **kb-sync-artifact-generator**: Invalid category: governance
@@ -102,14 +107,15 @@
 ⚠️ **automation-audit**: Directory missing in distributed
 ⚠️ **cic-consolidate-artifacts**: Directory missing in distributed
 ⚠️ **cic-ingest-world**: Directory missing in distributed
+⚠️ **cic-orchestrate-flow**: Directory missing in distributed
 ⚠️ **cic-repair-pipeline**: Directory missing in distributed
 ⚠️ **cic-run-gate**: Directory missing in distributed
 ⚠️ **context-manager**: Category mismatch: canonical 'utilities', distributed 'utility'
 ⚠️ **html-visual-verify**: Directory missing in distributed
 ⚠️ **kb-sync-artifact-generator**: Directory missing in distributed
-⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
-⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **kb-sync-nightly**: Version mismatch: canonical 1.0.2, distributed 1.0.0
+⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
+⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
 ⚠️ **obsidian-ingest-wiki**: Directory missing in distributed
 ⚠️ **session-wrap**: Directory missing in distributed
 ⚠️ **skill-health-monitor**: Directory missing in distributed
@@ -138,11 +144,14 @@
 ⚠️ **cic-ingest-world**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-ingest-world**: Invalid category in manifest: governance
 ⚠️ **cic-ingest-world**: Path mismatch: expected 'skills/cic-ingest-world', got ''
-⚠️ **cic-repair-pipeline**: Path mismatch: expected 'skills/cic-repair-pipeline', got ''
-⚠️ **cic-repair-pipeline**: Invalid category in manifest: governance
+⚠️ **cic-orchestrate-flow**: Path mismatch: expected 'skills/cic-orchestrate-flow', got ''
+⚠️ **cic-orchestrate-flow**: Invalid category in manifest: governance
+⚠️ **cic-orchestrate-flow**: Tags mismatch: canonical '', manifest 'cic, governance, phase3, orchestration'
 ⚠️ **cic-repair-pipeline**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
-⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
+⚠️ **cic-repair-pipeline**: Invalid category in manifest: governance
+⚠️ **cic-repair-pipeline**: Path mismatch: expected 'skills/cic-repair-pipeline', got ''
 ⚠️ **cic-roadmap-updater**: Tags mismatch: canonical '', manifest 'roadmap, planning, versioning'
+⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
 ⚠️ **cic-run-gate**: Tags mismatch: canonical '', manifest 'cic, governance, phase1, gate'
 ⚠️ **cic-run-gate**: Invalid category in manifest: governance
 ⚠️ **cic-run-gate**: Path mismatch: expected 'skills/cic-run-gate', got ''
@@ -151,15 +160,15 @@
 ⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
 ⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
 ⚠️ **html-visual-verify**: Path mismatch: expected 'skills/html-visual-verify', got ''
-⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
-⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
 ⚠️ **kb-sync-artifact-generator**: Invalid category in manifest: governance
-⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
-⚠️ **kb-sync-nightly**: Invalid category in manifest: governance
+⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
+⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ❌ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', manifest 'governance'
 ⚠️ **kb-sync-nightly**: Description mismatch: canonical 'Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\dev\kb-sync.', manifest 'Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.'
 ⚠️ **kb-sync-nightly**: Runtime mismatch: canonical typescript, manifest bash
 ❌ **kb-sync-nightly**: Version mismatch: canonical 1.0.2, manifest 1.0.0
+⚠️ **kb-sync-nightly**: Invalid category in manifest: governance
+⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
 ⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
 ⚠️ **obsidian-ingest-wiki**: Tags mismatch: canonical '', manifest 'obsidian, wiki, synthesis, lvm-pattern'
 ⚠️ **obsidian-ingest-wiki**: Invalid category in manifest: knowledge-base
@@ -169,34 +178,34 @@
 ⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
 ⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
 ⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
-⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
 ⚠️ **plan-extractor-integration**: Path mismatch: expected 'skills/plan-extractor-integration', got ''
-⚠️ **pre-wrap-audit**: Invalid category in manifest: session-management
+⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
 ⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
+⚠️ **pre-wrap-audit**: Invalid category in manifest: session-management
 ⚠️ **pre-wrap-audit**: Path mismatch: expected 'skills/pre-wrap-audit', got ''
 ⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
-⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
 ⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
+⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
 ⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
 ⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
-⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
-⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
 ⚠️ **roadmap-validator**: Invalid category in manifest: governance
+⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
+⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
 ⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
 ⚠️ **rollback-phase**: Invalid category in manifest: pipeline
 ⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
-⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
 ⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
-⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
+⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
 ⚠️ **scale-ingestion-service**: Invalid category in manifest: pipeline
+⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
 ⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
 ⚠️ **session-wrap**: Tags mismatch: canonical '', manifest 'session-wrap, git-commit, documentation, atomic-commit'
 ⚠️ **session-wrap**: Invalid category in manifest: session-management
 ⚠️ **session-wrap**: Path mismatch: expected 'skills/session-wrap', got ''
-⚠️ **skill-health-monitor**: Tags mismatch: canonical '', manifest 'skill-health, manifest-audit, staleness, inventory'
 ⚠️ **skill-health-monitor**: Path mismatch: expected 'skills/skill-health-monitor', got ''
-⚠️ **skill-security-auditor**: Path mismatch: expected 'skills/skill-security-auditor', got ''
+⚠️ **skill-health-monitor**: Tags mismatch: canonical '', manifest 'skill-health, manifest-audit, staleness, inventory'
 ⚠️ **skill-security-auditor**: Runtime mismatch: canonical python, manifest 
+⚠️ **skill-security-auditor**: Path mismatch: expected 'skills/skill-security-auditor', got ''
 ⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
 ⚠️ **tool-lifecycle-manager**: Invalid category in manifest: pipeline
 ⚠️ **toolforge-cli**: Invalid category in manifest: utility
@@ -207,8 +216,8 @@
 ⚠️ **toolforge-submission-validator**: Path mismatch: expected 'skills/toolforge-submission-validator', got ''
 ⚠️ **toolforge-submission-validator**: Invalid category in manifest: governance
 ⚠️ **work-summarizer**: Tags mismatch: canonical '', manifest ''
-⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
 ⚠️ **work-summarizer**: Invalid category in manifest: observability
+⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
 
 ## Cowork Validation
 
@@ -219,6 +228,7 @@
 ⚠️ **automation-audit**: Not registered (installer will register on next run)
 ⚠️ **cic-consolidate-artifacts**: Not registered (installer will register on next run)
 ⚠️ **cic-ingest-world**: Not registered (installer will register on next run)
+⚠️ **cic-orchestrate-flow**: Not registered (installer will register on next run)
 ⚠️ **cic-repair-pipeline**: Not registered (installer will register on next run)
 ⚠️ **cic-roadmap-updater**: Not registered (installer will register on next run)
 ⚠️ **cic-run-gate**: Not registered (installer will register on next run)
@@ -252,6 +262,7 @@
 
 ❌ **cic-consolidate-artifacts**: Internal dependencies mismatch: canonical '', manifest '_cic-shared'
 ❌ **cic-ingest-world**: Internal dependencies mismatch: canonical '', manifest '_cic-shared'
+❌ **cic-orchestrate-flow**: Internal dependencies mismatch: canonical '', manifest '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate'
 ❌ **cic-repair-pipeline**: Internal dependencies mismatch: canonical '', manifest '_cic-shared'
 ❌ **cic-run-gate**: Internal dependencies mismatch: canonical '', manifest '_cic-shared'
 ⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
@@ -267,6 +278,7 @@
 ℹ️ **automation-audit**: Skill inactive (status: )
 ℹ️ **cic-consolidate-artifacts**: Skill inactive (status: )
 ℹ️ **cic-ingest-world**: Skill inactive (status: )
+ℹ️ **cic-orchestrate-flow**: Skill inactive (status: )
 ℹ️ **cic-repair-pipeline**: Skill inactive (status: )
 ℹ️ **cic-roadmap-updater**: Skill inactive (status: )
 ℹ️ **cic-run-gate**: Skill inactive (status: )

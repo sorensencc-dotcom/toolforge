@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-17T15:13:51.4311467Z
+**Generated:** 2026-07-19T00:34:52.6387542Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 218 | 26 | 1 | 245 |
-| % Pass | 89% | 10.6% | 0.4% | 100% |
+| **Totals** | 223 | 28 | 1 | 252 |
+| % Pass | 88.5% | 11.1% | 0.4% | 100% |
 
 ---
 
@@ -100,6 +100,18 @@
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ⚠️ WARN | No runtime history in audit log |
 | SkillMD | ✅ PASS | Frontmatter valid |
+
+### cic-orchestrate-flow — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ⚠️ WARN | SKILL.md not found |
 
 ### cic-repair-pipeline — ⚠️ WARN
 
@@ -464,6 +476,7 @@ Skills with warnings but no failures:
 - automation-audit
 - cic-consolidate-artifacts
 - cic-ingest-world
+- cic-orchestrate-flow
 - cic-repair-pipeline
 - cic-roadmap-updater
 - cic-run-gate

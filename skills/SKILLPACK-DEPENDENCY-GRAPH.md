@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-17T15:13:26.7283797Z
+**Generated:** 2026-07-19T00:34:49.9205370Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 35 |
+| Total Skills | 36 |
 | Total Dependencies | 3 |
 | Max Depth | 1 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 32 |
+| Orphan Skills | 33 |
 
 ---
 
@@ -60,6 +60,12 @@
 | *(none)* | — | Leaf node |
 
 ### cic-ingest-world
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### cic-orchestrate-flow
 
 | Dependency | Type | Status |
 |------------|------|--------|
@@ -260,6 +266,9 @@ No inbound dependencies (root skill)\n
 ### cic-ingest-world
 
 No inbound dependencies (root skill)\n
+### cic-orchestrate-flow
+
+No inbound dependencies (root skill)\n
 ### cic-repair-pipeline
 
 No inbound dependencies (root skill)\n
@@ -359,40 +368,41 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| skill-security-auditor | 1 |
-| toolforge-cli | 1 |
 | pre-wrap-audit | 1 |
-| agent-drift-detector | 0 |
-| cic-consolidate-artifacts | 0 |
-| cic-run-gate | 0 |
-| ashfall | 0 |
+| toolforge-cli | 1 |
 | cic-ingest-world | 0 |
-| cic-roadmap-updater | 0 |
-| toolforge-drift-monitor | 0 |
-| kb-sync-artifact-generator | 0 |
-| plan-extractor-integration | 0 |
-| cic-repair-pipeline | 0 |
-| obsidian-ingest-wiki | 0 |
-| run-adapter-diagnostic | 0 |
-| permission-governor | 0 |
-| tool-lifecycle-manager | 0 |
-| analyze-token-burn | 0 |
-| scale-ingestion-service | 0 |
-| operator-image-build | 0 |
-| roadmap-validator | 0 |
-| cic-section-summarizer | 0 |
-| automation-audit | 0 |
-| session-wrap | 0 |
-| html-visual-verify | 0 |
-| kb-sync-nightly | 0 |
 | skill-health-monitor | 0 |
-| rewrite-labs-orchestrator | 0 |
-| context-manager | 0 |
-| rollback-phase | 0 |
-| work-summarizer | 0 |
-| toolforge-registry-manager | 0 |
+| cic-repair-pipeline | 0 |
+| cic-consolidate-artifacts | 0 |
+| kb-sync-nightly | 0 |
+| roadmap-validator | 0 |
+| obsidian-ingest-wiki | 0 |
+| cic-section-summarizer | 0 |
+| cic-orchestrate-flow | 0 |
 | toolforge-submission-validator | 0 |
-| _cic-shared | 0 |
+| session-wrap | 0 |
+| cic-run-gate | 0 |
+| context-manager | 0 |
+| rewrite-labs-orchestrator | 0 |
+| html-visual-verify | 0 |
+| agent-drift-detector | 0 |
+| toolforge-registry-manager | 0 |
+| toolforge-drift-monitor | 0 |
+| analyze-token-burn | 0 |
+| automation-audit | 0 |
+| tool-lifecycle-manager | 0 |
+| scale-ingestion-service | 0 |
+| kb-sync-artifact-generator | 0 |
+| ashfall | 0 |
+| permission-governor | 0 |
+| run-adapter-diagnostic | 0 |
 | reconcile-vector-store | 0 |
+| rollback-phase | 0 |
+| cic-roadmap-updater | 0 |
+| _cic-shared | 0 |
+| operator-image-build | 0 |
+| work-summarizer | 0 |
+| plan-extractor-integration | 0 |
 
 ---
 
@@ -417,6 +427,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | automation-audit |
 | cic-consolidate-artifacts |
 | cic-ingest-world |
+| cic-orchestrate-flow |
 | cic-repair-pipeline |
 | cic-roadmap-updater |
 | cic-run-gate |
@@ -452,7 +463,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 32 orphan skill(s) |
+| Orphans | ⚠️ WARN | 33 orphan skill(s) |
 
 ---
 

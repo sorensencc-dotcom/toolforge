@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-17T15:13:38.9309392Z
+**Generated:** 2026-07-19T00:34:50.4678850Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 35 | 100% |
-| Active | 35 | 100% |
+| **Total Skills** | 36 | 100% |
+| Active | 36 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 20 | 57.1% |
-| ⚠️ Warning | 15 | 42.9% |
+| ✅ Good | 20 | 55.6% |
+| ⚠️ Warning | 16 | 44.4% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -62,7 +62,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### ashfall
 
@@ -75,7 +75,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### automation-audit
 
@@ -108,6 +108,19 @@
 | Field | Value |
 |-------|-------|
 | Name | CIC Ingest World |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### cic-orchestrate-flow
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Orchestrate Flow |
 | Category | governance |
 | Version | 1.0.0 |
 | Owner | unknown |
@@ -218,7 +231,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### obsidian-ingest-wiki
 
@@ -244,7 +257,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### permission-governor
 
@@ -283,7 +296,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 1 internal, 0 external |
 ### reconcile-vector-store
 
@@ -296,7 +309,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### rewrite-labs-orchestrator
 
@@ -322,7 +335,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### rollback-phase
 
@@ -335,7 +348,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### run-adapter-diagnostic
 
@@ -348,7 +361,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### scale-ingestion-service
 
@@ -361,7 +374,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### session-wrap
 
@@ -413,7 +426,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### toolforge-cli
 
@@ -439,7 +452,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### toolforge-registry-manager
 
@@ -478,7 +491,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 
 ---

@@ -1,10 +1,10 @@
 # Cowork Registered Skills
 
-**Last Sync:** 2026-07-17T15:13:18.8518014Z
+**Last Sync:** 2026-07-19T00:34:49.1457239Z
 
-**Registered:** 0
+**Registered:** 2
 **Updated:** 0
-**Total:** 35
+**Total:** 36
 
 ---
 
@@ -17,6 +17,7 @@
 | automation-audit | 1.0.0 | active | operations | — |
 | cic-consolidate-artifacts | 1.0.0 | active | governance | — |
 | cic-ingest-world | 1.0.0 | active | governance | — |
+| cic-orchestrate-flow | 1.0.0 | active | governance | — |
 | cic-repair-pipeline | 1.0.0 | active | governance | — |
 | cic-roadmap-updater | 1.0.0 | active | analysis | — |
 | cic-run-gate | 1.0.0 | active | governance | — |
@@ -49,79 +50,81 @@
 
 ## Sync History
 
-- **2026-07-17T15:13:20.6357139Z** [INFO] Scanned: _cic-shared (v1.0.0)
-- **2026-07-17T15:13:20.7560301Z** [INFO] Scanned: agent-drift-detector (v1.0.0)
-- **2026-07-17T15:13:20.7644048Z** [INFO] Scanned: analyze-token-burn (v1.0.0)
-- **2026-07-17T15:13:20.7689697Z** [INFO] Scanned: ashfall (v1.0.0)
-- **2026-07-17T15:13:20.7744825Z** [INFO] Scanned: automation-audit (v1.0.0)
-- **2026-07-17T15:13:20.7792891Z** [INFO] Scanned: cic-consolidate-artifacts (v1.0.0)
-- **2026-07-17T15:13:20.7823812Z** [INFO] Scanned: cic-ingest-world (v1.0.0)
-- **2026-07-17T15:13:20.7860991Z** [INFO] Scanned: cic-repair-pipeline (v1.0.0)
-- **2026-07-17T15:13:20.7893489Z** [INFO] Scanned: cic-roadmap-updater (v1.0.0)
-- **2026-07-17T15:13:20.7941355Z** [INFO] Scanned: cic-run-gate (v1.0.0)
-- **2026-07-17T15:13:20.7976179Z** [INFO] Scanned: cic-section-summarizer (v1.0.0)
-- **2026-07-17T15:13:20.8003164Z** [INFO] Scanned: context-manager (v1.0.0)
-- **2026-07-17T15:13:21.3290445Z** [INFO] Scanned: html-visual-verify (v1.0.0)
-- **2026-07-17T15:13:21.6369281Z** [INFO] Scanned: kb-sync-artifact-generator (v1.0.0)
-- **2026-07-17T15:13:22.1810956Z** [INFO] Scanned: kb-sync-nightly (v1.0.2)
-- **2026-07-17T15:13:22.5697872Z** [INFO] Scanned: obsidian-ingest-wiki (v1.0.0)
-- **2026-07-17T15:13:22.7856551Z** [INFO] Scanned: operator-image-build (v1.0.0)
-- **2026-07-17T15:13:22.9461012Z** [INFO] Scanned: permission-governor (v1.0.0)
-- **2026-07-17T15:13:23.0266660Z** [INFO] Scanned: plan-extractor-integration (v1.0.0)
-- **2026-07-17T15:13:23.1716388Z** [INFO] Scanned: pre-wrap-audit (v1.0.0)
-- **2026-07-17T15:13:23.2366906Z** [INFO] Scanned: reconcile-vector-store (v1.0.0)
-- **2026-07-17T15:13:23.7553705Z** [INFO] Scanned: rewrite-labs-orchestrator (v1.0.0)
-- **2026-07-17T15:13:24.1826198Z** [INFO] Scanned: roadmap-validator (v1.0.0)
-- **2026-07-17T15:13:24.3151193Z** [INFO] Scanned: rollback-phase (v1.0.0)
-- **2026-07-17T15:13:24.3223338Z** [INFO] Scanned: run-adapter-diagnostic (v1.0.0)
-- **2026-07-17T15:13:24.4304560Z** [INFO] Scanned: scale-ingestion-service (v1.0.0)
-- **2026-07-17T15:13:24.4769533Z** [INFO] Scanned: session-wrap (v1.1.0)
-- **2026-07-17T15:13:24.4965392Z** [INFO] Scanned: skill-health-monitor (v1.0.0)
-- **2026-07-17T15:13:24.5161466Z** [INFO] Scanned: skill-security-auditor (v1.0.0)
-- **2026-07-17T15:13:24.5409545Z** [INFO] Scanned: tool-lifecycle-manager (v0.1.0)
-- **2026-07-17T15:13:24.5449553Z** [INFO] Scanned: toolforge-cli (v0.1.0)
-- **2026-07-17T15:13:24.5715015Z** [INFO] Scanned: toolforge-drift-monitor (v0.1.0)
-- **2026-07-17T15:13:24.5866410Z** [INFO] Scanned: toolforge-registry-manager (v0.1.0)
-- **2026-07-17T15:13:24.5974155Z** [INFO] Scanned: toolforge-submission-validator (v0.1.0)
-- **2026-07-17T15:13:24.6286884Z** [INFO] Scanned: work-summarizer (v4.0.0)
-- **2026-07-17T15:13:24.7416154Z** [INFO] Phase 1 complete: 35 skills scanned
-- **2026-07-17T15:13:24.8454871Z** [INFO] Loaded Cowork registry: 35 entries
-- **2026-07-17T15:13:24.8616460Z** [INFO] Skill up-to-date: skill-health-monitor
-- **2026-07-17T15:13:24.8777389Z** [INFO] Skill up-to-date: toolforge-submission-validator
-- **2026-07-17T15:13:24.8798489Z** [INFO] Skill up-to-date: scale-ingestion-service
-- **2026-07-17T15:13:24.8804873Z** [INFO] Skill up-to-date: work-summarizer
-- **2026-07-17T15:13:24.8813528Z** [INFO] Skill up-to-date: rollback-phase
-- **2026-07-17T15:13:24.8822928Z** [INFO] Skill up-to-date: automation-audit
-- **2026-07-17T15:13:24.8924497Z** [INFO] Skill up-to-date: rewrite-labs-orchestrator
-- **2026-07-17T15:13:24.8931470Z** [INFO] Skill up-to-date: analyze-token-burn
-- **2026-07-17T15:13:24.8947137Z** [INFO] Skill up-to-date: agent-drift-detector
-- **2026-07-17T15:13:24.8962967Z** [INFO] Skill up-to-date: plan-extractor-integration
-- **2026-07-17T15:13:24.8975017Z** [INFO] Skill up-to-date: html-visual-verify
-- **2026-07-17T15:13:24.8981180Z** [INFO] Skill up-to-date: toolforge-cli
-- **2026-07-17T15:13:24.9125524Z** [INFO] Skill up-to-date: skill-security-auditor
-- **2026-07-17T15:13:24.9132644Z** [INFO] Skill up-to-date: session-wrap
-- **2026-07-17T15:13:24.9141187Z** [INFO] Skill up-to-date: toolforge-registry-manager
-- **2026-07-17T15:13:24.9147688Z** [INFO] Skill up-to-date: _cic-shared
-- **2026-07-17T15:13:24.9689672Z** [INFO] Skill up-to-date: cic-section-summarizer
-- **2026-07-17T15:13:24.9699821Z** [INFO] Skill up-to-date: operator-image-build
-- **2026-07-17T15:13:25.0007751Z** [INFO] Skill up-to-date: cic-run-gate
-- **2026-07-17T15:13:25.1019073Z** [INFO] Skill up-to-date: pre-wrap-audit
-- **2026-07-17T15:13:25.2427519Z** [INFO] Skill up-to-date: cic-consolidate-artifacts
-- **2026-07-17T15:13:25.4006865Z** [INFO] Skill up-to-date: context-manager
-- **2026-07-17T15:13:25.4552202Z** [INFO] Skill up-to-date: ashfall
-- **2026-07-17T15:13:25.4682274Z** [INFO] Skill up-to-date: cic-ingest-world
-- **2026-07-17T15:13:25.4763116Z** [INFO] Skill up-to-date: cic-roadmap-updater
-- **2026-07-17T15:13:25.4771502Z** [INFO] Skill up-to-date: toolforge-drift-monitor
-- **2026-07-17T15:13:25.4817758Z** [INFO] Skill up-to-date: tool-lifecycle-manager
-- **2026-07-17T15:13:25.4828362Z** [INFO] Skill up-to-date: kb-sync-artifact-generator
-- **2026-07-17T15:13:25.4843924Z** [INFO] Skill up-to-date: kb-sync-nightly
-- **2026-07-17T15:13:25.4949677Z** [INFO] Skill up-to-date: cic-repair-pipeline
-- **2026-07-17T15:13:25.4964091Z** [INFO] Skill up-to-date: obsidian-ingest-wiki
-- **2026-07-17T15:13:25.4971342Z** [INFO] Skill up-to-date: run-adapter-diagnostic
-- **2026-07-17T15:13:25.5694623Z** [INFO] Skill up-to-date: permission-governor
-- **2026-07-17T15:13:25.6532665Z** [INFO] Skill up-to-date: roadmap-validator
-- **2026-07-17T15:13:25.7236479Z** [INFO] Skill up-to-date: reconcile-vector-store
-- **2026-07-17T15:13:25.7280047Z** [INFO] Phase 3 complete: 0 registered, 0 updated
+- **2026-07-19T00:34:49.2614408Z** [INFO] Scanned: _cic-shared (v1.0.0)
+- **2026-07-19T00:34:49.2716855Z** [INFO] Scanned: agent-drift-detector (v1.0.0)
+- **2026-07-19T00:34:49.2801718Z** [INFO] Scanned: analyze-token-burn (v1.0.0)
+- **2026-07-19T00:34:49.2860476Z** [INFO] Scanned: ashfall (v1.0.0)
+- **2026-07-19T00:34:49.2946020Z** [INFO] Scanned: automation-audit (v1.0.0)
+- **2026-07-19T00:34:49.3079894Z** [INFO] Scanned: cic-consolidate-artifacts (v1.0.0)
+- **2026-07-19T00:34:49.3111538Z** [INFO] Scanned: cic-ingest-world (v1.0.0)
+- **2026-07-19T00:34:49.3141354Z** [INFO] Scanned: cic-orchestrate-flow (v1.0.0)
+- **2026-07-19T00:34:49.3173620Z** [INFO] Scanned: cic-repair-pipeline (v1.0.0)
+- **2026-07-19T00:34:49.3306930Z** [INFO] Scanned: cic-roadmap-updater (v1.0.0)
+- **2026-07-19T00:34:49.3404244Z** [INFO] Scanned: cic-run-gate (v1.0.0)
+- **2026-07-19T00:34:49.3441637Z** [INFO] Scanned: cic-section-summarizer (v1.0.0)
+- **2026-07-19T00:34:49.3480934Z** [INFO] Scanned: context-manager (v1.0.0)
+- **2026-07-19T00:34:49.3575740Z** [INFO] Scanned: html-visual-verify (v1.0.0)
+- **2026-07-19T00:34:49.3615073Z** [INFO] Scanned: kb-sync-artifact-generator (v1.0.0)
+- **2026-07-19T00:34:49.3660979Z** [INFO] Scanned: kb-sync-nightly (v1.0.2)
+- **2026-07-19T00:34:49.3729527Z** [INFO] Scanned: obsidian-ingest-wiki (v1.0.0)
+- **2026-07-19T00:34:49.3785131Z** [INFO] Scanned: operator-image-build (v1.0.0)
+- **2026-07-19T00:34:49.3915796Z** [INFO] Scanned: permission-governor (v1.0.0)
+- **2026-07-19T00:34:49.3958702Z** [INFO] Scanned: plan-extractor-integration (v1.0.0)
+- **2026-07-19T00:34:49.4098288Z** [INFO] Scanned: pre-wrap-audit (v1.0.0)
+- **2026-07-19T00:34:49.4311126Z** [INFO] Scanned: reconcile-vector-store (v1.0.0)
+- **2026-07-19T00:34:49.4580833Z** [INFO] Scanned: rewrite-labs-orchestrator (v1.0.0)
+- **2026-07-19T00:34:49.4977170Z** [INFO] Scanned: roadmap-validator (v1.0.0)
+- **2026-07-19T00:34:49.5042588Z** [INFO] Scanned: rollback-phase (v1.0.0)
+- **2026-07-19T00:34:49.5320762Z** [INFO] Scanned: run-adapter-diagnostic (v1.0.0)
+- **2026-07-19T00:34:49.5446786Z** [INFO] Scanned: scale-ingestion-service (v1.0.0)
+- **2026-07-19T00:34:49.5499635Z** [INFO] Scanned: session-wrap (v1.1.0)
+- **2026-07-19T00:34:49.5582983Z** [INFO] Scanned: skill-health-monitor (v1.0.0)
+- **2026-07-19T00:34:49.5697327Z** [INFO] Scanned: skill-security-auditor (v1.0.0)
+- **2026-07-19T00:34:49.5756781Z** [INFO] Scanned: tool-lifecycle-manager (v0.1.0)
+- **2026-07-19T00:34:49.5796478Z** [INFO] Scanned: toolforge-cli (v0.1.0)
+- **2026-07-19T00:34:49.5854866Z** [INFO] Scanned: toolforge-drift-monitor (v0.1.0)
+- **2026-07-19T00:34:49.5931786Z** [INFO] Scanned: toolforge-registry-manager (v0.1.0)
+- **2026-07-19T00:34:49.5971470Z** [INFO] Scanned: toolforge-submission-validator (v0.1.0)
+- **2026-07-19T00:34:49.6096604Z** [INFO] Scanned: work-summarizer (v4.0.0)
+- **2026-07-19T00:34:49.6106711Z** [INFO] Phase 1 complete: 36 skills scanned
+- **2026-07-19T00:34:49.6886328Z** [INFO] Loaded Cowork registry: 34 entries
+- **2026-07-19T00:34:49.6977988Z** [INFO] Skill up-to-date: roadmap-validator
+- **2026-07-19T00:34:49.6995540Z** [INFO] Skill up-to-date: toolforge-drift-monitor
+- **2026-07-19T00:34:49.7015078Z** [INFO] Skill up-to-date: analyze-token-burn
+- **2026-07-19T00:34:49.7033094Z** [INFO] Skill up-to-date: cic-orchestrate-flow
+- **2026-07-19T00:34:49.7053913Z** [INFO] Skill up-to-date: scale-ingestion-service
+- **2026-07-19T00:34:49.7066609Z** [INFO] Skill up-to-date: kb-sync-artifact-generator
+- **2026-07-19T00:34:49.7086554Z** [INFO] Skill up-to-date: permission-governor
+- **2026-07-19T00:34:49.7102351Z** [INFO] Skill up-to-date: skill-security-auditor
+- **2026-07-19T00:34:49.7118338Z** [INFO] Registering new skill: work-summarizer (v4.0.0)
+- **2026-07-19T00:34:49.7238157Z** [INFO] Skill up-to-date: run-adapter-diagnostic
+- **2026-07-19T00:34:49.7266034Z** [INFO] Skill up-to-date: toolforge-cli
+- **2026-07-19T00:34:49.7273794Z** [INFO] Skill up-to-date: reconcile-vector-store
+- **2026-07-19T00:34:49.7282416Z** [INFO] Skill up-to-date: rollback-phase
+- **2026-07-19T00:34:49.7314076Z** [INFO] Skill up-to-date: context-manager
+- **2026-07-19T00:34:49.7321190Z** [INFO] Skill up-to-date: cic-roadmap-updater
+- **2026-07-19T00:34:49.7334406Z** [INFO] Registering new skill: _cic-shared (v1.0.0)
+- **2026-07-19T00:34:49.7437135Z** [INFO] Skill up-to-date: operator-image-build
+- **2026-07-19T00:34:49.7458090Z** [INFO] Skill up-to-date: agent-drift-detector
+- **2026-07-19T00:34:49.7487536Z** [INFO] Skill up-to-date: ashfall
+- **2026-07-19T00:34:49.7497683Z** [INFO] Skill up-to-date: tool-lifecycle-manager
+- **2026-07-19T00:34:49.7518710Z** [INFO] Skill up-to-date: html-visual-verify
+- **2026-07-19T00:34:49.7543263Z** [INFO] Skill up-to-date: rewrite-labs-orchestrator
+- **2026-07-19T00:34:49.7555218Z** [INFO] Skill up-to-date: cic-ingest-world
+- **2026-07-19T00:34:49.7568650Z** [INFO] Skill up-to-date: skill-health-monitor
+- **2026-07-19T00:34:49.7581493Z** [INFO] Skill up-to-date: cic-repair-pipeline
+- **2026-07-19T00:34:49.7594440Z** [INFO] Skill up-to-date: pre-wrap-audit
+- **2026-07-19T00:34:49.7616470Z** [INFO] Skill up-to-date: cic-consolidate-artifacts
+- **2026-07-19T00:34:49.7629388Z** [INFO] Skill up-to-date: kb-sync-nightly
+- **2026-07-19T00:34:49.7639820Z** [INFO] Skill up-to-date: obsidian-ingest-wiki
+- **2026-07-19T00:34:49.7686343Z** [INFO] Skill up-to-date: cic-section-summarizer
+- **2026-07-19T00:34:49.7693803Z** [INFO] Skill up-to-date: toolforge-submission-validator
+- **2026-07-19T00:34:49.7717429Z** [INFO] Skill up-to-date: session-wrap
+- **2026-07-19T00:34:49.7735196Z** [INFO] Skill up-to-date: cic-run-gate
+- **2026-07-19T00:34:49.7752221Z** [INFO] Skill up-to-date: automation-audit
+- **2026-07-19T00:34:49.7800854Z** [INFO] Skill up-to-date: toolforge-registry-manager
+- **2026-07-19T00:34:49.7809840Z** [INFO] Skill up-to-date: plan-extractor-integration
+- **2026-07-19T00:34:49.7930538Z** [INFO] Phase 3 complete: 2 registered, 0 updated
 ---
 
 **Auto-generated by cowork-auto-sync.ps1 — Phase 1.7**
