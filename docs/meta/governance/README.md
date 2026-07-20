@@ -13,4 +13,5 @@ Durable rules, policies, and gates that govern how work gets done across phases 
 - `ijfw-spec-phase-phase0-integration.md` — spec-phase Phase 0 integration
 - `pre-charter-audit-checklist.md` — pre-charter audit checklist
 - `phase-0-pattern-research-gate-template.md` — Phase 0 pattern research gate template
-- `documentation-policy.md` — this repo's docs/meta naming + placement policy (added in Task 7)
+- `documentation-policy.md` — this repo's docs/meta naming + placement policy
+- `scripts-governance.md` — all scripts (.ps1, .sh, .bat, etc.) belong in C:\dev\scripts\

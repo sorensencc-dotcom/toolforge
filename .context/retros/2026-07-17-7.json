@@ -1,27 +1,38 @@
 {
-  "date": "2026-07-17",
-  "window": "7d",
-  "since": "2026-07-10T00:00:00",
-  "base_branch": "main",
-  "metrics": {
-    "commits": 236,
-    "contributors": 1,
-    "automation_commits": 25,
-    "version_range": ["v2.8.0", "v2.8.4"],
-    "release_commits_this_window": 25,
-    "team_streak_days": 10,
-    "personal_streak_days": 10,
-    "active_days": 8,
-    "backlog_open_todos": 3,
-    "backlog_closed_this_period": 12,
-    "focus_area": "skills/"
-  },
-  "authors": {
-    "Chris Sorensen": { "commits": 211, "role": "human" },
-    "toolforge-release-bot": { "commits": 25, "role": "automation" }
-  },
-  "prior_retro_baseline": ".context/retros/2026-07-17-6.json",
   "session_focus": {
     "summary": "Short session: fixed the two slowest parts of session-wrap flagged by the user (pre-commit validator running unconditionally, pre-push security auditor scanning all 40+ skill dirs on every push). Edited the hook generator (setup-git-hooks.ps1, single source of truth per its own 'do not edit' header on the installed hooks) to (1) skip the pre-commit validator entirely when staged files touch neither skills/ nor utilities/, and (2) scope the pre-push auditor to only the skill dirs that changed vs upstream (git diff @{u}...HEAD), falling back to a full scan when there's no upstream to diff against. Reinstalled hooks via -Action Install, verified both live. Committed (a75aea1) and pushed after a non-fast-forward rejection (release-bot had cut v2.8.3 concurrently) — rebased clean via stash/pull-rebase/push, caught and resolved a live-daemon race where cowork-auto-sync regenerated 7 tracked report files mid-stash (verified byte-identical before dropping the redundant stash, no data lost). release-bot cut v2.8.4 in response."
+  },
+  "prior_retro_baseline": ".context/retros/2026-07-17-6.json",
+  "note": null,
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 211,
+      "role": "human"
+    },
+    "toolforge-release-bot": {
+      "commits": 25,
+      "role": "automation"
+    }
+  },
+  "base_branch": "main",
+  "since": "2026-07-10T00:00:00",
+  "window": "7d",
+  "until": "2026-07-17T23:59:59",
+  "date": "2026-07-17",
+  "metrics": {
+    "automation_commits": 25,
+    "release_commits_this_window": 25,
+    "team_streak_days": 10,
+    "contributors": 1,
+    "focus_area": "skills/",
+    "version_range": [
+      "v2.8.0",
+      "v2.8.4"
+    ],
+    "active_days": 8,
+    "personal_streak_days": 10,
+    "commits": 236,
+    "backlog_open_todos": 3,
+    "backlog_closed_this_period": 12
   }
 }

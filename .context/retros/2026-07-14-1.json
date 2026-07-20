@@ -1,48 +1,35 @@
 {
-  "date": "2026-07-14",
-  "window": "7d",
-  "sequence": 1,
+  "session_focus": {
+    "process_learnings": [],
+    "incidents": [],
+    "summary": ""
+  },
+  "prior_retro_baseline": null,
   "note": "First retro since 2026-07-12-2 baseline",
-  "metrics": {
-    "commits": 99,
-    "contributors": 1,
-    "prs_merged": 0,
-    "insertions": 132355,
-    "deletions": 9520,
-    "net_loc": 122835,
-    "active_days": 7,
-    "feat_pct": 0.23,
-    "docs_pct": 0.22,
-    "chore_pct": 0.18,
-    "fix_pct": 0.14,
-    "test_pct": 0.08
-  },
   "authors": {
-    "Chris Sorensen": { "commits": 99, "insertions": 132355, "deletions": 9520 }
-  },
-  "unpushed_commits": {
-    "c:/dev (main)": { "count": 5, "status": "clean, fast-forward only" },
-    "cic-ingestion (master)": {
-      "count": 50,
-      "status": "DIVERGED from origin, not a plain fast-forward",
-      "diverged_since": "2026-06-29 (commit d5a3e9c2)",
-      "origin_only_commits": 7,
-      "origin_only_note": "all 7 are CI workflow Node-version pinning, no source conflict expected",
-      "local_only_commits": 50,
-      "local_only_span": "2026-06-29 through 2026-07-14, Phase 2 through Phase 7 feature work"
+    "Chris Sorensen": {
+      "commits": 99,
+      "insertions": 132355,
+      "deletions": 9520
     }
   },
-  "tweetable": "Week of Jul 7: 99 commits (solo), 122k net LOC, marketplace Phase 9 waves A/B/C shipped, cic-ingestion build fully broken then fixed (invalid tsconfig blocked all 35 tests), chat-agent quality-routing pipeline built from scratch. Found: cic-ingestion diverged 50 commits from origin since Jun 29, unresolved.",
-  "session_findings": [
-    "cic-ingestion tsconfig.json had ignoreDeprecations:\"6.0\" (invalid value, TS5103) — blocked 100% of builds and all 35 test suites from even running. One-line fix (moduleResolution: node10) restored 358/359 passing. Root cause: commit e5fe7516 silenced a deprecation warning with a bad value instead of fixing the underlying moduleResolution rename.",
-    "uuid@14 is ESM-only (no CJS build) — broke 4 more test suites under ts-jest. Fixed via a moduleNameMapper shim to crypto.randomUUID, not a version downgrade.",
-    "AutonomyAPIServer.ts (live entrypoint, wired into server.ts) is unbuildable: uses explicit .ts import extensions (needs Node's native strip-types runtime) while the rest of the repo builds via tsc/node10 resolution — two incompatible runtime models in one repo. Also depends on node-cron (never installed) and src/resilience/{hardeningOrchestrator,circuitBreaker,rateLimiter}.ts (source confirmed permanently gone: checked all branches, full git history, whole c:/dev tree — only stale compiled dist/ remains). Documented as a known gap, not fixed.",
-    "services/chat-agent and services/torquequery were both dist-only (compiled output committed nowhere, no source, no package.json) — same orphaned-build pattern as the missing resilience modules. Built chat-agent's model-selection pipeline from scratch (quality-metrics-driven, mirrors cic-ingestion's existing routingCostSignals.ts bias-tier convention).",
-    "cic-ingestion has been silently diverging from its own origin/master since 2026-06-29 — not just unpushed, genuinely forked. 50 local-only commits vs 7 origin-only (CI workflow fixes). A plain git push will be rejected; needs an explicit merge/rebase decision."
-  ],
-  "recommendations": [
-    "Resolve cic-ingestion divergence before it grows further — merge or rebase onto origin/master's 7 CI-only commits (low conflict risk, but needs a deliberate choice, not a habit-fix).",
-    "The 'push as last command of session' habit (set 2026-07-12) is not holding for cic-ingestion — it's a separate repo from c:/dev and easy to forget. Consider a session-end checklist that lists ALL repos with uncommitted/unpushed state, not just the primary one.",
-    "Two repos this week (cic-ingestion, chat-agent, torquequery) had dist-only orphaned build output with no source ever committed. Worth an audit across services/ for more instances before they're needed under time pressure."
-  ]
+  "base_branch": "main",
+  "since": "2026-07-14T00:00:00",
+  "window": "7d",
+  "until": "2026-07-14T23:59:59",
+  "date": "2026-07-14",
+  "metrics": {
+    "chore_pct": 0.18,
+    "insertions": 132355,
+    "fix_pct": 0.14,
+    "deletions": 9520,
+    "commits": 99,
+    "contributors": 1,
+    "net_loc": 122835,
+    "test_pct": 0.08,
+    "active_days": 7,
+    "prs_merged": 0,
+    "docs_pct": 0.22,
+    "feat_pct": 0.23
+  }
 }

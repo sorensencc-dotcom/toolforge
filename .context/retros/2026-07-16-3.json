@@ -1,17 +1,4 @@
 {
-  "date": "2026-07-16",
-  "window": "7d",
-  "since": "2026-07-10T00:00:00",
-  "until": "2026-07-16T19:38:48",
-  "base_branch": "main",
-  "commits": 142,
-  "contributors": 2,
-  "authors": {
-    "Chris Sorensen": { "commits": 135 },
-    "toolforge-release-bot": { "commits": 7 }
-  },
-  "prior_retro_baseline": ".context/retros/2026-07-16-2.json",
-  "note": "Third retro today (sequence 3). No new c:\\dev commits since sequence 2 (still 142/window, contributor count drifted +1 on a window-boundary commit, not new work) -- this entry's session_focus covers a separate repo (charlie-deep-research) not reflected in c:\\dev's own commit count.",
   "session_focus": {
     "summary": "CIC documentary archival verification: resumed a locked, re-verified provenance sweep (39 units, 37 NEEDS_REVISION), built a remediation plan + two keystone sourcing packets (V-5.3 hotel-room sketch, V-6.5 1944 exit mechanics), then did live verification of the user's Benson Ford Research Center box list against the real online finding aids -- fetched and text-extracted 9 separate PDFs via WebSearch/WebFetch/pdftotext, catching 3 mislabeled boxes and 1 wrongly-dropped accession, surfacing 4 new independent-witness leads. Closed by correcting a fabricated Jan-March 1944 chronology in a pasted research checklist and rebuilding it around 4 real dated anchors, shipped as both a repo doc and a published web artifact for on-site reference.",
     "repo": "charlie-deep-research (github.com/sorensencc-dotcom/charlie-deep-research)",
@@ -33,5 +20,52 @@
       "User-pasted 'verification results' for the 37 NEEDS_REVISION items were fabricated placeholder content (generic IDs like V-9.1a, an invented 4th defect category) that didn't match the real, already-verified consolidated file -- caught by comparing against the actual file content read earlier in-session rather than trusting the paste.",
       "A separately pasted 'arrival-day checklist' invented a Jan-March 1944 confrontation chronology with no source, misattributed the Treatment's cited p.912 passage to that invented window, and proposed a non-existent 'read stress from pencil pressure' forensic technique -- caught before building the artifact from it, rebuilt around the 4 dates that actually have documentary support."
     ]
+  },
+  "prior_retro_baseline": ".context/retros/2026-07-16-2.json",
+  "note": "Third retro today (sequence 3). No new c:\\dev commits since sequence 2 (still 142/window, contributor count drifted +1 on a window-boundary commit, not new work) -- this entry's session_focus covers a separate repo (charlie-deep-research) not reflected in c:\\dev's own commit count.",
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 135
+    },
+    "toolforge-release-bot": {
+      "commits": 7
+    }
+  },
+  "base_branch": "main",
+  "since": "2026-07-10T00:00:00",
+  "window": "7d",
+  "until": "2026-07-16T19:38:48",
+  "date": "2026-07-16",
+  "metrics": {
+    "deletions_filtered": 0,
+    "commits": 142,
+    "chore_pct": 0,
+    "insertions_filtered": 0,
+    "deletions_raw": 0,
+    "test_pct": 0,
+    "active_days": 0,
+    "personal_streak_days": 0,
+    "net_loc_raw": 0,
+    "insertions_raw": 0,
+    "focus_area": "unknown",
+    "fix_pct": 0,
+    "backlog_open_todos": 0,
+    "test_ratio_pct": 0,
+    "version_range": [],
+    "feat_pct": 0,
+    "docs_pct": 0,
+    "net_loc_filtered": 0,
+    "filter_note": "raw LOC excludes lockfiles (package-lock.json, yarn.lock, etc.) and auto-generated reports",
+    "deep_sessions": 0,
+    "sessions": 0,
+    "automation_commits": 0,
+    "release_commits": 0,
+    "team_streak_days": 0,
+    "contributors": 2,
+    "test_loc_insertions": 0,
+    "late_night_commits_22_to_04": 0,
+    "commits_no_merge": 0,
+    "backlog_closed_this_period": 0,
+    "peak_hour": 12
   }
 }
