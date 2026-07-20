@@ -154,13 +154,13 @@ $allowedRootsReport = @{}
 foreach ($root in $AllowedRoots) {
     if ($canonical.ContainsKey($root)) {
         $can = $canonical[$root]
-        $allowedRootsReport[$root -replace '^C:\\dev\\' -replace '\\' -replace '/' -replace '\.' -replace 'meta' -replace 'meta'] = @{
+        $allowedRootsReport[$root] = @{
             canonical_count = 1
             roadmaps = @(Split-Path $can.path -Leaf)
             source = $can.path + " ($($can.lastModified))"
         }
     } else {
-        $allowedRootsReport[$root -replace '^C:\\dev\\'] = @{
+        $allowedRootsReport[$root] = @{
             canonical_count = 0
             roadmaps = @()
         }
