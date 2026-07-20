@@ -87,6 +87,47 @@ function Get-RetroJSON {
 # Report Generation (Stub)
 # ============================================================================
 
+function Get-MetricsTable {
+    param(
+        [array]$commits,
+        [object]$sessionWrap,
+        [object]$retro
+    )
+
+    # Calculate metrics
+    $commitCount = $commits.Count
+    $filesChanged = 0  # Stub for now
+    $skillsInvoked = @()
+    if ($sessionWrap.skills) {
+        $skillsInvoked = $sessionWrap.skills | ForEach-Object { $_.name }
+    }
+    $skillsCount = $skillsInvoked.Count
+    $testsRun = $retro.tests_run ?? 0
+    $testsPassed = $retro.tests_passed ?? 0
+    $tokensUsed = $sessionWrap.tokens ?? 0
+    $model = $sessionWrap.model ?? "unknown"
+    $coworkSessions = 0  # Stub for Task 9
+    $concurrentAgents = 0  # Stub for Task 9
+    $handoffs = 0  # Stub for Task 9
+
+    $metricsMarkdown = @"
+| Metric | Count |
+|--------|-------|
+| Commits | $commitCount |
+| Files Changed | $filesChanged |
+| Skills Invoked | $skillsCount ($($skillsInvoked -join ', ')) |
+| Tests Run | $testsRun |
+| Tests Passed | $testsPassed |
+| Tokens Used | $([string]::Format("{0:N0}", $tokensUsed)) |
+| Models Used | $model |
+| Cowork Sessions | $coworkSessions |
+| Concurrent Agents | $concurrentAgents |
+| Handoffs | $handoffs |
+"@
+
+    return $metricsMarkdown
+}
+
 function New-DailyReport {
     param(
         [array]$commits,
@@ -95,13 +136,14 @@ function New-DailyReport {
         [DateTime]$reportDate
     )
 
-    # Build markdown report (full implementation in Task 8)
+    $metricsTable = Get-MetricsTable -commits $commits -sessionWrap $sessionWrap -retro $retro
+
     $report = @"
 # Daily Report: $($reportDate.ToString("yyyy-MM-dd"))
 
 ## Metrics
 
-(Metrics table will be populated in Task 8)
+$metricsTable
 
 ## Summary
 
