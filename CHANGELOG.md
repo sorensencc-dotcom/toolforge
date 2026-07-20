@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.13.0
+Date: 2026-07-20
+
+### Changes
+- 1736347 - feat: retro audit toolkit and scripts governance (Chris Sorensen)
+- 76019dc - fix(session-wrap): add error handling for JSON export failure (Chris Sorensen)
+- d93ce02 - fix(session-wrap): add error handling for JSON export failure (Chris Sorensen)
+- 92fe136 - feat(session-wrap): export JSON schema v1.0 for reporting agents (Chris Sorensen)
+- 6ff23c0 - test(phase0): add timezone verification for schedule skill (Chris Sorensen)
+
 ## Version 2.12.3
 Date: 2026-07-19
 
