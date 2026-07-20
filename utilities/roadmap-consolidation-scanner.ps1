@@ -49,9 +49,12 @@ function IsAllowedRoot([string]$FilePath) {
 }
 
 function ClassifyLocation([string]$FilePath) {
-    if (IsAllowedRoot $FilePath) {
-        return "allowed_root"
-    }
+    # Forbidden-location patterns MUST be tested before the allowed-root prefix
+    # check. IsAllowedRoot is a prefix match, so a worktree / node_modules / .git
+    # / archive path that happens to sit UNDER an allowed root (e.g.
+    # C:\dev\rewrite-mcp\.claude\worktrees\...\roadmap.md) would otherwise be
+    # classified "allowed_root" and become a canonical candidate. Ordering these
+    # first makes the checks live instead of dead code.
     if ($FilePath -match '\.claude[\\/]worktrees') {
         return "ephemeral_worktree"
     }
@@ -61,12 +64,20 @@ function ClassifyLocation([string]$FilePath) {
     if ($FilePath -match '[\\\/](node_modules|\.git)[\\/]') {
         return "system_folder"
     }
+    if (IsAllowedRoot $FilePath) {
+        return "allowed_root"
+    }
     return "forbidden_location"
 }
 
 function GetProjectRoot([string]$FilePath) {
+    # Normalize both sides to lowercase so casing differences (e.g. C:\Dev vs
+    # C:\dev) do not misclassify real roadmaps as orphans. Matches the
+    # lowercase normalization used by IsAllowedRoot.
+    $fileLower = $FilePath.ToLower()
     foreach ($root in $AllowedRoots) {
-        if ($FilePath.StartsWith("$root\") -or $FilePath -eq $root) {
+        $rootLower = $root.ToLower()
+        if ($fileLower.StartsWith("$rootLower\") -or $fileLower -eq $rootLower) {
             return $root
         }
     }
@@ -74,9 +85,10 @@ function GetProjectRoot([string]$FilePath) {
 }
 
 Write-Host "Scanning C:\dev for ROADMAP.md files..."
-$allRoadmaps = @()
+# Get-ChildItem -Filter is case-insensitive on Windows, so a single "ROADMAP.md"
+# filter already matches roadmap.md / Roadmap.md. A second lowercase pass would
+# double-count every file and inflate conflicts.
 $roadmapFiles = Get-ChildItem -Path $RootPath -Filter "ROADMAP.md" -Recurse -ErrorAction SilentlyContinue
-$roadmapFiles += Get-ChildItem -Path $RootPath -Filter "roadmap.md" -Recurse -ErrorAction SilentlyContinue
 
 Write-Host "Found $($roadmapFiles.Count) roadmap files"
 
@@ -115,8 +127,20 @@ $canonical = @{}
 $conflicts = @()
 $orphans = @()
 
-foreach ($projectRoot in $categorized.Keys) {
+foreach ($projectRoot in $categorized.Keys | Where-Object { $_ -ne 'orphaned' }) {
     $entries = $categorized[$projectRoot]
+
+    # Only allowed_root files are eligible to be canonical. Forbidden locations
+    # (nested clones, node_modules, .git, worktrees, archive) that happen to sit
+    # under a project root must be routed to orphans, never selected as canonical
+    # or run through the tie-breaker (which would emit fake conflict pairs).
+    $rejected = @($entries | Where-Object { $_.location -ne 'allowed_root' })
+    foreach ($r in $rejected) { $orphans += $r }
+    $entries = @($entries | Where-Object { $_.location -eq 'allowed_root' })
+
+    if ($entries.Count -eq 0) {
+        continue
+    }
 
     if ($entries.Count -eq 1) {
         $canonical[$projectRoot] = $entries[0]
@@ -169,17 +193,20 @@ foreach ($root in $AllowedRoots) {
 
 # Simplify root names for JSON
 $allowedRootsReportSimple = @{}
-$allowedRootsReportSimple["docs/meta"] = $allowedRootsReport["C:\dev\docs\meta"] ?? @{ canonical_count = 0; roadmaps = @() }
-$allowedRootsReportSimple["cic-ingestion"] = $allowedRootsReport["C:\dev\cic-ingestion"] ?? @{ canonical_count = 0; roadmaps = @() }
-$allowedRootsReportSimple["rewrite-docs"] = $allowedRootsReport["C:\dev\rewrite-docs"] ?? @{ canonical_count = 0; roadmaps = @() }
-$allowedRootsReportSimple["rewrite-mcp"] = $allowedRootsReport["C:\dev\rewrite-mcp"] ?? @{ canonical_count = 0; roadmaps = @() }
-$allowedRootsReportSimple["kb-sync"] = $allowedRootsReport["C:\dev\kb-sync"] ?? @{ canonical_count = 0; roadmaps = @() }
+# $allowedRootsReport is always fully populated (every AllowedRoot gets an entry
+# in the loop above), so the lookups always succeed. No null-coalesce needed --
+# and the ?? operator is PowerShell 7+ only, breaking 5.1 compatibility.
+$allowedRootsReportSimple["docs/meta"] = $allowedRootsReport["C:\dev\docs\meta"]
+$allowedRootsReportSimple["cic-ingestion"] = $allowedRootsReport["C:\dev\cic-ingestion"]
+$allowedRootsReportSimple["rewrite-docs"] = $allowedRootsReport["C:\dev\rewrite-docs"]
+$allowedRootsReportSimple["rewrite-mcp"] = $allowedRootsReport["C:\dev\rewrite-mcp"]
+$allowedRootsReportSimple["kb-sync"] = $allowedRootsReport["C:\dev\kb-sync"]
 
 $report = @{
     timestamp = $timestamp
     allowed_roots = $allowedRootsReportSimple
     cleanup = @{
-        total_orphans_deleted = $orphans.Count
+        orphans_found = $orphans.Count
         archives_moved = 0
         conflicts_flagged = $conflicts.Count
     }
