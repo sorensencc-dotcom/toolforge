@@ -83,6 +83,65 @@ function Get-RetroJSON {
     return $null
 }
 
+function Get-CoworkActivity {
+    param([string]$coworkPath, [DateTime]$since)
+
+    $activity = @{
+        sessions = 0
+        agents = @()
+        handoffs = 0
+        errors = 0
+    }
+
+    if (-not (Test-Path $coworkPath)) {
+        return $activity
+    }
+
+    try {
+        $logs = Get-ChildItem $coworkPath -File -ErrorAction SilentlyContinue
+        foreach ($log in $logs) {
+            $content = Get-Content $log.FullName -Raw
+
+            # Parse JSON if applicable
+            if ($content -match '^\{' -or $content -match '^\[') {
+                try {
+                    $data = $content | ConvertFrom-Json
+
+                    # Count sessions
+                    if ($data.sessions) {
+                        $activity.sessions += @($data.sessions).Count
+                    }
+
+                    # Extract agents
+                    if ($data.agents) {
+                        $data.agents | ForEach-Object {
+                            if ($_ -notin $activity.agents) {
+                                $activity.agents += $_
+                            }
+                        }
+                    }
+
+                    # Count handoffs
+                    if ($data.handoffs) {
+                        $activity.handoffs += @($data.handoffs).Count
+                    }
+
+                    # Count errors
+                    if ($data.errors) {
+                        $activity.errors += @($data.errors).Count
+                    }
+                } catch {
+                    # Silently skip non-JSON or malformed logs
+                }
+            }
+        }
+    } catch {
+        Write-Host "Warning: Failed to parse cowork logs: $_"
+    }
+
+    return $activity
+}
+
 # ============================================================================
 # Report Generation (Stub)
 # ============================================================================
@@ -128,7 +187,8 @@ function Get-MetricsTable {
     param(
         [array]$commits,
         [object]$sessionWrap,
-        [object]$retro
+        [object]$retro,
+        [object]$coworkActivity
     )
 
     # Calculate metrics
@@ -143,9 +203,9 @@ function Get-MetricsTable {
     $testsPassed = $retro.tests_passed ?? 0
     $tokensUsed = $sessionWrap.tokens ?? 0
     $model = $sessionWrap.model ?? "unknown"
-    $coworkSessions = 0  # Stub for Task 9
-    $concurrentAgents = 0  # Stub for Task 9
-    $handoffs = 0  # Stub for Task 9
+    $coworkSessions = $coworkActivity.sessions
+    $concurrentAgents = $coworkActivity.agents.Count
+    $handoffs = $coworkActivity.handoffs
 
     $metricsMarkdown = @"
 | Metric | Count |
@@ -170,10 +230,11 @@ function New-DailyReport {
         [array]$commits,
         [object]$sessionWrap,
         [object]$retro,
+        [object]$coworkActivity,
         [DateTime]$reportDate
     )
 
-    $metricsTable = Get-MetricsTable -commits $commits -sessionWrap $sessionWrap -retro $retro
+    $metricsTable = Get-MetricsTable -commits $commits -sessionWrap $sessionWrap -retro $retro -coworkActivity $coworkActivity
     $summary = Get-DailySummary -retro $retro -commits $commits
 
     $report = @"
@@ -203,15 +264,20 @@ Write-Host "24h window: $dayStart to $AgentStartTime"
 $commits = Get-CommitsSince24h $RepoRoot $dayStart
 $sessionWrap = Get-SessionWrapJSON $env:APPDATA
 $retro = Get-RetroJSON $env:APPDATA
+$coworkPath = $env:USERPROFILE + "\.cowork\sessions"
+$coworkActivity = Get-CoworkActivity -coworkPath $coworkPath -since $dayStart
 
 if ($Verbose) {
     Write-Host "Commits found: $($commits.Count)"
     Write-Host "Session wrap: $($sessionWrap -ne $null)"
     Write-Host "Retro: $($retro -ne $null)"
+    Write-Host "Cowork sessions: $($coworkActivity.sessions)"
+    Write-Host "Concurrent agents: $($coworkActivity.agents.Count)"
+    Write-Host "Handoffs: $($coworkActivity.handoffs)"
 }
 
 # Generate report
-$report = New-DailyReport -commits $commits -sessionWrap $sessionWrap -retro $retro -reportDate $AgentStartTime
+$report = New-DailyReport -commits $commits -sessionWrap $sessionWrap -retro $retro -coworkActivity $coworkActivity -reportDate $AgentStartTime
 
 # Output for now (artifact publishing in Task 12)
 Write-Host $report
