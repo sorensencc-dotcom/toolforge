@@ -87,6 +87,43 @@ function Get-RetroJSON {
 # Report Generation (Stub)
 # ============================================================================
 
+function Get-DailySummary {
+    param(
+        [object]$retro,
+        [array]$commits
+    )
+
+    $summary = ""
+
+    # Work summary from retro
+    if ($retro.work_summary) {
+        $summary += $retro.work_summary
+    } else {
+        $summary += "(No work summary available)"
+    }
+
+    # Blockers
+    if ($retro.blockers -and $retro.blockers.Count -gt 0) {
+        $summary += "`n`n### Blockers`n`n"
+        $retro.blockers | ForEach-Object {
+            $summary += "- $_`n"
+        }
+    }
+
+    # Commits breakdown
+    if ($commits.Count -gt 0) {
+        $summary += "`n`n### Commits`n`n"
+        $commits | Group-Object -Property repo | ForEach-Object {
+            $summary += "**$($_.Name):** $($_.Count) commit(s)`n"
+            $_.Group | ForEach-Object {
+                $summary += "  - $($_.hash): $($_.message)`n"
+            }
+        }
+    }
+
+    return $summary
+}
+
 function Get-MetricsTable {
     param(
         [array]$commits,
@@ -137,6 +174,7 @@ function New-DailyReport {
     )
 
     $metricsTable = Get-MetricsTable -commits $commits -sessionWrap $sessionWrap -retro $retro
+    $summary = Get-DailySummary -retro $retro -commits $commits
 
     $report = @"
 # Daily Report: $($reportDate.ToString("yyyy-MM-dd"))
@@ -147,7 +185,7 @@ $metricsTable
 
 ## Summary
 
-(Summary will be populated in Task 8)
+$summary
 "@
 
     return $report
