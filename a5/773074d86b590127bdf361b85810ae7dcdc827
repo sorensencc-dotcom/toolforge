@@ -1,0 +1,34 @@
+scripts/weekly-report-agent.ps1
+  s_be92be7ea0d8a4::t_9e003eed487085 249,272,292-305,307-310
+  s_be92be7ea0d8a4::t_3b1c958ac4fab0 110-142,271
+  s_be92be7ea0d8a4::t_135b230e1b867c 221
+  s_be92be7ea0d8a4::t_a643cf1086c41c 208,217
+  s_be92be7ea0d8a4::t_3362f3015fe7e5 246-248
+  s_be92be7ea0d8a4::t_a6d716f48aaf32 250-252,268-270
+  s_be92be7ea0d8a4::t_c43a8b4a953800 273
+  s_c1b8ccf5b04a5c::t_77e4e680541d37 227-245,253-267
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a5773074d86b590127bdf361b85810ae7dcdc827",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c1b8ccf5b04a5c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a1233d0d106725c85",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
