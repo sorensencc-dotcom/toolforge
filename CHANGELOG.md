@@ -1,5 +1,31 @@
 # Changelog
 
+## Version 2.14.0
+Date: 2026-07-21
+
+### Changes
+- 43129dd - @ fix: PowerShell encoding issues in retro audit scripts (Chris Sorensen)
+- 560be00 - feat(agent): implement daily report git commit (Chris Sorensen)
+- e0d8db0 - docs(report): add daily report for 2026-07-20 (Chris Sorensen)
+- 95b990e - feat(agent): prepare report artifact for publishing (Chris Sorensen)
+- dd88f21 - feat: establish canonical roadmaps at project roots (Chris Sorensen)
+- 1f4e185 - docs: roadmap consolidation decisions (Phase 1.2 manual review) (Chris Sorensen)
+- b1550e3 - fix: correct audit scanner logic bugs (Chris Sorensen)
+- 21969c9 - fix: correct canonical_count reporting in roadmap scanner (Chris Sorensen)
+- f41e4c0 - feat: add roadmap consolidation audit scanner (Chris Sorensen)
+- c0ed1bd - feat(agent): parse cowork daemon logs for session/handoff metrics (Chris Sorensen)
+- 689785f - feat(agent): add daily summary with blockers and commit breakdown (Chris Sorensen)
+- 3d8a079 - feat(agent): add daily metrics table generation (Chris Sorensen)
+- 23d4866 - feat(agent): scaffold daily report agent v1.0 (Chris Sorensen)
+- 37757f3 - docs: write roadmap consolidation implementation plan (Chris Sorensen)
+- 305c9ce - feat(retro-export): add JSON schema v1.0 export wrapper (Chris Sorensen)
+- b68d613 - chore(release): v2.13.0 (toolforge-release-bot)
+- 1736347 - feat: retro audit toolkit and scripts governance (Chris Sorensen)
+- 76019dc - fix(session-wrap): add error handling for JSON export failure (Chris Sorensen)
+- d93ce02 - fix(session-wrap): add error handling for JSON export failure (Chris Sorensen)
+- 92fe136 - feat(session-wrap): export JSON schema v1.0 for reporting agents (Chris Sorensen)
+- 6ff23c0 - test(phase0): add timezone verification for schedule skill (Chris Sorensen)
+
 ## Version 2.13.0
 Date: 2026-07-20
 
