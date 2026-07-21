@@ -1,0 +1,19 @@
+utilities/roadmap-orphan-cleanup.ps1
+  s_f5f266ba677d57::t_5f033cabc4ce88 3,6-18,26-28,32,37-38,47-57,61,64-75,77-81,83-86,88-92,94-97,103-111,113,117-118,121-126,136-139,142-153,157-159
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "61e9fb495bba78387698e8ac2b667c3ea20c6a0a",
+  "prompts": {},
+  "sessions": {
+    "s_f5f266ba677d57": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77972b09-70fa-486c-8208-fe7fd38c5149",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
