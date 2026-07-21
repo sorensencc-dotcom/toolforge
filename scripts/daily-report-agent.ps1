@@ -272,6 +272,29 @@ function Publish-ReportArtifact {
     return $tempPath
 }
 
+function Commit-DailyReport {
+    param(
+        [string]$repoRoot,
+        [string]$reportPath,
+        [string]$reportContent,
+        [string]$reportDate
+    )
+
+    # Write report to file
+    Set-Content -Path $reportPath -Value $reportContent -Encoding UTF8
+
+    try {
+        # Stage and commit
+        & git -C $repoRoot add $reportPath 2>&1 | Out-Null
+        & git -C $repoRoot commit -m "docs(report): add daily report for $reportDate" 2>&1 | Out-Null
+        Write-Host "Report committed: $reportPath"
+        return $true
+    } catch {
+        Write-Host "Warning: Failed to commit report: $_"
+        return $false
+    }
+}
+
 # ============================================================================
 # Main
 # ============================================================================
@@ -301,6 +324,15 @@ $report = New-DailyReport -commits $commits -sessionWrap $sessionWrap -retro $re
 
 # Prepare artifact
 $artifactPath = Publish-ReportArtifact -reportMarkdown $report -reportTitle "Daily Report: $reportDate" -description "Daily work summary and metrics for $reportDate"
+
+# Commit report to git
+$commitSuccess = Commit-DailyReport -repoRoot $RepoRoot -reportPath $reportPath -reportContent $report -reportDate $reportDate
+
+if ($commitSuccess) {
+    Write-Host "Daily report published and committed successfully."
+} else {
+    Write-Host "Warning: Report artifact created but git commit failed."
+}
 
 # Output report content (agent will invoke Artifact tool with this)
 Write-Host "===== ARTIFACT_OUTPUT_START ====="
