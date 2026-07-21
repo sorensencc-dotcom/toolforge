@@ -293,7 +293,6 @@ function New-WeeklyReport {
 
     $totalsTable = Get-WeeklyTotalsTable -dailyData $dailyData
     $busiestDays = Get-BusiestDaysSection -dailyData $dailyData
-    $summarySection = Get-WeeklySummarySection -dailyData $dailyData
 
     $report = @"
 # Weekly Report: $reportWeek
@@ -304,7 +303,9 @@ $totalsTable
 
 $busiestDays
 
-$summarySection
+## Summary
+
+Week overview: Tasks from daily reports aggregated above. Full historical record maintained in git.
 "@
 
     return $report
