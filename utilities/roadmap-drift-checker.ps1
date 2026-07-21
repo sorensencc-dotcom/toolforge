@@ -177,16 +177,16 @@ if ($PSVersionTable.Platform -eq "Win32NT" -or $PSVersionTable.PSVersion.Major -
             Write-Host "✅ Task already registered: $taskPath$taskName"
         } else {
             # Define trigger: weekly, Sunday 02:00 UTC
-            $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Sunday -At "02:00" -ErrorAction SilentlyContinue
+            $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Sunday -At "02:00" -ErrorAction Stop
 
             # Define action: run PowerShell script
-            $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -File `"$scriptPath`"" -ErrorAction SilentlyContinue
+            $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -File `"$scriptPath`"" -ErrorAction Stop
 
             # Create task with high privilege
             $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest
 
             # Register task
-            Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Trigger $trigger -Action $action -Principal $principal -Force | Out-Null
+            Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Trigger $trigger -Action $action -Principal $principal -Force -ErrorAction Stop | Out-Null
             Write-Host "✅ Task scheduled: $taskPath$taskName (weekly Sunday 02:00 UTC)"
         }
     } catch {
