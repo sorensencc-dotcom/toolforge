@@ -1,0 +1,19 @@
+docs/meta/governance/documentation-policy.md
+  s_27bf9c87c031ab::t_d07264d2dec8d1 41-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "cddcecf7f8c82602712863a3dd9fe18a52d8e3ca",
+  "prompts": {},
+  "sessions": {
+    "s_27bf9c87c031ab": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ae887ea96f170b9a7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
