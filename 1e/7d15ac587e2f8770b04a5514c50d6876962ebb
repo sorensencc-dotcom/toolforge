@@ -1,0 +1,20 @@
+scripts/weekly-report-agent.ps1
+  s_be92be7ea0d8a4::t_b37bcc26a35bc3 110-196
+  s_be92be7ea0d8a4::t_c1fc2a46304025 296,307
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "1e7d15ac587e2f8770b04a5514c50d6876962ebb",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
