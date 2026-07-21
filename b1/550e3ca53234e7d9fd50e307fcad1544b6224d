@@ -1,0 +1,25 @@
+utilities/roadmap-consolidation-scanner.ps1
+  s_f5f266ba677d57::t_a21ad9f18828ae 69,130,133-143
+  s_f5f266ba677d57::t_ffa9945ec70edf 52-57,67-68
+  s_f5f266ba677d57::t_7964ea28c51730 196-203
+  s_f5f266ba677d57::t_1adc38a58678f4 209
+  s_f5f266ba677d57::t_540e4f7547f032 74-77,79-80
+  s_f5f266ba677d57::t_639b2dac82d876 88-90
+  s_f5f266ba677d57::t_7c8ae5750ca753 144
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "b1550e3ca53234e7d9fd50e307fcad1544b6224d",
+  "prompts": {},
+  "sessions": {
+    "s_f5f266ba677d57": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77972b09-70fa-486c-8208-fe7fd38c5149",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
