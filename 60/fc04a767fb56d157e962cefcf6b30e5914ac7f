@@ -1,0 +1,21 @@
+scripts/setup-weekly-report-schedule.ps1
+  s_1c68d5e83c7ecf::t_1211e5f0ef10de 1-96
+scripts/setup-daily-report-schedule.ps1
+  s_1c68d5e83c7ecf::t_7512a6786ff8ad 1-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "60fc04a767fb56d157e962cefcf6b30e5914ac7f",
+  "prompts": {},
+  "sessions": {
+    "s_1c68d5e83c7ecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c0df381f-758f-4ca2-a228-6908dcc220f7",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
