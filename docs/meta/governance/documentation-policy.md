@@ -38,3 +38,14 @@ One-line purpose + list of contents, matching the pattern in this folder's own `
 
 If a doc is superseded, move it to `docs/meta/archive/` with a one-line note in
 `archive/README.md` explaining what superseded it and why. Don't delete history.
+
+## Roadmap-Specific Rules
+
+Roadmaps follow standard placement rules (spec/plan/charter → docs/meta/ folders), PLUS:
+
+- Project-local roadmaps allowed in project roots only (cic-ingestion/, kb-sync/, etc.)
+- No roadmaps in .claude/worktrees/, nested clones, or sync folders
+- Multiple versions of same roadmap: fresher date wins (tie-breaker)
+- Enforced by pre-commit hook + weekly cleanup scan
+
+See: docs/meta/roadmap-consolidation-design.md for full governance.
