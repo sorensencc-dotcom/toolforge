@@ -102,7 +102,7 @@ function Parse-DailyMetrics {
 function Get-TrendIndicator {
     param([int]$current, [int]$previous)
 
-    if ($current -eq $previous) { return "↔" }
+    if ($current -eq $previous) { return "=" }
     if ($current -gt $previous) { return "↑" }
     return "↓"
 }
@@ -143,10 +143,10 @@ function Get-WeeklyTotalsTable {
     $avgTokens = [math]::Round($totals.tokens / $dayCount, 0)
 
     # Trend indicators (week vs week comparison - stub for now)
-    $trendCommits = [char]0x2194  # ↔
-    $trendTests = [char]0x2194
-    $trendTokens = [char]0x2194
-    $trendHandoffs = [char]0x2194
+    $trendCommits = "="
+    $trendTests = "="
+    $trendTokens = "="
+    $trendHandoffs = "="
 
     $table = "| Metric | Total | Daily Avg | Trend |`n" +
              "|--------|-------|-----------|-------|`n" +
