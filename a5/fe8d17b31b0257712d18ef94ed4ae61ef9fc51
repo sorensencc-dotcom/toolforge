@@ -1,0 +1,33 @@
+utilities/roadmap-orphan-cleanup.ps1
+  s_f5f266ba677d57::t_920f80d4b34eed 36,40-66
+  s_f5f266ba677d57::t_6c11b4b8771c00 1-35,38,70-100
+  s_f5f266ba677d57::t_2a7eebb6289e38 37,39,67-69
+scripts/weekly-report-agent.ps1
+  s_be92be7ea0d8a4::t_52d58d623d5483 18
+  s_be92be7ea0d8a4::t_01c972178a7528 56,59-169,175-176,183
+  s_be92be7ea0d8a4::t_2458be68842c1c 1-17,19-55,57-58,170-174,177-182,184-218
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a5fe8d17b31b0257712d18ef94ed4ae61ef9fc51",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f5f266ba677d57": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77972b09-70fa-486c-8208-fe7fd38c5149",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
