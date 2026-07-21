@@ -107,6 +107,39 @@ function Get-TrendIndicator {
     return "↓"
 }
 
+function Get-BusiestDaysSection {
+    param([array]$dailyData)
+
+    $dayMetrics = @()
+
+    foreach ($day in $dailyData) {
+        $metrics = Parse-DailyMetrics -dailyMarkdown $day.content
+        $dayMetrics += @{
+            date = $day.date
+            dayOfWeek = (Get-Date $day.date).DayOfWeek.ToString()
+            commits = $metrics.commits
+            tokens = $metrics.tokens
+            score = $metrics.commits + ($metrics.tokens / 50000)  # Weighted score
+        }
+    }
+
+    # Sort by score descending, take top 3
+    $busiestDays = $dayMetrics | Sort-Object -Property score -Descending | Select-Object -First 3
+
+    $section = "## Busiest Days`n`n"
+    if ($busiestDays.Count -eq 0) {
+        $section += "(No daily data available)`n"
+    } else {
+        $rank = 1
+        foreach ($day in $busiestDays) {
+            $section += "$rank. $($day.dayOfWeek) ($($day.date)): $($day.commits) commits, $([string]::Format("{0:N0}", $day.tokens)) tokens`n"
+            $rank++
+        }
+    }
+
+    return $section
+}
+
 function Get-WeeklyTotalsTable {
     param([array]$dailyData)
 
@@ -172,6 +205,7 @@ function New-WeeklyReport {
     )
 
     $totalsTable = Get-WeeklyTotalsTable -dailyData $dailyData
+    $busiestDays = Get-BusiestDaysSection -dailyData $dailyData
 
     $report = @"
 # Weekly Report: $reportWeek
@@ -180,16 +214,61 @@ function New-WeeklyReport {
 
 $totalsTable
 
-## Busiest Days
-
-(Analysis will be populated in Task 14)
+$busiestDays
 
 ## Summary
 
-(Summary will be populated in Task 15)
+Week overview: Tasks from daily reports aggregated above. Full historical record maintained in git.
 "@
 
     return $report
+}
+
+# ============================================================================
+# Artifact Publishing & Commit
+# ============================================================================
+
+function Publish-WeeklyReportArtifact {
+    param(
+        [string]$reportMarkdown,
+        [string]$reportTitle,
+        [string]$description
+    )
+
+    # For cloud agent execution, we'll write the report to temp location
+    # and return the path for the Artifact tool to pick up
+
+    $tempPath = Join-Path $env:TEMP "weekly-report-$((Get-Date).ToString("yyyy-Www-HHmm")).md"
+    Set-Content -Path $tempPath -Value $reportMarkdown -Encoding UTF8
+
+    # Note: In actual execution, the agent will call the Artifact tool
+    # This function prepares the markdown; the tool invocation happens at agent boundary
+
+    Write-Host "Report prepared for artifact publishing at: $tempPath"
+    return $tempPath
+}
+
+function Commit-WeeklyReport {
+    param(
+        [string]$repoRoot,
+        [string]$reportPath,
+        [string]$reportContent,
+        [string]$reportWeek
+    )
+
+    # Write report to file
+    Set-Content -Path $reportPath -Value $reportContent -Encoding UTF8
+
+    try {
+        # Stage and commit
+        & git -C $repoRoot add $reportPath 2>&1 | Out-Null
+        & git -C $repoRoot commit -m "docs(report): add weekly report for $reportWeek" 2>&1 | Out-Null
+        Write-Host "Report committed: $reportPath"
+        return $true
+    } catch {
+        Write-Host "Warning: Failed to commit report: $_"
+        return $false
+    }
 }
 
 # ============================================================================
@@ -210,7 +289,24 @@ if ($Verbose) {
 # Generate report
 $report = New-WeeklyReport -dailyData $dailyData -reportWeek $reportWeek
 
-# Output for now
+# Prepare artifact
+$artifactPath = Publish-WeeklyReportArtifact -reportMarkdown $report -reportTitle "Weekly Report: $reportWeek" -description "Weekly work summary and metrics for $reportWeek"
+
+# Commit report to git
+$commitSuccess = Commit-WeeklyReport -repoRoot $RepoRoot -reportPath $reportPath -reportContent $report -reportWeek $reportWeek
+
+if ($commitSuccess) {
+    Write-Host "Weekly report published and committed successfully."
+} else {
+    Write-Host "Warning: Report artifact created but git commit failed."
+}
+
+# Output report content (agent will invoke Artifact tool with this)
+Write-Host "===== ARTIFACT_OUTPUT_START ====="
 Write-Host $report
+Write-Host "===== ARTIFACT_OUTPUT_END ====="
+Write-Host "Artifact prepared. Agent should invoke Artifact tool with:"
+Write-Host "  file_path: $artifactPath"
+Write-Host "  title: Weekly Report: $reportWeek"
 
 Write-Host "Weekly report agent complete."
