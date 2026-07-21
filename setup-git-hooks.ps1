@@ -46,15 +46,73 @@ function Install-Hooks {
 
     New-Item -ItemType Directory -Path $hooksDir -Force | Out-Null
 
-    # Pre-commit: validator only (fast)
+    # Pre-commit: validator + roadmap check (fast)
     # pwsh refuses to run extensionless script files even via -File, so the
     # git hook itself is a POSIX shim that execs a real .ps1 sidecar.
     $preCommitHook = @"
 # Auto-generated pre-commit hook. Do not edit.
-# Fast validation gate: validator only, skipped when commit touches no
-# skills/ or utilities/ files (validator scans the whole skill tree, so
-# there's nothing changed-file-scoped to gain by running it otherwise).
+# Runs two gates in sequence:
+# 1. Validator gate (skills/utilities only)
+# 2. Roadmap location check (all commits)
 
+# Roadmap location check function
+function Test-RoadmapLocations {
+    `$stagedFiles = git diff --cached --name-only
+    `$allowedRoots = @(
+        "docs/meta",
+        "cic-ingestion",
+        "rewrite-docs",
+        "rewrite-mcp",
+        "kb-sync"
+    )
+
+    `$violations = @()
+    foreach (`$file in `$stagedFiles) {
+        # Case-insensitive match for ROADMAP.md
+        if (`$file -imatch '(?i)roadmap\.md`$') {
+            `$isAllowed = `$false
+            foreach (`$root in `$allowedRoots) {
+                if (`$file.StartsWith(`$root)) {
+                    `$isAllowed = `$true
+                    break
+                }
+            }
+
+            if (-not `$isAllowed) {
+                `$violations += `$file
+            }
+        }
+    }
+
+    if (`$violations.Count -gt 0) {
+        Write-Error "ROADMAP.md creation blocked outside allowed locations."
+        Write-Host ""
+        Write-Host "Allowed:"
+        Write-Host "  - docs/meta/                   (global roadmaps only)"
+        Write-Host "  - cic-ingestion/               (project-local roadmap)"
+        Write-Host "  - rewrite-docs/                (project-local roadmap)"
+        Write-Host "  - rewrite-mcp/                 (project-local roadmap)"
+        Write-Host "  - kb-sync/                     (project-local roadmap)"
+        Write-Host ""
+        Write-Host "Found violation(s):"
+        foreach (`$v in `$violations) {
+            Write-Host "  - `$v"
+        }
+        Write-Host ""
+        Write-Host "Governance: docs/meta/governance/documentation-policy.md"
+        return `$false
+    }
+
+    return `$true
+}
+
+# Gate 1: Roadmap location check (always runs)
+Write-Host "Checking roadmap locations..."
+if (-not (Test-RoadmapLocations)) {
+    exit 1
+}
+
+# Gate 2: Validator gate (skills/utilities only)
 `$staged = git diff --cached --name-only
 if (-not (`$staged -match '^(skills/|utilities/)')) {
     Write-Host "No skills/ or utilities/ files staged, skipping validator"
