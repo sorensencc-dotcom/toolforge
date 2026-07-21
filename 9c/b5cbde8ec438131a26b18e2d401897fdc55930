@@ -1,0 +1,19 @@
+docs/meta/pre-commit-hook-roadmap-check.md
+  s_f5f266ba677d57::t_22af1eb205cd97 1-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "9cb5cbde8ec438131a26b18e2d401897fdc55930",
+  "prompts": {},
+  "sessions": {
+    "s_f5f266ba677d57": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77972b09-70fa-486c-8208-fe7fd38c5149",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
