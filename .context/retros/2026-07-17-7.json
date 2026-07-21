@@ -33,6 +33,8 @@
     "personal_streak_days": 10,
     "commits": 236,
     "backlog_open_todos": 3,
-    "backlog_closed_this_period": 12
+    "backlog_closed_this_period": 12,
+    "insertions": 82678,
+    "deletions": 11300
   }
 }
