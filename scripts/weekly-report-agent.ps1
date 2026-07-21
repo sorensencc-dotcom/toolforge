@@ -107,6 +107,93 @@ function Get-TrendIndicator {
     return "↓"
 }
 
+function Get-WeeklySummary {
+    param([array]$dailyData)
+
+    # Extract summaries from daily reports
+    $summaryItems = @()
+    $allBlockers = @()
+    $allKeyAchievements = @()
+
+    foreach ($day in $dailyData) {
+        $content = $day.content
+
+        # Extract summary section from daily markdown
+        if ($content -match '## Summary\s+([\s\S]*?)(?=\n## |\Z)') {
+            $summary = $matches[1].Trim()
+            if ($summary -and $summary -notmatch '^\(') {
+                $summaryItems += $summary
+            }
+        }
+
+        # Extract blockers if present
+        if ($content -match '### Blockers\s+([\s\S]*?)(?=\n### |\n## |\Z)') {
+            $blockersText = $matches[1].Trim()
+            $blockersText -split "`n" | ForEach-Object {
+                if ($_ -match '^\s*[-*]\s+(.+)') {
+                    $blocker = $matches[1].Trim()
+                    if ($blocker -notin $allBlockers) {
+                        $allBlockers += $blocker
+                    }
+                }
+            }
+        }
+
+        # Extract key achievements from commits if present
+        if ($content -match '### Commits\s+([\s\S]*?)(?=\n### |\n## |\Z)') {
+            $commitsText = $matches[1].Trim()
+            # Count significant commits (feat, fix)
+            $significantCommits = $commitsText | Select-String -Pattern '(feat|fix):', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
+            if ($significantCommits.Count -gt 0) {
+                $allKeyAchievements += "Day $($day.date): $($significantCommits.Count) significant commits"
+            }
+        }
+    }
+
+    return @{
+        items = $summaryItems
+        blockers = $allBlockers
+        achievements = $allKeyAchievements
+    }
+}
+
+function Get-WeeklySummarySection {
+    param([array]$dailyData)
+
+    $weekSummary = Get-WeeklySummary -dailyData $dailyData
+
+    $section = "## Summary`n`n"
+
+    # Weekly narrative
+    if ($weekSummary.items.Count -gt 0) {
+        $section += "### Week Overview`n`n"
+        $section += $weekSummary.items -join "`n`n"
+        $section += "`n`n"
+    } else {
+        $section += "### Week Overview`n`nWeek of $($dailyData[0].date | ForEach-Object { [datetime]$_ } | ForEach-Object { $_.AddDays(-$_.DayOfWeek.value__) } | ForEach-Object { $_.ToString('MMMM d, yyyy') }) to $($dailyData[-1].date | ForEach-Object { [datetime]$_ } | ForEach-Object { $_.ToString('MMMM d, yyyy') }):`n`nRegular development cycle across repos.`n`n"
+    }
+
+    # Key achievements
+    if ($weekSummary.achievements.Count -gt 0) {
+        $section += "### Key Achievements`n`n"
+        $weekSummary.achievements | ForEach-Object {
+            $section += "- $_`n"
+        }
+        $section += "`n"
+    }
+
+    # Blockers/challenges
+    if ($weekSummary.blockers.Count -gt 0) {
+        $section += "### Blockers & Challenges`n`n"
+        $weekSummary.blockers | ForEach-Object {
+            $section += "- $_`n"
+        }
+        $section += "`n"
+    }
+
+    return $section
+}
+
 function Get-BusiestDaysSection {
     param([array]$dailyData)
 
@@ -206,6 +293,7 @@ function New-WeeklyReport {
 
     $totalsTable = Get-WeeklyTotalsTable -dailyData $dailyData
     $busiestDays = Get-BusiestDaysSection -dailyData $dailyData
+    $summarySection = Get-WeeklySummarySection -dailyData $dailyData
 
     $report = @"
 # Weekly Report: $reportWeek
@@ -216,9 +304,7 @@ $totalsTable
 
 $busiestDays
 
-## Summary
-
-Week overview: Tasks from daily reports aggregated above. Full historical record maintained in git.
+$summarySection
 "@
 
     return $report
