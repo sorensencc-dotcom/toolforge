@@ -73,8 +73,9 @@ function ClassifyViolation([string]$FilePath) {
 
 Write-Host "Scanning C:\dev for ROADMAP.md drift..."
 $allRoadmaps = @()
-$roadmapFiles = Get-ChildItem -Path "C:\dev" -Filter "ROADMAP.md" -Recurse -ErrorAction SilentlyContinue
-$roadmapFiles += Get-ChildItem -Path "C:\dev" -Filter "roadmap.md" -Recurse -ErrorAction SilentlyContinue
+# Use single case-insensitive filter (Windows filesystem is case-insensitive)
+# Both "ROADMAP.md" and "roadmap.md" match the same file, deduplicate by FullName
+$roadmapFiles = Get-ChildItem -Path "C:\dev" -Filter "ROADMAP.md" -Recurse -ErrorAction SilentlyContinue | Sort-Object -Property FullName -Unique
 
 # Filter for violations (not in allowed roots, not in archive)
 $violations = @()
@@ -155,6 +156,46 @@ if ($violations.Count -gt 0 -and $SlackWebhook) {
     } catch {
         Write-Host "⚠️  Slack notification failed: $_"
     }
-} elseif ($violations.Count -eq 0) {
+} else {
+    Write-Host ""
+}
+
+# Register Windows Task Scheduler job (if on Windows and not already registered)
+Write-Host ""
+Write-Host "Registering Windows Task Scheduler job..."
+
+if ($PSVersionTable.Platform -eq "Win32NT" -or $PSVersionTable.PSVersion.Major -lt 6) {
+    $taskName = "Roadmap Drift Checker"
+    $taskPath = "\Toolforge\"
+    $scriptPath = "C:\dev\utilities\roadmap-drift-checker.ps1"
+
+    try {
+        # Check if task already exists
+        $existingTask = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
+
+        if ($existingTask) {
+            Write-Host "✅ Task already registered: $taskPath$taskName"
+        } else {
+            # Define trigger: weekly, Sunday 02:00 UTC
+            $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Sunday -At "02:00" -ErrorAction SilentlyContinue
+
+            # Define action: run PowerShell script
+            $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -File `"$scriptPath`"" -ErrorAction SilentlyContinue
+
+            # Create task with high privilege
+            $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest
+
+            # Register task
+            Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Trigger $trigger -Action $action -Principal $principal -Force | Out-Null
+            Write-Host "✅ Task scheduled: $taskPath$taskName (weekly Sunday 02:00 UTC)"
+        }
+    } catch {
+        Write-Host "⚠️  Task Scheduler registration failed: $_"
+    }
+} else {
+    Write-Host "⚠️  Not on Windows, skipping Task Scheduler registration"
+}
+
+if ($violations.Count -eq 0) {
     Write-Host "✅ No violations found. Clean state."
 }
