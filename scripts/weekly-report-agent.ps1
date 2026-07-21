@@ -143,22 +143,20 @@ function Get-WeeklyTotalsTable {
     $avgTokens = [math]::Round($totals.tokens / $dayCount, 0)
 
     # Trend indicators (week vs week comparison - stub for now)
-    $trendCommits = "↔"
-    $trendTests = "↔"
-    $trendTokens = "↔"
-    $trendHandoffs = "↔"
+    $trendCommits = [char]0x2194  # ↔
+    $trendTests = [char]0x2194
+    $trendTokens = [char]0x2194
+    $trendHandoffs = [char]0x2194
 
-    $table = @"
-| Metric | Total | Daily Avg | Trend |
-|--------|-------|-----------|-------|
-| Commits | $($totals.commits) | $avgCommits | $trendCommits |
-| Files Changed | $($totals.filesChanged) | $([math]::Round($totals.filesChanged / $dayCount, 1)) | ↔ |
-| Tests Run | $($totals.testsRun) | $avgTests | $trendTests |
-| Tests Passed | $($totals.testsPassed) | $([math]::Round($totals.testsPassed / $dayCount, 1)) | ↔ |
-| Tokens Used | $([string]::Format("{0:N0}", $totals.tokens)) | $([string]::Format("{0:N0}", $avgTokens)) | $trendTokens |
-| Cowork Sessions | $($totals.coworkSessions) | $([math]::Round($totals.coworkSessions / $dayCount, 1)) | ↔ |
-| Handoffs | $($totals.handoffs) | $([math]::Round($totals.handoffs / $dayCount, 1)) | $trendHandoffs |
-"@
+    $table = "| Metric | Total | Daily Avg | Trend |`n" +
+             "|--------|-------|-----------|-------|`n" +
+             "| Commits | $($totals.commits) | $avgCommits | $trendCommits |`n" +
+             "| Files Changed | $($totals.filesChanged) | $([math]::Round($totals.filesChanged / $dayCount, 1)) | $trendCommits |`n" +
+             "| Tests Run | $($totals.testsRun) | $avgTests | $trendTests |`n" +
+             "| Tests Passed | $($totals.testsPassed) | $([math]::Round($totals.testsPassed / $dayCount, 1)) | $trendCommits |`n" +
+             "| Tokens Used | $([string]::Format('{0:N0}', $totals.tokens)) | $([string]::Format('{0:N0}', $avgTokens)) | $trendTokens |`n" +
+             "| Cowork Sessions | $($totals.coworkSessions) | $([math]::Round($totals.coworkSessions / $dayCount, 1)) | $trendCommits |`n" +
+             "| Handoffs | $($totals.handoffs) | $([math]::Round($totals.handoffs / $dayCount, 1)) | $trendHandoffs |"
 
     return $table
 }
