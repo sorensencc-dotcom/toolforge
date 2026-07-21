@@ -129,7 +129,7 @@ if ($report.timeseries.Count -ge 2) {
 
   if ($latest.commits -and $previous.commits -and $previous.commits -gt 0) {
     $ct = ($latest.commits - $previous.commits) / $previous.commits
-    $dir = if ($ct -gt 0.1) { "↑" } elseif ($ct -lt -0.1) { "↓" } else { "→" }
+    $dir = if ($ct -gt 0.1) { "[UP]" } elseif ($ct -lt -0.1) { "[DOWN]" } else { "[FLAT]" }
     Write-Host "  Commits: $dir $($latest.commits) (was $($previous.commits), $([Math]::Round($ct*100,1))%)"
   }
 
@@ -138,12 +138,12 @@ if ($report.timeseries.Count -ge 2) {
     $pn = $previous.insertions - $previous.deletions
     if ($pn -ne 0) {
       $lt = ($ln - $pn) / $pn
-      $dir = if ($lt -gt 0.1) { "↑" } elseif ($lt -lt -0.1) { "↓" } else { "→" }
+      $dir = if ($lt -gt 0.1) { "[UP]" } elseif ($lt -lt -0.1) { "[DOWN]" } else { "[FLAT]" }
       Write-Host "  LOC Net: $dir $ln (was $pn, $([Math]::Round($lt*100,1))%)"
     }
   }
 
-  $health = if ($latest.team_streak -gt 0) { "🟢 HEALTHY" } else { "🔴 DISRUPTED" }
+  $health = if ($latest.team_streak -gt 0) { "[HEALTHY]" } else { "[DISRUPTED]" }
   Write-Host "  Team Health: $health (streak: $($latest.team_streak)d)"
 }
 

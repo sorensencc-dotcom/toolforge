@@ -92,7 +92,7 @@ function Test-RetroFile {
   if ($data.authors -and $data.metrics.contributors) {
     $author_count = $data.authors.PSObject.Properties.Count
     if ($author_count -gt 0 -and $author_count -ne $data.metrics.contributors) {
-      $warnings += "Authors count ($author_count) ≠ contributors ($($data.metrics.contributors))"
+      $warnings += "Authors count ($author_count) != contributors ($($data.metrics.contributors))"
     }
   }
 
@@ -112,21 +112,21 @@ foreach ($file in $retros) {
   $result = Test-RetroFile $file.FullName $file.Name
   $results += $result
 
-  $status = if ($result.valid) { "✓ PASS" } else { "✗ FAIL" }
+  $status = if ($result.valid) { "[PASS]" } else { "[FAIL]" }
   $color = if ($result.valid) { "Green" } else { "Red" }
   Write-Host "$($result.file): $status" -ForegroundColor $color
 
   if ($result.issues.Count -gt 0) {
     Write-Host "  Issues:" -ForegroundColor Red
     foreach ($issue in $result.issues) {
-      Write-Host "    ✗ $issue" -ForegroundColor Red
+      Write-Host "    [-] $issue" -ForegroundColor Red
     }
   }
 
   if ($result.warnings.Count -gt 0) {
     Write-Host "  Warnings:" -ForegroundColor Yellow
     foreach ($warning in $result.warnings) {
-      Write-Host "    ⚠ $warning" -ForegroundColor Yellow
+      Write-Host "    [!] $warning" -ForegroundColor Yellow
     }
   }
 }

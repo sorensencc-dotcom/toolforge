@@ -108,9 +108,9 @@ function Get-Findings {
 }
 
 # Read trend data (run analyzer to get timeseries)
-$analyzer_script = Join-Path (Split-Path $PSCommandPath) "analyze-trends.ps1"
+$analyzer_script = Join-Path (Split-Path $PSCommandPath) "analyze-retro-trends.ps1"
 if (-not (Test-Path $analyzer_script)) {
-  Write-Host "✗ Trend analyzer not found: $analyzer_script" -ForegroundColor Red
+  Write-Host "[ERROR] Trend analyzer not found: $analyzer_script" -ForegroundColor Red
   exit 1
 }
 
@@ -122,7 +122,7 @@ Write-Host "Running trend analyzer..." -ForegroundColor Cyan
 $trend_json = & $analyzer_script -RetroFile $RetroFile -Path $Path 2>/dev/null | ConvertFrom-Json
 
 if (-not $trend_json -or $trend_json.timeseries.Count -eq 0) {
-  Write-Host "✗ No trend data available" -ForegroundColor Red
+  Write-Host "[ERROR] No trend data available" -ForegroundColor Red
   exit 1
 }
 
@@ -132,21 +132,22 @@ Write-Host ""
 $findings = Get-Findings $trend_json.timeseries
 
 if ($findings.Count -eq 0) {
-  Write-Host "✅ No anomalies detected. All metrics healthy." -ForegroundColor Green
+  Write-Host "[OK] No anomalies detected. All metrics healthy." -ForegroundColor Green
   Write-Host ""
   Write-Host "Summary:" -ForegroundColor Green
   Write-Host "  Latest: $($trend_json.timeseries[-1].commits) commits"
   Write-Host "  LOC: $($trend_json.timeseries[-1].insertions - $trend_json.timeseries[-1].deletions) net"
   Write-Host "  Team streak: $($trend_json.timeseries[-1].team_streak) days"
 } else {
-  Write-Host "📋 Found $($findings.Count) items:" -ForegroundColor Cyan
+  Write-Host "[REPORT] Found $($findings.Count) items:" -ForegroundColor Cyan
   Write-Host ""
 
   foreach ($f in $findings) {
-    $icon = @{ RED = "🔴"; YELLOW = "🟡"; BLUE = "🔵" }[$f.severity] ?? "⚪"
-    Write-Host "$icon [$($f.severity)] $($f.finding)" -ForegroundColor (
-      @{ RED = "Red"; YELLOW = "Yellow"; BLUE = "Cyan" }[$f.severity] ?? "Gray"
-    )
+    $iconMap = @{ RED = "[!!]"; YELLOW = "[~]"; BLUE = "[i]" }
+    $icon = if ($iconMap.Contains($f.severity)) { $iconMap[$f.severity] } else { "[?]" }
+    $colorMap = @{ RED = "Red"; YELLOW = "Yellow"; BLUE = "Cyan" }
+    $color = if ($colorMap.Contains($f.severity)) { $colorMap[$f.severity] } else { "Gray" }
+    Write-Host "$icon [$($f.severity)] $($f.finding)" -ForegroundColor $color
     Write-Host "   $($f.detail)" -ForegroundColor Gray
     Write-Host ""
   }
