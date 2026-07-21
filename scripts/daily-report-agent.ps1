@@ -252,6 +252,26 @@ $summary
     return $report
 }
 
+function Publish-ReportArtifact {
+    param(
+        [string]$reportMarkdown,
+        [string]$reportTitle,
+        [string]$description
+    )
+
+    # For cloud agent execution, we'll write the report to temp location
+    # and return the path for the Artifact tool to pick up
+
+    $tempPath = Join-Path $env:TEMP "daily-report-$((Get-Date).ToString("yyyy-MM-dd-HHmm")).md"
+    Set-Content -Path $tempPath -Value $reportMarkdown -Encoding UTF8
+
+    # Note: In actual execution, the agent will call the Artifact tool
+    # This function prepares the markdown; the tool invocation happens at agent boundary
+
+    Write-Host "Report prepared for artifact publishing at: $tempPath"
+    return $tempPath
+}
+
 # ============================================================================
 # Main
 # ============================================================================
@@ -279,7 +299,15 @@ if ($Verbose) {
 # Generate report
 $report = New-DailyReport -commits $commits -sessionWrap $sessionWrap -retro $retro -coworkActivity $coworkActivity -reportDate $AgentStartTime
 
-# Output for now (artifact publishing in Task 12)
+# Prepare artifact
+$artifactPath = Publish-ReportArtifact -reportMarkdown $report -reportTitle "Daily Report: $reportDate" -description "Daily work summary and metrics for $reportDate"
+
+# Output report content (agent will invoke Artifact tool with this)
+Write-Host "===== ARTIFACT_OUTPUT_START ====="
 Write-Host $report
+Write-Host "===== ARTIFACT_OUTPUT_END ====="
+Write-Host "Artifact prepared. Agent should invoke Artifact tool with:"
+Write-Host "  file_path: $artifactPath"
+Write-Host "  title: Daily Report: $reportDate"
 
 Write-Host "Daily report agent complete."
