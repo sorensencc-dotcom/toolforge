@@ -1,5 +1,43 @@
 # Changelog
 
+## Version 2.15.0
+Date: 2026-07-21
+
+### Changes
+- 8675692 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- c73d5cb - chore: remove broken submodule references (no .gitmodules config) (Chris Sorensen)
+- cddcecf - docs: add roadmap-specific placement rules (Chris Sorensen)
+- fb1eac7 - docs: add roadmap governance rules to CLAUDE.md (Chris Sorensen)
+- f2742ec - fix: Task Scheduler registration error handling (Chris Sorensen)
+- 4310f48 - fix: Task 4.1 critical bugs - deduplication + Task Scheduler wiring (Chris Sorensen)
+- a32ea0b - feat: add weekly roadmap drift checker (Chris Sorensen)
+- f751bbd - fix: restore pre-commit validator gate + integrate roadmap check (Chris Sorensen)
+- 2cf7b6b - feat: add pre-commit roadmap location check (Chris Sorensen)
+- 60fc04a - feat(scripts): add scheduled task setup for daily/weekly reports (Chris Sorensen)
+- f49e51d - fix(retro): backfill LOC data for 2026-07-17-7 from git log (Chris Sorensen)
+- 61e9fb4 - fix(2.2): consume audit JSON in orphan-cleanup script; drop stray .gitkeep (Chris Sorensen)
+- 7f1481d - feat(script): implement daily report backfill for historical data (Chris Sorensen)
+- 9c36b04 - docs(report): backfill daily report for 2026-07-01 (Chris Sorensen)
+- dcc27c9 - docs(report): backfill daily report for 2026-07-12 (Chris Sorensen)
+- d17507b - docs(report): backfill daily report for 2026-07-11 (Chris Sorensen)
+- c1574ba - docs(report): backfill daily report for 2026-07-10 (Chris Sorensen)
+- f99eab0 - docs(report): backfill daily report for 2026-07-09 (Chris Sorensen)
+- b941d55 - docs(report): backfill daily report for 2026-07-08 (Chris Sorensen)
+- 044ff06 - docs(report): backfill daily report for 2026-07-07 (Chris Sorensen)
+- df5e5d8 - docs(report): backfill daily report for 2026-07-06 (Chris Sorensen)
+- 3a62b45 - docs(report): backfill daily report for 2026-07-05 (Chris Sorensen)
+- a1087bd - feat(script): add verification gate for report integrity (Chris Sorensen)
+- b57297a - docs(report): add weekly report for 2026-W29 (Chris Sorensen)
+- 00d2e85 - feat(agent): add weekly busiest days analysis (Chris Sorensen)
+- 70145bd - docs(report): add weekly report for 2026-W30 (Chris Sorensen)
+- 1e7d15a - feat(agent): add weekly summary generation (Chris Sorensen)
+- c7da860 - docs(report): add weekly report for 2026-W30 (Chris Sorensen)
+- a577307 - feat(agent): prepare weekly report artifact for publishing (Chris Sorensen)
+- 32e1ded - docs(report): add weekly report for 2026-W30 (Chris Sorensen)
+- 007688c - feat(agent): implement weekly rollup and trend indicators (Chris Sorensen)
+- cda9e33 - feat(agent): scaffold weekly report agent v1.0 (Chris Sorensen)
+- a5fe8d1 - feat: delete orphan roadmaps and establish archive (Chris Sorensen)
+
 ## Version 2.14.0
 Date: 2026-07-21
 
