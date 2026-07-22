@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CIC Vision Threshold Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "version",
+    "timestamp",
+    "baseline_avg",
+    "structure_avg",
+    "enrichment_delta_avg",
+    "current_threshold",
+    "provider_chain_stats",
+    "update_reason",
+    "executed_by",
+    "status",
+    "hash"
+  ],
+  "properties": {
+    "artifact_type": {
+      "type": "string",
+      "const": "CIC-VISION-THRESHOLD"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v\\d{3}$",
+      "description": "Monotonic version: v001, v002, ..."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "baseline_avg": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "structure_avg": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "enrichment_delta_avg": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "current_threshold": {
+      "type": "number",
+      "minimum": 0.6,
+      "maximum": 0.85
+    },
+    "provider_chain_stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clip": {
+          "$ref": "#/definitions/providerStat"
+        },
+        "blip": {
+          "$ref": "#/definitions/providerStat"
+        },
+        "dino": {
+          "$ref": "#/definitions/providerStat"
+        },
+        "sam": {
+          "$ref": "#/definitions/providerStat"
+        },
+        "googleVision": {
+          "$ref": "#/definitions/providerStat"
+        }
+      }
+    },
+    "update_reason": {
+      "type": "string",
+      "enum": ["adaptive-update", "manual-override", "initialization"]
+    },
+    "executed_by": {
+      "type": "string",
+      "pattern": "^ACTOR-\\d{3}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "ratified"]
+    },
+    "parent_lineage": {
+      "type": ["string", "null"],
+      "description": "Hash of parent artifact (null for v001)"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash of artifact"
+    }
+  },
+  "definitions": {
+    "providerStat": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "successes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "avg_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "last_call": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      },
+      "required": ["calls", "successes", "avg_confidence"]
+    }
+  }
+}
