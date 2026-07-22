@@ -57,5 +57,6 @@
     "team_streak_days": 9,
     "net_loc_filtered": 72602,
     "filter_note": "raw LOC excludes package-lock.json (dozens, ~3.8-5.7k lines each, auto-generated per-skill scaffolding) and hook-generated report files (SKILLPACK-*, COWORK-*, CHANGELOG.md, VERSION.md)"
-  }
+  },
+  "user": "Chris Sorensen"
 }

@@ -1,0 +1,39 @@
+{
+  "note": null,
+  "window": "7d",
+  "session_focus": {
+    "summary": "Fixed LOC backfill for 2026-07-17-7.json retro file (git log --numstat aggregation). Created setup scripts for Windows Task Scheduler automation: setup-daily-report-schedule.ps1 (daily 6am, 1h timeout) and setup-weekly-report-schedule.ps1 (Monday 6am, 2h timeout). All 3 task setup scripts ready for admin registration: retro-audit (Sundays 6pm), daily-report (daily 6am), weekly-report (Monday 6am)."
+  },
+  "base_branch": "main",
+  "date": "2026-07-21",
+  "until": "2026-07-21T23:59:59",
+  "prior_retro_baseline": ".context/retros/2026-07-20-1.json",
+  "metrics": {
+    "automation_commits": 1,
+    "release_commits_this_window": 1,
+    "commits": 294,
+    "focus_area": "docs/meta/; scripts/; .context/",
+    "deletions": 17053,
+    "active_days": 11,
+    "team_streak_days": 11,
+    "contributors": 2,
+    "personal_streak_days": 11,
+    "insertions": 74365,
+    "version_range": [
+      "v2.14.0",
+      "v2.15.0"
+    ]
+  },
+  "authors": {
+    "toolforge-release-bot": {
+      "commits": 1,
+      "role": "automation"
+    },
+    "Chris Sorensen": {
+      "commits": 293,
+      "role": "human"
+    }
+  },
+  "since": "2026-07-14T00:00:00",
+  "user": "Chris Sorensen"
+}

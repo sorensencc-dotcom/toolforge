@@ -362,6 +362,7 @@ function Commit-WeeklyReport {
 # Main
 # ============================================================================
 
+Write-Host "AGENT_STARTED|weekly-report-v1.0|$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "Weekly Report Agent starting at $AgentStartTime"
 Write-Host "Report week: $reportWeek"
 Write-Host "Week span: $weekStart to $AgentStartTime"

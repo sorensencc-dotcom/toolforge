@@ -1,0 +1,41 @@
+{
+  "date": "2026-07-21",
+  "window": "7d",
+  "since": "2026-07-14T00:00:00",
+  "user": "Chris Sorensen",
+  "metrics": {
+    "commits_human": 255,
+    "commits_bot": 39,
+    "contributors": 2,
+    "insertions": 76780,
+    "deletions": 17007,
+    "net_loc": 59773,
+    "test_loc": 4270,
+    "test_ratio_pct": 5,
+    "active_days": 11,
+    "sessions_detected": 51,
+    "avg_session_minutes": 76,
+    "commits_per_day": 36
+  },
+  "commit_breakdown": {
+    "feat": 71,
+    "fix": 38,
+    "refactor": 4,
+    "chore": 21,
+    "docs": 96,
+    "other": 25
+  },
+  "version_range": ["2.2.0", "2.15.0"],
+  "peak_hours": [12, 15, 20, 13, 22],
+  "project_focus": "Roadmap Consolidation (9-task plan)",
+  "key_achievements": [
+    "9-task roadmap consolidation plan shipped end-to-end",
+    "Pre-commit hook deployed + enforcing allowed roots",
+    "Weekly drift checker scheduled via Task Scheduler",
+    "3 Critical findings caught and fixed in review",
+    "Zero violations in live sweep post-push"
+  ],
+  "critical_findings_fixed": 3,
+  "shipping_streak_days": 48,
+  "tweetable": "Week of Jul 14: 255 commits, 59.7k net LOC, 9 roadmap governance deliverables, 48-day shipping streak, peak: noon"
+}

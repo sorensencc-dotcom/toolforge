@@ -39,5 +39,6 @@
     "test_ratio_note": "raw denominator inflated by package-lock.json files (~39k LOC); excluding lockfiles effective ratio ~6.3%",
     "prs_merged": 0,
     "test_ratio": 0.043
-  }
+  },
+  "user": "Chris Sorensen"
 }

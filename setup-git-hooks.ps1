@@ -46,14 +46,39 @@ function Install-Hooks {
 
     New-Item -ItemType Directory -Path $hooksDir -Force | Out-Null
 
-    # Pre-commit: validator + roadmap check (fast)
+    # Pre-commit: retro validation + roadmap check + validator (fast)
     # pwsh refuses to run extensionless script files even via -File, so the
     # git hook itself is a POSIX shim that execs a real .ps1 sidecar.
     $preCommitHook = @"
 # Auto-generated pre-commit hook. Do not edit.
-# Runs two gates in sequence:
-# 1. Validator gate (skills/utilities only)
+# Runs three gates in sequence:
+# 1. Retro schema validation (.context/retros/*.json only)
 # 2. Roadmap location check (all commits)
+# 3. Validator gate (skills/utilities only)
+
+# Retro validation function
+function Test-RetroFiles {
+    `$stagedFiles = git diff --cached --name-only
+    `$retroFiles = `$stagedFiles | Where-Object { `$_ -match '\.context[\\/]retros[\\/].*\.json`$' -and `$_ -notmatch 'schema\.json`$' }
+
+    if (`$retroFiles.Count -eq 0) {
+        return `$true
+    }
+
+    # Call retro validator
+    `$validatorScript = '.context\retros\validate.ps1'
+    if (-not (Test-Path `$validatorScript)) {
+        Write-Error "Retro validator not found: `$validatorScript"
+        return `$false
+    }
+
+    & `$validatorScript -Strict
+    if (`$LASTEXITCODE -ne 0) {
+        return `$false
+    }
+
+    return `$true
+}
 
 # Roadmap location check function
 function Test-RoadmapLocations {
@@ -106,13 +131,19 @@ function Test-RoadmapLocations {
     return `$true
 }
 
-# Gate 1: Roadmap location check (always runs)
+# Gate 1: Retro schema validation
+Write-Host "Validating retro files..."
+if (-not (Test-RetroFiles)) {
+    exit 1
+}
+
+# Gate 2: Roadmap location check (always runs)
 Write-Host "Checking roadmap locations..."
 if (-not (Test-RoadmapLocations)) {
     exit 1
 }
 
-# Gate 2: Validator gate (skills/utilities only)
+# Gate 3: Validator gate (skills/utilities only)
 `$staged = git diff --cached --name-only
 if (-not (`$staged -match '^(skills/|utilities/)')) {
     Write-Host "No skills/ or utilities/ files staged, skipping validator"

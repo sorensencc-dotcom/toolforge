@@ -299,6 +299,7 @@ function Commit-DailyReport {
 # Main
 # ============================================================================
 
+Write-Host "AGENT_STARTED|daily-report-v1.0|$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "Daily Report Agent starting at $AgentStartTime"
 Write-Host "Report date: $reportDate"
 Write-Host "24h window: $dayStart to $AgentStartTime"
