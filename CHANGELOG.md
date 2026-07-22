@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.17.0
+Date: 2026-07-22
+
+### Changes
+- e5d9956 - feat: Wire CIC Vision Subsystem into Harvester (Task 13) (Chris Sorensen)
+
 ## Version 2.16.0
 Date: 2026-07-22
 
