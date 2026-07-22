@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.16.0
+Date: 2026-07-22
+
+### Changes
+- 372cbec - feat: Add CIC Vision Subsystem (cic-vision-governance) with adaptive thresholding and Gemini API (Chris Sorensen)
+
 ## Version 2.15.1
 Date: 2026-07-22
 
