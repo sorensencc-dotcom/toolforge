@@ -1,3 +1,12 @@
+---
+title: "Phase 9 Charter: Marketplace UI + Discovery API + Advanced Features"
+document_id: "CIC-GOV-PHASE-09-CHARTER"
+category: "manifest"
+status: "active"
+version: "1.0.0"
+---
+
+
 # Phase 9 Charter: Marketplace UI + Discovery API + Advanced Features
 
 **Status:** APPROVED (Tier 1: 2026-07-14)  

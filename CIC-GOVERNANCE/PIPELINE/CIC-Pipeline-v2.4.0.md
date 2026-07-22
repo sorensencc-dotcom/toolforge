@@ -1,3 +1,12 @@
+---
+title: "CIC Governance Pipeline v2.4.0 — Candidate"
+document_id: "CIC-PIPELINE-V2-4-0"
+category: "pipeline"
+status: "candidate"
+version: "2.4.0"
+---
+
+
 # CIC Governance Pipeline v2.4.0 — Candidate
 
 1. Actor authorization.

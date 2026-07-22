@@ -1,3 +1,12 @@
+---
+title: "CAST IRON CHARLIE Governance Directory"
+document_id: "CIC-GOV-ROOT-README"
+category: "readme"
+status: "candidate"
+version: "1.0.0"
+---
+
+
 # CAST IRON CHARLIE Governance Directory
 
 Status: `IMPLEMENTED CANDIDATE — NOT OPERATIONAL`

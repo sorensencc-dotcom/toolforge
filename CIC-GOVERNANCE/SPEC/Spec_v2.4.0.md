@@ -1,3 +1,12 @@
+---
+title: "CIC Specification v2.4.0 — Candidate"
+document_id: "CIC-SPEC-V2-4-0"
+category: "spec"
+status: "candidate"
+version: "2.4.0"
+---
+
+
 # CIC Specification v2.4.0 — Candidate
 
 Status: `CANDIDATE — NOT RATIFIED`

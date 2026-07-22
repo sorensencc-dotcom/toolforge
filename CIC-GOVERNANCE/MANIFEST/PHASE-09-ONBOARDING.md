@@ -1,3 +1,12 @@
+---
+title: "Phase 9 Onboarding — Codex + Antigravity"
+document_id: "CIC-GOV-PHASE-09-ONBOARDING"
+category: "manifest"
+status: "active"
+version: "1.0.0"
+---
+
+
 # Phase 9 Onboarding — Codex + Antigravity
 ## Effective Date: 2026-07-29
 

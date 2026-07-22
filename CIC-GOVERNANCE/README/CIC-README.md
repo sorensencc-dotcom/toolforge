@@ -1,3 +1,12 @@
+---
+title: "CIC Governance Onboarding"
+document_id: "CIC-README-DOC"
+category: "readme"
+status: "candidate"
+version: "1.0.0"
+---
+
+
 # CIC Governance Onboarding
 
 Start with repository `CLAUDE.md` and

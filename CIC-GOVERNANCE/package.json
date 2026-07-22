@@ -1,0 +1,18 @@
+{
+  "name": "cic-governance",
+  "version": "1.0.0",
+  "description": "Cast Iron Charlie (CIC) Governance Architecture & Verification Suite",
+  "main": "WRAPPERS/governance_runtime.py",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "gov:validate-contract": "node scripts/validate-governance-contract.mjs",
+    "gov:backfill": "node scripts/governance-contract-backfill.mjs",
+    "gov:setup-hook": "node scripts/setup-git-hook.mjs",
+    "gov:pre-flight": "npm run gov:validate-contract && python -m unittest discover -s tests -v"
+  },
+  "author": "Cast Iron Charlie Governance Team",
+  "license": "UNLICENSED"
+}

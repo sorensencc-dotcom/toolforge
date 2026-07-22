@@ -1,3 +1,11 @@
+---
+title: "Wrappers"
+document_id: "CIC-GOV-WRAPPERS-README"
+category: "readme"
+status: "candidate"
+version: "1.0.0"
+---
+
 # Wrappers
 
 Contains candidate wrapper and registry. Actor authorization is injected by

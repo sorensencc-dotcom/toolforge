@@ -1,3 +1,12 @@
+---
+title: "AMD-v2.4.0-0001 — Append-Only Rollback Semantics"
+document_id: "AMD-V2-4-0-0001"
+category: "amendment"
+status: "candidate"
+version: "2.4.0"
+---
+
+
 # AMD-v2.4.0-0001 — Append-Only Rollback Semantics
 
 Status: `RATIFIED`  

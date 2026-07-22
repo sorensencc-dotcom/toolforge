@@ -1,3 +1,12 @@
+---
+title: "Gate Implementation Status"
+document_id: "CIC-GOV-GATE-STATUS"
+category: "manifest"
+status: "candidate"
+version: "1.0.0"
+---
+
+
 # Gate Implementation Status
 
 Date: 2026-07-17 (refreshed — see note below)

@@ -1,3 +1,12 @@
+---
+title: "CIC Gate Closure Specification"
+document_id: "CIC-GATE-SPEC-001"
+category: "spec"
+status: "candidate"
+version: "1.0.0-candidate.1"
+---
+
+
 # CIC Gate Closure Specification
 
 Document ID: `CIC-GATE-SPEC-001`  

@@ -1,3 +1,11 @@
+---
+title: "CIC Commit-Message Template"
+document_id: "CIC-GOV-COMMIT-MESSAGE-TEMPLATE"
+category: "template"
+status: "active"
+version: "1.0.0"
+---
+
 # CIC Commit-Message Template
 
 Reference documentation only — no skill or hook writes commits automatically.

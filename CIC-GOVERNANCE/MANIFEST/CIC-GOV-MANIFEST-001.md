@@ -1,3 +1,12 @@
+---
+title: "CIC Governance Consolidation Manifest"
+document_id: "CIC-GOV-MANIFEST-001"
+category: "manifest"
+status: "candidate"
+version: "1.1.0-candidate.1"
+---
+
+
 # CIC Governance Consolidation Manifest
 
 Document ID: `CIC-GOV-MANIFEST-001`  

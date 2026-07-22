@@ -1,3 +1,12 @@
+---
+title: "Manifest"
+document_id: "CIC-GOV-MANIFEST-README"
+category: "readme"
+status: "candidate"
+version: "1.0.0"
+---
+
+
 # Manifest
 
 Holds consolidation manifest after Tier 1 ratification. Current Word draft
