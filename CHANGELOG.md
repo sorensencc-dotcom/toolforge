@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.15.1
+Date: 2026-07-22
+
+### Changes
+- fdc3a37 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- b26dbe0 - chore: add retro schema validation gate + agent heartbeats (Chris Sorensen)
+
 ## Version 2.15.0
 Date: 2026-07-21
 
