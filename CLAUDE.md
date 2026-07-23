@@ -92,6 +92,25 @@ For semantic code questions ("where's the auth logic?", "how's billing handled?"
 
 Faster than Grep for concept questions. Setup: `/setup-gbrain --full`
 
+## Internal Search (es / Everything)
+
+Everything (voidtools) runs in the background on this machine, indexing NTFS filenames/paths live via the USN journal. `es.exe` (installed at `C:\dev\scripts\es.exe`, on PATH) is its CLI client.
+
+**es finds filenames/paths only — never file contents.** Grep (ripgrep) remains the tool for searching inside files.
+
+**Always scope with `-path`.** An unscoped `es <pattern>` query searches the whole indexed drive, including the Windows Recycle Bin — verified returning 241 noisy results (incl. `$Recycle.Bin` entries) vs 100 clean ones for the same pattern scoped to `-path "C:\dev"`. Never run es without a `-path` scope in this repo.
+
+**Use `es -path "C:\dev" <pattern>` via Bash instead of Glob when either is true:**
+
+- The search has no known parent directory (would otherwise need `**/` from repo root).
+- The target may live under a rarely-loaded subtree (`docs/archive/`, `.claude/worktrees/`, `.ijfw/`) where a full Glob walk is disproportionately expensive relative to the lookup.
+
+Otherwise keep using Glob — it's already fast for scoped, known-subtree patterns.
+
+**Noise dirs:** es does not honor `agent-scan.ignore` — it indexes everything on disk. For broad queries, add `!` exclusions for the same high-noise paths listed there (e.g. `!node_modules`, `!_kb-sync-staging`, `!.claude\worktrees`) or the result set will include them even though agent scans don't.
+
+**Before relying on es:** run `where es.exe` to confirm it resolves. If the `es` Bash call errors (binary missing, Everything service not running, non-zero exit), explicitly retry the same lookup via Glob — this is a stated retry step, not an automatic fallback.
+
 ## Skill Approval & Registration
 
 ### Toolforge Skill (Candidate Criteria)
