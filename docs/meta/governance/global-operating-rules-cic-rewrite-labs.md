@@ -126,6 +126,8 @@ ELSE Charter → DISCUSS (Tier 1 decides: revise | consolidate | defer | proceed
 - Phase charters (`docs/meta/phases/phase-*.md`) — Phase scope + approval (Tier 1 approves; Tier 2 drafts)
 - `MEMORY.md` — Session-persistent facts (Tier 2 updates; 60-day TTL then archive)
 
+**Script Authoring:** `docs/meta/governance/script-authoring-conventions.md` — hook path resolution, one-installer-per-repo rule, migration dry-run requirement. Status: proposed (not yet a "must" until Tier 1 review completes).
+
 **Update Authority:**
 - Tier 1: CLAUDE.md, this document, conflict resolution
 - Tier 2: Phase docs, MEMORY.md, session records
