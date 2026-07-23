@@ -21,6 +21,7 @@
     "test": "node --test src/**/*.test.js toolforge-pdf/*.test.js",
     "test:watch": "node --test --watch src/**/*.test.js",
     "lint": "eslint src/**/*.js",
+    "pre-flight": "npm run lint && npm test",
     "stress:gate04": "node src/stress-tests/gate04-fairness.js",
     "dev": "npm run api:dev"
   },
