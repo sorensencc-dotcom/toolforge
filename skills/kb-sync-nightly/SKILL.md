@@ -29,6 +29,21 @@ interface SkillInput {
 }
 ```
 
+## Scheduled Task Configuration & Timeout Policy
+
+```yaml
+scheduled-task:
+  name: obsidian-kb-sync-nightly
+  timeout_ms: 90000              # Central policy override (configs/global.yaml)
+  retry_attempts: 3
+  retry_strategy: exponential_backoff
+  on_failure: 
+    action: notify
+    recipients: ["sorensencc@gmail.com"]
+    message: "Obsidian KB-Sync failed after retries. Manual execution needed."
+```
+
+
 ## Output Schema
 
 ```typescript
