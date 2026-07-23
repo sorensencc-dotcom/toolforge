@@ -1,0 +1,21 @@
+docs/meta/governance/script-authoring-conventions.md
+  s_5f8d40bf855cf6::t_c3f58e1110a0f1 1-39
+docs/meta/governance/global-operating-rules-cic-rewrite-labs.md
+  s_5f8d40bf855cf6::t_0b63a5c62c1b71 129-130
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "f18dfc2a0ab15b2a4cb5c7b50c1634fe7caa6513",
+  "prompts": {},
+  "sessions": {
+    "s_5f8d40bf855cf6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08f1121a-602b-4b4c-a8fe-b6db21242ea3",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
