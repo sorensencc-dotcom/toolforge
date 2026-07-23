@@ -50,3 +50,7 @@ run-store.db-wal
 run-store.db-shm
 run-store-backup-*.db
 api/telemetry/.env
+
+# Antigravity retro fix 2026-07-22: pre-flight/validation telemetry, not source
+.performance-report.json
+.validation-report.json
