@@ -1,0 +1,19 @@
+CLAUDE.md
+  s_a38d16c89b1af7::t_41c6462970e37f 95-113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "f67adbbdf76d432c8b0073fd03dc9b099ba3dea7",
+  "prompts": {},
+  "sessions": {
+    "s_a38d16c89b1af7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "82c0b7db-271f-46b2-9a6c-c03aa017e7ac",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
