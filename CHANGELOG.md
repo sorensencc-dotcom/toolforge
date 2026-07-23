@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.18.0
+Date: 2026-07-23
+
+### Changes
+- 09f5275 - feat: Complete Task 13 - CIC Vision Subsystem Willow Run integration (Chris Sorensen)
+- f67adbb - docs: add es (Everything CLI) internal search guidance (Chris Sorensen)
+- a6b2cd7 - fix: merge competing root pre-commit hook installers, wire secret-scan (Chris Sorensen)
+- 23df1a2 - docs: add es (Everything CLI) search integration design spec (Chris Sorensen)
+- 272e714 - docs: revise antigravity retro fixes spec to v3 (Chris Sorensen)
+- c210094 - docs: add design spec for antigravity retro fixes (Chris Sorensen)
+
 ## Version 2.17.0
 Date: 2026-07-22
 
