@@ -1,0 +1,19 @@
+skills/kb-sync-nightly/SKILL.md
+  s_f3e7a3f560c277::t_09b66811672a8c 32-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "545a5b08d5e24b120f83720312abd859eb64c3f4",
+  "prompts": {},
+  "sessions": {
+    "s_f3e7a3f560c277": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a6a2f284c2870dce1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
