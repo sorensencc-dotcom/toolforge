@@ -1,0 +1,23 @@
+docs/meta/trm-deep-harvester-roadmap.md
+  s_389e8603b7d404::t_27aa2dc16e61c7 1-43
+docs/superpowers/specs/2026-07-23-trm-research-questions-design.md
+  s_389e8603b7d404::t_5d778887897db0 1-42,45-72,74,76-80,87-97,100-102,107-158
+  s_389e8603b7d404::t_d0a357d712f31d 43-44
+  s_389e8603b7d404::t_f19ad793b24388 73,75,81-86,98-99,103-106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "ac2798be18242d8a8f200722e5a894f11d91fbd4",
+  "prompts": {},
+  "sessions": {
+    "s_389e8603b7d404": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "deffa023-8092-49e9-9bbc-76b633c6791f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
