@@ -1,0 +1,26 @@
+skills/research-questions/SKILL.md
+  s_a3505f9072d5c6::t_f0be2702aa3002 97-103
+  s_a3505f9072d5c6::t_ba7b5f31e9136c 30-66,68-70,85-88
+docs/superpowers/plans/2026-07-23-trm-research-questions.md
+  s_a3505f9072d5c6::t_2fb96242043a51 27-31
+src/harvester/external/__tests__/scan-gaps.test.js
+  s_a3505f9072d5c6::t_579abdb8dcaeaa 70-80
+docs/meta/trm-deep-harvester-roadmap.md
+  s_a3505f9072d5c6::t_94d5925bb54080 44-86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "01addc706954be4d81a4f3005c4a3ce55c6106dc",
+  "prompts": {},
+  "sessions": {
+    "s_a3505f9072d5c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fca6dcee-f6dd-473d-b31e-9b5879c5d874",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
