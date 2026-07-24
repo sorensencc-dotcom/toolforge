@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.19.0
+Date: 2026-07-23
+
+### Changes
+- b510e54 - feat: Add curator-decision-processor skill for batch TRM ingest workflow (Chris Sorensen)
+- 644b3c5 - fix: force LF line endings for shell scripts via .gitattributes (Chris Sorensen)
+
 ## Version 2.18.0
 Date: 2026-07-23
 
