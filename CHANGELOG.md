@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.19.3
+Date: 2026-07-24
+
+### Changes
+- 50467dc - fix: unblock pre-flight — eslint config, lint errors, 2 test bugs (Chris Sorensen)
+- 3450c84 - docs: add TRM research-questions implementation plan (Chris Sorensen)
+
 ## Version 2.19.2
 Date: 2026-07-24
 
