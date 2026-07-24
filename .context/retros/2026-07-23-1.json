@@ -1,0 +1,44 @@
+{
+  "date": "2026-07-23",
+  "window": "7d",
+  "since": "2026-07-16T00:00:00",
+  "user": "Chris Sorensen",
+  "metrics": {
+    "commits_human": 195,
+    "commits_bot": 39,
+    "contributors": 2,
+    "insertions": 43433,
+    "deletions": 9576,
+    "net_loc": 33857,
+    "test_loc": 7320,
+    "test_ratio_pct": 16.9,
+    "active_days": 9,
+    "sessions_detected": 38,
+    "avg_session_minutes": 49.7,
+    "commits_per_day": 26.0
+  },
+  "commit_breakdown": {
+    "feat": 46,
+    "fix": 25,
+    "refactor": 1,
+    "chore": 56,
+    "docs": 96,
+    "other": 10
+  },
+  "version_range": ["v2.2.5", "v2.19.1"],
+  "peak_hours": [22, 15, 13],
+  "project_focus": "docs/meta/governance restructure; reporting/retro automation; CIC tool surface + vision subsystem; hook governance",
+  "key_achievements": [
+    "Fixed silent root pre-commit hook collision: two competing installers (setup-git-hooks.ps1, setup-git-hook.mjs) were overwriting .git/hooks/pre-commit, and the active one had silently dropped retro-schema and roadmap-location enforcement for an unknown period",
+    "Established canonical secret-scan-hook.sh across cic-ingestion/rewrite-docs/rewrite-mcp/kb-sync, found and fixed real regex drift (rewrite-docs missing a char class) and a .gitattributes line-ending drift the parity checker itself caught mid-fix",
+    "Wired secret-scan enforcement into 4 previously-unenforced repos (root, cic-ingestion, rewrite-docs new installer, kb-sync fixed a second independent stale-hook drift in the same session)",
+    "Shipped docs/meta restructure: governance, specs, plans, phases, reviews all moved to consistent locations with fixed cross-references",
+    "Shipped daily/weekly report automation (20-task plan): agents, schedulers, backfill for 8 historical days, cowork daemon log parsing",
+    "Shipped CIC Vision Subsystem (adaptive thresholding, Gemini API) and wired it into the Harvester end-to-end (Task 13)",
+    "Fixed real bugs beyond scope in 3 separate review passes: roadmap consolidation scanner logic, PowerShell encoding in retro-audit scripts, SEC-AUDITOR self-referential false positive",
+    "Added retro schema validation gate (this file is validated against .context/retros/retro.schema.json by pre-commit)"
+  ],
+  "critical_findings_fixed": 6,
+  "shipping_streak_days": 9,
+  "tweetable": "Week of Jul 16-23: 234 commits (195 human, 39 auto-release), 43.4k LOC, 16.9% tests, v2.2.5→v2.19.1, 9-day streak. Today: found+fixed a silent 2-installer git-hook collision that had been dropping governance checks unnoticed."
+}
