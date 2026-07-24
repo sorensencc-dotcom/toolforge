@@ -1,0 +1,19 @@
+docs/superpowers/plans/2026-07-23-trm-research-questions.md
+  s_389e8603b7d404::t_1ea46c4ac02680 1-635
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "3450c84fa9054a04fea9cc4619f75c499552bd2a",
+  "prompts": {},
+  "sessions": {
+    "s_389e8603b7d404": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "deffa023-8092-49e9-9bbc-76b633c6791f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
