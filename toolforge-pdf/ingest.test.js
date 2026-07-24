@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { ingest } from "./server.js";
 
@@ -8,7 +9,7 @@ const FIXTURE = resolve(
   "../cic-ingestion/pdf/incoming/64-167-65_SorensenCharlesE.pdf"
 );
 
-test("ingest() extracts real text, not the xberg-mock placeholder", async () => {
+test("ingest() extracts real text, not the xberg-mock placeholder", { skip: !existsSync(FIXTURE) && "fixture lives outside repo in cic-research-vault; not present in this checkout" }, async () => {
   const result = await ingest({ file: FIXTURE });
 
   assert.equal(result.data.status, "success");

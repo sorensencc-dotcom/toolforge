@@ -33,7 +33,7 @@ export function validateManifest(manifest) {
   if (manifest.name && typeof manifest.name !== 'string') {
     errors.push('Field "name" must be string');
   }
-  if (manifest.name && !/^[a-z0-9\-]+$/.test(manifest.name)) {
+  if (manifest.name && !/^[a-z0-9-]+$/.test(manifest.name)) {
     errors.push('Field "name" must be lowercase alphanumeric with hyphens');
   }
 

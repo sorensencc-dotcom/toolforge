@@ -27,7 +27,9 @@ if (firstArg && !builtInCommands.includes(firstArg) && !firstArg.startsWith('-')
   if (existsSync(PLUGINS_FILE)) {
     try {
       plugins = JSON.parse(readFileSync(PLUGINS_FILE, 'utf8'));
-    } catch (e) {}
+    } catch {
+      // corrupt/missing plugins.json -> treat as no plugins installed
+    }
   }
 
   const plugin = plugins.find(p => {

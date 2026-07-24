@@ -83,6 +83,7 @@ async function runPool(total, concurrency, taskFn) {
   let next = 0;
 
   async function worker() {
+    // eslint-disable-next-line no-constant-condition -- pool worker loop, exits via return below
     while (true) {
       const i = next++;
       if (i >= total) return;

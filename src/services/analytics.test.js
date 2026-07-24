@@ -36,7 +36,7 @@ test('Analytics Service', async (t) => {
       await getBatchTrending(mockDb, { window: '30d', limit: 50 });
     } catch (error) {
       // Expected: no DB
-      assert.strictEqual(error.message, 'Database not available in test');
+      assert.strictEqual(error.message, 'Failed to fetch trending: Database not available in test');
     }
   });
 
