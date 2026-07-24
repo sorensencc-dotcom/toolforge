@@ -173,4 +173,5 @@ if (attribution) {
 
 console.log('\n================================================================');
 console.log('Curator decisions processed. Ready for TRM fact creation.');
+console.log(`Next: run /research-questions ${decisions.batch_id.replace(/-\d+$/, '')}`);
 console.log('================================================================\n');
