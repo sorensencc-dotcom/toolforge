@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.20.0
+Date: 2026-07-24
+
+### Changes
+- a86be11 - fix(trm): repair CLI entry-point guard on Windows (Chris Sorensen)
+- 22fc571 - feat(trm): print research-questions handoff hint after curator processing (Chris Sorensen)
+- 958be56 - feat(trm): add research-questions skill for web-search enrichment (Chris Sorensen)
+- c13b857 - feat(trm): add update-focus-areas.mjs for focus-area aggregation (Chris Sorensen)
+- 08a4cc3 - feat(trm): add scan-gaps.mjs for draft research-question generation (Chris Sorensen)
+
 ## Version 2.19.3
 Date: 2026-07-24
 
