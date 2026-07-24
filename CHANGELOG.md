@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.19.1
+Date: 2026-07-24
+
+### Changes
+- f8d8aa2 - merge: sync with release bot v2.19.0 (Chris Sorensen)
+- 545a5b0 - docs(skills): update kb-sync-nightly skill with timeout policy (Chris Sorensen)
+- f18dfc2 - docs: add script authoring conventions (proposed) (Chris Sorensen)
+- b5bcdb8 - chore: add pre-flight script (Chris Sorensen)
+- e831856 - chore: ignore telemetry report files (Chris Sorensen)
+
 ## Version 2.19.0
 Date: 2026-07-23
 
