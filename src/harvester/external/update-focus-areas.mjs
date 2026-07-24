@@ -8,6 +8,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 const THEME_LABELS = {
   gap: 'Undocumented events (gap)',
@@ -48,7 +49,7 @@ export function computeFocusAreas(researchQuestions) {
 }
 
 // CLI entry point
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const args = process.argv.slice(2);
   const questionsPath = args.find(a => a.startsWith('--questions='))?.split('=')[1];
 

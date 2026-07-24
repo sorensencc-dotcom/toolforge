@@ -8,6 +8,7 @@
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { pathToFileURL } from 'url';
 
 const LOW_CONFIDENCE_THRESHOLD = 0.80;
 
@@ -71,7 +72,7 @@ export function scanGaps(decisions, topic) {
 }
 
 // CLI entry point
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const args = process.argv.slice(2);
   const decisionsPath = args.find(a => a.startsWith('--decisions='))?.split('=')[1];
   const topic = args.find(a => a.startsWith('--topic='))?.split('=')[1];
