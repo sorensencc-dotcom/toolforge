@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.19.2
+Date: 2026-07-24
+
+### Changes
+- 8a348e5 - merge: sync with release bot v2.19.1 (Chris Sorensen)
+- a3024e6 - chore(retro): save 2026-07-23 session snapshot (hook collision fix + weekly rollup) (Chris Sorensen)
+- ac2798b - docs: add TRM research-questions design spec + deep-harvester roadmap outline (Chris Sorensen)
+
 ## Version 2.19.1
 Date: 2026-07-24
 
