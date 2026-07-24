@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.21.0
+Date: 2026-07-24
+
+### Changes
+- cc73c13 - feat(trm): vision-first photo judgment, id-integrity checks, cheap provenance fields (Chris Sorensen)
+
 ## Version 2.20.0
 Date: 2026-07-24
 
