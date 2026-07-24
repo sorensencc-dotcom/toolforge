@@ -24,7 +24,11 @@ for hashing. No new dependencies.
 - `update-focus-areas.mjs` always writes `focus-areas.json`, even when empty.
 - Field names are exact and must match across files: `source_type`,
   `fact_id`, `fact_confidence`, `question_origin_hash`, `status`,
-  `search_attempt_count`, `search_terms_used`, `last_attempt`.
+  `search_attempt_count`, `search_terms_used`, `last_attempt`,
+  `id_mismatch_flagged`, `id_mismatch_observed` (added 2026-07-24: vision-read
+  step in the `research-questions` skill can flag an archive metadata bug
+  where a photo's in-frame stamped negative number doesn't match its
+  assigned `fact_id`).
 
 ---
 

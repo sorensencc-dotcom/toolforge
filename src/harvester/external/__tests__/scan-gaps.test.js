@@ -67,3 +67,14 @@ test('scanGaps changes question_origin_hash when the underlying decision changes
   const afterHash = after.questions.find(q => q.fact_id === '76100').question_origin_hash;
   assert.notStrictEqual(beforeHash, afterHash);
 });
+
+test('scanGaps produces a stable deterministic_id for identical topic/fact/question, and sets created_at', () => {
+  const decisions = fixtureDecisions();
+  const first = scanGaps(decisions, 'willow-run');
+  const second = scanGaps(decisions, 'willow-run');
+
+  assert.ok(first.questions[0].deterministic_id.startsWith('sha256:'));
+  assert.strictEqual(first.questions[0].deterministic_id, second.questions[0].deterministic_id);
+  assert.ok(first.questions[0].created_at);
+  assert.strictEqual(first.questions[0].created_at, first.generated);
+});
