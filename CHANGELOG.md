@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.21.1
+Date: 2026-07-26
+
+### Changes
+- 4f66345 - chore: sync session state, curator/TRM research artifacts, exclude stray nested repos (Chris Sorensen)
+
 ## Version 2.21.0
 Date: 2026-07-24
 
