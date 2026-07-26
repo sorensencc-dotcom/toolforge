@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-19T01:21:05.5444104Z
+**Generated**: 2026-07-26T04:54:52.0942332Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 9 | 23 | 0 | ❌ |
+| Canonical | 11 | 23 | 0 | ❌ |
 | Distributed | 0 | 21 | 0 | ✅ |
 | Manifest | 2 | 89 | 0 | ❌ |
 | Cowork | 0 | 36 | 0 | ✅ |
 | Dependencies | 5 | 3 | 0 | ❌ |
-| Runtime | 1 | 0 | 35 | ❌ |
+| Runtime | 1 | 2 | 35 | ❌ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
-**Total Errors**: 17
-**Total Warnings**: 172
+**Total Errors**: 19
+**Total Warnings**: 174
 
 **Overall Status**: ❌ FAIL
 
@@ -89,6 +89,8 @@
 ⚠️ **operator-image-build**: Invalid category: pipeline
 ⚠️ **pre-wrap-audit**: Invalid category: session-management
 ⚠️ **reconcile-vector-store**: Invalid category: data-management
+❌ **research-questions**: SKILL.json missing
+❌ **retro-export**: SKILL.json missing
 ⚠️ **roadmap-validator**: Invalid category: governance
 ⚠️ **rollback-phase**: Invalid category: pipeline
 ⚠️ **scale-ingestion-service**: Invalid category: pipeline
@@ -113,9 +115,9 @@
 ⚠️ **context-manager**: Category mismatch: canonical 'utilities', distributed 'utility'
 ⚠️ **html-visual-verify**: Directory missing in distributed
 ⚠️ **kb-sync-artifact-generator**: Directory missing in distributed
-⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
-⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **kb-sync-nightly**: Version mismatch: canonical 1.0.2, distributed 1.0.0
+⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
+⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
 ⚠️ **obsidian-ingest-wiki**: Directory missing in distributed
 ⚠️ **session-wrap**: Directory missing in distributed
 ⚠️ **skill-health-monitor**: Directory missing in distributed
@@ -293,6 +295,8 @@
 ℹ️ **plan-extractor-integration**: Skill inactive (status: )
 ℹ️ **pre-wrap-audit**: Skill inactive (status: )
 ℹ️ **reconcile-vector-store**: Skill inactive (status: )
+⚠️ **research-questions**: Cannot discover: SKILL.json missing
+⚠️ **retro-export**: Cannot discover: SKILL.json missing
 ℹ️ **rewrite-labs-orchestrator**: Skill inactive (status: )
 ℹ️ **roadmap-validator**: Skill inactive (status: )
 ℹ️ **rollback-phase**: Skill inactive (status: )

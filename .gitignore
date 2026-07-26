@@ -37,6 +37,8 @@ tiny-app/
 /toolforge/
 windows-task-manager/
 .distro/
+trm/
+docs/archive/build-output/CIP/CIC/
 
 # Stray files
 null
@@ -54,3 +56,5 @@ api/telemetry/.env
 # Antigravity retro fix 2026-07-22: pre-flight/validation telemetry, not source
 .performance-report.json
 .validation-report.json
+research-data/raw/**/*.MOV
+research-data/raw/**/*.mov

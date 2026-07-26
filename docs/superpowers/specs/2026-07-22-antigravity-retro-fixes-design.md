@@ -64,7 +64,7 @@ Canonical regex (confirmed): `sk-[a-zA-Z0-9_-]{20,}` — rewrite-mcp's version w
 Verified live (resolves all three open questions from v2):
 
 - **rewrite-docs**: `core.hooksPath` unset, no `.husky`, `.git/hooks/pre-commit` is only the `.sample` stub — **no hook installed at all**. Needs a fresh installer, not a wire-in.
-- **kb-sync**: no installer exists. Confirmed language: **PowerShell installer, with a `bash`/git-bash call inside for the scanner** — same shape as the cic-ingestion fix below.
+- **kb-sync**: correction — an installer *does* exist (`npm run wiki:setup-hook`, a Node one-liner in `package.json` that copies `scripts/wiki-validate-precommit.sh` to `.git/hooks/pre-commit`). The installed hook is currently **stale** — diffed against source, missing the Wiki Contract validation + sibling-check steps the source script has gained since. Decision: extend the existing bash script rather than add a second (PowerShell) installer — a second installer would recreate the exact collision class fixed at root in item #1.
 
 Fix:
 

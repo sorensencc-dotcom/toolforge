@@ -1,0 +1,46 @@
+{
+  "date": "2026-07-25",
+  "window": "7d",
+  "since": "2026-07-18T00:00:00",
+  "user": "Chris Sorensen",
+  "metrics": {
+    "commits_human": 117,
+    "commits_bot": 23,
+    "contributors": 2,
+    "insertions": 27687,
+    "deletions": 7267,
+    "net_loc": 20420,
+    "test_loc": 1022,
+    "test_ratio_pct": 3.7,
+    "active_days": 7,
+    "sessions_detected": 29,
+    "deep_sessions": 8,
+    "medium_sessions": 5,
+    "micro_sessions": 16,
+    "avg_session_minutes": 40.0,
+    "commits_per_day": 20.9
+  },
+  "commit_breakdown": {
+    "docs": 50,
+    "feat": 37,
+    "chore": 30,
+    "fix": 16,
+    "test": 3,
+    "merge": 2,
+    "refactor": 1,
+    "other": 2
+  },
+  "version_range": ["v2.8.6", "v2.21.0"],
+  "peak_hours": [22, 20, 13],
+  "project_focus": "TRM ingest pipeline (image analyzer HTTP client, PNG format detection, research-questions skill, vision-first photo judgment); CLAUDE.md/skill-doc governance updates; 21 version bumps",
+  "backlog": {
+    "total_open": 7,
+    "p0_p1": 0,
+    "p2": 0,
+    "completed_this_period": 0,
+    "added_this_period": 0
+  },
+  "shipping_streak_days": 17,
+  "streak_note": "streak ended 2026-07-24 (last commit date); 0 commits so far today as of retro run",
+  "tweetable": "Week of Jul 18-25: 140 commits (117 human, 23 auto-release), 27.7k LOC, 3.7% tests, v2.8.6→v2.21.0, 17-day streak. Fixed a preexisting PNG-format-detection test failure (real fetch hit a dead localhost:3000, error path silently overwrote metadata.format to 'unknown')."
+}
