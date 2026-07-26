@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.21.4
+Date: 2026-07-26
+
+### Changes
+- 7c0ab9f - fix(memory): populate MEMORY.md, close learnings gap, and standardize retro test LOC calculation (Chris Sorensen)
+
 ## Version 2.21.3
 Date: 2026-07-26
 
