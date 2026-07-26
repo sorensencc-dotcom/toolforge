@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.21.3
+Date: 2026-07-26
+
+### Changes
+- eacf0bb - fix(retro): enforce canonical v1.0 schema, migrate retro files, and add tests (Chris Sorensen)
+
 ## Version 2.21.2
 Date: 2026-07-26
 
