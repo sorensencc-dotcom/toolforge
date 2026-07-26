@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.21.5
+Date: 2026-07-26
+
+### Changes
+- 83ec744 - docs(retro): log session wrap insights and learnings for 2026-07-26 (Chris Sorensen)
+
 ## Version 2.21.4
 Date: 2026-07-26
 
