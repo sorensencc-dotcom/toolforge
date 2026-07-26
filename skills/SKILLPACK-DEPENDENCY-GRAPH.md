@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-26T04:55:36.6643819Z
+**Generated:** 2026-07-26T05:13:23.0959662Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -368,41 +368,41 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| toolforge-cli | 1 |
-| skill-security-auditor | 1 |
 | pre-wrap-audit | 1 |
-| skill-health-monitor | 0 |
-| rollback-phase | 0 |
+| skill-security-auditor | 1 |
 | obsidian-ingest-wiki | 0 |
-| cic-ingest-world | 0 |
-| html-visual-verify | 0 |
-| run-adapter-diagnostic | 0 |
-| work-summarizer | 0 |
-| automation-audit | 0 |
-| agent-drift-detector | 0 |
-| analyze-token-burn | 0 |
-| session-wrap | 0 |
-| rewrite-labs-orchestrator | 0 |
-| cic-consolidate-artifacts | 0 |
-| scale-ingestion-service | 0 |
-| operator-image-build | 0 |
-| permission-governor | 0 |
-| reconcile-vector-store | 0 |
-| toolforge-registry-manager | 0 |
-| ashfall | 0 |
-| context-manager | 0 |
-| roadmap-validator | 0 |
-| tool-lifecycle-manager | 0 |
-| kb-sync-artifact-generator | 0 |
-| toolforge-drift-monitor | 0 |
-| toolforge-submission-validator | 0 |
 | cic-roadmap-updater | 0 |
+| rollback-phase | 0 |
+| toolforge-registry-manager | 0 |
+| operator-image-build | 0 |
+| context-manager | 0 |
+| kb-sync-artifact-generator | 0 |
 | plan-extractor-integration | 0 |
-| cic-repair-pipeline | 0 |
-| cic-orchestrate-flow | 0 |
+| agent-drift-detector | 0 |
+| rewrite-labs-orchestrator | 0 |
+| run-adapter-diagnostic | 0 |
+| skill-health-monitor | 0 |
+| ashfall | 0 |
+| toolforge-submission-validator | 0 |
+| toolforge-drift-monitor | 0 |
 | cic-section-summarizer | 0 |
+| cic-orchestrate-flow | 0 |
 | kb-sync-nightly | 0 |
+| cic-consolidate-artifacts | 0 |
+| reconcile-vector-store | 0 |
 | cic-run-gate | 0 |
+| scale-ingestion-service | 0 |
+| work-summarizer | 0 |
+| permission-governor | 0 |
+| automation-audit | 0 |
+| cic-ingest-world | 0 |
+| session-wrap | 0 |
+| cic-repair-pipeline | 0 |
 | _cic-shared | 0 |
+| tool-lifecycle-manager | 0 |
+| html-visual-verify | 0 |
+| roadmap-validator | 0 |
+| analyze-token-burn | 0 |
 
 ---
 

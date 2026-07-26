@@ -58,3 +58,6 @@ api/telemetry/.env
 .validation-report.json
 research-data/raw/**/*.MOV
 research-data/raw/**/*.mov
+
+# Pure regenerated cache/index, not source (matches scan-state.json.tmp.* pattern)
+.ijfw/scan-state.json
