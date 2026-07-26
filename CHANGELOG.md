@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.21.2
+Date: 2026-07-26
+
+### Changes
+- f5375fa - merge: sync release-bot v2.21.1 bump (Chris Sorensen)
+- cc6971b - fix(security): remove word-boundary gap in sk- secret-scan pattern (Chris Sorensen)
+
 ## Version 2.21.1
 Date: 2026-07-26
 
