@@ -1,4 +1,4 @@
-﻿{
+{
   "date": "2026-07-26",
   "window": "7d",
   "since": "2026-07-26T00:00:00-04:00",
@@ -52,13 +52,16 @@
     }
   },
   "session_focus": {
-    "summary": "TRM ingest/curator pipeline, secret-scan security fix, skill migration, session state sync",
+    "summary": "Memory restoration (MEMORY.md), learnings gap closure (commits a6b2cd7, 50467dc, b1550e3/21969c9), retro data quality standardization & schema validation",
     "incidents": [],
     "process_learnings": [
       "Fixed sk- secret-scan word-boundary gap blocking task-<uuid>/desk-<id> paths (verified true positives still caught)",
       "TRM curator-decision-processor + research-questions skill + vision-first photo judgment shipped",
       "Installed missing better-sqlite3 dep in ijfw mcp-server, restored tier-promotion/wiki-compile after 6+ wks silent breakage",
-      "6 releases shipped (v2.18.0 -> v2.21.2) via toolforge-release-bot"
+      "6 releases shipped (v2.18.0 -> v2.21.2) via toolforge-release-bot",
+      "Populated memory/MEMORY.md across all four sections to make long-term project memory load-bearing (CLAUDE.md:10)",
+      "Closed learnings gap by documenting git commit post-mortems (a6b2cd7 pre-commit hook chaining, 50467dc pre-flight test unblocking, b1550e3/21969c9 scanner regex) into memory and embedded checklists",
+      "Standardized retro test LOC calculation rules and methodology variance policy in RETRO-SCHEMA.md; updated validate-retro-v1.0.ps1 (20/20 PASS)"
     ]
   }
 }
