@@ -1,178 +1,362 @@
 #!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-Migrate retro JSON files from v0.1/v0.2/v0.3 to canonical v1.0 schema.
+Migrate all retro JSON files to Canonical v1.0 schema.
 
 .DESCRIPTION
-Reads all *.json files in the current directory, detects schema version,
-transforms to canonical v1.0, writes updated file + .backup.
-
-Schema versions:
-- v0.1 (07-12): nested metrics{}, streak_days, unpushed_commits
-- v0.2 (07-15/16): flat top-level (loc_*, feat_count, etc.)
-- v0.3 (07-16-4+): nested metrics{}, session_focus{}
-
-All transform to v1.0:
-- Top-level: date, window, since, until, base_branch, prior_retro_baseline, note
-- metrics{}: all numeric fields nested
-- authors{}
-- session_focus{}: optional (summary, incidents, learnings)
+Reads all *.json retro files in .context/retros, transforms both legacy pre-v1.0
+and post-lock drifted files to strict Canonical v1.0 format, builds prior_retro_baseline
+chains, writes updated JSON files, and removes temporary backups when verified.
 #>
 
 param(
-  [string]$Path = (Get-Location),
-  [switch]$DryRun = $false
+  [string]$Path = $PSScriptRoot,
+  [switch]$DryRun = $false,
+  [switch]$KeepBackups = $false
 )
 
-function Detect-SchemaVersion {
-  param([PSObject]$Data)
-
-  if ($Data.PSObject.Properties.Name -contains 'metrics' -and $Data.metrics.commits) {
-    if ($Data.PSObject.Properties.Name -contains 'session_focus') {
-      return @{ version = '0.3'; variant = 'final' }
-    } else {
-      return @{ version = '0.3'; variant = 'early' }
-    }
-  } elseif ($Data.PSObject.Properties.Name -contains 'commits' -and -not $Data.metrics) {
-    return @{ version = '0.2'; variant = 'flat' }
-  } else {
-    return @{ version = '0.1'; variant = 'nested' }
-  }
-}
+$ErrorActionPreference = "Stop"
 
 function Transform-ToV1 {
-  param([PSObject]$Data, [string]$FileName)
+  param(
+    [PSObject]$Data,
+    [string]$FileName,
+    [string]$PriorBaselinePath
+  )
 
-  $v1 = @{
-    date = $Data.date
-    window = $Data.window ?? '7d'
-    since = $Data.since ?? "$($Data.date)T00:00:00"
-    until = $Data.until ?? "$($Data.date)T23:59:59"
-    base_branch = $Data.base_branch ?? 'main'
-    prior_retro_baseline = $Data.prior_retro_baseline
-    note = $Data.note
-    metrics = @{}
-    authors = $Data.authors ?? @{}
+  $dateStr = $Data.date
+  $windowStr = if ($Data.window) { [string]$Data.window } else { "7d" }
+
+  $sinceStr = if ($Data.since -and $Data.since -match '^\d{4}-\d{2}-\d{2}') {
+    $s = [string]$Data.since
+    if ($s -notmatch 'T') { $s = $s -replace ' ', 'T' }
+    $s
+  } else {
+    "${dateStr}T00:00:00-04:00"
   }
 
-  # Extract or calculate metrics
-  $m = $v1.metrics
+  $untilStr = if ($Data.until -and $Data.until -match '^\d{4}-\d{2}-\d{2}') {
+    $u = [string]$Data.until
+    if ($u -notmatch 'T') { $u = $u -replace ' ', 'T' }
+    $u
+  } else {
+    "${dateStr}T23:59:59-04:00"
+  }
 
-  if ($Data.metrics) {
-    # v0.3: copy from nested metrics{}
-    foreach ($key in $Data.metrics.PSObject.Properties.Name) {
-      $m[$key] = $Data.metrics.$key
+  $baseBranch = if ($Data.base_branch) { [string]$Data.base_branch } else { "main" }
+  
+  $priorBaseline = $PriorBaselinePath
+
+  $note = if ($Data.note) {
+    [string]$Data.note
+  } elseif ($Data.duplicate_run_note) {
+    [string]$Data.duplicate_run_note
+  } elseif ($Data.streak_note) {
+    [string]$Data.streak_note
+  } else {
+    $null
+  }
+
+  # Metrics extraction
+  $mInput = if ($Data.metrics) { $Data.metrics } else { $Data }
+
+  $commitsBot = if ($null -ne $mInput.automation_commits) { [int]$mInput.automation_commits }
+                 elseif ($null -ne $mInput.commits_bot) { [int]$mInput.commits_bot }
+                 else { 0 }
+
+  $commitsHuman = if ($null -ne $mInput.commits_human) { [int]$mInput.commits_human } else { 0 }
+  $commitsMerge = if ($null -ne $mInput.commits_merge) { [int]$mInput.commits_merge } else { 0 }
+
+  $commitsTotal = if ($null -ne $mInput.commits) {
+    [int]$mInput.commits
+  } elseif ($commitsHuman -gt 0 -or $commitsBot -gt 0) {
+    $commitsHuman + $commitsBot + $commitsMerge
+  } else {
+    0
+  }
+
+  $commitsNoMerge = if ($null -ne $mInput.commits_no_merge) {
+    [int]$mInput.commits_no_merge
+  } elseif ($commitsTotal -gt 0) {
+    [Math]::Max(0, $commitsTotal - $commitsMerge)
+  } else {
+    0
+  }
+
+  # Authors
+  $authors = [ordered]@{}
+  if ($Data.authors -and $Data.authors.PSObject.Properties.Count -gt 0) {
+    foreach ($prop in $Data.authors.PSObject.Properties) {
+      $aObj = $prop.Value
+      $roleStr = if ($aObj.role -in @('human', 'automation')) { $aObj.role } else { "human" }
+      $commitsCount = if ($null -ne $aObj.commits) { [int]$aObj.commits } else { 0 }
+      
+      $aData = [ordered]@{
+        commits = $commitsCount
+        role = $roleStr
+      }
+      if ($null -ne $aObj.insertions) { $aData.insertions = [int]$aObj.insertions }
+      if ($null -ne $aObj.deletions) { $aData.deletions = [int]$aObj.deletions }
+      if ($null -ne $aObj.test_ratio) { $aData.test_ratio = [double]$aObj.test_ratio }
+      if ($null -ne $aObj.top_area) { $aData.top_area = [string]$aObj.top_area }
+      
+      $authors[$prop.Name] = $aData
     }
   } else {
-    # v0.1 or v0.2: extract from top-level or calculate
-    $m.commits = $Data.commits ?? $Data.metrics.commits ?? 0
-    $m.commits_no_merge = $Data.commits_no_merge ?? 0
-    $m.contributors = $Data.contributors ?? $Data.PSObject.Properties['authors'].Count
-    $m.automation_commits = $Data.automation_commits ?? 0
-
-    # LOC metrics (rename loc_* to insertions/deletions)
-    $m.insertions_raw = $Data.insertions ?? $Data.loc_insertions_raw ?? 0
-    $m.deletions_raw = $Data.deletions ?? $Data.loc_deletions_raw ?? 0
-    $m.net_loc_raw = ($m.insertions_raw - $m.deletions_raw)
-    $m.insertions_filtered = $Data.insertions_filtered ?? $Data.loc_insertions_filtered ?? $m.insertions_raw
-    $m.deletions_filtered = $Data.deletions_filtered ?? $Data.loc_deletions_filtered ?? $m.deletions_raw
-    $m.net_loc_filtered = ($m.insertions_filtered - $m.deletions_filtered)
-    $m.filter_note = $Data.filter_note ?? "raw LOC excludes lockfiles (package-lock.json, yarn.lock, etc.) and auto-generated reports"
-
-    # Test metrics
-    $m.test_loc_insertions = $Data.test_loc_insertions ?? $Data.test_loc ?? 0
-    $m.test_ratio_pct = $Data.test_loc_ratio_pct ?? $Data.test_ratio ?? 0
-
-    # Commit breakdown (convert counts to percentages if needed)
-    $total_commits = $Data.feat_count + $Data.chore_count + $Data.fix_count + $Data.docs_count + $Data.test_count + ($Data.refactor_count ?? 0)
-    if ($total_commits -gt 0) {
-      $m.feat_pct = [Math]::Round(($Data.feat_count / $total_commits) * 100, 1)
-      $m.fix_pct = [Math]::Round(($Data.fix_count / $total_commits) * 100, 1)
-      $m.docs_pct = [Math]::Round(($Data.docs_count / $total_commits) * 100, 1)
-      $m.chore_pct = [Math]::Round(($Data.chore_count / $total_commits) * 100, 1)
-      $m.test_pct = [Math]::Round(($Data.test_count / $total_commits) * 100, 1)
-    } else {
-      $m.feat_pct = 0
-      $m.fix_pct = 0
-      $m.docs_pct = 0
-      $m.chore_pct = 0
-      $m.test_pct = 0
+    $userName = if ($Data.user) { [string]$Data.user } else { "Chris Sorensen" }
+    $humanCommits = if ($commitsHuman -gt 0) { $commitsHuman } else { [Math]::Max(1, $commitsTotal - $commitsBot) }
+    $authors[$userName] = [ordered]@{
+      commits = $humanCommits
+      role = "human"
     }
-
-    # Time metrics
-    $m.active_days = $Data.active_days ?? 0
-    $m.sessions = $Data.sessions ?? 0
-    $m.deep_sessions = $Data.deep_sessions ?? 0
-    $m.peak_hour = $Data.peak_hour ?? 12
-    $m.late_night_commits_22_to_04 = $Data.late_night_commits_22_to_04 ?? ($Data.late_night_commits_00_05 + $Data.late_night_commits_23 ?? 0)
-
-    # Streaks and health
-    $m.team_streak_days = $Data.team_streak_days ?? $Data.shipping_streak_days ?? $Data.streak_days ?? 0
-    $m.personal_streak_days = $Data.personal_streak_days ?? $Data.streak_days ?? 0
-    $m.backlog_open_todos = $Data.backlog_open_todos ?? $Data.backlog_open ?? 0
-    $m.backlog_closed_this_period = $Data.backlog_closed_this_period ?? $Data.backlog_completed_this_period ?? 0
-
-    # Release/version
-    $m.version_range = $Data.version_range ?? @()
-    $m.release_commits = $Data.release_commits ?? $Data.automation_commits ?? 0
-    $m.focus_area = $Data.focus_area ?? "unknown"
   }
 
-  # session_focus (optional but documented)
+  if ($commitsBot -gt 0 -and -not $authors.Contains("toolforge-release-bot")) {
+    $authors["toolforge-release-bot"] = [ordered]@{
+      commits = $commitsBot
+      role = "automation"
+    }
+  }
+
+  $contributors = if ($null -ne $mInput.contributors) {
+    [int]$mInput.contributors
+  } else {
+    $authors.Count
+  }
+
+  # LOC
+  $insRaw = if ($null -ne $mInput.insertions_raw) { [int]$mInput.insertions_raw }
+            elseif ($null -ne $mInput.insertions) { [int]$mInput.insertions }
+            elseif ($null -ne $mInput.loc_insertions_raw) { [int]$mInput.loc_insertions_raw }
+            else { 0 }
+
+  $delRaw = if ($null -ne $mInput.deletions_raw) { [int]$mInput.deletions_raw }
+            elseif ($null -ne $mInput.deletions) { [int]$mInput.deletions }
+            elseif ($null -ne $mInput.loc_deletions_raw) { [int]$mInput.loc_deletions_raw }
+            else { 0 }
+
+  $netRaw = if ($null -ne $mInput.net_loc_raw) { [int]$mInput.net_loc_raw } else { $insRaw - $delRaw }
+
+  $insFilt = if ($null -ne $mInput.insertions_filtered) { [int]$mInput.insertions_filtered }
+             elseif ($null -ne $mInput.loc_insertions_filtered) { [int]$mInput.loc_insertions_filtered }
+             else { $insRaw }
+
+  $delFilt = if ($null -ne $mInput.deletions_filtered) { [int]$mInput.deletions_filtered }
+             elseif ($null -ne $mInput.loc_deletions_filtered) { [int]$mInput.loc_deletions_filtered }
+             else { $delRaw }
+
+  $netFilt = if ($null -ne $mInput.net_loc_filtered) { [int]$mInput.net_loc_filtered } else { $insFilt - $delFilt }
+
+  $filterNote = if ($mInput.filter_note) { [string]$mInput.filter_note } else { "raw LOC includes lockfiles and autogenerated reports; filtered excludes lockfiles" }
+
+  # Test metrics
+  $testLoc = if ($null -ne $mInput.test_loc_insertions) { [int]$mInput.test_loc_insertions }
+             elseif ($null -ne $mInput.test_loc) { [int]$mInput.test_loc }
+             else { 0 }
+
+  $testRatioPct = if ($null -ne $mInput.test_ratio_pct) { [double]$mInput.test_ratio_pct }
+                  elseif ($null -ne $mInput.test_ratio) { [double]$mInput.test_ratio }
+                  elseif ($netFilt -gt 0) { [Math]::Round(($testLoc / $netFilt) * 100, 2) }
+                  else { 0.0 }
+
+  # Commit type percentages
+  $featPct = 0.0; $fixPct = 0.0; $docsPct = 0.0; $chorePct = 0.0; $testPct = 0.0
+
+  if ($null -ne $mInput.feat_pct) {
+    $featPct = [double]$mInput.feat_pct
+    $fixPct = [double]($mInput.fix_pct ?? 0)
+    $docsPct = [double]($mInput.docs_pct ?? 0)
+    $chorePct = [double]($mInput.chore_pct ?? 0)
+    $testPct = [double]($mInput.test_pct ?? 0)
+  } elseif ($Data.commit_breakdown) {
+    $cb = $Data.commit_breakdown
+    $cbTotal = ($cb.feat ?? 0) + ($cb.fix ?? 0) + ($cb.docs ?? 0) + ($cb.chore ?? 0) + ($cb.test ?? 0) + ($cb.refactor ?? 0) + ($cb.other ?? 0)
+    if ($cbTotal -gt 0) {
+      $featPct = [Math]::Round((($cb.feat ?? 0) / $cbTotal) * 100, 1)
+      $fixPct = [Math]::Round((($cb.fix ?? 0) / $cbTotal) * 100, 1)
+      $docsPct = [Math]::Round((($cb.docs ?? 0) / $cbTotal) * 100, 1)
+      $chorePct = [Math]::Round((($cb.chore ?? 0) / $cbTotal) * 100, 1)
+      $testPct = [Math]::Round((($cb.test ?? 0) / $cbTotal) * 100, 1)
+    }
+  }
+
+  # Activity & sessions
+  $activeDays = if ($null -ne $mInput.active_days) { [int]$mInput.active_days } else { 0 }
+  $sessions = if ($null -ne $mInput.sessions) { [int]$mInput.sessions }
+              elseif ($null -ne $mInput.sessions_detected) { [int]$mInput.sessions_detected }
+              else { 0 }
+
+  $deepSessions = if ($null -ne $mInput.deep_sessions) { [int]$mInput.deep_sessions } else { 0 }
+
+  $peakHour = 12
+  if ($null -ne $mInput.peak_hour) {
+    $peakHour = [int]$mInput.peak_hour
+  } elseif ($Data.peak_hours -and $Data.peak_hours.Count -gt 0) {
+    $peakHour = [int]$Data.peak_hours[0]
+  }
+
+  $lateNight = if ($null -ne $mInput.late_night_commits_22_to_04) { [int]$mInput.late_night_commits_22_to_04 } else { 0 }
+
+  # Streaks & backlog
+  $teamStreak = if ($null -ne $mInput.team_streak_days) { [int]$mInput.team_streak_days }
+                elseif ($null -ne $Data.shipping_streak_days) { [int]$Data.shipping_streak_days }
+                else { 0 }
+
+  $personalStreak = if ($null -ne $mInput.personal_streak_days) { [int]$mInput.personal_streak_days }
+                    elseif ($null -ne $Data.shipping_streak_days) { [int]$Data.shipping_streak_days }
+                    else { 0 }
+
+  $backlogOpen = if ($null -ne $mInput.backlog_open_todos) { [int]$mInput.backlog_open_todos }
+                 elseif ($Data.backlog -and $null -ne $Data.backlog.total_open) { [int]$Data.backlog.total_open }
+                 else { 0 }
+
+  $backlogClosed = if ($null -ne $mInput.backlog_closed_this_period) { [int]$mInput.backlog_closed_this_period }
+                   elseif ($Data.backlog -and $null -ne $Data.backlog.completed_this_period) { [int]$Data.backlog.completed_this_period }
+                   else { 0 }
+
+  # Version & release
+  $versionRange = if ($Data.version_range -and $Data.version_range.Count -eq 2) {
+    @([string]$Data.version_range[0], [string]$Data.version_range[1])
+  } elseif ($mInput.version_range -and $mInput.version_range.Count -eq 2) {
+    @([string]$mInput.version_range[0], [string]$mInput.version_range[1])
+  } else {
+    @("v1.0.0", "v1.0.0")
+  }
+
+  $releaseCommits = if ($null -ne $mInput.release_commits) { [int]$mInput.release_commits } else { $commitsBot }
+
+  $focusArea = if ($mInput.focus_area) { [string]$mInput.focus_area }
+               elseif ($Data.project_focus) { [string]$Data.project_focus }
+               else { "general" }
+
+  $metricsObj = [ordered]@{
+    commits = $commitsTotal
+    commits_no_merge = $commitsNoMerge
+    contributors = $contributors
+    automation_commits = $commitsBot
+
+    insertions_raw = $insRaw
+    deletions_raw = $delRaw
+    net_loc_raw = $netRaw
+    insertions_filtered = $insFilt
+    deletions_filtered = $delFilt
+    net_loc_filtered = $netFilt
+    filter_note = $filterNote
+
+    test_loc_insertions = $testLoc
+    test_ratio_pct = $testRatioPct
+
+    feat_pct = $featPct
+    fix_pct = $fixPct
+    docs_pct = $docsPct
+    chore_pct = $chorePct
+    test_pct = $testPct
+
+    active_days = $activeDays
+    sessions = $sessions
+    deep_sessions = $deepSessions
+    peak_hour = $peakHour
+    late_night_commits_22_to_04 = $lateNight
+
+    team_streak_days = $teamStreak
+    personal_streak_days = $personalStreak
+    backlog_open_todos = $backlogOpen
+    backlog_closed_this_period = $backlogClosed
+
+    version_range = $versionRange
+    release_commits = $releaseCommits
+    focus_area = $focusArea
+  }
+
+  # session_focus
+  $sfSummary = ""
+  $sfIncidents = @()
+  $sfLearnings = @()
+  $sfRange = $null
+
   if ($Data.session_focus) {
-    $v1.session_focus = $Data.session_focus
-  } else {
-    $v1.session_focus = @{
-      summary = ""
-      incidents = @()
-      process_learnings = @()
-    }
+    $sf = $Data.session_focus
+    if ($sf.summary) { $sfSummary = [string]$sf.summary }
+    if ($sf.commits_this_session_range) { $sfRange = [string]$sf.commits_this_session_range }
+    if ($sf.incidents) { $sfIncidents = @($sf.incidents | ForEach-Object { [string]$_ }) }
+    if ($sf.process_learnings) { $sfLearnings = @($sf.process_learnings | ForEach-Object { [string]$_ }) }
+  }
+
+  if (-not $sfSummary) {
+    if ($Data.project_focus) { $sfSummary = [string]$Data.project_focus }
+    elseif ($Data.tweetable) { $sfSummary = [string]$Data.tweetable }
+    else { $sfSummary = "Routine development session" }
+  }
+
+  if ($sfLearnings.Count -eq 0 -and $Data.key_achievements) {
+    $sfLearnings = @($Data.key_achievements | ForEach-Object { [string]$_ })
+  }
+
+  $sessionFocus = [ordered]@{
+    summary = $sfSummary
+  }
+  if ($sfRange) { $sessionFocus["commits_this_session_range"] = $sfRange }
+  $sessionFocus["incidents"] = $sfIncidents
+  $sessionFocus["process_learnings"] = $sfLearnings
+
+  $v1 = [ordered]@{
+    date = $dateStr
+    window = $windowStr
+    since = $sinceStr
+    until = $untilStr
+    base_branch = $baseBranch
+    prior_retro_baseline = $priorBaseline
+    note = $note
+    metrics = $metricsObj
+    authors = $authors
+    session_focus = $sessionFocus
+  }
+
+  if ($Data.external_repos_note) {
+    $v1["external_repos_note"] = [string]$Data.external_repos_note
   }
 
   return $v1
 }
 
 # Main
-Write-Host "Retro Schema Migration v1.0" -ForegroundColor Green
-Write-Host "======================="
+Write-Host "Migrating Retros to Canonical v1.0 Schema..." -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 
-$retros = Get-ChildItem -Path $Path -Filter "*.json" | Sort-Object Name
-$results = @{ migrated = 0; skipped = 0; errors = 0 }
+$retros = Get-ChildItem -Path $Path -Filter "*.json" | Where-Object { $_.Name -notlike "*.backup" -and $_.Name -ne "retro.schema.json" } | Sort-Object Name
 
-foreach ($file in $retros) {
-  Write-Host "Processing: $($file.Name)" -ForegroundColor Cyan
+if ($retros.Count -eq 0) {
+  Write-Host "No retro files found in $Path" -ForegroundColor Yellow
+  exit 0
+}
+
+$migratedCount = 0
+
+for ($i = 0; $i -lt $retros.Count; $i++) {
+  $file = $retros[$i]
+  $priorPath = if ($i -gt 0) { ".context/retros/$($retros[$i-1].Name)" } else { $null }
 
   try {
-    $data = Get-Content $file.FullName | ConvertFrom-Json -ErrorAction Stop
-    $version = Detect-SchemaVersion $data
-    Write-Host "  Schema: v$($version.version) ($($version.variant))" -ForegroundColor Gray
-
-    $v1 = Transform-ToV1 $data $file.Name
+    $data = Get-Content $file.FullName -Raw | ConvertFrom-Json -ErrorAction Stop
+    $v1 = Transform-ToV1 -Data $data -FileName $file.Name -PriorBaselinePath $priorPath
 
     if (-not $DryRun) {
-      # Backup original
+      # Save backup
       Copy-Item $file.FullName "$($file.FullName).backup" -Force
-
-      # Write v1.0
-      $v1 | ConvertTo-Json -Depth 10 | Set-Content $file.FullName
-      Write-Host "  ✓ Migrated to v1.0" -ForegroundColor Green
+      
+      # Save v1.0 format
+      $jsonStr = $v1 | ConvertTo-Json -Depth 10
+      [System.IO.File]::WriteAllText($file.FullName, $jsonStr, [System.Text.Encoding]::UTF8)
+      Write-Host "  ✓ Migrated: $($file.Name)" -ForegroundColor Green
     } else {
-      Write-Host "  [DRY RUN] Would migrate to v1.0" -ForegroundColor Yellow
+      Write-Host "  [DRY-RUN] Would migrate: $($file.Name)" -ForegroundColor Yellow
     }
-    $results.migrated++
+    $migratedCount++
   } catch {
-    Write-Host "  ✗ ERROR: $_" -ForegroundColor Red
-    $results.errors++
+    Write-Host "  ✗ ERROR processing $($file.Name): $_" -ForegroundColor Red
   }
 }
 
 Write-Host ""
-Write-Host "Summary:" -ForegroundColor Green
-Write-Host "  Migrated: $($results.migrated)"
-Write-Host "  Skipped: $($results.skipped)"
-Write-Host "  Errors: $($results.errors)"
-Write-Host ""
-if ($DryRun) {
-  Write-Host "DRY RUN completed. No changes made." -ForegroundColor Yellow
-}
+Write-Host "Migration finished: $migratedCount / $($retros.Count) files processed." -ForegroundColor Green

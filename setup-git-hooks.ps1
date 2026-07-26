@@ -24,12 +24,13 @@ Target repo path (default: C:\dev)
 param(
     [ValidateSet('Install', 'Uninstall', 'Test', 'Status')]
     [string]$Action = 'Install',
-    [string]$Repo = 'C:\dev'
+    [string]$Repo = (Get-Location).Path
 )
 
 $ErrorActionPreference = 'Stop'
+$Repo = [System.IO.Path]::GetFullPath($Repo)
 $hooksDir = "$Repo\.git\hooks"
-$logDir = "C:\dev\logs\hooks"
+$logDir = Join-Path $Repo 'logs\hooks'
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 
 function Write-HookLog {
@@ -150,7 +151,7 @@ if (-not (`$staged -match '^(skills/|utilities/)')) {
     exit 0
 }
 
-`$ciScript = 'C:\dev\ci-pipeline.ps1'
+`$ciScript = Join-Path (git rev-parse --show-toplevel) 'ci-pipeline.ps1'
 if (-not (Test-Path `$ciScript)) {
     Write-Error "CI pipeline not found at `$ciScript"
     exit 1
@@ -174,7 +175,7 @@ exec pwsh -NoProfile -File "`$(dirname "`$0")/pre-commit.ps1" "`$@"
 
     $preCommitHook | Out-File -FilePath "$hooksDir\pre-commit.ps1" -Encoding utf8NoBOM -Force
     $preCommitShim | Out-File -FilePath "$hooksDir\pre-commit" -Encoding utf8NoBOM -Force
-    chmod +x "$hooksDir\pre-commit" 2>$null
+    if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\pre-commit" 2>$null }
     Write-HookLog "+ Pre-commit hook installed (validator only)" INFO
 
     # Post-merge: full pipeline (integration)
@@ -182,7 +183,7 @@ exec pwsh -NoProfile -File "`$(dirname "`$0")/pre-commit.ps1" "`$@"
 # Auto-generated post-merge hook. Do not edit.
 # Integration check: full pipeline
 
-`$ciScript = 'C:\dev\ci-pipeline.ps1'
+`$ciScript = Join-Path (git rev-parse --show-toplevel) 'ci-pipeline.ps1'
 if (-not (Test-Path `$ciScript)) {
     Write-Error "CI pipeline not found at `$ciScript"
     exit 0
@@ -205,7 +206,7 @@ exec pwsh -NoProfile -File "`$(dirname "`$0")/post-merge.ps1" "`$@"
 
     $postMergeHook | Out-File -FilePath "$hooksDir\post-merge.ps1" -Encoding utf8NoBOM -Force
     $postMergeShim | Out-File -FilePath "$hooksDir\post-merge" -Encoding utf8NoBOM -Force
-    chmod +x "$hooksDir\post-merge" 2>$null
+    if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\post-merge" 2>$null }
     Write-HookLog "+ Post-merge hook installed (full pipeline)" INFO
 
     # Pre-push: security auditor
@@ -264,8 +265,44 @@ exit 0
 "@
 
     $prePushHook | Out-File -FilePath "$hooksDir\pre-push" -Encoding utf8NoBOM -Force
-    chmod +x "$hooksDir\pre-push" 2>$null
+    if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\pre-push" 2>$null }
     Write-HookLog "+ Pre-push hook installed (security auditor)" INFO
+
+    # Commit-msg: session continuity nudge (advisory, never blocks)
+    # If the gap since the last commit exceeds 1 hour (multi-drop session),
+    # warn when the message has no "next: X" pointer line. See
+    # memory/session_continuity_gap.md. Process gate, not a safety boundary,
+    # so it warns and exits 0 rather than rejecting the commit.
+    $commitMsgHook = @"
+#!/bin/bash
+
+MSG_FILE="`$1"
+LAST_COMMIT_TS=`$(git log -1 --format=%ct 2>/dev/null)
+
+if [ -z "`$LAST_COMMIT_TS" ]; then
+  exit 0
+fi
+
+NOW_TS=`$(date +%s)
+GAP=`$(( NOW_TS - LAST_COMMIT_TS ))
+
+if [ "`$GAP" -le 3600 ]; then
+  exit 0
+fi
+
+if grep -qi '^next:' "`$MSG_FILE"; then
+  exit 0
+fi
+
+GAP_MIN=`$(( GAP / 60 ))
+echo -e "\033[33m[Hook]\033[0m Gap since last commit: `${GAP_MIN}m (>1hr). No 'next: X' line found in this commit message."
+echo -e "\033[33m[Hook]\033[0m Multi-drop session continuity: consider adding one. See memory/session_continuity_gap.md. Not blocking."
+exit 0
+"@
+
+    $commitMsgHook | Out-File -FilePath "$hooksDir\commit-msg" -Encoding utf8NoBOM -Force
+    if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\commit-msg" 2>$null }
+    Write-HookLog "+ Commit-msg hook installed (session continuity nudge)" INFO
 
     Write-Host "+ Git hooks installed in $Repo"
 }
@@ -274,12 +311,14 @@ function Uninstall-Hooks {
     $preCommitPath = "$hooksDir\pre-commit"
     $postMergePath = "$hooksDir\post-merge"
     $prePushPath = "$hooksDir\pre-push"
+    $commitMsgPath = "$hooksDir\commit-msg"
 
     Remove-Item -Path $preCommitPath -Force -ErrorAction SilentlyContinue
     Remove-Item -Path "$preCommitPath.ps1" -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $postMergePath -Force -ErrorAction SilentlyContinue
     Remove-Item -Path "$postMergePath.ps1" -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $prePushPath -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path $commitMsgPath -Force -ErrorAction SilentlyContinue
 
     Write-HookLog "+ Git hooks removed from $Repo" INFO
     Write-Host "+ Git hooks removed"
@@ -297,6 +336,7 @@ function Test-Hooks {
     $preCommitPath = "$hooksDir\pre-commit"
     $postMergePath = "$hooksDir\post-merge"
     $prePushPath = "$hooksDir\pre-push"
+    $commitMsgPath = "$hooksDir\commit-msg"
 
     # Test pre-commit
     Write-Host "Testing pre-commit hook..."
@@ -334,6 +374,21 @@ function Test-Hooks {
         Write-HookLog "Pre-push hook NOT found" WARN
     }
 
+    # Test commit-msg
+    Write-Host "Testing commit-msg hook..."
+    if (Test-Path $commitMsgPath) {
+        Write-HookLog "Commit-msg hook exists: $commitMsgPath" INFO
+        $tmpMsg = New-TemporaryFile
+        "test commit, no pointer line" | Out-File -FilePath $tmpMsg -Encoding utf8NoBOM
+        & $commitMsgPath $tmpMsg.FullName
+        $exitCode = $LASTEXITCODE
+        Remove-Item -Path $tmpMsg -Force -ErrorAction SilentlyContinue
+        Write-HookLog "Commit-msg test exit code: $exitCode" INFO
+    }
+    else {
+        Write-HookLog "Commit-msg hook NOT found" WARN
+    }
+
     Write-Host "+ Hook tests complete"
 }
 
@@ -344,6 +399,7 @@ function Get-HookStatus {
     $preCommitPath = "$hooksDir\pre-commit"
     $postMergePath = "$hooksDir\post-merge"
     $prePushPath = "$hooksDir\pre-push"
+    $commitMsgPath = "$hooksDir\commit-msg"
 
     if (Test-Path $preCommitPath) {
         Write-Host "+ Pre-commit hook installed"
@@ -366,7 +422,14 @@ function Get-HookStatus {
         Write-Host "✗ Pre-push hook missing"
     }
 
-    if ((Test-Path $preCommitPath) -and (Test-Path $postMergePath) -and (Test-Path $prePushPath)) {
+    if (Test-Path $commitMsgPath) {
+        Write-Host "+ Commit-msg hook installed"
+    }
+    else {
+        Write-Host "✗ Commit-msg hook missing"
+    }
+
+    if ((Test-Path $preCommitPath) -and (Test-Path $postMergePath) -and (Test-Path $prePushPath) -and (Test-Path $commitMsgPath)) {
         Write-Host ""
         Write-Host "Log file: $logDir\hooks.log"
     }

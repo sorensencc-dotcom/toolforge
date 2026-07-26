@@ -1,0 +1,31 @@
+name: Governance
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  skill-documentation:
+    name: Skill documentation compliance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate skill documentation
+        shell: pwsh
+        run: ./utilities/skill-doc-validator.ps1 -Path ./skills -Recursive
+
+  retro-schema:
+    name: Retro schema v1.0 compliance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate retro schema compliance
+        shell: pwsh
+        run: ./.context/retros/validate.ps1

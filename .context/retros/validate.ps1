@@ -1,85 +1,41 @@
-# Retro JSON Schema Validator
-# Validates all .context/retros/*.json files
-# Core requirement: valid JSON + user field present
-# Used by pre-commit hook to prevent invalid retro data from being committed
+# Retro JSON Schema Validator (Wrapper for Canonical v1.0)
+# Validates .context/retros/*.json files against canonical v1.0 schema
+# Used by pre-commit hook and CI to prevent invalid or non-canonical retro data
 
 param(
-    [switch]$Strict = $false,
+    [switch]$Strict = $true,
     [string]$RepoRoot = "C:\dev",
-    [int]$DaysOld = 7
+    [string]$File = $null
 )
 
-$ErrorActionPreference = "SilentlyContinue"
+$ErrorActionPreference = "Stop"
 $retrosDir = Join-Path $RepoRoot ".context\retros"
+$validatorV1 = Join-Path $retrosDir "validate-v1.0.ps1"
 
 if (-not (Test-Path $retrosDir)) {
-    Write-Host "No retros directory found" -ForegroundColor Yellow
+    Write-Host "No retros directory found at $retrosDir" -ForegroundColor Yellow
     exit 0
 }
 
-$retroFiles = Get-ChildItem $retrosDir -Filter "*.json" | Where-Object { $_.Name -ne "retro.schema.json" }
-
-if ($retroFiles.Count -eq 0) {
-    Write-Host "No retro files to validate" -ForegroundColor Green
-    exit 0
+if (-not (Test-Path $validatorV1)) {
+    Write-Error "Canonical validator script not found: $validatorV1"
+    exit 1
 }
 
-$failedFiles = @()
-$validFiles = 0
-$skippedFiles = 0
-$cutoffDate = (Get-Date).AddDays(-$DaysOld)
-
-foreach ($file in $retroFiles) {
-    # Extract date from filename (YYYY-MM-DD-N.json)
-    if ($file.BaseName -match '(\d{4}-\d{2}-\d{2})') {
-        $fileDate = [datetime]::ParseExact($matches[1], 'yyyy-MM-dd', $null)
-        # Skip old retros (before cutoff date) - only validate recent files
-        if ($fileDate -lt $cutoffDate) {
-            Write-Host "- $($file.Name) (historical, skipped)" -ForegroundColor Gray
-            $skippedFiles++
-            continue
-        }
-    }
-
-    try {
-        $content = Get-Content $file.FullName -Raw
-        $json = $content | ConvertFrom-Json -ErrorAction Stop
-
-        # Core validation: user field must exist and be non-empty
-        if ($null -eq $json.user -or [string]::IsNullOrWhiteSpace($json.user)) {
-            throw "Missing or empty required field: user"
-        }
-
-        $validFiles++
-        Write-Host "✓ $($file.Name)" -ForegroundColor Green
-
-    } catch {
-        $failedFiles += @{
-            file = $file.Name
-            error = $_.Exception.Message
-        }
-        Write-Host "✗ $($file.Name)" -ForegroundColor Red
-        Write-Host "  Error: $($_.Exception.Message)" -ForegroundColor DarkRed
-    }
+$targetPath = if ($File) {
+    if ([System.IO.Path]::IsPathRooted($File)) { $File } else { Join-Path $RepoRoot $File }
+} else {
+    $retrosDir
 }
 
-Write-Host ""
-Write-Host "Validation complete: $validFiles validated, $skippedFiles historical (skipped)" -ForegroundColor Cyan
+Write-Host "Running Canonical v1.0 Retro Schema Gate..." -ForegroundColor Cyan
+& $validatorV1 -Path $targetPath
+$exitCode = $LASTEXITCODE
 
-if ($failedFiles.Count -gt 0) {
-    Write-Host ""
-    Write-Host "Failed files:" -ForegroundColor Red
-    foreach ($failed in $failedFiles) {
-        Write-Host "  - $($failed.file): $($failed.error)" -ForegroundColor DarkRed
-    }
-
-    if ($Strict) {
-        exit 1
-    } else {
-        Write-Host ""
-        Write-Host "Note: Use -Strict flag to fail on validation errors" -ForegroundColor Yellow
-        exit 0
-    }
+if ($exitCode -ne 0) {
+    Write-Host "Retro validation failed canonical v1.0 gate!" -ForegroundColor Red
+    exit $exitCode
 }
 
+Write-Host "Retro validation passed!" -ForegroundColor Green
 exit 0
