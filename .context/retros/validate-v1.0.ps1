@@ -132,6 +132,12 @@ function Test-RetroFile {
     }
   }
 
+  # 8. Methodology variance check
+  if ($data.note -and $data.note -match "methodology variance") {
+    $warnings += "Note claims 'methodology variance' — verify test glob regex and commit window boundaries match canonical RETRO-SCHEMA rules."
+  }
+
+
   $valid = $issues.Count -eq 0
   return @{ file = $FileName; valid = $valid; issues = $issues; warnings = $warnings }
 }

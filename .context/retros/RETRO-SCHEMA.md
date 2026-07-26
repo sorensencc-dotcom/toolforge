@@ -124,6 +124,26 @@ Weekly retro JSON schema drifted across three incompatible versions (metrics nes
 | `session_focus` | object | yes | Context: what was delivered, incidents, learnings |
 | `external_repos_note` | string | no | Activity in sibling repos (charlie-deep-research, etc.) |
 
+## Test LOC Calculation Rules & Methodology Policy
+
+To prevent multi-pass retro variance (e.g. 82% discrepancy between retro runs covering identical windows):
+
+1. **Canonical Test File Pattern**:
+   - `**/*.test.{js,ts,mjs,jsx,tsx,ps1}`
+   - `**/*.spec.{js,ts,mjs,jsx,tsx,ps1}`
+   - `**/tests/**/*`
+   - `**/test/**/*`
+   - Exclude build outputs (`dist/`, `build/`), mock data fixtures, and external vaults.
+
+2. **Commit Window Boundaries**:
+   - `since` timestamp must strictly match the start of the retro window (e.g., `YYYY-MM-DDT00:00:00-04:00`).
+   - `version_range` start tag must consistently match the first release tag issued within the specified timestamp window.
+
+3. **Methodology Variance Policy**:
+   - Large metric swings (>10%) between retro passes covering the same window are invalid and indicate ad-hoc regex or commit window drift.
+   - Repeated retro passes within the same session must re-use identical test glob filters and commit range boundaries.
+
+
 ## Migration Notes (2026-07-19)
 
 Files to update to canonical v1.0:

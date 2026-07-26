@@ -96,6 +96,12 @@ function Test-RetroFile {
     }
   }
 
+  # Methodology variance check
+  if ($data.note -and $data.note -match "methodology variance") {
+    $warnings += "Note claims 'methodology variance' — verify test glob regex and commit window boundaries match canonical RETRO-SCHEMA rules."
+  }
+
+
   $valid = $issues.Count -eq 0
   return @{ file = $FileName; valid = $valid; issues = $issues; warnings = $warnings }
 }
@@ -105,7 +111,7 @@ Write-Host "Retro Validator (Pragmatic Schema)" -ForegroundColor Green
 Write-Host "==================================" -ForegroundColor Green
 Write-Host ""
 
-$retros = Get-ChildItem -Path $Path -Filter "*.json" | Where-Object { $_.Name -notlike "*.backup" } | Sort-Object Name
+$retros = Get-ChildItem -Path $Path -Filter "*.json" | Where-Object { $_.Name -notlike "*.backup" -and $_.Name -ne "retro.schema.json" } | Sort-Object Name
 $results = @()
 
 foreach ($file in $retros) {

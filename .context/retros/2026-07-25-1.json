@@ -1,11 +1,11 @@
-﻿{
+{
   "date": "2026-07-25",
   "window": "7d",
   "since": "2026-07-25T00:00:00-04:00",
   "until": "2026-07-25T23:59:59-04:00",
   "base_branch": "main",
   "prior_retro_baseline": ".context/retros/2026-07-23-1.json",
-  "note": "streak ended 2026-07-24 (last commit date); 0 commits so far today as of retro run",
+  "note": "Initial pass (streak ended 2026-07-24; 0 commits on 07-25 as of run). Test LOC scan was un-scoped (1022 LOC); superseded by reconciled run 2026-07-25-2.json (1863 LOC canonical test pattern).",
   "metrics": {
     "commits": 140,
     "commits_no_merge": 140,

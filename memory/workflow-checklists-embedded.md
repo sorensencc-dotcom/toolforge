@@ -31,4 +31,17 @@ Active immediately (2026-07-12). Run checklist BEFORE critical action.
 - [ ] Can I point to code/config that proves it?
 - [ ] No "automatic" claims without verification?
 
-**Prevents**: Unauthorized artifacts, design non-compliance, wrong storage, false governance claims.
+## Pre-Commit Hook Maintenance Checklist (Before Modifying Hooks)
+
+- [ ] Single chained shim runner: do not overwrite `.git/hooks/pre-commit` with unchained standalone installers.
+- [ ] Preserve all existing checks: retro-schema validation, roadmap-location checks, and `secret-scan-hook.sh`.
+- [ ] Verify execution permissions and shell compatibility (`ps1` / `bash` / `mjs`).
+
+## Pre-Flight Test Verification Checklist (Before Shipping Changes)
+
+- [ ] Build artifact exclusion: confirm `.eslintignore` and scanner ignore rules exclude output bundles (`dist/`, `build/`).
+- [ ] Fixture independence: test suites dependent on external vaults or environments must gracefully skip when fixtures are absent.
+- [ ] Error contract matching: assert public error wrappers rather than private internal exception messages.
+
+**Prevents**: Unauthorized artifacts, design non-compliance, wrong storage, false governance claims, hook installer races, broken test checkouts.
+

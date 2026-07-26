@@ -1,11 +1,11 @@
-﻿{
+{
   "date": "2026-07-25",
   "window": "7d",
   "since": "2026-07-25T00:00:00-04:00",
   "until": "2026-07-25T23:59:59-04:00",
   "base_branch": "main",
   "prior_retro_baseline": ".context/retros/2026-07-25-1.json",
-  "note": "A retro for this same 7d window was already saved earlier today (2026-07-25-1.json). This run is a second pass in the same session; numbers are consistent within normal methodology variance (test-file regex, one commit-boundary difference in version_range start).",
+  "note": "Reconciled retro run using canonical test file pattern (**/*.test.*, **/*.spec.*, **/tests/*). Replaces prior partial scan (2026-07-25-1.json) which omitted sub-project test directories.",
   "metrics": {
     "commits": 146,
     "commits_no_merge": 140,
