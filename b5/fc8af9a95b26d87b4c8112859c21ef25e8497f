@@ -1,0 +1,55 @@
+.context/retros/2026-07-25-1.json
+  s_e0edbb5b6ad50b::t_4cf9b76773283a 1,8
+.context/retros/2026-07-25-2.json
+  s_9b66427fb12ed4::t_3e86e1ceae1921 1,8
+.context/retros/RETRO-SCHEMA.md
+  s_1c68d5e83c7ecf::t_fc88d52b4888b5 127-146
+.context/retros/validate-v1.0.ps1
+  s_1c68d5e83c7ecf::t_ef8a8fca06af6a 135-140
+memory/MEMORY.md
+  s_b8e8efbeeb2f23::t_1b2417332d9a1f 7-11,14-29,32-34,36-40
+memory/workflow-checklists-embedded.md
+  s_b8e8efbeeb2f23::t_add46d332a8615 34-47
+scripts/validate-retro-v1.0.ps1
+  s_1c68d5e83c7ecf::t_6e02f015150379 99-104,114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "b5fc8af9a95b26d87b4c8112859c21ef25e8497f",
+  "prompts": {},
+  "sessions": {
+    "s_1c68d5e83c7ecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c0df381f-758f-4ca2-a228-6908dcc220f7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9b66427fb12ed4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4b024e-1309-431a-9262-f57816a83582",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_b8e8efbeeb2f23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f6878315-0fc4-47c1-bcb2-082c111cbd48",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e0edbb5b6ad50b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "47da2b69-f21c-4825-afc7-f62ba763fc94",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
