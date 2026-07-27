@@ -1,0 +1,38 @@
+TODOS.md
+  s_61cdf6f459809b::t_b5047ab09b58e6 26
+  s_591b1ecd1643b0::t_c4d06618d5b9e0 25,33
+scripts/loc-filtered.ps1
+  s_aac1b3ce1b486d::t_5a6d7ee39d1ed4 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "de3002ce8643da8fc375dca64be8c2b24b72dd49",
+  "prompts": {},
+  "sessions": {
+    "s_591b1ecd1643b0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9f21-9fb6-70a0-a194-5f52a203f374",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_61cdf6f459809b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ad93fa8c-ae69-41e0-b9c5-43180f116a2c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_aac1b3ce1b486d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa05a-6f31-7540-83a3-e27e053a5981",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
