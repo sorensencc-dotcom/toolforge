@@ -1,0 +1,65 @@
+{
+  "date": "2026-07-26",
+  "window": "7d",
+  "since": "2026-07-19T00:00:00-04:00",
+  "until": "2026-07-26T23:59:59-04:00",
+  "base_branch": "main",
+  "prior_retro_baseline": ".context/retros/2026-07-26-1.json",
+  "note": "Second retro today -- covers full 7d window through end of this session (TODOS backlog closure, CLAUDE.md drift-check tooling).",
+  "metrics": {
+    "commits": 126,
+    "commits_no_merge": 119,
+    "contributors": 2,
+    "automation_commits": 23,
+    "insertions_raw": 34524,
+    "deletions_raw": 10868,
+    "net_loc_raw": 23656,
+    "insertions_filtered": 34518,
+    "deletions_filtered": 10866,
+    "net_loc_filtered": 23652,
+    "filter_note": "lockfile-filtered via scripts/loc-filtered.ps1; 0 lockfile churn this window, filtered ~= raw",
+    "test_loc_insertions": 1683,
+    "test_ratio_pct": 4.88,
+    "feat_pct": 28.6,
+    "fix_pct": 13.4,
+    "docs_pct": 26.9,
+    "chore_pct": 26.1,
+    "test_pct": 2.5,
+    "active_days": 7,
+    "sessions": 1,
+    "deep_sessions": 1,
+    "peak_hour": 22,
+    "late_night_commits_22_to_04": 46,
+    "late_night_pct": 47.9,
+    "team_streak_days": 1,
+    "personal_streak_days": 1,
+    "streak_note": "2026-07-25 has zero commits across full repo history, breaking what was otherwise a 12-day run (07-13 through 07-24)",
+    "backlog_open_todos": 5,
+    "backlog_closed_this_period": 2,
+    "version_range": ["2.12.0", "2.22.0"],
+    "release_commits": 23,
+    "focus_area": "TRM curator/research-questions pipeline, secret-scan security fix, CIC vision subsystem, retro schema v1.0 migration, session-continuity + lockfile-LOC tooling"
+  },
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 96,
+      "role": "human"
+    },
+    "toolforge-release-bot": {
+      "commits": 23,
+      "role": "automation"
+    }
+  },
+  "session_focus": {
+    "summary": "Closed 2 recurring Process TODOS (session-continuity commit-msg hook, lockfile-filtered LOC script) and shipped a CLAUDE.md drift-check CI workflow in rewrite-docs.",
+    "incidents": [
+      "Discovered setup-git-hooks.ps1 commit-msg addition had already been committed by a separate process ahead of this session's own commit -- required a fetch+ff-only pull before pushing to avoid diverging"
+    ],
+    "process_learnings": [
+      "commit-msg hook (advisory, non-blocking) now warns when a commit lands >1hr after the last one with no 'next: X' pointer line -- verified live on this session's own commit",
+      "scripts/loc-filtered.ps1 added as the canonical lockfile-excluded LOC command; .gitattributes linguist-generated alone doesn't affect local git log --numstat, only GitHub's UI",
+      "cic-governance-ci.yml (rewrite-docs) only checks pipeline/lineage state, not doc content -- added scripts/check-claude-md-links.cjs + claude-md-drift-check.yml to catch broken relative links in tracked CLAUDE.md files, skipping inline-code/fenced examples to avoid false positives on illustrative snippets",
+      "2026-07-25 had zero commits repo-wide -- factual note only, not a discipline flag (this user has a day job; see productivity_rebound_binge_pattern memory)"
+    ]
+  }
+}
