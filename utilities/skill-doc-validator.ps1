@@ -98,7 +98,8 @@ function Test-SkillDocumentation {
 
 # Find skills
 if ($Recursive) {
-  $skillDirs = Get-ChildItem -Path $Path -Directory | Where-Object { Test-Path (Join-Path $_.FullName 'README.md') }
+  $skillDirs = Get-ChildItem -Path $Path -Directory |
+    Where-Object { $_.Name -ne '_TEMPLATE' -and (Test-Path (Join-Path $_.FullName 'README.md')) }
 } else {
   $skillDirs = @(Get-Item -Path $Path -ErrorAction SilentlyContinue)
 }
@@ -117,9 +118,9 @@ if ($errors.Count -eq 0) {
 }
 
 Write-Host "❌ Documentation compliance failures:" -ForegroundColor Red
-foreach ($error in $errors) {
-  Write-Host "  $($error.Path):"
-  foreach ($issue in $error.Issues) {
+foreach ($finding in $errors) {
+  Write-Host "  $($finding.Path):"
+  foreach ($issue in $finding.Issues) {
     Write-Host "    - $issue" -ForegroundColor Yellow
   }
 }
