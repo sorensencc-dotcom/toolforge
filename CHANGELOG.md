@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.23.0
+Date: 2026-07-27
+
+### Changes
+- 6bd1427 - feat(hooks): add advisory paired-test nudge to pre-commit gate (Chris Sorensen)
+
 ## Version 2.22.1
 Date: 2026-07-27
 
