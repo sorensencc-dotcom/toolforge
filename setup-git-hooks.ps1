@@ -146,23 +146,41 @@ if (-not (Test-RoadmapLocations)) {
 
 # Gate 3: Validator gate (skills/utilities only)
 `$staged = git diff --cached --name-only
-if (-not (`$staged -match '^(skills/|utilities/)')) {
+if (`$staged -match '^(skills/|utilities/)') {
+    `$ciScript = Join-Path (git rev-parse --show-toplevel) 'ci-pipeline.ps1'
+    if (-not (Test-Path `$ciScript)) {
+        Write-Error "CI pipeline not found at `$ciScript"
+        exit 1
+    }
+
+    & `$ciScript -Stage validator -Verbose
+    `$exitCode = `$LASTEXITCODE
+
+    if (`$exitCode -eq 1) {
+        Write-Error "Pre-commit validation failed"
+        exit 1
+    }
+}
+else {
     Write-Host "No skills/ or utilities/ files staged, skipping validator"
-    exit 0
 }
 
-`$ciScript = Join-Path (git rev-parse --show-toplevel) 'ci-pipeline.ps1'
-if (-not (Test-Path `$ciScript)) {
-    Write-Error "CI pipeline not found at `$ciScript"
-    exit 1
-}
+# Gate 4: Paired-test nudge (advisory, never blocks)
+# Warn when the commit touches non-test code with no test file staged
+# alongside it. Cheap signal, not a strict per-file pairing check -- if
+# ANY test file rides along in the same commit we stay quiet.
+`$codeExtPattern = '\.(ps1|psm1|py|js|ts|tsx|jsx|mjs|cjs)`$'
+`$testPathPattern = '(^|[\\/])(tests?|__tests__|spec)[\\/]|\.(test|spec)\.[a-z]+`$'
 
-& `$ciScript -Stage validator -Verbose
-`$exitCode = `$LASTEXITCODE
+`$codeFiles = `$staged | Where-Object { `$_ -match `$codeExtPattern -and `$_ -notmatch `$testPathPattern }
+`$testFiles = `$staged | Where-Object { `$_ -match `$testPathPattern }
 
-if (`$exitCode -eq 1) {
-    Write-Error "Pre-commit validation failed"
-    exit 1
+if (`$codeFiles.Count -gt 0 -and `$testFiles.Count -eq 0) {
+    Write-Host "``e[33m[Hook]``e[0m Non-test code staged with no paired test file:"
+    foreach (`$f in `$codeFiles) {
+        Write-Host "  - `$f"
+    }
+    Write-Host "``e[33m[Hook]``e[0m Advisory only, not blocking. Consider adding/updating a test."
 }
 
 exit 0
