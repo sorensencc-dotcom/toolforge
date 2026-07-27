@@ -22,11 +22,12 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 ## Process (recurring, not one-shot)
 
 - [x] **Push discipline** — Stop hook (`~/.claude/hooks/check-push-discipline.js`) now auto-checks c:\dev, cic-ingestion, CIC submodule for unpushed commits every session end. Live 2026-07-15. See `memory/feedback_push_discipline_hook.md`.
-- [ ] **Session continuity notes** — multi-drop sessions (hour+ gaps between commits) should end each drop's commit message with a one-line "next: X" pointer. No tooling enforces this yet — manual discipline only. See `memory/session_continuity_gap.md`.
-- [ ] **Lockfile LOC noise still 60% of raw insertions week-over-week** — flagged in a prior retro, recurring. Consider a `.gitattributes` `linguist-generated` marker for `package-lock.json` or just standardize on reading the filtered metric.
+- [x] **Session continuity notes** — `setup-git-hooks.ps1` now installs an advisory `commit-msg` hook that warns after hour-plus gaps when a commit lacks a one-line `next: X` pointer. It does not block commits; install hooks per checkout. See `memory/session_continuity_gap.md`.
+- [x] **Lockfile LOC noise** — `.gitattributes` `linguist-generated` marker already existed (GitHub-UI-only, doesn't touch local metrics). Added `scripts/loc-filtered.ps1` as the standard local command: computes insertions/deletions/net with lockfiles excluded, reports lockfile churn on a separate line. `/retro` itself is an external gstack plugin, not editable from this repo — this gives a canonical command to point at instead.
 
 ## Log
 
 - 2026-07-15: File created. Backlog had been memory-only since 07-12; flagged twice in retro (07-12, 07-15) as a recurring gap. Decision: create real file instead of deferring again.
 - 2026-07-17: Dedicated backlog pass (file hadn't shrunk in 2 retros). Closed 1 item: "uncommitted files at repo root" — confirmed committed in `3e39dd0`, no longer stale. 4 items remain open, all genuinely blocked (infra, low-priority deferral, or unresolved tooling gap) — not neglect, no false closures forced.
 - 2026-07-17 (later): Skill triage/migration + `run-tool.ps1` repair + security scanner fix session logged. 3 items closed, 3 new items opened (post-merge hook, dual-repo drift, run-tool.ps1 test coverage) — all real, found during the session, not deferred busywork.
+- 2026-07-26: Closed session continuity and lockfile LOC items. Verified installed `commit-msg` hook, hook generator coverage, and `.gitattributes` lockfile attributes. Continuity check remains advisory rather than blocking.
