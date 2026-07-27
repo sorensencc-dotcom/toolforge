@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.23.1
+Date: 2026-07-27
+
+### Changes
+- 2ecbf51 - fix(api): fallback to mock database on ECONNREFUSED and update telemetry/skill tests (Chris Sorensen)
+
 ## Version 2.23.0
 Date: 2026-07-27
 
