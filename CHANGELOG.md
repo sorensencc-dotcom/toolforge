@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.22.0
+Date: 2026-07-27
+
+### Changes
+- de3002c - feat(scripts): add lockfile-filtered LOC metric, close TODOS backlog items (Chris Sorensen)
+
 ## Version 2.21.5
 Date: 2026-07-26
 
