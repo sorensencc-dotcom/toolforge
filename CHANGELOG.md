@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.22.1
+Date: 2026-07-27
+
+### Changes
+- e912cc1 - merge: sync toolforge-release-bot v2.22.0 (Chris Sorensen)
+- e3a02cc - fix(retro): backfill null sessions/deep_sessions in 2026-07-26-2, add 2026-07-26-3 snapshot (Chris Sorensen)
+
 ## Version 2.22.0
 Date: 2026-07-27
 
