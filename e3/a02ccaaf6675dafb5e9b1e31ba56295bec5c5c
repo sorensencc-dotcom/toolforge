@@ -1,0 +1,31 @@
+.context/retros/2026-07-26-3.json
+  s_6a00681f0b8e43::t_33dabce4345208 1-3,9-10,12,46,48,51,66
+  s_6a00681f0b8e43::t_c4d5ef80511941 4-8,11,13-45,47,49-50,52-65
+.context/retros/2026-07-26-2.json
+  s_6a00681f0b8e43::t_08d8e4c22a24b1 29-30
+  s_61cdf6f459809b::t_04e16a1c365ca4 1-28,31-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "e3a02ccaaf6675dafb5e9b1e31ba56295bec5c5c",
+  "prompts": {},
+  "sessions": {
+    "s_61cdf6f459809b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ad93fa8c-ae69-41e0-b9c5-43180f116a2c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_6a00681f0b8e43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "981e78ef-7109-40f0-b716-7b025099bc81",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
