@@ -1,0 +1,89 @@
+package.json
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 22
+  s_460e92f1dfc3ea::t_99453c820b5ad6 23
+src/harvester/external/vision/__tests__/vision-integration.test.ts
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 1,12,44-47,57-58
+src/harvester/external/vision/__tests__/visionAdapter.test.ts
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 1,11-12,28-31,35-37,40-43,46,50,53-56,58-59,62,65-69,74-75,78-83,85,88-89,93-101,109,113-117,128,133-140,142-143,148-155,158-160,163,165-166,169-172,175-187,189-190
+src/harvester/external/vision/visionAdapter.js
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 15-18,25-27,29-30,34-39,43-48,52-57,69-92,108-119
+  s_460e92f1dfc3ea::t_2c2fefdc119e07 120
+src/harvester/external/vision/adaptiveThreshold.ts
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 10-22,24,28-34,43-44,57
+  s_460e92f1dfc3ea::t_caeca35a93d3e3 9
+src/harvester/external/vision/__tests__/adaptiveThreshold.test.ts
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 10,19-40,62-67,72-77,80-97
+vitest.config.vision.js
+  s_460e92f1dfc3ea::t_bd2d6e3daaceb0 1-6,9-10
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 7-8
+src/services/trending-scheduler.ps1
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 41,46-48,62-145,154-156,158-166,169-170,172-178,190-191,193-217
+src/harvester/external/vision/adaptiveThreshold.js
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 3-15,17,21-27,36-37,50
+  s_460e92f1dfc3ea::t_45222756eb97ac 2
+src/services/__tests__/trending-scheduler.test.ps1
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 1-89
+vitest.vision.setup.js
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 1-2
+src/harvester/external/vision/visionAdapter.ts
+  s_460e92f1dfc3ea::t_d57b6b6df9e86a 29-32,39-41,43-44,48-53,57-62,66-71,83-106,122-133
+  s_460e92f1dfc3ea::t_77eb2f3e218792 134
+src/governance.test.js
+  s_bf425cfb5dd902::t_9b26265ac54a9e 13-14
+src/api/server.js
+  s_e4119ebcf8d5e8::t_b43502ac4786bc 30-36
+src/api/server.test.js
+  s_e4119ebcf8d5e8::t_f9b2cbb5025cd3 3,8,18-20,315-527
+src/db/connect.js
+  s_1e2a7070ffa23f::t_3e1a522c913440 52-99
+toolforge-pdf/ingest.test.js
+  s_d72c76d6b46b56::t_19e4a541f00ee1 4-6,9-10,15-128,130
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "1dca2515415e827a92db57f6ce0d4a6aaf188ea4",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_460e92f1dfc3ea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a743383-e073-4c39-b97e-99ef106c56fc",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": null
+    },
+    "s_bf425cfb5dd902": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d0bddb46-1770-430a-a668-ee0f4c688ce6",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d72c76d6b46b56": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c5a49bff-90b1-4e83-9192-f5a883ddad79",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e4119ebcf8d5e8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a4576a3224ba51fea",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
