@@ -1,0 +1,27 @@
+skills/trm-feedback-report/tsconfig.json
+  s_a20a044fda74f9::t_cd4a56389ad72c 1-22
+skills/trm-feedback-report/tests/newTopicCandidates.test.ts
+  s_a20a044fda74f9::t_ef8192449b1ccb 1-44
+skills/trm-feedback-report/src/newTopicCandidates.ts
+  s_a20a044fda74f9::t_fc04a0ecb1ede0 1-62
+skills/trm-feedback-report/jest.config.js
+  s_a20a044fda74f9::t_00dc065c81016d 1-7
+skills/trm-feedback-report/package.json
+  s_a20a044fda74f9::t_8999ea62a30d28 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "390cabd41f57597c0bdd9b4024811bb1dfdb1924",
+  "prompts": {},
+  "sessions": {
+    "s_a20a044fda74f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3d3c6af5-d66a-4183-aa8b-60284c53847c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
