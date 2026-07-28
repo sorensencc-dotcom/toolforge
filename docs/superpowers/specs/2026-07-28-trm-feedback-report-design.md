@@ -8,6 +8,7 @@
 ## Purpose
 
 After any TRM ingest batch, produce a feedback/report pass covering:
+
 1. Fact quality and classifier accuracy (validate output, confidence distribution, extraction gaps)
 2. OCR latency data (percentiles vs. budget, timeout rate)
 3. Candidate new TRM topics to stub (heuristic clustering on unmapped categories)
@@ -66,7 +67,7 @@ Output shape:
 Tested the same way as the rest of `trm` — fixture `extract.json`/`score.json`/`ocr-timing.jsonl` in, assert the aggregated JSON out. No LLM/network dependency to mock.
 
 **`Fact` type addition (review finding: `[VERIFY]` marker referenced below has no home in the data model)**
-`scoring/types.ts` `Fact` interface gains an optional `flags?: string[]`. Extraction runners (`stubRunner`, `claudeCodeRunner`) may populate it with values like `"VERIFY"`; existing facts without the field are unaffected (optional, no schema-validation break — `extract.json`'s schema already treats unknown-but-typed fields as additive since nothing currently rejects extra `Fact` keys). The web-search cross-check step below selects on this field.
+`scoring/types.ts` `Fact` interface gains an optional `flags?: string[]`. Extraction runners (`stubRunner`, `claudeCodeRunner`) may populate it with values like `"VERIFY"`; existing facts without the field are unaffected. **Correction (found during plan file-level review):** `extract.schema.json` has `additionalProperties: false` on the fact item — the earlier claim that unknown fields are additive was wrong. `extract.schema.json`'s fact `properties` also gains `"flags": { "type": "array", "items": { "type": "string" } }`, not added to `required`, so old extract.json files without it still validate. The web-search cross-check step below selects on this field.
 
 **`trm crosslink` tag support (review finding: no generic tag param exists today)**
 `runCrosslink`'s `cliArgs` gains optional `tags?: string[]`. When present, appended to the `CROSSLINK` lineage operation as a `tags` field alongside the existing `related_topic`. Used by the feedback skill (see step 6 below) to write `trm-feedback-report:v1` without overloading `relatedTopic`.
@@ -78,10 +79,14 @@ Standard layout per `skills/_TEMPLATE/` (`skill.json`, `SKILL.md`, `README.md`, 
 **Flow:**
 
 1. Run `trm validate <topic> --recursive` and `trm feedback-stats <topic> --recursive --latency-budget-ms <budget>`.
-2. **New-topic candidates** (heuristic, no LLM call): read the full existing tag set once per run by recursively walking `topic.json` from the vault root (`readTopicMeta` + its `children` list, same recursive-walk pattern `runValidate`/`runScore --rollup` already use — not a new traversal mechanism) and collecting every topic's `tags`. Collect `categories` across the batch's facts, diff against that set. Flag a cluster as a candidate stub only if it clears all three guardrails:
-   - ≥3 facts in the cluster
-   - facts drawn from ≥2 distinct sources
-   - average confidence ≥0.55
+2. **New-topic candidates** (heuristic, no LLM call). **Correction (found during plan file-level review):** the original mechanism — diff fact `categories` against topic `tags` — doesn't work. `Fact.categories` is a closed 5-value enum (`history | genealogy | industry | geopolitics | biography`, `extract.schema.json`); `TopicMeta.tags` is free text (`topic.schema.json`). Every fact's category is always one of those 5 words, so a diff against tags either matches nothing or matches spuriously — no real signal either way. Corrected mechanism:
+   - Extract candidate phrases from `fact.text` itself: regex-match Title Case multi-word sequences (`\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b`, e.g. "Charles Sorensen", "Willow Run") — a cheap proxy for proper nouns/entities, no NER dependency.
+   - Normalize each phrase to a slug (lowercase, spaces → hyphens, strip punctuation) for comparison against existing tags/topic-path segments, matching the kebab-case convention topics already use (`charlie-sorensen`, `willow-run`).
+   - Read the full existing tag+path-segment set once per run by recursively walking `topic.json` from the vault root (`readTopicMeta` + its `children` list, same recursive-walk pattern `runValidate`/`runScore --rollup` already use — not a new traversal mechanism).
+   - Tally phrase frequency across the batch's facts. Flag a normalized phrase as a candidate stub only if it clears all three guardrails AND its slug does not already exist as, or as a substring of, an existing tag or path segment:
+     - ≥3 facts contain the phrase
+     - those facts are drawn from ≥2 distinct sources
+     - average confidence of those facts ≥0.55
 
    These guardrails exist specifically to stop a single bad OCR page (one source, several garbage low-confidence facts sharing an accidental keyword) from generating a false-positive topic suggestion.
 3. **Web-search cross-check**: select facts below a confidence threshold OR carrying `"VERIFY"` in their new `flags` field (see `Fact` type addition above), capped at the top 10 by `promotion_score` per batch. Run `WebSearch` per fact. Annotate each with `signal_strength: low | medium | high`, derived from corroborating-hit count and consistency across the top-N results — not a bare corroborated/contradicted/no-signal binary, since a single ambiguous hit shouldn't read the same as five consistent ones.
@@ -113,5 +118,5 @@ Standard layout per `skills/_TEMPLATE/` (`skill.json`, `SKILL.md`, `README.md`, 
 **Skill side:**
 
 - Fixture-driven test invoking the skill against a canned `feedback-stats` JSON + mocked `WebSearch`, asserting all report sections populate and risk labels are present.
-- Synthetic new-topic-cluster test: feed facts that clear/miss each of the three guardrails individually, assert candidate surfacing fires only when all three pass.
+- Synthetic new-topic-cluster test: feed facts whose text contains a repeated Title Case phrase that clears/misses each of the three guardrails individually, assert candidate surfacing fires only when all three pass and the phrase's slug isn't already an existing tag/path segment.
 - Contradictory-WebSearch-results test: mocked search returns inconsistent hits for one fact, assert `signal_strength` reads `low` rather than the narrative asserting false confidence.
