@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.23.3
+Date: 2026-07-28
+
+### Changes
+- c8ced7b - docs(retro): save canonical v1.0 retro snapshot for 2026-07-28 session wrap (Chris Sorensen)
+
 ## Version 2.23.2
 Date: 2026-07-28
 
