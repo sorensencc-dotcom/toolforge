@@ -38,12 +38,14 @@
   pwsh src/services/trending-scheduler.ps1 -Unregister
 #>
 
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess = $true)]
 param(
   [string]$TaskName = "ToolforgeTrendingRefresh",
   [string]$RepoPath,
   [string]$DailyTimeUtc = "00:00",
-  [switch]$Unregister
+  [switch]$Unregister,
+  [switch]$DryRun,
+  [switch]$ExportXml
 )
 
 $ErrorActionPreference = "Stop"
@@ -57,6 +59,90 @@ $TASK_CREATE_OR_UPDATE = 6
 $TASK_LOGON_INTERACTIVE_TOKEN = 3
 $TASK_FOLDER = "\"
 
+# XML Escaping helper for task parameters
+function Escape-XmlString {
+  param([string]$str)
+  if (-not $str) { return "" }
+  return $str.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace('"', "&quot;").Replace("'", "&apos;")
+}
+
+# Construct valid Task Scheduler 2.0 XML Schema definition string
+function Get-TaskDefinitionXml {
+  param(
+    [string]$TaskName,
+    [string]$RepoPath,
+    [string]$StartBoundary
+  )
+
+  $escapedTaskName = Escape-XmlString $TaskName
+  $escapedRepoPath = Escape-XmlString $RepoPath
+  $escapedCommand  = Escape-XmlString "$env:SystemRoot\System32\cmd.exe"
+  $escapedArgs     = Escape-XmlString "/c npm run trending:refresh"
+  $escapedAuthor   = Escape-XmlString "CIC Team"
+  $escapedDesc     = Escape-XmlString "Nightly Toolforge marketplace trending refresh (npm run trending:refresh). Registered by trending-scheduler.ps1."
+
+  return @"
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Author>$escapedAuthor</Author>
+    <Description>$escapedDesc</Description>
+  </RegistrationInfo>
+  <Triggers>
+    <CalendarTrigger>
+      <StartBoundary>$StartBoundary</StartBoundary>
+      <Enabled>true</Enabled>
+      <ScheduleByDay>
+        <DaysInterval>1</DaysInterval>
+      </ScheduleByDay>
+    </CalendarTrigger>
+  </Triggers>
+  <Principals>
+    <Principal id="Author">
+      <LogonType>InteractiveToken</LogonType>
+      <RunLevel>LeastPrivilege</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <StopOnIdleEnd>true</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <AllowStartOnDemand>true</AllowStartOnDemand>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <WakeToRun>false</WakeToRun>
+    <ExecutionTimeLimit>PT1H</ExecutionTimeLimit>
+    <Priority>7</Priority>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>$escapedCommand</Command>
+      <Arguments>$escapedArgs</Arguments>
+      <WorkingDirectory>$escapedRepoPath</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>
+"@
+}
+
+# Validate TaskName is non-empty
+if (-not $TaskName -or $TaskName.Trim() -eq "") {
+  throw "TaskName cannot be blank or empty."
+}
+
+# Validate DailyTimeUtc strictly matches two-digit 'HH:mm' format between 00:00 and 23:59
+if (-not ($DailyTimeUtc -match '^(?:[01]\d|2[0-3]):[0-5]\d$')) {
+  throw "DailyTimeUtc must be strictly two-digit 'HH:mm' between 00:00 and 23:59 (got '$DailyTimeUtc')."
+}
+
 # Resolve repo root: default to <scriptdir>\..\.. (src\services -> repo root).
 if (-not $RepoPath -or $RepoPath.Trim() -eq "") {
   $RepoPath = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
@@ -65,24 +151,31 @@ if (-not (Test-Path $RepoPath)) {
   throw "RepoPath does not exist: $RepoPath"
 }
 
-# Connect to the Task Scheduler service via COM.
-$service = New-Object -ComObject "Schedule.Service"
-$service.Connect()
-$rootFolder = $service.GetFolder($TASK_FOLDER)
+$parts = $DailyTimeUtc.Split(":")
+$utcHour = [int]$parts[0]
+$utcMinute = [int]$parts[1]
 
-function Remove-ExistingTask {
-  param($Folder, $Name)
-  try {
-    # DeleteTask throws if the task does not exist; treat that as a no-op.
-    $Folder.DeleteTask($Name, 0)
-    Write-Host "Removed existing task: $Name"
-    return $true
-  } catch {
-    return $false
-  }
+$nowUtc = [DateTime]::UtcNow
+$todayUtcMidnight = [DateTime]::new($nowUtc.Year, $nowUtc.Month, $nowUtc.Day, $utcHour, $utcMinute, 0, [DateTimeKind]::Utc)
+$startLocal = $todayUtcMidnight.ToLocalTime()
+$startBoundary = $startLocal.ToString("yyyy-MM-ddTHH:mm:ss")
+
+if ($ExportXml) {
+  $xmlStr = Get-TaskDefinitionXml -TaskName $TaskName -RepoPath $RepoPath -StartBoundary $startBoundary
+  Write-Output $xmlStr
+  return
 }
 
+$isDryRun = $DryRun -or $WhatIfPreference
+
 if ($Unregister) {
+  if ($isDryRun -or -not $PSCmdlet.ShouldProcess($TaskName, "Unregister Scheduled Task")) {
+    Write-Host "[DRY-RUN] Unregister scheduled task '$TaskName'"
+    return
+  }
+  $service = New-Object -ComObject "Schedule.Service"
+  $service.Connect()
+  $rootFolder = $service.GetFolder($TASK_FOLDER)
   $removed = Remove-ExistingTask -Folder $rootFolder -Name $TaskName
   if ($removed) {
     Write-Host "Unregistered scheduled task '$TaskName'."
@@ -94,17 +187,34 @@ if ($Unregister) {
 
 # --- Register (idempotent: delete-if-exists, then create) ---
 
-# Compute the local StartBoundary that corresponds to today's DailyTimeUtc.
-$parts = $DailyTimeUtc.Split(":")
-if ($parts.Count -ne 2) { throw "DailyTimeUtc must be 'HH:mm' (got '$DailyTimeUtc')." }
-$utcHour = [int]$parts[0]
-$utcMinute = [int]$parts[1]
+$escapedTaskName = Escape-XmlString $TaskName
+$escapedRepoPath = Escape-XmlString $RepoPath
 
-$nowUtc = [DateTime]::UtcNow
-$todayUtcMidnight = [DateTime]::new($nowUtc.Year, $nowUtc.Month, $nowUtc.Day, $utcHour, $utcMinute, 0, [DateTimeKind]::Utc)
-$startLocal = $todayUtcMidnight.ToLocalTime()
-# Task Scheduler StartBoundary is local ISO8601 without timezone suffix.
-$startBoundary = $startLocal.ToString("yyyy-MM-ddTHH:mm:ss")
+if ($isDryRun -or -not $PSCmdlet.ShouldProcess($TaskName, "Register Scheduled Task")) {
+  Write-Host "[DRY-RUN] Register scheduled task:"
+  Write-Host "  TaskName:    $escapedTaskName"
+  Write-Host "  Command:     cmd.exe /c npm run trending:refresh"
+  Write-Host "  WorkingDir:  $escapedRepoPath"
+  Write-Host "  Daily at:    $DailyTimeUtc UTC  (local StartBoundary: $startBoundary)"
+  Write-Host "  Escaped XML: <Task><Name>$escapedTaskName</Name><WorkingDirectory>$escapedRepoPath</WorkingDirectory></Task>"
+  return
+}
+
+# Connect to the Task Scheduler service via COM ONLY when performing live mutation.
+$service = New-Object -ComObject "Schedule.Service"
+$service.Connect()
+$rootFolder = $service.GetFolder($TASK_FOLDER)
+
+function Remove-ExistingTask {
+  param($Folder, $Name)
+  try {
+    $Folder.DeleteTask($Name, 0)
+    Write-Host "Removed existing task: $Name"
+    return $true
+  } catch {
+    return $false
+  }
+}
 
 # Idempotency: remove any prior registration first.
 Remove-ExistingTask -Folder $rootFolder -Name $TaskName | Out-Null

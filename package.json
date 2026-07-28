@@ -19,9 +19,11 @@
     "ui:preview": "vite preview src/ui",
     "ui:test": "vitest run",
     "test": "node --test src/**/*.test.js toolforge-pdf/*.test.js",
+    "test:vision": "vitest run --config vitest.config.vision.js",
+    "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
     "test:watch": "node --test --watch src/**/*.test.js",
     "lint": "eslint src/**/*.js",
-    "pre-flight": "npm run lint && npm test",
+    "pre-flight": "npm run lint && npm test && npm run test:vision && npm run test:scheduler",
     "stress:gate04": "node src/stress-tests/gate04-fairness.js",
     "dev": "npm run api:dev"
   },

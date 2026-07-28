@@ -1,22 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { pool } from '../db/connect.js';
+import { pool, createResilientDb } from '../db/connect.js';
 import * as schema from '../db/schema.js';
 import { createApp } from './server.js';
 
 const fallbackMockDb = makeMockDb();
-const db = {
-  query: async (text, params) => {
-    try {
-      return await pool.query(text, params);
-    } catch (err) {
-      if (err.code === 'ECONNREFUSED' || (err.errors && err.errors.some(e => e.code === 'ECONNREFUSED'))) {
-        return await fallbackMockDb.query(text, params);
-      }
-      throw err;
-    }
-  }
-};
+const db = createResilientDb(pool, fallbackMockDb);
 
 // --- Wave C: app-level route tests against an injected mock db (no live PG) ---
 
@@ -26,6 +15,9 @@ function makeMockDb(handlers = {}) {
     calls,
     query: async (text, params) => {
       calls.push({ text, params });
+      if (text.includes('SELECT 1')) {
+        return { rows: [{ ok: 1 }] };
+      }
       if (text.includes('FROM trending_metrics tm')) {
         return { rows: handlers.trending || [{ skill_id: 't1', name: 'Trend', trend_score: 9 }] };
       }
@@ -320,3 +312,216 @@ test('API: GET /api/v1/skills/trending', async (t) => {
     assert(trending.length <= 5);
   });
 });
+
+test('Production createResilientDb Adapter Unit Tests', async (t) => {
+  await t.test('Primary success returns result and keeps isFailing false', async () => {
+    const primaryDb = { query: async () => ({ rows: [{ ok: 1 }] }) };
+    const fallbackDb = { query: async () => { throw new Error('should not call fallback'); } };
+    const adapter = createResilientDb(primaryDb, fallbackDb);
+
+    const res = await adapter.query('SELECT 1', []);
+    assert.deepEqual(res.rows, [{ ok: 1 }]);
+    assert.equal(adapter.isFailing, false);
+  });
+
+  await t.test('Handles nested ECONNREFUSED error array and triggers fallback with logging', async () => {
+    const logs = [];
+    const logger = (msg) => logs.push(msg);
+    const nestedErr = new Error('AggregateError');
+    nestedErr.errors = [{ code: 'ECONNREFUSED' }];
+
+    const primaryDb = { query: async () => { throw nestedErr; } };
+    const fallbackDb = { query: async () => ({ rows: [{ fallback: true }] }) };
+    const adapter = createResilientDb(primaryDb, fallbackDb, { logger });
+
+    const res = await adapter.query('SELECT * FROM skills', ['arg1']);
+    assert.deepEqual(res.rows, [{ fallback: true }]);
+    assert.equal(adapter.isFailing, true);
+    assert.ok(logs.some((l) => l.includes('Falling back to secondary DB')));
+  });
+
+  await t.test('Preserves exact SQL text and parameters on fallback query', async () => {
+    const connErr = new Error('ECONNREFUSED');
+    connErr.code = 'ECONNREFUSED';
+    const primaryDb = { query: async () => { throw connErr; } };
+    let receivedSql = null;
+    let receivedParams = null;
+    const fallbackDb = {
+      query: async (sql, params) => {
+        receivedSql = sql;
+        receivedParams = params;
+        return { rows: [] };
+      },
+    };
+    const adapter = createResilientDb(primaryDb, fallbackDb, { logger: null });
+
+    const expectedSql = 'SELECT * FROM skills WHERE id = $1';
+    const expectedParams = ['skill-123'];
+    await adapter.query(expectedSql, expectedParams);
+
+    assert.strictEqual(receivedSql, expectedSql);
+    assert.deepEqual(receivedParams, expectedParams);
+  });
+
+  await t.test('Does NOT fallback on non-connection errors (syntax 42601, timeout 57014, constraint 23505, auth 28P01)', async () => {
+    const errorCodes = ['42601', '57014', '23505', '28P01'];
+    for (const code of errorCodes) {
+      const dbErr = new Error(`Database error code ${code}`);
+      dbErr.code = code;
+      let fallbackCalled = false;
+      const primaryDb = { query: async () => { throw dbErr; } };
+      const fallbackDb = { query: async () => { fallbackCalled = true; return { rows: [] }; } };
+      const adapter = createResilientDb(primaryDb, fallbackDb, { logger: null });
+
+      await assert.rejects(
+        () => adapter.query('SELECT 1'),
+        (err) => err.code === code
+      );
+      assert.strictEqual(fallbackCalled, false, `fallback should NOT be called for error code ${code}`);
+    }
+  });
+
+  await t.test('Fallback DB failure rejects cleanly without unhandled rejections', async () => {
+    const connErr = new Error('ECONNREFUSED');
+    connErr.code = 'ECONNREFUSED';
+    const primaryDb = { query: async () => { throw connErr; } };
+    const fallbackDb = { query: async () => { throw new Error('Secondary DB connection failed'); } };
+    const adapter = createResilientDb(primaryDb, fallbackDb, { logger: null });
+
+    await assert.rejects(
+      () => adapter.query('SELECT 1'),
+      /Secondary DB connection failed/
+    );
+  });
+
+  await t.test('Recovery: primary DB succeeds again after temporary ECONNREFUSED failure', async () => {
+    const logs = [];
+    const logger = (msg) => logs.push(msg);
+    let attempt = 0;
+    const connErr = new Error('ECONNREFUSED');
+    connErr.code = 'ECONNREFUSED';
+
+    const primaryDb = {
+      query: async () => {
+        attempt++;
+        if (attempt === 1) throw connErr;
+        return { rows: [{ recovered: true }] };
+      },
+    };
+    const fallbackDb = { query: async () => ({ rows: [{ fallback: true }] }) };
+    const adapter = createResilientDb(primaryDb, fallbackDb, { logger });
+
+    // Request 1: hits ECONNREFUSED -> falls back
+    const res1 = await adapter.query('SELECT 1');
+    assert.deepEqual(res1.rows, [{ fallback: true }]);
+    assert.strictEqual(adapter.isFailing, true);
+
+    // Request 2: primary recovers -> returns primary data, resets isFailing
+    const res2 = await adapter.query('SELECT 1');
+    assert.deepEqual(res2.rows, [{ recovered: true }]);
+    assert.strictEqual(adapter.isFailing, false);
+    assert.ok(logs.some((l) => l.includes('Primary DB connection recovered')));
+  });
+
+  await t.test('Concurrent requests during primary DB failure all route cleanly to fallback', async () => {
+    const connErr = new Error('ECONNREFUSED');
+    connErr.code = 'ECONNREFUSED';
+    const primaryDb = { query: async () => { throw connErr; } };
+    const fallbackDb = { query: async (sql, params) => ({ rows: [{ reqId: params[0] }] }) };
+    const adapter = createResilientDb(primaryDb, fallbackDb, { logger: null });
+
+    const requests = Array.from({ length: 10 }, (_, i) => adapter.query('SELECT $1', [i]));
+    const results = await Promise.all(requests);
+
+    assert.strictEqual(results.length, 10);
+    results.forEach((res, i) => {
+      assert.strictEqual(res.rows[0].reqId, i);
+    });
+  });
+});
+
+test('API Endpoints under Database Failure & Resilient DB Fallback', async (t) => {
+  const connErr = new Error('ECONNREFUSED');
+  connErr.code = 'ECONNREFUSED';
+  const failingPrimaryDb = { query: async () => { throw connErr; } };
+  const mockFallback = makeMockDb({
+    skill: [{ id: 's1', name: 'Skill 1' }],
+    categories: [{ id: 'c1', slug: 'cat1', display_name: 'Cat 1' }],
+    ratingsList: [{ id: 'r1', score: 5 }],
+    trending: [{ skill_id: 't1', name: 'Trend 1', trend_score: 50 }],
+  });
+  const resilientDb = createResilientDb(failingPrimaryDb, mockFallback, { logger: null });
+
+  await t.test('/health endpoint reflects DB status', async () => {
+    await withServer(resilientDb, async (base) => {
+      const res = await fetch(`${base}/health`);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.strictEqual(body.status, 'ok');
+    });
+
+    const totalFailingDb = { query: async () => { throw new Error('Both DBs down'); } };
+    await withServer(totalFailingDb, async (base) => {
+      const res = await fetch(`${base}/health`);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.strictEqual(body.status, 'unhealthy');
+    });
+  });
+
+  await t.test('GET /api/v1/skills lists skills via fallback', async () => {
+    await withServer(resilientDb, async (base) => {
+      const res = await fetch(`${base}/api/v1/skills`);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.ok(Array.isArray(body.data));
+    });
+  });
+
+  await t.test('GET /api/v1/skills/search searches via fallback', async () => {
+    await withServer(resilientDb, async (base) => {
+      const res = await fetch(`${base}/api/v1/skills/search?q=test`);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.ok(Array.isArray(body.data));
+    });
+  });
+
+  await t.test('GET /api/v1/categories lists categories via fallback', async () => {
+    await withServer(resilientDb, async (base) => {
+      const res = await fetch(`${base}/api/v1/categories`);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.ok(Array.isArray(body.data));
+    });
+  });
+
+  await t.test('GET /api/v1/skills/:id/versions fetches versions via fallback', async () => {
+    await withServer(resilientDb, async (base) => {
+      const res = await fetch(`${base}/api/v1/skills/s1/versions`);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.ok(Array.isArray(body.data));
+    });
+  });
+
+  await t.test('GET /api/v1/skills/:id/ratings fetches ratings via fallback', async () => {
+    await withServer(resilientDb, async (base) => {
+      const res = await fetch(`${base}/api/v1/skills/s1/ratings`);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.ok(Array.isArray(body.data));
+    });
+  });
+
+  await t.test('GET /api/v1/skills/trending fetches trending via fallback', async () => {
+    await withServer(resilientDb, async (base) => {
+      const res = await fetch(`${base}/api/v1/skills/trending`);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.ok(Array.isArray(body.data));
+    });
+  });
+});
+
+

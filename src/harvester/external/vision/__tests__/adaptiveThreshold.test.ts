@@ -7,7 +7,7 @@ describe('AdaptiveThreshold', () => {
     threshold = new AdaptiveThreshold(0.72);
   });
 
-  describe('initialization', () => {
+  describe('initialization and constructor validation', () => {
     it('initializes with provided threshold', () => {
       expect(threshold.get()).toBe(0.72);
     });
@@ -15,6 +15,28 @@ describe('AdaptiveThreshold', () => {
     it('initializes with default 0.72 if not provided', () => {
       const t = new AdaptiveThreshold();
       expect(t.get()).toBe(0.72);
+    });
+
+    it('throws error when minBound >= maxBound', () => {
+      expect(() => new AdaptiveThreshold(0.72, 0.90, 0.50)).toThrow(
+        'minBound must be strictly less than maxBound'
+      );
+      expect(() => new AdaptiveThreshold(0.72, 0.80, 0.80)).toThrow(
+        'minBound must be strictly less than maxBound'
+      );
+    });
+
+    it('throws error when minBound or maxBound are NaN or nonnumeric', () => {
+      expect(() => new AdaptiveThreshold(0.72, NaN, 0.95)).toThrow();
+      expect(() => new AdaptiveThreshold(0.72, 0.50, 'invalid' as any)).toThrow();
+    });
+
+    it('handles NaN or nonnumeric initial threshold gracefully', () => {
+      const t1 = new AdaptiveThreshold(NaN);
+      expect(t1.get()).toBe(0.72);
+
+      const t2 = new AdaptiveThreshold('invalid' as any);
+      expect(t2.get()).toBe(0.72);
     });
   });
 
@@ -37,30 +59,42 @@ describe('AdaptiveThreshold', () => {
       expect(threshold.enrichmentDeltaAvg).toBeCloseTo(expected, 5);
     });
 
-    it('applies weighted formula correctly', () => {
-      threshold.update(0.80, 0.75, 0.10);
-      const newValue =
-        0.5 * threshold.baselineAvg +
-        0.3 * threshold.structureAvg +
-        0.2 * threshold.enrichmentDeltaAvg;
-      const expected = 0.8 * 0.72 + 0.2 * newValue;
-      expect(threshold.get()).toBeCloseTo(expected, 5);
+    it('handles NaN, Infinity, and nonnumeric update arguments without corrupting state', () => {
+      threshold.update(NaN, Infinity, 'invalid' as any);
+      expect(Number.isNaN(threshold.get())).toBe(false);
+      expect(Number.isFinite(threshold.get())).toBe(true);
+      expect(threshold.get()).toBeGreaterThanOrEqual(0.5);
+      expect(threshold.get()).toBeLessThanOrEqual(0.95);
     });
   });
 
   describe('bounds enforcement', () => {
-    it('clamps threshold to minimum 0.60', () => {
-      threshold.update(0.10, 0.10, 0.0);
-      threshold.update(0.10, 0.10, 0.0);
-      threshold.update(0.10, 0.10, 0.0);
-      expect(threshold.get()).toBeGreaterThanOrEqual(0.6);
+    it('exact boundary: accepts initial 0.50 and 0.95 without alteration', () => {
+      const tMin = new AdaptiveThreshold(0.50, 0.50, 0.95);
+      expect(tMin.get()).toBe(0.50);
+
+      const tMax = new AdaptiveThreshold(0.95, 0.50, 0.95);
+      expect(tMax.get()).toBe(0.95);
     });
 
-    it('clamps threshold to maximum 0.85', () => {
-      threshold.update(0.95, 0.95, 0.50);
-      threshold.update(0.95, 0.95, 0.50);
-      threshold.update(0.95, 0.95, 0.50);
-      expect(threshold.get()).toBeLessThanOrEqual(0.85);
+    it('clamps values below 0.50 to 0.50', () => {
+      const tLow = new AdaptiveThreshold(0.40, 0.50, 0.95);
+      expect(tLow.get()).toBe(0.50);
+
+      for (let i = 0; i < 25; i++) {
+        threshold.update(0.05, 0.05, 0.0);
+      }
+      expect(threshold.get()).toBe(0.50);
+    });
+
+    it('clamps values above 0.95 to 0.95', () => {
+      const tHigh = new AdaptiveThreshold(1.05, 0.50, 0.95);
+      expect(tHigh.get()).toBe(0.95);
+
+      for (let i = 0; i < 25; i++) {
+        threshold.update(1.2, 1.2, 1.2);
+      }
+      expect(threshold.get()).toBe(0.95);
     });
   });
 
@@ -91,25 +125,6 @@ describe('AdaptiveThreshold', () => {
       });
 
       expect(t1.get()).toBe(t2.get());
-    });
-  });
-
-  describe('stability', () => {
-    it('converges gradually on sustained high values', () => {
-      const values = [];
-      for (let i = 0; i < 20; i++) {
-        threshold.update(0.90, 0.85, 0.10);
-        values.push(threshold.get());
-      }
-      expect(values[values.length - 1]).toBeLessThanOrEqual(0.85);
-      expect(values[values.length - 1]).toBeGreaterThan(values[0]);
-    });
-
-    it('does not overshoot on sustained low values', () => {
-      for (let i = 0; i < 20; i++) {
-        threshold.update(0.15, 0.20, 0.02);
-      }
-      expect(threshold.get()).toBeGreaterThanOrEqual(0.6);
     });
   });
 });

@@ -10,8 +10,8 @@ const read = (relativePath) => fs.readFileSync(path.join(repoRoot, relativePath)
 test('CI governance workflow runs on pushes and pull requests', () => {
   const workflow = read('.github/workflows/governance.yml');
 
-  assert.match(workflow, /^  push:\s*$/m);
-  assert.match(workflow, /^  pull_request:\s*$/m);
+  assert.match(workflow, /^ {2}push:\s*$/m);
+  assert.match(workflow, /^ {2}pull_request:\s*$/m);
   assert.match(workflow, /skill-doc-validator\.ps1 -Path \.\/skills -Recursive/);
   assert.match(workflow, /\/\.context\/retros\/validate\.ps1/);
 });

@@ -27,8 +27,13 @@ export function createApp(db, { resolveUser, limiter } = {}) {
 
   // Health check
   app.get('/health', async (req, res) => {
-    const check = await health();
-    res.json({ status: check ? 'ok' : 'unhealthy' });
+    try {
+      const result = await db.query('SELECT 1');
+      const isOk = Boolean(result && result.rows && result.rows.length > 0);
+      res.json({ status: isOk ? 'ok' : 'unhealthy' });
+    } catch {
+      res.json({ status: 'unhealthy' });
+    }
   });
 
   // GET /api/v1/skills — List skills (paginated)

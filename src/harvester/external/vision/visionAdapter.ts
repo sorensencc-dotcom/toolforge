@@ -26,63 +26,49 @@ export function getAdaptiveThreshold(): AdaptiveThreshold {
   return adaptiveThreshold;
 }
 
+export function resetAdaptiveThreshold(initial: number = 0.72): void {
+  adaptiveThreshold = new AdaptiveThreshold(initial);
+}
+
 export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
   const threshold = adaptiveThreshold.get();
 
   // CLIP baseline
   let result: ProviderResult | null = null;
 
-  if (mocks.clip) {
-    const baseline = await mocks.clip(buffer);
-    if (baseline.confidence >= threshold) {
-      return baseline;
-    }
+  try {
+    const baseline = mocks.clip ? await mocks.clip(buffer) : await runClipBlip(buffer, 'clip');
+    if (baseline.confidence >= threshold) return baseline;
     result = baseline;
-  } else {
-    const baseline = await runClipBlip(buffer, 'clip');
-    if (baseline.confidence >= threshold) {
-      return baseline;
-    }
-    result = baseline;
+  } catch {
+    // CLIP failed, fall through to next provider
   }
 
   // BLIP
-  if (mocks.blip) {
-    const blipResult = await mocks.blip(buffer);
-    if (blipResult.confidence >= threshold) {
-      return blipResult;
-    }
-  } else {
-    const blipResult = await runClipBlip(buffer, 'blip');
-    if (blipResult.confidence >= threshold) {
-      return blipResult;
-    }
+  try {
+    const blipResult = mocks.blip ? await mocks.blip(buffer) : await runClipBlip(buffer, 'blip');
+    if (blipResult.confidence >= threshold) return blipResult;
+    if (!result || blipResult.confidence > result.confidence) result = blipResult;
+  } catch {
+    // BLIP failed, fall through to next provider
   }
 
   // DINO structure
-  if (mocks.dino) {
-    const dinoResult = await mocks.dino(buffer);
-    if (dinoResult.confidence >= threshold) {
-      return dinoResult;
-    }
-  } else {
-    const dinoResult = await runDinoSam(buffer, 'dino');
-    if (dinoResult.confidence >= threshold) {
-      return dinoResult;
-    }
+  try {
+    const dinoResult = mocks.dino ? await mocks.dino(buffer) : await runDinoSam(buffer, 'dino');
+    if (dinoResult.confidence >= threshold) return dinoResult;
+    if (!result || dinoResult.confidence > result.confidence) result = dinoResult;
+  } catch {
+    // DINO failed, fall through to next provider
   }
 
   // SAM
-  if (mocks.sam) {
-    const samResult = await mocks.sam(buffer);
-    if (samResult.confidence >= threshold) {
-      return samResult;
-    }
-  } else {
-    const samResult = await runDinoSam(buffer, 'sam');
-    if (samResult.confidence >= threshold) {
-      return samResult;
-    }
+  try {
+    const samResult = mocks.sam ? await mocks.sam(buffer) : await runDinoSam(buffer, 'sam');
+    if (samResult.confidence >= threshold) return samResult;
+    if (!result || samResult.confidence > result.confidence) result = samResult;
+  } catch {
+    // SAM failed, fall through to next provider
   }
 
   // Google Vision enrichment (Method A: Gemini API)
@@ -94,13 +80,30 @@ export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
   }
 
   let enriched: ProviderResult;
-  if (mocks.googleVision) {
-    enriched = await mocks.googleVision(buffer, {
-      apiKey,
-      model: 'gemini-pro-vision',
-    });
-  } else {
-    enriched = await runGoogleVision(buffer, apiKey);
+  try {
+    if (mocks.googleVision) {
+      enriched = await mocks.googleVision(buffer, {
+        apiKey,
+        model: 'gemini-pro-vision',
+      });
+    } else {
+      enriched = await runGoogleVision(buffer, apiKey);
+    }
+  } catch (err: unknown) {
+    if (result) {
+      const sanitizedMsg = sanitizeError(err);
+      return {
+        confidence: result.confidence,
+        labels: [...result.labels],
+        regions: [...result.regions],
+        metadata: {
+          ...result.metadata,
+          googleVisionError: sanitizedMsg,
+          fallbackToLocal: true,
+        },
+      };
+    }
+    throw err;
   }
 
   const merged = mergeResults(result || { confidence: 0, labels: [], regions: [], metadata: {} }, enriched);
@@ -114,6 +117,19 @@ export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
   adaptiveThreshold.update(baseline, structure, enriched.confidence - structure);
 
   return merged;
+}
+
+function sanitizeError(err: unknown): string {
+  let message = 'API_FAILURE';
+  if (err && typeof err === 'object' && typeof (err as Record<string, unknown>).message === 'string') {
+    message = (err as Record<string, unknown>).message as string;
+  } else if (typeof err === 'string') {
+    message = err;
+  } else if (err !== null && err !== undefined) {
+    message = String(err);
+  }
+
+  return message.replace(/(AIzaSy[A-Za-z0-9_-]+|key=[A-Za-z0-9_-]+|Bearer\s+[A-Za-z0-9._-]+)/gi, '[REDACTED]');
 }
 
 async function runClipBlip(

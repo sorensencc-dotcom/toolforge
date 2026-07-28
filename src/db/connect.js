@@ -49,3 +49,51 @@ export async function health() {
     return null;
   }
 }
+
+/**
+ * Wraps a primary database connection with an optional fallback database.
+ * Catches ECONNREFUSED connection errors and transparently delegates queries to the fallback database.
+ * @param {{ query: Function }} primaryDb
+ * @param {{ query: Function }} fallbackDb
+ * @param {{ logger?: Function }} [options]
+ * @returns {{ query: Function, isFailing: boolean }}
+ */
+export function createResilientDb(primaryDb, fallbackDb, options = {}) {
+  const logger = options.logger || console.error;
+  let isPrimaryFailing = false;
+
+  return {
+    get isFailing() {
+      return isPrimaryFailing;
+    },
+    query: async (text, params) => {
+      try {
+        const res = await primaryDb.query(text, params);
+        if (isPrimaryFailing) {
+          isPrimaryFailing = false;
+          if (logger) {
+            logger('[ResilientDB] Primary DB connection recovered. Routing queries to primary DB.');
+          }
+        }
+        return res;
+      } catch (err) {
+        const isConnRefused =
+          err &&
+          (err.code === 'ECONNREFUSED' ||
+            (Array.isArray(err.errors) && err.errors.some((e) => e && e.code === 'ECONNREFUSED')));
+
+        if (isConnRefused && fallbackDb) {
+          if (!isPrimaryFailing) {
+            isPrimaryFailing = true;
+            if (logger) {
+              logger(`[ResilientDB] Primary DB connection refused (${err.message || 'ECONNREFUSED'}). Falling back to secondary DB.`);
+            }
+          }
+          return await fallbackDb.query(text, params);
+        }
+        throw err;
+      }
+    },
+  };
+}
+

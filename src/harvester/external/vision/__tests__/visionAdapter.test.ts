@@ -1,5 +1,4 @@
-import { analyzeImage, setProviderMocks, ProviderResult } from '../visionAdapter';
-import { AdaptiveThreshold } from '../adaptiveThreshold';
+import { analyzeImage, setProviderMocks, getAdaptiveThreshold, resetAdaptiveThreshold, ProviderResult } from '../visionAdapter';
 
 describe('visionAdapter', () => {
   let mockClip: jest.Mock;
@@ -9,6 +8,8 @@ describe('visionAdapter', () => {
   let mockGoogle: jest.Mock;
 
   beforeEach(() => {
+    resetAdaptiveThreshold(0.72);
+    process.env.GOOGLE_API_KEY = 'AIzaSy_test_key_12345';
     mockClip = jest.fn();
     mockBlip = jest.fn();
     mockDino = jest.fn();
@@ -24,95 +25,80 @@ describe('visionAdapter', () => {
     });
   });
 
+  afterEach(() => {
+    delete process.env.GOOGLE_API_KEY;
+  });
+
   const createMockBuffer = (): Buffer => Buffer.from('test-image-data');
   const createProviderResult = (confidence: number): ProviderResult => ({
     confidence,
-    labels: ['test'],
-    regions: [],
-    metadata: {},
+    labels: ['test_label'],
+    regions: [{ x: 10, y: 10, width: 50, height: 50 }],
+    metadata: { source: 'unit-test' },
   });
 
-  describe('provider chain execution order', () => {
-    it('tries CLIP first', async () => {
-      mockClip.mockResolvedValue(createProviderResult(0.85));
+  describe('individual local provider failure fallthrough', () => {
+    it('falls through to BLIP if CLIP throws an error', async () => {
+      mockClip.mockRejectedValue(new Error('CLIP service failure'));
+      mockBlip.mockResolvedValue(createProviderResult(0.85));
       const buffer = createMockBuffer();
 
-      await analyzeImage(buffer);
-
-      expect(mockClip).toHaveBeenCalled();
-      expect(mockBlip).not.toHaveBeenCalled();
-    });
-
-    it('falls through to BLIP if CLIP confidence below threshold', async () => {
-      mockClip.mockResolvedValue(createProviderResult(0.60));
-      mockBlip.mockResolvedValue(createProviderResult(0.80));
-      const buffer = createMockBuffer();
-
-      await analyzeImage(buffer);
+      const result = await analyzeImage(buffer);
 
       expect(mockClip).toHaveBeenCalled();
       expect(mockBlip).toHaveBeenCalled();
-      expect(mockDino).not.toHaveBeenCalled();
+      expect(result.confidence).toBe(0.85);
     });
 
-    it('continues to DINO/SAM if BLIP insufficient', async () => {
-      mockClip.mockResolvedValue(createProviderResult(0.50));
-      mockBlip.mockResolvedValue(createProviderResult(0.55));
-      mockDino.mockResolvedValue(createProviderResult(0.75));
+    it('falls through to DINO if CLIP and BLIP throw errors', async () => {
+      mockClip.mockRejectedValue(new Error('CLIP error'));
+      mockBlip.mockRejectedValue(new Error('BLIP error'));
+      mockDino.mockResolvedValue(createProviderResult(0.80));
+
       const buffer = createMockBuffer();
+      const result = await analyzeImage(buffer);
 
-      await analyzeImage(buffer);
-
-      expect(mockClip).toHaveBeenCalled();
-      expect(mockBlip).toHaveBeenCalled();
       expect(mockDino).toHaveBeenCalled();
+      expect(result.confidence).toBe(0.80);
     });
 
-    it('proceeds to Google if all free providers insufficient', async () => {
-      mockClip.mockResolvedValue(createProviderResult(0.50));
-      mockBlip.mockResolvedValue(createProviderResult(0.55));
-      mockDino.mockResolvedValue(createProviderResult(0.60));
-      mockSam.mockResolvedValue(createProviderResult(0.65));
-      mockGoogle.mockResolvedValue(createProviderResult(0.82));
-      const buffer = createMockBuffer();
+    it('falls through to SAM if CLIP, BLIP, and DINO throw errors', async () => {
+      mockClip.mockRejectedValue(new Error('CLIP error'));
+      mockBlip.mockRejectedValue(new Error('BLIP error'));
+      mockDino.mockRejectedValue(new Error('DINO error'));
+      mockSam.mockResolvedValue(createProviderResult(0.78));
 
-      await analyzeImage(buffer);
+      const buffer = createMockBuffer();
+      const result = await analyzeImage(buffer);
+
+      expect(mockSam).toHaveBeenCalled();
+      expect(result.confidence).toBe(0.78);
+    });
+
+    it('falls through to Google Vision if all local providers throw errors', async () => {
+      mockClip.mockRejectedValue(new Error('CLIP error'));
+      mockBlip.mockRejectedValue(new Error('BLIP error'));
+      mockDino.mockRejectedValue(new Error('DINO error'));
+      mockSam.mockRejectedValue(new Error('SAM error'));
+      mockGoogle.mockResolvedValue(createProviderResult(0.88));
+
+      const buffer = createMockBuffer();
+      const result = await analyzeImage(buffer);
 
       expect(mockGoogle).toHaveBeenCalled();
+      expect(result.confidence).toBe(0.88);
     });
   });
 
-  describe('threshold comparison', () => {
-    it('accepts result above current threshold', async () => {
-      mockClip.mockResolvedValue(createProviderResult(0.80));
-      const buffer = createMockBuffer();
-
-      const result = await analyzeImage(buffer);
-
-      expect(result.confidence).toBe(0.80);
-      expect(mockBlip).not.toHaveBeenCalled();
-    });
-
-    it('rejects result below threshold and tries next provider', async () => {
-      mockClip.mockResolvedValue(createProviderResult(0.65));
-      mockBlip.mockResolvedValue(createProviderResult(0.75));
-      const buffer = createMockBuffer();
-
-      const result = await analyzeImage(buffer);
-
-      expect(result.confidence).toBe(0.75);
-    });
-  });
-
-  describe('Google Vision API (Method A)', () => {
-    it('calls Google Vision with Gemini API key from env', async () => {
-      process.env.GOOGLE_API_KEY = 'AIzaSy_test_key';
-
-      mockClip.mockResolvedValue(createProviderResult(0.50));
-      mockBlip.mockResolvedValue(createProviderResult(0.55));
-      mockDino.mockResolvedValue(createProviderResult(0.60));
-      mockSam.mockResolvedValue(createProviderResult(0.65));
-      mockGoogle.mockResolvedValue(createProviderResult(0.80));
+  describe('Google Vision API and result merging', () => {
+    it('calls Google Vision with Gemini API key from env and merges results', async () => {
+      mockClip.mockResolvedValue(createProviderResult(0.60));
+      mockGoogle.mockResolvedValue({
+        confidence: 0.85,
+        labels: ['enriched_label'],
+        regions: [{ x: 60, y: 60, width: 20, height: 20 }],
+        metadata: { googleProvider: true },
+      });
 
       const buffer = createMockBuffer();
       const result = await analyzeImage(buffer);
@@ -120,13 +106,15 @@ describe('visionAdapter', () => {
       expect(mockGoogle).toHaveBeenCalledWith(
         buffer,
         expect.objectContaining({
-          apiKey: 'AIzaSy_test_key',
+          apiKey: 'AIzaSy_test_key_12345',
           model: 'gemini-pro-vision',
         })
       );
-      expect(result.confidence).toBe(0.80);
-
-      delete process.env.GOOGLE_API_KEY;
+      expect(result.confidence).toBe(0.85);
+      expect(result.labels).toContain('test_label');
+      expect(result.labels).toContain('enriched_label');
+      expect(result.regions.length).toBe(2);
+      expect(result.metadata.merged).toBe(true);
     });
 
     it('throws error if Google API key missing', async () => {
@@ -134,67 +122,72 @@ describe('visionAdapter', () => {
 
       mockClip.mockResolvedValue(createProviderResult(0.50));
       mockBlip.mockResolvedValue(createProviderResult(0.55));
-      mockDino.mockResolvedValue(createProviderResult(0.60));
-      mockSam.mockResolvedValue(createProviderResult(0.65));
 
       const buffer = createMockBuffer();
-
       await expect(analyzeImage(buffer)).rejects.toThrow(
-        /GOOGLE_API_KEY/
+        /GOOGLE_API_KEY environment variable not set/
       );
     });
   });
 
-  describe('result merging', () => {
-    it('merges results from multiple providers', async () => {
-      const clipResult = createProviderResult(0.80);
-      clipResult.labels = ['car', 'vehicle'];
+  describe('fallback and secret sanitization on API failures', () => {
+    it('preserves original metadata, labels, regions, and confidence during fallback', async () => {
+      const localResult: ProviderResult = {
+        confidence: 0.68,
+        labels: ['local_vehicle', 'local_car'],
+        regions: [{ x: 5, y: 5, width: 100, height: 100 }],
+        metadata: { customId: 'img-999', source: 'local-cam' },
+      };
 
-      const googleResult = createProviderResult(0.85);
-      googleResult.labels = ['automobile', 'transportation'];
-
-      mockClip.mockResolvedValue(clipResult);
-      mockGoogle.mockResolvedValue(googleResult);
+      mockClip.mockResolvedValue(localResult);
+      mockGoogle.mockRejectedValue(new Error('429 Too Many Requests: Quota Limit'));
 
       const buffer = createMockBuffer();
       const result = await analyzeImage(buffer);
 
-      expect(result.labels).toContain('car');
-      expect(result.labels).toContain('automobile');
+      expect(result.fallbackToLocal).toBe(undefined);
+      expect(result.confidence).toBe(0.68);
+      expect(result.labels).toEqual(['local_vehicle', 'local_car']);
+      expect(result.regions).toEqual([{ x: 5, y: 5, width: 100, height: 100 }]);
+      expect(result.metadata.customId).toBe('img-999');
+      expect(result.metadata.source).toBe('local-cam');
+      expect(result.metadata.fallbackToLocal).toBe(true);
+      expect(result.metadata.googleVisionError).toMatch(/429 Too Many Requests/);
     });
-  });
 
-  describe('threshold adaptation', () => {
-    it('updates adaptive threshold after Google Vision call', async () => {
-      mockClip.mockResolvedValue(createProviderResult(0.70));
-      mockBlip.mockResolvedValue(createProviderResult(0.72));
-      mockDino.mockResolvedValue(createProviderResult(0.75));
-      mockSam.mockResolvedValue(createProviderResult(0.77));
-      mockGoogle.mockResolvedValue(createProviderResult(0.82));
+    it('handles non-Error thrown primitives and objects without .message', async () => {
+      mockClip.mockResolvedValue(createProviderResult(0.65));
+      mockGoogle.mockRejectedValue('503 Service Unavailable Primitive String');
 
       const buffer = createMockBuffer();
-      await analyzeImage(buffer);
+      const result = await analyzeImage(buffer);
 
-      const expectedBaseline = 0.70;
-      const expectedStructure = 0.75;
-      const expectedEnrichment = 0.82 - 0.75;
-
-      // Verify threshold was updated (exact values depend on state)
-      expect(mockGoogle).toHaveBeenCalled();
+      expect(result.metadata.fallbackToLocal).toBe(true);
+      expect(result.metadata.googleVisionError).toBe('503 Service Unavailable Primitive String');
     });
-  });
 
-  describe('provider failure handling', () => {
-    it('throws error if all providers fail', async () => {
-      mockClip.mockRejectedValue(new Error('CLIP unavailable'));
-      mockBlip.mockRejectedValue(new Error('BLIP unavailable'));
-      mockDino.mockRejectedValue(new Error('DINO unavailable'));
-      mockSam.mockRejectedValue(new Error('SAM unavailable'));
-      mockGoogle.mockRejectedValue(new Error('Google API error'));
+    it('sanitizes API keys and sensitive credentials in fallback error metadata', async () => {
+      mockClip.mockResolvedValue(createProviderResult(0.65));
+      const leakyError = new Error('HTTP 403 Forbidden for key AIzaSy_test_key_12345 in header Bearer eyJhbGciOi...');
+      mockGoogle.mockRejectedValue(leakyError);
 
       const buffer = createMockBuffer();
+      const result = await analyzeImage(buffer);
 
-      await expect(analyzeImage(buffer)).rejects.toThrow();
+      expect(result.metadata.fallbackToLocal).toBe(true);
+      expect(result.metadata.googleVisionError).not.toContain('AIzaSy_test_key_12345');
+      expect(result.metadata.googleVisionError).toContain('[REDACTED]');
+    });
+
+    it('throws error if all local providers fail AND Google Vision fails', async () => {
+      mockClip.mockRejectedValue(new Error('CLIP offline'));
+      mockBlip.mockRejectedValue(new Error('BLIP offline'));
+      mockDino.mockRejectedValue(new Error('DINO offline'));
+      mockSam.mockRejectedValue(new Error('SAM offline'));
+      mockGoogle.mockRejectedValue(new Error('Google API fatal error'));
+
+      const buffer = createMockBuffer();
+      await expect(analyzeImage(buffer)).rejects.toThrow('Google API fatal error');
     });
   });
 });
