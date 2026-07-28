@@ -1,0 +1,22 @@
+docs/superpowers/specs/2026-07-28-trm-feedback-report-design.md
+  s_904046ee856c16::t_fed6ee940d9d31 70
+  s_904046ee856c16::t_619369d41c943d 82-89
+  s_904046ee856c16::t_429461aa4ead28 11
+  s_904046ee856c16::t_f1adf0399eb8f8 121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "d017c8ba23c22a0f4e9ba94972927b1badefce27",
+  "prompts": {},
+  "sessions": {
+    "s_904046ee856c16": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0259ef53-b03d-4c1b-9980-f30fe6d696ca",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
