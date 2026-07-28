@@ -1,7 +1,7 @@
-{
+﻿{
   "date": "2026-07-26",
   "window": "7d",
-  "since": "2026-07-19T00:00:00-04:00",
+  "since": "2026-07-26T00:00:00-04:00",
   "until": "2026-07-26T23:59:59-04:00",
   "base_branch": "main",
   "prior_retro_baseline": ".context/retros/2026-07-26-1.json",
@@ -30,13 +30,14 @@
     "deep_sessions": 1,
     "peak_hour": 22,
     "late_night_commits_22_to_04": 46,
-    "late_night_pct": 47.9,
     "team_streak_days": 1,
     "personal_streak_days": 1,
-    "streak_note": "2026-07-25 has zero commits across full repo history, breaking what was otherwise a 12-day run (07-13 through 07-24)",
     "backlog_open_todos": 5,
     "backlog_closed_this_period": 2,
-    "version_range": ["2.12.0", "2.22.0"],
+    "version_range": [
+      "2.12.0",
+      "2.22.0"
+    ],
     "release_commits": 23,
     "focus_area": "TRM curator/research-questions pipeline, secret-scan security fix, CIC vision subsystem, retro schema v1.0 migration, session-continuity + lockfile-LOC tooling"
   },
