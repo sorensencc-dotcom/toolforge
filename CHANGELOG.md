@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.23.2
+Date: 2026-07-28
+
+### Changes
+- 1dca251 - test: expand test coverage across PDF, DB adapter, TRM pipeline, vision, and scheduler (Chris Sorensen)
+
 ## Version 2.23.1
 Date: 2026-07-27
 
