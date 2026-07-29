@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.24.0
+Date: 2026-07-28
+
+### Changes
+Gate-boundary bump (17 commits since 2.23.3, batched per changelog-staleness convention — see `memory/changelog_discipline_gap.md`).
+
+- feat(trm-feedback-report): shipped skill — report metadata, `trm` CLI wrapper, skill scaffold, web-search signal-strength scoring, new-topic-candidate clustering from fact text (4d78e19, 7774644, 390cabd)
+- fix(trm-feedback-report): recover validate's stdout instead of throwing on its non-zero exit (143120c)
+- chore(todos): close TRM feedback/report skill backlog item (905517a)
+- docs(spec/plan): TRM-to-treatment sync-treatment design — 4 review rounds closing lock permanence, collision data loss, stale-field honesty, dependency-map envelope, fact-identity design (6e55943, f6d0aa3, d017c8b, 26db215, b9c96a0, 11a3817, 724c300, 88d019c, 5de8238)
+
 ## Version 2.23.3
 Date: 2026-07-28
 

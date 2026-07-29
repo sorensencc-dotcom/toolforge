@@ -192,6 +192,8 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 1. **git push as session end** — kills multi-week exposure; only operation + verification needed each session
 2. **Charter before dispatch** — test contract locked before Builder waves; prevents fix-chains post-dispatch
 3. **Metrics hygiene** — exclude lockfiles (package-lock.json, yarn.lock, etc.) from LOC; tracking noise = bad signal
+4. **Test-tag hygiene** — commit primarily adding/fixing test coverage → `test:` prefix (or co-tag), even if it touches non-test files. Prevents test investment hiding inside `fix:`/`feat:` commits and undercounting in commit-type breakdown.
+5. **Bulk-sync tagging** — bulk/automated resync or session-state commits (e.g. large `.ijfw/` regen) → `chore(sync):` prefix, distinct from authored work. Lets retro tooling filter them by prefix instead of hand-auditing shortstat output; keeps LOC/commit-type metrics honest.
 
 ## Operational Workflows
 
