@@ -1,0 +1,43 @@
+skills/trm-feedback-report/src/trmCli.ts
+  s_a20a044fda74f9::t_bd3f6fa7b18d9f 1-5
+skills/trm-feedback-report/src/reportMeta.ts
+  s_a20a044fda74f9::t_0cc264ec5c9069 1-24
+skills/trm-feedback-report/README.md
+  s_a20a044fda74f9::t_dcc338b411bd86 1-22
+skills/trm-feedback-report/tests/reportMeta.test.ts
+  s_a20a044fda74f9::t_9d859af4330184 1-29
+skills/trm-feedback-report/tests/trmCli.test.ts
+  s_a20a044fda74f9::t_10e734df5a4b65 1-17
+skills/trm-feedback-report/src/index.ts
+  s_a20a044fda74f9::t_d073aa241fce13 1-7
+skills/trm-feedback-report/skill.json
+  s_a20a044fda74f9::t_871be71baaaf60 1-47
+skills/trm-feedback-report/docs/USAGE.md
+  s_a20a044fda74f9::t_b0ba163fea9e7b 1-16
+skills/trm-feedback-report/SKILL.md
+  s_7131d22b7ab717::t_7a5a0d592b738c 1-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "4d78e19db67971ac6ebf782db7dd3777175e8f54",
+  "prompts": {},
+  "sessions": {
+    "s_7131d22b7ab717": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d606102f-397d-4ccc-a80b-ccf2dca4143a",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a20a044fda74f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3d3c6af5-d66a-4183-aa8b-60284c53847c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
