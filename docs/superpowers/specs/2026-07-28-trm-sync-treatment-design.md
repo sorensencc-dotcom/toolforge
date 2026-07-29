@@ -53,6 +53,54 @@ narrative repo owns beat structure and prose. The sync command is the only
 bridge, and it only ever produces a new report file — never mutates existing
 narrative-repo files.
 
+**Path contract (no hardcoded/CWD-relative paths):** the command takes
+explicit roots — `--vault-root <path>` (default: `trm-vault` resolved from
+trm's existing config, same resolution `validate`/`ingest-dir` already use),
+`--narrative-root <path>` (default: sibling `charlie-deep-research/` next to
+the vault root — overridable, no assumption baked in), `--dependency-map
+<path>` (default: `<narrative-root>/treatment/CIC_SOURCING_DEPENDENCY_MAP_v1.json`).
+All three are validated to exist and be directories/files respectively
+before any processing starts. The report output path is resolved with
+`fs.realpathSync` and checked to be a descendant of
+`<narrative-root>/treatment` — if resolution escapes that directory (symlink
+or `..` traversal), the command hard-errors rather than writing anywhere.
+
+**Concurrency:** a lockfile at `<vault-root>/.sync-treatment.lock` (pid +
+timestamp) is created exclusively (`wx` flag) at the start of a run and
+removed at the end. A second invocation while the lock exists fails fast
+with a distinct error rather than racing the first run's cursor writes. A
+stale lock (process no longer running, checked via pid liveness) is
+reclaimed with a warning.
+
+## Fact identity
+
+`extract.json`'s `FCT-###` ids are **not stable** — confirmed in
+`trm/src/core/regenerateExtractJson.ts:32-35`, every regen renumbers facts
+positionally from the merged array (`FCT-${i+1}`). A cursor keyed on `FCT-###`
+would silently misattribute "already synced" across reruns whenever facts
+are added, removed, or reordered upstream. `id` is display-only and must
+never be used as a diff key.
+
+Stable key instead: `factKey = sha256(source_id + "|" + normalize(text))`,
+where `normalize` is the same lowercase/strip-punctuation/collapse-whitespace
+function used for matching (one normalization function, shared). This is
+computed fresh from `extract.json` content on every run — no dependency on
+manifestStore internals. Two distinct facts from the same source with
+byte-identical normalized text collide and dedupe as one; this is treated as
+an accepted, documented edge case for v1 (not expected in practice — facts
+are extracted narrative statements, not short tags), not a bug to solve now.
+
+Fact identity handles the real cases:
+
+- **Edited fact** (same source_id, changed text) → new `factKey`, appears as
+  "new" — correct, since the content genuinely changed and needs re-review.
+- **Deleted fact** → its `factKey` simply stops appearing in `extract.json`;
+  the cursor still lists it, which is harmless (cursor is a "seen" set, not
+  a live inventory) but not actively reconciled — no "fact removed" report
+  section in v1.
+- **Reordered/renumbered facts** (the common case that broke `FCT-###`) →
+  `factKey` is unaffected, since it doesn't depend on array position.
+
 ## Cursor state
 
 One file per topic: `trm-vault/topics/charlie/<topic>/.sync-cursor.json`.
@@ -60,104 +108,172 @@ One file per topic: `trm-vault/topics/charlie/<topic>/.sync-cursor.json`.
 ```json
 {
   "cursorVersion": 1,
-  "lastSyncedIds": ["FCT-001", "FCT-002"],
+  "lastSyncedFactKeys": ["<sha256>", "<sha256>"],
   "lastRunAt": "2026-07-28T18:00:00.000Z",
-  "factCountAtLastSync": 2
+  "factCountAtLastSuccessfulSync": 2
 }
 ```
 
-- Diff: read `extracts/extract.json`, compare `facts[].id` against
-  `lastSyncedIds`. Anything not present is "new this run."
-- Cursor updates happen only after the report file is successfully written
-  — a failed/aborted run leaves the cursor untouched so nothing is silently
-  marked as synced without a report to show for it.
-- For an `all`-topics run, the report is one file covering every topic, but
-  each topic still has its own cursor. Cursors are updated only after the
-  full report write succeeds, in a single pass over all touched topics
-  immediately following that write — not interleaved per-topic during
-  report generation. If the process crashes between the report write and
-  finishing the cursor-update pass, some topics' cursors may lag; the next
-  run detects this as extra "new" facts for those topics (safe — reprocessed,
-  not lost) and the command logs which topics' cursors were confirmed
-  updated vs. not, to stderr, on any interrupted run it can detect.
-- Malformed/unreadable cursor JSON → treated as empty (all facts appear
-  "new"), a warning is logged to stderr with the cursor file path, and the
-  report includes a "cursor reset" note explaining why an unusually large
-  batch of "new" facts appeared.
+(`factCountAtLastSuccessfulSync` is diagnostic only — for spotting drift
+between expected and actual fact counts across runs — never used in diff
+logic.)
+
+- Diff: read `extracts/extract.json`, compute `factKey` for every fact,
+  compare against `lastSyncedFactKeys`. Anything not present is "new this run."
+- **Atomic writes:** both the report file and each cursor file are written
+  to a temp path in the same directory and moved into place with
+  `fs.renameSync` (atomic on the same filesystem) — never a partial file
+  visible to a concurrent reader or a crash mid-write. The report is created
+  with exclusive-create semantics (`wx` flag on the temp file) so two runs
+  can never silently overwrite each other's report.
+- **Crash safety, stated precisely:** cursors update only after the report
+  file's rename-into-place succeeds. There is no reliable way to log
+  "which cursors got updated" if the process dies mid-way through the
+  per-topic cursor-update loop after that point — accept this rather than
+  claim false precision. The concrete consequence: if the process crashes
+  after the report is written but before all touched cursors are updated,
+  the next run may regenerate a **duplicate report** repeating some facts
+  from the crashed run. This is safe (no data loss, no silent gap) and
+  cheap (human just sees repeated facts in two reports) — not worth solving
+  with a run-manifest for v1. The lockfile (see Architecture) prevents this
+  from compounding via concurrent reruns.
+- Malformed/unreadable cursor JSON → that topic's cursor is treated as empty
+  (all its facts appear "new"), a warning is logged to stderr with the
+  cursor file path, and the report includes a "cursor reset" note (see
+  Report output) — scoped to that topic only, not the whole run.
 
 ## Matching
 
 Load `CIC_SOURCING_DEPENDENCY_MAP_v1.json` once per run (array of
-`{ id, beat, claim, ... }`). The dependency-map file itself gains a top-level
-`matchSchemaVersion` field (added as part of this work, defaulting to `1`);
-the sync command reads and stamps this value into the report's
-`matchVersion` field rather than hardcoding it — so a schema change to the
-map is what bumps the report tag, not a manual edit in the sync command.
+`{ id, beat, claim, ... }`). This file is not owned by the sync command and
+the command never writes to it. As a one-time prerequisite (a separate,
+manually-reviewed edit to the narrative repo, done before this feature
+ships — not automated by the sync tool), the file gains a top-level
+`matchSchemaVersion` field. The sync command requires this field to be
+present and equal to a version it recognizes (`1` for v1); if the field is
+missing or unrecognized, that is a hard error (exit code 1, message
+identifies the file, the found value, and the supported versions) — the
+command never assumes a default or silently proceeds against an
+unversioned or newer-than-known schema.
 
-For each new fact:
+Matching logic itself is versioned separately from the dependency-map
+schema, via a `matchConfigVersion` constant owned by the sync command (not
+the map file) — the map's shape and the scoring algorithm are independent
+concerns and can each change without the other.
 
-1. Normalize text on both sides before scoring: lowercase, strip
-   punctuation, collapse whitespace.
-2. Score against every V-item by category overlap (fact `categories` vs.
-   keywords derived from the V-item's `claim` text) plus simple token
-   overlap between `claim` and fact `text`.
-3. Bucket the raw score into `high` / `medium` / `low` confidence rather
-   than exposing a raw number — keeps the report readable and triage-focused.
-   Thresholds (implementation-defined constants, tunable without a design
-   change): score >= 0.6 → high, >= 0.3 → medium, >= 0.1 → low, below 0.1 →
-   no match (goes to "unmatched" bucket). These cutoffs are a starting point
-   validated against real fixture data during implementation, not fixed by
-   this design.
-4. Cap suggested matches at 3 per fact (highest-scoring first, ties broken
-   by V-item id ascending). Facts with no match at or above the low-confidence
-   floor (0.1) go in an "unmatched" bucket.
+**Normalization** (shared by fact-identity hashing and matching — one
+function, one place): lowercase, strip all non-alphanumeric characters,
+collapse whitespace runs to a single space, trim. No stemming/lemmatization
+in v1 (adds a dependency and nondeterminism risk across environments;
+revisit only if plain-token matching proves too weak in practice).
+
+**Scoring formula** (`matchConfigVersion: 1`), for a fact `f` against a
+V-item `v`:
+
+```text
+categoryTokens(v)  = normalize(v.claim) tokens, stopword-filtered
+factTokens(f)      = normalize(f.text) tokens, stopword-filtered
+catScore           = |f.categories ∩ categoryTokens(v)| / max(1, |f.categories|)   // Jaccard-style, fact-categories-vs-claim-tokens
+tokScore           = |factTokens(f) ∩ categoryTokens(v)| / |factTokens(f) ∪ categoryTokens(v)|   // Jaccard on token sets
+score(f, v)        = round(0.5 * catScore + 0.5 * tokScore, 3)
+```
+
+Stopword list: a fixed, small, checked-in English stopword list (~100
+common words) — same list used for both `categoryTokens` and `factTokens`.
+Empty `f.categories` → `catScore = 0` for that fact (not skipped, not an
+error). Duplicate tokens are deduplicated before set operations (Jaccard is
+over sets, not multisets).
+
+Bucket the score: `>= 0.6` → high, `>= 0.3` → medium, `>= 0.1` → low, `< 0.1`
+→ no match (goes to "unmatched" bucket). Thresholds are inclusive at the
+lower bound of each named bucket. These three constants plus the 0.5/0.5
+weighting live together under `matchConfigVersion: 1` — changing any of
+them is a version bump, not a silent tuning edit, so old reports remain
+interpretable against the config version that produced them.
+
+Cap suggested matches at 3 per fact (highest-scoring first; ties broken by
+V-item `id` ascending, string comparison). Facts scoring below 0.1 against
+every V-item go in the "unmatched" bucket.
 
 Missing dependency-map file → hard error (exit code 1), error message
 includes the expected file path. Matching cannot proceed without it, unlike
 a missing per-topic `extract.json`, which is a per-topic skip.
 
+## Topic discovery
+
+For an `all`-topics run: enumerate direct subdirectories of
+`<vault-root>/topics/charlie/`, excluding dotfile-prefixed entries and any
+non-directory entries. A discovered directory counts as a topic candidate
+regardless of whether it has an `extracts/extract.json` yet — a topic with
+no extract file is a per-topic skip (see Error handling), not silently
+excluded from discovery. An empty candidate set (no subdirectories at all)
+is not an error: the run proceeds, produces a report stating
+`No topics found.`, and exits `0`.
+
 ## Report output
 
-One file per run, never overwritten:
-`charlie-deep-research/treatment/TRM_SYNC_REPORT_<topic>_<YYYYMMDDTHHMMSS>.md`
-(or `_all_` when run across all topics). The full timestamp, not just the
-date, disambiguates same-day reruns — no collision/overwrite risk even when
-the command runs multiple times in one session. A `--dry-run` invocation
-uses a `_DRYRUN_` infix in the filename (e.g.
-`TRM_SYNC_REPORT_DRYRUN_<topic>_<timestamp>.md`) and sets `dryRun: true` in
-the frontmatter, so preview output is never mistaken for a committed run
-when scanning the treatment directory.
+One file per run, never overwritten. Filename embeds a `runId` (a short
+random hex/UUID suffix, not just a timestamp) so same-second reruns cannot
+collide even at second-level timestamp precision:
+`charlie-deep-research/treatment/TRM_SYNC_REPORT_<topic>_<YYYYMMDDTHHMMSS>_<runId>.md`
+(or `_all_` when run across all topics). A `--dry-run` invocation uses a
+`_DRYRUN_` infix (`TRM_SYNC_REPORT_DRYRUN_<topic>_<timestamp>_<runId>.md`)
+and sets `dryRun: true` in frontmatter — explicitly **not** side-effect-free
+(it still writes this file; only the cursor update is skipped), and named
+accordingly rather than called a "preview."
 
 Frontmatter header:
 
 ```yaml
 ---
 topic: <topic|all>
+runId: <uuid>
 runAt: <ISO timestamp>
 vaultSnapshot: <ISO timestamp of extract.json read>
-matchVersion: 1
+matchVersion: <matchSchemaVersion from dependency-map file>
+matchConfigVersion: 1
 cursorVersion: 1
 partialRun: false
 dryRun: false
+topicsProcessed: ["willow-run", "cuba"]
+topicsSkipped: []
 ---
 ```
 
+`partialRun` is `true` if and only if `topicsSkipped` is non-empty — i.e.
+at least one topic candidate (from Topic discovery) was skipped due to a
+missing or malformed `extract.json`. A per-topic cursor reset (malformed
+cursor, see Cursor state) does **not** by itself set `partialRun` — that
+topic still gets fully processed, just with an empty starting cursor — so
+`partialRun` stays a precise signal of "output is incomplete," not a
+catch-all for "something unusual happened."
+
 Body:
 
-- If a cursor reset happened, a note immediately after the frontmatter
-  (before any fact content) explaining it — kept grep-able at a fixed
-  position rather than a loose "near the top."
-- If zero new facts: single line, `No new facts detected.` — still writes
-  the file, so run history stays complete (a topic with a real "nothing
-  changed" run looks different from a topic that was never checked).
-- Otherwise: new facts sorted by `source_id` then `id` (deterministic
-  ordering → stable diffs between reports). In an `all`-topics report, each
-  fact block is prefixed with its topic name (e.g. `[willow-run] FCT-001`)
-  since fact ids restart at `FCT-001` per topic and are not globally unique
-  — without the prefix, facts from different topics would be visually
-  indistinguishable in a combined report. Each block: topic-qualified id,
-  text, confidence, source_id, suggested V-item match(es) with confidence
-  bucket, or "unmatched."
+- If a cursor reset happened for one or more topics, a note immediately
+  after the frontmatter (before any fact content) naming each affected
+  topic and its cursor file path — kept grep-able at a fixed position
+  rather than a loose "near the top."
+- If zero new facts across every processed topic: single line,
+  `No new facts detected.` — still writes the file, so run history stays
+  complete (a topic with a real "nothing changed" run looks different from
+  a topic that was never checked).
+- Otherwise: new facts sorted by `source_id` then `factKey` (deterministic
+  ordering → stable diffs between reports; `factKey` used instead of the
+  unstable `FCT-###` id as the tiebreaker). In an `all`-topics report, each
+  fact block is prefixed with its topic name (e.g. `[willow-run]`) since
+  the merged-view `FCT-###` ids restart at 1 per topic and are not globally
+  unique — without the prefix, facts from different topics would be
+  visually indistinguishable in a combined report. Each block: topic name,
+  display id (`FCT-###`, noted as position-only), fact text, confidence,
+  source_id, suggested V-item match(es) with confidence bucket, or
+  "unmatched."
+- **Markdown escaping:** fact text, topic names, source IDs, and V-item
+  claim text are all free-form data that may contain characters with
+  markdown meaning (`#`, `|`, `` ` ``, `---`) — every such field is escaped
+  (or wrapped in a fenced/quoted block) before insertion, so a fact
+  containing e.g. a literal `---` line can't be mistaken for a new
+  frontmatter delimiter by a later parser.
 - Summary counts by topic and category at the end.
 
 ## CLI surface
@@ -165,39 +281,104 @@ Body:
 - `trm sync-treatment` — all charlie topics.
 - `trm sync-treatment <topic>` — single topic.
 - `--dry-run` — runs the full diff/match/report pipeline but skips the
-  cursor update (preview without marking facts as synced).
+  cursor update.
+- `--vault-root`, `--narrative-root`, `--dependency-map` — path overrides
+  (see Architecture path contract).
+
+**stdout/stderr contract:** stdout emits exactly the resolved report file
+path and a one-line summary of counts (new-facts, matched, unmatched,
+topics-skipped) — script-friendly, nothing else on stdout. All warnings
+(missing extract, cursor reset, stale-lock reclaim) and errors go to
+stderr.
 
 Exit codes:
 
-- `0` — success, all topics processed cleanly.
-- `1` — missing dependency-map JSON (hard error, can't match without it).
-- `2` — partial success (one or more topics skipped, e.g. missing
-  `extract.json`); report's `partialRun: true` reflects this.
+- `0` — success, all discovered topics processed (each either had an
+  extract and was diffed, or is genuinely absent — see Topic discovery for
+  the empty-set case).
+- `1` — hard error: missing/unsupported dependency-map schema version,
+  path-contract violation (output escapes narrative root), or a concurrent
+  run detected (unstale lock present).
+- `2` — partial success: one or more topic candidates skipped due to
+  missing or malformed `extract.json`; `partialRun: true` in the report.
 
 ## Error handling
 
-- Missing `extracts/extract.json` for a topic → skip that topic with a
-  warning, continue processing remaining topics, exit code 2 at the end.
-- Missing dependency-map JSON → hard error, exit code 1, path included in
-  the message.
-- Malformed cursor → treated as empty, warning logged with cursor file
-  path, "cursor reset" note written into the report.
+- Missing `extracts/extract.json` for a topic candidate → skip that topic
+  with a warning (path included), continue processing remaining topics,
+  contributes to exit code 2.
+- Malformed `extract.json` (invalid JSON, or valid JSON failing the
+  `{ facts: [...] }` shape check — each fact must have non-empty `id`,
+  `text`, `source_id`; `source_id` is a required field per the `Fact` type
+  in `trm/src/scoring/types.ts`, so a fact missing it is a schema
+  violation, not a case needing a fallback sort key) → treated the same as
+  missing: skip with a warning identifying it as a parse/schema failure
+  (not silently folded into "missing"), contributes to exit code 2.
+- Missing or unsupported `matchSchemaVersion` in the dependency-map JSON →
+  hard error, exit code 1, message states the file path, the value found
+  (or "absent"), and the versions this command supports.
+- Malformed cursor for a topic → that topic's cursor only is treated as
+  empty, warning logged with the cursor file path, "cursor reset" note
+  written into the report for that topic. Does not set `partialRun`.
+- Report output path resolving outside `<narrative-root>/treatment` (via
+  symlink or unexpected root config) → hard error before any write, exit
+  code 1.
+- Lock already held by a live process → hard error, exit code 1, message
+  names the lock file and the pid holding it.
 
 ## Testing
 
-Unit tests (fixture `extract.json` + fixture dependency-map JSON, no real
-vault/filesystem beyond fixtures):
+**Unit tests** (fixture `extract.json` + fixture dependency-map JSON, pure
+functions, no real filesystem beyond in-memory fixtures):
 
-- New-vs-cursor diff logic, including the all-already-synced case (zero new
-  facts).
-- Malformed-cursor fallback (treated as empty, reset note present).
-- Missing dependency-map → hard error thrown cleanly.
-- Matching/scoring function, including multiple-matches-above-threshold
-  (cap-at-3 logic) and confidence bucketing.
-- Report markdown generation, including deterministic sort order and the
-  `[topic]`-prefix behavior in `all`-topics reports.
+- `factKey` stability: same fact content → same key regardless of position
+  in the array; edited text → different key; reordering the whole
+  `facts[]` array does not change any individual fact's key.
+- New-vs-cursor diff logic keyed on `factKey`, including the
+  all-already-synced case (zero new facts) and the edited-fact case (old
+  key drops out, new key appears as "new").
+- Matching/scoring formula: exact score for hand-computed fixture
+  cases, multiple-matches-above-threshold (cap-at-3, tie-break by V-item id),
+  confidence bucketing at each boundary (0.1, 0.3, 0.6 exactly), empty
+  `categories` → `catScore = 0`.
+- Missing/unsupported `matchSchemaVersion` → hard error thrown cleanly,
+  message includes file path and found/supported versions.
+- Report markdown generation: deterministic sort order, `[topic]`-prefix
+  behavior in `all`-topics reports, markdown-special-character escaping
+  (fact text containing `#`, `|`, `---`, backticks renders safely).
 - `matchSchemaVersion` read from the dependency-map fixture propagates into
   the report's `matchVersion` field unchanged (no hardcoded value in the
-  command).
-- `--dry-run` produces a `DRYRUN`-infixed filename, `dryRun: true` in
-  frontmatter, and leaves the fixture cursor file byte-for-byte unchanged.
+  command); `matchConfigVersion` is independent of it.
+
+**Integration tests** (real temp-directory filesystem, fixture vault +
+narrative-root trees — this is the actual risk surface, not the pure
+functions):
+
+- Full run against a fixture vault: cursor files written, report written,
+  correct content.
+- Rerun immediately after: zero new facts, cursor unchanged.
+- Malformed cursor JSON for one topic → that topic resets (fixture cursor
+  file confirmed treated as empty), reset note appears in report, other
+  topics' cursors are untouched, `partialRun` stays `false`.
+- Malformed `extract.json` (invalid JSON) for one topic in an `all` run →
+  that topic skipped, others processed normally, exit code 2,
+  `partialRun: true`, `topicsSkipped` names it.
+- Missing narrative-root directory → hard error before any write attempt.
+- Report path escaping `<narrative-root>/treatment` via a symlinked
+  narrative-root → hard error, nothing written, exit code 1.
+- `--dry-run`: report file written with `DRYRUN` infix and `dryRun: true`,
+  but the fixture cursor file is confirmed byte-for-byte unchanged
+  afterward.
+- Lockfile: second invocation while a lock is held (simulated live pid)
+  fails fast with a distinct error; a stale lock (simulated dead pid) is
+  reclaimed with a warning and the run proceeds.
+- Simulated crash between report-write and cursor-update (test harness
+  writes the report directly, then invokes only the cursor-update step,
+  aborts partway) → rerun afterward produces a report with some duplicate
+  facts (the ones whose cursor wasn't updated) — confirms the accepted
+  duplicate-report behavior from Cursor state, not silent data loss.
+- Zero-topics case (`all` run against an empty `topics/charlie/` fixture)
+  → report says `No topics found.`, exit code 0.
+- Report filename collision: two runs within the same second against the
+  same topic → distinct `runId` suffixes, both files exist, neither
+  overwritten.
