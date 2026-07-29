@@ -84,7 +84,21 @@ matches the current host (this is a single-user local tool; cross-host
 lock claims are out of scope) *and* the recorded `pid` is confirmed dead
 via liveness check — a live pid on the same host is never reclaimed
 regardless of lock age, since a live pid alone doesn't prove non-ownership
-but a *dead* pid on the same host does.
+but a *dead* pid on the same host does. A cross-host lock (hostname doesn't
+match) is **never** auto-reclaimed regardless of age or pid liveness —
+this is a single-user tool, so the realistic cross-host case is a crashed
+machine or a vault copied from another machine, not a live conflicting
+process — but never-auto-reclaim without an escape hatch means a crashed
+remote host permanently blocks every future run. `--force-recover-lock`
+is provided for exactly this case: deletes the lock unconditionally, with
+a printed warning to confirm no other process is actually running against
+this vault before using it. This is the one place in the design that
+requires a human judgment call the tool cannot safely automate.
+
+A malformed lock file (invalid JSON, or valid JSON missing `pid` or
+`hostname`) is treated the same as an unrecoverable cross-host lock: fails
+closed, points the user at `--force-recover-lock` in the error message,
+rather than guessing at ownership from partial data.
 
 ## Fact identity
 
@@ -104,14 +118,17 @@ key on instead — `manifestStore`'s `hash` is per-source, not per-fact, and
 multiple facts share one source hash).
 
 Two distinct facts from the same source with byte-identical normalized text
-would collide and silently merge into one — this is a real, if rare, risk
-(not just a theoretical one to wave away), so it's actively detected rather
-than only "documented": while computing `factKey`s for a topic's fact list,
-any collision (two facts, same key) is logged to stderr with both facts'
-display ids, and the count of collisions-this-run is recorded in the
-report frontmatter as `factKeyCollisions` (default `0`). Only the first
-occurrence of a colliding key is treated as the canonical fact for
-diff/matching purposes; this is a stated limitation, not a silent one.
+would collide on `factKey`. First-occurrence-wins was considered and
+rejected: it silently drops the second fact from diffing/matching, which
+is real data loss dressed up as a warning nobody has to read. Instead: a
+collision within a topic's fact list is treated the same as a malformed
+`extract.json` for that topic — the topic is skipped this run (see Error
+handling), the warning names both colliding facts' display ids and the
+shared `factKey`, and `topicsSkipped`/`partialRun` reflect it like any
+other per-topic skip. This costs a full topic's worth of facts for one run
+until the upstream duplicate is fixed, but that's a visible, actionable
+failure instead of a quietly incomplete one. `factKeyCollisions` in
+frontmatter counts topics skipped this way (0 in the normal case).
 
 Fact identity handles the real cases:
 
@@ -240,8 +257,13 @@ prose; a claim like "the subject concealed payments" would never literally
 contain the word "biography," so that comparison was structurally
 mismatched. `categories`/`keywords` are now explicit V-item fields (from
 the migration above) compared against their fact-side counterparts
-directly; `claimScore` remains as a fallback signal so matching still works
-for V-items that haven't been tagged with `categories`/`keywords` yet.
+directly. `claimScore` is **not conditional** — it's weighted in on every
+comparison, not just when `categories`/`keywords` are absent — it's more
+accurate to call it an always-on additional signal than a "fallback": for
+a fully-tagged V-item all three components contribute; for an untagged one,
+`categoryScore`/`keywordScore` are simply `0` and `claimScore` is what's
+left, which happens to look like a fallback in that specific case without
+the formula actually branching on it anywhere.
 
 Stopword list: a fixed, small, checked-in English stopword list (~100
 common words) — same list used everywhere tokens are derived. Jaccard over
@@ -297,7 +319,6 @@ matchVersion: <matchSchemaVersion from dependency-map file>
 matchConfigVersion: 1
 cursorVersion: 1
 partialRun: false
-cursorUpdateIncomplete: false
 dryRun: false
 factKeyCollisions: 0
 topicsProcessed: ["willow-run", "cuba"]
@@ -308,25 +329,34 @@ topicsSkipped: []
 `vaultSnapshot` is a per-topic map, not a single scalar — a single run-wide
 timestamp would be misleading once more than one topic is processed, since
 each topic's `extract.json` has its own independent modification time.
-Values are that file's mtime, read at the moment it's diffed (not the
-command's start/end time, which describes the run, not the input data).
+**Read-then-stat ordering matters for correctness, not just style:** the
+command reads the file's content first, then immediately stats it for
+`mtime` — never the reverse — so the recorded timestamp always corresponds
+to data at least as new as what was actually parsed. A concurrent external
+edit between those two steps would only ever make the recorded
+`vaultSnapshot` look slightly newer than the exact bytes read, never
+older/stale; given the lockfile already prevents concurrent *sync-treatment*
+runs, the realistic source of such an edit is a human editing
+`extract.json` by hand mid-run, which is out of scope to guard against
+further.
 
 `partialRun` is `true` if and only if `topicsSkipped` is non-empty — i.e.
 at least one topic candidate (from Topic discovery) was skipped due to a
-missing or malformed `extract.json`. A per-topic cursor *reset* (malformed
-or unsupported-version cursor, see Cursor state) does **not** by itself set
-`partialRun` — that topic still gets fully processed, just with an empty
-starting cursor. `cursorUpdateIncomplete` is a distinct field: it's `true`
-if the report was written successfully but one or more *post-write* cursor
-updates then failed (disk full, permissions, etc. — not a malformed-read
-case, an actual write failure). This is set on `false` by default when the
-frontmatter is generated, and — because cursor updates happen strictly
-after the report is written — cannot be corrected retroactively inside that
-same report file if a write failure occurs afterward; the authoritative
-signal for that case is the command's exit code (`2`) and a stderr message
-naming the affected topics, not the frontmatter, which is a known,
-accepted limitation of writing the report before attempting cursor commits
-(see Error handling).
+missing/malformed `extract.json` or a `factKey` collision (see Fact
+identity — collisions are now a skip, not a silent merge). A per-topic
+cursor *reset* (malformed or unsupported-version cursor, see Cursor state)
+does **not** by itself set `partialRun` — that topic still gets fully
+processed, just with an empty starting cursor.
+
+**No `cursorUpdateIncomplete` field in frontmatter** — deliberately. Cursor
+updates happen strictly after the report is written, so any field claiming
+to describe their outcome would necessarily be stale the moment a
+post-write cursor failure occurs (the report is already committed to disk
+before that failure can happen). Rather than ship a field that lies in
+exactly the case it exists to describe, that signal lives *only* in the
+command's exit code (`2`) and a stderr message naming the affected topics
+— see Error handling. A report's frontmatter describes the world as of
+report-write time; the exit code describes the whole run.
 
 Body, in this fixed order:
 
@@ -358,19 +388,32 @@ Body, in this fixed order:
      [willow-run] FCT-014 (display id, position-only — see Fact identity)
      Source: SRC-001
      Fact confidence: 0.85
-     Text: <fact text>
+     Text:
+         <fact text, indented 4 spaces — never inside this template's own fence>
      Suggested matches:
        V-5.3 — match confidence: high (score 0.72)
        V-6.2a — match confidence: low (score 0.15)
      ```
 
+     (the outer triple-backtick fence above is this *spec document's*
+     illustration of the template shape, not what the tool emits — the
+     tool emits the labels/structure as plain markdown text, with only the
+     free-form `<fact text>` value indented 4 spaces per point 4 below,
+     since a real fenced block wrapping untrusted content would itself be
+     breakable by a fact whose text contains a triple-backtick line)
+
      or `Suggested matches: unmatched` when nothing scored >= 0.1.
-4. **Markdown escaping:** fact text, topic names, source IDs, and V-item
-   claim text are all free-form data that may contain characters with
-   markdown meaning (`#`, `|`, `` ` ``, `---`) — every such field is
-   escaped (or wrapped in a fenced/quoted block) before insertion, so a
-   fact containing e.g. a literal `---` line can't be mistaken for a new
-   frontmatter delimiter by a later parser.
+4. **Markdown escaping — one deterministic representation, not a choice
+   made per-case:** fact text, topic names, source IDs, and V-item claim
+   text are free-form data that may contain markdown-meaningful characters.
+   Every such field is rendered as an indented plain-text block (4-space
+   indent, the CommonMark "indented code block" form), never inline
+   markdown and never a fenced block — a fenced block picked per-content
+   would need dynamically-counted backtick runs to be safe against text
+   that itself contains backtick fences, which is exactly the kind of
+   per-case decision this is meant to avoid. A 4-space-indented block has
+   no delimiter for its content to collide with, so no fence-length
+   negotiation is ever needed.
 5. **Summary counts** by topic and category at the end.
 
 ## CLI surface
@@ -385,12 +428,15 @@ Body, in this fixed order:
   which exist precisely to keep this distinction visible in practice.)
 - `--vault-root`, `--narrative-root`, `--dependency-map` — path overrides
   (see Architecture path contract).
+- `--force-recover-lock` — deletes an existing lockfile unconditionally
+  before proceeding (see Architecture's Concurrency section); the only
+  manual escape hatch for a cross-host or malformed lock.
 
 **stdout/stderr contract:** stdout emits exactly the resolved report file
 path and a one-line summary of counts (new-facts, matched, unmatched,
-topics-skipped) — script-friendly, nothing else on stdout. All warnings
-(missing extract, cursor reset, stale-lock reclaim) and errors go to
-stderr.
+topics-skipped, and `factKeyCollisions` when nonzero) — script-friendly,
+nothing else on stdout. All warnings (missing extract, cursor reset,
+stale-lock reclaim) and errors go to stderr.
 
 Exit codes:
 
@@ -399,14 +445,15 @@ Exit codes:
   the empty-set case), and every touched cursor was written successfully.
 - `1` — hard error, nothing written: missing/unsupported dependency-map
   schema version or invalid dependency-map item, path-contract violation
-  (output would escape narrative root), or a concurrent run detected (live
-  lock present).
+  (output would escape narrative root), an unrecoverable lock (live
+  same-host lock, any cross-host lock, or a malformed lock file — see
+  Architecture), or a concurrent run detected.
 - `2` — partial success: one or more topic candidates skipped due to
-  missing/malformed `extract.json` (`partialRun: true`), **or** the report
-  was written successfully but one or more post-write cursor updates then
-  failed (`cursorUpdateIncomplete` — see Cursor state and the frontmatter
-  note above; this can occur even when `partialRun` is `false`). stderr
-  names which topics fall into which case.
+  missing/malformed `extract.json` or a `factKey` collision
+  (`partialRun: true`), **or** the report was written successfully but one
+  or more post-write cursor updates then failed (this can occur even when
+  `partialRun` is `false` — see Error handling's cursor-write-failure
+  bullet for what stderr reports in that case).
 
 ## Error handling
 
@@ -420,6 +467,10 @@ Exit codes:
   violation, not a case needing a fallback sort key) → treated the same as
   missing: skip with a warning identifying it as a parse/schema failure
   (not silently folded into "missing"), contributes to exit code 2.
+- `factKey` collision within a topic (two facts, same key — see Fact
+  identity) → that topic is skipped this run, same as a malformed
+  `extract.json`: warning names both colliding facts' display ids and the
+  shared key, contributes to exit code 2, counted in `factKeyCollisions`.
 - Missing or unsupported `matchSchemaVersion` in the dependency-map JSON, or
   an `items[]` entry failing validation (duplicate/empty `id`, empty
   `beat`/`claim`, non-string-array `categories`/`keywords`) → hard error,
@@ -437,12 +488,19 @@ Exit codes:
   code 1.
 - **Cursor write failure after a successful report write** (e.g. disk full,
   permissions) → does not roll back or rewrite the already-committed
-  report (see the `cursorUpdateIncomplete` note under Report output for why
-  that's a stated limitation, not a bug). The run's overall exit code
-  becomes `2`; stderr names the specific topic(s) whose cursor failed to
-  write, distinctly from topics merely skipped for a missing extract.
-- Lock already held by a live process → hard error, exit code 1, message
-  names the lock file and the pid holding it.
+  report (see the frontmatter-omission note under Report output). Exit
+  code `2`; stderr includes, in one message: the report file's path
+  (already written, still useful), which specific topic(s) failed to
+  persist their cursor, whether any other touched topics' cursors
+  succeeded, and an explicit note that a rerun is safe (won't lose data)
+  but will duplicate some facts already shown in this report.
+- Lock already held by a live process on the same host → hard error, exit
+  code 1, message names the lock file, pid, and `runId` holding it.
+- Lock held by a different host, or lock file malformed (invalid JSON, or
+  missing `pid`/`hostname`) → hard error, exit code 1, fails closed rather
+  than guessing at ownership; message points at `--force-recover-lock` as
+  the manual escape hatch and warns to confirm no other process is
+  actually running against this vault first.
 
 ## Testing
 
@@ -453,8 +511,14 @@ functions, no real filesystem beyond in-memory fixtures):
   in the array; edited text → different key; reordering the whole
   `facts[]` array does not change any individual fact's key.
 - `factKey` collision: two fixture facts with identical `source_id` and
-  identical normalized text → detected, logged, first-occurrence-wins,
-  `factKeyCollisions` count reflects it.
+  identical normalized text → that topic treated as skipped (not merged),
+  warning names both facts' display ids and the shared key,
+  `factKeyCollisions` count reflects the skipped-topic count.
+- Malformed dependency-map envelope (bare array instead of
+  `{ matchSchemaVersion, items }`, or valid JSON missing `items`) → hard
+  error thrown cleanly, distinct from a missing/unsupported version.
+- Malformed lock file (invalid JSON, or missing `pid`/`hostname`) → treated
+  as unrecoverable, error message points at `--force-recover-lock`.
 - New-vs-cursor diff logic keyed on `factKey`, including the
   all-already-synced case (zero new facts) and the edited-fact case (old
   key drops out, new key appears as "new").
@@ -503,9 +567,14 @@ functions):
 - `--dry-run`: report file written with `DRYRUN` infix and `dryRun: true`,
   but the fixture cursor file is confirmed byte-for-byte unchanged
   afterward.
-- Lockfile: second invocation while a lock is held (simulated live pid)
-  fails fast with a distinct error; a stale lock (simulated dead pid) is
-  reclaimed with a warning and the run proceeds.
+- Lockfile: second invocation while a same-host lock is held (simulated
+  live pid) fails fast with a distinct error; a stale same-host lock
+  (simulated dead pid) is reclaimed with a warning and the run proceeds.
+- Cross-host lock (simulated dead pid, different `hostname`) is *not*
+  auto-reclaimed — hard error pointing at `--force-recover-lock`; running
+  with that flag deletes the lock and the subsequent run proceeds.
+- Zero-topics report frontmatter explicitly asserts `topicsProcessed: []`
+  and `topicsSkipped: []` (not just the "No topics found." body text).
 - Simulated crash between report-write and cursor-update (test harness
   writes the report directly, then invokes only the cursor-update step,
   aborts partway) → rerun afterward produces a report with some duplicate
@@ -523,10 +592,8 @@ functions):
   stderr names the topic, and a rerun afterward re-surfaces that topic's
   facts as still-new (cursor genuinely wasn't updated — confirms no silent
   data loss).
-- Lock content: lockfile's recorded `hostname` must match current host to
-  be eligible for reclaim — simulated cross-host lock (different hostname
-  in the lock file, dead pid) is *not* reclaimed, distinct error raised
-  instead.
+- stderr summary line includes `factKeyCollisions` count when nonzero,
+  alongside the existing new-facts/matched/unmatched/topics-skipped counts.
 
 **Platform note:** atomic replace-on-rename is exercised on whatever
 platform CI/dev runs on (this repo is Windows-primary). Node's
