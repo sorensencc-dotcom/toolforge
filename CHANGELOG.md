@@ -1,6 +1,30 @@
 # Changelog
 
 ## Version 2.24.0
+Date: 2026-07-29
+
+### Changes
+- 41307f1 - fix(trm-feedback-report): justify child_process exemption for trm CLI wrapper (Chris Sorensen)
+- 11bf3ba - docs: add commit-tag conventions, log v2.24.0 gate-boundary changelog (Chris Sorensen)
+- 5de8238 - docs(spec): fix lock permanence, collision data loss, stale-field honesty (Chris Sorensen)
+- 88d019c - docs(spec): fix dependency-map envelope, category/keyword mismatch, cursor-write failure semantics (Chris Sorensen)
+- 724c300 - docs(spec): fix broken fact-identity design + harden sync-treatment spec (Chris Sorensen)
+- e034f1f - Merge branch 'worktree-trm-feedback-report' (Chris Sorensen)
+- 11a3817 - docs(spec): fold caveman-review findings into sync-treatment design (Chris Sorensen)
+- 7867d5f - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- b9c96a0 - docs(spec): add TRM-to-treatment sync skill design (Chris Sorensen)
+- 143120c - fix(trm-feedback-report): recover validate's stdout instead of throwing on its non-zero exit (Chris Sorensen)
+- 905517a - chore(todos): close TRM feedback/report skill backlog item (Chris Sorensen)
+- 4d78e19 - feat(trm-feedback-report): add report metadata, trm CLI wrapper, and skill scaffold (Chris Sorensen)
+- 7774644 - feat(trm-feedback-report): add web-search signal-strength scoring (Chris Sorensen)
+- 390cabd - feat(trm-feedback-report): add new-topic-candidate clustering from fact text (Chris Sorensen)
+- 4cb9ed4 - Merge branch 'main' into worktree-trm-feedback-report (Chris Sorensen)
+- 26db215 - docs(plan): add TRM feedback/report skill implementation plan (Chris Sorensen)
+- d017c8b - docs(spec): fix broken new-topic-candidate mechanism found during plan drafting (Chris Sorensen)
+- f6d0aa3 - docs(spec): fold caveman-review findings into TRM feedback/report design (Chris Sorensen)
+- 6e55943 - docs(spec): add TRM feedback/report skill design (Chris Sorensen)
+
+## Version 2.24.0
 Date: 2026-07-28
 
 ### Changes
