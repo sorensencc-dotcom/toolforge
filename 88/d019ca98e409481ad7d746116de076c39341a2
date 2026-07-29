@@ -1,0 +1,31 @@
+docs/superpowers/specs/2026-07-28-trm-sync-treatment-design.md
+  s_7131d22b7ab717::t_a50a109ae646a0 519-539
+  s_7131d22b7ab717::t_7eb0060ffe2e37 293-295,300,302,308-312
+  s_7131d22b7ab717::t_2e03969a656272 316-329
+  s_7131d22b7ab717::t_b35cda13a55131 356,366
+  s_7131d22b7ab717::t_a47707310db8cc 102-114
+  s_7131d22b7ab717::t_5101da7f07862a 455-457,461-473,476-478,482-485
+  s_7131d22b7ab717::t_3d3b25b633caeb 170-212,229-234,237-245,247-250,254
+  s_7131d22b7ab717::t_de950377d6fa73 381-385
+  s_7131d22b7ab717::t_8b6e56b2add9cd 331-355,357-365,367-374
+  s_7131d22b7ab717::t_211c83cb86df88 399-403,405-409,423-434,438-443
+  s_7131d22b7ab717::t_4b804a70395b61 63-87
+  s_7131d22b7ab717::t_1a9769b4c738c5 313
+  s_7131d22b7ab717::t_c69ae3e356c722 330
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "88d019ca98e409481ad7d746116de076c39341a2",
+  "prompts": {},
+  "sessions": {
+    "s_7131d22b7ab717": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d606102f-397d-4ccc-a80b-ccf2dca4143a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
