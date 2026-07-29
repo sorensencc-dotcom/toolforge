@@ -4,6 +4,8 @@
 Date: 2026-07-29
 
 ### Changes
+Gate-boundary release: trm-feedback-report skill shipped, sync-treatment spec closed (4 review rounds), commit-tag hygiene convention added.
+
 - 41307f1 - fix(trm-feedback-report): justify child_process exemption for trm CLI wrapper (Chris Sorensen)
 - 11bf3ba - docs: add commit-tag conventions, log v2.24.0 gate-boundary changelog (Chris Sorensen)
 - 5de8238 - docs(spec): fix lock permanence, collision data loss, stale-field honesty (Chris Sorensen)
@@ -23,17 +25,6 @@ Date: 2026-07-29
 - d017c8b - docs(spec): fix broken new-topic-candidate mechanism found during plan drafting (Chris Sorensen)
 - f6d0aa3 - docs(spec): fold caveman-review findings into TRM feedback/report design (Chris Sorensen)
 - 6e55943 - docs(spec): add TRM feedback/report skill design (Chris Sorensen)
-
-## Version 2.24.0
-Date: 2026-07-28
-
-### Changes
-Gate-boundary bump (17 commits since 2.23.3, batched per changelog-staleness convention — see `memory/changelog_discipline_gap.md`).
-
-- feat(trm-feedback-report): shipped skill — report metadata, `trm` CLI wrapper, skill scaffold, web-search signal-strength scoring, new-topic-candidate clustering from fact text (4d78e19, 7774644, 390cabd)
-- fix(trm-feedback-report): recover validate's stdout instead of throwing on its non-zero exit (143120c)
-- chore(todos): close TRM feedback/report skill backlog item (905517a)
-- docs(spec/plan): TRM-to-treatment sync-treatment design — 4 review rounds closing lock permanence, collision data loss, stale-field honesty, dependency-map envelope, fact-identity design (6e55943, f6d0aa3, d017c8b, 26db215, b9c96a0, 11a3817, 724c300, 88d019c, 5de8238)
 
 ## Version 2.23.3
 Date: 2026-07-28
