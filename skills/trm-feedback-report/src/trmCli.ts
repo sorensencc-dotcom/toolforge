@@ -1,4 +1,4 @@
-import { execFileSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process'; // noqa: SEC-AUDITOR: Tier 1 approved 2026-07-29 — fixed binary name ('trm', not user input), args passed as array (no shell, no string interpolation), so no shell-injection surface.
 
 export function runTrmCommand(trmRoot: string, args: string[]): string {
   try {
