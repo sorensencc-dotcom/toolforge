@@ -71,6 +71,15 @@ One file per topic: `trm-vault/topics/charlie/<topic>/.sync-cursor.json`.
 - Cursor updates happen only after the report file is successfully written
   — a failed/aborted run leaves the cursor untouched so nothing is silently
   marked as synced without a report to show for it.
+- For an `all`-topics run, the report is one file covering every topic, but
+  each topic still has its own cursor. Cursors are updated only after the
+  full report write succeeds, in a single pass over all touched topics
+  immediately following that write — not interleaved per-topic during
+  report generation. If the process crashes between the report write and
+  finishing the cursor-update pass, some topics' cursors may lag; the next
+  run detects this as extra "new" facts for those topics (safe — reprocessed,
+  not lost) and the command logs which topics' cursors were confirmed
+  updated vs. not, to stderr, on any interrupted run it can detect.
 - Malformed/unreadable cursor JSON → treated as empty (all facts appear
   "new"), a warning is logged to stderr with the cursor file path, and the
   report includes a "cursor reset" note explaining why an unusually large
@@ -79,9 +88,11 @@ One file per topic: `trm-vault/topics/charlie/<topic>/.sync-cursor.json`.
 ## Matching
 
 Load `CIC_SOURCING_DEPENDENCY_MAP_v1.json` once per run (array of
-`{ id, beat, claim, ... }`). Tag the report with `matchVersion: 1`, tied to
-this file's schema — if the dependency-map schema changes later, the version
-bump signals old reports used different matching logic.
+`{ id, beat, claim, ... }`). The dependency-map file itself gains a top-level
+`matchSchemaVersion` field (added as part of this work, defaulting to `1`);
+the sync command reads and stamps this value into the report's
+`matchVersion` field rather than hardcoding it — so a schema change to the
+map is what bumps the report tag, not a manual edit in the sync command.
 
 For each new fact:
 
@@ -90,10 +101,16 @@ For each new fact:
 2. Score against every V-item by category overlap (fact `categories` vs.
    keywords derived from the V-item's `claim` text) plus simple token
    overlap between `claim` and fact `text`.
-3. Bucket the score into `high` / `medium` / `low` confidence rather than
-   exposing a raw number — keeps the report readable and triage-focused.
-4. Cap suggested matches at 3 per fact (highest-scoring first). Facts with
-   no match above the low-confidence floor go in an "unmatched" bucket.
+3. Bucket the raw score into `high` / `medium` / `low` confidence rather
+   than exposing a raw number — keeps the report readable and triage-focused.
+   Thresholds (implementation-defined constants, tunable without a design
+   change): score >= 0.6 → high, >= 0.3 → medium, >= 0.1 → low, below 0.1 →
+   no match (goes to "unmatched" bucket). These cutoffs are a starting point
+   validated against real fixture data during implementation, not fixed by
+   this design.
+4. Cap suggested matches at 3 per fact (highest-scoring first, ties broken
+   by V-item id ascending). Facts with no match at or above the low-confidence
+   floor (0.1) go in an "unmatched" bucket.
 
 Missing dependency-map file → hard error (exit code 1), error message
 includes the expected file path. Matching cannot proceed without it, unlike
@@ -102,8 +119,14 @@ a missing per-topic `extract.json`, which is a per-topic skip.
 ## Report output
 
 One file per run, never overwritten:
-`charlie-deep-research/treatment/TRM_SYNC_REPORT_<topic>_<YYYYMMDD>.md`
-(or `_all_` when run across all topics).
+`charlie-deep-research/treatment/TRM_SYNC_REPORT_<topic>_<YYYYMMDDTHHMMSS>.md`
+(or `_all_` when run across all topics). The full timestamp, not just the
+date, disambiguates same-day reruns — no collision/overwrite risk even when
+the command runs multiple times in one session. A `--dry-run` invocation
+uses a `_DRYRUN_` infix in the filename (e.g.
+`TRM_SYNC_REPORT_DRYRUN_<topic>_<timestamp>.md`) and sets `dryRun: true` in
+the frontmatter, so preview output is never mistaken for a committed run
+when scanning the treatment directory.
 
 Frontmatter header:
 
@@ -115,20 +138,27 @@ vaultSnapshot: <ISO timestamp of extract.json read>
 matchVersion: 1
 cursorVersion: 1
 partialRun: false
+dryRun: false
 ---
 ```
 
 Body:
 
+- If a cursor reset happened, a note immediately after the frontmatter
+  (before any fact content) explaining it — kept grep-able at a fixed
+  position rather than a loose "near the top."
 - If zero new facts: single line, `No new facts detected.` — still writes
   the file, so run history stays complete (a topic with a real "nothing
   changed" run looks different from a topic that was never checked).
 - Otherwise: new facts sorted by `source_id` then `id` (deterministic
-  ordering → stable diffs between reports). Each fact block: id, text,
-  confidence, source_id, suggested V-item match(es) with confidence bucket,
-  or "unmatched."
+  ordering → stable diffs between reports). In an `all`-topics report, each
+  fact block is prefixed with its topic name (e.g. `[willow-run] FCT-001`)
+  since fact ids restart at `FCT-001` per topic and are not globally unique
+  — without the prefix, facts from different topics would be visually
+  indistinguishable in a combined report. Each block: topic-qualified id,
+  text, confidence, source_id, suggested V-item match(es) with confidence
+  bucket, or "unmatched."
 - Summary counts by topic and category at the end.
-- If a cursor reset happened, a note near the top explaining it.
 
 ## CLI surface
 
@@ -164,4 +194,10 @@ vault/filesystem beyond fixtures):
 - Missing dependency-map → hard error thrown cleanly.
 - Matching/scoring function, including multiple-matches-above-threshold
   (cap-at-3 logic) and confidence bucketing.
-- Report markdown generation, including deterministic sort order.
+- Report markdown generation, including deterministic sort order and the
+  `[topic]`-prefix behavior in `all`-topics reports.
+- `matchSchemaVersion` read from the dependency-map fixture propagates into
+  the report's `matchVersion` field unchanged (no hardcoded value in the
+  command).
+- `--dry-run` produces a `DRYRUN`-infixed filename, `dryRun: true` in
+  frontmatter, and leaves the fixture cursor file byte-for-byte unchanged.
