@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.25.0
+Date: 2026-07-30
+
+### Changes
+- 500f572 - feat(vision): add startup warning log when Vision API key is missing (Chris Sorensen)
+- 6c8931e - fix(changelog): dedupe duplicate v2.24.0 entry from bot/manual bump collision (Chris Sorensen)
+- bab9f5d - Merge remote-tracking branch 'origin/main' (Chris Sorensen)
+- 44332e4 - docs(todos): close CHANGELOG staleness watch, log commit-tag hygiene (Chris Sorensen)
+
 ## Version 2.24.0
 Date: 2026-07-29
 
