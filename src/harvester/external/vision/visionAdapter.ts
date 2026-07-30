@@ -72,10 +72,10 @@ export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
   }
 
   // Google Vision enrichment (Method A: Gemini API)
-  const apiKey = process.env.GOOGLE_API_KEY;
+  const apiKey = process.env.GOOGLE_API_KEY || process.env.VISION_API_KEY || process.env.GOOGLE_APPLICATION_CREDENTIALS;
   if (!apiKey) {
     throw new Error(
-      'GOOGLE_API_KEY environment variable not set. Required for Google Vision API (Method A).'
+      'GOOGLE_API_KEY / VISION_API_KEY / GOOGLE_APPLICATION_CREDENTIALS environment variable not set. Required for Google Vision API (Method A).'
     );
   }
 

@@ -11,6 +11,11 @@ export async function initializeVisionSubsystem() {
     return;
   }
 
+  const apiKey = process.env.GOOGLE_API_KEY || process.env.VISION_API_KEY || process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  if (!apiKey) {
+    console.warn('Vision: MOCK mode, no API key (set VISION_API_KEY or GOOGLE_APPLICATION_CREDENTIALS)');
+  }
+
   try {
     const latestRatified = getLatestRatifiedArtifact();
 
