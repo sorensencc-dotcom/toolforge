@@ -4,6 +4,9 @@
 
 # Generated directories
 node_modules/
+.claude/worktrees/
+.venv/
+_kb-sync-staging/
 dist/
 build/
 .next/
