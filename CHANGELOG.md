@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.26.0
+Date: 2026-07-31
+
+### Changes
+- 1eae022 - Merge remote-tracking branch 'origin/main' (Chris Sorensen)
+- f275c63 - feat(scripts): add find-session.ps1 to relocate transcripts by keyword (Chris Sorensen)
+
 ## Version 2.25.0
 Date: 2026-07-30
 
