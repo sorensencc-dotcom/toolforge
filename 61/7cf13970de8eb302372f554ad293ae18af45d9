@@ -1,0 +1,33 @@
+package.json
+  s_d194132b9a288c::t_9c1dabd8e281ef 26-27
+agent-scan.ignore
+  s_00d135f05ed507::t_e5601b4471f84c 7-9
+scripts/validate-codebase-index.ps1
+  s_00d135f05ed507::t_b53a6c11876d6e 1-27
+.ijfw/index/files.md
+  s_d194132b9a288c::t_e778d15bbc0e07 4-5,26-28,63,80,124,132,135,138,141,153,161-5010,5013-5019,5021
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "617cf13970de8eb302372f554ad293ae18af45d9",
+  "prompts": {},
+  "sessions": {
+    "s_00d135f05ed507": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f4bb51ba-5872-43ae-8c28-6c4818b108b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d194132b9a288c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb843-14e2-7e20-b930-a01545e52b1b",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": null
+    }
+  }
+}
