@@ -1,0 +1,31 @@
+agent-scan.ignore
+  s_00d135f05ed507::t_e5601b4471f84c 7-9
+scripts/validate-codebase-index.ps1
+  s_00d135f05ed507::t_b53a6c11876d6e 1-27
+package.json
+  s_d194132b9a288c::t_9c1dabd8e281ef 26-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "ad9fd9545f6fb6f308371c780d084dfa8b473311",
+  "prompts": {},
+  "sessions": {
+    "s_00d135f05ed507": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f4bb51ba-5872-43ae-8c28-6c4818b108b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d194132b9a288c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb843-14e2-7e20-b930-a01545e52b1b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
