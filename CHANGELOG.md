@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.26.1
+Date: 2026-08-01
+
+### Changes
+- 617cf13 - chore(sync): harden codebase index (Chris Sorensen)
+- aa873f1 - Merge remote-tracking branch 'origin/main' (Chris Sorensen)
+- 95380c1 - chore: sync retro backlog items into TODOS.md (Chris Sorensen)
+
 ## Version 2.26.0
 Date: 2026-07-31
 
