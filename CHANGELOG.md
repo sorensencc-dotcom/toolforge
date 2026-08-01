@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.27.0
+Date: 2026-08-01
+
+### Changes
+- d2ea47e - docs(governance): bound agent routing costs (Chris Sorensen)
+- 9c19ae4 - chore(sync): regenerate cowork/skillpack artifacts after trm-status registration (Chris Sorensen)
+- 19362af - feat(trm-status): add TRM vault status dashboard skill, wire toolforge publish gate (Chris Sorensen)
+
 ## Version 2.26.2
 Date: 2026-08-01
 
