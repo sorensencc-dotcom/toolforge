@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.26.2
+Date: 2026-08-01
+
+### Changes
+- 6189e03 - Merge remote-tracking branch 'origin/main' (Chris Sorensen)
+- e51a519 - fix(toolforge): split validate.ts CLI entry into cli.js bootstrap (Chris Sorensen)
+
 ## Version 2.26.1
 Date: 2026-08-01
 
