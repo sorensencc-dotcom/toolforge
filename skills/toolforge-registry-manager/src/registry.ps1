@@ -138,6 +138,47 @@ function Mark-PluginQuarantined {
     return $true
 }
 
+function Publish-PluginToRegistry {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$PluginIdArg
+    )
+
+    $registry = Get-Content $registryPath | ConvertFrom-Json
+
+    # Find plugin
+    $plugin = $registry.plugins | Where-Object { $_.id -eq $PluginIdArg }
+    if (-not $plugin) {
+        Write-Error "Plugin '$PluginIdArg' not found in registry"
+        Add-AuditLog "PUBLISH" $PluginIdArg "FAILED" "Plugin not found"
+        return $false
+    }
+
+    if ($plugin.submission_status -eq "quarantined") {
+        Write-Error "Plugin '$PluginIdArg' is quarantined and cannot be published"
+        Add-AuditLog "PUBLISH" $PluginIdArg "FAILED" "Plugin is quarantined"
+        return $false
+    }
+
+    # Update status
+    $plugin.submission_status = "published"
+    $plugin.marketplace_visibility = "public"
+    $plugin.published_date = Get-CurrentTimestamp
+    $plugin.last_updated = Get-CurrentTimestamp
+
+    # Save registry
+    $registry.metadata.pending_count = @($registry.plugins | Where-Object { $_.submission_status -eq "pending" }).Count
+    $registry.metadata.published_count = @($registry.plugins | Where-Object { $_.submission_status -eq "published" }).Count
+    $registry.metadata.deprecated_count = @($registry.plugins | Where-Object { $_.submission_status -eq "deprecated" }).Count
+    $registry.generated = Get-CurrentTimestamp
+    $registry | ConvertTo-Json -Depth 10 | Set-Content $registryPath
+
+    # Log
+    Add-AuditLog "PUBLISH" $PluginIdArg "SUCCESS" "Marked published, visibility set to public"
+
+    return $true
+}
+
 function Update-RegistryMetadata {
     $registry = Get-Content $registryPath | ConvertFrom-Json
 
@@ -179,6 +220,10 @@ if ($Action) {
         }
         "quarantine" {
             $success = Mark-PluginQuarantined -PluginIdArg $PluginId -ReasonArg $Reason
+            exit $(if ($success) { 0 } else { 1 })
+        }
+        "publish" {
+            $success = Publish-PluginToRegistry -PluginIdArg $PluginId
             exit $(if ($success) { 0 } else { 1 })
         }
         "update-metadata" {
