@@ -1,0 +1,21 @@
+CIC-GOVERNANCE/SPEC/CIC-AI-AGENT-COST-SPEC-001.md
+  s_0b72b0b6a27e79::t_f715fd4d75cba5 1-192
+docs/meta/specs/torquequery-ai-agent-routing-policy.md
+  s_0b72b0b6a27e79::t_36ea678a93d8d6 1-219
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "d2ea47e399fc01b0a28e8121eeaf3702b2f80076",
+  "prompts": {},
+  "sessions": {
+    "s_0b72b0b6a27e79": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbdda-e73f-79e3-9b63-cfb7e0acc48c",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
