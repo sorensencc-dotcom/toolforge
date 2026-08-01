@@ -1,387 +1,367 @@
 {
-  "timestamp": "2026-07-27T03:56:46.0669463Z",
   "summary": {
+    "health_warn": 18,
     "health_good": 20,
     "deprecated": 0,
-    "health_warn": 16,
     "health_error": 0,
-    "total": 36,
-    "active": 36
+    "total": 38,
+    "active": 38
   },
+  "timestamp": "2026-08-01T22:07:50.4760665Z",
+  "version": "1.0.0",
   "skills": [
     {
+      "tags": [],
+      "description": "Shared utilities and constants for CIC (internal)",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
+      "dependencies": {
+        "external": [],
+        "internal": []
+      },
+      "name": "CIC Shared Utilities",
+      "id": "_cic-shared",
+      "health": {
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
+      },
       "category": "utilities",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-17T16:43:16.0006002Z",
-        "created": "2026-07-17T16:43:16.0006002Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-17T16:43:16.0006002Z"
       },
-      "version": "1.0.0",
-      "description": "Shared utilities and constants for CIC (internal)",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Detect schema drift in agent messages and APIs",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Agent Drift Detector",
+      "id": "agent-drift-detector",
       "health": {
+        "canonical": true,
+        "overall": "good",
         "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "_cic-shared",
-      "name": "CIC Shared Utilities"
-    },
-    {
       "category": "validation",
-      "runtime": "typescript",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:58.8327551Z",
-        "created": "2026-07-10T21:43:58.8327551Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-10T21:43:58.8327551Z"
       },
-      "version": "1.0.0",
-      "description": "Detect schema drift in agent messages and APIs",
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Project month-end token costs and identify high-spend adapters",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Analyze Token Burn",
+      "id": "analyze-token-burn",
       "health": {
-        "runtime": "untested",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "functional",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "agent-drift-detector",
-      "name": "Agent Drift Detector"
-    },
-    {
       "category": "observability",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:58.8834414Z",
-        "created": "2026-07-10T21:43:58.8834414Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:58.8834414Z"
       },
-      "version": "1.0.0",
-      "description": "Project month-end token costs and identify high-spend adapters",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Deterministic session-termination and context-handoff engine for Cast Iron systems",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Ashfall",
+      "id": "ashfall",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "functional",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "analyze-token-burn",
-      "name": "Analyze Token Burn"
-    },
-    {
       "category": "automation",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:58.9186561Z",
-        "created": "2026-07-10T21:43:58.9186561Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:58.9186561Z"
       },
-      "version": "1.0.0",
-      "description": "Deterministic session-termination and context-handoff engine for Cast Iron systems",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Automation Audit",
+      "id": "automation-audit",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "ashfall",
-      "name": "Ashfall"
-    },
-    {
       "category": "operations",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-17T16:30:03.9362774Z",
-        "created": "2026-07-17T16:30:03.9362774Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-17T16:30:03.9362774Z"
       },
-      "version": "1.0.0",
-      "description": "Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Stub: consolidate CIC artifacts (Phase 1 placeholder)",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "CIC Consolidate Artifacts",
+      "id": "cic-consolidate-artifacts",
       "health": {
-        "runtime": "untested",
-        "distributed": false,
+        "canonical": true,
         "overall": "warn",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "automation-audit",
-      "name": "Automation Audit"
-    },
-    {
       "category": "governance",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-16T17:20:55.8043488Z",
-        "created": "2026-07-16T17:20:55.8043488Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-16T17:20:55.8043488Z"
       },
-      "version": "1.0.0",
-      "description": "Stub: consolidate CIC artifacts (Phase 1 placeholder)",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Stub: ingest a world/source into CIC (Phase 1 placeholder, no TorqueQuery yet)",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "CIC Ingest World",
+      "id": "cic-ingest-world",
       "health": {
-        "runtime": "untested",
-        "distributed": false,
+        "canonical": true,
         "overall": "warn",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "cic-consolidate-artifacts",
-      "name": "CIC Consolidate Artifacts"
-    },
-    {
       "category": "governance",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-16T17:37:05.9970022Z",
-        "created": "2026-07-16T17:37:05.9970022Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-16T17:37:05.9970022Z"
       },
-      "version": "1.0.0",
-      "description": "Stub: ingest a world/source into CIC (Phase 1 placeholder, no TorqueQuery yet)",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Phase 3: compose ingest/gate/repair/consolidate into one fixed pipeline call",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "CIC Orchestrate Flow",
+      "id": "cic-orchestrate-flow",
       "health": {
-        "runtime": "untested",
-        "distributed": false,
+        "canonical": true,
         "overall": "warn",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "cic-ingest-world",
-      "name": "CIC Ingest World"
-    },
-    {
       "category": "governance",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-17T04:31:23.9091190Z",
-        "created": "2026-07-17T04:31:23.9091190Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-17T04:31:23.9091190Z"
       },
-      "version": "1.0.0",
-      "description": "Phase 3: compose ingest/gate/repair/consolidate into one fixed pipeline call",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Stub: repair a CIC pipeline failure (Phase 1 placeholder)",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "CIC Repair Pipeline",
+      "id": "cic-repair-pipeline",
       "health": {
-        "runtime": "untested",
-        "distributed": false,
+        "canonical": true,
         "overall": "warn",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "cic-orchestrate-flow",
-      "name": "CIC Orchestrate Flow"
-    },
-    {
       "category": "governance",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-16T17:16:17.1838753Z",
-        "created": "2026-07-16T17:16:17.1838753Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-16T17:16:17.1838753Z"
       },
-      "version": "1.0.0",
-      "description": "Stub: repair a CIC pipeline failure (Phase 1 placeholder)",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Calculates progress and updates versions for CIC roadmaps",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "CIC Roadmap Updater",
+      "id": "cic-roadmap-updater",
       "health": {
+        "canonical": true,
+        "overall": "good",
         "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "cic-repair-pipeline",
-      "name": "CIC Repair Pipeline"
-    },
-    {
       "category": "analysis",
-      "runtime": "typescript",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:58.9401449Z",
-        "created": "2026-07-10T21:43:58.9401449Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-10T21:43:58.9401449Z"
       },
-      "version": "1.0.0",
-      "description": "Calculates progress and updates versions for CIC roadmaps",
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "CIC Run Gate",
+      "id": "cic-run-gate",
       "health": {
+        "canonical": true,
+        "overall": "warn",
         "runtime": "untested",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "cic-roadmap-updater",
-      "name": "CIC Roadmap Updater"
-    },
-    {
       "category": "governance",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-16T17:27:35.7096990Z",
-        "created": "2026-07-16T17:27:35.7096990Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-16T17:27:35.7096990Z"
       },
-      "version": "1.0.0",
-      "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Auto-summarize CIC phase progress and files reviewed",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "CIC Section Summarizer",
+      "id": "cic-section-summarizer",
       "health": {
+        "canonical": true,
+        "overall": "good",
         "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "cic-run-gate",
-      "name": "CIC Run Gate"
-    },
-    {
       "category": "analysis",
-      "runtime": "typescript",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:58.9776576Z",
-        "created": "2026-07-10T21:43:58.9776576Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-10T21:43:58.9776576Z"
       },
-      "version": "1.0.0",
-      "description": "Auto-summarize CIC phase progress and files reviewed",
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Autonomous execution context detection, validation, and storage",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Context Manager",
+      "id": "context-manager",
       "health": {
-        "runtime": "untested",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "cic-section-summarizer",
-      "name": "CIC Section Summarizer"
-    },
-    {
       "category": "utilities",
-      "runtime": "typescript",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-15T15:04:33.2172721Z",
-        "created": "2026-07-15T15:04:33.2172721Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-15T15:04:33.2172721Z"
       },
-      "version": "1.0.0",
-      "description": "Autonomous execution context detection, validation, and storage",
-      "dependencies": {
-        "external": [],
-        "internal": []
-      },
-      "health": {
-        "runtime": "untested",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
-      },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "context-manager",
-      "name": "Context Manager"
+      "runtime": "typescript"
     },
     {
-      "category": "validation",
-      "runtime": "node",
-      "timestamps": {
-        "lastValidation": "2026-07-10T21:43:59.0102349Z",
-        "created": "2026-07-10T21:43:59.0102349Z",
-        "lastRun": null
-      },
-      "version": "1.0.0",
-      "description": "Validate, test, and auto-fix local HTML files for visual correctness: syntax check, WCAG contrast validation, Playwright screenshot + interaction tests, headless rendering",
-      "dependencies": {
-        "external": [],
-        "internal": []
-      },
-      "health": {
-        "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
-      },
-      "entrypoint": "src/index.ts",
-      "owner": "soren",
       "tags": [
         "html",
         "validation",
@@ -389,483 +369,504 @@
         "wcag",
         "visual"
       ],
+      "description": "Validate, test, and auto-fix local HTML files for visual correctness: syntax check, WCAG contrast validation, Playwright screenshot + interaction tests, headless rendering",
       "status": "active",
+      "owner": "soren",
+      "entrypoint": "src/index.ts",
+      "dependencies": {
+        "external": [],
+        "internal": []
+      },
+      "name": "HTML Visual Verify",
       "id": "html-visual-verify",
-      "name": "HTML Visual Verify"
+      "health": {
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
+      },
+      "category": "validation",
+      "version": "1.0.0",
+      "timestamps": {
+        "lastValidation": "2026-07-10T21:43:59.0102349Z",
+        "lastRun": null,
+        "created": "2026-07-10T21:43:59.0102349Z"
+      },
+      "runtime": "node"
     },
     {
+      "tags": [],
+      "description": "Generates synchronization artifacts and reports for the knowledge base.",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
+      "dependencies": {
+        "external": [],
+        "internal": []
+      },
+      "name": "KB Sync Artifact Generator",
+      "id": "kb-sync-artifact-generator",
+      "health": {
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
+      },
       "category": "governance",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.0458814Z",
-        "created": "2026-07-10T21:43:59.0458814Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-10T21:43:59.0458814Z"
       },
-      "version": "1.0.0",
-      "description": "Generates synchronization artifacts and reports for the knowledge base.",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\\dev\\kb-sync.",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "KB Sync Nightly",
+      "id": "kb-sync-nightly",
       "health": {
-        "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
+        "canonical": true,
+        "overall": "good",
+        "runtime": "functional",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "kb-sync-artifact-generator",
-      "name": "KB Sync Artifact Generator"
-    },
-    {
       "category": "sync-tools",
-      "runtime": "typescript",
+      "version": "1.0.2",
       "timestamps": {
         "lastValidation": "2026-07-15T15:05:01.1105284Z",
-        "created": "2026-07-15T15:05:01.1105284Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-15T15:05:01.1105284Z"
       },
-      "version": "1.0.2",
-      "description": "Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\\dev\\kb-sync.",
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Validates staged Obsidian raw sources and generates Claude Code prompt for 8-phase wiki semantic synthesis",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Obsidian Wiki Ingest",
+      "id": "obsidian-ingest-wiki",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "kb-sync-nightly",
-      "name": "KB Sync Nightly"
-    },
-    {
       "category": "knowledge-base",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-15T15:04:33.2333135Z",
-        "created": "2026-07-15T15:04:33.2333135Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-15T15:04:33.2333135Z"
       },
-      "version": "1.0.0",
-      "description": "Validates staged Obsidian raw sources and generates Claude Code prompt for 8-phase wiki semantic synthesis",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Operator Image Build",
+      "id": "operator-image-build",
       "health": {
-        "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
+        "canonical": true,
+        "overall": "good",
+        "runtime": "functional",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "obsidian-ingest-wiki",
-      "name": "Obsidian Wiki Ingest"
-    },
-    {
       "category": "pipeline",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.1114681Z",
-        "created": "2026-07-10T21:43:59.1114681Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:59.1114681Z"
       },
-      "version": "1.0.0",
-      "description": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Permission Governor",
+      "id": "permission-governor",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "operator-image-build",
-      "name": "Operator Image Build"
-    },
-    {
       "category": "validation",
-      "runtime": "typescript",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.1301190Z",
-        "created": "2026-07-10T21:43:59.1301190Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-10T21:43:59.1301190Z"
       },
-      "version": "1.0.0",
-      "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Unified entry point for CodeFlow extraction into CIC stores",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Plan Extractor Integration",
+      "id": "plan-extractor-integration",
       "health": {
-        "runtime": "untested",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "permission-governor",
-      "name": "Permission Governor"
-    },
-    {
       "category": "integration",
-      "runtime": "typescript",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.1505768Z",
-        "created": "2026-07-10T21:43:59.1505768Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-10T21:43:59.1505768Z"
       },
-      "version": "1.0.0",
-      "description": "Unified entry point for CodeFlow extraction into CIC stores",
-      "dependencies": {
-        "external": [],
-        "internal": []
-      },
-      "health": {
-        "runtime": "untested",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
-      },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "plan-extractor-integration",
-      "name": "Plan Extractor Integration"
+      "runtime": "typescript"
     },
     {
-      "category": "session-management",
-      "runtime": "node",
-      "timestamps": {
-        "lastValidation": "2026-07-10T21:43:59.2189839Z",
-        "created": "2026-07-10T21:43:59.2189839Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
-      },
-      "version": "1.0.0",
+      "tags": [],
       "description": "Session wrap audit — 12-point blind-spot assessment before termination",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": [
           "ashfall"
         ]
       },
-      "health": {
-        "runtime": "functional",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
-      },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
+      "name": "Pre Wrap Audit",
       "id": "pre-wrap-audit",
-      "name": "Pre Wrap Audit"
+      "health": {
+        "canonical": true,
+        "overall": "good",
+        "runtime": "functional",
+        "distributed": true
+      },
+      "category": "session-management",
+      "version": "1.0.0",
+      "timestamps": {
+        "lastValidation": "2026-07-10T21:43:59.2189839Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:59.2189839Z"
+      },
+      "runtime": "node"
     },
     {
+      "tags": [],
+      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
+      "dependencies": {
+        "external": [],
+        "internal": []
+      },
+      "name": "Reconcile Vector Store",
+      "id": "reconcile-vector-store",
+      "health": {
+        "canonical": true,
+        "overall": "good",
+        "runtime": "functional",
+        "distributed": true
+      },
       "category": "data-management",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.2615565Z",
-        "created": "2026-07-10T21:43:59.2615565Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:59.2615565Z"
       },
-      "version": "1.0.0",
-      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Orchestrates multi-stage development pipelines and handles blockers",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Rewrite Labs Orchestrator",
+      "id": "rewrite-labs-orchestrator",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "reconcile-vector-store",
-      "name": "Reconcile Vector Store"
-    },
-    {
       "category": "automation",
-      "runtime": "typescript",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.2839834Z",
-        "created": "2026-07-10T21:43:59.2839834Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-10T21:43:59.2839834Z"
       },
-      "version": "1.0.0",
-      "description": "Orchestrates multi-stage development pipelines and handles blockers",
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Roadmap Validator",
+      "id": "roadmap-validator",
       "health": {
-        "runtime": "untested",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "functional",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "rewrite-labs-orchestrator",
-      "name": "Rewrite Labs Orchestrator"
-    },
-    {
       "category": "governance",
-      "runtime": "typescript",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.3151312Z",
-        "created": "2026-07-10T21:43:59.3151312Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:59.3151312Z"
       },
-      "version": "1.0.0",
-      "description": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Revert CIC pipeline to prior phase checkpoint",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Rollback Phase",
+      "id": "rollback-phase",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "functional",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "roadmap-validator",
-      "name": "Roadmap Validator"
-    },
-    {
       "category": "pipeline",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.3368036Z",
-        "created": "2026-07-10T21:43:59.3368036Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:59.3368036Z"
       },
-      "version": "1.0.0",
-      "description": "Revert CIC pipeline to prior phase checkpoint",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Check adapter health, latency percentiles, and error rates in real time",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Run Adapter Diagnostic",
+      "id": "run-adapter-diagnostic",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "functional",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "rollback-phase",
-      "name": "Rollback Phase"
-    },
-    {
       "category": "monitoring",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.3530883Z",
-        "created": "2026-07-10T21:43:59.3530883Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:59.3530883Z"
       },
-      "version": "1.0.0",
-      "description": "Check adapter health, latency percentiles, and error rates in real time",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Adjust RL ingestion service worker count & queue depth based on backlog",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Scale Ingestion Service",
+      "id": "scale-ingestion-service",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
+        "canonical": true,
         "overall": "good",
-        "canonical": true
+        "runtime": "functional",
+        "distributed": true
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "run-adapter-diagnostic",
-      "name": "Run Adapter Diagnostic"
-    },
-    {
       "category": "pipeline",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-10T21:43:59.3653280Z",
-        "created": "2026-07-10T21:43:59.3653280Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:59.3653280Z"
       },
-      "version": "1.0.0",
-      "description": "Adjust RL ingestion service worker count & queue depth based on backlog",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Atomic session wrap-up: doc updates, scoped git staging, prefixed commit, structured report",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Session Wrap",
+      "id": "session-wrap",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "scale-ingestion-service",
-      "name": "Scale Ingestion Service"
-    },
-    {
       "category": "session-management",
-      "runtime": "node",
+      "version": "1.1.0",
       "timestamps": {
         "lastValidation": "2026-07-17T16:30:03.9714186Z",
-        "created": "2026-07-17T16:30:03.9714186Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-17T16:30:03.9714186Z"
       },
-      "version": "1.1.0",
-      "description": "Atomic session wrap-up: doc updates, scoped git staging, prefixed commit, structured report",
+      "runtime": "node"
+    },
+    {
+      "tags": [],
+      "description": "Manifest-driven ecosystem health: staleness, never-run skills, and manifest/directory drift",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Skill Health Monitor",
+      "id": "skill-health-monitor",
       "health": {
-        "runtime": "untested",
-        "distributed": false,
+        "canonical": true,
         "overall": "warn",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "session-wrap",
-      "name": "Session Wrap"
-    },
-    {
       "category": "monitoring",
-      "runtime": "node",
+      "version": "1.0.0",
       "timestamps": {
         "lastValidation": "2026-07-17T16:30:04.0009582Z",
-        "created": "2026-07-17T16:30:04.0009582Z",
-        "lastRun": null
+        "lastRun": null,
+        "created": "2026-07-17T16:30:04.0009582Z"
       },
-      "version": "1.0.0",
-      "description": "Manifest-driven ecosystem health: staleness, never-run skills, and manifest/directory drift",
-      "dependencies": {
-        "external": [],
-        "internal": []
-      },
-      "health": {
-        "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
-      },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
-      "id": "skill-health-monitor",
-      "name": "Skill Health Monitor"
+      "runtime": "node"
     },
     {
-      "category": "utilities",
-      "runtime": "python",
-      "timestamps": {
-        "lastValidation": "2026-07-15T15:04:33.2507454Z",
-        "created": "2026-07-15T15:04:33.2507454Z",
-        "lastRun": null
-      },
-      "version": "1.0.0",
+      "tags": [],
       "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/skill_security_auditor.py",
       "dependencies": {
         "external": [
           "python3"
         ],
         "internal": []
       },
-      "health": {
-        "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
-      },
-      "entrypoint": "src/skill_security_auditor.py",
-      "owner": "unknown",
-      "tags": [],
-      "status": "active",
+      "name": "Skill Security Auditor",
       "id": "skill-security-auditor",
-      "name": "Skill Security Auditor"
+      "health": {
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
+      },
+      "category": "utilities",
+      "version": "1.0.0",
+      "timestamps": {
+        "lastValidation": "2026-07-15T15:04:33.2507454Z",
+        "lastRun": null,
+        "created": "2026-07-15T15:04:33.2507454Z"
+      },
+      "runtime": "python"
     },
     {
-      "category": "pipeline",
-      "runtime": "typescript",
-      "timestamps": {
-        "lastValidation": "2026-07-14T03:18:38.7892909Z",
-        "created": "2026-07-14T03:18:38.7892909Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
-      },
-      "version": "0.1.0",
+      "tags": [],
       "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
+      "status": "active",
+      "owner": "soren",
+      "entrypoint": "src/index.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
-      "health": {
-        "runtime": "functional",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
-      },
-      "entrypoint": "src/index.ts",
-      "owner": "soren",
-      "tags": [],
-      "status": "active",
+      "name": "Tool Lifecycle Manager",
       "id": "tool-lifecycle-manager",
-      "name": "Tool Lifecycle Manager"
+      "health": {
+        "canonical": true,
+        "overall": "good",
+        "runtime": "functional",
+        "distributed": true
+      },
+      "category": "pipeline",
+      "version": "0.1.0",
+      "timestamps": {
+        "lastValidation": "2026-07-14T03:18:38.7892909Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-14T03:18:38.7892909Z"
+      },
+      "runtime": "typescript"
     },
     {
-      "category": "utility",
-      "runtime": "powershell",
-      "timestamps": {
-        "lastValidation": "2026-07-14T03:43:17.3269637Z",
-        "created": "2026-07-14T03:43:17.3269637Z",
-        "lastRun": null
-      },
-      "version": "0.1.0",
+      "tags": [
+        "cli",
+        "toolforge",
+        "marketplace"
+      ],
       "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
+      "status": "active",
+      "owner": "soren",
+      "entrypoint": "src/cli.ps1",
       "dependencies": {
         "external": [],
         "internal": [
@@ -873,140 +874,197 @@
           "toolforge-submission-validator"
         ]
       },
-      "health": {
-        "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
-      },
-      "entrypoint": "src/cli.ps1",
-      "owner": "soren",
-      "tags": [
-        "cli",
-        "toolforge",
-        "marketplace"
-      ],
-      "status": "active",
+      "name": "Toolforge CLI",
       "id": "toolforge-cli",
-      "name": "Toolforge CLI"
+      "health": {
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
+      },
+      "category": "utility",
+      "version": "0.1.0",
+      "timestamps": {
+        "lastValidation": "2026-07-14T03:43:17.3269637Z",
+        "lastRun": null,
+        "created": "2026-07-14T03:43:17.3269637Z"
+      },
+      "runtime": "powershell"
     },
     {
+      "tags": [],
+      "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
+      "status": "active",
+      "owner": "soren",
+      "entrypoint": "src/index.ts",
+      "dependencies": {
+        "external": [],
+        "internal": []
+      },
+      "name": "Toolforge Drift Monitor",
+      "id": "toolforge-drift-monitor",
+      "health": {
+        "canonical": true,
+        "overall": "good",
+        "runtime": "functional",
+        "distributed": true
+      },
       "category": "monitoring",
-      "runtime": "typescript",
+      "version": "0.1.0",
       "timestamps": {
         "lastValidation": "2026-07-14T03:18:33.6042241Z",
-        "created": "2026-07-14T03:18:33.6042241Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-14T03:18:33.6042241Z"
       },
-      "version": "0.1.0",
-      "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
-      "dependencies": {
-        "external": [],
-        "internal": []
-      },
-      "health": {
-        "runtime": "functional",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
-      },
-      "entrypoint": "src/index.ts",
-      "owner": "soren",
-      "tags": [],
-      "status": "active",
-      "id": "toolforge-drift-monitor",
-      "name": "Toolforge Drift Monitor"
+      "runtime": "typescript"
     },
     {
-      "category": "pipeline",
-      "runtime": "powershell",
-      "timestamps": {
-        "lastValidation": "2026-07-14T03:41:46.1063430Z",
-        "created": "2026-07-14T03:41:46.1063430Z",
-        "lastRun": null
-      },
-      "version": "0.1.0",
-      "description": "Manages Toolforge plugin registry with append-only semantics",
-      "dependencies": {
-        "external": [],
-        "internal": []
-      },
-      "health": {
-        "runtime": "untested",
-        "distributed": false,
-        "overall": "warn",
-        "canonical": true
-      },
-      "entrypoint": "src/registry.ps1",
-      "owner": "soren",
       "tags": [
         "registry",
         "toolforge",
         "marketplace"
       ],
+      "description": "Manages Toolforge plugin registry with append-only semantics",
       "status": "active",
-      "id": "toolforge-registry-manager",
-      "name": "Toolforge Registry Manager"
-    },
-    {
-      "category": "governance",
-      "runtime": "node",
-      "timestamps": {
-        "lastValidation": "2026-07-14T05:15:24.2167411Z",
-        "created": "2026-07-14T05:15:24.2167411Z",
-        "lastRun": null
-      },
-      "version": "0.1.0",
-      "description": "Validates skill submissions against conformance gate (manifest, tests, docs, governance, caveman review)",
+      "owner": "soren",
+      "entrypoint": "src/registry.ps1",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Toolforge Registry Manager",
+      "id": "toolforge-registry-manager",
       "health": {
-        "runtime": "untested",
-        "distributed": false,
+        "canonical": true,
         "overall": "warn",
-        "canonical": true
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/validate.ts",
-      "owner": "soren",
+      "category": "pipeline",
+      "version": "0.1.0",
+      "timestamps": {
+        "lastValidation": "2026-07-14T03:41:46.1063430Z",
+        "lastRun": null,
+        "created": "2026-07-14T03:41:46.1063430Z"
+      },
+      "runtime": "powershell"
+    },
+    {
       "tags": [
         "validation",
         "conformance",
         "toolforge",
         "marketplace"
       ],
+      "description": "Validates skill submissions against conformance gate (manifest, tests, docs, governance, caveman review)",
       "status": "active",
-      "id": "toolforge-submission-validator",
-      "name": "Toolforge Submission Validator"
-    },
-    {
-      "category": "observability",
-      "runtime": "node",
-      "timestamps": {
-        "lastValidation": "2026-07-10T21:43:59.5024800Z",
-        "created": "2026-07-10T21:43:59.5024800Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
-      },
-      "version": "4.0.0",
-      "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
+      "owner": "soren",
+      "entrypoint": "src/validate.ts",
       "dependencies": {
         "external": [],
         "internal": []
       },
+      "name": "Toolforge Submission Validator",
+      "id": "toolforge-submission-validator",
       "health": {
-        "runtime": "functional",
-        "distributed": true,
-        "overall": "good",
-        "canonical": true
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
       },
-      "entrypoint": "src/index.ts",
-      "owner": "unknown",
+      "category": "governance",
+      "version": "0.1.0",
+      "timestamps": {
+        "lastValidation": "2026-07-14T05:15:24.2167411Z",
+        "lastRun": null,
+        "created": "2026-07-14T05:15:24.2167411Z"
+      },
+      "runtime": "node"
+    },
+    {
       "tags": [],
+      "description": "Post-ingest-batch feedback pass for TRM: classifier/extraction quality, OCR latency vs. budget, candidate new-topic surfacing, and a web-search cross-check on low-confidence facts.",
       "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
+      "dependencies": {
+        "external": [],
+        "internal": [
+          "trm CLI (validate, feedback-stats, crosslink subcommands)"
+        ]
+      },
+      "name": "TRM Feedback/Report",
+      "id": "trm-feedback-report",
+      "health": {
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
+      },
+      "category": "research-ops",
+      "version": "0.1.0",
+      "timestamps": {
+        "lastValidation": "2026-07-29T01:28:35.0460398Z",
+        "lastRun": null,
+        "created": "2026-07-29T01:28:35.0460398Z"
+      },
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.",
+      "status": "active",
+      "owner": "Soren (Cast Iron Forge)",
+      "entrypoint": "src/index.ts",
+      "dependencies": {
+        "external": [
+          "git"
+        ],
+        "internal": []
+      },
+      "name": "TRM Status",
+      "id": "trm-status",
+      "health": {
+        "canonical": true,
+        "overall": "warn",
+        "runtime": "untested",
+        "distributed": false
+      },
+      "category": "monitoring",
+      "version": "0.1.0",
+      "timestamps": {
+        "lastValidation": "2026-08-01T03:33:34.7530183Z",
+        "lastRun": null,
+        "created": "2026-08-01T03:33:34.7530183Z"
+      },
+      "runtime": "typescript"
+    },
+    {
+      "tags": [],
+      "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
+      "status": "active",
+      "owner": "unknown",
+      "entrypoint": "src/index.ts",
+      "dependencies": {
+        "external": [],
+        "internal": []
+      },
+      "name": "Work Summarizer v4.0",
       "id": "work-summarizer",
-      "name": "Work Summarizer v4.0"
+      "health": {
+        "canonical": true,
+        "overall": "good",
+        "runtime": "functional",
+        "distributed": true
+      },
+      "category": "observability",
+      "version": "4.0.0",
+      "timestamps": {
+        "lastValidation": "2026-07-10T21:43:59.5024800Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r",
+        "created": "2026-07-10T21:43:59.5024800Z"
+      },
+      "runtime": "node"
     }
-  ],
-  "version": "1.0.0"
+  ]
 }

@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-07-27T03:56:46.7305329Z
+**Generated:** 2026-08-01T22:07:51.2600419Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 223 | 28 | 1 | 252 |
-| % Pass | 88.5% | 11.1% | 0.4% | 100% |
+| **Totals** | 232 | 32 | 2 | 266 |
+| % Pass | 87.2% | 12% | 0.8% | 100% |
 
 ---
 
@@ -437,6 +437,30 @@
 | AuditLog | ⚠️ WARN | No runtime history in audit log |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### trm-feedback-report — ❌ ERROR
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ❌ FAIL | Missing: trm CLI (validate, feedback-stats, crosslink subcommands) |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### trm-status — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### work-summarizer — ✅ GOOD
 
 | Check | Result | Details |
@@ -495,11 +519,13 @@ Skills with warnings but no failures:
 - toolforge-cli
 - toolforge-registry-manager
 - toolforge-submission-validator
+- trm-status
 
 ### ❌ Error Health
 
 Skills with critical failures:
 - _cic-shared
+- trm-feedback-report
 
 ---
 

@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-07-27T03:56:46.4638678Z
+**Generated:** 2026-08-01T22:07:48.9933834Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 36 |
-| Total Dependencies | 3 |
+| Total Skills | 38 |
+| Total Dependencies | 4 |
 | Max Depth | 1 |
 | Cyclic Skills | 0 |
-| Missing Internal Deps | 0 |
-| Orphan Skills | 33 |
+| Missing Internal Deps | 1 |
+| Orphan Skills | 35 |
 
 ---
 
@@ -234,6 +234,18 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### trm-feedback-report
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| trm CLI (validate, feedback-stats, crosslink subcommands) | internal | ❌ Missing |
+
+### trm-status
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| git | external | ❌ Missing |
+
 ### work-summarizer
 
 | Dependency | Type | Status |
@@ -356,6 +368,12 @@ No inbound dependencies (root skill)\n
 |-----------|------|
 | toolforge-cli | internal |
 
+### trm-feedback-report
+
+No inbound dependencies (root skill)\n
+### trm-status
+
+No inbound dependencies (root skill)\n
 ### work-summarizer
 
 No inbound dependencies (root skill)\n
@@ -368,41 +386,43 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| pre-wrap-audit | 1 |
-| toolforge-cli | 1 |
+| trm-status | 1 |
+| trm-feedback-report | 1 |
 | skill-security-auditor | 1 |
+| toolforge-cli | 1 |
 | scale-ingestion-service | 0 |
-| permission-governor | 0 |
-| tool-lifecycle-manager | 0 |
-| cic-roadmap-updater | 0 |
-| automation-audit | 0 |
-| work-summarizer | 0 |
-| run-adapter-diagnostic | 0 |
-| cic-section-summarizer | 0 |
-| cic-run-gate | 0 |
-| kb-sync-artifact-generator | 0 |
-| skill-health-monitor | 0 |
-| cic-orchestrate-flow | 0 |
-| toolforge-submission-validator | 0 |
-| cic-repair-pipeline | 0 |
-| context-manager | 0 |
-| rollback-phase | 0 |
+| roadmap-validator | 0 |
 | cic-consolidate-artifacts | 0 |
-| agent-drift-detector | 0 |
-| analyze-token-burn | 0 |
-| reconcile-vector-store | 0 |
-| rewrite-labs-orchestrator | 0 |
-| toolforge-drift-monitor | 0 |
 | cic-ingest-world | 0 |
-| obsidian-ingest-wiki | 0 |
+| context-manager | 0 |
+| skill-health-monitor | 0 |
+| kb-sync-nightly | 0 |
+| permission-governor | 0 |
+| agent-drift-detector | 0 |
+| cic-run-gate | 0 |
+| toolforge-submission-validator | 0 |
+| reconcile-vector-store | 0 |
+| tool-lifecycle-manager | 0 |
+| operator-image-build | 0 |
+| run-adapter-diagnostic | 0 |
+| cic-roadmap-updater | 0 |
+| plan-extractor-integration | 0 |
+| automation-audit | 0 |
 | toolforge-registry-manager | 0 |
+| _cic-shared | 0 |
+| html-visual-verify | 0 |
+| kb-sync-artifact-generator | 0 |
+| rollback-phase | 0 |
+| work-summarizer | 0 |
+| cic-section-summarizer | 0 |
 | session-wrap | 0 |
 | ashfall | 0 |
-| plan-extractor-integration | 0 |
-| roadmap-validator | 0 |
-| _cic-shared | 0 |
-| operator-image-build | 0 |
-| html-visual-verify | 0 |
-| kb-sync-nightly | 0 |
+| obsidian-ingest-wiki | 0 |
+| analyze-token-burn | 0 |
+| cic-orchestrate-flow | 0 |
+| toolforge-drift-monitor | 0 |
+| rewrite-labs-orchestrator | 0 |
+| cic-repair-pipeline | 0 |
 
 ---
 
@@ -413,7 +433,10 @@ Depth N = Depends on at least one skill at depth N-1
 ## Missing Internal Dependencies
 
 Dependencies referenced but not found in canonical skills.
-✅ All internal dependencies resolved.\n
+| Dependent | Missing Dependency |
+|-----------|-------------------|
+| trm-feedback-report | trm CLI (validate, feedback-stats, crosslink subcommands) |
+
 ---
 
 ## Orphan Skills
@@ -453,6 +476,8 @@ Skills that have no inbound dependencies (nothing depends on them).
 | tool-lifecycle-manager |
 | toolforge-cli |
 | toolforge-drift-monitor |
+| trm-feedback-report |
+| trm-status |
 | work-summarizer |
 
 ---
@@ -462,8 +487,8 @@ Skills that have no inbound dependencies (nothing depends on them).
 | Category | Status | Details |
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
-| Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 33 orphan skill(s) |
+| Missing Deps | ⚠️ WARN | 1 missing dep(s) |
+| Orphans | ⚠️ WARN | 35 orphan skill(s) |
 
 ---
 

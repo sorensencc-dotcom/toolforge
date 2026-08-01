@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-07-27T03:56:46.0669463Z
+**Generated:** 2026-08-01T22:07:50.4760665Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 36 | 100% |
-| Active | 36 | 100% |
+| **Total Skills** | 38 | 100% |
+| Active | 38 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 20 | 55.6% |
-| ⚠️ Warning | 16 | 44.4% |
+| ✅ Good | 20 | 52.6% |
+| ⚠️ Warning | 18 | 47.4% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -480,6 +480,32 @@
 | Health | ⚠️ WARN |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
+### trm-feedback-report
+
+| Field | Value |
+|-------|-------|
+| Name | TRM Feedback/Report |
+| Category | research-ops |
+| Version | 0.1.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 1 internal, 0 external |
+### trm-status
+
+| Field | Value |
+|-------|-------|
+| Name | TRM Status |
+| Category | monitoring |
+| Version | 0.1.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 1 external |
 ### work-summarizer
 
 | Field | Value |

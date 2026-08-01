@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-07-27T03:56:15.7314120Z
+**Generated**: 2026-08-01T22:07:03.3196384Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 11 | 23 | 0 | ❌ |
-| Distributed | 0 | 21 | 0 | ✅ |
+| Canonical | 12 | 24 | 0 | ❌ |
+| Distributed | 0 | 23 | 0 | ✅ |
 | Manifest | 2 | 89 | 0 | ❌ |
-| Cowork | 0 | 36 | 0 | ✅ |
-| Dependencies | 5 | 3 | 0 | ❌ |
-| Runtime | 1 | 2 | 35 | ❌ |
+| Cowork | 0 | 38 | 0 | ✅ |
+| Dependencies | 6 | 4 | 0 | ❌ |
+| Runtime | 1 | 2 | 37 | ❌ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
-**Total Errors**: 19
-**Total Warnings**: 174
+**Total Errors**: 21
+**Total Warnings**: 180
 
 **Overall Status**: ❌ FAIL
 
@@ -62,6 +62,8 @@
 | toolforge-drift-monitor | Toolforge Drift Monitor | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-registry-manager | Toolforge Registry Manager | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | toolforge-submission-validator | Toolforge Submission Validator | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
+| trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| trm-status | TRM Status | 0.1.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 
 ---
@@ -94,13 +96,15 @@
 ⚠️ **roadmap-validator**: Invalid category: governance
 ⚠️ **rollback-phase**: Invalid category: pipeline
 ⚠️ **scale-ingestion-service**: Invalid category: pipeline
-❌ **session-wrap**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **session-wrap**: Invalid category: session-management
+❌ **session-wrap**: Missing: INTEGRATION_DIAGRAM.md
 ❌ **skill-health-monitor**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **tool-lifecycle-manager**: Invalid category: pipeline
 ⚠️ **toolforge-cli**: Invalid category: utility
 ⚠️ **toolforge-registry-manager**: Invalid category: pipeline
 ⚠️ **toolforge-submission-validator**: Invalid category: governance
+❌ **trm-feedback-report**: Missing: INTEGRATION_DIAGRAM.md
+⚠️ **trm-feedback-report**: Invalid category: research-ops
 ⚠️ **work-summarizer**: Invalid category: observability
 
 ## Distributed Validation
@@ -116,8 +120,8 @@
 ⚠️ **html-visual-verify**: Directory missing in distributed
 ⚠️ **kb-sync-artifact-generator**: Directory missing in distributed
 ⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
-⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **kb-sync-nightly**: Version mismatch: canonical 1.0.2, distributed 1.0.0
+⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **obsidian-ingest-wiki**: Directory missing in distributed
 ⚠️ **session-wrap**: Directory missing in distributed
 ⚠️ **skill-health-monitor**: Directory missing in distributed
@@ -126,6 +130,8 @@
 ⚠️ **toolforge-cli**: Directory missing in distributed
 ⚠️ **toolforge-registry-manager**: Directory missing in distributed
 ⚠️ **toolforge-submission-validator**: Directory missing in distributed
+⚠️ **trm-feedback-report**: Directory missing in distributed
+⚠️ **trm-status**: Directory missing in distributed
 
 ## Manifest Validation
 
@@ -258,6 +264,8 @@
 ⚠️ **toolforge-drift-monitor**: Not registered (installer will register on next run)
 ⚠️ **toolforge-registry-manager**: Not registered (installer will register on next run)
 ⚠️ **toolforge-submission-validator**: Not registered (installer will register on next run)
+⚠️ **trm-feedback-report**: Not registered (installer will register on next run)
+⚠️ **trm-status**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
 
 ## Dependencies Validation
@@ -270,6 +278,8 @@
 ⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
+❌ **trm-feedback-report**: Missing internal dependency: trm CLI (validate, feedback-stats, crosslink subcommands)
+⚠️ **trm-status**: Missing external dependency: git
 
 ## Runtime Validation
 
@@ -310,6 +320,8 @@
 ℹ️ **toolforge-drift-monitor**: Discoverable
 ℹ️ **toolforge-registry-manager**: Discoverable
 ℹ️ **toolforge-submission-validator**: Discoverable
+ℹ️ **trm-feedback-report**: Skill inactive (status: )
+ℹ️ **trm-status**: Discoverable
 ℹ️ **work-summarizer**: Skill inactive (status: )
 
 ---
