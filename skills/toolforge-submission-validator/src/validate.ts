@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import Ajv, { JSONSchemaType } from "ajv";
 
 interface ConformanceReport {
   submission_id: string;
@@ -285,15 +284,3 @@ export function validateSubmission(skillPath: string): ConformanceReport {
   return report;
 }
 
-// CLI entry point
-if (require.main === module) {
-  const skillPath = process.argv[2];
-  if (!skillPath) {
-    console.error("Usage: validate.ts <skill-path>");
-    process.exit(1);
-  }
-
-  const report = validateSubmission(skillPath);
-  console.log(JSON.stringify(report, null, 2));
-  process.exit(report.recommendation === "reject" ? 1 : 0);
-}
