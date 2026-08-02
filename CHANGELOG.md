@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.31.2
+Date: 2026-08-02
+
+### Changes
+- f01278a - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- 49b6b1a - docs(todos): add 4 deferred findings from trm sync-treatment final review (Chris Sorensen)
+- c21364d - chore(sync): settle generator output after pre-commit hook's own validator gate run (Chris Sorensen)
+- 6a89719 - fix(automation): stop cowork-auto-sync loop from rewriting 6 files every commit (Chris Sorensen)
+
 ## Version 2.31.1
 Date: 2026-08-02
 
