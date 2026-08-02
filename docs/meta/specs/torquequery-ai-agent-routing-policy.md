@@ -4,6 +4,7 @@ date: 2026-08-01
 status: CANDIDATE
 decision: PROPOSED
 critical_path: false
+parent_spec: "CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1"
 ---
 
 # TorqueQuery AI Agent Routing Policy
@@ -31,6 +32,7 @@ Every request MUST include:
   "max_model_calls": 1,
   "max_tool_calls": 0,
   "max_retries": 0,
+  "max_escalations": 0,
   "max_wall_clock_seconds": 0,
   "escalation_policy": "none|stronger_model|human",
   "baseline_id": "string",
@@ -46,10 +48,17 @@ Requests missing budget, scope, success criteria, or execution limits MUST be
 rejected before model routing. Zero means no allowance; unset fields are
 invalid. Exploratory runs MAY omit `baseline_id` only when explicitly marked.
 
+Scope ceilings, default call limits, token budgets, and side-effect rules MUST
+be inherited from `CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1`, Section 3.
+The pinned parent version MUST be updated through a reviewed policy revision
+when the parent scope table changes. The router MUST validate each request
+against both the caller-declared scope and the pinned parent ceiling.
+
 ## Routing algorithm
 
 1. Validate contract and available budget.
-2. Validate the caller-declared scope and narrow it when safely possible.
+2. Validate the caller-declared scope against the pinned parent ceiling; narrow
+   it only when the narrower scope is explicit in the route decision.
 3. Select cheapest capable model.
 4. Execute with hard token, call, tool, cost, and deadline limits.
 5. Validate output against success criteria and schema.
@@ -74,7 +83,8 @@ requires a new task contract or approval.
 | External write failure | Retry only if idempotent | 1 |
 
 Retry state MUST record whether new information or changed context was added.
-Two retries without new information MUST terminate the route. Repeated
+Two retries without new information MUST increment the shared
+`no_progress_count`. Repeated
 identical failure MUST terminate the current route; escalation is permitted
 only before this circuit breaker and only when all escalation conditions hold.
 
@@ -87,18 +97,15 @@ monotonic spend counter:
 remaining_budget = max_cost_usd - sum(all_attempt_costs)
 ```
 
-Before every model or tool call, reserve the estimated worst-case permitted
-cost:
+Before every model or tool call, the adapter MUST perform one atomic budget
+gate:
 
 ```text
 estimated_next_cost = reserved_input_cost + reserved_output_cost + expected_tool_cost
-```
-
-Before every model or tool call:
-
-```text
 if estimated_next_cost > remaining_budget:
     terminate budget_exhausted
+else:
+    reserve estimated_next_cost
 ```
 
 Provider rate cards MUST be versioned. Cache-read tokens MUST be handled using
@@ -113,7 +120,7 @@ Terminate route on:
 - hard budget, call, token, tool, or deadline limit;
 - two identical failures;
 - three failed attempts on one subtask;
-- two no-progress steps;
+- shared `no_progress_count` reaches 2;
 - duplicate or unauthorized side effect;
 - missing required approval.
 
@@ -121,18 +128,33 @@ Missing approval MUST return `needs_approval`; an unauthorized action attempt
 MUST return `failed`.
 
 `no_progress` means no validated fact, passed check, completed subtask,
-reduced uncertainty, or artifact improvement.
+reduced uncertainty, or artifact improvement. A retry without new information
+and a no-progress step increment the same `no_progress_count`; they are not
+separate allowances. The counter resets only after observable progress.
 
 ## TorqueQuery-specific behavior
 
 - Retrieval failures MAY retry only when the failure is transient.
 - Empty retrieval results MUST NOT trigger unlimited broadening. One bounded
   query reformulation is allowed; then return `needs_approval` or `failed`.
-- Repeated retrieval results MUST be detected and counted as no progress.
+  A bounded reformulation MUST use no more than 2x the original query
+  characters, add no more than 256 characters, preserve declared scope and
+  allowed tools, and consume no more than one retrieval escalation.
+- Repeated retrieval results MUST be detected and counted as no progress. A
+  result is repeated when its ordered result-ID list is identical to the prior
+  result, or when top-k result-ID set Jaccard similarity is at least 0.90.
+  Reordering or ranking-mode changes do not reset `no_progress_count` unless
+  they produce a materially different result set under that rule.
 - Retrieved context MUST be attributable in the trace by query, result IDs,
   ranking mode, and retrieval timestamp.
 - Memory or document retrieval MUST remain read-only unless a separate,
   explicitly authorized write operation is declared.
+- Retrieval escalation is distinct from model escalation but consumes the
+  shared `max_escalations` budget. It MAY use one bounded reformulation or one
+  stronger declared ranking mode, never both without a new route decision. A
+  transient retrieval failure MAY retry under the retry matrix; an empty or
+  repeated result after permitted retrieval escalation MUST return
+  `needs_approval` or `failed`.
 
 ## Savings measurement
 
@@ -163,7 +185,7 @@ declared task tolerance.
 The adapter MUST emit:
 
 ```text
-task_id, scope, request_hash, baseline_id, provider, model_snapshot,
+task_id, scope_declared, scope_used, request_hash, baseline_id, provider, model_snapshot,
 rate_card_version, input_tokens, cached_input_tokens, output_tokens,
 reasoning_tokens, tool_calls, retry_count, actual_cost_usd, baseline_cost_usd,
 net_savings_usd, quality_score, success, failure_class, escalation,
@@ -179,7 +201,9 @@ Traces MUST be append-only and sufficient to reconstruct routing and spending.
 ## Scaling gate
 
 No concurrency increase without a representative canary of at least 50
-completed tasks, unless a statistically justified sample is approved.
+completed tasks. A smaller or different sample requires Tier 1 approval before
+the canary begins, a predeclared statistical method, and an evidence record
+showing method, confidence level, sample size, and acceptance thresholds.
 Minimum gate:
 
 ```text
@@ -212,6 +236,7 @@ Every route MUST return:
   "status": "success|failed|needs_approval|budget_exhausted",
   "task_id": "string",
   "termination_reason": "string",
+  "failure_class": "string|null",
   "actual_cost_usd": 0,
   "retry_count": 0,
   "escalated": false
