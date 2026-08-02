@@ -115,14 +115,26 @@ normalize reasoning-token fields.
 
 ## Fail-fast circuit breakers
 
-Terminate route on:
+Circuit-breaker precedence is deterministic. On any tick where multiple
+conditions trigger simultaneously, the first matching condition in this order
+controls the termination reason:
 
-- hard budget, call, token, tool, or deadline limit;
-- two identical failures;
-- three failed attempts on one subtask;
-- shared `no_progress_count` reaches 2;
-- duplicate or unauthorized side effect;
-- missing required approval.
+1. hard budget, call, token, tool, or deadline limit;
+2. safety or authorization failure;
+3. missing required approval;
+4. duplicate or unauthorized side effect;
+5. two identical failures;
+6. three failed attempts on one subtask;
+7. shared `no_progress_count` reaches 2.
+
+This list extends `CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1` Section 6
+precedence with two TorqueQuery-specific conditions (missing approval,
+`no_progress_count`) inserted as shown; it does not reorder the parent's
+shared conditions. Missing approval outranks duplicate/unauthorized side
+effect because, under `approval_required`, no side effect can legally occur
+before approval is granted — an unauthorized side effect at that point
+signals the approval gate was already bypassed, so the approval failure is
+the root cause and must be the reported reason.
 
 Missing approval MUST return `needs_approval`; an unauthorized action attempt
 MUST return `failed`.
@@ -189,7 +201,7 @@ task_id, scope_declared, scope_used, request_hash, baseline_id, provider, model_
 rate_card_version, input_tokens, cached_input_tokens, output_tokens,
 reasoning_tokens, tool_calls, retry_count, actual_cost_usd, baseline_cost_usd,
 net_savings_usd, quality_score, success, failure_class, escalation,
-termination_reason, elapsed_ms, retrieval_ids, ranking_mode,
+escalation_count, termination_reason, elapsed_ms, retrieval_ids, ranking_mode,
 retrieval_timestamp, currency
 ```
 
@@ -218,8 +230,13 @@ quality_score >= baseline_quality
 `quality_score` and `baseline_quality` MUST use the same declared evaluator and
 acceptance threshold.
 
-Ramp traffic `1–5% -> 10% -> 25% -> 50% -> 100%`. Roll back at a 25% cost
-regression, doubled failure rate, quality regression, or safety violation.
+Ramp traffic `1–5% -> 10% -> 25% -> 50% -> 100%`. Rollback follows
+`CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1` Section 7: a rolling window of
+at least 50 completed tasks must show a 25% cost-per-successful-task
+regression, doubled failure rate, or material quality regression before
+cost-based rollback triggers; a single task MUST NOT trigger cost-based
+rollback. Any critical safety violation triggers immediate rollback
+regardless of sample size.
 
 ## Ownership and status
 
