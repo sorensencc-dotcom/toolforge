@@ -4,6 +4,10 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Open
 
+- [ ] **kb-sync coverage improvement** — Documentation coverage score dropped to 48.57% (threshold < 85%). Update mapping rules or wiki pages.
+
+- [ ] **kb-sync drift remediation** — Knowledge base drift detected (12 stale pages > threshold 5). Run kb-sync ingest.
+
 - [ ] **TRM-scan-to-treatment sync skill** — pull all updated TRM topics (`trm validate`/`extract.json` diffs across `trm-vault/topics/**`) and reconcile new facts into the CIC documentary treatment doc. Currently manual/ad-hoc; should be a repeatable skill, not a one-off session task. See `memory/session-wrap-2026-07-28-benson-ford-close.md`.
 - [x] **TRM feedback/report skill** — `trm feedback-stats`/typed `validate` errors/`Fact.flags`/`crosslink --tags`/OCR-timing log shipped in `trm` (Tasks 1-6), `skills/trm-feedback-report/` shipped as the orchestrating skill (Tasks 7-9). See `docs/superpowers/specs/2026-07-28-trm-feedback-report-design.md` and `docs/superpowers/plans/2026-07-28-trm-feedback-report.md`.
 - [ ] **Video ingestion plan** — TRM's `ingest-dir` handles images (OCR/reverse-search) and text docs (docx/pdf/epub/txt/md) only; no video path exists (`IMAGE_EXTENSIONS`/`convertFileToText` both exclude video). Need a plan: frame-sampling vs. transcript extraction vs. both, storage shape for video-derived facts, and whether it reuses the existing photo/text-doc classifier branch or needs a third kind. Not started — plan only, no code yet.

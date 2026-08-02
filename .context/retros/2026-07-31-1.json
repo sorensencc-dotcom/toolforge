@@ -1,0 +1,69 @@
+{
+  "date": "2026-07-31",
+  "window": "7d",
+  "since": "2026-07-24T00:00:00-04:00",
+  "until": "2026-07-31T23:59:59-04:00",
+  "base_branch": "main",
+  "prior_retro_baseline": ".context/retros/2026-07-30-1.json",
+  "note": "Session-tooling week: TODOS.md sync-check hook, find-session.ps1, and 3 retro backlog items closed live. bulk_sync_commit 4f66345 (400-file research-data/ touch, dated 07-26) still inside this window, distorting hotspot count same as flagged in prior retros.",
+  "metrics": {
+    "commits": 65,
+    "commits_no_merge": 57,
+    "merge_commits": 8,
+    "contributors": 2,
+    "automation_commits": 17,
+    "insertions_raw": 23268,
+    "deletions_raw": 10731,
+    "net_loc_raw": 12537,
+    "insertions_filtered": 23268,
+    "deletions_filtered": 10731,
+    "net_loc_filtered": 12537,
+    "filter_note": "bulk_sync_commit 4f66345 flagged as a hotspot-count distortion (400 research-data/ touches) but not separately excluded from LOC totals for this window; raw == filtered.",
+    "bulk_sync_commit": "4f66345",
+    "bulk_sync_hotspot_dir": "research-data/ (400 touches)",
+    "test_loc_insertions": 2451,
+    "test_ratio_pct": 10.5,
+    "commit_type_breakdown_human": { "chore": 20, "docs": 14, "feat": 12, "fix": 10, "merge": 2, "test": 1 },
+    "feat_pct": 21.05,
+    "fix_pct": 17.54,
+    "docs_pct": 24.56,
+    "chore_pct": 35.09,
+    "test_pct": 1.75,
+    "peak_hour": 1,
+    "late_night_commits_22_to_04": 9,
+    "focus_area": "skills/ + src/ (SKILLPACK metadata regen + trm-feedback-report CLI work)",
+    "active_days": 6,
+    "dark_day": "2026-07-25",
+    "sessions": 22,
+    "deep_sessions": 1,
+    "medium_sessions": 1,
+    "micro_sessions": 20,
+    "total_active_minutes": 297,
+    "peak_hours": ["01:00 (9 commits)", "21:00 (9)", "14:00 (8)"],
+    "team_streak_days": 6,
+    "personal_streak_days": 6,
+    "streak_broken_by": "2026-07-25 (no commits to this repo)",
+    "backlog_open_todos": 10,
+    "backlog_closed_this_period": 0,
+    "backlog_open_last_period": 6,
+    "version_range": ["v2.19.3", "v2.26.0"],
+    "release_commits": 17,
+    "focus_area_excl_noise": "skills/ + src/ (SKILLPACK metadata regen + trm-feedback-report CLI work)"
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 40, "role": "human" },
+    "toolforge-release-bot": { "commits": 17, "role": "automation" }
+  },
+  "session_focus": {
+    "summary": "Built the TODOS.md <-> drift/retro sync loop end to end: check-todo-sync.js Stop hook (flags unsynced drift memory + retro JSON files against TODOS.md's last Log date), find-session.ps1 (greps session transcripts by keyword so a VSCode-tab-didn't-reopen doesn't mean the work is unfindable). Used the new hook live: triaged 3 pending retro files, closed the loop on trm-vault commit-per-run (promoted from memory-only to tracked Process rule), opened 2 real gaps (cic-ingestion tsx/tsconfig blind spot, trm-vault has no remote). Caught a live schema-gate failure on 3 retro JSONs (missing insertions_filtered/filter_note etc) rather than hand-faking them to pass - logged as its own backlog item instead.",
+    "incidents": [
+      "3 retro JSON files (2026-07-29-1, 2026-07-29-2, 2026-07-30-1) failed the canonical v1.0 retro schema gate at commit time - missing insertions_filtered/deletions_filtered/net_loc_filtered/filter_note (and more on 2 of them). Not hand-patched; left untracked and logged as an open backlog item pending a generator fix.",
+      "bulk_sync_commit 4f66345 (400 research-data/ file touches, dated 07-26) is still inside this window and remains the dominant hotspot signal - third retro in a row flagging the same commit's distortion.",
+      "Backlog open-count rose 6 -> 10 this period, but all 3 new items are real finds from building the sync tooling itself (schema drift, tsx/tsconfig gap, trm-vault remote gap), not accumulated neglect."
+    ],
+    "process_learnings": [
+      "A sync hook is only as good as what it's allowed to silently fix - the retro-schema failure was the right kind of catch: the hook blocked a fake-passing commit instead of a human having to notice missing fields by hand.",
+      "Session-transcript search (find-session.ps1) turns 'my VSCode tab didn't reopen' from a data-loss scare into a one-command lookup - transcripts already persist independent of UI state, the gap was discoverability, not durability."
+    ]
+  }
+}
