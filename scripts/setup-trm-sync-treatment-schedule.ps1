@@ -45,7 +45,7 @@ if ($existing) {
 }
 
 $action = New-ScheduledTaskAction `
-  -Execute "powershell.exe" `
+  -Execute "pwsh.exe" `
   -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`"" `
   -WorkingDirectory "C:\dev"
 

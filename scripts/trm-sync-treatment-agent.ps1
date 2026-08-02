@@ -1,7 +1,7 @@
-# TRM sync-treatment Daily Agent v1.1
+# TRM sync-treatment Daily Agent v1.2
 # Runs a dry-run reconciliation across all TRM vault topics; if there's
-# anything new (facts, skips, collisions), commits the real run and appends
-# a summary to TODOS.md + a memory file.
+# anything new (facts, skips, collisions), runs the real reconciliation
+# per-topic and appends a summary to TODOS.md + a memory file.
 #
 # v1.1: stdout-substring detection ("new facts" / "skipped" / "factKey
 # collision") was unreliable -- the CLI unconditionally prints a
@@ -9,6 +9,16 @@
 # flags were always true and the no-op branch was dead code. Detection now
 # parses the structured report file the CLI writes (YAML frontmatter +
 # "Total new facts:" summary line) instead of matching human-readable stdout.
+#
+# v1.2: two fixes from final review.
+# (1) Real reconciliation is now per-topic, not all-or-nothing. Previously
+#     one colliding topic (e.g. benson-ford) blocked reconciliation of every
+#     OTHER topic forever, even when those topics had zero collisions of
+#     their own. Now each topic with new facts and no skip reason is run
+#     individually via `sync-treatment <topic>`.
+# (2) Native `node` invocations are wrapped so stderr output (which the CLI
+#     writes on every factKey collision) doesn't throw a terminating error
+#     under Windows PowerShell 5.1's stricter native-command handling.
 
 param(
     [string]$VaultRoot = "C:\Users\soren\trm-vault",
@@ -20,6 +30,13 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+# Engine-independent native stderr handling. Under pwsh 7.3+ (the registered
+# scheduled-task engine as of v1.2) this disables the newer opt-in behavior
+# where a native command's stderr write is treated as a terminating error.
+# Under Windows PowerShell 5.1 this variable doesn't exist -- setting it is a
+# harmless no-op there, so per-call scoping (below, around each `& node ...`
+# call) is kept as belt-and-braces for that case.
+$PSNativeCommandUseErrorActionPreference = $false
 $dateStamp = $AgentStartTime.ToString("yyyy-MM-dd")
 $logDir = "C:\dev\logs"
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
@@ -58,6 +75,14 @@ function Get-SyncReportSignals {
     $newFactsMatch = [regex]::Match($ReportContent, '(?m)^Total new facts:\s*(\d+)\s*$')
     $newFactsCount = if ($newFactsMatch.Success) { [int]$newFactsMatch.Groups[1].Value } else { 0 }
 
+    # Per-topic new-fact counts, parsed from the report's "## Summary" section
+    # (fixed format from reportWriter.ts's buildSummarySection: "- <topic>: <N> new fact(s)").
+    $topicNewFacts = @{}
+    $topicNewFactsMatches = [regex]::Matches($ReportContent, '(?m)^- (.+): (\d+) new fact\(s\)$')
+    foreach ($m in $topicNewFactsMatches) {
+        $topicNewFacts[$m.Groups[1].Value] = [int]$m.Groups[2].Value
+    }
+
     # Optional detail: "## Skipped topics" body section has per-topic reasons.
     $skippedDetailLines = @()
     $skippedSectionMatch = [regex]::Match($ReportContent, '(?ms)^## Skipped topics\s*\r?\n\r?\n(.*?)(?:\r?\n\r?\n|\r?\n## |\z)')
@@ -73,10 +98,11 @@ function Get-SyncReportSignals {
         SkippedDetailLines = $skippedDetailLines
         NewFactsCount      = $newFactsCount
         HasNewFacts        = $newFactsCount -gt 0
+        TopicNewFacts      = $topicNewFacts
     }
 }
 
-Write-Log "AGENT_STARTED|trm-sync-treatment-v1.1|$($AgentStartTime.ToString('yyyy-MM-dd HH:mm:ss'))"
+Write-Log "AGENT_STARTED|trm-sync-treatment-v1.2|$($AgentStartTime.ToString('yyyy-MM-dd HH:mm:ss'))"
 
 if (-not (Test-Path $VaultRoot)) {
     Write-Log "ERROR: vault root not found at $VaultRoot"
@@ -94,8 +120,10 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
 Push-Location $VaultRoot
 try {
     Write-Log "Running dry-run reconciliation..."
+    $ErrorActionPreference = 'Continue'
     $dryRunOutput = & node $TrmCli sync-treatment --narrative-root $NarrativeRoot --dry-run 2>&1
     $dryRunExit = $LASTEXITCODE
+    $ErrorActionPreference = 'Stop'
     $dryRunOutput | ForEach-Object { Write-Log "  $_" }
 
     if (-not $dryRunOutput -or $dryRunOutput.Count -eq 0) {
@@ -126,14 +154,34 @@ try {
         exit 0
     }
 
-    $realExit = $dryRunExit
-    if ($hasNewFacts -and -not $hasCollisions) {
-        Write-Log "New facts found, no collisions. Running real reconciliation..."
-        $realOutput = & node $TrmCli sync-treatment --narrative-root $NarrativeRoot 2>&1
-        $realExit = $LASTEXITCODE
-        $realOutput | ForEach-Object { Write-Log "  $_" }
+    # Per-topic real reconciliation: run each topic that has new facts and is
+    # not in topicsSkipped individually, so one colliding topic (e.g.
+    # benson-ford) no longer blocks reconciliation of every other topic.
+    $realRunResults = @()
+    $topicsToRun = @($signals.TopicNewFacts.Keys | Where-Object {
+        $signals.TopicNewFacts[$_] -gt 0 -and ($signals.TopicsSkipped -notcontains $_)
+    })
+
+    if ($topicsToRun.Count -gt 0) {
+        Write-Log "Running real reconciliation per-topic for: $($topicsToRun -join ', ')"
+        foreach ($topic in $topicsToRun) {
+            Write-Log "Real run: topic '$topic'..."
+            $ErrorActionPreference = 'Continue'
+            $topicOutput = & node $TrmCli sync-treatment $topic --narrative-root $NarrativeRoot 2>&1
+            $topicExit = $LASTEXITCODE
+            $ErrorActionPreference = 'Stop'
+            $topicOutput | ForEach-Object { Write-Log "  [$topic] $_" }
+            $realRunResults += [PSCustomObject]@{ Topic = $topic; ExitCode = $topicExit; NewFacts = $signals.TopicNewFacts[$topic] }
+            Write-Log "Real run complete for '$topic'. Exit code: $topicExit"
+        }
     } else {
-        Write-Log "Collisions present or no new facts — skipping real run, dry-run report stands."
+        Write-Log "No topics eligible for real reconciliation (no new facts, or all blocked by skip/collision)."
+    }
+
+    $realExit = if ($realRunResults.Count -gt 0) {
+        ($realRunResults | Measure-Object -Property ExitCode -Maximum).Maximum
+    } else {
+        $dryRunExit
     }
 } finally {
     Pop-Location
@@ -144,7 +192,18 @@ $summaryLines = @()
 $summaryLines += "### Automated TRM sync-treatment run: $dateStamp"
 $summaryLines += ""
 if ($hasCollisions) {
-    $summaryLines += "- factKey collisions found ($($signals.FactKeyCollisions)) — topic(s) skipped, needs manual review. See report: $dryRunReportPath"
+    # FactKeyCollisions counts topics-with-a-collision, not collision pairs --
+    # derive the actual topic names from the skipped-topics detail so the
+    # wording doesn't imply a pair count.
+    $collisionTopicNames = @()
+    foreach ($line in $signals.SkippedDetailLines) {
+        $m = [regex]::Match($line, '`([^`]+)`:\s*(.+)$')
+        if ($m.Success -and $m.Groups[2].Value -match 'factKey collision') {
+            if ($collisionTopicNames -notcontains $m.Groups[1].Value) { $collisionTopicNames += $m.Groups[1].Value }
+        }
+    }
+    $summaryLines += "- $($signals.FactKeyCollisions) topic(s) with factKey collisions (see report for pair detail): $($collisionTopicNames -join ', ')"
+    $summaryLines += "  Report: $dryRunReportPath"
 }
 if ($hasSkips) {
     $summaryLines += "- Skipped topics:"
@@ -157,8 +216,12 @@ if ($hasSkips) {
         foreach ($t in $signals.TopicsSkipped) { $summaryLines += "  - $t" }
     }
 }
-if ($hasNewFacts -and -not $hasCollisions) {
-    $summaryLines += "- New facts reconciled into treatment doc (real run committed): $($signals.NewFactsCount) fact(s)."
+if ($realRunResults.Count -gt 0) {
+    $summaryLines += "- New facts reconciled into treatment doc (real run committed), per topic:"
+    foreach ($r in $realRunResults) {
+        $status = if ($r.ExitCode -eq 0) { "ok" } else { "exit $($r.ExitCode)" }
+        $summaryLines += "  - $($r.Topic): $($r.NewFacts) fact(s) ($status)"
+    }
 }
 $summaryLines += ""
 $summary = $summaryLines -join "`n"
