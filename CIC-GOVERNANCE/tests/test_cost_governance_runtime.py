@@ -11,6 +11,9 @@ if str(WRAPPERS_DIR) not in sys.path:
     sys.path.insert(0, str(WRAPPERS_DIR))
 
 import json
+import os
+import subprocess
+import sys
 import tempfile
 from cost_governance_runtime import (
     AtomicBudgetGate,
@@ -474,6 +477,85 @@ class TestScalingGateEvaluator(unittest.TestCase):
         self.assertEqual(result_hold["recommendation"], "HOLD")
         self.assertEqual(result_hold["sample_size"], 50)
         self.assertEqual(result_hold["success_rate"], 0.80)
+
+
+class TestCostGateAdapter(unittest.TestCase):
+    def test_cost_gate_adapter_cli_valid_contract(self):
+        valid_contract_json = json.dumps({
+            "task_id": "TSK-CLI-01",
+            "scope": "S1",
+            "success_criteria": ["ok"],
+            "allowed_tools": [],
+            "side_effect_policy": "read_only",
+            "max_model_calls": 3,
+            "max_tool_calls": 0,
+            "max_input_tokens": 20000,
+            "max_output_tokens": 4000,
+            "max_cost_usd": 1.00,
+            "max_wall_clock_seconds": 60,
+            "max_retries": 1,
+            "max_escalations": 0,
+            "escalation_policy": "none",
+            "baseline_id": "BASE-01",
+            "provider": "google",
+            "model_snapshot": "gemini-3.6-flash-2026-06-01",
+            "rate_card_version": "v1.0.0",
+        })
+        adapter_path = os.path.join(ROOT, "adapters", "cost_gate_adapter.py")
+        proc = subprocess.run(
+            [sys.executable, adapter_path, valid_contract_json],
+            capture_output=True, text=True
+        )
+        self.assertEqual(proc.returncode, 0)
+        output = json.loads(proc.stdout.strip())
+        self.assertEqual(output["status"], "PASS")
+        self.assertEqual(output["task_id"], "TSK-CLI-01")
+        self.assertEqual(output["scope"], "S1")
+        self.assertEqual(output["spec_version"], "CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1")
+        self.assertIn("message", output)
+
+    def test_cost_gate_adapter_cli_invalid_contract(self):
+        invalid_contract_json = json.dumps({
+            "task_id": "TSK-CLI-02",
+            "scope": "S0",  # S0 permits max 1 call
+            "success_criteria": [],
+            "allowed_tools": [],
+            "side_effect_policy": "read_only",
+            "max_model_calls": 5,  # Exceeds S0 ceiling of 1
+            "max_tool_calls": 0,
+            "max_input_tokens": 2000,
+            "max_output_tokens": 1000,
+            "max_cost_usd": 0.50,
+            "max_wall_clock_seconds": 30,
+            "max_retries": 0,
+            "max_escalations": 0,
+            "escalation_policy": "none",
+            "baseline_id": "BASE-001",
+            "provider": "google",
+            "model_snapshot": "gemini-3.6-flash-2026-06-01",
+            "rate_card_version": "v1.0.0",
+        })
+        adapter_path = os.path.join(ROOT, "adapters", "cost_gate_adapter.py")
+        proc = subprocess.run(
+            [sys.executable, adapter_path, invalid_contract_json],
+            capture_output=True, text=True
+        )
+        self.assertEqual(proc.returncode, 0)
+        output = json.loads(proc.stdout.strip())
+        self.assertEqual(output["status"], "FAIL")
+        self.assertEqual(output["code"], "SCOPE_CEILING_EXCEEDED")
+        self.assertIn("message", output)
+
+    def test_cost_gate_adapter_cli_missing_arguments(self):
+        adapter_path = os.path.join(ROOT, "adapters", "cost_gate_adapter.py")
+        proc = subprocess.run(
+            [sys.executable, adapter_path],
+            capture_output=True, text=True
+        )
+        self.assertNotEqual(proc.returncode, 0)
+        output = json.loads(proc.stdout.strip())
+        self.assertEqual(output["status"], "ERROR")
+        self.assertIn("message", output)
 
 
 if __name__ == "__main__":
