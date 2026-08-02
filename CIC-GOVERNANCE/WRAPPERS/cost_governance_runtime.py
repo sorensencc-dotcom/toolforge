@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 import re
+import threading
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
@@ -148,3 +149,113 @@ class TaskContract:
             model_snapshot=str(data["model_snapshot"]),
             rate_card_version=str(data["rate_card_version"]),
         )
+
+
+@dataclass(frozen=True)
+class RateCard:
+    version: str
+    input_rate: float  # USD per 1M tokens
+    cached_rate: float  # USD per 1M tokens
+    output_rate: float  # USD per 1M tokens
+    reasoning_rate: float  # USD per 1M tokens
+
+    def calculate(
+        self,
+        uncached_input: int,
+        cached_input: int,
+        output: int,
+        reasoning: int,
+        tool_cost: float = 0.0,
+        infra_cost: float = 0.0,
+    ) -> float:
+        input_c = (uncached_input * self.input_rate) / 1_000_000.0
+        cached_c = (cached_input * self.cached_rate) / 1_000_000.0
+        output_c = (output * self.output_rate) / 1_000_000.0
+        reasoning_c = (reasoning * self.reasoning_rate) / 1_000_000.0
+        return round(input_c + cached_c + output_c + reasoning_c + tool_cost + infra_cost, 6)
+
+
+class RateCardManager:
+    def __init__(self):
+        self._cards: Dict[str, RateCard] = {}
+
+    def register(
+        self,
+        version: str,
+        input_rate: float,
+        cached_rate: float,
+        output_rate: float,
+        reasoning_rate: float,
+    ) -> RateCard:
+        card = RateCard(version, input_rate, cached_rate, output_rate, reasoning_rate)
+        self._cards[version] = card
+        return card
+
+    def get(self, version: str) -> RateCard:
+        if version not in self._cards:
+            return RateCard(
+                version=version,
+                input_rate=1.0,
+                cached_rate=0.5,
+                output_rate=2.0,
+                reasoning_rate=2.0,
+            )
+        return self._cards[version]
+
+
+class AtomicBudgetGate:
+    def __init__(self, max_cost_usd: float):
+        self.max_cost_usd = float(max_cost_usd)
+        self._lock = threading.Lock()
+        self._reservations: Dict[str, float] = {}
+        self._actual_spend: float = 0.0
+
+    def remaining_budget(self, task_id: str = "") -> float:
+        with self._lock:
+            reserved = sum(self._reservations.values())
+            return max(0.0, round(self.max_cost_usd - (self._actual_spend + reserved), 6))
+
+    def reserve(
+        self,
+        task_id: str,
+        attempt_id: str,
+        rate_card: RateCard,
+        estimated_input: int,
+        estimated_output: int,
+        expected_tool_cost: float = 0.0,
+    ) -> str:
+        res_id = f"{attempt_id}-RES"
+        with self._lock:
+            if res_id in self._reservations:
+                raise GovernanceViolation(
+                    409, "DUPLICATE_RESERVATION", f"Reservation {res_id} already exists"
+                )
+
+            est_cost = rate_card.calculate(
+                uncached_input=estimated_input,
+                cached_input=0,
+                output=estimated_output,
+                reasoning=0,
+                tool_cost=expected_tool_cost,
+            )
+            current_reserved = sum(self._reservations.values())
+            available = self.max_cost_usd - (self._actual_spend + current_reserved)
+
+            if round(available - est_cost, 6) < 0:
+                raise GovernanceViolation(
+                    402,
+                    "BUDGET_EXHAUSTED",
+                    f"Estimated cost ${est_cost:.6f} exceeds remaining budget ${available:.6f}",
+                )
+
+            self._reservations[res_id] = est_cost
+            return res_id
+
+    def release_reservation(self, task_id: str, res_id: str) -> None:
+        with self._lock:
+            self._reservations.pop(res_id, None)
+
+    def record_actual(self, task_id: str, res_id: str, actual_cost: float) -> None:
+        with self._lock:
+            self._reservations.pop(res_id, None)
+            self._actual_spend = round(self._actual_spend + actual_cost, 6)
