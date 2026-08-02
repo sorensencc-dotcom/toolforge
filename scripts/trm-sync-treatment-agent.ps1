@@ -149,7 +149,10 @@ if ($hasCollisions) {
 if ($hasSkips) {
     $summaryLines += "- Skipped topics:"
     if ($signals.SkippedDetailLines.Count -gt 0) {
-        foreach ($s in $signals.SkippedDetailLines) { $summaryLines += "  - $($s.Trim())" }
+        foreach ($s in $signals.SkippedDetailLines) {
+            $trimmed = $s.Trim() -replace '^-\s*', ''
+            $summaryLines += "  - $trimmed"
+        }
     } else {
         foreach ($t in $signals.TopicsSkipped) { $summaryLines += "  - $t" }
     }
