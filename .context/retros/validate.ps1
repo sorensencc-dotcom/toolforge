@@ -4,7 +4,7 @@
 
 param(
     [switch]$Strict = $true,
-    [string]$RepoRoot = "C:\dev",
+    [string]$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path,
     [string]$File = $null
 )
 
