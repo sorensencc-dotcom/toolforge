@@ -1,0 +1,19 @@
+CIC-GOVERNANCE/SPEC/CIC-AI-AGENT-COST-SPEC-001.md
+  s_0b72b0b6a27e79::t_d6206f9a22d57e 42,56-62,99-101,104-108,112-115,134,140-146,168-172,183-186,195,198-199
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "2d01dd524514b2eb4c96eb340ed84f0eec700482",
+  "prompts": {},
+  "sessions": {
+    "s_0b72b0b6a27e79": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbdda-e73f-79e3-9b63-cfb7e0acc48c",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
