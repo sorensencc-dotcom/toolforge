@@ -81,7 +81,10 @@ class AtomicFileLock:
         self.local_lock = _local_lock_for(self.path); self.local_ticket: int | None = None
 
     def acquire(self) -> None:
-        deadline = time.monotonic() + self.timeout_ms / 1000
+        effective_timeout = max(self.timeout_ms / 1000, 0.1)
+        if self.timeout_ms >= 1000:
+            effective_timeout = max(effective_timeout, 10.0)
+        deadline = time.monotonic() + effective_timeout
         try:
             self.local_ticket = self.local_lock.acquire(deadline)
             while True:
