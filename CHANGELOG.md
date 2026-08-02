@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.31.1
+Date: 2026-08-02
+
+### Changes
+- 5badcd9 - fix(trm): per-topic reconciliation gating + pwsh engine + stale TODOS cleanup (Chris Sorensen)
+- c550350 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- a952a3c - docs(todos): close stale TRM sync-treatment backlog entry; remove garbage skipped-topics artifact (Chris Sorensen)
+
 ## Version 2.31.0
 Date: 2026-08-02
 
