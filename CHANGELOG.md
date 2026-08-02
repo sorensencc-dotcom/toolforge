@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.30.1
+Date: 2026-08-02
+
+### Changes
+- 8d82057 - chore(sync): regen timestamps (auto-sync/validator hook re-triggers itself) (Chris Sorensen)
+- 6eb7db0 - chore(sync): regen validator/dashboard artifacts (post-hook) (Chris Sorensen)
+- 60c47ad - chore(sync): regen session state, skill registry, dashboard artifacts (Chris Sorensen)
+- 8836758 - docs(todos): correct trm-vault remote item — deliberate guardrail, not oversight (Chris Sorensen)
+
 ## Version 2.30.0
 Date: 2026-08-02
 
