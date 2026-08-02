@@ -1,0 +1,34 @@
+CIC-GOVERNANCE/tests/test_agent_cost_spec.py
+  s_0b72b0b6a27e79::t_76ccaf93a8daaa 1-28,30-58,60-76
+  s_0b72b0b6a27e79::t_54b22d08c3427f 29,59
+docs/meta/specs/torquequery-ai-agent-routing-policy.md
+  s_b03b2f2ac34731::t_4f7b1c62593a35 233-239
+  s_b03b2f2ac34731::t_ea07ad86158e3d 123-128
+  s_b03b2f2ac34731::t_1aeddfa99052cf 118-122,129-132
+  s_b03b2f2ac34731::t_cf9eb586110215 204
+  s_b03b2f2ac34731::t_c99f6f795e9971 133-137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "3edb62aff786f0986c802b09a41dbc86b24d0b54",
+  "prompts": {},
+  "sessions": {
+    "s_0b72b0b6a27e79": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbdda-e73f-79e3-9b63-cfb7e0acc48c",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_b03b2f2ac34731": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca6f235a-14aa-484c-a926-c1930138e8be",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

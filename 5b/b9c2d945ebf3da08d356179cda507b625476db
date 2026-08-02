@@ -1,0 +1,19 @@
+CIC-GOVERNANCE/WRAPPERS/governance_runtime.py
+  s_5a8f46f7923443::t_33fb5bea9a3369 84-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "5bb9c2d945ebf3da08d356179cda507b625476db",
+  "prompts": {},
+  "sessions": {
+    "s_5a8f46f7923443": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbfcd-f26c-7730-a1bf-c75f1f0ad993",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

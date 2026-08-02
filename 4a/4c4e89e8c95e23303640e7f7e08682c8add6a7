@@ -1,0 +1,356 @@
+dashboard.html
+  s_8b728eb8a9da4f::t_0c38b2b5031d36 104,115,122-123,129,131-136,138-140,142,147,149-150,156,158-163,165-167,169,174,176-177,183,185-190,192-194,196,201,203-204,210,212-217,219-221,223,228,230-231,237,239-244,246-248,250,255,257-258,264,266-271,273-275,277,282,284-285,291,294-298,302,304,311-312,318,320-325,327-329,331,336,338-339,345,347-352,354-356,358,363,365-366,372,374-379,381-383,385,390,392-393,399,401-406,408-410,412,417,419-420,426,428-433,435-437,439,444,446-447,453-458,462,466,471,473-474,480-495,499,504,506-507,513,515-520,522-524,526,531,533-534,540,542-547,549-551,553,558,560-561,567,570,572-574,576-578,580,585,587-588,594,596-601,603-605,607,612,614-615,621,623-628,630-632,634,639,641-642,648,650-655,657-659,661,668,670-671,677,679-684,686-688,690,695,697-698,704,706-711,713-715,717,722,724-725,731,733-738,740-742,744,749,751-752,758,760-765,767-769,771,776,778-779,785,787-788,790-791,794-796,798,805-806,812,815,818,821-823,825,832-833,839,841-842,844-845,848-850,852,859-860,866,868-869,871-872,876-877,879,886-887,893,895-896,898-899,902-904,906,913,924-926,931,935,942-943,949-952,954-955,970,973,980-981,986,996,1003-1004,1010-1013,1015-1016,1031,1039,1043-1044,1051-1052,1059,1070-1071,1073-1077,1079,1086,1093,1105,1107-1108,1115,1122,1133-1134,1136-1137,1144,1151-1152,1158-1164
+  s_8b728eb8a9da4f::t_764ff3f9b1cf2f 105-107
+  s_8b728eb8a9da4f::t_0fab2a8cf9adda 293
+  s_8b728eb8a9da4f::t_571c06ec0661b0 300-301
+  s_8b728eb8a9da4f::t_3fbfca0b93738e 459-461
+  s_8b728eb8a9da4f::t_85b94296c60ad7 569
+  s_8b728eb8a9da4f::t_f18e8b1a8984d4 571
+  s_8b728eb8a9da4f::t_4bff91836dd447 789
+  s_8b728eb8a9da4f::t_02d6ffe74a5803 792
+  s_8b728eb8a9da4f::t_d6318307b6087a 819-820
+  s_8b728eb8a9da4f::t_574ce2664b3465 824
+  s_8b728eb8a9da4f::t_0073daae7e9669 826-828
+  s_8b728eb8a9da4f::t_307480df8325a8 830-831
+  s_8b728eb8a9da4f::t_f81eeca68b7ba6 843
+  s_8b728eb8a9da4f::t_b52bfb0cc6c3b3 846
+  s_8b728eb8a9da4f::t_bb01a884e036cc 870
+  s_8b728eb8a9da4f::t_e456f13d068b1e 873
+  s_8b728eb8a9da4f::t_6e4342d4a4793c 875
+  s_8b728eb8a9da4f::t_a981b1ddccd05e 897
+  s_8b728eb8a9da4f::t_cf45e3c5c4fcda 900
+  s_8b728eb8a9da4f::t_fd52d36c923337 922-923
+  s_8b728eb8a9da4f::t_0fd49c24306a3f 927-930
+  s_8b728eb8a9da4f::t_faac0537d9adee 953
+  s_8b728eb8a9da4f::t_ec8ead9c6fce4c 956-958
+  s_8b728eb8a9da4f::t_7754d72ab9a4be 972
+  s_8b728eb8a9da4f::t_d16f8cbeb8f9eb 979
+  s_8b728eb8a9da4f::t_16a8e44c231c0e 982-985
+  s_8b728eb8a9da4f::t_528c8f85748462 987-989
+  s_8b728eb8a9da4f::t_9a6c1af80a82b2 1014
+  s_8b728eb8a9da4f::t_4d78ecd6c9a45c 1017-1019
+  s_8b728eb8a9da4f::t_72be219e1f6a12 1030
+  s_8b728eb8a9da4f::t_8c281af73032cc 1045-1047
+  s_8b728eb8a9da4f::t_2c70198ed79b34 1050
+  s_8b728eb8a9da4f::t_7a0206d6532d10 1068-1069
+  s_8b728eb8a9da4f::t_df790440ef85aa 1072
+  s_8b728eb8a9da4f::t_c12aa3cebf894a 1078
+  s_8b728eb8a9da4f::t_720c4661d10254 1080-1082
+  s_8b728eb8a9da4f::t_5a4ee23a6ddb91 1102-1104
+  s_8b728eb8a9da4f::t_845c50c962e9f8 1106
+  s_8b728eb8a9da4f::t_f3b66c1510191a 1109-1111
+  s_8b728eb8a9da4f::t_5c950b4de38b79 1131-1132
+  s_8b728eb8a9da4f::t_59aa8e0dbb3c96 1135
+  s_8b728eb8a9da4f::t_5defcec0807b24 1138-1140
+  s_8b728eb8a9da4f::t_5f17ef4ee16f19 1165-1167
+  s_8b728eb8a9da4f::t_8059309f2f2e4c 108,111,120,309,803,857,884,915-916,940,962,990-992,1001,1023,1028,1037,1048,1054,1061-1062,1095-1096,1124-1125,1149,1514-1516
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_8b728eb8a9da4f::t_0c38b2b5031d36 397,399,404
+  s_8b728eb8a9da4f::t_ae524ed15ffb65 3,388,390-393,396,398,401-403,406-407,410,412-414,416-419,421-423,425
+skills/SKILLPACK-METADATA.json
+  s_8b728eb8a9da4f::t_0c38b2b5031d36 4,15,22-23,29,31-36,38-40,42,47,49-50,56,58-63,65-67,69,74,76-77,83,85-90,92-94,96,101,103-104,110,112-117,119-121,123,128,130-131,137,139-144,146-148,150,155,157-158,164,166-171,173-175,177,182,184-185,191,194-198,202,204,211-212,218,220-225,227-229,231,236,238-239,245,247-252,254-256,258,263,265-266,272,274-279,281-283,285,290,292-293,299,301-306,308-310,312,317,319-320,326,328-333,335-337,339,344,346-347,353-362,366,371,373-374,380,387-395,399,404,406-407,413,415-420,422-424,426,431,433-434,440,442-447,449-451,453,458,460-461,467,469-474,476,478,480,487-488,494,496-501,503-505,507,512,514-515,521,523-528,530-532,534,541-542,548,550-551,553-554,557-559,561,568,580,582-583,586-588,590,597-598,604,606-607,609-610,613-615,617,624-625,631,633-637,640-642,644,651-652,658,660-664,667-669,671,678-679,685,687-688,690-691,694-696,698,705-706,712,714-715,717-718,721-723,725,732-733,739,741-742,744-745,748-750,752,759-760,766,768-769,771-772,776-777,779,786-787,793,795-796,798-799,802-804,806,813,824-826,830-831,835,842-843,849-852,854-855,857,870,873,880-881,886,891,896,903-904,910-913,915-916,918,931,939,943-944,951-952,959,971,973-977,979,981,986,993,1005,1007-1008,1010,1015,1022,1033-1034,1036-1037,1044,1051-1052,1058-1064,1066
+  s_8b728eb8a9da4f::t_96f8e0491a06ea 5-7
+  s_8b728eb8a9da4f::t_5d5ae4d3f4c1e9 193
+  s_8b728eb8a9da4f::t_2cc9049b0813d8 200-201
+  s_8b728eb8a9da4f::t_86bbf9a3964fb6 381-386
+  s_8b728eb8a9da4f::t_752a5778f38ab1 477
+  s_8b728eb8a9da4f::t_d3cad5816494bd 552
+  s_8b728eb8a9da4f::t_1bb0862155edd1 555
+  s_8b728eb8a9da4f::t_f4e8d01c2c6bb9 579
+  s_8b728eb8a9da4f::t_1d47cd7c8da681 581
+  s_8b728eb8a9da4f::t_7ef07445e0d71b 584
+  s_8b728eb8a9da4f::t_c14e68cb932b1b 608
+  s_8b728eb8a9da4f::t_5385dec5c715e1 611
+  s_8b728eb8a9da4f::t_7a38ef26c41707 638
+  s_8b728eb8a9da4f::t_c158f2cd8bfe3d 665
+  s_8b728eb8a9da4f::t_d484a5a47221ea 689
+  s_8b728eb8a9da4f::t_3514da3b907d4c 692
+  s_8b728eb8a9da4f::t_1b9ccfa9b7c8d8 716
+  s_8b728eb8a9da4f::t_b6616d65533340 719
+  s_8b728eb8a9da4f::t_c95a8d72576a4e 743
+  s_8b728eb8a9da4f::t_2cdc9e792bea0e 746
+  s_8b728eb8a9da4f::t_73f8a10299a2ab 770
+  s_8b728eb8a9da4f::t_69cbf6d7f43be0 773
+  s_8b728eb8a9da4f::t_e5661c4e324f50 775
+  s_8b728eb8a9da4f::t_4e8b419a6cb9e7 797
+  s_8b728eb8a9da4f::t_b63e897b9d9b3d 800
+  s_8b728eb8a9da4f::t_24a91edd53de88 822-823
+  s_8b728eb8a9da4f::t_c105313832d868 827-829
+  s_8b728eb8a9da4f::t_e78e939e2e3ca9 853
+  s_8b728eb8a9da4f::t_777d9c9120d40f 856
+  s_8b728eb8a9da4f::t_0a916bededa624 858
+  s_8b728eb8a9da4f::t_0311f8f0761e7f 872
+  s_8b728eb8a9da4f::t_52d95341933ae1 879
+  s_8b728eb8a9da4f::t_2d5f483cfdcfba 882-885
+  s_8b728eb8a9da4f::t_5486defe49aea7 887-890
+  s_8b728eb8a9da4f::t_8d6ff7e41fd35f 892
+  s_8b728eb8a9da4f::t_99a94a1cdd06db 914
+  s_8b728eb8a9da4f::t_3bf5760bc9ce84 917
+  s_8b728eb8a9da4f::t_545b9959c057b0 919
+  s_8b728eb8a9da4f::t_44d894d2ca5d3b 930
+  s_8b728eb8a9da4f::t_23381f43a200ac 945-947
+  s_8b728eb8a9da4f::t_fb49d8e7054b1e 950
+  s_8b728eb8a9da4f::t_5946cb07eba66a 968-970
+  s_8b728eb8a9da4f::t_89c38eb082a88c 972
+  s_8b728eb8a9da4f::t_22b3409bc37579 978
+  s_8b728eb8a9da4f::t_05b9f7c1299499 980
+  s_8b728eb8a9da4f::t_1211b4374084d0 982
+  s_8b728eb8a9da4f::t_a53fdc1aabea61 1002-1004
+  s_8b728eb8a9da4f::t_848466564c8b38 1006
+  s_8b728eb8a9da4f::t_eb51f81d1394ed 1009
+  s_8b728eb8a9da4f::t_8351d5ad65d294 1011
+  s_8b728eb8a9da4f::t_efe4de2bd95ca7 1031-1032
+  s_8b728eb8a9da4f::t_7a5e8683708b99 1035
+  s_8b728eb8a9da4f::t_fd26c852a92e33 1038-1040
+  s_8b728eb8a9da4f::t_f3c323840db772 1065
+  s_8b728eb8a9da4f::t_ef2e6904988ce1 1067
+  s_c4e2e0ad144627::t_a0e745a1c9b54a 8,11,20,209,485,539,570-571,577,595,622,649,676,703,730,757,784,815-816,840,862,901,923,928,937,948,954,961-962,995-996,1024-1025,1049
+.ijfw/.banner-buf
+  s_8b728eb8a9da4f::t_4f8364373d1ac2 1,3-4
+.ijfw/.detection
+  s_8b728eb8a9da4f::t_33cf899e38f442 1
+.ijfw/.dream-state-v2.json
+  s_8b728eb8a9da4f::t_edd8ff6d938394 3-4,8-11,14-28,31-39,43-44,49-50
+.ijfw/.dream-state.json
+  s_8b728eb8a9da4f::t_9835eaf0f56999 1
+.ijfw/.mem-buf
+  s_f8b29e4d1fa846::t_e6c5a8c9603ee1 1-2
+.ijfw/.profile-derive-cursor.json
+  s_8b728eb8a9da4f::t_81919111447990 1
+.ijfw/sessions/session_2026-07-31_08-23-08.md
+  s_0747b231dbf553::t_1888fcef09a21f 2-4
+.ijfw/sessions/session_2026-07-31_08-49-50.md
+  s_00d135f05ed507::t_407f211198f48b 2-4
+.ijfw/sessions/session_2026-08-01_11-23-53.md
+  s_0747b231dbf553::t_a0ea5c6747e2f0 1-5
+.ijfw/sessions/session_2026-08-01_21-25-03.md
+  s_8b728eb8a9da4f::t_27bd37f93c85be 1-5
+.obsidian/graph.json
+  s_3cb77ca2d954a4::t_5fbde67f93c4bd 21
+audit/COWORK-REGISTERED-SKILLS.md
+  s_8b728eb8a9da4f::t_95b22e0e3819c9 3,55-135
+skills/SKILLPACK-VALIDATION.md
+  s_8b728eb8a9da4f::t_ffc374a1dcdf7e 3,124
+skills/toolforge-submission-validator/.ijfw/.session-counter
+  s_acf5565216b7ed::t_a93a91063175a7 1
+skills/toolforge-submission-validator/.ijfw/.session-counter-id
+  s_acf5565216b7ed::t_fd1d51758488dc 1
+skills/toolforge-submission-validator/.ijfw/.session-marker-ts
+  s_acf5565216b7ed::t_a4664021fe49b5 1
+skills/trm-status/.ijfw/.session-counter
+  s_00d135f05ed507::t_7c9237dd96c9be 1
+skills/trm-status/.ijfw/.session-counter-id
+  s_00d135f05ed507::t_472e181fb8ab96 1
+skills/trm-status/.ijfw/.session-edits.jsonl
+  s_00d135f05ed507::t_2c84cc4ffe967a 1
+skills/trm-status/.ijfw/.session-marker-ts
+  s_00d135f05ed507::t_c5a7c484ab02a7 1
+skills/trm-status/.ijfw/memory/project-journal.md
+  s_00d135f05ed507::t_b4bdf8d5da780b 1-3
+skills/trm-status/.ijfw/metrics/.transcript-cursor.json
+  s_00d135f05ed507::t_92aa4768d3f0c4 1
+skills/trm-status/.ijfw/metrics/sessions.jsonl
+  s_00d135f05ed507::t_442705a6f687cc 1
+skills/trm-status/.ijfw/sessions/session_2026-07-31_09-26-11.md
+  s_00d135f05ed507::t_375ca9831fc82f 1-5
+.ijfw/.session-counter
+  s_58ecee46464e33::t_860d3c17bab26b 1
+.ijfw/.session-counter-id
+  s_58ecee46464e33::t_33f971e127062e 1
+.ijfw/.session-edits.jsonl
+  s_a3505f9072d5c6::t_c495f855916429 28-61
+.ijfw/.session-marker-ts
+  s_58ecee46464e33::t_2407051207afef 1
+.ijfw/memory/project-journal.md
+  s_0b72b0b6a27e79::t_635308dc6e7ad7 62-103
+.ijfw/metrics/.transcript-cursor.json
+  s_a3505f9072d5c6::t_689cc25b0331f9 1
+.ijfw/metrics/sessions.jsonl
+  s_0b72b0b6a27e79::t_5ccb6c7f984c9a 60-134
+.ijfw/sessions/session_2026-07-30_23-19-26.md
+  s_2286c94786820d::t_e456e3c1d6a81a 2-4
+.ijfw/sessions/session_2026-07-30_23-34-38.md
+  s_00d135f05ed507::t_4a455f08cee0f9 2-4
+.ijfw/sessions/session_2026-07-31_11-40-30.md
+  s_2286c94786820d::t_f3c03612e572a0 1-5
+.ijfw/sessions/session_2026-07-31_16-54-49.md
+  s_00d135f05ed507::t_52bf4536a95304 2-4
+.ijfw/sessions/session_2026-07-31_22-58-53.md
+  s_f8b29e4d1fa846::t_c6bf8aeb3ff239 1-5
+.ijfw/sessions/session_2026-07-31_23-18-17.md
+  s_58ecee46464e33::t_2e2ed101e9a562 1-5
+.ijfw/sessions/session_2026-08-01_11-37-47.md
+  s_58ecee46464e33::t_27245604ebc548 1-5
+.ijfw/sessions/session_2026-08-01_11-39-44.md
+  s_0747b231dbf553::t_3dc7021390649e 1-5
+.ijfw/sessions/session_2026-08-01_18-18-00.md
+  s_0747b231dbf553::t_bd613ea278f318 1-5
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_c4e2e0ad144627::t_dbeffa454fa9ab 3,68-154
+morning-ingestion-20260801.html
+  s_66da035b11c6c8::t_ccd13dc53634c8 1-437
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_8b728eb8a9da4f::t_0eb32b24f6431d 3
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_c4e2e0ad144627::t_2dcbd31ca1bd21 3
+skills/toolforge-submission-validator/.ijfw/.dream-state-v2.json
+  s_0a7f79c06386c0::t_ef1f7f82050627 1-54
+skills/toolforge-submission-validator/.ijfw/.dream-state.json
+  s_0a7f79c06386c0::t_5b4640e1d0849e 1
+skills/toolforge-submission-validator/.ijfw/.profile-derive-cursor.json
+  s_0a7f79c06386c0::t_a23b27492fa229 1
+skills/toolforge-submission-validator/.ijfw/.session-edits.jsonl
+  s_0a7f79c06386c0::t_c77fcb667acce7 1-4
+skills/toolforge-submission-validator/.ijfw/memory/project-journal.md
+  s_66da035b11c6c8::t_fce99d29366654 1-5
+skills/toolforge-submission-validator/.ijfw/metrics/.transcript-cursor.json
+  s_66da035b11c6c8::t_13324c719d4952 1
+skills/toolforge-submission-validator/.ijfw/metrics/sessions.jsonl
+  s_66da035b11c6c8::t_342ed5092f542f 1-3
+skills/toolforge-submission-validator/.ijfw/sessions/session_2026-08-01_08-57-05.md
+  s_66da035b11c6c8::t_4ca1d3f679d9d3 1-5
+skills/toolforge-submission-validator/.ijfw/sessions/session_2026-08-01_09-40-29.md
+  s_0a7f79c06386c0::t_7d3219b1f7d3fb 1-5
+skills/toolforge-submission-validator/.ijfw/sessions/session_2026-08-01_11-24-27.md
+  s_0747b231dbf553::t_40b247bd794288 1-5
+.github/copilot-instructions.md
+  s_8b728eb8a9da4f::t_58a3b91bbda116 22-25,35,196-197,252-253
+.github/copilot-toolbox-mcp-skills-awareness.md
+  s_8b728eb8a9da4f::t_79936d0cd08b76 3,240-242,324-326
+.ijfw/index/.build.lock/pid
+  s_8b728eb8a9da4f::t_338aba7fc5c416 1
+.ijfw/index/files.md
+  s_8b728eb8a9da4f::t_7bad1b6c8a0aff 4-5,26,63,80,110,133,136,139,142,154,198,215,224,228,230,235,277,283,389-390,401,405,413,415,417-419,422,515,627,629,649,694,789,1208-1209,1214,1284,1286,1289,1291,1307,1314,1316,1330,1337-1338,1388-1389,1407,1413,1417,1458-1459,1475,1482,1486,1492,1497,1509,1512-1513,1518-1519,1529,1532,1539,1557,1559,1565,1571-1572,1580-1581,1593-1596,1626,1628,1630,1633,1638-1639,1655,1657,1687,1690,1706,1722,1911,2239,2364,2394,2405,2408,2410,2423,2425,2441,2454,2522,2640,2699-2700,2723,2749,2778,2782,2798,2820,2858,2891,2908,2957,2967,3019-3020,3026,3038,3064,3117,3149,3187,3197,3238,3252,3308,3330-3331,3334-3335,3361,3365,3375,3379,3395,3410,3434,3447,3449,3471,3495,3499,3508,3511,3515-3516,3526,3531-3532,3545,3548,3556,3571,3603-3604,3619,3622,3624,3648,3719,3739,3754,3760-3761,3776,3780,3806-3807,3826,3838,3853,3864,3866,3868,3870,3893,3895,3902,3905,3921,3928,3939,3943,3957,4053,4144,4179,4214,4232,4260,4285,4298,4302,4314,4321,4391,4406,4439,4490,4492,4546-4547,4611,4619-4620,4623-4624,4637,4666,4671,4679-4680,4702,4711,4720,4729,4733,4742,4751,4764,4817,4821,4825,4841,4860,4877,4937,4978,5001-5002,5013-5015,5021
+.ijfw/sessions/session_2026-08-01_14-52-09.md
+  s_8b728eb8a9da4f::t_d3a08ab9a6e7fb 1-5
+.ijfw/sessions/session_2026-08-01_14-52-39.md
+  s_8b728eb8a9da4f::t_899f9c0994c820 1-5
+.ijfw/sessions/session_2026-08-01_15-12-59.md
+  s_8b728eb8a9da4f::t_4b7e7295f50764 1-5
+.ijfw/sessions/session_2026-08-01_16-47-26.md
+  s_8b728eb8a9da4f::t_b89fed18ede336 1-5
+.ijfw/state/intent-journal.jsonl
+  s_8b728eb8a9da4f::t_120c45a06cd5e1 1-2
+.ijfw/wave-hooks/.events-compute-nudge.jsonl.seq
+  s_8b728eb8a9da4f::t_d84ba6105f98db 1
+.ijfw/wave-hooks/.events-parent.jsonl.seq
+  s_8b728eb8a9da4f::t_858925373d0a7f 1
+.ijfw/wave-hooks/events-compute-nudge.jsonl
+  s_8b728eb8a9da4f::t_d3453b191b11a0 1
+.ijfw/wave-hooks/events-parent.jsonl
+  s_8b728eb8a9da4f::t_0cd984428aab1f 1
+CLAUDE.md
+  s_8b728eb8a9da4f::t_237428f728ccb2 243
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "4a4c4e89e8c95e23303640e7f7e08682c8add6a7",
+  "prompts": {},
+  "sessions": {
+    "s_00d135f05ed507": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f4bb51ba-5872-43ae-8c28-6c4818b108b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0747b231dbf553": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66c1e7fb-5222-4928-9ad7-dd38950f1a29",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0a7f79c06386c0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "514da530-3475-4dc9-862a-59feaf0d3250",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0b72b0b6a27e79": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbdda-e73f-79e3-9b63-cfb7e0acc48c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2286c94786820d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7879568e-3545-4fec-8f62-bff4d5dbcfe4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_3cb77ca2d954a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bfa349d7-255c-4670-b61b-8d21f54dac3b",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_58ecee46464e33": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1038b9b8-c589-496d-91af-e058d3be5ca7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_66da035b11c6c8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbd64-7bf5-77c3-9018-1966c80aac21",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_8b728eb8a9da4f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ef6ff86-8e91-4817-b8af-bfc018de4377",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a3505f9072d5c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fca6dcee-f6dd-473d-b31e-9b5879c5d874",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_acf5565216b7ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbd65-5bea-7251-aa24-a6657c6539df",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f8b29e4d1fa846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ab0700f-bbc0-4f30-b3dc-d5fb94de1cea",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
