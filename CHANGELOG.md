@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.29.1
+Date: 2026-08-02
+
+### Changes
+- b8b8eff - chore(sync): add kb:status npm scripts + session-state churn (Chris Sorensen)
+
 ## Version 2.29.0
 Date: 2026-08-02
 
