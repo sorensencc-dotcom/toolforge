@@ -1,0 +1,19 @@
+research-data/raw/helene/helene.txt
+  s_f8b29e4d1fa846::t_676b838bbfc7e5 1-181
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "d9aedeb0fe4d69d8d6423e221503819e60aa0811",
+  "prompts": {},
+  "sessions": {
+    "s_f8b29e4d1fa846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ab0700f-bbc0-4f30-b3dc-d5fb94de1cea",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
