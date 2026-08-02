@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.29.0
+Date: 2026-08-02
+
+### Changes
+- 28483de - feat(governance): add TorqueQuery routing policy runtime (Chris Sorensen)
+
 ## Version 2.28.0
 Date: 2026-08-02
 
