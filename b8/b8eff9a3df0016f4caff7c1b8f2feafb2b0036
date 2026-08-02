@@ -1,0 +1,23 @@
+.ijfw/sessions/session_2026-08-01_23-34-43.md
+  s_f8b29e4d1fa846::t_debe98717aca1f 1-5
+.ijfw/sessions/session_2026-08-01_23-11-37.md
+  s_f8b29e4d1fa846::t_6375662b46b263 1-5
+package.json
+  s_f8b29e4d1fa846::t_4a1cf2ba530bdb 8-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "b8b8eff9a3df0016f4caff7c1b8f2feafb2b0036",
+  "prompts": {},
+  "sessions": {
+    "s_f8b29e4d1fa846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ab0700f-bbc0-4f30-b3dc-d5fb94de1cea",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
