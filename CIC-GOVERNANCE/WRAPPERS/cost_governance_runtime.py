@@ -1,10 +1,15 @@
 """Agent Cost Governance Runtime implementation for CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1."""
 
 from __future__ import annotations
+import json
+import os
 import re
 import threading
+import uuid
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Dict, List, Optional
+
 
 PINNED_SPEC_VERSION = "CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1"
 
@@ -333,4 +338,81 @@ class CircuitBreakerEngine:
             return "no_progress"
 
         return None
+
+
+class EvidenceLogger:
+    SCHEMA_VERSION = "1.0.0"
+
+    def __init__(self, path: str | Path):
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+
+    def emit(self, **kwargs: Any) -> Dict[str, Any]:
+        required = [
+            "task_id",
+            "scope_declared",
+            "scope_used",
+            "baseline_id",
+            "model",
+            "model_snapshot",
+            "input_tokens",
+            "cached_input_tokens",
+            "output_tokens",
+            "reasoning_tokens",
+            "tool_calls",
+            "retry_count",
+            "actual_cost_usd",
+            "baseline_cost_usd",
+            "net_savings_usd",
+            "success",
+            "quality_score",
+            "failure_class",
+            "escalated",
+            "escalation_count",
+            "termination_reason",
+            "elapsed_ms",
+            "provider",
+            "rate_card_version",
+            "currency",
+        ]
+        missing = [f for f in required if f not in kwargs]
+        if missing:
+            raise GovernanceViolation(
+                400, "EVIDENCE_INVALID", f"Missing required fields: {', '.join(missing)}"
+            )
+
+        event_id = kwargs.get("event_id") or f"EVT-{uuid.uuid4()}"
+
+        record = {
+            "event_id": str(event_id),
+            "schema_version": self.SCHEMA_VERSION,
+            **kwargs,
+        }
+        encoded = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
+        with self.path.open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write(encoded)
+            handle.flush()
+            os.fsync(handle.fileno())
+        return record
+
+
+class ScalingGateEvaluator:
+    def evaluate(self, tasks: List[Dict[str, Any]]) -> Dict[str, Any]:
+        if len(tasks) < 50:
+            return {
+                "status": "REPORT_ONLY",
+                "recommendation": "INSUFFICIENT_DATA",
+                "sample_size": len(tasks),
+                "required_sample_size": 50,
+            }
+        successful = [t for t in tasks if t.get("success")]
+        success_rate = len(successful) / len(tasks)
+        recommendation = "PASS" if success_rate >= 0.90 else "HOLD"
+        return {
+            "status": "REPORT_ONLY",
+            "recommendation": recommendation,
+            "sample_size": len(tasks),
+            "success_rate": success_rate,
+        }
+
 

@@ -10,15 +10,20 @@ WRAPPERS_DIR = ROOT / "WRAPPERS"
 if str(WRAPPERS_DIR) not in sys.path:
     sys.path.insert(0, str(WRAPPERS_DIR))
 
+import json
+import tempfile
 from cost_governance_runtime import (
     AtomicBudgetGate,
     CircuitBreakerEngine,
+    EvidenceLogger,
     GovernanceViolation,
     RateCard,
     RateCardManager,
+    ScalingGateEvaluator,
     ScopeLimitsRegistry,
     TaskContract,
 )
+
 
 
 class TestScopeLimitsAndTaskContract(unittest.TestCase):
@@ -383,7 +388,96 @@ class TestCircuitBreakerEngine(unittest.TestCase):
         self.assertIsNone(engine.evaluate())
 
 
+class TestEvidenceLogger(unittest.TestCase):
+    def test_evidence_logger_emits_schema_1_0_0_and_25_fields(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log_path = os.path.join(tmpdir, "evidence.jsonl")
+            logger = EvidenceLogger(log_path)
+            record = logger.emit(
+                task_id="TSK-001",
+                scope_declared="S1",
+                scope_used="S1",
+                baseline_id="BASE-01",
+                model="gemini-3.6-flash",
+                model_snapshot="gemini-3.6-flash-2026-06-01",
+                input_tokens=1000,
+                cached_input_tokens=200,
+                output_tokens=300,
+                reasoning_tokens=0,
+                tool_calls=1,
+                retry_count=0,
+                actual_cost_usd=0.005,
+                baseline_cost_usd=0.010,
+                net_savings_usd=0.005,
+                success=True,
+                quality_score=0.95,
+                failure_class=None,
+                escalated=False,
+                escalation_count=0,
+                termination_reason="completed",
+                elapsed_ms=1200,
+                provider="google",
+                rate_card_version="v1.0.0",
+                currency="USD",
+            )
+            self.assertEqual(record["schema_version"], "1.0.0")
+            self.assertTrue(record["event_id"].startswith("EVT-"))
+            self.assertEqual(record["model"], "gemini-3.6-flash")
+            self.assertEqual(record["model_snapshot"], "gemini-3.6-flash-2026-06-01")
+            self.assertEqual(record["currency"], "USD")
+            self.assertTrue(os.path.exists(log_path))
+
+            # Verify file content is valid JSONL with 1 line
+            with open(log_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            self.assertEqual(len(lines), 1)
+            parsed = json.loads(lines[0])
+            self.assertEqual(parsed["task_id"], "TSK-001")
+            self.assertEqual(parsed["schema_version"], "1.0.0")
+
+    def test_evidence_logger_missing_required_fields_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log_path = os.path.join(tmpdir, "evidence.jsonl")
+            logger = EvidenceLogger(log_path)
+            with self.assertRaises(GovernanceViolation) as ctx:
+                logger.emit(
+                    task_id="TSK-001",
+                    # missing all other required fields
+                )
+            self.assertEqual(ctx.exception.code, "EVIDENCE_INVALID")
+
+
+class TestScalingGateEvaluator(unittest.TestCase):
+    def test_scaling_gate_under_50_tasks_returns_insufficient_data(self):
+        gate = ScalingGateEvaluator()
+        tasks = [{"success": True, "cost": 0.01}] * 49
+        result = gate.evaluate(tasks)
+        self.assertEqual(result["status"], "REPORT_ONLY")
+        self.assertEqual(result["recommendation"], "INSUFFICIENT_DATA")
+        self.assertEqual(result["sample_size"], 49)
+        self.assertEqual(result["required_sample_size"], 50)
+
+    def test_scaling_gate_50_tasks_pass_and_hold_recommendations(self):
+        gate = ScalingGateEvaluator()
+        # 46 success / 50 total = 92% >= 90% -> PASS
+        pass_tasks = [{"success": True}] * 46 + [{"success": False}] * 4
+        result_pass = gate.evaluate(pass_tasks)
+        self.assertEqual(result_pass["status"], "REPORT_ONLY")
+        self.assertEqual(result_pass["recommendation"], "PASS")
+        self.assertEqual(result_pass["sample_size"], 50)
+        self.assertEqual(result_pass["success_rate"], 0.92)
+
+        # 40 success / 50 total = 80% < 90% -> HOLD
+        hold_tasks = [{"success": True}] * 40 + [{"success": False}] * 10
+        result_hold = gate.evaluate(hold_tasks)
+        self.assertEqual(result_hold["status"], "REPORT_ONLY")
+        self.assertEqual(result_hold["recommendation"], "HOLD")
+        self.assertEqual(result_hold["sample_size"], 50)
+        self.assertEqual(result_hold["success_rate"], 0.80)
+
+
 if __name__ == "__main__":
     unittest.main()
+
 
 
