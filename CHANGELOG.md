@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.30.2
+Date: 2026-08-02
+
+### Changes
+- 426afc5 - fix(scripts): parse structured report file for sync-treatment agent detection (Chris Sorensen)
+
 ## Version 2.30.1
 Date: 2026-08-02
 
