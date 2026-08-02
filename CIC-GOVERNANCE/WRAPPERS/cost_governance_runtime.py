@@ -259,3 +259,78 @@ class AtomicBudgetGate:
         with self._lock:
             self._reservations.pop(res_id, None)
             self._actual_spend = round(self._actual_spend + actual_cost, 6)
+
+
+class CircuitBreakerEngine:
+    """
+    Evaluates 7 circuit breaker precedence levels in strict spec order:
+    1. Hard limits (cost, calls, tokens, tools, deadline) -> "budget_exhausted" / "limit_exceeded"
+    2. Safety or authorization failure -> "safety_violation"
+    3. Missing required approval -> "needs_approval"
+    4. Duplicate or unauthorized side effect -> "unauthorized_side_effect"
+    5. Two identical failures -> "repeated_failure"
+    6. Three subtask failures -> "subtask_failure"
+    7. Shared no_progress_count reaches 2 -> "no_progress"
+    """
+
+    def __init__(self, initial_no_progress_count: int = 0):
+        self._no_progress_count = initial_no_progress_count
+
+    @property
+    def no_progress_count(self) -> int:
+        return self._no_progress_count
+
+    def increment_no_progress(self) -> int:
+        self._no_progress_count += 1
+        return self._no_progress_count
+
+    def reset_no_progress(self) -> None:
+        self._no_progress_count = 0
+
+    def evaluate(
+        self,
+        budget_exhausted: bool = False,
+        limit_exceeded: bool = False,
+        safety_violation: bool = False,
+        needs_approval: bool = False,
+        unauthorized_side_effect: bool = False,
+        repeated_failure: bool = False,
+        subtask_failure: bool = False,
+        no_progress_count: Optional[int] = None,
+    ) -> Optional[str]:
+        np_count = (
+            self._no_progress_count if no_progress_count is None else no_progress_count
+        )
+
+        # Rank 1: Hard limits (cost, calls, tokens, tools, deadline)
+        if budget_exhausted:
+            return "budget_exhausted"
+        if limit_exceeded:
+            return "limit_exceeded"
+
+        # Rank 2: Safety or authorization failure
+        if safety_violation:
+            return "safety_violation"
+
+        # Rank 3: Missing required approval
+        if needs_approval:
+            return "needs_approval"
+
+        # Rank 4: Duplicate or unauthorized side effect
+        if unauthorized_side_effect:
+            return "unauthorized_side_effect"
+
+        # Rank 5: Two identical failures
+        if repeated_failure:
+            return "repeated_failure"
+
+        # Rank 6: Three subtask failures
+        if subtask_failure:
+            return "subtask_failure"
+
+        # Rank 7: Shared no_progress_count reaches 2
+        if np_count >= 2:
+            return "no_progress"
+
+        return None
+

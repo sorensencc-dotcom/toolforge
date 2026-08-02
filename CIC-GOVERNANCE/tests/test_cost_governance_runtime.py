@@ -12,6 +12,7 @@ if str(WRAPPERS_DIR) not in sys.path:
 
 from cost_governance_runtime import (
     AtomicBudgetGate,
+    CircuitBreakerEngine,
     GovernanceViolation,
     RateCard,
     RateCardManager,
@@ -259,6 +260,130 @@ class TestRateCardAndAtomicBudgetGate(unittest.TestCase):
         self.assertAlmostEqual(gate.remaining_budget("TSK-001"), 95.00, places=4)
 
 
+class TestCircuitBreakerEngine(unittest.TestCase):
+    def test_7_tier_precedence_order_and_tie_resolution(self):
+        engine = CircuitBreakerEngine()
+
+        # Rank 1: budget_exhausted / limit_exceeded beats Rank 2..7
+        self.assertEqual(
+            engine.evaluate(
+                budget_exhausted=True,
+                safety_violation=True,
+                needs_approval=True,
+                unauthorized_side_effect=True,
+                repeated_failure=True,
+                subtask_failure=True,
+                no_progress_count=2,
+            ),
+            "budget_exhausted",
+        )
+        self.assertEqual(
+            engine.evaluate(
+                limit_exceeded=True,
+                safety_violation=True,
+                needs_approval=True,
+                unauthorized_side_effect=True,
+                repeated_failure=True,
+                subtask_failure=True,
+                no_progress_count=2,
+            ),
+            "limit_exceeded",
+        )
+
+        # Rank 2: safety_violation beats Rank 3..7
+        self.assertEqual(
+            engine.evaluate(
+                safety_violation=True,
+                needs_approval=True,
+                unauthorized_side_effect=True,
+                repeated_failure=True,
+                subtask_failure=True,
+                no_progress_count=2,
+            ),
+            "safety_violation",
+        )
+
+        # Rank 3: needs_approval beats Rank 4..7
+        self.assertEqual(
+            engine.evaluate(
+                needs_approval=True,
+                unauthorized_side_effect=True,
+                repeated_failure=True,
+                subtask_failure=True,
+                no_progress_count=2,
+            ),
+            "needs_approval",
+        )
+
+        # Rank 4: unauthorized_side_effect beats Rank 5..7
+        self.assertEqual(
+            engine.evaluate(
+                unauthorized_side_effect=True,
+                repeated_failure=True,
+                subtask_failure=True,
+                no_progress_count=2,
+            ),
+            "unauthorized_side_effect",
+        )
+
+        # Rank 5: repeated_failure beats Rank 6..7
+        self.assertEqual(
+            engine.evaluate(
+                repeated_failure=True,
+                subtask_failure=True,
+                no_progress_count=2,
+            ),
+            "repeated_failure",
+        )
+
+        # Rank 6: subtask_failure beats Rank 7
+        self.assertEqual(
+            engine.evaluate(
+                subtask_failure=True,
+                no_progress_count=2,
+            ),
+            "subtask_failure",
+        )
+
+        # Rank 7: no_progress_count reaches 2
+        self.assertEqual(
+            engine.evaluate(
+                no_progress_count=2,
+            ),
+            "no_progress",
+        )
+
+        # Below threshold for rank 7 returns None
+        self.assertIsNone(
+            engine.evaluate(
+                no_progress_count=1,
+            )
+        )
+
+    def test_no_progress_count_increment_and_reset(self):
+        engine = CircuitBreakerEngine()
+        self.assertEqual(engine.no_progress_count, 0)
+        self.assertIsNone(engine.evaluate())
+
+        # Increment once
+        cnt1 = engine.increment_no_progress()
+        self.assertEqual(cnt1, 1)
+        self.assertEqual(engine.no_progress_count, 1)
+        self.assertIsNone(engine.evaluate())
+
+        # Increment again -> reaches 2 -> triggers no_progress
+        cnt2 = engine.increment_no_progress()
+        self.assertEqual(cnt2, 2)
+        self.assertEqual(engine.no_progress_count, 2)
+        self.assertEqual(engine.evaluate(), "no_progress")
+
+        # Reset -> count becomes 0 -> evaluate returns None again
+        engine.reset_no_progress()
+        self.assertEqual(engine.no_progress_count, 0)
+        self.assertIsNone(engine.evaluate())
+
+
 if __name__ == "__main__":
     unittest.main()
+
 
