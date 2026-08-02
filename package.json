@@ -24,6 +24,7 @@
     "test:vision": "vitest run --config vitest.config.vision.js",
     "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
     "test:watch": "node --test --watch src/**/*.test.js",
+    "preflight": "pwsh -NoProfile -File scripts/preflight.ps1",
     "lint": "eslint src/**/*.js",
     "pre-flight": "npm run lint && npm test && npm run test:vision && npm run test:scheduler && npm run index:validate",
     "index:validate": "pwsh -NoProfile -File scripts/validate-codebase-index.ps1",
@@ -64,6 +65,6 @@
     "vitest": "^2.1.9"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   }
 }
