@@ -1,0 +1,16 @@
+CIC-GOVERNANCE/WRAPPERS/cost_governance_runtime.py
+  h_5c172e9b435f5a 262-336
+CIC-GOVERNANCE/tests/test_cost_governance_runtime.py
+  h_5c172e9b435f5a 15,263-385,389
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "6112c9b403aaa09e7a22c6613d1adb225c01d6ea",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
