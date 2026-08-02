@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.30.0
+Date: 2026-08-02
+
+### Changes
+- a59033e - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- c6dd8ca - feat(scripts): add trm sync-treatment daily automation agent (Chris Sorensen)
+
 ## Version 2.29.1
 Date: 2026-08-02
 
