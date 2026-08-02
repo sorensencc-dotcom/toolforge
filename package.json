@@ -5,6 +5,8 @@
   "description": "Toolforge Marketplace: API + UI for skill discovery and installation",
   "main": "src/api/server.js",
   "scripts": {
+    "kb:status": "node kb-sync/scripts/check-status.mjs",
+    "kb:sync:status": "node kb-sync/scripts/check-status.mjs",
     "migrate": "node src/db/migrate.js",
     "trending:refresh": "node src/services/trending-batch.js",
     "trending:schedule": "pwsh src/services/trending-scheduler.ps1",
