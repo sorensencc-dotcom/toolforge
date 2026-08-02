@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.31.0
+Date: 2026-08-02
+
+### Changes
+- 62b7369 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- 34ab696 - feat(scripts): add trm sync-treatment schedule registration script (not yet run) (Chris Sorensen)
+
 ## Version 2.30.2
 Date: 2026-08-02
 
