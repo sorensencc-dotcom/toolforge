@@ -39,6 +39,7 @@ max_output_tokens: integer
 max_cost_usd: number
 max_wall_clock_seconds: integer
 max_retries: integer
+max_escalations: integer
 escalation_policy: none | stronger_model | human
 baseline_id: string
 provider: string
@@ -52,13 +53,13 @@ authoritative; runtime MAY narrow scope but MUST NOT broaden it.
 
 ## 3. Scope defaults
 
-| Scope | Work | Calls | Token budget | Side effects |
-| --- | --- | ---: | ---: | --- |
-| S0 | Classification, extraction, formatting | 1 | 2k | None |
-| S1 | Summary, transformation, simple lookup | 3 | 20k | None |
-| S2 | Research, coding, document analysis | 8 | 100k | Reversible only |
-| S3 | Production, legal, financial, external writes | 12 | 250k | Approval required |
-| S4 | Long-running autonomy | Explicit | Explicit | Checkpointed |
+| Scope | Work | Model calls | Tool calls | Token budget | Side effects |
+| --- | --- | ---: | ---: | ---: | --- |
+| S0 | Classification, extraction, formatting | 1 | 0 | 2k | None |
+| S1 | Summary, transformation, simple lookup | 3 | Explicit | 20k | None |
+| S2 | Research, coding, document analysis | 8 | Explicit | 100k | Reversible only |
+| S3 | Production, legal, financial, external writes | 12 | Explicit | 250k | Approval required |
+| S4 | Long-running autonomy | Explicit | Explicit | Explicit | Checkpointed |
 
 Defaults are calibration starting points. Runtime MAY use stricter limits. A
 looser limit requires an approved amendment and evidence from representative
@@ -95,12 +96,23 @@ permitted cost:
 estimated_next_cost = reserved_input_cost + reserved_output_cost + expected_tool_cost
 ```
 
+If `estimated_next_cost > remaining_budget`, the call MUST NOT proceed and the
+task MUST terminate with `budget_exhausted`.
+
 Unused reservation MUST be released after actual provider usage is recorded.
+
+Rate-card identity MUST be captured at task start. Every attempt in a
+long-running task MUST use the rate card version active when that attempt was
+admitted; the attempt record MUST retain that version when rates change during
+the task.
 
 ## 5. Routing and escalation
 
 The default route is cheapest capable model, followed by explicit validation.
-Retry is permitted only for a recoverable failure. Escalation requires:
+Retry is permitted only for a recoverable failure. Escalation uses a separate
+`escalation_count` and `max_escalations`; it does not consume `max_retries`.
+The escalated attempt still consumes `max_model_calls` and the shared cost,
+token, tool, and deadline budgets. Escalation requires:
 
 1. substantive failure;
 2. plausible remedy from the stronger model;
@@ -119,16 +131,19 @@ authorization, and permission failures MUST stop immediately.
 | Deterministic tool error | One corrected retry |
 | Wrong substantive result | One critique/revise attempt |
 | Same failure twice | Stop or escalate |
-| External side effect | Retry only with idempotency protection |
+| External side effect | Retry only with idempotency protection; without an idempotency mechanism, MUST NOT retry |
 | Safety/auth failure | Immediate stop |
 
 Execution MUST stop on any hard limit: cost, calls, tokens, tools, deadline,
 duplicate side effect, or unauthorized action.
 
-Execution MUST also stop after two identical failures, three failed attempts
-on one subtask, or two retries without new information. Escalation is permitted
-only before the repeated-failure circuit breaker and only when all escalation
-conditions are satisfied.
+Circuit-breaker precedence is deterministic: hard limits and safety or
+authorization failures first; then duplicate or unauthorized side effects;
+then two identical failures; then three failed attempts on one subtask; then
+two retries without new information. The first triggered terminal condition
+controls the termination reason. Escalation is permitted only before the
+repeated-failure circuit breaker and only when all escalation conditions are
+satisfied.
 
 Progress means a validated fact, passed acceptance test, completed subtask,
 reduced uncertainty, or artifact change toward success criteria. Additional
@@ -150,9 +165,11 @@ quality_score >= baseline_quality
 
 Recommended ramp: `1–5% -> 10% -> 25% -> 50% -> 100%`.
 
-Automatic rollback MUST occur for a 25% increase in cost per successful task,
-doubled failure rate, material quality regression, or any critical safety
-violation.
+Automatic rollback MUST occur when a rolling window of at least 50 completed
+tasks shows a 25% increase in cost per successful task, doubled failure rate,
+material quality regression, or any critical safety violation. A single task
+MUST NOT trigger cost-based rollback; critical safety violations remain
+immediate rollback triggers.
 
 ## 8. Savings and baselines
 
@@ -163,6 +180,10 @@ gross_savings = baseline_cost - actual_cost
 net_savings = gross_savings - added_infrastructure_cost - human_review_cost - rework_cost
 ```
 
+`actual_cost` MUST include every model attempt, including stronger-model
+escalations, retries, tools, and infrastructure. Escalation MUST NOT be
+subtracted separately from `actual_cost` or any savings value.
+
 Savings MUST be labeled `estimated`, `validated`, or `realized`. Cost reduction
 does not qualify as savings if quality, safety, or SLA falls outside tolerance.
 
@@ -171,11 +192,11 @@ does not qualify as savings if quality, safety, or SLA falls outside tolerance.
 Each task MUST emit:
 
 ```text
-task_id, scope, baseline_id, model, input_tokens, cached_input_tokens,
+task_id, scope_declared, scope_used, baseline_id, model, input_tokens, cached_input_tokens,
 output_tokens, reasoning_tokens, tool_calls, retry_count, actual_cost_usd,
 baseline_cost_usd, net_savings_usd, success, quality_score, failure_class,
-escalated, termination_reason, elapsed_ms, provider, model_snapshot,
-rate_card_version, currency
+escalated, escalation_count, termination_reason, elapsed_ms, provider,
+model_snapshot, rate_card_version, currency
 ```
 
 TorqueQuery adapters MUST also emit `request_hash`, `retrieval_ids`,
