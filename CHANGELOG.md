@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.32.0
+Date: 2026-08-02
+
+### Changes
+- 100ec82 - feat(preflight): add read-only preflight script and proof layer reporting (Chris Sorensen)
+
 ## Version 2.31.3
 Date: 2026-08-02
 
