@@ -1,8 +1,8 @@
 # Cowork Registered Skills
 
-**Last Sync:** 2026-08-02T04:05:51.2954356Z
+**Last Sync:** 2026-08-02T04:40:06.6125560Z
 
-**Registered:** 38
+**Registered:** 2
 **Updated:** 0
 **Total:** 38
 
@@ -52,87 +52,87 @@
 
 ## Sync History
 
-- **2026-08-02T04:05:51.3745025Z** [INFO] Scanned: _cic-shared (v1.0.0)
-- **2026-08-02T04:05:51.3842193Z** [INFO] Scanned: agent-drift-detector (v1.0.0)
-- **2026-08-02T04:05:51.3888222Z** [INFO] Scanned: analyze-token-burn (v1.0.0)
-- **2026-08-02T04:05:51.4045057Z** [INFO] Scanned: ashfall (v1.0.0)
-- **2026-08-02T04:05:51.4099615Z** [INFO] Scanned: automation-audit (v1.0.0)
-- **2026-08-02T04:05:51.4140095Z** [INFO] Scanned: cic-consolidate-artifacts (v1.0.0)
-- **2026-08-02T04:05:51.4213040Z** [INFO] Scanned: cic-ingest-world (v1.0.0)
-- **2026-08-02T04:05:51.4248268Z** [INFO] Scanned: cic-orchestrate-flow (v1.0.0)
-- **2026-08-02T04:05:51.4288876Z** [INFO] Scanned: cic-repair-pipeline (v1.0.0)
-- **2026-08-02T04:05:51.4324852Z** [INFO] Scanned: cic-roadmap-updater (v1.0.0)
-- **2026-08-02T04:05:51.4359082Z** [INFO] Scanned: cic-run-gate (v1.0.0)
-- **2026-08-02T04:05:51.4391615Z** [INFO] Scanned: cic-section-summarizer (v1.0.0)
-- **2026-08-02T04:05:51.4421460Z** [INFO] Scanned: context-manager (v1.0.0)
-- **2026-08-02T04:05:51.4455784Z** [INFO] Scanned: html-visual-verify (v1.0.0)
-- **2026-08-02T04:05:51.4599405Z** [INFO] Scanned: kb-sync-artifact-generator (v1.0.0)
-- **2026-08-02T04:05:51.4853585Z** [INFO] Scanned: kb-sync-nightly (v1.0.2)
-- **2026-08-02T04:05:51.5344143Z** [INFO] Scanned: obsidian-ingest-wiki (v1.0.0)
-- **2026-08-02T04:05:51.5413277Z** [INFO] Scanned: operator-image-build (v1.0.0)
-- **2026-08-02T04:05:51.5778444Z** [INFO] Scanned: permission-governor (v1.0.0)
-- **2026-08-02T04:05:51.5935340Z** [INFO] Scanned: plan-extractor-integration (v1.0.0)
-- **2026-08-02T04:05:51.6017075Z** [INFO] Scanned: pre-wrap-audit (v1.0.0)
-- **2026-08-02T04:05:51.6053044Z** [INFO] Scanned: reconcile-vector-store (v1.0.0)
-- **2026-08-02T04:05:51.6078455Z** [WARN] Skipping research-questions (no SKILL.json)
-- **2026-08-02T04:05:51.6118994Z** [WARN] Skipping retro-export (no SKILL.json)
-- **2026-08-02T04:05:51.6176734Z** [INFO] Scanned: rewrite-labs-orchestrator (v1.0.0)
-- **2026-08-02T04:05:51.6214872Z** [INFO] Scanned: roadmap-validator (v1.0.0)
-- **2026-08-02T04:05:51.6255879Z** [INFO] Scanned: rollback-phase (v1.0.0)
-- **2026-08-02T04:05:51.6347430Z** [INFO] Scanned: run-adapter-diagnostic (v1.0.0)
-- **2026-08-02T04:05:51.6383499Z** [INFO] Scanned: scale-ingestion-service (v1.0.0)
-- **2026-08-02T04:05:51.6433903Z** [INFO] Scanned: session-wrap (v1.1.0)
-- **2026-08-02T04:05:51.6476151Z** [INFO] Scanned: skill-health-monitor (v1.0.0)
-- **2026-08-02T04:05:51.6519406Z** [INFO] Scanned: skill-security-auditor (v1.0.0)
-- **2026-08-02T04:05:51.6566468Z** [INFO] Scanned: tool-lifecycle-manager (v0.1.0)
-- **2026-08-02T04:05:51.6682908Z** [INFO] Scanned: toolforge-cli (v0.1.0)
-- **2026-08-02T04:05:51.6730094Z** [INFO] Scanned: toolforge-drift-monitor (v0.1.0)
-- **2026-08-02T04:05:51.6799330Z** [INFO] Scanned: toolforge-registry-manager (v0.1.0)
-- **2026-08-02T04:05:51.6834240Z** [INFO] Scanned: toolforge-submission-validator (v0.1.0)
-- **2026-08-02T04:05:51.6870529Z** [INFO] Scanned: trm-feedback-report (v0.1.0)
-- **2026-08-02T04:05:51.6928529Z** [INFO] Scanned: trm-status (v0.1.0)
-- **2026-08-02T04:05:51.7007184Z** [INFO] Scanned: work-summarizer (v4.0.0)
-- **2026-08-02T04:05:51.7062421Z** [INFO] Phase 1 complete: 38 skills scanned
-- **2026-08-02T04:05:51.7197763Z** [INFO] Loaded Cowork registry: 0 entries
-- **2026-08-02T04:05:51.7246642Z** [INFO] Registering new skill: skill-health-monitor (v1.0.0)
-- **2026-08-02T04:05:51.7516660Z** [INFO] Registering new skill: trm-status (v0.1.0)
-- **2026-08-02T04:05:51.7525364Z** [INFO] Registering new skill: automation-audit (v1.0.0)
-- **2026-08-02T04:05:51.7552628Z** [INFO] Registering new skill: ashfall (v1.0.0)
-- **2026-08-02T04:05:51.7563324Z** [INFO] Registering new skill: work-summarizer (v4.0.0)
-- **2026-08-02T04:05:51.7570523Z** [INFO] Registering new skill: analyze-token-burn (v1.0.0)
-- **2026-08-02T04:05:51.7576383Z** [INFO] Registering new skill: _cic-shared (v1.0.0)
-- **2026-08-02T04:05:51.7581335Z** [INFO] Registering new skill: kb-sync-nightly (v1.0.2)
-- **2026-08-02T04:05:51.7585715Z** [INFO] Registering new skill: operator-image-build (v1.0.0)
-- **2026-08-02T04:05:51.7593575Z** [INFO] Registering new skill: cic-repair-pipeline (v1.0.0)
-- **2026-08-02T04:05:51.7614863Z** [INFO] Registering new skill: session-wrap (v1.1.0)
-- **2026-08-02T04:05:51.7669215Z** [INFO] Registering new skill: tool-lifecycle-manager (v0.1.0)
-- **2026-08-02T04:05:51.7675059Z** [INFO] Registering new skill: context-manager (v1.0.0)
-- **2026-08-02T04:05:51.7686831Z** [INFO] Registering new skill: reconcile-vector-store (v1.0.0)
-- **2026-08-02T04:05:51.7697638Z** [INFO] Registering new skill: cic-orchestrate-flow (v1.0.0)
-- **2026-08-02T04:05:51.7704189Z** [INFO] Registering new skill: pre-wrap-audit (v1.0.0)
-- **2026-08-02T04:05:51.7712452Z** [INFO] Registering new skill: obsidian-ingest-wiki (v1.0.0)
-- **2026-08-02T04:05:51.7731818Z** [INFO] Registering new skill: rollback-phase (v1.0.0)
-- **2026-08-02T04:05:51.7739483Z** [INFO] Registering new skill: toolforge-submission-validator (v0.1.0)
-- **2026-08-02T04:05:51.7746462Z** [INFO] Registering new skill: cic-roadmap-updater (v1.0.0)
-- **2026-08-02T04:05:51.7757315Z** [INFO] Registering new skill: roadmap-validator (v1.0.0)
-- **2026-08-02T04:05:51.7765397Z** [INFO] Registering new skill: toolforge-registry-manager (v0.1.0)
-- **2026-08-02T04:05:51.7770665Z** [INFO] Registering new skill: toolforge-drift-monitor (v0.1.0)
-- **2026-08-02T04:05:51.7786054Z** [INFO] Registering new skill: scale-ingestion-service (v1.0.0)
-- **2026-08-02T04:05:51.7806107Z** [INFO] Registering new skill: plan-extractor-integration (v1.0.0)
-- **2026-08-02T04:05:51.7823979Z** [INFO] Registering new skill: cic-run-gate (v1.0.0)
-- **2026-08-02T04:05:51.7836181Z** [INFO] Registering new skill: cic-consolidate-artifacts (v1.0.0)
-- **2026-08-02T04:05:51.7854081Z** [INFO] Registering new skill: skill-security-auditor (v1.0.0)
-- **2026-08-02T04:05:51.7861957Z** [INFO] Registering new skill: permission-governor (v1.0.0)
-- **2026-08-02T04:05:51.7867403Z** [INFO] Registering new skill: trm-feedback-report (v0.1.0)
-- **2026-08-02T04:05:51.7873907Z** [INFO] Registering new skill: toolforge-cli (v0.1.0)
-- **2026-08-02T04:05:51.7881721Z** [INFO] Registering new skill: agent-drift-detector (v1.0.0)
-- **2026-08-02T04:05:51.7888461Z** [INFO] Registering new skill: rewrite-labs-orchestrator (v1.0.0)
-- **2026-08-02T04:05:51.7894882Z** [INFO] Registering new skill: run-adapter-diagnostic (v1.0.0)
-- **2026-08-02T04:05:51.7902058Z** [INFO] Registering new skill: kb-sync-artifact-generator (v1.0.0)
-- **2026-08-02T04:05:51.7909980Z** [INFO] Registering new skill: cic-section-summarizer (v1.0.0)
-- **2026-08-02T04:05:51.7918441Z** [INFO] Registering new skill: html-visual-verify (v1.0.0)
-- **2026-08-02T04:05:51.7924228Z** [INFO] Registering new skill: cic-ingest-world (v1.0.0)
-- **2026-08-02T04:05:51.8013049Z** [INFO] Phase 3 complete: 38 registered, 0 updated
+- **2026-08-02T04:40:06.6597683Z** [INFO] Scanned: _cic-shared (v1.0.0)
+- **2026-08-02T04:40:06.6635145Z** [INFO] Scanned: agent-drift-detector (v1.0.0)
+- **2026-08-02T04:40:06.6663414Z** [INFO] Scanned: analyze-token-burn (v1.0.0)
+- **2026-08-02T04:40:06.6698284Z** [INFO] Scanned: ashfall (v1.0.0)
+- **2026-08-02T04:40:06.6808455Z** [INFO] Scanned: automation-audit (v1.0.0)
+- **2026-08-02T04:40:06.6832762Z** [INFO] Scanned: cic-consolidate-artifacts (v1.0.0)
+- **2026-08-02T04:40:06.6856869Z** [INFO] Scanned: cic-ingest-world (v1.0.0)
+- **2026-08-02T04:40:06.6898587Z** [INFO] Scanned: cic-orchestrate-flow (v1.0.0)
+- **2026-08-02T04:40:06.6931269Z** [INFO] Scanned: cic-repair-pipeline (v1.0.0)
+- **2026-08-02T04:40:06.6962922Z** [INFO] Scanned: cic-roadmap-updater (v1.0.0)
+- **2026-08-02T04:40:06.6993184Z** [INFO] Scanned: cic-run-gate (v1.0.0)
+- **2026-08-02T04:40:06.7027865Z** [INFO] Scanned: cic-section-summarizer (v1.0.0)
+- **2026-08-02T04:40:06.7094627Z** [INFO] Scanned: context-manager (v1.0.0)
+- **2026-08-02T04:40:06.7137618Z** [INFO] Scanned: html-visual-verify (v1.0.0)
+- **2026-08-02T04:40:06.7173594Z** [INFO] Scanned: kb-sync-artifact-generator (v1.0.0)
+- **2026-08-02T04:40:06.7234716Z** [INFO] Scanned: kb-sync-nightly (v1.0.2)
+- **2026-08-02T04:40:06.7268050Z** [INFO] Scanned: obsidian-ingest-wiki (v1.0.0)
+- **2026-08-02T04:40:06.7318784Z** [INFO] Scanned: operator-image-build (v1.0.0)
+- **2026-08-02T04:40:06.7355493Z** [INFO] Scanned: permission-governor (v1.0.0)
+- **2026-08-02T04:40:06.7439030Z** [INFO] Scanned: plan-extractor-integration (v1.0.0)
+- **2026-08-02T04:40:06.7479997Z** [INFO] Scanned: pre-wrap-audit (v1.0.0)
+- **2026-08-02T04:40:06.7657629Z** [INFO] Scanned: reconcile-vector-store (v1.0.0)
+- **2026-08-02T04:40:06.7670897Z** [WARN] Skipping research-questions (no SKILL.json)
+- **2026-08-02T04:40:06.7683847Z** [WARN] Skipping retro-export (no SKILL.json)
+- **2026-08-02T04:40:06.7762692Z** [INFO] Scanned: rewrite-labs-orchestrator (v1.0.0)
+- **2026-08-02T04:40:06.7823726Z** [INFO] Scanned: roadmap-validator (v1.0.0)
+- **2026-08-02T04:40:06.7842917Z** [INFO] Scanned: rollback-phase (v1.0.0)
+- **2026-08-02T04:40:06.7861636Z** [INFO] Scanned: run-adapter-diagnostic (v1.0.0)
+- **2026-08-02T04:40:06.7890970Z** [INFO] Scanned: scale-ingestion-service (v1.0.0)
+- **2026-08-02T04:40:06.7911619Z** [INFO] Scanned: session-wrap (v1.1.0)
+- **2026-08-02T04:40:06.7936815Z** [INFO] Scanned: skill-health-monitor (v1.0.0)
+- **2026-08-02T04:40:06.7968843Z** [INFO] Scanned: skill-security-auditor (v1.0.0)
+- **2026-08-02T04:40:06.8002014Z** [INFO] Scanned: tool-lifecycle-manager (v0.1.0)
+- **2026-08-02T04:40:06.8021562Z** [INFO] Scanned: toolforge-cli (v0.1.0)
+- **2026-08-02T04:40:06.8062928Z** [INFO] Scanned: toolforge-drift-monitor (v0.1.0)
+- **2026-08-02T04:40:06.8082986Z** [INFO] Scanned: toolforge-registry-manager (v0.1.0)
+- **2026-08-02T04:40:06.8105018Z** [INFO] Scanned: toolforge-submission-validator (v0.1.0)
+- **2026-08-02T04:40:06.8148179Z** [INFO] Scanned: trm-feedback-report (v0.1.0)
+- **2026-08-02T04:40:06.8165637Z** [INFO] Scanned: trm-status (v0.1.0)
+- **2026-08-02T04:40:06.8194457Z** [INFO] Scanned: work-summarizer (v4.0.0)
+- **2026-08-02T04:40:06.8228362Z** [INFO] Phase 1 complete: 38 skills scanned
+- **2026-08-02T04:40:06.9172768Z** [INFO] Loaded Cowork registry: 36 entries
+- **2026-08-02T04:40:06.9239247Z** [INFO] Skill up-to-date: ashfall
+- **2026-08-02T04:40:06.9245583Z** [INFO] Skill up-to-date: session-wrap
+- **2026-08-02T04:40:06.9255101Z** [INFO] Skill up-to-date: toolforge-drift-monitor
+- **2026-08-02T04:40:06.9271516Z** [INFO] Skill up-to-date: plan-extractor-integration
+- **2026-08-02T04:40:06.9277481Z** [INFO] Skill up-to-date: cic-repair-pipeline
+- **2026-08-02T04:40:06.9283376Z** [INFO] Skill up-to-date: trm-feedback-report
+- **2026-08-02T04:40:06.9289031Z** [INFO] Skill up-to-date: cic-roadmap-updater
+- **2026-08-02T04:40:06.9294262Z** [INFO] Skill up-to-date: rewrite-labs-orchestrator
+- **2026-08-02T04:40:06.9300313Z** [INFO] Skill up-to-date: trm-status
+- **2026-08-02T04:40:06.9306377Z** [INFO] Skill up-to-date: kb-sync-artifact-generator
+- **2026-08-02T04:40:06.9311385Z** [INFO] Skill up-to-date: run-adapter-diagnostic
+- **2026-08-02T04:40:06.9317021Z** [INFO] Skill up-to-date: pre-wrap-audit
+- **2026-08-02T04:40:06.9321160Z** [INFO] Skill up-to-date: automation-audit
+- **2026-08-02T04:40:06.9324839Z** [INFO] Skill up-to-date: toolforge-registry-manager
+- **2026-08-02T04:40:06.9328410Z** [INFO] Skill up-to-date: html-visual-verify
+- **2026-08-02T04:40:06.9333861Z** [INFO] Skill up-to-date: toolforge-cli
+- **2026-08-02T04:40:06.9338852Z** [INFO] Skill up-to-date: permission-governor
+- **2026-08-02T04:40:06.9343603Z** [INFO] Skill up-to-date: obsidian-ingest-wiki
+- **2026-08-02T04:40:06.9348089Z** [INFO] Skill up-to-date: scale-ingestion-service
+- **2026-08-02T04:40:06.9352696Z** [INFO] Skill up-to-date: cic-consolidate-artifacts
+- **2026-08-02T04:40:06.9356655Z** [INFO] Skill up-to-date: cic-section-summarizer
+- **2026-08-02T04:40:06.9364066Z** [INFO] Skill up-to-date: context-manager
+- **2026-08-02T04:40:06.9389757Z** [INFO] Skill up-to-date: tool-lifecycle-manager
+- **2026-08-02T04:40:06.9398085Z** [INFO] Registering new skill: work-summarizer (v4.0.0)
+- **2026-08-02T04:40:06.9424942Z** [INFO] Skill up-to-date: toolforge-submission-validator
+- **2026-08-02T04:40:06.9431072Z** [INFO] Skill up-to-date: skill-health-monitor
+- **2026-08-02T04:40:06.9435563Z** [INFO] Skill up-to-date: agent-drift-detector
+- **2026-08-02T04:40:06.9439661Z** [INFO] Skill up-to-date: reconcile-vector-store
+- **2026-08-02T04:40:06.9444194Z** [INFO] Skill up-to-date: roadmap-validator
+- **2026-08-02T04:40:06.9448893Z** [INFO] Skill up-to-date: cic-ingest-world
+- **2026-08-02T04:40:06.9453744Z** [INFO] Skill up-to-date: skill-security-auditor
+- **2026-08-02T04:40:06.9458389Z** [INFO] Skill up-to-date: kb-sync-nightly
+- **2026-08-02T04:40:06.9464389Z** [INFO] Skill up-to-date: rollback-phase
+- **2026-08-02T04:40:06.9470316Z** [INFO] Skill up-to-date: cic-run-gate
+- **2026-08-02T04:40:06.9476296Z** [INFO] Registering new skill: _cic-shared (v1.0.0)
+- **2026-08-02T04:40:06.9482573Z** [INFO] Skill up-to-date: operator-image-build
+- **2026-08-02T04:40:06.9488020Z** [INFO] Skill up-to-date: analyze-token-burn
+- **2026-08-02T04:40:06.9496022Z** [INFO] Skill up-to-date: cic-orchestrate-flow
+- **2026-08-02T04:40:06.9518642Z** [INFO] Phase 3 complete: 2 registered, 0 updated
 ---
 
 **Auto-generated by cowork-auto-sync.ps1 — Phase 1.7**
