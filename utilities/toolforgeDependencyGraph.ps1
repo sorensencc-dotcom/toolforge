@@ -30,7 +30,27 @@ param(
   [switch]$Verbose
 )
 
+if ($env:TOOLFORGE_DEPGRAPH_RUNNING) {
+  Write-Host "⚠️ Toolforge Dependency Graph is already running in this execution chain. Skipping to prevent loop." -ForegroundColor Yellow
+  exit 0
+}
+$env:TOOLFORGE_DEPGRAPH_RUNNING = $true
+
 $ErrorActionPreference = "Stop"
+
+function Write-IfChanged {
+  param([string]$Path, [string]$Content)
+  $tsPattern = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?'
+  if (Test-Path $Path) {
+    $existing = Get-Content $Path -Raw
+    if (($existing -replace $tsPattern, '') -eq ($Content -replace $tsPattern, '')) {
+      Write-Host "  No skill-relevant changes -- skipping write: $Path" -ForegroundColor DarkGray
+      return $false
+    }
+  }
+  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  return $true
+}
 
 # Paths
 $CANONICAL_SKILLS = "C:\dev\skills"
@@ -437,8 +457,8 @@ Skills that have no inbound dependencies (nothing depends on them).
 
 "@
 
-  Set-Content -Path $OutputPath -Value $md -Encoding UTF8
-  Write-Host "✅ Report saved: $OutputPath" -ForegroundColor Green
+  Write-IfChanged -Path $OutputPath -Content $md | Out-Null
+  Write-Host "✅ Report checked: $OutputPath" -ForegroundColor Green
 }
 
 # ============================================================================
@@ -453,3 +473,4 @@ Find-Orphans
 Generate-Report
 
 Write-Host "`n✅ Dependency graph complete." -ForegroundColor Green
+$env:TOOLFORGE_DEPGRAPH_RUNNING = $null

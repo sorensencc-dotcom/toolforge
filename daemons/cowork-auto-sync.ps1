@@ -32,6 +32,20 @@ $env:TOOLFORGE_SYNC_RUNNING = $true
 
 $ErrorActionPreference = "Continue"
 
+function Write-IfChanged {
+  param([string]$Path, [string]$Content)
+  $tsPattern = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?'
+  if (Test-Path $Path) {
+    $existing = Get-Content $Path -Raw
+    if (($existing -replace $tsPattern, '') -eq ($Content -replace $tsPattern, '')) {
+      Write-Host "  No skill-relevant changes -- skipping write: $Path" -ForegroundColor DarkGray
+      return $false
+    }
+  }
+  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  return $true
+}
+
 # Paths
 $CANONICAL_SKILLS = "C:\dev\skills"
 $COWORK_REGISTRY = "C:\dev\audit\COWORK-REGISTERED-SKILLS.md"
@@ -175,7 +189,7 @@ function Phase-SyncSkills {
   Write-Host "🔄 Phase 3: Syncing skills..." -ForegroundColor Cyan
   $sync.phase = 3
 
-  foreach ($skillId in $sync.canonical_state.Keys) {
+  foreach ($skillId in ($sync.canonical_state.Keys | Sort-Object)) {
     $canonical = $sync.canonical_state[$skillId]
     $cowork = $sync.cowork_state[$skillId]
 
@@ -247,8 +261,8 @@ function Phase-UpdateRegistry {
 "@
 
   try {
-    Set-Content -Path $COWORK_REGISTRY -Value $md -Encoding UTF8
-    Log "Registry updated: $COWORK_REGISTRY" "INFO"
+    Write-IfChanged -Path $COWORK_REGISTRY -Content $md | Out-Null
+    Log "Registry checked: $COWORK_REGISTRY" "INFO"
   } catch {
     Log "Error updating registry: $_" "ERROR"
     return $false
@@ -366,8 +380,8 @@ Scheduled daemon for Toolforge ↔ Cowork alignment.
 
 "@
 
-  Set-Content -Path $SYNC_REPORT -Value $md -Encoding UTF8
-  Write-Host "✅ Sync report saved: $SYNC_REPORT" -ForegroundColor Green
+  Write-IfChanged -Path $SYNC_REPORT -Content $md | Out-Null
+  Write-Host "✅ Sync report checked: $SYNC_REPORT" -ForegroundColor Green
 }
 
 # ============================================================================

@@ -30,7 +30,27 @@ param(
   [switch]$Verbose
 )
 
+if ($env:TOOLFORGE_METADATAGEN_RUNNING) {
+  Write-Host "⚠️ Toolforge Metadata Generator is already running in this execution chain. Skipping to prevent loop." -ForegroundColor Yellow
+  exit 0
+}
+$env:TOOLFORGE_METADATAGEN_RUNNING = $true
+
 $ErrorActionPreference = "Stop"
+
+function Write-IfChanged {
+  param([string]$Path, [string]$Content)
+  $tsPattern = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?'
+  if (Test-Path $Path) {
+    $existing = Get-Content $Path -Raw
+    if (($existing -replace $tsPattern, '') -eq ($Content -replace $tsPattern, '')) {
+      Write-Host "  No skill-relevant changes -- skipping write: $Path" -ForegroundColor DarkGray
+      return $false
+    }
+  }
+  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  return $true
+}
 
 # Paths
 $CANONICAL_SKILLS = "C:\dev\skills"
@@ -171,20 +191,20 @@ function Generate-Json {
 
   $json = $metadata | ConvertTo-Json -Depth 10
 
-  Set-Content -Path $OutputPath -Value $json -Encoding UTF8
-  Write-Host "✅ Metadata saved: $OutputPath" -ForegroundColor Green
+  Write-IfChanged -Path $OutputPath -Content $json | Out-Null
+  Write-Host "✅ Metadata checked: $OutputPath" -ForegroundColor Green
 
   # Update dashboard.html if it exists to prevent metadata drift
   $dashboardPath = Join-Path $PSScriptRoot "..\dashboard.html"
   if (Test-Path $dashboardPath) {
-      Log "Updating dashboard.html embedded manifest-data to prevent drift..."
+      Log "Checking dashboard.html embedded manifest-data for drift..."
       $html = Get-Content $dashboardPath -Raw
       $pattern = '(?s)(<script type="application/json" id="manifest-data">).*?(</script>)'
       $safeJson = $json.Replace("$", "$$")
       $replacement = "`$1`n" + $safeJson + "`n`$2"
       $newHtml = [regex]::Replace($html, $pattern, $replacement)
-      Set-Content -Path $dashboardPath -Value $newHtml -Encoding UTF8
-      Write-Host "✅ Dashboard metadata updated: $dashboardPath" -ForegroundColor Green
+      Write-IfChanged -Path $dashboardPath -Content $newHtml | Out-Null
+      Write-Host "✅ Dashboard metadata checked: $dashboardPath" -ForegroundColor Green
   }
 }
 
@@ -259,8 +279,8 @@ function Generate-Summary {
 
 "@
 
-  Set-Content -Path $summaryPath -Value $md -Encoding UTF8
-  Log "Summary saved: $summaryPath"
+  Write-IfChanged -Path $summaryPath -Content $md | Out-Null
+  Log "Summary checked: $summaryPath"
 }
 
 # ============================================================================
@@ -272,3 +292,4 @@ Generate-Json
 Generate-Summary
 
 Write-Host "`n✅ Metadata generation complete." -ForegroundColor Green
+$env:TOOLFORGE_METADATAGEN_RUNNING = $null

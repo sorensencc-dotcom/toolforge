@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-02T04:42:01.0861297Z
+**Generated:** 2026-08-02T15:16:05.3093779Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -386,43 +386,43 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| skill-security-auditor | 1 |
-| trm-feedback-report | 1 |
 | toolforge-cli | 1 |
+| trm-feedback-report | 1 |
 | pre-wrap-audit | 1 |
 | trm-status | 1 |
-| skill-health-monitor | 0 |
-| context-manager | 0 |
-| rewrite-labs-orchestrator | 0 |
-| tool-lifecycle-manager | 0 |
-| plan-extractor-integration | 0 |
-| cic-section-summarizer | 0 |
-| cic-roadmap-updater | 0 |
+| toolforge-submission-validator | 0 |
+| ashfall | 0 |
+| kb-sync-nightly | 0 |
+| operator-image-build | 0 |
+| kb-sync-artifact-generator | 0 |
+| agent-drift-detector | 0 |
+| _cic-shared | 0 |
+| cic-consolidate-artifacts | 0 |
 | toolforge-registry-manager | 0 |
 | roadmap-validator | 0 |
-| permission-governor | 0 |
-| agent-drift-detector | 0 |
-| automation-audit | 0 |
+| skill-health-monitor | 0 |
 | cic-repair-pipeline | 0 |
-| session-wrap | 0 |
-| kb-sync-nightly | 0 |
 | cic-run-gate | 0 |
-| cic-ingest-world | 0 |
+| permission-governor | 0 |
+| session-wrap | 0 |
 | work-summarizer | 0 |
-| obsidian-ingest-wiki | 0 |
-| toolforge-submission-validator | 0 |
-| reconcile-vector-store | 0 |
-| html-visual-verify | 0 |
-| _cic-shared | 0 |
-| analyze-token-burn | 0 |
-| cic-orchestrate-flow | 0 |
-| toolforge-drift-monitor | 0 |
-| kb-sync-artifact-generator | 0 |
-| ashfall | 0 |
-| rollback-phase | 0 |
 | scale-ingestion-service | 0 |
-| cic-consolidate-artifacts | 0 |
+| tool-lifecycle-manager | 0 |
+| cic-ingest-world | 0 |
+| cic-orchestrate-flow | 0 |
 | run-adapter-diagnostic | 0 |
-| operator-image-build | 0 |
+| reconcile-vector-store | 0 |
+| toolforge-drift-monitor | 0 |
+| automation-audit | 0 |
+| cic-section-summarizer | 0 |
+| cic-roadmap-updater | 0 |
+| analyze-token-burn | 0 |
+| rollback-phase | 0 |
+| html-visual-verify | 0 |
+| rewrite-labs-orchestrator | 0 |
+| context-manager | 0 |
+| obsidian-ingest-wiki | 0 |
+| plan-extractor-integration | 0 |
 
 ---
 

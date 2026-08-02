@@ -38,6 +38,20 @@ $env:TOOLFORGE_VALIDATOR_RUNNING = $true
 
 $ErrorActionPreference = "Stop"
 
+function Write-IfChanged {
+  param([string]$Path, [string]$Content)
+  $tsPattern = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?'
+  if (Test-Path $Path) {
+    $existing = Get-Content $Path -Raw
+    if (($existing -replace $tsPattern, '') -eq ($Content -replace $tsPattern, '')) {
+      Write-Host "  No skill-relevant changes -- skipping write: $Path" -ForegroundColor DarkGray
+      return $false
+    }
+  }
+  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  return $true
+}
+
 # Paths
 $CANONICAL_SKILLS = "C:\dev\skills"
 $DISTRIBUTED_SKILLS = "C:\dev\rewrite-mcp\toolforge\skills"
@@ -901,8 +915,8 @@ function Write-DependencyGraphReport {
 
   $report += "`n---`n`n**Dependency Graph v1.0.0** | Toolforge Team`n"
 
-  $report | Set-Content -Path $OutputPath -Encoding UTF8
-  Log "Dependency graph report saved: $OutputPath"
+  Write-IfChanged -Path $OutputPath -Content $report | Out-Null
+  Log "Dependency graph report checked: $OutputPath"
 }
 
 # ============================================================================
@@ -1043,8 +1057,8 @@ function Generate-Report {
 **Skill Validator v1.1.0** | Toolforge Team
 "@
 
-  $report | Set-Content -Path $OutputPath -Encoding UTF8
-  Log "Report saved: $OutputPath"
+  Write-IfChanged -Path $OutputPath -Content $report | Out-Null
+  Log "Report checked: $OutputPath"
 }
 
 # ============================================================================
