@@ -1,5 +1,27 @@
 # Changelog
 
+## Version 2.28.0
+Date: 2026-08-02
+
+### Changes
+- 19e649d - docs(plan): trm sync-treatment factKey bugfix + daily automation plan (Chris Sorensen)
+- 5bb9c2d - fix(governance): stabilize lineage lock concurrency (Chris Sorensen)
+- 348ed31 - feat(governance): add standalone cost_gate_adapter CLI and integration tests (Chris Sorensen)
+- 2fd4e67 - feat(governance): add EvidenceLogger and REPORT_ONLY ScalingGateEvaluator (Chris Sorensen)
+- 40ff748 - feat(governance): add CircuitBreakerEngine with 7-tier precedence evaluation (Chris Sorensen)
+- a55202e - feat(governance): add RateCardManager and thread-safe AtomicBudgetGate (Chris Sorensen)
+- 6df3298 - feat(governance): add ScopeLimitsRegistry and TaskContract validation (Chris Sorensen)
+- 8758cb5 - docs(plan): add agent cost governance runtime implementation plan (Chris Sorensen)
+- 382ec44 - docs(spec): add agent cost governance runtime design spec (Chris Sorensen)
+- 3edb62a - test(governance): validate agent cost contracts (Chris Sorensen)
+- 64b2841 - docs(spec): trm sync-treatment factKey bugfix + daily automation design (Chris Sorensen)
+- acf242f - chore(sync): regenerate ijfw session-state artifacts (post-commit pass) (Chris Sorensen)
+- 464450d - chore: add raw helene research intake (47 files) (Chris Sorensen)
+- 63ff3cc - fix(torquequery): close routing policy gaps (Chris Sorensen)
+- 4a4c4e8 - chore(sync): regenerate ijfw session-state + skillpack artifacts (Chris Sorensen)
+- dcc222c - fix(governance): close cost spec gaps (Chris Sorensen)
+- c252eee - fix(retro): patch 4 retro JSONs to canonical v1.0 schema (Chris Sorensen)
+
 ## Version 2.27.0
 Date: 2026-08-01
 
