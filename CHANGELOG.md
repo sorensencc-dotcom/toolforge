@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.32.1
+Date: 2026-08-02
+
+### Changes
+- 12fc088 - fix(ci): make validators runner portable (Chris Sorensen)
+
 ## Version 2.32.0
 Date: 2026-08-02
 
