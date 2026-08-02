@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.31.3
+Date: 2026-08-02
+
+### Changes
+- 9d00393 - docs(retro): weekly retrospective, 2026-07-26 to 2026-08-02 (Chris Sorensen)
+- 2f0198d - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- 68d7ea9 - docs(governance): correct overstated CI/marketplace claims flagged by weekly audit (Chris Sorensen)
+
 ## Version 2.31.2
 Date: 2026-08-02
 
