@@ -24,11 +24,15 @@
 
 
 
+
+
+
+
 <!-- github-copilot-toolbox:mcp-skills-awareness-begin -->
 
 ### MCP & Skills awareness (GitHub Copilot Toolbox)
 
-_Last synced: 2026-07-25T19:18:37.625Z._
+_Last synced: 2026-08-02T01:06:11.330Z._
 
 - **Full report:** `.github/copilot-toolbox-mcp-skills-awareness.md` in this workspace (auto-overwritten on each scan). Use it as ground truth for configured servers and skill folders.
 - **MCP:** For **live tools**, use **Copilot Chat → Agent** and **trust/start** the right servers in the MCP UI.
@@ -189,6 +193,8 @@ _No active workspace servers in mcp.json._
 
 - **caveman-stats** — `C:\Users\soren\.agents\skills\caveman-stats` — >
 
+- **find-skills** — `C:\Users\soren\.agents\skills\find-skills` — Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used w
+
 - **gstack** — `C:\Users\soren\.agents\skills\gstack` — |
 
 - **gstack-autoplan** — `C:\Users\soren\.agents\skills\gstack-autoplan` — |
@@ -242,5 +248,7 @@ _No active workspace servers in mcp.json._
 - **gstack-unfreeze** — `C:\Users\soren\.agents\skills\gstack-unfreeze` — |
 
 - **gstack-upgrade** — `C:\Users\soren\.agents\skills\gstack-upgrade` — |
+
+- **orca-cli** — `C:\Users\soren\.agents\skills\orca-cli` — >-
 
 <!-- github-copilot-toolbox:mcp-skills-awareness-end -->

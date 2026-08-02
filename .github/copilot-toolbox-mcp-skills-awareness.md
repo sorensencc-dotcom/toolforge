@@ -1,6 +1,6 @@
 # GitHub Copilot Toolbox — MCP & Skills awareness
 
-_Generated: 2026-07-25T19:18:37.603Z_
+_Generated: 2026-08-02T01:06:11.305Z_
 
 ## How to use this report
 
@@ -237,6 +237,9 @@ _No active workspace servers in mcp.json._
 - **caveman-stats** — `C:\Users\soren\.agents\skills\caveman-stats`
   - >
 
+- **find-skills** — `C:\Users\soren\.agents\skills\find-skills`
+  - Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used w
+
 - **gstack** — `C:\Users\soren\.agents\skills\gstack`
   - |
 
@@ -317,6 +320,9 @@ _No active workspace servers in mcp.json._
 
 - **gstack-upgrade** — `C:\Users\soren\.agents\skills\gstack-upgrade`
   - |
+
+- **orca-cli** — `C:\Users\soren\.agents\skills\orca-cli`
+  - >-
 
 ---
 

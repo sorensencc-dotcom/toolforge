@@ -1,8 +1,8 @@
 <!-- ijfw schema:1 codebase-index -->
 # Codebase index
 
-Generated: 2026-07-31T17:56:51Z
-Root: /mnt/c/dev
+Generated: 2026-08-01T22:54:58Z
+Root: .
 
 Files: 5000
 
@@ -23,7 +23,7 @@ Files: 5000
 - `./.claude/skills/play-e2e/src/index.ts` (140 lines, .ts) -- import { execSync } from 'child_process';
 - `./.claude/skills/workflow-lint/SKILL.md` (42 lines, .md) -- name: workflow-lint
 - `./.claude/skills/workflow-lint/scripts/scan.sh` (44 lines, .sh) -- set -u
-- `./.context/retros/RETRO-SCHEMA.md` (175 lines, .md) -- Weekly retro JSON schema drifted across three incompatible versions (metrics nested/flattened/differently-nested; field
+- `./.context/retros/RETRO-SCHEMA.md` (175 lines, .md) -- Weekly retro JSON schema drifted across three incompatible versions (metrics nested/flattened/differently-nested; field 
 - `./.github/copilot-instructions.md` (248 lines, .md) -- <!-- github-copilot-toolbox:mcp-skills-awareness-begin -->
 - `./.github/copilot-toolbox-mcp-skills-awareness.md` (329 lines, .md) -- _Generated: 2026-07-30T10:03:20.138Z_
 - `./.pytest_cache/README.md` (8 lines, .md) -- This directory contains data from the pytest's cache plugin,
@@ -60,7 +60,7 @@ Files: 5000
 - `./.superpowers/sdd/task-3-fix-report.md` (90 lines, .md) -- Reordered `runIngest` so `convertFileToText(cliArgs.file)` runs and resolves BEFORE `addSource(...)` is called. Any conv
 - `./.superpowers/sdd/task-3-report.md` (110 lines, .md) -- Successfully implemented timezone verification (Test 6) for the schedule skill. Detected user's local timezone and docum
 - `./.superpowers/sdd/task-3-review-pkg.md` (10 lines, .md) --  .superpowers/sdd/.gitignore                        |   2 +  .superpowers/sdd/PHASE-0-NOTES.md                  |  38 ++
-- `./.superpowers/sdd/task-4-1-report.md` (102 lines, .md) -- Created and tested `utilities/roadmap-drift-checker.ps1`, a PowerShell script that scans C:\dev for ROADMAP.md files in
+- `./.superpowers/sdd/task-4-1-report.md` (102 lines, .md) -- Created and tested `utilities/roadmap-drift-checker.ps1`, a PowerShell script that scans C:\dev for ROADMAP.md files in 
 - `./.superpowers/sdd/task-4-brief.md` (247 lines, .md) -- - Create: `utilities/roadmap-drift-checker.ps1`
 - `./.superpowers/sdd/task-4-report.md` (179 lines, .md) -- Successfully implemented JSON schema v1.0 export functionality for the session-wrap skill to support the daily/weekly re
 - `./.superpowers/sdd/task-5-1-report.md` (162 lines, .md) -- All 4 test scenarios passed successfully. Pre-commit hook blocks roadmap violations, allows valid commits, performs with
@@ -77,7 +77,7 @@ Files: 5000
 - `./.superpowers/sdd/task-9-report.md` (72 lines, .md) -- Task 9 successfully implements cowork daemon log parsing for the daily report agent. The Get-CoworkActivity function par
 - `./AGENTS.md` (62 lines, .md) -- ijfw_version: 1.3.2
 - `./AUTOMATION-SETUP.md` (264 lines, .md) -- Unified CI/CD automation for Toolforge Phase-1. Three integrated systems:
-- `./CHANGELOG.md` (767 lines, .md) -- Date: 2026-07-31
+- `./CHANGELOG.md` (782 lines, .md) -- Date: 2026-08-01
 - `./CIC-GOVERNANCE/.pytest_cache/README.md` (8 lines, .md) -- This directory contains data from the pytest's cache plugin,
 - `./CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-0001.md` (82 lines, .md) -- title: \"AMD-v2.4.0-0001 — Append-Only Rollback Semantics\"
 - `./CIC-GOVERNANCE/AMENDMENTS/README.md` (14 lines, .md) -- title: \"Amendments\"
@@ -107,6 +107,7 @@ Files: 5000
 - `./CIC-GOVERNANCE/README/CIC-README.md` (18 lines, .md) -- title: \"CIC Governance Onboarding\"
 - `./CIC-GOVERNANCE/REVIEW.md` (38 lines, .md) -- title: \"Review: Implementation Plan — CIC-GOVERNANCE Contract Validation (Revision 3)\"
 - `./CIC-GOVERNANCE/SCHEMA/README.md` (13 lines, .md) -- title: \"Schemas\"
+- `./CIC-GOVERNANCE/SPEC/CIC-AI-AGENT-COST-SPEC-001.md` (192 lines, .md) -- title: \"CIC AI Agent Cost Control Specification\"
 - `./CIC-GOVERNANCE/SPEC/CIC-GATE-SPEC-001.md` (66 lines, .md) -- title: \"CIC Gate Closure Specification\"
 - `./CIC-GOVERNANCE/SPEC/README.md` (13 lines, .md) -- title: \"Specifications\"
 - `./CIC-GOVERNANCE/SPEC/Spec_v2.4.0.md` (37 lines, .md) -- title: \"CIC Specification v2.4.0 — Candidate\"
@@ -129,16 +130,16 @@ Files: 5000
 - `./OPERATOR-COMMANDS.md` (272 lines, .md) -- Quick reference for running and testing all components.
 - `./OPERATOR_GUIDE.md` (284 lines, .md) -- Complete guide for discovering, running, managing, and troubleshooting tools.
 - `./PHASE-1-4-7-IMPLEMENTATION.md` (405 lines, .md) -- All four phases of the Toolforge automation infrastructure have been implemented and integrated into the existing valida
-- `./PHASE_4_WAVE_1_LOAD_TEST_HARNESS.md` (96 lines, .md) -- Load testing tool for CIC + Cowork Gateway pipeline hardening. Drives simulated gateways through the full handshake→sync
+- `./PHASE_4_WAVE_1_LOAD_TEST_HARNESS.md` (96 lines, .md) -- Load testing tool for CIC + Cowork Gateway pipeline hardening. Drives simulated gateways through the full handshake→sy
 - `./README.md` (56 lines, .md) -- Local-first platform for tools, daemons, scaffolds, and adapters used across Rewrite Labs and CIC. Unified discovery, ex
 - `./SESSION_WRAP_20260715.md` (204 lines, .md) -- - **Audit Phase:** Discovered 6 AI newsletter sources (up from initial 4)
-- `./SESSION_WRAP_20260716.md` (85 lines, .md) -- - Built a mock C# console application `xberg.exe` that simulates the PDF extraction API (supporting the `extract <file>
+- `./SESSION_WRAP_20260716.md` (85 lines, .md) -- - Built a mock C# console application `xberg.exe` that simulates the PDF extraction API (supporting the `extract <file> 
 - `./SKILL-SYNC-LOG.md` (159 lines, .md) -- ```json
 - `./TIER1_APPROVAL_PHASES_3-6.md` (353 lines, .md) -- title: Tier 1 Approval Submission — Phases 3–6
-- `./TODOS.md` (45 lines, .md) -- Backlog of open work. Source of truth for \"what's outstanding\" — context/rationale lives in memory (linked per item).
+- `./TODOS.md` (50 lines, .md) -- Backlog of open work. Source of truth for \"what's outstanding\" — context/rationale lives in memory (linked per item)
 - `./TOOL_CREATION_GUIDE.md` (358 lines, .md) -- Step-by-step guide for creating and registering new Toolforge tools.
 - `./TheFoundry/out/docs/roadmap/CIC_MASTER_ROADMAP.md` (170 lines, .md) -- - Migrated skill from `~/.claude/skills/work-summarizer-v2/` → `C:\dev\toolforge\skills\work-summarizer/`
-- `./TheFoundry/out/docs/roadmap/CIC_SUBROADMAP_v3.0.md` (204 lines, .md) -- CIC owns: documentary production pipeline, archival research corpus, ARL reasoning engine, autonomy stack (Memory → Skil
+- `./TheFoundry/out/docs/roadmap/CIC_SUBROADMAP_v3.0.md` (204 lines, .md) -- CIC owns: documentary production pipeline, archival research corpus, ARL reasoning engine, autonomy stack (Memory → Sk
 - `./TheFoundry/out/docs/roadmap/DEPLOYMENT_CHECKLIST.md` (287 lines, .md) -- - [x] **roadmap_delta_scanner.py** — Phase 2.75 scanner (tested locally)
 - `./TheFoundry/out/docs/roadmap/MASTER_ROADMAP_v3.0.md` (137 lines, .md) -- CIC and Rewrite Labs share agents, IR Toolkit primitives, pipelines, governance, TorqueQuery infrastructure, and deliver
 - `./TheFoundry/out/docs/roadmap/MIGRATION_GUIDE_v2_to_v3.md` (109 lines, .md) -- - Single file: `rewrite-mcp/docs/cic/CIC_MASTER_ROADMAP.md` (3932 lines)
@@ -150,7 +151,7 @@ Files: 5000
 - `./TheFoundry/out/docs/roadmap/morning-ingestion-dashboard-UPDATED.md` (388 lines, .md) -- name: morning-ingestion-dashboard
 - `./TheFoundry/out/docs/roadmap/morning_ingestion_orchestrator_phase_2_75.py` (198 lines, .py) -- Morning Ingestion Orchestrator Integration — Phase 2.75
 - `./TheFoundry/out/docs/roadmap/roadmap_delta_scanner.py` (310 lines, .py) -- Phase 2.75: Roadmap Delta Scan
-- `./VERSION.md` (2 lines, .md) -- version: 2.26.0
+- `./VERSION.md` (2 lines, .md) -- version: 2.26.2
 - `./WAVE-C-BACKEND-REPORT.md` (98 lines, .md) -- Status: COMPLETE. Built per `scratchpad/WAVE-C-DESIGN-DECISIONS.md` §7.
 - `./WAVE-C-FRONTEND-REPORT.md` (79 lines, .md) -- Reviewed existing Cast Iron Charlie tokens in `src/ui/styles/App.css` and matched them exactly. Confirmed **before** wri
 - `./WAVE-D-REPORT.md` (124 lines, .md) -- Builds on Wave C (commit `087d08e`): `createApp(db)` factory, set-based
@@ -194,7 +195,7 @@ Files: 5000
 - `./charlie-deep-research/toolforge/_TEMPLATE/VERSION.md` (1 lines, .md) -- version: 0.1.0
 - `./charlie-deep-research/toolforge/sync-tools/README.md` (251 lines, .md) -- Multi-repository scanning, drift detection, automation, and synchronization tools.
 - `./charlie-deep-research/treatment/CHANGELOG_v1.1.md` (47 lines, .md) -- Correction pass driven by v1's FAIL validation report. No beat, tag, transition, rhythm-note, or
-- `./charlie-deep-research/treatment/CHANGELOG_v1.2.md` (39 lines, .md) -- Spine untouched. Same beats, same count, same sections. No expansion. Sections 1–4, 7, 8 carried forward verbatim from v
+- `./charlie-deep-research/treatment/CHANGELOG_v1.2.md` (39 lines, .md) -- Spine untouched. Same beats, same count, same sections. No expansion. Sections 1–4, 7, 8 carried forward verbatim from
 - `./charlie-deep-research/treatment/CIC_ARCHIVAL_VERIFICATION_CONSOLIDATED_V1.1_FINAL.md` (150 lines, .md) -- Independent archival verification complete.
 - `./charlie-deep-research/treatment/CIC_ARRIVAL_DAY_CHECKLIST_2026-07-24.md` (86 lines, .md) -- Tagged to: CIC_SOURCING_PACKET_V-6.5.md, CIC_BFRC_BOX_REQUEST_2026-07-24.md
 - `./charlie-deep-research/treatment/CIC_BFRC_BOX_REQUEST_2026-07-24.md` (75 lines, .md) -- Research appointment: Benson Ford Research Center, July 24, 2026
@@ -211,7 +212,7 @@ Files: 5000
 - `./charlie-deep-research/treatment/TREATMENT_DRAFT_v1.1.md` (174 lines, .md) -- <empty>
 - `./charlie-deep-research/treatment/TREATMENT_DRAFT_v1.2.md` (180 lines, .md) -- The film stops here, at its exact center, because the metaphor hinges: forty years of translating other men's sketches i
 - `./charlie-deep-research/treatment/TREATMENT_DRAFT_v1.md` (174 lines, .md) -- <empty>
-- `./charlie-deep-research/treatment/TREATMENT_FRAMEWORK_SPEC_v1.md` (258 lines, .md) -- A Danish immigrant patternmaker becomes the man who turned Henry Ford's sketches into steel — inventing the moving assem
+- `./charlie-deep-research/treatment/TREATMENT_FRAMEWORK_SPEC_v1.md` (258 lines, .md) -- A Danish immigrant patternmaker becomes the man who turned Henry Ford's sketches into steel — inventing the moving ass
 - `./charlie-deep-research/treatment/TREATMENT_VALIDATION_REPORT_v1.1.md` (13 lines, .md) -- FAIL
 - `./charlie-deep-research/treatment/TREATMENT_VALIDATION_REPORT_v1.md` (11 lines, .md) -- FAIL
 - `./charlie-deep-research/treatment/TRM_SYNC_REPORT_all_20260729T181626_017cee1d-47b6-4825-a7bd-d516123a5576.md` (765 lines, .md) -- topic: \"all\"
@@ -220,18 +221,18 @@ Files: 5000
 - `./cic-ingestion/.planning/5/PATTERNS.md` (36 lines, .md) -- Source: Phase 4 governance pipeline (`src/governance/`, `src/core/maal/canary/`, `src/core/maal/governance/`).
 - `./cic-ingestion/.planning/codebase/ARCHITECTURE.md` (65 lines, .md) -- ```
 - `./cic-ingestion/.planning/codebase/CONCERNS.md` (55 lines, .md) -- `GovernanceReplayHarness` queries columns `event_id, proposal_id, occurred_at, metadata, from_event_id, to_event_id`:
-- `./cic-ingestion/.planning/codebase/CONVENTIONS.md` (30 lines, .md) -- - Governance flat modules: `<noun>-<role>.ts` — `proposal-creation.ts`, `proposal-validator.ts`, `canary-engine.ts`, `pr
+- `./cic-ingestion/.planning/codebase/CONVENTIONS.md` (30 lines, .md) -- - Governance flat modules: `<noun>-<role>.ts` — `proposal-creation.ts`, `proposal-validator.ts`, `canary-engine.ts`, `
 - `./cic-ingestion/.planning/codebase/ENTRY-POINTS.md` (37 lines, .md) -- | class | current file | citation | production module? |
 - `./cic-ingestion/.planning/codebase/STACK.md` (32 lines, .md) -- - TypeScript 5.4.5 (primary) — `C:\dev\cic-ingestion\tsconfig.json:1`, `package.json:17`
 - `./cic-ingestion/.pytest_cache/README.md` (8 lines, .md) -- This directory contains data from the pytest's cache plugin,
-- `./cic-ingestion/ARCHITECTURE.md` (184 lines, .md) -- CIC (Core Ingestion & Computation) is a deterministic routing, learning, and execution system.
+- `./cic-ingestion/ARCHITECTURE.md` (184 lines, .md) -- CIC (Core Ingestion & Computation) is a deterministic routing, learning, and execution system.  
 - `./cic-ingestion/CODEX_FIX_INSTRUCTIONS.md` (21 lines, .md) -- Round 4 verified: pipeline PASS claim now real (independently reproduced 3x, byte-identical results). Hashing, drift_aut
-- `./cic-ingestion/CONTRIBUTING.md` (290 lines, .md) -- Welcome to CIC — the deterministic ingestion, routing, learning, and execution system for Rewrite Labs.
+- `./cic-ingestion/CONTRIBUTING.md` (290 lines, .md) -- Welcome to CIC — the deterministic ingestion, routing, learning, and execution system for Rewrite Labs.  
 - `./cic-ingestion/EXTRACTOR.md` (13 lines, .md) -- Lessons learned from DLQ replays and verification failures in the ingestion layer.
 - `./cic-ingestion/OPERATIONS.md` (270 lines, .md) -- This document describes how to operate CIC in production, including deployment, rollback, monitoring, alerting, and inci
 - `./cic-ingestion/ORNITH_MAAL_SPL_ARCHITECTURE.md` (221 lines, .md) -- This document specifies a 5-layer architecture that fuses:
 - `./cic-ingestion/PHASE_27_INTEGRATION.md` (718 lines, .md) -- ```
-- `./cic-ingestion/PHASE_27_README.md` (372 lines, .md) -- Phase 27 introduces **deterministic adapter orchestration**, **drift detection**, **SPA hydration tracking**, and **SLO
+- `./cic-ingestion/PHASE_27_README.md` (372 lines, .md) -- Phase 27 introduces **deterministic adapter orchestration**, **drift detection**, **SPA hydration tracking**, and **SLO 
 - `./cic-ingestion/PHASE_4_COMPLETION.md` (338 lines, .md) -- Batch 8 implementation. All 15 steps, 4 commits, 3200+ LOC, spec-locked.
 - `./cic-ingestion/PROJECT-SUMMARY.md` (302 lines, .md) -- Replace legacy vendored image search with real Google Vision API integration via HTTP service, enabling:
 - `./cic-ingestion/ROADMAP.md` (107 lines, .md) -- <!-- SYNC:TOOLFORGE -->
@@ -273,13 +274,13 @@ Files: 5000
 - `./cic-ingestion/docs/cic/PHASE-1_IMPLEMENTATION_ORDER.md` (352 lines, .md) -- Create:
 - `./cic-ingestion/docs/cic/PHASE-1_LEDGER_SUBSTRATE.md` (284 lines, .md) -- Ledger substrate provides **durable, non-blocking** logging of all routing decisions and model performance metrics.
 - `./cic-ingestion/docs/cic/PHASE-1_MAAL_CORE.md` (248 lines, .md) -- Deterministic classification of input tasks.
-- `./cic-ingestion/docs/cic/PHASE-1_OVERVIEW.md` (118 lines, .md) -- Phase 1 establishes the **Multi-Agent Architecture Layer (MAAL)** — a deterministic routing substrate that directs CIC t
+- `./cic-ingestion/docs/cic/PHASE-1_OVERVIEW.md` (118 lines, .md) -- Phase 1 establishes the **Multi-Agent Architecture Layer (MAAL)** — a deterministic routing substrate that directs CIC
 - `./cic-ingestion/docs/cic/PHASE-1_TESTING.md` (396 lines, .md) -- ```typescript
 - `./cic-ingestion/docs/cic/PHASE-2_ACTION_SPACE.md` (164 lines, .md) -- Routing decision action.
 - `./cic-ingestion/docs/cic/PHASE-2_ARCHITECTURE.md` (258 lines, .md) -- Phase 2 implements an offline learning pipeline that:
 - `./cic-ingestion/docs/cic/PHASE-2_EPISODE_TRAJECTORY.md` (207 lines, .md) -- Single episode: sequence of (state, action, reward, nextState) tuples.
 - `./cic-ingestion/docs/cic/PHASE-2_INTEGRATION.md` (266 lines, .md) -- Reads Phase 1 ledger, converts events → RouteState.
-- `./cic-ingestion/docs/cic/PHASE-2_OVERVIEW.md` (167 lines, .md) -- Phase 2 establishes an **offline learning harness** that trains a policy network (π_θ) using supervised policy learning
+- `./cic-ingestion/docs/cic/PHASE-2_OVERVIEW.md` (167 lines, .md) -- Phase 2 establishes an **offline learning harness** that trains a policy network (π_θ) using supervised policy learnin
 - `./cic-ingestion/docs/cic/PHASE-2_POLICY_LEARNER.md` (214 lines, .md) -- Neural network π_θ: state → action distribution.
 - `./cic-ingestion/docs/cic/PHASE-2_REWARD_FUNCTION.md` (197 lines, .md) -- Encapsulates reward components and total reward.
 - `./cic-ingestion/docs/cic/PHASE-2_SIMULATION_ENGINE.md` (233 lines, .md) -- Generates offline episodes from ledger data.
@@ -385,7 +386,8 @@ Files: 5000
 - `./cic-ingestion/src/aperture/sandbox/SandboxRuntime.isolation.test.ts` (241 lines, .ts) -- import { SandboxRuntime, createSandboxRuntime } from './SandboxRuntime';
 - `./cic-ingestion/src/aperture/sandbox/SandboxRuntime.ts` (297 lines, .ts) -- import * as fs from 'fs';
 - `./cic-ingestion/src/aperture/types/index.ts` (267 lines, .ts) -- import { JSONSchema7 } from 'json-schema';
-- `./cic-ingestion/src/autonomy/AutonomyAPIServer.ts` (337 lines, .ts) -- import express, { Express, Request, Response, NextFunction } from \"express\";
+- `./cic-ingestion/src/autonomy/AutonomyAPIServer.test.ts` (130 lines, .ts) -- import express from 'express';
+- `./cic-ingestion/src/autonomy/AutonomyAPIServer.ts` (345 lines, .ts) -- import express, { Express, Request, Response, NextFunction } from \"express\";
 - `./cic-ingestion/src/autonomy/DriftCorrelationGraph.test.ts` (508 lines, .ts) -- import { DriftCorrelationGraph, WaveDriftEvent } from './DriftCorrelationGraph.ts';
 - `./cic-ingestion/src/autonomy/DriftCorrelationGraph.ts` (361 lines, .ts) -- export interface WaveDriftEvent {
 - `./cic-ingestion/src/autonomy/EXECUTION_POLICY_GUIDE.md` (548 lines, .md) -- If mode defaults in `.claude/settings.json` match your needs, just register without pre-approved tools:
@@ -396,9 +398,11 @@ Files: 5000
 - `./cic-ingestion/src/autonomy/ExecutionPolicyInterceptor.AutoHealing.ts` (297 lines, .ts) -- import { DriftSignal, CodeLevelDriftDetector } from '../drift/CodeLevelDriftDetector.ts';
 - `./cic-ingestion/src/autonomy/ExecutionPolicyInterceptor.test.ts` (225 lines, .ts) -- import {
 - `./cic-ingestion/src/autonomy/ExecutionPolicyInterceptor.ts` (165 lines, .ts) -- import {
+- `./cic-ingestion/src/autonomy/FireDrillManager.test.ts` (80 lines, .ts) -- import { FireDrillManager, FireDrillConfig } from './FireDrillManager';
 - `./cic-ingestion/src/autonomy/FireDrillManager.ts` (92 lines, .ts) -- import { FireDrillHarness, FireDrillResult } from \"../tests/d-phase/fire-drill-harness\";
 - `./cic-ingestion/src/autonomy/HealingPrimitives.test.ts` (379 lines, .ts) -- import {
 - `./cic-ingestion/src/autonomy/HealingPrimitives.ts` (442 lines, .ts) -- export interface HealingContext {
+- `./cic-ingestion/src/autonomy/InstinctOps.test.ts` (314 lines, .ts) -- import { InstinctOps, InstinctContext, getInstinctOps } from './InstinctOps';
 - `./cic-ingestion/src/autonomy/InstinctOps.ts` (297 lines, .ts) -- export type InstinctHook = 'beforePlan' | 'beforeCode' | 'beforeFix' | 'beforeDependencyAdd' | 'beforeRefactor' | 'onDri
 - `./cic-ingestion/src/autonomy/MultiWaveTelemetryStitcher.test.ts` (950 lines, .ts) -- import { MultiWaveTelemetryStitcher } from './MultiWaveTelemetryStitcher';
 - `./cic-ingestion/src/autonomy/MultiWaveTelemetryStitcher.ts` (542 lines, .ts) -- import { CorrelatedDriftVector } from './DriftCorrelationGraph';
@@ -406,10 +410,16 @@ Files: 5000
 - `./cic-ingestion/src/autonomy/ResumeGate.test.ts` (815 lines, .ts) -- import { ResumeGate, RevisedPlan, RevisedCriteria } from './ResumeGate';
 - `./cic-ingestion/src/autonomy/ResumeGate.ts` (329 lines, .ts) -- import { CorrelatedDriftVector } from './DriftCorrelationGraph';
 - `./cic-ingestion/src/autonomy/SixRulesFramework.ts` (27 lines, .ts) -- export type {
+- `./cic-ingestion/src/autonomy/TaskMetadataStore.test.ts` (203 lines, .ts) -- import { TaskMetadataStore, getTaskMetadataStore } from './TaskMetadataStore';
 - `./cic-ingestion/src/autonomy/TaskMetadataStore.ts` (227 lines, .ts) -- import { ExecutionContext, ExecutionMode, getExecutionPolicyEngine } from './ExecutionPolicy.ts';
+- `./cic-ingestion/src/autonomy/adapters/MemoryStoreAdapter.test.ts` (52 lines, .ts) -- import { MemoryStoreAdapter } from './MemoryStoreAdapter';
 - `./cic-ingestion/src/autonomy/adapters/MemoryStoreAdapter.ts` (28 lines, .ts) -- export class MemoryStoreAdapter {
+- `./cic-ingestion/src/autonomy/routes/__tests__/console.test.ts` (297 lines, .ts) -- import express, { Express } from 'express';
+- `./cic-ingestion/src/autonomy/routes/__tests__/consoleMappers.test.ts` (152 lines, .ts) -- import {
+- `./cic-ingestion/src/autonomy/routes/__tests__/execution.test.ts` (179 lines, .ts) -- import express, { Express } from 'express';
 - `./cic-ingestion/src/autonomy/routes/__tests__/firedrills-integration.test.ts` (62 lines, .ts) -- import { describe, it, expect, beforeEach, afterEach } from \"@jest/globals\";
 - `./cic-ingestion/src/autonomy/routes/__tests__/memory-governance.test.ts` (108 lines, .ts) -- import { describe, it, expect } from '@jest/globals';
+- `./cic-ingestion/src/autonomy/routes/__tests__/search.test.ts` (133 lines, .ts) -- import express, { Express } from 'express';
 - `./cic-ingestion/src/autonomy/routes/console.ts` (412 lines, .ts) -- import { Router, Request, Response } from 'express';
 - `./cic-ingestion/src/autonomy/routes/execution.ts` (251 lines, .ts) -- import express, { Router, Request, Response } from 'express';
 - `./cic-ingestion/src/autonomy/routes/firedrills.ts` (161 lines, .ts) -- import { Router, Request, Response } from \"express\";
@@ -502,6 +512,7 @@ Files: 5000
 - `./cic-ingestion/src/governance/snapshot-capture.ts` (67 lines, .ts) -- export interface DeploymentSnapshot {
 - `./cic-ingestion/src/harness/replayHarness.ts` (16 lines, .ts) -- import { updateDriftScores, DriftEvent } from \"../drift/driftEngine.ts\";
 - `./cic-ingestion/src/harness/snapshot-hash-verifier.ts` (137 lines, .ts) -- import crypto from \"crypto\";
+- `./cic-ingestion/src/harvester/index.test.ts` (17 lines, .ts) -- import { describe, expect, it } from '@jest/globals';
 - `./cic-ingestion/src/harvester/index.ts` (9 lines, .ts) -- import { clientSessionExtractor } from \"../extractors/clientSessionExtractor.ts\";
 - `./cic-ingestion/src/harvester/v2/server.ts` (14 lines, .ts) -- import express from 'express';
 - `./cic-ingestion/src/index.ts` (41 lines, .ts) -- import { AdapterRegistry } from \"./adapters/AdapterRegistry\";
@@ -613,7 +624,9 @@ Files: 5000
 - `./cic-ingestion/src/resilience/__tests__/resilience-orchestration.test.ts` (250 lines, .ts) -- import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
 - `./cic-ingestion/src/resilience/circuitBreaker.test.ts` (138 lines, .ts) -- import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
 - `./cic-ingestion/src/resilience/circuitBreaker.ts` (197 lines, .ts) -- export type CircuitBreakerState = \"CLOSED\" | \"OPEN\" | \"HALF_OPEN\";
+- `./cic-ingestion/src/resilience/fallbackChain.test.ts` (46 lines, .ts) -- import { describe, expect, it, jest } from '@jest/globals';
 - `./cic-ingestion/src/resilience/fallbackChain.ts` (237 lines, .ts) -- export interface FallbackProvider {
+- `./cic-ingestion/src/resilience/hardeningOrchestrator.test.ts` (45 lines, .ts) -- import { describe, expect, it, jest } from '@jest/globals';
 - `./cic-ingestion/src/resilience/hardeningOrchestrator.ts` (172 lines, .ts) -- import { CircuitBreaker } from \"./circuitBreaker\";
 - `./cic-ingestion/src/resilience/rateLimiter.test.ts` (114 lines, .ts) -- import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
 - `./cic-ingestion/src/resilience/rateLimiter.ts` (148 lines, .ts) -- export interface RateLimiterConfig {
@@ -633,7 +646,7 @@ Files: 5000
 - `./cic-ingestion/src/sections/types.ts` (40 lines, .ts) -- export interface SectionMetadata {
 - `./cic-ingestion/src/server.ts` (43 lines, .ts) -- import { startAutonomyAPIServer, AutonomyAPIServerConfig } from './autonomy/AutonomyAPIServer.ts';
 - `./cic-ingestion/src/server/cicStateStore.ts` (249 lines, .ts) -- import fs from \"fs\";
-- `./cic-ingestion/src/services/AdapterIntegrationService.ts` (154 lines, .ts) -- import { AdapterRegistry } from \"../adapters/AdapterRegistry\";
+- `./cic-ingestion/src/services/AdapterIntegrationService.ts` (158 lines, .ts) -- import { AdapterRegistry } from \"../adapters/AdapterRegistry\";
 - `./cic-ingestion/src/services/WarmPoolManager.ts` (274 lines, .ts) -- import { AdapterInput, AdapterOutput } from \"../adapters/BaseAdapter\";
 - `./cic-ingestion/src/services/imageAnalysis/ImageAnalysisService.ts` (211 lines, .ts) -- import { AnalyzeImageRequest, AnalyzeImageResponse, ImageMatch, ImageAnalysisConfig, OcrRequest, OcrResponse } from './t
 - `./cic-ingestion/src/services/imageAnalysis/__tests__/observability.test.ts` (122 lines, .ts) -- import { ImageAnalysisMetrics } from '../observability';
@@ -678,6 +691,7 @@ Files: 5000
 - `./cic-ingestion/src/utils/validation.ts` (149 lines, .ts) -- export interface ValidationResult {
 - `./cic-ingestion/src/validation/envelope.ts` (53 lines, .ts) -- export interface AdapterError {
 - `./cic-ingestion/src/validation/guards.ts` (51 lines, .ts) -- export const validateFinalUrl = (url: string): boolean =>
+- `./cic-ingestion/src/webhooks/SLOViolationWebhook.test.ts` (49 lines, .ts) -- import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 - `./cic-ingestion/src/webhooks/SLOViolationWebhook.ts` (249 lines, .ts) -- import axios, { AxiosInstance } from \"axios\";
 - `./cic-ingestion/tests/determinism-validation.test.ts` (311 lines, .ts) -- import { TorqueQueryClient } from '../src/services/torquequery/TorqueQueryClient';
 - `./cic-ingestion/tests/harness/fs-hash.test.ts` (9 lines, .ts) -- import { computeFsHash } from \"../../src/harness/fsHash\";
@@ -772,7 +786,7 @@ Files: 5000
 - `./claude-configs/scripts/ingest.py` (80 lines, .py) -- import os
 - `./claude-configs/scripts/smoke_tests.sh` (118 lines, .sh) -- set -e
 - `./claude-skills/.claude/commands/README.md` (351 lines, .md) -- ```
-- `./claude-skills/.claude/commands/focused-fix.md` (17 lines, .md) -- description: Deep-dive feature repair — systematically fix an entire feature/module. Usage: /focused-fix <feature-path>
+- `./claude-skills/.claude/commands/focused-fix.md` (17 lines, .md) -- description: Deep-dive feature repair — systematically fix an entire feature/module. Usage: /focused-fix <feature-path
 - `./claude-skills/.claude/commands/git/clean.md` (59 lines, .md) -- description: Clean up merged branches locally and on remote, keeping only main, dev, and gh-pages.
 - `./claude-skills/.claude/commands/git/cm.md` (14 lines, .md) -- description: Stage working tree changes and create a Conventional Commit (no push).
 - `./claude-skills/.claude/commands/git/cp.md` (14 lines, .md) -- description: Stage, commit, and push the current branch following git governance rules.
@@ -1191,13 +1205,13 @@ Files: 5000
 - `./claude-skills/CONTRIBUTING.md` (236 lines, .md) -- Thank you for your interest in contributing! This repository is the largest open-source Antigravity skills & agent plugi
 - `./claude-skills/CONVENTIONS.md` (289 lines, .md) -- For contribution workflow and how to submit PRs, see [CONTRIBUTING.md](CONTRIBUTING.md).
 - `./claude-skills/GEMINI.md` (75 lines, .md) -- This repository is a **comprehensive skills library** for Gemini CLI - reusable, production-ready skill packages that bu
-- `./claude-skills/INSTALLATION.md` (1095 lines, .md) -- Complete installation guide for all 205+ production-ready skills across multiple AI agents and platforms, now primarily
-- `./claude-skills/README.md` (222 lines, .md) -- The most comprehensive open-source library of agent plugins — built first and foremost for **Antigravity**. It also work
+- `./claude-skills/INSTALLATION.md` (1095 lines, .md) -- Complete installation guide for all 205+ production-ready skills across multiple AI agents and platforms, now primarily 
+- `./claude-skills/README.md` (222 lines, .md) -- The most comprehensive open-source library of agent plugins — built first and foremost for **Antigravity**. It also wo
 - `./claude-skills/SECURITY.md` (294 lines, .md) -- We release updates and security fixes for the following versions:
 - `./claude-skills/SKILL-AUTHORING-STANDARD.md` (459 lines, .md) -- The DNA of every skill in this repository. Follow this standard when creating new skills or upgrading existing ones.
 - `./claude-skills/SKILL_PIPELINE.md` (442 lines, .md) -- > **Effective: 2026-03-07** | Applies to ALL new skills, improvements, and deployments.
 - `./claude-skills/STORE.md` (129 lines, .md) -- > Everything you need to launch a SaaS product in a weekend.
-- `./claude-skills/agents/CLAUDE.md` (383 lines, .md) -- This guide provides comprehensive instructions for creating **cs-* prefixed agents** that seamlessly integrate with the
+- `./claude-skills/agents/CLAUDE.md` (383 lines, .md) -- This guide provides comprehensive instructions for creating **cs-* prefixed agents** that seamlessly integrate with the 
 - `./claude-skills/agents/business-growth/cs-growth-strategist.md` (66 lines, .md) -- name: cs-growth-strategist
 - `./claude-skills/agents/c-level/cs-ceo-advisor.md` (360 lines, .md) -- name: cs-ceo-advisor
 - `./claude-skills/agents/c-level/cs-cto-advisor.md` (412 lines, .md) -- name: cs-cto-advisor
@@ -1267,14 +1281,14 @@ Files: 5000
 - `./claude-skills/business-growth/skills/sales-engineer/scripts/poc_planner.py` (765 lines, .py) -- Generates structured POC plans including phased timelines, resource allocation,
 - `./claude-skills/business-growth/skills/sales-engineer/scripts/rfp_response_analyzer.py` (557 lines, .py) -- Parses RFP/RFI requirements and scores coverage using Full/Partial/Planned/Gap
 - `./claude-skills/business-operations/CLAUDE.md` (61 lines, .md) -- This file provides domain-specific guidance for skills in `business-operations/`.
-- `./claude-skills/business-operations/README.md` (40 lines, .md) -- v2.8.0 — 7 skills (orchestrator + 6 sub-skills), 18 stdlib Python tools, 24 references citing 7+ authoritative sources e
+- `./claude-skills/business-operations/README.md` (40 lines, .md) -- v2.8.0 — 7 skills (orchestrator + 6 sub-skills), 18 stdlib Python tools, 24 references citing 7+ authoritative sources
 - `./claude-skills/business-operations/agents/cs-bizops-orchestrator.md` (95 lines, .md) -- name: cs-bizops-orchestrator
-- `./claude-skills/business-operations/commands/cs-bizops.md` (39 lines, .md) -- description: Top-level Business Operations router. Routes the inquiry to one of six BizOps sub-skills (process, vendor,
+- `./claude-skills/business-operations/commands/cs-bizops.md` (39 lines, .md) -- description: Top-level Business Operations router. Routes the inquiry to one of six BizOps sub-skills (process, vendor, 
 - `./claude-skills/business-operations/commands/cs-capacity-plan.md` (29 lines, .md) -- description: Model headcount + tooling capacity for ops teams (CX/Support/CS/BizOps/IT ops/Finance ops) using Erlang-C q
 - `./claude-skills/business-operations/commands/cs-grill-bizops.md` (74 lines, .md) -- description: Matt Pocock-style docs-anchored grilling for a BizOps plan or design. Walks the user's plan against the Biz
-- `./claude-skills/business-operations/commands/cs-internal-comms.md` (30 lines, .md) -- description: Internal-only change-management comms using ADKAR (Prosci) + Kotter's 8-step. NOT marketing (external) and
+- `./claude-skills/business-operations/commands/cs-internal-comms.md` (30 lines, .md) -- description: Internal-only change-management comms using ADKAR (Prosci) + Kotter's 8-step. NOT marketing (external) and 
 - `./claude-skills/business-operations/commands/cs-knowledge-ops.md` (25 lines, .md) -- description: Company SOP + runbook authoring with 5W2H completeness checks. NOT personal PKM (that's llm-wiki). NOT engi
-- `./claude-skills/business-operations/commands/cs-process-map.md` (31 lines, .md) -- description: Map an internal business process (BPMN-style swim lanes), measure cycle time, and detect bottlenecks where
+- `./claude-skills/business-operations/commands/cs-process-map.md` (31 lines, .md) -- description: Map an internal business process (BPMN-style swim lanes), measure cycle time, and detect bottlenecks where 
 - `./claude-skills/business-operations/commands/cs-procurement.md` (23 lines, .md) -- description: Spend categorization + supplier rationalization + purchasing-cycle analysis. NOT vendor performance scoring
 - `./claude-skills/business-operations/commands/cs-vendor-review.md` (31 lines, .md) -- description: Score vendors on a multi-dimensional scorecard (reliability / support / security / commercial / strategic-f
 - `./claude-skills/business-operations/skills/business-operations-skills/SKILL.md` (144 lines, .md) -- name: business-operations-skills
@@ -1290,16 +1304,16 @@ Files: 5000
 - `./claude-skills/business-operations/skills/internal-comms/assets/comms_brief_template.md` (139 lines, .md) -- A 20-minute fill-out. Copy this template, replace the bracketed values, save as `comms_brief.json` (the JSON skeleton at
 - `./claude-skills/business-operations/skills/internal-comms/references/announcement_anti_patterns.md` (121 lines, .md) -- Eight specific anti-patterns drawn from Prosci research, MIT Sloan layoffs research, HBR transparent-leadership work, an
 - `./claude-skills/business-operations/skills/internal-comms/references/change_management_canon.md` (110 lines, .md) -- The seven foundational works on planned organizational change. The internal-comms skill is anchored on the first two (AD
-- `./claude-skills/business-operations/skills/internal-comms/references/internal_comms_canon.md` (108 lines, .md) -- Seven sources that anchor the *internal communications* discipline distinct from external/marketing comms. The audience
+- `./claude-skills/business-operations/skills/internal-comms/references/internal_comms_canon.md` (108 lines, .md) -- Seven sources that anchor the *internal communications* discipline distinct from external/marketing comms. The audience 
 - `./claude-skills/business-operations/skills/internal-comms/scripts/change_announcement_builder.py` (331 lines, .py) -- Produce a Kotter 8-step compliant primary internal announcement.
 - `./claude-skills/business-operations/skills/internal-comms/scripts/comms_calendar_builder.py` (289 lines, .py) -- Build a 7-touchpoint sequencing calendar for an internal change event.
 - `./claude-skills/business-operations/skills/internal-comms/scripts/comms_template_filler.py` (342 lines, .py) -- Fill a 4-artifact internal-comms package — pre-comm, primary announcement, FAQ,
 - `./claude-skills/business-operations/skills/knowledge-ops/SKILL.md` (120 lines, .md) -- name: knowledge-ops
 - `./claude-skills/business-operations/skills/knowledge-ops/assets/runbook_template.md` (118 lines, .md) -- Use this template to capture runbook steps before invoking the validator.
 - `./claude-skills/business-operations/skills/knowledge-ops/assets/sop_template.md` (115 lines, .md) -- Use this template to capture the SOP metadata before invoking the generator.
-- `./claude-skills/business-operations/skills/knowledge-ops/references/5w2h_sop_canon.md` (72 lines, .md) -- Standard Operating Procedure (SOP) authoring discipline for company processes — what every SOP must contain, why, and wh
+- `./claude-skills/business-operations/skills/knowledge-ops/references/5w2h_sop_canon.md` (72 lines, .md) -- Standard Operating Procedure (SOP) authoring discipline for company processes — what every SOP must contain, why, and 
 - `./claude-skills/business-operations/skills/knowledge-ops/references/kb_hygiene_anti_patterns.md` (148 lines, .md) -- The recurring failure modes that turn a useful company wiki into a sprawl of stale, unfindable, contradictory docs. Eigh
-- `./claude-skills/business-operations/skills/knowledge-ops/references/runbook_canon.md` (66 lines, .md) -- Internal-operations runbook design discipline — what makes a runbook safe to execute at 3am during an incident, and wher
+- `./claude-skills/business-operations/skills/knowledge-ops/references/runbook_canon.md` (66 lines, .md) -- Internal-operations runbook design discipline — what makes a runbook safe to execute at 3am during an incident, and wh
 - `./claude-skills/business-operations/skills/knowledge-ops/scripts/kb_ingester.py` (553 lines, .py) -- Walk a directory of markdown files (Notion export, Confluence space export,
 - `./claude-skills/business-operations/skills/knowledge-ops/scripts/runbook_validator.py` (471 lines, .py) -- Validate a runbook by checking each step against six required attributes:
 - `./claude-skills/business-operations/skills/knowledge-ops/scripts/sop_generator.py` (465 lines, .py) -- Generate a 5W2H-structured Standard Operating Procedure (SOP) from a JSON
@@ -1313,15 +1327,15 @@ Files: 5000
 - `./claude-skills/business-operations/skills/process-mapper/scripts/process_documenter.py` (290 lines, .py) -- Read a JSON description of a business process (one entry per stage) and emit:
 - `./claude-skills/business-operations/skills/procurement-optimizer/SKILL.md` (167 lines, .md) -- name: procurement-optimizer
 - `./claude-skills/business-operations/skills/procurement-optimizer/assets/spend_intake_template.md` (171 lines, .md) -- 20-minute fill-out for the annual SaaS audit / category-level spend review. Output is a JSON list you can paste into `sc
-- `./claude-skills/business-operations/skills/procurement-optimizer/references/procurement_anti_patterns.md` (155 lines, .md) -- A field guide to the most common procurement mistakes — drawn from A.T. Kearney's maverick-spend research, IACCM/WorldCC
+- `./claude-skills/business-operations/skills/procurement-optimizer/references/procurement_anti_patterns.md` (155 lines, .md) -- A field guide to the most common procurement mistakes — drawn from A.T. Kearney's maverick-spend research, IACCM/World
 - `./claude-skills/business-operations/skills/procurement-optimizer/references/saas_management_canon.md` (91 lines, .md) -- SaaS sprawl is the dominant indirect-spend category for tech companies and the #1 driver of spend growth in scaleups. Th
 - `./claude-skills/business-operations/skills/procurement-optimizer/references/spend_management_canon.md` (81 lines, .md) -- The authoritative literature on procurement spend management, category strategy, and supplier rationalization. Read thes
 - `./claude-skills/business-operations/skills/procurement-optimizer/scripts/purchasing_cycle_analyzer.py` (290 lines, .py) -- purchasing_cycle_analyzer.py — Per-category cycle-time scorecard with bottleneck flagging.
 - `./claude-skills/business-operations/skills/procurement-optimizer/scripts/spend_categorizer.py` (399 lines, .py) -- spend_categorizer.py — UNSPSC-aligned spend categorization + Pareto + YoY growth.
 - `./claude-skills/business-operations/skills/procurement-optimizer/scripts/supplier_consolidation.py` (399 lines, .py) -- supplier_consolidation.py — Duplicate-function clustering + risk-flagged consolidation plan.
 - `./claude-skills/business-operations/skills/vendor-management/SKILL.md` (170 lines, .md) -- name: vendor-management
-- `./claude-skills/business-operations/skills/vendor-management/assets/vendor_catalog_template.md` (210 lines, .md) -- The vendor-management skill's three Python tools all read the same JSON shape (with some fields used by only one tool).
-- `./claude-skills/business-operations/skills/vendor-management/references/sla_design_patterns.md` (90 lines, .md) -- This reference focuses on **measuring vendor SLAs** — what to track, what counts as a breach, when a credit claim is leg
+- `./claude-skills/business-operations/skills/vendor-management/assets/vendor_catalog_template.md` (210 lines, .md) -- The vendor-management skill's three Python tools all read the same JSON shape (with some fields used by only one tool). 
+- `./claude-skills/business-operations/skills/vendor-management/references/sla_design_patterns.md` (90 lines, .md) -- This reference focuses on **measuring vendor SLAs** — what to track, what counts as a breach, when a credit claim is l
 - `./claude-skills/business-operations/skills/vendor-management/references/vendor_management_canon.md` (80 lines, .md) -- This reference distills the operating frameworks for ongoing third-party / vendor management. It is **not** a contract-n
 - `./claude-skills/business-operations/skills/vendor-management/references/vendor_risk_anti_patterns.md` (100 lines, .md) -- The strongest argument for serious TPRM discipline is post-mortems from real third-party-originated incidents. This refe
 - `./claude-skills/business-operations/skills/vendor-management/scripts/sla_compliance_tracker.py` (342 lines, .py) -- sla_compliance_tracker.py — Per-vendor SLA compliance tracking.
@@ -1371,8 +1385,8 @@ Files: 5000
 - `./claude-skills/c-level-advisor/c_level_leadership_skills_overview.md` (388 lines, .md) -- Two comprehensive leadership skills have been created for your executive team:
 - `./claude-skills/c-level-advisor/chief-ai-officer-advisor/README.md` (9 lines, .md) -- Standalone plugin for Chief AI Officer advisory. **Dual-published**: also bundled inside `c-level-skills` (`./c-level-ad
 - `./claude-skills/c-level-advisor/chief-ai-officer-advisor/skills/chief-ai-officer-advisor/SKILL.md` (236 lines, .md) -- name: \"chief-ai-officer-advisor\"
-- `./claude-skills/c-level-advisor/chief-ai-officer-advisor/skills/chief-ai-officer-advisor/references/ai_cost_economics.md` (235 lines, .md) -- This reference answers exactly one decision: **at what monthly token volume does self-hosting beat API, and what hidden
-- `./claude-skills/c-level-advisor/chief-ai-officer-advisor/skills/chief-ai-officer-advisor/references/ai_risk_governance.md` (231 lines, .md) -- This reference answers exactly one decision: **for a specific AI use case, which regulations apply, what risk tier does
+- `./claude-skills/c-level-advisor/chief-ai-officer-advisor/skills/chief-ai-officer-advisor/references/ai_cost_economics.md` (235 lines, .md) -- This reference answers exactly one decision: **at what monthly token volume does self-hosting beat API, and what hidden 
+- `./claude-skills/c-level-advisor/chief-ai-officer-advisor/skills/chief-ai-officer-advisor/references/ai_risk_governance.md` (231 lines, .md) -- This reference answers exactly one decision: **for a specific AI use case, which regulations apply, what risk tier does 
 - `./claude-skills/c-level-advisor/chief-ai-officer-advisor/skills/chief-ai-officer-advisor/references/ai_team_org_evolution.md` (240 lines, .md) -- This reference answers exactly one decision: **for our stage and the AI capabilities we need to ship, what is the next A
 - `./claude-skills/c-level-advisor/chief-ai-officer-advisor/skills/chief-ai-officer-advisor/references/model_buildvsbuy_strategy.md` (134 lines, .md) -- This reference answers exactly one decision per use case: **should we call a frontier API, fine-tune a smaller model, or
 - `./claude-skills/c-level-advisor/chief-ai-officer-advisor/skills/chief-ai-officer-advisor/scripts/ai_cost_economics.py` (350 lines, .py) -- Stdlib-only. Takes a workload profile and outputs:
@@ -1390,17 +1404,17 @@ Files: 5000
 - `./claude-skills/c-level-advisor/chief-data-officer-advisor/README.md` (7 lines, .md) -- Standalone plugin for Chief Data Officer advisory. **Dual-published**: also bundled inside `c-level-skills` (`./c-level-
 - `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/SKILL.md` (205 lines, .md) -- name: \"chief-data-officer-advisor\"
 - `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/references/ai_training_data_rights.md` (133 lines, .md) -- This reference answers exactly one decision per data source: **may we use this for AI training, and for which use case?*
-- `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/references/customer_data_as_asset.md` (214 lines, .md) -- This reference answers exactly one decision: **at Series B+, when customer data is no longer operational but strategic,
+- `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/references/customer_data_as_asset.md` (214 lines, .md) -- This reference answers exactly one decision: **at Series B+, when customer data is no longer operational but strategic, 
 - `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/references/data_product_strategy.md` (159 lines, .md) -- This reference answers exactly one decision: **what is the right data platform for our stage, and which components do we
 - `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/references/data_team_org_evolution.md` (198 lines, .md) -- This reference answers exactly one decision: **for our stage and business decisions we can't currently make, what is the
 - `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/scripts/ai_training_data_audit.py` (447 lines, .py) -- Stdlib-only. Audits each data source on 3 dimensions:
 - `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/scripts/data_asset_valuator.py` (373 lines, .py) -- Stdlib-only. Takes a corpus profile and computes:
 - `./claude-skills/c-level-advisor/chief-data-officer-advisor/skills/chief-data-officer-advisor/scripts/data_product_strategy_picker.py` (357 lines, .py) -- Stdlib-only. Takes a company profile and outputs:
-- `./claude-skills/c-level-advisor/executive-mentor/agents/devils-advocate.md` (139 lines, .md) -- You are a devil's advocate agent for executive decision-making. Your role is not to be contrarian for the sake of it — i
+- `./claude-skills/c-level-advisor/executive-mentor/agents/devils-advocate.md` (139 lines, .md) -- You are a devil's advocate agent for executive decision-making. Your role is not to be contrarian for the sake of it —
 - `./claude-skills/c-level-advisor/executive-mentor/skills/board-prep/SKILL.md` (156 lines, .md) -- name: \"board-prep\"
 - `./claude-skills/c-level-advisor/executive-mentor/skills/challenge/SKILL.md` (181 lines, .md) -- name: \"challenge\"
 - `./claude-skills/c-level-advisor/executive-mentor/skills/executive-mentor/SKILL.md` (142 lines, .md) -- name: \"executive-mentor\"
-- `./claude-skills/c-level-advisor/executive-mentor/skills/executive-mentor/references/board_dynamics.md` (263 lines, .md) -- Your board has the power to fire you. Most boards don't want to. But the relationship deteriorates in predictable ways,
+- `./claude-skills/c-level-advisor/executive-mentor/skills/executive-mentor/references/board_dynamics.md` (263 lines, .md) -- Your board has the power to fire you. Most boards don't want to. But the relationship deteriorates in predictable ways, 
 - `./claude-skills/c-level-advisor/executive-mentor/skills/executive-mentor/references/crisis_playbook.md` (173 lines, .md) -- Crises aren't random. They fall into predictable categories. The companies that survive them have usually thought throug
 - `./claude-skills/c-level-advisor/executive-mentor/skills/executive-mentor/references/hard_things.md` (256 lines, .md) -- Firing people. Laying off teams. Pivoting when you've raised money on the old direction. Telling a co-founder it's over.
 - `./claude-skills/c-level-advisor/executive-mentor/skills/executive-mentor/scripts/decision_matrix_scorer.py` (491 lines, .py) -- Decision Matrix Scorer — Executive Mentor Tool
@@ -1441,8 +1455,8 @@ Files: 5000
 - `./claude-skills/c-level-advisor/skills/change-management/SKILL.md` (253 lines, .md) -- name: \"change-management\"
 - `./claude-skills/c-level-advisor/skills/change-management/references/change-playbook.md` (308 lines, .md) -- Deep reference for rolling out organizational changes effectively.
 - `./claude-skills/c-level-advisor/skills/chief-ai-officer-advisor/SKILL.md` (236 lines, .md) -- name: \"chief-ai-officer-advisor\"
-- `./claude-skills/c-level-advisor/skills/chief-ai-officer-advisor/references/ai_cost_economics.md` (235 lines, .md) -- This reference answers exactly one decision: **at what monthly token volume does self-hosting beat API, and what hidden
-- `./claude-skills/c-level-advisor/skills/chief-ai-officer-advisor/references/ai_risk_governance.md` (231 lines, .md) -- This reference answers exactly one decision: **for a specific AI use case, which regulations apply, what risk tier does
+- `./claude-skills/c-level-advisor/skills/chief-ai-officer-advisor/references/ai_cost_economics.md` (235 lines, .md) -- This reference answers exactly one decision: **at what monthly token volume does self-hosting beat API, and what hidden 
+- `./claude-skills/c-level-advisor/skills/chief-ai-officer-advisor/references/ai_risk_governance.md` (231 lines, .md) -- This reference answers exactly one decision: **for a specific AI use case, which regulations apply, what risk tier does 
 - `./claude-skills/c-level-advisor/skills/chief-ai-officer-advisor/references/ai_team_org_evolution.md` (240 lines, .md) -- This reference answers exactly one decision: **for our stage and the AI capabilities we need to ship, what is the next A
 - `./claude-skills/c-level-advisor/skills/chief-ai-officer-advisor/references/model_buildvsbuy_strategy.md` (134 lines, .md) -- This reference answers exactly one decision per use case: **should we call a frontier API, fine-tune a smaller model, or
 - `./claude-skills/c-level-advisor/skills/chief-ai-officer-advisor/scripts/ai_cost_economics.py` (350 lines, .py) -- Stdlib-only. Takes a workload profile and outputs:
@@ -1458,29 +1472,29 @@ Files: 5000
 - `./claude-skills/c-level-advisor/skills/chief-customer-officer-advisor/scripts/retention_decomposition_analyzer.py` (312 lines, .py) -- Stdlib-only. Takes cohort data and outputs:
 - `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/SKILL.md` (205 lines, .md) -- name: \"chief-data-officer-advisor\"
 - `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/references/ai_training_data_rights.md` (133 lines, .md) -- This reference answers exactly one decision per data source: **may we use this for AI training, and for which use case?*
-- `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/references/customer_data_as_asset.md` (214 lines, .md) -- This reference answers exactly one decision: **at Series B+, when customer data is no longer operational but strategic,
+- `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/references/customer_data_as_asset.md` (214 lines, .md) -- This reference answers exactly one decision: **at Series B+, when customer data is no longer operational but strategic, 
 - `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/references/data_product_strategy.md` (159 lines, .md) -- This reference answers exactly one decision: **what is the right data platform for our stage, and which components do we
 - `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/references/data_team_org_evolution.md` (198 lines, .md) -- This reference answers exactly one decision: **for our stage and business decisions we can't currently make, what is the
 - `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/scripts/ai_training_data_audit.py` (447 lines, .py) -- Stdlib-only. Audits each data source on 3 dimensions:
 - `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/scripts/data_asset_valuator.py` (373 lines, .py) -- Stdlib-only. Takes a corpus profile and computes:
 - `./claude-skills/c-level-advisor/skills/chief-data-officer-advisor/scripts/data_product_strategy_picker.py` (357 lines, .py) -- Stdlib-only. Takes a company profile and outputs:
 - `./claude-skills/c-level-advisor/skills/chief-of-staff/SKILL.md` (179 lines, .md) -- name: \"chief-of-staff\"
-- `./claude-skills/c-level-advisor/skills/chief-of-staff/references/routing-matrix.md` (212 lines, .md) -- Detailed routing rules for the Chief of Staff. When a founder asks a question, find the best match in this matrix, then
+- `./claude-skills/c-level-advisor/skills/chief-of-staff/references/routing-matrix.md` (212 lines, .md) -- Detailed routing rules for the Chief of Staff. When a founder asks a question, find the best match in this matrix, then 
 - `./claude-skills/c-level-advisor/skills/chief-of-staff/references/synthesis-framework.md` (201 lines, .md) -- How to turn multiple role outputs into a single, useful response for the founder. Synthesis is the highest-value functio
 - `./claude-skills/c-level-advisor/skills/chro-advisor/SKILL.md` (144 lines, .md) -- name: \"chro-advisor\"
 - `./claude-skills/c-level-advisor/skills/chro-advisor/references/comp_frameworks.md` (320 lines, .md) -- Salary bands, equity design, total comp modeling, comp philosophy, and raise/refresh processes.
-- `./claude-skills/c-level-advisor/skills/chro-advisor/references/org_design.md` (333 lines, .md) -- Spans of control, layering decisions, reorgs, title frameworks, career ladders, and the founder→professional management
+- `./claude-skills/c-level-advisor/skills/chro-advisor/references/org_design.md` (333 lines, .md) -- Spans of control, layering decisions, reorgs, title frameworks, career ladders, and the founder→professional managemen
 - `./claude-skills/c-level-advisor/skills/chro-advisor/references/people_strategy.md` (320 lines, .md) -- Hiring, retention, performance, and remote/hybrid frameworks for each growth stage.
 - `./claude-skills/c-level-advisor/skills/chro-advisor/scripts/comp_benchmarker.py` (613 lines, .py) -- Compensation Benchmarker
 - `./claude-skills/c-level-advisor/skills/chro-advisor/scripts/hiring_plan_modeler.py` (572 lines, .py) -- Hiring Plan Modeler
 - `./claude-skills/c-level-advisor/skills/ciso-advisor/SKILL.md` (135 lines, .md) -- name: \"ciso-advisor\"
 - `./claude-skills/c-level-advisor/skills/ciso-advisor/references/compliance_roadmap.md` (370 lines, .md) -- ```
-- `./claude-skills/c-level-advisor/skills/ciso-advisor/references/incident_response.md` (350 lines, .md) -- This is the executive IR playbook — strategic decisions, communication, and leadership during incidents. For technical p
+- `./claude-skills/c-level-advisor/skills/ciso-advisor/references/incident_response.md` (350 lines, .md) -- This is the executive IR playbook — strategic decisions, communication, and leadership during incidents. For technical
 - `./claude-skills/c-level-advisor/skills/ciso-advisor/references/security_strategy.md` (321 lines, .md) -- Most startups build security backwards: they get a compliance requirement (SOC 2, ISO 27001) and treat it as the securit
 - `./claude-skills/c-level-advisor/skills/ciso-advisor/scripts/compliance_tracker.py` (781 lines, .py) -- CISO Compliance Tracker
 - `./claude-skills/c-level-advisor/skills/ciso-advisor/scripts/risk_quantifier.py` (690 lines, .py) -- CISO Risk Quantifier
 - `./claude-skills/c-level-advisor/skills/cmo-advisor/SKILL.md` (169 lines, .md) -- name: \"cmo-advisor\"
-- `./claude-skills/c-level-advisor/skills/cmo-advisor/references/brand_positioning.md` (374 lines, .md) -- Practical frameworks for defining, communicating, and defending your market position. Not theory — applied tools for CMO
+- `./claude-skills/c-level-advisor/skills/cmo-advisor/references/brand_positioning.md` (374 lines, .md) -- Practical frameworks for defining, communicating, and defending your market position. Not theory — applied tools for C
 - `./claude-skills/c-level-advisor/skills/cmo-advisor/references/growth_frameworks.md` (456 lines, .md) -- Playbooks for PLG, sales-led, community-led, and hybrid growth models. Includes growth loops, funnel design, and guidanc
 - `./claude-skills/c-level-advisor/skills/cmo-advisor/references/marketing_org.md` (281 lines, .md) -- Team structure, hiring sequence, agency decisions, marketing ops, and cross-functional alignment — by company stage.
 - `./claude-skills/c-level-advisor/skills/cmo-advisor/scripts/growth_model_simulator.py` (416 lines, .py) -- Growth Model Simulator
@@ -1492,17 +1506,17 @@ Files: 5000
 - `./claude-skills/c-level-advisor/skills/competitive-intel/references/ci-playbook.md` (237 lines, .md) -- - **Their website** — pricing page (archive.org for history), product changelog, careers page
 - `./claude-skills/c-level-advisor/skills/competitive-intel/templates/battlecard-template.md` (99 lines, .md) -- [Who they are. Who they target. Why they win. What they're known for. 3-4 sentences max.]
 - `./claude-skills/c-level-advisor/skills/context-engine/SKILL.md` (134 lines, .md) -- name: \"context-engine\"
-- `./claude-skills/c-level-advisor/skills/context-engine/references/anonymization-protocol.md` (173 lines, .md) -- Rules for stripping sensitive company data before any external API call, web search, or tool invocation that sends data
+- `./claude-skills/c-level-advisor/skills/context-engine/references/anonymization-protocol.md` (173 lines, .md) -- Rules for stripping sensitive company data before any external API call, web search, or tool invocation that sends data 
 - `./claude-skills/c-level-advisor/skills/coo-advisor/SKILL.md` (137 lines, .md) -- name: \"coo-advisor\"
 - `./claude-skills/c-level-advisor/skills/coo-advisor/references/ops_cadence.md` (606 lines, .md) -- > The rhythm of your company determines its output. Bad cadence = constant context-switching, decisions made without inf
-- `./claude-skills/c-level-advisor/skills/coo-advisor/references/process_frameworks.md` (459 lines, .md) -- > Theory of Constraints, Lean, process mapping, automation, and change management — applied to real startup contexts, no
-- `./claude-skills/c-level-advisor/skills/coo-advisor/references/scaling_playbook.md` (465 lines, .md) -- > Compiled from patterns across 100+ high-growth companies. Not theory — this is what actually breaks and what to do abo
+- `./claude-skills/c-level-advisor/skills/coo-advisor/references/process_frameworks.md` (459 lines, .md) -- > Theory of Constraints, Lean, process mapping, automation, and change management — applied to real startup contexts, 
+- `./claude-skills/c-level-advisor/skills/coo-advisor/references/scaling_playbook.md` (465 lines, .md) -- > Compiled from patterns across 100+ high-growth companies. Not theory — this is what actually breaks and what to do a
 - `./claude-skills/c-level-advisor/skills/coo-advisor/scripts/okr_tracker.py` (1100 lines, .py) -- okr_tracker.py — OKR Cascade and Alignment Tracker
 - `./claude-skills/c-level-advisor/skills/coo-advisor/scripts/ops_efficiency_analyzer.py` (1071 lines, .py) -- ops_efficiency_analyzer.py — Operational Efficiency Analyzer
 - `./claude-skills/c-level-advisor/skills/cpo-advisor/SKILL.md` (200 lines, .md) -- name: \"cpo-advisor\"
 - `./claude-skills/c-level-advisor/skills/cpo-advisor/references/pmf_playbook.md` (307 lines, .md) -- How to find product-market fit, measure it, and not lose it. Steps, not theory.
-- `./claude-skills/c-level-advisor/skills/cpo-advisor/references/product_org_design.md` (407 lines, .md) -- How to structure, hire, and run product organizations at different stages. No generic advice — stage-specific, role-spec
-- `./claude-skills/c-level-advisor/skills/cpo-advisor/references/product_strategy.md` (454 lines, .md) -- Frameworks for product vision, competitive positioning, portfolio management, and board reporting. No theory — only what
+- `./claude-skills/c-level-advisor/skills/cpo-advisor/references/product_org_design.md` (407 lines, .md) -- How to structure, hire, and run product organizations at different stages. No generic advice — stage-specific, role-sp
+- `./claude-skills/c-level-advisor/skills/cpo-advisor/references/product_strategy.md` (454 lines, .md) -- Frameworks for product vision, competitive positioning, portfolio management, and board reporting. No theory — only wh
 - `./claude-skills/c-level-advisor/skills/cpo-advisor/scripts/pmf_scorer.py` (600 lines, .py) -- PMF Scorer — Multi-dimensional Product-Market Fit analysis.
 - `./claude-skills/c-level-advisor/skills/cpo-advisor/scripts/portfolio_analyzer.py` (547 lines, .py) -- Portfolio Analyzer — Product portfolio BCG matrix classification and investment analysis.
 - `./claude-skills/c-level-advisor/skills/cro-advisor/SKILL.md` (183 lines, .md) -- name: \"cro-advisor\"
@@ -1512,17 +1526,17 @@ Files: 5000
 - `./claude-skills/c-level-advisor/skills/cro-advisor/scripts/churn_analyzer.py` (742 lines, .py) -- Churn & Retention Analyzer
 - `./claude-skills/c-level-advisor/skills/cro-advisor/scripts/revenue_forecast_model.py` (571 lines, .py) -- Revenue Forecast Model
 - `./claude-skills/c-level-advisor/skills/cs-onboard/SKILL.md` (108 lines, .md) -- name: \"cs-onboard\"
-- `./claude-skills/c-level-advisor/skills/cs-onboard/references/interview-guide.md` (173 lines, .md) -- Deep operational guide for conducting the `/cs:setup` founder interview. Not a script — a thinking tool. Read before eve
+- `./claude-skills/c-level-advisor/skills/cs-onboard/references/interview-guide.md` (173 lines, .md) -- Deep operational guide for conducting the `/cs:setup` founder interview. Not a script — a thinking tool. Read before e
 - `./claude-skills/c-level-advisor/skills/cs-onboard/templates/company-context-template.md` (144 lines, .md) -- [One paragraph — product/service, who it's for, core use case]
 - `./claude-skills/c-level-advisor/skills/cto-advisor/SKILL.md` (257 lines, .md) -- name: \"cto-advisor\"
-- `./claude-skills/c-level-advisor/skills/cto-advisor/references/architecture_decision_records.md` (294 lines, .md) -- Architecture Decision Records capture important architectural decisions made along with their context and consequences.
+- `./claude-skills/c-level-advisor/skills/cto-advisor/references/architecture_decision_records.md` (294 lines, .md) -- Architecture Decision Records capture important architectural decisions made along with their context and consequences. 
 - `./claude-skills/c-level-advisor/skills/cto-advisor/references/engineering_metrics.md` (393 lines, .md) -- - **Definition**: How often code is deployed to production
 - `./claude-skills/c-level-advisor/skills/cto-advisor/references/technology_evaluation_framework.md` (370 lines, .md) -- - Core features needed
 - `./claude-skills/c-level-advisor/skills/cto-advisor/scripts/team_scaling_calculator.py` (562 lines, .py) -- Engineering Team Scaling Calculator - Optimize team growth and structure
 - `./claude-skills/c-level-advisor/skills/cto-advisor/scripts/tech_debt_analyzer.py` (450 lines, .py) -- Technical Debt Analyzer - Assess and prioritize technical debt across systems
 - `./claude-skills/c-level-advisor/skills/culture-architect/SKILL.md` (167 lines, .md) -- name: \"culture-architect\"
 - `./claude-skills/c-level-advisor/skills/culture-architect/references/culture-playbook.md` (243 lines, .md) -- Reference frameworks for building, measuring, and evolving company culture.
-- `./claude-skills/c-level-advisor/skills/culture-architect/templates/culture-code-template.md` (137 lines, .md) -- > This document describes how we work, what we value, and what it's like to be here. It's meant to be honest — which mea
+- `./claude-skills/c-level-advisor/skills/culture-architect/templates/culture-code-template.md` (137 lines, .md) -- > This document describes how we work, what we value, and what it's like to be here. It's meant to be honest — which m
 - `./claude-skills/c-level-advisor/skills/decision-logger/SKILL.md` (149 lines, .md) -- name: \"decision-logger\"
 - `./claude-skills/c-level-advisor/skills/decision-logger/scripts/decision_tracker.py` (620 lines, .py) -- decision_tracker.py — Board Meeting Decision Parser & Reporter
 - `./claude-skills/c-level-advisor/skills/decision-logger/templates/decision-entry.md` (63 lines, .md) -- Single entry for `memory/board-meetings/decisions.md`.
@@ -1540,22 +1554,22 @@ Files: 5000
 - `./claude-skills/c-level-advisor/skills/internal-narrative/templates/all-hands-template.md` (103 lines, .md) -- > \"We're ahead on revenue, behind on hiring, and Q3 is looking strong.\"
 - `./claude-skills/c-level-advisor/skills/intl-expansion/SKILL.md` (105 lines, .md) -- name: \"intl-expansion\"
 - `./claude-skills/c-level-advisor/skills/intl-expansion/references/market-entry-playbook.md` (138 lines, .md) -- Step-by-step framework for entering a new international market.
-- `./claude-skills/c-level-advisor/skills/intl-expansion/references/regional-guide.md` (144 lines, .md) -- Specific considerations for key regions. Not exhaustive — these are the patterns that trip up most expanding companies.
+- `./claude-skills/c-level-advisor/skills/intl-expansion/references/regional-guide.md` (144 lines, .md) -- Specific considerations for key regions. Not exhaustive — these are the patterns that trip up most expanding companies
 - `./claude-skills/c-level-advisor/skills/ma-playbook/SKILL.md` (98 lines, .md) -- name: \"ma-playbook\"
-- `./claude-skills/c-level-advisor/skills/ma-playbook/references/due-diligence-checklist.md` (148 lines, .md) -- Comprehensive due diligence organized by domain. Not every item applies to every deal — focus on what matters for YOUR a
+- `./claude-skills/c-level-advisor/skills/ma-playbook/references/due-diligence-checklist.md` (148 lines, .md) -- Comprehensive due diligence organized by domain. Not every item applies to every deal — focus on what matters for YOUR
 - `./claude-skills/c-level-advisor/skills/ma-playbook/references/integration-playbook.md` (145 lines, .md) -- The 100-day plan for integrating an acquisition. Most acquisitions fail not because of bad deals but bad integration.
 - `./claude-skills/c-level-advisor/skills/org-health-diagnostic/SKILL.md` (185 lines, .md) -- name: \"org-health-diagnostic\"
 - `./claude-skills/c-level-advisor/skills/org-health-diagnostic/references/health-benchmarks.md` (217 lines, .md) -- Benchmarks for scoring each dimension at Seed, Series A, Series B, and Series C.
 - `./claude-skills/c-level-advisor/skills/org-health-diagnostic/scripts/health_scorer.py` (585 lines, .py) -- Org Health Diagnostic — Multi-Dimension Health Scorer
 - `./claude-skills/c-level-advisor/skills/scenario-war-room/SKILL.md` (224 lines, .md) -- name: \"scenario-war-room\"
-- `./claude-skills/c-level-advisor/skills/scenario-war-room/references/scenario-planning.md` (212 lines, .md) -- Shell invented modern scenario planning in the 1970s after the oil crisis. Core insight: **scenarios are not forecasts —
+- `./claude-skills/c-level-advisor/skills/scenario-war-room/references/scenario-planning.md` (212 lines, .md) -- Shell invented modern scenario planning in the 1970s after the oil crisis. Core insight: **scenarios are not forecasts �
 - `./claude-skills/c-level-advisor/skills/scenario-war-room/scripts/scenario_modeler.py` (486 lines, .py) -- Scenario War Room — Multi-Variable Cascade Modeler
 - `./claude-skills/c-level-advisor/skills/strategic-alignment/SKILL.md` (194 lines, .md) -- name: \"strategic-alignment\"
 - `./claude-skills/c-level-advisor/skills/strategic-alignment/references/alignment-playbook.md` (205 lines, .md) -- Techniques for cascading strategy, detecting drift, and maintaining alignment at scale.
 - `./claude-skills/c-level-advisor/skills/strategic-alignment/scripts/alignment_checker.py` (455 lines, .py) -- Strategic Alignment Checker
 - `./claude-skills/c-level-advisor/skills/vpe-advisor/SKILL.md` (230 lines, .md) -- name: \"vpe-advisor\"
-- `./claude-skills/c-level-advisor/skills/vpe-advisor/references/delivery_throughput.md` (161 lines, .md) -- This reference answers exactly one decision: **what are our DORA 4 metrics, where is the bottleneck, and what do we fix
-- `./claude-skills/c-level-advisor/skills/vpe-advisor/references/eng_team_structure.md` (157 lines, .md) -- This reference answers exactly one decision: **at our headcount and work-stream complexity, what's the right structure —
+- `./claude-skills/c-level-advisor/skills/vpe-advisor/references/delivery_throughput.md` (161 lines, .md) -- This reference answers exactly one decision: **what are our DORA 4 metrics, where is the bottleneck, and what do we fix 
+- `./claude-skills/c-level-advisor/skills/vpe-advisor/references/eng_team_structure.md` (157 lines, .md) -- This reference answers exactly one decision: **at our headcount and work-stream complexity, what's the right structure �
 - `./claude-skills/c-level-advisor/skills/vpe-advisor/references/engineering_hiring_funnel.md` (180 lines, .md) -- This reference answers exactly one decision: **at which stage is our hiring funnel underperforming, what's the typical f
 - `./claude-skills/c-level-advisor/skills/vpe-advisor/references/production_discipline.md` (180 lines, .md) -- This reference answers exactly one decision: **what's our production operating model, and is it ready for the next stage
 - `./claude-skills/c-level-advisor/skills/vpe-advisor/scripts/delivery_throughput_analyzer.py` (277 lines, .py) -- Stdlib-only. Takes sprint metrics and outputs:
@@ -1563,8 +1577,8 @@ Files: 5000
 - `./claude-skills/c-level-advisor/skills/vpe-advisor/scripts/eng_team_structure_designer.py` (278 lines, .py) -- Stdlib-only. Takes team profile and outputs:
 - `./claude-skills/c-level-advisor/vpe-advisor/README.md` (9 lines, .md) -- Standalone plugin for VP of Engineering advisory. **Dual-published**: also bundled inside `c-level-skills` (`./c-level-a
 - `./claude-skills/c-level-advisor/vpe-advisor/skills/vpe-advisor/SKILL.md` (230 lines, .md) -- name: \"vpe-advisor\"
-- `./claude-skills/c-level-advisor/vpe-advisor/skills/vpe-advisor/references/delivery_throughput.md` (161 lines, .md) -- This reference answers exactly one decision: **what are our DORA 4 metrics, where is the bottleneck, and what do we fix
-- `./claude-skills/c-level-advisor/vpe-advisor/skills/vpe-advisor/references/eng_team_structure.md` (157 lines, .md) -- This reference answers exactly one decision: **at our headcount and work-stream complexity, what's the right structure —
+- `./claude-skills/c-level-advisor/vpe-advisor/skills/vpe-advisor/references/delivery_throughput.md` (161 lines, .md) -- This reference answers exactly one decision: **what are our DORA 4 metrics, where is the bottleneck, and what do we fix 
+- `./claude-skills/c-level-advisor/vpe-advisor/skills/vpe-advisor/references/eng_team_structure.md` (157 lines, .md) -- This reference answers exactly one decision: **at our headcount and work-stream complexity, what's the right structure �
 - `./claude-skills/c-level-advisor/vpe-advisor/skills/vpe-advisor/references/engineering_hiring_funnel.md` (180 lines, .md) -- This reference answers exactly one decision: **at which stage is our hiring funnel underperforming, what's the typical f
 - `./claude-skills/c-level-advisor/vpe-advisor/skills/vpe-advisor/references/production_discipline.md` (180 lines, .md) -- This reference answers exactly one decision: **what's our production operating model, and is it ready for the next stage
 - `./claude-skills/c-level-advisor/vpe-advisor/skills/vpe-advisor/scripts/delivery_throughput_analyzer.py` (277 lines, .py) -- Stdlib-only. Takes sprint metrics and outputs:
@@ -1576,10 +1590,10 @@ Files: 5000
 - `./claude-skills/commands/code-to-prd.md` (78 lines, .md) -- name: code-to-prd
 - `./claude-skills/commands/competitive-matrix.md` (40 lines, .md) -- name: competitive-matrix
 - `./claude-skills/commands/cs-aeo.md` (165 lines, .md) -- name: \"cs-aeo\"
-- `./claude-skills/commands/cs-backend-review.md` (76 lines, .md) -- description: Backend engineering review — walks the 7 Matt Pocock forcing questions (read/write ratio + QPS, tenancy, sy
-- `./claude-skills/commands/cs-engineer-grill.md` (86 lines, .md) -- description: Cross-role engineering grill — Matt Pocock 7 questions per role × 3 roles (fullstack / frontend / backend)
-- `./claude-skills/commands/cs-frontend-review.md` (69 lines, .md) -- description: Frontend engineering review — walks the 7 Matt Pocock forcing questions (device, LCP target, rendering, bun
-- `./claude-skills/commands/cs-fullstack-review.md` (72 lines, .md) -- description: Fullstack engineering review — walks the 7 Matt Pocock forcing questions, picks the profile, forks into POW
+- `./claude-skills/commands/cs-backend-review.md` (76 lines, .md) -- description: Backend engineering review — walks the 7 Matt Pocock forcing questions (read/write ratio + QPS, tenancy, 
+- `./claude-skills/commands/cs-engineer-grill.md` (86 lines, .md) -- description: Cross-role engineering grill — Matt Pocock 7 questions per role × 3 roles (fullstack / frontend / backen
+- `./claude-skills/commands/cs-frontend-review.md` (69 lines, .md) -- description: Frontend engineering review — walks the 7 Matt Pocock forcing questions (device, LCP target, rendering, b
+- `./claude-skills/commands/cs-fullstack-review.md` (72 lines, .md) -- description: Fullstack engineering review — walks the 7 Matt Pocock forcing questions, picks the profile, forks into P
 - `./claude-skills/commands/financial-health.md` (38 lines, .md) -- name: financial-health
 - `./claude-skills/commands/flag-cleanup.md` (59 lines, .md) -- description: Run the quarterly feature-flag cleanup workflow on the current repo
 - `./claude-skills/commands/focused-fix.md` (91 lines, .md) -- name: focused-fix
@@ -1609,20 +1623,20 @@ Files: 5000
 - `./claude-skills/commands/wiki-log.md` (64 lines, .md) -- name: wiki-log
 - `./claude-skills/commands/wiki-query.md` (58 lines, .md) -- name: wiki-query
 - `./claude-skills/commercial/CLAUDE.md` (60 lines, .md) -- This file provides domain-specific guidance for skills in `commercial/`.
-- `./claude-skills/commercial/README.md` (41 lines, .md) -- v2.8.0 — 8 skills (orchestrator + 7 sub-skills), 21 stdlib Python tools, 28 references citing 7+ authoritative sources e
+- `./claude-skills/commercial/README.md` (41 lines, .md) -- v2.8.0 — 8 skills (orchestrator + 7 sub-skills), 21 stdlib Python tools, 28 references citing 7+ authoritative sources
 - `./claude-skills/commercial/agents/cs-commercial-orchestrator.md` (95 lines, .md) -- name: cs-commercial-orchestrator
-- `./claude-skills/commercial/commands/cs-channel-econ.md` (29 lines, .md) -- description: Direct vs partner-led channel economics — fully-loaded cost-to-serve, channel ROI, optimal channel mix. NOT
+- `./claude-skills/commercial/commands/cs-channel-econ.md` (29 lines, .md) -- description: Direct vs partner-led channel economics — fully-loaded cost-to-serve, channel ROI, optimal channel mix. N
 - `./claude-skills/commercial/commands/cs-commercial-forecast.md` (29 lines, .md) -- description: Forward bookings / billings / ARR forecast with funnel + cohort math + conversion-assumption disclosure. NO
-- `./claude-skills/commercial/commands/cs-commercial-policy.md` (29 lines, .md) -- description: Discount matrix designer + T&C library + exception policy. New ground — designs the policy that deal-desk a
+- `./claude-skills/commercial/commands/cs-commercial-policy.md` (29 lines, .md) -- description: Discount matrix designer + T&C library + exception policy. New ground — designs the policy that deal-desk
 - `./claude-skills/commercial/commands/cs-commercial.md` (46 lines, .md) -- description: Top-level Commercial router. Routes the inquiry to one of seven Commercial sub-skills (pricing, deal, partn
 - `./claude-skills/commercial/commands/cs-deal-review.md` (36 lines, .md) -- description: Per-deal review. Score margin + risk, route discount approval to the right human, redline T&Cs against comm
-- `./claude-skills/commercial/commands/cs-grill-commercial.md` (89 lines, .md) -- description: Matt Pocock-style docs-anchored grilling for a Commercial plan, deal, pricing decision, or forecast. Walks
+- `./claude-skills/commercial/commands/cs-grill-commercial.md` (89 lines, .md) -- description: Matt Pocock-style docs-anchored grilling for a Commercial plan, deal, pricing decision, or forecast. Walks 
 - `./claude-skills/commercial/commands/cs-partner-tier.md` (29 lines, .md) -- description: Partner tier classification (Referral / Reseller / OEM / SI / Strategic) + joint GTM plan + revshare model.
 - `./claude-skills/commercial/commands/cs-pricing-strategy.md` (34 lines, .md) -- description: Pricing model selection (subscription / usage / value / hybrid), Van Westendorp WTP analysis, packaging des
 - `./claude-skills/commercial/commands/cs-rfp-respond.md` (28 lines, .md) -- description: Structured RFP/RFI/RFQ response with win-theme injection and proof-point matrix. NOT free-form proposal aut
 - `./claude-skills/commercial/skills/channel-economics/SKILL.md` (149 lines, .md) -- name: channel-economics
-- `./claude-skills/commercial/skills/channel-economics/assets/channel_data_template.md` (196 lines, .md) -- Fill this out in ~20 minutes. The three scripts in this skill all consume JSON; this template gives you the schema with
-- `./claude-skills/commercial/skills/channel-economics/references/channel_anti_patterns.md` (126 lines, .md) -- The eight anti-patterns this skill is built to detect, with citations. Most channel-economics decisions fail because of
+- `./claude-skills/commercial/skills/channel-economics/assets/channel_data_template.md` (196 lines, .md) -- Fill this out in ~20 minutes. The three scripts in this skill all consume JSON; this template gives you the schema with 
+- `./claude-skills/commercial/skills/channel-economics/references/channel_anti_patterns.md` (126 lines, .md) -- The eight anti-patterns this skill is built to detect, with citations. Most channel-economics decisions fail because of 
 - `./claude-skills/commercial/skills/channel-economics/references/channel_economics_canon.md` (101 lines, .md) -- The authoritative reference set for direct-vs-partner economics, channel ROI computation, and channel-mix decision-makin
 - `./claude-skills/commercial/skills/channel-economics/references/cost_to_serve_canon.md` (103 lines, .md) -- The authoritative reference set for fully-loaded cost-to-serve methodology. Use this when validating cost categories, al
 - `./claude-skills/commercial/skills/channel-economics/scripts/channel_mix_optimizer.py` (327 lines, .py) -- Computes per-channel effective LTV, payback period, and efficiency ratio
@@ -1638,9 +1652,9 @@ Files: 5000
 - `./claude-skills/commercial/skills/commercial-forecaster/scripts/funnel_confidence_scorer.py` (204 lines, .py) -- Input: JSON with funnel_stages (each with stage_name and conversion_pct_history over 12 quarters).
 - `./claude-skills/commercial/skills/commercial-policy/SKILL.md` (150 lines, .md) -- name: commercial-policy
 - `./claude-skills/commercial/skills/commercial-policy/assets/policy_design_template.md` (181 lines, .md) -- - `discount_matrix_builder.py` ← Section 4 (current deals) + Section 5 (constraints) + Section 6 (industry)
-- `./claude-skills/commercial/skills/commercial-policy/references/discount_governance_canon.md` (131 lines, .md) -- Authoritative sources on **how mature SaaS companies govern discounts off list price** — the rules of engagement that th
+- `./claude-skills/commercial/skills/commercial-policy/references/discount_governance_canon.md` (131 lines, .md) -- Authoritative sources on **how mature SaaS companies govern discounts off list price** — the rules of engagement that 
 - `./claude-skills/commercial/skills/commercial-policy/references/policy_anti_patterns.md` (143 lines, .md) -- Eight named anti-patterns that the commercial-policy skill is built to prevent. Each is observed in the wild (with sourc
-- `./claude-skills/commercial/skills/commercial-policy/references/policy_design_canon.md` (119 lines, .md) -- Authoritative sources on **how to design a commercial policy as an artifact** — not how to discount, but how to write th
+- `./claude-skills/commercial/skills/commercial-policy/references/policy_design_canon.md` (119 lines, .md) -- Authoritative sources on **how to design a commercial policy as an artifact** — not how to discount, but how to write 
 - `./claude-skills/commercial/skills/commercial-policy/scripts/discount_matrix_builder.py` (298 lines, .py) -- Stdlib-only. Builds a 4-dimensional discount matrix indexed by:
 - `./claude-skills/commercial/skills/commercial-policy/scripts/exception_router.py` (266 lines, .py) -- Stdlib-only. Takes an exception request and a matrix path. Decides:
 - `./claude-skills/commercial/skills/commercial-policy/scripts/policy_linter.py` (361 lines, .py) -- Stdlib-only. Reads the JSON output of discount_matrix_builder.py (or a
@@ -1670,10 +1684,10 @@ Files: 5000
 - `./claude-skills/commercial/skills/pricing-strategist/scripts/pricing_model_picker.py` (297 lines, .py) -- Input: JSON describing customer context (industry, deal size, customer count, value drivers,
 - `./claude-skills/commercial/skills/pricing-strategist/scripts/wtp_analyzer.py` (265 lines, .py) -- Implements the classical PSM analysis (van Westendorp, 1976). Each respondent answers
 - `./claude-skills/commercial/skills/rfp-responder/SKILL.md` (154 lines, .md) -- name: rfp-responder
-- `./claude-skills/commercial/skills/rfp-responder/assets/rfp_intake_template.md` (121 lines, .md) -- Fill this in BEFORE running `scripts/response_drafter.py` and `scripts/winrate_predictor.py`. Save as `rfp_intake.json`
+- `./claude-skills/commercial/skills/rfp-responder/assets/rfp_intake_template.md` (121 lines, .md) -- Fill this in BEFORE running `scripts/response_drafter.py` and `scripts/winrate_predictor.py`. Save as `rfp_intake.json` 
 - `./claude-skills/commercial/skills/rfp-responder/references/rfp_anti_patterns.md` (101 lines, .md) -- Eight RFP-response failure modes documented across Shipley failure-mode analyses, APMP case studies, Strategic Proposals
 - `./claude-skills/commercial/skills/rfp-responder/references/rfp_strategy_canon.md` (73 lines, .md) -- This reference grounds the `winrate_predictor.py` factor weights in published industry research. The model is opinionate
-- `./claude-skills/commercial/skills/rfp-responder/references/shipley_method_canon.md` (64 lines, .md) -- The Shipley method is the dominant industry methodology for capture management and proposal development. This reference
+- `./claude-skills/commercial/skills/rfp-responder/references/shipley_method_canon.md` (64 lines, .md) -- The Shipley method is the dominant industry methodology for capture management and proposal development. This reference 
 - `./claude-skills/commercial/skills/rfp-responder/scripts/response_drafter.py` (288 lines, .py) -- Stdlib only. Deterministic logic. NEVER invents claims to fill GAP requirements.
 - `./claude-skills/commercial/skills/rfp-responder/scripts/rfp_parser.py` (301 lines, .py) -- Stdlib only. Regex + cue-word heuristics. No NLP libraries, no LLM calls.
 - `./claude-skills/commercial/skills/rfp-responder/scripts/winrate_predictor.py` (256 lines, .py) -- Stdlib only. Deterministic factor model.
@@ -1689,7 +1703,7 @@ Files: 5000
 - `./claude-skills/compliance-os/skills/ai-act-readiness/SKILL.md` (149 lines, .md) -- name: \"ai-act-readiness\"
 - `./claude-skills/compliance-os/skills/aims-audit/SKILL.md` (132 lines, .md) -- name: \"aims-audit\"
 - `./claude-skills/compliance-os/skills/compliance-os/SKILL.md` (211 lines, .md) -- name: \"compliance-os\"
-- `./claude-skills/compliance-os/skills/compliance-os/references/audit_simulation_methodology.md` (142 lines, .md) -- This reference answers exactly one decision: **what does a realistic internal audit look like, and how do we generate a
+- `./claude-skills/compliance-os/skills/compliance-os/references/audit_simulation_methodology.md` (142 lines, .md) -- This reference answers exactly one decision: **what does a realistic internal audit look like, and how do we generate a 
 - `./claude-skills/compliance-os/skills/compliance-os/references/compliance_os_pattern.md` (141 lines, .md) -- This reference answers exactly one decision: **when do we orchestrate frameworks vs run them separately, and what does t
 - `./claude-skills/compliance-os/skills/compliance-os/references/cross_framework_overlap.md` (108 lines, .md) -- This reference answers exactly one decision: **for each common control family, which of the 9 supported frameworks addre
 - `./claude-skills/compliance-os/skills/compliance-os/references/evidence_artifact_reuse_index.md` (167 lines, .md) -- This reference answers exactly one decision: **which evidence artefacts have the highest reuse leverage across the 12 su
@@ -1705,7 +1719,7 @@ Files: 5000
 - `./claude-skills/compliance-os/skills/iso13485-audit-prep/SKILL.md` (157 lines, .md) -- name: \"iso13485-audit-prep\"
 - `./claude-skills/compliance-os/skills/iso27001-audit-prep/SKILL.md` (138 lines, .md) -- name: \"iso27001-audit-prep\"
 - `./claude-skills/compliance-os/skills/soc2-audit-prep/SKILL.md` (152 lines, .md) -- name: \"soc2-audit-prep\"
-- `./claude-skills/custom-gpt/README.md` (128 lines, .md) -- > **6 Custom GPTs** built on the Agent Skills library. Free to use in ChatGPT — no setup, no API keys, no installation.
+- `./claude-skills/custom-gpt/README.md` (128 lines, .md) -- > **6 Custom GPTs** built on the Agent Skills library. Free to use in ChatGPT — no setup, no API keys, no installation
 - `./claude-skills/docs/agents/content-strategist.md` (76 lines, .md) -- title: \"Content Strategist — AI Coding Agent & Codex Skill\"
 - `./claude-skills/docs/agents/cs-aeo.md` (92 lines, .md) -- title: \"AEO Agent — Answer Engine Optimization Specialist — AI Coding Agent & Codex Skill\"
 - `./claude-skills/docs/agents/cs-agile-product-owner.md` (419 lines, .md) -- title: \"Agile Product Owner Agent — AI Coding Agent & Codex Skill\"
@@ -1894,7 +1908,7 @@ Files: 5000
 - `./claude-skills/docs/skills/business-operations/internal-comms.md` (131 lines, .md) -- title: \"internal-comms — Tactical Internal Change-Management Authoring — Claude Code Plugin & Agent Skill\"
 - `./claude-skills/docs/skills/business-operations/knowledge-ops.md` (125 lines, .md) -- title: \"knowledge-ops — Claude Code Plugin & Agent Skill\"
 - `./claude-skills/docs/skills/business-operations/process-mapper.md` (108 lines, .md) -- title: \"process-mapper — Claude Code Plugin & Agent Skill\"
-- `./claude-skills/docs/skills/business-operations/procurement-optimizer.md` (173 lines, .md) -- title: \"Procurement Optimizer — Spend Categorization + Supplier Rationalization — Claude Code Plugin & Agent Skill\"
+- `./claude-skills/docs/skills/business-operations/procurement-optimizer.md` (173 lines, .md) -- title: \"Procurement Optimizer — Spend Categorization + Supplier Rationalization — Claude Code Plugin & Agent Skill\
 - `./claude-skills/docs/skills/business-operations/vendor-management.md` (175 lines, .md) -- title: \"Vendor Management — Operational Third-Party Performance — Claude Code Plugin & Agent Skill\"
 - `./claude-skills/docs/skills/c-level-advisor/agent-protocol.md` (421 lines, .md) -- title: \"Inter-Agent Protocol — Agent Skill for Executives\"
 - `./claude-skills/docs/skills/c-level-advisor/board-deck-builder.md` (186 lines, .md) -- title: \"Board Deck Builder — Agent Skill for Executives\"
@@ -2222,7 +2236,7 @@ Files: 5000
 - `./claude-skills/docs/skills/research/syllabus.md` (298 lines, .md) -- title: \"Syllabus — Course Supplementary Reading List — Agent Skill for Research Workflows\"
 - `./claude-skills/engineering-team/.codex/instructions.md` (40 lines, .md) -- When working on engineering tasks, use the engineering skill system:
 - `./claude-skills/engineering-team/CLAUDE.md` (322 lines, .md) -- This guide covers the 32 production-ready engineering skills and their Python automation tools.
-- `./claude-skills/engineering-team/README.md` (608 lines, .md) -- Complete set of 18 engineering role skills tailored to your tech stack (ReactJS, NextJS, NodeJS, Express, React Native,
+- `./claude-skills/engineering-team/README.md` (608 lines, .md) -- Complete set of 18 engineering role skills tailored to your tech stack (ReactJS, NextJS, NodeJS, Express, React Native, 
 - `./claude-skills/engineering-team/START_HERE.md` (354 lines, .md) -- All skills follow your exact template structure with:
 - `./claude-skills/engineering-team/TEAM_STRUCTURE_GUIDE.md` (630 lines, .md) -- Complete set of **14 senior-level skills** for building exceptional engineering and AI/data teams.
 - `./claude-skills/engineering-team/a11y-audit/README.md` (46 lines, .md) -- Audit and fix WCAG 2.2 accessibility issues in any frontend project. Covers React, Next.js, Vue, Angular, Svelte, and pl
@@ -2347,7 +2361,7 @@ Files: 5000
 - `./claude-skills/engineering-team/self-improving-agent/hooks/error-capture.sh` (119 lines, .sh) -- set -e
 - `./claude-skills/engineering-team/self-improving-agent/reference/memory-architecture.md` (131 lines, .md) -- A complete reference for how Claude Code's memory systems work together.
 - `./claude-skills/engineering-team/self-improving-agent/reference/promotion-rules.md` (83 lines, .md) -- When to promote a learning from auto-memory (MEMORY.md) to the project's rule system (CLAUDE.md or `.claude/rules/`).
-- `./claude-skills/engineering-team/self-improving-agent/reference/rules-directory-patterns.md` (137 lines, .md) -- Best practices for organizing `.claude/rules/` files — the scoped instruction system that loads rules only when relevant
+- `./claude-skills/engineering-team/self-improving-agent/reference/rules-directory-patterns.md` (137 lines, .md) -- Best practices for organizing `.claude/rules/` files — the scoped instruction system that loads rules only when releva
 - `./claude-skills/engineering-team/self-improving-agent/skills/extract/SKILL.md` (193 lines, .md) -- name: \"extract\"
 - `./claude-skills/engineering-team/self-improving-agent/skills/promote/SKILL.md` (144 lines, .md) -- name: \"promote\"
 - `./claude-skills/engineering-team/self-improving-agent/skills/remember/SKILL.md` (98 lines, .md) -- name: \"remember\"
@@ -2377,7 +2391,7 @@ Files: 5000
 - `./claude-skills/engineering-team/skills/cloud-security/SKILL.md` (343 lines, .md) -- name: \"cloud-security\"
 - `./claude-skills/engineering-team/skills/cloud-security/references/cspm-checks.md` (109 lines, .md) -- Complete check matrices for cloud security posture management across AWS, Azure, and GCP. Each check includes finding co
 - `./claude-skills/engineering-team/skills/cloud-security/scripts/cloud_posture_check.py` (1180 lines, .py) -- cloud_posture_check.py — Cloud Security Posture Check
-- `./claude-skills/engineering-team/skills/code-reviewer/README.md` (89 lines, .md) -- Code review automation for TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, and .NET. Analyzes PRs for complexity
+- `./claude-skills/engineering-team/skills/code-reviewer/README.md` (89 lines, .md) -- Code review automation for TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, and .NET. Analyzes PRs for complexity 
 - `./claude-skills/engineering-team/skills/code-reviewer/SKILL.md` (243 lines, .md) -- name: \"code-reviewer\"
 - `./claude-skills/engineering-team/skills/code-reviewer/references/code_review_checklist.md` (270 lines, .md) -- Structured checklists for systematic code review across different aspects.
 - `./claude-skills/engineering-team/skills/code-reviewer/references/coding_standards.md` (793 lines, .md) -- Language-specific coding standards and conventions for code review.
@@ -2388,12 +2402,12 @@ Files: 5000
 - `./claude-skills/engineering-team/skills/email-template-builder/SKILL.md` (439 lines, .md) -- name: \"email-template-builder\"
 - `./claude-skills/engineering-team/skills/engineering-skills/SKILL.md` (91 lines, .md) -- name: \"engineering-skills\"
 - `./claude-skills/engineering-team/skills/epic-design/SKILL.md` (353 lines, .md) -- name: epic-design
-- `./claude-skills/engineering-team/skills/epic-design/references/accessibility.md` (378 lines, .md) -- Every 2.5D website MUST implement ALL of the following. These are not optional enhancements — they are legal requirement
+- `./claude-skills/engineering-team/skills/epic-design/references/accessibility.md` (378 lines, .md) -- Every 2.5D website MUST implement ALL of the following. These are not optional enhancements — they are legal requireme
 - `./claude-skills/engineering-team/skills/epic-design/references/asset-pipeline.md` (135 lines, .md) -- Every image asset must be inspected and judged before use in any 2.5D site.
 - `./claude-skills/engineering-team/skills/epic-design/references/depth-system.md` (361 lines, .md) -- The 2.5D illusion is built entirely on a **6-level depth model**. Every element on the page belongs to exactly one depth
-- `./claude-skills/engineering-team/skills/epic-design/references/directional-reveals.md` (455 lines, .md) -- Elements and sections don't always enter from the bottom. Premium sites use **directional births** — sections that drop
+- `./claude-skills/engineering-team/skills/epic-design/references/directional-reveals.md` (455 lines, .md) -- Elements and sections don't always enter from the bottom. Premium sites use **directional births** — sections that dro
 - `./claude-skills/engineering-team/skills/epic-design/references/examples.md` (344 lines, .md) -- Five complete implementation blueprints. Each describes exactly which techniques to combine, in what order, with key cod
-- `./claude-skills/engineering-team/skills/epic-design/references/inter-section-effects.md` (493 lines, .md) -- These are the most premium techniques — effects where elements **persist, travel, or transition between sections**, crea
+- `./claude-skills/engineering-team/skills/epic-design/references/inter-section-effects.md` (493 lines, .md) -- These are the most premium techniques — effects where elements **persist, travel, or transition between sections**, cr
 - `./claude-skills/engineering-team/skills/epic-design/references/motion-system.md` (531 lines, .md) -- 1. [GSAP Setup & CDN](#gsap-setup)
 - `./claude-skills/engineering-team/skills/epic-design/references/performance.md` (261 lines, .md) -- ```
 - `./claude-skills/engineering-team/skills/epic-design/references/text-animations.md` (709 lines, .md) -- 1. [Setup: SplitText & Dependencies](#setup)
@@ -2406,9 +2420,9 @@ Files: 5000
 - `./claude-skills/engineering-team/skills/gcp-cloud-architect/scripts/architecture_designer.py` (805 lines, .py) -- GCP architecture design and service recommendation module.
 - `./claude-skills/engineering-team/skills/gcp-cloud-architect/scripts/cost_optimizer.py` (465 lines, .py) -- GCP cost optimization analyzer.
 - `./claude-skills/engineering-team/skills/gcp-cloud-architect/scripts/deployment_manager.py` (835 lines, .py) -- GCP deployment script generator.
-- `./claude-skills/engineering-team/skills/incident-commander/README.md` (252 lines, .md) -- A comprehensive incident response framework providing structured tools for managing technology incidents from detection
+- `./claude-skills/engineering-team/skills/incident-commander/README.md` (252 lines, .md) -- A comprehensive incident response framework providing structured tools for managing technology incidents from detection 
 - `./claude-skills/engineering-team/skills/incident-commander/SKILL.md` (476 lines, .md) -- name: \"incident-commander\"
-- `./claude-skills/engineering-team/skills/incident-commander/assets/incident_report_template.md` (171 lines, .md) -- [2-3 sentence summary of the incident: what happened, impact scope, resolution status. Written for executive audience —
+- `./claude-skills/engineering-team/skills/incident-commander/assets/incident_report_template.md` (171 lines, .md) -- [2-3 sentence summary of the incident: what happened, impact scope, resolution status. Written for executive audience �
 - `./claude-skills/engineering-team/skills/incident-commander/assets/runbook_template.md` (289 lines, .md) -- | Property | Value |
 - `./claude-skills/engineering-team/skills/incident-commander/expected_outputs/pir_markdown_output.md` (88 lines, .md) -- On March 15, 2024, we experienced a sev2 incident affecting ['payment-api', 'checkout-service', 'subscription-billing'].
 - `./claude-skills/engineering-team/skills/incident-commander/references/communication_templates.md` (591 lines, .md) -- This document provides standardized communication templates for incident response. These templates ensure consistent, cl
@@ -2424,7 +2438,7 @@ Files: 5000
 - `./claude-skills/engineering-team/skills/incident-commander/scripts/severity_classifier.py` (1228 lines, .py) -- Severity Classifier - Classify incident severity and generate escalation paths.
 - `./claude-skills/engineering-team/skills/incident-commander/scripts/timeline_reconstructor.py` (1007 lines, .py) -- Timeline Reconstructor
 - `./claude-skills/engineering-team/skills/incident-response/SKILL.md` (322 lines, .md) -- name: \"incident-response\"
-- `./claude-skills/engineering-team/skills/incident-response/references/regulatory-deadlines.md` (125 lines, .md) -- Reference table for incident notification deadlines under major regulatory frameworks. The notification clock starts at
+- `./claude-skills/engineering-team/skills/incident-response/references/regulatory-deadlines.md` (125 lines, .md) -- Reference table for incident notification deadlines under major regulatory frameworks. The notification clock starts at 
 - `./claude-skills/engineering-team/skills/incident-response/scripts/incident_triage.py` (768 lines, .py) -- incident_triage.py — Incident Classification, Triage, and Escalation
 - `./claude-skills/engineering-team/skills/ms365-tenant-manager/SKILL.md` (273 lines, .md) -- name: \"ms365-tenant-manager\"
 - `./claude-skills/engineering-team/skills/ms365-tenant-manager/references/powershell-templates.md` (704 lines, .md) -- Ready-to-use PowerShell scripts for Microsoft 365 administration with error handling and best practices.
@@ -2437,7 +2451,7 @@ Files: 5000
 - `./claude-skills/engineering-team/skills/red-team/references/attack-path-methodology.md` (135 lines, .md) -- Reference documentation for attack path graph construction, choke point scoring, and effort-vs-impact analysis used in r
 - `./claude-skills/engineering-team/skills/red-team/scripts/engagement_planner.py` (420 lines, .py) -- engagement_planner.py — Red Team Engagement Planner
 - `./claude-skills/engineering-team/skills/security-pen-testing/SKILL.md` (306 lines, .md) -- name: \"security-pen-testing\"
-- `./claude-skills/engineering-team/skills/security-pen-testing/references/attack_patterns.md` (629 lines, .md) -- Safe, non-destructive test payloads and detection patterns for authorized security testing. All techniques here are for
+- `./claude-skills/engineering-team/skills/security-pen-testing/references/attack_patterns.md` (629 lines, .md) -- Safe, non-destructive test payloads and detection patterns for authorized security testing. All techniques here are for 
 - `./claude-skills/engineering-team/skills/security-pen-testing/references/owasp_top_10_checklist.md` (440 lines, .md) -- Comprehensive reference for each OWASP Top 10 category with descriptions, test procedures, code patterns to detect, reme
 - `./claude-skills/engineering-team/skills/security-pen-testing/references/responsible_disclosure.md` (317 lines, .md) -- A complete guide for responsibly reporting security vulnerabilities found during authorized testing or independent secur
 - `./claude-skills/engineering-team/skills/security-pen-testing/scripts/dependency_auditor.py` (455 lines, .py) -- Dependency Auditor - Analyze package manifests for known vulnerable patterns.
@@ -2505,7 +2519,7 @@ Files: 5000
 - `./claude-skills/engineering-team/skills/senior-fullstack/references/architecture_patterns.md` (547 lines, .md) -- Proven architectural patterns for scalable fullstack applications covering frontend, backend, and their integration.
 - `./claude-skills/engineering-team/skills/senior-fullstack/references/composition_map.md` (52 lines, .md) -- This map is the routing table for the `cs-fullstack-engineer` agent and the `/cs:fullstack-review` command.
 - `./claude-skills/engineering-team/skills/senior-fullstack/references/development_workflows.md` (784 lines, .md) -- Complete development lifecycle workflows from local setup to production deployment.
-- `./claude-skills/engineering-team/skills/senior-fullstack/references/forcing_questions.md` (100 lines, .md) -- These seven questions are the Matt Pocock grill that gates every meaningful fullstack decision (stack pick, scale step,
+- `./claude-skills/engineering-team/skills/senior-fullstack/references/forcing_questions.md` (100 lines, .md) -- These seven questions are the Matt Pocock grill that gates every meaningful fullstack decision (stack pick, scale step, 
 - `./claude-skills/engineering-team/skills/senior-fullstack/references/tech_stack_guide.md` (590 lines, .md) -- Technology selection guide with trade-offs, use cases, and integration patterns for modern fullstack development.
 - `./claude-skills/engineering-team/skills/senior-fullstack/scripts/code_quality_analyzer.py` (691 lines, .py) -- Code Quality Analyzer
 - `./claude-skills/engineering-team/skills/senior-fullstack/scripts/fullstack_decision_engine.py` (403 lines, .py) -- fullstack_decision_engine.py — Deterministic fullstack-stack picker with explicit kill criteria.
@@ -2623,7 +2637,7 @@ Files: 5000
 - `./claude-skills/engineering/autoresearch-agent/skills/status/SKILL.md` (71 lines, .md) -- name: \"status\"
 - `./claude-skills/engineering/behuman/skills/behuman/SKILL.md` (193 lines, .md) -- name: \"behuman\"
 - `./claude-skills/engineering/behuman/skills/behuman/references/api-integration.md` (100 lines, .md) -- BeHuman works as a system prompt technique. No separate model or API needed.
-- `./claude-skills/engineering/caveman/README.md` (35 lines, .md) -- Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping
+- `./claude-skills/engineering/caveman/README.md` (35 lines, .md) -- Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping 
 - `./claude-skills/engineering/caveman/agents/cs-caveman-mode.md` (121 lines, .md) -- name: cs-caveman-mode
 - `./claude-skills/engineering/caveman/commands/cs-caveman.md` (68 lines, .md) -- name: \"cs-caveman\"
 - `./claude-skills/engineering/caveman/skills/caveman/SKILL.md` (69 lines, .md) -- name: caveman
@@ -2682,8 +2696,8 @@ Files: 5000
 - `./claude-skills/engineering/grill-me/commands/cs-grill-me.md` (84 lines, .md) -- name: \"cs-grill-me\"
 - `./claude-skills/engineering/grill-me/skills/grill-me/SKILL.md` (58 lines, .md) -- name: grill-me
 - `./claude-skills/engineering/grill-me/skills/grill-me/references/companion_tooling.md` (65 lines, .md) -- Interrogation tools + cs-* wrapper layered on top of Matt's grill-me skill.
-- `./claude-skills/engineering/grill-me/skills/grill-me/references/forcing_question_patterns.md` (152 lines, .md) -- This reference answers exactly one decision: **what makes a question \"forcing\" vs \"soft\", and how do we ask forcing
-- `./claude-skills/engineering/grill-me/skills/grill-me/references/when_to_stop_grilling.md` (142 lines, .md) -- This reference answers exactly one decision: **when is \"shared understanding\" actually reached, and how do we know to
+- `./claude-skills/engineering/grill-me/skills/grill-me/references/forcing_question_patterns.md` (152 lines, .md) -- This reference answers exactly one decision: **what makes a question \"forcing\" vs \"soft\", and how do we ask forcing 
+- `./claude-skills/engineering/grill-me/skills/grill-me/references/when_to_stop_grilling.md` (142 lines, .md) -- This reference answers exactly one decision: **when is \"shared understanding\" actually reached, and how do we know to 
 - `./claude-skills/engineering/grill-me/skills/grill-me/scripts/decision_tree_extractor.py` (149 lines, .py) -- Stdlib-only. Scans a markdown plan and identifies decision branches by detecting:
 - `./claude-skills/engineering/grill-me/skills/grill-me/scripts/grill_session_tracker.py` (264 lines, .py) -- Stdlib-only. JSON-backed session storage for the relentless interrogation pattern.
 - `./claude-skills/engineering/grill-me/skills/grill-me/scripts/question_generator.py` (142 lines, .py) -- Stdlib-only. Takes a plan doc, runs decision_tree_extractor, then generates
@@ -2706,7 +2720,7 @@ Files: 5000
 - `./claude-skills/engineering/handoff/skills/handoff/references/companion_tooling.md` (56 lines, .md) -- Handoff-generation tools + cs-* wrapper layered on top of Matt's handoff skill.
 - `./claude-skills/engineering/handoff/skills/handoff/references/deduplication_discipline.md` (196 lines, .md) -- This reference answers exactly one decision: **what counts as duplication, and how do we replace it with a reference?**
 - `./claude-skills/engineering/handoff/skills/handoff/references/handoff_structure.md` (163 lines, .md) -- This reference answers exactly one decision: **what sections does a handoff document need, and what content belongs in e
-- `./claude-skills/engineering/handoff/skills/handoff/references/next_session_skill_matching.md` (121 lines, .md) -- This reference answers exactly one decision: **which skills should the handoff recommend for the next session, based on
+- `./claude-skills/engineering/handoff/skills/handoff/references/next_session_skill_matching.md` (121 lines, .md) -- This reference answers exactly one decision: **which skills should the handoff recommend for the next session, based on 
 - `./claude-skills/engineering/handoff/skills/handoff/scripts/artifact_deduplicator.py` (244 lines, .py) -- Stdlib-only. Scans a handoff markdown draft for content patterns that look like
 - `./claude-skills/engineering/handoff/skills/handoff/scripts/handoff_template_generator.py` (217 lines, .py) -- Stdlib-only. Outputs a markdown skeleton matching Matt Pocock's handoff structure:
 - `./claude-skills/engineering/handoff/skills/handoff/scripts/skill_recommender.py` (185 lines, .py) -- Stdlib-only. Scans a handoff document for content signals and matches them to
@@ -2732,7 +2746,7 @@ Files: 5000
 - `./claude-skills/engineering/kubernetes-operator/skills/kubernetes-operator/assets/reconcile_skeleton.go` (122 lines, .go) -- package controllers
 - `./claude-skills/engineering/kubernetes-operator/skills/kubernetes-operator/references/crd_design.md` (196 lines, .md) -- Custom Resource Definitions (CRDs) define the API surface of your operator. A bad CRD design locks you into hard-to-evol
 - `./claude-skills/engineering/kubernetes-operator/skills/kubernetes-operator/references/operator_pattern.md` (152 lines, .md) -- An operator is a controller that reconciles a Custom Resource (CR) toward its declared spec. It encodes operational know
-- `./claude-skills/engineering/kubernetes-operator/skills/kubernetes-operator/references/reconcile_loop.md` (210 lines, .md) -- Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic
+- `./claude-skills/engineering/kubernetes-operator/skills/kubernetes-operator/references/reconcile_loop.md` (210 lines, .md) -- Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic 
 - `./claude-skills/engineering/kubernetes-operator/skills/kubernetes-operator/references/tooling_landscape.md` (217 lines, .md) -- Five mainstream operator frameworks. Pick by language, complexity, and target environment.
 - `./claude-skills/engineering/kubernetes-operator/skills/kubernetes-operator/scripts/crd_validator.py` (134 lines, .py) -- Checks for status subresource, structural schema, conditions support, printer
 - `./claude-skills/engineering/kubernetes-operator/skills/kubernetes-operator/scripts/operator_capability_audit.py` (150 lines, .py) -- Walks an operator repo and detects evidence for each level. Level achieved =
@@ -2761,11 +2775,11 @@ Files: 5000
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/assets/page-templates/source-summary.md` (41 lines, .md) -- title: \"<Source Title>\"
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/assets/page-templates/synthesis.md` (38 lines, .md) -- title: <Topic> Overview
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/expected_outputs/README.md` (19 lines, .md) -- Sample outputs for each script in `scripts/`. Use these as fixtures when testing
-- `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/cross-tool-setup.md` (108 lines, .md) -- The LLM Wiki plugin is tool-agnostic. The **scripts** are pure Python stdlib and run anywhere. Only the **schema loader
+- `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/cross-tool-setup.md` (108 lines, .md) -- The LLM Wiki plugin is tool-agnostic. The **scripts** are pure Python stdlib and run anywhere. Only the **schema loader 
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/ingest-workflow.md` (97 lines, .md) -- The detailed flow the LLM follows when the user runs `/wiki-ingest <path>` or dispatches the `wiki-ingestor` sub-agent.
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/lint-workflow.md` (91 lines, .md) -- Periodic health-check the LLM runs when the user runs `/wiki-lint` or dispatches the `wiki-linter` sub-agent. Run this a
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/memex-principles.md` (78 lines, .md) -- Why the LLM Wiki pattern works, and why it failed for humans until LLMs.
-- `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/obsidian-setup.md` (85 lines, .md) -- Recommended Obsidian configuration for an LLM Wiki vault. None of this is strictly required — the wiki is just markdown
+- `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/obsidian-setup.md` (85 lines, .md) -- Recommended Obsidian configuration for an LLM Wiki vault. None of this is strictly required — the wiki is just markdow
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/page-formats.md` (194 lines, .md) -- Every wiki page has the same skeleton: YAML frontmatter + a section structure that matches its category. Below are the f
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/query-workflow.md` (76 lines, .md) -- The flow the LLM follows when the user runs `/wiki-query <question>` or dispatches the `wiki-librarian` sub-agent.
 - `./claude-skills/engineering/llm-wiki/skills/llm-wiki/references/wiki-schema.md` (98 lines, .md) -- The vault has three layers. The LLM must respect the boundaries.
@@ -2781,7 +2795,7 @@ Files: 5000
 - `./claude-skills/engineering/security-guidance/hooks/security_reminder_hook.py` (291 lines, .py) -- Security Reminder Hook for Claude Code
 - `./claude-skills/engineering/security-guidance/skills/security-guidance/SKILL.md` (160 lines, .md) -- name: security-guidance
 - `./claude-skills/engineering/security-guidance/skills/security-guidance/references/pretooluse_hook_canon.md` (141 lines, .md) -- This reference answers one decision: **when designing a PreToolUse hook for Claude Code, when should it block the tool c
-- `./claude-skills/engineering/skills/agent-designer/README.md` (430 lines, .md) -- A comprehensive toolkit for designing, architecting, and evaluating multi-agent systems. Provides structured approaches
+- `./claude-skills/engineering/skills/agent-designer/README.md` (430 lines, .md) -- A comprehensive toolkit for designing, architecting, and evaluating multi-agent systems. Provides structured approaches 
 - `./claude-skills/engineering/skills/agent-designer/SKILL.md` (279 lines, .md) -- name: \"agent-designer\"
 - `./claude-skills/engineering/skills/agent-designer/agent_evaluator.py` (1223 lines, .py) -- Agent Evaluator - Multi-Agent System Performance Analysis
 - `./claude-skills/engineering/skills/agent-designer/agent_planner.py` (911 lines, .py) -- Agent Planner - Multi-Agent System Architecture Designer
@@ -2803,7 +2817,7 @@ Files: 5000
 - `./claude-skills/engineering/skills/browser-automation/SKILL.md` (266 lines, .md) -- name: \"browser-automation\"
 - `./claude-skills/engineering/skills/browser-automation/references/anti_detection_patterns.md` (453 lines, .md) -- This reference covers techniques to make Playwright automation less detectable by anti-bot services. These are defense-i
 - `./claude-skills/engineering/skills/browser-automation/references/data_extraction_recipes.md` (580 lines, .md) -- Practical patterns for extracting structured data from web pages using Playwright. Each recipe is a self-contained patte
-- `./claude-skills/engineering/skills/browser-automation/references/playwright_browser_api.md` (492 lines, .md) -- This reference covers Playwright's Python async API for browser automation tasks — NOT testing. For test-specific APIs (
+- `./claude-skills/engineering/skills/browser-automation/references/playwright_browser_api.md` (492 lines, .md) -- This reference covers Playwright's Python async API for browser automation tasks — NOT testing. For test-specific APIs
 - `./claude-skills/engineering/skills/browser-automation/scripts/anti_detection_checker.py` (520 lines, .py) -- Anti-Detection Checker - Audits Playwright scripts for common bot detection vectors.
 - `./claude-skills/engineering/skills/browser-automation/scripts/form_automation_builder.py` (324 lines, .py) -- Form Automation Builder - Generates Playwright form-fill automation scripts.
 - `./claude-skills/engineering/skills/browser-automation/scripts/scraping_toolkit.py` (248 lines, .py) -- Scraping Toolkit - Generates Playwright scraping script skeletons.
@@ -2841,7 +2855,7 @@ Files: 5000
 - `./claude-skills/engineering/skills/database-designer/index_optimizer.py` (926 lines, .py) -- Database Index Optimizer
 - `./claude-skills/engineering/skills/database-designer/migration_generator.py` (1199 lines, .py) -- Database Migration Generator
 - `./claude-skills/engineering/skills/database-designer/references/database-design-reference.md` (476 lines, .md) -- - **Atomic Values**: Each column contains indivisible values
-- `./claude-skills/engineering/skills/database-designer/references/database_selection_decision_tree.md` (373 lines, .md) -- Choosing the right database technology is crucial for application success. This guide provides a systematic approach to
+- `./claude-skills/engineering/skills/database-designer/references/database_selection_decision_tree.md` (373 lines, .md) -- Choosing the right database technology is crucial for application success. This guide provides a systematic approach to 
 - `./claude-skills/engineering/skills/database-designer/references/index_strategy_patterns.md` (424 lines, .md) -- Database indexes are critical for query performance, but they come with trade-offs. This guide covers proven patterns fo
 - `./claude-skills/engineering/skills/database-designer/references/normalization_guide.md` (354 lines, .md) -- Database normalization is the process of organizing data to minimize redundancy and dependency issues. It involves decom
 - `./claude-skills/engineering/skills/database-designer/schema_analyzer.py` (982 lines, .py) -- Database Schema Analyzer
@@ -2874,7 +2888,7 @@ Files: 5000
 - `./claude-skills/engineering/skills/git-worktree-manager/README.md` (51 lines, .md) -- Production workflow for parallel branch development with isolated ports, env sync, and cleanup safety checks. This skill
 - `./claude-skills/engineering/skills/git-worktree-manager/SKILL.md` (193 lines, .md) -- name: \"git-worktree-manager\"
 - `./claude-skills/engineering/skills/git-worktree-manager/references/docker-compose-patterns.md` (62 lines, .md) -- Base compose file remains shared; each worktree has a local override.
-- `./claude-skills/engineering/skills/git-worktree-manager/references/port-allocation-strategy.md` (46 lines, .md) -- Allocate deterministic, non-overlapping local ports for each worktree to avoid collisions across concurrent development
+- `./claude-skills/engineering/skills/git-worktree-manager/references/port-allocation-strategy.md` (46 lines, .md) -- Allocate deterministic, non-overlapping local ports for each worktree to avoid collisions across concurrent development 
 - `./claude-skills/engineering/skills/git-worktree-manager/scripts/worktree_cleanup.py` (196 lines, .py) -- Supports:
 - `./claude-skills/engineering/skills/git-worktree-manager/scripts/worktree_manager.py` (240 lines, .py) -- Supports:
 - `./claude-skills/engineering/skills/interview-system-designer/README.md` (309 lines, .md) -- A comprehensive toolkit for designing, optimizing, and calibrating interview processes. This skill provides tools to cre
@@ -2891,7 +2905,7 @@ Files: 5000
 - `./claude-skills/engineering/skills/kubernetes-operator/assets/reconcile_skeleton.go` (122 lines, .go) -- package controllers
 - `./claude-skills/engineering/skills/kubernetes-operator/references/crd_design.md` (196 lines, .md) -- Custom Resource Definitions (CRDs) define the API surface of your operator. A bad CRD design locks you into hard-to-evol
 - `./claude-skills/engineering/skills/kubernetes-operator/references/operator_pattern.md` (152 lines, .md) -- An operator is a controller that reconciles a Custom Resource (CR) toward its declared spec. It encodes operational know
-- `./claude-skills/engineering/skills/kubernetes-operator/references/reconcile_loop.md` (210 lines, .md) -- Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic
+- `./claude-skills/engineering/skills/kubernetes-operator/references/reconcile_loop.md` (210 lines, .md) -- Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic 
 - `./claude-skills/engineering/skills/kubernetes-operator/references/tooling_landscape.md` (217 lines, .md) -- Five mainstream operator frameworks. Pick by language, complexity, and target environment.
 - `./claude-skills/engineering/skills/kubernetes-operator/scripts/crd_validator.py` (134 lines, .py) -- Checks for status subresource, structural schema, conditions support, printer
 - `./claude-skills/engineering/skills/kubernetes-operator/scripts/operator_capability_audit.py` (150 lines, .py) -- Walks an operator repo and detects evidence for each level. Level achieved =
@@ -2940,7 +2954,7 @@ Files: 5000
 - `./claude-skills/engineering/skills/release-manager/changelog_generator.py` (504 lines, .py) -- Changelog Generator
 - `./claude-skills/engineering/skills/release-manager/expected_outputs/changelog_example.md` (37 lines, .md) -- - ui: redesign dashboard with new component library - The dashboard API endpoints have changed structure. Frontend clien
 - `./claude-skills/engineering/skills/release-manager/references/conventional-commits-guide.md` (341 lines, .md) -- Conventional Commits is a specification for adding human and machine readable meaning to commit messages. The specificat
-- `./claude-skills/engineering/skills/release-manager/references/hotfix-procedures.md` (592 lines, .md) -- Hotfixes are emergency releases designed to address critical production issues that cannot wait for the regular release
+- `./claude-skills/engineering/skills/release-manager/references/hotfix-procedures.md` (592 lines, .md) -- Hotfixes are emergency releases designed to address critical production issues that cannot wait for the regular release 
 - `./claude-skills/engineering/skills/release-manager/references/release-workflow-comparison.md` (410 lines, .md) -- This document compares the three most popular branching and release workflows: Git Flow, GitHub Flow, and Trunk-based De
 - `./claude-skills/engineering/skills/release-manager/release_planner.py` (1003 lines, .py) -- Release Planner
 - `./claude-skills/engineering/skills/release-manager/version_bumper.py` (645 lines, .py) -- Version Bumper
@@ -2950,7 +2964,7 @@ Files: 5000
 - `./claude-skills/engineering/skills/secrets-vault-manager/SKILL.md` (403 lines, .md) -- name: \"secrets-vault-manager\"
 - `./claude-skills/engineering/skills/secrets-vault-manager/references/cloud_secret_stores.md` (354 lines, .md) -- | Feature | AWS Secrets Manager | Azure Key Vault | GCP Secret Manager |
 - `./claude-skills/engineering/skills/secrets-vault-manager/references/emergency_procedures.md` (280 lines, .md) -- | Severity | Definition | Response Time | Example |
-- `./claude-skills/engineering/skills/secrets-vault-manager/references/vault_patterns.md` (342 lines, .md) -- Vault operates as a centralized secret management service with a client-server model. All secrets are encrypted at rest
+- `./claude-skills/engineering/skills/secrets-vault-manager/references/vault_patterns.md` (342 lines, .md) -- Vault operates as a centralized secret management service with a client-server model. All secrets are encrypted at rest 
 - `./claude-skills/engineering/skills/secrets-vault-manager/scripts/audit_log_analyzer.py` (330 lines, .py) -- Reads JSON-lines or JSON-array audit log files and flags unusual access
 - `./claude-skills/engineering/skills/secrets-vault-manager/scripts/rotation_planner.py` (280 lines, .py) -- Reads a JSON inventory of secrets and produces a rotation plan based on
 - `./claude-skills/engineering/skills/secrets-vault-manager/scripts/vault_config_generator.py` (302 lines, .py) -- Produces HCL policy files and auth method setup commands for HashiCorp Vault
@@ -3002,14 +3016,14 @@ Files: 5000
 - `./claude-skills/engineering/skills/tc-tracker/README.md` (72 lines, .md) -- Structured tracking for technical changes (TCs) with a strict state machine, append-only revision history, and a session
 - `./claude-skills/engineering/skills/tc-tracker/SKILL.md` (207 lines, .md) -- name: \"tc-tracker\"
 - `./claude-skills/engineering/skills/tc-tracker/references/handoff-format.md` (139 lines, .md) -- The handoff block is the most important part of a TC for AI continuity. When a session expires, the next session reads t
-- `./claude-skills/engineering/skills/tc-tracker/references/lifecycle.md` (98 lines, .md) -- A TC moves through six implementation states. Transitions are validated on every write — invalid moves are rejected with
-- `./claude-skills/engineering/skills/tc-tracker/references/tc-schema.md` (204 lines, .md) -- A TC record is a JSON object stored at `docs/TC/records/<TC-ID>/tc_record.json`. Every record is validated against this
+- `./claude-skills/engineering/skills/tc-tracker/references/lifecycle.md` (98 lines, .md) -- A TC moves through six implementation states. Transitions are validated on every write — invalid moves are rejected wi
+- `./claude-skills/engineering/skills/tc-tracker/references/tc-schema.md` (204 lines, .md) -- A TC record is a JSON object stored at `docs/TC/records/<TC-ID>/tc_record.json`. Every record is validated against this 
 - `./claude-skills/engineering/skills/tc-tracker/scripts/tc_create.py` (277 lines, .py) -- Generates the next sequential TC ID, scaffolds the record directory, writes a
 - `./claude-skills/engineering/skills/tc-tracker/scripts/tc_init.py` (196 lines, .py) -- Creates docs/TC/ with tc_config.json, tc_registry.json, records/, and evidence/.
 - `./claude-skills/engineering/skills/tc-tracker/scripts/tc_status.py` (200 lines, .py) -- Usage:
 - `./claude-skills/engineering/skills/tc-tracker/scripts/tc_update.py` (361 lines, .py) -- Each invocation appends a sequential R<n> revision entry, refreshes the
 - `./claude-skills/engineering/skills/tc-tracker/scripts/tc_validator.py` (347 lines, .py) -- Enforces:
-- `./claude-skills/engineering/skills/tech-debt-tracker/README.md` (308 lines, .md) -- A comprehensive technical debt management system that helps engineering teams identify, prioritize, and track technical
+- `./claude-skills/engineering/skills/tech-debt-tracker/README.md` (308 lines, .md) -- A comprehensive technical debt management system that helps engineering teams identify, prioritize, and track technical 
 - `./claude-skills/engineering/skills/tech-debt-tracker/SKILL.md` (93 lines, .md) -- name: tech-debt-tracker
 - `./claude-skills/engineering/skills/tech-debt-tracker/assets/sample_codebase/src/frontend.js` (395 lines, .js) -- const API_BASE_URL = \"https://api.example.com\";
 - `./claude-skills/engineering/skills/tech-debt-tracker/assets/sample_codebase/src/payment_processor.py` (322 lines, .py) -- Payment processing module - contains various technical debt examples.
@@ -3021,7 +3035,7 @@ Files: 5000
 - `./claude-skills/engineering/skills/tech-debt-tracker/scripts/debt_dashboard.py` (970 lines, .py) -- Tech Debt Dashboard
 - `./claude-skills/engineering/skills/tech-debt-tracker/scripts/debt_prioritizer.py` (857 lines, .py) -- Tech Debt Prioritizer
 - `./claude-skills/engineering/skills/tech-debt-tracker/scripts/debt_scanner.py` (684 lines, .py) -- Tech Debt Scanner
-- `./claude-skills/engineering/slo-architect/README.md` (100 lines, .md) -- Define SLOs that mean something. Most \"SLOs\" in the wild are arbitrary numbers nobody believes — 99.9% on every endpoi
+- `./claude-skills/engineering/slo-architect/README.md` (100 lines, .md) -- Define SLOs that mean something. Most \"SLOs\" in the wild are arbitrary numbers nobody believes — 99.9% on every endp
 - `./claude-skills/engineering/slo-architect/skills/slo-architect/SKILL.md` (234 lines, .md) -- name: slo-architect
 - `./claude-skills/engineering/slo-architect/skills/slo-architect/assets/error_budget_policy.md` (79 lines, .md) -- This policy says what changes when error budget is burned. Without it, the SLO is theater.
 - `./claude-skills/engineering/slo-architect/skills/slo-architect/references/composition.md` (139 lines, .md) -- `slo-architect` is the keystone. Three other skills in this library already lean on the SLO + error budget concept. This
@@ -3047,7 +3061,7 @@ Files: 5000
 - `./claude-skills/engineering/write-a-skill/skills/write-a-skill/SKILL.md` (141 lines, .md) -- name: write-a-skill
 - `./claude-skills/engineering/write-a-skill/skills/write-a-skill/references/companion_tooling.md` (67 lines, .md) -- Validation tools + cs-* wrapper layered on top of Matt's write-a-skill. Use these when authoring a new skill in this rep
 - `./claude-skills/engineering/write-a-skill/skills/write-a-skill/references/description_design_patterns.md` (139 lines, .md) -- This reference answers exactly one decision: **how do we write a skill description that an agent actually picks correctl
-- `./claude-skills/engineering/write-a-skill/skills/write-a-skill/references/progressive_disclosure_principles.md` (89 lines, .md) -- This reference answers exactly one decision: **when should a SKILL.md be split into reference files, and how do we keep
+- `./claude-skills/engineering/write-a-skill/skills/write-a-skill/references/progressive_disclosure_principles.md` (89 lines, .md) -- This reference answers exactly one decision: **when should a SKILL.md be split into reference files, and how do we keep 
 - `./claude-skills/engineering/write-a-skill/skills/write-a-skill/references/quality_gates_for_skills.md` (158 lines, .md) -- This reference answers exactly one decision: **what checks must pass before a new skill enters the library, and why?**
 - `./claude-skills/engineering/write-a-skill/skills/write-a-skill/scripts/skill_description_validator.py` (255 lines, .py) -- Stdlib-only. Parses YAML frontmatter of a SKILL.md and checks the `description`
 - `./claude-skills/engineering/write-a-skill/skills/write-a-skill/scripts/skill_review_checklist_runner.py` (268 lines, .py) -- Stdlib-only. Combines the description-validator + structure-validator into a single
@@ -3100,7 +3114,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/aeo/SKILL.md` (217 lines, .md) -- name: \"aeo\"
 - `./claude-skills/integrations/antigravity/aeo/references/aeo_eeat_canon.md` (170 lines, .md) -- This reference answers one decision: **what signals do LLMs use to decide whether a piece of content is citable as an au
 - `./claude-skills/integrations/antigravity/aeo/references/aeo_vs_seo.md` (158 lines, .md) -- This reference answers one decision: **for a given content piece or strategy, should we optimize for SEO (search ranking
-- `./claude-skills/integrations/antigravity/aeo/references/llm_citation_patterns.md` (164 lines, .md) -- This reference answers one decision: **for a given query, how does each major LLM decide which sources to cite — and wha
+- `./claude-skills/integrations/antigravity/aeo/references/llm_citation_patterns.md` (164 lines, .md) -- This reference answers one decision: **for a given query, how does each major LLM decide which sources to cite — and w
 - `./claude-skills/integrations/antigravity/aeo/scripts/aeo_audit.py` (393 lines, .py) -- aeo_audit.py — Answer Engine Optimization audit tool.
 - `./claude-skills/integrations/antigravity/aeo/scripts/aeo_optimizer.py` (281 lines, .py) -- aeo_optimizer.py — Generate AEO-optimized content variants.
 - `./claude-skills/integrations/antigravity/aeo/scripts/citation_tracker.py` (327 lines, .py) -- citation_tracker.py — Local-first citation ledger for AEO.
@@ -3132,7 +3146,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/ai-security/references/atlas-coverage.md` (150 lines, .md) -- Reference table for MITRE ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) techniques covered by
 - `./claude-skills/integrations/antigravity/ai-security/scripts/ai_threat_scanner.py` (564 lines, .py) -- ai_threat_scanner.py — AI/LLM Security Threat Scanner
 - `./claude-skills/integrations/antigravity/ai-seo/SKILL.md` (328 lines, .md) -- name: \"ai-seo\"
-- `./claude-skills/integrations/antigravity/ai-seo/references/ai-search-landscape.md` (191 lines, .md) -- How each major AI search platform selects, weights, and cites sources. Use this to calibrate your optimization strategy
+- `./claude-skills/integrations/antigravity/ai-seo/references/ai-search-landscape.md` (191 lines, .md) -- How each major AI search platform selects, weights, and cites sources. Use this to calibrate your optimization strategy 
 - `./claude-skills/integrations/antigravity/ai-seo/references/content-patterns.md` (276 lines, .md) -- Ready-to-use block templates for each content pattern that AI search engines reliably extract and cite. Copy, adapt, and
 - `./claude-skills/integrations/antigravity/ai-seo/references/monitoring-guide.md` (208 lines, .md) -- How to track whether your content is getting cited by AI search engines — and what to do when citations change.
 - `./claude-skills/integrations/antigravity/aims-audit/SKILL.md` (135 lines, .md) -- name: \"aims-audit\"
@@ -3170,7 +3184,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/app-store-optimization/scripts/metadata_optimizer.py` (581 lines, .py) -- Metadata optimization module for App Store Optimization.
 - `./claude-skills/integrations/antigravity/app-store-optimization/scripts/review_analyzer.py` (714 lines, .py) -- Review analysis module for App Store Optimization.
 - `./claude-skills/integrations/antigravity/apple-hig-expert/SKILL.md` (87 lines, .md) -- name: \"apple-hig-expert\"
-- `./claude-skills/integrations/antigravity/apple-hig-expert/references/accessibility.md` (46 lines, .md) -- Accessibility isn't a feature; it's a foundational standard. Apple's design philosophy requires apps to be fully usable
+- `./claude-skills/integrations/antigravity/apple-hig-expert/references/accessibility.md` (46 lines, .md) -- Accessibility isn't a feature; it's a foundational standard. Apple's design philosophy requires apps to be fully usable 
 - `./claude-skills/integrations/antigravity/apple-hig-expert/references/platform-specifics.md` (38 lines, .md) -- While Apple aims for a unified aesthetic (Liquid Glass), each platform has unique ergonomics and hardware constraints.
 - `./claude-skills/integrations/antigravity/apple-hig-expert/references/visual-design.md` (56 lines, .md) -- This guide covers the visual language of the Apple ecosystem, centered on the **Liquid Glass** aesthetic introduced in l
 - `./claude-skills/integrations/antigravity/apple-hig-expert/scripts/hig_checker.py` (97 lines, .py) -- Apple HIG Compliance Checker
@@ -3180,7 +3194,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/atlassian-admin/references/user-provisioning-checklist.md` (177 lines, .md) -- This checklist covers the complete user lifecycle in Atlassian Cloud products, from onboarding through offboarding. Cons
 - `./claude-skills/integrations/antigravity/atlassian-admin/scripts/permission_audit_tool.py` (469 lines, .py) -- Permission Audit Tool
 - `./claude-skills/integrations/antigravity/atlassian-templates/SKILL.md` (255 lines, .md) -- name: \"atlassian-templates\"
-- `./claude-skills/integrations/antigravity/atlassian-templates/references/governance-framework.md` (234 lines, .md) -- Operational framework for managing template lifecycle — creation, updates, deprecation, and quality enforcement with con
+- `./claude-skills/integrations/antigravity/atlassian-templates/references/governance-framework.md` (234 lines, .md) -- Operational framework for managing template lifecycle — creation, updates, deprecation, and quality enforcement with c
 - `./claude-skills/integrations/antigravity/atlassian-templates/references/template-design-patterns.md` (252 lines, .md) -- Well-designed Confluence and Jira templates accelerate team productivity by providing consistent starting points for com
 - `./claude-skills/integrations/antigravity/atlassian-templates/scripts/template_scaffolder.py` (418 lines, .py) -- Template Scaffolder
 - `./claude-skills/integrations/antigravity/autoresearch-agent/SKILL.md` (305 lines, .md) -- name: \"autoresearch-agent\"
@@ -3221,7 +3235,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/browser-automation/SKILL.md` (269 lines, .md) -- name: \"browser-automation\"
 - `./claude-skills/integrations/antigravity/browser-automation/references/anti_detection_patterns.md` (453 lines, .md) -- This reference covers techniques to make Playwright automation less detectable by anti-bot services. These are defense-i
 - `./claude-skills/integrations/antigravity/browser-automation/references/data_extraction_recipes.md` (580 lines, .md) -- Practical patterns for extracting structured data from web pages using Playwright. Each recipe is a self-contained patte
-- `./claude-skills/integrations/antigravity/browser-automation/references/playwright_browser_api.md` (492 lines, .md) -- This reference covers Playwright's Python async API for browser automation tasks — NOT testing. For test-specific APIs (
+- `./claude-skills/integrations/antigravity/browser-automation/references/playwright_browser_api.md` (492 lines, .md) -- This reference covers Playwright's Python async API for browser automation tasks — NOT testing. For test-specific APIs
 - `./claude-skills/integrations/antigravity/browser-automation/scripts/anti_detection_checker.py` (520 lines, .py) -- Anti-Detection Checker - Audits Playwright scripts for common bot detection vectors.
 - `./claude-skills/integrations/antigravity/browser-automation/scripts/form_automation_builder.py` (324 lines, .py) -- Form Automation Builder - Generates Playwright form-fill automation scripts.
 - `./claude-skills/integrations/antigravity/browser-automation/scripts/scraping_toolkit.py` (248 lines, .py) -- Scraping Toolkit - Generates Playwright scraping script skeletons.
@@ -3235,7 +3249,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/campaign-analytics/SKILL.md` (222 lines, .md) -- name: \"campaign-analytics\"
 - `./claude-skills/integrations/antigravity/campaign-analytics/references/attribution-models-guide.md` (285 lines, .md) -- Comprehensive reference for multi-touch attribution modeling in marketing analytics. This guide covers the five standard
 - `./claude-skills/integrations/antigravity/campaign-analytics/references/campaign-metrics-benchmarks.md` (259 lines, .md) -- Industry benchmark reference for marketing campaign performance metrics. Use these benchmarks to contextualize your camp
-- `./claude-skills/integrations/antigravity/campaign-analytics/references/funnel-optimization-framework.md` (302 lines, .md) -- A stage-by-stage guide to diagnosing and improving marketing and sales funnel performance. Use this framework alongside
+- `./claude-skills/integrations/antigravity/campaign-analytics/references/funnel-optimization-framework.md` (302 lines, .md) -- A stage-by-stage guide to diagnosing and improving marketing and sales funnel performance. Use this framework alongside 
 - `./claude-skills/integrations/antigravity/campaign-analytics/scripts/attribution_analyzer.py` (347 lines, .py) -- Attribution Analyzer - Multi-touch attribution modeling for marketing campaigns.
 - `./claude-skills/integrations/antigravity/campaign-analytics/scripts/campaign_roi_calculator.py` (459 lines, .py) -- Campaign ROI Calculator - Comprehensive campaign ROI and performance metrics.
 - `./claude-skills/integrations/antigravity/campaign-analytics/scripts/funnel_analyzer.py` (305 lines, .py) -- Funnel Analyzer - Conversion funnel analysis with bottleneck detection.
@@ -3291,7 +3305,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/changelog-generator/scripts/commit_linter.py` (138 lines, .py) -- Input sources (priority order):
 - `./claude-skills/integrations/antigravity/changelog-generator/scripts/generate_changelog.py` (247 lines, .py) -- Input sources (priority order):
 - `./claude-skills/integrations/antigravity/channel-economics/SKILL.md` (147 lines, .md) -- name: \"channel-economics\"
-- `./claude-skills/integrations/antigravity/channel-economics/references/channel_anti_patterns.md` (126 lines, .md) -- The eight anti-patterns this skill is built to detect, with citations. Most channel-economics decisions fail because of
+- `./claude-skills/integrations/antigravity/channel-economics/references/channel_anti_patterns.md` (126 lines, .md) -- The eight anti-patterns this skill is built to detect, with citations. Most channel-economics decisions fail because of 
 - `./claude-skills/integrations/antigravity/channel-economics/references/channel_economics_canon.md` (101 lines, .md) -- The authoritative reference set for direct-vs-partner economics, channel ROI computation, and channel-mix decision-makin
 - `./claude-skills/integrations/antigravity/channel-economics/references/cost_to_serve_canon.md` (103 lines, .md) -- The authoritative reference set for fully-loaded cost-to-serve methodology. Use this when validating cost categories, al
 - `./claude-skills/integrations/antigravity/channel-economics/scripts/channel_mix_optimizer.py` (327 lines, .py) -- Computes per-channel effective LTV, payback period, and efficiency ratio
@@ -3313,12 +3327,12 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/chaos-engineering/scripts/scripts/experiment_designer.py` (139 lines, .py) -- Enforces the required sections (hypothesis, steady-state metric, blast radius,
 - `./claude-skills/integrations/antigravity/chaos-engineering/scripts/scripts/experiment_postmortem.py` (144 lines, .py) -- Takes an experiment plan (JSON from experiment_designer.py) plus a results
 - `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/SKILL.md` (230 lines, .md) -- name: \"chief-ai-officer-advisor\"
-- `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/ai_cost_economics.md` (235 lines, .md) -- This reference answers exactly one decision: **at what monthly token volume does self-hosting beat API, and what hidden
-- `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/ai_risk_governance.md` (231 lines, .md) -- This reference answers exactly one decision: **for a specific AI use case, which regulations apply, what risk tier does
+- `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/ai_cost_economics.md` (235 lines, .md) -- This reference answers exactly one decision: **at what monthly token volume does self-hosting beat API, and what hidden 
+- `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/ai_risk_governance.md` (231 lines, .md) -- This reference answers exactly one decision: **for a specific AI use case, which regulations apply, what risk tier does 
 - `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/ai_team_org_evolution.md` (240 lines, .md) -- This reference answers exactly one decision: **for our stage and the AI capabilities we need to ship, what is the next A
 - `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/model_buildvsbuy_strategy.md` (134 lines, .md) -- This reference answers exactly one decision per use case: **should we call a frontier API, fine-tune a smaller model, or
-- `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/references/ai_cost_economics.md` (235 lines, .md) -- This reference answers exactly one decision: **at what monthly token volume does self-hosting beat API, and what hidden
-- `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/references/ai_risk_governance.md` (231 lines, .md) -- This reference answers exactly one decision: **for a specific AI use case, which regulations apply, what risk tier does
+- `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/references/ai_cost_economics.md` (235 lines, .md) -- This reference answers exactly one decision: **at what monthly token volume does self-hosting beat API, and what hidden 
+- `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/references/ai_risk_governance.md` (231 lines, .md) -- This reference answers exactly one decision: **for a specific AI use case, which regulations apply, what risk tier does 
 - `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/references/ai_team_org_evolution.md` (240 lines, .md) -- This reference answers exactly one decision: **for our stage and the AI capabilities we need to ship, what is the next A
 - `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/references/references/model_buildvsbuy_strategy.md` (134 lines, .md) -- This reference answers exactly one decision per use case: **should we call a frontier API, fine-tune a smaller model, or
 - `./claude-skills/integrations/antigravity/chief-ai-officer-advisor/scripts/ai_cost_economics.py` (350 lines, .py) -- Stdlib-only. Takes a workload profile and outputs:
@@ -3344,11 +3358,11 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/chief-customer-officer-advisor/scripts/scripts/retention_decomposition_analyzer.py` (312 lines, .py) -- Stdlib-only. Takes cohort data and outputs:
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/SKILL.md` (199 lines, .md) -- name: \"chief-data-officer-advisor\"
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/ai_training_data_rights.md` (133 lines, .md) -- This reference answers exactly one decision per data source: **may we use this for AI training, and for which use case?*
-- `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/customer_data_as_asset.md` (214 lines, .md) -- This reference answers exactly one decision: **at Series B+, when customer data is no longer operational but strategic,
+- `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/customer_data_as_asset.md` (214 lines, .md) -- This reference answers exactly one decision: **at Series B+, when customer data is no longer operational but strategic, 
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/data_product_strategy.md` (159 lines, .md) -- This reference answers exactly one decision: **what is the right data platform for our stage, and which components do we
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/data_team_org_evolution.md` (198 lines, .md) -- This reference answers exactly one decision: **for our stage and business decisions we can't currently make, what is the
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/references/ai_training_data_rights.md` (133 lines, .md) -- This reference answers exactly one decision per data source: **may we use this for AI training, and for which use case?*
-- `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/references/customer_data_as_asset.md` (214 lines, .md) -- This reference answers exactly one decision: **at Series B+, when customer data is no longer operational but strategic,
+- `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/references/customer_data_as_asset.md` (214 lines, .md) -- This reference answers exactly one decision: **at Series B+, when customer data is no longer operational but strategic, 
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/references/data_product_strategy.md` (159 lines, .md) -- This reference answers exactly one decision: **what is the right data platform for our stage, and which components do we
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/references/references/data_team_org_evolution.md` (198 lines, .md) -- This reference answers exactly one decision: **for our stage and business decisions we can't currently make, what is the
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/scripts/ai_training_data_audit.py` (447 lines, .py) -- Stdlib-only. Audits each data source on 3 dimensions:
@@ -3358,11 +3372,11 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/scripts/scripts/data_asset_valuator.py` (373 lines, .py) -- Stdlib-only. Takes a corpus profile and computes:
 - `./claude-skills/integrations/antigravity/chief-data-officer-advisor/scripts/scripts/data_product_strategy_picker.py` (357 lines, .py) -- Stdlib-only. Takes a company profile and outputs:
 - `./claude-skills/integrations/antigravity/chief-of-staff/SKILL.md` (174 lines, .md) -- name: \"chief-of-staff\"
-- `./claude-skills/integrations/antigravity/chief-of-staff/references/routing-matrix.md` (212 lines, .md) -- Detailed routing rules for the Chief of Staff. When a founder asks a question, find the best match in this matrix, then
+- `./claude-skills/integrations/antigravity/chief-of-staff/references/routing-matrix.md` (212 lines, .md) -- Detailed routing rules for the Chief of Staff. When a founder asks a question, find the best match in this matrix, then 
 - `./claude-skills/integrations/antigravity/chief-of-staff/references/synthesis-framework.md` (201 lines, .md) -- How to turn multiple role outputs into a single, useful response for the founder. Synthesis is the highest-value functio
 - `./claude-skills/integrations/antigravity/chro-advisor/SKILL.md` (138 lines, .md) -- name: \"chro-advisor\"
 - `./claude-skills/integrations/antigravity/chro-advisor/references/comp_frameworks.md` (320 lines, .md) -- Salary bands, equity design, total comp modeling, comp philosophy, and raise/refresh processes.
-- `./claude-skills/integrations/antigravity/chro-advisor/references/org_design.md` (333 lines, .md) -- Spans of control, layering decisions, reorgs, title frameworks, career ladders, and the founder→professional management
+- `./claude-skills/integrations/antigravity/chro-advisor/references/org_design.md` (333 lines, .md) -- Spans of control, layering decisions, reorgs, title frameworks, career ladders, and the founder→professional managemen
 - `./claude-skills/integrations/antigravity/chro-advisor/references/people_strategy.md` (320 lines, .md) -- Hiring, retention, performance, and remote/hybrid frameworks for each growth stage.
 - `./claude-skills/integrations/antigravity/chro-advisor/scripts/comp_benchmarker.py` (613 lines, .py) -- Compensation Benchmarker
 - `./claude-skills/integrations/antigravity/chro-advisor/scripts/hiring_plan_modeler.py` (572 lines, .py) -- Hiring Plan Modeler
@@ -3378,7 +3392,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/ci-cd-pipeline-builder/scripts/stack_detector.py` (184 lines, .py) -- Input sources:
 - `./claude-skills/integrations/antigravity/ciso-advisor/SKILL.md` (129 lines, .md) -- name: \"ciso-advisor\"
 - `./claude-skills/integrations/antigravity/ciso-advisor/references/compliance_roadmap.md` (370 lines, .md) -- ```
-- `./claude-skills/integrations/antigravity/ciso-advisor/references/incident_response.md` (350 lines, .md) -- This is the executive IR playbook — strategic decisions, communication, and leadership during incidents. For technical p
+- `./claude-skills/integrations/antigravity/ciso-advisor/references/incident_response.md` (350 lines, .md) -- This is the executive IR playbook — strategic decisions, communication, and leadership during incidents. For technical
 - `./claude-skills/integrations/antigravity/ciso-advisor/references/security_strategy.md` (321 lines, .md) -- Most startups build security backwards: they get a compliance requirement (SOC 2, ISO 27001) and treat it as the securit
 - `./claude-skills/integrations/antigravity/ciso-advisor/scripts/compliance_tracker.py` (781 lines, .py) -- CISO Compliance Tracker
 - `./claude-skills/integrations/antigravity/ciso-advisor/scripts/risk_quantifier.py` (690 lines, .py) -- CISO Risk Quantifier
@@ -3393,7 +3407,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/cloud-security/references/cspm-checks.md` (109 lines, .md) -- Complete check matrices for cloud security posture management across AWS, Azure, and GCP. Each check includes finding co
 - `./claude-skills/integrations/antigravity/cloud-security/scripts/cloud_posture_check.py` (1180 lines, .py) -- cloud_posture_check.py — Cloud Security Posture Check
 - `./claude-skills/integrations/antigravity/cmo-advisor/SKILL.md` (163 lines, .md) -- name: \"cmo-advisor\"
-- `./claude-skills/integrations/antigravity/cmo-advisor/references/brand_positioning.md` (374 lines, .md) -- Practical frameworks for defining, communicating, and defending your market position. Not theory — applied tools for CMO
+- `./claude-skills/integrations/antigravity/cmo-advisor/references/brand_positioning.md` (374 lines, .md) -- Practical frameworks for defining, communicating, and defending your market position. Not theory — applied tools for C
 - `./claude-skills/integrations/antigravity/cmo-advisor/references/growth_frameworks.md` (456 lines, .md) -- Playbooks for PLG, sales-led, community-led, and hybrid growth models. Includes growth loops, funnel design, and guidanc
 - `./claude-skills/integrations/antigravity/cmo-advisor/references/marketing_org.md` (281 lines, .md) -- Team structure, hiring sequence, agency decisions, marketing ops, and cross-functional alignment — by company stage.
 - `./claude-skills/integrations/antigravity/cmo-advisor/scripts/growth_model_simulator.py` (416 lines, .py) -- Growth Model Simulator
@@ -3417,7 +3431,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/codebase-onboarding/references/output-format-templates.md` (41 lines, .md) -- ```javascript
 - `./claude-skills/integrations/antigravity/codebase-onboarding/scripts/codebase_analyzer.py` (205 lines, .py) -- from __future__ import annotations
 - `./claude-skills/integrations/antigravity/cold-email/SKILL.md` (269 lines, .md) -- name: \"cold-email\"
-- `./claude-skills/integrations/antigravity/cold-email/references/deliverability-guide.md` (225 lines, .md) -- A cold email that lands in spam is worse than no email at all — it damages your sender reputation for future sends. Get
+- `./claude-skills/integrations/antigravity/cold-email/references/deliverability-guide.md` (225 lines, .md) -- A cold email that lands in spam is worse than no email at all — it damages your sender reputation for future sends. Ge
 - `./claude-skills/integrations/antigravity/cold-email/references/follow-up-playbook.md` (225 lines, .md) -- Full cadence guide, angle rotation, and breakup email templates. The goal: stay persistent without becoming noise.
 - `./claude-skills/integrations/antigravity/cold-email/references/frameworks.md` (217 lines, .md) -- Three frameworks that work, when to use each, and how to apply them with examples.
 - `./claude-skills/integrations/antigravity/cold-email/scripts/email_sequence_analyzer.py` (517 lines, .py) -- email_sequence_analyzer.py — Analyzes a cold email sequence for quality signals.
@@ -3430,9 +3444,9 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/commercial-forecaster/scripts/cohort_arr_projector.py` (295 lines, .py) -- Input: JSON with cohorts (each with acquisition_quarter, starting_arr, per-quarter gross_retention
 - `./claude-skills/integrations/antigravity/commercial-forecaster/scripts/funnel_confidence_scorer.py` (204 lines, .py) -- Input: JSON with funnel_stages (each with stage_name and conversion_pct_history over 12 quarters).
 - `./claude-skills/integrations/antigravity/commercial-policy/SKILL.md` (148 lines, .md) -- name: \"commercial-policy\"
-- `./claude-skills/integrations/antigravity/commercial-policy/references/discount_governance_canon.md` (131 lines, .md) -- Authoritative sources on **how mature SaaS companies govern discounts off list price** — the rules of engagement that th
+- `./claude-skills/integrations/antigravity/commercial-policy/references/discount_governance_canon.md` (131 lines, .md) -- Authoritative sources on **how mature SaaS companies govern discounts off list price** — the rules of engagement that 
 - `./claude-skills/integrations/antigravity/commercial-policy/references/policy_anti_patterns.md` (143 lines, .md) -- Eight named anti-patterns that the commercial-policy skill is built to prevent. Each is observed in the wild (with sourc
-- `./claude-skills/integrations/antigravity/commercial-policy/references/policy_design_canon.md` (119 lines, .md) -- Authoritative sources on **how to design a commercial policy as an artifact** — not how to discount, but how to write th
+- `./claude-skills/integrations/antigravity/commercial-policy/references/policy_design_canon.md` (119 lines, .md) -- Authoritative sources on **how to design a commercial policy as an artifact** — not how to discount, but how to write 
 - `./claude-skills/integrations/antigravity/commercial-policy/scripts/discount_matrix_builder.py` (298 lines, .py) -- Stdlib-only. Builds a 4-dimensional discount matrix indexed by:
 - `./claude-skills/integrations/antigravity/commercial-policy/scripts/exception_router.py` (266 lines, .py) -- Stdlib-only. Takes an exception request and a matrix path. Decides:
 - `./claude-skills/integrations/antigravity/commercial-policy/scripts/policy_linter.py` (361 lines, .py) -- Stdlib-only. Reads the JSON output of discount_matrix_builder.py (or a
@@ -3454,7 +3468,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/competitor-alternatives/references/templates.md` (212 lines, .md) -- Ready-to-use templates for each section of competitor comparison pages.
 - `./claude-skills/integrations/antigravity/competitor-alternatives/scripts/comparison_matrix_builder.py` (365 lines, .py) -- comparison_matrix_builder.py — Competitive Feature Comparison Matrix Builder
 - `./claude-skills/integrations/antigravity/compliance-os/SKILL.md` (205 lines, .md) -- name: \"compliance-os\"
-- `./claude-skills/integrations/antigravity/compliance-os/references/audit_simulation_methodology.md` (142 lines, .md) -- This reference answers exactly one decision: **what does a realistic internal audit look like, and how do we generate a
+- `./claude-skills/integrations/antigravity/compliance-os/references/audit_simulation_methodology.md` (142 lines, .md) -- This reference answers exactly one decision: **what does a realistic internal audit look like, and how do we generate a 
 - `./claude-skills/integrations/antigravity/compliance-os/references/compliance_os_pattern.md` (141 lines, .md) -- This reference answers exactly one decision: **when do we orchestrate frameworks vs run them separately, and what does t
 - `./claude-skills/integrations/antigravity/compliance-os/references/cross_framework_overlap.md` (108 lines, .md) -- This reference answers exactly one decision: **for each common control family, which of the 9 supported frameworks addre
 - `./claude-skills/integrations/antigravity/compliance-os/references/evidence_artifact_reuse_index.md` (167 lines, .md) -- This reference answers exactly one decision: **which evidence artefacts have the highest reuse leverage across the 12 su
@@ -3478,11 +3492,11 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/content-creator/references/social_media_optimization.md` (342 lines, .md) -- Platform-specific best practices, algorithm factors, content optimization strategies, and analytics frameworks.
 - `./claude-skills/integrations/antigravity/content-humanizer/SKILL.md` (258 lines, .md) -- name: \"content-humanizer\"
 - `./claude-skills/integrations/antigravity/content-humanizer/references/ai-tells-checklist.md` (157 lines, .md) -- A comprehensive reference for detecting AI-generated or AI-assisted writing patterns. Use this during Mode 1 (Detect) to
-- `./claude-skills/integrations/antigravity/content-humanizer/references/voice-techniques.md` (168 lines, .md) -- Techniques for injecting authentic brand voice into content. This is the Mode 3 playbook — after you've removed AI patte
+- `./claude-skills/integrations/antigravity/content-humanizer/references/voice-techniques.md` (168 lines, .md) -- Techniques for injecting authentic brand voice into content. This is the Mode 3 playbook — after you've removed AI pat
 - `./claude-skills/integrations/antigravity/content-humanizer/scripts/humanizer_scorer.py` (504 lines, .py) -- import sys
 - `./claude-skills/integrations/antigravity/content-production/SKILL.md` (242 lines, .md) -- name: \"content-production\"
 - `./claude-skills/integrations/antigravity/content-production/references/ai-citation-readiness.md` (81 lines, .md) -- How to optimize content so AI platforms (Perplexity, ChatGPT, Google AI Overviews, Claude) cite your pages in their answ
-- `./claude-skills/integrations/antigravity/content-production/references/content-brief-guide.md` (146 lines, .md) -- A brief isn't a writing assignment. It's a contract between the strategist and the writer — and when you're both the sam
+- `./claude-skills/integrations/antigravity/content-production/references/content-brief-guide.md` (146 lines, .md) -- A brief isn't a writing assignment. It's a contract between the strategist and the writer — and when you're both the s
 - `./claude-skills/integrations/antigravity/content-production/references/content-templates.md` (107 lines, .md) -- 12 content templates with selection logic. The LLM should detect topic intent and recommend the right template before wr
 - `./claude-skills/integrations/antigravity/content-production/references/optimization-checklist.md` (139 lines, .md) -- Run this before every piece goes live. Each section is a gate — fail a gate, fix it before moving on.
 - `./claude-skills/integrations/antigravity/content-production/scripts/brand_voice_analyzer.py` (197 lines, .py) -- Brand Voice Analyzer - Analyzes content to establish and maintain brand voice consistency
@@ -3491,15 +3505,15 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/content-production/scripts/seo_optimizer.py` (433 lines, .py) -- SEO Content Optimizer - Analyzes and optimizes content for SEO
 - `./claude-skills/integrations/antigravity/content-production/templates/content-brief-template.md` (126 lines, .md) -- > Fill in every field before writing starts. Blank fields mean assumptions. Assumptions mean rewrites.
 - `./claude-skills/integrations/antigravity/content-strategy/SKILL.md` (124 lines, .md) -- name: \"content-strategy\"
-- `./claude-skills/integrations/antigravity/content-strategy/references/content-strategy-reference.md` (278 lines, .md) -- Every piece of content must be searchable, shareable, or both. Prioritize in that order—search traffic is the foundation
+- `./claude-skills/integrations/antigravity/content-strategy/references/content-strategy-reference.md` (278 lines, .md) -- Every piece of content must be searchable, shareable, or both. Prioritize in that order—search traffic is the foundati
 - `./claude-skills/integrations/antigravity/content-strategy/scripts/topic_cluster_mapper.py` (243 lines, .py) -- topic_cluster_mapper.py — Groups keywords/topics into content clusters
 - `./claude-skills/integrations/antigravity/context-engine/SKILL.md` (129 lines, .md) -- name: \"context-engine\"
-- `./claude-skills/integrations/antigravity/context-engine/references/anonymization-protocol.md` (173 lines, .md) -- Rules for stripping sensitive company data before any external API call, web search, or tool invocation that sends data
+- `./claude-skills/integrations/antigravity/context-engine/references/anonymization-protocol.md` (173 lines, .md) -- Rules for stripping sensitive company data before any external API call, web search, or tool invocation that sends data 
 - `./claude-skills/integrations/antigravity/contract-and-proposal-writer/SKILL.md` (426 lines, .md) -- name: \"contract-and-proposal-writer\"
 - `./claude-skills/integrations/antigravity/coo-advisor/SKILL.md` (131 lines, .md) -- name: \"coo-advisor\"
 - `./claude-skills/integrations/antigravity/coo-advisor/references/ops_cadence.md` (606 lines, .md) -- > The rhythm of your company determines its output. Bad cadence = constant context-switching, decisions made without inf
-- `./claude-skills/integrations/antigravity/coo-advisor/references/process_frameworks.md` (459 lines, .md) -- > Theory of Constraints, Lean, process mapping, automation, and change management — applied to real startup contexts, no
-- `./claude-skills/integrations/antigravity/coo-advisor/references/scaling_playbook.md` (465 lines, .md) -- > Compiled from patterns across 100+ high-growth companies. Not theory — this is what actually breaks and what to do abo
+- `./claude-skills/integrations/antigravity/coo-advisor/references/process_frameworks.md` (459 lines, .md) -- > Theory of Constraints, Lean, process mapping, automation, and change management — applied to real startup contexts, 
+- `./claude-skills/integrations/antigravity/coo-advisor/references/scaling_playbook.md` (465 lines, .md) -- > Compiled from patterns across 100+ high-growth companies. Not theory — this is what actually breaks and what to do a
 - `./claude-skills/integrations/antigravity/coo-advisor/scripts/okr_tracker.py` (1100 lines, .py) -- okr_tracker.py — OKR Cascade and Alignment Tracker
 - `./claude-skills/integrations/antigravity/coo-advisor/scripts/ops_efficiency_analyzer.py` (1071 lines, .py) -- ops_efficiency_analyzer.py — Operational Efficiency Analyzer
 - `./claude-skills/integrations/antigravity/copy-editing/SKILL.md` (488 lines, .md) -- name: \"copy-editing\"
@@ -3509,13 +3523,13 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/copy-editing/scripts/readability_scorer.py` (285 lines, .py) -- readability_scorer.py — Readability metrics for marketing copy
 - `./claude-skills/integrations/antigravity/copywriting/SKILL.md` (293 lines, .md) -- name: \"copywriting\"
 - `./claude-skills/integrations/antigravity/copywriting/references/copy-frameworks.md` (338 lines, .md) -- Headline formulas, page section types, and structural templates.
-- `./claude-skills/integrations/antigravity/copywriting/references/natural-transitions.md` (252 lines, .md) -- Transitional phrases to guide readers through your content. Good signposting improves readability, user engagement, and
+- `./claude-skills/integrations/antigravity/copywriting/references/natural-transitions.md` (252 lines, .md) -- Transitional phrases to guide readers through your content. Good signposting improves readability, user engagement, and 
 - `./claude-skills/integrations/antigravity/copywriting/scripts/headline_scorer.py` (256 lines, .py) -- headline_scorer.py — Scores headlines 0-100
 - `./claude-skills/integrations/antigravity/coverage/SKILL.md` (98 lines, .md) -- name: \"coverage\"
 - `./claude-skills/integrations/antigravity/cpo-advisor/SKILL.md` (194 lines, .md) -- name: \"cpo-advisor\"
 - `./claude-skills/integrations/antigravity/cpo-advisor/references/pmf_playbook.md` (307 lines, .md) -- How to find product-market fit, measure it, and not lose it. Steps, not theory.
-- `./claude-skills/integrations/antigravity/cpo-advisor/references/product_org_design.md` (407 lines, .md) -- How to structure, hire, and run product organizations at different stages. No generic advice — stage-specific, role-spec
-- `./claude-skills/integrations/antigravity/cpo-advisor/references/product_strategy.md` (454 lines, .md) -- Frameworks for product vision, competitive positioning, portfolio management, and board reporting. No theory — only what
+- `./claude-skills/integrations/antigravity/cpo-advisor/references/product_org_design.md` (407 lines, .md) -- How to structure, hire, and run product organizations at different stages. No generic advice — stage-specific, role-sp
+- `./claude-skills/integrations/antigravity/cpo-advisor/references/product_strategy.md` (454 lines, .md) -- Frameworks for product vision, competitive positioning, portfolio management, and board reporting. No theory — only wh
 - `./claude-skills/integrations/antigravity/cpo-advisor/scripts/pmf_scorer.py` (600 lines, .py) -- PMF Scorer — Multi-dimensional Product-Market Fit analysis.
 - `./claude-skills/integrations/antigravity/cpo-advisor/scripts/portfolio_analyzer.py` (547 lines, .py) -- Portfolio Analyzer — Product portfolio BCG matrix classification and investment analysis.
 - `./claude-skills/integrations/antigravity/cpo-review/SKILL.md` (113 lines, .md) -- name: \"cpo-review\"
@@ -3528,10 +3542,10 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/cro-review/SKILL.md` (113 lines, .md) -- name: \"cro-review\"
 - `./claude-skills/integrations/antigravity/cross-eval/SKILL.md` (118 lines, .md) -- name: \"cross-eval\"
 - `./claude-skills/integrations/antigravity/cs-onboard/SKILL.md` (103 lines, .md) -- name: \"cs-onboard\"
-- `./claude-skills/integrations/antigravity/cs-onboard/references/interview-guide.md` (173 lines, .md) -- Deep operational guide for conducting the `/cs:setup` founder interview. Not a script — a thinking tool. Read before eve
+- `./claude-skills/integrations/antigravity/cs-onboard/references/interview-guide.md` (173 lines, .md) -- Deep operational guide for conducting the `/cs:setup` founder interview. Not a script — a thinking tool. Read before e
 - `./claude-skills/integrations/antigravity/cs-onboard/templates/company-context-template.md` (144 lines, .md) -- [One paragraph — product/service, who it's for, core use case]
 - `./claude-skills/integrations/antigravity/cto-advisor/SKILL.md` (251 lines, .md) -- name: \"cto-advisor\"
-- `./claude-skills/integrations/antigravity/cto-advisor/references/architecture_decision_records.md` (294 lines, .md) -- Architecture Decision Records capture important architectural decisions made along with their context and consequences.
+- `./claude-skills/integrations/antigravity/cto-advisor/references/architecture_decision_records.md` (294 lines, .md) -- Architecture Decision Records capture important architectural decisions made along with their context and consequences. 
 - `./claude-skills/integrations/antigravity/cto-advisor/references/engineering_metrics.md` (393 lines, .md) -- - **Definition**: How often code is deployed to production
 - `./claude-skills/integrations/antigravity/cto-advisor/references/technology_evaluation_framework.md` (370 lines, .md) -- - Core features needed
 - `./claude-skills/integrations/antigravity/cto-advisor/scripts/team_scaling_calculator.py` (562 lines, .py) -- Engineering Team Scaling Calculator - Optimize team growth and structure
@@ -3539,7 +3553,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/cto-review/SKILL.md` (120 lines, .md) -- name: \"cto-review\"
 - `./claude-skills/integrations/antigravity/culture-architect/SKILL.md` (162 lines, .md) -- name: \"culture-architect\"
 - `./claude-skills/integrations/antigravity/culture-architect/references/culture-playbook.md` (243 lines, .md) -- Reference frameworks for building, measuring, and evolving company culture.
-- `./claude-skills/integrations/antigravity/culture-architect/templates/culture-code-template.md` (137 lines, .md) -- > This document describes how we work, what we value, and what it's like to be here. It's meant to be honest — which mea
+- `./claude-skills/integrations/antigravity/culture-architect/templates/culture-code-template.md` (137 lines, .md) -- > This document describes how we work, what we value, and what it's like to be here. It's meant to be honest — which m
 - `./claude-skills/integrations/antigravity/customer-success-manager/SKILL.md` (209 lines, .md) -- name: \"customer-success-manager\"
 - `./claude-skills/integrations/antigravity/customer-success-manager/references/cs-metrics-benchmarks.md` (259 lines, .md) -- Industry benchmarks for key customer success metrics, segmented by company size, customer segment, and industry vertical
 - `./claude-skills/integrations/antigravity/customer-success-manager/references/cs-playbooks.md` (290 lines, .md) -- Comprehensive intervention, onboarding, renewal, expansion, and escalation playbooks for SaaS customer success managemen
@@ -3554,7 +3568,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/data-quality-auditor/scripts/outlier_detector.py` (263 lines, .py) -- from __future__ import annotations
 - `./claude-skills/integrations/antigravity/database-designer/SKILL.md` (292 lines, .md) -- name: \"database-designer\"
 - `./claude-skills/integrations/antigravity/database-designer/references/database-design-reference.md` (476 lines, .md) -- - **Atomic Values**: Each column contains indivisible values
-- `./claude-skills/integrations/antigravity/database-designer/references/database_selection_decision_tree.md` (373 lines, .md) -- Choosing the right database technology is crucial for application success. This guide provides a systematic approach to
+- `./claude-skills/integrations/antigravity/database-designer/references/database_selection_decision_tree.md` (373 lines, .md) -- Choosing the right database technology is crucial for application success. This guide provides a systematic approach to 
 - `./claude-skills/integrations/antigravity/database-designer/references/index_strategy_patterns.md` (424 lines, .md) -- Database indexes are critical for query performance, but they come with trade-offs. This guide covers proven patterns fo
 - `./claude-skills/integrations/antigravity/database-designer/references/normalization_guide.md` (354 lines, .md) -- Database normalization is the process of organizing data to minimize redundancy and dependency issues. It involves decom
 - `./claude-skills/integrations/antigravity/database-schema-designer/SKILL.md` (251 lines, .md) -- name: \"database-schema-designer\"
@@ -3586,8 +3600,8 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/docker-development/scripts/dockerfile_analyzer.py` (410 lines, .py) -- docker-development: Dockerfile Analyzer
 - `./claude-skills/integrations/antigravity/dossier/SKILL.md` (315 lines, .md) -- name: \"dossier\"
 - `./claude-skills/integrations/antigravity/dossier/references/conversation_hook_quality.md` (135 lines, .md) -- This reference answers exactly one decision: **what makes a conversation hook (Section 8 of the dossier DOCX) useful eno
-- `./claude-skills/integrations/antigravity/dossier/references/hypothesis_testing_discipline.md` (158 lines, .md) -- This reference answers exactly one decision: **why does the dossier skill demand a hypothesis upfront and allocate ≥30%
-- `./claude-skills/integrations/antigravity/dossier/references/subject_type_source_matrix.md` (203 lines, .md) -- This reference answers exactly one decision: **given the subject type (Q2), what sources does the dossier query in what
+- `./claude-skills/integrations/antigravity/dossier/references/hypothesis_testing_discipline.md` (158 lines, .md) -- This reference answers exactly one decision: **why does the dossier skill demand a hypothesis upfront and allocate ≥30
+- `./claude-skills/integrations/antigravity/dossier/references/subject_type_source_matrix.md` (203 lines, .md) -- This reference answers exactly one decision: **given the subject type (Q2), what sources does the dossier query in what 
 - `./claude-skills/integrations/antigravity/dossier/scripts/citation_tracker.py` (286 lines, .py) -- Stdlib-only. Extended for dossier's hypothesis-testing discipline:
 - `./claude-skills/integrations/antigravity/dossier/scripts/disconfirming_evidence_balance.py` (205 lines, .py) -- Stdlib-only. The dossier skill's non-negotiable: ≥30% of Phase 4 searches must
 - `./claude-skills/integrations/antigravity/dossier/scripts/source_tier_classifier.py` (238 lines, .py) -- Stdlib-only. Classifies a source URL into reliability tier based on domain
@@ -3602,12 +3616,12 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/env-secrets-manager/references/validation-detection-rotation.md` (358 lines, .md) -- ```bash
 - `./claude-skills/integrations/antigravity/env-secrets-manager/scripts/env_auditor.py` (145 lines, .py) -- from __future__ import annotations
 - `./claude-skills/integrations/antigravity/epic-design/SKILL.md` (340 lines, .md) -- name: \"epic-design\"
-- `./claude-skills/integrations/antigravity/epic-design/references/accessibility.md` (378 lines, .md) -- Every 2.5D website MUST implement ALL of the following. These are not optional enhancements — they are legal requirement
+- `./claude-skills/integrations/antigravity/epic-design/references/accessibility.md` (378 lines, .md) -- Every 2.5D website MUST implement ALL of the following. These are not optional enhancements — they are legal requireme
 - `./claude-skills/integrations/antigravity/epic-design/references/asset-pipeline.md` (135 lines, .md) -- Every image asset must be inspected and judged before use in any 2.5D site.
 - `./claude-skills/integrations/antigravity/epic-design/references/depth-system.md` (361 lines, .md) -- The 2.5D illusion is built entirely on a **6-level depth model**. Every element on the page belongs to exactly one depth
-- `./claude-skills/integrations/antigravity/epic-design/references/directional-reveals.md` (455 lines, .md) -- Elements and sections don't always enter from the bottom. Premium sites use **directional births** — sections that drop
+- `./claude-skills/integrations/antigravity/epic-design/references/directional-reveals.md` (455 lines, .md) -- Elements and sections don't always enter from the bottom. Premium sites use **directional births** — sections that dro
 - `./claude-skills/integrations/antigravity/epic-design/references/examples.md` (344 lines, .md) -- Five complete implementation blueprints. Each describes exactly which techniques to combine, in what order, with key cod
-- `./claude-skills/integrations/antigravity/epic-design/references/inter-section-effects.md` (493 lines, .md) -- These are the most premium techniques — effects where elements **persist, travel, or transition between sections**, crea
+- `./claude-skills/integrations/antigravity/epic-design/references/inter-section-effects.md` (493 lines, .md) -- These are the most premium techniques — effects where elements **persist, travel, or transition between sections**, cr
 - `./claude-skills/integrations/antigravity/epic-design/references/motion-system.md` (531 lines, .md) -- 1. [GSAP Setup & CDN](#gsap-setup)
 - `./claude-skills/integrations/antigravity/epic-design/references/performance.md` (261 lines, .md) -- ```
 - `./claude-skills/integrations/antigravity/epic-design/references/text-animations.md` (709 lines, .md) -- 1. [Setup: SplitText & Dependencies](#setup)
@@ -3631,7 +3645,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/eval/SKILL.md` (82 lines, .md) -- name: \"eval\"
 - `./claude-skills/integrations/antigravity/execute/SKILL.md` (102 lines, .md) -- name: \"execute\"
 - `./claude-skills/integrations/antigravity/executive-mentor/SKILL.md` (136 lines, .md) -- name: \"executive-mentor\"
-- `./claude-skills/integrations/antigravity/executive-mentor/references/board_dynamics.md` (263 lines, .md) -- Your board has the power to fire you. Most boards don't want to. But the relationship deteriorates in predictable ways,
+- `./claude-skills/integrations/antigravity/executive-mentor/references/board_dynamics.md` (263 lines, .md) -- Your board has the power to fire you. Most boards don't want to. But the relationship deteriorates in predictable ways, 
 - `./claude-skills/integrations/antigravity/executive-mentor/references/crisis_playbook.md` (173 lines, .md) -- Crises aren't random. They fall into predictable categories. The companies that survive them have usually thought throug
 - `./claude-skills/integrations/antigravity/executive-mentor/references/hard_things.md` (256 lines, .md) -- Firing people. Laying off teams. Pivoting when you've raised money on the old direction. Telling a co-founder it's over.
 - `./claude-skills/integrations/antigravity/executive-mentor/scripts/decision_matrix_scorer.py` (491 lines, .py) -- Decision Matrix Scorer — Executive Mentor Tool
@@ -3702,7 +3716,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/gdpr-audit-prep/SKILL.md` (168 lines, .md) -- name: \"gdpr-audit-prep\"
 - `./claude-skills/integrations/antigravity/gdpr-dsgvo-expert/SKILL.md` (269 lines, .md) -- name: \"gdpr-dsgvo-expert\"
 - `./claude-skills/integrations/antigravity/gdpr-dsgvo-expert/references/dpia_methodology.md` (412 lines, .md) -- Data Protection Impact Assessment process, criteria, and checklists following GDPR Article 35 and WP29 guidelines.
-- `./claude-skills/integrations/antigravity/gdpr-dsgvo-expert/references/gdpr_audit_playbook.md` (213 lines, .md) -- This reference answers exactly one decision: **how do we audit GDPR compliance (the binding Regulation (EU) 2016/679) —
+- `./claude-skills/integrations/antigravity/gdpr-dsgvo-expert/references/gdpr_audit_playbook.md` (213 lines, .md) -- This reference answers exactly one decision: **how do we audit GDPR compliance (the binding Regulation (EU) 2016/679) �
 - `./claude-skills/integrations/antigravity/gdpr-dsgvo-expert/references/gdpr_compliance_guide.md` (336 lines, .md) -- Practical implementation guidance for EU General Data Protection Regulation compliance.
 - `./claude-skills/integrations/antigravity/gdpr-dsgvo-expert/references/german_bdsg_requirements.md` (327 lines, .md) -- German-specific data protection requirements under the Bundesdatenschutzgesetz (BDSG) and state laws.
 - `./claude-skills/integrations/antigravity/gdpr-dsgvo-expert/scripts/data_subject_rights_tracker.py` (541 lines, .py) -- Data Subject Rights Tracker
@@ -3722,7 +3736,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/generate/SKILL.md` (144 lines, .md) -- name: \"generate\"
 - `./claude-skills/integrations/antigravity/git-worktree-manager/SKILL.md` (196 lines, .md) -- name: \"git-worktree-manager\"
 - `./claude-skills/integrations/antigravity/git-worktree-manager/references/docker-compose-patterns.md` (62 lines, .md) -- Base compose file remains shared; each worktree has a local override.
-- `./claude-skills/integrations/antigravity/git-worktree-manager/references/port-allocation-strategy.md` (46 lines, .md) -- Allocate deterministic, non-overlapping local ports for each worktree to avoid collisions across concurrent development
+- `./claude-skills/integrations/antigravity/git-worktree-manager/references/port-allocation-strategy.md` (46 lines, .md) -- Allocate deterministic, non-overlapping local ports for each worktree to avoid collisions across concurrent development 
 - `./claude-skills/integrations/antigravity/git-worktree-manager/scripts/worktree_cleanup.py` (196 lines, .py) -- Supports:
 - `./claude-skills/integrations/antigravity/git-worktree-manager/scripts/worktree_manager.py` (240 lines, .py) -- Supports:
 - `./claude-skills/integrations/antigravity/google-workspace-cli/SKILL.md` (376 lines, .md) -- name: \"google-workspace-cli\"
@@ -3737,14 +3751,14 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/grants/SKILL.md` (283 lines, .md) -- name: \"grants\"
 - `./claude-skills/integrations/antigravity/grants/references/docx_9_sections.md` (289 lines, .md) -- This reference answers exactly one decision: **what are the 9 sections of the grants .docx, and what does each need to b
 - `./claude-skills/integrations/antigravity/grants/references/nih_mechanism_matching.md` (163 lines, .md) -- This reference answers exactly one decision: **given a researcher's career stage, project scope, and preliminary data st
-- `./claude-skills/integrations/antigravity/grants/references/reporter_post_patterns.md` (194 lines, .md) -- This reference answers exactly one decision: **how does the grants skill query NIH RePORTER, and what plan-tier signals
+- `./claude-skills/integrations/antigravity/grants/references/reporter_post_patterns.md` (194 lines, .md) -- This reference answers exactly one decision: **how does the grants skill query NIH RePORTER, and what plan-tier signals 
 - `./claude-skills/integrations/antigravity/grants/scripts/citation_tracker.py` (303 lines, .py) -- Stdlib-only. Mirrors litreview's tracker but extended for grants's
 - `./claude-skills/integrations/antigravity/grants/scripts/fiscal_year_calculator.py` (95 lines, .py) -- Stdlib-only. NIH FY = year of next Sep 30. October starts a new FY.
 - `./claude-skills/integrations/antigravity/grants/scripts/mechanism_matcher.py` (216 lines, .py) -- Stdlib-only. The skill must NOT recommend mechanisms by career stage alone —
 - `./claude-skills/integrations/antigravity/grill-me/SKILL.md` (54 lines, .md) -- name: \"grill-me\"
 - `./claude-skills/integrations/antigravity/grill-me/references/companion_tooling.md` (65 lines, .md) -- Interrogation tools + cs-* wrapper layered on top of Matt's grill-me skill.
-- `./claude-skills/integrations/antigravity/grill-me/references/forcing_question_patterns.md` (152 lines, .md) -- This reference answers exactly one decision: **what makes a question \"forcing\" vs \"soft\", and how do we ask forcing
-- `./claude-skills/integrations/antigravity/grill-me/references/when_to_stop_grilling.md` (142 lines, .md) -- This reference answers exactly one decision: **when is \"shared understanding\" actually reached, and how do we know to
+- `./claude-skills/integrations/antigravity/grill-me/references/forcing_question_patterns.md` (152 lines, .md) -- This reference answers exactly one decision: **what makes a question \"forcing\" vs \"soft\", and how do we ask forcing 
+- `./claude-skills/integrations/antigravity/grill-me/references/when_to_stop_grilling.md` (142 lines, .md) -- This reference answers exactly one decision: **when is \"shared understanding\" actually reached, and how do we know to 
 - `./claude-skills/integrations/antigravity/grill-me/scripts/decision_tree_extractor.py` (149 lines, .py) -- Stdlib-only. Scans a markdown plan and identifies decision branches by detecting:
 - `./claude-skills/integrations/antigravity/grill-me/scripts/grill_session_tracker.py` (264 lines, .py) -- Stdlib-only. JSON-backed session storage for the relentless interrogation pattern.
 - `./claude-skills/integrations/antigravity/grill-me/scripts/question_generator.py` (142 lines, .py) -- Stdlib-only. Takes a plan doc, runs decision_tree_extractor, then generates
@@ -3759,11 +3773,11 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/handoff/references/companion_tooling.md` (56 lines, .md) -- Handoff-generation tools + cs-* wrapper layered on top of Matt's handoff skill.
 - `./claude-skills/integrations/antigravity/handoff/references/deduplication_discipline.md` (196 lines, .md) -- This reference answers exactly one decision: **what counts as duplication, and how do we replace it with a reference?**
 - `./claude-skills/integrations/antigravity/handoff/references/handoff_structure.md` (163 lines, .md) -- This reference answers exactly one decision: **what sections does a handoff document need, and what content belongs in e
-- `./claude-skills/integrations/antigravity/handoff/references/next_session_skill_matching.md` (121 lines, .md) -- This reference answers exactly one decision: **which skills should the handoff recommend for the next session, based on
+- `./claude-skills/integrations/antigravity/handoff/references/next_session_skill_matching.md` (121 lines, .md) -- This reference answers exactly one decision: **which skills should the handoff recommend for the next session, based on 
 - `./claude-skills/integrations/antigravity/handoff/references/references/configuration.md` (129 lines, .md) -- The handoff skill is configurable. This document is the field-by-field reference. Setup walks the user through the quest
 - `./claude-skills/integrations/antigravity/handoff/references/references/deduplication_discipline.md` (96 lines, .md) -- Matt's core rule, made operational:
 - `./claude-skills/integrations/antigravity/handoff/references/references/handoff_prompt.md` (93 lines, .md) -- This is the discipline that turns a free-hand summary into a faithful handoff. Walk every item before writing the doc. *
-- `./claude-skills/integrations/antigravity/handoff/references/references/handoff_structure.md` (127 lines, .md) -- The handoff doc has exactly five sections. Use these headers verbatim — the SessionStart hook and downstream tooling exp
+- `./claude-skills/integrations/antigravity/handoff/references/references/handoff_structure.md` (127 lines, .md) -- The handoff doc has exactly five sections. Use these headers verbatim — the SessionStart hook and downstream tooling e
 - `./claude-skills/integrations/antigravity/handoff/references/references/redaction_checklist.md` (99 lines, .md) -- > Redact any sensitive information, such as API keys, passwords, or personally identifiable information.
 - `./claude-skills/integrations/antigravity/handoff/scripts/artifact_deduplicator.py` (244 lines, .py) -- Stdlib-only. Scans a handoff markdown draft for content patterns that look like
 - `./claude-skills/integrations/antigravity/handoff/scripts/handoff_template_generator.py` (217 lines, .py) -- Stdlib-only. Outputs a markdown skeleton matching Matt Pocock's handoff structure:
@@ -3789,8 +3803,8 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/inbox-setup/scripts/section_progress_tracker.py` (254 lines, .py) -- Stdlib-only. Tracks the setup interview state at ~/.inbox_setup_sessions/<session>.json
 - `./claude-skills/integrations/antigravity/inbox-setup/scripts/voice_sample_analyzer.py` (299 lines, .py) -- Stdlib-only. Reads 3-5 sent-email samples (separated by `---` delimiters) and
 - `./claude-skills/integrations/antigravity/inbox-triage/SKILL.md` (309 lines, .md) -- name: \"inbox-triage\"
-- `./claude-skills/integrations/antigravity/inbox-triage/references/drafts_only_safety.md` (123 lines, .md) -- This reference answers exactly one decision: **why is \"drafts only — never send\" the non-negotiable safety property, a
-- `./claude-skills/integrations/antigravity/inbox-triage/references/kb_file_contract.md` (139 lines, .md) -- This reference is the **mirror** of `inbox-setup/references/kb_file_contract.md`, viewed from the read side. It answers
+- `./claude-skills/integrations/antigravity/inbox-triage/references/drafts_only_safety.md` (123 lines, .md) -- This reference answers exactly one decision: **why is \"drafts only — never send\" the non-negotiable safety property,
+- `./claude-skills/integrations/antigravity/inbox-triage/references/kb_file_contract.md` (139 lines, .md) -- This reference is the **mirror** of `inbox-setup/references/kb_file_contract.md`, viewed from the read side. It answers 
 - `./claude-skills/integrations/antigravity/inbox-triage/references/triage_decision_framework.md` (135 lines, .md) -- This reference answers exactly one decision: **for each decision-required email, which of the 4 recommendation categorie
 - `./claude-skills/integrations/antigravity/inbox-triage/scripts/draft_safety_validator.py` (197 lines, .py) -- Stdlib-only. Post-flight check that scans the per-run triage log for any
 - `./claude-skills/integrations/antigravity/inbox-triage/scripts/kb_reader.py` (304 lines, .py) -- Stdlib-only. The triage skill's first step. Loads the 7-file knowledge base
@@ -3809,7 +3823,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/incident-commander/scripts/severity_classifier.py` (1228 lines, .py) -- Severity Classifier - Classify incident severity and generate escalation paths.
 - `./claude-skills/integrations/antigravity/incident-commander/scripts/timeline_reconstructor.py` (1007 lines, .py) -- Timeline Reconstructor
 - `./claude-skills/integrations/antigravity/incident-response/SKILL.md` (325 lines, .md) -- name: \"incident-response\"
-- `./claude-skills/integrations/antigravity/incident-response/references/regulatory-deadlines.md` (125 lines, .md) -- Reference table for incident notification deadlines under major regulatory frameworks. The notification clock starts at
+- `./claude-skills/integrations/antigravity/incident-response/references/regulatory-deadlines.md` (125 lines, .md) -- Reference table for incident notification deadlines under major regulatory frameworks. The notification clock starts at 
 - `./claude-skills/integrations/antigravity/incident-response/scripts/incident_triage.py` (768 lines, .py) -- incident_triage.py — Incident Classification, Triage, and Escalation
 - `./claude-skills/integrations/antigravity/information-security-manager-iso27001/SKILL.md` (422 lines, .md) -- name: \"information-security-manager-iso27001\"
 - `./claude-skills/integrations/antigravity/information-security-manager-iso27001/references/incident-response.md` (420 lines, .md) -- Security incident detection, response, and recovery procedures per ISO 27001 requirements.
@@ -3821,7 +3835,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/internal-comms/SKILL.md` (123 lines, .md) -- name: \"internal-comms\"
 - `./claude-skills/integrations/antigravity/internal-comms/references/announcement_anti_patterns.md` (121 lines, .md) -- Eight specific anti-patterns drawn from Prosci research, MIT Sloan layoffs research, HBR transparent-leadership work, an
 - `./claude-skills/integrations/antigravity/internal-comms/references/change_management_canon.md` (110 lines, .md) -- The seven foundational works on planned organizational change. The internal-comms skill is anchored on the first two (AD
-- `./claude-skills/integrations/antigravity/internal-comms/references/internal_comms_canon.md` (108 lines, .md) -- Seven sources that anchor the *internal communications* discipline distinct from external/marketing comms. The audience
+- `./claude-skills/integrations/antigravity/internal-comms/references/internal_comms_canon.md` (108 lines, .md) -- Seven sources that anchor the *internal communications* discipline distinct from external/marketing comms. The audience 
 - `./claude-skills/integrations/antigravity/internal-comms/scripts/change_announcement_builder.py` (331 lines, .py) -- Produce a Kotter 8-step compliant primary internal announcement.
 - `./claude-skills/integrations/antigravity/internal-comms/scripts/comms_calendar_builder.py` (289 lines, .py) -- Build a 7-touchpoint sequencing calendar for an internal change event.
 - `./claude-skills/integrations/antigravity/internal-comms/scripts/comms_template_filler.py` (342 lines, .py) -- Fill a 4-artifact internal-comms package — pre-comm, primary announcement, FAQ,
@@ -3836,7 +3850,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/interview-system-designer/scripts/interview_planner.py` (133 lines, .py) -- from __future__ import annotations
 - `./claude-skills/integrations/antigravity/intl-expansion/SKILL.md` (101 lines, .md) -- name: \"intl-expansion\"
 - `./claude-skills/integrations/antigravity/intl-expansion/references/market-entry-playbook.md` (138 lines, .md) -- Step-by-step framework for entering a new international market.
-- `./claude-skills/integrations/antigravity/intl-expansion/references/regional-guide.md` (144 lines, .md) -- Specific considerations for key regions. Not exhaustive — these are the patterns that trip up most expanding companies.
+- `./claude-skills/integrations/antigravity/intl-expansion/references/regional-guide.md` (144 lines, .md) -- Specific considerations for key regions. Not exhaustive — these are the patterns that trip up most expanding companies
 - `./claude-skills/integrations/antigravity/isms-audit-expert/SKILL.md` (227 lines, .md) -- name: \"isms-audit-expert\"
 - `./claude-skills/integrations/antigravity/isms-audit-expert/references/cloud-security-audit.md` (226 lines, .md) -- Assessment framework for cloud service security verification.
 - `./claude-skills/integrations/antigravity/isms-audit-expert/references/iso27001-audit-methodology.md` (260 lines, .md) -- Complete audit framework and procedures for Information Security Management System assessments.
@@ -3847,13 +3861,13 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/iso27001-audit-prep/SKILL.md` (141 lines, .md) -- name: \"iso27001-audit-prep\"
 - `./claude-skills/integrations/antigravity/iso42001-specialist/SKILL.md` (189 lines, .md) -- name: \"iso42001-specialist\"
 - `./claude-skills/integrations/antigravity/iso42001-specialist/references/aims_controls_annex_a.md` (134 lines, .md) -- This reference answers exactly one decision: **for each Annex A control, what does implementation look like, what eviden
-- `./claude-skills/integrations/antigravity/iso42001-specialist/references/aims_implementation_guide.md` (146 lines, .md) -- This reference answers exactly one decision: **what's the rollout sequence — what do we build in year 1 vs year 2 vs yea
+- `./claude-skills/integrations/antigravity/iso42001-specialist/references/aims_implementation_guide.md` (146 lines, .md) -- This reference answers exactly one decision: **what's the rollout sequence — what do we build in year 1 vs year 2 vs y
 - `./claude-skills/integrations/antigravity/iso42001-specialist/references/cross_framework_mapping_ai.md` (137 lines, .md) -- This reference answers exactly one decision: **for each ISO 42001 obligation, which other frameworks already cover it, a
-- `./claude-skills/integrations/antigravity/iso42001-specialist/references/iso42001_clauses.md` (100 lines, .md) -- This reference answers exactly one decision: **for each clause of ISO 42001, what audit evidence does the certification
+- `./claude-skills/integrations/antigravity/iso42001-specialist/references/iso42001_clauses.md` (100 lines, .md) -- This reference answers exactly one decision: **for each clause of ISO 42001, what audit evidence does the certification 
 - `./claude-skills/integrations/antigravity/iso42001-specialist/references/references/aims_controls_annex_a.md` (134 lines, .md) -- This reference answers exactly one decision: **for each Annex A control, what does implementation look like, what eviden
-- `./claude-skills/integrations/antigravity/iso42001-specialist/references/references/aims_implementation_guide.md` (146 lines, .md) -- This reference answers exactly one decision: **what's the rollout sequence — what do we build in year 1 vs year 2 vs yea
+- `./claude-skills/integrations/antigravity/iso42001-specialist/references/references/aims_implementation_guide.md` (146 lines, .md) -- This reference answers exactly one decision: **what's the rollout sequence — what do we build in year 1 vs year 2 vs y
 - `./claude-skills/integrations/antigravity/iso42001-specialist/references/references/cross_framework_mapping_ai.md` (137 lines, .md) -- This reference answers exactly one decision: **for each ISO 42001 obligation, which other frameworks already cover it, a
-- `./claude-skills/integrations/antigravity/iso42001-specialist/references/references/iso42001_clauses.md` (100 lines, .md) -- This reference answers exactly one decision: **for each clause of ISO 42001, what audit evidence does the certification
+- `./claude-skills/integrations/antigravity/iso42001-specialist/references/references/iso42001_clauses.md` (100 lines, .md) -- This reference answers exactly one decision: **for each clause of ISO 42001, what audit evidence does the certification 
 - `./claude-skills/integrations/antigravity/iso42001-specialist/scripts/ai_risk_register_builder.py` (257 lines, .py) -- Stdlib-only. Takes identified AI risks (per ISO 23894 risk identification) and produces a
 - `./claude-skills/integrations/antigravity/iso42001-specialist/scripts/aims_audit_scheduler.py` (262 lines, .py) -- Stdlib-only. Produces a 12-month internal audit schedule for an AIMS with:
 - `./claude-skills/integrations/antigravity/iso42001-specialist/scripts/aims_gap_analyzer.py` (251 lines, .py) -- Stdlib-only. Scores each clause as 'full' / 'partial' / 'missing' based on an evidence
@@ -3876,19 +3890,19 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/karpathy-coder/scripts/diff_surgeon.py` (217 lines, .py) -- diff_surgeon.py — Detect diff noise: changes that don't trace to the stated goal.
 - `./claude-skills/integrations/antigravity/karpathy-coder/scripts/goal_verifier.py` (207 lines, .py) -- goal_verifier.py — Check if a plan has verifiable success criteria.
 - `./claude-skills/integrations/antigravity/knowledge-ops/SKILL.md` (117 lines, .md) -- name: \"knowledge-ops\"
-- `./claude-skills/integrations/antigravity/knowledge-ops/references/5w2h_sop_canon.md` (72 lines, .md) -- Standard Operating Procedure (SOP) authoring discipline for company processes — what every SOP must contain, why, and wh
+- `./claude-skills/integrations/antigravity/knowledge-ops/references/5w2h_sop_canon.md` (72 lines, .md) -- Standard Operating Procedure (SOP) authoring discipline for company processes — what every SOP must contain, why, and 
 - `./claude-skills/integrations/antigravity/knowledge-ops/references/kb_hygiene_anti_patterns.md` (148 lines, .md) -- The recurring failure modes that turn a useful company wiki into a sprawl of stale, unfindable, contradictory docs. Eigh
-- `./claude-skills/integrations/antigravity/knowledge-ops/references/runbook_canon.md` (66 lines, .md) -- Internal-operations runbook design discipline — what makes a runbook safe to execute at 3am during an incident, and wher
+- `./claude-skills/integrations/antigravity/knowledge-ops/references/runbook_canon.md` (66 lines, .md) -- Internal-operations runbook design discipline — what makes a runbook safe to execute at 3am during an incident, and wh
 - `./claude-skills/integrations/antigravity/knowledge-ops/scripts/kb_ingester.py` (553 lines, .py) -- Walk a directory of markdown files (Notion export, Confluence space export,
 - `./claude-skills/integrations/antigravity/knowledge-ops/scripts/runbook_validator.py` (471 lines, .py) -- Validate a runbook by checking each step against six required attributes:
 - `./claude-skills/integrations/antigravity/knowledge-ops/scripts/sop_generator.py` (465 lines, .py) -- Generate a 5W2H-structured Standard Operating Procedure (SOP) from a JSON
 - `./claude-skills/integrations/antigravity/kubernetes-operator/SKILL.md` (239 lines, .md) -- name: \"kubernetes-operator\"
 - `./claude-skills/integrations/antigravity/kubernetes-operator/references/crd_design.md` (196 lines, .md) -- Custom Resource Definitions (CRDs) define the API surface of your operator. A bad CRD design locks you into hard-to-evol
 - `./claude-skills/integrations/antigravity/kubernetes-operator/references/operator_pattern.md` (152 lines, .md) -- An operator is a controller that reconciles a Custom Resource (CR) toward its declared spec. It encodes operational know
-- `./claude-skills/integrations/antigravity/kubernetes-operator/references/reconcile_loop.md` (210 lines, .md) -- Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic
+- `./claude-skills/integrations/antigravity/kubernetes-operator/references/reconcile_loop.md` (210 lines, .md) -- Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic 
 - `./claude-skills/integrations/antigravity/kubernetes-operator/references/references/crd_design.md` (196 lines, .md) -- Custom Resource Definitions (CRDs) define the API surface of your operator. A bad CRD design locks you into hard-to-evol
 - `./claude-skills/integrations/antigravity/kubernetes-operator/references/references/operator_pattern.md` (152 lines, .md) -- An operator is a controller that reconciles a Custom Resource (CR) toward its declared spec. It encodes operational know
-- `./claude-skills/integrations/antigravity/kubernetes-operator/references/references/reconcile_loop.md` (210 lines, .md) -- Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic
+- `./claude-skills/integrations/antigravity/kubernetes-operator/references/references/reconcile_loop.md` (210 lines, .md) -- Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic 
 - `./claude-skills/integrations/antigravity/kubernetes-operator/references/references/tooling_landscape.md` (217 lines, .md) -- Five mainstream operator frameworks. Pick by language, complexity, and target environment.
 - `./claude-skills/integrations/antigravity/kubernetes-operator/references/tooling_landscape.md` (217 lines, .md) -- Five mainstream operator frameworks. Pick by language, complexity, and target environment.
 - `./claude-skills/integrations/antigravity/kubernetes-operator/scripts/crd_validator.py` (134 lines, .py) -- Checks for status subresource, structural schema, conditions support, printer
@@ -3904,14 +3918,14 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/landing-page-generator/references/seo-checklist.md` (109 lines, .md) -- This checklist ensures landing pages are optimized for search engine visibility while maintaining conversion focus. Appl
 - `./claude-skills/integrations/antigravity/landing-page-generator/scripts/landing_page_scaffolder.py` (568 lines, .py) -- Creates production-ready landing pages with hero sections, features,
 - `./claude-skills/integrations/antigravity/landing/SKILL.md` (343 lines, .md) -- name: \"landing\"
-- `./claude-skills/integrations/antigravity/landing/references/brand_system_design.md` (158 lines, .md) -- This reference answers exactly one decision: **how does the landing skill produce a coherent brand palette from minimal
+- `./claude-skills/integrations/antigravity/landing/references/brand_system_design.md` (158 lines, .md) -- This reference answers exactly one decision: **how does the landing skill produce a coherent brand palette from minimal 
 - `./claude-skills/integrations/antigravity/landing/references/gsap_animation_patterns.md` (218 lines, .md) -- This reference answers exactly one decision: **what 5 animation patterns make a landing page feel \"premium\" without ov
 - `./claude-skills/integrations/antigravity/landing/references/single_file_html_discipline.md` (179 lines, .md) -- This reference answers exactly one decision: **why does the landing skill output a single self-contained `.html` file wi
 - `./claude-skills/integrations/antigravity/landing/scripts/brand_palette_validator.py` (263 lines, .py) -- Stdlib-only. Validates user-provided brand overrides (primary + accent + optional bg)
 - `./claude-skills/integrations/antigravity/landing/scripts/html_validator.py` (295 lines, .py) -- Stdlib-only. Validates a generated landing page against the megaprompt-mandated
 - `./claude-skills/integrations/antigravity/landing/scripts/kebab_slug_generator.py` (120 lines, .py) -- Stdlib-only. Given a product name and an output directory, produce:
 - `./claude-skills/integrations/antigravity/launch-strategy/SKILL.md` (71 lines, .md) -- name: \"launch-strategy\"
-- `./claude-skills/integrations/antigravity/launch-strategy/references/launch-frameworks-and-checklists.md` (317 lines, .md) -- The best companies don't just launch once—they launch again and again. Every new feature, improvement, and update is an
+- `./claude-skills/integrations/antigravity/launch-strategy/references/launch-frameworks-and-checklists.md` (317 lines, .md) -- The best companies don't just launch once—they launch again and again. Every new feature, improvement, and update is a
 - `./claude-skills/integrations/antigravity/launch-strategy/scripts/launch_readiness_scorer.py` (301 lines, .py) -- launch_readiness_scorer.py — Product Launch Readiness Scorer
 - `./claude-skills/integrations/antigravity/litreview/SKILL.md` (248 lines, .md) -- name: \"litreview\"
 - `./claude-skills/integrations/antigravity/litreview/references/docx_8_sections.md` (287 lines, .md) -- This reference answers exactly one decision: **what are the 8 sections of the litreview research guide, and what does ea
@@ -3922,11 +3936,11 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/litreview/scripts/framework_recommender.py` (204 lines, .py) -- Stdlib-only. Given a research question, suggests which literature-review
 - `./claude-skills/integrations/antigravity/llm-cost-optimizer/SKILL.md` (221 lines, .md) -- name: \"llm-cost-optimizer\"
 - `./claude-skills/integrations/antigravity/llm-wiki/SKILL.md` (175 lines, .md) -- name: \"llm-wiki\"
-- `./claude-skills/integrations/antigravity/llm-wiki/references/cross-tool-setup.md` (108 lines, .md) -- The LLM Wiki plugin is tool-agnostic. The **scripts** are pure Python stdlib and run anywhere. Only the **schema loader
+- `./claude-skills/integrations/antigravity/llm-wiki/references/cross-tool-setup.md` (108 lines, .md) -- The LLM Wiki plugin is tool-agnostic. The **scripts** are pure Python stdlib and run anywhere. Only the **schema loader 
 - `./claude-skills/integrations/antigravity/llm-wiki/references/ingest-workflow.md` (97 lines, .md) -- The detailed flow the LLM follows when the user runs `/wiki-ingest <path>` or dispatches the `wiki-ingestor` sub-agent.
 - `./claude-skills/integrations/antigravity/llm-wiki/references/lint-workflow.md` (91 lines, .md) -- Periodic health-check the LLM runs when the user runs `/wiki-lint` or dispatches the `wiki-linter` sub-agent. Run this a
 - `./claude-skills/integrations/antigravity/llm-wiki/references/memex-principles.md` (78 lines, .md) -- Why the LLM Wiki pattern works, and why it failed for humans until LLMs.
-- `./claude-skills/integrations/antigravity/llm-wiki/references/obsidian-setup.md` (85 lines, .md) -- Recommended Obsidian configuration for an LLM Wiki vault. None of this is strictly required — the wiki is just markdown
+- `./claude-skills/integrations/antigravity/llm-wiki/references/obsidian-setup.md` (85 lines, .md) -- Recommended Obsidian configuration for an LLM Wiki vault. None of this is strictly required — the wiki is just markdow
 - `./claude-skills/integrations/antigravity/llm-wiki/references/page-formats.md` (194 lines, .md) -- Every wiki page has the same skeleton: YAML frontmatter + a section structure that matches its category. Below are the f
 - `./claude-skills/integrations/antigravity/llm-wiki/references/query-workflow.md` (76 lines, .md) -- The flow the LLM follows when the user runs `/wiki-query <question>` or dispatches the `wiki-librarian` sub-agent.
 - `./claude-skills/integrations/antigravity/llm-wiki/references/wiki-schema.md` (98 lines, .md) -- The vault has three layers. The LLM must respect the boundaries.
@@ -3940,7 +3954,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/llm-wiki/scripts/wiki_search.py` (145 lines, .py) -- wiki_search.py — BM25 search over a wiki vault.
 - `./claude-skills/integrations/antigravity/loop/SKILL.md` (124 lines, .md) -- name: \"loop\"
 - `./claude-skills/integrations/antigravity/ma-playbook/SKILL.md` (94 lines, .md) -- name: \"ma-playbook\"
-- `./claude-skills/integrations/antigravity/ma-playbook/references/due-diligence-checklist.md` (148 lines, .md) -- Comprehensive due diligence organized by domain. Not every item applies to every deal — focus on what matters for YOUR a
+- `./claude-skills/integrations/antigravity/ma-playbook/references/due-diligence-checklist.md` (148 lines, .md) -- Comprehensive due diligence organized by domain. Not every item applies to every deal — focus on what matters for YOUR
 - `./claude-skills/integrations/antigravity/ma-playbook/references/integration-playbook.md` (145 lines, .md) -- The 100-day plan for integrating an acquisition. Most acquisitions fail not because of bad deals but bad integration.
 - `./claude-skills/integrations/antigravity/marketing-context/SKILL.md` (166 lines, .md) -- name: \"marketing-context\"
 - `./claude-skills/integrations/antigravity/marketing-context/scripts/context_validator.py` (219 lines, .py) -- import json
@@ -4036,7 +4050,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/partnerships-architect/scripts/revshare_modeler.py` (407 lines, .py) -- Stdlib-only. Deterministic. Computes:
 - `./claude-skills/integrations/antigravity/patent/SKILL.md` (284 lines, .md) -- name: \"patent\"
 - `./claude-skills/integrations/antigravity/patent/references/cpc_classification_canon.md` (154 lines, .md) -- This reference answers exactly one decision: **why does the patent skill always run a CPC/IPC class-restricted query aft
-- `./claude-skills/integrations/antigravity/patent/references/legal_disclaimer_discipline.md` (137 lines, .md) -- This reference answers exactly one decision: **for which sub-use-cases does the patent skill require a legal disclaimer
+- `./claude-skills/integrations/antigravity/patent/references/legal_disclaimer_discipline.md` (137 lines, .md) -- This reference answers exactly one decision: **for which sub-use-cases does the patent skill require a legal disclaimer 
 - `./claude-skills/integrations/antigravity/patent/references/sub_use_case_routing.md` (252 lines, .md) -- This reference answers exactly one decision: **given the user's Q2 commitment, which search strategy / ranking heuristic
 - `./claude-skills/integrations/antigravity/patent/scripts/citation_tracker.py` (241 lines, .py) -- Stdlib-only. Mirrors litreview/grants/dossier trackers but adapted for patent's
 - `./claude-skills/integrations/antigravity/patent/scripts/family_resolver.py` (260 lines, .py) -- Stdlib-only. The same invention is often filed in multiple jurisdictions
@@ -4127,7 +4141,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/process-mapper/scripts/cycle_time_analyzer.py` (242 lines, .py) -- Compute total cycle time (P50, P90), value-add ratio (VA%), wait %, rework %,
 - `./claude-skills/integrations/antigravity/process-mapper/scripts/process_documenter.py` (290 lines, .py) -- Read a JSON description of a business process (one entry per stage) and emit:
 - `./claude-skills/integrations/antigravity/procurement-optimizer/SKILL.md` (165 lines, .md) -- name: \"procurement-optimizer\"
-- `./claude-skills/integrations/antigravity/procurement-optimizer/references/procurement_anti_patterns.md` (155 lines, .md) -- A field guide to the most common procurement mistakes — drawn from A.T. Kearney's maverick-spend research, IACCM/WorldCC
+- `./claude-skills/integrations/antigravity/procurement-optimizer/references/procurement_anti_patterns.md` (155 lines, .md) -- A field guide to the most common procurement mistakes — drawn from A.T. Kearney's maverick-spend research, IACCM/World
 - `./claude-skills/integrations/antigravity/procurement-optimizer/references/saas_management_canon.md` (91 lines, .md) -- SaaS sprawl is the dominant indirect-spend category for tech companies and the #1 driver of spend growth in scaleups. Th
 - `./claude-skills/integrations/antigravity/procurement-optimizer/references/spend_management_canon.md` (81 lines, .md) -- The authoritative literature on procurement spend management, category strategy, and supplier rationalization. Read thes
 - `./claude-skills/integrations/antigravity/procurement-optimizer/scripts/purchasing_cycle_analyzer.py` (290 lines, .py) -- purchasing_cycle_analyzer.py — Per-category cycle-time scorecard with bottleneck flagging.
@@ -4162,7 +4176,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/prompt-engineer-toolkit/scripts/prompt_versioner.py` (235 lines, .py) -- Commands:
 - `./claude-skills/integrations/antigravity/prompt-governance/SKILL.md` (227 lines, .md) -- name: \"prompt-governance\"
 - `./claude-skills/integrations/antigravity/pulse/SKILL.md` (255 lines, .md) -- name: \"pulse\"
-- `./claude-skills/integrations/antigravity/pulse/references/cross_platform_synthesis.md` (181 lines, .md) -- This reference answers exactly one decision: **after Phases 1–4 fire and return source data, how does the skill detect c
+- `./claude-skills/integrations/antigravity/pulse/references/cross_platform_synthesis.md` (181 lines, .md) -- This reference answers exactly one decision: **after Phases 1–4 fire and return source data, how does the skill detect
 - `./claude-skills/integrations/antigravity/pulse/references/parallel_execution_discipline.md` (156 lines, .md) -- This reference answers exactly one decision: **how does pulse balance speed (parallel execution) against politeness (1 q
 - `./claude-skills/integrations/antigravity/pulse/references/research_pack_conventions.md` (108 lines, .md) -- This reference answers exactly one decision: **what disciplines must every research-pack skill follow, and where do thos
 - `./claude-skills/integrations/antigravity/pulse/scripts/citation_tracker.py` (251 lines, .py) -- Stdlib-only. Maintains the research-pack convention's three counts:
@@ -4197,7 +4211,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/red-team/scripts/engagement_planner.py` (420 lines, .py) -- engagement_planner.py — Red Team Engagement Planner
 - `./claude-skills/integrations/antigravity/referral-program/SKILL.md` (283 lines, .md) -- name: \"referral-program\"
 - `./claude-skills/integrations/antigravity/referral-program/references/measurement-framework.md` (199 lines, .md) -- The metrics that tell you if your referral program is working, what's broken, and what to fix first.
-- `./claude-skills/integrations/antigravity/referral-program/references/program-mechanics.md` (212 lines, .md) -- Detailed design patterns with real-world examples. Use this as a reference when designing programs — these are the mecha
+- `./claude-skills/integrations/antigravity/referral-program/references/program-mechanics.md` (212 lines, .md) -- Detailed design patterns with real-world examples. Use this as a reference when designing programs — these are the mec
 - `./claude-skills/integrations/antigravity/referral-program/scripts/referral_roi_calculator.py` (420 lines, .py) -- referral_roi_calculator.py — Calculates referral program ROI.
 - `./claude-skills/integrations/antigravity/reflect/SKILL.md` (180 lines, .md) -- name: \"reflect\"
 - `./claude-skills/integrations/antigravity/reflect/references/cognitive_bias_canon.md` (133 lines, .md) -- This reference answers exactly one decision: **which 5 cognitive biases does the reflect skill check for, and how does e
@@ -4215,7 +4229,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/regulatory-affairs-head/scripts/regulatory_tracker.py` (199 lines, .py) -- Regulatory Submission Tracking System
 - `./claude-skills/integrations/antigravity/release-manager/SKILL.md` (493 lines, .md) -- name: \"release-manager\"
 - `./claude-skills/integrations/antigravity/release-manager/references/conventional-commits-guide.md` (341 lines, .md) -- Conventional Commits is a specification for adding human and machine readable meaning to commit messages. The specificat
-- `./claude-skills/integrations/antigravity/release-manager/references/hotfix-procedures.md` (592 lines, .md) -- Hotfixes are emergency releases designed to address critical production issues that cannot wait for the regular release
+- `./claude-skills/integrations/antigravity/release-manager/references/hotfix-procedures.md` (592 lines, .md) -- Hotfixes are emergency releases designed to address critical production issues that cannot wait for the regular release 
 - `./claude-skills/integrations/antigravity/release-manager/references/release-workflow-comparison.md` (410 lines, .md) -- This document compares the three most popular branching and release workflows: Git Flow, GitHub Flow, and Trunk-based De
 - `./claude-skills/integrations/antigravity/remember/SKILL.md` (101 lines, .md) -- name: \"remember\"
 - `./claude-skills/integrations/antigravity/report/SKILL.md` (127 lines, .md) -- name: \"report\"
@@ -4243,7 +4257,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/rfp-responder/SKILL.md` (151 lines, .md) -- name: \"rfp-responder\"
 - `./claude-skills/integrations/antigravity/rfp-responder/references/rfp_anti_patterns.md` (101 lines, .md) -- Eight RFP-response failure modes documented across Shipley failure-mode analyses, APMP case studies, Strategic Proposals
 - `./claude-skills/integrations/antigravity/rfp-responder/references/rfp_strategy_canon.md` (73 lines, .md) -- This reference grounds the `winrate_predictor.py` factor weights in published industry research. The model is opinionate
-- `./claude-skills/integrations/antigravity/rfp-responder/references/shipley_method_canon.md` (64 lines, .md) -- The Shipley method is the dominant industry methodology for capture management and proposal development. This reference
+- `./claude-skills/integrations/antigravity/rfp-responder/references/shipley_method_canon.md` (64 lines, .md) -- The Shipley method is the dominant industry methodology for capture management and proposal development. This reference 
 - `./claude-skills/integrations/antigravity/rfp-responder/scripts/response_drafter.py` (288 lines, .py) -- Stdlib only. Deterministic logic. NEVER invents claims to fill GAP requirements.
 - `./claude-skills/integrations/antigravity/rfp-responder/scripts/rfp_parser.py` (301 lines, .py) -- Stdlib only. Regex + cue-word heuristics. No NLP libraries, no LLM calls.
 - `./claude-skills/integrations/antigravity/rfp-responder/scripts/winrate_predictor.py` (256 lines, .py) -- Stdlib only. Deterministic factor model.
@@ -4268,7 +4282,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/saas-metrics-coach/scripts/quick_ratio_calculator.py` (173 lines, .py) -- Quick Ratio Calculator - SaaS growth efficiency metric.
 - `./claude-skills/integrations/antigravity/saas-metrics-coach/scripts/unit_economics_simulator.py` (205 lines, .py) -- Unit Economics Simulator - Project SaaS metrics forward 12 months.
 - `./claude-skills/integrations/antigravity/saas-scaffolder/SKILL.md` (296 lines, .md) -- name: \"saas-scaffolder\"
-- `./claude-skills/integrations/antigravity/saas-scaffolder/references/architecture-patterns.md` (182 lines, .md) -- This reference covers the key architectural decisions when building SaaS applications. Each pattern includes trade-offs
+- `./claude-skills/integrations/antigravity/saas-scaffolder/references/architecture-patterns.md` (182 lines, .md) -- This reference covers the key architectural decisions when building SaaS applications. Each pattern includes trade-offs 
 - `./claude-skills/integrations/antigravity/saas-scaffolder/references/auth-billing-guide.md` (196 lines, .md) -- Authentication and billing are foundational SaaS capabilities that affect every user interaction. This guide covers impl
 - `./claude-skills/integrations/antigravity/saas-scaffolder/references/saas-architecture-patterns.md` (100 lines, .md) -- This reference outlines common architecture choices for SaaS products.
 - `./claude-skills/integrations/antigravity/saas-scaffolder/references/tech-stack-comparison.md` (278 lines, .md) -- Choosing the right technology stack is one of the most impactful early decisions for a SaaS product. This comparison cov
@@ -4281,11 +4295,11 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/sales-engineer/scripts/poc_planner.py` (765 lines, .py) -- Generates structured POC plans including phased timelines, resource allocation,
 - `./claude-skills/integrations/antigravity/sales-engineer/scripts/rfp_response_analyzer.py` (557 lines, .py) -- Parses RFP/RFI requirements and scores coverage using Full/Partial/Planned/Gap
 - `./claude-skills/integrations/antigravity/scenario-war-room/SKILL.md` (218 lines, .md) -- name: \"scenario-war-room\"
-- `./claude-skills/integrations/antigravity/scenario-war-room/references/scenario-planning.md` (212 lines, .md) -- Shell invented modern scenario planning in the 1970s after the oil crisis. Core insight: **scenarios are not forecasts —
+- `./claude-skills/integrations/antigravity/scenario-war-room/references/scenario-planning.md` (212 lines, .md) -- Shell invented modern scenario planning in the 1970s after the oil crisis. Core insight: **scenarios are not forecasts �
 - `./claude-skills/integrations/antigravity/scenario-war-room/scripts/scenario_modeler.py` (486 lines, .py) -- Scenario War Room — Multi-Variable Cascade Modeler
 - `./claude-skills/integrations/antigravity/schema-markup/SKILL.md` (230 lines, .md) -- name: \"schema-markup\"
 - `./claude-skills/integrations/antigravity/schema-markup/references/implementation-patterns.md` (437 lines, .md) -- Copy-paste JSON-LD patterns for every common schema type. Replace ALL_CAPS placeholders with real values. Test at rich-r
-- `./claude-skills/integrations/antigravity/schema-markup/references/schema-types-guide.md` (285 lines, .md) -- A practitioner's reference for schema.org types — what they do, what fields matter, and what Google actually uses for ri
+- `./claude-skills/integrations/antigravity/schema-markup/references/schema-types-guide.md` (285 lines, .md) -- A practitioner's reference for schema.org types — what they do, what fields matter, and what Google actually uses for 
 - `./claude-skills/integrations/antigravity/schema-markup/scripts/schema_validator.py` (442 lines, .py) -- schema_validator.py — Extracts and validates JSON-LD structured data from HTML.
 - `./claude-skills/integrations/antigravity/scrum-master/SKILL.md` (216 lines, .md) -- name: \"scrum-master\"
 - `./claude-skills/integrations/antigravity/scrum-master/references/retro-formats.md` (336 lines, .md) -- Create three columns:
@@ -4297,14 +4311,14 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/secrets-vault-manager/SKILL.md` (406 lines, .md) -- name: \"secrets-vault-manager\"
 - `./claude-skills/integrations/antigravity/secrets-vault-manager/references/cloud_secret_stores.md` (354 lines, .md) -- | Feature | AWS Secrets Manager | Azure Key Vault | GCP Secret Manager |
 - `./claude-skills/integrations/antigravity/secrets-vault-manager/references/emergency_procedures.md` (280 lines, .md) -- | Severity | Definition | Response Time | Example |
-- `./claude-skills/integrations/antigravity/secrets-vault-manager/references/vault_patterns.md` (342 lines, .md) -- Vault operates as a centralized secret management service with a client-server model. All secrets are encrypted at rest
+- `./claude-skills/integrations/antigravity/secrets-vault-manager/references/vault_patterns.md` (342 lines, .md) -- Vault operates as a centralized secret management service with a client-server model. All secrets are encrypted at rest 
 - `./claude-skills/integrations/antigravity/secrets-vault-manager/scripts/audit_log_analyzer.py` (330 lines, .py) -- Reads JSON-lines or JSON-array audit log files and flags unusual access
 - `./claude-skills/integrations/antigravity/secrets-vault-manager/scripts/rotation_planner.py` (280 lines, .py) -- Reads a JSON inventory of secrets and produces a rotation plan based on
 - `./claude-skills/integrations/antigravity/secrets-vault-manager/scripts/vault_config_generator.py` (302 lines, .py) -- Produces HCL policy files and auth method setup commands for HashiCorp Vault
 - `./claude-skills/integrations/antigravity/security-guidance/SKILL.md` (163 lines, .md) -- name: \"security-guidance\"
 - `./claude-skills/integrations/antigravity/security-guidance/references/pretooluse_hook_canon.md` (141 lines, .md) -- This reference answers one decision: **when designing a PreToolUse hook for Claude Code, when should it block the tool c
 - `./claude-skills/integrations/antigravity/security-pen-testing/SKILL.md` (309 lines, .md) -- name: \"security-pen-testing\"
-- `./claude-skills/integrations/antigravity/security-pen-testing/references/attack_patterns.md` (629 lines, .md) -- Safe, non-destructive test payloads and detection patterns for authorized security testing. All techniques here are for
+- `./claude-skills/integrations/antigravity/security-pen-testing/references/attack_patterns.md` (629 lines, .md) -- Safe, non-destructive test payloads and detection patterns for authorized security testing. All techniques here are for 
 - `./claude-skills/integrations/antigravity/security-pen-testing/references/owasp_top_10_checklist.md` (440 lines, .md) -- Comprehensive reference for each OWASP Top 10 category with descriptions, test procedures, code patterns to detect, reme
 - `./claude-skills/integrations/antigravity/security-pen-testing/references/responsible_disclosure.md` (317 lines, .md) -- A complete guide for responsibly reporting security vulnerabilities found during authorized testing or independent secur
 - `./claude-skills/integrations/antigravity/security-pen-testing/scripts/dependency_auditor.py` (455 lines, .py) -- Dependency Auditor - Analyze package manifests for known vulnerable patterns.
@@ -4374,7 +4388,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/senior-fullstack/references/architecture_patterns.md` (547 lines, .md) -- Proven architectural patterns for scalable fullstack applications covering frontend, backend, and their integration.
 - `./claude-skills/integrations/antigravity/senior-fullstack/references/composition_map.md` (52 lines, .md) -- This map is the routing table for the `cs-fullstack-engineer` agent and the `/cs:fullstack-review` command.
 - `./claude-skills/integrations/antigravity/senior-fullstack/references/development_workflows.md` (784 lines, .md) -- Complete development lifecycle workflows from local setup to production deployment.
-- `./claude-skills/integrations/antigravity/senior-fullstack/references/forcing_questions.md` (100 lines, .md) -- These seven questions are the Matt Pocock grill that gates every meaningful fullstack decision (stack pick, scale step,
+- `./claude-skills/integrations/antigravity/senior-fullstack/references/forcing_questions.md` (100 lines, .md) -- These seven questions are the Matt Pocock grill that gates every meaningful fullstack decision (stack pick, scale step, 
 - `./claude-skills/integrations/antigravity/senior-fullstack/references/tech_stack_guide.md` (590 lines, .md) -- Technology selection guide with trade-offs, use cases, and integration patterns for modern fullstack development.
 - `./claude-skills/integrations/antigravity/senior-fullstack/scripts/code_quality_analyzer.py` (691 lines, .py) -- Code Quality Analyzer
 - `./claude-skills/integrations/antigravity/senior-fullstack/scripts/fullstack_decision_engine.py` (403 lines, .py) -- fullstack_decision_engine.py — Deterministic fullstack-stack picker with explicit kill criteria.
@@ -4389,7 +4403,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/senior-pm/SKILL.md` (411 lines, .md) -- name: \"senior-pm\"
 - `./claude-skills/integrations/antigravity/senior-pm/references/portfolio-kpis.md` (32 lines, .md) -- | KPI | Formula | Target |
 - `./claude-skills/integrations/antigravity/senior-pm/references/portfolio-prioritization-models.md` (645 lines, .md) -- This reference guide provides senior project managers with sophisticated prioritization methodologies for managing compl
-- `./claude-skills/integrations/antigravity/senior-pm/references/risk-management-framework.md` (485 lines, .md) -- This framework provides senior project managers with quantitative risk analysis methodologies, decision frameworks, and
+- `./claude-skills/integrations/antigravity/senior-pm/references/risk-management-framework.md` (485 lines, .md) -- This framework provides senior project managers with quantitative risk analysis methodologies, decision frameworks, and 
 - `./claude-skills/integrations/antigravity/senior-pm/scripts/project_health_dashboard.py` (814 lines, .py) -- Project Health Dashboard
 - `./claude-skills/integrations/antigravity/senior-pm/scripts/resource_capacity_planner.py` (846 lines, .py) -- Resource Capacity Planner
 - `./claude-skills/integrations/antigravity/senior-pm/scripts/risk_matrix_analyzer.py` (698 lines, .py) -- Risk Matrix Analyzer
@@ -4422,7 +4436,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/senior-security/scripts/threat_modeler.py` (609 lines, .py) -- Threat Modeler
 - `./claude-skills/integrations/antigravity/seo-audit/SKILL.md` (151 lines, .md) -- name: \"seo-audit\"
 - `./claude-skills/integrations/antigravity/seo-audit/references/cwv-thresholds.md` (47 lines, .md) -- Reference for `seo_health_scorer.py` and the Performance category. Updated per Google's CrUX methodology.
-- `./claude-skills/integrations/antigravity/seo-audit/references/eeat-framework.md` (67 lines, .md) -- Experience, Expertise, Authoritativeness, Trustworthiness — Google's quality rater guidelines framework for evaluating c
+- `./claude-skills/integrations/antigravity/seo-audit/references/eeat-framework.md` (67 lines, .md) -- Experience, Expertise, Authoritativeness, Trustworthiness — Google's quality rater guidelines framework for evaluating
 - `./claude-skills/integrations/antigravity/seo-audit/references/schema-types.md` (50 lines, .md) -- JSON-LD structured data types, their status, and validation guidance. Updated for 2026.
 - `./claude-skills/integrations/antigravity/seo-audit/references/seo-audit-reference.md` (289 lines, .md) -- 1. **Crawlability & Indexation** (can Google find and index it?)
 - `./claude-skills/integrations/antigravity/seo-audit/scripts/seo_checker.py` (361 lines, .py) -- seo_checker.py — On-page SEO analyzer
@@ -4473,9 +4487,9 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/soc2-audit-prep/SKILL.md` (155 lines, .md) -- name: \"soc2-audit-prep\"
 - `./claude-skills/integrations/antigravity/soc2-compliance/SKILL.md` (420 lines, .md) -- name: \"soc2-compliance\"
 - `./claude-skills/integrations/antigravity/soc2-compliance/references/evidence_collection_guide.md` (227 lines, .md) -- Practical guide for collecting, organizing, and maintaining audit evidence for SOC 2 Type I and Type II engagements. Cov
-- `./claude-skills/integrations/antigravity/soc2-compliance/references/soc2_audit_playbook.md` (188 lines, .md) -- This reference answers exactly one decision: **how do we prepare for and operate the SOC 2 Type II examination cycle — t
+- `./claude-skills/integrations/antigravity/soc2-compliance/references/soc2_audit_playbook.md` (188 lines, .md) -- This reference answers exactly one decision: **how do we prepare for and operate the SOC 2 Type II examination cycle —
 - `./claude-skills/integrations/antigravity/soc2-compliance/references/trust_service_criteria.md` (273 lines, .md) -- Comprehensive reference for all five AICPA Trust Service Criteria (TSC) categories. Each criterion includes its objectiv
-- `./claude-skills/integrations/antigravity/soc2-compliance/references/type1_vs_type2.md` (273 lines, .md) -- Detailed guide for understanding the differences between SOC 2 Type I and Type II reports, selecting the right starting
+- `./claude-skills/integrations/antigravity/soc2-compliance/references/type1_vs_type2.md` (273 lines, .md) -- Detailed guide for understanding the differences between SOC 2 Type I and Type II reports, selecting the right starting 
 - `./claude-skills/integrations/antigravity/soc2-compliance/scripts/control_matrix_builder.py` (679 lines, .py) -- SOC 2 Control Matrix Builder
 - `./claude-skills/integrations/antigravity/soc2-compliance/scripts/evidence_tracker.py` (240 lines, .py) -- SOC 2 Evidence Tracker
 - `./claude-skills/integrations/antigravity/soc2-compliance/scripts/gap_analyzer.py` (479 lines, .py) -- SOC 2 Gap Analyzer
@@ -4529,8 +4543,8 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/syllabus/scripts/topic_grouper.py` (198 lines, .py) -- Stdlib-only. Given a list of extracted course topics, produce a proposed
 - `./claude-skills/integrations/antigravity/tc-tracker/SKILL.md` (210 lines, .md) -- name: \"tc-tracker\"
 - `./claude-skills/integrations/antigravity/tc-tracker/references/handoff-format.md` (139 lines, .md) -- The handoff block is the most important part of a TC for AI continuity. When a session expires, the next session reads t
-- `./claude-skills/integrations/antigravity/tc-tracker/references/lifecycle.md` (98 lines, .md) -- A TC moves through six implementation states. Transitions are validated on every write — invalid moves are rejected with
-- `./claude-skills/integrations/antigravity/tc-tracker/references/tc-schema.md` (204 lines, .md) -- A TC record is a JSON object stored at `docs/TC/records/<TC-ID>/tc_record.json`. Every record is validated against this
+- `./claude-skills/integrations/antigravity/tc-tracker/references/lifecycle.md` (98 lines, .md) -- A TC moves through six implementation states. Transitions are validated on every write — invalid moves are rejected wi
+- `./claude-skills/integrations/antigravity/tc-tracker/references/tc-schema.md` (204 lines, .md) -- A TC record is a JSON object stored at `docs/TC/records/<TC-ID>/tc_record.json`. Every record is validated against this 
 - `./claude-skills/integrations/antigravity/tc-tracker/scripts/tc_create.py` (277 lines, .py) -- Generates the next sequential TC ID, scaffolds the record directory, writes a
 - `./claude-skills/integrations/antigravity/tc-tracker/scripts/tc_init.py` (196 lines, .py) -- Creates docs/TC/ with tc_config.json, tc_registry.json, records/, and evidence/.
 - `./claude-skills/integrations/antigravity/tc-tracker/scripts/tc_status.py` (200 lines, .py) -- Usage:
@@ -4594,7 +4608,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/ux-researcher-designer/references/usability-testing-frameworks.md` (412 lines, .md) -- Reference for planning and conducting usability tests that produce actionable insights.
 - `./claude-skills/integrations/antigravity/ux-researcher-designer/scripts/persona_generator.py` (570 lines, .py) -- Data-Driven Persona Generator
 - `./claude-skills/integrations/antigravity/vendor-management/SKILL.md` (167 lines, .md) -- name: \"vendor-management\"
-- `./claude-skills/integrations/antigravity/vendor-management/references/sla_design_patterns.md` (90 lines, .md) -- This reference focuses on **measuring vendor SLAs** — what to track, what counts as a breach, when a credit claim is leg
+- `./claude-skills/integrations/antigravity/vendor-management/references/sla_design_patterns.md` (90 lines, .md) -- This reference focuses on **measuring vendor SLAs** — what to track, what counts as a breach, when a credit claim is l
 - `./claude-skills/integrations/antigravity/vendor-management/references/vendor_management_canon.md` (80 lines, .md) -- This reference distills the operating frameworks for ongoing third-party / vendor management. It is **not** a contract-n
 - `./claude-skills/integrations/antigravity/vendor-management/references/vendor_risk_anti_patterns.md` (100 lines, .md) -- The strongest argument for serious TPRM discipline is post-mortems from real third-party-originated incidents. This refe
 - `./claude-skills/integrations/antigravity/vendor-management/scripts/sla_compliance_tracker.py` (342 lines, .py) -- sla_compliance_tracker.py — Per-vendor SLA compliance tracking.
@@ -4602,12 +4616,12 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/vendor-management/scripts/vendor_scorer.py` (431 lines, .py) -- vendor_scorer.py — Multi-dimensional 0-100 vendor scoring with industry profile tuning.
 - `./claude-skills/integrations/antigravity/video-content-strategist/SKILL.md` (221 lines, .md) -- name: \"video-content-strategist\"
 - `./claude-skills/integrations/antigravity/vpe-advisor/SKILL.md` (224 lines, .md) -- name: \"vpe-advisor\"
-- `./claude-skills/integrations/antigravity/vpe-advisor/references/delivery_throughput.md` (161 lines, .md) -- This reference answers exactly one decision: **what are our DORA 4 metrics, where is the bottleneck, and what do we fix
-- `./claude-skills/integrations/antigravity/vpe-advisor/references/eng_team_structure.md` (157 lines, .md) -- This reference answers exactly one decision: **at our headcount and work-stream complexity, what's the right structure —
+- `./claude-skills/integrations/antigravity/vpe-advisor/references/delivery_throughput.md` (161 lines, .md) -- This reference answers exactly one decision: **what are our DORA 4 metrics, where is the bottleneck, and what do we fix 
+- `./claude-skills/integrations/antigravity/vpe-advisor/references/eng_team_structure.md` (157 lines, .md) -- This reference answers exactly one decision: **at our headcount and work-stream complexity, what's the right structure �
 - `./claude-skills/integrations/antigravity/vpe-advisor/references/engineering_hiring_funnel.md` (180 lines, .md) -- This reference answers exactly one decision: **at which stage is our hiring funnel underperforming, what's the typical f
 - `./claude-skills/integrations/antigravity/vpe-advisor/references/production_discipline.md` (180 lines, .md) -- This reference answers exactly one decision: **what's our production operating model, and is it ready for the next stage
-- `./claude-skills/integrations/antigravity/vpe-advisor/references/references/delivery_throughput.md` (161 lines, .md) -- This reference answers exactly one decision: **what are our DORA 4 metrics, where is the bottleneck, and what do we fix
-- `./claude-skills/integrations/antigravity/vpe-advisor/references/references/eng_team_structure.md` (157 lines, .md) -- This reference answers exactly one decision: **at our headcount and work-stream complexity, what's the right structure —
+- `./claude-skills/integrations/antigravity/vpe-advisor/references/references/delivery_throughput.md` (161 lines, .md) -- This reference answers exactly one decision: **what are our DORA 4 metrics, where is the bottleneck, and what do we fix 
+- `./claude-skills/integrations/antigravity/vpe-advisor/references/references/eng_team_structure.md` (157 lines, .md) -- This reference answers exactly one decision: **at our headcount and work-stream complexity, what's the right structure �
 - `./claude-skills/integrations/antigravity/vpe-advisor/references/references/engineering_hiring_funnel.md` (180 lines, .md) -- This reference answers exactly one decision: **at which stage is our hiring funnel underperforming, what's the typical f
 - `./claude-skills/integrations/antigravity/vpe-advisor/references/references/production_discipline.md` (180 lines, .md) -- This reference answers exactly one decision: **what's our production operating model, and is it ready for the next stage
 - `./claude-skills/integrations/antigravity/vpe-advisor/scripts/delivery_throughput_analyzer.py` (277 lines, .py) -- Stdlib-only. Takes sprint metrics and outputs:
@@ -4620,7 +4634,7 @@ Files: 5000
 - `./claude-skills/integrations/antigravity/write-a-skill/SKILL.md` (137 lines, .md) -- name: \"write-a-skill\"
 - `./claude-skills/integrations/antigravity/write-a-skill/references/companion_tooling.md` (67 lines, .md) -- Validation tools + cs-* wrapper layered on top of Matt's write-a-skill. Use these when authoring a new skill in this rep
 - `./claude-skills/integrations/antigravity/write-a-skill/references/description_design_patterns.md` (139 lines, .md) -- This reference answers exactly one decision: **how do we write a skill description that an agent actually picks correctl
-- `./claude-skills/integrations/antigravity/write-a-skill/references/progressive_disclosure_principles.md` (89 lines, .md) -- This reference answers exactly one decision: **when should a SKILL.md be split into reference files, and how do we keep
+- `./claude-skills/integrations/antigravity/write-a-skill/references/progressive_disclosure_principles.md` (89 lines, .md) -- This reference answers exactly one decision: **when should a SKILL.md be split into reference files, and how do we keep 
 - `./claude-skills/integrations/antigravity/write-a-skill/references/quality_gates_for_skills.md` (158 lines, .md) -- This reference answers exactly one decision: **what checks must pass before a new skill enters the library, and why?**
 - `./claude-skills/integrations/antigravity/write-a-skill/scripts/skill_description_validator.py` (255 lines, .py) -- Stdlib-only. Parses YAML frontmatter of a SKILL.md and checks the `description`
 - `./claude-skills/integrations/antigravity/write-a-skill/scripts/skill_review_checklist_runner.py` (268 lines, .py) -- Stdlib-only. Combines the description-validator + structure-validator into a single
@@ -4649,12 +4663,12 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/aeo/SKILL.md` (214 lines, .md) -- name: aeo
 - `./claude-skills/marketing-skill/skills/aeo/references/aeo_eeat_canon.md` (170 lines, .md) -- This reference answers one decision: **what signals do LLMs use to decide whether a piece of content is citable as an au
 - `./claude-skills/marketing-skill/skills/aeo/references/aeo_vs_seo.md` (158 lines, .md) -- This reference answers one decision: **for a given content piece or strategy, should we optimize for SEO (search ranking
-- `./claude-skills/marketing-skill/skills/aeo/references/llm_citation_patterns.md` (164 lines, .md) -- This reference answers one decision: **for a given query, how does each major LLM decide which sources to cite — and wha
+- `./claude-skills/marketing-skill/skills/aeo/references/llm_citation_patterns.md` (164 lines, .md) -- This reference answers one decision: **for a given query, how does each major LLM decide which sources to cite — and w
 - `./claude-skills/marketing-skill/skills/aeo/scripts/aeo_audit.py` (393 lines, .py) -- aeo_audit.py — Answer Engine Optimization audit tool.
 - `./claude-skills/marketing-skill/skills/aeo/scripts/aeo_optimizer.py` (281 lines, .py) -- aeo_optimizer.py — Generate AEO-optimized content variants.
 - `./claude-skills/marketing-skill/skills/aeo/scripts/citation_tracker.py` (327 lines, .py) -- citation_tracker.py — Local-first citation ledger for AEO.
 - `./claude-skills/marketing-skill/skills/ai-seo/SKILL.md` (331 lines, .md) -- name: \"ai-seo\"
-- `./claude-skills/marketing-skill/skills/ai-seo/references/ai-search-landscape.md` (191 lines, .md) -- How each major AI search platform selects, weights, and cites sources. Use this to calibrate your optimization strategy
+- `./claude-skills/marketing-skill/skills/ai-seo/references/ai-search-landscape.md` (191 lines, .md) -- How each major AI search platform selects, weights, and cites sources. Use this to calibrate your optimization strategy 
 - `./claude-skills/marketing-skill/skills/ai-seo/references/content-patterns.md` (276 lines, .md) -- Ready-to-use block templates for each content pattern that AI search engines reliably extract and cite. Copy, adapt, and
 - `./claude-skills/marketing-skill/skills/ai-seo/references/monitoring-guide.md` (208 lines, .md) -- How to track whether your content is getting cited by AI search engines — and what to do when citations change.
 - `./claude-skills/marketing-skill/skills/analytics-tracking/SKILL.md` (371 lines, .md) -- name: \"analytics-tracking\"
@@ -4662,8 +4676,8 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/analytics-tracking/references/event-taxonomy-guide.md` (203 lines, .md) -- Complete reference for naming conventions, event structure, and parameter standards.
 - `./claude-skills/marketing-skill/skills/analytics-tracking/references/gtm-patterns.md` (298 lines, .md) -- Common Google Tag Manager configurations for SaaS applications.
 - `./claude-skills/marketing-skill/skills/analytics-tracking/scripts/tracking_plan_generator.py` (386 lines, .py) -- import json
-- `./claude-skills/marketing-skill/skills/app-store-optimization/HOW_TO_USE.md` (281 lines, .md) -- Hey Claude—I just added the \"app-store-optimization\" skill. Can you help me optimize my app's presence on the App Stor
-- `./claude-skills/marketing-skill/skills/app-store-optimization/README.md` (430 lines, .md) -- A comprehensive App Store Optimization (ASO) skill that provides complete capabilities for researching, optimizing, and
+- `./claude-skills/marketing-skill/skills/app-store-optimization/HOW_TO_USE.md` (281 lines, .md) -- Hey Claude—I just added the \"app-store-optimization\" skill. Can you help me optimize my app's presence on the App St
+- `./claude-skills/marketing-skill/skills/app-store-optimization/README.md` (430 lines, .md) -- A comprehensive App Store Optimization (ASO) skill that provides complete capabilities for researching, optimizing, and 
 - `./claude-skills/marketing-skill/skills/app-store-optimization/SKILL.md` (486 lines, .md) -- name: \"app-store-optimization\"
 - `./claude-skills/marketing-skill/skills/app-store-optimization/assets/aso-audit-template.md` (268 lines, .md) -- Use this template to conduct a systematic App Store Optimization audit.
 - `./claude-skills/marketing-skill/skills/app-store-optimization/references/aso-best-practices.md` (403 lines, .md) -- Optimization strategies for improving app store visibility, conversion, and rankings.
@@ -4685,7 +4699,7 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/campaign-analytics/assets/channel_comparison_template.md` (158 lines, .md) -- [1-2 sentence overview: which channels are performing best, which need attention, and the overall channel mix health.]
 - `./claude-skills/marketing-skill/skills/campaign-analytics/references/attribution-models-guide.md` (285 lines, .md) -- Comprehensive reference for multi-touch attribution modeling in marketing analytics. This guide covers the five standard
 - `./claude-skills/marketing-skill/skills/campaign-analytics/references/campaign-metrics-benchmarks.md` (259 lines, .md) -- Industry benchmark reference for marketing campaign performance metrics. Use these benchmarks to contextualize your camp
-- `./claude-skills/marketing-skill/skills/campaign-analytics/references/funnel-optimization-framework.md` (302 lines, .md) -- A stage-by-stage guide to diagnosing and improving marketing and sales funnel performance. Use this framework alongside
+- `./claude-skills/marketing-skill/skills/campaign-analytics/references/funnel-optimization-framework.md` (302 lines, .md) -- A stage-by-stage guide to diagnosing and improving marketing and sales funnel performance. Use this framework alongside 
 - `./claude-skills/marketing-skill/skills/campaign-analytics/scripts/attribution_analyzer.py` (347 lines, .py) -- Attribution Analyzer - Multi-touch attribution modeling for marketing campaigns.
 - `./claude-skills/marketing-skill/skills/campaign-analytics/scripts/campaign_roi_calculator.py` (459 lines, .py) -- Campaign ROI Calculator - Comprehensive campaign ROI and performance metrics.
 - `./claude-skills/marketing-skill/skills/campaign-analytics/scripts/funnel_analyzer.py` (305 lines, .py) -- Funnel Analyzer - Conversion funnel analysis with bottleneck detection.
@@ -4694,7 +4708,7 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/churn-prevention/references/dunning-guide.md` (276 lines, .md) -- Payment recovery strategies, retry logic, and email sequences for involuntary churn.
 - `./claude-skills/marketing-skill/skills/churn-prevention/scripts/churn_impact_calculator.py` (199 lines, .py) -- import json
 - `./claude-skills/marketing-skill/skills/cold-email/SKILL.md` (272 lines, .md) -- name: \"cold-email\"
-- `./claude-skills/marketing-skill/skills/cold-email/references/deliverability-guide.md` (225 lines, .md) -- A cold email that lands in spam is worse than no email at all — it damages your sender reputation for future sends. Get
+- `./claude-skills/marketing-skill/skills/cold-email/references/deliverability-guide.md` (225 lines, .md) -- A cold email that lands in spam is worse than no email at all — it damages your sender reputation for future sends. Ge
 - `./claude-skills/marketing-skill/skills/cold-email/references/follow-up-playbook.md` (225 lines, .md) -- Full cadence guide, angle rotation, and breakup email templates. The goal: stay persistent without becoming noise.
 - `./claude-skills/marketing-skill/skills/cold-email/references/frameworks.md` (217 lines, .md) -- Three frameworks that work, when to use each, and how to apply them with examples.
 - `./claude-skills/marketing-skill/skills/cold-email/scripts/email_sequence_analyzer.py` (517 lines, .py) -- email_sequence_analyzer.py — Analyzes a cold email sequence for quality signals.
@@ -4703,7 +4717,7 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/competitor-alternatives/references/templates.md` (212 lines, .md) -- Ready-to-use templates for each section of competitor comparison pages.
 - `./claude-skills/marketing-skill/skills/competitor-alternatives/scripts/comparison_matrix_builder.py` (365 lines, .py) -- comparison_matrix_builder.py — Competitive Feature Comparison Matrix Builder
 - `./claude-skills/marketing-skill/skills/content-creator/SKILL.md` (55 lines, .md) -- name: \"content-creator\"
-- `./claude-skills/marketing-skill/skills/content-creator/assets/content_calendar_template.md` (99 lines, .md) -- - **Traffic Goal**:
+- `./claude-skills/marketing-skill/skills/content-creator/assets/content_calendar_template.md` (99 lines, .md) -- - **Traffic Goal**: 
 - `./claude-skills/marketing-skill/skills/content-creator/examples/brand_voice_analysis_example.md` (180 lines, .md) -- Demonstration of brand_voice_analyzer.py input and output.
 - `./claude-skills/marketing-skill/skills/content-creator/examples/seo_optimization_example.md` (259 lines, .md) -- Demonstration of seo_optimizer.py input and output.
 - `./claude-skills/marketing-skill/skills/content-creator/references/analytics_guide.md` (352 lines, .md) -- Comprehensive guide for tracking, measuring, and optimizing content performance.
@@ -4712,11 +4726,11 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/content-creator/references/social_media_optimization.md` (342 lines, .md) -- Platform-specific best practices, algorithm factors, content optimization strategies, and analytics frameworks.
 - `./claude-skills/marketing-skill/skills/content-humanizer/SKILL.md` (261 lines, .md) -- name: \"content-humanizer\"
 - `./claude-skills/marketing-skill/skills/content-humanizer/references/ai-tells-checklist.md` (157 lines, .md) -- A comprehensive reference for detecting AI-generated or AI-assisted writing patterns. Use this during Mode 1 (Detect) to
-- `./claude-skills/marketing-skill/skills/content-humanizer/references/voice-techniques.md` (168 lines, .md) -- Techniques for injecting authentic brand voice into content. This is the Mode 3 playbook — after you've removed AI patte
+- `./claude-skills/marketing-skill/skills/content-humanizer/references/voice-techniques.md` (168 lines, .md) -- Techniques for injecting authentic brand voice into content. This is the Mode 3 playbook — after you've removed AI pat
 - `./claude-skills/marketing-skill/skills/content-humanizer/scripts/humanizer_scorer.py` (504 lines, .py) -- import sys
 - `./claude-skills/marketing-skill/skills/content-production/SKILL.md` (245 lines, .md) -- name: \"content-production\"
 - `./claude-skills/marketing-skill/skills/content-production/references/ai-citation-readiness.md` (81 lines, .md) -- How to optimize content so AI platforms (Perplexity, ChatGPT, Google AI Overviews, Claude) cite your pages in their answ
-- `./claude-skills/marketing-skill/skills/content-production/references/content-brief-guide.md` (146 lines, .md) -- A brief isn't a writing assignment. It's a contract between the strategist and the writer — and when you're both the sam
+- `./claude-skills/marketing-skill/skills/content-production/references/content-brief-guide.md` (146 lines, .md) -- A brief isn't a writing assignment. It's a contract between the strategist and the writer — and when you're both the s
 - `./claude-skills/marketing-skill/skills/content-production/references/content-templates.md` (107 lines, .md) -- 12 content templates with selection logic. The LLM should detect topic intent and recommend the right template before wr
 - `./claude-skills/marketing-skill/skills/content-production/references/optimization-checklist.md` (139 lines, .md) -- Run this before every piece goes live. Each section is a gate — fail a gate, fix it before moving on.
 - `./claude-skills/marketing-skill/skills/content-production/scripts/brand_voice_analyzer.py` (197 lines, .py) -- Brand Voice Analyzer - Analyzes content to establish and maintain brand voice consistency
@@ -4725,7 +4739,7 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/content-production/scripts/seo_optimizer.py` (433 lines, .py) -- SEO Content Optimizer - Analyzes and optimizes content for SEO
 - `./claude-skills/marketing-skill/skills/content-production/templates/content-brief-template.md` (126 lines, .md) -- > Fill in every field before writing starts. Blank fields mean assumptions. Assumptions mean rewrites.
 - `./claude-skills/marketing-skill/skills/content-strategy/SKILL.md` (127 lines, .md) -- name: \"content-strategy\"
-- `./claude-skills/marketing-skill/skills/content-strategy/references/content-strategy-reference.md` (278 lines, .md) -- Every piece of content must be searchable, shareable, or both. Prioritize in that order—search traffic is the foundation
+- `./claude-skills/marketing-skill/skills/content-strategy/references/content-strategy-reference.md` (278 lines, .md) -- Every piece of content must be searchable, shareable, or both. Prioritize in that order—search traffic is the foundati
 - `./claude-skills/marketing-skill/skills/content-strategy/scripts/topic_cluster_mapper.py` (243 lines, .py) -- topic_cluster_mapper.py — Groups keywords/topics into content clusters
 - `./claude-skills/marketing-skill/skills/copy-editing/SKILL.md` (491 lines, .md) -- name: \"copy-editing\"
 - `./claude-skills/marketing-skill/skills/copy-editing/references/ai-detection-patterns.md` (84 lines, .md) -- Reference for `ai_content_detector.py`. Explains the three detection methods and how to humanize flagged content.
@@ -4734,7 +4748,7 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/copy-editing/scripts/readability_scorer.py` (285 lines, .py) -- readability_scorer.py — Readability metrics for marketing copy
 - `./claude-skills/marketing-skill/skills/copywriting/SKILL.md` (296 lines, .md) -- name: \"copywriting\"
 - `./claude-skills/marketing-skill/skills/copywriting/references/copy-frameworks.md` (338 lines, .md) -- Headline formulas, page section types, and structural templates.
-- `./claude-skills/marketing-skill/skills/copywriting/references/natural-transitions.md` (252 lines, .md) -- Transitional phrases to guide readers through your content. Good signposting improves readability, user engagement, and
+- `./claude-skills/marketing-skill/skills/copywriting/references/natural-transitions.md` (252 lines, .md) -- Transitional phrases to guide readers through your content. Good signposting improves readability, user engagement, and 
 - `./claude-skills/marketing-skill/skills/copywriting/scripts/headline_scorer.py` (256 lines, .py) -- headline_scorer.py — Scores headlines 0-100
 - `./claude-skills/marketing-skill/skills/email-sequence/SKILL.md` (135 lines, .md) -- name: \"email-sequence\"
 - `./claude-skills/marketing-skill/skills/email-sequence/references/email-sequence-playbook.md` (209 lines, .md) -- - Each email has one primary purpose
@@ -4747,7 +4761,7 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/free-tool-strategy/references/tool-types-guide.md` (253 lines, .md) -- Each tool type explained with examples, build complexity, typical outcomes, and design guidance.
 - `./claude-skills/marketing-skill/skills/free-tool-strategy/scripts/tool_roi_estimator.py` (401 lines, .py) -- tool_roi_estimator.py — Estimates ROI of building a free marketing tool.
 - `./claude-skills/marketing-skill/skills/launch-strategy/SKILL.md` (74 lines, .md) -- name: \"launch-strategy\"
-- `./claude-skills/marketing-skill/skills/launch-strategy/references/launch-frameworks-and-checklists.md` (317 lines, .md) -- The best companies don't just launch once—they launch again and again. Every new feature, improvement, and update is an
+- `./claude-skills/marketing-skill/skills/launch-strategy/references/launch-frameworks-and-checklists.md` (317 lines, .md) -- The best companies don't just launch once—they launch again and again. Every new feature, improvement, and update is a
 - `./claude-skills/marketing-skill/skills/launch-strategy/scripts/launch_readiness_scorer.py` (301 lines, .py) -- launch_readiness_scorer.py — Product Launch Readiness Scorer
 - `./claude-skills/marketing-skill/skills/marketing-context/SKILL.md` (169 lines, .md) -- name: \"marketing-context\"
 - `./claude-skills/marketing-skill/skills/marketing-context/scripts/context_validator.py` (219 lines, .py) -- import json
@@ -4800,15 +4814,15 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/prompt-engineer-toolkit/scripts/prompt_versioner.py` (235 lines, .py) -- Commands:
 - `./claude-skills/marketing-skill/skills/referral-program/SKILL.md` (286 lines, .md) -- name: \"referral-program\"
 - `./claude-skills/marketing-skill/skills/referral-program/references/measurement-framework.md` (199 lines, .md) -- The metrics that tell you if your referral program is working, what's broken, and what to fix first.
-- `./claude-skills/marketing-skill/skills/referral-program/references/program-mechanics.md` (212 lines, .md) -- Detailed design patterns with real-world examples. Use this as a reference when designing programs — these are the mecha
+- `./claude-skills/marketing-skill/skills/referral-program/references/program-mechanics.md` (212 lines, .md) -- Detailed design patterns with real-world examples. Use this as a reference when designing programs — these are the mec
 - `./claude-skills/marketing-skill/skills/referral-program/scripts/referral_roi_calculator.py` (420 lines, .py) -- referral_roi_calculator.py — Calculates referral program ROI.
 - `./claude-skills/marketing-skill/skills/schema-markup/SKILL.md` (233 lines, .md) -- name: \"schema-markup\"
 - `./claude-skills/marketing-skill/skills/schema-markup/references/implementation-patterns.md` (437 lines, .md) -- Copy-paste JSON-LD patterns for every common schema type. Replace ALL_CAPS placeholders with real values. Test at rich-r
-- `./claude-skills/marketing-skill/skills/schema-markup/references/schema-types-guide.md` (285 lines, .md) -- A practitioner's reference for schema.org types — what they do, what fields matter, and what Google actually uses for ri
+- `./claude-skills/marketing-skill/skills/schema-markup/references/schema-types-guide.md` (285 lines, .md) -- A practitioner's reference for schema.org types — what they do, what fields matter, and what Google actually uses for 
 - `./claude-skills/marketing-skill/skills/schema-markup/scripts/schema_validator.py` (442 lines, .py) -- schema_validator.py — Extracts and validates JSON-LD structured data from HTML.
 - `./claude-skills/marketing-skill/skills/seo-audit/SKILL.md` (154 lines, .md) -- name: \"seo-audit\"
 - `./claude-skills/marketing-skill/skills/seo-audit/references/cwv-thresholds.md` (47 lines, .md) -- Reference for `seo_health_scorer.py` and the Performance category. Updated per Google's CrUX methodology.
-- `./claude-skills/marketing-skill/skills/seo-audit/references/eeat-framework.md` (67 lines, .md) -- Experience, Expertise, Authoritativeness, Trustworthiness — Google's quality rater guidelines framework for evaluating c
+- `./claude-skills/marketing-skill/skills/seo-audit/references/eeat-framework.md` (67 lines, .md) -- Experience, Expertise, Authoritativeness, Trustworthiness — Google's quality rater guidelines framework for evaluating
 - `./claude-skills/marketing-skill/skills/seo-audit/references/schema-types.md` (50 lines, .md) -- JSON-LD structured data types, their status, and validation guidance. Updated for 2026.
 - `./claude-skills/marketing-skill/skills/seo-audit/references/seo-audit-reference.md` (289 lines, .md) -- 1. **Crawlability & Indexation** (can Google find and index it?)
 - `./claude-skills/marketing-skill/skills/seo-audit/scripts/seo_checker.py` (361 lines, .py) -- seo_checker.py — On-page SEO analyzer
@@ -4824,7 +4838,7 @@ Files: 5000
 - `./claude-skills/marketing-skill/skills/social-content/references/platforms.md` (163 lines, .md) -- Detailed strategies for each major social platform.
 - `./claude-skills/marketing-skill/skills/social-content/references/post-templates.md` (171 lines, .md) -- Ready-to-use templates for different platforms and content types.
 - `./claude-skills/marketing-skill/skills/social-content/references/reverse-engineering.md` (190 lines, .md) -- Instead of guessing what works, systematically analyze top-performing content in your niche and extract proven patterns.
-- `./claude-skills/marketing-skill/skills/social-media-analyzer/HOW_TO_USE.md` (39 lines, .md) -- Hey Claude—I just added the \"social-media-analyzer\" skill. Can you analyze this campaign's performance and give me act
+- `./claude-skills/marketing-skill/skills/social-media-analyzer/HOW_TO_USE.md` (39 lines, .md) -- Hey Claude—I just added the \"social-media-analyzer\" skill. Can you analyze this campaign's performance and give me a
 - `./claude-skills/marketing-skill/skills/social-media-analyzer/SKILL.md` (309 lines, .md) -- name: \"social-media-analyzer\"
 - `./claude-skills/marketing-skill/skills/social-media-analyzer/references/platform-benchmarks.md` (226 lines, .md) -- Industry benchmarks for engagement rates, CTR, and ROI by platform.
 - `./claude-skills/marketing-skill/skills/social-media-analyzer/scripts/analyze_performance.py` (180 lines, .py) -- Performance analysis and recommendation module.
@@ -4843,7 +4857,7 @@ Files: 5000
 - `./claude-skills/marketing/landing/agents/cs-landing.md` (179 lines, .md) -- name: cs-landing
 - `./claude-skills/marketing/landing/commands/cs-landing.md` (124 lines, .md) -- name: \"cs-landing\"
 - `./claude-skills/marketing/landing/skills/landing/SKILL.md` (346 lines, .md) -- name: landing
-- `./claude-skills/marketing/landing/skills/landing/references/brand_system_design.md` (158 lines, .md) -- This reference answers exactly one decision: **how does the landing skill produce a coherent brand palette from minimal
+- `./claude-skills/marketing/landing/skills/landing/references/brand_system_design.md` (158 lines, .md) -- This reference answers exactly one decision: **how does the landing skill produce a coherent brand palette from minimal 
 - `./claude-skills/marketing/landing/skills/landing/references/gsap_animation_patterns.md` (218 lines, .md) -- This reference answers exactly one decision: **what 5 animation patterns make a landing page feel \"premium\" without ov
 - `./claude-skills/marketing/landing/skills/landing/references/single_file_html_discipline.md` (179 lines, .md) -- This reference answers exactly one decision: **why does the landing skill output a single self-contained `.html` file wi
 - `./claude-skills/marketing/landing/skills/landing/scripts/brand_palette_validator.py` (263 lines, .py) -- Stdlib-only. Validates user-provided brand overrides (primary + accent + optional bg)
@@ -4860,7 +4874,7 @@ Files: 5000
 - `./claude-skills/product-team/agile-product-owner/skills/agile-product-owner/references/user-story-templates.md` (291 lines, .md) -- Standard templates, acceptance criteria patterns, and INVEST validation for user stories.
 - `./claude-skills/product-team/agile-product-owner/skills/agile-product-owner/scripts/user_story_generator.py` (387 lines, .py) -- User Story Generator with INVEST Criteria
 - `./claude-skills/product-team/apple-hig-expert/skills/apple-hig-expert/SKILL.md` (90 lines, .md) -- name: apple-hig-expert
-- `./claude-skills/product-team/apple-hig-expert/skills/apple-hig-expert/references/accessibility.md` (46 lines, .md) -- Accessibility isn't a feature; it's a foundational standard. Apple's design philosophy requires apps to be fully usable
+- `./claude-skills/product-team/apple-hig-expert/skills/apple-hig-expert/references/accessibility.md` (46 lines, .md) -- Accessibility isn't a feature; it's a foundational standard. Apple's design philosophy requires apps to be fully usable 
 - `./claude-skills/product-team/apple-hig-expert/skills/apple-hig-expert/references/platform-specifics.md` (38 lines, .md) -- While Apple aims for a unified aesthetic (Liquid Glass), each platform has unique ergonomics and hardware constraints.
 - `./claude-skills/product-team/apple-hig-expert/skills/apple-hig-expert/references/visual-design.md` (56 lines, .md) -- This guide covers the visual language of the Apple ecosystem, centered on the **Liquid Glass** aesthetic introduced in l
 - `./claude-skills/product-team/apple-hig-expert/skills/apple-hig-expert/scripts/hig_checker.py` (97 lines, .py) -- Apple HIG Compliance Checker
@@ -4920,7 +4934,7 @@ Files: 5000
 - `./claude-skills/product-team/skills/roadmap-communicator/references/roadmap-templates.md` (44 lines, .md) -- - Committed initiatives in active execution
 - `./claude-skills/product-team/skills/roadmap-communicator/scripts/changelog_generator.py` (151 lines, .py) -- import argparse
 - `./claude-skills/product-team/skills/saas-scaffolder/SKILL.md` (293 lines, .md) -- name: \"saas-scaffolder\"
-- `./claude-skills/product-team/skills/saas-scaffolder/references/architecture-patterns.md` (182 lines, .md) -- This reference covers the key architectural decisions when building SaaS applications. Each pattern includes trade-offs
+- `./claude-skills/product-team/skills/saas-scaffolder/references/architecture-patterns.md` (182 lines, .md) -- This reference covers the key architectural decisions when building SaaS applications. Each pattern includes trade-offs 
 - `./claude-skills/product-team/skills/saas-scaffolder/references/auth-billing-guide.md` (196 lines, .md) -- Authentication and billing are foundational SaaS capabilities that affect every user interaction. This guide covers impl
 - `./claude-skills/product-team/skills/saas-scaffolder/references/saas-architecture-patterns.md` (100 lines, .md) -- This reference outlines common architecture choices for SaaS products.
 - `./claude-skills/product-team/skills/saas-scaffolder/references/tech-stack-comparison.md` (278 lines, .md) -- Choosing the right technology stack is one of the most impactful early decisions for a SaaS product. This comparison cov
@@ -4961,7 +4975,7 @@ Files: 5000
 - `./claude-skills/productivity/andreessen/skills/andreessen/scripts/anti_todo_card.py` (217 lines, .py) -- Implements the technique Marc Andreessen described in \"The Pmarca Guide to Personal
 - `./claude-skills/productivity/andreessen/skills/andreessen/scripts/market_first_evaluator.py` (211 lines, .py) -- Operationalizes the core thesis of Marc Andreessen's 2007 essay \"The Pmarca Guide to
 - `./claude-skills/productivity/andreessen/skills/andreessen/scripts/pmf_signal_scorer.py` (206 lines, .py) -- Encodes the qualitative markers Marc Andreessen laid out in \"The Only Thing That Matters\"
-- `./claude-skills/productivity/capture/README.md` (54 lines, .md) -- Brain-dump organizer. Catches an unstructured stream of mixed thoughts, tasks, and ideas and transforms it into a clean
+- `./claude-skills/productivity/capture/README.md` (54 lines, .md) -- Brain-dump organizer. Catches an unstructured stream of mixed thoughts, tasks, and ideas and transforms it into a clean 
 - `./claude-skills/productivity/capture/agents/cs-capture.md` (210 lines, .md) -- name: cs-capture
 - `./claude-skills/productivity/capture/commands/cs-capture.md` (108 lines, .md) -- name: \"cs-capture\"
 - `./claude-skills/productivity/capture/skills/capture/SKILL.md` (212 lines, .md) -- name: capture
@@ -4984,8 +4998,8 @@ Files: 5000
 - `./claude-skills/productivity/email/skills/inbox-setup/scripts/section_progress_tracker.py` (254 lines, .py) -- Stdlib-only. Tracks the setup interview state at ~/.inbox_setup_sessions/<session>.json
 - `./claude-skills/productivity/email/skills/inbox-setup/scripts/voice_sample_analyzer.py` (299 lines, .py) -- Stdlib-only. Reads 3-5 sent-email samples (separated by `---` delimiters) and
 - `./claude-skills/productivity/email/skills/inbox-triage/SKILL.md` (312 lines, .md) -- name: inbox-triage
-- `./claude-skills/productivity/email/skills/inbox-triage/references/drafts_only_safety.md` (123 lines, .md) -- This reference answers exactly one decision: **why is \"drafts only — never send\" the non-negotiable safety property, a
-- `./claude-skills/productivity/email/skills/inbox-triage/references/kb_file_contract.md` (139 lines, .md) -- This reference is the **mirror** of `inbox-setup/references/kb_file_contract.md`, viewed from the read side. It answers
+- `./claude-skills/productivity/email/skills/inbox-triage/references/drafts_only_safety.md` (123 lines, .md) -- This reference answers exactly one decision: **why is \"drafts only — never send\" the non-negotiable safety property,
+- `./claude-skills/productivity/email/skills/inbox-triage/references/kb_file_contract.md` (139 lines, .md) -- This reference is the **mirror** of `inbox-setup/references/kb_file_contract.md`, viewed from the read side. It answers 
 - `./claude-skills/productivity/email/skills/inbox-triage/references/triage_decision_framework.md` (135 lines, .md) -- This reference answers exactly one decision: **for each decision-required email, which of the 4 recommendation categorie
 - `./claude-skills/productivity/email/skills/inbox-triage/scripts/draft_safety_validator.py` (197 lines, .py) -- Stdlib-only. Post-flight check that scans the per-run triage log for any
 - `./claude-skills/productivity/email/skills/inbox-triage/scripts/kb_reader.py` (304 lines, .py) -- Stdlib-only. The triage skill's first step. Loads the 7-file knowledge base
@@ -4994,28 +5008,14 @@ Files: 5000
 - `./claude-skills/productivity/handoff/agents/cs-handoff-author.md` (57 lines, .md) -- name: cs-handoff-author
 - `./claude-skills/productivity/handoff/commands/cs-handoff-setup.md` (54 lines, .md) -- name: cs-handoff-setup
 - `./claude-skills/productivity/handoff/commands/cs-handoff.md` (59 lines, .md) -- name: cs-handoff
-- `./claude-skills/productivity/handoff/hooks/session_end.py` (115 lines, .py) -- When a session ends, checks whether a recent handoff exists in the
-- `./claude-skills/productivity/handoff/hooks/session_start.py` (127 lines, .py) -- On a new session, finds the most recent handoff in the configured save
-- `./claude-skills/productivity/handoff/skills/handoff/README.md` (29 lines, .md) -- Productivity-shaped handoff skill. Compact the current conversation into a handoff document for another agent to pick up
-- `./claude-skills/productivity/handoff/skills/handoff/SKILL.md` (197 lines, .md) -- name: handoff
-- `./claude-skills/productivity/handoff/skills/handoff/assets/example_handoff.md` (61 lines, .md) -- generated_at: 2026-05-21T16:30:00Z
-- `./claude-skills/productivity/handoff/skills/handoff/references/configuration.md` (129 lines, .md) -- The handoff skill is configurable. This document is the field-by-field reference. Setup walks the user through the quest
-- `./claude-skills/productivity/handoff/skills/handoff/references/deduplication_discipline.md` (96 lines, .md) -- Matt's core rule, made operational:
-- `./claude-skills/productivity/handoff/skills/handoff/references/handoff_prompt.md` (93 lines, .md) -- This is the discipline that turns a free-hand summary into a faithful handoff. Walk every item before writing the doc. *
-- `./claude-skills/productivity/handoff/skills/handoff/references/handoff_structure.md` (127 lines, .md) -- The handoff doc has exactly five sections. Use these headers verbatim — the SessionStart hook and downstream tooling exp
-- `./claude-skills/productivity/handoff/skills/handoff/references/redaction_checklist.md` (99 lines, .md) -- > Redact any sensitive information, such as API keys, passwords, or personally identifiable information.
-- `./claude-skills/productivity/handoff/skills/handoff/scripts/cleanup.py` (165 lines, .py) -- Deletes handoff files older than the configured retention window. NEVER
-- `./claude-skills/productivity/handoff/skills/handoff/scripts/config_loader.py` (163 lines, .py) -- Precedence (highest wins):
-- `./claude-skills/productivity/handoff/skills/handoff/scripts/handoff_self_check.py` (396 lines, .py) -- Reads a draft handoff and flags fidelity issues the agent might have
-- `./claude-skills/productivity/handoff/skills/handoff/scripts/handoff_template_generator.py` (256 lines, .py) -- Creates a 5-section scaffold at the configured save location. The agent
 
 ## By language
-- .md: 3536
-- .py: 1000
-- .ts: 396
+- .md: 3529
+- .py: 994
+- .ts: 409
 - .js: 48
 - .sh: 16
 - .tsx: 2
 - .go: 2
 
-NOTE: index truncated to 5000 of 14021 files (IJFW_INDEX_MAX=5000)
+NOTE: index truncated to 5000 of 14046 files (IJFW_INDEX_MAX=5000)
