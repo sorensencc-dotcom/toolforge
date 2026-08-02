@@ -30,8 +30,7 @@ All other locations are forbidden:
 - archive/ (historical only)
 - Sync artifacts / node_modules / backups
 
-Local pre-commit hook can block violations when installed. CI is authoritative; weekly cleanup scan reports drift.
-See: docs/meta/roadmap-consolidation-design.md
+Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on every commit — verified active. No CI job or scheduled scan enforces this yet (no `schedule:` trigger in `.github/workflows/`, no scanner wired into CI); `docs/meta/roadmap-consolidation-design.md` does not exist in this checkout. Treat CI/weekly-scan enforcement as not yet built, not as a live gate.
 
 ## gstack
 
@@ -141,7 +140,7 @@ Example: obsidian:ingest-wiki (bash module in kb-sync, invoked via `npm run wiki
 ### Toolforge Marketplace (Phase 8 Wave D)
 
 **Tier 1 Decision (2026-07-13):**  
-TOOLFORGE-MARKETPLACE-SPEC-v1.0 is approved. Scope locked to four deliverables: plugin manifest schema, registry service, CLI (list/install/submit), submission validator. Phase 8 Wave D, target 2026-07-26. Changes require Tier 1 amendment. See `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`.
+TOOLFORGE-MARKETPLACE-SPEC-v1.0 scope is locked: four deliverables — plugin manifest schema, registry service, CLI (list/install/submit), submission validator. Phase 8 Wave D, target date 2026-07-26 has passed unmet — `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` is still `status: TEMPLATE FOR EXECUTION` with all checklist boxes unchecked and no Approval Date/Tier 1 Signature filled in. Treat this phase as **not shipped, execution not started** until SUCCESS.md is completed and signed — do not build against it as if approved-and-live. Changes require Tier 1 amendment. See `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`.
 
 **Marketplace Publication Workflow:**
 
