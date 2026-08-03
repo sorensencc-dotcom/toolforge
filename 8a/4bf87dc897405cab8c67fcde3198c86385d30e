@@ -1,0 +1,41 @@
+scripts/analyze-retro-trends.ps1
+  s_9b04e33689e249::t_63dfee82fa0712 23-66,149,152-155,159-167,187-189,195
+scripts/daily-report-agent.ps1
+  s_7925e941be7422::t_8143df2be45d83 12-14,37-38,40,58-60,297-298,301,307-308
+scripts/setup-daily-report-schedule.ps1
+  s_1c68d5e83c7ecf::t_a2f62ae905726d 52
+scripts/test-analyze-retro-trends.ps1
+  s_7925e941be7422::t_dca20ba2d823d1 1-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "8a4bf87dc897405cab8c67fcde3198c86385d30e",
+  "prompts": {},
+  "sessions": {
+    "s_1c68d5e83c7ecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c0df381f-758f-4ca2-a228-6908dcc220f7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7925e941be7422": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc7ea-e966-78c2-812a-16fa0610b3ef",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9b04e33689e249": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc2cc-b74c-7c20-b39b-9af6e9ee68b9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
