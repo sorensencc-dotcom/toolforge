@@ -13,6 +13,7 @@ $ErrorActionPreference = "Stop"
 $scriptDir = $PSScriptRoot
 $validatorScript = Join-Path $scriptDir "validate-v1.0.ps1"
 $migrationScript = Join-Path $scriptDir "migrate-to-v1.0.ps1"
+$wrapperScript = Join-Path $scriptDir "validate.ps1"
 
 Write-Host "Running Retro Schema v1.0 Test Suite..." -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
@@ -116,6 +117,32 @@ try {
   & $validatorScript -Path $invalidFile | Out-Null
   $exitCode = $LASTEXITCODE
   Assert-Test "Missing session_focus fails validate-v1.0.ps1" ($exitCode -ne 0) "Expected non-zero exit code for missing session_focus"
+
+  # Test 5: Wrapper resolves repository root from its own location, not a Windows drive.
+  Write-Host "Test 5: Cross-platform wrapper root resolution" -ForegroundColor Yellow
+  Push-Location $tmpDir
+  try {
+    & $wrapperScript | Out-Null
+    $exitCode = $LASTEXITCODE
+  } finally {
+    Pop-Location
+  }
+  Assert-Test "Wrapper passes from a non-repository working directory" ($exitCode -eq 0) "Expected exit code 0, got $exitCode"
+
+  # Test 6: Changed-file gate passes when no event metadata is present and no files are changed.
+  Write-Host "Test 6: Changed retro gate no-op" -ForegroundColor Yellow
+  $oldEventPath = $env:GITHUB_EVENT_PATH
+  $oldSha = $env:GITHUB_SHA
+  Remove-Item Env:GITHUB_EVENT_PATH -ErrorAction SilentlyContinue
+  Remove-Item Env:GITHUB_SHA -ErrorAction SilentlyContinue
+  try {
+    & (Join-Path $scriptDir "validate-changed.ps1") | Out-Null
+    $exitCode = $LASTEXITCODE
+  } finally {
+    if ($oldEventPath) { $env:GITHUB_EVENT_PATH = $oldEventPath }
+    if ($oldSha) { $env:GITHUB_SHA = $oldSha }
+  }
+  Assert-Test "Changed-file gate passes without CI event metadata" ($exitCode -eq 0) "Expected exit code 0, got $exitCode"
 
 } finally {
   Remove-Item -Path $tmpDir -Recurse -Force -ErrorAction SilentlyContinue

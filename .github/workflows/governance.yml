@@ -20,12 +20,12 @@ jobs:
         run: ./utilities/skill-doc-validator.ps1 -Path ./skills -Recursive
 
   retro-schema:
-    name: Retro schema v1.0 compliance
+    name: Changed retro schema v1.0 compliance
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Validate retro schema compliance
+      - name: Validate changed retro schema compliance
         shell: pwsh
-        run: ./.context/retros/validate.ps1
+        run: ./.context/retros/validate-changed.ps1

@@ -1,0 +1,27 @@
+name: Retro Full History Audit
+
+on:
+  schedule:
+    - cron: '30 7 * * 5'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retro-full-audit:
+    name: Retro full-history audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Validate all retro history
+        shell: pwsh
+        run: ./.context/retros/validate.ps1
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: retro-full-audit-${{ github.run_id }}
+          path: .context/retros/*.json
+          if-no-files-found: error
