@@ -9,6 +9,9 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+# Native stderr must not become a terminating error under Windows PowerShell 5.1.
+# Individual git calls below temporarily use Continue and still inspect failures.
+$PSNativeCommandUseErrorActionPreference = $false
 
 # ============================================================================
 # Configuration
@@ -31,7 +34,10 @@ function Get-CommitsSince24h {
     $commits = @()
     foreach ($repo in $repos) {
         try {
+            $previousErrorActionPreference = $ErrorActionPreference
+            $ErrorActionPreference = 'Continue'
             $log = & git -C $repo.FullName log --since $since --format="%h|%s|%ae|%ai" 2>&1
+            $ErrorActionPreference = $previousErrorActionPreference
             if ($log) {
                 $log | ForEach-Object {
                     $parts = $_ -split '\|'
@@ -48,6 +54,9 @@ function Get-CommitsSince24h {
             }
         } catch {
             Write-Host "Warning: git log failed for $($repo.Name): $_"
+        }
+        finally {
+            if ($null -ne $previousErrorActionPreference) { $ErrorActionPreference = $previousErrorActionPreference }
         }
     }
     return $commits
@@ -285,13 +294,18 @@ function Commit-DailyReport {
 
     try {
         # Stage and commit
+        $previousErrorActionPreference = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
         & git -C $repoRoot add $reportPath 2>&1 | Out-Null
         & git -C $repoRoot commit -m "docs(report): add daily report for $reportDate" 2>&1 | Out-Null
+        $ErrorActionPreference = $previousErrorActionPreference
         Write-Host "Report committed: $reportPath"
         return $true
     } catch {
         Write-Host "Warning: Failed to commit report: $_"
         return $false
+    } finally {
+        if ($null -ne $previousErrorActionPreference) { $ErrorActionPreference = $previousErrorActionPreference }
     }
 }
 

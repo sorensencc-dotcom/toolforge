@@ -20,6 +20,50 @@ function Get-MetricValue {
   return $null
 }
 
+function Get-NormalizedRate {
+  param([PSObject]$Metrics, [string[]]$Names)
+  foreach ($name in $Names) {
+    $value = $metrics.$name
+    if ($null -ne $value) {
+      # Retro generator emitted both fractions (0.105) and whole percentages
+      # (10.5). Keep analyzer output canonical: fraction in [0,1].
+      if ([double]$value -gt 100) { return $null }
+      if ([double]$value -gt 1) { return [double]$value / 100 }
+      if ([double]$value -lt 0) { return $null }
+      return [double]$value
+    }
+  }
+  return $null
+}
+
+function Get-RateSourceUnit {
+  param([PSObject]$Metrics, [string[]]$Names)
+  foreach ($name in $Names) {
+    if ($null -ne $metrics.$name) {
+      if ([double]$metrics.$name -gt 1) { return 'percent' }
+      return 'fraction'
+    }
+  }
+  return $null
+}
+
+function Get-WindowStatus {
+  param([PSObject]$Retro)
+  if (-not $Retro.since -or -not $Retro.until) {
+    return @{ valid = $false; span_days = $null; reason = 'missing since/until' }
+  }
+  try {
+    $since = [DateTime]::Parse($Retro.since)
+    $until = [DateTime]::Parse($Retro.until)
+    $span = ($until - $since).TotalDays
+    $valid = $Retro.window -eq '7d' -and $span -ge 6.5 -and $span -le 7.5
+    $reason = if ($valid) { $null } else { "window=$($Retro.window), span_days=$([Math]::Round($span,2))" }
+    return @{ valid = $valid; span_days = [Math]::Round($span, 2); reason = $reason }
+  } catch {
+    return @{ valid = $false; span_days = $null; reason = 'invalid since/until' }
+  }
+}
+
 function Read-Retro {
   param([string]$FilePath)
   if (-not (Test-Path $FilePath)) { return $null }
@@ -102,12 +146,25 @@ $report = @{
 # Build timeseries
 foreach ($item in $sorted) {
   $m = $item.data.metrics
+  $window = Get-WindowStatus $item.data
   $report.timeseries += @{
     date = $item.date
+    window = $item.data.window
+    window_span_days = $window.span_days
+    comparable_window = $window.valid
+    window_issue = $window.reason
     commits = Get-MetricValue $m @('commits')
     insertions = Get-MetricValue $m @('insertions_raw', 'insertions', 'raw_insertions', 'filtered_insertions')
     deletions = Get-MetricValue $m @('deletions_raw', 'deletions', 'raw_deletions', 'filtered_deletions')
-    test_ratio = Get-MetricValue $m @('test_ratio_pct', 'test_ratio')
+    test_ratio = Get-NormalizedRate $m @('test_ratio_pct', 'test_ratio')
+    feat_pct = Get-NormalizedRate $m @('feat_pct')
+    fix_pct = Get-NormalizedRate $m @('fix_pct')
+    docs_pct = Get-NormalizedRate $m @('docs_pct')
+    feat_pct_source_unit = Get-RateSourceUnit $m @('feat_pct')
+    fix_pct_source_unit = Get-RateSourceUnit $m @('fix_pct')
+    docs_pct_source_unit = Get-RateSourceUnit $m @('docs_pct')
+    test_ratio_source_unit = Get-RateSourceUnit $m @('test_ratio_pct', 'test_ratio')
+    rate_issue = if (@('feat_pct','fix_pct','docs_pct','test_ratio_pct','test_ratio') | Where-Object { $null -ne $m.$_ -and ([double]$m.$_ -lt 0 -or [double]$m.$_ -gt 100) }) { 'rate outside 0..100 percent' } else { $null }
     contributors = Get-MetricValue $m @('contributors')
     team_streak = Get-MetricValue $m @('team_streak_days')
   }
@@ -127,13 +184,15 @@ if ($report.timeseries.Count -ge 2) {
   $latest = $report.timeseries[-1]
   $previous = $report.timeseries[-2]
 
-  if ($latest.commits -and $previous.commits -and $previous.commits -gt 0) {
+  if (-not $latest.comparable_window -or -not $previous.comparable_window) {
+    Write-Host "  Window trends: [SKIPPED] non-comparable window ($($previous.window_issue) -> $($latest.window_issue))" -ForegroundColor Yellow
+  } elseif ($latest.commits -and $previous.commits -and $previous.commits -gt 0) {
     $ct = ($latest.commits - $previous.commits) / $previous.commits
     $dir = if ($ct -gt 0.1) { "[UP]" } elseif ($ct -lt -0.1) { "[DOWN]" } else { "[FLAT]" }
     Write-Host "  Commits: $dir $($latest.commits) (was $($previous.commits), $([Math]::Round($ct*100,1))%)"
   }
 
-  if ($latest.insertions -and $latest.deletions -and $previous.insertions -and $previous.deletions) {
+  if ($latest.comparable_window -and $previous.comparable_window -and $latest.insertions -and $latest.deletions -and $previous.insertions -and $previous.deletions) {
     $ln = $latest.insertions - $latest.deletions
     $pn = $previous.insertions - $previous.deletions
     if ($pn -ne 0) {

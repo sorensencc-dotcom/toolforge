@@ -49,7 +49,7 @@ if ($existing) {
 
 # Create task action
 $action = New-ScheduledTaskAction `
-  -Execute "powershell.exe" `
+  -Execute "pwsh.exe" `
   -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`" -RepoRoot `"$repoRoot`"" `
   -WorkingDirectory "C:\dev"
 
