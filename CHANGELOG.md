@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.32.4
+Date: 2026-08-03
+
+### Changes
+- 2f9cd74 - docs(todos): mark kb-sync coverage and drift remediation tasks completed (Chris Sorensen)
+- 8a4bf87 - fix: harden retro and daily report agents (Chris Sorensen)
+
 ## Version 2.32.3
 Date: 2026-08-03
 
