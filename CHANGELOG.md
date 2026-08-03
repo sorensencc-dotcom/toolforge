@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.32.5
+Date: 2026-08-03
+
+### Changes
+- eb17766 - test: cover daily report native stderr handling (Chris Sorensen)
+
 ## Version 2.32.4
 Date: 2026-08-03
 
