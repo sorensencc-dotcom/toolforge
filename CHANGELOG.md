@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.32.2
+Date: 2026-08-03
+
+### Changes
+- 3ba3159 - test(retro): separate changed and full audits (Chris Sorensen)
+
 ## Version 2.32.1
 Date: 2026-08-02
 
