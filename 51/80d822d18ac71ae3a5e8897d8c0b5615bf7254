@@ -1,0 +1,20 @@
+.context/retros/2026-08-03-1.json
+  s_d92a162c4798dd::t_60b3a1900b3f59 9-11,17-20,22-30
+  s_d92a162c4798dd::t_76bab64d2188bd 1-8,12-16,21,31-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "5180d822d18ac71ae3a5e8897d8c0b5615bf7254",
+  "prompts": {},
+  "sessions": {
+    "s_d92a162c4798dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "360deef7-8c42-43b7-bd32-1c055da8344d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
