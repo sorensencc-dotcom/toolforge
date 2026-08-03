@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.32.3
+Date: 2026-08-03
+
+### Changes
+- 27c21e4 - Merge remote-tracking branch 'origin/main' (Chris Sorensen)
+- 5180d82 - chore: retro snapshot 2026-08-03 (intake-triage-manifest cross-repo build) (Chris Sorensen)
+- 4780b31 - docs(todos): add 2 follow-ups from intake-triage-manifest final review (Chris Sorensen)
+
 ## Version 2.32.2
 Date: 2026-08-03
 
