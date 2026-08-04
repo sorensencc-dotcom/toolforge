@@ -18,11 +18,18 @@ function Get-PluginChecksum {
         return $null
     }
 
-    # Get all files in directory (excluding .git, node_modules, .env)
+    $root = (Resolve-Path $SkillPath).Path.TrimEnd('\')
+    $excludedDirectories = @(".git", "node_modules", "tests")
+    $excludedFiles = @("package-lock.json", "npm-shrinkwrap.json", "yarn.lock", "pnpm-lock.yaml")
+
+    # Match install payload: omit development-only content and use relative paths.
     $files = Get-ChildItem -Path $SkillPath -Recurse -File -ErrorAction SilentlyContinue |
         Where-Object {
-            $path = $_.FullName
-            -not ($path -match '\.git\\' -or $path -match 'node_modules\\' -or $path -match '\.env$')
+            $relative = $_.FullName.Substring($root.Length).TrimStart('\')
+            $parts = $relative -split '[\\/]'
+            ($parts | Where-Object { $excludedDirectories -contains $_ }).Count -eq 0 -and
+            $excludedFiles -notcontains $_.Name -and
+            $_.Name -notmatch '^\.env($|\.)'
         } |
         Sort-Object FullName
 
@@ -36,7 +43,8 @@ function Get-PluginChecksum {
     foreach ($file in $files) {
         $fileContent = Get-Content $file -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
         if ($fileContent) {
-            $hashInput += $file.FullName + "|" + $fileContent
+            $relative = $file.FullName.Substring($root.Length).TrimStart('\').Replace('\', '/')
+            $hashInput += $relative + "|" + $fileContent
         }
     }
 

@@ -62,7 +62,8 @@ function Invoke-ToolforgeInstall {
         [string]$PluginId,
 
         [string]$VersionFilter = "latest",
-        [switch]$ForceInstall
+        [switch]$ForceInstall,
+        [switch]$DryRunMode
     )
 
     # Lookup plugin in registry
@@ -94,10 +95,28 @@ function Invoke-ToolforgeInstall {
         return $false
     }
 
+    if ($DryRunMode) {
+        Write-Host "DRY RUN: would install $PluginId to $installDir"
+        return $true
+    }
+
     # Copy skill to install directory
     Write-Host "Installing $PluginId..."
     New-Item -ItemType Directory -Path $installDir -Force | Out-Null
-    Copy-Item "$($pluginObj.manifest_path)\*" -Destination $installDir -Recurse -Force
+    $excludedDirectories = @("node_modules", ".git", "tests")
+    $excludedFiles = @("package-lock.json", "npm-shrinkwrap.json", "yarn.lock", "pnpm-lock.yaml")
+    $sourceRoot = (Resolve-Path $pluginObj.manifest_path).Path
+    Get-ChildItem -Path $sourceRoot -Recurse -File | Where-Object {
+        $relative = $_.FullName.Substring($sourceRoot.Length).TrimStart('\')
+        $parts = $relative -split '[\\/]'
+        ($parts | Where-Object { $excludedDirectories -contains $_ }).Count -eq 0 -and
+        $excludedFiles -notcontains $_.Name
+    } | ForEach-Object {
+        $relative = $_.FullName.Substring($sourceRoot.Length).TrimStart('\')
+        $destination = Join-Path $installDir $relative
+        New-Item -ItemType Directory -Path (Split-Path $destination) -Force | Out-Null
+        Copy-Item -LiteralPath $_.FullName -Destination $destination -Force
+    }
 
     # Verify checksum
     $actualChecksum = & $checksumPath -Path $installDir
@@ -328,7 +347,7 @@ switch ($Command.ToLower()) {
             Write-Error "Missing plugin ID. Use: toolforge install <id>"
             exit 1
         }
-        $success = Invoke-ToolforgeInstall -PluginId $Id -VersionFilter $Version -ForceInstall:$Force
+        $success = Invoke-ToolforgeInstall -PluginId $Id -VersionFilter $Version -ForceInstall:$Force -DryRunMode:$DryRun
         exit $(if ($success) { 0 } else { 1 })
     }
     "submit" {
