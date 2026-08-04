@@ -1,0 +1,84 @@
+skills/toolforge-cli/tests/install.test.js
+  s_fa9935c8e62e4d::t_68779f62abee3c 1-40,42-67
+  s_fa9935c8e62e4d::t_a212b9eba49c46 41
+skills/toolforge-cli/src/cli.ps1
+  s_fa9935c8e62e4d::t_a0c9a6472fd0b2 65-66,98-102,106-109,111-114,116-119,350
+  s_fa9935c8e62e4d::t_32c8ae03b7b1cf 110,115
+skills/toolforge-cli/tests/skill.test.ts
+  s_fa9935c8e62e4d::t_258446c93f0b28 2-13,16-66,69-71
+skills/toolforge-registry-manager/src/checksum.ps1
+  s_fa9935c8e62e4d::t_a0c9a6472fd0b2 22-25,29-32,47
+  s_fa9935c8e62e4d::t_32c8ae03b7b1cf 21,28,46
+TODOS.md
+  s_21e9078f7de21d::t_4801a9af3fe4aa 37
+  s_fa9935c8e62e4d::t_b582f306fa4e07 38-39
+  s_21e9078f7de21d::t_6c10746b40b140 12-13
+utilities/toolforgeDriftDetector.ps1
+  s_fa9935c8e62e4d::t_f80d2a8a86c964 423-428
+  s_fa9935c8e62e4d::t_b96127364e3499 429
+  s_fa9935c8e62e4d::t_ec4bc89383f11d 33-34,48,65-73,75,79,188-189,248,252,265-266,290-411,414,416-421,444-448,451,512,572,576,587,590
+scripts/trm-sync-treatment-agent.ps1
+  s_7925e941be7422::t_9ef664c1b83259 22-29,52-55,193,198-205
+skills/trm-feedback-report/skill.json
+  s_a20a044fda74f9::t_6d5fa5f434a1b5 30-31
+utilities/toolforgeSkillHealthCheck.ps1
+  s_d92a162c4798dd::t_96cb57a2e3d41d 515,520-533
+setup-ci-scheduler.ps1
+  s_c4e2e0ad144627::t_0ffa72935be912 98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "a25cb5d3e454a3cbed6ca064c2e86378b33fe5af",
+  "prompts": {},
+  "sessions": {
+    "s_21e9078f7de21d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8116af82-e334-4b2f-b1fd-4ce1cef3d0fd",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7925e941be7422": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc7ea-e966-78c2-812a-16fa0610b3ef",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a20a044fda74f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3d3c6af5-d66a-4183-aa8b-60284c53847c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d92a162c4798dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "360deef7-8c42-43b7-bd32-1c055da8344d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fa9935c8e62e4d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fcce1-e127-7501-8f90-2e78a8945fb5",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
