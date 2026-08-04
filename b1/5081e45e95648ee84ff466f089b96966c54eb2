@@ -1,0 +1,39 @@
+skills/toolforge-cli/tests/install.test.js
+  s_fa9935c8e62e4d::t_68779f62abee3c 1-40,42-67
+  s_fa9935c8e62e4d::t_a212b9eba49c46 41
+skills/toolforge-cli/src/cli.ps1
+  s_fa9935c8e62e4d::t_a0c9a6472fd0b2 65-66,98-102,106-109,111-114,116-119,350
+  s_fa9935c8e62e4d::t_32c8ae03b7b1cf 110,115
+skills/toolforge-cli/tests/skill.test.ts
+  s_fa9935c8e62e4d::t_258446c93f0b28 2-13,16-66,69-71
+skills/toolforge-registry-manager/src/checksum.ps1
+  s_fa9935c8e62e4d::t_a0c9a6472fd0b2 22-25,29-32,47
+  s_fa9935c8e62e4d::t_32c8ae03b7b1cf 21,28,46
+TODOS.md
+  s_21e9078f7de21d::t_4801a9af3fe4aa 35
+  s_fa9935c8e62e4d::t_b582f306fa4e07 36-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "b15081e45e95648ee84ff466f089b96966c54eb2",
+  "prompts": {},
+  "sessions": {
+    "s_21e9078f7de21d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8116af82-e334-4b2f-b1fd-4ce1cef3d0fd",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fa9935c8e62e4d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fcce1-e127-7501-8f90-2e78a8945fb5",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
