@@ -27,8 +27,8 @@
     }
   },
   "dependencies": {
-    "internal": ["trm CLI (validate, feedback-stats, crosslink subcommands)"],
-    "external": []
+    "internal": ["trm-status"],
+    "external": ["trm"]
   },
   "errorConditions": [
     { "code": "TOPIC_NOT_FOUND", "message": "topicPath does not exist in the trm-vault", "handler": "fail" },

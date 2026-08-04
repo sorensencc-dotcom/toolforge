@@ -30,7 +30,8 @@
 
 param(
   [string]$OutputPath = "C:\dev\drift\DRIFT-REPORT.md",
-  [switch]$Verbose
+  [switch]$Verbose,
+  [switch]$AutoFix
 )
 
 $ErrorActionPreference = "Stop"
@@ -44,7 +45,7 @@ $drift = @{
   skills = @()
   docs = @()
   manifest = @()
-  timestamp = (Get-Date -AsUTC -Format "o")
+  timestamp = ((Get-Date).ToUniversalTime().ToString("o"))
   totalDrifts = 0
 }
 
@@ -61,12 +62,21 @@ function Compare-Directories {
   $items1 = @()
   $items2 = @()
 
+  $excludeList = @(
+    "_TEMPLATE", "_archive", "_kb-sync-staging", "node_modules", "dist", "build", "site",
+    "logs", "tmp", "temp", "coverage", "bookstack-docker", "bookstack_data", "mariadb_data",
+    "charlie-deep-research", "financeos", "null", ".git", ".github", ".venv", ".pytest_cache",
+    ".worktrees", ".vscode", ".obsidian", ".cache", ".distro", ".playwright-mcp", ".context",
+    ".ijfw", ".superpowers", ".claude", ".mcp", ".planning", "rewrite-mcp", "claude-config-backup",
+    "claude-configs", "claude-skills", "research-data"
+  )
+
   if (Test-Path $Path1) {
-    $items1 = @(Get-ChildItem -Path $Path1 -Directory -Exclude "_TEMPLATE" | ForEach-Object { $_.Name })
+    $items1 = @(Get-ChildItem -Path $Path1 -Directory | Where-Object { $_.Name -notin $excludeList } | ForEach-Object { $_.Name })
   }
 
   if (Test-Path $Path2) {
-    $items2 = @(Get-ChildItem -Path $Path2 -Directory -Exclude "_TEMPLATE" | ForEach-Object { $_.Name })
+    $items2 = @(Get-ChildItem -Path $Path2 -Directory | Where-Object { $_.Name -notin $excludeList } | ForEach-Object { $_.Name })
   }
 
   $findings = @()
@@ -175,8 +185,8 @@ function Check-Skills {
         }
       } else {
         # Check versions
-        $json1Path = Join-Path $skillPath1 $skill "skill.json"
-        $json2Path = Join-Path $skillPath2 $skill "skill.json"
+        $json1Path = [System.IO.Path]::Combine($skillPath1, $skill, "skill.json")
+        $json2Path = [System.IO.Path]::Combine($skillPath2, $skill, "skill.json")
 
         if ((Test-Path $json1Path) -and (Test-Path $json2Path)) {
           $v1 = (Get-Content $json1Path | ConvertFrom-Json).version
@@ -235,11 +245,11 @@ function Check-Manifest {
 
   if (Test-Path $manifest1Path) {
     $m1 = Get-Content $manifest1Path | ConvertFrom-Json
-    $m1Version = $m1.version ?? "unknown"
+    $m1Version = if ($m1.version) { $m1.version } else { "unknown" }
 
     if (Test-Path $manifest2Path) {
       $m2 = Get-Content $manifest2Path | ConvertFrom-Json
-      $m2Version = $m2.version ?? "unknown"
+      $m2Version = if ($m2.version) { $m2.version } else { "unknown" }
 
       if ($m1Version -ne $m2Version) {
         $findings += @{
@@ -252,8 +262,8 @@ function Check-Manifest {
       }
 
       # Check skill counts
-      $s1Count = ($m1.skills ?? @()).Count
-      $s2Count = ($m2.skills ?? @()).Count
+      $s1Count = if ($m1.skills) { $m1.skills.Count } else { 0 }
+      $s2Count = if ($m2.skills) { $m2.skills.Count } else { 0 }
 
       if ($s1Count -ne $s2Count) {
         $findings += @{
@@ -277,41 +287,146 @@ function Check-Manifest {
   return $findings
 }
 
-# Run detections
-Write-Host "🔍 Toolforge Drift Detector" -ForegroundColor Cyan
+function Invoke-AutoRemediation {
+  param([hashtable]$DriftData)
+
+  Write-Host "Starting Auto-Remediation..." -ForegroundColor Cyan
+
+  # 1. Sync Skills
+  if ($DriftData.skills.Count -gt 0) {
+    Write-Host "  [AutoFix] Syncing skills..." -ForegroundColor Yellow
+    $srcSkills = Join-Path $CANONICAL "skills"
+    $dstSkills = Join-Path $DISTRIBUTED "skills"
+    if (-not (Test-Path $dstSkills)) {
+      New-Item -ItemType Directory -Path $dstSkills -Force | Out-Null
+    }
+
+    foreach ($skillItem in $DriftData.skills) {
+      if ($skillItem.type -eq "missing_skill" -or $skillItem.type -eq "version_mismatch") {
+        $sName = $skillItem.skill
+        $sSrc = Join-Path $srcSkills $sName
+        $sDst = Join-Path $dstSkills $sName
+        if (Test-Path $sSrc) {
+          Copy-Item -Path $sSrc -Destination $sDst -Recurse -Force
+          Write-Host "    + Synced skill: $sName" -ForegroundColor Green
+        }
+      }
+    }
+  }
+
+  # 2. Sync Tools
+  if ($DriftData.tools.Count -gt 0) {
+    Write-Host "  [AutoFix] Syncing tools..." -ForegroundColor Yellow
+    foreach ($toolItem in $DriftData.tools) {
+      if ($toolItem.type -eq "missing") {
+        $cat = $toolItem.category
+        $tool = $toolItem.tool
+        $tSrc = Join-Path $CANONICAL "$cat\$tool"
+        $tDstDir = Join-Path $DISTRIBUTED $cat
+        if (-not (Test-Path $tDstDir)) {
+          New-Item -ItemType Directory -Path $tDstDir -Force | Out-Null
+        }
+        if (Test-Path $tSrc) {
+          Copy-Item -Path $tSrc -Destination $tDstDir -Force
+          Write-Host "    + Synced tool: $cat/$tool" -ForegroundColor Green
+        }
+      }
+    }
+  }
+
+  # 3. Sync Docs
+  if ($DriftData.docs.Count -gt 0) {
+    Write-Host "  [AutoFix] Syncing docs..." -ForegroundColor Yellow
+    $srcDocs = Join-Path $CANONICAL "docs"
+    $dstDocs = Join-Path $DISTRIBUTED "docs"
+    if (-not (Test-Path $dstDocs)) {
+      New-Item -ItemType Directory -Path $dstDocs -Force | Out-Null
+    }
+    foreach ($docItem in $DriftData.docs) {
+      if ($docItem.type -eq "missing_doc") {
+        $f = $docItem.file
+        $dSrc = Join-Path $srcDocs $f
+        if (Test-Path $dSrc) {
+          Copy-Item -Path $dSrc -Destination $dstDocs -Force
+          Write-Host "    + Synced doc: $f" -ForegroundColor Green
+        }
+      }
+    }
+  }
+
+  # 4. Sync Manifest
+  if ($DriftData.manifest.Count -gt 0) {
+    Write-Host "  [AutoFix] Syncing manifest.json..." -ForegroundColor Yellow
+    $mSrc = Join-Path $CANONICAL "manifest.json"
+    $mDst = Join-Path $DISTRIBUTED "manifest.json"
+    if (Test-Path $mSrc) {
+      Copy-Item -Path $mSrc -Destination $mDst -Force
+      Write-Host "    + Synced manifest.json" -ForegroundColor Green
+    }
+  }
+
+  Write-Host "Auto-Remediation complete." -ForegroundColor Green
+}
+
+function Run-Detections {
+  $d = @{
+    structure = @()
+    tools = @()
+    skills = @()
+    docs = @()
+    manifest = @()
+    timestamp = ((Get-Date).ToUniversalTime().ToString("o"))
+    totalDrifts = 0
+  }
+
+  # Structure
+  Log "Checking directory structure..."
+  $d.structure = Compare-Directories -Path1 (Join-Path $CANONICAL "*") -Path2 (Join-Path $DISTRIBUTED "*") -Name "Toolforge"
+  $d.totalDrifts += $d.structure.Count
+
+  # Tools
+  Log "Checking tools..."
+  $d.tools = Check-Tools
+  $d.totalDrifts += $d.tools.Count
+
+  # Skills
+  Log "Checking skills..."
+  $d.skills = Check-Skills
+  $d.totalDrifts += $d.skills.Count
+
+  # Docs
+  Log "Checking documentation..."
+  $d.docs = Check-Docs
+  $d.totalDrifts += $d.docs.Count
+
+  # Manifest
+  Log "Checking manifest..."
+  $d.manifest = Check-Manifest
+  $d.totalDrifts += $d.manifest.Count
+
+  return $d
+}
+
+# Run initial detections
+Write-Host "Toolforge Drift Detector" -ForegroundColor Cyan
 Write-Host ""
 
-# Structure
-Log "Checking directory structure..."
-$structureDrift = Compare-Directories -Path1 (Join-Path $CANONICAL "*") -Path2 (Join-Path $DISTRIBUTED "*") -Name "Toolforge"
-$drift.structure = $structureDrift
-$drift.totalDrifts += $structureDrift.Count
+$drift = Run-Detections
 
-# Tools
-Log "Checking tools..."
-$toolDrift = Check-Tools
-$drift.tools = $toolDrift
-$drift.totalDrifts += $toolDrift.Count
-
-# Skills
-Log "Checking skills..."
-$skillDrift = Check-Skills
-$drift.skills = $skillDrift
-$drift.totalDrifts += $skillDrift.Count
-
-# Docs
-Log "Checking documentation..."
-$docDrift = Check-Docs
-$drift.docs = $docDrift
-$drift.totalDrifts += $docDrift.Count
-
-# Manifest
-Log "Checking manifest.json..."
-$manifestDrift = Check-Manifest
-$drift.manifest = $manifestDrift
-$drift.totalDrifts += $manifestDrift.Count
-
+if ($AutoFix -and $drift.totalDrifts -gt 0) {
+  Invoke-AutoRemediation -DriftData $drift
+  Write-Host ""
+  Write-Host "Re-running drift detection post-remediation..." -ForegroundColor Cyan
+  $drift = Run-Detections
+}
 # Generate report
+$structSev = if ($drift.structure.Count -gt 0) { "WARN" } else { "OK" }
+$toolsSev  = if ($drift.tools.Count -gt 0) { "WARN" } else { "OK" }
+$skillsSev = if ($drift.skills.Count -gt 0) { "WARN" } else { "OK" }
+$docsSev   = if ($drift.docs.Count -gt 0) { "INFO" } else { "OK" }
+$manSev    = if ($drift.manifest.Count -gt 0) { "WARN" } else { "OK" }
+$statusStr = if ($drift.totalDrifts -eq 0) { "IN SYNC" } else { "DRIFTED" }
+
 $report = @"
 # Toolforge Drift Detection Report
 
@@ -326,14 +441,14 @@ $report = @"
 
 | Category | Drifts | Severity |
 |----------|--------|----------|
-| Structure | $($drift.structure.Count) | $(if ($drift.structure.Count -gt 0) { "⚠️" } else { "✓" }) |
-| Tools | $($drift.tools.Count) | $(if ($drift.tools.Count -gt 0) { "⚠️" } else { "✓" }) |
-| Skills | $($drift.skills.Count) | $(if ($drift.skills.Count -gt 0) { "⚠️" } else { "✓" }) |
-| Docs | $($drift.docs.Count) | $(if ($drift.docs.Count -gt 0) { "ℹ️" } else { "✓" }) |
-| Manifest | $($drift.manifest.Count) | $(if ($drift.manifest.Count -gt 0) { "⚠️" } else { "✓" }) |
+| Structure | $($drift.structure.Count) | $structSev |
+| Tools | $($drift.tools.Count) | $toolsSev |
+| Skills | $($drift.skills.Count) | $skillsSev |
+| Docs | $($drift.docs.Count) | $docsSev |
+| Manifest | $($drift.manifest.Count) | $manSev |
 
 **Total Drifts**: $($drift.totalDrifts)
-**Status**: $(if ($drift.totalDrifts -eq 0) { "✅ IN SYNC" } else { "⚠️ DRIFTED" })
+**Status**: $statusStr
 
 ---
 
@@ -394,7 +509,7 @@ if ($drift.manifest.Count -gt 0) {
 }
 
 if ($drift.totalDrifts -eq 0) {
-  $report += "### ✅ No Drifts Detected
+  $report += "### No Drifts Detected
 
 Canonical and distributed Toolforge directories are in sync.
 `n`n"
@@ -454,11 +569,11 @@ if (-not (Test-Path $driftDir)) {
 }
 
 $report | Set-Content -Path $OutputPath -Encoding UTF8
-Write-Host "✓ Report generated: $OutputPath" -ForegroundColor Green
+Write-Host "Report generated: $OutputPath" -ForegroundColor Green
 
 # Console summary
 Write-Host ""
-Write-Host "📊 Drift Summary" -ForegroundColor Cyan
+Write-Host "Drift Summary" -ForegroundColor Cyan
 Write-Host "  Structure: $($drift.structure.Count) drift(s)"
 Write-Host "  Tools: $($drift.tools.Count) drift(s)"
 Write-Host "  Skills: $($drift.skills.Count) drift(s)"
@@ -469,9 +584,9 @@ Write-Host "  Total: $($drift.totalDrifts) drift(s)"
 Write-Host ""
 
 if ($drift.totalDrifts -eq 0) {
-  Write-Host "✅ Status: IN SYNC" -ForegroundColor Green
+  Write-Host "Status: IN SYNC" -ForegroundColor Green
   exit 0
 } else {
-  Write-Host "⚠️ Status: DRIFTED" -ForegroundColor Yellow
+  Write-Host "Status: DRIFTED" -ForegroundColor Yellow
   exit 1
 }

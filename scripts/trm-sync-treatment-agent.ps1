@@ -19,6 +19,14 @@
 # (2) Native `node` invocations are wrapped so stderr output (which the CLI
 #     writes on every factKey collision) doesn't throw a terminating error
 #     under Windows PowerShell 5.1's stricter native-command handling.
+#
+# v1.3: exit-code semantics + log rotation from TODOS.md follow-ups.
+# (1) trm's exit code 2 ("topics skipped") is now remapped to 0 for this
+#     agent's own exit code. benson-ford's factKey collision is permanent, so
+#     without this Task Scheduler's "Last Run Result" showed "failed" every
+#     day forever regardless of whether the automation actually worked. Exit
+#     1 (real agent-level failure) still propagates unchanged.
+# (2) Logs older than 30 days are pruned at the top of each run.
 
 param(
     [string]$VaultRoot = "C:\Users\soren\trm-vault",
@@ -41,6 +49,10 @@ $dateStamp = $AgentStartTime.ToString("yyyy-MM-dd")
 $logDir = "C:\dev\logs"
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
 $logPath = Join-Path $logDir "trm-sync-treatment-$dateStamp.log"
+$logRetentionDays = 30
+Get-ChildItem -Path $logDir -Filter "trm-sync-treatment-*.log" -File -ErrorAction SilentlyContinue |
+    Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-$logRetentionDays) } |
+    Remove-Item -Force -ErrorAction SilentlyContinue
 
 function Write-Log {
     param([string]$Message)
@@ -178,11 +190,19 @@ try {
         Write-Log "No topics eligible for real reconciliation (no new facts, or all blocked by skip/collision)."
     }
 
-    $realExit = if ($realRunResults.Count -gt 0) {
+    $rawExit = if ($realRunResults.Count -gt 0) {
         ($realRunResults | Measure-Object -Property ExitCode -Maximum).Maximum
     } else {
         $dryRunExit
     }
+    # trm sync-treatment exit codes: 0 = clean, 2 = ran fine but topics were
+    # skipped (collision / missing extract — known, expected states like
+    # benson-ford's permanent collision), 1 = real agent-level failure (crash,
+    # unhandled exception). Task Scheduler's health signal only means something
+    # if exit 2 doesn't look identical to exit 1 every single day, so remap
+    # "skips present, agent completed successfully" down to 0 and reserve
+    # non-zero for actual failures.
+    $realExit = if ($rawExit -eq 2) { 0 } else { $rawExit }
 } finally {
     Pop-Location
 }

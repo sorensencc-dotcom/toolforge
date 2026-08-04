@@ -512,10 +512,24 @@ Skills with critical failures:
 
   $errorSkills = @($health.skills.Keys | Where-Object { $health.skills[$_].health -eq "error" })
   if ($errorSkills.Count -eq 0) {
-    $md += "*(none)*\n"
+    $md += "*(none)*`n"
   } else {
     foreach ($skillId in ($errorSkills | Sort-Object)) {
       $md += "- $skillId`n"
+    }
+
+    # Automatically log failures into TODOS.md
+    $todosPath = "C:\dev\TODOS.md"
+    if (Test-Path $todosPath) {
+      $dateStr = (Get-Date -Format "yyyy-MM-dd")
+      $errList = ($errorSkills -join ", ")
+      $todoLine = "- [ ] **[P1] Skill Health Check Failures ($errList)** ($dateStr) — Automatically logged by toolforgeSkillHealthCheck.ps1. Fix failing skills listed in SKILLPACK-RUNTIME-HEALTH.md."
+      $content = Get-Content $todosPath -Raw
+      if ($content -notmatch "Skill Health Check Failures") {
+        $content = $content -replace "## Open\r?\n", "## Open`n`n$todoLine`n"
+        Set-Content -Path $todosPath -Value $content -Encoding UTF8
+        Write-Host "⚠️ Logged failures into TODOS.md" -ForegroundColor Yellow
+      }
     }
   }
 

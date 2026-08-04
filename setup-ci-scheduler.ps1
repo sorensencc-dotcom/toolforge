@@ -95,7 +95,7 @@ function New-PostCommitHook {
     $hookPath = "$gitDir\hooks\post-commit"
     $hookContent = @"
 #!/bin/bash
-pwsh -NoProfile -File C:/dev/toolforge/ci-pipeline.ps1 -Verbose
+pwsh -NoProfile -File C:/dev/ci-pipeline.ps1 -Verbose
 "@
 
     $hookContent | Out-File -FilePath $hookPath -Encoding UTF8 -Force
