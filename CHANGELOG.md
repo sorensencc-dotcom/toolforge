@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.32.7
+Date: 2026-08-04
+
+### Changes
+- a25cb5d - chore: reconcile toolforge automation drift (Chris Sorensen)
+
 ## Version 2.32.6
 Date: 2026-08-04
 
