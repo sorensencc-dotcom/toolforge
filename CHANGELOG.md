@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.32.6
+Date: 2026-08-04
+
+### Changes
+- b7c618b - fix(toolforge): make installs safe and testable (Chris Sorensen)
+
 ## Version 2.32.5
 Date: 2026-08-03
 
