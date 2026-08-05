@@ -1,0 +1,19 @@
+.github/workflows/weekly-review-capacity.yml
+  s_f11514a9307571::t_e0bb8f07584779 1-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "e641614432b7766a603830f7c1a5405d149cb700",
+  "prompts": {},
+  "sessions": {
+    "s_f11514a9307571": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d1db0f41-6f9a-4e79-b19e-65e816931f74",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
