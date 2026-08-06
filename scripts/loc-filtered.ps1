@@ -9,6 +9,11 @@ code churn, which can be 60-90% of raw insertions on a dependency-bump commit. T
 filters those paths out of insertions/deletions/net_loc and reports them separately,
 per memory/retro_lockfile_loc_exclusion.md.
 
+Also excludes commits tagged `chore(sync):` (bulk/automated resync commits, e.g. large
+.ijfw/ regen) from the headline code metric and reports them separately, per
+CLAUDE.md Productivity Discipline #5 / memory/feedback_commit_chore_sync_tag.md.
+Manual correction for this was needed 3x in prior retros before being scripted here.
+
 .PARAMETER Since
 git log --since value (default: 7 days ago)
 
@@ -46,15 +51,31 @@ function Test-IsLockfile($path) {
     return $false
 }
 
+function Test-IsSyncCommit($subject) {
+    return $subject -match '^chore\(sync\):'
+}
+
 Push-Location $Repo
 try {
-    $raw = git log --since="$Since" --numstat --pretty=format:"" 2>$null |
-        Where-Object { $_.Trim() -ne "" }
+    # Marker-line trick: emit a COMMIT sentinel + subject before each commit's numstat block,
+    # so sync-tagged commits can be excluded without a second git invocation.
+    $raw = git log --since="$Since" --numstat --pretty=format:"@@COMMIT@@%x09%s" 2>$null
 
     $codeIns = 0; $codeDel = 0
     $lockIns = 0; $lockDel = 0
+    $syncIns = 0; $syncDel = 0
+    $syncCommitCount = 0
+    $inSyncCommit = $false
 
     foreach ($line in $raw) {
+        if ($line.StartsWith('@@COMMIT@@')) {
+            $subject = $line.Substring(10).TrimStart("`t")
+            $inSyncCommit = Test-IsSyncCommit $subject
+            if ($inSyncCommit) { $syncCommitCount++ }
+            continue
+        }
+        if ($line.Trim() -eq "") { continue }
+
         $parts = $line -split "`t"
         if ($parts.Count -lt 3) { continue }
         $insStr, $delStr, $path = $parts[0], $parts[1], $parts[2]
@@ -65,7 +86,10 @@ try {
         $ins = [int]$insStr
         $del = [int]$delStr
 
-        if (Test-IsLockfile $path) {
+        if ($inSyncCommit) {
+            $syncIns += $ins
+            $syncDel += $del
+        } elseif (Test-IsLockfile $path) {
             $lockIns += $ins
             $lockDel += $del
         } else {
@@ -76,11 +100,13 @@ try {
 
     $netCode = $codeIns - $codeDel
     $netLock = $lockIns - $lockDel
+    $netSync = $syncIns - $syncDel
 
-    Write-Host "LOC since '$Since' (lockfiles excluded from headline metric):"
+    Write-Host "LOC since '$Since' (lockfiles + chore(sync) commits excluded from headline metric):"
     Write-Host ""
     Write-Host "  Code    insertions=$codeIns deletions=$codeDel net=$netCode"
     Write-Host "  Lockfile insertions=$lockIns deletions=$lockDel net=$netLock (reported separately, not in code metric)"
+    Write-Host "  Sync    insertions=$syncIns deletions=$syncDel net=$netSync ($syncCommitCount chore(sync) commits, reported separately, not in code metric)"
 }
 finally {
     Pop-Location
