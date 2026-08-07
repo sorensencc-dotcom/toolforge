@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.32.9
+Date: 2026-08-07
+
+### Changes
+- d0c2a41 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- b504710 - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- b73def5 - chore(scripts): add resumable batch-ingest script for trm willow-run intake (Chris Sorensen)
+
 ## Version 2.32.8
 Date: 2026-08-06
 
