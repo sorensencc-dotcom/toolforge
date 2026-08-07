@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.32.8
+Date: 2026-08-06
+
+### Changes
+- d33f629 - fix(retro): auto-exclude chore(sync) commits from LOC metric, split TODOS Open/Completed (Chris Sorensen)
+- e641614 - ci(telemetry): add weekly-review-capacity workflow with clean-tree rebase (Chris Sorensen)
+
 ## Version 2.32.7
 Date: 2026-08-04
 
