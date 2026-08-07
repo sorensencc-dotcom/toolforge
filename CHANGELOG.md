@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.32.10
+Date: 2026-08-07
+
+### Changes
+- df863dc - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- e97656c - fix(scripts): willow-run batch-ingest skip-check was silently no-op'd (Chris Sorensen)
+
 ## Version 2.32.9
 Date: 2026-08-07
 
