@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.32.11
+Date: 2026-08-08
+
+### Changes
+- a9fd26e - Merge pull request #1 from sorensencc-dotcom/fix/toolforge-health-todos-auto-resolve (Chris Sorensen)
+- d326ebd - fix(health): auto-resolve health warnings in TODOS.md and register _cic-shared (Chris Sorensen)
+- 87953d0 - Merge remote-tracking branch 'origin/main' (Chris Sorensen)
+- 2f2ea68 - docs(todos): video ingestion plan complete, ready for build (Chris Sorensen)
+
 ## Version 2.32.10
 Date: 2026-08-07
 
