@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.33.1
+Date: 2026-08-08
+
+### Changes
+- d9e9d54 - chore(retro): patch retro JSONs to pass canonical v1.0 schema gate (Chris Sorensen)
+
 ## Version 2.33.0
 Date: 2026-08-08
 
