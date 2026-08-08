@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-02T15:38:56.1398175Z
+**Generated:** 2026-08-08T01:46:27.9323262Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -18,8 +18,8 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 20 | 52.6% |
-| ⚠️ Warning | 18 | 47.4% |
+| ✅ Good | 38 | 100% |
+| ⚠️ Warning | 0 | 0% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -35,8 +35,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### agent-drift-detector
 
@@ -49,7 +49,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### analyze-token-burn
 
@@ -87,8 +87,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-consolidate-artifacts
 
@@ -100,8 +100,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-ingest-world
 
@@ -113,8 +113,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-orchestrate-flow
 
@@ -126,8 +126,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-repair-pipeline
 
@@ -139,8 +139,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-roadmap-updater
 
@@ -153,7 +153,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-run-gate
 
@@ -165,8 +165,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-section-summarizer
 
@@ -179,7 +179,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### context-manager
 
@@ -192,7 +192,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### html-visual-verify
 
@@ -204,8 +204,8 @@
 | Owner | soren |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### kb-sync-artifact-generator
 
@@ -217,8 +217,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### kb-sync-nightly
 
@@ -239,12 +239,12 @@
 |-------|-------|
 | Name | Obsidian Wiki Ingest |
 | Category | knowledge-base |
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### operator-image-build
 
@@ -270,7 +270,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### plan-extractor-integration
 
@@ -283,7 +283,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### pre-wrap-audit
 
@@ -322,7 +322,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### roadmap-validator
 
@@ -386,8 +386,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### skill-health-monitor
 
@@ -399,8 +399,8 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### skill-security-auditor
 
@@ -412,8 +412,8 @@
 | Owner | unknown |
 | Runtime | python |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
 ### tool-lifecycle-manager
 
@@ -438,8 +438,8 @@
 | Owner | soren |
 | Runtime | powershell |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 2 internal, 0 external |
 ### toolforge-drift-monitor
 
@@ -464,8 +464,8 @@
 | Owner | soren |
 | Runtime | powershell |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### toolforge-submission-validator
 
@@ -477,8 +477,8 @@
 | Owner | soren |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### trm-feedback-report
 
@@ -490,9 +490,9 @@
 | Owner | unknown |
 | Runtime | typescript |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
-| Dependencies | 1 internal, 0 external |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 1 internal, 1 external |
 ### trm-status
 
 | Field | Value |
@@ -503,8 +503,8 @@
 | Owner | Soren (Cast Iron Forge) |
 | Runtime | typescript |
 | Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
 ### work-summarizer
 

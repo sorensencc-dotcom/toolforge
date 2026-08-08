@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-02T15:38:58.0839415Z
+**Generated:** 2026-08-08T04:13:55.8180356Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,26 +10,14 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 232 | 32 | 2 | 266 |
-| % Pass | 87.2% | 12% | 0.8% | 100% |
+| **Totals** | 259 | 0 | 0 | 259 |
+| % Pass | 100% | 0% | 0% | 100% |
 
 ---
 
 ## Skills Health Status
 
-### _cic-shared — ❌ ERROR
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ❌ FAIL | File not found: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ⚠️ WARN | No exports detected in entrypoint |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ⚠️ WARN | SKILL.md not found |
-
-### agent-drift-detector — ⚠️ WARN
+### agent-drift-detector — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -38,7 +26,7 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### analyze-token-burn — ✅ GOOD
@@ -65,7 +53,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### automation-audit — ⚠️ WARN
+### automation-audit — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -74,142 +62,10 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### cic-consolidate-artifacts — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### cic-ingest-world — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### cic-orchestrate-flow — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ⚠️ WARN | SKILL.md not found |
-
-### cic-repair-pipeline — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### cic-roadmap-updater — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### cic-run-gate — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### cic-section-summarizer — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### context-manager — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### html-visual-verify — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### kb-sync-artifact-generator — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ✅ PASS | Frontmatter valid |
-
-### kb-sync-nightly — ⚠️ WARN
-
-| Check | Result | Details |
-|-------|--------|---------|
-| Entrypoint | ✅ PASS | Valid: src/index.ts |
-| Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
-| DryRun | ✅ PASS | Syntax valid |
-| Manifest | ⚠️ WARN | Version mismatch: SKILL.json=1.0.2, manifest=1.0.0 |
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### obsidian-ingest-wiki — ⚠️ WARN
+### cic-consolidate-artifacts — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -218,7 +74,139 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### cic-ingest-world — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### cic-orchestrate-flow — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### cic-repair-pipeline — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### cic-roadmap-updater — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### cic-run-gate — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### cic-section-summarizer — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### context-manager — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### html-visual-verify — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### kb-sync-artifact-generator — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### kb-sync-nightly — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### obsidian-ingest-wiki — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### operator-image-build — ✅ GOOD
@@ -233,7 +221,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### permission-governor — ⚠️ WARN
+### permission-governor — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -242,10 +230,10 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### plan-extractor-integration — ⚠️ WARN
+### plan-extractor-integration — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -254,7 +242,7 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### pre-wrap-audit — ✅ GOOD
@@ -281,7 +269,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### rewrite-labs-orchestrator — ⚠️ WARN
+### rewrite-labs-orchestrator — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -290,7 +278,7 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### roadmap-validator — ✅ GOOD
@@ -341,7 +329,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### session-wrap — ⚠️ WARN
+### session-wrap — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -350,10 +338,10 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### skill-health-monitor — ⚠️ WARN
+### skill-health-monitor — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -362,10 +350,10 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### skill-security-auditor — ⚠️ WARN
+### skill-security-auditor — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -374,7 +362,7 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Runtime python (dry-run not applicable) |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### tool-lifecycle-manager — ✅ GOOD
@@ -389,7 +377,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### toolforge-cli — ⚠️ WARN
+### toolforge-cli — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -398,7 +386,7 @@
 | Dependencies | ✅ PASS | All 2 internal deps available |
 | DryRun | ✅ PASS | Script syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### toolforge-drift-monitor — ✅ GOOD
@@ -413,7 +401,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### toolforge-registry-manager — ⚠️ WARN
+### toolforge-registry-manager — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -422,10 +410,10 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Script syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### toolforge-submission-validator — ⚠️ WARN
+### toolforge-submission-validator — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -434,22 +422,22 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### trm-feedback-report — ❌ ERROR
+### trm-feedback-report — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
-| Dependencies | ❌ FAIL | Missing: trm CLI (validate, feedback-stats, crosslink subcommands) |
+| Dependencies | ✅ PASS | All 1 internal deps available |
 | DryRun | ✅ PASS | Syntax valid |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### trm-status — ⚠️ WARN
+### trm-status — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -457,8 +445,8 @@
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### work-summarizer — ✅ GOOD
@@ -480,23 +468,9 @@
 ### ✅ Good Health
 
 Skills passing all checks:
+- agent-drift-detector
 - analyze-token-burn
 - ashfall
-- operator-image-build
-- pre-wrap-audit
-- reconcile-vector-store
-- roadmap-validator
-- rollback-phase
-- run-adapter-diagnostic
-- scale-ingestion-service
-- tool-lifecycle-manager
-- toolforge-drift-monitor
-- work-summarizer
-
-### ⚠️ Warning Health
-
-Skills with warnings but no failures:
-- agent-drift-detector
 - automation-audit
 - cic-consolidate-artifacts
 - cic-ingest-world
@@ -510,22 +484,36 @@ Skills with warnings but no failures:
 - kb-sync-artifact-generator
 - kb-sync-nightly
 - obsidian-ingest-wiki
+- operator-image-build
 - permission-governor
 - plan-extractor-integration
+- pre-wrap-audit
+- reconcile-vector-store
 - rewrite-labs-orchestrator
+- roadmap-validator
+- rollback-phase
+- run-adapter-diagnostic
+- scale-ingestion-service
 - session-wrap
 - skill-health-monitor
 - skill-security-auditor
+- tool-lifecycle-manager
 - toolforge-cli
+- toolforge-drift-monitor
 - toolforge-registry-manager
 - toolforge-submission-validator
+- trm-feedback-report
 - trm-status
+- work-summarizer
 
+### ⚠️ Warning Health
+
+Skills with warnings but no failures:
+*(none)*\n
 ### ❌ Error Health
 
 Skills with critical failures:
-- _cic-shared
-- trm-feedback-report
+*(none)*
 
 ---
 
