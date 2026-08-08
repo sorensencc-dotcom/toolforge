@@ -39,7 +39,7 @@ Add explicit, non-breaking CLI scripts:
 ### 2.3 CLI Flags & Execution Modes
 * **`npm run kb:dag` (Normal Build):** Executes health check → auto-recovers if corrupt → builds a new generation → updates docs & pointer.
 * **`npm run kb:dag:check` (`--check-only`):** **Strictly READ-ONLY**. Validates pointer, hashes, schemas, and `docs/KB_SYNC_DAG.md`. Exits `0` if healthy, `1` if unhealthy. Zero disk writes or mutations.
-* **`npm run kb:dag:recover` (`--recover`):** Runs recovery scan, adopts latest valid generation, heals `docs/KB_SYNC_DAG.md` and pointer, then **exits immediately without running a new build**.
+* **`npm run kb:dag:recover` (`--recover`):** Manually triggers the same recovery scan and validation used by normal auto-recovery, adopts the latest valid generation, heals `docs/KB_SYNC_DAG.md` and pointer, then **exits immediately without running a new build**. Normal `npm run kb:dag` performs that recovery step only when health checks detect an invalid or missing active state, then continues with a fresh build; `--recover` stops after adoption and healing.
 
 ---
 
@@ -106,13 +106,30 @@ Triggered when pointer is missing/invalid or `--recover` is invoked:
 * Acquire `.nlm_pack/gc.lock` before GC execution.
 * **Always Retain:** The generation currently referenced in `current_generation.json` (even if ranked 4th-or-older by recency).
 * **Retain Top 3:** The 3 most recent valid generation directories (excluding active gen).
-* **Purge All Else:** Delete all older or incomplete generation folders.
+* **Purge All Else:** Delete all older or incomplete generations.
 
----
+## 6. Data Schemas & Formal Constraints (`version: "2.0.0"`)
 
-## 6. Data Schemas (`version: "2.0.0"`)
+### 6.1 Schema Artifact File Paths
+* **DAG Schema:** [`C:\dev\kb-sync\schemas\dag.schema.v2.json`](file:///c:/dev/kb-sync/schemas/dag.schema.v2.json)
+* **Adjacency Schema:** [`C:\dev\kb-sync\schemas\adjacency.schema.v2.json`](file:///c:/dev/kb-sync/schemas/adjacency.schema.v2.json)
 
-### 6.1 `dag.json` Schema
+### 6.2 Formal Rules & Constraints (`dag.schema.v2.json`)
+* **Top-Level Required Keys:** `["$schema", "version", "metadata", "nodes", "edges"]`
+* **Metadata Required Keys:** `["content_hash", "created_at", "source_file_count", "total_nodes", "total_edges", "cycles_count", "generation_id"]`
+* **Node Object Constraint:**
+  * `required`: `["id", "node_type", "label", "path", "status", "target_kind", "tags"]`
+  * `node_type` Enum: `"file" | "chunk" | "dangling"`
+  * `status` Enum: `"valid" | "missing" | "stale"`
+  * `target_kind` Enum: `"file" | "chunk" | "external"`
+  * `additionalProperties`: `false` (except optional `anchor` and `line_number` when `node_type == "chunk"`)
+  * `id` Uniqueness: All `nodes[*].id` values must be strictly unique.
+* **Edge Object Constraint:**
+  * `required`: `["id", "source", "target", "relation"]`
+  * `relation` Enum: `"contains" | "wikilink" | "mdlink" | "mention"`
+  * `additionalProperties`: `false`
+  * `id` Uniqueness: All `edges[*].id` values must be strictly unique.
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -150,8 +167,11 @@ Triggered when pointer is missing/invalid or `--recover` is invoked:
 }
 ```
 
-### 6.2 `adjacency.json` Schema ($O(1)$ Complete Coverage)
-Every node in `dag.json` contains a key in both `forward` and `reverse` objects (even if empty `[]`):
+### 6.3 Formal Rules & Constraints (`adjacency.schema.v2.json`)
+* **Complete $O(1)$ Node Coverage:** **Every** node in `dag.json` MUST have a key in both `forward` and `reverse` maps, even if its list is empty `[]`.
+* **Required Keys:** `["version", "forward", "reverse"]`
+* **SemVer Match Rule:** Readers validating `version` require major version `2`.
+
 ```json
 {
   "version": "2.0.0",
@@ -186,7 +206,8 @@ Every node in `dag.json` contains a key in both `forward` and `reverse` objects 
 
 1. **`L12: 🔴 test: Determinism`** — Verify bit-identical `content_hash`, `nodes`, `edges`, and `adjacency.json` across repeat runs on unchanged files.
 2. **`L35: 🔴 test: Read-Only Check`** — Execute `npm run kb:dag:check` on healthy and corrupt workspaces. Assert zero disk writes or file mutations.
-3. **`L58: 🔴 test: JSON Schema Validation`** — Validate generated `dag.json` and `adjacency.json` against draft 2020-12 JSON Schemas.
+3. **`L58: 🔴 test: JSON Schema Validation`** — Validate generated `dag.json` and `adjacency.json` against `kb-sync/schemas/dag.schema.v2.json` and `adjacency.schema.v2.json`.
 4. **`L80: 🔴 test: Atomic Rollback & State Validation`** — Simulate crash during pointer swap. Assert existing files, pointer, and artifact schemas remain 100% valid.
-5. **`L105: 🔴 test: Recovery & Self-Healing`** — Delete `current_generation.json` and corrupt `docs/KB_SYNC_DAG.md`. Run `npm run kb:dag:recover`. Assert newest valid generation adopted and doc healed.
-6. **`L130: 🔴 test: GC Retention with Stale Active Pointer`** — Set active pointer to a generation ranked 5th by recency. Run GC. Assert 4 total generations retained (active + 3 top recent valid), older 5th purged.
+5. **`L92: 🔴 test: Self-Healing Forward Mismatch`** — Simulate crash between Step 2 (doc rename) and Step 3 (pointer swap). Run `npm run kb:dag:check`. Assert health check flags doc-vs-pointer hash mismatch, recovery scan adopts newest valid generation (Gen N), updates pointer, and self-heals forward without data loss.
+6. **`L110: 🔴 test: Recovery & Self-Healing`** — Delete `current_generation.json` and corrupt `docs/KB_SYNC_DAG.md`. Run `npm run kb:dag:recover`. Assert newest valid generation adopted and doc healed.
+7. **`L135: 🔴 test: GC Retention with Stale Active Pointer`** — Set active pointer to a generation ranked 5th by recency. Run GC. Assert 4 total generations retained: the active generation plus the 3 most recent valid generations; only the remaining older generation is purged.
