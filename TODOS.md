@@ -10,6 +10,8 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Open
 
+- [ ] **[P2] Toolforge health warning: obsidian-ingest-wiki/Manifest** (created 2026-08-08) — Version mismatch: SKILL.json=1.0.0, manifest=1.1.0. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: obsidian-ingest-wiki|Manifest|Version mismatch: SKILL.json=1.0.0, manifest=1.1.0 -->
+
 - [ ] **[P1] Backlog trending up, not down: `backlog_open_todos` 6→10, `backlog_closed_this_period: 0`** (2026-08-02) — stale retro count; current audit (2026-08-03) finds 14 unchecked items before this pass, 13 after closing the already-resolved local-only `trm-vault` item below. Remaining items mix implementation work, deferred decisions, and infrastructure-blocked gates; continue deliberate burn-down.
 - [ ] **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`.
 
@@ -105,6 +107,13 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 - 2026-08-02: Retro-driven fixes. (1) Root-caused the self-regenerating pre-commit/auto-sync loop (2nd retro flagging it): `cowork-auto-sync.ps1` + 4 downstream generators (`toolforgeSkillValidator.ps1`, `toolforgeDependencyGraph.ps1`, `toolforgeSkillHealthCheck.ps1`, `toolforgeMetadataGenerator.ps1`) unconditionally `Set-Content`'d fresh ISO timestamps every run, and only 2 of 5 had loop guards — nested calls re-ran siblings redundantly. Added `Write-IfChanged` (skip write when content is identical modulo embedded timestamps) to all 8 write sites, added missing loop guards to the 3 unguarded generators, and fixed a real nondeterminism bug in `Phase-SyncSkills` (unsorted PowerShell hashtable `.Keys` enumeration was shuffling the sync-history log order every run, defeating any diff check). Verified via 4 consecutive live runs: steady-state output is now byte-identical modulo timestamps. (2) Added `[P0]/[P1]/[P2]` priority tags to all 8 open items — no P0s currently; 4×P1 (kb-sync coverage, kb-sync drift, Wave D gate, toolforge-install node_modules bug); 5×P2 (video ingestion plan, 2 TorqueQuery items, xberg, trm-vault retro-tooling residual). (3) `4f66345f` (12.7k-LOC research-artifact resync, predates the `chore(sync):` convention by 3 days) not retagged — retroactive retag doesn't fix already-computed metrics; convention already governs new commits going forward (`CLAUDE.md` Productivity Discipline #5).
 - 2026-07-31: Synced 3 retro files (`2026-07-29-1`, `2026-07-29-2`, `2026-07-30-1.json`) flagged unaddressed by the new `check-todo-sync.js` Stop hook. `2026-07-29-1` was a same-window duplicate of `2026-07-29-2` (both already covered). `2026-07-30-1` surfaced 2 genuinely new items: opened `cic-ingestion tsx bypasses tsconfig type-checking` and `trm-vault has no git remote` (Open); closed/logged `trm-vault commit-per-run` as an adopted Process rule (was memory-only, not yet in this file).
 - 2026-08-06: Retro follow-through on 3 improvement items. (1) `scripts/loc-filtered.ps1` now excludes `chore(sync):`-tagged commits from the headline code metric automatically (parses commit subject via a `--pretty` marker line ahead of each `--numstat` block, reports sync-commit churn on its own line) — 3rd time this exclusion needed manual correction in a retro before being scripted. (2) Split `## Open` from a new `## Completed` section — 40+ `[x]` items were interleaved with the 6 still-open ones, making the real backlog hard to see at a glance. (3) Added a creation-date-stamp convention (`**Priority tags**` note above) so future retros can compute backlog-added-this-period, not just net open count; applies going forward, no retroactive backfill. Did not action the TRM sync-treatment fixture-realism note (deployment-surface test coverage, e.g. scheduler exit codes / live vault dirs) — no active TRM work this session to attach it to; flagged here for next TRM touch.
+
+
+
+
+
+
+
 
 
 

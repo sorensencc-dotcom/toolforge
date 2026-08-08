@@ -1,6 +1,6 @@
 ﻿# Toolforge Drift Detection Report
 
-**Generated**: 2026-08-07T13:00:30.7347363Z
+**Generated**: 2026-08-08T13:15:38.7649059Z
 
 **Canonical**: C:\dev
 **Distributed**: C:\dev\rewrite-mcp\toolforge
@@ -11,13 +11,13 @@
 
 | Category | Drifts | Severity |
 |----------|--------|----------|
-| Structure | 35 | WARN |
+| Structure | 36 | WARN |
 | Tools | 0 | OK |
-| Skills | 2 | WARN |
+| Skills | 5 | WARN |
 | Docs | 0 | OK |
 | Manifest | 0 | OK |
 
-**Total Drifts**: 37
+**Total Drifts**: 41
 **Status**: DRIFTED
 
 ---
@@ -55,6 +55,7 @@
 - **missing** toolforge (in distributed)
 - **missing** toolforge-pdf (in distributed)
 - **missing** trm (in distributed)
+- **missing** wiki (in distributed)
 - **missing** windows-task-manager (in distributed)
 - **extra** adapters (in distributed)
 - **extra** mcp-servers (in distributed)
@@ -64,7 +65,6 @@
 ### Skills Drifts
 
 - **kb-sync-nightly**: version mismatch (canonical: 1.0.2, distributed: 1.0.0)
-- **obsidian-ingest-wiki**: version mismatch (canonical: 1.1.0, distributed: 1.0.0)
 
 ---
 

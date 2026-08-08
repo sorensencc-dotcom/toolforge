@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-08T04:13:55.8180356Z
+**Generated:** 2026-08-08T16:00:55.2313005Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 259 | 0 | 0 | 259 |
-| % Pass | 100% | 0% | 0% | 100% |
+| **Totals** | 258 | 1 | 0 | 259 |
+| % Pass | 99.6% | 0.4% | 0% | 100% |
 
 ---
 
@@ -197,7 +197,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### obsidian-ingest-wiki — ✅ GOOD
+### obsidian-ingest-wiki — ⚠️ WARN
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -205,7 +205,7 @@
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
-| Manifest | ✅ PASS | Consistent |
+| Manifest | ⚠️ WARN | Version mismatch: SKILL.json=1.0.0, manifest=1.1.0 |
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
@@ -483,7 +483,6 @@ Skills passing all checks:
 - html-visual-verify
 - kb-sync-artifact-generator
 - kb-sync-nightly
-- obsidian-ingest-wiki
 - operator-image-build
 - permission-governor
 - plan-extractor-integration
@@ -509,7 +508,8 @@ Skills passing all checks:
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
-*(none)*\n
+- obsidian-ingest-wiki
+
 ### ❌ Error Health
 
 Skills with critical failures:

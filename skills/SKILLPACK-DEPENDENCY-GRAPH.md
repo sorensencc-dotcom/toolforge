@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-08T01:46:28.3110163Z
+**Generated:** 2026-08-08T04:25:14.9592620Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -390,43 +390,43 @@ Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
 |-------|-------|| trm-feedback-report | 2 |
-| toolforge-cli | 1 |
-| skill-security-auditor | 1 |
 | trm-status | 1 |
+| skill-security-auditor | 1 |
 | pre-wrap-audit | 1 |
-| obsidian-ingest-wiki | 0 |
-| roadmap-validator | 0 |
-| cic-roadmap-updater | 0 |
-| scale-ingestion-service | 0 |
-| analyze-token-burn | 0 |
-| kb-sync-artifact-generator | 0 |
-| cic-ingest-world | 0 |
-| run-adapter-diagnostic | 0 |
-| ashfall | 0 |
-| reconcile-vector-store | 0 |
-| tool-lifecycle-manager | 0 |
-| automation-audit | 0 |
-| rollback-phase | 0 |
-| cic-repair-pipeline | 0 |
-| cic-run-gate | 0 |
-| _cic-shared | 0 |
+| toolforge-cli | 1 |
 | context-manager | 0 |
-| toolforge-submission-validator | 0 |
-| permission-governor | 0 |
-| rewrite-labs-orchestrator | 0 |
-| agent-drift-detector | 0 |
-| toolforge-registry-manager | 0 |
-| cic-orchestrate-flow | 0 |
-| html-visual-verify | 0 |
-| skill-health-monitor | 0 |
+| reconcile-vector-store | 0 |
+| rollback-phase | 0 |
 | operator-image-build | 0 |
-| cic-consolidate-artifacts | 0 |
 | kb-sync-nightly | 0 |
-| plan-extractor-integration | 0 |
-| session-wrap | 0 |
+| toolforge-submission-validator | 0 |
+| cic-roadmap-updater | 0 |
 | toolforge-drift-monitor | 0 |
+| cic-orchestrate-flow | 0 |
+| run-adapter-diagnostic | 0 |
+| session-wrap | 0 |
+| plan-extractor-integration | 0 |
+| skill-health-monitor | 0 |
+| cic-ingest-world | 0 |
+| permission-governor | 0 |
+| obsidian-ingest-wiki | 0 |
+| kb-sync-artifact-generator | 0 |
 | cic-section-summarizer | 0 |
+| _cic-shared | 0 |
+| toolforge-registry-manager | 0 |
+| analyze-token-burn | 0 |
+| tool-lifecycle-manager | 0 |
+| scale-ingestion-service | 0 |
+| cic-run-gate | 0 |
+| agent-drift-detector | 0 |
+| roadmap-validator | 0 |
+| automation-audit | 0 |
 | work-summarizer | 0 |
+| rewrite-labs-orchestrator | 0 |
+| ashfall | 0 |
+| cic-consolidate-artifacts | 0 |
+| html-visual-verify | 0 |
+| cic-repair-pipeline | 0 |
 
 ---
 

@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-08T01:46:27.9323262Z
+**Generated:** 2026-08-08T04:25:14.5323724Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -239,7 +239,7 @@
 |-------|-------|
 | Name | Obsidian Wiki Ingest |
 | Category | knowledge-base |
-| Version | 1.1.0 |
+| Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
