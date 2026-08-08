@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.33.0
+Date: 2026-08-08
+
+### Changes
+- 264d121 - fix(kb-sync): address P1 review findings for Windows atomic replace, GC validation, and mandatory hashes (Chris Sorensen)
+- cde51be - feat(kb-sync): integrate kb:dag package scripts and full verification suite (Chris Sorensen)
+- 50fd8b9 - docs: add implementation plan for KB-Sync Directed Graph & Structural DAG (Chris Sorensen)
+- 66a3dd2 - docs: update spec with formal schema paths, rules, and self-healing test (Chris Sorensen)
+- f91617a - docs: add design spec for KB-Sync Directed Graph & Structural DAG (Chris Sorensen)
+- 15e7ce9 - ci(telemetry): remove misplaced weekly-review-capacity workflow from monorepo root (Chris Sorensen)
+
 ## Version 2.32.11
 Date: 2026-08-08
 
