@@ -24,6 +24,9 @@
 .PARAMETER Verbose
   Show detailed logs
 
+.PARAMETER TodosPath
+  Backlog file updated with newly observed skill or manifest warnings
+
 .EXAMPLE
   ./toolforgeSkillHealthCheck.ps1
   ./toolforgeSkillHealthCheck.ps1 -DryRun:$false -Verbose
@@ -31,6 +34,7 @@
 
 param(
   [string]$OutputPath = "C:\dev\skills\SKILLPACK-RUNTIME-HEALTH.md",
+  [string]$TodosPath = "C:\dev\TODOS.md",
   [bool]$DryRun = $true,
   [switch]$Verbose
 )
@@ -61,6 +65,7 @@ function Write-IfChanged {
 $CANONICAL_SKILLS = "C:\dev\skills"
 $MANIFEST_FILE = "C:\dev\manifest.json"
 $RUNTIME_LOG = "C:\dev\audit\SKILL-RUN-LOG.md"
+$INTERNAL_SKILLS = @("_cic-shared")
 
 # Health state
 $health = @{
@@ -106,6 +111,96 @@ function Add-Check {
   }
 
   Log "$SkillId / $Check : $Result"
+}
+
+function Sync-WarningsToTodos {
+  if (-not (Test-Path -LiteralPath $TodosPath)) {
+    Write-Host "⚠️ TODO sync skipped; file not found: $TodosPath" -ForegroundColor Yellow
+    return
+  }
+
+  $warnings = @(
+    foreach ($skillId in ($health.skills.Keys | Sort-Object)) {
+      foreach ($check in @($health.skills[$skillId].checks | Where-Object { $_.result -eq "warn" })) {
+        if ($check.name -in @("Manifest", "Entrypoint", "Runtime", "Dependencies", "DryRun", "AuditLog", "SkillMD")) {
+          [pscustomobject]@{ Skill = $skillId; Check = $check.name; Details = [string]$check.details }
+        }
+      }
+    }
+  )
+
+  $content = Get-Content -LiteralPath $TodosPath -Raw
+  $dateStr = Get-Date -Format "yyyy-MM-dd"
+  $activeMarkers = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+  foreach ($warning in $warnings) {
+    $marker = "<!-- toolforge-health-warning: $($warning.Skill)|$($warning.Check)|$($warning.Details) -->"
+    [void]$activeMarkers.Add($marker)
+  }
+
+  $newLines = @()
+  foreach ($warning in $warnings) {
+    $marker = "<!-- toolforge-health-warning: $($warning.Skill)|$($warning.Check)|$($warning.Details) -->"
+    if ($content.Contains($marker)) { continue }
+    $title = "Toolforge health warning: $($warning.Skill)/$($warning.Check)"
+    $newLines += "- [ ] **[P2] $title** (created $dateStr) — $($warning.Details). Source: SKILLPACK-RUNTIME-HEALTH.md. $marker"
+  }
+
+  # Clean up / auto-resolve stale warning items in TODOS.md
+  $lines = $content -split "\r?\n"
+  $resolvedLines = @()
+  $updatedOpenLines = @()
+  $inOpen = $false
+
+  for ($i = 0; $i -lt $lines.Count; $i++) {
+    $line = $lines[$i]
+    if ($line -match '^## Open') { $inOpen = $true }
+    elseif ($line -match '^## ') { $inOpen = $false }
+
+    if ($inOpen -and $line -match '^-\s*\[\s*\]\s*\*\*\[P2\]\s*Toolforge health warning:.*?(<!-- toolforge-health-warning: .*? -->)') {
+      $marker = $matches[1]
+      if (-not $activeMarkers.Contains($marker)) {
+        $resolvedLine = $line -replace '^-\s*\[\s*\]', '- [x]'
+        if ($resolvedLine -match '\(created \d{4}-\d{2}-\d{2}\)') {
+          $resolvedLine = $resolvedLine -replace '(\(created \d{4}-\d{2}-\d{2}\))', "`$1 (resolved $dateStr)"
+        } else {
+          $resolvedLine = $resolvedLine -replace '(\*\* —)', "(resolved $dateStr) $1"
+        }
+        $resolvedLines += $resolvedLine
+        continue
+      }
+    }
+    $updatedOpenLines += $line
+  }
+
+  if ($newLines.Count -gt 0) {
+    $insertNew = ($newLines -join "`n") + "`n"
+    $updatedContent = ($updatedOpenLines -join "`n")
+    $updatedContent = [regex]::Replace($updatedContent, "## Open\r?\n", "## Open`n`n$insertNew", 1)
+    $updatedOpenLines = $updatedContent -split "\r?\n"
+  }
+
+  if ($resolvedLines.Count -gt 0) {
+    $insertResolved = ($resolvedLines -join "`n") + "`n"
+    $updatedContent = ($updatedOpenLines -join "`n")
+    if ($updatedContent -match "## Completed\r?\n") {
+      $updatedContent = [regex]::Replace($updatedContent, "## Completed\r?\n", "## Completed`n`n$insertResolved", 1)
+    } else {
+      $updatedContent += "`n`n## Completed`n`n" + $insertResolved
+    }
+    $updatedOpenLines = $updatedContent -split "\r?\n"
+  }
+
+  $finalContent = $updatedOpenLines -join "`n"
+  if ($finalContent -ne $content) {
+    Set-Content -LiteralPath $TodosPath -Value $finalContent -Encoding UTF8
+    if ($newLines.Count -gt 0) {
+      Write-Host "⚠️ Logged $($newLines.Count) new health warning(s) into TODOS.md" -ForegroundColor Yellow
+    }
+    if ($resolvedLines.Count -gt 0) {
+      Write-Host "✅ Auto-resolved $($resolvedLines.Count) cleared health warning(s) in TODOS.md" -ForegroundColor Green
+    }
+  }
 }
 
 # ============================================================================
@@ -374,6 +469,10 @@ function Run-HealthChecks {
 
   foreach ($dir in $skillDirs) {
     $skillId = $dir.Name
+    if ($skillId -in $INTERNAL_SKILLS) {
+      Log "Skipping internal package: $skillId"
+      continue
+    }
     $skillJsonPath = Join-Path $dir.FullName "SKILL.json"
 
     if (-not (Test-Path $skillJsonPath)) {
@@ -542,6 +641,7 @@ Skills with critical failures:
 "@
 
   Write-IfChanged -Path $OutputPath -Content $md | Out-Null
+  Sync-WarningsToTodos
   Write-Host "✅ Health report checked: $OutputPath" -ForegroundColor Green
 }
 

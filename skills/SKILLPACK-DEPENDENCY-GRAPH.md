@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-02T15:38:54.1322721Z
+**Generated:** 2026-08-08T01:46:28.3110163Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -12,10 +12,10 @@
 |--------|-------|
 | Total Skills | 38 |
 | Total Dependencies | 4 |
-| Max Depth | 1 |
+| Max Depth | 2 |
 | Cyclic Skills | 0 |
-| Missing Internal Deps | 1 |
-| Orphan Skills | 35 |
+| Missing Internal Deps | 0 |
+| Orphan Skills | 34 |
 
 ---
 
@@ -238,7 +238,8 @@
 
 | Dependency | Type | Status |
 |------------|------|--------|
-| trm CLI (validate, feedback-stats, crosslink subcommands) | internal | ❌ Missing |
+| trm | external | ❌ Missing |
+| trm-status | internal | ✅ Found |
 
 ### trm-status
 
@@ -373,7 +374,10 @@ No inbound dependencies (root skill)\n
 No inbound dependencies (root skill)\n
 ### trm-status
 
-No inbound dependencies (root skill)\n
+| Dependent | Type |
+|-----------|------|
+| trm-feedback-report | internal |
+
 ### work-summarizer
 
 No inbound dependencies (root skill)\n
@@ -385,44 +389,44 @@ Depth 0 = Leaf node (no dependencies)
 Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
-|-------|-------|| trm-status | 1 |
+|-------|-------|| trm-feedback-report | 2 |
 | toolforge-cli | 1 |
 | skill-security-auditor | 1 |
-| trm-feedback-report | 1 |
+| trm-status | 1 |
 | pre-wrap-audit | 1 |
-| run-adapter-diagnostic | 0 |
-| automation-audit | 0 |
-| toolforge-registry-manager | 0 |
-| rewrite-labs-orchestrator | 0 |
-| kb-sync-nightly | 0 |
-| operator-image-build | 0 |
-| skill-health-monitor | 0 |
-| work-summarizer | 0 |
-| html-visual-verify | 0 |
-| agent-drift-detector | 0 |
+| obsidian-ingest-wiki | 0 |
+| roadmap-validator | 0 |
 | cic-roadmap-updater | 0 |
-| permission-governor | 0 |
+| scale-ingestion-service | 0 |
+| analyze-token-burn | 0 |
+| kb-sync-artifact-generator | 0 |
+| cic-ingest-world | 0 |
+| run-adapter-diagnostic | 0 |
+| ashfall | 0 |
 | reconcile-vector-store | 0 |
 | tool-lifecycle-manager | 0 |
-| kb-sync-artifact-generator | 0 |
-| toolforge-submission-validator | 0 |
-| cic-ingest-world | 0 |
-| cic-repair-pipeline | 0 |
-| cic-orchestrate-flow | 0 |
+| automation-audit | 0 |
 | rollback-phase | 0 |
-| scale-ingestion-service | 0 |
-| roadmap-validator | 0 |
-| cic-consolidate-artifacts | 0 |
-| toolforge-drift-monitor | 0 |
-| analyze-token-burn | 0 |
+| cic-repair-pipeline | 0 |
 | cic-run-gate | 0 |
-| plan-extractor-integration | 0 |
-| obsidian-ingest-wiki | 0 |
 | _cic-shared | 0 |
-| cic-section-summarizer | 0 |
-| ashfall | 0 |
 | context-manager | 0 |
+| toolforge-submission-validator | 0 |
+| permission-governor | 0 |
+| rewrite-labs-orchestrator | 0 |
+| agent-drift-detector | 0 |
+| toolforge-registry-manager | 0 |
+| cic-orchestrate-flow | 0 |
+| html-visual-verify | 0 |
+| skill-health-monitor | 0 |
+| operator-image-build | 0 |
+| cic-consolidate-artifacts | 0 |
+| kb-sync-nightly | 0 |
+| plan-extractor-integration | 0 |
 | session-wrap | 0 |
+| toolforge-drift-monitor | 0 |
+| cic-section-summarizer | 0 |
+| work-summarizer | 0 |
 
 ---
 
@@ -433,10 +437,7 @@ Depth N = Depends on at least one skill at depth N-1
 ## Missing Internal Dependencies
 
 Dependencies referenced but not found in canonical skills.
-| Dependent | Missing Dependency |
-|-----------|-------------------|
-| trm-feedback-report | trm CLI (validate, feedback-stats, crosslink subcommands) |
-
+✅ All internal dependencies resolved.\n
 ---
 
 ## Orphan Skills
@@ -477,7 +478,6 @@ Skills that have no inbound dependencies (nothing depends on them).
 | toolforge-cli |
 | toolforge-drift-monitor |
 | trm-feedback-report |
-| trm-status |
 | work-summarizer |
 
 ---
@@ -487,8 +487,8 @@ Skills that have no inbound dependencies (nothing depends on them).
 | Category | Status | Details |
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
-| Missing Deps | ⚠️ WARN | 1 missing dep(s) |
-| Orphans | ⚠️ WARN | 35 orphan skill(s) |
+| Missing Deps | ✅ PASS | 0 missing dep(s) |
+| Orphans | ⚠️ WARN | 34 orphan skill(s) |
 
 ---
 

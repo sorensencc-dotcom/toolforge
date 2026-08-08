@@ -1,8 +1,8 @@
-# Toolforge Drift Detection Report
+﻿# Toolforge Drift Detection Report
 
-**Generated**: 2026-06-28T15:23:34.9620055Z
+**Generated**: 2026-08-07T13:00:30.7347363Z
 
-**Canonical**: C:\dev\toolforge
+**Canonical**: C:\dev
 **Distributed**: C:\dev\rewrite-mcp\toolforge
 
 ---
@@ -11,31 +11,60 @@
 
 | Category | Drifts | Severity |
 |----------|--------|----------|
-| Structure | 2 | ⚠️ |
-| Tools | 0 | ✓ |
-| Skills | 2 | ⚠️ |
-| Docs | 0 | ✓ |
-| Manifest | 5 | ⚠️ |
+| Structure | 35 | WARN |
+| Tools | 0 | OK |
+| Skills | 2 | WARN |
+| Docs | 0 | OK |
+| Manifest | 0 | OK |
 
-**Total Drifts**: 9
-**Status**: ⚠️ DRIFTED
+**Total Drifts**: 37
+**Status**: DRIFTED
 
 ---
 
 ## Findings
 ### Structure Drifts
 
-- **missing** new-skills-pending-install (in distributed)
-- **missing** roadmap-validator (in distributed)
+- **missing** assets (in distributed)
+- **missing** audit (in distributed)
+- **missing** cic (in distributed)
+- **missing** CIC-GOVERNANCE (in distributed)
+- **missing** cic-ingestion (in distributed)
+- **missing** cic-vision-governance (in distributed)
+- **missing** config (in distributed)
+- **missing** data (in distributed)
+- **missing** dlq (in distributed)
+- **missing** drift (in distributed)
+- **missing** engines (in distributed)
+- **missing** gateway (in distributed)
+- **missing** governance (in distributed)
+- **missing** health (in distributed)
+- **missing** ijfw (in distributed)
+- **missing** kb-sync (in distributed)
+- **missing** memory (in distributed)
+- **missing** operations (in distributed)
+- **missing** post_seal_ops (in distributed)
+- **missing** rewrite-docs (in distributed)
+- **missing** roadmap-runner (in distributed)
+- **missing** scripts (in distributed)
+- **missing** services (in distributed)
+- **missing** src (in distributed)
+- **missing** task-observatory (in distributed)
+- **missing** tests (in distributed)
+- **missing** TheFoundry (in distributed)
+- **missing** toolforge (in distributed)
+- **missing** toolforge-pdf (in distributed)
+- **missing** trm (in distributed)
+- **missing** windows-task-manager (in distributed)
+- **extra** adapters (in distributed)
+- **extra** mcp-servers (in distributed)
+- **extra** prototypes (in distributed)
+- **extra** scaffolds (in distributed)
 
 ### Skills Drifts
 
-- **skills/**: missing in distributed
-- **roadmap-validator**: missing_skill
-
-### Manifest Drifts
-
-- **manifest.skills**: count mismatch (canonical: 2, distributed: 0)
+- **kb-sync-nightly**: version mismatch (canonical: 1.0.2, distributed: 1.0.0)
+- **obsidian-ingest-wiki**: version mismatch (canonical: 1.1.0, distributed: 1.0.0)
 
 ---
 
