@@ -1,6 +1,6 @@
 ﻿{
   "date": "2026-07-15",
-  "window": "7d",
+  "window": "1d",
   "since": "2026-07-15T00:00:00-04:00",
   "until": "2026-07-15",
   "base_branch": "main",
