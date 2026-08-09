@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.33.2
+Date: 2026-08-09
+
+### Changes
+- 254f57a - fix(retro): correct window mislabeling, verify hook claim, close audit backlog (Chris Sorensen)
+
 ## Version 2.33.1
 Date: 2026-08-08
 
