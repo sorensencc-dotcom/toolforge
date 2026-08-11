@@ -1,0 +1,35 @@
+skills/obsidian-ingest-wiki/skill.json
+  s_0ef148c23bdbc7::t_29ba010a1bdf6b 4
+TODOS.md
+  s_29f3b8e0409f21::t_70b94ab44df875 136-138
+  s_0ef148c23bdbc7::t_9e8dc1be39c8b6 23-24
+  s_0ef148c23bdbc7::t_9eaa9ee55ed0fd 22
+.context/retros/RETRO-SCHEMA.md
+  s_0ef148c23bdbc7::t_4284cbafacd499 142-149
+  s_0ef148c23bdbc7::t_1f512bccacc49d 85-101
+  s_0ef148c23bdbc7::t_b9f3a873b4a88f 195-197
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "664c5aba53dedd9b5ceefedcab2ff151e68946af",
+  "prompts": {},
+  "sessions": {
+    "s_0ef148c23bdbc7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "94167709-ebc1-4e2a-8520-a94716ca7d33",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_29f3b8e0409f21": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d19332c-ccfd-4299-9a9a-b1d511638462",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
