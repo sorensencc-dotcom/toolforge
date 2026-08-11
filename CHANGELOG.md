@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.33.3
+Date: 2026-08-11
+
+### Changes
+- 664c5ab - fix(health): document retro test_health/backlog fields, fix skill.json version drift (Chris Sorensen)
+- 93e2518 - fix(todos): close stale video-ingestion item, drift caught by /retro (Chris Sorensen)
+- a06117d - docs: close worktree isolation todo (Chris Sorensen)
+
 ## Version 2.33.2
 Date: 2026-08-09
 
