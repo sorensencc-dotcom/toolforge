@@ -82,7 +82,23 @@ Weekly retro JSON schema drifted across three incompatible versions (metrics nes
     ]
   },
   
-  "external_repos_note": "<string (optional): activity in linked repos>"
+  "external_repos_note": "<string (optional): activity in linked repos>",
+
+  "test_health": {
+    "total_test_files": <int>,
+    "tests_added_this_period": <int>,
+    "test_files_changed": <int>,
+    "regression_test_commits": <int (optional)>
+  },
+
+  "backlog": {
+    "total_open": <int>,
+    "p0_p1": <int>,
+    "p2": <int>,
+    "completed_this_period": <int>
+  },
+
+  "tweetable": "<string: one-line shareable summary>"
 }
 ```
 
@@ -123,6 +139,14 @@ Weekly retro JSON schema drifted across three incompatible versions (metrics nes
 | `note` | string | yes | Caveats, schema exceptions, concurrent-session flags |
 | `session_focus` | object | yes | Context: what was delivered, incidents, learnings |
 | `external_repos_note` | string | no | Activity in sibling repos (charlie-deep-research, etc.) |
+| `test_health` | object | no | Repo-wide test-file stats, distinct from `test_loc_insertions`/`test_ratio_pct` (which are commit-diff LOC metrics). Omit entire object if no test files found. |
+| `test_health.total_test_files` | int | no | **Repo-wide** count of files matching `*.test.*`/`*.spec.*`/`*_test.*`/`*_spec.*` (excl. node_modules), NOT scoped to the retro window — generator cmd 10. A large jump vs a prior retro's `test_loc_insertions` is not inflation; they measure different things. |
+| `test_health.tests_added_this_period` | int | no | New test files added within the window (`git log --diff-filter=A` on test-file paths) |
+| `test_health.test_files_changed` | int | no | Distinct test files touched (added or modified) within the window — generator cmd 12 |
+| `test_health.regression_test_commits` | int | no | Commits matching `test(qa):`/`test(design):`/`test: coverage` grep — generator cmd 11 |
+| `backlog` | object | no | Snapshot of TODOS.md backlog state; omit if TODOS.md absent. Distinct object from top-level `backlog_open_todos`/`backlog_closed_this_period` scalars — both may appear for the same period, kept for back-compat with pre-test_health retros |
+| `backlog.total_open` / `p0_p1` / `p2` / `completed_this_period` | int | no | Open-by-priority breakdown + closed-this-window count |
+| `tweetable` | string | no | One-line shareable summary, e.g. "Week of Aug 1: 89 commits (2 contributors), 6.8k LOC, 17.7% tests, 24 releases, peak: 10pm" |
 
 ## Test LOC Calculation Rules & Methodology Policy
 
@@ -167,6 +191,9 @@ Before accepting a retro JSON:
 7. ✓ Incidents/learnings documented if session_focus present
 
 ## Change Log
+
+### v1.1 (2026-08-11)
+- Documented `test_health`, `backlog` (object), and `tweetable` fields — present in generator output since gstack-retro SKILL.md added them (2026-08-08 retro, `.context/retros/2026-08-08-1.json:58-68`) but never added to this schema doc. Undocumented `total_test_files` (repo-wide, not window-scoped) caused a false-alarm "13x inflation" flag when compared against window-scoped `test_loc_insertions`.
 
 ### v1.0 (2026-07-19)
 - Initial canonical version

@@ -1,7 +1,7 @@
 {
   "id": "obsidian-ingest-wiki",
   "name": "Obsidian Wiki Ingest",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Validates staged Obsidian raw sources and generates Claude Code prompt for 8-phase wiki semantic synthesis",
   "type": "operational",
   "category": "knowledge-base",
