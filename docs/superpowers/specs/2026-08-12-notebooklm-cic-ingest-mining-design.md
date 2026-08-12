@@ -1,6 +1,6 @@
 # NotebookLM → CIC/trm Ingest & Reverse-Mining Design
 
-**Status:** APPROVED (rev 2 — corrected against live trm source, see §0)
+**Status:** APPROVED (rev 3 — exact MCP response shapes + CLI contracts, see §0)
 **Date:** 2026-08-12
 **Target Path:** `docs/superpowers/specs/2026-08-12-notebooklm-cic-ingest-mining-design.md`
 **Governing Subsystems:** `trm`, `charlie-deep-research`, `notebooklm-mcp`
@@ -11,8 +11,32 @@ Rev 1 invented a raw-Markdown staging format, a content-based classifier, and a
 new atomic/synthesis triage classifier — none of which exist in trm. Rev 2 was
 rewritten after reading `trm/src/core/{rawSource,sourceIngest,topicRouting,
 intakeManifest}.ts` and `trm/src/cli/commands/{routeIntake,ingest,extract,
-syncTreatment}.ts` directly. This pipeline does **not** introduce any new
-staging format, classifier, or triage schema — it drives trm's existing
+syncTreatment}.ts` directly, but still hand-waved the NotebookLM adapter side
+(note content retrieval, exact CLI invocations/exit codes, retry semantics,
+key collisions).
+
+Rev 3 closes those gaps against **live-called** MCP tools, not assumed
+shapes, plus `trm/src/cli/index.ts` for the exact Commander contracts:
+
+- `mcp__notebooklm-mcp__note(notebook_id, action="list")` called live against
+  the `CIC-KB` notebook (`679b8bab-...`) → confirmed each returned note object
+  already carries full `content` (not just `preview`); see §3.1.
+- `mcp__notebooklm-mcp__source_list_drive(notebook_id, skip_freshness=true)`
+  called live → confirmed real response shape (`drive_sources`/
+  `other_sources`, each `{id, title, type}`); see §3.1.
+- `mcp__notebooklm-mcp__source_get_content(source_id)` called live → confirmed
+  real response shape (`{status, content, title, source_type, char_count}`);
+  see §3.1.
+- Real data surfaced a name mismatch worth flagging: `notebook_list`'s
+  `source_count` for CIC-KB reports 2, but `source_list_drive` on the same
+  notebook returns 4 `other_sources` (including two same-titled
+  `repo_knowledge_pack.txt` entries). The pipeline does not reconcile this
+  discrepancy — it trusts `source_list_drive` as the enumeration source of
+  truth and relies on route-intake's existing basename-collision suffixing
+  (§3.4 step 3) for the duplicate title.
+
+This pipeline still does not introduce any new staging format, classifier, or
+triage schema — it drives trm's existing
 intake→route→ingest→extract→sync-treatment chain unchanged, adding only a
 NotebookLM-specific pull step at the front and a mining step alongside it.
 
@@ -89,11 +113,22 @@ New file: `trm/config/notebooklm-registry.json`
 }
 ```
 
-`last_pulled_hashes` maps `source_id|note_id -> sha256(content)`. This is the
-change-detection mechanism (see §3.2) — it replaces the rev-1 approach of
-diffing raw id arrays, which only detects new items, not edited ones. No
-notebook is added or removed from this file automatically; adding a sixth CIC
-notebook later is a manual one-line edit here, same as today's trm topic
+`last_pulled_hashes` maps a **namespaced** key to `sha256(content)`:
+`source:<source_id>` for `source_get_content` pulls, `note:<note_id>` for
+`note(action=list)` pulls. The namespace prefix is required, not cosmetic —
+NotebookLM source UUIDs and note UUIDs are drawn from separate ID spaces with
+no documented uniqueness guarantee across them; an unprefixed key risks a
+source and a note colliding on the same hash-map entry and one silently
+shadowing the other's change-detection state. `last_seen_note_ids` from rev 2
+is dropped — notes now live in `last_pulled_hashes` under the `note:` prefix
+alongside sources, one map instead of two.
+
+`registry.notebooks[i].quarantined` (new in rev 3, see §3.2) maps the same
+namespaced key to `{hash, reason, first_seen_at, last_seen_at, attempts}` for
+items that failed or came back empty.
+
+No notebook is added or removed from this file automatically; adding a sixth
+CIC notebook later is a manual one-line edit here, same as today's trm topic
 registration is manual (`trm create topics/charlie/<topic>`).
 
 ## 3. Forward Ingest Pipeline
@@ -106,21 +141,103 @@ any of their logic.
 
 For each notebook in the registry (or the one given on the command line):
 
-- `source_list_drive` + `source_get_content` per source.
-- `note(action=list)` for all notebook notes — curated chat-note discoveries live here.
-- For YouTube-backed sources, `source_get_content` returns NotebookLM's derived summary, not a raw transcript. This is written into the physical file with a `<!-- provenance: derived -->` marker as the first line, and the SourceEntry's `origin` field (§3.4) is set to `notebooklm-derived` instead of `notebooklm` so extraction/lineage can distinguish primary from derived text at a glance without a schema change.
+**Enumerate sources** — `source_list_drive(notebook_id, skip_freshness=true)`.
+Confirmed live response shape:
 
-### 3.2 Change detection
+```json
+{
+  "status": "success",
+  "notebook_id": "<uuid>",
+  "drive_sources": [],
+  "other_sources": [
+    { "id": "<uuid>", "title": "memcode-ai/memcode", "type": "web_page" },
+    { "id": "<uuid>", "title": "repo_knowledge_pack.txt", "type": "generated_text" }
+  ],
+  "drive_count": 0,
+  "stale_count": 0
+}
+```
 
-For each pulled item, compute `sha256(content)`. Compare against
-`registry.notebooks[i].last_pulled_hashes[item_id]`:
+Both `drive_sources` and `other_sources` arrays are enumerated (Drive-backed
+sources go stale and need `source_sync_drive` first — out of scope here,
+logged and skipped if `stale_count > 0` for an item, see §6).
 
-- Missing key → new item, proceeds.
-- Different hash → changed item, proceeds (re-processed as if new; trm has no
-  "supersede a fact" operation, so an edited NotebookLM source produces a
-  second physical file rather than mutating history — consistent with how
-  trm treats all sources as immutable once ingested).
-- Same hash → skipped, not re-pulled into `intake/`.
+**Pull content per source** — `source_get_content(source_id)`. Confirmed live
+response shape:
+
+```json
+{
+  "status": "success",
+  "content": "<full extracted text, plain>",
+  "title": "memcode-ai/memcode",
+  "source_type": "unknown",
+  "char_count": 20355
+}
+```
+
+Note `source_list_drive`'s `type` field (`"web_page"`) and
+`source_get_content`'s `source_type` field (`"unknown"` for the same source)
+are not the same value — the two endpoints don't share a type vocabulary.
+This pipeline uses `source_list_drive`'s `type` for YouTube detection (see
+below) since it's the field actually populated meaningfully; `source_type` is
+recorded in the staged file's frontmatter for reference but not branched on.
+
+**Pull notes** — `note(notebook_id, action="list")`. Confirmed live response
+shape (full content present, not just preview):
+
+```json
+{
+  "status": "success",
+  "action": "list",
+  "notebook_id": "<uuid>",
+  "notes": [
+    { "id": "<uuid>", "title": "...", "content": "<full note markdown>", "preview": "<first ~100 chars>" }
+  ],
+  "count": 5
+}
+```
+
+`content` is used directly; `preview` is not needed. `note` has no `get`
+action and none is required — `list` already returns full content for every
+note in one call, confirmed against a live 5-note notebook.
+
+**YouTube / derived provenance** — a source is treated as derived when
+`source_list_drive`'s `type` for that source is `youtube` (exact enum value
+to be confirmed against a real YouTube-backed notebook — `Willow Run Videos`,
+`ef78168d-...` — during implementation; not yet observed live in this design
+pass since CIC-KB has no YouTube sources). For derived sources,
+`source_get_content` returns NotebookLM's summary, not a raw transcript. The
+staged file gets a `<!-- provenance: derived -->` marker as its first line,
+and `--origin notebooklm-derived` instead of `--origin notebooklm` at the
+`trm ingest` step (§3.4).
+
+### 3.2 Change detection & quarantine
+
+For each pulled item, compute `sha256(content)` and look up the namespaced
+key (`source:<id>` or `note:<id>`) in both `last_pulled_hashes` and
+`quarantined`:
+
+- Not in either map → new item, proceeds to staging.
+- In `last_pulled_hashes` with the same hash → unchanged, skipped, not
+  re-pulled into `intake/`.
+- In `last_pulled_hashes` with a different hash → changed item, proceeds
+  (re-processed as if new; trm has no "supersede a fact" operation, so an
+  edited NotebookLM source produces a second physical file rather than
+  mutating history — consistent with how trm treats all sources as immutable
+  once ingested).
+- In `quarantined` with the **same** hash as recorded → still-bad content
+  (empty, or the same MCP error signature), skipped without re-attempting
+  the downstream pipeline. This bounds retries: a permanently-empty source
+  is only logged once, not every run forever.
+- In `quarantined` with a **different** hash → content changed since the
+  quarantined attempt, retried normally as a new item; on success the
+  `quarantined` entry for that key is deleted.
+
+Content that comes back empty or as an MCP error payload (§6) is written to
+`quarantined[key]` — `{hash, reason, first_seen_at, last_seen_at, attempts}`
+— with `attempts` incremented and `last_seen_at` refreshed even when the
+hash is unchanged, so a human auditing the registry can see it's still being
+checked, not silently forgotten.
 
 ### 3.3 Stage into `intake/`
 
@@ -146,12 +263,63 @@ human browsability of `intake/`.
 File content: the pulled text/derived-summary, verbatim, plus the
 provenance marker from §3.1 for derived items.
 
-### 3.4 Drive existing pipeline, unmodified
+### 3.4 Drive existing pipeline, unmodified — exact invocations
 
-1. `trm triage-intake --dir intake/notebooklm/<notebook-slug>` — hashes files, classifies `kind: 'text'` (zero-cost, `.md` is in `TEXT_EXTENSIONS`), writes `intake-manifest.json` entries with `status: 'done'`.
-2. `trm route-intake --apply` — classifies each manifest entry by path via `classifyPath()`, stages matched entries into `topics/charlie/<topic>/_staging-intake-<runId>/`. Entries with `ambiguous: true` or no keyword match get `topic: null` and are **not** staged — same "lands unsorted, needs manual reroute" behavior as any other unsorted intake today. No new handling introduced.
-3. For each staged file, `trm ingest <topicPath> --file <stagedPath> --type <inferred> --title <source_title> --origin notebooklm|notebooklm-derived --url <notebook_source_url or notebook note URL>` — this is the real `addSource` + `writeRawEnvelope` call (`kind: 'text'`), identical to how any other text source is ingested today. `--type` follows whatever value the existing `--type` convention uses for text sources in this vault (not introduced here).
-4. `trm extract <topicPath>` — unmodified. Produces `extracts/extract.json` (`Fact[]`) and `extracts/summary.md` exactly as it does for any other source. **There is no separate atomic-vs-synthesis split to build**: `extract.json` already holds the atomic facts, and `summary.md` already holds the runner's narrative synthesis for that source. Both artifacts already exist per the current extraction contract — this pipeline does not add a new one.
+All commands below run from the vault root (`assertSafeRoot(root)` requires
+`process.cwd()` to be a valid trm vault, matching every other trm command —
+the orchestrator spawns these as child processes with `cwd` set to the vault
+root, not as in-process library calls, so a crash in one step can't take
+down the orchestrator's own process state).
+
+1. `trm triage-intake --dir intake/notebooklm/<notebook-slug>` — hashes
+   files, classifies `kind: 'text'` (zero-cost, `.md` is in
+   `TEXT_EXTENSIONS`), writes `intake-manifest.json` entries with
+   `status: 'done'`. No `--type`/`--title`/`--origin` flags at this step —
+   those belong to `ingest`, not `triage-intake`. Exit code: 0 always
+   (command has no failure exit path in current source); the orchestrator
+   checks the printed summary JSON's `failedCount`/`walkErrorCount` instead
+   of relying on a nonzero exit.
+2. `trm route-intake --apply` — classifies each manifest entry by path via
+   `classifyPath()`, stages matched entries into
+   `topics/charlie/<topic>/_staging-intake-<runId>/`. Entries with
+   `ambiguous: true` or no keyword match get `topic: null` and are **not**
+   staged — same "lands unsorted, needs manual reroute" behavior as any
+   other unsorted intake today. Exit code 1 if `runStatus !== 'completed'`
+   (e.g. preflight failure on a missing topic node, §6) — orchestrator
+   treats nonzero exit as "abort this notebook's run, others continue."
+3. For each staged file, run:
+
+   ```text
+   trm ingest <topicPath> <sourceUrl> \
+     --file <stagedPath> \
+     --type notebooklm-source \
+     --title <source_title> \
+     --origin notebooklm[-derived]
+   ```
+
+   `--type` is a fixed literal, not inferred — `type` has no enum in trm
+   (free-text field on `SourceEntry`, confirmed in `sourceIngest.ts`; no
+   existing convention value found repo-wide to reuse). This pipeline
+   defines exactly two literals: `notebooklm-source` for pulled sources,
+   `notebooklm-note` for pulled notes. `<sourceUrl>` positional arg is the
+   notebook's source URL for sources, or
+   `https://notebooklm.google.com/notebook/<notebook_id>?note=<note_id>`
+   (constructed, NotebookLM has no native note-permalink API) for notes.
+   `--origin` is `notebooklm` for primary content, `notebooklm-derived` for
+   YouTube-derived summaries (§3.1). This is the real `addSource` +
+   `writeRawEnvelope` call (`kind: 'text'`) — no command wrapping or
+   reimplementation. `ingest` has no summary/exit-code contract on failure
+   in current source (throws on error, uncaught → nonzero process exit) —
+   orchestrator wraps each call in try/catch, logs, continues to the next
+   staged file rather than aborting the whole batch on one bad file.
+4. `trm extract <topicPath>` — unmodified, run once per distinct topic that
+   received at least one successful `ingest` in step 3 (not once per file).
+   Produces `extracts/extract.json` (`Fact[]`) and `extracts/summary.md`
+   exactly as it does for any other source. **There is no separate
+   atomic-vs-synthesis split to build**: `extract.json` already holds the
+   atomic facts, and `summary.md` already holds the runner's narrative
+   synthesis. Both artifacts already exist per the current extraction
+   contract.
 
 ### 3.5 Cross-repo write: reuse `sync-treatment`, don't invent one
 
@@ -160,21 +328,65 @@ lock file (`.sync-treatment.lock`), atomic report write, per-topic cursor
 (`.sync-cursor.json`), and fact-vs-dependency-map matching
 (`CIC_SOURCING_DEPENDENCY_MAP_v1.json` in `narrativeRoot/treatment/`). This
 pipeline does not write into `charlie-deep-research` directly and does not
-introduce a second cross-repo write path. After `trm extract` runs for any
-topic touched by this ingest, the existing `trm sync-treatment` command is
-run (same as it would be after any other ingest) and its report — not a new
-draft-block mechanism — is the review surface for treatment updates. This
-resolves the "who owns cross-repo writes" question by not creating a second
-owner.
+introduce a second cross-repo write path.
 
-### 3.6 Registry update
+Exact invocation, **unscoped** (no topic argument) and run unconditionally
+at the end of every `trm ingest-notebooklm` run, whether or not any topic
+was actually touched:
 
-On success, update `last_pulled_hashes[item_id]`, `last_seen_note_ids`,
-`last_ingested_at` in the registry entry for that notebook. Written after
-step 3.4 completes for all items in the run — a mid-run failure (e.g.
-`route-intake` preflight fails on a missing topic node) leaves the registry
-untouched, so the next run retries the same items rather than silently
-skipping them as "already seen."
+```text
+trm sync-treatment --narrative-root C:\dev\charlie-deep-research
+```
+
+Running unscoped is deliberate, not an open question: `runSyncTreatment`
+with no `topic` calls `discoverTopics()` and walks every topic under
+`topics/charlie/` regardless of what this run touched, comparing each one's
+`extract.json` against its own `.sync-cursor.json`. It is already idempotent
+per-topic (a topic with no new fact keys since its last cursor write is a
+no-op in the report). There is nothing to "collect" — invoking it
+unconditionally is simpler than tracking touched-topics and produces an
+identical result, since untouched topics are no-ops either way. If zero
+topics routed successfully this run (everything landed `unsorted`),
+`sync-treatment` still runs safely and its report reflects zero new facts
+from this run specifically (other topics may still show new facts from
+unrelated concurrent work — that's existing, correct behavior, not something
+this pipeline changes).
+
+`sync-treatment`'s report — not a new draft-block mechanism — is the human
+review surface for treatment updates. Exit code 2 if any topic was skipped
+or its cursor write failed (existing behavior); orchestrator surfaces this
+in its own run report (§3.6) rather than treating it as a hard failure of
+the ingest run, since the ingest side effects (staged facts) already landed
+successfully regardless of sync-treatment's own bookkeeping outcome.
+
+### 3.6 Registry update: per-item flush, plus a durable run report
+
+Rev 2 batched the registry write to the end of the run, so a crash after
+staging/ingesting/extracting but before the final write would cause the next
+run to redo work already reflected in trm's own state (duplicate
+`SourceEntry` rows in `sources/metadata.json`, since `trm ingest` always
+appends a new `SRC-nnn` — it has no idempotency of its own for repeated
+calls with the same content).
+
+Rev 3 instead flushes the registry **after each item's `trm ingest` call
+succeeds**, mirroring trm's own `openIntakeManifest`/`writeIntakeEntry`
+pattern (load once, mutate in memory, atomic flush per entry) rather than
+inventing a new persistence model. This bounds the blast radius of a
+mid-run crash to at most the one item in flight, not the whole run.
+
+In addition, the orchestrator writes a durable run report — same pattern as
+`route-intake`'s own `intake-routing-report.json` — to
+`.nlm-ingest-reports/<runId>.json` before starting item processing, updated
+as each item completes (`staged` / `ingested` / `extracted` / `quarantined`
+/ `failed` per item). This is the recovery source of truth if the registry
+write itself fails after an item succeeds (§6): a human (or the next run's
+preflight) can diff the latest run report against the registry's
+`last_pulled_hashes` to spot any item marked `ingested` in the report but
+missing from the registry, and reconcile by hand rather than silently
+re-ingesting it as a duplicate `SourceEntry`. The orchestrator does not
+attempt automatic reconciliation — flagging the mismatch and refusing to
+auto-retry that specific item is the safer default given trm's lack of
+ingest idempotency.
 
 ## 4. Reverse-Mining Pipeline
 
@@ -266,22 +478,74 @@ proportional signal.
   staging anything for that topic, reports `missing topic node(s): ... run
   "trm create topics/charlie/<topic>" first`. This pipeline does not
   auto-create topic nodes; same manual gate as any other intake today.
-- Malformed/empty NotebookLM content (`source_get_content` returns empty or
-  an error payload): item is skipped, not written to `intake/`, logged to
-  the run's stderr output — never staged as an empty file that would produce
-  a hollow fact.
-- Registry write itself failing mid-run (disk full, permissions): the
-  ingest/mining side effects that already landed (staged files, extract.json,
-  doc/TODOS rows) are not rolled back — same "effects committed, tracking
-  state didn't update" trade-off `sync-treatment` already accepts for its own
-  cursor writes (see its `cursorWriteFailed` / exit-code-2 path).
+- Malformed/empty NotebookLM content (`source_get_content`/`note(action=list)`
+  returns an empty `content` string, a non-`"success"` `status`, or an
+  MCP-level error/timeout): item is written to `quarantined[key]` (§3.2)
+  rather than `intake/`, with `reason` set to the error message or
+  `"empty content"`. Not retried every run — only re-attempted once the
+  item's content hash changes (§3.2). Never staged as an empty file that
+  would produce a hollow fact.
+- Registry per-item flush failing mid-run (disk full, permissions): that
+  item's ingest side effect (staged file, `SourceEntry`, raw envelope) has
+  already landed and is not rolled back. The durable run report (§3.6) still
+  records the item as `ingested`, so the mismatch between report and
+  registry is detectable and flagged rather than silently causing a
+  duplicate `SourceEntry` on the next run — the orchestrator's preflight
+  step diffs the most recent run report against the registry on startup and
+  refuses to auto-process any namespaced key found `ingested` in the report
+  but absent from `last_pulled_hashes`, surfacing it as a manual-reconcile
+  item instead.
+- `sync-treatment` itself failing (lock conflict, dependency-map missing):
+  matches its own existing exit codes (1 for `LockConflictError`/
+  `LockUnrecoverableError`, 2 for skipped topics/cursor-write failure). The
+  ingest run's own facts have already landed regardless — sync-treatment
+  failure is logged in the run report as a distinct `sync_treatment_status`
+  field, not conflated with ingest success/failure.
 
 ## 7. Testing
+
+**NotebookLM adapter fixtures** (the new integration boundary — mocked at
+the MCP tool-call layer, response shapes taken verbatim from the live calls
+in §0/§3.1, not invented):
+
+- `source_list_drive` fixture: the real CIC-KB shape (`drive_sources: []`,
+  `other_sources` with two same-titled entries) — proves the
+  basename-collision path (existing `routeIntake.ts` staging logic) fires
+  correctly for NotebookLM-sourced duplicate titles, not a new dedup
+  mechanism.
+- `source_get_content` fixture: real shape incl. `char_count`/`source_type`
+  fields that are recorded but not branched on, plus a synthetic empty-
+  `content` variant to drive the quarantine path.
+- `note(action="list")` fixture: real 5-note CIC-KB shape, confirming
+  `content` (not `preview`) is what gets staged.
+- MCP error payload fixture (timeout / non-`"success"` status / thrown
+  exception from the tool call) for each of the three adapter calls above —
+  each must land in `quarantined`, not crash the run.
+- YouTube-source fixture (`type: "youtube"` from `source_list_drive`, once
+  confirmed against the live `Willow Run Videos` notebook during
+  implementation) — drives the derived-provenance marker and
+  `--origin notebooklm-derived` path.
+- **Command-level orchestration fixture**: a fake `trm` CLI (child-process
+  stub) asserting the exact argv built for each of `triage-intake`,
+  `route-intake --apply`, `ingest ... --type notebooklm-source`, `extract`,
+  and `sync-treatment --narrative-root ...` — catches argument-shape drift
+  if trm's own CLI contract changes later, without needing a real vault.
+
+**Pipeline behavior:**
 
 - **Change detection**: pulling the same source content twice produces zero
   new files in `intake/`; pulling with different content for the same
   `source_id` produces a second file and updates
-  `last_pulled_hashes[source_id]`.
+  `last_pulled_hashes["source:<id>"]`.
+- **Quarantine**: an item with empty content is written to `quarantined`,
+  not `intake/`; re-running with the same empty content does not re-log it
+  a second time (only `attempts`/`last_seen_at` change); the same item
+  returning real content on a later run clears its `quarantined` entry and
+  proceeds as new.
+- **Run-report/registry reconciliation**: an item present as `ingested` in
+  the latest run report but absent from the registry's `last_pulled_hashes`
+  (simulating a crash between per-item ingest and per-item registry flush)
+  is flagged by the orchestrator's preflight and not silently re-ingested.
 - **Note pulls**: notes (not just sources) go through the same
   hash-dedup/staging path; a new note produces a staged file, an unchanged
   note does not.
