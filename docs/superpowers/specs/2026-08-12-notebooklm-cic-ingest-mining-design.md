@@ -40,6 +40,33 @@ triage schema — it drives trm's existing
 intake→route→ingest→extract→sync-treatment chain unchanged, adding only a
 NotebookLM-specific pull step at the front and a mining step alongside it.
 
+## 0.1 Integration Boundary Correction (pre-implementation)
+
+§0/§3.1 verified response shapes via the `notebooklm-mcp` **MCP tool calls**,
+which are only invokable by the agent in a chat session — trm's `ingest-
+notebooklm`/`mine-notebooklm` commands are a Node.js CLI that runs
+unattended (including from the Task Scheduler wrapper, §5), so they cannot
+make MCP tool calls themselves. The underlying tool ships as both an MCP
+server *and* a plain CLI (`notebooklm-mcp-cli` package, `nlm` command,
+confirmed on PATH) — the CLI is what trm's orchestrator shells out to.
+
+The CLI's `--json` output shapes were verified live and differ from the MCP
+tool shapes documented in §3.1:
+
+- `nlm source list <notebook_id> --json --skip-freshness` → a bare array,
+  each entry `{id, title, type, url}` (`url` present here, absent from the
+  MCP `source_list_drive` shape).
+- `nlm source content <source_id> --json` → `{content}` only — no `title`/
+  `source_type`/`char_count` fields the MCP tool includes. Title must be
+  sourced from the `source list` call instead.
+- `nlm note list <notebook_id> --json` → `{notebook_id, notes}`, each note
+  `{id, title, content}` — no `preview`, no top-level `status`/`count`.
+
+The implementation plan (see companion plan doc) targets these CLI shapes
+as the real contract. §3.1's MCP shapes remain accurate documentation of
+what the *agent* sees when driving this manually, but are not what the
+unattended orchestrator parses.
+
 ## 1. Goal
 
 Two complementary pipelines around the CIC-relevant NotebookLM notebooks:
