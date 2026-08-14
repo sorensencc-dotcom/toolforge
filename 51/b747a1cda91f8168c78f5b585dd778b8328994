@@ -1,0 +1,14 @@
+docs/reports/weekly/2026-W33.md
+  h_5c172e9b435f5a 1-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "51b747a1cda91f8168c78f5b585dd778b8328994",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
