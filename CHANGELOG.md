@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 2.33.4
+Date: 2026-08-14
+
+### Changes
+- 268e1e2 - chore: merge origin/main (Chris Sorensen)
+- 1e4ba0b - fix(scripts): support standard user execution for daily, weekly, and TRM scheduled tasks (Chris Sorensen)
+- 51b747a - docs(report): add weekly report for 2026-W33 (Chris Sorensen)
+- 6d6ee29 - docs(report): add daily report for 2026-08-14 (Chris Sorensen)
+- bb5345d - docs(sigil): define governed mailbox protocol (Chris Sorensen)
+- 39d8fda - docs(plan): NotebookLM CIC ingest/mining implementation plan (Chris Sorensen)
+- 86cc420 - docs(spec): rev 3 -- exact MCP response shapes + CLI contracts (Chris Sorensen)
+- 4aeaa3c - docs(spec): rewrite NotebookLM ingest/mining design against real trm APIs (Chris Sorensen)
+- 8e1e461 - docs(spec): NotebookLM CIC ingest + reverse-mining design (Chris Sorensen)
+
 ## Version 2.33.3
 Date: 2026-08-11
 
