@@ -22,26 +22,27 @@ if (-not (Test-Path $script)) {
   exit 1
 }
 
-$admin = [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains `
-  "S-1-5-32-544"
+# Check for actual admin elevation
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-if (-not $admin) {
-  Write-Host "[ERROR] Admin privileges required. Run as Administrator." -ForegroundColor Red
-  exit 1
+$principal = if ($isAdmin) {
+  New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Highest
+} else {
+  New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive
 }
 
 Write-Host "TRM sync-treatment Daily Task Registration" -ForegroundColor Green
 Write-Host "===========================================" -ForegroundColor Green
 Write-Host ""
 
-$existing = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
+$existing = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
 if ($existing) {
   if (-not $Force) {
     Write-Host "[!] Task already exists. Use -Force to overwrite." -ForegroundColor Yellow
     exit 1
   }
   Write-Host "Removing existing task..." -ForegroundColor Cyan
-  Unregister-ScheduledTask -TaskName $taskName -Confirm:$false | Out-Null
+  Unregister-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Confirm:$false | Out-Null
 }
 
 $action = New-ScheduledTaskAction `
@@ -57,7 +58,7 @@ $settings = New-ScheduledTaskSettingsSet `
   -StartWhenAvailable `
   -RunOnlyIfNetworkAvailable `
   -ExecutionTimeLimit (New-TimeSpan -Hours 1) `
-  -MultipleInstancePolicy IgnoreNew
+  -MultipleInstances IgnoreNew
 
 Write-Host "Registering task: $taskName" -ForegroundColor Cyan
 Write-Host "  Schedule: Daily at 6:30 AM" -ForegroundColor Gray
@@ -71,8 +72,8 @@ try {
     -Action $action `
     -Trigger $trigger `
     -Settings $settings `
+    -Principal $principal `
     -Description "Daily trm sync-treatment reconciliation" `
-    -RunLevel Highest `
     -Force | Out-Null
 
   Write-Host ""
