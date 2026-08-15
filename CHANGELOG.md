@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.34.0
+Date: 2026-08-15
+
+### Changes
+- 26b41f3 - feat(healing): implement TripwireMonitor, AdversarialAuditor, and SerialMergeQueue (Chris Sorensen)
+
 ## Version 2.33.5
 Date: 2026-08-15
 
