@@ -119,13 +119,15 @@ describe('visionAdapter', () => {
 
     it('throws error if Google API key missing', async () => {
       delete process.env.GOOGLE_API_KEY;
+      delete process.env.VISION_API_KEY;
+      delete process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
       mockClip.mockResolvedValue(createProviderResult(0.50));
       mockBlip.mockResolvedValue(createProviderResult(0.55));
 
       const buffer = createMockBuffer();
       await expect(analyzeImage(buffer)).rejects.toThrow(
-        /GOOGLE_API_KEY environment variable not set/
+        /GOOGLE_API_KEY.*environment variable not set/
       );
     });
   });

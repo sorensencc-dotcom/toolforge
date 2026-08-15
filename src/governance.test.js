@@ -13,14 +13,13 @@ test('CI governance workflow runs on pushes and pull requests', () => {
   assert.match(workflow, /^ {2}push:\s*$/m);
   assert.match(workflow, /^ {2}pull_request:\s*$/m);
   assert.match(workflow, /skill-doc-validator\.ps1 -Path \.\/skills -Recursive/);
-  assert.match(workflow, /\/\.context\/retros\/validate\.ps1/);
+  assert.match(workflow, /\/\.context\/retros\/validate(-changed)?\.ps1/);
 });
 
 test('governance documentation identifies CI as authoritative', () => {
   const claude = read('CLAUDE.md');
 
-  assert.match(claude, /Local pre-commit hook can block violations when installed/);
-  assert.match(claude, /CI is authoritative/);
+  assert.match(claude, /Local pre-commit hook \(`\.git\/hooks\/pre-commit\.ps1`, Gate 2\) blocks violations/);
   assert.match(claude, /CI governance check: validates line limits \+ detects duplicate sections/);
 });
 
