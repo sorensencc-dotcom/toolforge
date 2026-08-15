@@ -1,0 +1,19 @@
+src/governance.test.js
+  s_4d5378553c6b81::t_7c198ada7a735b 16,22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "f6cd33192dc6b966956d7610c7d8cd3d10cfba10",
+  "prompts": {},
+  "sessions": {
+    "s_4d5378553c6b81": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a005b0-ab11-7f52-989d-e699d42e7a83",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
