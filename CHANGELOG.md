@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.33.5
+Date: 2026-08-15
+
+### Changes
+- 811802d - test: align governance workflow assertions and vision error regex (Chris Sorensen)
+- b94465a - docs(report): add daily report for 2026-08-15 (Chris Sorensen)
+
 ## Version 2.33.4
 Date: 2026-08-14
 
