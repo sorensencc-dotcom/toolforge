@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.38.0
+Date: 2026-08-16
+
+### Changes
+- d2c4193 - feat(skills): create workspace-storage-cleaner skill (Chris Sorensen)
+
 ## Version 2.37.0
 Date: 2026-08-16
 
