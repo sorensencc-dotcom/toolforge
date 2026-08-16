@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.38.3
+Date: 2026-08-16
+
+### Changes
+- 90fdb64 - docs(skills): close all 16 real Toolforge validation errors (Chris Sorensen)
+
 ## Version 2.38.2
 Date: 2026-08-16
 
