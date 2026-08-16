@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.34.2
+Date: 2026-08-16
+
+### Changes
+- 2ef314f - chore(sessions): sync session logs and journal metrics (Chris Sorensen)
+
 ## Version 2.34.1
 Date: 2026-08-16
 
