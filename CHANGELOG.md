@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.35.1
+Date: 2026-08-16
+
+### Changes
+- 11cacc5 - chore(notebooklm): record smoke-test registry state and set allow git root in wrapper (Chris Sorensen)
+
 ## Version 2.35.0
 Date: 2026-08-16
 
