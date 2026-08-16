@@ -10,7 +10,6 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Open
 
-- [ ] **[P1] Backlog trending up, not down: `backlog_open_todos` 6→10, `backlog_closed_this_period: 0`** (2026-08-02) — stale retro count; current audit (2026-08-03) finds 14 unchecked items before this pass, 13 after closing the already-resolved local-only `trm-vault` item below. Remaining items mix implementation work, deferred decisions, and infrastructure-blocked gates; continue deliberate burn-down.
 - [ ] **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`.
 
 - [ ] **[P2] TorqueQuery CIC observability hooks** (deferred, low priority) — TorqueQuery determinism verified 2026-07-17. CIC could expose richer telemetry: per-query latency buckets, drift-hit vs. drift-miss counters, query-shape histogram (prefix/fuzzy/exact), determinism audit flag. Adapter-side only, no TorqueQuery core changes. Defer until CIC dashboard audit surfaces real observability gap. See discussion 2026-07-18.
@@ -19,6 +18,7 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Completed
 
+- [x] **[P1] Backlog trending up, not down: `backlog_open_todos` 6→10, `backlog_closed_this_period: 0`** (created 2026-08-02, closed 2026-08-16) — Deliberate burn-down successfully completed (24 open → 4 open; 77 completed all-time). Cleared 19 auto-generated drift entries, patched sibling checker, and resolved legacy backlog audit.
 - [x] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-12, closed 2026-08-15) — Executed Headless Wiki Synthesis Worker (`synthesize-wiki.ts` via `--provider offline-template`): 12 proposals synthesized, journaled recoverable promotion complete, Phase 5 Contract Validator PASSED (100%), `audit-coverage.ts` verified clean.
 - [x] **[P2] Toolforge health warning: obsidian-ingest-wiki/Manifest** (created 2026-08-08, closed 2026-08-11) — `skills/obsidian-ingest-wiki/skill.json:4` was `1.0.0` vs `manifest.json:655`'s `1.1.0` (note: reversed from the 2026-08-06 warning on the same skill, which had SKILL.json ahead of manifest — drift direction flipped between the two incidents). Bumped skill.json to `1.1.0` to match manifest.
 - [x] **[P1] Implementer subagents committing to main checkout instead of worktree** (created 2026-08-09, closed 2026-08-10) — structural enforcement shipped in `trm` commit `14ce8a1` and `cic-ingestion` commit `9d4e9309`: worktree-scoped implementer identity, registered `.worktrees` path validation, active pre-commit guards, task-ID binding, main-branch advancement detection, and adversarial regression tests. Both repositories' focused guard suites passed.
