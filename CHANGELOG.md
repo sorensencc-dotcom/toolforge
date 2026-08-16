@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.34.1
+Date: 2026-08-16
+
+### Changes
+- 68f0ace - chore(retro): consolidate kb-sync drift backlog, update sibling checker, and close wiki synthesis (Chris Sorensen)
+
 ## Version 2.34.0
 Date: 2026-08-15
 
