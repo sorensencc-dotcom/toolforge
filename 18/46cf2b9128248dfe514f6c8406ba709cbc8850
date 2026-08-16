@@ -1,0 +1,31 @@
+ci-pipeline.ps1
+  s_758b92363514e5::t_3117a6575e534f 60,62-65
+.gitignore
+  s_0704e88a1f3df3::t_d7b60f572ad23f 35-36,66-72
+.ijfw/memory/project-journal.md
+  s_758b92363514e5::t_6a9fc9f51f54d6 161-171
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "1846cf2b9128248dfe514f6c8406ba709cbc8850",
+  "prompts": {},
+  "sessions": {
+    "s_0704e88a1f3df3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de2f1c5c-6819-41a4-9422-e6d06c50274d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_758b92363514e5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc6b4d83-44cf-4509-9618-a786a6b33de6",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
