@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.37.0
+Date: 2026-08-16
+
+### Changes
+- ba5d5f5 - feat(skills): add canonical SKILL.json for retro-export (Chris Sorensen)
+
 ## Version 2.36.2
 Date: 2026-08-16
 
