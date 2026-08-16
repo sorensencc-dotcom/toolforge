@@ -1,0 +1,19 @@
+TODOS.md
+  s_0ef148c23bdbc7::t_9276bae5a9ff52 20,149-151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "2009f9bdb16e7d3f15032230d66187a4fb3a3c9b",
+  "prompts": {},
+  "sessions": {
+    "s_0ef148c23bdbc7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "94167709-ebc1-4e2a-8520-a94716ca7d33",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
