@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.38.1
+Date: 2026-08-16
+
+### Changes
+- 8c65978 - chore(sync): register workspace-storage-cleaner skill (Chris Sorensen)
+
 ## Version 2.38.0
 Date: 2026-08-16
 
