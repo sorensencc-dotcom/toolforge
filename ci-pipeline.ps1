@@ -57,7 +57,12 @@ function Invoke-Stage {
     param([string]$Name, [scriptblock]$Script, [switch]$Blocking)
     Write-Log "=== STAGE: $Name ===" INFO
     try {
+        $global:LASTEXITCODE = 0
         & $Script
+        if ($LASTEXITCODE -and $LASTEXITCODE -ne 0) {
+            Write-Log "✗ $Name failed: exit code $LASTEXITCODE" FAIL
+            return @{ Status = 'FAIL'; Name = $Name; Blocking = $Blocking; Error = "exit code $LASTEXITCODE" }
+        }
         Write-Log "✓ $Name passed" PASS
         return @{ Status = 'PASS'; Name = $Name; Blocking = $Blocking }
     }
