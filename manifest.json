@@ -69,7 +69,7 @@
       "id": "kb-sync-nightly",
       "entrypoint": "src/run.sh",
       "owner": "soren",
-      "category": "governance",
+      "category": "sync-tools",
       "health": {
         "canonical": true,
         "runtime": "untested",
