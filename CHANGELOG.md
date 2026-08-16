@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.36.2
+Date: 2026-08-16
+
+### Changes
+- 09eb44c - fix(sync): make sync and validation daemons write-idempotent and deterministic (Chris Sorensen)
+- 1846cf2 - chore(git): ignore volatile IJFW runtime state, session caches, and separate sigil repos (Chris Sorensen)
+- 7531eef - Merge branch 'main' of https://github.com/sorensencc-dotcom/toolforge (Chris Sorensen)
+- 052e1ff - ci(retro): fold audit-findings report into weekly retro-full-audit workflow (Chris Sorensen)
+
 ## Version 2.36.1
 Date: 2026-08-16
 
