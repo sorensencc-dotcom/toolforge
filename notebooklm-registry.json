@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "notebooks": [
+    {
+      "notebook_id": "679b8bab-2d87-42cb-a726-6dc54c83acc2",
+      "title": "CIC-KB",
+      "url": "https://notebooklm.google.com/notebook/679b8bab-2d87-42cb-a726-6dc54c83acc2",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": []
+    },
+    {
+      "notebook_id": "1b4861a3-931f-4632-8fc1-343a8dd37df8",
+      "title": "CIC - Daily Research",
+      "url": "https://notebooklm.google.com/notebook/1b4861a3-931f-4632-8fc1-343a8dd37df8",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": []
+    },
+    {
+      "notebook_id": "ef78168d-b7b9-4952-8e0f-fcb353a21181",
+      "title": "Willow Run Videos",
+      "url": "https://notebooklm.google.com/notebook/ef78168d-b7b9-4952-8e0f-fcb353a21181",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": []
+    },
+    {
+      "notebook_id": "b8bc161d-495f-42f9-a7d1-ed8692141f6b",
+      "title": "Cast Iron Charlie - Research Logs",
+      "url": "https://notebooklm.google.com/notebook/b8bc161d-495f-42f9-a7d1-ed8692141f6b",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": []
+    },
+    {
+      "notebook_id": "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a",
+      "title": "The Sorensen Photographic Archive: Industrial Giants at Willow Run",
+      "url": "https://notebooklm.google.com/notebook/fd0e0e4e-6890-4fb9-89bf-b9e568295e7a",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": []
+    }
+  ]
+}
