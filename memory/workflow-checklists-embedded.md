@@ -7,7 +7,7 @@ metadata:
 
 # Embedded Workflow Checklists
 
-Active immediately (2026-07-12). Run checklist BEFORE critical action.
+Activated 2026-07-12 (still in force — this is an activation date, not a last-verified date). Run checklist BEFORE critical action.
 
 ## Pre-Artifact Checklist (Before Publishing)
 
