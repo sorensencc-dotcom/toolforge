@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.36.1
+Date: 2026-08-16
+
+### Changes
+- 8926d30 - fix(governance): correct false CI-schedule claim, retro unit bug, stale memory (Chris Sorensen)
+- cbbaff0 - docs(report): add daily report for 2026-08-16 (Chris Sorensen)
+
 ## Version 2.36.0
 Date: 2026-08-16
 
