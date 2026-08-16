@@ -19,6 +19,7 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Completed
 
+- [x] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-12, closed 2026-08-15) — Executed Headless Wiki Synthesis Worker (`synthesize-wiki.ts` via `--provider offline-template`): 12 proposals synthesized, journaled recoverable promotion complete, Phase 5 Contract Validator PASSED (100%), `audit-coverage.ts` verified clean.
 - [x] **[P2] Toolforge health warning: obsidian-ingest-wiki/Manifest** (created 2026-08-08, closed 2026-08-11) — `skills/obsidian-ingest-wiki/skill.json:4` was `1.0.0` vs `manifest.json:655`'s `1.1.0` (note: reversed from the 2026-08-06 warning on the same skill, which had SKILL.json ahead of manifest — drift direction flipped between the two incidents). Bumped skill.json to `1.1.0` to match manifest.
 - [x] **[P1] Implementer subagents committing to main checkout instead of worktree** (created 2026-08-09, closed 2026-08-10) — structural enforcement shipped in `trm` commit `14ce8a1` and `cic-ingestion` commit `9d4e9309`: worktree-scoped implementer identity, registered `.worktrees` path validation, active pre-commit guards, task-ID binding, main-branch advancement detection, and adversarial regression tests. Both repositories' focused guard suites passed.
 - [x] **[P2] RETRO-SCHEMA.md missing `test_health` field docs** (created 2026-08-09, closed 2026-08-11) — `total_test_files`/`tests_added_this_period`/`test_files_changed`/`regression_test_commits` plus `backlog` object and `tweetable` documented in `.context/retros/RETRO-SCHEMA.md` v1.1, with an explicit note that `total_test_files` is repo-wide (not window-scoped) so it isn't compared against window-scoped `test_loc_insertions` again.
@@ -116,6 +117,17 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 - 2026-08-02: Retro-driven fixes. (1) Root-caused the self-regenerating pre-commit/auto-sync loop (2nd retro flagging it): `cowork-auto-sync.ps1` + 4 downstream generators (`toolforgeSkillValidator.ps1`, `toolforgeDependencyGraph.ps1`, `toolforgeSkillHealthCheck.ps1`, `toolforgeMetadataGenerator.ps1`) unconditionally `Set-Content`'d fresh ISO timestamps every run, and only 2 of 5 had loop guards — nested calls re-ran siblings redundantly. Added `Write-IfChanged` (skip write when content is identical modulo embedded timestamps) to all 8 write sites, added missing loop guards to the 3 unguarded generators, and fixed a real nondeterminism bug in `Phase-SyncSkills` (unsorted PowerShell hashtable `.Keys` enumeration was shuffling the sync-history log order every run, defeating any diff check). Verified via 4 consecutive live runs: steady-state output is now byte-identical modulo timestamps. (2) Added `[P0]/[P1]/[P2]` priority tags to all 8 open items — no P0s currently; 4×P1 (kb-sync coverage, kb-sync drift, Wave D gate, toolforge-install node_modules bug); 5×P2 (video ingestion plan, 2 TorqueQuery items, xberg, trm-vault retro-tooling residual). (3) `4f66345f` (12.7k-LOC research-artifact resync, predates the `chore(sync):` convention by 3 days) not retagged — retroactive retag doesn't fix already-computed metrics; convention already governs new commits going forward (`CLAUDE.md` Productivity Discipline #5).
 - 2026-07-31: Synced 3 retro files (`2026-07-29-1`, `2026-07-29-2`, `2026-07-30-1.json`) flagged unaddressed by the new `check-todo-sync.js` Stop hook. `2026-07-29-1` was a same-window duplicate of `2026-07-29-2` (both already covered). `2026-07-30-1` surfaced 2 genuinely new items: opened `cic-ingestion tsx bypasses tsconfig type-checking` and `trm-vault has no git remote` (Open); closed/logged `trm-vault commit-per-run` as an adopted Process rule (was memory-only, not yet in this file).
 - 2026-08-06: Retro follow-through on 3 improvement items. (1) `scripts/loc-filtered.ps1` now excludes `chore(sync):`-tagged commits from the headline code metric automatically (parses commit subject via a `--pretty` marker line ahead of each `--numstat` block, reports sync-commit churn on its own line) — 3rd time this exclusion needed manual correction in a retro before being scripted. (2) Split `## Open` from a new `## Completed` section — 40+ `[x]` items were interleaved with the 6 still-open ones, making the real backlog hard to see at a glance. (3) Added a creation-date-stamp convention (`**Priority tags**` note above) so future retros can compute backlog-added-this-period, not just net open count; applies going forward, no retroactive backfill. Did not action the TRM sync-treatment fixture-realism note (deployment-surface test coverage, e.g. scheduler exit codes / live vault dirs) — no active TRM work this session to attach it to; flagged here for next TRM touch.
+- 2026-08-15: Retro follow-through. Consolidated 19 auto-generated kb-sync drift detector entries into a single batched [P2] backlog item; updated sibling checker to maintain a single consolidated drift entry instead of emitting per-file TODOs.
+
+
+
+
+
+
+
+
+
+
 
 
 

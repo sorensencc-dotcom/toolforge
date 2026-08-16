@@ -1,6 +1,6 @@
 ﻿# Toolforge Drift Detection Report
 
-**Generated**: 2026-08-08T13:15:38.7649059Z
+**Generated**: 2026-08-15T13:00:21.7297044Z
 
 **Canonical**: C:\dev
 **Distributed**: C:\dev\rewrite-mcp\toolforge
@@ -11,13 +11,13 @@
 
 | Category | Drifts | Severity |
 |----------|--------|----------|
-| Structure | 36 | WARN |
+| Structure | 41 | WARN |
 | Tools | 0 | OK |
-| Skills | 5 | WARN |
+| Skills | 2 | WARN |
 | Docs | 0 | OK |
 | Manifest | 0 | OK |
 
-**Total Drifts**: 41
+**Total Drifts**: 43
 **Status**: DRIFTED
 
 ---
@@ -25,6 +25,9 @@
 ## Findings
 ### Structure Drifts
 
+- **missing** .cursor (in distributed)
+- **missing** .gemini (in distributed)
+- **missing** .windsurf (in distributed)
 - **missing** assets (in distributed)
 - **missing** audit (in distributed)
 - **missing** cic (in distributed)
@@ -38,6 +41,7 @@
 - **missing** engines (in distributed)
 - **missing** gateway (in distributed)
 - **missing** governance (in distributed)
+- **missing** graft (in distributed)
 - **missing** health (in distributed)
 - **missing** ijfw (in distributed)
 - **missing** kb-sync (in distributed)
@@ -48,6 +52,7 @@
 - **missing** roadmap-runner (in distributed)
 - **missing** scripts (in distributed)
 - **missing** services (in distributed)
+- **missing** sigil-repo (in distributed)
 - **missing** src (in distributed)
 - **missing** task-observatory (in distributed)
 - **missing** tests (in distributed)
@@ -55,8 +60,8 @@
 - **missing** toolforge (in distributed)
 - **missing** toolforge-pdf (in distributed)
 - **missing** trm (in distributed)
-- **missing** wiki (in distributed)
 - **missing** windows-task-manager (in distributed)
+- **missing** _status-feed (in distributed)
 - **extra** adapters (in distributed)
 - **extra** mcp-servers (in distributed)
 - **extra** prototypes (in distributed)
@@ -65,6 +70,7 @@
 ### Skills Drifts
 
 - **kb-sync-nightly**: version mismatch (canonical: 1.0.2, distributed: 1.0.0)
+- **obsidian-ingest-wiki**: version mismatch (canonical: 1.1.0, distributed: 1.0.0)
 
 ---
 

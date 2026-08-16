@@ -1231,7 +1231,9 @@ export interface RunIngestOptions {
 }
 
 export interface RunIngestResult {
+  ok: boolean;
   staged: number;
+  failed: string[];
   topicsExtracted: string[];
   syncTreatmentReportPath: string | null;
 }
@@ -1247,7 +1249,7 @@ export function runIngestNotebooklm(root: string, notebookId: string, opts: RunI
   const staged = pullAndStage(root, notebookId, runId);
   if (staged.length === 0) {
     runTrm(root, spawn, ['sync-treatment', '--narrative-root', opts.narrativeRoot]);
-    return { staged: 0, topicsExtracted: [], syncTreatmentReportPath: null };
+    return { ok: true, staged: 0, failed: [], topicsExtracted: [], syncTreatmentReportPath: null };
   }
 
   const notebookSlugDir = path.dirname(path.dirname(staged[0].relativePath)); // intake/notebooklm/<slug>
@@ -1256,19 +1258,25 @@ export function runIngestNotebooklm(root: string, notebookId: string, opts: RunI
   const routeSummary = JSON.parse(routeResult.stdout || '{}') as { byTopic?: Record<string, number> };
   const touchedTopics = Object.keys(routeSummary.byTopic ?? {}).filter((t) => t !== 'unsorted');
 
+  // route-intake stages by keyword match; the staged path under
+  // topics/charlie/<topic>/_staging-intake-<runId>/ is not deterministically
+  // known here without reading intake-routing-report.json, so per-topic
+  // ingest is driven by that report rather than the pre-route staged path.
+  // Read once — re-parsing per item was needless repeated I/O.
+  const reportPath = path.join(root, 'intake-routing-report.json');
+  const report = fs.existsSync(reportPath)
+    ? (JSON.parse(fs.readFileSync(reportPath, 'utf-8')) as {
+        entries: { sourcePath: string; topic: string | null; stagedPath?: string; status: string }[];
+      })
+    : { entries: [] };
+
+  const failed: string[] = [];
+
   for (const item of staged) {
-    // route-intake stages by keyword match; the staged path under
-    // topics/charlie/<topic>/_staging-intake-<runId>/ is not deterministically
-    // known here without re-reading intake-routing-report.json, so per-topic
-    // ingest is driven by that report rather than the pre-route staged path.
-    const reportPath = path.join(root, 'intake-routing-report.json');
-    if (!fs.existsSync(reportPath)) continue;
-    const report = JSON.parse(fs.readFileSync(reportPath, 'utf-8')) as {
-      entries: { sourcePath: string; topic: string | null; stagedPath?: string; status: string }[];
-    };
     const routed = report.entries.find((e) => e.sourcePath === item.relativePath && e.status === 'staged');
     if (!routed || !routed.topic || !routed.stagedPath) {
       recordItem(root, runId, { key: item.key, status: 'failed', detail: 'unsorted or not staged by route-intake' });
+      failed.push(item.key);
       continue;
     }
 
@@ -1289,6 +1297,7 @@ export function runIngestNotebooklm(root: string, notebookId: string, opts: RunI
       recordItem(root, runId, { key: item.key, status: 'ingested' });
     } catch (err) {
       recordItem(root, runId, { key: item.key, status: 'failed', detail: (err as Error).message });
+      failed.push(item.key);
       continue;
     }
   }
@@ -1300,7 +1309,7 @@ export function runIngestNotebooklm(root: string, notebookId: string, opts: RunI
   runTrm(root, spawn, ['sync-treatment', '--narrative-root', opts.narrativeRoot]);
   flushIngestedAt(root, notebookId, new Date().toISOString());
 
-  return { staged: staged.length, topicsExtracted: touchedTopics, syncTreatmentReportPath: null };
+  return { ok: failed.length === 0, staged: staged.length, failed, topicsExtracted: touchedTopics, syncTreatmentReportPath: null };
 }
 ```
 
@@ -1326,6 +1335,7 @@ program
   .action((notebookId, opts) => {
     const result = runIngestNotebooklm(root, notebookId, { narrativeRoot: opts.narrativeRoot });
     console.log(JSON.stringify(result, null, 2));
+    if (!result.ok) process.exitCode = 1;
   });
 ```
 

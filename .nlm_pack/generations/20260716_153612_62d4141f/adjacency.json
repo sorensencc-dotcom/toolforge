@@ -1,0 +1,11 @@
+{
+  "forward": {
+    "node:file:kb_sync_status.md": [],
+    "node:file:readme.md": []
+  },
+  "reverse": {
+    "node:file:kb_sync_status.md": [],
+    "node:file:readme.md": []
+  },
+  "version": "2.0.0"
+}

@@ -28,11 +28,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 <!-- github-copilot-toolbox:mcp-skills-awareness-begin -->
 
 ### MCP & Skills awareness (GitHub Copilot Toolbox)
 
-_Last synced: 2026-08-02T01:06:11.330Z._
+_Last synced: 2026-08-15T12:43:20.045Z._
 
 - **Full report:** `.github/copilot-toolbox-mcp-skills-awareness.md` in this workspace (auto-overwritten on each scan). Use it as ground truth for configured servers and skill folders.
 - **MCP:** For **live tools**, use **Copilot Chat → Agent** and **trust/start** the right servers in the MCP UI.
@@ -58,6 +69,8 @@ _No active workspace servers in mcp.json._
 - **ci-triage** — `c:\dev\.claude\skills\ci-triage` — Use when a CI/GitHub-Actions failure is reported (by the user, an email summary, another tool, or a pasted "analysis") before proposing or applying any fix. Verifies the claim against real gh run logs, reproduces the roo
 
 - **db-migrate** — `c:\dev\.claude\skills\db-migrate` — Generate, review, validate, and manage PostgreSQL migrations with confidence.
+
+- **graft** — `c:\dev\.claude\skills\graft` — This repo is indexed by graft/. For ANY task here, whether
 
 - **play-e2e** — `c:\dev\.claude\skills\play-e2e` — Run, debug, and manage Playwright snapshot tests in rewrite-docs.
 
@@ -252,3 +265,46 @@ _No active workspace servers in mcp.json._
 - **orca-cli** — `C:\Users\soren\.agents\skills\orca-cli` — >-
 
 <!-- github-copilot-toolbox:mcp-skills-awareness-end -->
+
+
+<!-- graft:start -->
+## Graft — repo context graph
+
+This repo is indexed in `graft/`: small linked markdown nodes that explain each
+system and carry exact file:line spans, kept in sync with the code through git.
+
+For ANY task here — understanding how something works, finding where code lives,
+or scoping a change — get context from the graph before grepping or opening
+source files. Re-ask freely (it's cheap) and reuse literal identifiers you
+already have (symbol, error string, file name) as the query. New to this repo?
+Run `graft map` first — a token-budgeted orientation (dir clusters, hubs,
+hotspots), no LLM, no key.
+
+- Run `graft ask "<your question>" --source` → ranked nodes with the relevant
+  code spans inlined (each hit's ≤8-line crux by default; `--full` for whole
+  definitions when the crux isn't enough). Match the tool to the task shape:
+  for understanding or editing, the top node IS the answer — cite its
+  `covers:` file:line spans and edit straight from `--source`. For
+  exhaustive tasks ("every occurrence / every caller of this pattern"), ranked
+  results are top-N, not complete — run `graft grep "<literal>"` instead
+  (exhaustive over indexed files, grouped by enclosing symbol), falling back
+  to raw `grep -rn` only for unindexed files.
+- `graft skeleton <file>` → every definition's signature + span, ~10× cheaper
+  than reading the file; use it to skim an API surface.
+- `graft callers <symbol>` gives precomputed, exact edges — who calls this.
+  Add `--direction out` for what it calls, or `--depth N` to walk
+  transitively for the full blast radius. For structural questions, skip
+  ranking and use this directly.
+- Or browse: `graft/INDEX.md` lists every node; follow the links.
+- Monorepos and folders of multiple repos rank fairly across sub-projects —
+  hits carry `[scope/]` labels naming which one they're from. Narrow with
+  `graft ask "<task>" --in <scope>/` once you know where you're working.
+
+If a returned span is truncated ("+N more lines"), open the file at that exact
+range before finalizing. Only open source files when a node genuinely lacks a
+needed detail, and then at the exact file:line the node points to — never
+re-read whole files.
+
+After big code changes, refresh the graph with `graft build` (deterministic,
+no API key, $0).
+<!-- graft:end -->

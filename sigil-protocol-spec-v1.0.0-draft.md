@@ -746,7 +746,7 @@ A conforming minimal implementation MUST demonstrate:
 
 Future profiles MAY define:
 
-- human web and mobile clients;
+- human web and mobile clients, including a Chat SDK and an Open Chat Widget;
 - Slack, Teams, Discord, and other chat bridges;
 - end-to-end encrypted payloads;
 - agent marketplaces and discovery;
@@ -758,6 +758,21 @@ Future profiles MAY define:
 
 These extensions MUST preserve endpoint visibility, least privilege, durable
 delivery, explicit context access, and independent human authorization.
+
+### 19.1 Chat SDK and Open Chat Widget
+
+A Chat SDK and an Open Chat Widget are optional, non-normative host
+integrations, not relay or connector requirements. Neither is part of the v1
+conformance profile (§18), and no v1 requirement depends on either existing.
+
+Where implemented, both MUST sit on top of a connector's existing local
+interface rather than a special relay path: a human-facing chat surface calls
+the same local operations an MCP adapter or other tool-plugin adapter would
+call (send message, check inbox, fetch result, request approval), and the
+connector retains sole custody of signing keys, capability enforcement, and
+approval-record creation as required by §13. The relay MUST NOT distinguish a
+Chat SDK or Open Chat Widget sender from any other human client at the
+protocol level; both are ordinary human endpoints per §6.
 
 ## 20. First implementation boundary
 

@@ -1,6 +1,6 @@
 # GitHub Copilot Toolbox — MCP & Skills awareness
 
-_Generated: 2026-08-02T01:06:11.305Z_
+_Generated: 2026-08-15T12:43:19.976Z_
 
 ## How to use this report
 
@@ -36,6 +36,9 @@ _No active workspace servers in mcp.json._
 
 - **db-migrate** — `c:\dev\.claude\skills\db-migrate`
   - Generate, review, validate, and manage PostgreSQL migrations with confidence.
+
+- **graft** — `c:\dev\.claude\skills\graft`
+  - This repo is indexed by graft/. For ANY task here, whether
 
 - **play-e2e** — `c:\dev\.claude\skills\play-e2e`
   - Run, debug, and manage Playwright snapshot tests in rewrite-docs.
