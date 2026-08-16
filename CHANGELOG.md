@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.34.3
+Date: 2026-08-16
+
+### Changes
+- ebaa23b - test(healing): add unit test suites for TripwireMonitor and AdversarialAuditor, and close P1 backlog audit (Chris Sorensen)
+
 ## Version 2.34.2
 Date: 2026-08-16
 
