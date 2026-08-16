@@ -1,0 +1,19 @@
+ci-pipeline.ps1
+  s_758b92363514e5::t_14b5e23ce18845 114-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "ddf16a7adf6f287e8ae022c6ece48f4c8e85226d",
+  "prompts": {},
+  "sessions": {
+    "s_758b92363514e5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc6b4d83-44cf-4509-9618-a786a6b33de6",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
