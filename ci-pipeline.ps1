@@ -111,9 +111,9 @@ if (-not $SkipCowork -and $Stage -in 'cowork', 'all') {
 # Summary
 Write-Log "" INFO
 Write-Log "=== SUMMARY ===" INFO
-$passed = ($results | Where-Object { $_.Status -eq 'PASS' }).Count
-$failed = ($results | Where-Object { $_.Status -eq 'FAIL' }).Count
-$blocking = ($results | Where-Object { $_.Status -eq 'FAIL' -and $_.Blocking }).Count
+$passed = @($results | Where-Object { $_.Status -eq 'PASS' }).Count
+$failed = @($results | Where-Object { $_.Status -eq 'FAIL' }).Count
+$blocking = @($results | Where-Object { $_.Status -eq 'FAIL' -and $_.Blocking }).Count
 
 Write-Log "Passed: $passed | Failed: $failed | Blocking: $blocking" INFO
 
