@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.36.0
+Date: 2026-08-16
+
+### Changes
+- 2009f9b - feat(torque): implement full conformance test suite and adapter v2.1 (Chris Sorensen)
+
 ## Version 2.35.1
 Date: 2026-08-16
 
