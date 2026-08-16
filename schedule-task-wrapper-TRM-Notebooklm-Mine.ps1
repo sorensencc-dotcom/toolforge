@@ -10,6 +10,7 @@ New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $logFile = Join-Path $logDir "trm-notebooklm-mine-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
 
 Set-Location $vaultRoot
+$env:TRM_ALLOW_GIT_ROOT = '1'
 
 $registryPath = Join-Path $vaultRoot 'notebooklm-registry.json'
 if (-not (Test-Path $registryPath)) {

@@ -8,8 +8,17 @@
       "last_pulled_hashes": {},
       "quarantined": {},
       "last_ingested_at": null,
-      "last_mined_at": null,
-      "last_mined_answer_keys": []
+      "last_mined_at": "2026-08-16T05:33:09.982Z",
+      "last_mined_answer_keys": [
+        "679b8bab-2d87-42cb-a726-6dc54c83acc2:open-contradictions:704a2c6875ed460f152dbf2d108ab27368a9eba87bf4b056a0978d66cf458d9b",
+        "679b8bab-2d87-42cb-a726-6dc54c83acc2:under-sourced:ef735a59a38f9297bb4a626ad4a6274a32af74ad730f3b309c234097d4254f6b",
+        "679b8bab-2d87-42cb-a726-6dc54c83acc2:adjacent-topics:20fa40a31d27c7561a56c2527cdfd0d76c353d660140a792d40dec2376e134d3",
+        "679b8bab-2d87-42cb-a726-6dc54c83acc2:follow-up:56ba0dfda2de0640ed7835c0300b6f6fd95c99abd4c59403197869e1bb377993",
+        "679b8bab-2d87-42cb-a726-6dc54c83acc2:open-contradictions:f9b32c523e412d1725165926fa1bb5a1baf579bd40d87b9e0417b237489fc756",
+        "679b8bab-2d87-42cb-a726-6dc54c83acc2:under-sourced:f79daa3ad04b9075bbf178491df508b509fab72b0304bde89182b9c9d4a387ae",
+        "679b8bab-2d87-42cb-a726-6dc54c83acc2:adjacent-topics:a11cd97fa84c0618138d2a2cea4ff68b8b4059a4b1c42092d9871830548bbaa1",
+        "679b8bab-2d87-42cb-a726-6dc54c83acc2:follow-up:a4992daedf96dcda842835b93a2dd45e3e45fbdd39cecc143b13fa4df8fc4048"
+      ]
     },
     {
       "notebook_id": "1b4861a3-931f-4632-8fc1-343a8dd37df8",
