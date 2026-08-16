@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.35.0
+Date: 2026-08-16
+
+### Changes
+- 64ab244 - feat(notebooklm): register 5 CIC notebooks and add weekly mining-sweep wrapper (Chris Sorensen)
+
 ## Version 2.34.3
 Date: 2026-08-16
 
