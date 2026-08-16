@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-08-16T01:00:03.6337644Z
+**Generated**: 2026-08-16T17:42:00.2445914Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 10 | 23 | 0 | ❌ |
-| Distributed | 0 | 7 | 0 | ✅ |
-| Manifest | 1 | 94 | 0 | ❌ |
-| Cowork | 0 | 38 | 0 | ✅ |
-| Dependencies | 5 | 6 | 0 | ❌ |
-| Runtime | 0 | 2 | 38 | ✅ |
+| Canonical | 13 | 24 | 0 | ❌ |
+| Distributed | 0 | 9 | 0 | ✅ |
+| Manifest | 0 | 94 | 0 | ✅ |
+| Cowork | 0 | 40 | 0 | ✅ |
+| Dependencies | 0 | 12 | 1 | ✅ |
+| Runtime | 0 | 1 | 40 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
-**Total Errors**: 16
-**Total Warnings**: 170
+**Total Errors**: 13
+**Total Warnings**: 180
 
 **Overall Status**: ❌ FAIL
 
@@ -49,6 +49,7 @@
 | plan-extractor-integration | Plan Extractor Integration | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | pre-wrap-audit | Pre Wrap Audit | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | reconcile-vector-store | Reconcile Vector Store | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| retro-export | Retro Export | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
 | rewrite-labs-orchestrator | Rewrite Labs Orchestrator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | roadmap-validator | Roadmap Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | rollback-phase | Rollback Phase | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -65,6 +66,7 @@
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| workspace-storage-cleaner | Workspace & Brain Storage Cleaner | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 
 ---
 
@@ -77,9 +79,9 @@
 ⚠️ **automation-audit**: Invalid category: operations
 ⚠️ **cic-consolidate-artifacts**: Invalid category: governance
 ⚠️ **cic-ingest-world**: Invalid category: governance
-❌ **cic-orchestrate-flow**: Missing: README.md
-❌ **cic-orchestrate-flow**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **cic-orchestrate-flow**: Invalid category: governance
+❌ **cic-orchestrate-flow**: Missing: INTEGRATION_DIAGRAM.md
+❌ **cic-orchestrate-flow**: Missing: README.md
 ⚠️ **cic-repair-pipeline**: Invalid category: governance
 ⚠️ **cic-run-gate**: Invalid category: governance
 ⚠️ **kb-sync-artifact-generator**: Invalid category: governance
@@ -89,7 +91,8 @@
 ⚠️ **pre-wrap-audit**: Invalid category: session-management
 ⚠️ **reconcile-vector-store**: Invalid category: data-management
 ❌ **research-questions**: SKILL.json missing
-❌ **retro-export**: SKILL.json missing
+❌ **retro-export**: Missing: SKILL.md
+❌ **retro-export**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **roadmap-validator**: Invalid category: governance
 ⚠️ **rollback-phase**: Invalid category: pipeline
 ⚠️ **scale-ingestion-service**: Invalid category: pipeline
@@ -103,6 +106,9 @@
 ❌ **trm-feedback-report**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **trm-feedback-report**: Invalid category: research-ops
 ⚠️ **work-summarizer**: Invalid category: observability
+❌ **workspace-storage-cleaner**: Missing: README.md
+❌ **workspace-storage-cleaner**: Missing: INTEGRATION_DIAGRAM.md
+⚠️ **workspace-storage-cleaner**: Invalid category: maintenance
 
 ## Distributed Validation
 
@@ -112,7 +118,9 @@
 ⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
 ⚠️ **obsidian-ingest-wiki**: Version mismatch: canonical 1.1.0, distributed 1.0.0
+⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
+⚠️ **workspace-storage-cleaner**: Directory missing in distributed
 
 ## Manifest Validation
 
@@ -142,29 +150,28 @@
 ⚠️ **cic-repair-pipeline**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-roadmap-updater**: Tags mismatch: canonical '', manifest 'roadmap, planning, versioning'
 ⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
+⚠️ **cic-run-gate**: Tags mismatch: canonical '', manifest 'cic, governance, phase1, gate'
 ⚠️ **cic-run-gate**: Invalid category in manifest: governance
 ⚠️ **cic-run-gate**: Path mismatch: expected 'skills/cic-run-gate', got ''
-⚠️ **cic-run-gate**: Tags mismatch: canonical '', manifest 'cic, governance, phase1, gate'
 ⚠️ **cic-section-summarizer**: Tags mismatch: canonical '', manifest 'analysis, roadmap, progress'
 ⚠️ **cic-section-summarizer**: Path mismatch: expected 'skills/cic-section-summarizer', got ''
-⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
 ⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
+⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
 ⚠️ **html-visual-verify**: Path mismatch: expected 'skills/html-visual-verify', got ''
 ⚠️ **kb-sync-artifact-generator**: Invalid category in manifest: governance
-⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
-⚠️ **kb-sync-nightly**: Invalid category in manifest: governance
+⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
+⚠️ **kb-sync-nightly**: Invalid category in manifest: sync-tools
 ⚠️ **kb-sync-nightly**: Description mismatch: canonical 'Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\dev\kb-sync.', manifest 'Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.'
 ⚠️ **kb-sync-nightly**: Runtime mismatch: canonical typescript, manifest bash
 ⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
-❌ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', manifest 'governance'
+⚠️ **obsidian-ingest-wiki**: Tags mismatch: canonical '', manifest 'obsidian, wiki, synthesis, lvm-pattern'
 ⚠️ **obsidian-ingest-wiki**: Path mismatch: expected 'skills/obsidian-ingest-wiki', got ''
 ⚠️ **obsidian-ingest-wiki**: Invalid category in manifest: knowledge-base
-⚠️ **obsidian-ingest-wiki**: Tags mismatch: canonical '', manifest 'obsidian, wiki, synthesis, lvm-pattern'
-⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
 ⚠️ **operator-image-build**: Invalid category in manifest: pipeline
 ⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
+⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
 ⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
 ⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
 ⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
@@ -172,19 +179,19 @@
 ⚠️ **pre-wrap-audit**: Invalid category in manifest: session-management
 ⚠️ **pre-wrap-audit**: Path mismatch: expected 'skills/pre-wrap-audit', got ''
 ⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
+⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
 ⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
 ⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
-⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
 ⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
 ⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
+⚠️ **roadmap-validator**: Invalid category in manifest: governance
 ⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
 ⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
-⚠️ **roadmap-validator**: Invalid category in manifest: governance
+⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
 ⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
 ⚠️ **rollback-phase**: Invalid category in manifest: pipeline
-⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
-⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
 ⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
+⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
 ⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
 ⚠️ **scale-ingestion-service**: Invalid category in manifest: pipeline
 ⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
@@ -208,9 +215,9 @@
 ⚠️ **trm-feedback-report**: Invalid category in manifest: research-ops
 ⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
 ⚠️ **trm-status**: Path mismatch: expected 'skills/trm-status', got ''
+⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
 ⚠️ **work-summarizer**: Tags mismatch: canonical '', manifest ''
 ⚠️ **work-summarizer**: Invalid category in manifest: observability
-⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
 
 ## Cowork Validation
 
@@ -236,6 +243,7 @@
 ⚠️ **plan-extractor-integration**: Not registered (installer will register on next run)
 ⚠️ **pre-wrap-audit**: Not registered (installer will register on next run)
 ⚠️ **reconcile-vector-store**: Not registered (installer will register on next run)
+⚠️ **retro-export**: Not registered (installer will register on next run)
 ⚠️ **rewrite-labs-orchestrator**: Not registered (installer will register on next run)
 ⚠️ **roadmap-validator**: Not registered (installer will register on next run)
 ⚠️ **rollback-phase**: Not registered (installer will register on next run)
@@ -252,20 +260,22 @@
 ⚠️ **trm-feedback-report**: Not registered (installer will register on next run)
 ⚠️ **trm-status**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
+⚠️ **workspace-storage-cleaner**: Not registered (installer will register on next run)
 
 ## Dependencies Validation
 
-❌ **cic-consolidate-artifacts**: Internal dependencies mismatch: canonical '', manifest '_cic-shared'
-❌ **cic-ingest-world**: Internal dependencies mismatch: canonical '', manifest '_cic-shared'
-❌ **cic-orchestrate-flow**: Internal dependencies mismatch: canonical '', manifest '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate'
-❌ **cic-repair-pipeline**: Internal dependencies mismatch: canonical '', manifest '_cic-shared'
-❌ **cic-run-gate**: Internal dependencies mismatch: canonical '', manifest '_cic-shared'
+⚠️ **cic-consolidate-artifacts**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
+⚠️ **cic-ingest-world**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
+⚠️ **cic-orchestrate-flow**: Internal dependencies mismatch (distributed): canonical '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate', distributed ''
+⚠️ **cic-repair-pipeline**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
+⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
 ⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
 ⚠️ **trm-status**: Missing external dependency: git
+⚠️ **workspace-storage-cleaner**: Missing external dependency: python3
 
 ## Runtime Validation
 
@@ -292,7 +302,7 @@
 ℹ️ **pre-wrap-audit**: Skill inactive (status: )
 ℹ️ **reconcile-vector-store**: Skill inactive (status: )
 ⚠️ **research-questions**: Cannot discover: SKILL.json missing
-⚠️ **retro-export**: Cannot discover: SKILL.json missing
+ℹ️ **retro-export**: Discoverable
 ℹ️ **rewrite-labs-orchestrator**: Skill inactive (status: )
 ℹ️ **roadmap-validator**: Skill inactive (status: )
 ℹ️ **rollback-phase**: Skill inactive (status: )
@@ -309,6 +319,7 @@
 ℹ️ **trm-feedback-report**: Skill inactive (status: )
 ℹ️ **trm-status**: Discoverable
 ℹ️ **work-summarizer**: Skill inactive (status: )
+ℹ️ **workspace-storage-cleaner**: Skill inactive (status: )
 
 ---
 

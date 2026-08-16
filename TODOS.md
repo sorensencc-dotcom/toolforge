@@ -10,6 +10,12 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Open
 
+- [ ] **[P2] Toolforge health warning: retro-export/Manifest** (created 2026-08-16) — No entry in manifest. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: retro-export|Manifest|No entry in manifest -->
+- [ ] **[P2] Toolforge health warning: retro-export/AuditLog** (created 2026-08-16) — No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: retro-export|AuditLog|No runtime history in audit log -->
+- [ ] **[P2] Toolforge health warning: retro-export/SkillMD** (created 2026-08-16) — SKILL.md not found. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: retro-export|SkillMD|SKILL.md not found -->
+- [ ] **[P2] Toolforge health warning: workspace-storage-cleaner/Manifest** (created 2026-08-16) — No entry in manifest. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: workspace-storage-cleaner|Manifest|No entry in manifest -->
+- [ ] **[P2] Toolforge health warning: workspace-storage-cleaner/AuditLog** (created 2026-08-16) — No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: workspace-storage-cleaner|AuditLog|No runtime history in audit log -->
+
 - [ ] **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`.
 
 - [ ] **[P2] TorqueQuery CIC observability hooks** (deferred, low priority) — TorqueQuery determinism verified 2026-07-17. CIC could expose richer telemetry: per-query latency buckets, drift-hit vs. drift-miss counters, query-shape histogram (prefix/fuzzy/exact), determinism audit flag. Adapter-side only, no TorqueQuery core changes. Defer until CIC dashboard audit surfaces real observability gap. See discussion 2026-07-18.
@@ -118,6 +124,7 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 - 2026-07-31: Synced 3 retro files (`2026-07-29-1`, `2026-07-29-2`, `2026-07-30-1.json`) flagged unaddressed by the new `check-todo-sync.js` Stop hook. `2026-07-29-1` was a same-window duplicate of `2026-07-29-2` (both already covered). `2026-07-30-1` surfaced 2 genuinely new items: opened `cic-ingestion tsx bypasses tsconfig type-checking` and `trm-vault has no git remote` (Open); closed/logged `trm-vault commit-per-run` as an adopted Process rule (was memory-only, not yet in this file).
 - 2026-08-06: Retro follow-through on 3 improvement items. (1) `scripts/loc-filtered.ps1` now excludes `chore(sync):`-tagged commits from the headline code metric automatically (parses commit subject via a `--pretty` marker line ahead of each `--numstat` block, reports sync-commit churn on its own line) — 3rd time this exclusion needed manual correction in a retro before being scripted. (2) Split `## Open` from a new `## Completed` section — 40+ `[x]` items were interleaved with the 6 still-open ones, making the real backlog hard to see at a glance. (3) Added a creation-date-stamp convention (`**Priority tags**` note above) so future retros can compute backlog-added-this-period, not just net open count; applies going forward, no retroactive backfill. Did not action the TRM sync-treatment fixture-realism note (deployment-surface test coverage, e.g. scheduler exit codes / live vault dirs) — no active TRM work this session to attach it to; flagged here for next TRM touch.
 - 2026-08-15: Retro follow-through. Consolidated 19 auto-generated kb-sync drift detector entries into a single batched [P2] backlog item; updated sibling checker to maintain a single consolidated drift entry instead of emitting per-file TODOs.
+
 
 
 

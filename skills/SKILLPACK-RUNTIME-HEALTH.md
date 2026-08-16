@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-16T01:00:25.4373744Z
+**Generated:** 2026-08-16T17:42:16.6338472Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 259 | 0 | 0 | 259 |
-| % Pass | 100% | 0% | 0% | 100% |
+| **Totals** | 268 | 5 | 0 | 273 |
+| % Pass | 98.2% | 1.8% | 0% | 100% |
 
 ---
 
@@ -71,7 +71,7 @@
 |-------|--------|---------|
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
+| Dependencies | ✅ PASS | All 1 internal deps available |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
@@ -83,7 +83,7 @@
 |-------|--------|---------|
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
+| Dependencies | ✅ PASS | All 1 internal deps available |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
@@ -95,7 +95,7 @@
 |-------|--------|---------|
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
+| Dependencies | ✅ PASS | All 5 internal deps available |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
@@ -107,7 +107,7 @@
 |-------|--------|---------|
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
+| Dependencies | ✅ PASS | All 1 internal deps available |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
@@ -131,7 +131,7 @@
 |-------|--------|---------|
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
 | Runtime | ✅ PASS | Found: npm |
-| Dependencies | ✅ PASS | No dependencies |
+| Dependencies | ✅ PASS | All 1 internal deps available |
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
@@ -268,6 +268,18 @@
 | Manifest | ✅ PASS | Consistent |
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
+
+### retro-export — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ⚠️ WARN | SKILL.md not found |
 
 ### rewrite-labs-orchestrator — ✅ GOOD
 
@@ -461,6 +473,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### workspace-storage-cleaner — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: scripts/clean-storage.py |
+| Runtime | ✅ PASS | Found: python |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Runtime python (dry-run not applicable) |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ---
 
 ## Health Categories
@@ -509,7 +533,9 @@ Skills passing all checks:
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
-*(none)*\n
+- retro-export
+- workspace-storage-cleaner
+
 ### ❌ Error Health
 
 Skills with critical failures:

@@ -99,7 +99,7 @@
 
 <script type="application/json" id="manifest-data">
 {
-  "timestamp": "2026-08-16T15:54:05.5818128Z",
+  "timestamp": "2026-08-16T17:42:15.4240138Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -130,15 +130,15 @@
       }
     },
     {
-      "id": "reconcile-vector-store",
-      "name": "Reconcile Vector Store",
-      "category": "data-management",
+      "id": "retro-export",
+      "name": "Retro Export",
+      "category": "monitoring",
       "tags": [],
       "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "typescript",
       "entrypoint": "src/index.ts",
-      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
+      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -147,13 +147,13 @@
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "functional",
+        "runtime": "untested",
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:59.2615565Z",
-        "lastValidation": "2026-07-10T21:43:59.2615565Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "created": "2026-08-16T17:27:19.1809541Z",
+        "lastValidation": "2026-08-16T17:27:19.1809541Z",
+        "lastRun": null
       }
     },
     {
@@ -319,6 +319,33 @@
       }
     },
     {
+      "id": "reconcile-vector-store",
+      "name": "Reconcile Vector Store",
+      "category": "data-management",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-10T21:43:59.2615565Z",
+        "lastValidation": "2026-07-10T21:43:59.2615565Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+      }
+    },
+    {
       "id": "skill-health-monitor",
       "name": "Skill Health Monitor",
       "category": "monitoring",
@@ -342,35 +369,6 @@
       "timestamps": {
         "created": "2026-07-17T16:30:04.0009582Z",
         "lastValidation": "2026-07-17T16:30:04.0009582Z",
-        "lastRun": "2026-08-07T21:38:00Z\r"
-      }
-    },
-    {
-      "id": "skill-security-auditor",
-      "name": "Skill Security Auditor",
-      "category": "utilities",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "src/skill_security_auditor.py",
-      "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-15T15:04:33.2507454Z",
-        "lastValidation": "2026-07-15T15:04:33.2507454Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -557,6 +555,64 @@
       }
     },
     {
+      "id": "trm-status",
+      "name": "TRM Status",
+      "category": "monitoring",
+      "tags": [],
+      "version": "0.1.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "git"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-01T03:33:34.7530183Z",
+        "lastValidation": "2026-08-01T03:33:34.7530183Z",
+        "lastRun": "2026-08-07T21:38:00Z\r"
+      }
+    },
+    {
+      "id": "skill-security-auditor",
+      "name": "Skill Security Auditor",
+      "category": "utilities",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "src/skill_security_auditor.py",
+      "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-15T15:04:33.2507454Z",
+        "lastValidation": "2026-07-15T15:04:33.2507454Z",
+        "lastRun": "2026-08-07T21:38:00Z\r"
+      }
+    },
+    {
       "id": "pre-wrap-audit",
       "name": "Pre Wrap Audit",
       "category": "session-management",
@@ -637,33 +693,6 @@
         "created": "2026-07-10T21:43:59.1301190Z",
         "lastValidation": "2026-07-10T21:43:59.1301190Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
-      }
-    },
-    {
-      "id": "operator-image-build",
-      "name": "Operator Image Build",
-      "category": "pipeline",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.1114681Z",
-        "lastValidation": "2026-07-10T21:43:59.1114681Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
       }
     },
     {
@@ -786,7 +815,9 @@
       "description": "Stub: consolidate CIC artifacts (Phase 1 placeholder)",
       "status": "active",
       "dependencies": {
-        "internal": [],
+        "internal": [
+          "_cic-shared"
+        ],
         "external": []
       },
       "health": {
@@ -796,8 +827,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-16T17:20:55.8043488Z",
-        "lastValidation": "2026-07-16T17:20:55.8043488Z",
+        "created": "2026-08-16T17:40:05.8514388Z",
+        "lastValidation": "2026-08-16T17:40:05.8514388Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -813,7 +844,9 @@
       "description": "Stub: ingest a world/source into CIC (Phase 1 placeholder, no TorqueQuery yet)",
       "status": "active",
       "dependencies": {
-        "internal": [],
+        "internal": [
+          "_cic-shared"
+        ],
         "external": []
       },
       "health": {
@@ -823,8 +856,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-16T17:37:05.9970022Z",
-        "lastValidation": "2026-07-16T17:37:05.9970022Z",
+        "created": "2026-08-16T17:40:49.1725483Z",
+        "lastValidation": "2026-08-16T17:40:49.1725483Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -840,7 +873,13 @@
       "description": "Phase 3: compose ingest/gate/repair/consolidate into one fixed pipeline call",
       "status": "active",
       "dependencies": {
-        "internal": [],
+        "internal": [
+          "_cic-shared",
+          "cic-consolidate-artifacts",
+          "cic-ingest-world",
+          "cic-repair-pipeline",
+          "cic-run-gate"
+        ],
         "external": []
       },
       "health": {
@@ -850,37 +889,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-17T04:31:23.9091190Z",
-        "lastValidation": "2026-07-17T04:31:23.9091190Z",
-        "lastRun": "2026-08-07T21:38:00Z\r"
-      }
-    },
-    {
-      "id": "trm-status",
-      "name": "TRM Status",
-      "category": "monitoring",
-      "tags": [],
-      "version": "0.1.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "git"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-01T03:33:34.7530183Z",
-        "lastValidation": "2026-08-01T03:33:34.7530183Z",
+        "created": "2026-08-16T17:41:48.3542964Z",
+        "lastValidation": "2026-08-16T17:41:48.3542964Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -896,6 +906,35 @@
       "description": "Stub: repair a CIC pipeline failure (Phase 1 placeholder)",
       "status": "active",
       "dependencies": {
+        "internal": [
+          "_cic-shared"
+        ],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:41:24.7066357Z",
+        "lastValidation": "2026-08-16T17:41:24.7066357Z",
+        "lastRun": "2026-08-07T21:38:00Z\r"
+      }
+    },
+    {
+      "id": "cic-roadmap-updater",
+      "name": "CIC Roadmap Updater",
+      "category": "analysis",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Calculates progress and updates versions for CIC roadmaps",
+      "status": "active",
+      "dependencies": {
         "internal": [],
         "external": []
       },
@@ -906,8 +945,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-16T17:16:17.1838753Z",
-        "lastValidation": "2026-07-16T17:16:17.1838753Z",
+        "created": "2026-07-10T21:43:58.9401449Z",
+        "lastValidation": "2026-07-10T21:43:58.9401449Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -923,7 +962,9 @@
       "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
       "status": "active",
       "dependencies": {
-        "internal": [],
+        "internal": [
+          "_cic-shared"
+        ],
         "external": []
       },
       "health": {
@@ -933,8 +974,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-16T17:27:35.7096990Z",
-        "lastValidation": "2026-07-16T17:27:35.7096990Z",
+        "created": "2026-08-16T17:39:59.7227316Z",
+        "lastValidation": "2026-08-16T17:39:59.7227316Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -1107,15 +1148,15 @@
       }
     },
     {
-      "id": "cic-roadmap-updater",
-      "name": "CIC Roadmap Updater",
-      "category": "analysis",
+      "id": "operator-image-build",
+      "name": "Operator Image Build",
+      "category": "pipeline",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "typescript",
+      "runtime": "node",
       "entrypoint": "src/index.ts",
-      "description": "Calculates progress and updates versions for CIC roadmaps",
+      "description": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -1128,9 +1169,9 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:58.9401449Z",
-        "lastValidation": "2026-07-10T21:43:58.9401449Z",
-        "lastRun": "2026-08-07T21:38:00Z\r"
+        "created": "2026-07-10T21:43:59.1114681Z",
+        "lastValidation": "2026-07-10T21:43:59.1114681Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
       }
     },
     {
@@ -1159,14 +1200,43 @@
         "lastValidation": "2026-07-10T21:43:59.5024800Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z\r"
       }
+    },
+    {
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": false,
+        "runtime": "untested",
+        "overall": "warn"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "lastRun": null
+      }
     }
   ],
   "summary": {
-    "total": 38,
-    "active": 38,
+    "total": 40,
+    "active": 40,
     "deprecated": 0,
-    "health_good": 38,
-    "health_warn": 0,
+    "health_good": 39,
+    "health_warn": 1,
     "health_error": 0
   }
 }
@@ -1312,6 +1382,7 @@
 
 </body>
 </html>
+
 
 
 

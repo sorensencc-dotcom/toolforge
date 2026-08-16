@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-16T15:54:04.7724993Z
+**Generated:** 2026-08-16T17:42:14.7076382Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 38 |
-| Total Dependencies | 4 |
+| Total Skills | 40 |
+| Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 34 |
+| Orphan Skills | 31 |
 
 ---
 
@@ -57,25 +57,29 @@
 
 | Dependency | Type | Status |
 |------------|------|--------|
-| *(none)* | — | Leaf node |
+| _cic-shared | internal | ✅ Found |
 
 ### cic-ingest-world
 
 | Dependency | Type | Status |
 |------------|------|--------|
-| *(none)* | — | Leaf node |
+| _cic-shared | internal | ✅ Found |
 
 ### cic-orchestrate-flow
 
 | Dependency | Type | Status |
 |------------|------|--------|
-| *(none)* | — | Leaf node |
+| _cic-shared | internal | ✅ Found |
+| cic-consolidate-artifacts | internal | ✅ Found |
+| cic-ingest-world | internal | ✅ Found |
+| cic-repair-pipeline | internal | ✅ Found |
+| cic-run-gate | internal | ✅ Found |
 
 ### cic-repair-pipeline
 
 | Dependency | Type | Status |
 |------------|------|--------|
-| *(none)* | — | Leaf node |
+| _cic-shared | internal | ✅ Found |
 
 ### cic-roadmap-updater
 
@@ -87,7 +91,7 @@
 
 | Dependency | Type | Status |
 |------------|------|--------|
-| *(none)* | — | Leaf node |
+| _cic-shared | internal | ✅ Found |
 
 ### cic-section-summarizer
 
@@ -150,6 +154,12 @@
 | ashfall | internal | ✅ Found |
 
 ### reconcile-vector-store
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### retro-export
 
 | Dependency | Type | Status |
 |------------|------|--------|
@@ -253,11 +263,24 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### workspace-storage-cleaner
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| python3 | external | ❌ Missing |
+
 ### Inbound Dependencies (What Depends on Each Skill)
 
 ### _cic-shared
 
-No inbound dependencies (root skill)\n
+| Dependent | Type |
+|-----------|------|
+| cic-consolidate-artifacts | internal |
+| cic-ingest-world | internal |
+| cic-orchestrate-flow | internal |
+| cic-repair-pipeline | internal |
+| cic-run-gate | internal |
+
 ### agent-drift-detector
 
 No inbound dependencies (root skill)\n
@@ -275,22 +298,34 @@ No inbound dependencies (root skill)\n
 No inbound dependencies (root skill)\n
 ### cic-consolidate-artifacts
 
-No inbound dependencies (root skill)\n
+| Dependent | Type |
+|-----------|------|
+| cic-orchestrate-flow | internal |
+
 ### cic-ingest-world
 
-No inbound dependencies (root skill)\n
+| Dependent | Type |
+|-----------|------|
+| cic-orchestrate-flow | internal |
+
 ### cic-orchestrate-flow
 
 No inbound dependencies (root skill)\n
 ### cic-repair-pipeline
 
-No inbound dependencies (root skill)\n
+| Dependent | Type |
+|-----------|------|
+| cic-orchestrate-flow | internal |
+
 ### cic-roadmap-updater
 
 No inbound dependencies (root skill)\n
 ### cic-run-gate
 
-No inbound dependencies (root skill)\n
+| Dependent | Type |
+|-----------|------|
+| cic-orchestrate-flow | internal |
+
 ### cic-section-summarizer
 
 No inbound dependencies (root skill)\n
@@ -322,6 +357,9 @@ No inbound dependencies (root skill)\n
 
 No inbound dependencies (root skill)\n
 ### reconcile-vector-store
+
+No inbound dependencies (root skill)\n
+### retro-export
 
 No inbound dependencies (root skill)\n
 ### rewrite-labs-orchestrator
@@ -381,6 +419,9 @@ No inbound dependencies (root skill)\n
 ### work-summarizer
 
 No inbound dependencies (root skill)\n
+### workspace-storage-cleaner
+
+No inbound dependencies (root skill)\n
 ---
 
 ## Dependency Depth (Leaf → Root)
@@ -389,22 +430,23 @@ Depth 0 = Leaf node (no dependencies)
 Depth N = Depends on at least one skill at depth N-1
 
 | Skill | Depth |
-|-------|-------|| trm-feedback-report | 2 |
+|-------|-------|| cic-orchestrate-flow | 2 |
+| trm-feedback-report | 2 |
+| cic-consolidate-artifacts | 1 |
+| cic-ingest-world | 1 |
+| cic-repair-pipeline | 1 |
+| cic-run-gate | 1 |
 | pre-wrap-audit | 1 |
 | skill-security-auditor | 1 |
 | toolforge-cli | 1 |
 | trm-status | 1 |
+| workspace-storage-cleaner | 1 |
 | _cic-shared | 0 |
 | agent-drift-detector | 0 |
 | analyze-token-burn | 0 |
 | ashfall | 0 |
 | automation-audit | 0 |
-| cic-consolidate-artifacts | 0 |
-| cic-ingest-world | 0 |
-| cic-orchestrate-flow | 0 |
-| cic-repair-pipeline | 0 |
 | cic-roadmap-updater | 0 |
-| cic-run-gate | 0 |
 | cic-section-summarizer | 0 |
 | context-manager | 0 |
 | html-visual-verify | 0 |
@@ -415,6 +457,7 @@ Depth N = Depends on at least one skill at depth N-1
 | permission-governor | 0 |
 | plan-extractor-integration | 0 |
 | reconcile-vector-store | 0 |
+| retro-export | 0 |
 | rewrite-labs-orchestrator | 0 |
 | roadmap-validator | 0 |
 | rollback-phase | 0 |
@@ -445,16 +488,11 @@ Dependencies referenced but not found in canonical skills.
 Skills that have no inbound dependencies (nothing depends on them).
 | Skill |
 |-------|
-| _cic-shared |
 | agent-drift-detector |
 | analyze-token-burn |
 | automation-audit |
-| cic-consolidate-artifacts |
-| cic-ingest-world |
 | cic-orchestrate-flow |
-| cic-repair-pipeline |
 | cic-roadmap-updater |
-| cic-run-gate |
 | cic-section-summarizer |
 | context-manager |
 | html-visual-verify |
@@ -466,6 +504,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | plan-extractor-integration |
 | pre-wrap-audit |
 | reconcile-vector-store |
+| retro-export |
 | rewrite-labs-orchestrator |
 | roadmap-validator |
 | rollback-phase |
@@ -479,6 +518,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | toolforge-drift-monitor |
 | trm-feedback-report |
 | work-summarizer |
+| workspace-storage-cleaner |
 
 ---
 
@@ -488,7 +528,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 34 orphan skill(s) |
+| Orphans | ⚠️ WARN | 31 orphan skill(s) |
 
 ---
 

@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-16T15:54:05.5818128Z
+**Generated:** 2026-08-16T17:42:15.4240138Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 38 | 100% |
-| Active | 38 | 100% |
+| **Total Skills** | 40 | 100% |
+| Active | 40 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 38 | 100% |
-| ⚠️ Warning | 0 | 0% |
+| ✅ Good | 39 | 97.5% |
+| ⚠️ Warning | 1 | 2.5% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -38,18 +38,18 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### reconcile-vector-store
+### retro-export
 
 | Field | Value |
 |-------|-------|
-| Name | Reconcile Vector Store |
-| Category | data-management |
+| Name | Retro Export |
+| Category | monitoring |
 | Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### rewrite-labs-orchestrator
 
@@ -129,6 +129,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### reconcile-vector-store
+
+| Field | Value |
+|-------|-------|
+| Name | Reconcile Vector Store |
+| Category | data-management |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
 ### skill-health-monitor
 
 | Field | Value |
@@ -142,19 +155,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### skill-security-auditor
-
-| Field | Value |
-|-------|-------|
-| Name | Skill Security Auditor |
-| Category | utilities |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | python |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 1 external |
 ### tool-lifecycle-manager
 
 | Field | Value |
@@ -233,6 +233,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 1 external |
+### trm-status
+
+| Field | Value |
+|-------|-------|
+| Name | TRM Status |
+| Category | monitoring |
+| Version | 0.1.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 1 external |
+### skill-security-auditor
+
+| Field | Value |
+|-------|-------|
+| Name | Skill Security Auditor |
+| Category | utilities |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 1 external |
 ### pre-wrap-audit
 
 | Field | Value |
@@ -271,19 +297,6 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### operator-image-build
-
-| Field | Value |
-|-------|-------|
-| Name | Operator Image Build |
-| Category | pipeline |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### agent-drift-detector
 
@@ -349,7 +362,7 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
+| Dependencies | 1 internal, 0 external |
 ### cic-ingest-world
 
 | Field | Value |
@@ -362,7 +375,7 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
+| Dependencies | 1 internal, 0 external |
 ### cic-orchestrate-flow
 
 | Field | Value |
@@ -375,20 +388,7 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### trm-status
-
-| Field | Value |
-|-------|-------|
-| Name | TRM Status |
-| Category | monitoring |
-| Version | 0.1.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 1 external |
+| Dependencies | 5 internal, 0 external |
 ### cic-repair-pipeline
 
 | Field | Value |
@@ -398,6 +398,19 @@
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 1 internal, 0 external |
+### cic-roadmap-updater
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Roadmap Updater |
+| Category | analysis |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
@@ -414,7 +427,7 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
+| Dependencies | 1 internal, 0 external |
 ### cic-section-summarizer
 
 | Field | Value |
@@ -493,18 +506,18 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### cic-roadmap-updater
+### operator-image-build
 
 | Field | Value |
 |-------|-------|
-| Name | CIC Roadmap Updater |
-| Category | analysis |
+| Name | Operator Image Build |
+| Category | pipeline |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | typescript |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### work-summarizer
 
@@ -519,6 +532,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 1 external |
 
 ---
 
