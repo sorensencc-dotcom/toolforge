@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-16T01:00:24.5972679Z
+**Generated:** 2026-08-16T15:54:05.5818128Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -38,266 +38,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### agent-drift-detector
-
-| Field | Value |
-|-------|-------|
-| Name | Agent Drift Detector |
-| Category | validation |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### analyze-token-burn
-
-| Field | Value |
-|-------|-------|
-| Name | Analyze Token Burn |
-| Category | observability |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
-### ashfall
-
-| Field | Value |
-|-------|-------|
-| Name | Ashfall |
-| Category | automation |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
-### automation-audit
-
-| Field | Value |
-|-------|-------|
-| Name | Automation Audit |
-| Category | operations |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### cic-consolidate-artifacts
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Consolidate Artifacts |
-| Category | governance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### cic-ingest-world
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Ingest World |
-| Category | governance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### cic-orchestrate-flow
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Orchestrate Flow |
-| Category | governance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### cic-repair-pipeline
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Repair Pipeline |
-| Category | governance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### cic-roadmap-updater
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Roadmap Updater |
-| Category | analysis |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### cic-run-gate
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Run Gate |
-| Category | governance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### cic-section-summarizer
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Section Summarizer |
-| Category | analysis |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### context-manager
-
-| Field | Value |
-|-------|-------|
-| Name | Context Manager |
-| Category | utilities |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### html-visual-verify
-
-| Field | Value |
-|-------|-------|
-| Name | HTML Visual Verify |
-| Category | validation |
-| Version | 1.0.0 |
-| Owner | soren |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### kb-sync-artifact-generator
-
-| Field | Value |
-|-------|-------|
-| Name | KB Sync Artifact Generator |
-| Category | governance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### kb-sync-nightly
-
-| Field | Value |
-|-------|-------|
-| Name | KB Sync Nightly |
-| Category | sync-tools |
-| Version | 1.0.2 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
-### obsidian-ingest-wiki
-
-| Field | Value |
-|-------|-------|
-| Name | Obsidian Wiki Ingest |
-| Category | knowledge-base |
-| Version | 1.1.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### operator-image-build
-
-| Field | Value |
-|-------|-------|
-| Name | Operator Image Build |
-| Category | pipeline |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
-### permission-governor
-
-| Field | Value |
-|-------|-------|
-| Name | Permission Governor |
-| Category | validation |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### plan-extractor-integration
-
-| Field | Value |
-|-------|-------|
-| Name | Plan Extractor Integration |
-| Category | integration |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### pre-wrap-audit
-
-| Field | Value |
-|-------|-------|
-| Name | Pre Wrap Audit |
-| Category | session-management |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 1 internal, 0 external |
 ### reconcile-vector-store
 
 | Field | Value |
@@ -493,6 +233,149 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 1 external |
+### pre-wrap-audit
+
+| Field | Value |
+|-------|-------|
+| Name | Pre Wrap Audit |
+| Category | session-management |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 1 internal, 0 external |
+### plan-extractor-integration
+
+| Field | Value |
+|-------|-------|
+| Name | Plan Extractor Integration |
+| Category | integration |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### permission-governor
+
+| Field | Value |
+|-------|-------|
+| Name | Permission Governor |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### operator-image-build
+
+| Field | Value |
+|-------|-------|
+| Name | Operator Image Build |
+| Category | pipeline |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### agent-drift-detector
+
+| Field | Value |
+|-------|-------|
+| Name | Agent Drift Detector |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### analyze-token-burn
+
+| Field | Value |
+|-------|-------|
+| Name | Analyze Token Burn |
+| Category | observability |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### ashfall
+
+| Field | Value |
+|-------|-------|
+| Name | Ashfall |
+| Category | automation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### automation-audit
+
+| Field | Value |
+|-------|-------|
+| Name | Automation Audit |
+| Category | operations |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### cic-consolidate-artifacts
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Consolidate Artifacts |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### cic-ingest-world
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Ingest World |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### cic-orchestrate-flow
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Orchestrate Flow |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
 ### trm-status
 
 | Field | Value |
@@ -506,6 +389,123 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
+### cic-repair-pipeline
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Repair Pipeline |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### cic-run-gate
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Run Gate |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### cic-section-summarizer
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Section Summarizer |
+| Category | analysis |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### context-manager
+
+| Field | Value |
+|-------|-------|
+| Name | Context Manager |
+| Category | utilities |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### html-visual-verify
+
+| Field | Value |
+|-------|-------|
+| Name | HTML Visual Verify |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | soren |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### kb-sync-artifact-generator
+
+| Field | Value |
+|-------|-------|
+| Name | KB Sync Artifact Generator |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### kb-sync-nightly
+
+| Field | Value |
+|-------|-------|
+| Name | KB Sync Nightly |
+| Category | sync-tools |
+| Version | 1.0.2 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### obsidian-ingest-wiki
+
+| Field | Value |
+|-------|-------|
+| Name | Obsidian Wiki Ingest |
+| Category | knowledge-base |
+| Version | 1.1.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### cic-roadmap-updater
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Roadmap Updater |
+| Category | analysis |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
 ### work-summarizer
 
 | Field | Value |

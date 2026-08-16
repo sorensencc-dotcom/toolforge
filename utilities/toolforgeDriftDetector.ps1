@@ -36,6 +36,22 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+function Write-IfChanged {
+  param([string]$Path, [string]$Content)
+  $tsPattern = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?'
+  if (Test-Path $Path) {
+    $existing = Get-Content $Path -Raw
+    $normExisting = ($existing -replace '\r\n', "`n" -replace $tsPattern, '').Trim()
+    $normContent = ($Content -replace '\r\n', "`n" -replace $tsPattern, '').Trim()
+    if ($normExisting -eq $normContent) {
+      Write-Host "  No drift changes -- skipping write: $Path" -ForegroundColor DarkGray
+      return $false
+    }
+  }
+  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  return $true
+}
+
 $CANONICAL = "C:\dev"
 $DISTRIBUTED = "C:\dev\rewrite-mcp\toolforge"
 
@@ -568,8 +584,8 @@ if (-not (Test-Path $driftDir)) {
   New-Item -ItemType Directory -Path $driftDir -Force | Out-Null
 }
 
-$report | Set-Content -Path $OutputPath -Encoding UTF8
-Write-Host "Report generated: $OutputPath" -ForegroundColor Green
+Write-IfChanged -Path $OutputPath -Content $report | Out-Null
+Write-Host "Report checked: $OutputPath" -ForegroundColor Green
 
 # Console summary
 Write-Host ""

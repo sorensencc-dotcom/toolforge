@@ -52,7 +52,9 @@ function Write-IfChanged {
   $tsPattern = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?'
   if (Test-Path $Path) {
     $existing = Get-Content $Path -Raw
-    if (($existing -replace $tsPattern, '') -eq ($Content -replace $tsPattern, '')) {
+    $normExisting = ($existing -replace '\r\n', "`n" -replace $tsPattern, '').Trim()
+    $normContent = ($Content -replace '\r\n', "`n" -replace $tsPattern, '').Trim()
+    if ($normExisting -eq $normContent) {
       Write-Host "  No skill-relevant changes -- skipping write: $Path" -ForegroundColor DarkGray
       return $false
     }
@@ -173,6 +175,10 @@ function Sync-WarningsToTodos {
     $updatedOpenLines += $line
   }
 
+  if ($newLines.Count -eq 0 -and $resolvedLines.Count -eq 0) {
+    return
+  }
+
   if ($newLines.Count -gt 0) {
     $insertNew = ($newLines -join "`n") + "`n"
     $updatedContent = ($updatedOpenLines -join "`n")
@@ -192,14 +198,12 @@ function Sync-WarningsToTodos {
   }
 
   $finalContent = $updatedOpenLines -join "`n"
-  if ($finalContent -ne $content) {
-    Set-Content -LiteralPath $TodosPath -Value $finalContent -Encoding UTF8
-    if ($newLines.Count -gt 0) {
-      Write-Host "⚠️ Logged $($newLines.Count) new health warning(s) into TODOS.md" -ForegroundColor Yellow
-    }
-    if ($resolvedLines.Count -gt 0) {
-      Write-Host "✅ Auto-resolved $($resolvedLines.Count) cleared health warning(s) in TODOS.md" -ForegroundColor Green
-    }
+  Set-Content -LiteralPath $TodosPath -Value $finalContent -Encoding UTF8
+  if ($newLines.Count -gt 0) {
+    Write-Host "⚠️ Logged $($newLines.Count) new health warning(s) into TODOS.md" -ForegroundColor Yellow
+  }
+  if ($resolvedLines.Count -gt 0) {
+    Write-Host "✅ Auto-resolved $($resolvedLines.Count) cleared health warning(s) in TODOS.md" -ForegroundColor Green
   }
 }
 

@@ -43,7 +43,9 @@ function Write-IfChanged {
   $tsPattern = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?'
   if (Test-Path $Path) {
     $existing = Get-Content $Path -Raw
-    if (($existing -replace $tsPattern, '') -eq ($Content -replace $tsPattern, '')) {
+    $normExisting = ($existing -replace '\r\n', "`n" -replace $tsPattern, '').Trim()
+    $normContent = ($Content -replace '\r\n', "`n" -replace $tsPattern, '').Trim()
+    if ($normExisting -eq $normContent) {
       Write-Host "  No skill-relevant changes -- skipping write: $Path" -ForegroundColor DarkGray
       return $false
     }
@@ -378,7 +380,7 @@ Depth N = Depends on at least one skill at depth N-1
 |-------|-------|
 "@
 
-  foreach ($skillId in ($graph.depths.Keys | Sort-Object { $graph.depths[$_] } -Descending)) {
+  foreach ($skillId in ($graph.depths.Keys | Sort-Object @{ Expression = { $graph.depths[$_] }; Descending = $true }, @{ Expression = { $_ }; Descending = $false })) {
     $md += "| $skillId | $($graph.depths[$skillId]) |`n"
   }
 

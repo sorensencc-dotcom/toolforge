@@ -43,7 +43,9 @@ function Write-IfChanged {
   $tsPattern = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?'
   if (Test-Path $Path) {
     $existing = Get-Content $Path -Raw
-    if (($existing -replace $tsPattern, '') -eq ($Content -replace $tsPattern, '')) {
+    $normExisting = ($existing -replace '\r\n', "`n" -replace $tsPattern, '').Trim()
+    $normContent = ($Content -replace '\r\n', "`n" -replace $tsPattern, '').Trim()
+    if ($normExisting -eq $normContent) {
       Write-Host "  No skill-relevant changes -- skipping write: $Path" -ForegroundColor DarkGray
       return $false
     }
@@ -60,11 +62,11 @@ $RUNTIME_LOG = "C:\dev\audit\SKILL-RUN-LOG.md"
 $VALIDATION_LOG = "C:\dev\skills\SKILLPACK-VALIDATION.md"
 
 # Metadata state
-$metadata = @{
+$metadata = [ordered]@{
   timestamp = Get-Date -AsUTC -Format "o"
   version = "1.0.0"
   skills = @()
-  summary = @{
+  summary = [ordered]@{
     total = 0
     active = 0
     deprecated = 0
@@ -128,7 +130,7 @@ function Load-AllSkills {
         $health = "warn"
       }
 
-      $skillMetadata = @{
+      $skillMetadata = [ordered]@{
         id = $skillJson.id ?? $skillId
         name = $skillJson.name ?? $skillId
         category = $skillJson.category ?? "unknown"
@@ -139,17 +141,17 @@ function Load-AllSkills {
         entrypoint = $skillJson.entrypoint ?? ""
         description = $skillJson.description ?? ""
         status = $skillJson.status ?? "active"
-        dependencies = @{
+        dependencies = [ordered]@{
           internal = @($skillJson.dependencies.internal ?? @())
           external = @($skillJson.dependencies.external ?? @())
         }
-        health = @{
+        health = [ordered]@{
           canonical = $true
           distributed = $isDistributed
           runtime = if ($lastRun) { "functional" } else { "untested" }
           overall = $health
         }
-        timestamps = @{
+        timestamps = [ordered]@{
           created = $skillJson.created ?? $lastValidation
           lastValidation = $lastValidation
           lastRun = $lastRun
