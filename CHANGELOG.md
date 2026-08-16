@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.38.2
+Date: 2026-08-16
+
+### Changes
+- ddf16a7 - fix(ci): array-wrap Where-Object results before .Count in pipeline summary (Chris Sorensen)
+
 ## Version 2.38.1
 Date: 2026-08-16
 
