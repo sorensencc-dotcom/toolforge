@@ -11,8 +11,11 @@ Persistent memory system for long-term context across sessions. See frontmatter 
 
 ## Current Work
 
-- **Toolforge Marketplace Phase 8 Wave D**: Deliverables locked to plugin manifest schema, registry service, CLI (`list`/`install`/`submit`), and submission validator. Target: Tier 1 approval & publication flow.
-- **Retro Schema Canonical v1.0 Lock**: Retro files locked to canonical schema structure to ensure multi-week trend stability.
+- **Healing Subsystem** (`26b41f3`, 2026-08-15): TripwireMonitor, AdversarialAuditor, SerialMergeQueue modules under `modules/healing/`.
+- **NotebookLM CIC Ingestion/Mining Design** (`8e1e461`..`86cc420`, 2026-08-12): ingestion + mining design for CIC docs into NotebookLM.
+- **Sigil Governed-Mailbox Protocol Spec** (`bb5345d`, 2026-08-12): spec for peer-to-peer agent mailbox protocol.
+- **Toolforge Marketplace Phase 8 Wave D**: still not shipped — `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains TEMPLATE FOR EXECUTION, unchecked, unsigned. Target date 2026-07-26 passed unmet. Treat as not started until signed.
+- **Retro Schema Canonical v1.0 Lock**: Retro files locked to canonical schema structure to ensure multi-week trend stability. Note: earliest retro (`2026-07-12-1.json`) had unit-scale + active_days bugs, fixed 2026-08-16.
 - **Pre-Flight Test Readiness**: ESLint configuration and dist exclusions locked to maintain clean test runs (`npm test`).
 
 ## Learnings & Incident Post-Mortems

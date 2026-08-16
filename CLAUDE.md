@@ -30,7 +30,7 @@ All other locations are forbidden:
 - archive/ (historical only)
 - Sync artifacts / node_modules / backups
 
-Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on every commit — live-verified 2026-08-09 (force-staged a roadmap.md under `.claude/worktrees/`, hook threw and blocked). Hook is gitignore-scoped: `.claude/worktrees/` files must be `git add -f`'d to even reach the gate, since the dir itself is gitignored. No CI job or scheduled scan enforces this yet (no `schedule:` trigger in `.github/workflows/`, no scanner wired into CI); `docs/meta/roadmap-consolidation-design.md` does not exist in this checkout. Treat CI/weekly-scan enforcement as not yet built, not as a live gate.
+Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on every commit — live-verified 2026-08-09 (force-staged a roadmap.md under `.claude/worktrees/`, hook threw and blocked). Hook is gitignore-scoped: `.claude/worktrees/` files must be `git add -f`'d to even reach the gate, since the dir itself is gitignored. No CI job scans for roadmap-location violations specifically — `.github/workflows/retro-full-audit.yml` does run on a `schedule:` trigger (`cron: '30 7 * * 5'`, since 2026-08-03) but doesn't check roadmap placement, and `governance.yml` has no roadmap-location scan either; `docs/meta/roadmap-consolidation-design.md` does not exist in this checkout. Treat CI/weekly-scan enforcement of roadmap location as not yet built, not as a live gate.
 
 ## gstack
 
