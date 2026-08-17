@@ -1,0 +1,39 @@
+docs/meta/governance/multi-agent-handoff-protocol.md
+  s_fd2e7bc8dc6209::t_89965a9f7ad413 36,38-47,52-55,64
+  s_fd2e7bc8dc6209::t_46528a76481d5f 98
+  s_fd2e7bc8dc6209::t_636aba4851601b 128
+  s_fd2e7bc8dc6209::t_913483041be456 12-16
+  s_fd2e7bc8dc6209::t_6e125788a69430 3,5,11,17-18
+  s_fd2e7bc8dc6209::t_671c2eefef8bdd 115-116,119
+  s_fd2e7bc8dc6209::t_cd75a71fee00a1 50
+  s_fd2e7bc8dc6209::t_20ae576c59b2ef 95,97,99,101-109
+  s_fd2e7bc8dc6209::t_20fdd8b1e7fccc 91-93
+  s_fd2e7bc8dc6209::t_d9dd42d958028b 74-78
+  s_fd2e7bc8dc6209::t_02fa9783cc2194 80-81,84-85,87
+  s_fd2e7bc8dc6209::t_60678bb7eb5044 49,51,56-57
+  s_fd2e7bc8dc6209::t_33c6bbc25e5a3e 48
+  s_fd2e7bc8dc6209::t_e55da66eb3f2d7 58,60-63,65-68
+  s_fd2e7bc8dc6209::t_0e7938e4885447 83
+  s_fd2e7bc8dc6209::t_520fed090a5fc4 110
+  s_fd2e7bc8dc6209::t_24b4b231a0b560 1-2,4,6-10,23-35,37,59,71-73,79,82,86,88-90,94,96,100,111-114,125-127,129-131
+  s_fd2e7bc8dc6209::t_584241ab951325 117-118,120-123
+  s_fd2e7bc8dc6209::t_7f4b8823de07ea 19-22
+  s_fd2e7bc8dc6209::t_d04710ecaa2045 124
+  s_fd2e7bc8dc6209::t_437d15c247f5a3 69-70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "14b57bfbddbe9b92960130284463ce38e9147eea",
+  "prompts": {},
+  "sessions": {
+    "s_fd2e7bc8dc6209": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "464d12e6-06ec-459c-bff6-bbb2cc379d35",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
