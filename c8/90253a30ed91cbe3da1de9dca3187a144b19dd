@@ -1,0 +1,32 @@
+docs/meta/governance/multi-agent-handoff-protocol.md
+  s_98d218d19a0123::t_c54f8b5efe6155 22
+  s_98d218d19a0123::t_0bfd89b85a7e95 5
+.ijfw/handoffs/README.md
+  s_98d218d19a0123::t_fbc04a4256712c 1-33
+scripts/handoff-append.ps1
+  s_98d218d19a0123::t_9971d340d4cf92 1-33,35-49
+  s_98d218d19a0123::t_e6b3fb490f8407 34
+scripts/handoff-bootstrap.ps1
+  s_98d218d19a0123::t_5e21e4a6f3c463 1-45
+scripts/handoff-checkpoint.ps1
+  s_98d218d19a0123::t_4c27f5cc8739ba 23
+  s_98d218d19a0123::t_4ab8f2948f8cb9 1-22,24-40
+docs/reports/daily/2026-08-17.md
+  s_98d218d19a0123::t_06ef378bff8275 1-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "c890253a30ed91cbe3da1de9dca3187a144b19dd",
+  "prompts": {},
+  "sessions": {
+    "s_98d218d19a0123": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b220038d-9e7e-4c9c-a280-ab2e4a8ce299",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
