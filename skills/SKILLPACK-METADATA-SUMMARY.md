@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-16T17:42:15.4240138Z
+**Generated:** 2026-08-18T01:00:07.2415562Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 40 | 100% |
-| Active | 40 | 100% |
+| **Total Skills** | 41 | 100% |
+| Active | 41 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 39 | 97.5% |
-| ⚠️ Warning | 1 | 2.5% |
+| ✅ Good | 41 | 100% |
+| ⚠️ Warning | 0 | 0% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -38,6 +38,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### research-questions
+
+| Field | Value |
+|-------|-------|
+| Name | Research Questions |
+| Category | research-ops |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | prompt |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 2 external |
 ### retro-export
 
 | Field | Value |
@@ -129,19 +142,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### reconcile-vector-store
-
-| Field | Value |
-|-------|-------|
-| Name | Reconcile Vector Store |
-| Category | data-management |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
 ### skill-health-monitor
 
 | Field | Value |
@@ -155,6 +155,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### skill-security-auditor
+
+| Field | Value |
+|-------|-------|
+| Name | Skill Security Auditor |
+| Category | utilities |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 1 external |
 ### tool-lifecycle-manager
 
 | Field | Value |
@@ -246,19 +259,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
-### skill-security-auditor
+### reconcile-vector-store
 
 | Field | Value |
 |-------|-------|
-| Name | Skill Security Auditor |
-| Category | utilities |
+| Name | Reconcile Vector Store |
+| Category | data-management |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | python |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 1 external |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### work-summarizer
+
+| Field | Value |
+|-------|-------|
+| Name | Work Summarizer v4.0 |
+| Category | observability |
+| Version | 4.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
 ### pre-wrap-audit
 
 | Field | Value |
@@ -272,19 +298,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 1 internal, 0 external |
-### plan-extractor-integration
-
-| Field | Value |
-|-------|-------|
-| Name | Plan Extractor Integration |
-| Category | integration |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
 ### permission-governor
 
 | Field | Value |
@@ -519,18 +532,18 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### work-summarizer
+### plan-extractor-integration
 
 | Field | Value |
 |-------|-------|
-| Name | Work Summarizer v4.0 |
-| Category | observability |
-| Version | 4.0.0 |
+| Name | Plan Extractor Integration |
+| Category | integration |
+| Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | node |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### workspace-storage-cleaner
 
@@ -542,7 +555,7 @@
 | Owner | unknown |
 | Runtime | python |
 | Status | active |
-| Health | ⚠️ WARN |
+| Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 1 external |
 

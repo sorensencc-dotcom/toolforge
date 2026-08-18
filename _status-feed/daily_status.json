@@ -1,59 +1,88 @@
 {
-  "generated_at": "2026-08-15T12:36:36.254716+00:00",
+  "generated_at": "2026-08-18T16:15:16.500588+00:00",
   "sources_checked": [
-    "C:\\dev\\kb-sync\\.sync-status.json",
-    "C:\\dev\\kb-sync\\.drift-report.json",
-    "C:\\dev\\kb-sync\\.coverage-report.json",
-    "C:\\dev\\TODOS.md",
-    "C:\\dev\\memory\\MEMORY.md",
-    "C:\\dev\\.ijfw\\memory\\handoff.md",
-    "C:\\dev\\charlie-deep-research\\treatment",
-    "C:\\dev\\docs\\reports\\daily",
-    "C:\\dev\\docs\\reports\\weekly",
-    "C:\\dev\\_status-feed\\claude-memory"
+    "/sessions/admiring-affectionate-goodall/mnt/dev/kb-sync/.sync-status.json",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/kb-sync/.drift-report.json",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/kb-sync/.coverage-report.json",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/TODOS.md",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/memory/MEMORY.md",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/.ijfw/memory/handoff.md",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/charlie-deep-research/treatment",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/docs/reports/daily",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/docs/reports/weekly",
+    "/sessions/admiring-affectionate-goodall/mnt/dev/_status-feed/claude-memory"
   ],
   "sources_missing": [],
   "kb_sync": {
-    "last_sync": "2026-08-15T07:00:44.588Z",
-    "last_sync_age_hours": 5.6,
+    "last_sync": "2026-08-18T17:58:00.000Z",
+    "last_sync_age_hours": 0.1,
     "sync_status": "SUCCESS",
-    "file_count": 495,
-    "drift_status": "DRIFT_DETECTED",
-    "drift_stale_pages": 6,
-    "drift_checked_at": "2026-08-09T18:13:43.259Z",
-    "drift_age_hours": 138.4,
-    "drifted_files": [
-      "modules/obsidian/providers/offlineTemplateProvider.ts",
-      "modules/obsidian/synthesize-wiki.ts",
-      "modules/review-capacity/scripts/compute-weekly-metrics.ps1",
-      "modules/review-capacity/scripts/extract-github-prs.ps1",
-      "modules/review-capacity/weekly-metrics.md",
-      "modules/wiki/audit-coverage.ts"
-    ],
+    "file_count": 511,
+    "drift_status": "NO_DRIFT",
+    "drift_stale_pages": 0,
+    "drift_checked_at": "2026-08-18T17:58:46.754Z",
+    "drift_age_hours": 0.1,
+    "drifted_files": [],
     "coverage_pct": 100,
-    "coverage_checked_at": "2026-08-10T23:04:54.050Z",
+    "coverage_checked_at": "2026-08-18T17:57:29.787Z",
     "link_health_pct": 100
   },
   "todos": {
-    "total_open": 14,
+    "total_open": 10,
     "counts_by_priority": {
       "P0": 0,
-      "P1": 2,
-      "P2": 3,
-      "P?": 9
+      "P1": 1,
+      "P2": 9,
+      "P?": 0
     },
     "top_open": [
-      {
-        "priority": "P1",
-        "title": "Backlog trending up, not down: `backlog_open_todos` 6\u219210, `backlog_closed_this_period: 0`",
-        "created": null,
-        "detail": "(2026-08-02) \u2014 stale retro count; current audit (2026-08-03) finds 14 unchecked items before this pass, 13 after closing the already-resolved local-only `trm-vault` item below. Remaining items mix implementation work, de"
-      },
       {
         "priority": "P1",
         "title": "Wave D full conformance gate",
         "created": null,
         "detail": "code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on"
+      },
+      {
+        "priority": "P2",
+        "title": "Toolforge health warning: research-questions/Runtime",
+        "created": "2026-08-16",
+        "detail": "Unknown runtime: prompt. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: research-questions|Runtime|Unknown runtime: prompt -->"
+      },
+      {
+        "priority": "P2",
+        "title": "Toolforge health warning: research-questions/Manifest",
+        "created": "2026-08-16",
+        "detail": "No entry in manifest. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: research-questions|Manifest|No entry in manifest -->"
+      },
+      {
+        "priority": "P2",
+        "title": "Toolforge health warning: research-questions/AuditLog",
+        "created": "2026-08-16",
+        "detail": "No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: research-questions|AuditLog|No runtime history in audit log -->"
+      },
+      {
+        "priority": "P2",
+        "title": "Toolforge health warning: retro-export/Manifest",
+        "created": "2026-08-16",
+        "detail": "No entry in manifest. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: retro-export|Manifest|No entry in manifest -->"
+      },
+      {
+        "priority": "P2",
+        "title": "Toolforge health warning: retro-export/AuditLog",
+        "created": "2026-08-16",
+        "detail": "No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: retro-export|AuditLog|No runtime history in audit log -->"
+      },
+      {
+        "priority": "P2",
+        "title": "Toolforge health warning: workspace-storage-cleaner/Manifest",
+        "created": "2026-08-16",
+        "detail": "No entry in manifest. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: workspace-storage-cleaner|Manifest|No entry in manifest -->"
+      },
+      {
+        "priority": "P2",
+        "title": "Toolforge health warning: workspace-storage-cleaner/AuditLog",
+        "created": "2026-08-16",
+        "detail": "No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: workspace-storage-cleaner|AuditLog|No runtime history in audit log -->"
       },
       {
         "priority": "P2",
@@ -63,86 +92,29 @@
       },
       {
         "priority": "P2",
-        "title": "TorqueQuery Adapter v2.1",
-        "created": null,
-        "detail": "(deferred, low priority) \u2014 structured error taxonomy (TIMEOUT, BAD_LIMIT, EMPTY_QUERY, etc.), query-rewrite layer (normalize punctuation, collapse whitespace), optional \"explain\" mode returning query-plan metadata. Adapt"
-      },
-      {
-        "priority": "P2",
         "title": "xberg native build-out",
         "created": null,
         "detail": "(low priority) \u2014 `toolforge-pdf` plugin ran on a mock stub (`xberg-mock.exe`) that returned placeholder text regardless of input; swapped to real `pdf-parse` text-layer extraction 2026-07-16. Still open: OCR fallback for"
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/validate-contract.mjs.md\" out of sync with code changes in \"modules/wiki/validate-contract.mjs\". Update wiki."
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/toolforge-kbsync-contract.json.md\" out of sync with code changes in \"modules/wiki/toolforge-kbsync-contract.json\". Update wiki."
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/sibling-checking-verification.test.ts.md\" out of sync with code changes in \"tests/sibling-checking-verification.test.ts\". Update wiki."
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/wiki-validate-prepush.sh.md\" out of sync with code changes in \"scripts/wiki-validate-prepush.sh\". Update wiki."
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/wiki-validate-precommit.sh.md\" out of sync with code changes in \"scripts/wiki-validate-precommit.sh\". Update wiki."
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/package.json.md\" out of sync with code changes in \"package.json\". Update wiki."
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/sibling-checker.mjs.md\" out of sync with code changes in \"modules/wiki/sibling-checker.mjs\". Update wiki."
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/run-sibling-check.mjs.md\" out of sync with code changes in \"modules/wiki/run-sibling-check.mjs\". Update wiki."
-      },
-      {
-        "priority": "P?",
-        "title": "kb-sync documentation drift remediation",
-        "created": null,
-        "detail": "Sibling wiki file \"wiki/entities/2026-08-12-sibling-pattern-checking.md.md\" out of sync with code changes in \"docs/superpowers/plans/2026-08-12-sibling-pattern-checking.md\". Update wiki."
       }
     ],
     "closed_today": []
   },
   "memory": {
-    "path": "C:\\dev\\memory\\MEMORY.md",
-    "last_modified": "2026-07-26T21:26:43.155277+00:00",
+    "path": "/sessions/admiring-affectionate-goodall/mnt/dev/memory/MEMORY.md",
+    "last_modified": "2026-08-16T14:16:42.225899+00:00",
     "current_work": [
-      "**Toolforge Marketplace Phase 8 Wave D**: Deliverables locked to plugin manifest schema, registry service, CLI (`list`/`install`/`submit`), and submission validator. Target: Tier 1 approval & publication flow.",
-      "**Retro Schema Canonical v1.0 Lock**: Retro files locked to canonical schema structure to ensure multi-week trend stability.",
+      "**Healing Subsystem** (`26b41f3`, 2026-08-15): TripwireMonitor, AdversarialAuditor, SerialMergeQueue modules under `modules/healing/`.",
+      "**NotebookLM CIC Ingestion/Mining Design** (`8e1e461`..`86cc420`, 2026-08-12): ingestion + mining design for CIC docs into NotebookLM.",
+      "**Sigil Governed-Mailbox Protocol Spec** (`bb5345d`, 2026-08-12): spec for peer-to-peer agent mailbox protocol.",
+      "**Toolforge Marketplace Phase 8 Wave D**: still not shipped \u2014 `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains TEMPLATE FOR EXECUTION, unchecked, unsigned. Target date 2026-07-26 passed unmet. Treat as not started until signed.",
+      "**Retro Schema Canonical v1.0 Lock**: Retro files locked to canonical schema structure to ensure multi-week trend stability. Note: earliest retro (`2026-07-12-1.json`) had unit-scale + active_days bugs, fixed 2026-08-16.",
       "**Pre-Flight Test Readiness**: ESLint configuration and dist exclusions locked to maintain clean test runs (`npm test`)."
     ]
   },
   "handoff": {
-    "path": "C:\\dev\\.ijfw\\memory\\handoff.md",
+    "path": "/sessions/admiring-affectionate-goodall/mnt/dev/.ijfw/memory/handoff.md",
     "date": "2026-08-14",
-    "last_modified": "2026-08-14T02:38:58.283573+00:00",
+    "last_modified": "2026-08-16T03:38:14.047981+00:00",
     "next_steps": [
       "1. No remaining notebooks. Weekly Task Scheduler job `TRM-Notebooklm-Mine`",
       "(Mondays 6am) will keep mining registered notebooks going forward \u2014 will",
@@ -160,96 +132,96 @@
     ]
   },
   "trm_pipeline": {
-    "latest_report": "TRM_SYNC_REPORT_DRYRUN_all_20260814T225631_4ad32af9-78b9-4719-b3c8-58a97dbf9d75.md",
-    "run_at": "2026-08-14T22:56:31.562Z",
-    "run_age_hours": 13.7,
+    "latest_report": "TRM_SYNC_REPORT_DRYRUN_all_20260817T103007_a3fbd972-49ff-41aa-8950-672702d2d7b5.md",
+    "run_at": "2026-08-17T10:30:07.697Z",
+    "run_age_hours": 29.8,
     "partial_run": "false",
     "fact_key_collisions": "0"
   },
   "automation_logs": {
     "ci_pipeline": {
-      "latest": "ci-pipeline-2026-08-14_210002.log",
-      "age_hours": 11.6
+      "latest": "ci-pipeline-2026-08-17_210002.log",
+      "age_hours": 15.2
     },
     "trm_sync_treatment": {
-      "latest": "trm-sync-treatment-2026-08-15.log",
-      "age_hours": 0.0
+      "latest": "trm-sync-treatment-2026-08-17.log",
+      "age_hours": 29.8
     },
     "retro_audit": {
-      "latest": "retro-audit-20260720.log",
-      "age_hours": 610.5
+      "latest": "retro-audit-20260818.log",
+      "age_hours": 0.1
     },
     "daily_report_agent": {
-      "latest": "2026-08-15.md",
-      "age_hours": 0.0
+      "latest": "2026-08-17.md",
+      "age_hours": 30.2
     },
     "weekly_report_agent": {
-      "latest": "2026-W33.md",
-      "age_hours": 13.7
+      "latest": "2026-W34.md",
+      "age_hours": 30.3
     }
   },
   "claude_project_memory": {
-    "mirror_path": "C:\\dev\\_status-feed\\claude-memory",
+    "mirror_path": "/sessions/admiring-affectionate-goodall/mnt/dev/_status-feed/claude-memory",
     "mirror_exists": true,
     "files": [
       {
         "name": "workflow-checklists-embedded.md",
         "last_modified": "2026-08-14T23:07:47.256638+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: workflow-checklists-embedded description: \"Pre-action checklists embedded in agent workflow to prevent drift incidents. Use before Artifact, Write, and governance tasks.\" metadata:    node_type: memory   type: feedback   severity: critical   status: active   deployedDate: 2026-07-12   originSessionId: 146a440d-b5c6-4651-b2a2-05a61fdbb397 ---  # Embedded Workflow Checklists  **Rule: Run c"
       },
       {
         "name": "work-summarizer-v2-complete.md",
         "last_modified": "2026-08-14T23:07:47.251335+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: work-summarizer-v2-complete description: \"v2.0 unified skill pack with 4 major upgrades complete; 10 files, deterministic-only, production-ready\" metadata:    node_type: memory   type: project   originSessionId: 7c8995b8-5e19-4fd6-a2ec-b1154c1eec34 ---  ## Status: \u2705 COMPLETE & PRODUCTION-READY (2026-07-02)  **Tested & Verified:** - \u2705 Code review findings fixed (8/8): null checks, caching"
       },
       {
         "name": "week2-audit-retroactive-approvals.md",
         "last_modified": "2026-08-14T23:07:47.248825+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: week2-audit-retroactive-approvals description: Audit plan for DRIFT-2026-07-08-001 and DRIFT-2026-07-08-002 (retroactive approvals). Scheduled for Week 2 (2026-07-19). metadata:    node_type: memory   type: project   severity: high   scheduledDate: 2026-07-19   status: planned   incidents: \"DRIFT-2026-07-08-001, DRIFT-2026-07-08-002\"   originSessionId: 146a440d-b5c6-4651-b2a2-05a61fdbb39"
       },
       {
         "name": "week2-audit-forward-verification-2026-07-12.md",
         "last_modified": "2026-08-14T23:07:47.248281+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: week2-audit-forward-verification-2026-07-12 description: Forward verification audit (2026-07-12) \u2014 checklists embedded, DRIFT-005 fix verified, no new incidents. Replaces retroactive DRIFT-001/002 audit (data unavailable). metadata:   type: project   auditDate: 2026-07-12   status: complete   approach: forward_verification   retroactiveAudit: skipped (DRIFT-001/002 records incomplete; in"
       },
       {
         "name": "wayland-w1-w3-deployment.original.md",
         "last_modified": "2026-08-14T23:07:47.246413+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: wayland-w1-w3-deployment description: \"Wayland W1-W3 orchestration layer deployed to CIC; deterministic execution, structured logging, critical fixes WIL-001/004\" metadata:    node_type: memory   type: project   originSessionId: 634d2733-de5b-486e-a577-4a51780bbf56 ---  ## Wayland W1-W3 Deployment Complete  **Status:** Production-ready (staging validation 2026-06-09 \u2192 2026-06-15) **Timel"
       },
       {
         "name": "wayland-w1-w3-deployment.md",
         "last_modified": "2026-08-14T23:07:47.245397+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: wayland-w1-w3-deployment description: \"Wayland W1-W3 orchestration layer deployed to CIC; deterministic execution, structured logging, critical fixes WIL-001/004\" metadata:    node_type: memory   type: project   originSessionId: 634d2733-de5b-486e-a577-4a51780bbf56 ---  ## Wayland W1-W3 Deployment Complete  **Status:** Production-ready (staging validation 2026-06-09 \u2192 2026-06-15) **Timel"
       },
       {
         "name": "wayland-v1-1-complete.md",
         "last_modified": "2026-08-14T23:07:47.243363+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: wayland-v1-1-complete description: \"Wayland W1-W3 V1.1 hardening complete; 7 items shipped, production-ready 2026-06-22\" metadata:    node_type: memory   type: project   originSessionId: 634d2733-de5b-486e-a577-4a51780bbf56 ---  ## Wayland W1-W3 V1.1 Hardening Complete  **Date:** 2026-06-10  **Commits:** c7465d6 (code), 7781e79 (docs)  **Status:** Production-ready  **Deployment:** 2026-0"
       },
       {
         "name": "wayland-v1-1-complete.original.md",
         "last_modified": "2026-08-14T23:07:47.243363+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: wayland-v1-1-complete description: \"Wayland W1-W3 V1.1 hardening complete; 7 items shipped, production-ready 2026-06-22\" metadata:    node_type: memory   type: project   originSessionId: 634d2733-de5b-486e-a577-4a51780bbf56 ---  ## Wayland W1-W3 V1.1 Hardening Complete  **Date:** 2026-06-10   **Commits:** c7465d6 (code), 7781e79 (docs)   **Status:** Production-ready   **Deployment:** 202"
       },
       {
         "name": "wave-d-full-gate-requirement.md",
         "last_modified": "2026-08-14T23:07:47.240342+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: wave-d-full-gate-requirement description: Wave D full conformance gate is BLOCKED at code level \u2014 requires provisioned PG + live E2E/perf/load rerun to assert <200ms p99 metadata:    node_type: memory   type: project   originSessionId: d1f977af-bb9c-46d5-a2bc-16b5a00fcf3b ---  ## Governance Follow-On: Wave D Full Gate Requirement  **Logged 2026-07-14 (Tier 1 decision, Chris Sorensen).** "
       },
       {
         "name": "wave-b-dispatch-ready.md",
         "last_modified": "2026-08-14T23:07:47.239453+00:00",
-        "age_hours": 13.5,
+        "age_hours": 89.1,
         "excerpt": "--- name: wave-b-dispatch-ready-2026-07-12 description: \"Wave B scaffolds complete \u2014 50 tests pass, all 4 skills ready for builder implementation. Awaiting Builder 4 + Builder 5 dispatch.\" metadata:   type: project   originSessionId: 2c047833-a9dd-49b9-9c7f-f6cbe419fbd3 ---  ## Wave B: Ready for Dispatch \u2705  **Date:** 2026-07-12   **Status:** All test scaffolds created, 50 tests PASS, configs compl"
       }
     ]

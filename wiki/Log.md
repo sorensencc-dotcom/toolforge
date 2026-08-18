@@ -1,0 +1,223 @@
+---
+title: "Wiki Activity Log"
+category: "wiki"
+status: "active"
+---
+
+# Wiki Activity Log
+
+## [2026-08-18 17:58] auto-synthesize
+
+- Provider: `offline-template` (`offline-scaffold-v1`)
+- Session Hash: `4d139064e864a44a`
+- Staging Path: `c:/dev/_kb-sync-staging/kb-sync/20260805-220602`
+- Proposals Accepted: 186 (0 rejected)
+- Created/Updated Files:
+  - `wiki/kb-sync/wiki/202607211.md`
+  - `wiki/kb-sync/wiki/202608011.md`
+  - `wiki/kb-sync/wiki/.CoverageReport.md`
+  - `wiki/kb-sync/wiki/.DriftReport.md`
+  - `wiki/kb-sync/wiki/.Gitattributes.md`
+  - `wiki/kb-sync/wiki/ValidateStaging.md`
+  - `wiki/kb-sync/wiki/.Gitignore.md`
+  - `wiki/kb-sync/wiki/.DreamStateV2.md`
+  - `wiki/kb-sync/wiki/.DreamState.md`
+  - `wiki/kb-sync/wiki/.SessionCounter.md`
+  - `wiki/kb-sync/wiki/.SessionCounterId.md`
+  - `wiki/kb-sync/wiki/.SessionMarkerTs.md`
+  - `wiki/kb-sync/wiki/ProjectJournal.md`
+  - `wiki/kb-sync/wiki/.TranscriptCursor.md`
+  - `wiki/kb-sync/wiki/Session20260723010038.md`
+  - `wiki/kb-sync/wiki/Session20260726020004.md`
+  - `wiki/kb-sync/wiki/Session20260730231936.md`
+  - `wiki/kb-sync/wiki/Progress.md`
+  - `wiki/kb-sync/wiki/.SyncStatus.md`
+  - `wiki/kb-sync/wiki/CLAUDE.md`
+  - `wiki/kb-sync/wiki/CROSSPLATFORMTESTCHECKLIST.md`
+  - `wiki/kb-sync/wiki/PIPELINEEXECUTIONREPORT.md`
+  - `wiki/kb-sync/wiki/README.md`
+  - `wiki/kb-sync/wiki/REVIEW.md`
+  - `wiki/kb-sync/wiki/SYNCFAILURE20260720.md`
+  - `wiki/kb-sync/wiki/ArtifactGenerator.md`
+  - `wiki/kb-sync/wiki/Global.md`
+  - `wiki/kb-sync/wiki/Notebooklm.md`
+  - `wiki/kb-sync/wiki/Obsidian.md`
+  - `wiki/kb-sync/wiki/Webhooks.md`
+  - `wiki/kb-sync/utilities/Chunk.md`
+  - `wiki/kb-sync/utilities/Flatten.md`
+  - `wiki/kb-sync/wiki/PathNormalizer.md`
+  - `wiki/kb-sync/utilities/Rollback.md`
+  - `wiki/kb-sync/utilities/RunAll.md`
+  - `wiki/kb-sync/utilities/Validate.md`
+  - `wiki/kb-sync/wiki/CROSSPLATFORMTESTING.md`
+  - `wiki/kb-sync/wiki/IMPLEMENTATIONRECORDKBSYNCTIMEOUTPOLICY20260722.md`
+  - `wiki/kb-sync/wiki/SESSIONWRAPUP20260726.md`
+  - `wiki/kb-sync/wiki/ArchiveCleanup.md`
+  - `wiki/kb-sync/wiki/GithubActionsSetup.md`
+  - `wiki/kb-sync/wiki/AutomationPolicy.md`
+  - `wiki/kb-sync/wiki/SkillApprovalRules.md`
+  - `wiki/kb-sync/wiki/Architecture.md`
+  - `wiki/kb-sync/wiki/Authentication.md`
+  - `wiki/kb-sync/wiki/ErrorBoundaries.md`
+  - `wiki/kb-sync/wiki/OperatorRules.md`
+  - `wiki/kb-sync/wiki/Pipeline.md`
+  - `wiki/kb-sync/wiki/KbSyncNightlyAudit.md`
+  - `wiki/kb-sync/wiki/202607152134.md`
+  - `wiki/kb-sync/wiki/KbSyncNightly20260717FINAL.md`
+  - `wiki/kb-sync/wiki/KbSyncNightly20260717.md`
+  - `wiki/kb-sync/wiki/KbSyncNightly20260723EXECUTIONBLOCKED.md`
+  - `wiki/kb-sync/wiki/ObsidianIngestWiki.md`
+  - `wiki/kb-sync/wiki/20260801KbSyncCoverageRemediation.md`
+  - `wiki/kb-sync/wiki/20260801KbSyncEnhancements.md`
+  - `wiki/kb-sync/wiki/20260801KbSyncEnhancementsDesign.md`
+  - `wiki/kb-sync/wiki/TaskSchedulerSetup.md`
+  - `wiki/kb-sync/wiki/Mkdocs.md`
+  - `wiki/kb-sync/wiki/GenerateReport.md`
+  - `wiki/kb-sync/utilities/Generate.md`
+  - `wiki/kb-sync/utilities/CleanupPackDir.md`
+  - `wiki/kb-sync/utilities/IngestNotebooklm.md`
+  - `wiki/kb-sync/utilities/IngestObsidian.md`
+  - `wiki/kb-sync/utilities/IngestWiki.md`
+  - `wiki/kb-sync/wiki/ComputeWeeklyMetrics.md`
+  - `wiki/kb-sync/wiki/ExtractGithubPrs.md`
+  - `wiki/kb-sync/wiki/WeeklyMetrics.md`
+  - `wiki/kb-sync/wiki/AuditCoverage.md`
+  - `wiki/kb-sync/wiki/AutofillFrontmatter.md`
+  - `wiki/kb-sync/wiki/CleanupStagingArchives.md`
+  - `wiki/kb-sync/wiki/DetectDrift.md`
+  - `wiki/kb-sync/wiki/GenerateDeltaSummary.md`
+  - `wiki/kb-sync/wiki/LintRules.md`
+  - `wiki/kb-sync/wiki/OperatorWorkflow.md`
+  - `wiki/kb-sync/wiki/Schema.md`
+  - `wiki/kb-sync/wiki/Concept.md`
+  - `wiki/kb-sync/wiki/Entity.md`
+  - `wiki/kb-sync/wiki/Index.md`
+  - `wiki/kb-sync/wiki/ToolforgeKbsyncContract.md`
+  - `wiki/kb-sync/wiki/UpdateRules.md`
+  - `wiki/kb-sync/wiki/ValidateContract.md`
+  - `wiki/kb-sync/wiki/ValidateStagingDocs.md`
+  - `wiki/kb-sync/wiki/ObsidianKbSyncNightlyRun20260712.md`
+  - `wiki/kb-sync/wiki/ObsidianKbSyncNightlyRun20260719.md`
+  - `wiki/kb-sync/wiki/App.md`
+  - `wiki/kb-sync/wiki/Appearance.md`
+  - `wiki/kb-sync/wiki/CommunityPlugins.md`
+  - `wiki/kb-sync/wiki/CorePlugins.md`
+  - `wiki/kb-sync/wiki/Graph.md`
+  - `wiki/kb-sync/wiki/Main.md`
+  - `wiki/kb-sync/wiki/Manifest.md`
+  - `wiki/kb-sync/wiki/Workspace.md`
+  - `wiki/kb-sync/wiki/Welcome.md`
+  - `wiki/kb-sync/wiki/CreateALink.md`
+  - `wiki/kb-sync/wiki/RoadmapSync20260719.md`
+  - `wiki/kb-sync/wiki/.Catalog.md`
+  - `wiki/kb-sync/wiki/Log.md`
+  - `wiki/kb-sync/wiki/DeterministicSyncPipeline.md`
+  - `wiki/kb-sync/wiki/FailSoftOrchestration.md`
+  - `wiki/kb-sync/wiki/KarpathyLlmWikiPattern.md`
+  - `wiki/kb-sync/wiki/ManifestMode.md`
+  - `wiki/kb-sync/wiki/PackBasedKnowledgeManagement.md`
+  - `wiki/kb-sync/wiki/RawSourceStaging.md`
+  - `wiki/kb-sync/wiki/SemanticIngestWorkflow.md`
+  - `wiki/kb-sync/wiki/ThreeLayerVaultArchitecture.md`
+  - `wiki/kb-sync/wiki/KBSyncOrchestration.md`
+  - `wiki/kb-sync/wiki/PathNormalization.md`
+  - `wiki/kb-sync/wiki/RetryAndTimeout.md`
+  - `wiki/kb-sync/wiki/ArtifactGenerator.Sh.md`
+  - `wiki/kb-sync/wiki/Chunk.Sh.md`
+  - `wiki/kb-sync/wiki/Flatten.Sh.md`
+  - `wiki/kb-sync/wiki/Rollback.Sh.md`
+  - `wiki/kb-sync/wiki/RunAll.Sh.md`
+  - `wiki/kb-sync/wiki/Validate.Sh.md`
+  - `wiki/kb-sync/wiki/WikiLintRules.md`
+  - `wiki/kb-sync/wiki/WikiOperatorWorkflow.md`
+  - `wiki/kb-sync/wiki/WikiSchema.md`
+  - `wiki/kb-sync/wiki/WikiUpdateRules.md`
+  - `wiki/kb-sync/wiki/IngestNotebooklm.Sh.md`
+  - `wiki/kb-sync/wiki/KbSyncNightly.Sh.md`
+  - `wiki/kb-sync/wiki/RegisterKbSyncTask.Ps1.md`
+  - `wiki/kb-sync/wiki/IngestObsidian.Sh.md`
+  - `wiki/kb-sync/wiki/IngestWiki.Sh.md`
+  - `wiki/kb-sync/wiki/PackageLock.md`
+  - `wiki/kb-sync/wiki/Package.md`
+  - `wiki/kb-sync/wiki/Pyragify.md`
+  - `wiki/kb-sync/wiki/ScheduleTaskWrapperKBSyncCleanupArchives.md`
+  - `wiki/kb-sync/wiki/ScheduleTaskWrapperKBSyncConsolidatePack.md`
+  - `wiki/kb-sync/wiki/ScheduleTaskWrapperKBSyncGeneratePrompt.md`
+  - `wiki/kb-sync/wiki/ScheduleTaskWrapperKBSyncStageSources.md`
+  - `wiki/kb-sync/wiki/ScheduleTaskWrapperKBSyncValidateStaging.md`
+  - `wiki/kb-sync/wiki/CheckStatus.md`
+  - `wiki/kb-sync/wiki/CleanupLogsAndBackups.md`
+  - `wiki/kb-sync/wiki/GenerateKbSyncArtifact.md`
+  - `wiki/kb-sync/wiki/KbSyncNightly.md`
+  - `wiki/kb-sync/utilities/PostCommitHookExample.md`
+  - `wiki/kb-sync/wiki/SetupAuth.md`
+  - `wiki/kb-sync/wiki/RegisterKbSyncTask.md`
+  - `wiki/kb-sync/wiki/ScheduleTaskWrapperKBSyncWikiAutomate.md`
+  - `wiki/kb-sync/utilities/SecretScanHook.md`
+  - `wiki/kb-sync/wiki/SetupScheduledTasks.md`
+  - `wiki/kb-sync/wiki/WikiContractBackfill.md`
+  - `wiki/kb-sync/utilities/WikiValidatePrecommit.md`
+  - `wiki/kb-sync/wiki/CoreScriptsVerification.md`
+  - `wiki/kb-sync/wiki/CoverageAudit.Test.md`
+  - `wiki/kb-sync/wiki/DeltaSummary.Test.md`
+  - `wiki/kb-sync/wiki/DriftDetection.Test.md`
+  - `wiki/kb-sync/wiki/NotebooklmPs1Verification.Test.md`
+  - `wiki/kb-sync/wiki/NotebooklmSyncVerification.md`
+  - `wiki/kb-sync/wiki/ObsidianSyncVerification.md`
+  - `wiki/kb-sync/wiki/PathNormalizerVerification.md`
+  - `wiki/kb-sync/wiki/PerformanceBenchmark.md`
+  - `wiki/kb-sync/wiki/ReviewCapacity.Test.md`
+  - `wiki/kb-sync/utilities/TestWslPathNormalization.md`
+  - `wiki/kb-sync/wiki/ValidateStagingV12Features.md`
+  - `wiki/kb-sync/wiki/WeeklyReviewCapacityWorkflow.Test.md`
+  - `wiki/kb-sync/wiki/WikiContractCleanupVerification.md`
+  - `wiki/kb-sync/wiki/ImmutableStaging.md`
+  - `wiki/kb-sync/wiki/AuditCoverage.Ts.md`
+  - `wiki/kb-sync/wiki/AutofillFrontmatter.Mjs.md`
+  - `wiki/kb-sync/wiki/CheckStatus.Mjs.md`
+  - `wiki/kb-sync/wiki/CleanupLogsAndBackups.Mjs.md`
+  - `wiki/kb-sync/wiki/CleanupPackDir.Sh.md`
+  - `wiki/kb-sync/wiki/CleanupStagingArchives.Mjs.md`
+  - `wiki/kb-sync/wiki/ComputeWeeklyMetrics.Ps1.md`
+  - `wiki/kb-sync/wiki/DetectDrift.Ts.md`
+  - `wiki/kb-sync/wiki/ExtractGithubPrs.Ps1.md`
+  - `wiki/kb-sync/wiki/GenerateDeltaSummary.Ts.md`
+  - `wiki/kb-sync/wiki/GenerateKbSyncArtifact.Js.md`
+  - `wiki/kb-sync/wiki/GenerateKbSyncArtifact.Mjs.md`
+  - `wiki/kb-sync/wiki/GenerateKbSyncArtifact.Ts.md`
+  - `wiki/kb-sync/wiki/GenerateReport.Mjs.md`
+  - `wiki/kb-sync/wiki/Generate.Sh.md`
+  - `wiki/kb-sync/wiki/KbSyncNightly.Ps1.md`
+  - `wiki/kb-sync/wiki/PathNormalizerVerification.Ts.md`
+  - `wiki/kb-sync/wiki/PathNormalizer.Mjs.md`
+  - `wiki/kb-sync/wiki/PostCommitHookExample.Sh.md`
+  - `wiki/kb-sync/wiki/ScheduleTaskWrapperKBSyncWikiAutomate.Ps1.md`
+  - `wiki/kb-sync/wiki/SecretScanHook.Sh.md`
+  - `wiki/kb-sync/wiki/SetupAuth.Mjs.md`
+  - `wiki/kb-sync/wiki/SetupScheduledTasks.Ps1.md`
+  - `wiki/kb-sync/wiki/ValidateContract.Mjs.md`
+  - `wiki/kb-sync/wiki/ValidateStagingDocs.Mjs.md`
+  - `wiki/kb-sync/wiki/WikiContractBackfill.Mjs.md`
+  - `wiki/kb-sync/wiki/WikiValidatePrecommit.Sh.md`
+  - `wiki/Index.md`
+
+## [2026-08-18 18:10] auto-synthesize
+
+- Provider: `offline-template` (`offline-scaffold-v1`)
+- Session Hash: `4d139064e864a44a`
+- Staging Path: `c:/dev/_kb-sync-staging/kb-sync/20260805-220602`
+- Proposals Accepted: 12 (0 rejected)
+- Created/Updated Files:
+  - `wiki/kb-sync/wiki/.CoverageReport.md`
+  - `wiki/kb-sync/wiki/.DriftReport.md`
+  - `wiki/kb-sync/wiki/.Gitattributes.md`
+  - `wiki/kb-sync/wiki/.Gitignore.md`
+  - `wiki/kb-sync/wiki/.DreamStateV2.md`
+  - `wiki/kb-sync/wiki/.DreamState.md`
+  - `wiki/kb-sync/wiki/.SessionCounter.md`
+  - `wiki/kb-sync/wiki/.SessionCounterId.md`
+  - `wiki/kb-sync/wiki/.SessionMarkerTs.md`
+  - `wiki/kb-sync/wiki/.TranscriptCursor.md`
+  - `wiki/kb-sync/wiki/.SyncStatus.md`
+  - `wiki/kb-sync/wiki/.Catalog.md`
+  - `wiki/Index.md`

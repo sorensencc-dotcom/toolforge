@@ -1,6 +1,6 @@
-# Toolforge Drift Detection Report
+﻿# Toolforge Drift Detection Report
 
-**Generated**: 2026-08-16T15:55:39.2935792Z
+**Generated**: 2026-08-17T15:48:43.3072968Z
 
 **Canonical**: C:\dev
 **Distributed**: C:\dev\rewrite-mcp\toolforge
@@ -11,13 +11,13 @@
 
 | Category | Drifts | Severity |
 |----------|--------|----------|
-| Structure | 45 | WARN |
+| Structure | 46 | WARN |
 | Tools | 0 | OK |
 | Skills | 2 | WARN |
 | Docs | 0 | OK |
 | Manifest | 0 | OK |
 
-**Total Drifts**: 47
+**Total Drifts**: 48
 **Status**: DRIFTED
 
 ---
@@ -25,7 +25,6 @@
 ## Findings
 ### Structure Drifts
 
-- **missing** _status-feed (in distributed)
 - **missing** .cursor (in distributed)
 - **missing** .gemini (in distributed)
 - **missing** .nlm_pack (in distributed)
@@ -45,6 +44,7 @@
 - **missing** governance (in distributed)
 - **missing** graft (in distributed)
 - **missing** health (in distributed)
+- **missing** ijfw (in distributed)
 - **missing** kb-sync (in distributed)
 - **missing** memory (in distributed)
 - **missing** modules (in distributed)
@@ -66,6 +66,7 @@
 - **missing** toolforge-pdf (in distributed)
 - **missing** trm (in distributed)
 - **missing** windows-task-manager (in distributed)
+- **missing** _status-feed (in distributed)
 - **extra** adapters (in distributed)
 - **extra** mcp-servers (in distributed)
 - **extra** prototypes (in distributed)

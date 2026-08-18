@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-08-16T17:42:00.2445914Z
+**Generated**: 2026-08-18T01:00:02.5958612Z
 
 ---
 
@@ -8,18 +8,18 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 13 | 24 | 0 | ❌ |
+| Canonical | 0 | 26 | 0 | ✅ |
 | Distributed | 0 | 9 | 0 | ✅ |
 | Manifest | 0 | 94 | 0 | ✅ |
-| Cowork | 0 | 40 | 0 | ✅ |
-| Dependencies | 0 | 12 | 1 | ✅ |
-| Runtime | 0 | 1 | 40 | ✅ |
+| Cowork | 0 | 41 | 0 | ✅ |
+| Dependencies | 0 | 14 | 1 | ✅ |
+| Runtime | 0 | 0 | 41 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
-**Total Errors**: 13
-**Total Warnings**: 180
+**Total Errors**: 0
+**Total Warnings**: 184
 
-**Overall Status**: ❌ FAIL
+**Overall Status**: ✅ PASS
 
 ---
 
@@ -49,6 +49,7 @@
 | plan-extractor-integration | Plan Extractor Integration | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | pre-wrap-audit | Pre Wrap Audit | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | reconcile-vector-store | Reconcile Vector Store | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| research-questions | Research Questions | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
 | retro-export | Retro Export | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
 | rewrite-labs-orchestrator | Rewrite Labs Orchestrator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | roadmap-validator | Roadmap Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -66,22 +67,17 @@
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
-| workspace-storage-cleaner | Workspace & Brain Storage Cleaner | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| workspace-storage-cleaner | Workspace & Brain Storage Cleaner | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
 
 ---
 
 ## Canonical Validation
 
-❌ **_cic-shared**: Missing: README.md
-❌ **_cic-shared**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **analyze-token-burn**: Invalid category: observability
-❌ **automation-audit**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **automation-audit**: Invalid category: operations
 ⚠️ **cic-consolidate-artifacts**: Invalid category: governance
 ⚠️ **cic-ingest-world**: Invalid category: governance
 ⚠️ **cic-orchestrate-flow**: Invalid category: governance
-❌ **cic-orchestrate-flow**: Missing: INTEGRATION_DIAGRAM.md
-❌ **cic-orchestrate-flow**: Missing: README.md
 ⚠️ **cic-repair-pipeline**: Invalid category: governance
 ⚠️ **cic-run-gate**: Invalid category: governance
 ⚠️ **kb-sync-artifact-generator**: Invalid category: governance
@@ -90,24 +86,18 @@
 ⚠️ **operator-image-build**: Invalid category: pipeline
 ⚠️ **pre-wrap-audit**: Invalid category: session-management
 ⚠️ **reconcile-vector-store**: Invalid category: data-management
-❌ **research-questions**: SKILL.json missing
-❌ **retro-export**: Missing: SKILL.md
-❌ **retro-export**: Missing: INTEGRATION_DIAGRAM.md
+⚠️ **research-questions**: Unknown runtime: prompt
+⚠️ **research-questions**: Invalid category: research-ops
 ⚠️ **roadmap-validator**: Invalid category: governance
 ⚠️ **rollback-phase**: Invalid category: pipeline
 ⚠️ **scale-ingestion-service**: Invalid category: pipeline
-❌ **session-wrap**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **session-wrap**: Invalid category: session-management
-❌ **skill-health-monitor**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **tool-lifecycle-manager**: Invalid category: pipeline
 ⚠️ **toolforge-cli**: Invalid category: utility
 ⚠️ **toolforge-registry-manager**: Invalid category: pipeline
 ⚠️ **toolforge-submission-validator**: Invalid category: governance
-❌ **trm-feedback-report**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **trm-feedback-report**: Invalid category: research-ops
 ⚠️ **work-summarizer**: Invalid category: observability
-❌ **workspace-storage-cleaner**: Missing: README.md
-❌ **workspace-storage-cleaner**: Missing: INTEGRATION_DIAGRAM.md
 ⚠️ **workspace-storage-cleaner**: Invalid category: maintenance
 
 ## Distributed Validation
@@ -118,9 +108,9 @@
 ⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
 ⚠️ **obsidian-ingest-wiki**: Version mismatch: canonical 1.1.0, distributed 1.0.0
+⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
-⚠️ **workspace-storage-cleaner**: Directory missing in distributed
 
 ## Manifest Validation
 
@@ -243,6 +233,7 @@
 ⚠️ **plan-extractor-integration**: Not registered (installer will register on next run)
 ⚠️ **pre-wrap-audit**: Not registered (installer will register on next run)
 ⚠️ **reconcile-vector-store**: Not registered (installer will register on next run)
+⚠️ **research-questions**: Not registered (installer will register on next run)
 ⚠️ **retro-export**: Not registered (installer will register on next run)
 ⚠️ **rewrite-labs-orchestrator**: Not registered (installer will register on next run)
 ⚠️ **roadmap-validator**: Not registered (installer will register on next run)
@@ -271,6 +262,8 @@
 ⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
+⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
+⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
 ⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
@@ -301,7 +294,7 @@
 ℹ️ **plan-extractor-integration**: Skill inactive (status: )
 ℹ️ **pre-wrap-audit**: Skill inactive (status: )
 ℹ️ **reconcile-vector-store**: Skill inactive (status: )
-⚠️ **research-questions**: Cannot discover: SKILL.json missing
+ℹ️ **research-questions**: Discoverable
 ℹ️ **retro-export**: Discoverable
 ℹ️ **rewrite-labs-orchestrator**: Skill inactive (status: )
 ℹ️ **roadmap-validator**: Skill inactive (status: )

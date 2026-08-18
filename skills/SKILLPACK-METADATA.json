@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-16T17:42:15.4240138Z",
+  "timestamp": "2026-08-18T01:00:07.2415562Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -27,6 +27,36 @@
         "created": "2026-07-17T16:43:16.0006002Z",
         "lastValidation": "2026-07-17T16:43:16.0006002Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
+      }
+    },
+    {
+      "id": "research-questions",
+      "name": "Research Questions",
+      "category": "research-ops",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "prompt",
+      "entrypoint": "SKILL.md",
+      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "scan-gaps.mjs",
+          "update-focus-areas.mjs"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T18:41:45.5186640Z",
+        "lastValidation": "2026-08-16T18:41:45.5186640Z",
+        "lastRun": null
       }
     },
     {
@@ -219,33 +249,6 @@
       }
     },
     {
-      "id": "reconcile-vector-store",
-      "name": "Reconcile Vector Store",
-      "category": "data-management",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2615565Z",
-        "lastValidation": "2026-07-10T21:43:59.2615565Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
-      }
-    },
-    {
       "id": "skill-health-monitor",
       "name": "Skill Health Monitor",
       "category": "monitoring",
@@ -269,6 +272,35 @@
       "timestamps": {
         "created": "2026-07-17T16:30:04.0009582Z",
         "lastValidation": "2026-07-17T16:30:04.0009582Z",
+        "lastRun": "2026-08-07T21:38:00Z\r"
+      }
+    },
+    {
+      "id": "skill-security-auditor",
+      "name": "Skill Security Auditor",
+      "category": "utilities",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "src/skill_security_auditor.py",
+      "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-15T15:04:33.2507454Z",
+        "lastValidation": "2026-07-15T15:04:33.2507454Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -484,21 +516,19 @@
       }
     },
     {
-      "id": "skill-security-auditor",
-      "name": "Skill Security Auditor",
-      "category": "utilities",
+      "id": "reconcile-vector-store",
+      "name": "Reconcile Vector Store",
+      "category": "data-management",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "src/skill_security_auditor.py",
-      "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
       "status": "active",
       "dependencies": {
         "internal": [],
-        "external": [
-          "python3"
-        ]
+        "external": []
       },
       "health": {
         "canonical": true,
@@ -507,9 +537,36 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-15T15:04:33.2507454Z",
-        "lastValidation": "2026-07-15T15:04:33.2507454Z",
-        "lastRun": "2026-08-07T21:38:00Z\r"
+        "created": "2026-07-10T21:43:59.2615565Z",
+        "lastValidation": "2026-07-10T21:43:59.2615565Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+      }
+    },
+    {
+      "id": "work-summarizer",
+      "name": "Work Summarizer v4.0",
+      "category": "observability",
+      "tags": [],
+      "version": "4.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-10T21:43:59.5024800Z",
+        "lastValidation": "2026-07-10T21:43:59.5024800Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
       }
     },
     {
@@ -539,33 +596,6 @@
         "created": "2026-07-10T21:43:59.2189839Z",
         "lastValidation": "2026-07-10T21:43:59.2189839Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z\r"
-      }
-    },
-    {
-      "id": "plan-extractor-integration",
-      "name": "Plan Extractor Integration",
-      "category": "integration",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Unified entry point for CodeFlow extraction into CIC stores",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.1505768Z",
-        "lastValidation": "2026-07-10T21:43:59.1505768Z",
-        "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
     {
@@ -727,8 +757,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:40:05.8514388Z",
-        "lastValidation": "2026-08-16T17:40:05.8514388Z",
+        "created": "2026-08-16T17:45:00.1631797Z",
+        "lastValidation": "2026-08-16T17:45:00.1631797Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -756,8 +786,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:40:49.1725483Z",
-        "lastValidation": "2026-08-16T17:40:49.1725483Z",
+        "created": "2026-08-16T17:45:00.1665476Z",
+        "lastValidation": "2026-08-16T17:45:00.1665476Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -789,8 +819,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:41:48.3542964Z",
-        "lastValidation": "2026-08-16T17:41:48.3542964Z",
+        "created": "2026-08-16T17:45:00.1696448Z",
+        "lastValidation": "2026-08-16T17:45:00.1696448Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -818,8 +848,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:41:24.7066357Z",
-        "lastValidation": "2026-08-16T17:41:24.7066357Z",
+        "created": "2026-08-16T17:45:00.1721672Z",
+        "lastValidation": "2026-08-16T17:45:00.1721672Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -1075,15 +1105,15 @@
       }
     },
     {
-      "id": "work-summarizer",
-      "name": "Work Summarizer v4.0",
-      "category": "observability",
+      "id": "plan-extractor-integration",
+      "name": "Plan Extractor Integration",
+      "category": "integration",
       "tags": [],
-      "version": "4.0.0",
+      "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "node",
+      "runtime": "typescript",
       "entrypoint": "src/index.ts",
-      "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
+      "description": "Unified entry point for CodeFlow extraction into CIC stores",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -1096,9 +1126,9 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:59.5024800Z",
-        "lastValidation": "2026-07-10T21:43:59.5024800Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+        "created": "2026-07-10T21:43:59.1505768Z",
+        "lastValidation": "2026-07-10T21:43:59.1505768Z",
+        "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
     {
@@ -1120,9 +1150,9 @@
       },
       "health": {
         "canonical": true,
-        "distributed": false,
+        "distributed": true,
         "runtime": "untested",
-        "overall": "warn"
+        "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-16T17:39:59.7247469Z",
@@ -1132,11 +1162,11 @@
     }
   ],
   "summary": {
-    "total": 40,
-    "active": 40,
+    "total": 41,
+    "active": 41,
     "deprecated": 0,
-    "health_good": 39,
-    "health_warn": 1,
+    "health_good": 41,
+    "health_warn": 0,
     "health_error": 0
   }
 }

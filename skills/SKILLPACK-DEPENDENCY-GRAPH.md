@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-16T17:42:14.7076382Z
+**Generated:** 2026-08-17T01:00:10.2130904Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 40 |
+| Total Skills | 41 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 31 |
+| Orphan Skills | 32 |
 
 ---
 
@@ -158,6 +158,13 @@
 | Dependency | Type | Status |
 |------------|------|--------|
 | *(none)* | — | Leaf node |
+
+### research-questions
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| scan-gaps.mjs | external | ❌ Missing |
+| update-focus-areas.mjs | external | ❌ Missing |
 
 ### retro-export
 
@@ -359,6 +366,9 @@ No inbound dependencies (root skill)\n
 ### reconcile-vector-store
 
 No inbound dependencies (root skill)\n
+### research-questions
+
+No inbound dependencies (root skill)\n
 ### retro-export
 
 No inbound dependencies (root skill)\n
@@ -437,6 +447,7 @@ Depth N = Depends on at least one skill at depth N-1
 | cic-repair-pipeline | 1 |
 | cic-run-gate | 1 |
 | pre-wrap-audit | 1 |
+| research-questions | 1 |
 | skill-security-auditor | 1 |
 | toolforge-cli | 1 |
 | trm-status | 1 |
@@ -504,6 +515,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | plan-extractor-integration |
 | pre-wrap-audit |
 | reconcile-vector-store |
+| research-questions |
 | retro-export |
 | rewrite-labs-orchestrator |
 | roadmap-validator |
@@ -528,7 +540,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 31 orphan skill(s) |
+| Orphans | ⚠️ WARN | 32 orphan skill(s) |
 
 ---
 

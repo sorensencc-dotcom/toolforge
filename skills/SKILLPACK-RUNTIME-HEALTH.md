@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-16T17:42:16.6338472Z
+**Generated:** 2026-08-17T01:00:11.9161718Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 268 | 5 | 0 | 273 |
-| % Pass | 98.2% | 1.8% | 0% | 100% |
+| **Totals** | 273 | 7 | 0 | 280 |
+| % Pass | 97.5% | 2.5% | 0% | 100% |
 
 ---
 
@@ -269,6 +269,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### research-questions — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: SKILL.md |
+| Runtime | ⚠️ WARN | Unknown runtime: prompt |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Runtime prompt (dry-run not applicable) |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### retro-export — ⚠️ WARN
 
 | Check | Result | Details |
@@ -279,7 +291,7 @@
 | DryRun | ✅ PASS | Syntax valid |
 | Manifest | ⚠️ WARN | No entry in manifest |
 | AuditLog | ⚠️ WARN | No runtime history in audit log |
-| SkillMD | ⚠️ WARN | SKILL.md not found |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### rewrite-labs-orchestrator — ✅ GOOD
 
@@ -533,6 +545,7 @@ Skills passing all checks:
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
+- research-questions
 - retro-export
 - workspace-storage-cleaner
 
