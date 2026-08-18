@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.40.0
+Date: 2026-08-18
+
+### Changes
+- 2bbabf8 - feat(automation): restore retro audit automation and sync status feed (Chris Sorensen)
+- ba17280 - docs(report): add daily report for 2026-08-18 (Chris Sorensen)
+
 ## Version 2.39.0
 Date: 2026-08-18
 
