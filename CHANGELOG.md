@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.39.0
+Date: 2026-08-18
+
+### Changes
+- c890253 - feat(governance): gate-1 approve handoff protocol spec, ship phase-1 tooling (Chris Sorensen)
+- 14b57bf - docs(governance): propose multi-agent handoff protocol spec (Chris Sorensen)
+- 4e12511 - docs(report): add weekly report for 2026-W34 (Chris Sorensen)
+- 846c3fa - docs(memory): clarify checklist activation date isn't a staleness marker (Chris Sorensen)
+
 ## Version 2.38.3
 Date: 2026-08-16
 
