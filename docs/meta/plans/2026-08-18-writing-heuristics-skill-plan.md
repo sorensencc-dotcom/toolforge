@@ -4,18 +4,29 @@
 
 **Goal:** Build, test, and activate a deterministic, AST-aware technical writing heuristics skill, zero-dependency standalone CLI linter/fixer, and cross-platform instruction-surface distribution for all LLMs.
 
-**Architecture:** A canonical `heuristics.json` acts as the sole source of truth, compiled deterministically into `SKILL.md` and `docs/rules.md`. An AST-aware linter (`unified` + `remark-gfm`) evaluates prose while exempting code and tables, an atomic file-replacement engine applies safe autofixes with backup rollback, and a PowerShell junction script safely distributes the skill across Gemini, Claude, OpenCode, and Copilot.
+**Architecture:** A canonical `heuristics.json` acts as the sole source of truth, compiled deterministically into `SKILL.md` and `docs/rules.md`. An AST-aware linter (`unified` + `remark-gfm` + `remark-frontmatter`) evaluates prose while exempting code and tables, an atomic file-replacement engine applies safe autofixes with backup rollback and crash recovery, and a PowerShell junction script safely distributes the skill across Gemini, Claude, OpenCode, and Copilot.
 
 **Tech Stack:** TypeScript, Node.js (CommonJS bundled runtime), `unified`, `remark-parse`, `remark-gfm`, `remark-frontmatter`, `tsup`, `vitest`, PowerShell 7+.
 
 ## Global Constraints
 - Canonical Spec: `docs/meta/specs/2026-08-18-writing-heuristics-skill-design.md`
-- Explicit Rule Inventory: Exactly 9 canonical rules (`ban-throat-clearing`, `ban-filler-adverbs`, `avoid-first-person-plural`, `use-second-person`, `active-voice`, `condition-before-action`, `heading-sentence-case`, `descriptive-links`, `serial-comma`).
+- Explicit 11-Rule Inventory: Exactly 11 canonical rules:
+  1. `ban-throat-clearing` (severity: error, autofix: true, confidence: 1.0)
+  2. `ban-filler-adverbs` (severity: warning, autofix: false, confidence: 0.85)
+  3. `avoid-first-person-plural` (severity: warning, autofix: false, confidence: 0.90)
+  4. `use-second-person` (severity: warning, advisory, autofix: false, confidence: 0.80)
+  5. `active-voice` (severity: warning, autofix: false, confidence: 0.80)
+  6. `assertion-density` (severity: warning, autofix: false, confidence: 0.80)
+  7. `condition-before-action` (severity: warning, autofix: false, confidence: 0.75)
+  8. `heading-sentence-case` (severity: error, autofix: true, confidence: 0.95)
+  9. `descriptive-links` (severity: error, autofix: false, confidence: 1.0)
+  10. `serial-comma` (severity: warning, advisory, autofix: false, confidence: 0.85)
+  11. `ordered-sequences` (severity: warning, advisory, autofix: false, confidence: 0.75)
 - Zero Rule Drift: `heuristics.json` is the sole source of truth; `SKILL.md` and `docs/rules.md` are compiled artifacts verified in CI.
-- Data Safety: No blind deletes in sync scripts; only verified junctions pointing to source may be manipulated.
+- Data Safety: No blind deletes in sync scripts; only verified junctions pointing to source may be manipulated. Broken junctions abort-and-report.
 - Safe Autofix: Only rules with Confidence >= 0.95 (`ban-throat-clearing` and `heading-sentence-case`) may be auto-mutated; all sub-threshold rules are advisory only.
 - Strict Stream Separation: When reading from stdin, diagnostic logs go strictly to `stderr` and transformed prose goes to `stdout`.
-- Two-Gate Execution: Phase 1 builds and validates the local engine completely; Phase 2 (global distribution and manifest update) requires an explicit user approval checkpoint.
+- Phased Two-Gate Execution: Phase 1 builds and validates the local engine completely; Phase 2 requires sequential sub-gate approvals before touching global instruction surfaces, junctions, or manifest activation.
 
 ---
 
@@ -24,7 +35,7 @@
 ```
 skills/writing-heuristics/
 |-- skill.json                 # Toolforge capability contract and router intent
-|-- heuristics.json            # Canonical rule catalog (9 rules - source of truth)
+|-- heuristics.json            # Canonical rule catalog (11 rules - source of truth)
 |-- package.json               # Package definition and test/build scripts
 |-- tsconfig.json              # TypeScript build configuration
 |-- SKILL.md                   # Compiled LLM prompt instructions
@@ -33,7 +44,7 @@ skills/writing-heuristics/
 |   |-- compiler.ts           # Compiles heuristics.json -> SKILL.md and docs/rules.md
 |   |-- parser.ts             # Remark AST parser with code/table/frontmatter exemptions
 |   |-- suppressions.ts       # HTML comment directive lexer (author, reason, expiry)
-|   |-- linter.ts              # Core rule evaluation engine (9 canonical rules)
+|   |-- linter.ts              # Core rule evaluation engine (11 canonical rules)
 |   |-- fixer.ts               # Atomic file replacement, EOL/BOM preservation, safe fix
 |   |-- formatters.ts         # Output formatters: stylish, json, sarif
 |   |-- cli.ts                 # CLI entrypoint and stream separation
@@ -46,8 +57,8 @@ skills/writing-heuristics/
 |   |-- fixtures/              # Dedicated markdown test files (positive/negative/suppressed)
 |   |-- codegen.test.ts        # Zero-drift compiler test
 |   |-- parser.test.ts         # AST exemption and directive lexer tests
-|   |-- linter.test.ts         # 9-rule verification test suite
-|   |-- fixer.test.ts          # Atomic replacement, EOL/BOM, and backup tests
+|   |-- linter.test.ts         # 11-rule verification test suite
+|   |-- fixer.test.ts          # Atomic replacement, failure injection, EOL/BOM, backup tests
 |   |-- cli.test.ts            # Exit codes, formats, stdin/stderr stream tests
 |   `-- sync-script.test.ts    # Junction verification, target protection, rollback tests
 |-- docs/
@@ -60,7 +71,7 @@ skills/writing-heuristics/
 
 ## Phase 1: Local Package & Core Engine (Zero Global Mutation)
 
-### Task 1: Package Scaffold, Type Definitions, and Canonical 9-Rule `heuristics.json`
+### Task 1: Package Scaffold, Type Definitions, and Canonical 11-Rule `heuristics.json`
 
 **Files:**
 - Create: `skills/writing-heuristics/package.json`
@@ -71,29 +82,31 @@ skills/writing-heuristics/
 
 **Interfaces:**
 - Produces: `RuleDefinition`, `HeuristicsCatalog`, `Violation`, `LintResult`, `SuppressionDirective` types in `src/types.ts`.
-- Produces: `heuristics.json` containing the 9 canonical rules:
+- Produces: `heuristics.json` containing the complete 11 canonical rules:
   1. `ban-throat-clearing` (severity: error, autofix: true, confidence: 1.0)
   2. `ban-filler-adverbs` (severity: warning, autofix: false, confidence: 0.85)
   3. `avoid-first-person-plural` (severity: warning, autofix: false, confidence: 0.90)
-  4. `use-second-person` (severity: warning, autofix: false, confidence: 0.80)
+  4. `use-second-person` (severity: warning, advisory: true, autofix: false, confidence: 0.80)
   5. `active-voice` (severity: warning, autofix: false, confidence: 0.80)
-  6. `condition-before-action` (severity: warning, autofix: false, confidence: 0.75)
-  7. `heading-sentence-case` (severity: error, autofix: true, confidence: 0.95)
-  8. `descriptive-links` (severity: error, autofix: false, confidence: 1.0)
-  9. `serial-comma` (severity: warning, autofix: false, confidence: 0.85)
+  6. `assertion-density` (severity: warning, autofix: false, confidence: 0.80)
+  7. `condition-before-action` (severity: warning, autofix: false, confidence: 0.75)
+  8. `heading-sentence-case` (severity: error, autofix: true, confidence: 0.95)
+  9. `descriptive-links` (severity: error, autofix: false, confidence: 1.0)
+  10. `serial-comma` (severity: warning, advisory: true, autofix: false, confidence: 0.85)
+  11. `ordered-sequences` (severity: warning, advisory: true, autofix: false, confidence: 0.75)
 - Produces: `skill.json` with provisional metadata (`registered: false`, `syncable: false`, router intent).
 
 - [ ] **Step 1: Write `package.json` with scripts (`build`, `test`, `compile`) and dependencies (`unified`, `remark-parse`, `remark-gfm`, `remark-frontmatter`, `tsup`, `vitest`)**
 - [ ] **Step 2: Write `tsconfig.json` configured for Node ES/CommonJS**
 - [ ] **Step 3: Define TypeScript interfaces in `src/types.ts`**
-- [ ] **Step 4: Author the canonical `heuristics.json` with all 9 rules**
+- [ ] **Step 4: Author the canonical `heuristics.json` with all 11 rules**
 - [ ] **Step 5: Create provisional `skill.json` matching Toolforge contract**
 - [ ] **Step 6: Install dependencies and verify JSON validity using `node -e "JSON.parse(fs.readFileSync('heuristics.json'))"`**
 - [ ] **Step 7: Commit Task 1 changes**
 
 ```bash
 git add skills/writing-heuristics/
-git commit -m "feat(writing-heuristics): scaffold package, types, and canonical 9-rule heuristics.json"
+git commit -m "feat(writing-heuristics): scaffold package, types, and canonical 11-rule heuristics.json"
 ```
 
 ---
@@ -112,7 +125,7 @@ git commit -m "feat(writing-heuristics): scaffold package, types, and canonical 
 - Produces: `compileCatalog(catalogPath: string): { skillMd: string, rulesMd: string }`
 
 - [ ] **Step 1: Write failing codegen test in `tests/codegen.test.ts` that asserts `SKILL.md` and `docs/rules.md` match `compileCatalog()` output**
-- [ ] **Step 2: Implement compiler in `src/compiler.ts` converting 9 rules to LLM prompt format (`SKILL.md`) and human reference (`docs/rules.md`)**
+- [ ] **Step 2: Implement compiler in `src/compiler.ts` converting 11 rules to LLM prompt format (`SKILL.md`) and human reference (`docs/rules.md`)**
 - [ ] **Step 3: Implement executable runner in `bin/compile.js`**
 - [ ] **Step 4: Run `node bin/compile.js` to generate `SKILL.md` and `docs/rules.md`**
 - [ ] **Step 5: Run `npx vitest run tests/codegen.test.ts` and verify test passes**
@@ -141,7 +154,7 @@ git commit -m "feat(writing-heuristics): implement deterministic markdown compil
   - GFM tables, code blocks, and frontmatter nodes are parsed and marked as prose-exempt.
   - Links are parsed with child text and URL metadata.
   - HTML comments are parsed for `author`, `reason`, and `until` attributes.
-  - Expired `until` dates produce invalid suppression status.
+  - Expired `until` dates produce invalid suppression status (`suppression-expired`).
 - [ ] **Step 2: Implement AST parser with AST visitor in `src/parser.ts`**
 - [ ] **Step 3: Implement directive suppression lexer in `src/suppressions.ts`**
 - [ ] **Step 4: Run `npx vitest run tests/parser.test.ts` and verify 100% pass**
@@ -154,7 +167,7 @@ git commit -m "feat(writing-heuristics): implement AST parser and directive supp
 
 ---
 
-### Task 4: Core Rule Evaluation Engine (9 Canonical Rules)
+### Task 4: Core Rule Evaluation Engine (11 Canonical Rules)
 
 **Files:**
 - Create: `skills/writing-heuristics/src/linter.ts`
@@ -168,21 +181,32 @@ git commit -m "feat(writing-heuristics): implement AST parser and directive supp
 - Produces: `lintText(content: string, options?: LintOptions): LintResult`
 - Produces: `lintFile(filePath: string, options?: LintOptions): Promise<LintResult>`
 
-- [ ] **Step 1: Author markdown test fixtures (`pass-all.md`, `fail-rules.md`, `suppressed.md`) covering all 9 rules**
-- [ ] **Step 2: Write failing unit test suite in `tests/linter.test.ts` testing each of the 9 rules independently**
-- [ ] **Step 3: Implement rule evaluators in `src/linter.ts` for all 9 rules**
+- [ ] **Step 1: Author markdown test fixtures (`pass-all.md`, `fail-rules.md`, `suppressed.md`) covering all 11 rules:**
+  - `ban-throat-clearing`
+  - `ban-filler-adverbs`
+  - `avoid-first-person-plural`
+  - `use-second-person`
+  - `active-voice`
+  - `assertion-density`
+  - `condition-before-action`
+  - `heading-sentence-case`
+  - `descriptive-links`
+  - `serial-comma`
+  - `ordered-sequences`
+- [ ] **Step 2: Write failing unit test suite in `tests/linter.test.ts` testing each of the 11 rules independently**
+- [ ] **Step 3: Implement rule evaluators in `src/linter.ts` for all 11 rules**
 - [ ] **Step 4: Integrate suppression registry filtering and expired suppression error generation into `src/linter.ts`**
 - [ ] **Step 5: Run `npx vitest run tests/linter.test.ts` and verify 100% pass**
 - [ ] **Step 6: Commit Task 4 changes**
 
 ```bash
 git add skills/writing-heuristics/
-git commit -m "feat(writing-heuristics): implement core prose linter and 9-rule evaluation suite"
+git commit -m "feat(writing-heuristics): implement core prose linter and 11-rule evaluation suite"
 ```
 
 ---
 
-### Task 5: Safe Autofix Engine & Atomic File Replacement
+### Task 5: Safe Autofix Engine, Atomic Replacement, & Failure Injection Recovery Tests
 
 **Files:**
 - Create: `skills/writing-heuristics/src/fixer.ts`
@@ -199,6 +223,11 @@ git commit -m "feat(writing-heuristics): implement core prose linter and 9-rule 
   - UTF-8 BOM preservation.
   - Collision-resistant backup creation (`<file>.<timestamp>.bak`).
   - Atomic replacement sequence and temp cleanup.
+  - **Failure Injection Tests**:
+    - Simulated throw during write -> target file unmodified, 0 bytes not written to target.
+    - Simulated throw after `.bak` creation -> target restored from `.bak` on error.
+    - Temp file cleanup guaranteed in `finally` block.
+    - Zero unbounded backup accumulation.
 - [ ] **Step 2: Implement AST string transform engine in `src/fixer.ts`**
 - [ ] **Step 3: Implement atomic replacement sequence and crash recovery in `src/fixer.ts`**
 - [ ] **Step 4: Run `npx vitest run tests/fixer.test.ts` and verify passing test suite**
@@ -206,12 +235,12 @@ git commit -m "feat(writing-heuristics): implement core prose linter and 9-rule 
 
 ```bash
 git add skills/writing-heuristics/
-git commit -m "feat(writing-heuristics): implement safe autofix engine and atomic file replacement"
+git commit -m "feat(writing-heuristics): implement safe autofix engine and atomic file replacement with recovery"
 ```
 
 ---
 
-### Task 6: CLI Runner, Bundler (`tsup`), & Clean-Consumer Verification
+### Task 6: CLI Runner, Bundler (`tsup`), & Exhaustive Clean-Consumer Verification
 
 **Files:**
 - Create: `skills/writing-heuristics/src/formatters.ts`
@@ -230,8 +259,15 @@ git commit -m "feat(writing-heuristics): implement safe autofix engine and atomi
 - [ ] **Step 3: Implement programmatic entrypoint in `src/index.ts` for `./run-tool.ps1`**
 - [ ] **Step 4: Configure `tsup` in `package.json` and build standalone bundle `bin/lint-heuristics.js`**
 - [ ] **Step 5: Write CLI end-to-end tests in `tests/cli.test.ts` (testing exit codes 0, 1, 2, stdin, `--dry-run`, and format options)**
-- [ ] **Step 6: Clean-Consumer Verification: Execute `node bin/lint-heuristics.js --help` from an isolated temp directory to verify zero external runtime dependency requirement**
-- [ ] **Step 7: Run `npm test` inside `skills/writing-heuristics` to verify 100% passing test suites**
+- [ ] **Step 6: Exhaustive Clean-Consumer Verification Suite**:
+  - Run `node bin/lint-heuristics.js --help` from an isolated temp directory (no `node_modules`).
+  - Run `node bin/lint-heuristics.js check fixture.md` from temp directory.
+  - Run `node bin/lint-heuristics.js check --format=json fixture.md` from temp directory.
+  - Run `node bin/lint-heuristics.js check --format=sarif fixture.md` from temp directory.
+  - Run `node bin/lint-heuristics.js fix --dry-run fixture.md` from temp directory.
+  - Run `echo "Certainly! Let's delve into this." | node bin/lint-heuristics.js check --stdin` (verify diagnostics in stderr, exit code 1).
+  - Run `echo "Certainly! Let's delve into this." | node bin/lint-heuristics.js fix --stdin` (verify clean fixed markdown in stdout).
+- [ ] **Step 7: Run `npm test` inside `skills/writing-heuristics` to verify 100% passing test suites across all 5 unit test files**
 - [ ] **Step 8: Commit Phase 1 changes**
 
 ```bash
@@ -242,14 +278,18 @@ git commit -m "feat(writing-heuristics): complete CLI runner, formatters, and st
 ---
 
 ## === EXPLICIT APPROVAL CHECKPOINT (GATE 1) ===
-> **STOP AND VERIFY:** Phase 1 complete. All unit tests, parser tests, fixer tests, codegen tests, and clean-consumer CLI tests must pass locally with 100% success.
-> **DO NOT PROCEED TO PHASE 2** (no global junctions, no `AGENTS.md` mutation, no `manifest.json` registration) until user explicitly reviews Phase 1 deliverables and provides approval.
+> **STOP AND VERIFY (Gate 1 Receipt Checklist):**
+> 1. All Phase 1 deliverables complete: `heuristics.json` (11 rules), `compiler.ts`, `parser.ts`, `linter.ts`, `fixer.ts`, `cli.ts`, and bundled `bin/lint-heuristics.js`.
+> 2. `npm test` passes 100% (5 test suites, 40+ test cases, 0 failures).
+> 3. Exhaustive clean-consumer verification passes without `node_modules`.
+> 4. `git diff --check` is clean.
+> **DO NOT PROCEED TO PHASE 2 (SUB-GATES 2A, 2B, 2C)** until user explicitly reviews Phase 1 deliverables and provides approval.
 
 ---
 
 ## Phase 2: Global Distribution & Activation Gate
 
-### Task 7: Safe PowerShell Junction Management Script & Safety Tests
+### Sub-Gate 2A: Safe PowerShell Junction Management Script & Safety Tests
 
 **Files:**
 - Create: `skills/writing-heuristics/bin/sync-global.ps1`
@@ -257,17 +297,18 @@ git commit -m "feat(writing-heuristics): complete CLI runner, formatters, and st
 
 **Interfaces:**
 - Produces: Safe junction manager with `-Verify` and `-Uninstall` switches.
-- Guarantees: Rejects unmanaged target paths, validates source identity, and cleans only verified junctions.
+- Guarantees: Rejects unmanaged target paths, validates source identity, aborts and reports on broken junctions, and removes only verified junctions.
 
-- [ ] **Step 1: Author `bin/sync-global.ps1` with dynamic source resolution, `Test-IsManagedJunction`, and pre-flight target inspection**
-- [ ] **Step 2: Write comprehensive test in `tests/sync-script.test.ts` testing:**
+- [ ] **Step 1: Author `bin/sync-global.ps1` with dynamic source resolution, `Test-IsManagedJunction`, pre-flight target inspection, and abort-and-report on broken junctions**
+- [ ] **Step 2: Write comprehensive test in `tests/sync-script.test.ts` (executing in isolated temp mock directory) testing:**
   - Missing source -> fails pre-flight.
   - Existing unmanaged real directory -> aborts without deletion.
   - Existing file -> aborts.
-  - Broken junction -> safely cleaned.
+  - Broken junction -> aborts and reports (does not delete without explicit force flag).
   - Valid managed junction -> verified and removed cleanly on `-Uninstall`.
 - [ ] **Step 3: Run `npx vitest run tests/sync-script.test.ts` and verify test suite passes**
-- [ ] **Step 4: Commit Task 7 changes**
+- [ ] **Step 4: Execute `pwsh bin/sync-global.ps1 -Verify` to verify dry run**
+- [ ] **Step 5: Commit Sub-Gate 2A changes**
 
 ```bash
 git add skills/writing-heuristics/
@@ -276,16 +317,27 @@ git commit -m "feat(writing-heuristics): add safe PowerShell junction sync and r
 
 ---
 
-### Task 8: Instruction-Surface Integration (`AGENTS.md` & Copilot)
+### Sub-Gate 2B: Instruction-Surface Integration (`AGENTS.md` & Copilot)
 
 **Files:**
-- Modify: `AGENTS.md:85-86`
+- Modify: `AGENTS.md`
 - Modify: `.github/copilot-instructions.md`
 
-- [ ] **Step 1: Inject managed `TOOLFORGE-WRITING-DISCIPLINE` sub-region into `AGENTS.md` strictly within lines 85–86 (`<!-- IJFW-DISCIPLINE-START -->` and `<!-- IJFW-DISCIPLINE-END -->`)**
+- [ ] **Step 1: Inject managed `TOOLFORGE-WRITING-DISCIPLINE` sub-region into `AGENTS.md` strictly within `<!-- IJFW-DISCIPLINE-START -->` and `<!-- IJFW-DISCIPLINE-END -->` (lines 85–86)**:
+```markdown
+<!-- IJFW-DISCIPLINE-START -->
+<!-- TOOLFORGE-WRITING-DISCIPLINE-START -->
+### Technical Writing and Communication Discipline
+- **Anti-Slop**: Zero conversational filler, throat-clearing, or pre-announcements.
+- **Google Developer Style**: Enforce active voice, second person ("you"), and sentence-case headings.
+- **Sequencing**: State condition/prerequisite before instruction ("To start X, run Y").
+- **Deep Authoring**: For docs, specs, and research packets, invoke the `writing-heuristics` skill.
+<!-- TOOLFORGE-WRITING-DISCIPLINE-END -->
+<!-- IJFW-DISCIPLINE-END -->
+```
 - [ ] **Step 2: Inject managed writing discipline block into `.github/copilot-instructions.md`**
 - [ ] **Step 3: Verify surrounding IJFW regions in `AGENTS.md` remain completely untouched**
-- [ ] **Step 4: Commit Task 8 changes**
+- [ ] **Step 4: Commit Sub-Gate 2B changes**
 
 ```bash
 git add AGENTS.md .github/copilot-instructions.md
@@ -294,7 +346,7 @@ git commit -m "docs(governance): inject managed writing discipline into AGENTS.m
 
 ---
 
-### Task 9: 4-Stage Manifest Activation & End-to-End Verification
+### Sub-Gate 2C: 4-Stage Manifest Activation & End-to-End Verification
 
 **Files:**
 - Modify: `manifest.json`
@@ -302,12 +354,14 @@ git commit -m "docs(governance): inject managed writing discipline into AGENTS.m
 - Modify: `skills/SKILLPACK-VALIDATION.md`
 
 - [ ] **Step 1: Stage 1 (Registration): Idempotently insert skill entry into `manifest.json` with `status: "development"`, `runtime: "untested"`, `distributed: false`, `overall: "pending"`**
-- [ ] **Step 2: Stage 2 (Runtime Gate): Run `npm test` inside `skills/writing-heuristics` (all tests passing -> transition `runtime: "healthy"` )**
-- [ ] **Step 3: Stage 3 (Distribution Gate): Execute `pwsh bin/sync-global.ps1` and run `pwsh bin/sync-global.ps1 -Verify` (all junctions verified -> transition `distributed: true`)**
+- [ ] **Step 2: Stage 2 (Runtime Gate): Run `npm test` inside `skills/writing-heuristics` (all tests passing -> transition `runtime: "healthy"` in `manifest.json`)**
+- [ ] **Step 3: Stage 3 (Distribution Gate): Execute `pwsh bin/sync-global.ps1` and run `pwsh bin/sync-global.ps1 -Verify` (all junctions verified -> transition `distributed: true` in `manifest.json`)**
 - [ ] **Step 4: Stage 4 (Final Activation): Transition `status: "active"` and `overall: "good"` in `manifest.json`, and update `skill.json` (`registered: true`, `syncable: true`)**
 - [ ] **Step 5: Update `skills/SKILLPACK-VALIDATION.md` metadata**
-- [ ] **Step 6: Dogfooding Check: Run `node skills/writing-heuristics/bin/lint-heuristics.js check docs/` across workspace**
-- [ ] **Step 7: Commit Task 9 changes**
+- [ ] **Step 6: Final Verification & Dogfooding**:
+  - Run `node skills/writing-heuristics/bin/lint-heuristics.js check docs/` across workspace.
+  - Run `git diff --check` to ensure no whitespace or formatting errors.
+- [ ] **Step 7: Commit Sub-Gate 2C changes**
 
 ```bash
 git add manifest.json skills/writing-heuristics/ skills/SKILLPACK-VALIDATION.md
