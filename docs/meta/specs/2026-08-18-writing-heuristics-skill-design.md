@@ -1,9 +1,10 @@
 # Toolforge Writing Heuristics and Style Enforcement Engine
 
-**Document Status:** Spec Review (Pre-Implementation Design — Revision 3)
+**Document Status:** Spec Review (Pre-Implementation Design — Revision 4)
 **Author:** soren
 **Date:** 2026-08-18
 **Governance Scope:** Toolforge Skills Ecosystem, Universal Agent Discipline, Cross-Platform LLM Instruction Surfaces
+**Canonical Spec Path:** `docs/meta/specs/2026-08-18-writing-heuristics-skill-design.md`
 
 ---
 
@@ -141,8 +142,8 @@ The lint engine converts Markdown documents into an Abstract Syntax Tree (AST) u
 
 #### 8. `serial-comma`
 - **Severity**: `warning`
-- **Autofix**: Yes (appends Oxford comma before conjunction in lists of 3+ items).
-- **Confidence**: Medium (0.80)
+- **Autofix**: No (Advisory)
+- **Confidence**: Medium (0.85)
 - **Pass Example**: *"Supports JSON, YAML, and TOML formats."*
 - **Fail Example**: *"Supports JSON, YAML and TOML formats."*
 
@@ -157,7 +158,7 @@ The lint engine converts Markdown documents into an Abstract Syntax Tree (AST) u
   2. Install dependencies.
   3. Run the test suite.
   ```
-- **Fail Example (Advisory)**:
+- **Fail Example**:
   ```markdown
   1. High performance.
   2. Modular design.
@@ -173,18 +174,30 @@ When invoked via `fix` mode, the engine adheres to strict file safety guarantees
 1. **Atomic File Replacement**:
    - Content is written to a temporary sibling file: `<file>.<pid>.<random>.tmp`.
    - Buffers are flushed to physical disk via `fs.fsyncSync`.
-   - On Windows: The existing file is backed up to `<file>.<timestamp>.bak`, the temporary file is renamed to the target via atomic replace, and temporary files are cleaned up in a `finally` block.
+   - On Windows: The existing file is backed up to `<file>.<timestamp>.bak`, the temporary file replaces the target atomically, and temp files are cleaned up in a `finally` block.
    - On POSIX: Uses atomic `fs.renameSync`.
 2. **Encoding and BOM Preservation**: Files are read and written as UTF-8. If a UTF-8 Byte Order Mark (`\uFEFF`) is detected, it is preserved during serialization.
 3. **Line Ending (EOL) Preservation**: The engine detects whether the original file uses `CRLF` (Windows) or `LF` (POSIX) line endings and preserves them consistently.
 4. **Collision-Resistant Backups**: Backup files are created at `<file>.<timestamp>.bak`. If a collision occurs, an incremental counter (`.bak.1`) is appended.
-5. **Autofix Confidence Threshold**: Only deterministic transforms with **Confidence >= 0.95** (`ban-throat-clearing`, `heading-sentence-case`, `serial-comma`) are auto-mutated. Ambiguous/heuristic warnings are reported as suggestions for human review.
+5. **Autofix Confidence Threshold (>= 0.95)**: Only deterministic transforms with **Confidence >= 0.95** (`ban-throat-clearing` [1.0], `heading-sentence-case` [0.95]) are auto-mutated. Sub-threshold rules (`serial-comma` [0.85], `active-voice` [0.80]) are strictly advisory and never auto-mutated.
 6. **Idempotency**: Running `fix` multiple times on unchanged input produces zero diff and zero additional backups.
 7. **Dry-Run Diff Preview**: With `--dry-run`, no disk mutations or backups occur; unified diffs are output to `stdout`.
 
 ---
 
-## 6. Suppression Governance and Schema Contract
+## 6. Build and Runtime Architecture
+
+To reconcile TypeScript development with a zero-dependency CLI runtime:
+
+1. **Development Source (`src/`)**: Written in pure TypeScript (`src/index.ts`, `src/linter.ts`, `src/fixer.ts`, `src/compiler.ts`), tested with `vitest`.
+2. **Build & Bundle Pipeline (`tsup` / `esbuild`)**:
+   - Running `npm run build` compiles and bundles `src/cli.ts` into a standalone, zero-external-dependency CommonJS file at `bin/lint-heuristics.js`.
+   - Includes embedded parsing logic without requiring runtime node_modules or global typescript installations when executed by agents or CI.
+3. **Toolforge Entrypoint (`src/index.ts`)**: Exposes programmatic API for `./run-tool.ps1` and agent orchestrators.
+
+---
+
+## 7. Suppression Governance and Schema Contract
 
 Authors can suppress rules locally with full audit traceability:
 
@@ -208,7 +221,7 @@ This is an essentially required constraint.
 
 ---
 
-## 7. Instruction-Surface Distribution and Global Integration
+## 8. Instruction-Surface Distribution and Global Integration
 
 Instruction-surface distribution synchronizes writing discipline to agent rule files without pretending to control external LLM hosts.
 
@@ -284,7 +297,7 @@ foreach ($target in $targets) {
 
 ---
 
-## 8. Provisional Skill Package Specification (`skill.json`)
+## 9. Provisional Skill Package Specification (`skill.json`)
 
 ```json
 {
@@ -391,7 +404,7 @@ foreach ($target in $targets) {
 
 ---
 
-## 9. Manifest Planned Schema (`C:\dev\manifest.json`)
+## 10. Manifest Planned Schema and Upsert Contract (`C:\dev\manifest.json`)
 
 *Note: Planned registration template to be inserted into `manifest.json` upon test completion.*
 
@@ -425,9 +438,21 @@ foreach ($target in $targets) {
 }
 ```
 
+### Idempotent Manifest Upsert Algorithm
+When registration executes:
+1. Parse `C:\dev\manifest.json`.
+2. Locate existing entry by `item.id === "writing-heuristics"`.
+3. **If found (Update)**:
+   - Preserve original `timestamps.created`.
+   - Update `version`, `description`, `tags`, `health`, `entrypoint`, and update `timestamps.lastValidation` to `new Date().toISOString()`.
+4. **If not found (Append)**:
+   - Set both `timestamps.created` and `timestamps.lastValidation` to `new Date().toISOString()`.
+   - Append record to `manifest.skills` array.
+5. Format and save `manifest.json` with 2-space indentation.
+
 ---
 
-## 10. Standalone CLI Linter Contract
+## 11. Standalone CLI Linter Contract
 
 ### Commands and Flags
 - `node bin/lint-heuristics.js check [globs...]`: Analyzes files (e.g. `docs/**/*.md`).
@@ -445,7 +470,7 @@ foreach ($target in $targets) {
 
 ---
 
-## 11. Test Matrix and Verification Plan
+## 12. Test Matrix and Verification Plan
 
 1. **AST Parser and Rule Tests (`tests/linter.test.ts`)**:
    - Verify all 9 rules against dedicated positive and negative fixtures.
