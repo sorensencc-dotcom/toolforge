@@ -217,7 +217,7 @@ export function lintText(content: string, options: LintOptions = {}): LintResult
     if (!options.noSuppress && suppressions.isSuppressed('descriptive-links', link.line)) {
       continue;
     }
-    const genericLinkRegex = /^(here|click here|link|this link|this page|read more|more info|website)$/i;
+    const genericLinkRegex = /^(here|click here|link|this link|this page|read more|more|more info|website)$/i;
     if (genericLinkRegex.test(link.text)) {
       violations.push({
         ruleId: 'descriptive-links',

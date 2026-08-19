@@ -8,7 +8,7 @@
     "lint-heuristics": "./bin/lint-heuristics.js"
   },
   "scripts": {
-    "build": "tsup src/cli.ts src/index.ts --format cjs --dts --out-dir dist && tsup src/cli.ts --format cjs --out-dir bin --entry.lint-heuristics=src/cli.ts",
+    "build": "tsup",
     "compile": "node bin/compile.js",
     "test": "vitest run"
   },
