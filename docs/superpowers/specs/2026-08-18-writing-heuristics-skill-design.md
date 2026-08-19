@@ -1,9 +1,9 @@
-# Toolforge Writing Heuristics and Global Style Enforcement Engine
+# Toolforge Writing Heuristics and Style Enforcement Engine
 
-**Document Status:** Spec Review (Pre-Implementation Design)
+**Document Status:** Spec Review (Pre-Implementation Design — Revision 3)
 **Author:** soren
 **Date:** 2026-08-18
-**Governance Scope:** Toolforge Skills Ecosystem, Universal Agent Discipline, Cross-Platform LLMs
+**Governance Scope:** Toolforge Skills Ecosystem, Universal Agent Discipline, Cross-Platform LLM Instruction Surfaces
 
 ---
 
@@ -11,29 +11,29 @@
 
 Large Language Models (Gemini, Claude, Copilot, Codex, etc.) exhibit systematic conversational drift when producing technical documentation, architecture specifications, and code reviews:
 - **Conversational Slop**: Throat-clearing pre-announcements (*"Sure! In this section we will delve..."*).
-- **Passive and Indirect Voice**: Obscures who or what executes actions.
-- **Inverted Instruction Sequencing**: Stating instructions before necessary prerequisites (*"Run X to achieve Y"*).
-- **Structural Inconsistency**: Inconsistent heading capitalization, non-descriptive links, and arbitrary numbering.
+- **First-Person Plural & Passive Voice**: Obscures ownership (*"We recommend that the service is started by..."* instead of *"Start the service..."*).
+- **Inverted Instruction Sequencing**: Stating directives before prerequisites (*"Run X to achieve Y"*).
+- **Structural Inconsistency**: Title-cased headings, ambiguous link text (*"click here"*), and arbitrary numbered lists for static enumerations.
 
-This system implements a dual-tier writing enforcement architecture:
-1. **Tier 1 (Always-On Global Baseline)**: Enforces non-negotiable anti-slop and style constraints across all agents and platforms via universal instruction surfaces.
-2. **Tier 2 (Toolforge Skill and Linter)**: A deterministic, AST-aware prose linting engine, auto-fix transformer, and on-demand skill package rooted in canonical technical writing standards.
+This system provides a two-tier solution:
+1. **Tier 1 (Instruction-Surface Distribution)**: Distributes managed, version-controlled writing discipline blocks to platform instruction files (`AGENTS.md`, `.github/copilot-instructions.md`, etc.) to shape baseline model generation.
+2. **Tier 2 (Toolforge Prose Linter and Safe Fixer)**: A standalone, AST-aware markdown linter, safe auto-fix transformer, and on-demand skill package rooted in canonical technical writing standards.
 
 ---
 
-## 2. Rule Provenance, Sources, and Governance Policy
+## 2. Rule Provenance, Sources, and Licensing
 
-All rules in the canonical catalog are derived from defined external standards and attributed accordingly:
+The writing rules in this package synthesize standards from multiple sources with clear attribution and licensing:
 
-| Domain | Rule ID | Severity | Source / Citation | License / Attribution |
+| Domain | Rule ID | Severity | Source / Standard | License / Attribution |
 |---|---|---|---|---|
-| **Google Style** | `active-voice`, `second-person`, `heading-sentence-case`, `descriptive-links`, `condition-before-action`, `serial-comma` | `error` / `warning` | [Google Developer Style Guide](https://developers.google.com/style) | CC BY 4.0 |
-| **Anti-Slop** | `ban-throat-clearing`, `ban-filler-adverbs`, `assertion-density` | `error` / `warning` | [Nate B. Jones Writing Heuristics](https://x.com/natebjones/status/2089457435459404093) | Prompt Scaffolds / Research |
-| **Governance** | `suppression-governance`, `fix-safety-contract`, `codegen-invariant` | `error` | [Toolforge Skills Spec](file:///C:/dev/skills/README.md) | MIT |
+| **Google Style** | `heading-sentence-case`, `descriptive-links`, `avoid-first-person-plural`, `use-second-person`, `condition-before-action`, `serial-comma` | `error` / `warning` | [Google Developer Style Guide](https://developers.google.com/style) | CC BY 4.0 |
+| **Anti-Slop** | `ban-throat-clearing`, `ban-filler-adverbs`, `assertion-density` | `error` / `warning` | [Nate B. Jones Analytical Writing Heuristics](https://x.com/natebjones/status/2089457435459404093) | Original prompt scaffold implementation inspired by public methodology |
+| **Governance** | `suppression-governance`, `safe-fix-contract`, `codegen-invariant` | `error` | Toolforge Skills Framework Specification | MIT License |
 
 ### Modification and RFC Policy
 Any modification, addition, or retirement of a heuristic rule requires:
-1. An edit to the canonical `heuristics.json` definition file.
+1. An update to the canonical `heuristics.json` definition file.
 2. Accompanying positive and negative test fixtures in `tests/fixtures/`.
 3. Execution of `node bin/compile.js` to synchronize all derived prompt scaffolds and documentation.
 
@@ -65,135 +65,175 @@ Any modification, addition, or retirement of a heuristic rule requires:
 
 ---
 
-## 4. Rule Specifications and AST Parser Contract
+## 4. Rule Specifications and AST Parser Scope Contract
 
 ### AST Parser Scope and Boundary Rules
-The lint engine converts Markdown documents into an Abstract Syntax Tree (AST) using markdown AST parsing.
+The lint engine converts Markdown documents into an Abstract Syntax Tree (AST) using `unified` / `remark-parse`.
 
-- **Parsed Nodes**: `paragraph`, `heading`, `list`, `listItem`, `blockquote`.
-- **Exempt Nodes (Strictly Ignored)**:
+- **Parsed Prose Nodes**: `paragraph`, `heading`, `list`, `listItem`, `blockquote`.
+- **Parsed Metadata Nodes**:
+  - `link` nodes: Inspected for anchor text (`link.children`) and destination URL for `descriptive-links`.
+  - `html` comment nodes: Parsed exclusively by the Directive Lexer for suppression commands (`<!-- heuristics-disable ... -->`).
+- **Exempt Nodes (Strictly Ignored for Prose Linting)**:
   - `code` (fenced code blocks)
-  - `inlineCode` (inline code spans like variable and code names)
+  - `inlineCode` (inline code spans like variable names)
   - `table`, `tableRow`, `tableCell`
-  - `html` (comments and custom tags)
-  - Frontmatter blocks (YAML/TOML delimiters)
+  - General HTML markup/tags (non-comment HTML)
+  - Frontmatter blocks (YAML/TOML headers)
 
 ### Canonical Heuristics Catalog
 
 #### 1. `ban-throat-clearing`
 - **Severity**: `error`
-- **Autofix**: Yes (strips leading filler clause).
+- **Autofix**: Yes (strips leading conversational opener).
 - **Confidence**: High (1.0)
-- **Logic**: Matches beginning of prose blocks against conversational openers.
+- **Scope**: Beginning of prose paragraphs.
 - **Pattern**: `^(Certainly|Sure thing|Sure|Here is|In this section|Let's dive|Note that|Allow me to)\b`
 - **Pass Example**: *"To configure the client, supply your API key in the environment."*
 - **Fail Example**: *"Certainly! In this section, we will delve into configuring the client."*
 
 #### 2. `ban-filler-adverbs`
 - **Severity**: `warning`
-- **Autofix**: No (requires contextual rewriting).
+- **Autofix**: No (requires contextual prose rewrite).
 - **Confidence**: Medium (0.85)
 - **Target Terms**: `essentially`, `basically`, `crucial`, `game-changing`, `delve`, `comprehensive`, `seamlessly`.
 - **Pass Example**: *"This update reduces memory overhead by 40%."*
 - **Fail Example**: *"This game-changing update seamlessly and essentially eliminates overhead."*
 
-#### 3. `active-voice`
-- **Severity**: `warning`
-- **Autofix**: No (manual/LLM judgment needed).
-- **Confidence**: Medium (0.80)
-- **Logic**: Flags passive voice constructs (auxiliary verbs + past participle + optional *"by"* agent).
-- **Pass Example**: *"The scheduler triggers the backup job nightly."*
-- **Fail Example**: *"The backup job is triggered nightly by the scheduler."*
-
-#### 4. `second-person`
+#### 3. `avoid-first-person-plural`
 - **Severity**: `warning`
 - **Autofix**: No
 - **Confidence**: High (0.90)
-- **Logic**: Flags first-person plural (*"we recommend"*, *"let's"*, *"in our opinion"*) in instructional text.
-- **Pass Example**: *"Install the dependencies before starting the service."*
-- **Fail Example**: *"We recommend that you install the dependencies first."*
+- **Logic**: Flags first-person plural (*"we recommend"*, *"let's"*, *"in our opinion"*) in technical instructions.
+- **Pass Example**: *"Install dependencies before starting the service."*
+- **Fail Example**: *"We recommend that you install dependencies first."*
+
+#### 4. `use-second-person`
+- **Severity**: `warning`
+- **Autofix**: No
+- **Confidence**: Medium (0.80)
+- **Logic**: Encourages direct second-person address (*"you"*) or imperative mood for instructions; flags third-person passive abstraction (*"the user must..."*).
+- **Pass Example**: *"You can configure the timeout in `config.json`."*
+- **Fail Example**: *"The developer should configure the timeout in `config.json`."*
 
 #### 5. `condition-before-action`
 - **Severity**: `warning`
 - **Autofix**: No
 - **Confidence**: Medium (0.75)
-- **Logic**: Flags trailing conditional clauses after an imperative action.
+- **Logic**: Flags trailing conditional clauses after an imperative command.
 - **Pass Example**: *"To reload configuration, send SIGHUP to the process."*
 - **Fail Example**: *"Send SIGHUP to the process if you want to reload configuration."*
 
 #### 6. `heading-sentence-case`
 - **Severity**: `error`
-- **Autofix**: Yes (converts Title Case to Sentence case while preserving acronyms/code words).
+- **Autofix**: Yes (converts Title Case to Sentence case while preserving uppercase acronyms and inline code).
 - **Confidence**: High (0.95)
 - **Pass Example**: *"## Deployment configuration and setup"*
 - **Fail Example**: *"## Deployment Configuration And Setup"*
 
 #### 7. `descriptive-links`
 - **Severity**: `error`
-- **Autofix**: No (requires semantic destination context).
+- **Autofix**: No (requires semantic context).
 - **Confidence**: High (1.0)
 - **Logic**: Inspects `link` AST node text; flags generic anchor strings (*"here"*, *"click here"*, *"link"*, *"this page"*, *"read more"*).
-- **Pass Example**: *"See the [PostgreSQL Connection Pooling Guide](file:///docs/db.md)."*
-- **Fail Example**: *"For connection pooling, click [here](file:///docs/db.md)."*
+- **Pass Example**: *"See the [PostgreSQL Connection Pooling Guide](docs/db.md)."*
+- **Fail Example**: *"For connection pooling, click [here](docs/db.md)."*
 
 #### 8. `serial-comma`
 - **Severity**: `warning`
-- **Autofix**: Yes (appends Oxford comma before conjunction).
+- **Autofix**: Yes (appends Oxford comma before conjunction in lists of 3+ items).
 - **Confidence**: Medium (0.80)
 - **Pass Example**: *"Supports JSON, YAML, and TOML formats."*
 - **Fail Example**: *"Supports JSON, YAML and TOML formats."*
 
 #### 9. `ordered-sequences`
-- **Severity**: `error`
+- **Severity**: `warning` (Advisory)
 - **Autofix**: No
 - **Confidence**: Medium (0.75)
-- **Logic**: Flags numbered lists where items lack sequential step indicators or chronological dependency.
+- **Logic**: Analyzes numbered lists (`1.`, `2.`). If items do not begin with imperative verbs, chronological markers (*"Step 1"*, *"First"*, *"Then"*), or sequential dependencies, advises using bulleted lists.
+- **Pass Example**:
+  ```markdown
+  1. Clone the repository.
+  2. Install dependencies.
+  3. Run the test suite.
+  ```
+- **Fail Example (Advisory)**:
+  ```markdown
+  1. High performance.
+  2. Modular design.
+  3. Comprehensive documentation.
+  ```
 
 ---
 
-## 5. Safe Fix Engine Contract
+## 5. Safe Fix and Atomic Write Contract
 
-When invoked via `fix` mode, the engine adheres to strict safety and data-integrity guarantees:
+When invoked via `fix` mode, the engine adheres to strict file safety guarantees across Windows and POSIX:
 
-1. **Atomic File Writes**: Content is written to a sibling temporary file (`<file>.<pid>.tmp`) and renamed atomically to prevent corrupted files on crash.
-2. **Encoding and BOM Preservation**: Files are read and written in UTF-8. Existing UTF-8 Byte Order Marks (BOM) are preserved if detected.
-3. **Line Ending (EOL) Preservation**: Automatically detects document EOL (`CRLF` on Windows vs `LF` on Unix) and preserves original line endings throughout the file.
-4. **Collision-Resistant Backups**: Creates a backup at `<file>.<timestamp>.bak` before mutation. If a backup file already exists, appends an incremental counter (`.bak.1`).
-5. **No Blind Unsafe Fixes**: Only rules with **Confidence >= 0.95** and deterministic transformations (`ban-throat-clearing`, `heading-sentence-case`, `serial-comma`) are autofixed. Heuristic warnings are left for author review.
-6. **Idempotence**: Running `fix` multiple times on the same input produces zero further modifications after the first run.
-7. **Dry-Run Diff Preview**: With `--dry-run`, no files are modified or backed up; a standard unified diff is written to `stdout`.
+1. **Atomic File Replacement**:
+   - Content is written to a temporary sibling file: `<file>.<pid>.<random>.tmp`.
+   - Buffers are flushed to physical disk via `fs.fsyncSync`.
+   - On Windows: The existing file is backed up to `<file>.<timestamp>.bak`, the temporary file is renamed to the target via atomic replace, and temporary files are cleaned up in a `finally` block.
+   - On POSIX: Uses atomic `fs.renameSync`.
+2. **Encoding and BOM Preservation**: Files are read and written as UTF-8. If a UTF-8 Byte Order Mark (`\uFEFF`) is detected, it is preserved during serialization.
+3. **Line Ending (EOL) Preservation**: The engine detects whether the original file uses `CRLF` (Windows) or `LF` (POSIX) line endings and preserves them consistently.
+4. **Collision-Resistant Backups**: Backup files are created at `<file>.<timestamp>.bak`. If a collision occurs, an incremental counter (`.bak.1`) is appended.
+5. **Autofix Confidence Threshold**: Only deterministic transforms with **Confidence >= 0.95** (`ban-throat-clearing`, `heading-sentence-case`, `serial-comma`) are auto-mutated. Ambiguous/heuristic warnings are reported as suggestions for human review.
+6. **Idempotency**: Running `fix` multiple times on unchanged input produces zero diff and zero additional backups.
+7. **Dry-Run Diff Preview**: With `--dry-run`, no disk mutations or backups occur; unified diffs are output to `stdout`.
 
 ---
 
-## 6. Suppression Governance
+## 6. Suppression Governance and Schema Contract
 
-Authors can suppress specific rules locally, subject to strict audit governance:
+Authors can suppress rules locally with full audit traceability:
 
-### Syntax
+### Syntax Schema
 ```markdown
-<!-- heuristics-disable ban-filler-adverbs reason="Preserving quote from RFC 2119" until="2026-12-31" -->
+<!-- heuristics-disable rule-id author="soren" reason="Preserving quote from RFC 2119" until="2026-12-31" -->
 This is an essentially required constraint.
-<!-- heuristics-enable ban-filler-adverbs -->
+<!-- heuristics-enable rule-id -->
 ```
 
-### Governance Rules:
-1. **Mandatory Justification for Errors**: Suppressing any `error`-severity rule without a non-empty `reason="..."` attribute causes a linter syntax failure.
-2. **Suppression Audit Reporting**: The linter output includes a dedicated *"Active Suppressions Summary"* indicating file, line, rule, reason, and author.
-3. **CI Enforcement**: The `--no-suppress` flag in `ci-pipeline.ps1` rejects any PR that introduces unauthorized suppressions.
+### Attributes Contract:
+- **`rule-id`** *(Required)*: The specific rule ID or `all`.
+- **`author`** *(Required)*: Identifier of the engineer or agent authoring the suppression.
+- **`reason`** *(Required for `error`-severity rules)*: Non-empty rationale explaining the bypass.
+- **`until`** *(Optional)*: ISO-8601 expiry date (`YYYY-MM-DD`).
+
+### Expiration and CI Policy:
+1. **Expired Suppressions**: If `current_date > until`, the suppression is **Invalid/Expired**. The linter reports an error (`suppression-expired`) and executes active rule checks.
+2. **Audit Reporting**: The linter prints an *Active Suppressions Audit Table* in CLI reports.
+3. **CI Gate**: `--no-suppress` in CI fails builds that contain unapproved or unjustified suppressions.
 
 ---
 
-## 7. Global Cross-Platform Integration Matrix
+## 7. Instruction-Surface Distribution and Global Integration
 
-| Platform / Agent | Configuration Path / Surface | Precedence | Rollback / Sync Action |
+Instruction-surface distribution synchronizes writing discipline to agent rule files without pretending to control external LLM hosts.
+
+### Surface Integration Matrix
+
+| Platform / Agent | Configuration Path | Integration Type | Management Method |
 |---|---|---|---|
-| **Gemini Antigravity** | `~/.gemini/config/skills/writing-heuristics` | High | PowerShell Junction (`New-Item -ItemType Junction`) |
-| **Claude Code** | `~/.claude/skills/writing-heuristics` | High | Directory Junction / Symlink |
-| **OpenCode / Agentic** | `~/.agents/skills/writing-heuristics` | Medium | Directory Junction (`sync-global.ps1`) |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | Baseline | Managed block referencing `writing-heuristics` |
-| **Universal (Codex / Any)** | `C:\dev\AGENTS.md` (Lines 85–86) | Global Baseline | Standard IJFW Discipline injection block |
+| **Gemini Antigravity** | `~/.gemini/config/skills/writing-heuristics` | Skill Junction | PowerShell Junction |
+| **Claude Code** | `~/.claude/skills/writing-heuristics` | Skill Junction | PowerShell Junction |
+| **OpenCode / Agentic** | `~/.agents/skills/writing-heuristics` | Skill Junction | PowerShell Junction |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | Discipline Block | Managed comment region |
+| **Universal (Codex / Any)** | `AGENTS.md` (Lines 85–86) | Discipline Block | Managed IJFW Discipline region |
 
-### Junction Deployment and Reversal Script (`bin/sync-global.ps1`)
+### Managed Block Format
+```markdown
+<!-- TOOLFORGE-WRITING-DISCIPLINE-START -->
+### Technical Writing and Communication Discipline
+- **Anti-Slop**: Zero conversational filler, throat-clearing, or pre-announcements.
+- **Google Developer Style**: Enforce active voice, second person ("you"), and sentence-case headings.
+- **Sequencing**: State condition/prerequisite before instruction ("To start X, run Y").
+- **Deep Authoring**: For docs, specs, and research packets, invoke the `writing-heuristics` skill.
+<!-- TOOLFORGE-WRITING-DISCIPLINE-END -->
+```
+
+### Safe Junction Management Script (`bin/sync-global.ps1`)
 ```powershell
 param (
     [switch]$Uninstall,
@@ -207,34 +247,44 @@ $targets = @(
     "$HOME\.claude\skills\writing-heuristics"
 )
 
+function Test-IsManagedJunction($path) {
+    if (!(Test-Path $path)) { return $false }
+    $item = Get-Item $path -Force
+    if ($item.LinkType -ne "Junction") { return $false }
+    $targetVal = (Get-Item $path).Target[0]
+    return ($targetVal -replace '\\$','') -eq ($source -replace '\\$','')
+}
+
 if ($Verify) {
     foreach ($t in $targets) {
-        $valid = (Test-Path $t) -and ((Get-Item $t).LinkType -eq "Junction")
-        Write-Host "Checking $t: $(if ($valid) {'OK'} else {'MISSING/INVALID'})"
+        $valid = Test-IsManagedJunction $t
+        Write-Host "Target $t: $(if ($valid) {'VALID JUNCTION'} else {'NOT MANAGED / MISSING'})"
     }
     return
 }
 
 foreach ($target in $targets) {
     if (Test-Path $target) {
-        $item = Get-Item $target
-        if ($item.LinkType -eq "Junction") {
+        if (Test-IsManagedJunction $target) {
+            Write-Host "Removing managed junction: $target"
             [System.IO.Directory]::Delete($target)
         } else {
-            Remove-Item -Path $target -Force -Recurse
+            Write-Error "ABORT: Target directory exists and is NOT a managed junction: $target. Please inspect manually."
+            continue
         }
     }
     if (!$Uninstall) {
         $parent = Split-Path $target -Parent
         if (!(Test-Path $parent)) { New-Item -ItemType Directory -Path $parent -Force }
         New-Item -ItemType Junction -Path $target -Value $source
+        Write-Host "Created managed junction: $target -> $source"
     }
 }
 ```
 
 ---
 
-## 8. Skill Package Specification (`skill.json`)
+## 8. Provisional Skill Package Specification (`skill.json`)
 
 ```json
 {
@@ -279,7 +329,7 @@ foreach ($target in $targets) {
   "validation": {
     "testsRequiredBeforeActivation": true,
     "testRunner": "vitest",
-    "requiredSuites": ["linter.test.ts", "cli.test.ts", "codegen.test.ts"]
+    "requiredSuites": ["linter.test.ts", "fixer.test.ts", "cli.test.ts", "codegen.test.ts"]
   },
 
   "inputs": {
@@ -323,12 +373,12 @@ foreach ($target in $targets) {
 
   "integrations": {
     "toolforge": {
-      "registered": true,
+      "registered": false,
       "manifestPath": "manifest.json",
       "docPath": "docs/skills/writing-heuristics.md"
     },
     "distributed": {
-      "syncable": true,
+      "syncable": false,
       "globalPaths": [
         "~/.gemini/config/skills/writing-heuristics",
         "~/.agents/skills/writing-heuristics",
@@ -343,7 +393,7 @@ foreach ($target in $targets) {
 
 ## 9. Manifest Planned Schema (`C:\dev\manifest.json`)
 
-*Note: Planned registration template to be inserted upon test completion.*
+*Note: Planned registration template to be inserted into `manifest.json` upon test completion.*
 
 ```json
 {
@@ -400,9 +450,10 @@ foreach ($target in $targets) {
 1. **AST Parser and Rule Tests (`tests/linter.test.ts`)**:
    - Verify all 9 rules against dedicated positive and negative fixtures.
    - Assert code blocks, inline code, and tables are 100% exempt from linting.
-   - Test inline suppression parsing, justification requirements, and expired date checks.
-2. **Safe Fix and AST Engine Tests (`tests/fixer.test.ts`)**:
-   - Assert atomic write behavior and backup creation.
+   - Assert link node text and URL targets are inspected for `descriptive-links`.
+   - Test inline suppression parsing, required `author` and `reason` validation, and expired `until` date errors.
+2. **Safe Fix and Atomic Engine Tests (`tests/fixer.test.ts`)**:
+   - Assert atomic replacement, sync flush, and temp cleanup behavior.
    - Assert CRLF vs LF line ending preservation.
    - Assert idempotency: 2nd run produces 0 diff.
 3. **CLI Contract Tests (`tests/cli.test.ts`)**:
