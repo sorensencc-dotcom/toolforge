@@ -1,4 +1,24 @@
+<!-- TOOLFORGE-WRITING-DISCIPLINE-START -->
+## Technical Writing Heuristics & Style Discipline
+
+All documentation, architecture specs, pull request descriptions, and agent outputs must strictly follow the deterministic writing heuristics defined in `skills/writing-heuristics/SKILL.md`:
+1. **Ban conversational throat-clearing** (`Certainly!`, `Sure thing`, `In this section`).
+2. **Eliminate filler adverbs & AI slop** (`essentially`, `basically`, `game-changing`, `delve`, `seamlessly`).
+3. **Avoid first-person plural** (`we recommend`, `we will`, `let's`).
+4. **Use direct imperative or second-person** (`you`), never third-person (`the developer should`).
+5. **Enforce active voice** over passive constructions (`is handled by`).
+6. **Ground assertions with metrics**; avoid ungrounded qualitative hype (`vastly superior`, `blazing fast`).
+7. **State condition before action** ("To X, run Y").
+8. **Enforce Sentence case in headings** (preserve acronyms and code spans).
+9. **Use descriptive link anchor text**, never generic labels (`here`, `link`).
+10. **Include serial Oxford commas** in lists.
+11. **Use sequential numbering** for ordered steps.
+
+Local exemptions must use audit-trail directives: `<!-- heuristics-disable <rule> author="..." reason="..." until="YYYY-MM-DD" -->`.
+<!-- TOOLFORGE-WRITING-DISCIPLINE-END -->
+
 # GitHub Copilot instructions
+
 
 
 
@@ -46,7 +66,7 @@
 
 ### MCP & Skills awareness (GitHub Copilot Toolbox)
 
-_Last synced: 2026-08-18T00:22:56.175Z._
+_Last synced: 2026-08-19T00:40:25.191Z._
 
 - **Full report:** `.github/copilot-toolbox-mcp-skills-awareness.md` in this workspace (auto-overwritten on each scan). Use it as ground truth for configured servers and skill folders.
 - **MCP:** For **live tools**, use **Copilot Chat → Agent** and **trust/start** the right servers in the MCP UI.
@@ -380,6 +400,7 @@ _No active workspace servers in mcp.json._
 - **workspace-storage-cleaner** — `C:\Users\soren\.agents\skills\workspace-storage-cleaner` — Audits and purges stale artifacts, nested .git clones in brain session directories, oversized task logs, and temporary files across Antigravity Brain and development workspaces.
 
 <!-- github-copilot-toolbox:mcp-skills-awareness-end -->
+
 
 
 

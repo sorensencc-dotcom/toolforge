@@ -83,6 +83,24 @@ No project agents yet. Run `ijfw team` to set them up.
 <!-- IJFW-BLACKBOARD-END -->
 
 <!-- IJFW-DISCIPLINE-START -->
+<!-- TOOLFORGE-WRITING-DISCIPLINE-START -->
+## Technical Writing Heuristics & Style Discipline
+
+All documentation, architecture specs, pull request descriptions, and agent outputs must strictly follow the deterministic writing heuristics defined in `skills/writing-heuristics/SKILL.md`:
+1. **Ban conversational throat-clearing** (`Certainly!`, `Sure thing`, `In this section`).
+2. **Eliminate filler adverbs & AI slop** (`essentially`, `basically`, `game-changing`, `delve`, `seamlessly`).
+3. **Avoid first-person plural** (`we recommend`, `we will`, `let's`).
+4. **Use direct imperative or second-person** (`you`), never third-person (`the developer should`).
+5. **Enforce active voice** over passive constructions (`is handled by`).
+6. **Ground assertions with metrics**; avoid ungrounded qualitative hype (`vastly superior`, `blazing fast`).
+7. **State condition before action** ("To X, run Y").
+8. **Enforce Sentence case in headings** (preserve acronyms and code spans).
+9. **Use descriptive link anchor text**, never generic labels (`here`, `link`).
+10. **Include serial Oxford commas** in lists.
+11. **Use sequential numbering** for ordered steps.
+
+Local exemptions must use audit-trail directives: `<!-- heuristics-disable <rule> author="..." reason="..." until="YYYY-MM-DD" -->`.
+<!-- TOOLFORGE-WRITING-DISCIPLINE-END -->
 <!-- IJFW-DISCIPLINE-END -->
 
 <!-- graft:start -->
