@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-19T02:43:11.3908366Z
+**Generated:** 2026-08-19T17:36:05.8339017Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -36,7 +36,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### retro-export
 
@@ -62,7 +62,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### roadmap-validator
 
@@ -75,7 +75,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### rollback-phase
 
@@ -88,7 +88,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### run-adapter-diagnostic
 
@@ -101,7 +101,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### scale-ingestion-service
 
@@ -114,7 +114,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### session-wrap
 
@@ -127,7 +127,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### skill-health-monitor
 
@@ -140,7 +140,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### skill-security-auditor
 
@@ -153,7 +153,7 @@
 | Runtime | python |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
 ### tool-lifecycle-manager
 
@@ -166,7 +166,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### toolforge-cli
 
@@ -179,7 +179,7 @@
 | Runtime | powershell |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 2 internal, 0 external |
 ### toolforge-drift-monitor
 
@@ -192,7 +192,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### toolforge-registry-manager
 
@@ -205,7 +205,7 @@
 | Runtime | powershell |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### toolforge-submission-validator
 
@@ -218,7 +218,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### trm-feedback-report
 
@@ -231,7 +231,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 1 external |
 ### trm-status
 
@@ -244,7 +244,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
 ### work-summarizer
 
@@ -257,7 +257,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### research-questions
 
@@ -283,7 +283,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### pre-wrap-audit
 
@@ -296,7 +296,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 1 internal, 0 external |
 ### plan-extractor-integration
 
@@ -309,7 +309,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### agent-drift-detector
 
@@ -322,7 +322,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### analyze-token-burn
 
@@ -335,7 +335,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### ashfall
 
@@ -348,7 +348,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### automation-audit
 
@@ -361,7 +361,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-consolidate-artifacts
 
@@ -374,7 +374,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
 ### cic-ingest-world
 
@@ -387,7 +387,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
 ### cic-orchestrate-flow
 
@@ -400,7 +400,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 5 internal, 0 external |
 ### cic-repair-pipeline
 
@@ -413,7 +413,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
 ### workspace-storage-cleaner
 
@@ -439,7 +439,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-section-summarizer
 
@@ -452,7 +452,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### context-manager
 
@@ -465,7 +465,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### html-visual-verify
 
@@ -478,7 +478,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### kb-sync-artifact-generator
 
@@ -491,7 +491,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### kb-sync-nightly
 
@@ -504,7 +504,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### obsidian-ingest-wiki
 
@@ -517,7 +517,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### operator-image-build
 
@@ -530,7 +530,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
 ### permission-governor
 
@@ -543,7 +543,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### cic-run-gate
 
@@ -556,7 +556,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
 ### writing-heuristics
 
@@ -569,7 +569,7 @@
 | Runtime | node |
 | Status | active |
 | Health | ⚠️ WARN |
-| Last Run | Never |
+| Last Run | 2026-08-19T12:04:53.442905+00:00 |
 | Dependencies | 0 internal, 0 external |
 
 ---
