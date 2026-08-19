@@ -23,10 +23,11 @@
   10. `serial-comma` (severity: warning, advisory, autofix: false, confidence: 0.85)
   11. `ordered-sequences` (severity: warning, advisory, autofix: false, confidence: 0.75)
 - Zero Rule Drift: `heuristics.json` is the sole source of truth; `SKILL.md` and `docs/rules.md` are compiled artifacts verified in CI.
-- Data Safety: No blind deletes in sync scripts; only verified junctions pointing to source may be manipulated. Broken junctions abort-and-report.
+- Distribution Targets: Exactly 3 global skill surfaces (`~/.gemini/config/skills/writing-heuristics`, `~/.agents/skills/writing-heuristics`, `~/.claude/skills/writing-heuristics`).
+- Data Safety: No blind deletes in sync scripts; only verified junctions pointing to source may be manipulated. Broken junctions strictly abort-and-report.
 - Safe Autofix: Only rules with Confidence >= 0.95 (`ban-throat-clearing` and `heading-sentence-case`) may be auto-mutated; all sub-threshold rules are advisory only.
 - Strict Stream Separation: When reading from stdin, diagnostic logs go strictly to `stderr` and transformed prose goes to `stdout`.
-- Phased Two-Gate Execution: Phase 1 builds and validates the local engine completely; Phase 2 requires sequential sub-gate approvals before touching global instruction surfaces, junctions, or manifest activation.
+- Transactional Manifest Activation: Manifest updates are atomic (all-or-nothing); no half-activated state is written if any runtime or distribution gate fails.
 
 ---
 
@@ -52,7 +53,7 @@ skills/writing-heuristics/
 |-- bin/
 |   |-- compile.js             # Compilation runner script
 |   |-- lint-heuristics.js     # Bundled standalone executable CLI (zero external deps)
-|   `-- sync-global.ps1        # Safe PowerShell junction manager and rollback engine
+|   `-- sync-global.ps1        # Safe PowerShell junction manager (Gemini, Claude, OpenCode)
 |-- tests/
 |   |-- fixtures/              # Dedicated markdown test files (positive/negative/suppressed)
 |   |-- codegen.test.ts        # Zero-drift compiler test
@@ -280,7 +281,7 @@ git commit -m "feat(writing-heuristics): complete CLI runner, formatters, and st
 ## === EXPLICIT APPROVAL CHECKPOINT (GATE 1) ===
 > **STOP AND VERIFY (Gate 1 Receipt Checklist):**
 > 1. All Phase 1 deliverables complete: `heuristics.json` (11 rules), `compiler.ts`, `parser.ts`, `linter.ts`, `fixer.ts`, `cli.ts`, and bundled `bin/lint-heuristics.js`.
-> 2. `npm test` passes 100% (5 test suites, 40+ test cases, 0 failures).
+> 2. `npm test` runs all 5 test suites (expected 40+ test cases) with exit code 0 and 0 failures.
 > 3. Exhaustive clean-consumer verification passes without `node_modules`.
 > 4. `git diff --check` is clean.
 > **DO NOT PROCEED TO PHASE 2 (SUB-GATES 2A, 2B, 2C)** until user explicitly reviews Phase 1 deliverables and provides approval.
@@ -289,30 +290,35 @@ git commit -m "feat(writing-heuristics): complete CLI runner, formatters, and st
 
 ## Phase 2: Global Distribution & Activation Gate
 
-### Sub-Gate 2A: Safe PowerShell Junction Management Script & Safety Tests
+### Sub-Gate 2A: Safe PowerShell Junction Management Script (Gemini, Claude, OpenCode)
 
 **Files:**
 - Create: `skills/writing-heuristics/bin/sync-global.ps1`
 - Create: `skills/writing-heuristics/tests/sync-script.test.ts`
 
+**Targets Covered (Explicit Matrix):**
+1. `$HOME\.gemini\config\skills\writing-heuristics` (Gemini Antigravity)
+2. `$HOME\.agents\skills\writing-heuristics` (OpenCode / Agentic)
+3. `$HOME\.claude\skills\writing-heuristics` (Claude Code)
+
 **Interfaces:**
 - Produces: Safe junction manager with `-Verify` and `-Uninstall` switches.
 - Guarantees: Rejects unmanaged target paths, validates source identity, aborts and reports on broken junctions, and removes only verified junctions.
 
-- [ ] **Step 1: Author `bin/sync-global.ps1` with dynamic source resolution, `Test-IsManagedJunction`, pre-flight target inspection, and abort-and-report on broken junctions**
+- [ ] **Step 1: Author `bin/sync-global.ps1` targeting all 3 paths with dynamic source resolution, `Test-IsManagedJunction`, pre-flight target inspection, and abort-and-report on broken junctions**
 - [ ] **Step 2: Write comprehensive test in `tests/sync-script.test.ts` (executing in isolated temp mock directory) testing:**
   - Missing source -> fails pre-flight.
   - Existing unmanaged real directory -> aborts without deletion.
   - Existing file -> aborts.
   - Broken junction -> aborts and reports (does not delete without explicit force flag).
-  - Valid managed junction -> verified and removed cleanly on `-Uninstall`.
+  - Valid managed junction -> verified and removed cleanly on `-Uninstall` across all 3 targets.
 - [ ] **Step 3: Run `npx vitest run tests/sync-script.test.ts` and verify test suite passes**
-- [ ] **Step 4: Execute `pwsh bin/sync-global.ps1 -Verify` to verify dry run**
+- [ ] **Step 4: Execute `pwsh bin/sync-global.ps1 -Verify` to verify dry run against user profile**
 - [ ] **Step 5: Commit Sub-Gate 2A changes**
 
 ```bash
 git add skills/writing-heuristics/
-git commit -m "feat(writing-heuristics): add safe PowerShell junction sync and rollback script with tests"
+git commit -m "feat(writing-heuristics): add safe PowerShell junction sync and rollback script for Gemini, Claude, and OpenCode"
 ```
 
 ---
@@ -322,6 +328,10 @@ git commit -m "feat(writing-heuristics): add safe PowerShell junction sync and r
 **Files:**
 - Modify: `AGENTS.md`
 - Modify: `.github/copilot-instructions.md`
+
+**Idempotency & Boundary Rules:**
+- `AGENTS.md`: Injected strictly between `<!-- TOOLFORGE-WRITING-DISCIPLINE-START -->` and `<!-- TOOLFORGE-WRITING-DISCIPLINE-END -->` within `<!-- IJFW-DISCIPLINE-START -->` and `<!-- IJFW-DISCIPLINE-END -->` (lines 85–86). Surrounding IJFW markers remain untouched.
+- `.github/copilot-instructions.md`: Wrapped with unique `<!-- TOOLFORGE-WRITING-DISCIPLINE-START -->` and `<!-- TOOLFORGE-WRITING-DISCIPLINE-END -->` markers. If file exists, replaces strictly within markers; if file is missing, initializes with markers.
 
 - [ ] **Step 1: Inject managed `TOOLFORGE-WRITING-DISCIPLINE` sub-region into `AGENTS.md` strictly within `<!-- IJFW-DISCIPLINE-START -->` and `<!-- IJFW-DISCIPLINE-END -->` (lines 85–86)**:
 ```markdown
@@ -335,35 +345,46 @@ git commit -m "feat(writing-heuristics): add safe PowerShell junction sync and r
 <!-- TOOLFORGE-WRITING-DISCIPLINE-END -->
 <!-- IJFW-DISCIPLINE-END -->
 ```
-- [ ] **Step 2: Inject managed writing discipline block into `.github/copilot-instructions.md`**
-- [ ] **Step 3: Verify surrounding IJFW regions in `AGENTS.md` remain completely untouched**
+- [ ] **Step 2: Inject managed writing discipline block into `.github/copilot-instructions.md` with boundary markers**
+- [ ] **Step 3: Safety & Idempotency Verification**:
+  - Verify repeated injection into `AGENTS.md` causes 0 diff.
+  - Verify repeated injection into `.github/copilot-instructions.md` causes 0 diff.
+  - Verify surrounding content in both files remains byte-identical.
 - [ ] **Step 4: Commit Sub-Gate 2B changes**
 
 ```bash
 git add AGENTS.md .github/copilot-instructions.md
-git commit -m "docs(governance): inject managed writing discipline into AGENTS.md and copilot instructions"
+git commit -m "docs(governance): inject managed writing discipline into AGENTS.md and copilot instructions with idempotency verification"
 ```
 
 ---
 
-### Sub-Gate 2C: 4-Stage Manifest Activation & End-to-End Verification
+### Sub-Gate 2C: Transactional Manifest Activation & Rollback Safety
 
 **Files:**
 - Modify: `manifest.json`
 - Modify: `skills/writing-heuristics/skill.json`
 - Modify: `skills/SKILLPACK-VALIDATION.md`
 
-- [ ] **Step 1: Stage 1 (Registration): Idempotently insert skill entry into `manifest.json` with `status: "development"`, `runtime: "untested"`, `distributed: false`, `overall: "pending"`**
-- [ ] **Step 2: Stage 2 (Runtime Gate): Run `npm test` inside `skills/writing-heuristics` (all tests passing -> transition `runtime: "healthy"` in `manifest.json`)**
-- [ ] **Step 3: Stage 3 (Distribution Gate): Execute `pwsh bin/sync-global.ps1` and run `pwsh bin/sync-global.ps1 -Verify` (all junctions verified -> transition `distributed: true` in `manifest.json`)**
-- [ ] **Step 4: Stage 4 (Final Activation): Transition `status: "active"` and `overall: "good"` in `manifest.json`, and update `skill.json` (`registered: true`, `syncable: true`)**
-- [ ] **Step 5: Update `skills/SKILLPACK-VALIDATION.md` metadata**
-- [ ] **Step 6: Final Verification & Dogfooding**:
-  - Run `node skills/writing-heuristics/bin/lint-heuristics.js check docs/` across workspace.
-  - Run `git diff --check` to ensure no whitespace or formatting errors.
-- [ ] **Step 7: Commit Sub-Gate 2C changes**
+**Transactional Activation & Rollback Contract:**
+- **In-Memory Validation**:
+  - Validation 1 (Runtime): `npm test` inside `skills/writing-heuristics` returns exit 0 with 100% passing tests.
+  - Validation 2 (Distribution): `pwsh bin/sync-global.ps1` runs and `pwsh bin/sync-global.ps1 -Verify` returns `VALID JUNCTION` for all 3 target paths.
+- **Single Atomic Write**:
+  - ONLY if Validations 1 & 2 pass: `manifest.json` is updated in a single atomic transaction with `status: "active"`, `health.runtime: "healthy"`, `health.distributed: true`, `health.overall: "good"`.
+  - `skill.json` is updated with `registered: true`, `syncable: true`.
+- **Rollback on Any Failure**:
+  - If Validation 1 or 2 fails: `manifest.json` is NOT touched.
+  - Rollback command: `pwsh bin/sync-global.ps1 -Uninstall` cleans up any created junctions.
+
+- [ ] **Step 1: Execute `npm test` (Runtime Validation)**
+- [ ] **Step 2: Execute `pwsh bin/sync-global.ps1` and run `pwsh bin/sync-global.ps1 -Verify` (Distribution Validation across all 3 paths)**
+- [ ] **Step 3: Atomic Manifest Transaction: On 100% validation success, update `manifest.json` and `skill.json` to active state**
+- [ ] **Step 4: Update `skills/SKILLPACK-VALIDATION.md` metadata**
+- [ ] **Step 5: Final Dogfooding Check: Run `node skills/writing-heuristics/bin/lint-heuristics.js check docs/` across workspace**
+- [ ] **Step 6: Commit Sub-Gate 2C changes**
 
 ```bash
 git add manifest.json skills/writing-heuristics/ skills/SKILLPACK-VALIDATION.md
-git commit -m "feat(writing-heuristics): complete 4-stage activation gate, global sync, and manifest registration"
+git commit -m "feat(writing-heuristics): complete transactional activation gate, global sync, and manifest registration"
 ```
