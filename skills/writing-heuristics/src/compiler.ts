@@ -88,5 +88,5 @@ node skills/writing-heuristics/bin/lint-heuristics.js check docs/
     rulesMd += `**Fail:**\n> ${rule.failExample}\n\n---\n\n`;
   }
 
-  return { skillMd, rulesMd };
+  return { skillMd: skillMd.trim() + '\n', rulesMd: rulesMd.trim() + '\n' };
 }

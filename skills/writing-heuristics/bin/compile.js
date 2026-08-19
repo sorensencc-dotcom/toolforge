@@ -87,6 +87,6 @@ for (const rule of catalog.rules) {
   rulesMd += `**Fail:**\n> ${rule.failExample}\n\n---\n\n`;
 }
 
-fs.writeFileSync(path.join(__dirname, '..', 'SKILL.md'), skillMd, 'utf8');
-fs.writeFileSync(path.join(__dirname, '..', 'docs', 'rules.md'), rulesMd, 'utf8');
+fs.writeFileSync(path.join(__dirname, '..', 'SKILL.md'), skillMd.trim() + '\n', 'utf8');
+fs.writeFileSync(path.join(__dirname, '..', 'docs', 'rules.md'), rulesMd.trim() + '\n', 'utf8');
 console.log('Compiled SKILL.md and docs/rules.md successfully from heuristics.json!');
