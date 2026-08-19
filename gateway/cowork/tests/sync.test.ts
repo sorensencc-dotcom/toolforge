@@ -200,7 +200,7 @@ describe('SyncState', () => {
   describe('heartbeat', () => {
     it('should update heartbeat timestamp', async () => {
       const before = state.getState().lastHeartbeat;
-      await new Promise((r) => setTimeout(r, 1));
+      await new Promise((r) => setTimeout(r, 10));
       state.updateHeartbeat();
       const after = state.getState().lastHeartbeat;
 
@@ -241,6 +241,7 @@ describe('SyncCoordinator', () => {
 
     it('should update heartbeat on handshake', async () => {
       const before = coordinator.getState().getState().lastHeartbeat;
+      await new Promise((r) => setTimeout(r, 10));
       await coordinator.handshake([], 0);
       const after = coordinator.getState().getState().lastHeartbeat;
 

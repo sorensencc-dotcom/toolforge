@@ -17,14 +17,15 @@ const http = require('http');
 const { spawn } = require('child_process');
 const sqlite3 = require('sqlite3');
 
-const DB_PATH = path.join(__dirname, '..', '..', '..', 'toolforge', 'run-store.db');
+const fs = require('fs');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', '..', 'toolforge', 'run-store.db');
 const SERVER_PATH = path.join(__dirname, '..', 'server.js');
 // A non-default port: keeps this test isolated from whatever else may be
 // bound to :3000 on the dev box (found live: an unrelated pre-existing
 // python.exe process was squatting on :3000, which silently made an
 // earlier draft of this test "pass" a health check against the wrong
 // server entirely — see waitForHealth()'s payload-shape check below).
-const PORT = 3099;
+const PORT = 3098;
 const PREFIX = '__test4_';
 
 let pass = 0;
@@ -145,8 +146,21 @@ function cleanup(db) {
 }
 
 async function main() {
-  const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READWRITE);
+  const dir = path.dirname(DB_PATH);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE);
   await new Promise((r) => db.run('PRAGMA busy_timeout=5000;', r));
+
+  let schemaPath = path.join(__dirname, '..', '..', '..', 'schema.sql');
+  if (!fs.existsSync(schemaPath)) schemaPath = path.join(__dirname, '..', '..', 'schema.sql');
+  const schema = fs.readFileSync(schemaPath, 'utf-8');
+  await new Promise((resolve, reject) => {
+    db.exec(schema, (err) => {
+      if (err) reject(err); else resolve();
+    });
+  });
 
   console.log('Seeding synthetic tool telemetry...');
   await seed(db);
@@ -155,7 +169,7 @@ async function main() {
   const child = spawn(process.execPath, [SERVER_PATH], {
     cwd: path.join(__dirname, '..'),
     stdio: 'pipe',
-    env: { ...process.env, TELEMETRY_API_KEY: 'test-telemetry-key', PORT: String(PORT) }
+    env: { ...process.env, TELEMETRY_API_KEY: 'test-telemetry-key', PORT: String(PORT), DB_PATH }
   });
   let serverLog = '';
   child.stdout.on('data', (d) => { serverLog += d.toString(); });

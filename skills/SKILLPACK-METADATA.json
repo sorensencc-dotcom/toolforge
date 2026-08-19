@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-18T01:00:07.2415562Z",
+  "timestamp": "2026-08-19T02:43:11.3908366Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -27,36 +27,6 @@
         "created": "2026-07-17T16:43:16.0006002Z",
         "lastValidation": "2026-07-17T16:43:16.0006002Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
-      }
-    },
-    {
-      "id": "research-questions",
-      "name": "Research Questions",
-      "category": "research-ops",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "prompt",
-      "entrypoint": "SKILL.md",
-      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "scan-gaps.mjs",
-          "update-focus-areas.mjs"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T18:41:45.5186640Z",
-        "lastValidation": "2026-08-16T18:41:45.5186640Z",
-        "lastRun": null
       }
     },
     {
@@ -516,33 +486,6 @@
       }
     },
     {
-      "id": "reconcile-vector-store",
-      "name": "Reconcile Vector Store",
-      "category": "data-management",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2615565Z",
-        "lastValidation": "2026-07-10T21:43:59.2615565Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
-      }
-    },
-    {
       "id": "work-summarizer",
       "name": "Work Summarizer v4.0",
       "category": "observability",
@@ -566,6 +509,63 @@
       "timestamps": {
         "created": "2026-07-10T21:43:59.5024800Z",
         "lastValidation": "2026-07-10T21:43:59.5024800Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z\r"
+      }
+    },
+    {
+      "id": "research-questions",
+      "name": "Research Questions",
+      "category": "research-ops",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "prompt",
+      "entrypoint": "SKILL.md",
+      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "scan-gaps.mjs",
+          "update-focus-areas.mjs"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T18:41:45.5186640Z",
+        "lastValidation": "2026-08-16T18:41:45.5186640Z",
+        "lastRun": null
+      }
+    },
+    {
+      "id": "reconcile-vector-store",
+      "name": "Reconcile Vector Store",
+      "category": "data-management",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-10T21:43:59.2615565Z",
+        "lastValidation": "2026-07-10T21:43:59.2615565Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z\r"
       }
     },
@@ -599,15 +599,15 @@
       }
     },
     {
-      "id": "permission-governor",
-      "name": "Permission Governor",
-      "category": "validation",
+      "id": "plan-extractor-integration",
+      "name": "Plan Extractor Integration",
+      "category": "integration",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
       "runtime": "typescript",
       "entrypoint": "src/index.ts",
-      "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
+      "description": "Unified entry point for CodeFlow extraction into CIC stores",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -620,8 +620,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:59.1301190Z",
-        "lastValidation": "2026-07-10T21:43:59.1301190Z",
+        "created": "2026-07-10T21:43:59.1505768Z",
+        "lastValidation": "2026-07-10T21:43:59.1505768Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -854,6 +854,35 @@
       }
     },
     {
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "cic-roadmap-updater",
       "name": "CIC Roadmap Updater",
       "category": "analysis",
@@ -877,35 +906,6 @@
       "timestamps": {
         "created": "2026-07-10T21:43:58.9401449Z",
         "lastValidation": "2026-07-10T21:43:58.9401449Z",
-        "lastRun": "2026-08-07T21:38:00Z\r"
-      }
-    },
-    {
-      "id": "cic-run-gate",
-      "name": "CIC Run Gate",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "_cic-shared"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:39:59.7227316Z",
-        "lastValidation": "2026-08-16T17:39:59.7227316Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
@@ -1105,15 +1105,15 @@
       }
     },
     {
-      "id": "plan-extractor-integration",
-      "name": "Plan Extractor Integration",
-      "category": "integration",
+      "id": "permission-governor",
+      "name": "Permission Governor",
+      "category": "validation",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
       "runtime": "typescript",
       "entrypoint": "src/index.ts",
-      "description": "Unified entry point for CodeFlow extraction into CIC stores",
+      "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -1126,47 +1126,81 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:59.1505768Z",
-        "lastValidation": "2026-07-10T21:43:59.1505768Z",
+        "created": "2026-07-10T21:43:59.1301190Z",
+        "lastValidation": "2026-07-10T21:43:59.1301190Z",
         "lastRun": "2026-08-07T21:38:00Z\r"
       }
     },
     {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
+      "id": "cic-run-gate",
+      "name": "CIC Run Gate",
+      "category": "governance",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
       "status": "active",
       "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
+        "internal": [
+          "_cic-shared"
+        ],
+        "external": []
       },
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "untested",
+        "runtime": "functional",
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "created": "2026-08-16T17:39:59.7227316Z",
+        "lastValidation": "2026-08-16T17:39:59.7227316Z",
+        "lastRun": "2026-08-07T21:38:00Z\r"
+      }
+    },
+    {
+      "id": "writing-heuristics",
+      "name": "Writing Heuristics and Style Engine",
+      "category": "validation",
+      "tags": [
+        "writing",
+        "style",
+        "lint",
+        "anti-slop",
+        "google-style",
+        "governance"
+      ],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Deterministic technical writing heuristics, anti-slop rules, and Google Developer Style enforcement engine",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": false,
+        "runtime": "untested",
+        "overall": "warn"
+      },
+      "timestamps": {
+        "created": "2026-08-19T02:43:05.0236337Z",
+        "lastValidation": "2026-08-19T02:43:05.0236337Z",
         "lastRun": null
       }
     }
   ],
   "summary": {
-    "total": 41,
-    "active": 41,
+    "total": 42,
+    "active": 42,
     "deprecated": 0,
     "health_good": 41,
-    "health_warn": 0,
+    "health_warn": 1,
     "health_error": 0
   }
 }

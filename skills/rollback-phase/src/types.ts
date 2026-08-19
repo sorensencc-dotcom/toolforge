@@ -46,6 +46,6 @@ export interface RollbackResult {
   rollbackStatus: "completed" | "failed" | "pending";
   restored: boolean;
   checkpointId?: string;
-  events: RollbackEvent[];
+  events?: RollbackEvent[];
   error?: string;
 }

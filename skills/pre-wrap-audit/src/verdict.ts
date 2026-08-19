@@ -73,7 +73,14 @@ export function assessVerdict(
   }
 
   // Q3: Load-bearing assumptions
-  if (q3.length > 0) {
+  const q3Lower = q3.toLowerCase();
+  if (
+    q3.length > 0 &&
+    !q3Lower.startsWith('no ') &&
+    !q3Lower.includes('no assumption') &&
+    !q3Lower.includes('no load-bearing') &&
+    !q3Lower.includes('none')
+  ) {
     risks.push(
       `Key assumption: ${q3.substring(0, 80)}... If false, recommendation changes. SHOULD: Verify assumption.`
     );
@@ -107,18 +114,24 @@ export function assessVerdict(
   const q12 = extendedAnswers[12] || '';
 
   // Q5: Dependencies
+  const q5Lower = q5.toLowerCase();
   if (
-    q5.toLowerCase().includes('down') ||
-    q5.toLowerCase().includes('offline') ||
-    q5.toLowerCase().includes('unavailable')
+    (q5Lower.includes('down') || q5Lower.includes('offline') || q5Lower.includes('unavailable')) &&
+    !q5Lower.includes('no ') &&
+    !q5Lower.includes('all online')
   ) {
     blockers.push(`Dependencies: Critical system down or unavailable. ${q5.substring(0, 80)}`);
-  } else if (q5.length > 0 && !q5.toLowerCase().includes('online')) {
+  } else if (q5.length > 0 && !q5Lower.includes('online') && !q5Lower.includes('ok')) {
     risks.push(`Dependencies: Monitor status before rollout. ${q5.substring(0, 80)}`);
   }
 
   // Q6: Regression — backwards compat issues
-  if (q6.toLowerCase().includes('breaking') || q6.toLowerCase().includes('not tested')) {
+  const q6Lower = q6.toLowerCase();
+  if (
+    (q6Lower.includes('breaking') || q6Lower.includes('not tested')) &&
+    !q6Lower.includes('no breaking') &&
+    !q6Lower.includes('compat tested')
+  ) {
     risks.push(`Regression: Backwards compatibility at risk. ${q6.substring(0, 80)}`);
     nextSteps.push({
       action: 'Run regression test suite or canary with 1% traffic first',
@@ -127,7 +140,11 @@ export function assessVerdict(
   }
 
   // Q7: Documentation
-  if (q7.toLowerCase().includes('mismatch') || q7.toLowerCase().includes('outdated')) {
+  const q7Lower = q7.toLowerCase();
+  if (
+    (q7Lower.includes('mismatch') || q7Lower.includes('outdated')) &&
+    !q7Lower.includes('no mismatch')
+  ) {
     risks.push(
       `Documentation: Guides may not match code. Operators may follow incorrect procedures. ${q7.substring(0, 60)}`
     );
@@ -138,10 +155,13 @@ export function assessVerdict(
   }
 
   // Q8: Rollback
+  const q8Lower = q8.toLowerCase();
   if (
-    q8.toLowerCase().includes('not tested') ||
-    q8.toLowerCase().includes('no backup') ||
-    q8.toLowerCase().includes('unknown')
+    (q8Lower.includes('not tested') || q8Lower.includes('no backup') || q8Lower.includes('unknown')) &&
+    !q8Lower.includes('fully tested') &&
+    !q8Lower.includes('rollback tested') &&
+    !q8Lower.includes('rollback ok') &&
+    !q8Lower.includes('procedure tested')
   ) {
     risks.push(`Rollback: Recovery not fully tested. ${q8.substring(0, 80)}`);
     nextSteps.push({
@@ -151,13 +171,20 @@ export function assessVerdict(
   }
 
   // Q9: Known unknowns
+  const q9Lower = q9.toLowerCase();
   if (
-    q9.toLowerCase().includes('untested') &&
-    (q9.toLowerCase().includes('load') ||
-      q9.toLowerCase().includes('scale') ||
-      q9.toLowerCase().includes('concurrency'))
+    (q9Lower.includes('untested') || q9Lower.includes('not validated') || q9Lower.includes('unknown') || q9Lower.includes('load')) &&
+    !q9Lower.startsWith('no ') &&
+    !q9Lower.includes('no unknown') &&
+    !q9Lower.includes('no edge') &&
+    !q9Lower.includes('load tested') &&
+    (q9Lower.includes('load') ||
+      q9Lower.includes('scale') ||
+      q9Lower.includes('concurrency') ||
+      q9Lower.includes('performance') ||
+      q9Lower.includes('edge case'))
   ) {
-    risks.push(`Known unknowns: Performance/scale not validated. ${q9.substring(0, 80)}`);
+    risks.push(`Unknowns: Performance/scale not validated. ${q9.substring(0, 80)}`);
     nextSteps.push({
       action: 'Load test or canary with gradual ramp-up',
       deadline: 'Day 1 of deployment'
@@ -165,10 +192,11 @@ export function assessVerdict(
   }
 
   // Q10: Stakeholder alignment
+  const q10Lower = q10.toLowerCase();
   if (
-    q10.toLowerCase().includes('not aware') ||
-    q10.toLowerCase().includes('not approved') ||
-    q10.toLowerCase().includes('not signed')
+    q10Lower.includes('not aware') ||
+    q10Lower.includes('not approved') ||
+    q10Lower.includes('not signed')
   ) {
     blockers.push(`Stakeholder alignment: Decision-maker not signed off. ${q10.substring(0, 80)}`);
     nextSteps.push({
@@ -178,12 +206,19 @@ export function assessVerdict(
   }
 
   // Q11: Data integrity
+  const q11Lower = q11.toLowerCase();
   if (
-    q11.toLowerCase().includes('not tested') ||
-    q11.toLowerCase().includes('no backup') ||
-    q11.toLowerCase().includes('corruption')
+    (q11Lower.includes('not tested') ||
+      q11Lower.includes('no backup') ||
+      q11Lower.includes('corruption') ||
+      q11Lower.includes('not completed') ||
+      q11Lower.includes('not dry-run') ||
+      q11Lower.includes('not run')) &&
+    !q11Lower.startsWith('no ') &&
+    !q11Lower.includes('no data') &&
+    !q11Lower.includes('migration tested')
   ) {
-    if (q11.toLowerCase().includes('corruption') || q11.toLowerCase().includes('loss')) {
+    if (q11Lower.includes('corruption') || q11Lower.includes('loss')) {
       blockers.push(`Data integrity: Corruption or loss risk. ${q11.substring(0, 80)}`);
     } else {
       risks.push(`Data integrity: Dry-run migration not completed. ${q11.substring(0, 80)}`);
@@ -195,12 +230,15 @@ export function assessVerdict(
   }
 
   // Q12: Security
+  const q12Lower = q12.toLowerCase();
   if (
-    q12.toLowerCase().includes('exposed') ||
-    q12.toLowerCase().includes('vulnerable') ||
-    q12.toLowerCase().includes('not reviewed')
+    (q12Lower.includes('exposed') ||
+      q12Lower.includes('vulnerable') ||
+      q12Lower.includes('not reviewed')) &&
+    !q12Lower.includes('no security') &&
+    !q12Lower.includes('no vulnerabilities')
   ) {
-    if (q12.toLowerCase().includes('secrets') || q12.toLowerCase().includes('exposed')) {
+    if (q12Lower.includes('secrets') || q12Lower.includes('exposed')) {
       blockers.push(
         `Security: Credentials or secrets exposed. ${q12.substring(0, 80)} CRITICAL: Do not deploy.`
       );
@@ -224,7 +262,7 @@ export function assessVerdict(
     verdict = 'YELLOW';
     reasoning = `Important risks identified: ${risks.length} risk(s). Escalate for decision.`;
   } else {
-    reasoning = 'All verification steps complete. Ready to proceed.';
+    reasoning = 'All checks pass. Ready to proceed.';
   }
 
   return {
@@ -238,17 +276,24 @@ export function assessVerdict(
 }
 
 function extractMustItems(q4: string): { checked: string[]; unchecked: string[] } {
-  const lines = q4.split('\n');
+  const parts = q4.split(/(?=[✓✔✗]|\bMUST:)/g);
   const checked: string[] = [];
   const unchecked: string[] = [];
 
-  lines.forEach((line) => {
-    if (line.includes('MUST:')) {
-      const item = line.replace(/.*MUST:\s*/, '').trim();
-      if (line.includes('✓') || line.includes('✔') || line.toLowerCase().includes('done')) {
-        checked.push(item);
-      } else if (line.includes('✗') || line.toLowerCase().includes('not done')) {
+  parts.forEach((part) => {
+    if (part.includes('MUST:')) {
+      const item = part.replace(/.*MUST:\s*/, '').replace(/[✓✔✗].*/, '').trim();
+      if (part.includes('✗') || part.toLowerCase().includes('not done') || part.toLowerCase().includes('not run')) {
         unchecked.push(item);
+      } else if (
+        part.includes('✓') ||
+        part.includes('✔') ||
+        part.toLowerCase().includes('done') ||
+        part.toLowerCase().includes('passed') ||
+        part.toLowerCase().includes('approved') ||
+        part.toLowerCase().includes('verified')
+      ) {
+        checked.push(item);
       }
     }
   });

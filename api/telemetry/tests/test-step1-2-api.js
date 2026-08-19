@@ -358,9 +358,11 @@ async function runTests() {
 
   // Cleanup
   serverChild.kill();
-  if (fs.existsSync(TEST_DB_PATH)) {
-    fs.unlinkSync(TEST_DB_PATH);
-  }
+  try {
+    if (fs.existsSync(TEST_DB_PATH)) {
+      fs.unlinkSync(TEST_DB_PATH);
+    }
+  } catch (_) {}
 
   console.log(`\nStep 1–2 API Tests: ${passCount}/${testCount} PASSED`);
   process.exit(passCount === testCount ? 0 : 1);

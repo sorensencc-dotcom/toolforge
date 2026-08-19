@@ -48,7 +48,7 @@ export async function runAudit(context: SessionContext): Promise<AuditReport> {
     console.log(`${q.number}. ${q.question}`);
     console.log(`   Guidance: ${q.guidance}\n`);
 
-    const answer = await captureAnswer(q.number);
+    const answer = context.interactive === false ? '[skipped]' : await captureAnswer(q.number);
     coreAnswers[q.number] = answer;
   }
 
@@ -60,7 +60,7 @@ export async function runAudit(context: SessionContext): Promise<AuditReport> {
     console.log(`${q.number}. ${q.question}`);
     console.log(`   Guidance: ${q.guidance}\n`);
 
-    const answer = await captureAnswer(q.number);
+    const answer = context.interactive === false ? '[skipped]' : await captureAnswer(q.number);
     extendedAnswers[q.number] = answer;
   }
 

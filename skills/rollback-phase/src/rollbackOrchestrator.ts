@@ -23,8 +23,10 @@ export class RollbackOrchestrator {
       phaseId: checkpointId,
       rollbackStatus: "pending",
       restored: false,
-      events: this.events,
     };
+    if (this.events.length > 0) {
+      result.events = this.events;
+    }
     return result;
   }
 

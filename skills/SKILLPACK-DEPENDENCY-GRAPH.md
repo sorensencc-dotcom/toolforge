@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-17T01:00:10.2130904Z
+**Generated:** 2026-08-19T02:35:06.0187392Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 41 |
+| Total Skills | 42 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 32 |
+| Orphan Skills | 33 |
 
 ---
 
@@ -276,6 +276,12 @@
 |------------|------|--------|
 | python3 | external | ❌ Missing |
 
+### writing-heuristics
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### Inbound Dependencies (What Depends on Each Skill)
 
 ### _cic-shared
@@ -432,6 +438,9 @@ No inbound dependencies (root skill)\n
 ### workspace-storage-cleaner
 
 No inbound dependencies (root skill)\n
+### writing-heuristics
+
+No inbound dependencies (root skill)\n
 ---
 
 ## Dependency Depth (Leaf → Root)
@@ -481,6 +490,7 @@ Depth N = Depends on at least one skill at depth N-1
 | toolforge-registry-manager | 0 |
 | toolforge-submission-validator | 0 |
 | work-summarizer | 0 |
+| writing-heuristics | 0 |
 
 ---
 
@@ -531,6 +541,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | trm-feedback-report |
 | work-summarizer |
 | workspace-storage-cleaner |
+| writing-heuristics |
 
 ---
 
@@ -540,7 +551,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 32 orphan skill(s) |
+| Orphans | ⚠️ WARN | 33 orphan skill(s) |
 
 ---
 

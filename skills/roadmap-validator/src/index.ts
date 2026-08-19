@@ -116,6 +116,14 @@ export default async function handler(
       };
     }
 
+    if (!result.isValid) {
+      return {
+        status: "error",
+        message: `Roadmap validation failed: ${result.findings.length} issues found`,
+        data: result,
+      };
+    }
+
     // Return success with findings
     return {
       status: "success",

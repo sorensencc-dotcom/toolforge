@@ -30,7 +30,9 @@ interface MockCoworkState {
 
 function safeHeaders(headers: Record<string, unknown>): Record<string, unknown> {
   return Object.fromEntries(Object.entries(headers).map(([key, value]) =>
-    key.toLowerCase() === 'authorization' ? [key, '[REDACTED]'] : [key, value]
+    key.toLowerCase() === 'authorization'
+      ? [key, typeof value === 'string' && value.startsWith('Bearer ') ? 'Bearer [REDACTED]' : '[REDACTED]']
+      : [key, value]
   ));
 }
 

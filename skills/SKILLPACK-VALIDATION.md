@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-08-18T01:00:02.5958612Z
+**Generated**: 2026-08-19T08:43:44.0406242Z
 
 ---
 
@@ -9,15 +9,15 @@
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 26 | 0 | ✅ |
-| Distributed | 0 | 9 | 0 | ✅ |
-| Manifest | 0 | 94 | 0 | ✅ |
-| Cowork | 0 | 41 | 0 | ✅ |
+| Distributed | 0 | 10 | 0 | ✅ |
+| Manifest | 0 | 95 | 0 | ✅ |
+| Cowork | 0 | 42 | 0 | ✅ |
 | Dependencies | 0 | 14 | 1 | ✅ |
-| Runtime | 0 | 0 | 41 | ✅ |
+| Runtime | 0 | 0 | 42 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 184
+**Total Warnings**: 187
 
 **Overall Status**: ✅ PASS
 
@@ -68,6 +68,7 @@
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | workspace-storage-cleaner | Workspace & Brain Storage Cleaner | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
+| writing-heuristics | Writing Heuristics and Style Engine | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 
 ---
 
@@ -111,6 +112,7 @@
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
+⚠️ **writing-heuristics**: Directory missing in distributed
 
 ## Manifest Validation
 
@@ -118,73 +120,73 @@
 ⚠️ **agent-drift-detector**: Tags mismatch: canonical '', manifest 'drift, schema, validation'
 ⚠️ **agent-drift-detector**: Path mismatch: expected 'skills/agent-drift-detector', got ''
 ⚠️ **analyze-token-burn**: Path mismatch: expected 'skills/analyze-token-burn', got ''
-⚠️ **analyze-token-burn**: Tags mismatch: canonical '', manifest ''
 ⚠️ **analyze-token-burn**: Invalid category in manifest: observability
+⚠️ **analyze-token-burn**: Tags mismatch: canonical '', manifest ''
 ⚠️ **ashfall**: Path mismatch: expected 'skills/ashfall', got ''
 ⚠️ **ashfall**: Tags mismatch: canonical '', manifest ''
-⚠️ **automation-audit**: Path mismatch: expected 'skills/automation-audit', got ''
-⚠️ **automation-audit**: Description mismatch: canonical 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)', manifest 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers)'
 ⚠️ **automation-audit**: Invalid category in manifest: operations
 ⚠️ **automation-audit**: Tags mismatch: canonical '', manifest 'automation, devops-audit, log-rotation, backup-retention'
+⚠️ **automation-audit**: Description mismatch: canonical 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)', manifest 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers)'
+⚠️ **automation-audit**: Path mismatch: expected 'skills/automation-audit', got ''
+⚠️ **cic-consolidate-artifacts**: Path mismatch: expected 'skills/cic-consolidate-artifacts', got ''
 ⚠️ **cic-consolidate-artifacts**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-consolidate-artifacts**: Invalid category in manifest: governance
-⚠️ **cic-consolidate-artifacts**: Path mismatch: expected 'skills/cic-consolidate-artifacts', got ''
 ⚠️ **cic-ingest-world**: Path mismatch: expected 'skills/cic-ingest-world', got ''
-⚠️ **cic-ingest-world**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-ingest-world**: Invalid category in manifest: governance
-⚠️ **cic-orchestrate-flow**: Invalid category in manifest: governance
+⚠️ **cic-ingest-world**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-orchestrate-flow**: Tags mismatch: canonical '', manifest 'cic, governance, phase3, orchestration'
+⚠️ **cic-orchestrate-flow**: Invalid category in manifest: governance
 ⚠️ **cic-orchestrate-flow**: Path mismatch: expected 'skills/cic-orchestrate-flow', got ''
-⚠️ **cic-repair-pipeline**: Path mismatch: expected 'skills/cic-repair-pipeline', got ''
-⚠️ **cic-repair-pipeline**: Invalid category in manifest: governance
 ⚠️ **cic-repair-pipeline**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
-⚠️ **cic-roadmap-updater**: Tags mismatch: canonical '', manifest 'roadmap, planning, versioning'
+⚠️ **cic-repair-pipeline**: Invalid category in manifest: governance
+⚠️ **cic-repair-pipeline**: Path mismatch: expected 'skills/cic-repair-pipeline', got ''
 ⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
-⚠️ **cic-run-gate**: Tags mismatch: canonical '', manifest 'cic, governance, phase1, gate'
-⚠️ **cic-run-gate**: Invalid category in manifest: governance
+⚠️ **cic-roadmap-updater**: Tags mismatch: canonical '', manifest 'roadmap, planning, versioning'
 ⚠️ **cic-run-gate**: Path mismatch: expected 'skills/cic-run-gate', got ''
+⚠️ **cic-run-gate**: Invalid category in manifest: governance
+⚠️ **cic-run-gate**: Tags mismatch: canonical '', manifest 'cic, governance, phase1, gate'
 ⚠️ **cic-section-summarizer**: Tags mismatch: canonical '', manifest 'analysis, roadmap, progress'
 ⚠️ **cic-section-summarizer**: Path mismatch: expected 'skills/cic-section-summarizer', got ''
-⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
 ⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
+⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
 ⚠️ **html-visual-verify**: Path mismatch: expected 'skills/html-visual-verify', got ''
+⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-artifact-generator**: Invalid category in manifest: governance
 ⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
-⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
-⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
-⚠️ **kb-sync-nightly**: Invalid category in manifest: sync-tools
-⚠️ **kb-sync-nightly**: Description mismatch: canonical 'Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\dev\kb-sync.', manifest 'Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.'
 ⚠️ **kb-sync-nightly**: Runtime mismatch: canonical typescript, manifest bash
 ⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
-⚠️ **obsidian-ingest-wiki**: Tags mismatch: canonical '', manifest 'obsidian, wiki, synthesis, lvm-pattern'
+⚠️ **kb-sync-nightly**: Description mismatch: canonical 'Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\dev\kb-sync.', manifest 'Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.'
+⚠️ **kb-sync-nightly**: Invalid category in manifest: sync-tools
+⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
 ⚠️ **obsidian-ingest-wiki**: Path mismatch: expected 'skills/obsidian-ingest-wiki', got ''
+⚠️ **obsidian-ingest-wiki**: Tags mismatch: canonical '', manifest 'obsidian, wiki, synthesis, lvm-pattern'
 ⚠️ **obsidian-ingest-wiki**: Invalid category in manifest: knowledge-base
 ⚠️ **operator-image-build**: Invalid category in manifest: pipeline
 ⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
 ⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
-⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
 ⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
-⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
+⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
 ⚠️ **plan-extractor-integration**: Path mismatch: expected 'skills/plan-extractor-integration', got ''
+⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
+⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
 ⚠️ **pre-wrap-audit**: Invalid category in manifest: session-management
 ⚠️ **pre-wrap-audit**: Path mismatch: expected 'skills/pre-wrap-audit', got ''
-⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
 ⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
 ⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
 ⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
-⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
 ⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
-⚠️ **roadmap-validator**: Invalid category in manifest: governance
-⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
+⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
 ⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
+⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
+⚠️ **roadmap-validator**: Invalid category in manifest: governance
 ⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
-⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
 ⚠️ **rollback-phase**: Invalid category in manifest: pipeline
-⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
+⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
 ⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
-⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
+⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
 ⚠️ **scale-ingestion-service**: Invalid category in manifest: pipeline
 ⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
+⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
 ⚠️ **session-wrap**: Tags mismatch: canonical '', manifest 'session-wrap, git-commit, documentation, atomic-commit'
 ⚠️ **session-wrap**: Invalid category in manifest: session-management
 ⚠️ **session-wrap**: Path mismatch: expected 'skills/session-wrap', got ''
@@ -193,8 +195,8 @@
 ⚠️ **skill-security-auditor**: Path mismatch: expected 'skills/skill-security-auditor', got ''
 ⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
 ⚠️ **tool-lifecycle-manager**: Invalid category in manifest: pipeline
-⚠️ **toolforge-cli**: Path mismatch: expected 'skills/toolforge-cli', got ''
 ⚠️ **toolforge-cli**: Invalid category in manifest: utility
+⚠️ **toolforge-cli**: Path mismatch: expected 'skills/toolforge-cli', got ''
 ⚠️ **toolforge-drift-monitor**: Path mismatch: expected 'skills/toolforge-drift-monitor', got ''
 ⚠️ **toolforge-registry-manager**: Invalid category in manifest: pipeline
 ⚠️ **toolforge-registry-manager**: Path mismatch: expected 'skills/toolforge-registry-manager', got ''
@@ -205,9 +207,10 @@
 ⚠️ **trm-feedback-report**: Invalid category in manifest: research-ops
 ⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
 ⚠️ **trm-status**: Path mismatch: expected 'skills/trm-status', got ''
+⚠️ **work-summarizer**: Invalid category in manifest: observability
 ⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
 ⚠️ **work-summarizer**: Tags mismatch: canonical '', manifest ''
-⚠️ **work-summarizer**: Invalid category in manifest: observability
+⚠️ **writing-heuristics**: Path mismatch: expected 'skills/writing-heuristics', got ''
 
 ## Cowork Validation
 
@@ -252,6 +255,7 @@
 ⚠️ **trm-status**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
 ⚠️ **workspace-storage-cleaner**: Not registered (installer will register on next run)
+⚠️ **writing-heuristics**: Not registered (installer will register on next run)
 
 ## Dependencies Validation
 
@@ -313,6 +317,7 @@
 ℹ️ **trm-status**: Discoverable
 ℹ️ **work-summarizer**: Skill inactive (status: )
 ℹ️ **workspace-storage-cleaner**: Skill inactive (status: )
+ℹ️ **writing-heuristics**: Skill inactive (status: )
 
 ---
 

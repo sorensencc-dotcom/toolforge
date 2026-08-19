@@ -12,9 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 
-// DB_PATH derived from __dirname, never from env / committed absolute path (C12).
-// run-store.db lives under toolforge/ (canonical skill tree root), not repo root.
-const DB_PATH = path.join(__dirname, '..', '..', 'toolforge', 'run-store.db');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', '..', 'toolforge', 'run-store.db');
 const PORT = process.env.PORT || 3001;
 const TELEMETRY_API_KEY = process.env.TELEMETRY_API_KEY;
 
@@ -357,6 +355,7 @@ function getToolStats(req, res, next) {
     const successCount = row.success_count || 0;
     const failCount = row.fail_count || 0;
     const successRatePct = totalRuns > 0 ? Math.round((100 * successCount / totalRuns) * 10) / 10 : 0;
+    const failRatePct = totalRuns > 0 ? Math.round((100 * failCount / totalRuns) * 10) / 10 : 0;
 
     res.status(200).json({
       tool,
@@ -366,6 +365,7 @@ function getToolStats(req, res, next) {
         success_count: successCount,
         fail_count: failCount,
         success_rate_pct: successRatePct,
+        fail_rate_pct: failRatePct,
         avg_duration_ms: row.avg_duration_ms || null,
         max_duration_ms: row.max_duration_ms || null,
         min_duration_ms: row.min_duration_ms || null

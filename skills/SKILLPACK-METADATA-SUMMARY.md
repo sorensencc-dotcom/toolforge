@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-18T01:00:07.2415562Z
+**Generated:** 2026-08-19T02:43:11.3908366Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 41 | 100% |
-| Active | 41 | 100% |
+| **Total Skills** | 42 | 100% |
+| Active | 42 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 41 | 100% |
-| ⚠️ Warning | 0 | 0% |
+| ✅ Good | 41 | 97.6% |
+| ⚠️ Warning | 1 | 2.4% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -38,19 +38,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### research-questions
-
-| Field | Value |
-|-------|-------|
-| Name | Research Questions |
-| Category | research-ops |
-| Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | prompt |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | Never |
-| Dependencies | 0 internal, 2 external |
 ### retro-export
 
 | Field | Value |
@@ -259,19 +246,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
-### reconcile-vector-store
-
-| Field | Value |
-|-------|-------|
-| Name | Reconcile Vector Store |
-| Category | data-management |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
 ### work-summarizer
 
 | Field | Value |
@@ -279,6 +253,32 @@
 | Name | Work Summarizer v4.0 |
 | Category | observability |
 | Version | 4.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### research-questions
+
+| Field | Value |
+|-------|-------|
+| Name | Research Questions |
+| Category | research-ops |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | prompt |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 2 external |
+### reconcile-vector-store
+
+| Field | Value |
+|-------|-------|
+| Name | Reconcile Vector Store |
+| Category | data-management |
+| Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
@@ -298,12 +298,12 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 1 internal, 0 external |
-### permission-governor
+### plan-extractor-integration
 
 | Field | Value |
 |-------|-------|
-| Name | Permission Governor |
-| Category | validation |
+| Name | Plan Extractor Integration |
+| Category | integration |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | typescript |
@@ -415,6 +415,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 1 external |
 ### cic-roadmap-updater
 
 | Field | Value |
@@ -428,19 +441,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### cic-run-gate
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Run Gate |
-| Category | governance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 1 internal, 0 external |
 ### cic-section-summarizer
 
 | Field | Value |
@@ -532,12 +532,12 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### plan-extractor-integration
+### permission-governor
 
 | Field | Value |
 |-------|-------|
-| Name | Plan Extractor Integration |
-| Category | integration |
+| Name | Permission Governor |
+| Category | validation |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | typescript |
@@ -545,19 +545,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### workspace-storage-cleaner
+### cic-run-gate
 
 | Field | Value |
 |-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
+| Name | CIC Run Gate |
+| Category | governance |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | python |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 1 internal, 0 external |
+### writing-heuristics
+
+| Field | Value |
+|-------|-------|
+| Name | Writing Heuristics and Style Engine |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
 | Last Run | Never |
-| Dependencies | 0 internal, 1 external |
+| Dependencies | 0 internal, 0 external |
 
 ---
 
