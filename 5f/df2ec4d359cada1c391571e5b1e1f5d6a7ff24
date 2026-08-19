@@ -1,0 +1,14 @@
+docs/meta/specs/2026-08-18-writing-heuristics-skill-design.md
+  h_5c172e9b435f5a 3,31,71-72,81,85,89,97,104,110-111,113,117-131,133-134,138,140,144,146,151,153,157-159,176,178,180-191,202,219,224-228,244-247,250,258,261-262,270-278,301-308,434,436,467-471,475-500,507-509,516-517
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "5fdf2ec4d359cada1c391571e5b1e1f5d6a7ff24",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
