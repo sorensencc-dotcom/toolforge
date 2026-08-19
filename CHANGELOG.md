@@ -1,5 +1,30 @@
 # Changelog
 
+## Version 2.41.0
+Date: 2026-08-19
+
+### Changes
+- d50d152 - fix(security-auditor): eliminate RegExp.exec false positives and use matchAll in writing-heuristics (Chris Sorensen)
+- a0354ee - chore: merge origin/main (Chris Sorensen)
+- 2ca95e4 - chore(writing-heuristics): record audit log initialization and close health warning in TODOS.md (Chris Sorensen)
+- 2444d86 - docs(report): add daily report for 2026-08-19 (Chris Sorensen)
+- 740730b - feat(writing-heuristics): complete Phase 2 global distribution, instruction surfaces, and transactional manifest activation (Chris Sorensen)
+- 4b43667 - fix(writing-heuristics): bundle all dependencies with tsup noExternal and expand unit test suite to 48 tests (Chris Sorensen)
+- ff7a349 - fix(writing-heuristics): clean trailing blank line in compiled markdown docs (Chris Sorensen)
+- 74b3741 - feat(writing-heuristics): complete Phase 1 local engine with 11 rules, compiler, AST parser, safe fixer, and standalone CLI (Chris Sorensen)
+- 3c5169f - docs: add ordered-sequences to spec summary table (Chris Sorensen)
+- 4da8f6c - docs: add 3-target sync matrix, copilot idempotency check, and transactional manifest activation (Chris Sorensen)
+- ece0093 - docs: align writing heuristics plan with 11-rule catalog, sub-gate safety, and failure recovery tests (Chris Sorensen)
+- 672fa7c - docs: regenerate clean two-gate implementation plan for writing heuristics skill (Chris Sorensen)
+- b1786d0 - docs: add comprehensive implementation plan for writing heuristics skill (Chris Sorensen)
+- 5fdf2ec - docs: finalize writing heuristics spec with complete 11-rule catalog, atomic Windows replacement, and activation gates (Chris Sorensen)
+- 202d5c2 - docs: move writing heuristics spec to canonical docs/meta/specs/ and fix autofix/build contradictions (Chris Sorensen)
+- a17e5b3 - docs: resolve parser scope, safe sync junction, and governance in writing heuristics spec (Chris Sorensen)
+- bb04bb1 - docs: complete rewrite of writing heuristics spec resolving all review points (Chris Sorensen)
+- dc9e8a9 - docs: add formal capability contract and router hint to writing heuristics spec (Chris Sorensen)
+- 9bc474f - docs: clean formatting in writing heuristics design spec (Chris Sorensen)
+- d6f72f8 - docs: add design spec for writing heuristics skill and global enforcement (Chris Sorensen)
+
 ## Version 2.40.0
 Date: 2026-08-18
 
