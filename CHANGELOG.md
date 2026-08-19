@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.41.1
+Date: 2026-08-19
+
+### Changes
+- 72f8bad - chore(sync): update dashboard and skillpack metadata summaries (Chris Sorensen)
+- f6d46ae - fix(tests): resolve Windows runtime test suite discrepancies and skill validations (Chris Sorensen)
+
 ## Version 2.41.0
 Date: 2026-08-19
 
