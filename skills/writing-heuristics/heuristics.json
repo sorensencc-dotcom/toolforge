@@ -1,0 +1,176 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-08-18",
+  "rules": [
+    {
+      "id": "ban-throat-clearing",
+      "name": "Ban Throat Clearing",
+      "severity": "error",
+      "autofix": true,
+      "confidence": 1,
+      "advisory": false,
+      "category": "anti-slop",
+      "description": "Disallow conversational throat-clearing, pre-announcements, and sycophantic greetings at the beginning of prose paragraphs.",
+      "rationale": "Technical documentation should communicate essential information directly without introductory conversational fluff.",
+      "patterns": [
+        "^(Certainly|Sure thing|Sure|Here is|In this section|Let's dive|Note that|Allow me to|Of course)\\b[!,.:]?"
+      ],
+      "passExample": "To configure the client, supply your API key in the environment.",
+      "failExample": "Certainly! In this section, we will delve into configuring the client."
+    },
+    {
+      "id": "ban-filler-adverbs",
+      "name": "Ban Filler Adverbs and Slop Words",
+      "severity": "warning",
+      "autofix": false,
+      "confidence": 0.85,
+      "advisory": false,
+      "category": "anti-slop",
+      "description": "Flag empty buzzwords, filler adverbs, and hyperbolic adjectives that dilute technical precision.",
+      "rationale": "Vague superlatives weaken the authority and density of engineering prose.",
+      "patterns": [
+        "\\b(essentially|basically|crucial|game-changing|delve|delving|comprehensive|seamlessly|unleash|streamline)\\b"
+      ],
+      "passExample": "This update reduces memory overhead by 40%.",
+      "failExample": "This game-changing update seamlessly and essentially eliminates overhead."
+    },
+    {
+      "id": "avoid-first-person-plural",
+      "name": "Avoid First-Person Plural",
+      "severity": "warning",
+      "autofix": false,
+      "confidence": 0.9,
+      "advisory": false,
+      "category": "google-style",
+      "description": "Flag first-person plural pronouns ('we', 'us', 'our', 'let\\'s') in technical instructions.",
+      "rationale": "Technical docs should focus on the reader and the system, avoiding ambiguous institutional 'we'.",
+      "patterns": [
+        "\\b(we recommend|we suggest|we will|in our opinion|let's|our recommendation)\\b"
+      ],
+      "passExample": "Install dependencies before starting the service.",
+      "failExample": "We recommend that you install dependencies first."
+    },
+    {
+      "id": "use-second-person",
+      "name": "Use Second Person or Imperative Mood",
+      "severity": "warning",
+      "autofix": false,
+      "confidence": 0.8,
+      "advisory": true,
+      "category": "google-style",
+      "description": "Encourage direct second-person address ('you') or direct imperative mood; flag third-person passive abstraction ('the developer must...').",
+      "rationale": "Direct instructions are clearer and more actionable than abstract descriptions of what an anonymous persona should do.",
+      "patterns": [
+        "\\b(the user should|the developer should|the engineer must|the reader should)\\b"
+      ],
+      "passExample": "You can configure the timeout in config.json.",
+      "failExample": "The developer should configure the timeout in config.json."
+    },
+    {
+      "id": "active-voice",
+      "name": "Use Active Voice",
+      "severity": "warning",
+      "autofix": false,
+      "confidence": 0.8,
+      "advisory": false,
+      "category": "google-style",
+      "description": "Flag passive voice constructs (auxiliary verb + past participle + optional 'by' agent) in technical instructions.",
+      "rationale": "Active voice makes the actor clear and sentences more concise.",
+      "patterns": [
+        "\\b(is|are|was|were|been|being)\\s+(?:[a-z]+ed|built|run|written|sent|created|started)\\s+by\\b"
+      ],
+      "passExample": "The scheduler triggers the backup job nightly.",
+      "failExample": "The backup job is triggered nightly by the scheduler."
+    },
+    {
+      "id": "assertion-density",
+      "name": "High Assertion Density and Metric Grounding",
+      "severity": "warning",
+      "autofix": false,
+      "confidence": 0.8,
+      "advisory": false,
+      "category": "anti-slop",
+      "description": "Flag qualitative performance assertions lacking concrete quantitative metrics or specific technical mechanisms.",
+      "rationale": "Unbacked assertions like 'vastly superior' or 'incredible speed' lack engineering utility without concrete measurements.",
+      "patterns": [
+        "\\b(vastly superior|incredible speed|ultra fast|blazing fast|extremely powerful|game changing performance)\\b"
+      ],
+      "passExample": "This refactoring reduces query latency from 120ms to 18ms by caching query plans.",
+      "failExample": "This refactoring provides vastly superior performance and incredible speed."
+    },
+    {
+      "id": "condition-before-action",
+      "name": "State Condition Before Action",
+      "severity": "warning",
+      "autofix": false,
+      "confidence": 0.75,
+      "advisory": false,
+      "category": "google-style",
+      "description": "State prerequisites or conditions before the imperative command rather than trailing after.",
+      "rationale": "Putting the condition first prevents the reader from executing an action before discovering it applies only conditionally.",
+      "patterns": [
+        "^[A-Z][a-z]+\\s+.*\\s+(?:if you want to|in order to|if you need to)\\b"
+      ],
+      "passExample": "To reload configuration, send SIGHUP to the process.",
+      "failExample": "Send SIGHUP to the process if you want to reload configuration."
+    },
+    {
+      "id": "heading-sentence-case",
+      "name": "Heading Sentence Case",
+      "severity": "error",
+      "autofix": true,
+      "confidence": 0.95,
+      "advisory": false,
+      "category": "google-style",
+      "description": "Enforce Sentence case for all markdown headings (h1-h6) while preserving acronyms and code identifiers.",
+      "rationale": "Google Developer Style mandates sentence case for all headings and section titles.",
+      "passExample": "## Deployment configuration and setup",
+      "failExample": "## Deployment Configuration And Setup"
+    },
+    {
+      "id": "descriptive-links",
+      "name": "Descriptive Link Text",
+      "severity": "error",
+      "autofix": false,
+      "confidence": 1,
+      "advisory": false,
+      "category": "google-style",
+      "description": "Flag generic or non-descriptive link anchor text ('here', 'click here', 'link', 'this page').",
+      "rationale": "Links must describe their target destination so readers understand where the link leads without surrounding context.",
+      "patterns": [
+        "^(here|click here|link|this link|this page|read more|more info|website)$"
+      ],
+      "passExample": "See the [PostgreSQL Connection Pooling Guide](docs/db.md).",
+      "failExample": "For connection pooling, click [here](docs/db.md)."
+    },
+    {
+      "id": "serial-comma",
+      "name": "Serial Oxford Comma",
+      "severity": "warning",
+      "autofix": false,
+      "confidence": 0.85,
+      "advisory": true,
+      "category": "google-style",
+      "description": "Encourage using the serial Oxford comma before the coordinating conjunction in lists of three or more items.",
+      "rationale": "Oxford commas prevent ambiguity in enumerations.",
+      "patterns": [
+        "\\b[A-Za-z0-9_-]+,\\s+[A-Za-z0-9_-]+\\s+(?:and|or)\\s+[A-Za-z0-9_-]+\\b"
+      ],
+      "passExample": "Supports JSON, YAML, and TOML formats.",
+      "failExample": "Supports JSON, YAML and TOML formats."
+    },
+    {
+      "id": "ordered-sequences",
+      "name": "Ordered vs Unordered Sequences",
+      "severity": "warning",
+      "autofix": false,
+      "confidence": 0.75,
+      "advisory": true,
+      "category": "google-style",
+      "description": "Advises using bulleted lists instead of numbered lists when list items are static descriptive points rather than chronological steps.",
+      "rationale": "Numbered lists imply mandatory sequential order; unordered bullet lists represent parallel properties or options.",
+      "passExample": "1. Clone the repository.\\n2. Install dependencies.\\n3. Run the test suite.",
+      "failExample": "1. High performance.\\n2. Modular design.\\n3. Comprehensive documentation."
+    }
+  ]
+}

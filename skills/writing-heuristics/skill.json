@@ -1,0 +1,196 @@
+{
+  "id": "writing-heuristics",
+  "name": "Writing Heuristics and Style Engine",
+  "version": "1.0.0",
+  "description": "Deterministic technical writing heuristics, anti-slop rules, and Google Developer Style enforcement engine",
+  "author": "soren",
+  "license": "MIT",
+  "category": "validation",
+  "metadata": {
+    "runtime": "typescript",
+    "entrypoint": "src/index.ts",
+    "timeout": 30000,
+    "tags": [
+      "writing",
+      "style",
+      "lint",
+      "anti-slop",
+      "google-style",
+      "governance"
+    ],
+    "keywords": [
+      "prose-lint",
+      "writing-heuristics",
+      "anti-slop",
+      "compiler"
+    ]
+  },
+  "router": {
+    "intent": [
+      "writing",
+      "style",
+      "lint",
+      "fix",
+      "compile"
+    ],
+    "confidence": "high"
+  },
+  "modes": {
+    "supported": [
+      "lint",
+      "fix",
+      "compile"
+    ],
+    "default": "lint",
+    "descriptions": {
+      "lint": "Analyzes markdown content for style rule violations and outputs structured report",
+      "fix": "Applies safe deterministic transformations with optional backup or dry-run diff preview",
+      "compile": "Compiles heuristics.json into SKILL.md and documentation references"
+    }
+  },
+  "governance": {
+    "zeroDrift": true,
+    "deterministic": true,
+    "canonicalSource": "heuristics.json",
+    "compiledArtifacts": [
+      "SKILL.md",
+      "docs/rules.md"
+    ]
+  },
+  "validation": {
+    "testsRequiredBeforeActivation": true,
+    "testRunner": "vitest",
+    "requiredSuites": [
+      "linter.test.ts",
+      "fixer.test.ts",
+      "cli.test.ts",
+      "codegen.test.ts",
+      "parser.test.ts"
+    ]
+  },
+  "inputs": {
+    "required": [],
+    "optional": [
+      {
+        "name": "paths",
+        "type": "array",
+        "description": "File paths or glob patterns to lint or fix",
+        "default": [
+          "docs/**/*.md"
+        ]
+      },
+      {
+        "name": "mode",
+        "type": "string",
+        "enum": [
+          "lint",
+          "fix",
+          "compile"
+        ],
+        "description": "Execution mode",
+        "default": "lint"
+      },
+      {
+        "name": "strict",
+        "type": "boolean",
+        "description": "Treat warnings as blocking errors",
+        "default": false
+      },
+      {
+        "name": "dryRun",
+        "type": "boolean",
+        "description": "Preview diff output without modifying files",
+        "default": false
+      },
+      {
+        "name": "stdin",
+        "type": "boolean",
+        "description": "Read markdown text directly from standard input",
+        "default": false
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "enum": [
+          "stylish",
+          "json",
+          "sarif"
+        ],
+        "description": "Output format",
+        "default": "stylish"
+      }
+    ]
+  },
+  "outputs": {
+    "success": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "clean": {
+          "type": "boolean"
+        },
+        "totalFilesScanned": {
+          "type": "number"
+        },
+        "violationsCount": {
+          "type": "number"
+        },
+        "violations": {
+          "type": "array"
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "details": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "required": [
+      "read:repo"
+    ],
+    "optional": [
+      "write:file"
+    ],
+    "restrictions": [
+      "delete:permanent"
+    ]
+  },
+  "integrations": {
+    "toolforge": {
+      "registered": false,
+      "manifestPath": "manifest.json",
+      "docPath": "docs/skills/writing-heuristics.md"
+    },
+    "distributed": {
+      "syncable": false,
+      "globalPaths": [
+        "~/.gemini/config/skills/writing-heuristics",
+        "~/.agents/skills/writing-heuristics",
+        "~/.claude/skills/writing-heuristics"
+      ]
+    }
+  },
+  "entrypoint": "src/index.ts",
+  "runtime": "node",
+  "tags": [
+    "writing",
+    "style",
+    "lint",
+    "anti-slop",
+    "google-style",
+    "governance"
+  ]
+}
