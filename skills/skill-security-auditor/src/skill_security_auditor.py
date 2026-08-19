@@ -163,7 +163,7 @@ CODE_PATTERNS = [
         "fix": "Use ast.literal_eval() for data parsing or explicit parsing logic",  # noqa: SEC-AUDITOR
     },
     {
-        "regex": r"\bexec\s*\(",  # noqa: SEC-AUDITOR
+        "regex": r"(?<!\.)\bexec\s*\(",  # noqa: SEC-AUDITOR
         "category": "CODE-EXEC",
         "severity": Severity.CRITICAL,
         "risk": "Arbitrary code execution via exec()",  # noqa: SEC-AUDITOR

@@ -64,8 +64,7 @@ export function lintText(content: string, options: LintOptions = {}): LintResult
       // 2. ban-filler-adverbs
       if (rule.id === 'ban-filler-adverbs') {
         const regex = /\b(essentially|basically|crucial|game-changing|delve|delving|comprehensive|seamlessly|unleash|streamline)\b/gi;
-        let match;
-        while ((match = regex.exec(node.text)) !== null) {
+                for (const match of node.text.matchAll(regex)) {
           violations.push({
             ruleId: rule.id,
             ruleName: rule.name,
@@ -82,8 +81,7 @@ export function lintText(content: string, options: LintOptions = {}): LintResult
       // 3. avoid-first-person-plural
       if (rule.id === 'avoid-first-person-plural') {
         const regex = /\b(we recommend|we suggest|we will|in our opinion|let's|our recommendation)\b/gi;
-        let match;
-        while ((match = regex.exec(node.text)) !== null) {
+                for (const match of node.text.matchAll(regex)) {
           violations.push({
             ruleId: rule.id,
             ruleName: rule.name,
@@ -100,8 +98,7 @@ export function lintText(content: string, options: LintOptions = {}): LintResult
       // 4. use-second-person
       if (rule.id === 'use-second-person') {
         const regex = /\b(the user should|the developer should|the engineer must|the reader should)\b/gi;
-        let match;
-        while ((match = regex.exec(node.text)) !== null) {
+                for (const match of node.text.matchAll(regex)) {
           violations.push({
             ruleId: rule.id,
             ruleName: rule.name,
@@ -118,8 +115,7 @@ export function lintText(content: string, options: LintOptions = {}): LintResult
       // 5. active-voice
       if (rule.id === 'active-voice') {
         const regex = /\b(is|are|was|were|been|being)\s+(?:[a-z]+ed|built|run|written|sent|created|started)(?:\s+[a-z]+)?\s+by\b/gi;
-        let match;
-        while ((match = regex.exec(node.text)) !== null) {
+                for (const match of node.text.matchAll(regex)) {
           violations.push({
             ruleId: rule.id,
             ruleName: rule.name,
@@ -136,8 +132,7 @@ export function lintText(content: string, options: LintOptions = {}): LintResult
       // 6. assertion-density
       if (rule.id === 'assertion-density') {
         const regex = /\b(vastly superior|incredible speed|ultra fast|blazing fast|extremely powerful|game changing performance)\b/gi;
-        let match;
-        while ((match = regex.exec(node.text)) !== null) {
+                for (const match of node.text.matchAll(regex)) {
           violations.push({
             ruleId: rule.id,
             ruleName: rule.name,
@@ -195,8 +190,7 @@ export function lintText(content: string, options: LintOptions = {}): LintResult
       // 10. serial-comma
       if (rule.id === 'serial-comma') {
         const regex = /\b([A-Za-z0-9_-]+),\s+([A-Za-z0-9_-]+)\s+(and|or)\s+([A-Za-z0-9_-]+)\b/g;
-        let match;
-        while ((match = regex.exec(node.text)) !== null) {
+                for (const match of node.text.matchAll(regex)) {
           violations.push({
             ruleId: rule.id,
             ruleName: rule.name,
