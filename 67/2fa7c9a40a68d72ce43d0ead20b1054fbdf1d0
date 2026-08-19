@@ -1,0 +1,14 @@
+docs/meta/plans/2026-08-18-writing-heuristics-skill-plan.md
+  h_5c172e9b435f5a 5,7,9,13,16,18,27,32-38,43-44,46,48-53,56,61-63,72,74-84,86-92,94,96,101,103,109,114-119,123,128,130,137-221,223-315
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "672fa7c9a40a68d72ce43d0ead20b1054fbdf1d0",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
