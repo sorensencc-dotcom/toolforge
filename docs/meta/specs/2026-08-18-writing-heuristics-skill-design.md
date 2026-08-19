@@ -28,7 +28,7 @@ The writing rules in this package synthesize standards from multiple sources wit
 
 | Domain | Rule ID | Severity | Source / Standard | License / Attribution |
 |---|---|---|---|---|
-| **Google Style** | `heading-sentence-case`, `descriptive-links`, `avoid-first-person-plural`, `use-second-person`, `active-voice`, `condition-before-action`, `serial-comma` | `error` / `warning` | [Google Developer Style Guide](https://developers.google.com/style) | CC BY 4.0 |
+| **Google Style** | `heading-sentence-case`, `descriptive-links`, `avoid-first-person-plural`, `use-second-person`, `active-voice`, `condition-before-action`, `serial-comma`, `ordered-sequences` | `error` / `warning` | [Google Developer Style Guide](https://developers.google.com/style) | CC BY 4.0 |
 | **Anti-Slop** | `ban-throat-clearing`, `ban-filler-adverbs`, `assertion-density` | `error` / `warning` | [Nate B. Jones Analytical Writing Heuristics](https://x.com/natebjones/status/2089457435459404093) | Original prompt scaffold implementation inspired by public methodology |
 | **Governance** | `suppression-governance`, `safe-fix-contract`, `codegen-invariant` | `error` | Toolforge Skills Framework Specification | MIT License |
 
