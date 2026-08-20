@@ -85,9 +85,9 @@ Next Steps
 1. No remaining notebooks. Weekly Task Scheduler job `TRM-Notebooklm-Mine`
    (Mondays 6am) will keep mining registered notebooks going forward — will
    now also benefit from the staging-cleanup fix automatically.
-2. Research Logs notebook's 2 unsorted sources may warrant a
-   topic-routing.json keyword review if a pattern emerges across future
-   pulls from that notebook — don't add speculatively now.
+2. Research Logs notebook's 2 unsorted sources resolved:
+   - Source 1 (Cuba & CESOR Research Log): matched to `cuba` topic (keyword `willysresearchlog` added to `cuba` routing in `topic-routing.json`).
+   - Source 2 (Later Life Research Log): created new topic `charlie/retirement` in `trm-vault` (`38c75ac`) with routing keywords `["retirement", "later life", "later-life", "post-willys", "laterliferesearchlog"]`. Ingested as `SRC-001` with 111 facts extracted. Treatment sync validated clean.
 3. If Windows path args ever need to go through git-bash again (not
    PowerShell), remember to double the backslashes or use forward slashes.
 4. Deeper inefficiency not fixed: `route-intake --apply` still re-copies
