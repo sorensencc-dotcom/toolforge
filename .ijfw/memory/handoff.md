@@ -3,11 +3,11 @@ Handoff: 2026-08-14
 
 Status
 ------
-| NotebookLM ingest | all 5 notebooks | done | 0 remaining |
+| NotebookLM ingest | all 6 notebooks | done | 0 remaining |
 
-CIC-KB, CIC-Daily-Research (prior sessions), Willow Run Videos, Cast Iron
-Charlie - Research Logs, Sorensen Photographic Archive (this session) all
-fully ingested + mined + synced. Sweep complete.
+CIC-KB, CIC-Daily-Research, Willow Run Videos, Cast Iron Charlie - Research
+Logs, Sorensen Photographic Archive, and CastIronCharlie-Facebook all fully
+ingested + mined + synced. Sweep complete.
 
 Decisions
 ---------
