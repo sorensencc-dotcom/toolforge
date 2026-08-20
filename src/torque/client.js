@@ -28,10 +28,12 @@ export class TorqueQueryClient {
    */
   normalizeQuery(query) {
     if (typeof query !== 'string') return '';
+    /* eslint-disable no-control-regex */
     return query
       .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
+    /* eslint-enable no-control-regex */
   }
 
   /**
