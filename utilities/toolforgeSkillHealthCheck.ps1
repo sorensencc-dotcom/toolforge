@@ -134,20 +134,14 @@ function Sync-WarningsToTodos {
   $content = Get-Content -LiteralPath $TodosPath -Raw
   $dateStr = Get-Date -Format "yyyy-MM-dd"
   $activeMarkers = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
-
-  foreach ($warning in $warnings) {
-    $marker = "<!-- toolforge-health-warning: $($warning.Skill)|$($warning.Check)|$($warning.Details) -->"
-    [void]$activeMarkers.Add($marker)
-  }
-
   $newLines = @()
-  foreach ($warning in $warnings) {
-    $marker = "<!-- toolforge-health-warning: $($warning.Skill)|$($warning.Check)|$($warning.Details) -->"
-    if ($content.Contains($marker)) { continue }
-    $title = "Toolforge health warning: $($warning.Skill)/$($warning.Check)"
-    $newLines += "- [ ] **[P2] $title** (created $dateStr) — $($warning.Details). Source: SKILLPACK-RUNTIME-HEALTH.md. $marker"
+  foreach ($group in ($warnings | Group-Object -Property Check | Sort-Object Name)) {
+    $skills = @($group.Group | Select-Object -ExpandProperty Skill | Sort-Object -Unique)
+    $checkName = [string]$group.Name
+    $groupMarker = "<!-- todo-group: toolforge-health-warning:$checkName -->"
+    [void]$activeMarkers.Add($groupMarker)
+    if (-not $content.Contains($groupMarker)) {`n      $newLines += "- [ ] **[P2] Toolforge health warning group: $checkName** (created $dateStr) — $($skills.Count) skill(s): $($skills -join ', '). Source: SKILLPACK-RUNTIME-HEALTH.md. $groupMarker"`n    }
   }
-
   # Clean up / auto-resolve stale warning items in TODOS.md
   $lines = $content -split "\r?\n"
   $resolvedLines = @()
@@ -159,8 +153,9 @@ function Sync-WarningsToTodos {
     if ($line -match '^## Open') { $inOpen = $true }
     elseif ($line -match '^## ') { $inOpen = $false }
 
-    if ($inOpen -and $line -match '^-\s*\[\s*\]\s*\*\*\[P2\]\s*Toolforge health warning:.*?(<!-- toolforge-health-warning: .*? -->)') {
-      $marker = $matches[1]
+    if ($inOpen -and (($line -match 'todo-group: toolforge-health-warning:') -or ($line -match '^-\s*\[\s*\]\s*\*\*\[P2\]\s*Toolforge health warning:.*?(<!-- toolforge-health-warning: .*? -->)'))) {
+      $markerMatch = [regex]::Match($line, '<!-- (?:todo-group: toolforge-health-warning:[^ ]+|toolforge-health-warning: .*?) -->')
+      $marker = if ($markerMatch.Success) { $markerMatch.Value } else { $null }
       if (-not $activeMarkers.Contains($marker)) {
         $resolvedLine = $line -replace '^-\s*\[\s*\]', '- [x]'
         if ($resolvedLine -match '\(created \d{4}-\d{2}-\d{2}\)') {

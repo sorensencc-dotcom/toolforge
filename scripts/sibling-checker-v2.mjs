@@ -202,6 +202,15 @@ export function appendDriftTodo(repoRoot, taskLine, signatureKey) {
 
   try {
     const content = fs.readFileSync(targetPath, 'utf8');
+    const groupedContent = groupTodoLines(content, {
+      groupMarker: '<!-- todo-group: kb-sync-documentation-drift -->',
+      line: taskLine,
+      legacy: /^- \\[ \\] \\*\\*kb-sync documentation drift remediation\\*\\*/
+    });
+    if (groupedContent !== content) {
+      fs.writeFileSync(targetPath, groupedContent, 'utf8');
+      return;
+    }
     
     // If the batch signature already exists in Open section, update the line in place
     if (content.includes(signatureKey)) {
@@ -230,6 +239,21 @@ export function appendDriftTodo(repoRoot, taskLine, signatureKey) {
  * @param {string} repoRoot - Absolute repository root directory
  * @returns {object} - Object containing warnings and blocking errors
  */
+export function groupTodoLines(content, { groupMarker, line, legacy }) {
+  const lines = content.split(/\r?\n/);
+  const openStart = lines.findIndex(item => /^## Open\s*$/.test(item));
+  if (openStart < 0) return content;
+  const completedStart = lines.findIndex((item, index) => index > openStart && /^## Completed\s*$/.test(item));
+  const openEnd = completedStart < 0 ? lines.length : completedStart;
+  const openLines = lines.slice(openStart + 1, openEnd);
+  const isGroup = item => item.includes(groupMarker);
+  const kept = openLines.filter(item => !legacy.test(item) && !isGroup(item));
+  const hadLegacy = openLines.some(item => legacy.test(item));
+  if (!hadLegacy && openLines.some(isGroup)) return content;
+  kept.unshift(`${line} ${groupMarker}`);
+  const updated = [...lines.slice(0, openStart + 1), '', ...kept, ...lines.slice(openEnd)];
+  return updated.join('\n').replace(/\n{3,}/g, '\n\n');
+}
 export function checkSiblingPatterns(changedFiles, repoRoot) {
   const warnings = [];
   const errors = [];
