@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.41.3
+Date: 2026-08-20
+
+### Changes
+- b7146f9 - fix(todo): group generated backlog warnings (Chris Sorensen)
+
 ## Version 2.41.2
 Date: 2026-08-20
 
