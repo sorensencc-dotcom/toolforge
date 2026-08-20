@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.41.2
+Date: 2026-08-20
+
+### Changes
+- ba36a5e - fix(torque): allow scoped control regex in query normalization layer (Chris Sorensen)
+
 ## Version 2.41.1
 Date: 2026-08-19
 
