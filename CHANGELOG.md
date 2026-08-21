@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.42.0
+Date: 2026-08-21
+
+### Changes
+- a8f9d32 - docs(writing-heuristics): reference Skill Operator Guide in README (Chris Sorensen)
+- 795cde7 - docs(handoff): update willow-run facebook ingest metrics and facts (Chris Sorensen)
+- f3abd25 - docs(handoff): record CastIronCharlie-Facebook notebook ingest and mining (Chris Sorensen)
+- 7e9d07a - feat(notebooklm): register CastIronCharlie-Facebook notebook (Chris Sorensen)
+- ae68e65 - docs(handoff): record retirement topic creation and cuba routing fix (Chris Sorensen)
+- f1b6126 - docs(report): add daily report for 2026-08-20 (Chris Sorensen)
+
 ## Version 2.41.3
 Date: 2026-08-20
 
