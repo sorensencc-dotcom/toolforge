@@ -16,3 +16,7 @@ node skills/writing-heuristics/bin/lint-heuristics.js check docs/
 # Safe fix with preview
 node skills/writing-heuristics/bin/lint-heuristics.js fix --dry-run docs/
 ```
+
+---
+
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
