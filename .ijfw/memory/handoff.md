@@ -34,7 +34,13 @@ This Session's Results
 - Sorensen Photographic Archive (`fd0e0e4e-6890-4fb9-89bf-b9e568295e7a`): 1
   source staged, ingested clean to `charlie/willow-run`. mine-notebooklm: 4
   new research-gap entries.
-- All committed to trm-vault locally (8efc585) — no remote, repo is
+- CastIronCharlie-Facebook (`0c8dc979-319f-4e6d-8136-22275932c236`): 28 items
+  pulled and processed. Expanded `willow-run` topic keywords to include
+  `["bomber plant", "bomber", "mike kroll", "edsel ford", "flying wing"]` in
+  `topic-routing.json` (`7043e09`). Ingested 53 new sources into `charlie/willow-run`
+  (bringing extracted facts to 8,533). mine-notebooklm: 4 new research-gap
+  entries saved to `trm/research-gaps/castironcharlie-facebook.md`.
+- All committed to trm-vault locally (`e86cf60`, `0108343`) — no remote, repo is
   local-only by design.
 
 Modified Files (prior session, still relevant context)
