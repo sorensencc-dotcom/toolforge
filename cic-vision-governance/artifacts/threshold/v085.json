@@ -1,0 +1,15 @@
+{
+  "artifact_type": "CIC-VISION-THRESHOLD",
+  "version": "v085",
+  "timestamp": "2026-08-23T05:37:48.245Z",
+  "baseline_avg": 0.718,
+  "structure_avg": 0.7230000000000001,
+  "enrichment_delta_avg": 0.1,
+  "current_threshold": 0.6951799999999999,
+  "provider_chain_stats": {},
+  "update_reason": "adaptive-update",
+  "executed_by": "ACTOR-001",
+  "status": "pending",
+  "parent_lineage": null,
+  "hash": "9b9d10472b7e77928a025749272f47bb354bfff26d4a841f340b6d7e494b010d"
+}
