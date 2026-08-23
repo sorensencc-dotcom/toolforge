@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.44.0
+Date: 2026-08-23
+
+### Changes
+- 6ef9f7b - fix(governance): make pre-commit hook shim order-independent, correct memory drift (Chris Sorensen)
+- cc103ab - docs(report): add daily report for 2026-08-23 (Chris Sorensen)
+- 3ab09dd - test(api): add explicit rate-limiting and concurrency saturation assertions (Chris Sorensen)
+- 78393fa - feat(providers): add OllamaProvider, Express integration, security controls, and test suite (Chris Sorensen)
+
 ## Version 2.43.0
 Date: 2026-08-23
 
