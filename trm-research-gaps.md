@@ -6,7 +6,10 @@ verification_status: "verified"
 category: daily
 notebook_id: 1b4861a3-931f-4632-8fc1-343a8dd37df8
 status: active
-generated_at: 2026-08-23T02:17:46.072Z
+generated_at: 2026-08-23T18:59:16.752832+00:00
+evaluated_model: "llama3:8b-instruct-fp16"
+bfcl_score: 0.694
+hash_chain_self: "0548cb1e6856ccd29e3c73d212ef13bad6e566cc74c30a5ad8e8997d7cc8e42c"
 ---
 # Mined Research Gaps and Topics
 
