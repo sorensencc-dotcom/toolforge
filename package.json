@@ -10,6 +10,7 @@
     "kb:dag": "node kb-sync/scripts/build-dag.mjs",
     "kb:dag:check": "node kb-sync/scripts/build-dag.mjs --check-only",
     "kb:dag:recover": "node kb-sync/scripts/build-dag.mjs --recover",
+    "trm:closed-loop": "node kb-sync/scripts/run-closed-loop-research.mjs",
     "migrate": "node src/db/migrate.js",
     "trending:refresh": "node src/services/trending-batch.js",
     "trending:schedule": "pwsh src/services/trending-scheduler.ps1",

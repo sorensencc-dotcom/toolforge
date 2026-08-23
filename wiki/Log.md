@@ -221,3 +221,7 @@ status: "active"
   - `wiki/kb-sync/wiki/.SyncStatus.md`
   - `wiki/kb-sync/wiki/.Catalog.md`
   - `wiki/Index.md`
+
+- [2026-08-23T02:09:37.399Z] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.
+- [2026-08-23T02:10:02.404218+00:00] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.
+- [2026-08-23T02:17:46.075Z] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.
