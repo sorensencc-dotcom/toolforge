@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.47.0
+Date: 2026-08-23
+
+### Changes
+- 9e45a2c - Merge remote-tracking branch 'origin/main' (Chris)
+- 45d1523 - feat(skills): add hook-validator, pre-flight-test-checker, retro-schema-validator (Chris)
+
 ## Version 2.46.0
 Date: 2026-08-23
 
