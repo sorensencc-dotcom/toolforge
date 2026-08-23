@@ -26,6 +26,7 @@
     "ui:test": "vitest run",
     "test": "node --test src/**/*.test.js toolforge-pdf/*.test.js",
     "test:vision": "vitest run --config vitest.config.vision.js",
+    "test:providers": "vitest run --config vitest.config.providers.js",
     "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
     "test:healing": "npx tsx --test modules/healing/*.test.ts",
     "test:watch": "node --test --watch src/**/*.test.js",

@@ -1,24 +1,7 @@
-import { type LocalProviderLike } from '../../src/providers/index.js';
+import { getProvider } from '../../src/providers/index.js';
 
-export interface AuditPacket {
-  packetId: string;
-  specGoal: string;
-  declaredScope: string[];
-  testOutput: string;
-  appliedDiff: string;
-  historyLog: string[];
-}
-
-export interface AuditVerdict {
-  consensus: boolean;
-  blockerAnalysis: string;
-  targetedFixRecipe: string;
-}
-
-export async function runAdversarialCrossAudit(
-  packet: AuditPacket,
-  localProvider: LocalProviderLike
-): Promise<AuditVerdict> {
+export async function runAdversarialCrossAudit(packet, localProvider) {
+  const provider = localProvider || getProvider();
   const auditPrompt = `
 You are an adversarial code referee operating under strict IJFW discipline.
 The previous worker attempt failed the deterministic Iron Gate. You have an isolated, unpolluted context window.
@@ -54,9 +37,9 @@ Respond ONLY with valid JSON:
   "targetedFixRecipe": "string"
 }`;
 
-  const response = await localProvider.generate("adversarial-auditor", auditPrompt);
+  const response = await provider.generate("adversarial-auditor", auditPrompt);
   
-  let parsed: any = null;
+  let parsed = null;
   if (typeof response === 'string') {
     const trimmed = response.trim();
     try {

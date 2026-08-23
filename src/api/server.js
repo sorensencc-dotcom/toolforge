@@ -8,6 +8,7 @@ import { attachUser } from './middleware/auth.js';
 import { createRatingsRouter } from './routes/ratings.js';
 import { createCategoriesRouter } from './routes/categories.js';
 import { createRelatedRouter } from './routes/related.js';
+import { createProvidersRouter } from './routes/providers.js';
 import { toTrendingItem } from './serializers.js';
 
 dotenv.config();
@@ -16,9 +17,9 @@ dotenv.config();
  * Build the Express app. Factory form so tests can inject a mock db without a
  * live PostgreSQL. Pass `resolveUser` to override auth in tests.
  * @param {{query: Function}} db
- * @param {{resolveUser?: Function, limiter?: Function}} [opts]
+ * @param {{resolveUser?: Function, limiter?: Function, provider?: Object}} [opts]
  */
-export function createApp(db, { resolveUser, limiter } = {}) {
+export function createApp(db, { resolveUser, limiter, provider } = {}) {
   const app = express();
 
   app.use(cors());
@@ -96,6 +97,26 @@ export function createApp(db, { resolveUser, limiter } = {}) {
 
   // Categories taxonomy
   app.use('/api/v1/categories', createCategoriesRouter(db));
+
+  // Provider routes (Ollama / LocalProviderLike integration)
+  const providersRouter = createProvidersRouter(provider, { limiter });
+  app.use('/api/v1/providers', providersRouter);
+  app.get('/health/provider', (req, res, next) => {
+    req.url = '/health';
+    providersRouter(req, res, next);
+  });
+  app.post('/api/generate', (req, res, next) => {
+    req.url = '/generate';
+    providersRouter(req, res, next);
+  });
+  app.post('/api/audit', (req, res, next) => {
+    req.url = '/audit';
+    providersRouter(req, res, next);
+  });
+  app.get('/api/models', (req, res, next) => {
+    req.url = '/models';
+    providersRouter(req, res, next);
+  });
 
   // GET /api/v1/skills/:id — Get skill detail
   app.get('/api/v1/skills/:id', async (req, res) => {

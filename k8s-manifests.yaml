@@ -1,0 +1,370 @@
+---
+# Toolforge Ollama Service Deployment
+# Production-ready Kubernetes manifests
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: toolforge
+  labels:
+    name: toolforge
+
+---
+# ConfigMap: Non-secret configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: toolforge-config
+  namespace: toolforge
+data:
+  # Ollama endpoint for internal cluster communication
+  OLLAMA_BASE_URL: "http://ollama-service.toolforge.svc.cluster.local:11434/v1"
+  OLLAMA_TIMEOUT: "30000"
+  
+  # API configuration
+  PORT: "3000"
+  NODE_ENV: "production"
+  
+  # Cowork Gateway (adjust as needed for your environment)
+  COWORK_API_URL: "http://cowork-gateway.toolforge.svc.cluster.local:4790"
+  COWORK_GATEWAY_ID: "toolforge-gateway"
+  COWORK_SYNC_INTERVAL: "300"
+
+---
+# Secret: Sensitive credentials (in production, manage these via your secret backend)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: toolforge-secrets
+  namespace: toolforge
+type: Opaque
+stringData:
+  # Base64-encoded values or use external secret management (e.g., Sealed Secrets, External Secrets)
+  COWORK_API_KEY: "mock-api-key-1234567890ab"
+  TELEMETRY_API_KEY: "replace-with-long-random-value"
+  DATABASE_URL: "postgresql://user:password@postgres-service.toolforge.svc.cluster.local:5432/toolforge"
+
+---
+# Ollama StatefulSet for persistent model storage
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ollama
+  namespace: toolforge
+  labels:
+    app: ollama
+    component: inference
+spec:
+  serviceName: ollama-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+        component: inference
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: ollama-api
+          containerPort: 11434
+          protocol: TCP
+        env:
+        - name: OLLAMA_HOST
+          value: "0.0.0.0:11434"
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+        livenessProbe:
+          httpGet:
+            path: /api/tags
+            port: ollama-api
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/tags
+            port: ollama-api
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+        volumeMounts:
+        - name: ollama-models
+          mountPath: /root/.ollama
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+  volumeClaimTemplates:
+  - metadata:
+      name: ollama-models
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 50Gi
+
+---
+# Ollama Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-service
+  namespace: toolforge
+  labels:
+    app: ollama
+spec:
+  type: ClusterIP
+  ports:
+  - name: ollama-api
+    port: 11434
+    targetPort: ollama-api
+    protocol: TCP
+  selector:
+    app: ollama
+
+---
+# Toolforge API Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toolforge-api
+  namespace: toolforge
+  labels:
+    app: toolforge-api
+    component: api
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: toolforge-api
+  template:
+    metadata:
+      labels:
+        app: toolforge-api
+        component: api
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: toolforge-api
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - name: api
+        image: toolforge-api:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        env:
+        # Load from ConfigMap
+        - name: OLLAMA_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: toolforge-config
+              key: OLLAMA_BASE_URL
+        - name: OLLAMA_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              name: toolforge-config
+              key: OLLAMA_TIMEOUT
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: toolforge-config
+              key: PORT
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: toolforge-config
+              key: NODE_ENV
+        - name: COWORK_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: toolforge-config
+              key: COWORK_API_URL
+        - name: COWORK_GATEWAY_ID
+          valueFrom:
+            configMapKeyRef:
+              name: toolforge-config
+              key: COWORK_GATEWAY_ID
+        - name: COWORK_SYNC_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              name: toolforge-config
+              key: COWORK_SYNC_INTERVAL
+        # Load from Secret
+        - name: COWORK_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: toolforge-secrets
+              key: COWORK_API_KEY
+        - name: TELEMETRY_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: toolforge-secrets
+              key: TELEMETRY_API_KEY
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: toolforge-secrets
+              key: DATABASE_URL
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - toolforge-api
+              topologyKey: kubernetes.io/hostname
+
+---
+# Toolforge API Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: toolforge-api-service
+  namespace: toolforge
+  labels:
+    app: toolforge-api
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: toolforge-api
+
+---
+# ServiceAccount for API pods
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: toolforge-api
+  namespace: toolforge
+
+---
+# Role: read-only access to ConfigMap and Secret
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: toolforge-api-role
+  namespace: toolforge
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  names: ["toolforge-config"]
+  verbs: ["get"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  names: ["toolforge-secrets"]
+  verbs: ["get"]
+
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: toolforge-api-rolebinding
+  namespace: toolforge
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: toolforge-api-role
+subjects:
+- kind: ServiceAccount
+  name: toolforge-api
+  namespace: toolforge
+
+---
+# HorizontalPodAutoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: toolforge-api-hpa
+  namespace: toolforge
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: toolforge-api
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
