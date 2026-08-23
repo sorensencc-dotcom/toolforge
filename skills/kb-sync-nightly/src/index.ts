@@ -27,6 +27,24 @@ if (gitRoot) {
 
 console.log(`[Nightly] Project root resolved to: ${projectRoot}`);
 
+// Execute Stage 0: TRM Competitor Watchlist Drift Checks
+try {
+    console.log("[Nightly] Running Stage 0 TRM Competitor Drift Monitoring...");
+    const watcherScript = path.join(projectRoot, 'watch-competitors-v2.mjs');
+    const watchlistDir = path.join(projectRoot, 'trm', 'watchlists');
+
+    if (fs.existsSync(watcherScript) && fs.existsSync(watchlistDir)) {
+        const files = fs.readdirSync(watchlistDir).filter(f => f.endsWith('.json'));
+        for (const file of files) {
+            const fullPath = path.join(watchlistDir, file);
+            console.log(`[Nightly] Checking watchlist: ${file}`);
+            execSync(`node "${watcherScript}" "${fullPath}"`, { stdio: "inherit", cwd: projectRoot }); // noqa: SEC-AUDITOR
+        }
+    }
+} catch (err) {
+    console.warn("[Nightly Warning] Stage 0 Competitor Drift Monitoring encountered an issue. Continuing downstream sync in fail-soft mode.");
+}
+
 // Execute Stage 1: Ingestion & Validation Checks
 try {
     console.log("[Nightly] Running Stage 1 Knowledge Base Sync...");
