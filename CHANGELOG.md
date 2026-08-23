@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.43.0
+Date: 2026-08-23
+
+### Changes
+- d28317e - feat(trm): add thematic routing, modular packs, and provenance linting (Chris Sorensen)
+- 23551fd - docs(report): add weekly report for 2026-W34 (Chris Sorensen)
+- f6cd324 - docs(report): add daily report for 2026-08-22 (Chris Sorensen)
+- 6294510 - docs(report): add daily report for 2026-08-21 (Chris Sorensen)
+- e26113a - ci: add concurrency groups and credential preflight to workflows (Chris Sorensen)
+- ee6a683 - ci(release): grant packages: write permission for GitHub Releases and Packages (Chris Sorensen)
+
 ## Version 2.42.0
 Date: 2026-08-21
 
