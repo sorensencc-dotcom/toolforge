@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.46.0
+Date: 2026-08-23
+
+### Changes
+- 225919a - feat(whichllm): deploy integration pack, validation suite, and upgrade flow v1.0 (Chris)
+
 ## Version 2.45.0
 Date: 2026-08-23
 
