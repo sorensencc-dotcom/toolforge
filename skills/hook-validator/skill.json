@@ -1,0 +1,57 @@
+{
+  "id": "hook-validator",
+  "name": "Hook Validator",
+  "version": "1.0.0",
+  "description": "Audits the pre-commit hook chain for completeness, merged-shim provenance, and execution order",
+  "author": "Soren (Cast Iron Forge)",
+  "license": "MIT",
+  "category": "validation",
+  "runtime": "javascript",
+  "entrypoint": "src/index.js",
+  "status": "active",
+  "keywords": [
+    "git-hooks",
+    "pre-commit",
+    "governance",
+    "installer-race"
+  ],
+  "commands": {
+    "invoke": "hook-validator",
+    "usage": "node src/index.js [--verbose] [--strict]"
+  },
+  "inputs": {
+    "hookPath": "string (fixed: .git/hooks/pre-commit relative to cwd)",
+    "verbose": "boolean (optional) — print full JSON report",
+    "strict": "boolean (optional) — treat YELLOW (warnings) as a failing exit code"
+  },
+  "outputs": {
+    "report": {
+      "status": "success|error",
+      "verdict": "GREEN|YELLOW|RED",
+      "checks": "array<{name, level, message, details?}>",
+      "expectedHooks": "array<string>",
+      "timestamp": "ISO 8601"
+    }
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "errorConditions": [
+    {
+      "code": "HOOK_FILE_MISSING",
+      "message": ".git/hooks/pre-commit not found",
+      "handler": "fail"
+    }
+  ],
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "git-branch",
+      "registrationPath": "cowork://toolforge/skills/hook-validator",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Checks the pre-commit hook chain is complete, ordered, and survived the last installer run."
+}
