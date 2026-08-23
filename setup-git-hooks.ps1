@@ -297,6 +297,11 @@ if [ `$FAIL -ne 0 ]; then
   exit 1
 fi
 
+if [ -f "`$REPO_ROOT/scripts/sync-github-wiki.mjs" ]; then
+  echo -e "\033[36m[Hook]\033[0m Synchronizing Toolforge GitHub Wiki repository..."
+  node "`$REPO_ROOT/scripts/sync-github-wiki.mjs" || echo -e "\033[33m[Hook Warning]\033[0m Wiki sync warning (non-blocking)."
+fi
+
 echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceeding with push."
 exit 0
 "@

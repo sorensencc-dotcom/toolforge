@@ -30,6 +30,8 @@
     "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
     "test:healing": "npx tsx --test modules/healing/*.test.ts",
     "test:watchlist": "node test-watchlist-run.mjs",
+    "wiki:publish": "node scripts/sync-github-wiki.mjs",
+    "wiki:sync": "node scripts/sync-github-wiki.mjs",
     "test:watch": "node --test --watch src/**/*.test.js",
     "preflight": "pwsh -NoProfile -File scripts/preflight.ps1",
     "lint": "eslint src/**/*.js",
