@@ -8,6 +8,8 @@ Local-first platform for tools, daemons, scaffolds, and adapters used across Rew
 | --- | --- | --- | --- |
 | **sync-tools/** | Multi-repo sync, drift detection, automation | `.cjs` or `.ps1` | multiRepoRoadmapSync |
 | **daemons/** | Long-running services, background tasks | `.ps1` script | toolforge-manifest-sync |
+| **kb-sync/** | TRM closed-loop synthesis, context cache, competitor drift monitoring | `.mjs` / `.ts` | watch-competitors-v2.mjs, mcp-memory-server.mjs |
+| **scripts/** | Evaluation runners, closed-loop orchestrators, reporting | `.py` / `.mjs` | run-closed-loop-research-v2.py, whichllm-bfcl-evaluator.py |
 | **adapters/** | External data transformers | `.ts` or `.js` | (reserved for future) |
 | **mcp-servers/** | MCP protocol implementations | `server.ts` or similar | (reserved for future) |
 | **utilities/** | Helper scripts, setup, configuration | `.ps1` or `.sh` | setup-task-scheduler |
@@ -35,6 +37,20 @@ toolforge.ps1 -Run multiRepoRoadmapSync -Config config.json
 toolforge.ps1 -Inspect multiRepoRoadmapSync
 ```
 
+### Run research & model evaluation pipelines
+
+```powershell
+# Run closed-loop research with WhichLLM v2.4.0 dynamic model benchmark sweep
+python scripts/run-closed-loop-research-v2.py
+
+# Run standalone WhichLLM BFCL evaluator (Python or ESM Node)
+python scripts/whichllm-bfcl-evaluator.py
+node scripts/whichllm-bfcl-evaluator.mjs
+
+# Run competitor watchlist drift and Sigil approval integration test
+npm run test:watchlist
+```
+
 ## Tool Metadata
 
 Each tool registers in `manifest.json` with:
@@ -53,4 +69,4 @@ Each tool registers in `manifest.json` with:
 - **INDEX.md** — Auto-generated tool index
 - **CLAUDE_WORKSPACE.json** — VSCode multi-folder workspace config
 
-See subdirectories for tool-specific README files.
+See subdirectories (e.g. [`kb-sync/README.md`](file:///c:/dev/kb-sync/README.md)) for subsystem-specific guides.
