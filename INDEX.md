@@ -1,145 +1,135 @@
-# Toolforge Index
+# OllamaProvider and staging deployment — evidence-gated index
 
-Generated: 2026-06-28 16:35:00
+**Status**: Current readiness unverified; production promotion blocked
+**Date**: 2026-08-23
+**Version**: 1.2
 
-## Sync-Tools (Multi-Repo Automation)
+> This is a navigation and evidence-gating document, not a deployment receipt or approval. Historical reports remain historical. Do not infer current staging or production readiness without dated, independently reproducible evidence.
 
-### multiRepoRoadmapSync [0.1.0] — active
+## Start here
 
-Unified drift detector + roadmap updater for sorensencc-dotcom repos.
+### For current context
 
-- **Entrypoint**: `run.ps1`
-- **Path**: `C:/dev/toolforge/sync-tools/multiRepoRoadmapSync`
-- **Owner**: soren
-- **Tags**: sync, automation, multi-repo
-- **Schedule**: Daily 09:00 UTC
-- **Last Run**: 2026-06-28 09:15:00
-- **Dependencies**: Node.js 20+, PowerShell 7+
+Read `STAGING_NEXT_STEPS.md` for the reviewed status summary, open blockers, and evidence requests.
 
-**Quick start**:
+### For historical verification claims
 
-```powershell
-.\run-tool.ps1 -Run multiRepoRoadmapSync -Config repo-registry.json
-```
+Read `STAGING_VERIFICATION_REPORT.md`. Its 2026-08-01 results are historical claims and require current receipts before reuse.
 
-**Documentation**: See `sync-tools/README.md`
+### For the promotion gate
 
----
+Read `PRODUCTION_PREREQUISITES.md`. It defines 5 prerequisite areas containing 28 prerequisite tasks. Current checkout evidence records 0/28 tasks independently verified.
 
-## Daemons (Background Services)
+## Evidence policy
 
-### toolforgeManifestSync [0.1.0] — active
+- Current status requires a dated command or test receipt, environment identity, owner, and artifact link.
+- Historical reports may describe past results but do not establish present readiness.
+- “Complete,” “deployed,” “operational,” “passing,” and “ready” are not current claims unless backed by current evidence.
+- Timeline and effort estimates are unverified; no committed schedule artifact is present.
+- Production promotion remains blocked until all 28 tasks and the promotion-gate evidence are independently verified.
 
-Background daemon that syncs toolforge manifest index.
+## Documentation map
 
-- **Entrypoint**: `toolforge-manifest-sync.ps1`
-- **Path**: `C:/dev/toolforge/daemons/toolforge-manifest-sync`
-- **Owner**: soren
-- **Tags**: daemon, metadata
-- **Schedule**: Every 15 minutes
-- **Dependencies**: PowerShell 7+
+### Setup and integration
 
-**Status**: Registered with Task Scheduler
+| Document | Purpose |
+|---|---|
+| `QUICKSTART.md` | Historical/local setup instructions; validate before use |
+| `OLLAMA_PROVIDER_SETUP.md` | Provider integration reference |
+| `OLLAMA_DEPLOYMENT_GUIDE.md` | Docker Compose and Kubernetes deployment reference |
 
----
+### Implementation and verification
 
-### toolforgeDocsSync [0.1.0] — active
+| Document | Purpose |
+|---|---|
+| `IMPLEMENTATION_SUMMARY.md` | Implementation description; not a current deployment receipt |
+| `CHECKLIST.md` | Verification checklist |
 
-Background daemon that regenerates tool documentation.
+### Staging and production gate
 
-- **Entrypoint**: `toolforge-docs-sync.ps1`
-- **Path**: `C:/dev/toolforge/daemons/toolforge-docs-sync`
-- **Owner**: soren
-- **Tags**: daemon, documentation
-- **Dependencies**: PowerShell 7+
+| Document | Purpose |
+|---|---|
+| `STAGING_VERIFICATION_REPORT.md` | Historical staging report dated 2026-08-01 |
+| `STAGING_NEXT_STEPS.md` | Current review navigation and evidence requests |
+| `PRODUCTION_PREREQUISITES.md` | Five prerequisite areas and 28-task promotion gate |
 
----
+## Current checkout evidence
 
-### toolforgeIndexSync [0.1.0] — active
+Observed during the 2026-08-23 review:
 
-Background daemon that updates tool index (INDEX.md).
+- Kubernetes configuration is CPU-only; no current GPU readiness evidence was found.
+- Configuration contains placeholder secrets and no verified production secret-store receipt.
+- No `RESEARCH_WORKER_URL`, `TORQUEQUERY_ENDPOINT`, or `KB_SYNC_URL` chain configuration was found in the reviewed manifest.
+- No current live end-to-end or failure-recovery receipts were found.
+- Historical test totals must not be presented as current test results without a fresh receipt.
 
-- **Entrypoint**: `toolforge-index-sync.ps1`
-- **Path**: `C:/dev/toolforge/daemons/toolforge-index-sync`
-- **Owner**: soren
-- **Tags**: daemon, metadata
-- **Dependencies**: PowerShell 7+
+These observations keep all 5 prerequisite areas blocked and leave current readiness unverified.
 
----
+## Historical claims
 
-## Utilities (Setup & Helpers)
+The following are retained only as labeled historical claims from `STAGING_VERIFICATION_REPORT.md` dated 2026-08-01:
 
-### setupTaskScheduler [1.0.0] — active
+- Historical report claimed a Kubernetes staging deployment with Ollama, API, services, storage, and model loading.
+- Historical report claimed 7/7 smoke tests passed.
+- Historical report claimed 261/261 tests passed.
+- Historical report claimed security controls, model reachability, privacy, prompt limits, adversarial audit, and concurrency behavior.
 
-Windows Task Scheduler registration for toolforge daemons and sync-tools.
+No item above is a current receipt, production approval, or present-tense readiness statement.
 
-- **Entrypoint**: `setup-task-scheduler.ps1`
-- **Path**: `C:/dev/toolforge/utilities/setup-task-scheduler`
-- **Owner**: soren
-- **Tags**: setup, scheduling, windows
-- **Dependencies**: PowerShell 7+, Administrator privileges
+## Promotion gate
 
-**Quick start**:
+Production promotion is blocked pending independent evidence for all 28 prerequisite tasks across these 5 areas:
 
-```powershell
-.\utilities\setup-task-scheduler.ps1 -Install
-```
+1. GPU/compute infrastructure — tasks 1.1–1.5
+2. Production secrets provisioning — tasks 2.1–2.5
+3. Production research-worker configuration — tasks 3.1–3.5
+4. End-to-end chain validation — tasks 4.1–4.6
+5. Rollback and failure recovery validation — tasks 5.1–5.7
 
----
+**Total**: 28 tasks
+**Current independently verified**: 0/28
+**Timeline**: Unverified; no committed schedule artifact
 
-## Reserved Categories
+Consult `PRODUCTION_PREREQUISITES.md` for task acceptance criteria and required evidence. A historical report, unchecked checklist, local commit, or document assertion does not satisfy the gate.
 
-The following categories are reserved for future use:
+## Navigation by role
 
-- **adapters/**: Data transformers (Phase 3)
-- **mcp-servers/**: MCP server implementations (Phase 4)
-- **scaffolds/**: Template generators (Phase 3)
-- **prototypes/**: Experimental tools (On-demand)
+### Software developer
 
----
+Start with `QUICKSTART.md` and `OLLAMA_PROVIDER_SETUP.md`; treat setup and implementation statements as references until validated in the current checkout.
 
-## Discovery & Management
+### DevOps and SRE
 
-**Discover tools**:
+Start with `STAGING_NEXT_STEPS.md`, then use `PRODUCTION_PREREQUISITES.md` to collect infrastructure, secrets, configuration, and recovery evidence.
 
-```powershell
-.\run-tool.ps1 -List
-```
+### Tech lead
 
-**Inspect tool**:
+Review `IMPLEMENTATION_SUMMARY.md`, `CHECKLIST.md`, and the 28-task gate. Require current receipts before recording completion.
 
-```powershell
-.\run-tool.ps1 -Inspect toolName
-```
+### Product manager
 
-**Refresh discovery**:
+Use `STAGING_NEXT_STEPS.md` and `PRODUCTION_PREREQUISITES.md` for blockers. Timeline is unverified; do not communicate a delivery date as committed.
 
-```powershell
-.\run-tool.ps1 -Refresh
-```
+## Validation checklist
 
-**Auto-generated**: Tools are discovered by scanning category directories. This index is updated by `toolforgeIndexSync` daemon.
+- [ ] Current staging state independently verified
+- [ ] Historical smoke-test claims rerun with current receipt
+- [ ] Historical test-total claim rerun with current receipt
+- [ ] Security controls independently verified
+- [ ] All 28 prerequisite tasks evidenced
+- [ ] Promotion approval recorded by authorized decision-maker
+- [ ] Timeline supported by a committed schedule artifact
 
----
+## Success criteria
 
-## Total Tools
+### Staging
 
-- **Sync-Tools**: 1
-- **Daemons**: 3
-- **Utilities**: 1
-- **Adapters**: 0
-- **MCP Servers**: 0
-- **Scaffolds**: 0
-- **Prototypes**: 0
+Current staging success is unverified until implementation, tests, security controls, and deployment behavior have current receipts.
 
-**Total**: 5 active tools
+### Production
 
----
+Production promotion remains blocked until the 28 prerequisite tasks, required acceptance criteria, and authorized approval are evidenced.
 
-## See Also
+## Conclusion
 
-- [README.md](README.md) — Overview and quick start
-- [OPERATOR_GUIDE.md](OPERATOR_GUIDE.md) — How to run and schedule tools
-- [TOOL_CREATION_GUIDE.md](TOOL_CREATION_GUIDE.md) — Creating new tools
-- [GOVERNANCE.md](GOVERNANCE.md) — Rules and standards
-- [manifest.json](manifest.json) — Tool metadata (machine-readable)
+The checkout contains OllamaProvider-related implementation and documentation. Current staging and production readiness are unverified. Historical staging claims are preserved above with explicit labels. The promotion timeline is unverified, and the 28-task gate remains open.

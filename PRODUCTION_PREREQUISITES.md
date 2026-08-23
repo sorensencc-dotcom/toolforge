@@ -1,8 +1,10 @@
 # Production Promotion Prerequisites Tracker
 
-**Status**: 🔒 BLOCKED (0/5 prerequisites met)  
-**Estimated Time to Fulfillment**: 2–3 weeks  
-**Last Updated**: 2026-08-01
+**Status**: 🔒 BLOCKED — current checkout has no verified production prerequisite  
+**Estimated Time to Fulfillment**: Unverified estimate; no committed schedule artifact  
+**Last Updated**: 2026-08-23
+
+> Evidence note: this tracker is a gate, not an approval record. A prerequisite may be marked complete only with a dated command/test receipt, environment identity, owner, and artifact link. The 2026-08-01 staging report is historical evidence and has not been independently rerun in this checkout. Enumerated prerequisite tasks total 28.
 
 ---
 
@@ -64,11 +66,11 @@ Production promotion of the OllamaProvider and Toolforge API to the production K
 
 ### Acceptance Criteria
 
-- ✅ GPU nodes healthy and GPU memory available
-- ✅ Ollama pod detects and uses GPU
-- ✅ Latency <500ms for 95th percentile
-- ✅ Throughput ≥10 req/sec sustained
-- ✅ No thermal throttling under load
+- [ ] GPU nodes healthy and GPU memory available
+- [ ] Ollama pod detects and uses GPU
+- [ ] Latency <500ms for 95th percentile
+- [ ] Throughput ≥10 req/sec sustained
+- [ ] No thermal throttling under load
 
 ### Blocking Reason
 
@@ -143,11 +145,11 @@ secrets/toolforge/cowork-gateway-key   # Cowork gateway credentials
 
 ### Acceptance Criteria
 
-- ✅ Secrets encrypted at rest and in transit
-- ✅ Automatic rotation working (tested with dummy secret)
-- ✅ All access logged to audit trail
-- ✅ Emergency revocation time <5 minutes
-- ✅ RBAC: only Toolforge pods can access
+- [ ] Secrets encrypted at rest and in transit
+- [ ] Automatic rotation working (tested with dummy secret)
+- [ ] All access logged to audit trail
+- [ ] Emergency revocation time <5 minutes
+- [ ] RBAC: only Toolforge pods can access
 
 ### Blocking Reason
 
@@ -222,10 +224,10 @@ KB_SYNC_URL=http://localhost:9000
 
 ### Acceptance Criteria
 
-- ✅ Research worker URL configured in production ConfigMap
-- ✅ API pods can resolve and connect to research worker
-- ✅ TRM validation service accessible on expected endpoint
-- ✅ Environment-specific overrides working (prod ≠ staging ≠ dev)
+- [ ] Research worker URL configured in production ConfigMap
+- [ ] API pods can resolve and connect to research worker
+- [ ] TRM validation service accessible on expected endpoint
+- [ ] Environment-specific overrides working (prod ≠ staging ≠ dev)
 
 ### Blocking Reason
 
@@ -318,12 +320,12 @@ Research worker URL required for end-to-end chain validation (Sigil → TRM → 
 
 ### Acceptance Criteria
 
-- ✅ Full chain executes without errors
-- ✅ End-to-end latency <30 seconds
-- ✅ Output deterministic (same input = same output)
-- ✅ Error handling graceful (no crashes)
-- ✅ Load test passes (10 concurrent requests)
-- ✅ QA sign-off obtained
+- [ ] Full chain executes without errors
+- [ ] End-to-end latency <30 seconds
+- [ ] Output deterministic (same input = same output)
+- [ ] Error handling graceful (no crashes)
+- [ ] Load test passes (10 concurrent requests)
+- [ ] QA sign-off obtained
 
 ### Blocking Reason
 
@@ -398,11 +400,11 @@ Chain not validated end-to-end in production environment. Cannot promote without
 
 ### Acceptance Criteria
 
-- ✅ RTO met for all scenarios (≤5 min max)
-- ✅ RPO met for all scenarios (≤10 min max)
-- ✅ All recovery automated (no manual intervention required)
-- ✅ Runbooks created and team trained
-- ✅ Reliability sign-off obtained
+- [ ] RTO met for all scenarios (≤5 min max)
+- [ ] RPO met for all scenarios (≤10 min max)
+- [ ] All recovery automated (no manual intervention required)
+- [ ] Runbooks created and team trained
+- [ ] Reliability sign-off obtained
 
 ### Blocking Reason
 
@@ -420,8 +422,8 @@ Failure recovery not validated. Cannot promote without ensuring production relia
 | 4 | E2E Chain Validation | ⏳ TODO | QA | Week 1 | CRITICAL |
 | 5 | Rollback & Recovery | ⏳ TODO | Reliability | Week 1 | CRITICAL |
 
-**Total Progress**: 0/25 tasks completed (0%)  
-**Critical Path**: 4 weeks (GPU → Secrets → Chain Validation → Recovery Testing in parallel)
+**Total Progress**: 0/28 tasks independently verified (0%)  
+**Critical Path**: Uncommitted estimate; schedule requires owner-approved evidence
 
 ---
 
@@ -439,7 +441,19 @@ Production promotion gate will open only when **all 5 prerequisites + all tasks 
 - [ ] Performance SLA met (latency <500ms, throughput ≥10 req/sec)
 - [ ] Business approval obtained (Product & Engineering leads)
 
-**Gate Status**: 🔒 **BLOCKED** (0/5 prerequisites met)
+**Gate Status**: 🔒 **BLOCKED** (0/5 prerequisites independently verified)
+
+## Current Checkout Evidence (2026-08-23)
+
+| Area | Observed evidence | Gate impact |
+|---|---|---|
+| Compute | k8s-manifests.yaml requests CPU only; no nvidia.com/gpu resources or GPU operator configuration | Prerequisite 1 remains blocked |
+| Secrets | Manifest contains placeholder values and directs production use to an external backend | Prerequisite 2 remains blocked |
+| Chain configuration | Manifest contains no RESEARCH_WORKER_URL, TORQUEQUERY_ENDPOINT, or KB_SYNC_URL entries | Prerequisite 3 remains blocked |
+| E2E/recovery | No current live receipts were found during this review | Prerequisites 4 and 5 remain blocked |
+| Tests | package.json exposes separate test commands; historical totals are not current receipts | Do not claim 261/261 without rerunning and storing output |
+
+Historical report: [STAGING_VERIFICATION_REPORT.md](STAGING_VERIFICATION_REPORT.md). Treat it as an artifact from 2026-08-01, not current production approval.
 
 ---
 
@@ -455,6 +469,8 @@ Production promotion gate will open only when **all 5 prerequisites + all tasks 
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: 2026-08-01  
-**Next Review**: 2026-08-08
+**Document Version**: 1.1  
+**Last Updated**: 2026-08-23
+
+> Evidence note: this tracker is a gate, not an approval record. A prerequisite may be marked complete only with a dated command/test receipt, environment identity, owner, and artifact link. The 2026-08-01 staging report is historical evidence and has not been independently rerun in this checkout. Enumerated prerequisite tasks total 28.  
+**Next Review**: 2026-08-30

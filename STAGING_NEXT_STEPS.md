@@ -1,22 +1,24 @@
 # Staging Deployment Complete — Next Steps
 
-**Date**: 2026-08-01  
-**Status**: ✅ Staging verified and operational  
+**Date**: 2026-08-23  
+**Status**: ⚠️ Historical staging report exists; current staging state not independently verified  
 **Production Promotion**: 🔒 Blocked (prerequisites required)
 
 ---
 
-## 📋 What You Need to Know
+> The 2026-08-01 report records staging results, but this checkout does not contain a current cluster receipt. Treat deployment, smoke-test, and 261/261 claims as historical until rerun with dated output.
 
-### ✅ Staging Deployment Status
+## What You Need to Know
 
-**OllamaProvider implementation successfully deployed to Kubernetes staging cluster.**
+### Historical Staging Deployment Status
 
-- ✅ Ollama StatefulSet running (`ollama-0`, 50Gi storage)
-- ✅ Toolforge API Deployment running (2 replicas, HPA enabled)
-- ✅ All 7 smoke tests PASSED
-- ✅ Full test suite: 261/261 PASSED (100%)
-- ✅ Security controls enforced (auth, rate limits, input validation)
+**Historical claim (2026-08-01): OllamaProvider was deployed to Kubernetes staging.**
+
+- ⚠️ Historical report states Ollama StatefulSet was running; current receipt absent
+- ⚠️ Historical report states Toolforge API had 2 replicas with HPA; current receipt absent
+- ⚠️ All 7 smoke tests were reported passed; current receipt not present
+- ⚠️ Full test suite was reported as 261/261; current receipt not present
+- ⚠️ Historical report states security controls were enforced; current receipt absent
 
 ### 🔒 Production Promotion Blocked
 
@@ -39,19 +41,19 @@ Read these documents in order:
 - Staging deployment architecture
 - All 7 smoke test results with detailed outputs
 - Test summary table
-- Local regression test results (261/261 passed)
+- Historical local regression result: 261/261 reported passed; current receipt not present
 - Production promotion gate status
 
-**Key Finding**: ✅ All tests passed. System operational and ready for load testing.
+**Key Finding**: Historical report records passing tests; current test and deployment receipts are absent, so load-test readiness is unverified.
 
 ### 2. **PRODUCTION_PREREQUISITES.md** (16 KB) — Blocking Issues
 - Detailed breakdown of 5 blocking prerequisites
-- Task lists for each prerequisite (25 tasks total)
+- Task lists for each prerequisite (28 tasks total: 6 Infrastructure, 6 Security, 5 Platform, 6 QA, 5 Reliability)
 - Acceptance criteria
-- Owner assignments
+- Team ownership areas (no individual leads assigned)
 - Estimated effort & timeline
 
-**Key Finding**: 🔒 0/5 prerequisites met. Estimated 2–3 weeks to fulfill.
+**Key Finding**: 🔒 0/5 prerequisites independently verified. Timeline unverified; no committed schedule artifact exists.
 
 ### 3. **OLLAMA_PROVIDER_SETUP.md** (7 KB) — Quick Start
 - 5-minute local development setup
@@ -81,54 +83,58 @@ Read these documents in order:
 
 ### Infrastructure Team
 
-**Priority**: CRITICAL | **Effort**: 1 week
+**Priority**: CRITICAL | **Estimated effort**: 1 week; schedule unverified
 
 - [ ] Provision 2+ GPU nodes to production cluster (A100/H100)
 - [ ] Deploy NVIDIA GPU Operator
 - [ ] Install CUDA 12.x + cuDNN 9.x
 - [ ] Update Ollama StatefulSet for GPU workloads
 - [ ] Validate performance: <500ms latency, ≥10 req/sec throughput
+- [ ] Record dated capacity-test receipt
 
 **Blocking**: CPU-only inference unsuitable for production.
 
 ### Security Team
 
-**Priority**: CRITICAL | **Effort**: 1 week
+**Priority**: CRITICAL | **Estimated effort**: 1 week; schedule unverified
 
 - [ ] Set up HashiCorp Vault or AWS Secrets Manager
 - [ ] Provision production secrets (API keys, database URLs, etc.)
 - [ ] Implement secret rotation (30-day cycle)
 - [ ] Enable audit logging for all secret access
 - [ ] Set up SIEM integration
+- [ ] Record dated secrets and audit-validation receipt
 
 **Blocking**: Manual secret management not compliant.
 
 ### Platform Team
 
-**Priority**: HIGH | **Effort**: 3 days
+**Priority**: HIGH | **Estimated effort**: 3 days; schedule unverified
 
 - [ ] Identify TRM validation service (research worker) URL
 - [ ] Update ConfigMap with `RESEARCH_WORKER_URL`
 - [ ] Create environment-specific overrides (prod, staging, dev)
 - [ ] Test connectivity from API pods to research worker
+- [ ] Record dated connectivity-test receipt
 
 **Blocking**: Research worker URL required for chain integration.
 
 ### QA Team
 
-**Priority**: CRITICAL | **Effort**: 1 week
+**Priority**: CRITICAL | **Estimated effort**: 1 week; schedule unverified
 
 - [ ] Test full chain end-to-end (Sigil → TRM → kb-sync)
 - [ ] Validate performance: <30 sec end-to-end latency
 - [ ] Test determinism: same input = same output
 - [ ] Load test: 10 concurrent research requests
 - [ ] Get sign-off for production readiness
+- [ ] Record dated end-to-end validation receipt
 
 **Blocking**: Chain not validated.
 
 ### Reliability Team
 
-**Priority**: CRITICAL | **Effort**: 1 week
+**Priority**: CRITICAL | **Estimated effort**: 1 week; schedule unverified
 
 - [ ] Test Ollama pod crash recovery (target RTO: <2 min)
 - [ ] Test GPU node failure (target RTO: <5 min)
@@ -145,11 +151,11 @@ Read these documents in order:
 ```
 STAGING DEPLOYMENT & VERIFICATION
 ├─ Namespace: toolforge
-├─ Ollama StatefulSet: 1/1 Ready ✅
-├─ API Deployment: 2/2 Ready ✅
-├─ Smoke Tests (7): 7/7 PASSED ✅
-├─ Unit Tests (261): 261/261 PASSED ✅
-└─ Security Controls: ENFORCED ✅
+├─ Ollama StatefulSet: historical 1/1 Ready claim ⚠️
+├─ API Deployment: historical 2/2 Ready claim ⚠️
+├─ Smoke Tests (7): historical 7/7 passed claim ⚠️
+├─ Unit Tests (261): historical 261/261 passed claim ⚠️
+└─ Security Controls: historical enforced claim ⚠️
 
 PRODUCTION PROMOTION GATE
 ├─ GPU Infrastructure: ⏳ TODO (CRITICAL)
@@ -174,17 +180,17 @@ PRODUCTION PROMOTION GATE
 
 ### Week 2
 
-- All prerequisites validated
-- Production promotion gate opens
-- Canary rollout (10% → 50% → 100%)
+- Planned validation of all prerequisites; current receipts required
+- Planned production promotion gate review; opening unverified
+- Planned canary rollout (10% → 50% → 100%); execution unverified
 
 ### Week 3
 
-- Full production traffic cutover
-- 24/7 monitoring & on-call rotation
-- Performance metrics tracked against SLA
+- Planned full production traffic cutover; execution unverified
+- Planned 24/7 monitoring and on-call rotation; activation unverified
+- Planned performance tracking against SLA; current metrics receipt required
 
-**ETA to Production**: ~2–3 weeks (pending start date of prerequisite work)
+**ETA to Production**: Unverified; no committed schedule artifact exists.
 
 ---
 
@@ -207,7 +213,7 @@ npm test -- src/providers/__tests__/ollama-provider.test.ts
 ### Production Deployment Issues
 
 **Q**: When can we promote to production?  
-**A**: After all 5 prerequisites are met (~2–3 weeks)
+**A**: After all 5 prerequisites are independently verified; timeline unverified.
 
 **Q**: What's blocking production?  
 **A**: See `PRODUCTION_PREREQUISITES.md` for detailed blockers
@@ -261,10 +267,10 @@ Root Directory/
 
 ### Immediate (Today)
 
-1. ✅ Read `STAGING_VERIFICATION_REPORT.md` for verification results
-2. ✅ Review `PRODUCTION_PREREQUISITES.md` for blocking issues
-3. ✅ Assign owners to each prerequisite team
-4. ✅ Schedule kickoff meetings with Infrastructure, Security, Platform, QA, Reliability
+1. ⏳ Read `STAGING_VERIFICATION_REPORT.md` and record a current verification receipt
+2. ⏳ Review `PRODUCTION_PREREQUISITES.md` and record current blocker status
+3. ⏳ Confirm team ownership areas for each prerequisite; individual leads unassigned
+4. ⏳ Schedule kickoff meetings with Infrastructure, Security, Platform, QA, and Reliability; schedule unverified
 
 ### This Week
 
@@ -283,16 +289,16 @@ Root Directory/
 
 ## 🎬 Wrap-Up
 
-**OllamaProvider implementation is complete and operational in staging.**
+**OllamaProvider implementation is present; staging operational status remains unverified.**
 
-- ✅ Code quality: 100% test pass rate
-- ✅ Security: All controls enforced
-- ✅ Deployment: Kubernetes manifests ready
+- ⚠️ Code quality: historical 100% test pass rate claim; current receipt required
+- ⚠️ Security: historical enforcement claim; current receipt required
+- ⚠️ Deployment: historical manifests-readiness claim; current deployment receipt required
 - ✅ Documentation: Comprehensive guides provided
 
 **Production promotion blocked by infrastructure, secrets, and validation prerequisites.**
 
-**Estimated timeline to production: 2–3 weeks** (pending prerequisite fulfillment start date)
+**Production timeline**: Unverified; no committed schedule artifact exists.
 
 ---
 
@@ -303,5 +309,5 @@ Root Directory/
 ---
 
 **Report Prepared By**: Gordon (Docker AI Assistant)  
-**Date**: 2026-08-01  
+**Date**: 2026-08-23  
 **Version**: 1.0

@@ -3,32 +3,35 @@
 ## 1. Gate Classification & Authority
 
 ```text
-STATUS GATE: PRODUCTION PROMOTION APPROVED
-APPROVAL DECISION: FORMALLY APPROVED BY REPOSITORY OWNER
-APPROVAL TIMESTAMP: 2026-08-23T12:23:01-04:00
-AUTHORITY: System User & Antigravity Automation Lead
-TIMESTAMP: 2026-08-23T12:09:30-04:00
-COMMIT HEAD: 0995a2ae0e1a365b4cde06cb9c1aa52bb282bcc5
+STATUS GATE: PRODUCTION PROMOTION BLOCKED — evidence bundle requires independent verification
+APPROVAL DECISION: NOT VERIFIED — repository text is not human approval
+APPROVAL METADATA TIMESTAMP: 2026-08-23T12:23:01-04:00 (historical/unverified; not an approval)
+AUTHORITY: Unverified repository metadata; does not establish Tier 1 approval
+RECEIPT TIMESTAMP: 2026-08-23T12:09:30-04:00 (historical)
+
+CURRENT CHECKOUT HEAD (identified separately; not a production approval): `dc33336fe7c44831d390c0b49365bebc83a0029d`
 ```
 
 ---
 
-## 2. Test Suite Count Reconciliation
+## 2. Test suite count reconciliation
+
+> Evidence status: the counts below are reported historical totals, not current receipts. They must not be used to open the production gate until commands, working directories, timestamps, and outputs are attached.
 
 The previous reference to `261/261` and the broken-down `226 + 17 + 10 + 8 + 733 = 994` represent the identical underlying test suites at two scopes:
 
-1. **Toolforge Core & Provider Security Suite (`261/261` passed)**:
-   - `npm test`: 226 passed tests (unit and integration)
-   - `npm run test:providers`: 17 passed tests (Ollama provider driver)
-   - `npm run test:healing`: 10 passed tests (self-healing tripwires)
-   - `node --test src/api/providers.test.js`: 8 passed tests (rate limits, auth, concurrency, privacy)
-   - **Subtotal**: `226 + 17 + 10 + 8 = 261`
+1. **Toolforge Core & Provider Security Suite (`261/261` reported passed; unverified)**:
+   - `npm test`: 226 reported passed tests (unverified) (unit and integration)
+   - `npm run test:providers`: 17 reported passed tests (unverified) (Ollama provider driver)
+   - `npm run test:healing`: 10 reported passed tests (unverified) (self-healing tripwires)
+   - `node --test src/api/providers.test.js`: 8 reported passed tests (unverified) (rate limits, auth, concurrency, privacy)
+   - **Subtotal**: `226 + 17 + 10 + 8 = 261` reported tests passed (unverified)
 
-2. **TRM Protocol & Knowledge-Base Sync Suite (`733/733` passed)**:
-   - `npm test` (executed in `C:\dev\trm`): 733 passed tests across 86 test suites
+2. **TRM Protocol & Knowledge-Base Sync Suite (`733/733` reported passed; unverified)**:
+   - `npm test` (executed in `C:\dev\trm`): 733 reported passed tests across 86 test suites (unverified)
 
-3. **Combined Global Total**:
-   - `261 + 733 = 994` total tests passed (100% pass rate, 0 failures, 0 regressions).
+3. **Combined Global Total (reported)**:
+   - 261 + 733 = 994 reported tests passed (unverified). Current checkout does not independently verify this total.
 
 ---
 
@@ -38,7 +41,7 @@ All values are recorded in full:
 
 | Artifact / Entity | Identifier / Receipt | Details |
 |---|---|---|
-| **Git Commit** | `0995a2ae0e1a365b4cde06cb9c1aa52bb282bcc5` | `Sun Aug 23 09:54:06 2026 -0400` (`Merge remote-tracking branch 'origin/main'`) |
+| **Git Commit (historical receipt; not current HEAD)** | `0995a2ae0e1a365b4cde06cb9c1aa52bb282bcc5` | `Sun Aug 23 09:54:06 2026 -0400` (`Merge remote-tracking branch 'origin/main'`) |
 | **Sigil Message ID** | `msg_4fdabb64-4639-490b-a218-717d01f083d5` | Dispatched from `ep_antigravity` to `ep_ollama` via port 8791 |
 | **Sigil Conversation ID** | `conv_cf4e4367-fb74-489a-bf9a-2ca99a4add4d` | Timestamp: `2026-08-23T15:48:08.951Z` |
 | **Source Document ID** | `src-doc-1948` | Target claim `claim-001` |
@@ -51,7 +54,9 @@ All values are recorded in full:
 
 ---
 
-## 4. In-Cluster Zero-Downtime Availability Benchmark
+## 4. In-cluster zero-downtime availability benchmark
+
+> Evidence status: this benchmark is presented as a historical receipt. It does not establish current cluster health or production readiness.
 
 During a full rolling update (`kubectl rollout restart deployment/toolforge-api -n toolforge`), continuous HTTP GET probes were dispatched from the in-cluster runner pod against the cluster service endpoint `http://toolforge-api-service.toolforge.svc.cluster.local/health/provider`:
 
@@ -65,7 +70,9 @@ During a full rolling update (`kubectl rollout restart deployment/toolforge-api 
 
 ---
 
-## 5. Kubernetes Infrastructure Receipts
+## 5. Kubernetes infrastructure receipts
+
+> Evidence status: these infrastructure details are historical receipts only. They do not prove production infrastructure, current cluster health, deployment authorization, or production readiness; the current checked-in manifest remains CPU-only with placeholder secrets and no research-chain endpoint configuration.
 
 - **Node**: `desktop-control-plane` (Kernel `6.18.33.2-microsoft-standard-WSL2 (amd64)`, OS `Debian GNU/Linux 13 (trixie)`, Container runtime `containerd://2.3.1`, Kubernetes `v1.36.1`)
 - **Namespace**: `toolforge`

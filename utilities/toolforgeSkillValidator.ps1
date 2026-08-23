@@ -108,7 +108,7 @@ function Add-Finding {
 # A. CANONICAL SKILL INTEGRITY
 # ============================================================================
 
-function Validate-CanonicalSkills {
+function Test-CanonicalSkills {
   Write-Host "🔍 Validating canonical skills..." -ForegroundColor Cyan
 
   if (-not (Test-Path $CANONICAL_SKILLS)) {
@@ -257,7 +257,7 @@ function Validate-CanonicalSkills {
 # B. DISTRIBUTED SYNC INTEGRITY
 # ============================================================================
 
-function Validate-DistributedSync {
+function Test-DistributedSync {
   Write-Host "📦 Validating distributed sync..." -ForegroundColor Cyan
 
   if (-not (Test-Path $DISTRIBUTED_SKILLS)) {
@@ -321,7 +321,7 @@ function Validate-DistributedSync {
 # C. MANIFEST CONSISTENCY
 # ============================================================================
 
-function Validate-ManifestConsistency {
+function Test-ManifestConsistency {
   Write-Host "📋 Validating manifest consistency..." -ForegroundColor Cyan
 
   if (-not (Test-Path $MANIFEST_FILE)) {
@@ -443,7 +443,7 @@ function Validate-ManifestConsistency {
 # D. COWORK REGISTRATION SANITY CHECK
 # ============================================================================
 
-function Validate-CoworkRegistration {
+function Test-CoworkRegistration {
   Write-Host "🔗 Validating Cowork registration..." -ForegroundColor Cyan
 
   if (-not (Test-Path $COWORK_REGISTRY)) {
@@ -457,8 +457,9 @@ function Validate-CoworkRegistration {
 
     # Parse registry (simple line-by-line lookup for skill IDs)
     foreach ($line in $coworkContent -split "`n") {
-      if ($line -match '\|\s+\d{4}-\d{2}-\d{2}\s+\|\s+([^\|]+)\s+\|') {
-        $skillId = $matches[1].Trim()
+      $registryMatch = [regex]::Match($line, '\|\s+\d{4}-\d{2}-\d{2}\s+\|\s+([^\|]+)\s+\|')
+      if ($registryMatch.Success) {
+        $skillId = $registryMatch.Groups[1].Value.Trim()
         $registeredIds += $skillId
       }
     }
@@ -484,7 +485,7 @@ function Validate-CoworkRegistration {
 # E. RUNTIME DISCOVERY CONSISTENCY
 # ============================================================================
 
-function Validate-RuntimeDiscovery {
+function Test-RuntimeDiscovery {
   Write-Host "⚙️  Validating runtime discovery..." -ForegroundColor Cyan
 
   # Simulate runtime discovery by checking skills directory
@@ -617,7 +618,7 @@ function Build-DependencyGraph {
   return $graph
 }
 
-function Detect-Cycles {
+function Find-Cycles {
   param([hashtable]$Graph)
 
   $visited = @{}
@@ -671,7 +672,7 @@ function Detect-Cycles {
   return $cycles
 }
 
-function Compute-DependencyDepth {
+function Get-DependencyDepth {
   param([hashtable]$Graph)
 
   $depths = @{}
@@ -705,7 +706,7 @@ function Compute-DependencyDepth {
   return , $depths
 }
 
-function Validate-DependencyConsistency {
+function Test-DependencyConsistency {
   param([hashtable]$Graph)
 
   Write-Host "🔍 Validating dependency consistency..." -ForegroundColor Cyan
@@ -775,7 +776,7 @@ function Validate-DependencyConsistency {
 # F. AUDIT LOG VALIDATION
 # ============================================================================
 
-function Validate-AuditLogs {
+function Test-AuditLogs {
   Write-Host "📝 Validating audit logs..." -ForegroundColor Cyan
 
   if (-not (Test-Path $RUNTIME_LOG)) {
@@ -787,10 +788,10 @@ function Validate-AuditLogs {
     $logContent = Get-Content $RUNTIME_LOG -Raw
     $skillIdPattern = "Skill: ([a-z0-9-]+)"
 
-    $matches = [regex]::Matches($logContent, $skillIdPattern)
+    $auditMatches = [regex]::Matches($logContent, $skillIdPattern)
     $loggedSkills = @{}
 
-    foreach ($match in $matches) {
+    foreach ($match in $auditMatches) {
       $skillId = $match.Groups[1].Value
       if (-not $loggedSkills[$skillId]) {
         $loggedSkills[$skillId] = 0
@@ -798,7 +799,7 @@ function Validate-AuditLogs {
       $loggedSkills[$skillId] += 1
     }
 
-    Log "Found $($matches.Count) skill executions in audit log"
+    Log "Found $($auditMatches.Count) skill executions in audit log"
 
     foreach ($skillId in $loggedSkills.Keys) {
       if ($validation.skills[$skillId]) {
@@ -925,7 +926,7 @@ function Write-DependencyGraphReport {
 # REPORT GENERATION
 # ============================================================================
 
-function Generate-Report {
+function New-ValidationReport {
   $report = @"
 # Toolforge Skill Validation Report
 
@@ -945,10 +946,10 @@ function Generate-Report {
 | Runtime | $($validation.runtime.errors) | $($validation.runtime.warnings) | $($validation.runtime.passed) | $(if ($validation.runtime.errors -eq 0) { "✅" } else { "❌" }) |
 | Audit | $($validation.audit.errors) | $($validation.audit.warnings) | $($validation.audit.passed) | ℹ️ |
 
-**Total Errors**: $($validation.canonical.errors + $validation.distributed.errors + $validation.manifest.errors + $validation.dependencies.errors + $validation.runtime.errors)
+**Total Errors**: $(Get-TotalValidationErrors -Validation $validation)
 **Total Warnings**: $($validation.canonical.warnings + $validation.distributed.warnings + $validation.manifest.warnings + $validation.cowork.warnings + $validation.dependencies.warnings + $validation.runtime.warnings)
 
-**Overall Status**: $(if (($validation.canonical.errors + $validation.distributed.errors + $validation.manifest.errors + $validation.dependencies.errors + $validation.runtime.errors) -eq 0) { "✅ PASS" } else { "❌ FAIL" })
+**Overall Status**: $(if ((Get-TotalValidationErrors -Validation $validation) -eq 0) { "✅ PASS" } else { "❌ FAIL" })
 
 ---
 
@@ -1064,30 +1065,43 @@ function Generate-Report {
 }
 
 # ============================================================================
+function Get-TotalValidationErrors {
+  param([hashtable]$Validation)
+
+  return (
+    $Validation.canonical.errors +
+    $Validation.distributed.errors +
+    $Validation.manifest.errors +
+    $Validation.cowork.errors +
+    $Validation.dependencies.errors +
+    $Validation.runtime.errors +
+    $Validation.audit.errors
+  )
+}
 # MAIN EXECUTION
 # ============================================================================
 
 Write-Host "🔍 Toolforge Skill Validator Refinement v1.2.0" -ForegroundColor Cyan
 Write-Host ""
 
-Validate-CanonicalSkills
-Validate-DistributedSync
-Validate-ManifestConsistency
-Validate-CoworkRegistration
+Test-CanonicalSkills
+Test-DistributedSync
+Test-ManifestConsistency
+Test-CoworkRegistration
 
 # Build and validate dependency graph
 $validation.graph = Build-DependencyGraph
-Validate-DependencyConsistency $validation.graph
+Test-DependencyConsistency $validation.graph
 
 # Detect cycles and compute depth
-$cycles = Detect-Cycles $validation.graph
+$cycles = Find-Cycles $validation.graph
 if ($cycles.Count -gt 0) {
   foreach ($cycle in $cycles) {
     Add-Finding "dependencies" "system" "error" "Cycle detected: $($cycle -join ' → ')"
   }
 }
 
-$depths = Compute-DependencyDepth $validation.graph
+$depths = Get-DependencyDepth $validation.graph
 
 # Check for orphans
 foreach ($skillId in $validation.graph.adjacency.Keys) {
@@ -1101,10 +1115,10 @@ if ($validation.dependencies.errors -eq 0) {
   $validation.dependencies.passed = 1
 }
 
-Validate-RuntimeDiscovery
-Validate-AuditLogs
+Test-RuntimeDiscovery
+Test-AuditLogs
 
-Generate-Report
+New-ValidationReport
 
 # Summary
 Write-Host ""
@@ -1154,7 +1168,7 @@ if ($genErrors -eq 0) {
   Write-Host "⚠️ $genErrors generator(s) failed — check logs above." -ForegroundColor Yellow
 }
 
-$totalErrors = $validation.canonical.errors + $validation.distributed.errors + $validation.manifest.errors + $validation.dependencies.errors + $validation.runtime.errors
+$totalErrors = Get-TotalValidationErrors -Validation $validation
 
 if ($totalErrors -eq 0) {
   Write-Host "✅ Validation PASSED" -ForegroundColor Green
