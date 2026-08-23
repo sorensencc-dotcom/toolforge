@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.49.0
+Date: 2026-08-23
+
+### Changes
+- dc33336 - feat(wiki): add sync-github-wiki publisher script and wire into pre-push hook (Chris)
+- a17f57c - docs: update root README and research wiki notes (Chris)
+
 ## Version 2.48.0
 Date: 2026-08-23
 
