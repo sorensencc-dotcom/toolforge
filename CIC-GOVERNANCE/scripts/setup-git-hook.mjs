@@ -41,8 +41,8 @@ fs.mkdirSync(gitHooksDir, { recursive: true });
 const hookContent = `#!/usr/bin/env bash
 # Installed by npm run gov:setup-hook
 # Chains governance validation with the retro/roadmap/CI gate installed
-# separately by setup-git-hooks.ps1. Install order: run setup-git-hooks.ps1
-# first (writes pre-commit.ps1), then this installer last (writes this shim).
+# separately by setup-git-hooks.ps1. Order-independent: setup-git-hooks.ps1
+# writes this same chained shim, so running either installer last is safe.
 if [ -f "CIC-GOVERNANCE/scripts/governance-validate-precommit.sh" ]; then
   bash CIC-GOVERNANCE/scripts/governance-validate-precommit.sh || exit 1
 elif [ -f "scripts/governance-validate-precommit.sh" ]; then
