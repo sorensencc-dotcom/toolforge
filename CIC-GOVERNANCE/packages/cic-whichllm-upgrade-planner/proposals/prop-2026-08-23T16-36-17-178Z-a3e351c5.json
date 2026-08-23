@@ -1,0 +1,19 @@
+{
+  "proposalId": "prop-2026-08-23T16-36-17-178Z-a3e351c5",
+  "model": "qwen2.5-7b-instruct",
+  "currentQuant": "q4_k_m",
+  "recommendedQuant": "q6_k",
+  "reason": "+12% benchmark score with identical VRAM fit",
+  "provenance": "trusted",
+  "status": "approved",
+  "action": "upgrade_available",
+  "createdAt": "2026-08-23T16:36:17.179Z",
+  "updatedAt": "2026-08-23T16:38:38.535Z",
+  "decisionLog": {
+    "decision": "approved",
+    "actor": "operator:sorensen",
+    "timestamp": "2026-08-23T16:38:38.535Z",
+    "notes": "Approved for production rollout"
+  },
+  "lineageHash": "f59c00b3d36829baf013b3f306a8c07b0d1ab9a5f958a000a69964d91bc0a9d1"
+}

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cic:whichllm-ingestion-schema:1.0.0",
+  "title": "CIC WHICHLLM Ingestion Schema",
+  "description": "CIC Spec v2.4.0 / Amendment §2/S3-A1 Ingestion Schema for WhichLLM Adapter records.",
+  "type": "object",
+  "required": [
+    "$schemaVersion",
+    "cicSpecVersion",
+    "amendmentRef",
+    "harvesterId",
+    "tenantId",
+    "queryId",
+    "resultId",
+    "prompt",
+    "model",
+    "response",
+    "latencyMs",
+    "ingestionTimestamp",
+    "lineageHash",
+    "governance"
+  ],
+  "properties": {
+    "$schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "cicSpecVersion": {
+      "type": "string",
+      "const": "2.4.0"
+    },
+    "amendmentRef": {
+      "type": "string",
+      "const": "§2/S3-A1"
+    },
+    "harvesterId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tenantId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "queryId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resultId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "modelHints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "response": {
+      "type": "string"
+    },
+    "latencyMs": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "ingestionTimestamp": {
+      "type": "string"
+    },
+    "lineageHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "governance": {
+      "$ref": "#/$defs/GovernanceAttestation"
+    },
+    "retryCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "meta": {
+      "$ref": "#/$defs/CallerMeta"
+    }
+  },
+  "$defs": {
+    "GovernanceAttestation": {
+      "type": "object",
+      "required": [
+        "attestationId",
+        "harvesterId",
+        "specVersion",
+        "amendmentRef",
+        "status",
+        "checksRun",
+        "attestedAt"
+      ],
+      "properties": {
+        "attestationId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "harvesterId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "specVersion": {
+          "type": "string",
+          "const": "2.4.0"
+        },
+        "amendmentRef": {
+          "type": "string",
+          "const": "§2/S3-A1"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "warning"
+          ]
+        },
+        "checksRun": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GovernanceCheck"
+          }
+        },
+        "attestedAt": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "GovernanceCheck": {
+      "type": "object",
+      "required": [
+        "checkId",
+        "name",
+        "result"
+      ],
+      "properties": {
+        "checkId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "warn",
+            "skip"
+          ]
+        },
+        "detail": {
+          "type": "string"
+        }
+      }
+    },
+    "CallerMeta": {
+      "type": "object",
+      "properties": {
+        "environment": {
+          "type": "string"
+        },
+        "correlationId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "callerVersion": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

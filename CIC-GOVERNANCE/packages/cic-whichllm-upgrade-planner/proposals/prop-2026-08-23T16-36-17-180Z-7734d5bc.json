@@ -1,0 +1,19 @@
+{
+  "proposalId": "prop-2026-08-23T16-36-17-180Z-7734d5bc",
+  "model": "llama-3.1-8b-instruct",
+  "currentQuant": "q4_k_m",
+  "recommendedQuant": "q5_k_m",
+  "reason": "Improved reasoning perplexity at minimal compute overhead",
+  "provenance": "trusted",
+  "status": "approved",
+  "action": "upgrade_available",
+  "createdAt": "2026-08-23T16:36:17.180Z",
+  "updatedAt": "2026-08-23T16:39:29.018Z",
+  "decisionLog": {
+    "decision": "approved",
+    "actor": "operator:sorensen",
+    "timestamp": "2026-08-23T16:39:29.018Z",
+    "notes": "Approved for production rollout"
+  },
+  "lineageHash": "b8e9a6c66d3a8c10ae604eb85d22a19faaaec53920fa82a73c4d01c15dbb9733"
+}

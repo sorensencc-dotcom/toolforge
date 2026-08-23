@@ -1,0 +1,13 @@
+{
+  "id": "TC-08",
+  "title": "Isolation and idempotency",
+  "steps": [
+    "Run extractor in isolated sandbox",
+    "Re-run with identical inputs"
+  ],
+  "expected": [
+    "Outputs identical",
+    "No external state read",
+    "No nondeterministic calls"
+  ]
+}

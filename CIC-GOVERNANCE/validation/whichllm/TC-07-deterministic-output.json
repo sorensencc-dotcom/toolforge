@@ -1,0 +1,12 @@
+{
+  "id": "TC-07",
+  "title": "Deterministic output stability",
+  "steps": [
+    "Run extractor 10 times",
+    "Compare artifacts"
+  ],
+  "expected": [
+    "All artifacts identical",
+    "hash_chain_self stable"
+  ]
+}

@@ -35,7 +35,13 @@
     "pre-flight": "npm run lint && npm test && npm run test:vision && npm run test:scheduler && npm run test:healing && npm run index:validate",
     "index:validate": "pwsh -NoProfile -File scripts/validate-codebase-index.ps1",
     "stress:gate04": "node src/stress-tests/gate04-fairness.js",
-    "dev": "npm run api:dev"
+    "dev": "npm run api:dev",
+    "sweep:whichllm": "npm --prefix CIC-GOVERNANCE run sweep:whichllm",
+    "decide:whichllm": "npm --prefix CIC-GOVERNANCE run decide:whichllm",
+    "install:whichllm": "npm --prefix CIC-GOVERNANCE run install:whichllm",
+    "test:whichllm": "npm --prefix CIC-GOVERNANCE run test:whichllm",
+    "simulate:whichllm": "npm --prefix CIC-GOVERNANCE run simulate:whichllm",
+    "plan:whichllm": "npm --prefix CIC-GOVERNANCE run plan:whichllm"
   },
   "keywords": [
     "toolforge",
