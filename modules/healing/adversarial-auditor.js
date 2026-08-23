@@ -37,7 +37,8 @@ Respond ONLY with valid JSON:
   "targetedFixRecipe": "string"
 }`;
 
-  const response = await provider.generate("adversarial-auditor", auditPrompt);
+  const modelName = packet.model || process.env.AUDIT_MODEL || 'adversarial-auditor';
+  const response = await provider.generate(modelName, auditPrompt);
   
   let parsed = null;
   if (typeof response === 'string') {

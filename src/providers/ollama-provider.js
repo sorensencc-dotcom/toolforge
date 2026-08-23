@@ -10,7 +10,9 @@ export class OllamaProvider {
       config.baseUrl ||
       process.env.OLLAMA_BASE_URL ||
       'http://host.docker.internal:11434/v1';
-    this.timeout = config.timeout || 30000;
+    this.timeout =
+      config.timeout ||
+      (process.env.OLLAMA_TIMEOUT ? parseInt(process.env.OLLAMA_TIMEOUT, 10) : 30000);
   }
 
   async generate(modelName, prompt) {

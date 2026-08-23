@@ -60,8 +60,9 @@ function makeMockDb(handlers = {}) {
 
 async function withServer(mockDb, fn) {
   const app = createApp(mockDb);
-  const server = app.listen(0);
-  await new Promise((resolve) => server.once('listening', resolve));
+  const server = await new Promise((resolve) => {
+    const s = app.listen(0, '127.0.0.1', () => resolve(s));
+  });
   const { port } = server.address();
   const base = `http://127.0.0.1:${port}`;
   try {

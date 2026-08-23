@@ -19,7 +19,8 @@ metadata:
 data:
   # Ollama endpoint for internal cluster communication
   OLLAMA_BASE_URL: "http://ollama-service.toolforge.svc.cluster.local:11434/v1"
-  OLLAMA_TIMEOUT: "30000"
+  OLLAMA_TIMEOUT: "120000"
+  AUDIT_MODEL: "llama3.2"
   
   # API configuration
   PORT: "3000"
@@ -174,7 +175,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: api
-        image: toolforge-api:latest
+        image: toolforge-api:v1.0.0
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
@@ -192,6 +193,11 @@ spec:
             configMapKeyRef:
               name: toolforge-config
               key: OLLAMA_TIMEOUT
+        - name: AUDIT_MODEL
+          valueFrom:
+            configMapKeyRef:
+              name: toolforge-config
+              key: AUDIT_MODEL
         - name: PORT
           valueFrom:
             configMapKeyRef:
@@ -250,7 +256,7 @@ spec:
           failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /ready
+            path: /health
             port: http
           initialDelaySeconds: 15
           periodSeconds: 5
@@ -318,11 +324,11 @@ metadata:
 rules:
 - apiGroups: [""]
   resources: ["configmaps"]
-  names: ["toolforge-config"]
+  resourceNames: ["toolforge-config"]
   verbs: ["get"]
 - apiGroups: [""]
   resources: ["secrets"]
-  names: ["toolforge-secrets"]
+  resourceNames: ["toolforge-secrets"]
   verbs: ["get"]
 
 ---

@@ -54,7 +54,8 @@ Respond ONLY with valid JSON:
   "targetedFixRecipe": "string"
 }`;
 
-  const response = await localProvider.generate("adversarial-auditor", auditPrompt);
+  const modelName = (packet as any).model || process.env.AUDIT_MODEL || 'adversarial-auditor';
+  const response = await localProvider.generate(modelName, auditPrompt);
   
   let parsed: any = null;
   if (typeof response === 'string') {
