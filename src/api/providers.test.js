@@ -120,4 +120,75 @@ test('Providers API Router' + ' - Security & Conformance', async (t) => {
       assert.ok(body.verdict.blockerAnalysis.includes('malformed'));
     });
   });
+
+  await t.test('Rate limiting enforces 429 when threshold exceeded', async () => {
+    const strictLimiter = (req, res, next) => {
+      // Mock limiter that permits 2 requests then throws 429
+      if (!req.app.locals.counter) req.app.locals.counter = 0;
+      req.app.locals.counter += 1;
+      if (req.app.locals.counter > 2) {
+        res.set('Retry-After', '60');
+        return res.status(429).json({ error: 'Too many requests' });
+      }
+      next();
+    };
+
+    const mockProvider = { generate: async () => 'OK' };
+    await withServer(mockDb, { provider: mockProvider, limiter: strictLimiter }, async (base) => {
+      const res1 = await fetch(`${base}/api/generate`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({ model: 'llama3.2', prompt: 'test 1' }),
+      });
+      assert.strictEqual(res1.status, 200);
+
+      const res2 = await fetch(`${base}/api/generate`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({ model: 'llama3.2', prompt: 'test 2' }),
+      });
+      assert.strictEqual(res2.status, 200);
+
+      const res3 = await fetch(`${base}/api/generate`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({ model: 'llama3.2', prompt: 'test 3' }),
+      });
+      assert.strictEqual(res3.status, 429);
+      assert.strictEqual(res3.headers.get('retry-after'), '60');
+      const body = await res3.json();
+      assert.strictEqual(body.error, 'Too many requests');
+    });
+  });
+
+  await t.test('Concurrency guard rejects requests exceeding MAX_CONCURRENT_CALLS with 503', async () => {
+    let unblockCalls;
+    const slowProvider = {
+      generate: () => new Promise((resolve) => {
+        // Hold execution until all 6 are dispatched
+        const timer = setTimeout(() => resolve('Finished'), 500);
+        unblockCalls = () => {
+          clearTimeout(timer);
+          resolve('Finished');
+        };
+      }),
+    };
+
+    await withServer(mockDb, { provider: slowProvider }, async (base) => {
+      const makeCall = () => fetch(`${base}/api/generate`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({ model: 'llama3.2', prompt: 'parallel' }),
+      });
+
+      // Dispatch 6 calls simultaneously (limit is 5)
+      const promises = [makeCall(), makeCall(), makeCall(), makeCall(), makeCall(), makeCall()];
+      const results = await Promise.all(promises);
+      const statuses = results.map(r => r.status);
+
+      // At least 1 request must be rejected with 503 capacity saturated
+      assert.ok(statuses.includes(503), 'Must reject requests exceeding concurrency cap with 503');
+      if (unblockCalls) unblockCalls();
+    });
+  });
 });
