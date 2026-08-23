@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.45.0
+Date: 2026-08-23
+
+### Changes
+- 0836c01 - feat(providers): promote ollama provider and complete production promotion audit (Chris)
+- 0995a2a - Merge remote-tracking branch 'origin/main' (Chris Sorensen)
+- deb737b - fix(governance): make pre-commit hook shim order-independent, correct memory drift (Chris Sorensen)
+
 ## Version 2.44.0
 Date: 2026-08-23
 
