@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.48.0
+Date: 2026-08-23
+
+### Changes
+- 03094f5 - feat(evaluator): add WhichLLM v2.4.0 and test:watchlist pipeline (Chris)
+- 138688b - feat(kb-sync): integrate Stage 0 competitor drift monitoring in nightly runner (Chris)
+- ae5bce4 - chore(threshold): commit accumulated threshold artifact snapshots v046-v105 (Chris)
+
 ## Version 2.47.0
 Date: 2026-08-23
 
