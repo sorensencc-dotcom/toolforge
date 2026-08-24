@@ -122,6 +122,7 @@ All documentation, architecture specs, pull request descriptions, and agent outp
 9. **Use descriptive link anchor text**, never generic labels (`here`, `link`).
 10. **Include serial Oxford commas** in lists.
 11. **Use sequential numbering** for ordered steps.
+12. **Mandatory Cathryn Lavery diagram-design standard**: All architecture diagrams, flowcharts, and wiki visual specifications MUST strictly follow Cathryn Lavery's `diagram-design` standard (`https://github.com/cathrynlavery/diagram-design`). Each diagram must be created as a standalone HTML+SVG file (`<name>.html`) using the canonical warm palette (`#f2ece2` paper, `#2c2420` ink, `#5c5349` muted, `#c4501a` terracotta accent, `Playfair Display` serif title, `Barlow Condensed` sans, `Geist Mono` badges), rendered to a PNG asset (`<name>.png`), embedded in markdown as `![Title](<name>.png)`, and enclose raw Mermaid source inside `<details><summary>Mermaid source...</summary></details>`.
 
 Local exemptions must use audit-trail directives: `<!-- heuristics-disable <rule> author="..." reason="..." until="YYYY-MM-DD" -->`.
 <!-- TOOLFORGE-WRITING-DISCIPLINE-END -->
