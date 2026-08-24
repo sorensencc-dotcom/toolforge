@@ -20,6 +20,9 @@
 .PARAMETER Verbose
   Show detailed validation logs
 
+.PARAMETER SkipGenerators
+  Skip Phase 1.4-1.7 generators after validation and report generation.
+
 .EXAMPLE
   ./toolforgeSkillValidator.ps1
   ./toolforgeSkillValidator.ps1 -Verbose
@@ -27,7 +30,8 @@
 
 param(
   [string]$OutputPath = "C:\dev\skills\SKILLPACK-VALIDATION.md",
-  [switch]$Verbose
+  [switch]$Verbose,
+  [switch]$SkipGenerators
 )
 
 if ($env:TOOLFORGE_VALIDATOR_RUNNING) {
@@ -1142,6 +1146,9 @@ Write-Host ""
 # PHASE 1.4–1.7 INTEGRATION
 # ============================================================================
 
+if ($SkipGenerators) {
+  Write-Host "Skipping Phase 1.4-1.7 generators." -ForegroundColor Yellow
+} else {
 Write-Host ""
 Write-Host "🔄 Running Phase 1.4–1.7 generators..." -ForegroundColor Cyan
 
@@ -1173,6 +1180,7 @@ if ($genErrors -eq 0) {
 } else {
   Write-Host ""
   Write-Host "⚠️ $genErrors generator(s) failed — check logs above." -ForegroundColor Yellow
+}
 }
 
 $totalErrors = Get-TotalValidationErrors -Validation $validation

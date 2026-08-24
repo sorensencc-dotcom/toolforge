@@ -38,3 +38,15 @@ if (Test-Path $outputPath) {
   throw 'WhatIf must not create a validation report'
 }
 Write-Output 'PASS: New-ValidationReport -WhatIf does not write a report'
+
+$env:TOOLFORGE_VALIDATOR_RUNNING = $null
+$validatorPath = Join-Path $PSScriptRoot '..\utilities\toolforgeSkillValidator.ps1'
+$validatorPath = (Resolve-Path -LiteralPath $validatorPath).Path
+$skipGeneratorsReport = Join-Path ([IO.Path]::GetTempPath()) 'toolforge-validation-skip-generators-report.md'
+Remove-Item -LiteralPath $skipGeneratorsReport -Force -ErrorAction SilentlyContinue
+$skipGeneratorsOutput = & pwsh -NoProfile -File $validatorPath -SkipGenerators -OutputPath $skipGeneratorsReport 2>&1 | Out-String
+if ($LASTEXITCODE -notin @(0, 1)) { throw "SkipGenerators validation failed unexpectedly with exit code $LASTEXITCODE" }
+if (-not (Test-Path -LiteralPath $skipGeneratorsReport)) { throw 'SkipGenerators must still produce the requested validation report' }
+if ($skipGeneratorsOutput -match 'Running Phase 1\.4|All generators completed successfully|generator\(s\) failed') { throw 'SkipGenerators must not invoke or report Phase 1.4–1.7 generators' }
+Remove-Item -LiteralPath $skipGeneratorsReport -Force
+Write-Output 'PASS: -SkipGenerators skips generators and writes requested report'
