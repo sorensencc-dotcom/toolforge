@@ -27,7 +27,7 @@ function copyRecursive(src, dest) {
       if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === '.tmp.driveupload') continue;
       fs.mkdirSync(destPath, { recursive: true });
       copied += copyRecursive(srcPath, destPath);
-    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+    } else if (entry.isFile() && /\.(md|png|svg|jpg|jpeg|gif|mermaid)$/i.test(entry.name)) {
       fs.mkdirSync(path.dirname(destPath), { recursive: true });
       fs.copyFileSync(srcPath, destPath);
       copied += 1;
@@ -50,22 +50,22 @@ function generateSidebar(wikiDir) {
 - [[Production Prerequisites|PRODUCTION_PREREQUISITES]]
 - [[Ollama Deployment Guide|OLLAMA_DEPLOYMENT_GUIDE]]
 - [[Ollama Provider Setup|OLLAMA_PROVIDER_SETUP]]
-- [[Rollback Runbook|docs/ROLLBACK_RUNBOOK]]
+- [[Rollback Runbook|ROLLBACK_RUNBOOK]]
 
 #### Model Evaluation & WhichLLM
-- [[WhichLLM Model Selection Evaluator|wiki/research/whichllm-model-selection-evaluator]]
+- [[WhichLLM Model Selection Evaluator|whichllm-model-selection-evaluator]]
 - [[Research Gaps Registry|trm-research-gaps]]
 
 #### TRM & Competitor Monitoring
-- [[Competitor Watchlist Drift Engine|wiki/research/competitor-watchlist-drift-engine]]
-- [[Historical Revocation Verification|wiki/research/historical-revocation-verification]]
-- [[Mobile WebSocket Heartbeats|wiki/research/mobile-websocket-heartbeats]]
+- [[Competitor Watchlist Drift Engine|competitor-watchlist-drift-engine]]
+- [[Historical Revocation Verification|historical-revocation-verification]]
+- [[Mobile WebSocket Heartbeats|mobile-websocket-heartbeats]]
 
 #### Architecture & Subsystems
-- [[Knowledge Base Sync (kb-sync)|kb-sync/README]]
-- [[KB Sync DAG Structure|docs/KB_SYNC_DAG]]
-- [[Documentation Catalog|docs/DOCS_INDEX]]
-- [[Audit Log|wiki/Log]]
+- [[Knowledge Base Sync (kb-sync)|kb-sync-readme]]
+- [[KB Sync DAG Structure|KB_SYNC_DAG]]
+- [[Documentation Catalog|DOCS_INDEX]]
+- [[Audit Log|Log]]
 `;
 
   fs.writeFileSync(path.join(wikiDir, '_Sidebar.md'), sidebar, 'utf8');
@@ -121,6 +121,26 @@ async function main() {
     const src = path.join(root, rf);
     if (fs.existsSync(src)) {
       fs.copyFileSync(src, path.join(targetWikiDir, rf));
+    }
+  }
+
+  // Copy specific pages to root of Wiki repo for GitHub Wiki routing
+  const rootPageMappings = [
+    { src: 'wiki/research/whichllm-model-selection-evaluator.md', dest: 'whichllm-model-selection-evaluator.md' },
+    { src: 'wiki/research/competitor-watchlist-drift-engine.md', dest: 'competitor-watchlist-drift-engine.md' },
+    { src: 'wiki/research/historical-revocation-verification.md', dest: 'historical-revocation-verification.md' },
+    { src: 'wiki/research/mobile-websocket-heartbeats.md', dest: 'mobile-websocket-heartbeats.md' },
+    { src: 'docs/ROLLBACK_RUNBOOK.md', dest: 'ROLLBACK_RUNBOOK.md' },
+    { src: 'docs/KB_SYNC_DAG.md', dest: 'KB_SYNC_DAG.md' },
+    { src: 'docs/DOCS_INDEX.md', dest: 'DOCS_INDEX.md' },
+    { src: 'kb-sync/README.md', dest: 'kb-sync-readme.md' },
+    { src: 'wiki/Log.md', dest: 'Log.md' },
+  ];
+
+  for (const map of rootPageMappings) {
+    const src = path.join(root, map.src);
+    if (fs.existsSync(src)) {
+      fs.copyFileSync(src, path.join(targetWikiDir, map.dest));
     }
   }
 
