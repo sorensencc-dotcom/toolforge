@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.50.0
+Date: 2026-08-24
+
+### Changes
+- 5b86425 - chore(pilot): update materialized pilot staging records (Chris)
+- b55ccbb - test(auditor): add topic coverage auditor test suite (Chris)
+- 4c44e7c - feat(pilot): add Willow Run B-24 evidence pipeline pilot (Chris)
+- 76c26a0 - fix(toolforge): isolate validator generators (Chris)
+- 33d3ab1 - fix(toolforge): make report generation safe (Chris)
+- 365dff5 - fix(toolforge): count all validation errors (Chris)
+
 ## Version 2.49.0
 Date: 2026-08-23
 
