@@ -1,0 +1,24 @@
+{
+  "specVersion": "research.task.v1",
+  "taskId": "TASK-CIC-GAP-108",
+  "idempotencyKey": "cic-wr-gap-contract-108",
+  "sourceTargets": [
+    {
+      "sourceId": "src-wpb-report-1942",
+      "sourceRevision": "sha256:3881dc5969d508c37512170fbd7683c3e5f821e786cb7faec961598c6946161f",
+      "span": {
+        "start": 750,
+        "end": 904
+      }
+    }
+  ],
+  "exactQuestion": "What official War Department contract number governed the Willow Run tooling schedule submissions?",
+  "subject": "War Department / Ford Motor Company Contract",
+  "evidenceType": "fact",
+  "outputContract": "candidate.fact.v1",
+  "approvalRequired": true,
+  "provenanceGap": {
+    "triggeredByFactKey": "fact-cic-wr-gap-production_volume_discrepancy-104",
+    "gapType": "contract_revision"
+  }
+}

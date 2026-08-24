@@ -1,0 +1,24 @@
+{
+  "specVersion": "research.task.v1",
+  "taskId": "TASK-CIC-GAP-103",
+  "idempotencyKey": "cic-wr-gap-vendor-103",
+  "sourceTargets": [
+    {
+      "sourceId": "src-wpb-report-1942",
+      "sourceRevision": "sha256:3881dc5969d508c37512170fbd7683c3e5f821e786cb7faec961598c6946161f",
+      "span": {
+        "start": 750,
+        "end": 904
+      }
+    }
+  ],
+  "exactQuestion": "Which specific machine tool vendor supplied hydraulic stamping presses for Willow Run wing die fabrication?",
+  "subject": "E. W. Bliss Company / Machine Tooling Vendor",
+  "evidenceType": "fact",
+  "outputContract": "candidate.fact.v1",
+  "approvalRequired": true,
+  "provenanceGap": {
+    "triggeredByFactKey": "fact-cic-wr-batch-toolmaker-allocation-194105",
+    "gapType": "vendor_identification"
+  }
+}

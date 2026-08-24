@@ -1,0 +1,20 @@
+{
+  "specVersion": "research.task.v1",
+  "taskId": "TASK-CIC-BATCH-202",
+  "idempotencyKey": "cic-wr-batch-202",
+  "sourceTargets": [
+    {
+      "sourceId": "src-army-air-force-contract-1941-06",
+      "sourceRevision": "sha256:6489db2051c5bc840cf5781039d59e245c33faf4d911cc5b7449f039ac872441",
+      "span": {
+        "start": 380,
+        "end": 554
+      }
+    }
+  ],
+  "exactQuestion": "What parallel assembly line dimensions were specified in the June 1941 AAF evaluation memo?",
+  "subject": "Army Air Force Materiel Command / Willow Run Layout",
+  "evidenceType": "fact",
+  "outputContract": "candidate.fact.v1",
+  "approvalRequired": true
+}

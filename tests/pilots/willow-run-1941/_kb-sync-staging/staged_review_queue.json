@@ -1,0 +1,135 @@
+[
+  {
+    "factKey": "fact-cic-wr-gap-parameter_specification-101",
+    "claim": "To maintain interchangeability across Willow Run progressive assembly lines, Rouge tool engineers fabricated massive 30-ton holding fixtures constructed from structural steel with cast-iron locating pins.",
+    "subject": "Rouge Tool Engineering Team",
+    "predicate": "fabricated_holding_fixtures",
+    "object": "30-ton holding fixtures constructed from structural steel with cast-iron locating pins",
+    "eventDate": "1941-02",
+    "eventLocation": "Rouge Tool and Die Plant, Dearborn, MI",
+    "sourceId": "src-oralhist-wh-1954",
+    "sourceRevision": "sha256:777bdd3e5fec183db729c05e90bc97ca25f42f7092ac7be41012f8f5a61d4533",
+    "span": {
+      "start": 970,
+      "end": 1174
+    },
+    "spanHash": "sha256:5e2478f08c0088aefa39a8135eb00dd1b810781d6c959bd52980f868c07102b4",
+    "confidence": 0.95,
+    "provenance": {
+      "taskId": "TASK-CIC-GAP-101",
+      "model": "qwen2.5:32b-instruct-q4_K_M (bounded)",
+      "reviewer": "csorensen-operator",
+      "materializedAt": "2026-08-24T01:34:13.861748+00:00"
+    },
+    "audit": {
+      "verdict": "contradiction_detected",
+      "flags": [
+        "Temporal Discrepancy: Candidate claims 1941-02 (Rouge Tool and Die Plant, Dearborn, MI), conflicting with canonical [fact-cic-wr-coronado-sketch-194101] claiming 1941-01 (Hotel del Coronado, San Diego, CA).",
+        "Temporal Discrepancy: Candidate claims 1941-02 (Rouge Tool and Die Plant, Dearborn, MI), conflicting with canonical [fact-cic-wr-oralhist-rouge-194101] claiming 1941-01 (Rouge Plant, Dearborn, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-02 (Rouge Tool and Die Plant, Dearborn, MI), conflicting with canonical [fact-cic-wr-wpb-origin-194103] claiming 1941-03 (Dearborn, MI)."
+      ],
+      "conflictingFactKeys": [
+        "fact-cic-wr-coronado-sketch-194101",
+        "fact-cic-wr-oralhist-rouge-194101",
+        "fact-cic-wr-wpb-origin-194103"
+      ]
+    },
+    "status": "needs-review"
+  },
+  {
+    "factKey": "fact-cic-wr-batch-assembly-lines-194106",
+    "claim": "In June 1941, Army Air Force Materiel Command report 41-B-823 verified that Willow Run layout specifications provided for twin 3,200-foot parallel progressive assembly lines.",
+    "subject": "Army Air Force Materiel Command / Willow Run Layout",
+    "predicate": "verified_layout_specifications",
+    "object": "twin 3,200-foot parallel progressive assembly lines layout specifications",
+    "eventDate": "1941-06",
+    "eventLocation": "Willow Run Plant, Washtenaw County, MI",
+    "sourceId": "src-army-air-force-contract-1941-06",
+    "sourceRevision": "sha256:32db9acd239d19a37452b25f9f9ee9fcd65b245ae7d7ed50eb496ef52bc591d4",
+    "span": {
+      "start": 380,
+      "end": 554
+    },
+    "spanHash": "sha256:685d9cc103f5491746e7f72c333d0b78221dcbe5b298fb6603cf0265bc08072a",
+    "confidence": 0.95,
+    "provenance": {
+      "taskId": "TASK-CIC-BATCH-202",
+      "model": "qwen2.5:32b-instruct-q4_K_M (bounded)",
+      "reviewer": "csorensen-operator",
+      "materializedAt": "2026-08-24T01:48:48.619044+00:00"
+    },
+    "audit": {
+      "verdict": "contradiction_detected",
+      "flags": [
+        "Temporal Discrepancy: Candidate claims 1941-06 (Willow Run Plant, Washtenaw County, MI), conflicting with canonical [fact-cic-wr-coronado-sketch-194101] claiming 1941-01 (Hotel del Coronado, San Diego, CA).",
+        "Temporal Discrepancy: Candidate claims 1941-06 (Willow Run Plant, Washtenaw County, MI), conflicting with canonical [fact-cic-wr-oralhist-rouge-194101] claiming 1941-01 (Rouge Plant, Dearborn, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-06 (Willow Run Plant, Washtenaw County, MI), conflicting with canonical [fact-cic-wr-gap-parameter_specification-101] claiming 1941-02 (Rouge Tool and Die Plant, Dearborn, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-06 (Willow Run Plant, Washtenaw County, MI), conflicting with canonical [fact-cic-wr-batch-toolmaker-allocation-194105] claiming 1941-05 (Rouge Tool and Die Plant, Dearborn, MI)."
+      ],
+      "conflictingFactKeys": [
+        "fact-cic-wr-coronado-sketch-194101",
+        "fact-cic-wr-oralhist-rouge-194101",
+        "fact-cic-wr-gap-parameter_specification-101",
+        "fact-cic-wr-batch-toolmaker-allocation-194105"
+      ]
+    },
+    "status": "needs-review"
+  },
+  {
+    "factKey": "fact-cic-wr-coronado-sketch-194101",
+    "claim": "At the Hotel del Coronado in January 1941, Charles E. Sorensen drafted a pencil layout applying cast-iron automotive tooling and continuous progressive assembly line principles to the Consolidated B-24 airframe.",
+    "subject": "Charles E. Sorensen",
+    "predicate": "drafted_production_layout",
+    "object": "pencil layout applying cast-iron automotive tooling and continuous progressive assembly line principles to Consolidated B-24 airframe",
+    "eventDate": "1941-01",
+    "eventLocation": "Hotel del Coronado, San Diego, CA",
+    "sourceId": "src-ford-wr-1941-memoir",
+    "sourceRevision": "sha256:2da18dadc7a6b60823585d5477e4ad5af57bbdd2530041c574304a39b33a091f",
+    "span": {
+      "start": 648,
+      "end": 858
+    },
+    "spanHash": "sha256:8355e0956c105407b1df91b0ad02585fb4306a8cdf0d2e329c6fb926bb733bfe",
+    "confidence": 0.95,
+    "provenance": {
+      "taskId": "TASK-CIC-WR-001",
+      "model": "qwen2.5:32b-instruct-q4_K_M (bounded)",
+      "reviewer": "csorensen-operator",
+      "materializedAt": "2026-08-24T01:57:34.193819+00:00"
+    },
+    "audit": {
+      "verdict": "contradiction_detected",
+      "flags": [
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-batch-toolmaker-allocation-194105] claiming 1941-05 (Rouge Tool and Die Plant, Dearborn, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-batch-assembly-lines-194106] claiming 1941-06 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-102] claiming 1941-04 (Dearborn, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-103] claiming 1941-03 (Dearborn, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-parameter_specification-101] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-production_volume_discrepancy-102] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-103] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-production_volume_discrepancy-104] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-production_volume_discrepancy-105] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-106] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-107] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-108] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-109] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI)."
+      ],
+      "conflictingFactKeys": [
+        "fact-cic-wr-batch-toolmaker-allocation-194105",
+        "fact-cic-wr-batch-assembly-lines-194106",
+        "fact-cic-wr-gap-vendor_identification-102",
+        "fact-cic-wr-gap-contract_revision-103",
+        "fact-cic-wr-gap-parameter_specification-101",
+        "fact-cic-wr-gap-production_volume_discrepancy-102",
+        "fact-cic-wr-gap-vendor_identification-103",
+        "fact-cic-wr-gap-production_volume_discrepancy-104",
+        "fact-cic-wr-gap-production_volume_discrepancy-105",
+        "fact-cic-wr-gap-vendor_identification-106",
+        "fact-cic-wr-gap-contract_revision-107",
+        "fact-cic-wr-gap-vendor_identification-108",
+        "fact-cic-wr-gap-contract_revision-109"
+      ]
+    },
+    "status": "needs-review"
+  }
+]
