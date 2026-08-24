@@ -1,38 +1,38 @@
 {
-  "generated_at": "2026-08-18T16:15:16.500588+00:00",
+  "generated_at": "2026-08-23T23:09:00.000000+00:00",
   "sources_checked": [
-    "/sessions/admiring-affectionate-goodall/mnt/dev/kb-sync/.sync-status.json",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/kb-sync/.drift-report.json",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/kb-sync/.coverage-report.json",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/TODOS.md",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/memory/MEMORY.md",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/.ijfw/memory/handoff.md",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/charlie-deep-research/treatment",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/docs/reports/daily",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/docs/reports/weekly",
-    "/sessions/admiring-affectionate-goodall/mnt/dev/_status-feed/claude-memory"
+    "C:\\dev\\kb-sync\\.sync-status.json",
+    "C:\\dev\\kb-sync\\.drift-report.json",
+    "C:\\dev\\kb-sync\\.coverage-report.json",
+    "C:\\dev\\TODOS.md",
+    "C:\\dev\\memory\\MEMORY.md",
+    "C:\\dev\\.ijfw\\memory\\handoff.md",
+    "C:\\dev\\charlie-deep-research\\treatment",
+    "C:\\dev\\docs\\reports\\daily",
+    "C:\\dev\\docs\\reports\\weekly",
+    "C:\\dev\\_status-feed\\claude-memory"
   ],
   "sources_missing": [],
   "kb_sync": {
-    "last_sync": "2026-08-18T17:58:00.000Z",
-    "last_sync_age_hours": 0.1,
+    "last_sync": "2026-08-24T03:08:23.530Z",
+    "last_sync_age_hours": 0.0,
     "sync_status": "SUCCESS",
-    "file_count": 511,
+    "file_count": 1488,
     "drift_status": "NO_DRIFT",
     "drift_stale_pages": 0,
-    "drift_checked_at": "2026-08-18T17:58:46.754Z",
-    "drift_age_hours": 0.1,
+    "drift_checked_at": "2026-08-24T03:08:57.993Z",
+    "drift_age_hours": 0.0,
     "drifted_files": [],
     "coverage_pct": 100,
     "coverage_checked_at": "2026-08-18T17:57:29.787Z",
     "link_health_pct": 100
   },
   "todos": {
-    "total_open": 10,
+    "total_open": 9,
     "counts_by_priority": {
       "P0": 0,
       "P1": 1,
-      "P2": 9,
+      "P2": 8,
       "P?": 0
     },
     "top_open": [
@@ -44,45 +44,39 @@
       },
       {
         "priority": "P2",
-        "title": "Toolforge health warning: research-questions/Runtime",
-        "created": "2026-08-16",
-        "detail": "Unknown runtime: prompt. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: research-questions|Runtime|Unknown runtime: prompt -->"
+        "title": "kb-sync documentation drift remediation (batch)",
+        "created": "2026-08-23",
+        "detail": "2 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate. <!-- todo-group: kb-sync-documentation-drift -->"
       },
       {
         "priority": "P2",
-        "title": "Toolforge health warning: research-questions/Manifest",
-        "created": "2026-08-16",
-        "detail": "No entry in manifest. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: research-questions|Manifest|No entry in manifest -->"
+        "title": "kb-sync documentation drift remediation (batch)",
+        "created": "2026-08-23",
+        "detail": "6 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate."
       },
       {
         "priority": "P2",
-        "title": "Toolforge health warning: research-questions/AuditLog",
-        "created": "2026-08-16",
-        "detail": "No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: research-questions|AuditLog|No runtime history in audit log -->"
+        "title": "kb-sync documentation drift remediation (batch)",
+        "created": "2026-08-22",
+        "detail": "2 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate."
       },
       {
         "priority": "P2",
-        "title": "Toolforge health warning: retro-export/Manifest",
-        "created": "2026-08-16",
-        "detail": "No entry in manifest. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: retro-export|Manifest|No entry in manifest -->"
+        "title": "Toolforge health warning group: AuditLog",
+        "created": "2026-08-19",
+        "detail": "3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:AuditLog -->"
       },
       {
         "priority": "P2",
-        "title": "Toolforge health warning: retro-export/AuditLog",
-        "created": "2026-08-16",
-        "detail": "No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: retro-export|AuditLog|No runtime history in audit log -->"
+        "title": "Toolforge health warning group: Manifest",
+        "created": "2026-08-19",
+        "detail": "3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Manifest -->"
       },
       {
         "priority": "P2",
-        "title": "Toolforge health warning: workspace-storage-cleaner/Manifest",
-        "created": "2026-08-16",
-        "detail": "No entry in manifest. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: workspace-storage-cleaner|Manifest|No entry in manifest -->"
-      },
-      {
-        "priority": "P2",
-        "title": "Toolforge health warning: workspace-storage-cleaner/AuditLog",
-        "created": "2026-08-16",
-        "detail": "No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: workspace-storage-cleaner|AuditLog|No runtime history in audit log -->"
+        "title": "Toolforge health warning group: Runtime",
+        "created": "2026-08-19",
+        "detail": "1 skill(s): research-questions. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Runtime -->"
       },
       {
         "priority": "P2",
@@ -100,7 +94,7 @@
     "closed_today": []
   },
   "memory": {
-    "path": "/sessions/admiring-affectionate-goodall/mnt/dev/memory/MEMORY.md",
+    "path": "C:\\dev\\memory\\MEMORY.md",
     "last_modified": "2026-08-16T14:16:42.225899+00:00",
     "current_work": [
       "**Healing Subsystem** (`26b41f3`, 2026-08-15): TripwireMonitor, AdversarialAuditor, SerialMergeQueue modules under `modules/healing/`.",
@@ -112,16 +106,16 @@
     ]
   },
   "handoff": {
-    "path": "/sessions/admiring-affectionate-goodall/mnt/dev/.ijfw/memory/handoff.md",
+    "path": "C:\\dev\\.ijfw\\memory\\handoff.md",
     "date": "2026-08-14",
-    "last_modified": "2026-08-16T03:38:14.047981+00:00",
+    "last_modified": "2026-08-21T01:44:04.124566+00:00",
     "next_steps": [
       "1. No remaining notebooks. Weekly Task Scheduler job `TRM-Notebooklm-Mine`",
       "(Mondays 6am) will keep mining registered notebooks going forward \u2014 will",
       "now also benefit from the staging-cleanup fix automatically.",
-      "2. Research Logs notebook's 2 unsorted sources may warrant a",
-      "topic-routing.json keyword review if a pattern emerges across future",
-      "pulls from that notebook \u2014 don't add speculatively now.",
+      "2. Research Logs notebook's 2 unsorted sources resolved:",
+      "- Source 1 (Cuba & CESOR Research Log): matched to `cuba` topic (keyword `willysresearchlog` added to `cuba` routing in `topic-routing.json`).",
+      "- Source 2 (Later Life Research Log): created new topic `charlie/retirement` in `trm-vault` (`38c75ac`) with routing keywords `[\"retirement\", \"later life\", \"later-life\", \"post-willys\", \"laterliferesearchlog\"]`. Ingested as `SRC-001` with 111 facts extracted. Treatment sync validated clean.",
       "3. If Windows path args ever need to go through git-bash again (not",
       "PowerShell), remember to double the backslashes or use forward slashes.",
       "4. Deeper inefficiency not fixed: `route-intake --apply` still re-copies",
@@ -132,97 +126,97 @@
     ]
   },
   "trm_pipeline": {
-    "latest_report": "TRM_SYNC_REPORT_DRYRUN_all_20260817T103007_a3fbd972-49ff-41aa-8950-672702d2d7b5.md",
-    "run_at": "2026-08-17T10:30:07.697Z",
-    "run_age_hours": 29.8,
+    "latest_report": "TRM_SYNC_REPORT_DRYRUN_all_20260822T115914_1e97b11e-8f85-447c-8e27-76531f270449.md",
+    "run_at": "2026-08-22T11:59:14.205Z",
+    "run_age_hours": 23.2,
     "partial_run": "false",
     "fact_key_collisions": "0"
   },
   "automation_logs": {
     "ci_pipeline": {
-      "latest": "ci-pipeline-2026-08-17_210002.log",
-      "age_hours": 15.2
+      "latest": "ci-pipeline-2026-08-22_214950.log",
+      "age_hours": 9.4
     },
     "trm_sync_treatment": {
-      "latest": "trm-sync-treatment-2026-08-17.log",
-      "age_hours": 29.8
+      "latest": "trm-sync-treatment-2026-08-23.log",
+      "age_hours": 0.0
     },
     "retro_audit": {
       "latest": "retro-audit-20260818.log",
-      "age_hours": 0.1
+      "age_hours": 113.2
     },
     "daily_report_agent": {
-      "latest": "2026-08-17.md",
-      "age_hours": 30.2
+      "latest": "2026-08-23.md",
+      "age_hours": 0.0
     },
     "weekly_report_agent": {
       "latest": "2026-W34.md",
-      "age_hours": 30.3
+      "age_hours": 14.6
     }
   },
   "claude_project_memory": {
-    "mirror_path": "/sessions/admiring-affectionate-goodall/mnt/dev/_status-feed/claude-memory",
+    "mirror_path": "C:\\dev\\_status-feed\\claude-memory",
     "mirror_exists": true,
     "files": [
       {
-        "name": "workflow-checklists-embedded.md",
-        "last_modified": "2026-08-14T23:07:47.256638+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: workflow-checklists-embedded description: \"Pre-action checklists embedded in agent workflow to prevent drift incidents. Use before Artifact, Write, and governance tasks.\" metadata:    node_type: memory   type: feedback   severity: critical   status: active   deployedDate: 2026-07-12   originSessionId: 146a440d-b5c6-4651-b2a2-05a61fdbb397 ---  # Embedded Workflow Checklists  **Rule: Run c"
+        "name": "MEMORY.md",
+        "last_modified": "2026-08-21T02:01:35.778532+00:00",
+        "age_hours": 57.2,
+        "excerpt": "# Memory Index  ## 2026-08-17 - [Project: Multi-Agent Handoff Protocol Spec](project-multi-agent-handoff-protocol-spec-2026-08-17.md) \u2014 governance doc closing recurring unreviewed-squash pattern; 4 review rounds converged, two-gate ratification model, drafted not committed/not Tier-1-approved. - [Project: Sigil v0.1.1 Corrective Release](project-sigil-v0.1.1-corrective-release-2026-08-17.md) \u2014 aud"
       },
       {
-        "name": "work-summarizer-v2-complete.md",
-        "last_modified": "2026-08-14T23:07:47.251335+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: work-summarizer-v2-complete description: \"v2.0 unified skill pack with 4 major upgrades complete; 10 files, deterministic-only, production-ready\" metadata:    node_type: memory   type: project   originSessionId: 7c8995b8-5e19-4fd6-a2ec-b1154c1eec34 ---  ## Status: \u2705 COMPLETE & PRODUCTION-READY (2026-07-02)  **Tested & Verified:** - \u2705 Code review findings fixed (8/8): null checks, caching"
+        "name": "project-multi-agent-handoff-protocol-spec-2026-08-17.md",
+        "last_modified": "2026-08-17T23:55:51.180036+00:00",
+        "age_hours": 131.3,
+        "excerpt": "--- name: project-multi-agent-handoff-protocol-spec-2026-08-17 description: \"Governance spec drafted at docs/meta/governance/multi-agent-handoff-protocol.md to close the recurring unreviewed-squash-on-main pattern (5a86f23); 4 review rounds, two-gate ratification model, not yet committed or Tier 1 approved.\" metadata:    node_type: memory   type: project   originSessionId: 464d12e6-06ec-459c-bff6-"
       },
       {
-        "name": "week2-audit-retroactive-approvals.md",
-        "last_modified": "2026-08-14T23:07:47.248825+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: week2-audit-retroactive-approvals description: Audit plan for DRIFT-2026-07-08-001 and DRIFT-2026-07-08-002 (retroactive approvals). Scheduled for Week 2 (2026-07-19). metadata:    node_type: memory   type: project   severity: high   scheduledDate: 2026-07-19   status: planned   incidents: \"DRIFT-2026-07-08-001, DRIFT-2026-07-08-002\"   originSessionId: 146a440d-b5c6-4651-b2a2-05a61fdbb39"
+        "name": "project-sigil-v0.1.1-corrective-release-2026-08-17.md",
+        "last_modified": "2026-08-17T22:43:15.777928+00:00",
+        "age_hours": 132.5,
+        "excerpt": "--- name: project-sigil-v0-1-1-corrective-release-2026-08-17 description: Sigil v0.1.1 corrective patch closed 3 real bugs + coverage gaps found auditing the unreviewed 5a86f23 squash; tags now match HEAD. metadata:    node_type: memory   type: project   originSessionId: f4721667-6a4f-48e8-b32c-a563d8dcf589   modified: 2026-08-17T22:43:15.770Z ---  Audited `5a86f23` (\"feat: close Sigil v1 conforma"
       },
       {
-        "name": "week2-audit-forward-verification-2026-07-12.md",
-        "last_modified": "2026-08-14T23:07:47.248281+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: week2-audit-forward-verification-2026-07-12 description: Forward verification audit (2026-07-12) \u2014 checklists embedded, DRIFT-005 fix verified, no new incidents. Replaces retroactive DRIFT-001/002 audit (data unavailable). metadata:   type: project   auditDate: 2026-07-12   status: complete   approach: forward_verification   retroactiveAudit: skipped (DRIFT-001/002 records incomplete; in"
+        "name": "feedback_codex_scope_creep_autopush_sigil.md",
+        "last_modified": "2026-08-17T15:53:25.076161+00:00",
+        "age_hours": 139.3,
+        "excerpt": "--- name: feedback-codex-scope-creep-autopush-sigil description: \"Codex extends scope well beyond a single dispatched task and auto-pushes straight to origin/main with no review gate; verify diffs, not just test-pass claims.\" metadata:    node_type: memory   type: feedback   originSessionId: 6294ff91-fde0-4654-bfc7-e05c971e527f   modified: 2026-08-17T15:53:25.047Z ---  In sigil-repo (2026-08-15), "
       },
       {
-        "name": "wayland-w1-w3-deployment.original.md",
-        "last_modified": "2026-08-14T23:07:47.246413+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: wayland-w1-w3-deployment description: \"Wayland W1-W3 orchestration layer deployed to CIC; deterministic execution, structured logging, critical fixes WIL-001/004\" metadata:    node_type: memory   type: project   originSessionId: 634d2733-de5b-486e-a577-4a51780bbf56 ---  ## Wayland W1-W3 Deployment Complete  **Status:** Production-ready (staging validation 2026-06-09 \u2192 2026-06-15) **Timel"
+        "name": "feedback_checkin_before_session_cap.md",
+        "last_modified": "2026-08-17T02:21:07.406714+00:00",
+        "age_hours": 152.9,
+        "excerpt": "--- name: checkin-before-session-cap description: \"Checkpoint with user before burning a full 5hr token window on long autonomous SDD runs, not just at named stop conditions\" metadata:    node_type: memory   type: feedback   originSessionId: 51061bde-6290-4632-b90c-09117e55b1be   modified: 2026-08-17T02:21:07.398Z ---  Don't run a long subagent-driven-development execution (19+ tasks) straight thr"
       },
       {
-        "name": "wayland-w1-w3-deployment.md",
-        "last_modified": "2026-08-14T23:07:47.245397+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: wayland-w1-w3-deployment description: \"Wayland W1-W3 orchestration layer deployed to CIC; deterministic execution, structured logging, critical fixes WIL-001/004\" metadata:    node_type: memory   type: project   originSessionId: 634d2733-de5b-486e-a577-4a51780bbf56 ---  ## Wayland W1-W3 Deployment Complete  **Status:** Production-ready (staging validation 2026-06-09 \u2192 2026-06-15) **Timel"
+        "name": "feedback_sigil_relay_state_and_mailbox_ambiguity.md",
+        "last_modified": "2026-08-16T18:13:34.435483+00:00",
+        "age_hours": 161.0,
+        "excerpt": "--- name: feedback_sigil_relay_state_and_mailbox_ambiguity description: \"Sigil local relay (sigil relay up) is in-memory only and loses all queued state on restart; empty inbox is ambiguous between \\\"drained by a live watcher\\\" and \\\"never delivered\\\" \u2014 don't loop resends, ask for explicit ledger confirmation.\" metadata:    node_type: memory   type: feedback   originSessionId: 5ae3c205-297a-40a4-8"
       },
       {
-        "name": "wayland-v1-1-complete.md",
-        "last_modified": "2026-08-14T23:07:47.243363+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: wayland-v1-1-complete description: \"Wayland W1-W3 V1.1 hardening complete; 7 items shipped, production-ready 2026-06-22\" metadata:    node_type: memory   type: project   originSessionId: 634d2733-de5b-486e-a577-4a51780bbf56 ---  ## Wayland W1-W3 V1.1 Hardening Complete  **Date:** 2026-06-10  **Commits:** c7465d6 (code), 7781e79 (docs)  **Status:** Production-ready  **Deployment:** 2026-0"
+        "name": "session-wrap-2026-08-16-sigil-conformance-spec.md",
+        "last_modified": "2026-08-16T18:13:07.178864+00:00",
+        "age_hours": 161.0,
+        "excerpt": "--- name: session-wrap-2026-08-16-sigil-conformance-spec description: \"Sigil v1 \u00a718 conformance gap closure design spec \u2014 audited, drafted, reviewed 4 rounds (Codex + human), committed and pushed; writing-plans deferred to next session.\" metadata:    node_type: memory   type: project   originSessionId: 5ae3c205-297a-40a4-896d-c3fbc44ef13e   modified: 2026-08-16T18:13:07.157Z ---  Audited `C:\\dev\\s"
       },
       {
-        "name": "wayland-v1-1-complete.original.md",
-        "last_modified": "2026-08-14T23:07:47.243363+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: wayland-v1-1-complete description: \"Wayland W1-W3 V1.1 hardening complete; 7 items shipped, production-ready 2026-06-22\" metadata:    node_type: memory   type: project   originSessionId: 634d2733-de5b-486e-a577-4a51780bbf56 ---  ## Wayland W1-W3 V1.1 Hardening Complete  **Date:** 2026-06-10   **Commits:** c7465d6 (code), 7781e79 (docs)   **Status:** Production-ready   **Deployment:** 202"
+        "name": "session-wrap-2026-08-16-sigil-inbox-wait-shipped.md",
+        "last_modified": "2026-08-16T14:05:41.227670+00:00",
+        "age_hours": 165.1,
+        "excerpt": "--- name: session-wrap-2026-08-16-sigil-inbox-wait-shipped description: \"Sigil inbox --wait shipped + live-proven end to end, sigil-consult skill built, both pushed\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T14:05:41.219Z ---  Shipped tonight (2026-08-15/16, sigil-repo, pushed to origin/main at ea6bf17): - `config-"
       },
       {
-        "name": "wave-d-full-gate-requirement.md",
-        "last_modified": "2026-08-14T23:07:47.240342+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: wave-d-full-gate-requirement description: Wave D full conformance gate is BLOCKED at code level \u2014 requires provisioned PG + live E2E/perf/load rerun to assert <200ms p99 metadata:    node_type: memory   type: project   originSessionId: d1f977af-bb9c-46d5-a2bc-16b5a00fcf3b ---  ## Governance Follow-On: Wave D Full Gate Requirement  **Logged 2026-07-14 (Tier 1 decision, Chris Sorensen).** "
+        "name": "project-sigil-consult-skill-backlog-2026-08-15.md",
+        "last_modified": "2026-08-16T04:44:35.599010+00:00",
+        "age_hours": 174.5,
+        "excerpt": "--- name: project-sigil-consult-skill-backlog-2026-08-15 description: \"Backlog idea from user \u2014 turn \\\"send current context to a Sigil peer for feedback\\\" into a proper skill\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T04:44:35.581Z ---  User idea (2026-08-15, during sigil `inbox --wait` design): what we did manuall"
       },
       {
-        "name": "wave-b-dispatch-ready.md",
-        "last_modified": "2026-08-14T23:07:47.239453+00:00",
-        "age_hours": 89.1,
-        "excerpt": "--- name: wave-b-dispatch-ready-2026-07-12 description: \"Wave B scaffolds complete \u2014 50 tests pass, all 4 skills ready for builder implementation. Awaiting Builder 4 + Builder 5 dispatch.\" metadata:   type: project   originSessionId: 2c047833-a9dd-49b9-9c7f-f6cbe419fbd3 ---  ## Wave B: Ready for Dispatch \u2705  **Date:** 2026-07-12   **Status:** All test scaffolds created, 50 tests PASS, configs compl"
+        "name": "project-sigil-npm-packaging-decision-2026-08-15.md",
+        "last_modified": "2026-08-16T00:24:15.637676+00:00",
+        "age_hours": 178.8,
+        "excerpt": "--- name: project-sigil-npm-packaging-decision-2026-08-15 description: \"Decision on sigil npm packaging (bin/sigil.mjs) vs relay CLI (sigil/cli/sigil.mjs) \u2014 keep both, add env-aware auto-switching\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T00:24:15.631Z ---  Decision (2026-08-15): npm packaging (`bin/sigil.mjs`, MC"
       }
     ]
   }
