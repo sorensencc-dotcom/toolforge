@@ -126,6 +126,8 @@ async function main() {
 
   // Copy specific pages to root of Wiki repo for GitHub Wiki routing
   const rootPageMappings = [
+    { src: 'wiki/toolforge-architecture-overview.html', dest: 'toolforge-architecture-overview.html' },
+    { src: 'wiki/toolforge-architecture-overview.png', dest: 'toolforge-architecture-overview.png' },
     { src: 'wiki/research/whichllm-model-selection-evaluator.md', dest: 'whichllm-model-selection-evaluator.md' },
     { src: 'wiki/research/whichllm-architecture-topology.png', dest: 'whichllm-architecture-topology.png' },
     { src: 'wiki/research/whichllm-architecture-topology.html', dest: 'whichllm-architecture-topology.html' },
