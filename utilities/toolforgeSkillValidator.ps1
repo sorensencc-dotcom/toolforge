@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Toolforge Skill Validator Refinement
   Multi-system consistency check for skill lifecycle.
@@ -927,6 +927,11 @@ function Write-DependencyGraphReport {
 # ============================================================================
 
 function New-ValidationReport {
+  [CmdletBinding(SupportsShouldProcess)]
+  param(
+    [string]$OutputPath = $script:OutputPath
+  )
+
   $report = @"
 # Toolforge Skill Validation Report
 
@@ -1060,8 +1065,10 @@ function New-ValidationReport {
 **Skill Validator v1.1.0** | Toolforge Team
 "@
 
-  Write-IfChanged -Path $OutputPath -Content $report | Out-Null
-  Log "Report checked: $OutputPath"
+  if ($PSCmdlet.ShouldProcess($OutputPath, 'Write validation report')) {
+    Write-IfChanged -Path $OutputPath -Content $report | Out-Null
+    Log "Report checked: $OutputPath"
+  }
 }
 
 # ============================================================================
