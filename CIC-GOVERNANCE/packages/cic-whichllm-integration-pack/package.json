@@ -1,6 +1,6 @@
 {
   "name": "@cic/whichllm-integration-pack",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CIC-WHICHLLM Integration Pack v1.0 — deterministic adapter, governance wrapper, lineage contract, harvester registry, test suite, and observability dashboard node. CIC Spec v2.4.0 / Amendment §2/S3-A1.",
   "type": "module",
   "engines": {
