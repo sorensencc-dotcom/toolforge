@@ -16,30 +16,18 @@ last_updated: "2026-08-24T10:50:00.000Z"
 
 The WhichLLM automated model selection matrix evaluates open-weight local and cloud-hosted LLMs for grounded tool execution, model routing, and local RAG synthesis within the CIC agent mesh and TorqueQuery pipeline.
 
+![TorqueQuery & WhichLLM Architecture Topology](whichllm-architecture-topology.png)
+
+<details>
+<summary>Mermaid source...</summary>
+
+```mermaid
+graph TD
+    TQ["TorqueQuery Router / Planner<br/>• Contract Validation (Scope S0–S4)<br/>• Cheapest-Capable Model Selection<br/>• Circuit Breakers"] --> WA["WhichLLM Adapter<br/>• Model Registry & Rate Cards<br/>• Single-Stringify deriveId(payload)<br/>• Pre-Flight BFCL Score Gate"]
+    WA --> ORP["OpenRouterProvider Adapter<br/>• Endpoint: openrouter.ai/api/v1<br/>• Target: openrouter/oxalpha (1.05M ctx, $0.00)<br/>• Normalized Usage Tracking"]
+    WA --> LFP["Local / Frontier Providers<br/>• Ollama / Local (Qwen2.5-Coder, Llama-3)<br/>• Anthropic / OpenAI (Claude 3.5 Sonnet, GPT-4o)<br/>• Hard Budget Gating & Lineage Chain"]
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                       TorqueQuery Router / Planner                          │
-│  - Contract Validation (Scope S0–S4, Hard Token/Call/Cost Limits)           │
-│  - Cheapest-Capable Model Selection (Tier 0: Free Cloud / Local)            │
-│  - Circuit Breakers (Deterministic Backoff, Escalation on no_progress)     │
-└──────────────────────────────────────┬──────────────────────────────────────┘
-                                       │
-                                       ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            WhichLLM Adapter                                 │
-│  - Model Registry & Rate Card Mapping (OpenRouter, Anthropic, Ollama)       │
-│  - Deterministic Request Serialization (sortKeys, canonicalJson, deriveId)  │
-│  - BFCL Capability Scoring (whichllm-bfcl-evaluator)                        │
-└──────────────────┬───────────────────────────────────────┬──────────────────┘
-                   │                                       │
-                   ▼                                       ▼
-┌──────────────────────────────────────┐ ┌────────────────────────────────────┐
-│     OpenRouterProvider Adapter       │ │     Local / Frontier Providers     │
-│  - Endpoint: openrouter.ai/api/v1    │ │  - Ollama / Local (Qwen, Llama)   │
-│  - Target: oxalpha (1.05M ctx, $0)   │ │  - Anthropic / OpenAI (Tier 1/2)  │
-│  - Normalized Usage & Reasoning Toks │ │                                    │
-└──────────────────────────────────────┘ └────────────────────────────────────┘
-```
+</details>
 
 ---
 

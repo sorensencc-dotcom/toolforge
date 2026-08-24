@@ -127,6 +127,8 @@ async function main() {
   // Copy specific pages to root of Wiki repo for GitHub Wiki routing
   const rootPageMappings = [
     { src: 'wiki/research/whichllm-model-selection-evaluator.md', dest: 'whichllm-model-selection-evaluator.md' },
+    { src: 'wiki/research/whichllm-architecture-topology.png', dest: 'whichllm-architecture-topology.png' },
+    { src: 'wiki/research/whichllm-architecture-topology.html', dest: 'whichllm-architecture-topology.html' },
     { src: 'wiki/research/competitor-watchlist-drift-engine.md', dest: 'competitor-watchlist-drift-engine.md' },
     { src: 'wiki/research/historical-revocation-verification.md', dest: 'historical-revocation-verification.md' },
     { src: 'wiki/research/mobile-websocket-heartbeats.md', dest: 'mobile-websocket-heartbeats.md' },
