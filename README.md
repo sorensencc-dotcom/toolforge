@@ -40,6 +40,16 @@ toolforge.ps1 -Inspect multiRepoRoadmapSync
 ### Run research & model evaluation pipelines
 
 ```powershell
+# Run controlled evidence pipeline feedback loop & batch ingestion
+python tests/pilots/willow-run-1941/run_feedback_loop.py
+python tests/pilots/willow-run-1941/run_batch_ingestion.py
+
+# Scaffold new research topic pilot testbed
+python trm/scaffold_topic.py --topic-slug <topic-slug>
+
+# Run TRM 3-tier topic coverage & completeness auditor
+python trm/topic_coverage_auditor.py --topics-dir ./tests/pilots --corpus-dir ./tests/pilots/willow-run-1941/corpus
+
 # Run closed-loop research with WhichLLM v2.4.0 dynamic model benchmark sweep
 python scripts/run-closed-loop-research-v2.py
 
@@ -68,5 +78,6 @@ Each tool registers in `manifest.json` with:
 - **GOVERNANCE.md** — Naming, versioning, lifecycle rules
 - **INDEX.md** — Auto-generated tool index
 - **CLAUDE_WORKSPACE.json** — VSCode multi-folder workspace config
+- **ControlledEvidencePipeline.md** — Workflow diagram & architecture spec ([`ControlledEvidencePipeline.md`](file:///c:/dev/wiki/ControlledEvidencePipeline.md))
 
-See subdirectories (e.g. [`kb-sync/README.md`](file:///c:/dev/kb-sync/README.md)) for subsystem-specific guides.
+See subdirectories (e.g. [`kb-sync/README.md`](file:///c:/dev/kb-sync/README.md), [`trm/README.md`](file:///c:/dev/trm/README.md)) for subsystem-specific guides.
