@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.50.1
+Date: 2026-08-24
+
+### Changes
+- ce03c20 - docs(status): update daily status feed, backlog, and reports for 8:00 PM master pipeline schedule (Chris)
+- bdf1311 - docs(report): add daily report for 2026-08-23 (Chris)
+- 00232dd - docs(governance): add mandatory Cathryn Lavery diagram-design rule to AGENTS.md (Chris)
+- c63ea0f - docs(wiki): add ControlledEvidencePipeline spec and update root README (Chris)
+
 ## Version 2.50.0
 Date: 2026-08-24
 
