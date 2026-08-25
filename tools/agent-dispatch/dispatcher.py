@@ -17,6 +17,11 @@ def _validate(contract, options):
         return "ROUTE_NOT_IN_TRUSTED_CATALOG"
     if contract.get("max_cost_usd") == 0 and any(any(value > 0 for value in route.get("cost_policy", {}).values()) for route in routes):
         return "PAID_ROUTE_IN_ZERO_COST_CONTRACT"
+    worktree = options.get("worktree")
+    root = options.get("workspace_root")
+    if worktree is not None or root is not None:
+        if not worktree or not root or not Path(worktree).resolve().is_relative_to(Path(root).resolve()):
+            return "WORKTREE_OUTSIDE_APPROVED_ROOT"
     return None
 
 
