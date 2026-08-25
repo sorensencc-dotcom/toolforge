@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TorqueQuery signed task contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "task_id", "task", "recommended_route", "allowed_routes", "max_cost_usd", "max_attempts", "expires_at", "operator_override", "signature"],
+  "properties": {
+    "contract_version": {"const": "1.0"},
+    "task_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "task": {"type": "string", "minLength": 1, "maxLength": 200000},
+    "recommended_route": {"$ref": "#/$defs/route"},
+    "allowed_routes": {"type": "array", "items": {"$ref": "#/$defs/route"}, "maxItems": 32},
+    "max_cost_usd": {"type": "number", "minimum": 0},
+    "max_attempts": {"type": "integer", "minimum": 1, "maximum": 3},
+    "expires_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "operator_override": {"type": "boolean"},
+    "signature": {"type": "string", "pattern": "^ed25519:[A-Za-z0-9_-]+$"}
+  },
+  "$defs": {
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model", "execution_mode", "cost_policy", "credential_ref"],
+      "properties": {
+        "provider": {"enum": ["subscription-cli", "ollama", "openrouter"]},
+        "model": {"type": "string", "minLength": 1, "maxLength": 256},
+        "execution_mode": {"enum": ["local_cli", "local_http", "openrouter_http"]},
+        "cost_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "flat": {"type": "number", "minimum": 0},
+            "input_per_1k": {"type": "number", "minimum": 0},
+            "output_per_1k": {"type": "number", "minimum": 0}
+          },
+          "minProperties": 1
+        },
+        "credential_ref": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,127}$"}
+      }
+    },
+    "zeroCostRoute": {
+      "allOf": [
+        {"$ref": "#/$defs/route"},
+        {"properties": {"cost_policy": {"required": ["input_per_1k", "output_per_1k"], "properties": {"input_per_1k": {"const": 0}, "output_per_1k": {"const": 0}, "flat": false}}}}
+      ]
+    }
+  },
+  "allOf": [{"if": {"properties": {"max_cost_usd": {"const": 0}}}, "then": {"properties": {"recommended_route": {"$ref": "#/$defs/zeroCostRoute"}, "allowed_routes": {"items": {"$ref": "#/$defs/zeroCostRoute"}}}}}]
+}
