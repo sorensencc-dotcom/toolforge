@@ -1,3 +1,9 @@
+---
+title: "Controlled Evidence Pipeline"
+category: "wiki"
+status: "active"
+---
+
 # Controlled evidence pipeline & TRM topic scaffolding
 
 The controlled evidence pipeline is an end-to-end framework for extracting grounded factual claims from primary source text documents without risking unanchored LLM hallucination. All candidate claims are bound to immutable document revisions and exact character span SHA-256 hashes.

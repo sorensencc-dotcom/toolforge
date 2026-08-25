@@ -1,9 +1,10 @@
 ---
+title: "Mobile Browser WebSocket Heartbeats Specification & Analysis"
 source_title: "Mobile Browser WebSocket Heartbeats Specification & Analysis"
 repository: "CIC Architecture & Research Archive - Accession 65, Box 69"
 document_date: "2026-08-23"
 verification_status: "verified"
-category: "willow-run"
+category: "wiki"
 topic: mobile-websocket-heartbeats
 status: active
 synthesized_by: "llama3:8b-instruct-fp16"

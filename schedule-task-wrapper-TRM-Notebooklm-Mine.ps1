@@ -4,13 +4,14 @@
 # trigger -- see docs/superpowers/specs/2026-08-12-notebooklm-cic-ingest-mining-design.md §5.
 
 $ErrorActionPreference = 'Stop'
-$vaultRoot = 'C:\dev'
+$vaultRoot = if (Test-Path 'C:\Users\soren\trm-vault\notebooklm-registry.json') { 'C:\Users\soren\trm-vault' } else { 'C:\dev' }
 $logDir = Join-Path $vaultRoot 'logs'
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $logFile = Join-Path $logDir "trm-notebooklm-mine-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
 
 Set-Location $vaultRoot
 $env:TRM_ALLOW_GIT_ROOT = '1'
+$env:TRM_ACTOR = 'ACTOR-001'
 
 $registryPath = Join-Path $vaultRoot 'notebooklm-registry.json'
 if (-not (Test-Path $registryPath)) {

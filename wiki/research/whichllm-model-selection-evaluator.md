@@ -1,9 +1,10 @@
 ---
+title: "WhichLLM v2.4.0 Model Selection Evaluator Specification"
 source_title: "WhichLLM v2.4.0 Model Selection Evaluator Specification"
 repository: "Toolforge & CIC Evaluator Suite"
 document_date: "2026-08-24"
 verification_status: "verified"
-category: "master-kb"
+category: "wiki"
 topic: whichllm-model-selection-evaluator
 status: active
 synthesized_by: "claude-3-5-sonnet"

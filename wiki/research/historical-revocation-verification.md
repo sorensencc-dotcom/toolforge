@@ -1,9 +1,10 @@
 ---
+title: "Historical Revocation Verification & Key Epoch Lifecycle"
 source_title: "Historical Revocation Verification & Key Epoch Lifecycle"
 repository: "Sigil Trust Engine Protocols - Accession 42, Box 12"
 document_date: "2026-08-23"
 verification_status: "verified"
-category: "ford-politics"
+category: "wiki"
 topic: historical-revocation-verification
 status: active
 synthesized_by: "llama3:8b-instruct-fp16"

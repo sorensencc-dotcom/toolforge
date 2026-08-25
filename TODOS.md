@@ -10,6 +10,7 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Open
 
+- [ ] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-25) — 2 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate. <!-- todo-group: kb-sync-documentation-drift -->
 
 - [ ] **[P2] Toolforge health warning group: AuditLog** (created 2026-08-19) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:AuditLog -->
 - [ ] **[P2] Toolforge health warning group: Manifest** (created 2026-08-19) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Manifest -->
@@ -22,8 +23,8 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Completed
 
+- [x] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-24, resolved 2026-08-24) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages).
 - [x] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-23, resolved 2026-08-23) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages).
-
 
 - [x] **[P2] Toolforge health warning: writing-heuristics/AuditLog** (created 2026-08-18) (resolved 2026-08-19) — No runtime history in audit log. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- toolforge-health-warning: writing-heuristics|AuditLog|No runtime history in audit log -->
 

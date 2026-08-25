@@ -14,6 +14,9 @@ out/
 skills/*/cic/
 /cic/
 .worktrees/
+sigil-wiki/
+trm-wiki/
+scratch/
 
 # Dependency lock files (Wave A: token optimization)
 package-lock.json
