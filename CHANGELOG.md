@@ -1,5 +1,24 @@
 # Changelog
 
+## Version 2.50.2
+Date: 2026-08-25
+
+### Added
+- OpenRouter Ox Alpha provider module (`OpenRouterProvider`) in CIC-WHICHLLM integration pack with rate card registry and retry handling
+- Canonical shared OpenRouter transport (`openrouter-transport.ts`) with AbortSignal 30s timeout, concurrency pool (`ConcurrencyPool`), and `OpenRouterEmptyResponseError`
+- Security scan script (`scripts/secret-scan.mjs`), gitleaks CI workflow (`.github/workflows/secret-scan.yml`), and pre-commit hook binding
+
+### Changed
+- Expanded CIC Governance `MODEL_ALLOWLIST` with `openrouter/` namespace and `oxalpha` model slug
+- Refactored `GovernanceWrapper.attest()` to accept pre-flight check results, eliminating redundant check execution and preserving attestation envelope fidelity
+- Updated `WhichLLMAdapter` to dispatch OpenRouter models via unified transport pipeline
+- Updated `CLAUDE.md`, `README.md`, and architecture diagrams with OpenRouter integration specs
+
+### Fixed
+- OpenRouter provider retry loop hardened to avoid string-parsing error re-classification
+- Deduplicated `OPENROUTER_MODEL_REGISTRY` model alias definitions to eliminate copy-paste drift
+- Prevented silent empty-response execution by throwing non-retryable `OpenRouterEmptyResponseError` on empty choices array
+
 ## Version 2.50.1
 Date: 2026-08-24
 
