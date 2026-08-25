@@ -118,9 +118,14 @@ export class GovernanceWrapper {
    * @param {object} ctx.query
    * @param {object} ctx.result
    * @param {string} ctx.lineageHash
+   * @param {GovernanceCheckResult[]} [preFlightResults] - Results from the
+   *   pre-flight preCheck() call.  Pass these in to avoid re-running GC-01,
+   *   GC-02, GC-03 and to produce an accurate checksRun envelope.  If omitted
+   *   (legacy callers), preCheck() is NOT re-run; only post-flight checks
+   *   (GC-04, GC-05, customChecks) appear in the attestation envelope.
    * @returns {Promise<object>}  GovernanceAttestation (matches schema $defs)
    */
-  async attest(ctx) {
+  async attest(ctx, preFlightResults) {
     const checks = await Promise.all([
       this.#runGC04(ctx.result),
       this.#runGC05(ctx),
@@ -133,7 +138,7 @@ export class GovernanceWrapper {
       }
     }
 
-    const allChecks = await this.preCheck(ctx.query).then((pre) => [...pre, ...checks]).catch(() => checks);
+    const allChecks = preFlightResults ? [...preFlightResults, ...checks] : checks;
 
     const status = allChecks.some((c) => c.result === 'fail')
       ? 'failed'

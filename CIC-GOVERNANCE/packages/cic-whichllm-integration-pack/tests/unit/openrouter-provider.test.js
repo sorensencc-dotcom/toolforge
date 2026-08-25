@@ -2,6 +2,7 @@ import { test, describe, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { OpenRouterProvider, OPENROUTER_MODEL_REGISTRY } from '../../src/adapter/openrouter-provider.js';
 import { WhichLLMAdapter } from '../../src/adapter/whichllm-adapter.js';
+import { GovernanceWrapper } from '../../src/governance/governance-wrapper.js';
 
 describe('OpenRouterProvider Unit Tests', () => {
   let originalFetch;
@@ -151,5 +152,140 @@ describe('OpenRouterProvider Unit Tests', () => {
     assert.equal(result.governance.status, 'passed');
     assert.ok(result.lineageHash);
     assert.equal(result.lineageHash.length, 64);
+  });
+});
+
+describe('OpenRouterProvider — additional coverage', () => {
+  let originalFetch;
+
+  beforeEach(() => { originalFetch = globalThis.fetch; });
+  afterEach(() => { globalThis.fetch = originalFetch; });
+
+  // ── Retry behaviour ─────────────────────────────────────────────────────────
+
+  test('execute retries on HTTP 500 server error', async () => {
+    let attempts = 0;
+    globalThis.fetch = async () => {
+      attempts++;
+      if (attempts === 1) {
+        return { ok: false, status: 500, text: async () => 'Internal Server Error' };
+      }
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          choices: [{ message: { content: 'Recovered' } }],
+          usage: { prompt_tokens: 5, completion_tokens: 5 },
+        }),
+      };
+    };
+
+    const provider = new OpenRouterProvider({ apiKey: 'test-key', maxRetries: 1 });
+    const result = await provider.execute({ queryId: 'q-500-retry', model: 'oxalpha', prompt: 'test' });
+
+    assert.equal(attempts, 2);
+    assert.equal(result.response, 'Recovered');
+  });
+
+  test('execute does NOT retry on HTTP 400 client error', async () => {
+    let attempts = 0;
+    globalThis.fetch = async () => {
+      attempts++;
+      return { ok: false, status: 400, text: async () => 'Bad Request' };
+    };
+
+    const provider = new OpenRouterProvider({ apiKey: 'test-key', maxRetries: 3 });
+    await assert.rejects(
+      () => provider.execute({ queryId: 'q-400', model: 'oxalpha', prompt: 'bad' }),
+      /OpenRouter HTTP 400/
+    );
+    // Should have thrown immediately on first attempt — no retries for 4xx
+    assert.equal(attempts, 1);
+  });
+
+  // ── Empty choices guard ──────────────────────────────────────────────────────
+
+  test('execute throws on empty choices[] in 200 response', async () => {
+    globalThis.fetch = async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({ choices: [], usage: { prompt_tokens: 10, completion_tokens: 0 } }),
+    });
+
+    const provider = new OpenRouterProvider({ apiKey: 'test-key' });
+    await assert.rejects(
+      () => provider.execute({ queryId: 'q-empty', model: 'oxalpha', prompt: 'trigger empty' }),
+      /Empty choices\[\]/
+    );
+  });
+
+  // ── Registry ─────────────────────────────────────────────────────────────────
+
+  test('OPENROUTER_MODEL_REGISTRY aliases reference the same object (no copy-paste drift)', () => {
+    assert.strictEqual(
+      OPENROUTER_MODEL_REGISTRY['openrouter/oxalpha'],
+      OPENROUTER_MODEL_REGISTRY['oxalpha'],
+      'oxalpha and openrouter/oxalpha must be the same object reference'
+    );
+    assert.strictEqual(
+      OPENROUTER_MODEL_REGISTRY['openrouter/anthropic/claude-3.5-sonnet'],
+      OPENROUTER_MODEL_REGISTRY['anthropic/claude-3.5-sonnet'],
+      'anthropic short alias and full path must be the same object reference'
+    );
+  });
+
+  test('execute uses fallback slug derivation for models not in registry', async () => {
+    let capturedBody;
+    globalThis.fetch = async (_, opts) => {
+      capturedBody = JSON.parse(opts.body);
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          choices: [{ message: { content: 'ok' } }],
+          usage: { prompt_tokens: 1, completion_tokens: 1 },
+        }),
+      };
+    };
+
+    const provider = new OpenRouterProvider({ apiKey: 'test-key' });
+    await provider.execute({ queryId: 'q-unknown', model: 'openrouter/some-new-model', prompt: 'hi' });
+
+    // Fallback strips the 'openrouter/' prefix to derive the apiSlug
+    assert.equal(capturedBody.model, 'some-new-model');
+  });
+});
+
+describe('GovernanceWrapper — MODEL_ALLOWLIST coverage for new entries', () => {
+  function makeWrapper() {
+    return new GovernanceWrapper({
+      harvesterId: 'cic-whichllm-default-v1',
+      specVersion: '2.4.0',
+      amendmentRef: '§2/S3-A1',
+    });
+  }
+
+  test('oxalpha standalone slug passes GC-04 model allowlist', async () => {
+    const wrapper = makeWrapper();
+    const ctx = {
+      query: { queryId: 'q-gc04-oxalpha', prompt: 'test' },
+      result: { model: 'oxalpha', response: 'ok', rawMeta: {} },
+      lineageHash: 'a'.repeat(64),
+    };
+    // attest() runs GC-04 — should not throw
+    await assert.doesNotReject(() => wrapper.attest(ctx));
+  });
+
+  test('unlisted model string fails GC-04 model allowlist in strict mode', async () => {
+    const wrapper = makeWrapper();
+    const ctx = {
+      query: { queryId: 'q-gc04-bad', prompt: 'test' },
+      result: { model: 'totally-unapproved-model-xyz', response: 'ok', rawMeta: {} },
+      lineageHash: 'b'.repeat(64),
+    };
+    await assert.rejects(
+      () => wrapper.attest(ctx),
+      /GovernanceViolationError|not on the CIC MODEL_ALLOWLIST/
+    );
   });
 });

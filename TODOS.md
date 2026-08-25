@@ -12,6 +12,8 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 - [ ] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-25) — 2 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate. <!-- todo-group: kb-sync-documentation-drift -->
 
+- [ ] **[P1] OpenRouter cost circuit-breaker for paid models** (created 2026-08-25) — `OPENROUTER_MODEL_REGISTRY` includes `anthropic/claude-3.5-sonnet` at \$3/\$15 per million tokens. Neither `OpenRouterProvider` nor the governance layer accumulates session cost or enforces a budget cap. Implement a session-level `costUsd` accumulator with a configurable `maxCostUsd` budget that rejects dispatch when exceeded. Zero-cost models (`isFree: true`) bypass the check. Implement before enabling paid-model dispatch in production. See eng review 2026-08-25 (`feat/openrouter-oxalpha-integration`).
+
 - [ ] **[P2] Toolforge health warning group: AuditLog** (created 2026-08-19) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:AuditLog -->
 - [ ] **[P2] Toolforge health warning group: Manifest** (created 2026-08-19) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Manifest -->
 - [ ] **[P2] Toolforge health warning group: Runtime** (created 2026-08-19) — 1 skill(s): research-questions. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Runtime -->

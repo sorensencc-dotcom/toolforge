@@ -16,6 +16,11 @@ const ALLOWLIST = [
   // first "/" after the host:port, so the captured text never includes the
   // trailing "/toolforge_local" database name — allowlist the truncated form.)
   /:\/\/toolforge:toolforge@localhost:5432$/,
+
+  // Unit-test fixture API key values — obvious placeholder strings that can
+  // never be real credentials (too short, no provider prefix).
+  // Files: CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/tests/unit/openrouter-provider.test.js
+  /apiKey:\s*['"](?:test-key|local-key|or-key)['"]/,
 ];
 
 function stagedFiles() {
