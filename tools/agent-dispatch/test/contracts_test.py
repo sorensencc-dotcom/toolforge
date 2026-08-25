@@ -34,7 +34,7 @@ def valid_contract() -> dict:
         "max_attempts": 3,
         "expires_at": "2026-08-25T23:59:00Z",
         "operator_override": False,
-        "signature": "ed25519:placeholder",
+        "signature": {"algorithm": "Ed25519", "key_id": "test-key", "value": "placeholder"},
     }
 
 
