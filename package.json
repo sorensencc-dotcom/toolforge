@@ -5,6 +5,7 @@
   "description": "Toolforge Marketplace: API + UI for skill discovery and installation",
   "main": "src/api/server.js",
   "scripts": {
+    "secret-scan": "node scripts/secret-scan.mjs",
     "kb:status": "node kb-sync/scripts/check-status.mjs",
     "kb:sync:status": "node kb-sync/scripts/check-status.mjs",
     "kb:dag": "node kb-sync/scripts/build-dag.mjs",
