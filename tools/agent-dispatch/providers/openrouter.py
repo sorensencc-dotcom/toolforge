@@ -7,7 +7,6 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Any, Callable
 
-
 @dataclass
 class ProviderResult:
     status: str
@@ -18,16 +17,14 @@ class ProviderResult:
     cost: float
     output: str = ""
 
-
 def run_provider(route: dict[str, Any], task: str, execution_context: dict[str, Any], request: Callable = urllib.request.urlopen) -> ProviderResult:
     if route.get("provider") != "openrouter":
         raise ValueError("route is not openrouter")
-    api_key = execution_context.get("api_key") or os.environ.get("OPENROUTER_API_KEY")
-    base_url = execution_context.get("base_url", "https://openrouter.ai/api/v1")
-    if not api_key or not base_url:
+    api_key = os.environ.get("OPENROUTER_API_KEY")
+    if not api_key:
         return ProviderResult("failed", "CONFIGURATION", "openrouter", route.get("model", ""), {}, 0)
     body = json.dumps({"model": route["model"], "messages": [{"role": "user", "content": task}]}).encode()
-    req = urllib.request.Request(base_url.rstrip("/") + "/chat/completions", data=body, headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"})
+    req = urllib.request.Request("https://openrouter.ai/api/v1/chat/completions", data=body, headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"})
     try:
         with request(req, timeout=float(execution_context.get("timeout_seconds", 30))) as response:
             payload = json.loads(response.read().decode())

@@ -1,5 +1,6 @@
 import sys
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1]))
@@ -11,7 +12,8 @@ class OpenRouterTests(unittest.TestCase):
         self.route = {"provider": "openrouter", "model": "free-model"}
 
     def test_missing_key_fails_closed(self):
-        self.assertEqual(run_provider(self.route, "secret", {"base_url": "http://router"}).failure_class, "CONFIGURATION")
+        with patch.dict("os.environ", {}, clear=True):
+            self.assertEqual(run_provider(self.route, "secret", {}).failure_class, "CONFIGURATION")
 
     def test_key_is_not_returned_in_result(self):
         seen = {}
@@ -22,7 +24,8 @@ class OpenRouterTests(unittest.TestCase):
         def request(req, timeout):
             seen["auth"] = req.get_header("Authorization")
             return Response()
-        result = run_provider(self.route, "bounded", {"api_key": "SECRET", "base_url": "http://router"}, request)
+        with patch.dict("os.environ", {"OPENROUTER_API_KEY": "SECRET"}, clear=False):
+            result = run_provider(self.route, "bounded", {}, request)
         self.assertEqual(result.status, "succeeded")
         self.assertEqual(seen["auth"], "Bearer SECRET")
         self.assertNotIn("SECRET", repr(result))
