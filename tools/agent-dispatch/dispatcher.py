@@ -1,9 +1,28 @@
 from __future__ import annotations
 
 from typing import Any, Callable
+def _route_key(route):
+    return (route.get("provider", ""), route.get("model", ""), route.get("execution_mode", ""))
+
+
+def _validate(contract, options):
+    if options.get("verification", {}).get("valid") is not True:
+        return "CONTRACT_NOT_VERIFIED"
+    if not options.get("operator_identity"):
+        return "OPERATOR_IDENTITY_REQUIRED"
+    catalog_keys = {_route_key(route) for route in options.get("catalog", [])}
+    routes = [contract["recommended_route"], *contract.get("allowed_routes", [])]
+    if any(_route_key(route) not in catalog_keys for route in routes):
+        return "ROUTE_NOT_IN_TRUSTED_CATALOG"
+    if contract.get("max_cost_usd") == 0 and any(any(value > 0 for value in route.get("cost_policy", {}).values()) for route in routes):
+        return "PAID_ROUTE_IN_ZERO_COST_CONTRACT"
+    return None
 
 
 def dispatch(contract: dict[str, Any], options: dict[str, Any]) -> dict[str, Any]:
+    invalid = _validate(contract, options)
+    if invalid:
+        return {"final_status": "refused", "attempts": [], "recommendation": contract.get("recommended_route"), "override": False, "reason": invalid}
     recommendation = contract["recommended_route"]
     allowed = contract.get("allowed_routes", []) or [recommendation]
     candidates = options.get("operator_routes") if options.get("operator_override") else None

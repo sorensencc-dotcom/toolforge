@@ -16,9 +16,10 @@ class ResultsTests(unittest.TestCase):
             receipt = write_result(result, directory)
             self.assertEqual(json.loads(Path(receipt["result_path"]).read_text())["final_status"], "succeeded")
             trace = Path(directory) / "trace.jsonl"
-            append_trace({"event": "attempt", "api_key": "SECRET"}, trace)
+            append_trace({"event": "attempt", "nested": {"api_key": "SECRET"}, "items": [{"token": "SECRET"}]}, trace)
             line = json.loads(trace.read_text())
-            self.assertNotIn("api_key", line)
+            self.assertEqual(line["nested"]["api_key"], "[REDACTED]")
+            self.assertEqual(line["items"][0]["token"], "[REDACTED]")
 
 
 if __name__ == "__main__": unittest.main()
