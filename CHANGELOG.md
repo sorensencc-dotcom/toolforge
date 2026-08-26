@@ -1,5 +1,53 @@
 # Changelog
 
+## Version 2.51.1
+Date: 2026-08-26
+
+### Changes
+- 2f05cdd - Merge pull request #5 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- dca144f - fix(wiki): normalize titles and validate images (Chris)
+- 1686569 - Merge pull request #4 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- db1bac0 - docs: document governed agent dispatch (Chris)
+
+## Version 2.51.0
+Date: 2026-08-26
+
+### Changes
+- 50de7d6 - Merge pull request #3 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- 77d0b56 - fix(ci): provide token to secret scan (Chris)
+- dec8dcf - fix: isolate wiki sync hooks (Chris)
+- 04cbebb - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- 9ba53b5 - fix: remove stale wiki archive mirror (Chris)
+- df5e890 - fix: exclude archived roadmaps from wiki sync (Chris)
+- 38b04bf - fix(dispatch): record result receipt metadata (Chris)
+- debace4 - test(dispatch): cover worktree containment (Chris)
+- 316e8f4 - fix(dispatch): enforce worktree containment (Chris)
+- dcd2906 - fix(dispatch): bind providers to trusted config (Chris)
+- 599cc9f - fix: remove stray provider factory token (Chris)
+- ba7d22a - fix(dispatch): harden trust boundary and redaction (Chris)
+- 83097fe - feat(dispatch): emit auditable results and traces (Chris)
+- 4dccbe3 - feat(dispatch): add bounded sequential dispatcher (Chris)
+- d20f163 - feat(dispatch): add openrouter provider adapter (Chris)
+- 6b1a6be - feat(dispatch): add ollama provider adapter (Chris)
+- 6d632bc - feat(dispatch): add subscription-cli provider adapter (Chris)
+- 8b15d75 - fix(dispatch): align contract signature with Sigil (Chris)
+- 2c210c0 - feat(dispatch): verify contracts through Sigil (Chris)
+- 9f7d7dc - feat(dispatch): define signed task and provider contracts (Chris)
+- 3da2020 - docs: sync wiki research notes, test fixtures, and script updates (Chris)
+- 4d47f40 - security: add pre-commit secret scan + CI gitleaks gate (Chris)
+- 3a03ab0 - docs(report): add daily report for 2026-08-25 (Chris)
+- cea19bb - feat(openrouter): add credential resolver and bounded transport client with exponential backoff (Chris)
+- 880af3a - docs: update Toolforge Wiki Home description and add Cathryn Lavery system architecture diagram (Chris)
+- a417964 - docs(wiki): enforce Cathryn Lavery diagram-design standard with HTML+SVG and rendered PNG asset (Chris)
+- 751120d - docs(wiki): fix wiki page flattening and update whichllm evaluator spec for Ox Alpha (Chris)
+- db3388a - docs: update README artifact inventory table with OpenRouterProvider (Chris)
+- e93592e - chore(whichllm): bump version to 1.1.0 and update adapter with OpenRouter dispatch (Chris)
+- 25da255 - feat(governance): expand MODEL_ALLOWLIST with openrouter/ and oxalpha and parameterize GC-03 prompt cap (Chris)
+- 050ce92 - feat(whichllm): add OpenRouterProvider module with rate card registry and retries (Chris)
+- 10a4488 - Merge remote-tracking branch 'origin/main' into feat/openrouter-oxalpha-integration (Chris)
+- 031435a - docs(report): add daily report for 2026-08-24 (Chris)
+- 6c7a8dd - docs(report): add weekly report for 2026-W35 (Chris)
+
 ## Version 2.50.2
 Date: 2026-08-25
 

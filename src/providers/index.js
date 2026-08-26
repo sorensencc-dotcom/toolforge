@@ -7,14 +7,12 @@ import OllamaProvider from './ollama-provider.js';
 
 let cachedProvider = null;
 
-
 export function getProvider(config) {
   if (cachedProvider) return cachedProvider;
 
   cachedProvider = new OllamaProvider(config);
   return cachedProvider;
-l}
-
+}
 
 export function resetProvider() {
   cachedProvider = null;
