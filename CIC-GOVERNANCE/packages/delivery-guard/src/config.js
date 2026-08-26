@@ -19,8 +19,8 @@ function isPlainObject(value) {
 function validateRelativePath(value) {
   return typeof value === 'string'
     && value.trim().length > 0
-    && !value.startsWith('/')
-    && !/^[A-Za-z]:[\\/]/.test(value)
+    && !/^[\\/]/.test(value)
+    && !/^[A-Za-z]:/.test(value)
     && !/(^|[\\/])\.\.([\\/]|$)/.test(value);
 }
 

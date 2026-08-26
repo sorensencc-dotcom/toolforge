@@ -46,6 +46,22 @@ test('rejects absolute or parent-traversing paths', () => {
   );
 });
 
+for (const [label, path] of [
+  ['rooted backslash paths', '\\generated\\**'],
+  ['UNC paths', '\\\\server\\share\\**'],
+  ['drive-qualified Windows paths', 'C:\\generated\\**'],
+]) {
+  test(`rejects ${label}`, () => {
+    const config = structuredClone(validConfig);
+    config.generatedPaths = [path];
+
+    assert.throws(
+      () => validateAdapterConfig(config),
+      (error) => error instanceof AdapterConfigError
+        && error.issues.some((issue) => issue.path === 'generatedPaths'),
+    );
+  });
+}
 test('rejects empty automation paths and test commands', () => {
   const config = structuredClone(validConfig);
   config.automationPaths = [];
