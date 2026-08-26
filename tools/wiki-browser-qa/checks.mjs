@@ -83,10 +83,11 @@ export function checkResponsiveOverflow(viewports = []) {
 }
 
 function matchesPolicy(evidence, rule) {
-  const selectorOrPatternMatches = (rule.selector && evidence.selector === rule.selector)
-    || (rule.assetPattern && new RegExp(rule.assetPattern).test(String(evidence.src || '')));
   const sourceAsset = rule.sourceAsset || rule.sourceMapping;
-  return Boolean(selectorOrPatternMatches && sourceAsset && evidence.sourceAsset === sourceAsset);
+  if (!sourceAsset || evidence.sourceAsset !== sourceAsset) return false;
+  if (rule.selector) return evidence.selector === rule.selector;
+  if (rule.assetPattern) return new RegExp(rule.assetPattern).test(String(evidence.src || ''));
+  return true;
 }
 
 export function checkDiagramEvidence(diagrams = [], policyRule = {}) {

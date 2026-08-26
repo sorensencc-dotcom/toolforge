@@ -98,6 +98,9 @@ test('checkResponsiveOverflow rejects unexpected horizontal overflow on supporte
 
 test('checkDiagramEvidence requires visible loaded source-backed diagram with alt and caption', () => {
   assert.equal(checkDiagramEvidence(passingObservation.diagrams, architecturePolicy).passed, true);
+  assert.equal(checkDiagramEvidence(passingObservation.diagrams, {
+    requiredDiagrams: [{ sourceAsset: 'assets/architecture.svg', requireAlt: true, requireCaption: true }],
+  }).passed, true);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], visible: false }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], sourceBacked: false }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], src: '/assets/other.svg', sourceAsset: 'assets/other.svg', sourceBacked: true }], architecturePolicy).passed, false);
