@@ -14,6 +14,8 @@ Add `tools/wiki-browser-qa/` and expose it as `npm run wiki:qa`. The tool audits
 - Override target: `WIKI_QA_BASE_URL`
 - Optional page list: `WIKI_QA_PAGES`, comma-separated Wiki slugs
 - Optional output: `WIKI_QA_REPORT`, default `artifacts/wiki-qa/report.json`
+- Optional concurrency: `WIKI_QA_CONCURRENCY`, bounded and conservative by default
+- Optional timeout: `WIKI_QA_TIMEOUT_MS`
 - Non-zero exit when any required assertion fails
 - No credentials, cookies, or provider calls
 
@@ -46,6 +48,8 @@ Keep the tool deliberately small:
 - `test/`: unit tests for checks and integration fixtures for representative rendered pages.
 
 Reuse `scripts/sync-github-wiki.mjs` for source-side page rules and image validation rather than creating a second Markdown/discovery implementation. Browser discovery starts from the Wiki index and accepts explicit pages for deterministic targeted runs.
+
+Full crawls deduplicate discovered URLs and use bounded concurrency. Retries are limited to transient navigation/network failures; assertion failures are never retried. The runner writes partial results on timeout or interruption, marks unfinished pages explicitly, and exits non-zero. It must not overwhelm GitHub or hide a partial crawl behind an aggregate pass.
 
 Use a small adapter around the supported gstack browser executable. `runner.mjs` must detect the executable before starting, report the expected setup command and detected version when unavailable, and fail clearly rather than silently falling back to HTTP-only checks. Browser setup must be explicit and documented in the tool README and CI job. The tool must remain usable against a local static mirror for deterministic tests.
 
