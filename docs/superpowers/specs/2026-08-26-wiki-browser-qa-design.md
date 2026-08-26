@@ -37,13 +37,14 @@ The initial policy covers architecture, provider setup, WhichLLM/model-selection
 
 ## Architecture
 
-- `runner.mjs`: CLI, environment parsing, exit status, report writing.
-- `browser.mjs`: Chromium lifecycle, navigation, console/network capture, page inspection.
-- `discovery.mjs`: Wiki page discovery from the Wiki index or explicit page list.
-- `checks.mjs`: pure assertion helpers for headings, metadata, links, images, and diagram evidence.
-- `diagram-policy.json`: versioned page-to-diagram requirements.
-- `diagram-policy.test.json` or equivalent coverage fixture: ensures every required architecture/provider page is represented by policy and prevents silent opt-out.
+Keep the tool deliberately small:
+
+- `runner.mjs`: CLI, target/page selection, Chromium lifecycle, navigation, console/network capture, report writing, and exit status.
+- `checks.mjs`: pure assertion helpers for headings, metadata, links, images, responsive overflow, and diagram evidence.
+- `diagram-policy.json`: versioned page-to-diagram requirements plus source-asset mappings.
 - `test/`: unit tests for checks and integration fixtures for representative rendered pages.
+
+Reuse `scripts/sync-github-wiki.mjs` for source-side page rules and image validation rather than creating a second Markdown/discovery implementation. Browser discovery starts from the Wiki index and accepts explicit pages for deterministic targeted runs.
 
 Use an existing supported browser runner when available; otherwise declare the smallest locked browser dependency needed for reproducible CI. Browser setup must be explicit and documented. The tool must remain usable against a local static mirror for deterministic tests.
 
@@ -67,3 +68,16 @@ The JSON report records target, timestamp, page URL, page slug, check results, c
 - Treating a generic screenshot or code block as diagram evidence.
 - Replacing existing source Markdown/image validation.
 - Running provider smoke tests or using credentials.
+
+## What already exists
+
+- `scripts/sync-github-wiki.mjs` already owns Wiki publication, frontmatter normalization, archive exclusion, sidebar generation, and source Markdown image validation.
+- Existing Node test runner and Vitest configurations provide test conventions; the new checks should use the repository's Node test style unless browser integration requires a separate runner.
+- GitHub Wiki remains the live rendering target; local generated mirrors remain the deterministic fixture target.
+
+## Not in scope
+
+- A second Markdown parser or publication pipeline; source-side validation stays in the existing sync script.
+- Automatic page repair or republishing; the QA tool reports failures only.
+- Full visual screenshot-diff baselines; structural rendering and diagram evidence are the first enforcement layer.
+- Provider/API smoke tests; Wiki QA uses no credentials or external model calls.
