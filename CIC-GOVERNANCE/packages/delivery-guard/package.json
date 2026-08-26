@@ -1,0 +1,17 @@
+{
+  "name": "@cic/delivery-guard",
+  "version": "0.1.0",
+  "description": "Repository adapter configuration contract for delivery-integrity guards.",
+  "type": "module",
+  "main": "./src/config.js",
+  "exports": {
+    ".": "./src/config.js"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "UNLICENSED"
+}
