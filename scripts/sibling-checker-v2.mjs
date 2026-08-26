@@ -52,6 +52,21 @@ export function mapSourceToWikiSibling(sourceFile, obsidianConfig) {
   if (!sourceFile) return null;
   const normalizedSource = sourceFile.replace(/\\/g, '/');
   
+  // Exclude documentation, wiki files, vault internal directories, and markdown files
+  if (
+    normalizedSource.startsWith('wiki/') ||
+    normalizedSource.startsWith('obsidian/') ||
+    normalizedSource.startsWith('.obsidian/') ||
+    normalizedSource.startsWith('docs/') ||
+    normalizedSource.startsWith('_kb-sync-staging/') ||
+    normalizedSource.startsWith('_status-feed/') ||
+    normalizedSource.startsWith('.context/') ||
+    normalizedSource.startsWith('.ijfw/') ||
+    normalizedSource.endsWith('.md')
+  ) {
+    return null;
+  }
+
   const rules = obsidianConfig.mapping_rules || [];
   const wikiDir = obsidianConfig.wiki_dir || 'wiki';
 
@@ -85,9 +100,15 @@ export function mapSourceToWikiSibling(sourceFile, obsidianConfig) {
     }
   }
 
-  // Generic fallback if no mapping rule matches
-  const base = path.basename(sourceFile);
-  return path.join(wikiDir, 'entities', `${base}.md`).replace(/\\/g, '/');
+  // Generic fallback if no mapping rule matches (only for code source files)
+  const ext = path.extname(sourceFile).toLowerCase();
+  const codeExts = ['.js', '.mjs', '.ts', '.sh', '.ps1', '.py', '.go', '.rs', '.c', '.cpp', '.h'];
+  if (codeExts.includes(ext)) {
+    const base = path.basename(sourceFile);
+    return path.join(wikiDir, 'entities', `${base}.md`).replace(/\\/g, '/');
+  }
+
+  return null;
 }
 
 /**

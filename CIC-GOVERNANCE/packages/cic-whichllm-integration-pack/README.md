@@ -41,12 +41,13 @@ A fully self-contained, zero-dependency Node 20+ ESM integration pack for connec
 | Artifact | Path | Purpose |
 |---|---|---|
 | Deterministic Adapter | `src/adapter/whichllm-adapter.js` | Core ESM adapter; all IDs SHA-256 derived |
+| OpenRouter Provider | `src/adapter/openrouter-provider.js` | Cloud provider adapter with rate card registry & retries |
 | Ingestion Schema | `schemas/whichllm-ingestion-schema.json` | JSON Schema Draft 2020-12 extension |
 | Governance Wrapper | `src/governance/governance-wrapper.js` | 5-check CIC governance gate (GC-01..05) |
 | Lineage Contract | `src/lineage/lineage-contract.js` | Append-only SHA-256 hash chain |
 | Harvester Registry | `src/harvester/harvester-registry.js` | Singleton registry with lifecycle API |
 | Observability Node | `src/observability/adapter-observer.js` | Spans + Prometheus metrics + HTTP server |
-| Unit Tests | `tests/unit/*.test.js` | 70+ assertions covering all modules |
+| Unit Tests | `tests/unit/*.test.js` | 75+ assertions covering all modules |
 | Integration Tests | `tests/integration/*.test.js` | Cross-module contract validation |
 | E2E Tests | `tests/e2e/full-pipeline.test.js` | 7 full-pipeline scenarios |
 

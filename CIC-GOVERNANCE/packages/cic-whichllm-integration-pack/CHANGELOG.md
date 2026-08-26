@@ -13,6 +13,14 @@ All notable changes to the CIC-WHICHLLM Integration Pack will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-08-24
+
+### Added
+- **OpenRouterProvider**: OpenRouter cloud provider module with rate card mapping for free models (`openrouter/oxalpha` at $0.00/1M tokens) and deterministic exponential retries.
+- **Model Allowlist Expansion**: Added `openrouter/`, `oxalpha`, and `anthropic/claude` model namespace prefixes to `GovernanceWrapper` allowlist.
+- **Wire-Exact Lineage Hashing**: Integrated single-stringify payload hashing ensuring lineage `requestHash` matches exact transmitted HTTP wire bytes (`deriveId(payload)`).
+- **Unit Test Suite**: Added 100% line coverage unit test suite for OpenRouterProvider in `tests/unit/openrouter-provider.test.js`.
+
 ## [1.0.0] - 2026-08-23
 
 ### Added

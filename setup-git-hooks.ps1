@@ -203,6 +203,10 @@ if [ -f "scripts/secret-scan-hook.sh" ]; then
   bash scripts/secret-scan-hook.sh || exit 1
 fi
 
+if [ -f "scripts/secret-scan.mjs" ]; then
+  node scripts/secret-scan.mjs || exit 1
+fi
+
 if [ -f "`$(dirname "`$0")/pre-commit.ps1" ]; then
   pwsh -NoProfile -File "`$(dirname "`$0")/pre-commit.ps1" "`$@" || exit 1
 fi

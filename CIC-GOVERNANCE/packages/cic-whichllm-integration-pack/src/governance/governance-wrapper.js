@@ -39,6 +39,9 @@ export const MODEL_ALLOWLIST = new Set([
   'mistral-large',
   'command-r-plus',
   'whichllm-auto', // WHICHLLM native auto-routing token
+  'openrouter/',   // OpenRouter namespace prefix
+  'oxalpha',       // Standalone Ox Alpha slug
+  'anthropic/claude', // Anthropic via OpenRouter
 ]);
 
 // ─── Check Definitions ────────────────────────────────────────────────────────
@@ -59,6 +62,7 @@ export class GovernanceWrapper {
   #amendmentRef;
   #strictMode;
   #customChecks;
+  #maxPromptBytes;
 
   /**
    * @param {object} opts
@@ -67,8 +71,10 @@ export class GovernanceWrapper {
    * @param {string}   opts.amendmentRef
    * @param {boolean}  [opts.strictMode=true]  - When true, 'fail' blocks execution
    * @param {Function[]} [opts.customChecks=[]] - Additional check functions (same sig as built-ins)
+   * @param {number}   [opts.maxPromptBytes=131072] - Maximum prompt size cap
    */
   constructor(opts) {
+    if (!opts) throw new Error('GovernanceWrapper: missing options object');
     const required = ['harvesterId', 'specVersion', 'amendmentRef'];
     for (const k of required) {
       if (!opts[k]) throw new Error(`GovernanceWrapper: missing required option '${k}'`);
@@ -78,6 +84,7 @@ export class GovernanceWrapper {
     this.#amendmentRef = opts.amendmentRef;
     this.#strictMode = opts.strictMode ?? true;
     this.#customChecks = opts.customChecks ?? [];
+    this.#maxPromptBytes = opts.maxPromptBytes ?? MAX_PROMPT_BYTES;
   }
 
   /**
@@ -203,11 +210,12 @@ export class GovernanceWrapper {
   /** GC-03: Enforce prompt size and disallow policy-prohibited content markers */
   async #runGC03(query) {
     const bytes = Buffer.byteLength(query.prompt, 'utf8');
-    if (bytes > MAX_PROMPT_BYTES) {
+    const allowedMax = this.#maxPromptBytes;
+    if (bytes > allowedMax) {
       return this.#result(
         CHECKS.GC_03,
         'fail',
-        `prompt exceeds maximum size: ${bytes} bytes > ${MAX_PROMPT_BYTES} bytes`
+        `prompt exceeds maximum size: ${bytes} bytes > ${allowedMax} bytes`
       );
     }
     // CIC §2 prohibited pattern gate (operator may extend via customChecks)

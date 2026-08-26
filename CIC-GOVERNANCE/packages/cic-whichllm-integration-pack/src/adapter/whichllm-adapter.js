@@ -15,6 +15,7 @@ import { EventEmitter } from 'node:events';
 import { LineageContract } from '../lineage/lineage-contract.js';
 import { GovernanceWrapper } from '../governance/governance-wrapper.js';
 import { AdapterObserver } from '../observability/adapter-observer.js';
+import { OpenRouterProvider } from './openrouter-provider.js';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -33,6 +34,7 @@ const BASE_BACKOFF_MS = 500; // deterministic: attempt^2 * BASE
  * @property {string}   apiEndpoint      - WHICHLLM API base URL
  * @property {string}   apiKey           - Bearer token (injected at runtime, never logged)
  * @property {string}   harvesterId      - Registered harvester ID from registry
+ * @property {string}   [openRouterApiKey] - API key for OpenRouter cloud models
  * @property {string}   [tenantId]       - CIC tenant identifier
  * @property {number}   [timeoutMs]      - Per-request timeout (default 30 000 ms)
  * @property {number}   [maxRetries]     - Max retry attempts (default 3)
@@ -44,6 +46,7 @@ const BASE_BACKOFF_MS = 500; // deterministic: attempt^2 * BASE
  * @typedef {Object} WhichLLMQuery
  * @property {string}   queryId      - Caller-supplied stable ID (used in lineage)
  * @property {string}   prompt       - Raw prompt text
+ * @property {string}   [model]      - Explicit model selector (e.g. 'openrouter/oxalpha')
  * @property {string[]} [modelHints] - Preferred model families
  * @property {object}   [meta]       - Arbitrary caller metadata (schema-validated)
  */
@@ -118,6 +121,8 @@ export class WhichLLMAdapter extends EventEmitter {
   #governance;
   /** @type {AdapterObserver} */
   #observer;
+  /** @type {OpenRouterProvider|null} */
+  #openRouterProvider = null;
 
   /**
    * @param {AdapterConfig} config
@@ -146,6 +151,11 @@ export class WhichLLMAdapter extends EventEmitter {
       harvesterId: this.#config.harvesterId,
       adapterVersion: ADAPTER_VERSION,
     });
+    if (this.#config.openRouterApiKey) {
+      this.#openRouterProvider = new OpenRouterProvider({
+        apiKey: this.#config.openRouterApiKey,
+      });
+    }
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────
@@ -165,31 +175,63 @@ export class WhichLLMAdapter extends EventEmitter {
       // 1. Pre-flight governance check
       await this.#governance.preCheck(query);
 
-      // 2. Build canonical request payload
-      const requestPayload = this.#buildRequestPayload(query);
+      let parsed;
+      let latencyMs;
+      let requestPayloadHash;
 
-      // 3. Execute with retry
-      const { rawResponse, latencyMs } = await this.#executeWithRetry(requestPayload);
+      const targetModel = query.model ?? query.meta?.model;
+      const isOpenRouter = typeof targetModel === 'string' && targetModel.startsWith('openrouter/');
 
-      // 4. Parse & validate response
-      const parsed = this.#parseResponse(rawResponse, query.queryId);
+      if (isOpenRouter) {
+        if (!this.#openRouterProvider) {
+          throw new Error('OpenRouter query requested but openRouterApiKey is not configured');
+        }
 
-      // 5. Stamp lineage
+        const providerResult = await this.#openRouterProvider.execute({
+          queryId: query.queryId,
+          model: targetModel,
+          prompt: query.prompt,
+          tools: query.meta?.tools,
+        });
+
+        requestPayloadHash = deriveId(providerResult.payload);
+        latencyMs = providerResult.latencyMs;
+
+        parsed = {
+          model: providerResult.model,
+          response: providerResult.response,
+          rawMeta: {
+            usage: providerResult.usage,
+            toolCalls: providerResult.toolCalls,
+            rawResponse: providerResult.rawResponse,
+          },
+        };
+      } else {
+        // Standard WHICHLLM HTTP API execution path
+        const requestPayloadObj = this.#buildRequestPayload(query);
+        requestPayloadHash = deriveId(requestPayloadObj);
+
+        const execResult = await this.#executeWithRetry(requestPayloadObj);
+        latencyMs = execResult.latencyMs;
+        parsed = this.#parseResponse(execResult.rawResponse, query.queryId);
+      }
+
+      // 3. Stamp lineage using exact wire payload hash
       const lineageHash = await this.#lineage.stamp({
         queryId: query.queryId,
-        requestHash: deriveId(requestPayload),
+        requestHash: requestPayloadHash,
         responseHash: deriveId(parsed),
         model: parsed.model,
       });
 
-      // 6. Post-flight governance attestation
+      // 4. Post-flight governance attestation
       const governanceAttestation = await this.#governance.attest({
         query,
         result: parsed,
         lineageHash,
       });
 
-      // 7. Assemble result
+      // 5. Assemble result
       const result = {
         resultId: deriveId({ queryId: query.queryId, lineageHash }),
         queryId: query.queryId,
@@ -269,8 +311,8 @@ export class WhichLLMAdapter extends EventEmitter {
   }
 
   #buildRequestPayload(query) {
-    // Canonical key ordering is critical for deterministic request hashing
-    return canonicalJson({
+    // Return raw object so deriveId() hashes single-stringified canonical JSON
+    return {
       harvesterId: this.#config.harvesterId,
       meta: query.meta ?? {},
       modelHints: query.modelHints ?? [],
@@ -278,10 +320,11 @@ export class WhichLLMAdapter extends EventEmitter {
       queryId: query.queryId,
       specVersion: CIC_SPEC_VERSION,
       tenantId: this.#config.tenantId ?? null,
-    });
+    };
   }
 
-  async #executeWithRetry(payload) {
+  async #executeWithRetry(payloadObj) {
+    const canonicalBody = canonicalJson(payloadObj);
     let lastErr;
     for (let attempt = 0; attempt < this.#config.maxRetries; attempt++) {
       if (attempt > 0) {
@@ -289,7 +332,7 @@ export class WhichLLMAdapter extends EventEmitter {
       }
       try {
         const t0 = performance.now();
-        const raw = await this.#fetchOnce(payload);
+        const raw = await this.#fetchOnce(canonicalBody);
         const latencyMs = Math.round(performance.now() - t0);
         return { rawResponse: raw, latencyMs };
       } catch (err) {
