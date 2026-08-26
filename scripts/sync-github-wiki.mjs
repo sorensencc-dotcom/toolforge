@@ -25,6 +25,7 @@ function copyRecursive(src, dest) {
 
     if (entry.isDirectory()) {
       if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === '.tmp.driveupload') continue;
+      if (entry.name === 'archive' && src === path.join(root, 'docs')) continue;
       fs.mkdirSync(destPath, { recursive: true });
       copied += copyRecursive(srcPath, destPath);
     } else if (entry.isFile() && /\.(md|png|svg|jpg|jpeg|gif|mermaid)$/i.test(entry.name)) {
