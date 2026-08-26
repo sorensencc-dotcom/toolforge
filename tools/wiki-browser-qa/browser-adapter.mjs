@@ -1,8 +1,9 @@
 import { spawn as nodeSpawn } from 'node:child_process';
 
 const DEFAULT_SETUP_COMMAND = process.platform === 'win32'
-  ? 'cd /d "%USERPROFILE%\\.agents\\skills\\gstack\\browse" && setup'
+  ? '& "$env:USERPROFILE\\.agents\\skills\\gstack\\browse\\dist\\browse.exe" --help'
   : 'cd ~/.agents/skills/gstack/browse && ./setup';
+const DEFAULT_SETUP_HINT = 'expected layout: $env:USERPROFILE\\.agents\\skills\\gstack\\browse\\dist\\browse.exe; reinstall or rebuild gstack browse if that executable is absent';
 
 function adapterError(kind, message, details = {}) {
   const error = new Error(message);
@@ -13,6 +14,12 @@ function adapterError(kind, message, details = {}) {
 
 function versionFrom(text) {
   return text.match(/gstack\s+browse\s+(?:v)?([0-9]+\.[0-9]+\.[0-9]+)/i)?.[1] ?? null;
+}
+
+function setupDiagnostic(setupCommand) {
+  return process.platform === 'win32'
+    ? `PowerShell command: ${setupCommand}; ${DEFAULT_SETUP_HINT}`
+    : `setup command: ${setupCommand}`;
 }
 
 function validateResponse(value) {
@@ -40,7 +47,8 @@ function validateResponse(value) {
     const viewport = value.viewport;
     const singleViewport = viewport && typeof viewport === 'object' && !Array.isArray(viewport) && ('width' in viewport || 'height' in viewport || 'overflow' in viewport);
     const validViewport = (item) => item && typeof item === 'object' && !Array.isArray(item) && Number.isFinite(item.width) && Number.isFinite(item.height) && (!('overflow' in item) || typeof item.overflow === 'boolean');
-    if (!viewport || typeof viewport !== 'object' || Array.isArray(viewport) || (singleViewport ? !validViewport(viewport) : Object.values(viewport).some((item) => !validViewport(item)))) throw adapterError('malformed-output', 'response.viewport must contain numeric dimensions and boolean overflow');
+    const nestedViewports = Object.values(viewport);
+    if (!viewport || typeof viewport !== 'object' || Array.isArray(viewport) || (singleViewport ? !validViewport(viewport) : nestedViewports.length === 0 || nestedViewports.some((item) => !validViewport(item)))) throw adapterError('malformed-output', 'response.viewport must contain numeric dimensions and boolean overflow');
   }
   return value;
 }
@@ -182,17 +190,17 @@ export function createBrowserAdapter(options = {}) {
       result = await invoke(['--help'], defaultTimeoutMs);
     } catch (error) {
       if (error.kind === 'missing-executable' || error.kind === 'setup-failure') {
-        return { available: false, kind: 'setup-failure', version: null, diagnostics: `${error.message}; setup command: ${setupCommand}; version: unavailable` };
+        return { available: false, kind: 'setup-failure', version: null, diagnostics: `${error.message}; ${setupDiagnostic(setupCommand)}; version: unavailable` };
       }
       if (error.kind === 'timeout') {
-        return { available: false, kind: 'setup-failure', version: null, diagnostics: `${error.message}; setup command: ${setupCommand}; version: unavailable` };
+        return { available: false, kind: 'setup-failure', version: null, diagnostics: `${error.message}; ${setupDiagnostic(setupCommand)}; version: unavailable` };
       }
       throw error;
     }
     const combined = `${result.stdout ?? ''}\n${result.stderr ?? ''}`.trim();
     const version = versionFrom(combined);
     if (result.status !== 0) {
-      return { available: false, kind: 'setup-failure', version, diagnostics: `${combined || 'gstack executable failed'}; setup command: ${setupCommand}` };
+      return { available: false, kind: 'setup-failure', version, diagnostics: `${combined || 'gstack executable failed'}; ${setupDiagnostic(setupCommand)}` };
     }
     return { available: true, kind: null, version, diagnostics: combined || 'gstack executable is available' };
   }

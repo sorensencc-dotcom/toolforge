@@ -62,7 +62,7 @@ test('normalizes documented gstack command output', async () => {
   });
 });
 
-test('reports missing executable with setup command and detected version diagnostics', async () => {
+test('reports missing executable with PowerShell-safe gstack browse diagnostics', async () => {
   const adapter = createBrowserAdapter({
     executable: 'missing-browse',
     spawn: async () => { throw Object.assign(new Error('not found'), { code: 'ENOENT' }); },
@@ -70,7 +70,9 @@ test('reports missing executable with setup command and detected version diagnos
   const result = await adapter.checkExecutable();
   assert.equal(result.available, false);
   assert.equal(result.kind, 'setup-failure');
-  assert.match(result.diagnostics, /cd \/d "%USERPROFILE%\\\.agents\\skills\\gstack\\browse" && setup/);
+  assert.match(result.diagnostics, /PowerShell command: & "\$env:USERPROFILE\\\.agents\\skills\\gstack\\browse\\dist\\browse\.exe" --help/);
+  assert.match(result.diagnostics, /expected layout: \$env:USERPROFILE\\\.agents\\skills\\gstack\\browse\\dist\\browse\.exe; reinstall or rebuild gstack browse if that executable is absent/);
+  assert.doesNotMatch(result.diagnostics, /cd \/d|&& setup/i);
   assert.match(result.diagnostics, /version: unavailable/i);
 });
 
@@ -202,6 +204,13 @@ test('fails closed for nested normalized observation shapes', () => {
     { viewport: { desktop: { width: '1280', height: 720, overflow: false } } },
   ];
   for (const value of invalid) assert.throws(() => normalizeBrowserObservation(value, 'https://example.test/page'), (error) => error.kind === 'malformed-output');
+});
+
+test('rejects an explicitly empty viewport object', () => {
+  assert.throws(
+    () => normalizeBrowserObservation({ viewport: {} }, 'https://example.test/page'),
+    (error) => error.kind === 'malformed-output',
+  );
 });
 
 test('keeps heading-less accessibility tree as raw normalized data', async () => {
