@@ -39,8 +39,12 @@ export function checkHiddenFrontmatter(bodyText = '') {
 }
 
 export function checkLinks(links = []) {
-  const invalid = links.filter((link) => link?.inScope !== false
-    && (link?.ok === false || (Number.isFinite(Number(link?.status)) && Number(link.status) >= 400)));
+  const invalid = links.filter((link) => {
+    if (link?.inScope === false) return false;
+    const status = Number(link?.status);
+    const successfulStatus = Number.isInteger(status) && status >= 200 && status < 300;
+    return link?.ok !== true && !successfulStatus;
+  });
   return result('links', invalid.length === 0, invalid.length === 0
     ? 'all in-scope links resolve'
     : `${invalid.length} in-scope link(s) failed to resolve`);
@@ -56,9 +60,13 @@ export function checkConsoleAndNetwork(observation = {}) {
 }
 
 export function checkImages(images = []) {
-  const broken = images.filter((image) => !textOf(image?.alt)
-    || Number(image?.naturalWidth) <= 0 || Number(image?.naturalHeight) <= 0
-    || image?.loaded === false || image?.complete === false);
+  const broken = images.filter((image) => {
+    const width = Number(image?.naturalWidth);
+    const height = Number(image?.naturalHeight);
+    return !textOf(image?.alt)
+    || !Number.isFinite(width) || width <= 0 || !Number.isFinite(height) || height <= 0
+    || image?.loaded === false || image?.complete === false;
+  });
   return result('images', broken.length === 0, broken.length === 0
     ? 'all rendered images have alt text and natural dimensions'
     : `${broken.length} rendered image(s) are missing alt text or failed to load`);
@@ -75,9 +83,10 @@ export function checkResponsiveOverflow(viewports = []) {
 }
 
 function matchesPolicy(evidence, rule) {
-  if (rule.selector && evidence.selector === rule.selector) return true;
-  if (rule.assetPattern && new RegExp(rule.assetPattern).test(String(evidence.src || ''))) return true;
-  return rule.sourceAsset && evidence.sourceAsset === rule.sourceAsset;
+  const selectorOrPatternMatches = (rule.selector && evidence.selector === rule.selector)
+    || (rule.assetPattern && new RegExp(rule.assetPattern).test(String(evidence.src || '')));
+  const sourceAsset = rule.sourceAsset || rule.sourceMapping;
+  return Boolean(selectorOrPatternMatches && sourceAsset && evidence.sourceAsset === sourceAsset);
 }
 
 export function checkDiagramEvidence(diagrams = [], policyRule = {}) {

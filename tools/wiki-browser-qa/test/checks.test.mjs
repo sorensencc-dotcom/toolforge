@@ -30,6 +30,7 @@ const passingObservation = {
     visible: true,
     loaded: true,
     src: '/assets/architecture.svg',
+    sourceAsset: 'assets/architecture.svg',
     alt: 'Architecture diagram',
     caption: 'Architecture overview',
     sourceBacked: true,
@@ -68,6 +69,9 @@ test('checkHiddenFrontmatter rejects YAML delimiters and keys exposed in rendere
 test('checkLinks rejects invalid in-scope links while ignoring external links', () => {
   assert.equal(checkLinks(passingObservation.links).passed, true);
   assert.equal(checkLinks([{ href: '/wiki/Missing', status: 404, inScope: true }]).passed, false);
+  assert.equal(checkLinks([{ href: '/wiki/Unknown', inScope: true }]).passed, false);
+  assert.equal(checkLinks([{ href: '/wiki/Unknown', ok: false, inScope: true }]).passed, false);
+  assert.equal(checkLinks([{ href: '/wiki/Unknown', status: 0, inScope: true }]).passed, false);
   assert.equal(checkLinks([{ href: 'https://external.test', status: 500, inScope: false }]).passed, true);
 });
 
@@ -82,6 +86,8 @@ test('checkConsoleAndNetwork reports console and failed network requests', () =>
 test('checkImages rejects broken images, empty alt text, and zero natural dimensions', () => {
   assert.equal(checkImages(passingObservation.images).passed, true);
   assert.equal(checkImages([{ src: '/broken.svg', alt: 'Diagram', naturalWidth: 0, naturalHeight: 0, complete: false }]).passed, false);
+  assert.equal(checkImages([{ src: '/unknown.svg', alt: 'Diagram', complete: true }]).passed, false);
+  assert.equal(checkImages([{ src: '/negative.svg', alt: 'Diagram', naturalWidth: -1, naturalHeight: 10, complete: true }]).passed, false);
   assert.equal(checkImages([{ src: '/no-alt.svg', alt: ' ', naturalWidth: 10, naturalHeight: 10, complete: true }]).passed, false);
 });
 
@@ -94,6 +100,7 @@ test('checkDiagramEvidence requires visible loaded source-backed diagram with al
   assert.equal(checkDiagramEvidence(passingObservation.diagrams, architecturePolicy).passed, true);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], visible: false }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], sourceBacked: false }], architecturePolicy).passed, false);
+  assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], src: '/assets/other.svg', sourceAsset: 'assets/other.svg', sourceBacked: true }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], alt: '' }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], caption: '' }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ selector: '.ascii', visible: true, loaded: true, fencedAscii: true }], {
