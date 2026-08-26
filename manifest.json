@@ -110,7 +110,7 @@
     },
     {
       "version": "1.0.0",
-      "description": "Session wrap audit \u2014 12-point blind-spot assessment before termination",
+      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
       "timestamps": {
         "created": "2026-07-08T18:28:04.4823311Z",
         "lastValidation": "2026-07-09T03:21:53.3879858Z",
@@ -357,8 +357,8 @@
       "version": "1.0.0",
       "description": "Autonomous execution context detection, validation, and storage",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -388,8 +388,8 @@
       "version": "1.0.0",
       "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -419,8 +419,8 @@
       "version": "1.0.0",
       "description": "Unified entry point for CodeFlow extraction into CIC stores",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -450,8 +450,8 @@
       "version": "1.0.0",
       "description": "Auto-summarize CIC phase progress and files reviewed",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -481,8 +481,8 @@
       "version": "1.0.0",
       "description": "Detect schema drift in agent messages and APIs",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -512,8 +512,8 @@
       "version": "1.0.0",
       "description": "Orchestrates multi-stage development pipelines and handles blockers",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -543,8 +543,8 @@
       "version": "1.0.0",
       "description": "Calculates progress and updates versions for CIC roadmaps",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -574,8 +574,8 @@
       "version": "1.0.0",
       "description": "Generates synchronization artifacts and reports for the knowledge base.",
       "timestamps": {
-        "created": "2026-07-09T00:00:00.000Z",
-        "lastValidation": "2026-07-09T00:00:00.000Z",
+        "created": "2026-07-09T00:00:00Z",
+        "lastValidation": "2026-07-09T00:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -605,8 +605,8 @@
       "version": "1.0.0",
       "description": "Validate, test, and auto-fix local HTML files for visual correctness: syntax check, WCAG contrast validation, Playwright screenshot + interaction tests, headless rendering",
       "timestamps": {
-        "created": "2026-07-09T23:45:00.000Z",
-        "lastValidation": "2026-07-09T23:45:00.000Z",
+        "created": "2026-07-09T23:45:00Z",
+        "lastValidation": "2026-07-09T23:45:00Z",
         "lastRun": null
       },
       "tags": [
@@ -798,7 +798,7 @@
         "canonical": true,
         "runtime": "untested",
         "distributed": false,
-        "overall": "warn"
+        "overall": "good"
       },
       "dependencies": {
         "external": [],
@@ -832,7 +832,7 @@
         "canonical": true,
         "runtime": "untested",
         "distributed": false,
-        "overall": "warn"
+        "overall": "good"
       },
       "dependencies": {
         "external": [],
@@ -1117,7 +1117,7 @@
       "version": "1.0.0",
       "description": "Deterministic technical writing heuristics, anti-slop rules, and Google Developer Style enforcement engine",
       "timestamps": {
-        "created": "2026-08-18T22:36:00.0000000Z",
+        "created": "2026-08-18T22:36:00Z",
         "lastValidation": "2026-08-19T08:43:32.595095Z",
         "lastRun": null
       },
@@ -1146,15 +1146,213 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
+      "timestamps": {
+        "created": "2026-08-26T00:00:00Z",
+        "lastValidation": "2026-08-26T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "trm",
+        "research-questions",
+        "trm-vault",
+        "curator"
+      ],
+      "status": "active",
+      "name": "Research Questions",
+      "runtime": "prompt",
+      "id": "research-questions",
+      "entrypoint": "SKILL.md",
+      "owner": "Soren (Cast Iron Forge)",
+      "category": "research-ops",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [
+          "scan-gaps.mjs",
+          "update-focus-areas.mjs"
+        ],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+      "timestamps": {
+        "created": "2026-08-26T00:00:00Z",
+        "lastValidation": "2026-08-26T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "retro",
+        "metrics",
+        "export",
+        "reporting"
+      ],
+      "status": "active",
+      "name": "Retro Export",
+      "runtime": "typescript",
+      "id": "retro-export",
+      "entrypoint": "src/index.ts",
+      "owner": "Soren (Cast Iron Forge)",
+      "category": "monitoring",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "timestamps": {
+        "created": "2026-08-26T00:00:00Z",
+        "lastValidation": "2026-08-26T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "storage",
+        "cleaner",
+        "brain",
+        "disk",
+        "maintenance",
+        "logs"
+      ],
+      "status": "active",
+      "name": "Workspace & Brain Storage Cleaner",
+      "runtime": "python",
+      "id": "workspace-storage-cleaner",
+      "entrypoint": "scripts/clean-storage.py",
+      "owner": "soren",
+      "category": "maintenance",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [
+          "python3"
+        ],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Audits the pre-commit hook chain for completeness, merged-shim provenance, and execution order",
+      "timestamps": {
+        "created": "2026-08-26T00:00:00Z",
+        "lastValidation": "2026-08-26T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "git-hooks",
+        "pre-commit",
+        "governance",
+        "installer-race"
+      ],
+      "status": "active",
+      "name": "Hook Validator",
+      "runtime": "javascript",
+      "id": "hook-validator",
+      "entrypoint": "src/index.js",
+      "owner": "Soren (Cast Iron Forge)",
+      "category": "validation",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Validates the test environment (ESLint ignore config, external fixtures, platform-specific assumptions) before npm test runs",
+      "timestamps": {
+        "created": "2026-08-26T00:00:00Z",
+        "lastValidation": "2026-08-26T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "testing",
+        "eslint",
+        "fixtures",
+        "cross-platform"
+      ],
+      "status": "active",
+      "name": "Pre-Flight Test Checker",
+      "runtime": "javascript",
+      "id": "pre-flight-test-checker",
+      "entrypoint": "src/index.js",
+      "owner": "Soren (Cast Iron Forge)",
+      "category": "validation",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Validates .retro/*.json files against the canonical retro schema v1.0 (required fields, types, ranges, unknown fields)",
+      "timestamps": {
+        "created": "2026-08-26T00:00:00Z",
+        "lastValidation": "2026-08-26T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "retro",
+        "schema",
+        "json-validation"
+      ],
+      "status": "active",
+      "name": "Retro Schema Validator",
+      "runtime": "javascript",
+      "id": "retro-schema-validator",
+      "entrypoint": "src/index.js",
+      "owner": "Soren (Cast Iron Forge)",
+      "category": "validation",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 38,
+    "total": 45,
     "health_error": 0,
     "deprecated": 0,
-    "active": 38,
-    "health_good": 36,
-    "health_warn": 2
+    "active": 45,
+    "health_good": 44,
+    "health_warn": 0
   },
   "timestamp": "2026-07-17T00:00:00Z",
   "version": "1.2.0"
