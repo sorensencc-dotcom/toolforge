@@ -1,10 +1,10 @@
 #!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-Register Windows scheduled task for weekly retro history audit.
+Register Windows scheduled task for daily retro history audit.
 
 .DESCRIPTION
-Creates a Windows Task Scheduler task that runs retro-audit-agent.ps1 every Sunday at 6 PM.
+Creates a Windows Task Scheduler task that runs retro-audit-agent.ps1 every day at 6 PM.
 Requires admin privileges.
 #>
 
@@ -53,10 +53,9 @@ $action = New-ScheduledTaskAction `
   -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`" -RepoRoot `"$repoRoot`"" `
   -WorkingDirectory "C:\dev"
 
-# Create task trigger: Weekly (Sunday) at 6 PM
+# Create task trigger: Daily at 6 PM
 $trigger = New-ScheduledTaskTrigger `
-  -Weekly `
-  -DaysOfWeek Sunday `
+  -Daily `
   -At "18:00"
 
 # Create task settings with timeout
@@ -68,7 +67,7 @@ $settings = New-ScheduledTaskSettingsSet `
 
 # Create and register task
 Write-Host "Registering task: $taskName" -ForegroundColor Cyan
-Write-Host "  Schedule: Weekly (Sunday) at 6:00 PM" -ForegroundColor Gray
+Write-Host "  Schedule: Daily at 6:00 PM" -ForegroundColor Gray
 Write-Host "  Script: $script" -ForegroundColor Gray
 Write-Host "  Timeout: 1 hour" -ForegroundColor Gray
 
@@ -80,7 +79,7 @@ try {
     -Trigger $trigger `
     -Settings $settings `
     -Principal $principal `
-    -Description "Weekly retro history validation and audit report" `
+    -Description "Daily retro history validation and audit report" `
     -Force | Out-Null
 
   Write-Host ""

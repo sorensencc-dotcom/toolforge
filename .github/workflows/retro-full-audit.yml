@@ -2,7 +2,7 @@ name: Retro Full History Audit
 
 on:
   schedule:
-    - cron: '30 7 * * 5'
+    - cron: '30 7 * * *'
   workflow_dispatch:
 
 permissions:

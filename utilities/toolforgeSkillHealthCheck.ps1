@@ -244,6 +244,10 @@ function Check-Entrypoint {
 function Check-Runtime {
   param([string]$SkillId, [string]$Runtime)
 
+  if ($Runtime -eq "prompt") {
+    Add-Check $SkillId "Runtime" "pass" "Prompt-only skill; no executable required"
+    return $true
+  }
   $runtimeMap = @{
     "typescript" = @("npm", "npx", "tsc")
     "javascript" = @("npm", "node")
@@ -576,7 +580,7 @@ Skills passing all checks:
 
   $goodSkills = @($health.skills.Keys | Where-Object { $health.skills[$_].health -eq "good" })
   if ($goodSkills.Count -eq 0) {
-    $md += "*(none)*\n"
+    $md += "*(none)*`n"
   } else {
     foreach ($skillId in ($goodSkills | Sort-Object)) {
       $md += "- $skillId`n"
@@ -593,7 +597,7 @@ Skills with warnings but no failures:
 
   $warnSkills = @($health.skills.Keys | Where-Object { $health.skills[$_].health -eq "warn" })
   if ($warnSkills.Count -eq 0) {
-    $md += "*(none)*\n"
+    $md += "*(none)*`n"
   } else {
     foreach ($skillId in ($warnSkills | Sort-Object)) {
       $md += "- $skillId`n"
