@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.51.1
+Date: 2026-08-26
+
+### Changes
+- 2f05cdd - Merge pull request #5 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- dca144f - fix(wiki): normalize titles and validate images (Chris)
+- 1686569 - Merge pull request #4 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- db1bac0 - docs: document governed agent dispatch (Chris)
+
 ## Version 2.51.0
 Date: 2026-08-26
 
