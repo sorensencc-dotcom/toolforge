@@ -13,7 +13,7 @@ Add `tools/wiki-browser-qa/` and expose it as `npm run wiki:qa`. The tool audits
 - Default target: `https://github.com/sorensencc-dotcom/toolforge/wiki`
 - Override target: `WIKI_QA_BASE_URL`
 - Optional page list: `WIKI_QA_PAGES`, comma-separated Wiki slugs
-- Optional output: `WIKI_QA_REPORT`, default `artifacts/wiki-qa/report.json`
+- Optional output: `WIKI_QA_REPORT`, default `.artifacts/wiki-qa/report.json` (gitignored); CI may override this path for artifact upload
 - Optional concurrency: `WIKI_QA_CONCURRENCY`, bounded and conservative by default
 - Optional timeout: `WIKI_QA_TIMEOUT_MS`
 - Non-zero exit when any required assertion fails
