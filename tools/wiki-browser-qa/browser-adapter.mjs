@@ -172,12 +172,25 @@ function pageEvidenceExpression(diagramRules = []) {
         };
       });
     });
-    return JSON.stringify({ images: [...document.images].map(imageFor), diagrams });
+    const root = document.documentElement;
+    return JSON.stringify({
+      images: [...document.images].map(imageFor),
+      diagrams,
+      viewport: {
+        scrollWidth: root.scrollWidth,
+        clientWidth: root.clientWidth,
+        overflow: root.scrollWidth > root.clientWidth + 1,
+      },
+    });
   })()`;
 }
 
 function mergeEvidence(observation, evidence, viewportName) {
   if (!observation.images) observation.images = evidence.images;
+  if (evidence.viewport && typeof evidence.viewport === 'object' && !Array.isArray(evidence.viewport)) {
+    observation.viewport ??= {};
+    observation.viewport[viewportName] = { ...(observation.viewport[viewportName] ?? {}), ...evidence.viewport };
+  }
   observation.diagrams ??= [];
   for (const diagram of evidence.diagrams) {
     const key = `${diagram.selector}\u0000${diagram.sourceAsset}\u0000${diagram.src ?? ''}`;

@@ -112,6 +112,40 @@ test('collects rendered image and required-diagram evidence at each viewport', a
   assert.equal(calls.filter((args) => args[0] === 'js').length, 2);
 });
 
+test('captures document-level horizontal overflow for each supported viewport', async () => {
+  let activeViewport = '';
+  const adapter = createBrowserAdapter({
+    executable: 'fake-browser',
+    spawn: async (_command, args) => {
+      if (args[0] === 'viewport') activeViewport = args[1];
+      const output = {
+        goto: 'Navigated to page\n',
+        text: 'Readable page\n',
+        links: '(no links)\n',
+        console: '(no console errors)\n',
+        network: '(no network requests)\n',
+        accessibility: 'heading "Readable page" [level=1]\n',
+        viewport: `Viewport set to ${args[1]}\n`,
+        js: JSON.stringify({
+          images: [],
+          diagrams: [],
+          viewport: activeViewport === '375x812'
+            ? { scrollWidth: 800, clientWidth: 375, overflow: true }
+            : { scrollWidth: 1280, clientWidth: 1280, overflow: false },
+        }),
+      };
+      return { status: 0, stderr: '', stdout: output[args[0]] || '' };
+    },
+  });
+
+  const observation = await adapter.openPage('https://example.test/wiki/Page');
+
+  assert.deepEqual(observation.viewport, {
+    desktop: { width: 1280, height: 720, scrollWidth: 1280, clientWidth: 1280, overflow: false },
+    mobile: { width: 375, height: 812, scrollWidth: 800, clientWidth: 375, overflow: true },
+  });
+});
+
 test('serializes shared browser page audits so observations stay bound to their page', async () => {
   let activeUrl = '';
   const adapter = createBrowserAdapter({

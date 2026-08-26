@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>failing-page</title>
+    <style>
+      body { font-family: sans-serif; margin: 0; }
+      .wide-content { width: 800px; }
+      #fixture-architecture img { display: block; width: 640px; }
+      @media (max-width: 600px) {
+        #fixture-architecture { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wide-content">
+      ---
+      title: Failing page
+      layout: wiki
+      ---
+      <h1>failing-page</h1>
+      <h1>Duplicate heading</h1>
+      <a href="/missing-page.html">Broken local page</a>
+      <img src="/assets/missing.svg" alt="">
+      <figure id="fixture-architecture" data-diagram="architecture">
+        <img src="/assets/architecture.svg" alt="">
+      </figure>
+    </main>
+  </body>
+</html>
