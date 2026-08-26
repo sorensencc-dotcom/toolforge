@@ -44,9 +44,10 @@ function addFrontmatterTitle(content) {
   if (closing < 0) return content;
   const frontmatter = content.slice(4, closing);
   const match = frontmatter.match(/^(?:title|source_title):\s*["']?(.+?)["']?\s*$/m);
-  if (!match || /^#\s/m.test(content.slice(closing + 4))) return content;
+  const body = content.slice(closing + 4).trimStart();
+  if (!match || /^#\s/m.test(body)) return body;
   const title = match[1].replace(/["']$/, '').trim();
-  return `${content.slice(0, closing + 4)}\n\n# ${title}\n${content.slice(closing + 4)}`;
+  return `# ${title}\n\n${body}`;
 }
 
 function validateMarkdownImages(wikiDir) {
@@ -88,6 +89,11 @@ function generateSidebar(wikiDir) {
 #### Model Evaluation & WhichLLM
 - [[WhichLLM Model Selection Evaluator|whichllm-model-selection-evaluator]]
 - [[Research Gaps Registry|trm-research-gaps]]
+
+#### Skill Library
+- [[Tool Index|INDEX]]
+- [[Tool Creation Guide|TOOL_CREATION_GUIDE]]
+- [[Operator Guide|OPERATOR_GUIDE]]
 
 #### TRM & Competitor Monitoring
 - [[Competitor Watchlist Drift Engine|competitor-watchlist-drift-engine]]
