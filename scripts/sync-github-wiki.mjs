@@ -102,6 +102,10 @@ async function main() {
   console.log(`Cloning remote wiki git repository...`);
   execSync(`git clone "${repoUrl}" "${targetWikiDir}"`, { stdio: 'inherit' });
 
+  // Historical archives are not published to the Wiki and may remain from older syncs.
+  const archivedWikiDocs = path.join(targetWikiDir, 'docs', 'archive');
+  if (fs.existsSync(archivedWikiDocs)) fs.rmSync(archivedWikiDocs, { recursive: true, force: true });
+
   // 2. Copy root guides
   console.log(`Copying root governance & guide documents...`);
   const rootFiles = [
