@@ -20,16 +20,16 @@ test('constructs safe gstack command for page navigation', async () => {
     executable: 'browse.exe',
     spawn: (command, args) => {
       calls.push({ command, args });
-      return { stdout: args[0] === 'goto' ? 'Navigated to page\n' : args[0] === 'text' ? 'Page\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : '(no console errors)\n', stderr: '', status: 0 };
+      return { stdout: args[0] === 'goto' ? 'Navigated to page\n' : args[0] === 'text' ? 'Page\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : args[0] === 'js' ? JSON.stringify({ images: [], diagrams: [] }) : '(no console errors)\n', stderr: '', status: 0 };
     },
   });
 
   await adapter.openPage('https://example.test/wiki/Page', { timeoutMs: 2500 });
-  assert.deepEqual(calls.map(({ args }) => args), [
-    ['goto', 'https://example.test/wiki/Page'], ['text'], ['links'], ['console', '--errors'],
-    ['network'], ['accessibility'], ['viewport', '1280x720'], ['viewport', '375x812'],
+  assert.deepEqual(calls.map(({ args }) => args[0]), [
+    'goto', 'text', 'links', 'console', 'network', 'accessibility', 'viewport', 'js', 'viewport', 'js',
   ]);
-  assert.equal(calls.flatMap(({ args }) => args).some((arg) => /cookie|header|token|password/i.test(arg)), false);
+  assert.equal(calls.filter(({ args }) => args[0] === 'js').every(({ args }) => /document\.images/.test(args[1])), true);
+  assert.equal(calls.some(({ args }) => ['cookie', 'cookie-import', 'cookie-import-browser', 'cookies', 'header'].includes(args[0])), false);
 });
 
 test('normalizes documented gstack command output', async () => {
@@ -43,6 +43,10 @@ test('normalizes documented gstack command output', async () => {
       network: 'GET https://example.test/missing.png → 404 (1ms, 0B)\n',
       accessibility: 'heading "A Human Page" [level=1]\n',
       viewport: `Viewport set to ${args[1]}\n`,
+      js: JSON.stringify({
+        images: [{ src: 'https://example.test/diagram.svg', alt: 'Architecture diagram', naturalWidth: 900, naturalHeight: 500, complete: true, loaded: true }],
+        diagrams: [],
+      }),
     })[args[0]] || '' }),
   });
 
@@ -56,10 +60,89 @@ test('normalizes documented gstack command output', async () => {
     domAssertions: [{ level: 1, role: 'heading', text: 'A Human Page' }],
     accessibility: 'heading "A Human Page" [level=1]',
     viewport: { desktop: { width: 1280, height: 720 }, mobile: { width: 375, height: 812 } },
-    images: [],
+    images: [{ src: 'https://example.test/diagram.svg', alt: 'Architecture diagram', naturalWidth: 900, naturalHeight: 500, complete: true, loaded: true }],
     links: [{ text: 'Page', href: 'https://example.test/wiki/Page' }],
     diagrams: [],
   });
+});
+
+test('collects rendered image and required-diagram evidence at each viewport', async () => {
+  const calls = [];
+  const adapter = createBrowserAdapter({
+    executable: 'fake-browser',
+    spawn: async (_command, args) => {
+      calls.push(args);
+      const output = {
+        goto: 'Navigated to page\n',
+        text: 'Architecture\n',
+        links: '(no links)\n',
+        console: '(no console errors)\n',
+        network: '(no network requests)\n',
+        accessibility: 'heading "Architecture" [level=1]\n',
+        viewport: `Viewport set to ${args[1]}\n`,
+        js: JSON.stringify({
+          images: [{ src: 'https://example.test/assets/architecture.svg', alt: 'Architecture diagram', naturalWidth: 900, naturalHeight: 500, complete: true, loaded: true }],
+          diagrams: [{
+            selector: '[data-diagram="architecture"]',
+            src: 'https://example.test/assets/architecture.svg',
+            sourceAsset: 'assets/architecture.svg',
+            visible: true,
+            loaded: true,
+            sourceBacked: true,
+            alt: 'Architecture diagram',
+            caption: 'Architecture overview',
+            fencedAscii: false,
+            viewport: { visible: true, overflow: false },
+          }],
+        }),
+      };
+      return { status: 0, stderr: '', stdout: output[args[0]] || '' };
+    },
+  });
+
+  const observation = await adapter.openPage('https://example.test/wiki/Architecture', {
+    diagramRules: [{ selector: '[data-diagram="architecture"]', sourceAsset: 'assets/architecture.svg' }],
+  });
+
+  assert.equal(observation.images[0].naturalWidth, 900);
+  assert.deepEqual(observation.diagrams[0].viewports, {
+    desktop: { visible: true, overflow: false },
+    mobile: { visible: true, overflow: false },
+  });
+  assert.equal(calls.filter((args) => args[0] === 'js').length, 2);
+});
+
+test('serializes shared browser page audits so observations stay bound to their page', async () => {
+  let activeUrl = '';
+  const adapter = createBrowserAdapter({
+    executable: 'fake-browser',
+    spawn: async (_command, args) => {
+      if (args[0] === 'goto') {
+        activeUrl = args[1];
+        return { status: 0, stderr: '', stdout: 'Navigated to page\n' };
+      }
+      await new Promise((resolve) => setImmediate(resolve));
+      const pageName = new URL(activeUrl).pathname.split('/').at(-1);
+      const output = {
+        text: `Page ${pageName}\n`,
+        links: '(no links)\n',
+        console: '(no console errors)\n',
+        network: '(no network requests)\n',
+        accessibility: `heading "Page ${pageName}" [level=1]\n`,
+        viewport: `Viewport set to ${args[1]}\n`,
+        js: JSON.stringify({ images: [], diagrams: [] }),
+      };
+      return { status: 0, stderr: '', stdout: output[args[0]] || '' };
+    },
+  });
+
+  const [one, two] = await Promise.all([
+    adapter.openPage('https://example.test/wiki/One'),
+    adapter.openPage('https://example.test/wiki/Two'),
+  ]);
+
+  assert.equal(one.text, 'Page One');
+  assert.equal(two.text, 'Page Two');
 });
 
 test('reports missing executable with PowerShell-safe gstack browse diagnostics', async () => {
@@ -141,6 +224,7 @@ test('interacts with a fake executable and closes it', async () => {
     if (args[0] === 'network') console.log('(no network requests)');
     if (args[0] === 'accessibility') console.log('heading "Fake Page" [level=1]');
     if (args[0] === 'viewport') console.log('Viewport set to ' + args[1]);
+    if (args[0] === 'js') console.log(JSON.stringify({ images: [], diagrams: [] }));
     if (args[0] === 'stop') console.log('[browse] Shutting down...');
   `);
   const adapter = createBrowserAdapter({ executable: fake.executable, executableArgs: fake.args });
@@ -161,7 +245,7 @@ test('stops persistent browser on close', async () => {
   const calls = [];
   const adapter = createBrowserAdapter({
     executable: 'fake-browser',
-    spawn: (command, args) => { calls.push(args); return { status: 0, stdout: args[0] === 'goto' ? 'Navigated\n' : args[0] === 'text' ? 'Page\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : '(no console errors)\n', stderr: '' }; },
+    spawn: (command, args) => { calls.push(args); return { status: 0, stdout: args[0] === 'goto' ? 'Navigated\n' : args[0] === 'text' ? 'Page\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : args[0] === 'js' ? JSON.stringify({ images: [], diagrams: [] }) : '(no console errors)\n', stderr: '' }; },
   });
   await adapter.openPage('https://example.test/page');
   await adapter.close();
@@ -181,7 +265,7 @@ test('serializes close behind the complete openPage collection', async () => {
         textStarted();
         return new Promise((resolve) => { releaseText = () => resolve({ status: 0, stdout: 'Page\n', stderr: '' }); });
       }
-      const output = args[0] === 'goto' ? 'Navigated\n' : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : '(no console errors)\n';
+      const output = args[0] === 'goto' ? 'Navigated\n' : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : args[0] === 'js' ? JSON.stringify({ images: [], diagrams: [] }) : '(no console errors)\n';
       return { status: 0, stdout: output, stderr: '' };
     },
   });
@@ -219,6 +303,7 @@ test('keeps heading-less accessibility tree as raw normalized data', async () =>
     spawn: async (_command, args) => ({ status: 0, stderr: '', stdout: ({
       goto: 'Navigated\n', text: 'Body text\n', links: '(no links)\n', console: '(no console errors)\n',
       network: '(no network requests)\n', accessibility: 'paragraph "Body text"\n', viewport: `Viewport set to ${args[1]}\n`,
+      js: JSON.stringify({ images: [], diagrams: [] }),
     })[args[0]] }),
   });
   const observation = await adapter.openPage('https://example.test/page');

@@ -111,7 +111,84 @@ function parseCommandOutput(command, stdout) {
     if (!match) throw adapterError('malformed-output', 'gstack viewport output is invalid');
     return { viewport: { width: Number(match[1]), height: Number(match[2]) } };
   }
+  if (command === 'js') {
+    let evidence;
+    try { evidence = JSON.parse(output); } catch { throw adapterError('malformed-output', 'gstack evidence output is invalid JSON'); }
+    if (!evidence || typeof evidence !== 'object' || Array.isArray(evidence)
+      || !Array.isArray(evidence.images) || !Array.isArray(evidence.diagrams)) {
+      throw adapterError('malformed-output', 'gstack evidence output must include image and diagram arrays');
+    }
+    return evidence;
+  }
   return {};
+}
+
+function pageEvidenceExpression(diagramRules = []) {
+  const rules = diagramRules.map((rule) => ({
+    selector: String(rule?.selector ?? ''),
+    sourceAsset: String(rule?.sourceAsset ?? ''),
+    assetPattern: String(rule?.assetPattern ?? ''),
+  })).filter((rule) => rule.selector);
+  return `(() => {
+    const safeUrl = (value) => {
+      try {
+        const url = new URL(value, document.location.href);
+        url.username = ''; url.password = ''; url.search = ''; url.hash = '';
+        return url.href;
+      } catch { return ''; }
+    };
+    const visible = (element) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && rect.width > 0 && rect.height > 0;
+    };
+    const captionFor = (element) => {
+      const container = element.closest('figure, .diagram-container, [data-diagram]') || element.parentElement;
+      const caption = container?.querySelector('figcaption, .caption, [data-caption]')?.textContent;
+      const heading = container?.previousElementSibling?.matches?.('h1,h2,h3,h4,h5,h6') ? container.previousElementSibling.textContent : '';
+      return (caption || heading || '').trim();
+    };
+    const imageFor = (image) => ({
+      src: safeUrl(image.currentSrc || image.src || ''), alt: image.alt || '', naturalWidth: image.naturalWidth,
+      naturalHeight: image.naturalHeight, complete: image.complete, loaded: image.complete && image.naturalWidth > 0 && image.naturalHeight > 0,
+    });
+    const diagrams = ${JSON.stringify(rules)}.flatMap((rule) => {
+      let elements;
+      try { elements = [...document.querySelectorAll(rule.selector)]; } catch { return []; }
+      return elements.map((element) => {
+        const image = element.matches('img') ? element : element.querySelector('img');
+        const src = safeUrl(image?.currentSrc || image?.src || element.getAttribute('src') || document.location.href);
+        let sourceBacked = Boolean(rule.sourceAsset);
+        if (sourceBacked && rule.assetPattern) {
+          try { sourceBacked = new RegExp(rule.assetPattern).test(src); } catch { sourceBacked = false; }
+        }
+        const rect = element.getBoundingClientRect();
+        return {
+          selector: rule.selector, src, sourceAsset: rule.sourceAsset, visible: visible(element),
+          loaded: image ? image.complete && image.naturalWidth > 0 && image.naturalHeight > 0 : true,
+          sourceBacked, alt: image?.alt || element.getAttribute('aria-label') || element.querySelector('title')?.textContent?.trim() || '',
+          caption: captionFor(element), fencedAscii: Boolean(element.closest('pre, code')),
+          viewport: { visible: visible(element), overflow: element.scrollWidth > element.clientWidth + 1 || rect.right > window.innerWidth + 1 },
+        };
+      });
+    });
+    return JSON.stringify({ images: [...document.images].map(imageFor), diagrams });
+  })()`;
+}
+
+function mergeEvidence(observation, evidence, viewportName) {
+  if (!observation.images) observation.images = evidence.images;
+  observation.diagrams ??= [];
+  for (const diagram of evidence.diagrams) {
+    const key = `${diagram.selector}\u0000${diagram.sourceAsset}\u0000${diagram.src ?? ''}`;
+    let stored = observation.diagrams.find((candidate) => `${candidate.selector}\u0000${candidate.sourceAsset}\u0000${candidate.src ?? ''}` === key);
+    if (!stored) {
+      stored = { ...diagram, viewports: {} };
+      delete stored.viewport;
+      observation.diagrams.push(stored);
+    }
+    stored.viewports[viewportName] = diagram.viewport ?? { visible: diagram.visible, overflow: false };
+  }
 }
 
 function collectChild(child) {
@@ -177,6 +254,7 @@ export function createBrowserAdapter(options = {}) {
   let closed = false;
   let closing = false;
   let closePromise;
+  let pageQueue = Promise.resolve();
 
   async function invoke(args, timeoutMs) {
     const operation = runProcess(spawn, executable, [...executableArgs, ...args], timeoutMs, children);
@@ -215,20 +293,27 @@ export function createBrowserAdapter(options = {}) {
     const goto = await invoke(['goto', parsed.href], timeoutMs);
     if (goto.status !== 0) throw adapterError('browser-failure', 'gstack browser navigation failed', { status: goto.status, stderr: goto.stderr });
     started = true;
-    for (const args of [['text'], ['links'], ['console', '--errors'], ['network'], ['accessibility'], ['viewport', '1280x720'], ['viewport', '375x812']]) {
+    for (const args of [['text'], ['links'], ['console', '--errors'], ['network'], ['accessibility']]) {
       const result = await invoke(args, timeoutMs);
       if (result.status !== 0) throw adapterError('browser-failure', `gstack browser command failed: ${args[0]}`, { status: result.status, stderr: result.stderr });
       const response = parseCommandOutput(args[0], result.stdout ?? '');
-      if (args[0] === 'viewport') {
-        const name = args[1] === '375x812' ? 'mobile' : 'desktop';
-        observation.viewport = { ...(observation.viewport ?? {}), [name]: response.viewport ?? response };
-      } else Object.assign(observation, response);
+      Object.assign(observation, response);
+    }
+    for (const [name, size] of [['desktop', '1280x720'], ['mobile', '375x812']]) {
+      const viewportResult = await invoke(['viewport', size], timeoutMs);
+      if (viewportResult.status !== 0) throw adapterError('browser-failure', 'gstack browser command failed: viewport', { status: viewportResult.status, stderr: viewportResult.stderr });
+      const viewportResponse = parseCommandOutput('viewport', viewportResult.stdout ?? '');
+      observation.viewport = { ...(observation.viewport ?? {}), [name]: viewportResponse.viewport };
+      const evidenceResult = await invoke(['js', pageEvidenceExpression(openOptions.diagramRules)], timeoutMs);
+      if (evidenceResult.status !== 0) throw adapterError('browser-failure', 'gstack browser command failed: js', { status: evidenceResult.status, stderr: evidenceResult.stderr });
+      mergeEvidence(observation, parseCommandOutput('js', evidenceResult.stdout ?? ''), name);
     }
     return normalizeBrowserObservation(observation, parsed.href);
   }
 
   function openPage(url, openOptions = {}) {
-    const operation = collectPage(url, openOptions);
+    const operation = pageQueue.then(() => collectPage(url, openOptions));
+    pageQueue = operation.catch(() => {});
     inFlight.add(operation);
     return operation.finally(() => inFlight.delete(operation));
   }

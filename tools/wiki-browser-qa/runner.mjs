@@ -1,4 +1,5 @@
 import { mkdir, writeFile } from 'node:fs/promises';
+import { dirname } from 'node:path';
 
 import policy from './diagram-policy.json' with { type: 'json' };
 import { createBrowserAdapter } from './browser-adapter.mjs';
@@ -28,14 +29,35 @@ function normalizeBaseUrl(value = DEFAULT_BASE_URL) {
 function canonicalUrl(value, baseUrl) {
   const candidate = String(value || '').trim();
   if (!candidate) return null;
-  const resolved = /^https?:\/\//i.test(candidate)
-    ? new URL(candidate)
-    : new URL(candidate.replace(/^\/+/, ''), `${baseUrl}/`);
+  let resolved;
+  try {
+    resolved = /^https?:\/\//i.test(candidate)
+      ? new URL(candidate)
+      : new URL(candidate.replace(/^\/+/, ''), `${baseUrl}/`);
+  } catch {
+    return null;
+  }
+  if (resolved.protocol !== 'http:' && resolved.protocol !== 'https:') return null;
   if (resolved.username || resolved.password) return null;
   resolved.search = '';
   resolved.hash = '';
   resolved.pathname = resolved.pathname.replace(/\/+$/, '');
   return resolved.href.replace(/\/$/, '');
+}
+
+function isWithinWikiScope(url, baseUrl) {
+  const base = new URL(baseUrl);
+  const candidate = new URL(url);
+  const basePath = base.pathname.replace(/\/+$/, '') || '/';
+  const prefix = basePath === '/' ? '/' : `${basePath}/`;
+  return candidate.origin === base.origin
+    && (candidate.pathname === basePath || candidate.pathname.startsWith(prefix));
+}
+
+function pageSelectionError() {
+  const error = new Error('WIKI_QA_PAGES contains a page outside the configured Wiki origin or prefix');
+  error.kind = 'invalid-page-selection';
+  return error;
 }
 
 function slugFor(url) {
@@ -117,60 +139,75 @@ function aggregatePages(pages) {
 }
 
 async function writeReport(fs, reportPath, report) {
-  if (typeof fs.mkdir === 'function') await fs.mkdir(reportPath.replace(/[\\/][^\\/]+$/, ''), { recursive: true });
+  const reportDirectory = dirname(reportPath);
+  if (typeof fs.mkdir === 'function' && reportDirectory && reportDirectory !== '.') {
+    await fs.mkdir(reportDirectory, { recursive: true });
+  }
   await fs.writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 }
 
 function explicitUrls(env, baseUrl) {
   if (!env.WIKI_QA_PAGES?.trim()) return null;
-  return env.WIKI_QA_PAGES.split(',')
-    .map((page) => canonicalUrl(page, baseUrl))
-    .filter(Boolean);
+  return env.WIKI_QA_PAGES.split(',').map((page) => {
+    const url = canonicalUrl(page, baseUrl);
+    if (!url || !isWithinWikiScope(url, baseUrl)) throw pageSelectionError();
+    return url;
+  });
 }
 
 function discoveredUrls(observation, baseUrl) {
-  const base = new URL(baseUrl);
-  const prefix = `${base.pathname}/`;
   return (observation.links ?? [])
     .filter((link) => link?.inScope !== false)
     .map((link) => canonicalUrl(link?.href, baseUrl))
-    .filter((url) => {
-      if (!url || url === baseUrl) return false;
-      const candidate = new URL(url);
-      return candidate.origin === base.origin && candidate.pathname.startsWith(prefix);
-    });
+    .filter((url) => url && url !== baseUrl && isWithinWikiScope(url, baseUrl));
 }
 
 function dedupe(urls) {
   return [...new Map(urls.map((url) => [url.toLowerCase(), url])).values()];
 }
 
-async function auditPage(url, context) {
+async function openPageWithTransientRetry(url, context) {
   let attempts = 0;
   while (attempts < MAX_ATTEMPTS) {
     attempts += 1;
     try {
-      const raw = await context.adapter.openPage(url, { timeoutMs: context.pageTimeoutMs });
-      const observation = normalizeObservation(raw);
-      const policyRule = policyFor(slugFor(url), context.policy);
-      const checks = checkPageObservation({ ...observation, url }, policyRule);
-      return pageResult(url, checks.every((check) => check.passed) ? 'passed' : 'failed', {
-        checks,
-        consoleErrors: observation.consoleErrors ?? [],
-        failedRequests: observation.failedRequests ?? [],
-        diagramEvidence: observation.diagrams ?? [],
-        sourceMapping: policyRule.sourceMappings ?? [],
-        viewports: observation.viewports ?? [],
-        attempts,
+      const observation = await context.adapter.openPage(url, {
+        timeoutMs: context.pageTimeoutMs,
+        diagramRules: context.diagramRules ?? [],
       });
+      return { observation, attempts };
     } catch (error) {
       if (!isTransient(error) || attempts === MAX_ATTEMPTS) {
-        return pageResult(url, 'failed', { attempts, error: errorSummary(error) });
+        error.attempts = attempts;
+        throw error;
       }
       await context.clock.sleep(0);
     }
   }
-  return pageResult(url, 'failed', { attempts });
+  throw new Error('page navigation retry loop exhausted');
+}
+
+async function auditPage(url, context) {
+  const policyRule = policyFor(slugFor(url), context.policy);
+  try {
+    const { observation: raw, attempts } = await openPageWithTransientRetry(url, {
+      ...context,
+      diagramRules: policyRule.requiredDiagrams ?? policyRule.diagrams ?? [],
+    });
+    const observation = normalizeObservation(raw);
+    const checks = checkPageObservation({ ...observation, url }, policyRule);
+    return pageResult(url, checks.every((check) => check.passed) ? 'passed' : 'failed', {
+      checks,
+      consoleErrors: observation.consoleErrors ?? [],
+      failedRequests: observation.failedRequests ?? [],
+      diagramEvidence: observation.diagrams ?? [],
+      sourceMapping: policyRule.sourceMappings ?? [],
+      viewports: observation.viewports ?? [],
+      attempts,
+    });
+  } catch (error) {
+    return pageResult(url, 'failed', { attempts: error.attempts ?? 1, error: errorSummary(error) });
+  }
 }
 
 export async function runWikiQa(env = process.env, dependencies = {}) {
@@ -207,7 +244,12 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
 
     urls = explicitUrls(env, baseUrl);
     if (!urls) {
-      const index = await adapter.openPage(baseUrl, { timeoutMs: pageTimeoutMs });
+      const { observation: index } = await openPageWithTransientRetry(baseUrl, {
+        adapter,
+        clock,
+        pageTimeoutMs,
+        diagramRules: [],
+      });
       urls = discoveredUrls(index, baseUrl);
     }
     urls = dedupe(urls);

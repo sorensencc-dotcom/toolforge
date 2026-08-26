@@ -66,6 +66,27 @@ test('runs explicitly selected pages once after URL deduplication', async () => 
   assert.equal(fs.writes[0].path, '.artifacts/wiki-qa/report.json');
 });
 
+test('rejects explicit pages outside the configured Wiki origin or prefix', async () => {
+  for (const page of ['https://outside.example/wiki/One', 'https://example.test/not-wiki/One']) {
+    const calls = [];
+    const adapter = createAdapter(async (url) => {
+      calls.push(url);
+      return passingObservation(url);
+    });
+
+    const result = await runWikiQa({
+      WIKI_QA_BASE_URL: BASE_URL,
+      WIKI_QA_PAGES: page,
+    }, dependencies(adapter));
+
+    assert.deepEqual(calls, []);
+    assert.equal(result.report.partial, true);
+    assert.equal(result.report.discoveryError.kind, 'invalid-page-selection');
+    assert.match(result.report.reason, /outside the configured Wiki origin or prefix/i);
+    assert.equal(result.exitCode, 1);
+  }
+});
+
 test('discovers deduplicated Wiki links from the index when pages are not explicit', async () => {
   const calls = [];
   const adapter = createAdapter(async (url) => {
@@ -87,6 +108,30 @@ test('discovers deduplicated Wiki links from the index when pages are not explic
 
   assert.deepEqual(calls, [BASE_URL, `${BASE_URL}/One`]);
   assert.deepEqual(result.report.pages.map((page) => page.slug), ['One']);
+});
+
+test('retries a transient initial index discovery failure before crawling pages', async () => {
+  const calls = [];
+  let indexAttempts = 0;
+  const adapter = createAdapter(async (url) => {
+    calls.push(url);
+    if (url === BASE_URL) {
+      indexAttempts += 1;
+      if (indexAttempts === 1) {
+        const error = new Error('index navigation timed out');
+        error.kind = 'timeout';
+        throw error;
+      }
+      return { ...passingObservation(url), links: [{ text: 'One', href: `${BASE_URL}/One`, ok: true }] };
+    }
+    return passingObservation(url);
+  });
+
+  const result = await runWikiQa({ WIKI_QA_BASE_URL: BASE_URL }, dependencies(adapter));
+
+  assert.deepEqual(calls, [BASE_URL, BASE_URL, `${BASE_URL}/One`]);
+  assert.equal(result.report.partial, false);
+  assert.equal(result.report.pages[0].status, 'passed');
 });
 
 test('fails closed when index discovery yields no auditable pages', async () => {
@@ -155,6 +200,42 @@ test('does not retry assertion failures', async () => {
   assert.equal(result.exitCode, 1);
 });
 
+test('passes required diagram rules to the adapter evidence collector', async () => {
+  const diagramRule = {
+    selector: '[data-diagram="architecture"]',
+    sourceAsset: 'assets/architecture.svg',
+  };
+  let receivedOptions;
+  const adapter = createAdapter(async (url, options) => {
+    receivedOptions = options;
+    return {
+      ...passingObservation(url),
+      diagrams: [{
+        selector: '[data-diagram="architecture"]',
+        sourceAsset: 'assets/architecture.svg',
+        visible: true,
+        loaded: true,
+        sourceBacked: true,
+        alt: 'Architecture diagram',
+        caption: 'Architecture overview',
+        viewports: {
+          desktop: { visible: true, overflow: false },
+          mobile: { visible: true, overflow: false },
+        },
+      }],
+    };
+  });
+  const activePolicy = { pages: [{ slug: 'Architecture', requiredDiagrams: [diagramRule] }] };
+
+  const result = await runWikiQa(
+    { WIKI_QA_BASE_URL: BASE_URL, WIKI_QA_PAGES: 'Architecture' },
+    dependencies(adapter, createFs(), { policy: activePolicy }),
+  );
+
+  assert.deepEqual(receivedOptions.diagramRules, [diagramRule]);
+  assert.equal(result.report.pages[0].status, 'passed');
+});
+
 test('writes a partial report for pages left unfinished by timeout', async () => {
   const fs = createFs();
   let call = 0;
@@ -189,4 +270,23 @@ test('honors a report-path override and exposes aggregate failure counts', async
   assert.equal(result.report.aggregate.failed, 1);
   assert.equal(result.report.aggregate.unfinished, 0);
   assert.equal(result.exitCode, 1);
+});
+
+test('writes a bare report filename without creating a directory of the same name', async () => {
+  const mkdirs = [];
+  const writes = [];
+  const fs = {
+    async mkdir(path) { mkdirs.push(path); },
+    async writeFile(path, contents) { writes.push({ path, report: JSON.parse(contents) }); },
+  };
+
+  const result = await runWikiQa({
+    WIKI_QA_BASE_URL: BASE_URL,
+    WIKI_QA_PAGES: 'One',
+    WIKI_QA_REPORT: 'wiki-qa-report.json',
+  }, dependencies(createAdapter(async (url) => passingObservation(url)), fs));
+
+  assert.deepEqual(mkdirs, []);
+  assert.equal(writes[0].path, 'wiki-qa-report.json');
+  assert.equal(result.exitCode, 0);
 });
