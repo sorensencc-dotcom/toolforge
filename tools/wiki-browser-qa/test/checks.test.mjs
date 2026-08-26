@@ -35,6 +35,10 @@ const passingObservation = {
     caption: 'Architecture overview',
     sourceBacked: true,
     fencedAscii: false,
+    viewports: {
+      desktop: { visible: true, overflow: false },
+      mobile: { visible: true, overflow: false },
+    },
   }],
 };
 
@@ -42,8 +46,13 @@ const architecturePolicy = {
   requiredDiagrams: [{
     selector: '[data-diagram="architecture"]',
     sourceAsset: 'assets/architecture.svg',
+    assetPattern: '(?:^|/)architecture\\.svg$',
     requireAlt: true,
     requireCaption: true,
+    viewports: {
+      desktop: { requireVisible: true, allowHorizontalOverflow: false },
+      mobile: { requireVisible: true, allowHorizontalOverflow: false },
+    },
   }],
 };
 
@@ -104,8 +113,17 @@ test('checkDiagramEvidence requires visible loaded source-backed diagram with al
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], visible: false }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], sourceBacked: false }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], src: '/assets/other.svg', sourceAsset: 'assets/other.svg', sourceBacked: true }], architecturePolicy).passed, false);
+  assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], src: '/assets/other.svg' }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], alt: '' }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ ...passingObservation.diagrams[0], caption: '' }], architecturePolicy).passed, false);
+  assert.equal(checkDiagramEvidence([{
+    ...passingObservation.diagrams[0],
+    viewports: { ...passingObservation.diagrams[0].viewports, mobile: { visible: false, overflow: false } },
+  }], architecturePolicy).passed, false);
+  assert.equal(checkDiagramEvidence([{
+    ...passingObservation.diagrams[0],
+    viewports: { ...passingObservation.diagrams[0].viewports, mobile: { visible: true, overflow: true } },
+  }], architecturePolicy).passed, false);
   assert.equal(checkDiagramEvidence([{ selector: '.ascii', visible: true, loaded: true, fencedAscii: true }], {
     requiredDiagrams: [{ selector: '.ascii', sourceAsset: 'assets/ascii.svg' }],
   }).passed, false);

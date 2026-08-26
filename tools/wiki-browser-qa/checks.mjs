@@ -85,9 +85,19 @@ export function checkResponsiveOverflow(viewports = []) {
 function matchesPolicy(evidence, rule) {
   const sourceAsset = rule.sourceAsset || rule.sourceMapping;
   if (!sourceAsset || evidence.sourceAsset !== sourceAsset) return false;
-  if (rule.selector) return evidence.selector === rule.selector;
-  if (rule.assetPattern) return new RegExp(rule.assetPattern).test(String(evidence.src || ''));
+  if (rule.selector && evidence.selector !== rule.selector) return false;
+  if (rule.assetPattern && !new RegExp(rule.assetPattern).test(String(evidence.src || ''))) return false;
   return true;
+}
+
+function meetsViewportRequirements(evidence, requirements = {}) {
+  return Object.entries(requirements).every(([name, expected]) => {
+    const observed = evidence.viewports?.[name];
+    if (!observed) return false;
+    if (expected.requireVisible === true && observed.visible !== true) return false;
+    if (expected.allowHorizontalOverflow === false && observed.overflow === true) return false;
+    return true;
+  });
 }
 
 export function checkDiagramEvidence(diagrams = [], policyRule = {}) {
@@ -97,7 +107,8 @@ export function checkDiagramEvidence(diagrams = [], policyRule = {}) {
     const evidence = diagrams.find((candidate) => matchesPolicy(candidate, rule));
     return !evidence || evidence.fencedAscii === true || evidence.visible !== true || evidence.loaded !== true
       || evidence.sourceBacked !== true || (rule.requireAlt !== false && !textOf(evidence.alt))
-      || (rule.requireCaption !== false && !textOf(evidence.caption) && !textOf(evidence.explanatoryHeading));
+      || (rule.requireCaption !== false && !textOf(evidence.caption) && !textOf(evidence.explanatoryHeading))
+      || !meetsViewportRequirements(evidence, rule.viewports);
   });
   return result('diagram-evidence', failures.length === 0, failures.length === 0
     ? 'required diagrams are visible, loaded, accessible, and source-backed'

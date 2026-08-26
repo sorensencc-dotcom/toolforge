@@ -4,16 +4,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { CLASSIFIED_WIKI_PAGES } from '../wiki-page-rules.mjs';
+
 const toolRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const policyPath = path.join(toolRoot, 'diagram-policy.json');
 
-const classifiedPages = [
-  'toolforge-architecture-overview',
-  'OLLAMA_PROVIDER_SETUP',
-  'OLLAMA_DEPLOYMENT_GUIDE',
-  'whichllm-model-selection-evaluator',
-  'GOVERNANCE',
-];
+const classifiedPages = CLASSIFIED_WIKI_PAGES.map(({ slug }) => slug);
 
 function loadPolicy() {
   return JSON.parse(fs.readFileSync(policyPath, 'utf8'));
@@ -44,7 +40,7 @@ function validatePolicy(policy, pages = classifiedPages) {
     for (const mapping of page.sourceMappings) {
       const resolved = path.resolve(toolRoot, '..', '..', mapping.repositoryPath);
       assert.equal(fs.existsSync(resolved), true, `${page.slug} mapping does not resolve: ${mapping.repositoryPath}`);
-      assert.ok(['source-asset', 'generated-artifact'].includes(mapping.kind));
+      assert.ok(['source-page', 'source-asset', 'generated-artifact'].includes(mapping.kind));
     }
   }
 }
@@ -79,4 +75,55 @@ test('policy rejects a nonexistent source mapping', () => {
 
 test('approved policy covers classified pages and resolves every source mapping', () => {
   validatePolicy(loadPolicy());
+});
+
+test('approved policy requires real nested diagram evidence for every classified page', () => {
+  const policy = loadPolicy();
+  const entries = new Map(policy.pages.map((page) => [page.slug, page]));
+  assert.equal(new Set(policy.pages.map((page) => page.slug)).size, policy.pages.length, 'policy must not contain duplicate slugs');
+
+  for (const rule of CLASSIFIED_WIKI_PAGES) {
+    const page = entries.get(rule.slug);
+    assert.ok(page, `${rule.slug} must be covered from authoritative publication rules`);
+    assert.equal(page.sourcePage, rule.sourcePage, `${rule.slug} must use its published source page`);
+    assert.ok(page.requiredDiagrams.length > 0, `${rule.slug} must require diagram evidence`);
+
+    for (const expected of rule.requiredDiagrams) {
+      const diagram = page.requiredDiagrams.find((candidate) => candidate.sourceAsset === expected.sourceAsset);
+      assert.ok(diagram, `${rule.slug} must map required source asset ${expected.sourceAsset}`);
+      assert.equal(diagram.selector, expected.selector, `${rule.slug} must use the published artifact selector`);
+      assert.equal(diagram.assetPattern, expected.assetPattern, `${rule.slug} must use the published artifact pattern`);
+      assert.equal(diagram.requireAlt, true, `${rule.slug} must require alternative text`);
+      assert.equal(diagram.requireCaption, true, `${rule.slug} must require a caption or explanatory heading`);
+      assert.deepEqual(diagram.viewports, {
+        desktop: { requireVisible: true, allowHorizontalOverflow: false },
+        mobile: { requireVisible: true, allowHorizontalOverflow: false },
+      }, `${rule.slug} must require desktop and mobile visible, non-overflowing diagram evidence`);
+      assert.equal(fs.existsSync(path.resolve(toolRoot, '..', '..', diagram.sourceAsset)), true,
+        `${rule.slug} must map to a real repository asset`);
+      assert.match(expected.publishedAssetPath, new RegExp(diagram.assetPattern),
+        `${rule.slug} asset pattern must match its actual published artifact`);
+      const sourceText = fs.readFileSync(path.resolve(toolRoot, '..', '..', page.sourcePage), 'utf8');
+      if (diagram.sourceAsset === page.sourcePage) {
+        assert.match(sourceText, /<svg[^>]+aria-label=/,
+          `${rule.slug} inline SVG artifact must expose meaningful alternative text`);
+        assert.match(sourceText, /class="diagram-caption"/,
+          `${rule.slug} inline SVG artifact must include a nearby caption`);
+      } else {
+        assert.ok(sourceText.includes(expected.publishedAssetPath),
+          `${rule.slug} source page must embed its actual published diagram asset`);
+      }
+    }
+
+    assert.deepEqual(page.acceptedSelectors, page.requiredDiagrams.map(({ selector }) => selector),
+      `${rule.slug} legacy selectors must match nested requiredDiagrams`);
+    assert.deepEqual(page.acceptedAssetPatterns, page.requiredDiagrams.map(({ assetPattern }) => assetPattern),
+      `${rule.slug} legacy patterns must match nested requiredDiagrams`);
+    assert.ok(page.sourceMappings.some(({ repositoryPath }) => repositoryPath === page.sourcePage),
+      `${rule.slug} sourceMappings must validate the published page source`);
+    for (const diagram of page.requiredDiagrams) {
+      assert.ok(page.sourceMappings.some(({ repositoryPath }) => repositoryPath === diagram.sourceAsset),
+        `${rule.slug} sourceMappings must validate nested source asset ${diagram.sourceAsset}`);
+    }
+  }
 });
