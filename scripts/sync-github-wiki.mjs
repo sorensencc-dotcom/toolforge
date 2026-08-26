@@ -39,8 +39,10 @@ function copyRecursive(src, dest) {
 }
 
 function addFrontmatterTitle(content) {
-  if (!content.startsWith('---\n')) return content;
-  const closing = content.indexOf('\n---', 4);
+  if (!/^---\r?\n/.test(content)) return content;
+  const closingMatch = /\r?\n---(?:\r?\n|$)/.exec(content.slice(4));
+  if (!closingMatch) return content;
+  const closing = closingMatch.index + 4;
   if (closing < 0) return content;
   const frontmatter = content.slice(4, closing);
   const match = frontmatter.match(/^(?:title|source_title):\s*["']?(.+?)["']?\s*$/m);
@@ -48,6 +50,11 @@ function addFrontmatterTitle(content) {
   if (!match || /^#\s/m.test(body)) return body;
   const title = match[1].replace(/["']$/, '').trim();
   return `# ${title}\n\n${body}`;
+}
+
+function copyMarkdownFile(src, dest) {
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.writeFileSync(dest, addFrontmatterTitle(fs.readFileSync(src, 'utf8')));
 }
 
 function validateMarkdownImages(wikiDir) {
@@ -68,6 +75,19 @@ function validateMarkdownImages(wikiDir) {
   }
   walk(wikiDir);
   if (missing.length) throw new Error(`Missing local Markdown image targets:\n${missing.join('\n')}`);
+}
+
+function normalizeMarkdownTree(wikiDir) {
+  function walk(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.name.toLowerCase().endsWith('.md')) {
+        fs.writeFileSync(full, addFrontmatterTitle(fs.readFileSync(full, 'utf8')));
+      }
+    }
+  }
+  walk(wikiDir);
 }
 
 function generateSidebar(wikiDir) {
@@ -163,7 +183,8 @@ async function main() {
   for (const rf of rootFiles) {
     const src = path.join(root, rf);
     if (fs.existsSync(src)) {
-      fs.copyFileSync(src, path.join(targetWikiDir, rf));
+      if (rf.toLowerCase().endsWith('.md')) copyMarkdownFile(src, path.join(targetWikiDir, rf));
+      else fs.copyFileSync(src, path.join(targetWikiDir, rf));
     }
   }
 
@@ -187,7 +208,8 @@ async function main() {
   for (const map of rootPageMappings) {
     const src = path.join(root, map.src);
     if (fs.existsSync(src)) {
-      fs.copyFileSync(src, path.join(targetWikiDir, map.dest));
+      if (map.dest.toLowerCase().endsWith('.md')) copyMarkdownFile(src, path.join(targetWikiDir, map.dest));
+      else fs.copyFileSync(src, path.join(targetWikiDir, map.dest));
     }
   }
 
@@ -207,6 +229,7 @@ async function main() {
   generateHome(targetWikiDir);
   generateSidebar(targetWikiDir);
   generateFooter(targetWikiDir);
+  normalizeMarkdownTree(targetWikiDir);
   validateMarkdownImages(targetWikiDir);
 
   // 5. Commit and push
