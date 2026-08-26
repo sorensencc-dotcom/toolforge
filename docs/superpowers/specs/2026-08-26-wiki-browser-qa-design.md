@@ -46,7 +46,7 @@ Keep the tool deliberately small:
 
 Reuse `scripts/sync-github-wiki.mjs` for source-side page rules and image validation rather than creating a second Markdown/discovery implementation. Browser discovery starts from the Wiki index and accepts explicit pages for deterministic targeted runs.
 
-Use an existing supported browser runner when available; otherwise declare the smallest locked browser dependency needed for reproducible CI. Browser setup must be explicit and documented. The tool must remain usable against a local static mirror for deterministic tests.
+Use a small adapter around the supported gstack browser executable. `runner.mjs` must detect the executable before starting, report the expected setup command and detected version when unavailable, and fail clearly rather than silently falling back to HTTP-only checks. Browser setup must be explicit and documented in the tool README and CI job. The tool must remain usable against a local static mirror for deterministic tests.
 
 ## Reporting
 
