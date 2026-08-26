@@ -24,8 +24,9 @@ function validateResponse(value) {
     failedRequests: (item) => typeof item.url === 'string' && (typeof item.status === 'number' || typeof item.status === 'string'),
     dom: (item) => typeof item.text === 'string' || typeof item.role === 'string',
     domAssertions: (item) => typeof item.text === 'string' || typeof item.role === 'string',
-    images: (item) => typeof item.src === 'string' && typeof item.alt === 'string',
+    images: (item) => typeof item.src === 'string' && typeof item.alt === 'string' && (!('naturalWidth' in item) || Number.isFinite(item.naturalWidth)) && (!('naturalHeight' in item) || Number.isFinite(item.naturalHeight)) && (!('loaded' in item) || typeof item.loaded === 'boolean'),
     links: (item) => typeof item.text === 'string' && typeof item.href === 'string',
+    diagrams: (item) => typeof item.selector === 'string' && typeof item.visible === 'boolean' && typeof item.loaded === 'boolean' && typeof item.sourceAsset === 'string',
   };
   for (const [field, predicate] of Object.entries(arrayFields)) {
     if (field in value && (!Array.isArray(value[field]) || value[field].some((item) => !item || typeof item !== 'object' || Array.isArray(item) || !predicate(item)))) {
@@ -33,16 +34,18 @@ function validateResponse(value) {
     }
   }
   for (const field of ['title', 'text', 'url']) if (field in value && typeof value[field] !== 'string') throw adapterError('malformed-output', `response.${field} must be a string`);
-  if ('heading' in value && (!value.heading || typeof value.heading !== 'object' || Array.isArray(value.heading) || !Number.isInteger(value.heading.level) || typeof value.heading.text !== 'string')) throw adapterError('malformed-output', 'response.heading must contain integer level and string text');
+  if ('accessibility' in value && typeof value.accessibility !== 'string') throw adapterError('malformed-output', 'response.accessibility must be a string');
+  if ('heading' in value && value.heading !== null && (!value.heading || typeof value.heading !== 'object' || Array.isArray(value.heading) || !Number.isInteger(value.heading.level) || typeof value.heading.text !== 'string')) throw adapterError('malformed-output', 'response.heading must contain integer level and string text or be null');
   if ('viewport' in value) {
     const viewport = value.viewport;
     const singleViewport = viewport && typeof viewport === 'object' && !Array.isArray(viewport) && ('width' in viewport || 'height' in viewport || 'overflow' in viewport);
-    if (!viewport || typeof viewport !== 'object' || Array.isArray(viewport) || (!singleViewport && Object.values(viewport).some((item) => !item || typeof item !== 'object' || Array.isArray(item)))) throw adapterError('malformed-output', 'response.viewport must be an object of viewport observations');
+    const validViewport = (item) => item && typeof item === 'object' && !Array.isArray(item) && Number.isFinite(item.width) && Number.isFinite(item.height) && (!('overflow' in item) || typeof item.overflow === 'boolean');
+    if (!viewport || typeof viewport !== 'object' || Array.isArray(viewport) || (singleViewport ? !validViewport(viewport) : Object.values(viewport).some((item) => !validViewport(item)))) throw adapterError('malformed-output', 'response.viewport must contain numeric dimensions and boolean overflow');
   }
   return value;
 }
 
-function normalizeObservation(raw, requestedUrl) {
+export function normalizeBrowserObservation(raw, requestedUrl) {
   const value = validateResponse(raw);
   return {
     url: value.url ?? requestedUrl,
@@ -52,9 +55,11 @@ function normalizeObservation(raw, requestedUrl) {
     consoleErrors: value.consoleErrors ?? value.console ?? [],
     failedRequests: value.failedRequests ?? value.network ?? [],
     domAssertions: value.domAssertions ?? value.dom ?? [],
+    accessibility: value.accessibility ?? '',
     viewport: value.viewport ?? {},
     images: value.images ?? [],
     links: value.links ?? [],
+    diagrams: value.diagrams ?? [],
   };
 }
 
@@ -91,8 +96,7 @@ function parseCommandOutput(command, stdout) {
   if (command === 'accessibility') {
     if (!output || output === '(no accessible elements found)') return { domAssertions: [] };
     const headings = [...output.matchAll(/^\s*(?:-\s*)?heading\s+"([^"]+)"\s+\[level=(\d+)\]/gmi)].map((match) => ({ role: 'heading', text: match[1], level: Number(match[2]) }));
-    if (output.toLowerCase().includes('heading') && headings.length === 0) throw adapterError('malformed-output', 'gstack accessibility output contains an invalid heading');
-    return { heading: headings.find((heading) => heading.level === 1) ?? null, domAssertions: headings };
+    return { accessibility: output, heading: headings.find((heading) => heading.level === 1) ?? null, domAssertions: headings };
   }
   if (command === 'viewport') {
     const match = output.match(/^Viewport set to (\d+)x(\d+)$/);
@@ -193,7 +197,7 @@ export function createBrowserAdapter(options = {}) {
     return { available: true, kind: null, version, diagnostics: combined || 'gstack executable is available' };
   }
 
-  async function openPage(url, openOptions = {}) {
+  async function collectPage(url, openOptions = {}) {
     if (closed || closing) throw adapterError('lifecycle', 'browser adapter is closed');
     let parsed;
     try { parsed = new URL(url); } catch { throw adapterError('invalid-url', 'browser URL is invalid or contains credentials'); }
@@ -212,7 +216,13 @@ export function createBrowserAdapter(options = {}) {
         observation.viewport = { ...(observation.viewport ?? {}), [name]: response.viewport ?? response };
       } else Object.assign(observation, response);
     }
-    return normalizeObservation(observation, parsed.href);
+    return normalizeBrowserObservation(observation, parsed.href);
+  }
+
+  function openPage(url, openOptions = {}) {
+    const operation = collectPage(url, openOptions);
+    inFlight.add(operation);
+    return operation.finally(() => inFlight.delete(operation));
   }
 
   async function close() {

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createBrowserAdapter } from '../browser-adapter.mjs';
+import { createBrowserAdapter, normalizeBrowserObservation } from '../browser-adapter.mjs';
 
 const nodeExecutable = process.execPath;
 
@@ -54,10 +54,12 @@ test('normalizes documented gstack command output', async () => {
     consoleErrors: [{ level: 'error', text: 'bad script' }],
     failedRequests: [{ url: 'https://example.test/missing.png', status: 404, details: '1ms, 0B' }],
     domAssertions: [{ level: 1, role: 'heading', text: 'A Human Page' }],
+    accessibility: 'heading "A Human Page" [level=1]',
     viewport: { desktop: { width: 1280, height: 720 }, mobile: { width: 375, height: 812 } },
     images: [],
     links: [{ text: 'Page', href: 'https://example.test/wiki/Page' }],
-});
+    diagrams: [],
+  });
 });
 
 test('reports missing executable with setup command and detected version diagnostics', async () => {
@@ -114,18 +116,6 @@ test('classifies malformed JSON-line output', async () => {
   );
 });
 
-test('fails closed when a response field has the wrong shape', async () => {
-  const adapter = createBrowserAdapter({
-    executable: 'fake-browser',
-    spawn: async (_command, args) => ({ status: 0, stderr: '', stdout: ({
-      goto: 'Navigated\n', text: 'Page\n', links: '(no links)\n', console: '(no console errors)\n',
-      network: '(no network requests)\n', accessibility: 'heading "Bad" [level=wat]\n',
-      viewport: `Viewport set to ${args[1]}\n`,
-    })[args[0]] }),
-  });
-  await assert.rejects(adapter.openPage('https://example.test/bad-shape'), (error) => error.kind === 'malformed-output');
-});
-
 test('rejects URL credentials without exposing URL in error', async () => {
   const calls = [];
   const adapter = createBrowserAdapter({ executable: 'fake-browser', spawn: (command, args) => { calls.push(args); return { status: 0, stdout: '{}\n', stderr: '' }; } });
@@ -174,4 +164,55 @@ test('stops persistent browser on close', async () => {
   await adapter.openPage('https://example.test/page');
   await adapter.close();
   assert.deepEqual(calls.at(-1), ['stop']);
+});
+
+test('serializes close behind the complete openPage collection', async () => {
+  const calls = [];
+  let releaseText;
+  let textStarted;
+  const textReady = new Promise((resolve) => { textStarted = resolve; });
+  const adapter = createBrowserAdapter({
+    executable: 'fake-browser',
+    spawn: (command, args) => {
+      calls.push(args);
+      if (args[0] === 'text') {
+        textStarted();
+        return new Promise((resolve) => { releaseText = () => resolve({ status: 0, stdout: 'Page\n', stderr: '' }); });
+      }
+      const output = args[0] === 'goto' ? 'Navigated\n' : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : '(no console errors)\n';
+      return { status: 0, stdout: output, stderr: '' };
+    },
+  });
+  const opening = adapter.openPage('https://example.test/page');
+  await textReady;
+  const closing = adapter.close();
+  await Promise.resolve();
+  assert.equal(calls.some((args) => args[0] === 'stop'), false);
+  releaseText();
+  await opening;
+  await closing;
+  assert.deepEqual(calls.at(-1), ['stop']);
+});
+
+test('fails closed for nested normalized observation shapes', () => {
+  const invalid = [
+    { links: [{ text: 'home', href: 42 }] },
+    { images: [{ src: '/diagram.svg', alt: 'diagram', naturalWidth: '100' }] },
+    { diagrams: [{ selector: '.diagram', visible: 'yes', loaded: true, sourceAsset: 'asset.svg' }] },
+    { viewport: { desktop: { width: '1280', height: 720, overflow: false } } },
+  ];
+  for (const value of invalid) assert.throws(() => normalizeBrowserObservation(value, 'https://example.test/page'), (error) => error.kind === 'malformed-output');
+});
+
+test('keeps heading-less accessibility tree as raw normalized data', async () => {
+  const adapter = createBrowserAdapter({
+    executable: 'fake-browser',
+    spawn: async (_command, args) => ({ status: 0, stderr: '', stdout: ({
+      goto: 'Navigated\n', text: 'Body text\n', links: '(no links)\n', console: '(no console errors)\n',
+      network: '(no network requests)\n', accessibility: 'paragraph "Body text"\n', viewport: `Viewport set to ${args[1]}\n`,
+    })[args[0]] }),
+  });
+  const observation = await adapter.openPage('https://example.test/page');
+  assert.equal(observation.heading, null);
+  assert.equal(observation.accessibility, 'paragraph "Body text"');
 });
