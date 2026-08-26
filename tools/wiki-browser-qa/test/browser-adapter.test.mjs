@@ -20,7 +20,7 @@ test('constructs safe gstack command for page navigation', async () => {
     executable: 'browse.exe',
     spawn: (command, args) => {
       calls.push({ command, args });
-      return { stdout: JSON.stringify({}), stderr: '', status: 0 };
+      return { stdout: args[0] === 'goto' ? 'Navigated to page\n' : args[0] === 'text' ? 'Page\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : '(no console errors)\n', stderr: '', status: 0 };
     },
   });
 
@@ -32,31 +32,31 @@ test('constructs safe gstack command for page navigation', async () => {
   assert.equal(calls.flatMap(({ args }) => args).some((arg) => /cookie|header|token|password/i.test(arg)), false);
 });
 
-test('normalizes JSON-line browser response', async () => {
+test('normalizes documented gstack command output', async () => {
   const adapter = createBrowserAdapter({
     executable: 'fake-browser',
-    spawn: async (_command, args) => ({ status: 0, stderr: '', stdout: JSON.stringify({
-      ...(args[0] === 'goto' ? { url: 'https://example.test/wiki/Page' } : {}),
-      ...(args[0] === 'text' ? { title: 'A Human Page', heading: { level: 1, text: 'A Human Page' }, text: 'A Human Page' } : {}),
-      ...(args[0] === 'console' ? { consoleErrors: [{ level: 'error', text: 'bad script' }] } : {}),
-      ...(args[0] === 'network' ? { failedRequests: [{ url: 'https://example.test/missing.png', status: 404 }] } : {}),
-      ...(args[0] === 'accessibility' ? { domAssertions: [{ selector: 'h1', passed: true }] } : {}),
-      ...(args[0] === 'viewport' ? { viewport: { width: Number(args[1].split('x')[0]), overflow: false } } : {}),
-      links: args[0] === 'links' ? [{ text: 'Page', href: '/wiki/Page' }] : undefined,
-    }) + '\n' }),
+    spawn: async (_command, args) => ({ status: 0, stderr: '', stdout: ({
+      goto: 'Navigated to page\n',
+      text: 'A Human Page\n',
+      links: 'Page → https://example.test/wiki/Page\n',
+      console: '[2026-08-26T00:00:00.000Z] [error] bad script\n',
+      network: 'GET https://example.test/missing.png → 404 (1ms, 0B)\n',
+      accessibility: 'heading "A Human Page" [level=1]\n',
+      viewport: `Viewport set to ${args[1]}\n`,
+    })[args[0]] || '' }),
   });
 
   assert.deepEqual(await adapter.openPage('https://example.test/wiki/Page'), {
     url: 'https://example.test/wiki/Page',
     title: 'A Human Page',
-    heading: { level: 1, text: 'A Human Page' },
+    heading: { level: 1, role: 'heading', text: 'A Human Page' },
     text: 'A Human Page',
     consoleErrors: [{ level: 'error', text: 'bad script' }],
-    failedRequests: [{ url: 'https://example.test/missing.png', status: 404 }],
-    domAssertions: [{ selector: 'h1', passed: true }],
-    viewport: { desktop: { width: 1280, overflow: false }, mobile: { width: 375, overflow: false } },
+    failedRequests: [{ url: 'https://example.test/missing.png', status: 404, details: '1ms, 0B' }],
+    domAssertions: [{ level: 1, role: 'heading', text: 'A Human Page' }],
+    viewport: { desktop: { width: 1280, height: 720 }, mobile: { width: 375, height: 812 } },
     images: [],
-    links: [{ text: 'Page', href: '/wiki/Page' }],
+    links: [{ text: 'Page', href: 'https://example.test/wiki/Page' }],
 });
 });
 
@@ -106,20 +106,22 @@ test('classifies asynchronous missing executable as setup failure', async () => 
 test('classifies malformed JSON-line output', async () => {
   const adapter = createBrowserAdapter({
     executable: 'fake-browser',
-    spawn: async () => ({ status: 0, stdout: '{not-json}\n', stderr: '' }),
+    spawn: async (_command, args) => ({ status: 0, stdout: args[0] === 'goto' ? 'Navigated\n' : 'not a valid links response\n', stderr: '' }),
   });
   await assert.rejects(
     adapter.openPage('https://example.test/bad-output'),
-    (error) => error.kind === 'malformed-output' && /JSON/i.test(error.message),
+    (error) => error.kind === 'malformed-output' && /links|output/i.test(error.message),
   );
 });
 
 test('fails closed when a response field has the wrong shape', async () => {
   const adapter = createBrowserAdapter({
     executable: 'fake-browser',
-    spawn: async (_command, args) => ({
-      status: 0, stderr: '', stdout: JSON.stringify(args[0] === 'text' ? { title: 42 } : {}) + '\n',
-    }),
+    spawn: async (_command, args) => ({ status: 0, stderr: '', stdout: ({
+      goto: 'Navigated\n', text: 'Page\n', links: '(no links)\n', console: '(no console errors)\n',
+      network: '(no network requests)\n', accessibility: 'heading "Bad" [level=wat]\n',
+      viewport: `Viewport set to ${args[1]}\n`,
+    })[args[0]] }),
   });
   await assert.rejects(adapter.openPage('https://example.test/bad-shape'), (error) => error.kind === 'malformed-output');
 });
@@ -140,10 +142,14 @@ test('interacts with a fake executable and closes it', async () => {
   const fake = await fakeExecutable(`
     const args = process.argv.slice(2);
     if (args[0] === '--help') { console.log('gstack browse 9.9.9'); process.exit(0); }
-    if (args[0] === 'goto') console.log(JSON.stringify({ url: args[1] }));
-    if (args[0] === 'text') console.log(JSON.stringify({ title: 'Fake Page', heading: { level: 1, text: 'Fake Page' }, text: 'Fake Page' }));
-    if (['links', 'console', 'network', 'accessibility', 'viewport'].includes(args[0])) console.log(JSON.stringify({}));
-    if (args[0] === 'stop') console.log(JSON.stringify({ stopped: true }));
+    if (args[0] === 'goto') console.log('Navigated to page');
+    if (args[0] === 'text') console.log('Fake Page');
+    if (args[0] === 'links') console.log('Home → https://example.test/home');
+    if (args[0] === 'console') console.log('(no console errors)');
+    if (args[0] === 'network') console.log('(no network requests)');
+    if (args[0] === 'accessibility') console.log('heading "Fake Page" [level=1]');
+    if (args[0] === 'viewport') console.log('Viewport set to ' + args[1]);
+    if (args[0] === 'stop') console.log('[browse] Shutting down...');
   `);
   const adapter = createBrowserAdapter({ executable: fake.executable, executableArgs: fake.args });
   try {
@@ -163,7 +169,7 @@ test('stops persistent browser on close', async () => {
   const calls = [];
   const adapter = createBrowserAdapter({
     executable: 'fake-browser',
-    spawn: (command, args) => { calls.push(args); return { status: 0, stdout: '{}\n', stderr: '' }; },
+    spawn: (command, args) => { calls.push(args); return { status: 0, stdout: args[0] === 'goto' ? 'Navigated\n' : args[0] === 'text' ? 'Page\n' : args[0] === 'viewport' ? `Viewport set to ${args[1]}\n` : args[0] === 'accessibility' ? '(no accessible elements found)\n' : args[0] === 'links' ? '(no links)\n' : args[0] === 'network' ? '(no network requests)\n' : '(no console errors)\n', stderr: '' }; },
   });
   await adapter.openPage('https://example.test/page');
   await adapter.close();

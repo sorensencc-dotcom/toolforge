@@ -17,9 +17,19 @@ function versionFrom(text) {
 
 function validateResponse(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw adapterError('malformed-output', 'browser response must be an object');
-  for (const field of ['console', 'consoleErrors', 'network', 'failedRequests', 'dom', 'domAssertions', 'images', 'links']) {
-    if (field in value && (!Array.isArray(value[field]) || value[field].some((item) => !item || typeof item !== 'object' || Array.isArray(item)))) {
-      throw adapterError('malformed-output', `response.${field} must be an array of objects`);
+  const arrayFields = {
+    console: (item) => typeof item.level === 'string' && typeof item.text === 'string',
+    consoleErrors: (item) => typeof item.level === 'string' && typeof item.text === 'string',
+    network: (item) => typeof item.url === 'string' && (typeof item.status === 'number' || typeof item.status === 'string'),
+    failedRequests: (item) => typeof item.url === 'string' && (typeof item.status === 'number' || typeof item.status === 'string'),
+    dom: (item) => typeof item.text === 'string' || typeof item.role === 'string',
+    domAssertions: (item) => typeof item.text === 'string' || typeof item.role === 'string',
+    images: (item) => typeof item.src === 'string' && typeof item.alt === 'string',
+    links: (item) => typeof item.text === 'string' && typeof item.href === 'string',
+  };
+  for (const [field, predicate] of Object.entries(arrayFields)) {
+    if (field in value && (!Array.isArray(value[field]) || value[field].some((item) => !item || typeof item !== 'object' || Array.isArray(item) || !predicate(item)))) {
+      throw adapterError('malformed-output', `response.${field} contains an invalid item`);
     }
   }
   for (const field of ['title', 'text', 'url']) if (field in value && typeof value[field] !== 'string') throw adapterError('malformed-output', `response.${field} must be a string`);
@@ -36,7 +46,7 @@ function normalizeObservation(raw, requestedUrl) {
   const value = validateResponse(raw);
   return {
     url: value.url ?? requestedUrl,
-    title: value.title ?? '',
+    title: value.title ?? value.heading?.text ?? '',
     text: value.text ?? '',
     heading: value.heading ?? null,
     consoleErrors: value.consoleErrors ?? value.console ?? [],
@@ -48,18 +58,48 @@ function normalizeObservation(raw, requestedUrl) {
   };
 }
 
-function parseJsonLines(stdout, requestedUrl) {
-  const lines = stdout.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-  if (lines.length === 0) {
-    throw adapterError('malformed-output', 'gstack browser returned no JSON-line response');
+function parseCommandOutput(command, stdout) {
+  const output = stdout.trim();
+  if (command === 'text') return { text: stdout.trimEnd() };
+  if (command === 'links') {
+    if (!output || output === '(no links)') return { links: [] };
+    const links = output.split(/\r?\n/).map((line) => {
+      const match = line.match(/^(.+?)\s+→\s+(\S+)$/);
+      if (!match) throw adapterError('malformed-output', 'gstack links output contains an invalid line');
+      return { text: match[1], href: match[2] };
+    });
+    return { links };
   }
-  let response;
-  try {
-  response = lines.map((line) => JSON.parse(line)).at(-1);
-  } catch (cause) {
-    throw adapterError('malformed-output', `gstack browser returned malformed JSON: ${cause.message}`, { cause });
+  if (command === 'console') {
+    if (!output || output === '(no console errors)') return { consoleErrors: [] };
+    const consoleErrors = output.split(/\r?\n/).map((line) => {
+      const match = line.match(/^\[[^\]]+\]\s+\[(error|warning)\]\s+(.*)$/);
+      if (!match) throw adapterError('malformed-output', 'gstack console output contains an invalid line');
+      return { level: match[1], text: match[2] };
+    });
+    return { consoleErrors };
   }
-  return validateResponse(response);
+  if (command === 'network') {
+    if (!output || output === '(no network requests)') return { failedRequests: [] };
+    const requests = output.split(/\r?\n/).map((line) => {
+      const match = line.match(/^\S+\s+(\S+)\s+→\s+(\d+|pending)\s+\(([^)]*)\)$/);
+      if (!match) throw adapterError('malformed-output', 'gstack network output contains an invalid line');
+      return { url: match[1], status: match[2] === 'pending' ? 'pending' : Number(match[2]), details: match[3] };
+    });
+    return { failedRequests: requests.filter((request) => request.status === 'pending' || request.status >= 400) };
+  }
+  if (command === 'accessibility') {
+    if (!output || output === '(no accessible elements found)') return { domAssertions: [] };
+    const headings = [...output.matchAll(/^\s*(?:-\s*)?heading\s+"([^"]+)"\s+\[level=(\d+)\]/gmi)].map((match) => ({ role: 'heading', text: match[1], level: Number(match[2]) }));
+    if (output.toLowerCase().includes('heading') && headings.length === 0) throw adapterError('malformed-output', 'gstack accessibility output contains an invalid heading');
+    return { heading: headings.find((heading) => heading.level === 1) ?? null, domAssertions: headings };
+  }
+  if (command === 'viewport') {
+    const match = output.match(/^Viewport set to (\d+)x(\d+)$/);
+    if (!match) throw adapterError('malformed-output', 'gstack viewport output is invalid');
+    return { viewport: { width: Number(match[1]), height: Number(match[2]) } };
+  }
+  return {};
 }
 
 function collectChild(child) {
@@ -104,6 +144,9 @@ async function runProcess(spawn, command, args, timeoutMs, children) {
       pending,
       new Promise((_, reject) => { timer = setTimeout(() => { result.kill?.(); reject(adapterError('timeout', `gstack browser timed out after ${timeoutMs}ms`)); }, timeoutMs); }),
     ]);
+  } catch (error) {
+    if (error.code === 'ENOENT') throw adapterError('setup-failure', 'gstack executable unavailable', { cause: error });
+    throw error;
   } finally {
     clearTimeout(timer);
     children.delete(result);
@@ -111,7 +154,7 @@ async function runProcess(spawn, command, args, timeoutMs, children) {
 }
 
 export function createBrowserAdapter(options = {}) {
-  const executable = options.executable ?? process.env.GSTACK_BROWSER_EXECUTABLE ?? 'browse';
+  const executable = options.executable ?? process.env.GSTACK_BROWSER_EXECUTABLE ?? (process.platform === 'win32' ? 'browse.exe' : 'browse');
   const executableArgs = [...(options.executableArgs ?? [])];
   const spawn = options.spawn ?? nodeSpawn;
   const setupCommand = options.setupCommand ?? DEFAULT_SETUP_COMMAND;
@@ -120,6 +163,8 @@ export function createBrowserAdapter(options = {}) {
   const inFlight = new Set();
   let started = false;
   let closed = false;
+  let closing = false;
+  let closePromise;
 
   async function invoke(args, timeoutMs) {
     const operation = runProcess(spawn, executable, [...executableArgs, ...args], timeoutMs, children);
@@ -149,7 +194,7 @@ export function createBrowserAdapter(options = {}) {
   }
 
   async function openPage(url, openOptions = {}) {
-    if (closed) throw adapterError('lifecycle', 'browser adapter is closed');
+    if (closed || closing) throw adapterError('lifecycle', 'browser adapter is closed');
     let parsed;
     try { parsed = new URL(url); } catch { throw adapterError('invalid-url', 'browser URL is invalid or contains credentials'); }
     if (parsed.username || parsed.password) throw adapterError('invalid-url', 'browser URL is invalid or contains credentials');
@@ -161,7 +206,7 @@ export function createBrowserAdapter(options = {}) {
     for (const args of [['text'], ['links'], ['console', '--errors'], ['network'], ['accessibility'], ['viewport', '1280x720'], ['viewport', '375x812']]) {
       const result = await invoke(args, timeoutMs);
       if (result.status !== 0) throw adapterError('browser-failure', `gstack browser command failed: ${args[0]}`, { status: result.status, stderr: result.stderr });
-      const response = parseJsonLines(result.stdout ?? '');
+      const response = parseCommandOutput(args[0], result.stdout ?? '');
       if (args[0] === 'viewport') {
         const name = args[1] === '375x812' ? 'mobile' : 'desktop';
         observation.viewport = { ...(observation.viewport ?? {}), [name]: response.viewport ?? response };
@@ -171,12 +216,16 @@ export function createBrowserAdapter(options = {}) {
   }
 
   async function close() {
-    if (closed) return;
-    await Promise.allSettled([...inFlight]);
-    if (started) {
-      try { await invoke(['stop'], defaultTimeoutMs); } catch { /* best-effort shutdown */ }
-    }
-    closed = true;
+    if (closePromise) return closePromise;
+    closing = true;
+    closePromise = (async () => {
+      await Promise.allSettled([...inFlight]);
+      if (started) {
+        try { await invoke(['stop'], defaultTimeoutMs); } catch { /* best-effort shutdown */ }
+      }
+      closed = true;
+    })();
+    return closePromise;
   }
 
   return { checkExecutable, openPage, close };
