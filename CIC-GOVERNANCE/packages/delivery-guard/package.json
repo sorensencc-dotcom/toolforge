@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "Repository adapter configuration contract for delivery-integrity guards.",
   "type": "module",
-  "main": "./src/config.js",
+  "main": "./src/index.js",
   "exports": {
-    ".": "./src/config.js"
+    ".": "./src/index.js"
   },
   "scripts": {
     "test": "node --test tests/*.test.js"

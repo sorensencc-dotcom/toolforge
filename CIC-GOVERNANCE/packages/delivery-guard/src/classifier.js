@@ -1,4 +1,5 @@
 const DIFF_STATUSES = new Set(['added', 'copied', 'deleted', 'modified', 'renamed', 'untracked']);
+const UNSUPPORTED_GLOB_SYNTAX = /[\[\]{}()!+|^$]/;
 
 export class DiffEntryError extends TypeError {
   constructor() {
@@ -7,12 +8,34 @@ export class DiffEntryError extends TypeError {
   }
 }
 
+export class UnsupportedGlobError extends TypeError {
+  constructor(pattern) {
+    super(`Unsupported delivery-guard glob syntax: ${pattern}`);
+    this.name = 'UnsupportedGlobError';
+    this.pattern = pattern;
+  }
+}
+
 function normalizePath(path) {
   return path.replaceAll('\\', '/').replace(/^\.\//, '');
 }
 
-function globToRegExp(glob) {
+function validateGlob(glob) {
+  if (typeof glob !== 'string' || glob.trim().length === 0) {
+    throw new UnsupportedGlobError(glob);
+  }
   const normalized = normalizePath(glob);
+  if (normalized.startsWith('/') || normalized.split('/').some((segment) => segment === '..')) {
+    throw new UnsupportedGlobError(glob);
+  }
+  if (UNSUPPORTED_GLOB_SYNTAX.test(normalized)) {
+    throw new UnsupportedGlobError(glob);
+  }
+  return normalized;
+}
+
+function globToRegExp(glob) {
+  const normalized = validateGlob(glob);
   let expression = '';
 
   for (let index = 0; index < normalized.length; index += 1) {
@@ -76,13 +99,14 @@ export function classifyDiff(entries, adapter, options = {}) {
     throw new TypeError('Invalid delivery-guard classifier input');
   }
 
+  const generatedGlobs = adapter.generatedPaths.map(validateGlob);
   const normalizedEntries = entries.map(normalizeEntry);
   const authoredPaths = new Set();
   const generatedPaths = new Set();
 
   for (const entry of normalizedEntries) {
     for (const path of [entry.oldPath, entry.path].filter(Boolean)) {
-      if (classifyPath(path, adapter.generatedPaths) === 'generated') {
+      if (classifyPath(path, generatedGlobs) === 'generated') {
         generatedPaths.add(path);
       } else {
         authoredPaths.add(path);

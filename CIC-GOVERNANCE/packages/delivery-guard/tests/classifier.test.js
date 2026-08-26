@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { classifyDiff } from '../src/classifier.js';
+import { classifyDiff as publicClassifyDiff } from '@cic/delivery-guard';
 
 const adapter = {
   generatedPaths: ['.ijfw/**', 'dist/**'],
@@ -89,4 +90,46 @@ test('rejects malformed diff entries with a stable issue', () => {
     () => classifyDiff([{ status: 'modified' }], adapter),
     /Invalid delivery-guard diff entry/,
   );
+});
+
+test('normalizes Windows separators in changed paths and configured patterns', () => {
+  const result = classifyDiff([
+    { path: 'dist\\nested\\app.js', status: 'modified' },
+  ], { generatedPaths: ['dist\\**\\*.js'] }, { generatedIntent: true });
+
+  assert.equal(result.classification, 'generated-only');
+  assert.deepEqual(result.generatedPaths, ['dist/nested/app.js']);
+});
+
+test('applies segment-aware glob semantics', () => {
+  const result = classifyDiff([
+    { path: 'dist/app.js', status: 'modified' },
+    { path: 'dist/nested/app.js', status: 'modified' },
+    { path: 'dist/app.test.js', status: 'modified' },
+    { path: 'dist/app.jsx', status: 'modified' },
+  ], { generatedPaths: ['dist/**/*.js'] }, { generatedIntent: true });
+
+  assert.equal(result.classification, 'mixed');
+  assert.deepEqual(result.generatedPaths, ['dist/app.js', 'dist/app.test.js', 'dist/nested/app.js']);
+  assert.deepEqual(result.authoredPaths, ['dist/app.jsx']);
+});
+
+for (const pattern of ['dist/[ab].js', 'dist/{app,test}.js', 'dist/!(app).js']) {
+  test(`rejects unsupported glob syntax: ${pattern}`, () => {
+    assert.throws(
+      () => classifyDiff([{ path: 'dist/app.js' }], { generatedPaths: [pattern] }),
+      (error) => error.name === 'UnsupportedGlobError'
+        && error.pattern === pattern,
+    );
+  });
+}
+
+test('exports classifier through package public API', () => {
+  const result = publicClassifyDiff(
+    [{ path: 'dist/app.js' }],
+    { generatedPaths: ['dist/**'] },
+    { generatedIntent: true },
+  );
+
+  assert.equal(result.classification, 'generated-only');
 });
