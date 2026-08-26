@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import policy from './diagram-policy.json' with { type: 'json' };
 import { createBrowserAdapter } from './browser-adapter.mjs';
@@ -307,7 +308,9 @@ async function main() {
   process.exitCode = exitCode;
 }
 
-if (import.meta.url === new URL(process.argv[1], 'file:').href) {
+const invokedPath = process.argv[1] ? resolve(process.argv[1]) : '';
+const modulePath = resolve(fileURLToPath(import.meta.url));
+if (invokedPath && invokedPath === modulePath) {
   main().catch((error) => {
     console.error(`Wiki QA failed: ${error.message}`);
     process.exitCode = 1;
