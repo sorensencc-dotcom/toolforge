@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "description": "Approved initial Wiki browser-QA page and diagram policy.",
+  "pages": [
+    {
+      "slug": "toolforge-architecture-overview",
+      "categories": ["architecture", "provider", "governance", "lifecycle"],
+      "sourcePage": "wiki/toolforge-architecture-overview.html",
+      "acceptedSelectors": ["img[src$=\"/toolforge-architecture-overview.png\"]"],
+      "acceptedAssetPatterns": ["(?:^|/)toolforge-architecture-overview\\.png$"],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [
+        {
+          "selector": "img[src$=\"/toolforge-architecture-overview.png\"]",
+          "assetPattern": "(?:^|/)toolforge-architecture-overview\\.png$",
+          "sourceAsset": "wiki/toolforge-architecture-overview.png",
+          "requireAlt": true,
+          "requireCaption": true
+        }
+      ],
+      "sourceMappings": [
+        { "kind": "source-asset", "repositoryPath": "wiki/toolforge-architecture-overview.png" },
+        { "kind": "generated-artifact", "repositoryPath": "wiki/toolforge-architecture-overview.html" }
+      ]
+    },
+    {
+      "slug": "OLLAMA_PROVIDER_SETUP",
+      "categories": ["provider"],
+      "sourcePage": "OLLAMA_PROVIDER_SETUP.md",
+      "acceptedSelectors": [],
+      "acceptedAssetPatterns": [],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [],
+      "sourceMappings": []
+    },
+    {
+      "slug": "OLLAMA_DEPLOYMENT_GUIDE",
+      "categories": ["provider", "lifecycle"],
+      "sourcePage": "OLLAMA_DEPLOYMENT_GUIDE.md",
+      "acceptedSelectors": [],
+      "acceptedAssetPatterns": [],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [],
+      "sourceMappings": []
+    },
+    {
+      "slug": "whichllm-model-selection-evaluator",
+      "categories": ["WhichLLM", "model-selection", "provider", "architecture"],
+      "sourcePage": "wiki/research/whichllm-model-selection-evaluator.md",
+      "acceptedSelectors": ["img[src$=\"/whichllm-architecture-topology.png\"]"],
+      "acceptedAssetPatterns": ["(?:^|/)whichllm-architecture-topology\\.png$"],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [
+        {
+          "selector": "img[src$=\"/whichllm-architecture-topology.png\"]",
+          "assetPattern": "(?:^|/)whichllm-architecture-topology\\.png$",
+          "sourceAsset": "wiki/research/whichllm-architecture-topology.png",
+          "requireAlt": true,
+          "requireCaption": true
+        }
+      ],
+      "sourceMappings": [
+        { "kind": "source-asset", "repositoryPath": "wiki/research/whichllm-architecture-topology.png" },
+        { "kind": "generated-artifact", "repositoryPath": "wiki/research/whichllm-architecture-topology.html" }
+      ]
+    },
+    {
+      "slug": "GOVERNANCE",
+      "categories": ["governance", "lifecycle"],
+      "sourcePage": "GOVERNANCE.md",
+      "acceptedSelectors": [],
+      "acceptedAssetPatterns": [],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [],
+      "sourceMappings": []
+    }
+  ]
+}
