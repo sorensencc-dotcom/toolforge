@@ -22,6 +22,13 @@ class DispatcherTests(unittest.TestCase):
         result = dispatch(self.contract, {**self.base, "adapters": {"ollama": adapter}, "announce": lambda route: events.append("announce")})
         self.assertEqual(events, ["announce", "ollama"])
         self.assertEqual(result["final_status"], "succeeded")
+        self.assertEqual(result["operator_identity"], "local-user")
+        self.assertEqual(result["termination_reason"], "completed")
+
+    def test_result_carries_contract_hash_and_artifact_paths(self):
+        result = dispatch(self.contract, {**self.base, "verification": {"valid": True, "contract_hash": "sha256:test"}, "artifact_paths": ["result.json"], "adapters": {"ollama": lambda r, t, c: {"status": "succeeded"}}})
+        self.assertEqual(result["contract_hash"], "sha256:test")
+        self.assertEqual(result["artifact_paths"], ["result.json"])
 
     def test_operator_cannot_select_out_of_contract_route(self):
         bad = {"provider": "subscription-cli", "model": "bad"}
@@ -33,6 +40,17 @@ class DispatcherTests(unittest.TestCase):
         contract = {"task": "x", "recommended_route": routes[0], "allowed_routes": routes, "max_attempts": 3}
         result = dispatch(contract, {"verification": {"valid": True}, "operator_identity": "local-user", "catalog": routes, "adapters": {str(i): lambda r, t, c: {"status": "failed"} for i in range(4)}})
         self.assertEqual(len(result["attempts"]), 3)
+
+    def test_worktree_must_be_contained_by_approved_root(self):
+        with tempfile.TemporaryDirectory() as root_dir, tempfile.TemporaryDirectory() as outside_dir:
+            result = dispatch(self.contract, {
+                **self.base,
+                "worktree": outside_dir,
+                "workspace_root": root_dir,
+                "adapters": {},
+            })
+        self.assertEqual(result["final_status"], "refused")
+        self.assertEqual(result["reason"], "WORKTREE_OUTSIDE_APPROVED_ROOT")
 
 
 if __name__ == "__main__": unittest.main()
