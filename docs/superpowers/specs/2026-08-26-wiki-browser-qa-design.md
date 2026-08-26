@@ -40,6 +40,7 @@ The initial policy covers architecture, provider setup, WhichLLM/model-selection
 Keep the tool deliberately small:
 
 - `runner.mjs`: CLI, target/page selection, Chromium lifecycle, navigation, console/network capture, report writing, and exit status.
+- `browser-adapter.mjs`: the only boundary to the gstack browser executable; constructs commands, parses responses, detects setup/version failures, and normalizes browser observations.
 - `checks.mjs`: pure assertion helpers for headings, metadata, links, images, responsive overflow, and diagram evidence.
 - `diagram-policy.json`: versioned page-to-diagram requirements plus source-asset mappings.
 - `test/`: unit tests for checks and integration fixtures for representative rendered pages.
@@ -55,6 +56,7 @@ The JSON report records target, timestamp, page URL, page slug, check results, c
 ## Verification
 
 - Unit-test every check, including malformed metadata, duplicate headings, broken images, invalid links, and missing diagram evidence.
+- Unit-test browser-adapter command construction, response parsing, setup failures, timeouts, and malformed output; integration-test it with a fake executable and one bounded real-browser smoke run.
 - Test policy completeness: every classified architecture/provider page must be listed, and every listed rule must reference an existing source asset or generated artifact.
 - Integration-test passing and failing fixture pages.
 - Run desktop and mobile viewport assertions for diagram visibility, accessibility, and horizontal overflow.
