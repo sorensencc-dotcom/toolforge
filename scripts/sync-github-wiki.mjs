@@ -55,7 +55,14 @@ function addFrontmatterTitle(content) {
 
 function copyMarkdownFile(src, dest) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
-  fs.writeFileSync(dest, addFrontmatterTitle(fs.readFileSync(src, 'utf8')));
+  fs.writeFileSync(dest, flattenRootPageImages(addFrontmatterTitle(fs.readFileSync(src, 'utf8'))));
+}
+
+// Root pages are flattened into the GitHub Wiki repository. Their source images
+// may still use repository-root-relative `wiki/...` targets, which GitHub Wiki
+// resolves relative to the wiki page instead of the source repository.
+function flattenRootPageImages(content) {
+  return content.replace(/(!\[[^\]]*\]\(\s*)wiki\//g, '$1');
 }
 
 function validateMarkdownImages(wikiDir) {
@@ -183,8 +190,10 @@ async function main() {
   for (const map of rootPageMappings) {
     const src = path.join(root, map.src);
     if (fs.existsSync(src)) {
-      if (map.dest.toLowerCase().endsWith('.md')) copyMarkdownFile(src, path.join(targetWikiDir, map.dest));
-      else fs.copyFileSync(src, path.join(targetWikiDir, map.dest));
+      const destination = path.join(targetWikiDir, map.dest);
+      fs.mkdirSync(path.dirname(destination), { recursive: true });
+      if (map.dest.toLowerCase().endsWith('.md')) copyMarkdownFile(src, destination);
+      else fs.copyFileSync(src, destination);
     }
   }
 
@@ -230,7 +239,11 @@ async function main() {
   } catch {}
 }
 
-main().catch(err => {
-  console.error(`Fatal wiki publish failure: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    console.error(`Fatal wiki publish failure: ${err.message}`);
+    process.exit(1);
+  });
+}
+
+export { addFrontmatterTitle, flattenRootPageImages };
