@@ -10,10 +10,17 @@ Backlog of open work. Source of truth for "what's outstanding" — context/ratio
 
 ## Open
 
-- [ ] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-25) — 2 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate. <!-- todo-group: kb-sync-documentation-drift -->
+- [ ] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-27) — 1 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate. <!-- todo-group: kb-sync-documentation-drift -->
+
+- [ ] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-27) — 1 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate.
+
+- [ ] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-27) — 2 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate.
+
+- [ ] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-26) — 4 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate.
+
+- [ ] **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-26) — 3 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate.
 
 - [ ] **[P1] OpenRouter cost circuit-breaker for paid models** (created 2026-08-25) — `OPENROUTER_MODEL_REGISTRY` includes `anthropic/claude-3.5-sonnet` at \$3/\$15 per million tokens. Neither `OpenRouterProvider` nor the governance layer accumulates session cost or enforces a budget cap. Implement a session-level `costUsd` accumulator with a configurable `maxCostUsd` budget that rejects dispatch when exceeded. Zero-cost models (`isFree: true`) bypass the check. Implement before enabling paid-model dispatch in production. See eng review 2026-08-25 (`feat/openrouter-oxalpha-integration`).
-
 
 - [ ] **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`.
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T11:46:41.640390+00:00",
+  "generated_at": "2026-08-27T12:19:30.836035+00:00",
   "sources_checked": [
     "C:\\dev\\kb-sync\\.sync-status.json",
     "C:\\dev\\kb-sync\\.drift-report.json",
@@ -14,15 +14,22 @@
   ],
   "sources_missing": [],
   "kb_sync": {
-    "last_sync": "2026-08-24T18:48:47.014Z",
-    "last_sync_age_hours": 17.0,
-    "sync_status": "FAILED",
-    "file_count": 1489,
-    "drift_status": "NO_DRIFT",
-    "drift_stale_pages": 0,
-    "drift_checked_at": "2026-08-25T02:42:27.237Z",
-    "drift_age_hours": 9.1,
-    "drifted_files": [],
+    "last_sync": "2026-08-27T00:43:24.720Z",
+    "last_sync_age_hours": 11.6,
+    "sync_status": "SUCCESS",
+    "file_count": 1546,
+    "drift_status": "DRIFT_DETECTED",
+    "drift_stale_pages": 6,
+    "drift_checked_at": "2026-08-27T00:44:24.648Z",
+    "drift_age_hours": 11.6,
+    "drifted_files": [
+      "modules/trm/gap-triage-engine.mjs",
+      "modules/trm/query-expander.mjs",
+      "scripts/install-git-hooks.mjs",
+      "scripts/trm-triage.mjs",
+      "tests/query-expander.test.mjs",
+      "tests/wiki-drift-hook-autoheal.test.mjs"
+    ],
     "coverage_pct": 100,
     "coverage_checked_at": "2026-08-18T17:57:29.787Z",
     "link_health_pct": 100
@@ -31,11 +38,17 @@
     "total_open": 6,
     "counts_by_priority": {
       "P0": 0,
-      "P1": 1,
-      "P2": 5,
+      "P1": 2,
+      "P2": 4,
       "P?": 0
     },
     "top_open": [
+      {
+        "priority": "P1",
+        "title": "OpenRouter cost circuit-breaker for paid models",
+        "created": "2026-08-25",
+        "detail": "`OPENROUTER_MODEL_REGISTRY` includes `anthropic/claude-3.5-sonnet` at \\$3/\\$15 per million tokens. Neither `OpenRouterProvider` nor the governance layer accumulates session cost or enforces a budget cap. Implement a sess"
+      },
       {
         "priority": "P1",
         "title": "Wave D full conformance gate",
@@ -44,21 +57,15 @@
       },
       {
         "priority": "P2",
-        "title": "Toolforge health warning group: AuditLog",
-        "created": "2026-08-19",
-        "detail": "3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:AuditLog -->"
+        "title": "kb-sync documentation drift remediation (batch)",
+        "created": "2026-08-26",
+        "detail": "4 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate."
       },
       {
         "priority": "P2",
-        "title": "Toolforge health warning group: Manifest",
-        "created": "2026-08-19",
-        "detail": "3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Manifest -->"
-      },
-      {
-        "priority": "P2",
-        "title": "Toolforge health warning group: Runtime",
-        "created": "2026-08-19",
-        "detail": "1 skill(s): research-questions. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Runtime -->"
+        "title": "kb-sync documentation drift remediation (batch)",
+        "created": "2026-08-26",
+        "detail": "3 sibling wiki file(s) out of sync with code changes across workspace. Run wiki synthesis to regenerate."
       },
       {
         "priority": "P2",
@@ -100,32 +107,32 @@
     "blockers": []
   },
   "trm_pipeline": {
-    "latest_report": "TRM_SYNC_REPORT_DRYRUN_all_20260824T111156_ceda66e7-ba63-4925-8fbe-b2f99d55f618.md",
-    "run_at": "2026-08-24T11:11:56.053Z",
-    "run_age_hours": 24.6,
+    "latest_report": "TRM_SYNC_REPORT_DRYRUN_all_20260826T120351_4f7273a3-ec54-4470-9446-f404e9600752.md",
+    "run_at": "2026-08-26T12:03:51.413Z",
+    "run_age_hours": 24.3,
     "partial_run": "false",
     "fact_key_collisions": "0"
   },
   "automation_logs": {
     "ci_pipeline": {
-      "latest": "ci-pipeline-2026-08-24_210331.log",
-      "age_hours": 10.7
+      "latest": "ci-pipeline-2026-08-27_000557.log",
+      "age_hours": 8.2
     },
     "trm_sync_treatment": {
-      "latest": "trm-sync-treatment-2026-08-25.log",
+      "latest": "trm-sync-treatment-2026-08-27.log",
       "age_hours": 0.0
     },
     "retro_audit": {
-      "latest": "retro-audit-20260823.log",
-      "age_hours": 32.6
+      "latest": "retro-audit-20260826.log",
+      "age_hours": 14.3
     },
     "daily_report_agent": {
-      "latest": "2026-08-25.md",
+      "latest": "2026-08-27.md",
       "age_hours": 0.0
     },
     "weekly_report_agent": {
       "latest": "2026-W35.md",
-      "age_hours": 24.6
+      "age_hours": 73.1
     }
   },
   "claude_project_memory": {
@@ -133,64 +140,64 @@
     "mirror_exists": true,
     "files": [
       {
-        "name": "MEMORY.md",
-        "last_modified": "2026-08-24T02:18:20.117867+00:00",
-        "age_hours": 33.5,
-        "excerpt": "# Memory Index  ## 2026-08-17 - [Project: Multi-Agent Handoff Protocol Spec](project-multi-agent-handoff-protocol-spec-2026-08-17.md) \u2014 governance doc closing recurring unreviewed-squash pattern; 4 review rounds converged, two-gate ratification model, drafted not committed/not Tier-1-approved. - [Project: Sigil v0.1.1 Corrective Release](project-sigil-v0.1.1-corrective-release-2026-08-17.md) \u2014 aud"
-      },
-      {
         "name": "project-multi-agent-handoff-protocol-spec-2026-08-17.md",
-        "last_modified": "2026-08-17T23:55:51.180036+00:00",
-        "age_hours": 179.8,
+        "last_modified": "2026-08-25T14:31:57.781843+00:00",
+        "age_hours": 45.8,
         "excerpt": "--- name: project-multi-agent-handoff-protocol-spec-2026-08-17 description: \"Governance spec drafted at docs/meta/governance/multi-agent-handoff-protocol.md to close the recurring unreviewed-squash-on-main pattern (5a86f23); 4 review rounds, two-gate ratification model, not yet committed or Tier 1 approved.\" metadata:    node_type: memory   type: project   originSessionId: 464d12e6-06ec-459c-bff6-"
       },
       {
-        "name": "project-sigil-v0.1.1-corrective-release-2026-08-17.md",
-        "last_modified": "2026-08-17T22:43:15.777928+00:00",
-        "age_hours": 181.1,
-        "excerpt": "--- name: project-sigil-v0-1-1-corrective-release-2026-08-17 description: Sigil v0.1.1 corrective patch closed 3 real bugs + coverage gaps found auditing the unreviewed 5a86f23 squash; tags now match HEAD. metadata:    node_type: memory   type: project   originSessionId: f4721667-6a4f-48e8-b32c-a563d8dcf589   modified: 2026-08-17T22:43:15.770Z ---  Audited `5a86f23` (\"feat: close Sigil v1 conforma"
-      },
-      {
-        "name": "feedback_codex_scope_creep_autopush_sigil.md",
-        "last_modified": "2026-08-17T15:53:25.076161+00:00",
-        "age_hours": 187.9,
-        "excerpt": "--- name: feedback-codex-scope-creep-autopush-sigil description: \"Codex extends scope well beyond a single dispatched task and auto-pushes straight to origin/main with no review gate; verify diffs, not just test-pass claims.\" metadata:    node_type: memory   type: feedback   originSessionId: 6294ff91-fde0-4654-bfc7-e05c971e527f   modified: 2026-08-17T15:53:25.047Z ---  In sigil-repo (2026-08-15), "
-      },
-      {
-        "name": "feedback_checkin_before_session_cap.md",
-        "last_modified": "2026-08-17T02:21:07.406714+00:00",
-        "age_hours": 201.4,
-        "excerpt": "--- name: checkin-before-session-cap description: \"Checkpoint with user before burning a full 5hr token window on long autonomous SDD runs, not just at named stop conditions\" metadata:    node_type: memory   type: feedback   originSessionId: 51061bde-6290-4632-b90c-09117e55b1be   modified: 2026-08-17T02:21:07.398Z ---  Don't run a long subagent-driven-development execution (19+ tasks) straight thr"
-      },
-      {
-        "name": "feedback_sigil_relay_state_and_mailbox_ambiguity.md",
-        "last_modified": "2026-08-16T18:13:34.435483+00:00",
-        "age_hours": 209.6,
-        "excerpt": "--- name: feedback_sigil_relay_state_and_mailbox_ambiguity description: \"Sigil local relay (sigil relay up) is in-memory only and loses all queued state on restart; empty inbox is ambiguous between \\\"drained by a live watcher\\\" and \\\"never delivered\\\" \u2014 don't loop resends, ask for explicit ledger confirmation.\" metadata:    node_type: memory   type: feedback   originSessionId: 5ae3c205-297a-40a4-8"
-      },
-      {
-        "name": "session-wrap-2026-08-16-sigil-conformance-spec.md",
-        "last_modified": "2026-08-16T18:13:07.178864+00:00",
-        "age_hours": 209.6,
-        "excerpt": "--- name: session-wrap-2026-08-16-sigil-conformance-spec description: \"Sigil v1 \u00a718 conformance gap closure design spec \u2014 audited, drafted, reviewed 4 rounds (Codex + human), committed and pushed; writing-plans deferred to next session.\" metadata:    node_type: memory   type: project   originSessionId: 5ae3c205-297a-40a4-896d-c3fbc44ef13e   modified: 2026-08-16T18:13:07.157Z ---  Audited `C:\\dev\\s"
-      },
-      {
-        "name": "session-wrap-2026-08-16-sigil-inbox-wait-shipped.md",
-        "last_modified": "2026-08-16T14:05:41.227670+00:00",
-        "age_hours": 213.7,
-        "excerpt": "--- name: session-wrap-2026-08-16-sigil-inbox-wait-shipped description: \"Sigil inbox --wait shipped + live-proven end to end, sigil-consult skill built, both pushed\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T14:05:41.219Z ---  Shipped tonight (2026-08-15/16, sigil-repo, pushed to origin/main at ea6bf17): - `config-"
-      },
-      {
         "name": "project-sigil-consult-skill-backlog-2026-08-15.md",
-        "last_modified": "2026-08-16T04:44:35.599010+00:00",
-        "age_hours": 223.0,
+        "last_modified": "2026-08-25T14:31:57.781843+00:00",
+        "age_hours": 45.8,
         "excerpt": "--- name: project-sigil-consult-skill-backlog-2026-08-15 description: \"Backlog idea from user \u2014 turn \\\"send current context to a Sigil peer for feedback\\\" into a proper skill\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T04:44:35.581Z ---  User idea (2026-08-15, during sigil `inbox --wait` design): what we did manuall"
       },
       {
         "name": "project-sigil-npm-packaging-decision-2026-08-15.md",
-        "last_modified": "2026-08-16T00:24:15.637676+00:00",
-        "age_hours": 227.4,
+        "last_modified": "2026-08-25T14:31:57.781843+00:00",
+        "age_hours": 45.8,
         "excerpt": "--- name: project-sigil-npm-packaging-decision-2026-08-15 description: \"Decision on sigil npm packaging (bin/sigil.mjs) vs relay CLI (sigil/cli/sigil.mjs) \u2014 keep both, add env-aware auto-switching\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T00:24:15.631Z ---  Decision (2026-08-15): npm packaging (`bin/sigil.mjs`, MC"
+      },
+      {
+        "name": "project-sigil-v0.1.1-corrective-release-2026-08-17.md",
+        "last_modified": "2026-08-25T14:31:57.781843+00:00",
+        "age_hours": 45.8,
+        "excerpt": "--- name: project-sigil-v0-1-1-corrective-release-2026-08-17 description: Sigil v0.1.1 corrective patch closed 3 real bugs + coverage gaps found auditing the unreviewed 5a86f23 squash; tags now match HEAD. metadata:    node_type: memory   type: project   originSessionId: f4721667-6a4f-48e8-b32c-a563d8dcf589   modified: 2026-08-17T22:43:15.770Z ---  Audited `5a86f23` (\"feat: close Sigil v1 conforma"
+      },
+      {
+        "name": "session-wrap-2026-08-16-sigil-conformance-spec.md",
+        "last_modified": "2026-08-25T14:31:57.781843+00:00",
+        "age_hours": 45.8,
+        "excerpt": "--- name: session-wrap-2026-08-16-sigil-conformance-spec description: \"Sigil v1 \u00a718 conformance gap closure design spec \u2014 audited, drafted, reviewed 4 rounds (Codex + human), committed and pushed; writing-plans deferred to next session.\" metadata:    node_type: memory   type: project   originSessionId: 5ae3c205-297a-40a4-896d-c3fbc44ef13e   modified: 2026-08-16T18:13:07.157Z ---  Audited `C:\\dev\\s"
+      },
+      {
+        "name": "session-wrap-2026-08-16-sigil-inbox-wait-shipped.md",
+        "last_modified": "2026-08-25T14:31:57.781843+00:00",
+        "age_hours": 45.8,
+        "excerpt": "--- name: session-wrap-2026-08-16-sigil-inbox-wait-shipped description: \"Sigil inbox --wait shipped + live-proven end to end, sigil-consult skill built, both pushed\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T14:05:41.219Z ---  Shipped tonight (2026-08-15/16, sigil-repo, pushed to origin/main at ea6bf17): - `config-"
+      },
+      {
+        "name": "feedback_sigil_relay_state_and_mailbox_ambiguity.md",
+        "last_modified": "2026-08-25T14:31:57.781486+00:00",
+        "age_hours": 45.8,
+        "excerpt": "--- name: feedback_sigil_relay_state_and_mailbox_ambiguity description: \"Sigil local relay (sigil relay up) is in-memory only and loses all queued state on restart; empty inbox is ambiguous between \\\"drained by a live watcher\\\" and \\\"never delivered\\\" \u2014 don't loop resends, ask for explicit ledger confirmation.\" metadata:    node_type: memory   type: feedback   originSessionId: 5ae3c205-297a-40a4-8"
+      },
+      {
+        "name": "feedback_checkin_before_session_cap.md",
+        "last_modified": "2026-08-25T14:31:57.777504+00:00",
+        "age_hours": 45.8,
+        "excerpt": "--- name: checkin-before-session-cap description: \"Checkpoint with user before burning a full 5hr token window on long autonomous SDD runs, not just at named stop conditions\" metadata:    node_type: memory   type: feedback   originSessionId: 51061bde-6290-4632-b90c-09117e55b1be   modified: 2026-08-17T02:21:07.398Z ---  Don't run a long subagent-driven-development execution (19+ tasks) straight thr"
+      },
+      {
+        "name": "feedback_codex_scope_creep_autopush_sigil.md",
+        "last_modified": "2026-08-25T14:31:57.777504+00:00",
+        "age_hours": 45.8,
+        "excerpt": "--- name: feedback-codex-scope-creep-autopush-sigil description: \"Codex extends scope well beyond a single dispatched task and auto-pushes straight to origin/main with no review gate; verify diffs, not just test-pass claims.\" metadata:    node_type: memory   type: feedback   originSessionId: 6294ff91-fde0-4654-bfc7-e05c971e527f   modified: 2026-08-17T15:53:25.047Z ---  In sigil-repo (2026-08-15), "
+      },
+      {
+        "name": "MEMORY.md",
+        "last_modified": "2026-08-24T02:18:20.117867+00:00",
+        "age_hours": 82.0,
+        "excerpt": "# Memory Index  ## 2026-08-17 - [Project: Multi-Agent Handoff Protocol Spec](project-multi-agent-handoff-protocol-spec-2026-08-17.md) \u2014 governance doc closing recurring unreviewed-squash pattern; 4 review rounds converged, two-gate ratification model, drafted not committed/not Tier-1-approved. - [Project: Sigil v0.1.1 Corrective Release](project-sigil-v0.1.1-corrective-release-2026-08-17.md) \u2014 aud"
       }
     ]
   }

@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-23T18:12:52.9936451Z
+**Generated:** 2026-08-27T04:05:16.3140422Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 45 |
+| Total Skills | 46 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 36 |
+| Orphan Skills | 37 |
 
 ---
 
@@ -269,6 +269,14 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### trm-closed-loop-research
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| git | external | ❌ Missing |
+| node | external | ❌ Missing |
+| pwsh | external | ❌ Missing |
+
 ### trm-feedback-report
 
 | Dependency | Type | Status |
@@ -450,6 +458,9 @@ No inbound dependencies (root skill)\n
 |-----------|------|
 | toolforge-cli | internal |
 
+### trm-closed-loop-research
+
+No inbound dependencies (root skill)\n
 ### trm-feedback-report
 
 No inbound dependencies (root skill)\n
@@ -486,6 +497,7 @@ Depth N = Depends on at least one skill at depth N-1
 | research-questions | 1 |
 | skill-security-auditor | 1 |
 | toolforge-cli | 1 |
+| trm-closed-loop-research | 1 |
 | trm-status | 1 |
 | workspace-storage-cleaner | 1 |
 | _cic-shared | 0 |
@@ -571,6 +583,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | tool-lifecycle-manager |
 | toolforge-cli |
 | toolforge-drift-monitor |
+| trm-closed-loop-research |
 | trm-feedback-report |
 | work-summarizer |
 | workspace-storage-cleaner |
@@ -584,7 +597,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 36 orphan skill(s) |
+| Orphans | ⚠️ WARN | 37 orphan skill(s) |
 
 ---
 
