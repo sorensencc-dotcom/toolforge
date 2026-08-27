@@ -10,7 +10,7 @@ Currently, the engine uses raw text concatenation of gap titles and descriptions
 
 ## Architecture and component boundaries
 
-![Topic Research Mining: Cognitive Gap Triage & Daily Synthesis](../../../trm-gap-triage-architecture.png)
+![Topic Research Mining: Cognitive Gap Triage & Daily Synthesis](trm-gap-triage-architecture.png)
 
 <details>
 <summary>Mermaid source for TRM Gap Triage Architecture</summary>
