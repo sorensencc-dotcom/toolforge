@@ -183,8 +183,10 @@ async function main() {
   for (const map of rootPageMappings) {
     const src = path.join(root, map.src);
     if (fs.existsSync(src)) {
-      if (map.dest.toLowerCase().endsWith('.md')) copyMarkdownFile(src, path.join(targetWikiDir, map.dest));
-      else fs.copyFileSync(src, path.join(targetWikiDir, map.dest));
+      const destPath = path.join(targetWikiDir, map.dest);
+      fs.mkdirSync(path.dirname(destPath), { recursive: true });
+      if (map.dest.toLowerCase().endsWith('.md')) copyMarkdownFile(src, destPath);
+      else fs.copyFileSync(src, destPath);
     }
   }
 

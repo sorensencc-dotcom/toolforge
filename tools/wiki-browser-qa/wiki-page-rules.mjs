@@ -25,6 +25,9 @@ export const ROOT_WIKI_PAGE_MAPPINGS = [
   { src: 'docs/KB_SYNC_DAG.md', dest: 'KB_SYNC_DAG.md' },
   { src: 'docs/DOCS_INDEX.md', dest: 'DOCS_INDEX.md' },
   { src: 'kb-sync/README.md', dest: 'kb-sync-readme.md' },
+  { src: 'trm-gap-triage-architecture.png', dest: 'trm-gap-triage-architecture.png' },
+  { src: 'trm-gap-triage-architecture.png', dest: 'kb-sync/trm-gap-triage-architecture.png' },
+  { src: 'trm-gap-triage-architecture.html', dest: 'trm-gap-triage-architecture.html' },
   { src: 'wiki/Log.md', dest: 'Log.md' },
 ];
 

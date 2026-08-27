@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-08-24T14:41:45.5611889Z
+**Generated**: 2026-08-27T04:05:57.1632249Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 0 | 26 | 0 | ✅ |
-| Distributed | 0 | 9 | 0 | ✅ |
-| Manifest | 0 | 95 | 0 | ✅ |
-| Cowork | 0 | 45 | 0 | ✅ |
-| Dependencies | 0 | 14 | 1 | ✅ |
-| Runtime | 0 | 0 | 45 | ✅ |
+| Canonical | 0 | 27 | 0 | ✅ |
+| Distributed | 0 | 10 | 0 | ✅ |
+| Manifest | 0 | 109 | 0 | ✅ |
+| Cowork | 0 | 46 | 0 | ✅ |
+| Dependencies | 0 | 17 | 1 | ✅ |
+| Runtime | 0 | 0 | 46 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 189
+**Total Warnings**: 209
 
 **Overall Status**: ✅ PASS
 
@@ -40,7 +40,7 @@
 | cic-run-gate | CIC Run Gate | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-section-summarizer | CIC Section Summarizer | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | context-manager | Context Manager | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
-| hook-validator | Hook Validator | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
+| hook-validator | Hook Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | html-visual-verify | HTML Visual Verify | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | kb-sync-artifact-generator | KB Sync Artifact Generator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | kb-sync-nightly | KB Sync Nightly | 1.0.2 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
@@ -48,12 +48,12 @@
 | operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | permission-governor | Permission Governor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | plan-extractor-integration | Plan Extractor Integration | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
-| pre-flight-test-checker | Pre-Flight Test Checker | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
+| pre-flight-test-checker | Pre-Flight Test Checker | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | pre-wrap-audit | Pre Wrap Audit | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | reconcile-vector-store | Reconcile Vector Store | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
-| research-questions | Research Questions | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
-| retro-export | Retro Export | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
-| retro-schema-validator | Retro Schema Validator | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
+| research-questions | Research Questions | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
+| retro-export | Retro Export | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
+| retro-schema-validator | Retro Schema Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | rewrite-labs-orchestrator | Rewrite Labs Orchestrator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | roadmap-validator | Roadmap Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | rollback-phase | Rollback Phase | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -67,10 +67,11 @@
 | toolforge-drift-monitor | Toolforge Drift Monitor | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-registry-manager | Toolforge Registry Manager | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-submission-validator | Toolforge Submission Validator | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
+| trm-closed-loop-research | TRM Closed-Loop Research | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
-| workspace-storage-cleaner | Workspace & Brain Storage Cleaner | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
+| workspace-storage-cleaner | Workspace & Brain Storage Cleaner | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | writing-heuristics | Writing Heuristics and Style Engine | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 
 ---
@@ -90,8 +91,8 @@
 ⚠️ **operator-image-build**: Invalid category: pipeline
 ⚠️ **pre-wrap-audit**: Invalid category: session-management
 ⚠️ **reconcile-vector-store**: Invalid category: data-management
-⚠️ **research-questions**: Unknown runtime: prompt
 ⚠️ **research-questions**: Invalid category: research-ops
+⚠️ **research-questions**: Unknown runtime: prompt
 ⚠️ **roadmap-validator**: Invalid category: governance
 ⚠️ **rollback-phase**: Invalid category: pipeline
 ⚠️ **scale-ingestion-service**: Invalid category: pipeline
@@ -100,6 +101,7 @@
 ⚠️ **toolforge-cli**: Invalid category: utility
 ⚠️ **toolforge-registry-manager**: Invalid category: pipeline
 ⚠️ **toolforge-submission-validator**: Invalid category: governance
+⚠️ **trm-closed-loop-research**: Invalid category: research
 ⚠️ **trm-feedback-report**: Invalid category: research-ops
 ⚠️ **work-summarizer**: Invalid category: observability
 ⚠️ **workspace-storage-cleaner**: Invalid category: maintenance
@@ -115,103 +117,118 @@
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
+⚠️ **trm-closed-loop-research**: Directory missing in distributed
 
 ## Manifest Validation
 
 ⚠️ **_cic-shared**: Path mismatch: expected 'skills/_cic-shared', got ''
-⚠️ **agent-drift-detector**: Tags mismatch: canonical '', manifest 'drift, schema, validation'
 ⚠️ **agent-drift-detector**: Path mismatch: expected 'skills/agent-drift-detector', got ''
+⚠️ **agent-drift-detector**: Tags mismatch: canonical '', manifest 'drift, schema, validation'
 ⚠️ **analyze-token-burn**: Path mismatch: expected 'skills/analyze-token-burn', got ''
 ⚠️ **analyze-token-burn**: Invalid category in manifest: observability
 ⚠️ **analyze-token-burn**: Tags mismatch: canonical '', manifest ''
-⚠️ **ashfall**: Path mismatch: expected 'skills/ashfall', got ''
 ⚠️ **ashfall**: Tags mismatch: canonical '', manifest ''
-⚠️ **automation-audit**: Invalid category in manifest: operations
+⚠️ **ashfall**: Path mismatch: expected 'skills/ashfall', got ''
 ⚠️ **automation-audit**: Tags mismatch: canonical '', manifest 'automation, devops-audit, log-rotation, backup-retention'
+⚠️ **automation-audit**: Invalid category in manifest: operations
 ⚠️ **automation-audit**: Description mismatch: canonical 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)', manifest 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers)'
 ⚠️ **automation-audit**: Path mismatch: expected 'skills/automation-audit', got ''
-⚠️ **cic-consolidate-artifacts**: Path mismatch: expected 'skills/cic-consolidate-artifacts', got ''
 ⚠️ **cic-consolidate-artifacts**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-consolidate-artifacts**: Invalid category in manifest: governance
-⚠️ **cic-ingest-world**: Path mismatch: expected 'skills/cic-ingest-world', got ''
+⚠️ **cic-consolidate-artifacts**: Path mismatch: expected 'skills/cic-consolidate-artifacts', got ''
 ⚠️ **cic-ingest-world**: Invalid category in manifest: governance
+⚠️ **cic-ingest-world**: Path mismatch: expected 'skills/cic-ingest-world', got ''
 ⚠️ **cic-ingest-world**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-orchestrate-flow**: Tags mismatch: canonical '', manifest 'cic, governance, phase3, orchestration'
-⚠️ **cic-orchestrate-flow**: Invalid category in manifest: governance
 ⚠️ **cic-orchestrate-flow**: Path mismatch: expected 'skills/cic-orchestrate-flow', got ''
+⚠️ **cic-orchestrate-flow**: Invalid category in manifest: governance
+⚠️ **cic-repair-pipeline**: Path mismatch: expected 'skills/cic-repair-pipeline', got ''
 ⚠️ **cic-repair-pipeline**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-repair-pipeline**: Invalid category in manifest: governance
-⚠️ **cic-repair-pipeline**: Path mismatch: expected 'skills/cic-repair-pipeline', got ''
 ⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
 ⚠️ **cic-roadmap-updater**: Tags mismatch: canonical '', manifest 'roadmap, planning, versioning'
-⚠️ **cic-run-gate**: Path mismatch: expected 'skills/cic-run-gate', got ''
 ⚠️ **cic-run-gate**: Invalid category in manifest: governance
+⚠️ **cic-run-gate**: Path mismatch: expected 'skills/cic-run-gate', got ''
 ⚠️ **cic-run-gate**: Tags mismatch: canonical '', manifest 'cic, governance, phase1, gate'
-⚠️ **cic-section-summarizer**: Tags mismatch: canonical '', manifest 'analysis, roadmap, progress'
 ⚠️ **cic-section-summarizer**: Path mismatch: expected 'skills/cic-section-summarizer', got ''
+⚠️ **cic-section-summarizer**: Tags mismatch: canonical '', manifest 'analysis, roadmap, progress'
 ⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
 ⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
+⚠️ **hook-validator**: Tags mismatch: canonical '', manifest 'git-hooks, pre-commit, governance, installer-race'
+⚠️ **hook-validator**: Path mismatch: expected 'skills/hook-validator', got ''
 ⚠️ **html-visual-verify**: Path mismatch: expected 'skills/html-visual-verify', got ''
-⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-artifact-generator**: Invalid category in manifest: governance
 ⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
-⚠️ **kb-sync-nightly**: Runtime mismatch: canonical typescript, manifest bash
-⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
+⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-nightly**: Description mismatch: canonical 'Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\dev\kb-sync.', manifest 'Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.'
 ⚠️ **kb-sync-nightly**: Invalid category in manifest: sync-tools
 ⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
-⚠️ **obsidian-ingest-wiki**: Path mismatch: expected 'skills/obsidian-ingest-wiki', got ''
+⚠️ **kb-sync-nightly**: Runtime mismatch: canonical typescript, manifest bash
+⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
 ⚠️ **obsidian-ingest-wiki**: Tags mismatch: canonical '', manifest 'obsidian, wiki, synthesis, lvm-pattern'
 ⚠️ **obsidian-ingest-wiki**: Invalid category in manifest: knowledge-base
+⚠️ **obsidian-ingest-wiki**: Path mismatch: expected 'skills/obsidian-ingest-wiki', got ''
 ⚠️ **operator-image-build**: Invalid category in manifest: pipeline
-⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
 ⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
-⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
+⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
 ⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
-⚠️ **plan-extractor-integration**: Path mismatch: expected 'skills/plan-extractor-integration', got ''
+⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
 ⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
-⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
+⚠️ **plan-extractor-integration**: Path mismatch: expected 'skills/plan-extractor-integration', got ''
+⚠️ **pre-flight-test-checker**: Tags mismatch: canonical '', manifest 'testing, eslint, fixtures, cross-platform'
+⚠️ **pre-flight-test-checker**: Path mismatch: expected 'skills/pre-flight-test-checker', got ''
 ⚠️ **pre-wrap-audit**: Invalid category in manifest: session-management
+⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
 ⚠️ **pre-wrap-audit**: Path mismatch: expected 'skills/pre-wrap-audit', got ''
-⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
-⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
 ⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
-⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
+⚠️ **reconcile-vector-store**: Invalid category in manifest: data-management
+⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
+⚠️ **research-questions**: Path mismatch: expected 'skills/research-questions', got ''
+⚠️ **research-questions**: Invalid category in manifest: research-ops
+⚠️ **research-questions**: Tags mismatch: canonical '', manifest 'trm, research-questions, trm-vault, curator'
+⚠️ **retro-export**: Tags mismatch: canonical '', manifest 'retro, metrics, export, reporting'
+⚠️ **retro-export**: Path mismatch: expected 'skills/retro-export', got ''
+⚠️ **retro-schema-validator**: Tags mismatch: canonical '', manifest 'retro, schema, json-validation'
+⚠️ **retro-schema-validator**: Path mismatch: expected 'skills/retro-schema-validator', got ''
 ⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
-⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
+⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
 ⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
 ⚠️ **roadmap-validator**: Invalid category in manifest: governance
+⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
 ⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
-⚠️ **rollback-phase**: Invalid category in manifest: pipeline
 ⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
-⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
+⚠️ **rollback-phase**: Invalid category in manifest: pipeline
 ⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
-⚠️ **scale-ingestion-service**: Invalid category in manifest: pipeline
+⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
 ⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
+⚠️ **scale-ingestion-service**: Invalid category in manifest: pipeline
 ⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
-⚠️ **session-wrap**: Tags mismatch: canonical '', manifest 'session-wrap, git-commit, documentation, atomic-commit'
-⚠️ **session-wrap**: Invalid category in manifest: session-management
 ⚠️ **session-wrap**: Path mismatch: expected 'skills/session-wrap', got ''
-⚠️ **skill-health-monitor**: Tags mismatch: canonical '', manifest 'skill-health, manifest-audit, staleness, inventory'
+⚠️ **session-wrap**: Invalid category in manifest: session-management
+⚠️ **session-wrap**: Tags mismatch: canonical '', manifest 'session-wrap, git-commit, documentation, atomic-commit'
 ⚠️ **skill-health-monitor**: Path mismatch: expected 'skills/skill-health-monitor', got ''
+⚠️ **skill-health-monitor**: Tags mismatch: canonical '', manifest 'skill-health, manifest-audit, staleness, inventory'
 ⚠️ **skill-security-auditor**: Path mismatch: expected 'skills/skill-security-auditor', got ''
-⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
 ⚠️ **tool-lifecycle-manager**: Invalid category in manifest: pipeline
+⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
 ⚠️ **toolforge-cli**: Invalid category in manifest: utility
 ⚠️ **toolforge-cli**: Path mismatch: expected 'skills/toolforge-cli', got ''
 ⚠️ **toolforge-drift-monitor**: Path mismatch: expected 'skills/toolforge-drift-monitor', got ''
-⚠️ **toolforge-registry-manager**: Invalid category in manifest: pipeline
 ⚠️ **toolforge-registry-manager**: Path mismatch: expected 'skills/toolforge-registry-manager', got ''
-⚠️ **toolforge-submission-validator**: Invalid category in manifest: governance
+⚠️ **toolforge-registry-manager**: Invalid category in manifest: pipeline
 ⚠️ **toolforge-submission-validator**: Path mismatch: expected 'skills/toolforge-submission-validator', got ''
+⚠️ **toolforge-submission-validator**: Invalid category in manifest: governance
 ⚠️ **trm-feedback-report**: Path mismatch: expected 'skills/trm-feedback-report', got ''
 ⚠️ **trm-feedback-report**: Description mismatch: canonical 'Post-ingest-batch feedback pass for TRM: classifier/extraction quality, OCR latency vs. budget, candidate new-topic surfacing, and a web-search cross-check on low-confidence facts.', manifest 'Post-ingest feedback and quality report for TRM batches.'
 ⚠️ **trm-feedback-report**: Invalid category in manifest: research-ops
-⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
 ⚠️ **trm-status**: Path mismatch: expected 'skills/trm-status', got ''
+⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
 ⚠️ **work-summarizer**: Invalid category in manifest: observability
 ⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
 ⚠️ **work-summarizer**: Tags mismatch: canonical '', manifest ''
+⚠️ **workspace-storage-cleaner**: Invalid category in manifest: maintenance
+⚠️ **workspace-storage-cleaner**: Tags mismatch: canonical '', manifest 'storage, cleaner, brain, disk, maintenance, logs'
+⚠️ **workspace-storage-cleaner**: Path mismatch: expected 'skills/workspace-storage-cleaner', got ''
 ⚠️ **writing-heuristics**: Path mismatch: expected 'skills/writing-heuristics', got ''
 
 ## Cowork Validation
@@ -256,6 +273,7 @@
 ⚠️ **toolforge-drift-monitor**: Not registered (installer will register on next run)
 ⚠️ **toolforge-registry-manager**: Not registered (installer will register on next run)
 ⚠️ **toolforge-submission-validator**: Not registered (installer will register on next run)
+⚠️ **trm-closed-loop-research**: Not registered (installer will register on next run)
 ⚠️ **trm-feedback-report**: Not registered (installer will register on next run)
 ⚠️ **trm-status**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
@@ -268,12 +286,15 @@
 ⚠️ **cic-ingest-world**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-orchestrate-flow**: Internal dependencies mismatch (distributed): canonical '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate', distributed ''
 ⚠️ **cic-repair-pipeline**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
-⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
+⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
-⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
 ⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
+⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
+⚠️ **trm-closed-loop-research**: Missing external dependency: git
+⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
+⚠️ **trm-closed-loop-research**: Missing external dependency: node
 ⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
 ⚠️ **trm-status**: Missing external dependency: git
@@ -321,6 +342,7 @@
 ℹ️ **toolforge-drift-monitor**: Discoverable
 ℹ️ **toolforge-registry-manager**: Discoverable
 ℹ️ **toolforge-submission-validator**: Discoverable
+ℹ️ **trm-closed-loop-research**: Discoverable
 ℹ️ **trm-feedback-report**: Skill inactive (status: )
 ℹ️ **trm-status**: Discoverable
 ℹ️ **work-summarizer**: Skill inactive (status: )

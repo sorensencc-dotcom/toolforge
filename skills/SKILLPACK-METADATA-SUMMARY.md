@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-24T14:41:49.3644147Z
+**Generated:** 2026-08-27T04:05:58.6329124Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 45 | 100% |
-| Active | 45 | 100% |
+| **Total Skills** | 46 | 100% |
+| Active | 46 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 45 | 100% |
-| ⚠️ Warning | 0 | 0% |
+| ✅ Good | 45 | 97.8% |
+| ⚠️ Warning | 1 | 2.2% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -38,19 +38,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### research-questions
-
-| Field | Value |
-|-------|-------|
-| Name | Research Questions |
-| Category | research-ops |
-| Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | prompt |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | Never |
-| Dependencies | 0 internal, 2 external |
 ### retro-export
 
 | Field | Value |
@@ -62,7 +49,7 @@
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### retro-schema-validator
 
@@ -75,7 +62,7 @@
 | Runtime | javascript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### rewrite-labs-orchestrator
 
@@ -246,6 +233,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### trm-closed-loop-research
+
+| Field | Value |
+|-------|-------|
+| Name | TRM Closed-Loop Research |
+| Category | research |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 3 external |
 ### trm-feedback-report
 
 | Field | Value |
@@ -285,6 +285,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### research-questions
+
+| Field | Value |
+|-------|-------|
+| Name | Research Questions |
+| Category | research-ops |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | prompt |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 2 external |
 ### reconcile-vector-store
 
 | Field | Value |
@@ -298,19 +311,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### workspace-storage-cleaner
-
-| Field | Value |
-|-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | python |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | Never |
-| Dependencies | 0 internal, 1 external |
 ### pre-wrap-audit
 
 | Field | Value |
@@ -324,18 +324,18 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 1 internal, 0 external |
-### plan-extractor-integration
+### pre-flight-test-checker
 
 | Field | Value |
 |-------|-------|
-| Name | Plan Extractor Integration |
-| Category | integration |
+| Name | Pre-Flight Test Checker |
+| Category | validation |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | typescript |
+| Runtime | javascript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### agent-drift-detector
 
@@ -454,6 +454,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 1 external |
 ### cic-run-gate
 
 | Field | Value |
@@ -467,19 +480,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
-### cic-section-summarizer
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Section Summarizer |
-| Category | analysis |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
 ### context-manager
 
 | Field | Value |
@@ -504,7 +504,7 @@
 | Runtime | javascript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### html-visual-verify
 
@@ -584,18 +584,31 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### pre-flight-test-checker
+### plan-extractor-integration
 
 | Field | Value |
 |-------|-------|
-| Name | Pre-Flight Test Checker |
-| Category | validation |
+| Name | Plan Extractor Integration |
+| Category | integration |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | javascript |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | Never |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### cic-section-summarizer
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Section Summarizer |
+| Category | analysis |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
 ### writing-heuristics
 

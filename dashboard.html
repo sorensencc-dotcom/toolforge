@@ -99,7 +99,7 @@
 
 <script type="application/json" id="manifest-data">
 {
-  "timestamp": "2026-08-24T14:41:49.3644147Z",
+  "timestamp": "2026-08-27T04:05:58.6329124Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -130,36 +130,6 @@
       }
     },
     {
-      "id": "research-questions",
-      "name": "Research Questions",
-      "category": "research-ops",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "prompt",
-      "entrypoint": "SKILL.md",
-      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "scan-gaps.mjs",
-          "update-focus-areas.mjs"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T18:41:45.5186640Z",
-        "lastValidation": "2026-08-16T18:41:45.5186640Z",
-        "lastRun": null
-      }
-    },
-    {
       "id": "retro-export",
       "name": "Retro Export",
       "category": "monitoring",
@@ -177,13 +147,13 @@
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "untested",
+        "runtime": "functional",
         "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-16T17:27:19.1809541Z",
         "lastValidation": "2026-08-16T17:27:19.1809541Z",
-        "lastRun": null
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -204,13 +174,13 @@
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "untested",
+        "runtime": "functional",
         "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-23T17:34:37.3597852Z",
         "lastValidation": "2026-08-23T17:34:37.3597852Z",
-        "lastRun": null
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -583,6 +553,37 @@
       }
     },
     {
+      "id": "trm-closed-loop-research",
+      "name": "TRM Closed-Loop Research",
+      "category": "research",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "End-to-end Topic Research Mining (TRM) closed-loop pipeline across all registered NotebookLM notebooks in trm-vault: multi-notebook mining, WhichLLM model selection, cognitive query expansion triage, Layer 2 wiki synthesis, and .nlm_pack compilation.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "git",
+          "node",
+          "pwsh"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": false,
+        "runtime": "untested",
+        "overall": "warn"
+      },
+      "timestamps": {
+        "created": "2026-08-27T04:05:48.8960378Z",
+        "lastValidation": "2026-08-27T04:05:48.8960378Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "trm-feedback-report",
       "name": "TRM Feedback/Report",
       "category": "research-ops",
@@ -670,6 +671,36 @@
       }
     },
     {
+      "id": "research-questions",
+      "name": "Research Questions",
+      "category": "research-ops",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "prompt",
+      "entrypoint": "SKILL.md",
+      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "scan-gaps.mjs",
+          "update-focus-areas.mjs"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T18:41:45.5186640Z",
+        "lastValidation": "2026-08-16T18:41:45.5186640Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
+      }
+    },
+    {
       "id": "reconcile-vector-store",
       "name": "Reconcile Vector Store",
       "category": "data-management",
@@ -694,35 +725,6 @@
         "created": "2026-07-10T21:43:59.2615565Z",
         "lastValidation": "2026-07-10T21:43:59.2615565Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
-        "lastRun": null
       }
     },
     {
@@ -755,15 +757,15 @@
       }
     },
     {
-      "id": "plan-extractor-integration",
-      "name": "Plan Extractor Integration",
-      "category": "integration",
+      "id": "pre-flight-test-checker",
+      "name": "Pre-Flight Test Checker",
+      "category": "validation",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Unified entry point for CodeFlow extraction into CIC stores",
+      "runtime": "javascript",
+      "entrypoint": "src/index.js",
+      "description": "Validates the test environment (ESLint ignore config, external fixtures, platform-specific assumptions) before npm test runs",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -776,9 +778,9 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:59.1505768Z",
-        "lastValidation": "2026-07-10T21:43:59.1505768Z",
-        "lastRun": "2026-08-07T21:38:00Z"
+        "created": "2026-08-23T17:34:26.3468335Z",
+        "lastValidation": "2026-08-23T17:34:26.3468335Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -1037,6 +1039,35 @@
       }
     },
     {
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
+      }
+    },
+    {
       "id": "cic-run-gate",
       "name": "CIC Run Gate",
       "category": "governance",
@@ -1062,33 +1093,6 @@
       "timestamps": {
         "created": "2026-08-16T17:39:59.7227316Z",
         "lastValidation": "2026-08-16T17:39:59.7227316Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "cic-section-summarizer",
-      "name": "CIC Section Summarizer",
-      "category": "analysis",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Auto-summarize CIC phase progress and files reviewed",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:58.9776576Z",
-        "lastValidation": "2026-07-10T21:43:58.9776576Z",
         "lastRun": "2026-08-07T21:38:00Z"
       }
     },
@@ -1137,13 +1141,13 @@
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "untested",
+        "runtime": "functional",
         "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-23T17:34:16.9514019Z",
         "lastValidation": "2026-08-23T17:34:16.9514019Z",
-        "lastRun": null
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -1315,15 +1319,15 @@
       }
     },
     {
-      "id": "pre-flight-test-checker",
-      "name": "Pre-Flight Test Checker",
-      "category": "validation",
+      "id": "plan-extractor-integration",
+      "name": "Plan Extractor Integration",
+      "category": "integration",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "javascript",
-      "entrypoint": "src/index.js",
-      "description": "Validates the test environment (ESLint ignore config, external fixtures, platform-specific assumptions) before npm test runs",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Unified entry point for CodeFlow extraction into CIC stores",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -1332,13 +1336,40 @@
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "untested",
+        "runtime": "functional",
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-23T17:34:26.3468335Z",
-        "lastValidation": "2026-08-23T17:34:26.3468335Z",
-        "lastRun": null
+        "created": "2026-07-10T21:43:59.1505768Z",
+        "lastValidation": "2026-07-10T21:43:59.1505768Z",
+        "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "cic-section-summarizer",
+      "name": "CIC Section Summarizer",
+      "category": "analysis",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Auto-summarize CIC phase progress and files reviewed",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-10T21:43:58.9776576Z",
+        "lastValidation": "2026-07-10T21:43:58.9776576Z",
+        "lastRun": "2026-08-07T21:38:00Z"
       }
     },
     {
@@ -1377,11 +1408,11 @@
     }
   ],
   "summary": {
-    "total": 45,
-    "active": 45,
+    "total": 46,
+    "active": 46,
     "deprecated": 0,
     "health_good": 45,
-    "health_warn": 0,
+    "health_warn": 1,
     "health_error": 0
   }
 }
@@ -1527,6 +1558,9 @@
 
 </body>
 </html>
+
+
+
 
 
 
