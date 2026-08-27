@@ -4,7 +4,7 @@ document_id: "CIC-DELIVERY-GUARD-README"
 category: "readme"
 type: package-documentation
 status: "active"
-version: "0.4.0"
+version: "0.5.0"
 ---
 
 # Delivery guard adapter contract
@@ -49,11 +49,16 @@ when valid and throws `AdapterConfigError` with structured `issues` when invalid
 - `createBudgetLedger(options)` creates a durable event-sourced budget ledger.
 - `BudgetLedger` manages grants, reservations, settlements, and releases.
 - `getDefaultLedgerStoragePath()` resolves default user-level budget ledger storage path.
+- `createGuardedProvider(provider, options)` wraps provider dispatch with atomic budget reservation and release.
+- `estimateModelCost(query, modelRegistry)` computes conservative pre-dispatch cost estimates.
+- `normalizeModelId(modelId)` canonicalizes model names by stripping provider prefixes and lowercasing.
+- `buildNormalizedModelMap(modelRegistry)` constructs normalized registry maps with alias collision validation.
 
 `classifyDiff` also exports `DiffEntryError` and `UnsupportedGlobError`.
 `validateAdapterConfig` also exports `AdapterConfigError`.
 `parsePushManifest` also exports `ManifestError`.
-`BudgetLedger` also exports `LedgerError`, `BudgetExhaustedError`, `ReservationNotFoundError`, and `ReservationStateError`.
+`BudgetLedger` also exports `LedgerError`, `BudgetExhaustedError`, `ReservationNotFoundError`, `ReservationStateError`, and `ReservationAlreadySettledError`.
+`createGuardedProvider` also exports `GuardedProviderError`, `UnknownModelError`, and `ModelRegistryConflictError`.
 
 ## Automation test policy
 
@@ -105,9 +110,21 @@ that order.
 
 - `grantBudget({ amount, reason })` deposits funds into the ledger.
 - `reserveBudget({ amount, reservationId, provider, model })` atomically checks and reserves budget under file-lock concurrency protection. Throws `BudgetExhaustedError` on insufficient balance.
-- `settleReservation({ reservationId, actualCost })` finalizes spend and automatically refunds unused reserved amount to available balance.
+- `settleReservation({ reservationId, actualCost, metadata })` finalizes spend and automatically refunds unused reserved amount to available balance.
 - `releaseReservation({ reservationId, reason })` cancels a pending reservation and returns full reserved amount.
 - Replays event log on restart, skipping malformed lines safely.
+
+## Provider dispatch guard
+
+`createGuardedProvider(provider, { ledger, modelRegistry, providerName })` wraps LLM providers:
+
+- Computes conservative pre-dispatch cost estimate via `estimateModelCost(query, modelRegistry)`.
+- Fails closed with `UnknownModelError` (`UNKNOWN_MODEL`) before dispatch if model is not registered.
+- Free/local models (`isFree: true` or zero rate card) bypass ledger reservation.
+- Paid models atomically reserve estimated cost before network dispatch. If exhausted, blocks dispatch with 0 network calls.
+- On dispatch success, settles reservation with actual usage cost; overruns are recorded in ledger metadata for accounting reconciliation.
+- If settlement fails, throws `GuardedProviderError` (`SETTLEMENT_FAILED`) with attached result payload.
+- On dispatch failure, automatically releases reserved funds back to ledger balance.
 
 ## Scoped push receipts
 

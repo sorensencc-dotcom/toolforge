@@ -23,3 +23,12 @@ export {
   ReservationStateError,
   ReservationAlreadySettledError,
 } from './ledger.js';
+export {
+  createGuardedProvider,
+  estimateModelCost,
+  normalizeModelId,
+  buildNormalizedModelMap,
+  GuardedProviderError,
+  UnknownModelError,
+  ModelRegistryConflictError,
+} from './guard.js';

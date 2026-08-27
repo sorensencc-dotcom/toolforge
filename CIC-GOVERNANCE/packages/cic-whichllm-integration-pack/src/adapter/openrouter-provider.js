@@ -9,6 +9,7 @@
  * cap 10 s), timeout (30 s AbortSignal), and error semantics.
  */
 
+import { createGuardedProvider } from '@cic/delivery-guard';
 import { canonicalJson, backoffMs } from './whichllm-adapter.js';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -65,10 +66,12 @@ export const OPENROUTER_MODEL_REGISTRY = {
  * @property {string} [appName]
  * @property {number} [maxRetries]
  * @property {number} [timeoutMs]
+ * @property {Object} [budgetLedger]
  */
 
 export class OpenRouterProvider {
   #config;
+  #guardedProvider;
 
   /**
    * @param {OpenRouterConfig} config
@@ -85,10 +88,33 @@ export class OpenRouterProvider {
       appName: 'CIC-TorqueQuery',
       ...config,
     };
+
+    if (this.#config.budgetLedger) {
+      this.#guardedProvider = createGuardedProvider(
+        { execute: (q) => this.#executeRaw(q) },
+        {
+          ledger: this.#config.budgetLedger,
+          modelRegistry: OPENROUTER_MODEL_REGISTRY,
+          providerName: 'openrouter',
+        }
+      );
+    }
   }
 
   /**
-   * Execute OpenRouter completions request with deterministic retry and timeout.
+   * Execute OpenRouter completions request. Routes through budget guard if budgetLedger is configured.
+   *
+   * @param {Object} query
+   */
+  async execute(query) {
+    if (this.#guardedProvider) {
+      return this.#guardedProvider.execute(query);
+    }
+    return this.#executeRaw(query);
+  }
+
+  /**
+   * Raw transport dispatch to OpenRouter API.
    *
    * @param {Object} query
    * @param {string} query.queryId
@@ -97,7 +123,7 @@ export class OpenRouterProvider {
    * @param {Array} [query.tools]
    * @param {number} [query.maxTokens]
    */
-  async execute(query) {
+  async #executeRaw(query) {
     const meta = OPENROUTER_MODEL_REGISTRY[query.model]
       ?? OPENROUTER_MODEL_REGISTRY[`openrouter/${query.model}`];
     const apiSlug = meta?.apiSlug ?? query.model.replace(/^openrouter\//, '');
@@ -204,6 +230,10 @@ export class OpenRouterProvider {
 
     throw lastError ?? new Error(`OpenRouter: all ${maxRetries + 1} attempts failed`);
   }
+}
+
+export function createGuardedOpenRouterProvider(config = {}) {
+  return new OpenRouterProvider(config);
 }
 
 export default OpenRouterProvider;
