@@ -33,3 +33,18 @@ jobs:
       - name: Validate changed retro schema compliance
         shell: pwsh
         run: ./.context/retros/validate-changed.ps1
+
+  delivery-guard:
+    name: Delivery guard automation policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Enforce automation regression-test policy
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: >
+          node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA"

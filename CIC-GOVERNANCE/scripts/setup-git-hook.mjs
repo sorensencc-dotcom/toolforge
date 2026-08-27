@@ -57,6 +57,10 @@ if [ -f "scripts/secret-scan.mjs" ]; then
   node scripts/secret-scan.mjs || exit 1
 fi
 
+if [ -f "CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs" ]; then
+  node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --staged --advisory || echo "[WARN] Delivery guard automation policy is advisory; unable to evaluate."
+fi
+
 if [ -f "$(dirname "$0")/pre-commit.ps1" ]; then
   pwsh -NoProfile -File "$(dirname "$0")/pre-commit.ps1" "$@" || exit 1
 fi
