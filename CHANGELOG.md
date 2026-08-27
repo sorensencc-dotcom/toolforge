@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.52.1
+Date: 2026-08-27
+
+### Changes
+- 457fcec - Merge pull request #12 from sorensencc-dotcom/fix/wiki-qa-github-dom (Chris Sorensen)
+- 7420ecf - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- 609a46c - fix(wiki-qa): scope browser-QA checks to rendered content on GitHub wiki pages (Chris)
+
 ## Version 2.52.0
 Date: 2026-08-27
 
