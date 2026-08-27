@@ -1,5 +1,11 @@
 # OllamaProvider Setup & Quick Start
 
+## Provider topology
+
+![TorqueQuery and WhichLLM provider topology](wiki/research/whichllm-architecture-topology.png)
+
+This topology shows the governed router, model-selection adapter, and local provider branch that includes Ollama.
+
 ## What Was Created
 
 ### 1. Provider Implementation

@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "description": "Approved initial Wiki browser-QA page and diagram policy.",
+  "pages": [
+    {
+      "slug": "toolforge-architecture-overview",
+      "categories": ["architecture", "provider", "governance", "lifecycle"],
+      "sourcePage": "wiki/toolforge-architecture-overview.html",
+      "acceptedSelectors": [".diagram-container > svg"],
+      "acceptedAssetPatterns": ["(?:^|/)toolforge-architecture-overview\\.html$"],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [
+        {
+          "selector": ".diagram-container > svg",
+          "assetPattern": "(?:^|/)toolforge-architecture-overview\\.html$",
+          "sourceAsset": "wiki/toolforge-architecture-overview.html",
+          "requireAlt": true,
+          "requireCaption": true,
+          "viewports": {
+            "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+            "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+          }
+        }
+      ],
+      "sourceMappings": [
+        { "kind": "source-page", "repositoryPath": "wiki/toolforge-architecture-overview.html" }
+      ]
+    },
+    {
+      "slug": "OLLAMA_PROVIDER_SETUP",
+      "categories": ["provider"],
+      "sourcePage": "OLLAMA_PROVIDER_SETUP.md",
+      "acceptedSelectors": ["img[src$=\"/wiki/research/whichllm-architecture-topology.png\"]"],
+      "acceptedAssetPatterns": ["(?:^|/)wiki/research/whichllm-architecture-topology\\.png$"],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [{
+        "selector": "img[src$=\"/wiki/research/whichllm-architecture-topology.png\"]",
+        "assetPattern": "(?:^|/)wiki/research/whichllm-architecture-topology\\.png$",
+        "sourceAsset": "wiki/research/whichllm-architecture-topology.png",
+        "requireAlt": true,
+        "requireCaption": true,
+        "viewports": {
+          "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+          "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+        }
+      }],
+      "sourceMappings": [
+        { "kind": "source-page", "repositoryPath": "OLLAMA_PROVIDER_SETUP.md" },
+        { "kind": "source-asset", "repositoryPath": "wiki/research/whichllm-architecture-topology.png" }
+      ]
+    },
+    {
+      "slug": "OLLAMA_DEPLOYMENT_GUIDE",
+      "categories": ["provider", "lifecycle"],
+      "sourcePage": "OLLAMA_DEPLOYMENT_GUIDE.md",
+      "acceptedSelectors": ["img[src$=\"/wiki/research/whichllm-architecture-topology.png\"]"],
+      "acceptedAssetPatterns": ["(?:^|/)wiki/research/whichllm-architecture-topology\\.png$"],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [{
+        "selector": "img[src$=\"/wiki/research/whichllm-architecture-topology.png\"]",
+        "assetPattern": "(?:^|/)wiki/research/whichllm-architecture-topology\\.png$",
+        "sourceAsset": "wiki/research/whichllm-architecture-topology.png",
+        "requireAlt": true,
+        "requireCaption": true,
+        "viewports": {
+          "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+          "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+        }
+      }],
+      "sourceMappings": [
+        { "kind": "source-page", "repositoryPath": "OLLAMA_DEPLOYMENT_GUIDE.md" },
+        { "kind": "source-asset", "repositoryPath": "wiki/research/whichllm-architecture-topology.png" }
+      ]
+    },
+    {
+      "slug": "whichllm-model-selection-evaluator",
+      "categories": ["WhichLLM", "model-selection", "provider", "architecture"],
+      "sourcePage": "wiki/research/whichllm-model-selection-evaluator.md",
+      "acceptedSelectors": ["img[src$=\"/whichllm-architecture-topology.png\"]"],
+      "acceptedAssetPatterns": ["(?:^|/)whichllm-architecture-topology\\.png$"],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [
+        {
+          "selector": "img[src$=\"/whichllm-architecture-topology.png\"]",
+          "assetPattern": "(?:^|/)whichllm-architecture-topology\\.png$",
+          "sourceAsset": "wiki/research/whichllm-architecture-topology.png",
+          "requireAlt": true,
+          "requireCaption": true,
+          "viewports": {
+            "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+            "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+          }
+        }
+      ],
+      "sourceMappings": [
+        { "kind": "source-page", "repositoryPath": "wiki/research/whichllm-model-selection-evaluator.md" },
+        { "kind": "source-asset", "repositoryPath": "wiki/research/whichllm-architecture-topology.png" },
+        { "kind": "generated-artifact", "repositoryPath": "wiki/research/whichllm-architecture-topology.html" }
+      ]
+    },
+    {
+      "slug": "GOVERNANCE",
+      "categories": ["governance", "lifecycle"],
+      "sourcePage": "GOVERNANCE.md",
+      "acceptedSelectors": ["img[src$=\"/wiki/toolforge-architecture-overview.png\"]"],
+      "acceptedAssetPatterns": ["(?:^|/)wiki/toolforge-architecture-overview\\.png$"],
+      "requirements": { "requireAlt": true, "requireCaption": true },
+      "viewports": {
+        "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+        "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+      },
+      "requiredDiagrams": [{
+        "selector": "img[src$=\"/wiki/toolforge-architecture-overview.png\"]",
+        "assetPattern": "(?:^|/)wiki/toolforge-architecture-overview\\.png$",
+        "sourceAsset": "wiki/toolforge-architecture-overview.png",
+        "requireAlt": true,
+        "requireCaption": true,
+        "viewports": {
+          "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
+          "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
+        }
+      }],
+      "sourceMappings": [
+        { "kind": "source-page", "repositoryPath": "GOVERNANCE.md" },
+        { "kind": "source-asset", "repositoryPath": "wiki/toolforge-architecture-overview.png" }
+      ]
+    }
+  ]
+}
