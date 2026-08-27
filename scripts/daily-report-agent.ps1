@@ -318,8 +318,17 @@ Write-Host "Daily Report Agent starting at $AgentStartTime"
 Write-Host "Report date: $reportDate"
 Write-Host "24h window: $dayStart to $AgentStartTime"
 
+# Refresh Graft context graph
+try {
+    Write-Host "Refreshing Graft context graph..."
+    & graft build
+} catch {
+    Write-Host "Warning: graft build failed: $_"
+}
+
 # Collect data
 $commits = Get-CommitsSince24h $RepoRoot $dayStart
+
 $sessionWrap = Get-SessionWrapJSON $env:APPDATA
 $retro = Get-RetroJSON $env:APPDATA
 $coworkPath = $env:USERPROFILE + "\.cowork\sessions"
