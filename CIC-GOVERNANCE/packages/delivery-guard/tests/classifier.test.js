@@ -124,6 +124,16 @@ for (const pattern of ['dist/[ab].js', 'dist/{app,test}.js', 'dist/!(app).js']) 
   });
 }
 
+test('rejects drive-qualified absolute glob patterns', () => {
+  const pattern = 'C:/generated/**';
+
+  assert.throws(
+    () => classifyDiff([{ path: 'generated/app.js' }], { generatedPaths: [pattern] }),
+    (error) => error.name === 'UnsupportedGlobError'
+      && error.pattern === pattern,
+  );
+});
+
 test('exports classifier through package public API', () => {
   const result = publicClassifyDiff(
     [{ path: 'dist/app.js' }],

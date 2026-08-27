@@ -25,7 +25,8 @@ function validateGlob(glob) {
     throw new UnsupportedGlobError(glob);
   }
   const normalized = normalizePath(glob);
-  if (normalized.startsWith('/') || normalized.split('/').some((segment) => segment === '..')) {
+  if (normalized.startsWith('/') || /^[A-Za-z]:/.test(normalized)
+    || normalized.split('/').some((segment) => segment === '..')) {
     throw new UnsupportedGlobError(glob);
   }
   if (UNSUPPORTED_GLOB_SYNTAX.test(normalized)) {
