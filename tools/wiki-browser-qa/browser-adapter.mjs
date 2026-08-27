@@ -31,6 +31,7 @@ function validateResponse(value) {
     failedRequests: (item) => typeof item.url === 'string' && (typeof item.status === 'number' || typeof item.status === 'string'),
     dom: (item) => typeof item.text === 'string' || typeof item.role === 'string',
     domAssertions: (item) => typeof item.text === 'string' || typeof item.role === 'string',
+    headings: (item) => typeof item.text === 'string' || typeof item.role === 'string',
     images: (item) => typeof item.src === 'string' && typeof item.alt === 'string' && (!('naturalWidth' in item) || Number.isFinite(item.naturalWidth)) && (!('naturalHeight' in item) || Number.isFinite(item.naturalHeight)) && (!('loaded' in item) || typeof item.loaded === 'boolean'),
     links: (item) => typeof item.text === 'string' && typeof item.href === 'string'
       && (!('inScope' in item) || typeof item.inScope === 'boolean')
@@ -43,7 +44,8 @@ function validateResponse(value) {
       throw adapterError('malformed-output', `response.${field} contains an invalid item`);
     }
   }
-  for (const field of ['title', 'text', 'url']) if (field in value && typeof value[field] !== 'string') throw adapterError('malformed-output', `response.${field} must be a string`);
+  for (const field of ['title', 'text', 'url', 'contentTitle']) if (field in value && typeof value[field] !== 'string') throw adapterError('malformed-output', `response.${field} must be a string`);
+  if ('contentScoped' in value && typeof value.contentScoped !== 'boolean') throw adapterError('malformed-output', 'response.contentScoped must be a boolean');
   if ('accessibility' in value && typeof value.accessibility !== 'string') throw adapterError('malformed-output', 'response.accessibility must be a string');
   if ('heading' in value && value.heading !== null && (!value.heading || typeof value.heading !== 'object' || Array.isArray(value.heading) || !Number.isInteger(value.heading.level) || typeof value.heading.text !== 'string')) throw adapterError('malformed-output', 'response.heading must contain integer level and string text or be null');
   if ('viewport' in value) {
@@ -58,14 +60,25 @@ function validateResponse(value) {
 
 export function normalizeBrowserObservation(raw, requestedUrl) {
   const value = validateResponse(raw);
+  const headings = Array.isArray(value.headings)
+    ? value.headings
+    : (value.domAssertions ?? value.dom ?? []);
+  const scopedHeading = headings.find((heading) => Number(heading?.level) === 1 && typeof heading?.text === 'string' && heading.text.trim());
+  const heading = value.contentScoped && scopedHeading
+    ? { level: 1, text: scopedHeading.text }
+    : (value.heading ?? (scopedHeading ? { level: 1, text: scopedHeading.text } : null));
+  const title = value.contentScoped && typeof value.contentTitle === 'string' && value.contentTitle.trim()
+    ? value.contentTitle.trim()
+    : (value.title ?? heading?.text ?? '');
   return {
     url: value.url ?? requestedUrl,
-    title: value.title ?? value.heading?.text ?? '',
+    title,
     text: value.text ?? '',
-    heading: value.heading ?? null,
+    heading,
+    headings,
     consoleErrors: value.consoleErrors ?? value.console ?? [],
     failedRequests: value.failedRequests ?? value.network ?? [],
-    domAssertions: value.domAssertions ?? value.dom ?? [],
+    domAssertions: headings.length ? headings : (value.domAssertions ?? value.dom ?? []),
     accessibility: value.accessibility ?? '',
     viewport: value.viewport ?? {},
     images: value.images ?? [],
@@ -126,13 +139,24 @@ function parseCommandOutput(command, stdout) {
   return {};
 }
 
-export function pageEvidenceExpression(diagramRules = []) {
+export function pageEvidenceExpression(diagramRules = [], options = {}) {
   const rules = diagramRules.map((rule) => ({
     selector: String(rule?.selector ?? ''),
     sourceAsset: String(rule?.sourceAsset ?? ''),
     assetPattern: String(rule?.assetPattern ?? ''),
+    githubSelector: String(rule?.githubSelector ?? ''),
+    githubAssetPattern: String(rule?.githubAssetPattern ?? ''),
   })).filter((rule) => rule.selector);
+  const contentSelector = options.contentSelector ? String(options.contentSelector) : null;
+  const linkCredentials = ['omit', 'same-origin', 'include'].includes(options.linkCredentials)
+    ? options.linkCredentials
+    : 'same-origin';
   return `(async () => {
+    const CONTENT_SELECTOR = ${JSON.stringify(contentSelector)};
+    const LINK_CREDENTIALS = ${JSON.stringify(linkCredentials)};
+    const contentRoot = CONTENT_SELECTOR ? document.querySelector(CONTENT_SELECTOR) : null;
+    const scoped = Boolean(contentRoot);
+    const root = contentRoot || document;
     const safeUrl = (value) => {
       try {
         const url = new URL(value, document.location.href);
@@ -145,11 +169,26 @@ export function pageEvidenceExpression(diagramRules = []) {
       const rect = element.getBoundingClientRect();
       return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && rect.width > 0 && rect.height > 0;
     };
+    const headingTextOf = (node) => {
+      if (!node || !node.matches) return '';
+      if (node.matches('h1,h2,h3,h4,h5,h6')) return node.textContent || '';
+      // GitHub wraps every rendered heading as <div class="markdown-heading"><h1 class="heading-element">…</h1><a class="anchor">…</a></div>.
+      const inner = node.querySelector && node.querySelector('h1,h2,h3,h4,h5,h6');
+      return inner ? (inner.textContent || '') : '';
+    };
     const captionFor = (element) => {
       const container = element.closest('figure, .diagram-container, [data-diagram]') || element.parentElement;
       const caption = container?.querySelector('figcaption, .caption, [data-caption]')?.textContent;
-      const heading = container?.previousElementSibling?.matches?.('h1,h2,h3,h4,h5,h6') ? container.previousElementSibling.textContent : '';
-      return (caption || heading || '').trim();
+      if (caption && caption.trim()) return caption.trim();
+      // Bare markdown images (GitHub) carry no figcaption: fall back to the nearest preceding section heading.
+      const block = element.closest('p, li, figure, .diagram-container, [data-diagram]') || container;
+      let hops = 0;
+      for (let node = block?.previousElementSibling; node && hops < 6; node = node.previousElementSibling, hops += 1) {
+        if (node.matches?.('img, hr') || node.querySelector?.('img')) break;
+        const heading = headingTextOf(node).trim();
+        if (heading) return heading;
+      }
+      return '';
     };
     const imageFor = (image) => ({
       src: safeUrl(image.currentSrc || image.src || ''), alt: image.alt || '', naturalWidth: image.naturalWidth,
@@ -157,7 +196,7 @@ export function pageEvidenceExpression(diagramRules = []) {
     });
     const anchorEntries = [];
     const seenHref = new Set();
-    for (const anchor of document.querySelectorAll('a[href]')) {
+    for (const anchor of root.querySelectorAll('a[href]')) {
       const text = (anchor.textContent || '').trim().slice(0, 120);
       const href = safeUrl(anchor.href);
       if (!text || !href || seenHref.has(href)) continue;
@@ -170,21 +209,29 @@ export function pageEvidenceExpression(diagramRules = []) {
       const inScope = url.origin === document.location.origin;
       if (!inScope) return { text, href, inScope, ok: false, status: null };
       try {
-        const response = await fetch(url.href, { credentials: 'omit', redirect: 'follow', signal: AbortSignal.timeout(8000) });
+        const response = await fetch(url.href, { credentials: LINK_CREDENTIALS, redirect: 'follow', signal: AbortSignal.timeout(8000) });
         return { text, href, inScope, ok: response.ok, status: response.status };
       } catch {
         return { text, href, inScope, ok: false, status: null };
       }
     }));
     const diagrams = ${JSON.stringify(rules)}.flatMap((rule) => {
+      const activeSelector = (scoped && rule.githubSelector) ? rule.githubSelector : rule.selector;
+      const activePattern = (scoped && rule.githubAssetPattern) ? rule.githubAssetPattern : rule.assetPattern;
       let elements;
-      try { elements = [...document.querySelectorAll(rule.selector)]; } catch { return []; }
+      try { elements = [...root.querySelectorAll(activeSelector)]; } catch { elements = []; }
+      if (elements.length === 0 && activePattern) {
+        try {
+          const re = new RegExp(activePattern);
+          elements = [...root.querySelectorAll('img')].filter((img) => re.test(safeUrl(img.currentSrc || img.src || '')));
+        } catch { elements = []; }
+      }
       return elements.map((element) => {
         const image = element.matches('img') ? element : element.querySelector('img');
         const src = safeUrl(image?.currentSrc || image?.src || element.getAttribute('src') || document.location.href);
         let sourceBacked = Boolean(rule.sourceAsset);
-        if (sourceBacked && rule.assetPattern) {
-          try { sourceBacked = new RegExp(rule.assetPattern).test(src); } catch { sourceBacked = false; }
+        if (sourceBacked && activePattern) {
+          try { sourceBacked = new RegExp(activePattern).test(src); } catch { sourceBacked = false; }
         }
         const rect = element.getBoundingClientRect();
         return {
@@ -196,15 +243,24 @@ export function pageEvidenceExpression(diagramRules = []) {
         };
       });
     });
-    const root = document.documentElement;
+    const docEl = document.documentElement;
+    const headingNodes = [...root.querySelectorAll('h1,h2,h3,h4,h5,h6')].slice(0, 200);
+    const headings = headingNodes.map((node) => ({
+      role: 'heading', level: Number(node.tagName.slice(1)), text: (node.textContent || '').trim().slice(0, 200),
+    }));
+    const contentTitle = (headings.find((heading) => heading.level === 1)?.text || '').slice(0, 200);
+    const imageNodes = scoped ? [...root.querySelectorAll('img')] : [...document.images];
     return JSON.stringify({
-      images: [...document.images].slice(0, 200).map(imageFor),
+      images: imageNodes.slice(0, 200).map(imageFor),
       diagrams,
       links: links.filter(Boolean),
+      headings,
+      contentTitle,
+      contentScoped: scoped,
       viewport: {
-        scrollWidth: root.scrollWidth,
-        clientWidth: root.clientWidth,
-        overflow: root.scrollWidth > root.clientWidth + 1,
+        scrollWidth: docEl.scrollWidth,
+        clientWidth: docEl.clientWidth,
+        overflow: docEl.scrollWidth > docEl.clientWidth + 1,
       },
     });
   })()`;
@@ -213,6 +269,13 @@ export function pageEvidenceExpression(diagramRules = []) {
 export function mergeEvidence(observation, evidence, viewportName) {
   if (!observation.images) observation.images = evidence.images;
   if (Array.isArray(evidence.links)) observation.links = evidence.links;
+  if (evidence.contentScoped === true && Array.isArray(evidence.headings)) {
+    observation.headings = evidence.headings;
+    observation.contentScoped = true;
+    if (typeof evidence.contentTitle === 'string' && evidence.contentTitle.trim()) {
+      observation.contentTitle = evidence.contentTitle.trim();
+    }
+  }
   if (evidence.viewport && typeof evidence.viewport === 'object' && !Array.isArray(evidence.viewport)) {
     observation.viewport ??= {};
     observation.viewport[viewportName] = { ...(observation.viewport[viewportName] ?? {}), ...evidence.viewport };
@@ -354,7 +417,7 @@ export function createBrowserAdapter(options = {}) {
       if (viewportResult.status !== 0) throw adapterError('browser-failure', 'gstack browser command failed: viewport', { status: viewportResult.status, stderr: viewportResult.stderr });
       const viewportResponse = parseCommandOutput('viewport', viewportResult.stdout ?? '');
       observation.viewport = { ...(observation.viewport ?? {}), [name]: viewportResponse.viewport };
-      const evidenceResult = await invoke(['js', pageEvidenceExpression(openOptions.diagramRules)], timeoutMs);
+      const evidenceResult = await invoke(['js', pageEvidenceExpression(openOptions.diagramRules, { contentSelector: openOptions.contentSelector })], timeoutMs);
       if (evidenceResult.status !== 0) throw adapterError('browser-failure', 'gstack browser command failed: js', { status: evidenceResult.status, stderr: evidenceResult.stderr });
       mergeEvidence(observation, parseCommandOutput('js', evidenceResult.stdout ?? ''), name);
     }

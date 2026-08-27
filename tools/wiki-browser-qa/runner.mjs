@@ -46,6 +46,13 @@ function canonicalUrl(value, baseUrl) {
   return resolved.href.replace(/\/$/, '');
 }
 
+function contentSelectorFor(baseUrl, env) {
+  if (env.WIKI_QA_CONTENT_SELECTOR?.trim()) return env.WIKI_QA_CONTENT_SELECTOR.trim();
+  const url = new URL(baseUrl);
+  if (/(^|\.)github\.com$/i.test(url.host) && /\/wiki(\/|$)/.test(url.pathname)) return '.markdown-body';
+  return null;
+}
+
 function isWithinWikiScope(url, baseUrl) {
   const base = new URL(baseUrl);
   const candidate = new URL(url);
@@ -175,6 +182,7 @@ async function openPageWithTransientRetry(url, context) {
       const observation = await context.adapter.openPage(url, {
         timeoutMs: context.pageTimeoutMs,
         diagramRules: context.diagramRules ?? [],
+        contentSelector: context.contentSelector ?? null,
       });
       return { observation, attempts };
     } catch (error) {
@@ -218,6 +226,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
   const activePolicy = dependencies.policy ?? policy;
   const signal = dependencies.signal;
   const baseUrl = normalizeBaseUrl(env.WIKI_QA_BASE_URL);
+  const contentSelector = contentSelectorFor(baseUrl, env);
   const reportPath = env.WIKI_QA_REPORT || DEFAULT_REPORT_PATH;
   const concurrency = asPositiveInteger(env.WIKI_QA_CONCURRENCY, DEFAULT_CONCURRENCY, MAX_CONCURRENCY);
   const pageTimeoutMs = asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 30_000);
@@ -225,6 +234,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
   const report = {
     target: baseUrl,
     timestamp: timestamp(clock),
+    ...(contentSelector ? { contentSelector } : {}),
     pages: [],
     aggregate: { total: 0, passed: 0, failed: 0, unfinished: 0, checks: { total: 0, passed: 0, failed: 0 } },
     partial: false,
@@ -256,6 +266,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
         clock,
         pageTimeoutMs,
         diagramRules: [],
+        contentSelector,
       });
       urls = discoveredUrls(index, baseUrl);
     }
@@ -281,7 +292,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
           pages[index] = pageResult(urls[index], 'unfinished');
           continue;
         }
-        const result = await auditPage(urls[index], { adapter, clock, policy: activePolicy, pageTimeoutMs });
+        const result = await auditPage(urls[index], { adapter, clock, policy: activePolicy, pageTimeoutMs, contentSelector });
         stoppedReason ??= shouldStop();
         pages[index] = stoppedReason && result.status === 'passed'
           ? pageResult(urls[index], 'unfinished', { attempts: result.attempts })

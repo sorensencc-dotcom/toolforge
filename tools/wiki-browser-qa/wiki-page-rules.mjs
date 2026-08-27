@@ -41,6 +41,8 @@ export const CLASSIFIED_WIKI_PAGES = [
     requiredDiagrams: [{
       selector: '.diagram-container > svg',
       assetPattern: '(?:^|/)toolforge-architecture-overview\\.html$',
+      githubSelector: 'img[src$="toolforge-architecture-overview.png"]',
+      githubAssetPattern: '(?:^|/)toolforge-architecture-overview\\.png$',
       sourceAsset: 'wiki/toolforge-architecture-overview.html',
       publishedAssetPath: 'toolforge-architecture-overview.html',
       requireAlt: true,
