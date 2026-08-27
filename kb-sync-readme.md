@@ -42,9 +42,67 @@ Exposes the local SQLite context cache directly to interactive coding agents (e.
   - `query_context_cache`: BM25 lexical keyword search across cached research nodes with highlight snippets.
   - `fetch_topic_note`: Direct retrieval of full markdown documents and metadata by topic identifier.
 
+### 5. TRM Cognitive Gap Triage & Daily Synthesis
+Automated daily research triage that evaluates pending gaps in `trm-research-gaps.md`, expands search queries using local (Ollama) or remote (OpenRouter) models with fail-soft heuristic fallbacks, queries the SQLite FTS5 context cache, synthesizes grounded RFC decision documents in `wiki/research/`, and mutates the gaps tracking matrix in place.
+
+![Topic Research Mining: Cognitive Gap Triage & Daily Synthesis](trm-gap-triage-architecture.png)
+
+<details>
+<summary>Mermaid source for TRM Gap Triage Architecture</summary>
+
+```mermaid
+flowchart TD
+    A["trm-research-gaps.md (- [ ] [GAP-XX])"] --> B["Windows Task Scheduler (Daily 20:30) / Master Pipeline Stage 5"]
+    B --> C["Context Cache Pre-Flight Sync (npm run kb:cache:sync)"]
+    C --> D["Cognitive Query Expander (query-expander.mjs)"]
+    
+    subgraph Expander ["Cognitive Query Expansion Layer"]
+        D --> E{"Provider Selection"}
+        E -->|Ollama Qwen-2.5 / OpenRouter Gemini| F["Model Completion (XML-Delimited)"]
+        E -->|Offline / Timeout / Tripped| G["Blended OR Wildcard Heuristic Fallback"]
+        F --> H["SQLite LIMIT 0 Dry-Run Syntax Validation"]
+        H -->|Valid| I["Validated FTS5 Query"]
+        H -->|Syntax Error| G
+        G --> I
+    end
+    
+    I --> J[".kb_cache/knowledge.db (SQLite FTS5 kb_fts MATCH)"]
+    J --> K["Matched Evidence Chunks & Snippets"]
+    K --> L["RFC Synthesizer (wiki/research/rfc-gap-*.md)"]
+    L --> M["Update trm-research-gaps.md (- [/] Backlinks)"]
+    M --> N["Re-index Cache (kb:cache:sync)"]
+    N -.->|Feedback Loop| A
+```
+</details>
+
+- **Query expander module**: `modules/trm/query-expander.mjs`
+- **Triage engine**: `modules/trm/gap-triage-engine.mjs`
+- **CLI entrypoint**: `scripts/trm-triage.mjs`
+- **Task wrapper**: `scripts/schedule-task-wrapper-TRM-Triage.ps1`
+- **Task registration**: `scripts/register-trm-triage-task.ps1`
+- **Scheduled time**: Daily at 20:30 (8:30 PM)
+
 ---
 
 ## Operating commands
+
+### TRM automated gap triage & synthesis
+```bash
+# Run daily scheduled wrapper (includes cache pre-sync & logging)
+npm run trm:triage:daily
+
+# Execute automated gap triage with cognitive query expansion
+npm run trm:triage:auto
+
+# Run gap triage in deterministic offline heuristic mode
+npm run trm:triage:offline
+
+# Run dry run without modifying files
+npm run trm:triage:dry-run
+
+# Run query expander unit tests (25 tests)
+node --test tests/query-expander.test.mjs
+```
 
 ### Competitor watchlist monitoring
 ```bash
