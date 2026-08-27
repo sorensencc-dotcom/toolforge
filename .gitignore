@@ -1,0 +1,108 @@
+node_modules/
+dist/
+build/
+out/
+.playwright-mcp/
+*.log
+!docs/toolforge/registry-audit.log
+*.tmp
+*.cache
+.artifacts/
+.DS_Store
+.vscode/
+.idea/
+.obsidian/workspace.json
+skills/*/cic/
+/cic/
+.worktrees/
+sigil-wiki/
+trm-wiki/
+scratch/
+
+# Dependency lock files (Wave A: token optimization)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+Gemfile.lock
+
+# Separate projects / research
+bookstack-docker/
+charlie-deep-research/
+cic-ingestion/
+claude-config-backup/
+claude-configs/
+claude-skills/
+engines/
+kb-sync/
+rewrite-mcp/
+rewrite-docs/
+sigil/
+sigil-repo/
+task-observatory/
+tiny-app/
+/toolforge/
+windows-task-manager/
+.distro/
+trm/
+docs/archive/build-output/CIP/CIC/
+
+# Stray files
+null
+sync.ffs_db
+sync.ffs_lock
+__pycache__/
+
+# Phase 2b Step 1: telemetry store (runtime data, not source)
+run-store.db
+run-store.db-wal
+run-store.db-shm
+run-store-backup-*.db
+api/telemetry/.env
+
+# Secret governance rollout (2026-08-25): general credential-file patterns,
+# on top of the existing api/telemetry/.env-specific line above.
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets/
+
+# Antigravity retro fix 2026-07-22: pre-flight/validation telemetry, not source
+.performance-report.json
+.validation-report.json
+research-data/raw/**/*.MOV
+research-data/raw/**/*.mov
+
+# Pure regenerated cache/index, not source (matches scan-state.json.tmp.* pattern)
+.ijfw/scan-state.json
+.ijfw/.*
+.ijfw/index/
+.ijfw/metrics/
+.ijfw/sessions/
+.ijfw/archive/
+.ijfw/state/
+.ijfw/wave-hooks/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+graft/
+.gstack/
+tools/agent-dispatch/test/.tmp/
+tools/agent-dispatch/.smoke_output/
+
+# --- Wayland (managed): skill symlinks & knowledge, safe to keep ---
+.claude/
+.codebuddy/
+.codex/
+.cursor/
+.factory/
+.gemini/
+.goose/
+.grok/
+.kimi-code/
+.opencode/
+.qwen/
+.vibe/
+.wayland-core/
+.wayland/
+# --- end Wayland ---

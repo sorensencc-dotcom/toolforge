@@ -21,11 +21,14 @@ class ProviderResult:
 def run_provider(route: dict[str, Any], task: str, execution_context: dict[str, Any], request: Callable = urllib.request.urlopen) -> ProviderResult:
     if route.get("provider") != "ollama":
         raise ValueError("route is not ollama")
-    base_url = os.environ.get("OLLAMA_BASE_URL", "http://host.docker.internal:11434/v1")
+    base_url = route.get("endpoint") or os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434/v1")
     parsed = urlparse(base_url)
     if parsed.scheme not in {"http", "https"} or parsed.hostname not in {"localhost", "127.0.0.1", "::1", "host.docker.internal", "ollama"}:
         return ProviderResult("failed", "CONFIGURATION", "ollama", route.get("model", ""), {}, 0)
-    body = json.dumps({"model": route["model"], "messages": [{"role": "user", "content": task}]}).encode()
+    model_name = route.get("model", "")
+    if model_name == "configured":
+        model_name = os.environ.get("OLLAMA_MODEL", "llama3.2:latest")
+    body = json.dumps({"model": model_name, "messages": [{"role": "user", "content": task}]}).encode()
     try:
         with request(urllib.request.Request(base_url.rstrip("/") + "/chat/completions", data=body, headers={"Content-Type": "application/json"}), timeout=float(execution_context.get("timeout_seconds", 30))) as response:
             payload = json.loads(response.read().decode())

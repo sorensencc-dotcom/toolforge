@@ -1,0 +1,35 @@
+{
+  "contract_version": "1.0",
+  "task_id": "TASK-SMOKE-001",
+  "task": "Echo a minimal safe verification test response.",
+  "recommended_route": {
+    "provider": "ollama",
+    "model": "configured",
+    "execution_mode": "local_http",
+    "cost_policy": {
+      "input_per_1k": 0,
+      "output_per_1k": 0
+    },
+    "credential_ref": "none"
+  },
+  "allowed_routes": [
+    {
+      "provider": "subscription-cli",
+      "model": "configured",
+      "execution_mode": "local_cli",
+      "cost_policy": {
+        "flat": 0
+      },
+      "credential_ref": "subscription-cli"
+    }
+  ],
+  "max_cost_usd": 0,
+  "max_attempts": 2,
+  "expires_at": "2026-12-31T23:59:59Z",
+  "operator_override": false,
+  "signature": {
+    "algorithm": "Ed25519",
+    "key_id": "smoke-operator-key",
+    "value": "sig_sample_smoke_test"
+  }
+}
