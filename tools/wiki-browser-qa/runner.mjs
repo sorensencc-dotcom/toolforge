@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import policy from './diagram-policy.json' with { type: 'json' };
-import { createBrowserAdapter } from './browser-adapter.mjs';
+import { createBackendAdapter } from './backend.mjs';
 import { checkPageObservation } from './checks.mjs';
 
 const DEFAULT_BASE_URL = 'https://github.com/sorensencc-dotcom/toolforge/wiki';
@@ -214,7 +214,7 @@ async function auditPage(url, context) {
 export async function runWikiQa(env = process.env, dependencies = {}) {
   const fs = dependencies.fs ?? { mkdir, writeFile };
   const clock = dependencies.clock ?? { now: () => Date.now(), sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)) };
-  const adapter = dependencies.adapter ?? createBrowserAdapter({ timeoutMs: asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 30_000) });
+  const adapter = dependencies.adapter ?? createBackendAdapter(env, { timeoutMs: asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 30_000) });
   const activePolicy = dependencies.policy ?? policy;
   const signal = dependencies.signal;
   const baseUrl = normalizeBaseUrl(env.WIKI_QA_BASE_URL);
@@ -234,7 +234,13 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
 
   try {
     const executable = await adapter.checkExecutable();
-    report.browser = { available: executable.available === true, version: executable.version ?? null, diagnostics: executable.diagnostics ?? '' };
+    report.browser = {
+      backend: adapter.backend ?? 'gstack',
+      available: executable.available === true,
+      version: executable.version ?? null,
+      diagnostics: executable.diagnostics ?? '',
+      ...(adapter.url ? { endpoint: adapter.url } : {}),
+    };
     if (executable.available !== true) {
       report.partial = true;
       report.reason = 'browser setup unavailable';
@@ -301,9 +307,18 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
   return { report, exitCode: report.aggregate.failed > 0 || report.aggregate.unfinished > 0 || report.partial ? 1 : 0 };
 }
 
+function envWithCliOverrides(env, argv) {
+  const merged = { ...env };
+  for (const arg of argv) {
+    const match = /^--backend=(.+)$/.exec(arg);
+    if (match) merged.WIKI_QA_BROWSER_BACKEND = match[1].trim();
+  }
+  return merged;
+}
+
 async function main() {
-  const { report, exitCode } = await runWikiQa(process.env);
-  console.log(`Wiki QA: ${report.aggregate.passed}/${report.aggregate.total} pages passed; report: ${report.reportPath}`);
+  const { report, exitCode } = await runWikiQa(envWithCliOverrides(process.env, process.argv.slice(2)));
+  console.log(`Wiki QA [${report.browser?.backend ?? 'gstack'}]: ${report.aggregate.passed}/${report.aggregate.total} pages passed; report: ${report.reportPath}`);
   if (report.partial) console.error(`Wiki QA partial: ${report.reason ?? 'unfinished pages'}`);
   process.exitCode = exitCode;
 }

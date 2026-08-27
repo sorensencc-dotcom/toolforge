@@ -126,7 +126,7 @@ function parseCommandOutput(command, stdout) {
   return {};
 }
 
-function pageEvidenceExpression(diagramRules = []) {
+export function pageEvidenceExpression(diagramRules = []) {
   const rules = diagramRules.map((rule) => ({
     selector: String(rule?.selector ?? ''),
     sourceAsset: String(rule?.sourceAsset ?? ''),
@@ -155,15 +155,22 @@ function pageEvidenceExpression(diagramRules = []) {
       src: safeUrl(image.currentSrc || image.src || ''), alt: image.alt || '', naturalWidth: image.naturalWidth,
       naturalHeight: image.naturalHeight, complete: image.complete, loaded: image.complete && image.naturalWidth > 0 && image.naturalHeight > 0,
     });
-    const links = await Promise.all([...document.querySelectorAll('a[href]')].map(async (anchor) => {
+    const anchorEntries = [];
+    const seenHref = new Set();
+    for (const anchor of document.querySelectorAll('a[href]')) {
       const text = (anchor.textContent || '').trim().slice(0, 120);
       const href = safeUrl(anchor.href);
-      if (!text || !href) return null;
+      if (!text || !href || seenHref.has(href)) continue;
+      seenHref.add(href);
+      anchorEntries.push({ text, href });
+      if (anchorEntries.length >= 400) break;
+    }
+    const links = await Promise.all(anchorEntries.map(async ({ text, href }) => {
       const url = new URL(href);
       const inScope = url.origin === document.location.origin;
       if (!inScope) return { text, href, inScope, ok: false, status: null };
       try {
-        const response = await fetch(url.href, { credentials: 'omit', redirect: 'follow' });
+        const response = await fetch(url.href, { credentials: 'omit', redirect: 'follow', signal: AbortSignal.timeout(8000) });
         return { text, href, inScope, ok: response.ok, status: response.status };
       } catch {
         return { text, href, inScope, ok: false, status: null };
@@ -191,7 +198,7 @@ function pageEvidenceExpression(diagramRules = []) {
     });
     const root = document.documentElement;
     return JSON.stringify({
-      images: [...document.images].map(imageFor),
+      images: [...document.images].slice(0, 200).map(imageFor),
       diagrams,
       links: links.filter(Boolean),
       viewport: {
@@ -203,7 +210,7 @@ function pageEvidenceExpression(diagramRules = []) {
   })()`;
 }
 
-function mergeEvidence(observation, evidence, viewportName) {
+export function mergeEvidence(observation, evidence, viewportName) {
   if (!observation.images) observation.images = evidence.images;
   if (Array.isArray(evidence.links)) observation.links = evidence.links;
   if (evidence.viewport && typeof evidence.viewport === 'object' && !Array.isArray(evidence.viewport)) {
@@ -374,5 +381,5 @@ export function createBrowserAdapter(options = {}) {
     return closePromise;
   }
 
-  return { checkExecutable, openPage, close };
+  return { backend: 'gstack', checkExecutable, openPage, close };
 }

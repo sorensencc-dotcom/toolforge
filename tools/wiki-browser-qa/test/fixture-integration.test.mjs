@@ -5,12 +5,11 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import test from 'node:test';
 
-import { createBrowserAdapter } from '../browser-adapter.mjs';
+import { createNeoAdapter } from '../neo-adapter.mjs';
 import { runWikiQa } from '../runner.mjs';
 
 const fixtureRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), 'fixtures');
-const browserExecutable = process.env.GSTACK_BROWSER_EXECUTABLE
-  ?? path.join(process.env.USERPROFILE ?? '', '.agents', 'skills', 'gstack', 'browse', 'dist', 'browse.exe');
+const NEO_MCP_URL = process.env.WIKI_QA_NEO_MCP_URL ?? 'http://127.0.0.1:9010/mcp';
 
 const fixturePolicy = {
   pages: [
@@ -86,6 +85,27 @@ function failedCheckNames(report) {
   return report.pages[0].checks.filter((check) => !check.passed).map((check) => check.name);
 }
 
+// Real BrowserOS Neo backend. This gate must not be silently skipped: if Neo is not reachable
+// the audit fails closed and the test reports the exact setup diagnostic.
+async function assertNeoLive() {
+  const status = await createNeoAdapter({ url: NEO_MCP_URL, timeoutMs: 30_000 }).checkExecutable();
+  assert.equal(
+    status.available,
+    true,
+    `BrowserOS Neo real-browser backend is required for this test and is not available.\n${status.diagnostics}`,
+  );
+}
+
+function neoEnv(baseUrl, page) {
+  return {
+    WIKI_QA_BROWSER_BACKEND: 'neo',
+    WIKI_QA_NEO_MCP_URL: NEO_MCP_URL,
+    WIKI_QA_BASE_URL: baseUrl,
+    WIKI_QA_PAGES: page,
+    WIKI_QA_TIMEOUT_MS: '120000',
+  };
+}
+
 test('fixture pages encode passing rendering and every required failure mode', async () => {
   const [passing, failing] = await Promise.all([
     fixture('passing-page.html'),
@@ -98,6 +118,7 @@ test('fixture pages encode passing rendering and every required failure mode', a
   assert.match(passing, /alt="Architecture diagram showing the local Wiki QA flow"/);
   assert.match(passing, /<figcaption>Local Wiki QA architecture<\/figcaption>/);
   assert.match(passing, /<a href="\/passing-page\.html">Verified local fixture link<\/a>/);
+  assert.doesNotMatch(passing, /missing-page\.html/);
   assert.match(failing, /^\s*---\s*\n\s*title: Failing page\s*\n\s*layout: wiki\s*\n\s*---\s*$/m);
   assert.match(failing, /<h1>failing-page<\/h1>/);
   assert.match(failing, /<h1>Duplicate heading<\/h1>/);
@@ -106,21 +127,15 @@ test('fixture pages encode passing rendering and every required failure mode', a
   assert.match(failing, /\.wide-content/);
 });
 
-test('local browser audit passes clean rendered fixture on desktop and mobile', async (t) => {
+test('BrowserOS Neo audit passes the clean rendered fixture on desktop and mobile', async (t) => {
+  await assertNeoLive();
   const baseUrl = await serveFixtures(t);
   const fs = createReportFs();
-  const result = await runWikiQa({
-    WIKI_QA_BASE_URL: baseUrl,
-    WIKI_QA_PAGES: 'passing-page.html',
-    WIKI_QA_TIMEOUT_MS: '60000',
-  }, {
-    adapter: createBrowserAdapter({ executable: browserExecutable, timeoutMs: 60_000 }),
-    fs,
-    policy: fixturePolicy,
-  });
+  const result = await runWikiQa(neoEnv(baseUrl, 'passing-page.html'), { fs, policy: fixturePolicy });
 
+  assert.equal(result.report.browser.backend, 'neo');
   assert.equal(result.exitCode, 0, JSON.stringify(result.report, null, 2));
-  assert.equal(result.report.pages[0].status, 'passed');
+  assert.equal(result.report.pages[0].status, 'passed', JSON.stringify(result.report.pages[0], null, 2));
   assert.deepEqual(result.report.pages[0].diagramEvidence[0].viewports, {
     desktop: { visible: true, overflow: false },
     mobile: { visible: true, overflow: false },
@@ -128,18 +143,12 @@ test('local browser audit passes clean rendered fixture on desktop and mobile', 
   assert.equal(fs.reports[0].aggregate.passed, 1);
 });
 
-test('local browser audit reports malformed metadata, image, diagram, and overflow failures', async (t) => {
+test('BrowserOS Neo audit reports malformed metadata, image, diagram, and overflow failures', async (t) => {
+  await assertNeoLive();
   const baseUrl = await serveFixtures(t);
-  const result = await runWikiQa({
-    WIKI_QA_BASE_URL: baseUrl,
-    WIKI_QA_PAGES: 'failing-page.html',
-    WIKI_QA_TIMEOUT_MS: '60000',
-  }, {
-    adapter: createBrowserAdapter({ executable: browserExecutable, timeoutMs: 60_000 }),
-    fs: createReportFs(),
-    policy: fixturePolicy,
-  });
+  const result = await runWikiQa(neoEnv(baseUrl, 'failing-page.html'), { fs: createReportFs(), policy: fixturePolicy });
 
+  assert.equal(result.report.browser.backend, 'neo');
   assert.equal(result.exitCode, 1);
   assert.equal(result.report.pages[0].status, 'failed');
   assert.deepEqual(failedCheckNames(result.report), [

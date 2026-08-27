@@ -1,6 +1,30 @@
 # Wiki browser QA
 
-`npm run wiki:qa` audits rendered Wiki pages through the gstack browser adapter. It reports only; it never publishes, edits, repairs, authenticates, or calls a provider.
+`npm run wiki:qa` audits rendered Wiki pages through a real browser backend. It reports only; it never publishes, edits, repairs, authenticates, or calls a provider.
+
+## Browser backends
+
+Select the backend with `WIKI_QA_BROWSER_BACKEND` (or `--backend=<name>`):
+
+| Backend | Selector | Transport | Use |
+| --- | --- | --- | --- |
+| `gstack` | default | local `browse.exe` / `browse` executable | CLI and CI against a local mirror |
+| `neo` | `WIKI_QA_BROWSER_BACKEND=neo` | BrowserOS Neo Streamable-HTTP MCP endpoint | targeted and live audits from an agent workstation where Neo is running |
+
+Both backends produce the same JSON report contract and run the same checks. The Neo backend drives the actual BrowserOS Neo browser through its `run` tool: it opens its own tab, navigates, reads console output, emulates the desktop and mobile layout viewports with CDP `Emulation.setDeviceMetricsOverride`, and collects image, link, and diagram evidence in-page. It never falls back to HTTP-only checks; when Neo is unreachable the run fails closed with a setup diagnostic in `report.browser.diagnostics`.
+
+```powershell
+# gstack backend (default)
+npm run wiki:qa
+
+# BrowserOS Neo backend
+npm run wiki:qa:neo
+# or
+node tools/wiki-browser-qa/runner.mjs --backend=neo
+$env:WIKI_QA_BROWSER_BACKEND = 'neo'; npm run wiki:qa
+```
+
+Neo endpoint override: `WIKI_QA_NEO_MCP_URL` (default `http://127.0.0.1:9010/mcp`). Start BrowserOS Neo and confirm the cockpit shows a connected session before a Neo run.
 
 ## Browser setup
 
@@ -23,17 +47,19 @@ The second command must exit `0`. If the executable is missing, reinstall or reb
 | `WIKI_QA_REPORT` | JSON report path; defaults to `.artifacts/wiki-qa/report.json`. |
 | `WIKI_QA_CONCURRENCY` | Bounded crawl concurrency; default `2`, maximum `4`. |
 | `WIKI_QA_TIMEOUT_MS` | Per-page and audit timeout in milliseconds. |
+| `WIKI_QA_BROWSER_BACKEND` | `gstack` (default) or `neo`. Also settable with `--backend=<name>`. |
+| `WIKI_QA_NEO_MCP_URL` | BrowserOS Neo MCP endpoint for the `neo` backend; default `http://127.0.0.1:9010/mcp`. |
 | `GSTACK_BROWSER_EXECUTABLE` | Explicit gstack `browse.exe` or `browse` path. |
 
 ## Local mirror and fixtures
 
-Use a local static mirror or the loopback fixture server for deterministic checks. Fixture integration starts its own `127.0.0.1` server; it never opens the live Wiki:
+Use a local static mirror or the loopback fixture server for deterministic checks. `test/fixture-integration.test.mjs` starts its own `127.0.0.1` server and drives the real BrowserOS Neo backend against it; it never opens the live Wiki. The real-browser gate is not skipped: if Neo is unreachable the test fails with the setup diagnostic.
 
 ```powershell
-$env:WIKI_QA_RUN_FIXTURE_BROWSER = '1'
-$env:GSTACK_BROWSER_EXECUTABLE = "$env:USERPROFILE\.agents\skills\gstack\browse\dist\browse.exe"
-node --test tools/wiki-browser-qa/test/fixture-integration.test.mjs
+node --test --test-isolation=none tools/wiki-browser-qa/test/fixture-integration.test.mjs
 ```
+
+`test/backend.test.mjs` covers the backend-selection boundary and the Neo adapter contract with an injected transport, so it runs without a browser.
 
 The fixtures cover a passing rendered page and failures for visible YAML metadata, duplicate/slug headings, a broken image, empty alt text, missing caption, desktop/mobile diagram evidence, and horizontal overflow.
 
