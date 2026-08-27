@@ -32,7 +32,7 @@ function copyRecursive(src, dest) {
     } else if (entry.isFile() && /\.(md|png|svg|jpg|jpeg|gif|mermaid)$/i.test(entry.name)) {
       fs.mkdirSync(path.dirname(destPath), { recursive: true });
       const content = fs.readFileSync(srcPath);
-      fs.writeFileSync(destPath, entry.name.toLowerCase().endsWith('.md') ? addFrontmatterTitle(content.toString('utf8')) : content);
+      fs.writeFileSync(destPath, entry.name.toLowerCase().endsWith('.md') ? prepareMarkdownForWiki(content.toString('utf8')) : content);
       copied += 1;
     }
   }
