@@ -1,23 +1,97 @@
 # Changelog
 
-## Version 2.50.2
-Date: 2026-08-25
+## Version 2.52.1
+Date: 2026-08-27
 
-### Added
-- OpenRouter Ox Alpha provider module (`OpenRouterProvider`) in CIC-WHICHLLM integration pack with rate card registry and retry handling
-- Canonical shared OpenRouter transport (`openrouter-transport.ts`) with AbortSignal 30s timeout, concurrency pool (`ConcurrencyPool`), and `OpenRouterEmptyResponseError`
-- Security scan script (`scripts/secret-scan.mjs`), gitleaks CI workflow (`.github/workflows/secret-scan.yml`), and pre-commit hook binding
+### Changes
+- 457fcec - Merge pull request #12 from sorensencc-dotcom/fix/wiki-qa-github-dom (Chris Sorensen)
+- 7420ecf - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- 609a46c - fix(wiki-qa): scope browser-QA checks to rendered content on GitHub wiki pages (Chris)
 
-### Changed
-- Expanded CIC Governance `MODEL_ALLOWLIST` with `openrouter/` namespace and `oxalpha` model slug
-- Refactored `GovernanceWrapper.attest()` to accept pre-flight check results, eliminating redundant check execution and preserving attestation envelope fidelity
-- Updated `WhichLLMAdapter` to dispatch OpenRouter models via unified transport pipeline
-- Updated `CLAUDE.md`, `README.md`, and architecture diagrams with OpenRouter integration specs
+## Version 2.52.0
+Date: 2026-08-27
 
-### Fixed
-- OpenRouter provider retry loop hardened to avoid string-parsing error re-classification
-- Deduplicated `OPENROUTER_MODEL_REGISTRY` model alias definitions to eliminate copy-paste drift
-- Prevented silent empty-response execution by throwing non-retryable `OpenRouterEmptyResponseError` on empty choices array
+### Changes
+- d2d5754 - Merge pull request #6 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- a136cb0 - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- 3b0c604 - feat(wiki-qa): add BrowserOS Neo browser backend (Chris)
+- d36887c - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- b31a134 - fix(wiki-qa): format fixture link coverage (Chris)
+- bacaa37 - fix(wiki-qa): make browser fixture links observable (Chris)
+- 5a3c7ba - fix(wiki-qa): run CLI on Windows (Chris)
+- 880405d - test(wiki-qa): add fixture coverage (Chris)
+- 3821e0f - fix(wiki-qa): harden browser audit (Chris)
+- 3124f8b - feat(wiki-qa): add browser QA runner (Chris)
+- 3cc6305 - feat(wiki-qa): enforce diagram policy (Chris)
+- fc77149 - test(wiki-qa): enforce diagram policy (Chris)
+- d8a78b5 - fix(wiki-qa): fail closed browser adapter (Chris)
+- 64ca467 - fix: close Wiki adapter review blockers (Chris)
+- 47c86f5 - fix: parse gstack browser output (Chris)
+- 5a3406b - fix: harden Wiki browser protocol (Chris)
+- 10a3e91 - feat: add Wiki browser adapter (Chris)
+- 3bfc239 - fix: restore sourceAsset diagram matching (Chris)
+- 0c0ca6d - fix: harden Wiki QA checks (Chris)
+- 603fbc6 - test: define Wiki QA checks (Chris)
+- 7f813c9 - chore: update session handoff (Chris)
+- afb45f3 - docs: isolate wiki QA reports (Chris)
+- eab06b9 - docs: bound wiki QA crawl behavior (Chris)
+- 89859c2 - docs: specify browser adapter contract (Chris)
+- c4fdcac - docs: define gstack browser adapter (Chris)
+- 2e034d0 - docs: reduce wiki QA architecture scope (Chris)
+- 6ed2b3f - docs: tighten wiki QA design enforcement (Chris)
+- 1f9c539 - chore: preserve wiki QA review state (Chris)
+- 2461b75 - docs: specify wiki browser QA (Chris)
+- 87c0e86 - fix(wiki): normalize legacy page frontmatter (Chris)
+- 89d7be6 - fix(wiki): strip frontmatter from pages (Chris)
+
+## Version 2.51.1
+Date: 2026-08-26
+
+### Changes
+- 2f05cdd - Merge pull request #5 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- dca144f - fix(wiki): normalize titles and validate images (Chris)
+- 1686569 - Merge pull request #4 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- db1bac0 - docs: document governed agent dispatch (Chris)
+
+## Version 2.51.0
+Date: 2026-08-26
+
+### Changes
+- 50de7d6 - Merge pull request #3 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- 77d0b56 - fix(ci): provide token to secret scan (Chris)
+- dec8dcf - fix: isolate wiki sync hooks (Chris)
+- 04cbebb - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- 9ba53b5 - fix: remove stale wiki archive mirror (Chris)
+- df5e890 - fix: exclude archived roadmaps from wiki sync (Chris)
+- 38b04bf - fix(dispatch): record result receipt metadata (Chris)
+- debace4 - test(dispatch): cover worktree containment (Chris)
+- 316e8f4 - fix(dispatch): enforce worktree containment (Chris)
+- dcd2906 - fix(dispatch): bind providers to trusted config (Chris)
+- 599cc9f - fix: remove stray provider factory token (Chris)
+- ba7d22a - fix(dispatch): harden trust boundary and redaction (Chris)
+- 83097fe - feat(dispatch): emit auditable results and traces (Chris)
+- 4dccbe3 - feat(dispatch): add bounded sequential dispatcher (Chris)
+- d20f163 - feat(dispatch): add openrouter provider adapter (Chris)
+- 6b1a6be - feat(dispatch): add ollama provider adapter (Chris)
+- 6d632bc - feat(dispatch): add subscription-cli provider adapter (Chris)
+- 8b15d75 - fix(dispatch): align contract signature with Sigil (Chris)
+- 2c210c0 - feat(dispatch): verify contracts through Sigil (Chris)
+- 9f7d7dc - feat(dispatch): define signed task and provider contracts (Chris)
+- 3da2020 - docs: sync wiki research notes, test fixtures, and script updates (Chris)
+- 4d47f40 - security: add pre-commit secret scan + CI gitleaks gate (Chris)
+- 3a03ab0 - docs(report): add daily report for 2026-08-25 (Chris)
+- cea19bb - feat(openrouter): add credential resolver and bounded transport client with exponential backoff (Chris)
+- 880af3a - docs: update Toolforge Wiki Home description and add Cathryn Lavery system architecture diagram (Chris)
+- a417964 - docs(wiki): enforce Cathryn Lavery diagram-design standard with HTML+SVG and rendered PNG asset (Chris)
+- 751120d - docs(wiki): fix wiki page flattening and update whichllm evaluator spec for Ox Alpha (Chris)
+- db3388a - docs: update README artifact inventory table with OpenRouterProvider (Chris)
+- e93592e - chore(whichllm): bump version to 1.1.0 and update adapter with OpenRouter dispatch (Chris)
+- 25da255 - feat(governance): expand MODEL_ALLOWLIST with openrouter/ and oxalpha and parameterize GC-03 prompt cap (Chris)
+- 050ce92 - feat(whichllm): add OpenRouterProvider module with rate card registry and retries (Chris)
+- 10a4488 - Merge remote-tracking branch 'origin/main' into feat/openrouter-oxalpha-integration (Chris)
+- 031435a - docs(report): add daily report for 2026-08-24 (Chris)
+- 6c7a8dd - docs(report): add weekly report for 2026-W35 (Chris)
+>>>>>>> origin/main
 
 ## Version 2.50.1
 Date: 2026-08-24
