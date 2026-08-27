@@ -154,6 +154,7 @@ export class WhichLLMAdapter extends EventEmitter {
     if (this.#config.openRouterApiKey) {
       this.#openRouterProvider = new OpenRouterProvider({
         apiKey: this.#config.openRouterApiKey,
+        budgetLedger: this.#config.budgetLedger,
       });
     }
   }

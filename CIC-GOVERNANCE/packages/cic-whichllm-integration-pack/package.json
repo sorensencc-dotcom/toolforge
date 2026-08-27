@@ -46,7 +46,9 @@
     "README.md",
     "CHANGELOG.md"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "@cic/delivery-guard": "*"
+  },
   "devDependencies": {},
   "cic": {
     "specVersion": "2.4.0",

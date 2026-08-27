@@ -1,6 +1,10 @@
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { test, describe, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { OpenRouterProvider, OPENROUTER_MODEL_REGISTRY } from '../../src/adapter/openrouter-provider.js';
+import { createBudgetLedger } from '@cic/delivery-guard';
+import { OpenRouterProvider, OPENROUTER_MODEL_REGISTRY, createGuardedOpenRouterProvider } from '../../src/adapter/openrouter-provider.js';
 import { WhichLLMAdapter } from '../../src/adapter/whichllm-adapter.js';
 import { GovernanceWrapper } from '../../src/governance/governance-wrapper.js';
 
@@ -287,5 +291,126 @@ describe('GovernanceWrapper — MODEL_ALLOWLIST coverage for new entries', () =>
       () => wrapper.attest(ctx),
       /GovernanceViolationError|not on the CIC MODEL_ALLOWLIST/
     );
+  });
+});
+
+describe('OpenRouterProvider — Budget Guard Integration', () => {
+  let originalFetch;
+
+  beforeEach(() => { originalFetch = globalThis.fetch; });
+  afterEach(() => { globalThis.fetch = originalFetch; });
+
+  test('OpenRouterProvider with budgetLedger reserves and settles paid dispatch', async () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'whichllm-budget-'));
+    try {
+      const storagePath = path.join(tempDir, 'budget.jsonl');
+      const ledger = createBudgetLedger({ storagePath });
+      ledger.grantBudget({ amount: 10.0 });
+
+      globalThis.fetch = async () => ({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          choices: [{ message: { content: 'Claude completion' } }],
+          usage: { prompt_tokens: 100, completion_tokens: 50, costUsd: 0.001 },
+        }),
+      });
+
+      const provider = new OpenRouterProvider({
+        apiKey: 'test-key',
+        budgetLedger: ledger,
+      });
+
+      const res = await provider.execute({
+        queryId: 'q-guarded-paid',
+        model: 'anthropic/claude-3.5-sonnet',
+        prompt: 'Hello Claude',
+        maxTokens: 500,
+      });
+
+      assert.equal(res.response, 'Claude completion');
+      const summary = ledger.getSummary();
+      assert.equal(summary.totalSpent, 0.00105);
+      assert.equal(summary.totalReserved, 0);
+    } finally {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  test('OpenRouterProvider with budgetLedger blocks paid dispatch when budget is exhausted', async () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'whichllm-budget-'));
+    try {
+      const storagePath = path.join(tempDir, 'budget.jsonl');
+      const ledger = createBudgetLedger({ storagePath });
+      ledger.grantBudget({ amount: 0.0001 }); // insufficient
+
+      let networkHit = false;
+      globalThis.fetch = async () => {
+        networkHit = true;
+        return { ok: true, status: 200, json: async () => ({ choices: [] }) };
+      };
+
+      const provider = createGuardedOpenRouterProvider({
+        apiKey: 'test-key',
+        budgetLedger: ledger,
+      });
+
+      await assert.rejects(
+        () => provider.execute({
+          queryId: 'q-blocked',
+          model: 'openrouter/anthropic/claude-3.5-sonnet',
+          prompt: 'A'.repeat(4000),
+          maxTokens: 1000,
+        }),
+        (err) => {
+          assert.equal(err.code, 'BUDGET_EXHAUSTED');
+          assert.equal(err.isBudgetExhausted, true);
+          return true;
+        },
+      );
+
+      assert.equal(networkHit, false, 'Should block before issuing network request');
+    } finally {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  test('WhichLLMAdapter with budgetLedger blocks paid dispatch at exhausted budget', async () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'whichllm-budget-'));
+    try {
+      const storagePath = path.join(tempDir, 'budget.jsonl');
+      const ledger = createBudgetLedger({ storagePath });
+      // 0 budget granted
+
+      let networkHit = false;
+      globalThis.fetch = async () => {
+        networkHit = true;
+        return { ok: true, status: 200, json: async () => ({ choices: [] }) };
+      };
+
+      const adapter = new WhichLLMAdapter({
+        apiEndpoint: 'https://whichllm.local',
+        apiKey: 'local-key',
+        harvesterId: 'cic-whichllm-default-v1',
+        openRouterApiKey: 'or-key',
+        budgetLedger: ledger,
+      });
+
+      await assert.rejects(
+        () => adapter.query({
+          queryId: 'q-adapter-blocked',
+          model: 'openrouter/anthropic/claude-3.5-sonnet',
+          prompt: 'Paid query through WhichLLMAdapter',
+        }),
+        (err) => {
+          assert.equal(err.code, 'BUDGET_EXHAUSTED');
+          return true;
+        },
+      );
+
+      assert.equal(networkHit, false, 'Adapter should block paid model before fetch');
+    } finally {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
   });
 });

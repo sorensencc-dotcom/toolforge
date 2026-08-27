@@ -14,8 +14,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..');
 
-function findGitRoot(startDir) {
-  let curr = startDir;
+export function findGitRoot(startDir) {
+  let curr = path.resolve(startDir);
   while (curr) {
     const gitPath = path.join(curr, '.git');
     if (fs.existsSync(gitPath)) return gitPath;
@@ -26,51 +26,54 @@ function findGitRoot(startDir) {
   return null;
 }
 
-const gitDir = findGitRoot(REPO_ROOT);
-if (!gitDir) {
-  console.warn(`[WARN] .git directory not found in hierarchy starting at ${REPO_ROOT}. Skipping hook installation.`);
-  process.exit(0);
+export function installGitHook(targetDir = REPO_ROOT) {
+  const gitDir = findGitRoot(targetDir);
+  if (!gitDir) {
+    console.warn(`[WARN] .git directory not found in hierarchy starting at ${targetDir}. Skipping hook installation.`);
+    return { success: false, hookPath: null };
+  }
+
+  const gitHooksDir = fs.statSync(gitDir).isDirectory()
+    ? path.join(gitDir, 'hooks')
+    : path.join(path.dirname(gitDir), '.git', 'hooks');
+  const hookPath = path.join(gitHooksDir, 'pre-commit');
+
+  // Create .git/hooks directory if absent
+  fs.mkdirSync(gitHooksDir, { recursive: true });
+
+  const shimPath = path.join(__dirname, 'pre-commit-shim.sh');
+  const hookContent = fs.readFileSync(shimPath, 'utf8');
+
+  fs.writeFileSync(hookPath, hookContent, 'utf8');
+
+  // Set executable permissions for Unix/WSL/Git Bash
+  try {
+    fs.chmodSync(hookPath, 0o755);
+  } catch (err) {
+    // Ignored on systems without posix permissions
+  }
+
+  return { success: true, hookPath, gitHooksDir };
 }
 
-const gitHooksDir = fs.statSync(gitDir).isDirectory() ? path.join(gitDir, 'hooks') : path.join(REPO_ROOT, '.git', 'hooks');
-const hookPath = path.join(gitHooksDir, 'pre-commit');
-
-// Create .git/hooks directory if absent
-fs.mkdirSync(gitHooksDir, { recursive: true });
-
-const hookContent = `#!/usr/bin/env bash
-# Installed by npm run gov:setup-hook
-# Chains governance validation with the retro/roadmap/CI gate installed
-# separately by setup-git-hooks.ps1. Order-independent: setup-git-hooks.ps1
-# writes this same chained shim, so running either installer last is safe.
-if [ -f "CIC-GOVERNANCE/scripts/governance-validate-precommit.sh" ]; then
-  bash CIC-GOVERNANCE/scripts/governance-validate-precommit.sh || exit 1
-elif [ -f "scripts/governance-validate-precommit.sh" ]; then
-  bash scripts/governance-validate-precommit.sh || exit 1
-fi
-
-if [ -f "scripts/secret-scan-hook.sh" ]; then
-  bash scripts/secret-scan-hook.sh || exit 1
-fi
-
-if [ -f "scripts/secret-scan.mjs" ]; then
-  node scripts/secret-scan.mjs || exit 1
-fi
-
-if [ -f "$(dirname "$0")/pre-commit.ps1" ]; then
-  pwsh -NoProfile -File "$(dirname "$0")/pre-commit.ps1" "$@" || exit 1
-fi
-
-exit 0
-`;
-
-fs.writeFileSync(hookPath, hookContent, 'utf8');
-
-// Set executable permissions for Unix/WSL/Git Bash
-try {
-  fs.chmodSync(hookPath, 0o755);
-} catch (err) {
-  // Ignored on systems without posix permissions
+function parseTargetArg(args) {
+  const targetIndex = args.indexOf('--target');
+  if (targetIndex !== -1 && args[targetIndex + 1]) {
+    return path.resolve(args[targetIndex + 1]);
+  }
+  if (args.length > 0 && !args[0].startsWith('-')) {
+    return path.resolve(args[0]);
+  }
+  return REPO_ROOT;
 }
 
-console.log(`✔ Successfully installed pre-commit hook at: ${hookPath}`);
+const isDirectRun = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename);
+if (isDirectRun) {
+  const targetDir = parseTargetArg(process.argv.slice(2));
+  const result = installGitHook(targetDir);
+  if (result.success) {
+    console.log(`✔ Successfully installed pre-commit hook at: ${result.hookPath}`);
+  } else {
+    process.exit(0);
+  }
+}
