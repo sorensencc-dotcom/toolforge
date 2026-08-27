@@ -55,10 +55,16 @@ test('README documents the complete public API and enforcement contracts', () =>
     'evaluateCiAutomationPolicy',
     'evaluateCiCommitPolicies',
     'runConfiguredTestCommands',
+    'parsePushManifest',
+    'sanitizeReceiptData',
+    'getDefaultReceiptStoragePath',
+    'writePushReceipt',
+    'executePushWithReceipt',
   ]) {
     assert.match(readme, new RegExp(`\\b${publicExport}\\b`));
   }
   assert.match(readme, /same commit/i);
   assert.match(readme, /trusted exemption/i);
   assert.match(readme, /all-zero/i);
+  assert.match(readme, /push receipt/i);
 });

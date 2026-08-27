@@ -4,7 +4,7 @@ document_id: "CIC-DELIVERY-GUARD-README"
 category: "readme"
 type: package-documentation
 status: "active"
-version: "0.2.0"
+version: "0.3.0"
 ---
 
 # Delivery guard adapter contract
@@ -41,9 +41,15 @@ when valid and throws `AdapterConfigError` with structured `issues` when invalid
 - `evaluateCiAutomationPolicy(entries, adapter, options)` converts one policy result into blocking or advisory enforcement.
 - `evaluateCiCommitPolicies(changeSets, adapter, options)` evaluates every commit independently and enforces same-commit pairing.
 - `runConfiguredTestCommands(adapter, options)` executes every configured focused test command and records exit status.
+- `parsePushManifest(manifestInput, options)` parses single-repository default or multi-repo manifests.
+- `sanitizeReceiptData(data)` redacts credentials, tokens, and strips prompts or raw text.
+- `getDefaultReceiptStoragePath()` resolves the user-level JSONL receipt log file.
+- `writePushReceipt(receipt, options)` appends sanitized receipts to user-level storage outside repositories.
+- `executePushWithReceipt(pushSpec, options)` runs push operations, captures post-push `git status --short --branch`, and writes receipts.
 
 `classifyDiff` also exports `DiffEntryError` and `UnsupportedGlobError`.
 `validateAdapterConfig` also exports `AdapterConfigError`.
+`parsePushManifest` also exports `ManifestError`.
 
 ## Automation test policy
 
@@ -88,6 +94,17 @@ reference for audit. Protected CI supplies
 incorrect signatures. Signature payload joins file version, `commitSha`,
 `authority`, `approver`, `reason`, and `approvalRef` with newline characters in
 that order.
+
+## Scoped push receipts
+
+Push operations record post-push repository state (`git status --short --branch`)
+to append-only JSONL logs outside checkout (default: `~/.delivery-guard/receipts.jsonl`).
+Secrets, access tokens, and prompt text are stripped before serialization.
+
+Run via CLI:
+```text
+push-with-receipt.mjs [--manifest <path>] [--storage-path <path>] [--dry-run] [push-args...]
+```
 
 ## CI wrapper
 
