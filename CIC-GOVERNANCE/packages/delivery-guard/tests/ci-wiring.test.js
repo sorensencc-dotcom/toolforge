@@ -60,6 +60,9 @@ test('README documents the complete public API and enforcement contracts', () =>
     'getDefaultReceiptStoragePath',
     'writePushReceipt',
     'executePushWithReceipt',
+    'createBudgetLedger',
+    'BudgetLedger',
+    'getDefaultLedgerStoragePath',
   ]) {
     assert.match(readme, new RegExp(`\\b${publicExport}\\b`));
   }
@@ -67,4 +70,5 @@ test('README documents the complete public API and enforcement contracts', () =>
   assert.match(readme, /trusted exemption/i);
   assert.match(readme, /all-zero/i);
   assert.match(readme, /push receipt/i);
+  assert.match(readme, /budget ledger/i);
 });

@@ -13,3 +13,12 @@ export {
   writePushReceipt,
   executePushWithReceipt,
 } from './receipts.js';
+export {
+  BudgetLedger,
+  createBudgetLedger,
+  getDefaultLedgerStoragePath,
+  LedgerError,
+  BudgetExhaustedError,
+  ReservationNotFoundError,
+  ReservationStateError,
+} from './ledger.js';

@@ -4,7 +4,7 @@ document_id: "CIC-DELIVERY-GUARD-README"
 category: "readme"
 type: package-documentation
 status: "active"
-version: "0.3.0"
+version: "0.4.0"
 ---
 
 # Delivery guard adapter contract
@@ -46,10 +46,14 @@ when valid and throws `AdapterConfigError` with structured `issues` when invalid
 - `getDefaultReceiptStoragePath()` resolves the user-level JSONL receipt log file.
 - `writePushReceipt(receipt, options)` appends sanitized receipts to user-level storage outside repositories.
 - `executePushWithReceipt(pushSpec, options)` runs push operations, captures post-push `git status --short --branch`, and writes receipts.
+- `createBudgetLedger(options)` creates a durable event-sourced budget ledger.
+- `BudgetLedger` manages grants, reservations, settlements, and releases.
+- `getDefaultLedgerStoragePath()` resolves default user-level budget ledger storage path.
 
 `classifyDiff` also exports `DiffEntryError` and `UnsupportedGlobError`.
 `validateAdapterConfig` also exports `AdapterConfigError`.
 `parsePushManifest` also exports `ManifestError`.
+`BudgetLedger` also exports `LedgerError`, `BudgetExhaustedError`, `ReservationNotFoundError`, and `ReservationStateError`.
 
 ## Automation test policy
 
@@ -94,6 +98,16 @@ reference for audit. Protected CI supplies
 incorrect signatures. Signature payload joins file version, `commitSha`,
 `authority`, `approver`, `reason`, and `approvalRef` with newline characters in
 that order.
+
+## Durable budget ledger
+
+`BudgetLedger` provides append-only event-sourced provider economics tracking:
+
+- `grantBudget({ amount, reason })` deposits funds into the ledger.
+- `reserveBudget({ amount, reservationId, provider, model })` atomically checks and reserves budget under file-lock concurrency protection. Throws `BudgetExhaustedError` on insufficient balance.
+- `settleReservation({ reservationId, actualCost })` finalizes spend and automatically refunds unused reserved amount to available balance.
+- `releaseReservation({ reservationId, reason })` cancels a pending reservation and returns full reserved amount.
+- Replays event log on restart, skipping malformed lines safely.
 
 ## Scoped push receipts
 
