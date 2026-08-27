@@ -148,12 +148,14 @@ export function pageEvidenceExpression(diagramRules = [], options = {}) {
     githubAssetPattern: String(rule?.githubAssetPattern ?? ''),
   })).filter((rule) => rule.selector);
   const contentSelector = options.contentSelector ? String(options.contentSelector) : null;
+  const linkScope = options.linkScope ? String(options.linkScope).replace(/\/+$/, '') : null;
   const linkCredentials = ['omit', 'same-origin', 'include'].includes(options.linkCredentials)
     ? options.linkCredentials
     : 'same-origin';
   return `(async () => {
     const CONTENT_SELECTOR = ${JSON.stringify(contentSelector)};
     const LINK_CREDENTIALS = ${JSON.stringify(linkCredentials)};
+    const LINK_SCOPE = ${JSON.stringify(linkScope)};
     const contentRoot = CONTENT_SELECTOR ? document.querySelector(CONTENT_SELECTOR) : null;
     const scoped = Boolean(contentRoot);
     const root = contentRoot || document;
@@ -206,7 +208,8 @@ export function pageEvidenceExpression(diagramRules = [], options = {}) {
     }
     const links = await Promise.all(anchorEntries.map(async ({ text, href }) => {
       const url = new URL(href);
-      const inScope = url.origin === document.location.origin;
+      const inScope = url.origin === document.location.origin
+        && (!LINK_SCOPE || url.pathname === LINK_SCOPE || url.pathname.startsWith(LINK_SCOPE + '/'));
       if (!inScope) return { text, href, inScope, ok: false, status: null };
       try {
         const response = await fetch(url.href, { credentials: LINK_CREDENTIALS, redirect: 'follow', signal: AbortSignal.timeout(8000) });

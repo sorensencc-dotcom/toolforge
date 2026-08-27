@@ -100,8 +100,8 @@ export const CLASSIFIED_WIKI_PAGES = [
     categories: ['governance', 'lifecycle'],
     sourcePage: 'GOVERNANCE.md',
     requiredDiagrams: [{
-      selector: 'img[src$="/wiki/toolforge-architecture-overview.png"]',
-      assetPattern: '(?:^|/)wiki/toolforge-architecture-overview\\.png$',
+      selector: 'img[src$="toolforge-architecture-overview.png"]',
+      assetPattern: '(?:^|/)toolforge-architecture-overview\\.png$',
       sourceAsset: 'wiki/toolforge-architecture-overview.png',
       publishedAssetPath: 'wiki/toolforge-architecture-overview.png',
       requireAlt: true,

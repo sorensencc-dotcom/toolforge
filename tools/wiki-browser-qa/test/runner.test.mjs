@@ -101,6 +101,18 @@ test('passes .markdown-body content selector to the adapter for GitHub-rendered 
   assert.equal(result.report.contentSelector, '.markdown-body');
 });
 
+test('passes the GitHub Wiki path as the default link scope', async () => {
+  const seen = [];
+  await runWikiQa({
+    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge/wiki',
+    WIKI_QA_PAGES: 'GOVERNANCE',
+  }, dependencies(createAdapter(async (url, options) => {
+    seen.push(options?.linkScope ?? null);
+    return passingObservation(url);
+  })));
+  assert.deepEqual(seen, ['/sorensencc-dotcom/toolforge']);
+});
+
 test('leaves the content selector unset for non-GitHub wiki targets', async () => {
   const seen = [];
   const result = await runWikiQa({

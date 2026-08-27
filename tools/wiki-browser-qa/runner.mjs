@@ -53,6 +53,15 @@ function contentSelectorFor(baseUrl, env) {
   return null;
 }
 
+function linkScopeFor(baseUrl, env) {
+  if (env.WIKI_QA_LINK_SCOPE?.trim()) return env.WIKI_QA_LINK_SCOPE.trim();
+  const url = new URL(baseUrl);
+  if (/(^|\.)github\.com$/i.test(url.host) && /\/wiki(\/|$)/.test(url.pathname)) {
+    return url.pathname.replace(/\/[^/]+$/, '');
+  }
+  return null;
+}
+
 function isWithinWikiScope(url, baseUrl) {
   const base = new URL(baseUrl);
   const candidate = new URL(url);
@@ -183,6 +192,7 @@ async function openPageWithTransientRetry(url, context) {
         timeoutMs: context.pageTimeoutMs,
         diagramRules: context.diagramRules ?? [],
         contentSelector: context.contentSelector ?? null,
+        linkScope: context.linkScope ?? null,
       });
       return { observation, attempts };
     } catch (error) {
@@ -227,6 +237,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
   const signal = dependencies.signal;
   const baseUrl = normalizeBaseUrl(env.WIKI_QA_BASE_URL);
   const contentSelector = contentSelectorFor(baseUrl, env);
+  const linkScope = linkScopeFor(baseUrl, env);
   const reportPath = env.WIKI_QA_REPORT || DEFAULT_REPORT_PATH;
   const concurrency = asPositiveInteger(env.WIKI_QA_CONCURRENCY, DEFAULT_CONCURRENCY, MAX_CONCURRENCY);
   const pageTimeoutMs = asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 30_000);
@@ -267,6 +278,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
         pageTimeoutMs,
         diagramRules: [],
         contentSelector,
+        linkScope,
       });
       urls = discoveredUrls(index, baseUrl);
     }
@@ -292,7 +304,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
           pages[index] = pageResult(urls[index], 'unfinished');
           continue;
         }
-        const result = await auditPage(urls[index], { adapter, clock, policy: activePolicy, pageTimeoutMs, contentSelector });
+    const result = await auditPage(urls[index], { adapter, clock, policy: activePolicy, pageTimeoutMs, contentSelector, linkScope });
         stoppedReason ??= shouldStop();
         pages[index] = stoppedReason && result.status === 'passed'
           ? pageResult(urls[index], 'unfinished', { attempts: result.attempts })

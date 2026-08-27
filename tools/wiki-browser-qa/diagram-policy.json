@@ -120,16 +120,16 @@
       "slug": "GOVERNANCE",
       "categories": ["governance", "lifecycle"],
       "sourcePage": "GOVERNANCE.md",
-      "acceptedSelectors": ["img[src$=\"/wiki/toolforge-architecture-overview.png\"]"],
-      "acceptedAssetPatterns": ["(?:^|/)wiki/toolforge-architecture-overview\\.png$"],
+      "acceptedSelectors": ["img[src$=\"toolforge-architecture-overview.png\"]"],
+      "acceptedAssetPatterns": ["(?:^|/)toolforge-architecture-overview\\.png$"],
       "requirements": { "requireAlt": true, "requireCaption": true },
       "viewports": {
         "desktop": { "requireVisible": true, "allowHorizontalOverflow": false },
         "mobile": { "requireVisible": true, "allowHorizontalOverflow": false }
       },
       "requiredDiagrams": [{
-        "selector": "img[src$=\"/wiki/toolforge-architecture-overview.png\"]",
-        "assetPattern": "(?:^|/)wiki/toolforge-architecture-overview\\.png$",
+        "selector": "img[src$=\"toolforge-architecture-overview.png\"]",
+        "assetPattern": "(?:^|/)toolforge-architecture-overview\\.png$",
         "sourceAsset": "wiki/toolforge-architecture-overview.png",
         "requireAlt": true,
         "requireCaption": true,

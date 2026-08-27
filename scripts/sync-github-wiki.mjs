@@ -15,7 +15,7 @@ const targetWikiDir = path.resolve(root, value('--target-dir', '.wiki-publish-te
 const shouldPush = args.includes('--push') || process.env.AUTO_PUSH === 'true' || true;
 const commitMessage = value('--commit-msg', 'docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar');
 
-function copyRecursive(src, dest) {
+export function copyRecursive(src, dest) {
   if (!fs.existsSync(src)) return 0;
   let copied = 0;
   const entries = fs.readdirSync(src, { withFileTypes: true });
@@ -39,7 +39,7 @@ function copyRecursive(src, dest) {
   return copied;
 }
 
-function addFrontmatterTitle(content) {
+export function addFrontmatterTitle(content) {
   if (!/^---\r?\n/.test(content)) return content;
   const closingMatch = /\r?\n---(?:\r?\n|$)/.exec(content.slice(4));
   if (!closingMatch) return content;
@@ -58,7 +58,7 @@ function copyMarkdownFile(src, dest) {
   fs.writeFileSync(dest, addFrontmatterTitle(fs.readFileSync(src, 'utf8')));
 }
 
-function validateMarkdownImages(wikiDir) {
+export function validateMarkdownImages(wikiDir) {
   const missing = [];
   function walk(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -232,7 +232,9 @@ async function main() {
   } catch {}
 }
 
-main().catch(err => {
-  console.error(`Fatal wiki publish failure: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    console.error(`Fatal wiki publish failure: ${err.message}`);
+    process.exit(1);
+  });
+}
