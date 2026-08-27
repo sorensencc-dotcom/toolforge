@@ -34,6 +34,8 @@
     "test:watchlist": "node test-watchlist-run.mjs",
     "wiki:publish": "node scripts/sync-github-wiki.mjs",
     "wiki:sync": "node scripts/sync-github-wiki.mjs",
+    "wiki:qa": "node tools/wiki-browser-qa/runner.mjs",
+    "wiki:qa:neo": "node tools/wiki-browser-qa/runner.mjs --backend=neo",
     "test:watch": "node --test --watch src/**/*.test.js",
     "preflight": "pwsh -NoProfile -File scripts/preflight.ps1",
     "lint": "eslint src/**/*.js",

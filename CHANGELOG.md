@@ -1,5 +1,49 @@
 # Changelog
 
+## Version 2.52.1
+Date: 2026-08-27
+
+### Changes
+- 457fcec - Merge pull request #12 from sorensencc-dotcom/fix/wiki-qa-github-dom (Chris Sorensen)
+- 7420ecf - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- 609a46c - fix(wiki-qa): scope browser-QA checks to rendered content on GitHub wiki pages (Chris)
+
+## Version 2.52.0
+Date: 2026-08-27
+
+### Changes
+- d2d5754 - Merge pull request #6 from sorensencc-dotcom/codex/torqquery-hybrid-agent-dispatch (Chris Sorensen)
+- a136cb0 - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- 3b0c604 - feat(wiki-qa): add BrowserOS Neo browser backend (Chris)
+- d36887c - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- b31a134 - fix(wiki-qa): format fixture link coverage (Chris)
+- bacaa37 - fix(wiki-qa): make browser fixture links observable (Chris)
+- 5a3c7ba - fix(wiki-qa): run CLI on Windows (Chris)
+- 880405d - test(wiki-qa): add fixture coverage (Chris)
+- 3821e0f - fix(wiki-qa): harden browser audit (Chris)
+- 3124f8b - feat(wiki-qa): add browser QA runner (Chris)
+- 3cc6305 - feat(wiki-qa): enforce diagram policy (Chris)
+- fc77149 - test(wiki-qa): enforce diagram policy (Chris)
+- d8a78b5 - fix(wiki-qa): fail closed browser adapter (Chris)
+- 64ca467 - fix: close Wiki adapter review blockers (Chris)
+- 47c86f5 - fix: parse gstack browser output (Chris)
+- 5a3406b - fix: harden Wiki browser protocol (Chris)
+- 10a3e91 - feat: add Wiki browser adapter (Chris)
+- 3bfc239 - fix: restore sourceAsset diagram matching (Chris)
+- 0c0ca6d - fix: harden Wiki QA checks (Chris)
+- 603fbc6 - test: define Wiki QA checks (Chris)
+- 7f813c9 - chore: update session handoff (Chris)
+- afb45f3 - docs: isolate wiki QA reports (Chris)
+- eab06b9 - docs: bound wiki QA crawl behavior (Chris)
+- 89859c2 - docs: specify browser adapter contract (Chris)
+- c4fdcac - docs: define gstack browser adapter (Chris)
+- 2e034d0 - docs: reduce wiki QA architecture scope (Chris)
+- 6ed2b3f - docs: tighten wiki QA design enforcement (Chris)
+- 1f9c539 - chore: preserve wiki QA review state (Chris)
+- 2461b75 - docs: specify wiki browser QA (Chris)
+- 87c0e86 - fix(wiki): normalize legacy page frontmatter (Chris)
+- 89d7be6 - fix(wiki): strip frontmatter from pages (Chris)
+
 ## Version 2.51.1
 Date: 2026-08-26
 

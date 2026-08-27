@@ -1,27 +1,36 @@
-Handoff: 2026-08-23
+Handoff: 2026-08-26
 ====================
+
 Status
-| Phase 8 | Wave 2/3 | validator readiness done; production blocked |
-Docs evidence-gated; staging historical/unverified. Team contracts: .ijfw/team, .ijfw/agents.
+------
+| Phase 1 | Wave NA | Step 2 | in-progress |
+
+Wiki sync fixes are merged/live; dedicated browser QA is designed and cleared for implementation. Branch is 8 commits ahead of origin; do not push without review/approval.
+
 Decisions
-- Repository text is not production approval; preserve unrelated dirty work.
-- Use -SkipGenerators for isolated receipts; retain intentional style warnings.
+---------
+- Implement `tools/wiki-browser-qa/` with `npm run wiki:qa`.
+- Keep minimal architecture: `runner.mjs`, `browser-adapter.mjs`, `checks.mjs`, `diagram-policy.json`, tests.
+- Reuse `scripts/sync-github-wiki.mjs` source-side validation; use gstack browser adapter.
+- Full crawl uses bounded concurrency, transient-only retries, dedupe, timeout, partial reports.
+- Diagram policy requires source mapping, visible rendered image, alt/caption, responsive no-overflow; code-block ASCII is invalid.
+- Default report path `.artifacts/wiki-qa/report.json`; CI may override.
+
 Modified Files
-- utilities/toolforgeSkillValidator.ps1; tests/toolforgeSkillValidator.test.ps1: aggregation, verbs, BOM, ShouldProcess, WhatIf, isolation.
-- INDEX.md; STAGING_NEXT_STEPS.md; PRODUCTION_PREREQUISITES.md; docs/reports/production-promotion-audit.md: evidence-gated docs.
-- .ijfw/team/charter.json; workflow.json; .ijfw/agents/*.md: readiness team.
-Receipts
-- 3e4b643, 4528c2b, 98b843d: validator fixes committed.
-- Focused tests pass; isolated validator exit 0, 0 errors, 192 warnings.
-- PSScriptAnalyzer installed; 40 warnings remain, mostly Write-Host/noun style.
-- Submission validator 15/15 passed; broader suite 134 passed/20 failed from environment/fixtures.
+--------------
+- `docs/superpowers/specs/2026-08-26-wiki-browser-qa-design.md`: approved implementation spec.
+- `.ijfw/memory/handoff.md`: this handoff; preserve governance artifacts.
+
 Next Steps
-1. Decide remaining validator warning policy.
-2. Use scratch receipts; never run default generators in dirty checkout.
-3. Obtain dated staging kubectl, smoke-test, and full-test receipts.
-4. Keep production blocked until 5 areas/28 tasks have evidence.
-5. Release integrator reviews ancestry, scope, shipment before push.
+----------
+1. Start new session in `C:\dev\.worktrees\torqquery-hybrid-agent-dispatch`.
+2. Read spec; create implementation plan under governance.
+3. Implement tests first, then adapter/runner/checks/policy and npm script.
+4. Verify local mirror, focused tests, and live smoke only with explicit approval.
+5. Review diff; push only after explicit approval.
+
 Blockers
-- No current staging or reproducible 261/261 receipt; origin/main and local HEAD diverge 1/1.
-- Extensive unrelated dirty/untracked changes.
-- Phase 8 SUCCESS.md unsigned/template.
+--------
+- gstack browser server timed out during startup; executable exists at `C:\Users\soren\.agents\skills\gstack\browse\dist\browse.exe`.
+- `.gstack\projects` denied access, so eng-review test-plan artifact/dashboard persistence is incomplete.
+- Existing governance artifacts were committed in `1f9c539`; preserve unless directed otherwise.
