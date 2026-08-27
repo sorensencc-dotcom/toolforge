@@ -66,8 +66,8 @@ function parseNeoConsole(text) {
 // captures metadata + per-viewport evidence. Large evaluate results are spilled by the MCP layer
 // to a local file; the script forwards the spill path and the Node adapter reads it back, so the
 // run's own return value always stays small.
-function buildRunScript(href, diagramRules) {
-  const evidenceCode = `return await (${pageEvidenceExpression(diagramRules)})`;
+function buildRunScript(href, diagramRules, contentSelector) {
+  const evidenceCode = `return await (${pageEvidenceExpression(diagramRules, { contentSelector })})`;
   return `
 const parseNeoConsole = ${parseNeoConsole.toString()};
 const TARGET = ${JSON.stringify(href)};
@@ -181,10 +181,14 @@ async function resolveSpill(value, label) {
 // Trims full link/image inventories to the entries the checks act on, keeping reports compact.
 function pruneObservation(observation) {
   observation.text = String(observation.text || '').slice(0, 6000);
-  observation.domAssertions = (observation.domAssertions || observation.dom || [])
+  const headingSource = (Array.isArray(observation.headings) && observation.contentScoped === true)
+    ? observation.headings
+    : (observation.domAssertions || observation.dom || []);
+  observation.domAssertions = headingSource
     .slice(0, 200)
     .map((heading) => ({ role: 'heading', level: heading.level, text: String(heading.text || '').slice(0, 200) }));
   observation.dom = observation.domAssertions;
+  if (Array.isArray(observation.headings)) observation.headings = observation.domAssertions;
   observation.links = (observation.links || []).filter((link) => {
     if (link && link.inScope === false) return false;
     const status = Number(link && link.status);
@@ -439,7 +443,7 @@ export function createNeoAdapter(options = {}) {
     if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') throw neoError('invalid-url', 'browser URL must be http or https');
 
     const runTimeout = Math.max(20_000, openOptions.timeoutMs ?? defaultTimeoutMs);
-    const script = buildRunScript(parsed.href, openOptions.diagramRules ?? []);
+    const script = buildRunScript(parsed.href, openOptions.diagramRules ?? [], openOptions.contentSelector ?? null);
     let result;
     try {
       result = await transport.callTool('run', { code: script, timeout: runTimeout }, runTimeout + 15_000);

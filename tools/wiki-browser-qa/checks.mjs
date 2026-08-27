@@ -86,7 +86,9 @@ function matchesPolicy(evidence, rule) {
   const sourceAsset = rule.sourceAsset || rule.sourceMapping;
   if (!sourceAsset || evidence.sourceAsset !== sourceAsset) return false;
   if (rule.selector && evidence.selector !== rule.selector) return false;
-  if (rule.assetPattern && !new RegExp(rule.assetPattern).test(String(evidence.src || ''))) return false;
+  const src = String(evidence.src || '');
+  const patterns = [rule.assetPattern, rule.githubAssetPattern].filter(Boolean);
+  if (patterns.length && !patterns.some((pattern) => new RegExp(pattern).test(src))) return false;
   return true;
 }
 

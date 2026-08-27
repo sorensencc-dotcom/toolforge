@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createBrowserAdapter, normalizeBrowserObservation } from '../browser-adapter.mjs';
+import { createBrowserAdapter, mergeEvidence, normalizeBrowserObservation, pageEvidenceExpression } from '../browser-adapter.mjs';
 
 const nodeExecutable = process.execPath;
 
@@ -54,6 +54,7 @@ test('normalizes documented gstack command output', async () => {
     url: 'https://example.test/wiki/Page',
     title: 'A Human Page',
     heading: { level: 1, role: 'heading', text: 'A Human Page' },
+    headings: [{ level: 1, role: 'heading', text: 'A Human Page' }],
     text: 'A Human Page',
     consoleErrors: [{ level: 'error', text: 'bad script' }],
     failedRequests: [{ url: 'https://example.test/missing.png', status: 404, details: '1ms, 0B' }],
@@ -395,4 +396,41 @@ test('keeps heading-less accessibility tree as raw normalized data', async () =>
   const observation = await adapter.openPage('https://example.test/page');
   assert.equal(observation.heading, null);
   assert.equal(observation.accessibility, 'paragraph "Body text"');
+});
+
+test('probes in-scope links with same-origin credentials by default', () => {
+  const expression = pageEvidenceExpression([]);
+  assert.match(expression, /const LINK_CREDENTIALS = "same-origin"/);
+  assert.match(expression, /credentials: LINK_CREDENTIALS/);
+  assert.doesNotMatch(expression, /credentials: 'omit'/);
+});
+
+test('scopes DOM evidence collection to a content selector when supplied', () => {
+  const expression = pageEvidenceExpression(
+    [{ selector: '.diagram-container > svg', sourceAsset: 'wiki/x.html', assetPattern: '(?:^|/)x\\.html$', githubSelector: 'img[src$="x.png"]', githubAssetPattern: '(?:^|/)x\\.png$' }],
+    { contentSelector: '.markdown-body' },
+  );
+  assert.match(expression, /const CONTENT_SELECTOR = "\.markdown-body"/);
+  assert.match(expression, /const contentRoot = CONTENT_SELECTOR \? document\.querySelector\(CONTENT_SELECTOR\) : null/);
+  assert.match(expression, /root\.querySelectorAll\('a\[href\]'\)/);
+  assert.match(expression, /scoped \? \[\.\.\.root\.querySelectorAll\('img'\)\] : \[\.\.\.document\.images\]/);
+  assert.match(expression, /rule\.githubSelector/);
+  assert.match(expression, /contentScoped: scoped/);
+});
+
+test('scoped content title overrides a slug-like document title in normalization', () => {
+  const observation = {};
+  mergeEvidence(observation, {
+    images: [], links: [], diagrams: [], viewport: {},
+    headings: [{ role: 'heading', level: 1, text: 'Toolforge Governance' }],
+    contentTitle: 'Toolforge Governance',
+    contentScoped: true,
+  }, 'desktop');
+  observation.title = 'toolforge-governance';
+  observation.viewport = { desktop: { width: 1280, height: 720, overflow: false } };
+
+  const normalized = normalizeBrowserObservation(observation, 'https://github.com/o/r/wiki/GOVERNANCE');
+  assert.equal(normalized.title, 'Toolforge Governance');
+  assert.deepEqual(normalized.heading, { level: 1, text: 'Toolforge Governance' });
+  assert.deepEqual(normalized.headings, [{ role: 'heading', level: 1, text: 'Toolforge Governance' }]);
 });

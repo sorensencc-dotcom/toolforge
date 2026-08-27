@@ -87,6 +87,48 @@ test('rejects explicit pages outside the configured Wiki origin or prefix', asyn
   }
 });
 
+test('passes .markdown-body content selector to the adapter for GitHub-rendered wiki pages', async () => {
+  const seen = [];
+  const result = await runWikiQa({
+    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge/wiki',
+    WIKI_QA_PAGES: 'GOVERNANCE',
+  }, dependencies(createAdapter(async (url, options) => {
+    seen.push(options?.contentSelector ?? null);
+    return passingObservation(url);
+  })));
+
+  assert.deepEqual(seen, ['.markdown-body']);
+  assert.equal(result.report.contentSelector, '.markdown-body');
+});
+
+test('leaves the content selector unset for non-GitHub wiki targets', async () => {
+  const seen = [];
+  const result = await runWikiQa({
+    WIKI_QA_BASE_URL: BASE_URL,
+    WIKI_QA_PAGES: 'Architecture',
+  }, dependencies(createAdapter(async (url, options) => {
+    seen.push(options?.contentSelector ?? null);
+    return passingObservation(url);
+  })));
+
+  assert.deepEqual(seen, [null]);
+  assert.equal(result.report.contentSelector, undefined);
+});
+
+test('honours an explicit WIKI_QA_CONTENT_SELECTOR override', async () => {
+  const seen = [];
+  await runWikiQa({
+    WIKI_QA_BASE_URL: BASE_URL,
+    WIKI_QA_PAGES: 'Architecture',
+    WIKI_QA_CONTENT_SELECTOR: 'main#content',
+  }, dependencies(createAdapter(async (url, options) => {
+    seen.push(options?.contentSelector ?? null);
+    return passingObservation(url);
+  })));
+
+  assert.deepEqual(seen, ['main#content']);
+});
+
 test('discovers deduplicated Wiki links from the index when pages are not explicit', async () => {
   const calls = [];
   const adapter = createAdapter(async (url) => {
