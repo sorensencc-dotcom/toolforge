@@ -26,6 +26,7 @@ export const ROOT_WIKI_PAGE_MAPPINGS = [
   { src: 'docs/DOCS_INDEX.md', dest: 'DOCS_INDEX.md' },
   { src: 'kb-sync/README.md', dest: 'kb-sync-readme.md' },
   { src: 'wiki/Log.md', dest: 'Log.md' },
+  { src: 'wiki/MaterializeApprovedResult.Test.md', dest: 'MaterializeApprovedResult.Test.md' },
 ];
 
 const visibleNonOverflowing = {
