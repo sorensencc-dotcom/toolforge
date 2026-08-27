@@ -1,5 +1,31 @@
 # Changelog
 
+## Version 2.53.0
+Date: 2026-08-27
+
+### Changes
+- c49f93f - Merge pull request #11 from sorensencc-dotcom/codex/delivery-guard-task7 (Chris Sorensen)
+- 6ba3015 - Merge branch 'main' into codex/delivery-guard-task7 (Chris)
+- 6cb7d86 - fix(delivery-guard): fail closed on paid dispatch when budget ledger is missing (Chris)
+- 3ba3a99 - feat(delivery-guard): add provider dispatch guard with budget reservation (Task 7) (Chris)
+- 8443b43 - feat(delivery-guard): add ReservationAlreadySettledError and snapshot optimization note (Chris)
+- 37a1610 - feat(delivery-guard): implement durable budget ledger and atomic reservations (Task 6) (Chris)
+- 27aa283 - feat(delivery-guard): add scoped push receipts and manifest tracking (Task 5) (Chris)
+- 01d6748 - test(delivery-guard): test installed hook artifacts in temporary repositories (Chris)
+- 5aae91b - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- d41c6be - fix: close delivery guard review findings (Chris)
+- 8cca3e8 - feat: enforce automation regression tests in CI (Chris)
+- ad9dfdc - fix: reject drive-qualified delivery globs (Chris)
+- 7986a6b - fix: harden delivery guard glob classification (Chris)
+- 6426610 - feat: classify delivery guard diffs (Chris)
+- e9b586f - fix: reject Windows-rooted adapter paths (Chris)
+- 323f5a0 - feat: add delivery guard adapter contract (Chris)
+- 4de792d - fix: restore retro audit and toolforge health (Chris)
+- 7fcdab5 - docs(report): add daily report for 2026-08-26 (Chris)
+- 7926c67 - chore(sync): update skillpack metadata, memory logs, and system reports (Chris)
+- 12bbdc0 - chore: bump version and changelog (v2.50.2) (Chris)
+- 63e5338 - fix(openrouter): eng review fixes — unified transport, timeout, empty-choices guard, registry dedup, governance attest refactor, 7 new tests (Chris)
+
 ## Version 2.52.1
 Date: 2026-08-27
 
