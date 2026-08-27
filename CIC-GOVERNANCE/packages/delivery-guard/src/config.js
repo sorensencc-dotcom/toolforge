@@ -38,16 +38,16 @@ function validatePathList(config, field, issues) {
   });
 }
 
-function validateStringList(config, field, issues) {
+function validateStringList(config, field, issues, itemLabel = 'command') {
   const values = config[field];
   if (!Array.isArray(values) || values.length === 0) {
-    addIssue(issues, field, 'must be a non-empty array of commands');
+    addIssue(issues, field, `must be a non-empty array of ${itemLabel}s`);
     return;
   }
 
   values.forEach((value, index) => {
     if (typeof value !== 'string' || value.trim().length === 0) {
-      addIssue(issues, field, `item ${index} must be a non-empty command`);
+      addIssue(issues, field, `item ${index} must be a non-empty ${itemLabel}`);
     }
   });
 }
@@ -73,6 +73,7 @@ export function validateAdapterConfig(config) {
 
   PATH_FIELDS.forEach((field) => validatePathList(config, field, issues));
   validateStringList(config, 'testCommands', issues);
+  validateStringList(config, 'trustedExemptionAuthorities', issues, 'authority');
 
   const hookInstaller = config.hookInstaller;
   if (!isPlainObject(hookInstaller)) {

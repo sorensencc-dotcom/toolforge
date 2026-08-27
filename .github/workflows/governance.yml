@@ -47,4 +47,4 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: >
-          node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA"
+          node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA" --run-tests

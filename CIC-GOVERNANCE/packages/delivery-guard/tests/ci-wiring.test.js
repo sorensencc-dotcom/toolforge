@@ -7,6 +7,9 @@ const packageRoot = path.resolve(import.meta.dirname, '..');
 const repositoryRoot = path.resolve(packageRoot, '..', '..', '..');
 const workflowPath = path.join(repositoryRoot, '.github', 'workflows', 'governance.yml');
 const hookInstallerPath = path.join(repositoryRoot, 'CIC-GOVERNANCE', 'scripts', 'setup-git-hook.mjs');
+const powershellHookInstallerPath = path.join(repositoryRoot, 'setup-git-hooks.ps1');
+const canonicalShimPath = path.join(repositoryRoot, 'CIC-GOVERNANCE', 'scripts', 'pre-commit-shim.sh');
+const readmePath = path.join(packageRoot, 'README.md');
 
 test('governance CI invokes the automation policy wrapper in blocking mode', () => {
   const workflow = fs.readFileSync(workflowPath, 'utf8');
@@ -16,15 +19,46 @@ test('governance CI invokes the automation policy wrapper in blocking mode', () 
     workflow,
     /node CIC-GOVERNANCE\/packages\/delivery-guard\/scripts\/evaluate-automation-policy\.mjs --base/,
   );
+  assert.match(workflow, /--run-tests/);
   assert.doesNotMatch(workflow, /evaluate-automation-policy\.mjs[^\n]*--advisory/);
 });
 
 test('local hook invokes the automation policy wrapper in advisory staged mode', () => {
-  const hookInstaller = fs.readFileSync(hookInstallerPath, 'utf8');
+  const hookShim = fs.readFileSync(canonicalShimPath, 'utf8');
 
   assert.match(
-    hookInstaller,
+    hookShim,
     /evaluate-automation-policy\.mjs"? --staged --advisory/,
   );
-  assert.match(hookInstaller, /automation policy is advisory/);
+  assert.match(hookShim, /automation policy is advisory/);
+});
+
+test('both hook installers install the same canonical delivery-guard shim', () => {
+  const nodeInstaller = fs.readFileSync(hookInstallerPath, 'utf8');
+  const powershellInstaller = fs.readFileSync(powershellHookInstallerPath, 'utf8');
+
+  assert.match(nodeInstaller, /pre-commit-shim\.sh/);
+  assert.match(powershellInstaller, /pre-commit-shim\.sh/);
+
+  const shim = fs.readFileSync(canonicalShimPath, 'utf8');
+  assert.match(shim, /evaluate-automation-policy\.mjs --staged --advisory/);
+  assert.match(shim, /automation policy is advisory/);
+});
+
+test('README documents the complete public API and enforcement contracts', () => {
+  const readme = fs.readFileSync(readmePath, 'utf8');
+
+  for (const publicExport of [
+    'validateAdapterConfig',
+    'classifyDiff',
+    'evaluateAutomationTestPolicy',
+    'evaluateCiAutomationPolicy',
+    'evaluateCiCommitPolicies',
+    'runConfiguredTestCommands',
+  ]) {
+    assert.match(readme, new RegExp(`\\b${publicExport}\\b`));
+  }
+  assert.match(readme, /same commit/i);
+  assert.match(readme, /trusted exemption/i);
+  assert.match(readme, /all-zero/i);
 });

@@ -5,6 +5,7 @@ import {
   AdapterConfigError,
   validateAdapterConfig,
 } from '../src/config.js';
+import repositoryAdapter from '../../../delivery-guard.config.js';
 
 const validConfig = {
   repository: {
@@ -14,6 +15,7 @@ const validConfig = {
   generatedPaths: ['.ijfw/**', 'dist/**'],
   automationPaths: ['.github/workflows/**', 'scripts/**'],
   testCommands: ['npm test', 'python -m unittest discover -s tests -v'],
+  trustedExemptionAuthorities: ['tier-1'],
   hookInstaller: {
     command: 'node scripts/setup-git-hook.mjs',
     installedPath: '.git/hooks/pre-commit',
@@ -83,5 +85,31 @@ test('rejects incomplete hook installer configuration', () => {
     () => validateAdapterConfig(config),
     (error) => error instanceof AdapterConfigError
       && error.issues.some((issue) => issue.path === 'hookInstaller.installedPath'),
+  );
+});
+
+test('repository adapter covers every delivery-guard automation entry point', () => {
+  const requiredPaths = [
+    '.github/workflows/**',
+    'scripts/**',
+    'CIC-GOVERNANCE/scripts/**',
+    'CIC-GOVERNANCE/packages/delivery-guard/src/**',
+    'CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs',
+    'CIC-GOVERNANCE/delivery-guard.config.js',
+    'setup-git-hooks.ps1',
+    'ci-pipeline.ps1',
+  ];
+
+  assert.deepEqual(repositoryAdapter.automationPaths, requiredPaths);
+});
+
+test('rejects missing trusted exemption authorities', () => {
+  const config = structuredClone(validConfig);
+  delete config.trustedExemptionAuthorities;
+
+  assert.throws(
+    () => validateAdapterConfig(config),
+    (error) => error instanceof AdapterConfigError
+      && error.issues.some((issue) => issue.path === 'trustedExemptionAuthorities'),
   );
 });
