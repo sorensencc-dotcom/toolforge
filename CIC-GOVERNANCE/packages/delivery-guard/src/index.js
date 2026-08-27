@@ -21,4 +21,5 @@ export {
   BudgetExhaustedError,
   ReservationNotFoundError,
   ReservationStateError,
+  ReservationAlreadySettledError,
 } from './ledger.js';

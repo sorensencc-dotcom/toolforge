@@ -37,6 +37,13 @@ export class ReservationStateError extends LedgerError {
   }
 }
 
+export class ReservationAlreadySettledError extends ReservationStateError {
+  constructor(reservationId) {
+    super(reservationId, 'settled');
+    this.name = 'ReservationAlreadySettledError';
+  }
+}
+
 function sleepMs(ms) {
   const end = Date.now() + ms;
   while (Date.now() < end) {
@@ -60,6 +67,8 @@ export class BudgetLedger {
     this.lockTimeoutMs = options.lockTimeoutMs ?? 5000;
     this.staleLockMs = options.staleLockMs ?? 10000;
   }
+
+  // TODO: Add periodic snapshot checkpoints when ledger exceeds 10k events to bound replay overhead.
 
   _acquireLock() {
     const start = Date.now();
@@ -310,6 +319,10 @@ export class BudgetLedger {
 
       if (!res) {
         throw new ReservationNotFoundError(reservationId);
+      }
+
+      if (res.status === 'settled') {
+        throw new ReservationAlreadySettledError(reservationId);
       }
 
       if (res.status !== 'pending') {

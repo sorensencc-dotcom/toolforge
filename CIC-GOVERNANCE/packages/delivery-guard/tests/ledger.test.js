@@ -11,6 +11,7 @@ import {
   LedgerError,
   ReservationNotFoundError,
   ReservationStateError,
+  ReservationAlreadySettledError,
 } from '../src/index.js';
 
 test('grantBudget adds funds and computes accurate available budget', () => {
@@ -161,6 +162,7 @@ test('settleReservation finalizes spend, releases unused estimate, and prevents 
     assert.throws(
       () => ledger.settleReservation({ reservationId: 'res-settle', actualCost: 1.0 }),
       (err) => {
+        assert.ok(err instanceof ReservationAlreadySettledError);
         assert.ok(err instanceof ReservationStateError);
         assert.equal(err.currentStatus, 'settled');
         return true;
