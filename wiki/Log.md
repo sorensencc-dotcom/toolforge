@@ -420,3 +420,9 @@ status: "active"
   - `wiki/kb-sync/wiki/WatchCompetitorsV2.Mjs.md`
   - `wiki/kb-sync/wiki/WatchCompetitors.Mjs.md`
   - `wiki/Index.md`
+
+- [2026-08-26T21:43:13.306Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-daily-research.md. Synthesized: [(none)].
+- [2026-08-26T21:46:36.355Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-daily-research.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-08-26T21:48:32.278Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-daily-research.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-08-27T02:58:31.082Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-daily-research.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-08-27T03:17:59.093Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-reddit.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
