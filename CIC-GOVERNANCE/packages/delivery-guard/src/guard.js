@@ -130,8 +130,15 @@ export function createGuardedProvider(provider, options = {}) {
       const estimatedCost = estimateModelCost(query, normalizedRegistry);
 
       // Free or local model: bypass budget ledger
-      if (estimatedCost === 0.0 || !ledger) {
+      if (estimatedCost === 0.0) {
         return provider.execute(query);
+      }
+
+      if (!ledger) {
+        throw new GuardedProviderError(
+          'Paid dispatch requires a configured budget ledger',
+          { code: 'LEDGER_REQUIRED', model: normalizedModel }
+        );
       }
 
       // Paid model: atomic reservation

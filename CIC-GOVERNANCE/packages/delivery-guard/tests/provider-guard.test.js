@@ -410,3 +410,34 @@ test('handles concurrent guarded provider calls without overspending budget', as
     fs.rmSync(tempDir, { recursive: true, force: true });
   }
 });
+
+test('paid dispatch fails closed with LEDGER_REQUIRED when no ledger is configured', async () => {
+  let networkHit = false;
+  const mockProvider = {
+    async execute() {
+      networkHit = true;
+      return { response: 'Should not execute' };
+    },
+  };
+
+  const guarded = createGuardedProvider(mockProvider, {
+    // ledger omitted
+    modelRegistry: MOCK_REGISTRY,
+    providerName: 'openrouter',
+  });
+
+  await assert.rejects(
+    () => guarded.execute({
+      model: 'anthropic/claude-3.5-sonnet',
+      prompt: 'Paid query without ledger',
+    }),
+    (err) => {
+      assert.ok(err instanceof GuardedProviderError);
+      assert.equal(err.code, 'LEDGER_REQUIRED');
+      assert.equal(err.model, 'anthropic/claude-3.5-sonnet');
+      return true;
+    },
+  );
+
+  assert.equal(networkHit, false, 'Should not dispatch over network when ledger is missing');
+});
