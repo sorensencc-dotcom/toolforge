@@ -250,6 +250,7 @@ test('writes a partial report for pages left unfinished by timeout', async () =>
     WIKI_QA_BASE_URL: BASE_URL,
     WIKI_QA_PAGES: 'One,Two',
     WIKI_QA_TIMEOUT_MS: '50',
+    WIKI_QA_OVERALL_TIMEOUT_MS: '50',
   }, dependencies(createAdapter(async (url) => passingObservation(url)), fs, { clock }));
 
   assert.equal(result.report.partial, true);

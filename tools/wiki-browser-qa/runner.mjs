@@ -10,6 +10,7 @@ const DEFAULT_BASE_URL = 'https://github.com/sorensencc-dotcom/toolforge/wiki';
 const DEFAULT_REPORT_PATH = '.artifacts/wiki-qa/report.json';
 const DEFAULT_CONCURRENCY = 2;
 const MAX_CONCURRENCY = 4;
+const DEFAULT_OVERALL_TIMEOUT_MS = 30 * 60 * 1000;
 const MAX_ATTEMPTS = 2;
 const TRANSIENT_ERROR_KINDS = new Set(['timeout', 'network', 'network-failure', 'navigation', 'navigation-failure']);
 
@@ -221,6 +222,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
   const reportPath = env.WIKI_QA_REPORT || DEFAULT_REPORT_PATH;
   const concurrency = asPositiveInteger(env.WIKI_QA_CONCURRENCY, DEFAULT_CONCURRENCY, MAX_CONCURRENCY);
   const pageTimeoutMs = asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 30_000);
+  const overallTimeoutMs = asPositiveInteger(env.WIKI_QA_OVERALL_TIMEOUT_MS, DEFAULT_OVERALL_TIMEOUT_MS);
   const startedAt = nowMilliseconds(clock);
   const report = {
     target: baseUrl,
@@ -228,6 +230,8 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
     pages: [],
     aggregate: { total: 0, passed: 0, failed: 0, unfinished: 0, checks: { total: 0, passed: 0, failed: 0 } },
     partial: false,
+    timing: { pageTimeoutMs, overallTimeoutMs },
+    progress: { discovered: 0, completed: 0, passed: 0, failed: 0, unfinished: 0 },
     ...(reportPath ? { reportPath } : {}),
   };
   let urls;
@@ -265,11 +269,12 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
       report.reason = 'no pages discovered';
     }
     const pages = new Array(urls.length);
+    report.progress.discovered = urls.length;
     let next = 0;
     let stoppedReason = null;
     const shouldStop = () => {
       if (signal?.aborted) return 'interrupted';
-      return nowMilliseconds(clock) - startedAt >= pageTimeoutMs ? 'timeout' : null;
+      return nowMilliseconds(clock) - startedAt >= overallTimeoutMs ? 'overall-timeout' : null;
     };
     const worker = async () => {
       while (true) {
@@ -283,6 +288,9 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
         }
         const result = await auditPage(urls[index], { adapter, clock, policy: activePolicy, pageTimeoutMs });
         stoppedReason ??= shouldStop();
+        report.progress.completed += 1;
+        report.progress[result.status] += 1;
+        console.error(`[wiki-qa] page ${report.progress.completed}/${urls.length} ${result.status}: ${result.slug}`);
         pages[index] = stoppedReason && result.status === 'passed'
           ? pageResult(urls[index], 'unfinished', { attempts: result.attempts })
           : result;
@@ -293,6 +301,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
     if (stoppedReason) {
       report.partial = true;
       report.reason = stoppedReason;
+      report.diagnostics = `Stopped after ${report.progress.completed}/${urls.length} pages: ${stoppedReason}; overall=${overallTimeoutMs}ms, per-page=${pageTimeoutMs}ms, concurrency=${concurrency}`;
     }
   } catch (error) {
     report.partial = true;
