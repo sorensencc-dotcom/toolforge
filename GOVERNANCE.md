@@ -4,7 +4,7 @@ Naming, versioning, and lifecycle rules for all tools.
 
 ## Governance lifecycle topology
 
-![Toolforge platform architecture and lifecycle topology](wiki/toolforge-architecture-overview.png)
+![Toolforge platform architecture and lifecycle topology](toolforge-architecture-overview.png)
 
 This topology connects client ingress, gateway controls, execution runtime, registry, and infrastructure responsibilities governed by the lifecycle rules below.
 
@@ -195,5 +195,11 @@ Toolforge tools integrate with:
 - **GitHub Actions**: Auto-scan, version bump, publish
 - **Task Scheduler**: Windows cron for daemons, sync-tools
 - **CIC Governance**: Skill validation, proposal workflows
+
+### Push and Deployment Gates
+
+- **CI Auto-Push Prohibition**: CI pipelines, scripts, and automated agents must never auto-push commits to remote repositories.
+- **Operator Diff Review**: All remote pushes require prior operator verification of `git status` and `git diff --check`.
+- **Live Execution Gates**: Live agent routing and endpoint execution require signed authorization and explicit operator confirmation.
 
 See `.github/workflows/toolforge-*.yml` for pipeline details.
