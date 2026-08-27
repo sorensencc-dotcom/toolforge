@@ -32,7 +32,10 @@ function validateResponse(value) {
     dom: (item) => typeof item.text === 'string' || typeof item.role === 'string',
     domAssertions: (item) => typeof item.text === 'string' || typeof item.role === 'string',
     images: (item) => typeof item.src === 'string' && typeof item.alt === 'string' && (!('naturalWidth' in item) || Number.isFinite(item.naturalWidth)) && (!('naturalHeight' in item) || Number.isFinite(item.naturalHeight)) && (!('loaded' in item) || typeof item.loaded === 'boolean'),
-    links: (item) => typeof item.text === 'string' && typeof item.href === 'string',
+    links: (item) => typeof item.text === 'string' && typeof item.href === 'string'
+      && (!('inScope' in item) || typeof item.inScope === 'boolean')
+      && (!('ok' in item) || typeof item.ok === 'boolean')
+      && (!('status' in item) || item.status === null || Number.isInteger(item.status)),
     diagrams: (item) => typeof item.selector === 'string' && typeof item.visible === 'boolean' && typeof item.loaded === 'boolean' && typeof item.sourceAsset === 'string',
   };
   for (const [field, predicate] of Object.entries(arrayFields)) {
@@ -129,7 +132,7 @@ function pageEvidenceExpression(diagramRules = []) {
     sourceAsset: String(rule?.sourceAsset ?? ''),
     assetPattern: String(rule?.assetPattern ?? ''),
   })).filter((rule) => rule.selector);
-  return `(() => {
+  return `(async () => {
     const safeUrl = (value) => {
       try {
         const url = new URL(value, document.location.href);
@@ -152,6 +155,20 @@ function pageEvidenceExpression(diagramRules = []) {
       src: safeUrl(image.currentSrc || image.src || ''), alt: image.alt || '', naturalWidth: image.naturalWidth,
       naturalHeight: image.naturalHeight, complete: image.complete, loaded: image.complete && image.naturalWidth > 0 && image.naturalHeight > 0,
     });
+    const links = await Promise.all([...document.querySelectorAll('a[href]')].map(async (anchor) => {
+      const text = (anchor.textContent || '').trim().slice(0, 120);
+      const href = safeUrl(anchor.href);
+      if (!text || !href) return null;
+      const url = new URL(href);
+      const inScope = url.origin === document.location.origin;
+      if (!inScope) return { text, href, inScope, ok: false, status: null };
+      try {
+        const response = await fetch(url.href, { credentials: 'omit', redirect: 'follow' });
+        return { text, href, inScope, ok: response.ok, status: response.status };
+      } catch {
+        return { text, href, inScope, ok: false, status: null };
+      }
+    }));
     const diagrams = ${JSON.stringify(rules)}.flatMap((rule) => {
       let elements;
       try { elements = [...document.querySelectorAll(rule.selector)]; } catch { return []; }
@@ -176,6 +193,7 @@ function pageEvidenceExpression(diagramRules = []) {
     return JSON.stringify({
       images: [...document.images].map(imageFor),
       diagrams,
+      links: links.filter(Boolean),
       viewport: {
         scrollWidth: root.scrollWidth,
         clientWidth: root.clientWidth,
@@ -187,6 +205,7 @@ function pageEvidenceExpression(diagramRules = []) {
 
 function mergeEvidence(observation, evidence, viewportName) {
   if (!observation.images) observation.images = evidence.images;
+  if (Array.isArray(evidence.links)) observation.links = evidence.links;
   if (evidence.viewport && typeof evidence.viewport === 'object' && !Array.isArray(evidence.viewport)) {
     observation.viewport ??= {};
     observation.viewport[viewportName] = { ...(observation.viewport[viewportName] ?? {}), ...evidence.viewport };
@@ -293,7 +312,18 @@ export function createBrowserAdapter(options = {}) {
     if (result.status !== 0) {
       return { available: false, kind: 'setup-failure', version, diagnostics: `${combined || 'gstack executable failed'}; ${setupDiagnostic(setupCommand)}` };
     }
-    return { available: true, kind: null, version, diagnostics: combined || 'gstack executable is available' };
+    let health;
+    try {
+      health = await invoke(['status'], defaultTimeoutMs);
+    } catch (error) {
+      const message = error?.message ?? 'gstack browser health check failed';
+      return { available: false, kind: 'setup-failure', version, diagnostics: `browser server health check failed: ${message}; ${setupDiagnostic(setupCommand)}` };
+    }
+    const healthOutput = `${health.stdout ?? ''}\n${health.stderr ?? ''}`.trim();
+    if (health.status !== 0) {
+      return { available: false, kind: 'setup-failure', version, diagnostics: `browser server health check failed: ${healthOutput || 'gstack status exited non-zero'}; ${setupDiagnostic(setupCommand)}` };
+    }
+    return { available: true, kind: null, version, diagnostics: healthOutput || combined || 'gstack executable and browser server are healthy' };
   }
 
   async function collectPage(url, openOptions = {}) {

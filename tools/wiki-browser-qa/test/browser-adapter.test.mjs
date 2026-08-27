@@ -66,6 +66,36 @@ test('normalizes documented gstack command output', async () => {
   });
 });
 
+test('records successful and failed in-scope link resolutions from browser evidence', async () => {
+  const adapter = createBrowserAdapter({
+    executable: 'fake-browser',
+    spawn: async (_command, args) => ({ status: 0, stderr: '', stdout: ({
+      goto: 'Navigated to page\n',
+      text: 'Link evidence\n',
+      links: 'Passing link → http://127.0.0.1:8080/passing-page.html\nBroken link → http://127.0.0.1:8080/missing-page.html\n',
+      console: '(no console errors)\n',
+      network: '(no network requests)\n',
+      accessibility: 'heading "Link evidence" [level=1]\n',
+      viewport: `Viewport set to ${args[1]}\n`,
+      js: JSON.stringify({
+        images: [],
+        diagrams: [],
+        links: [
+          { text: 'Passing link', href: 'http://127.0.0.1:8080/passing-page.html', inScope: true, ok: true, status: 200 },
+          { text: 'Broken link', href: 'http://127.0.0.1:8080/missing-page.html', inScope: true, ok: false, status: 404 },
+        ],
+      }),
+    })[args[0]] || '' }),
+  });
+
+  const observation = await adapter.openPage('http://127.0.0.1:8080/passing-page.html');
+
+  assert.deepEqual(observation.links, [
+    { text: 'Passing link', href: 'http://127.0.0.1:8080/passing-page.html', inScope: true, ok: true, status: 200 },
+    { text: 'Broken link', href: 'http://127.0.0.1:8080/missing-page.html', inScope: true, ok: false, status: 404 },
+  ]);
+});
+
 test('collects rendered image and required-diagram evidence at each viewport', async () => {
   const calls = [];
   const adapter = createBrowserAdapter({
@@ -203,6 +233,28 @@ test('classifies setup and version failures', async () => {
   assert.equal(result.kind, 'setup-failure');
   assert.equal(result.version, '1.2.3');
   assert.match(result.diagnostics, /Chromium setup required/);
+});
+
+test('requires a healthy browser server after validating the executable', async () => {
+  const calls = [];
+  const adapter = createBrowserAdapter({
+    executable: 'browse.exe',
+    spawn: async (_command, args) => {
+      calls.push(args);
+      return args[0] === '--help'
+        ? { status: 0, stdout: 'gstack browse 1.2.3\n', stderr: '' }
+        : { status: 1, stdout: '', stderr: 'Timed out waiting for another instance to start the server\n' };
+    },
+  });
+
+  const result = await adapter.checkExecutable();
+
+  assert.deepEqual(calls, [['--help'], ['status']]);
+  assert.equal(result.available, false);
+  assert.equal(result.kind, 'setup-failure');
+  assert.equal(result.version, '1.2.3');
+  assert.match(result.diagnostics, /browser server health check failed/i);
+  assert.match(result.diagnostics, /timed out waiting.*instance/i);
 });
 
 test('classifies subprocess timeout', async () => {

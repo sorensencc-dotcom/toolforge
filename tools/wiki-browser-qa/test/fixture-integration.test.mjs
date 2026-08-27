@@ -11,7 +11,6 @@ import { runWikiQa } from '../runner.mjs';
 const fixtureRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), 'fixtures');
 const browserExecutable = process.env.GSTACK_BROWSER_EXECUTABLE
   ?? path.join(process.env.USERPROFILE ?? '', '.agents', 'skills', 'gstack', 'browse', 'dist', 'browse.exe');
-const runBrowserFixtures = process.env.WIKI_QA_RUN_FIXTURE_BROWSER === '1';
 
 const fixturePolicy = {
   pages: [
@@ -98,6 +97,7 @@ test('fixture pages encode passing rendering and every required failure mode', a
   assert.match(passing, /id="fixture-architecture"/);
   assert.match(passing, /alt="Architecture diagram showing the local Wiki QA flow"/);
   assert.match(passing, /<figcaption>Local Wiki QA architecture<\/figcaption>/);
+  assert.match(passing, /<a href="\/passing-page\.html">Verified local fixture link<\/a>/);
   assert.match(failing, /^\s*---\s*\n\s*title: Failing page\s*\n\s*layout: wiki\s*\n\s*---\s*$/m);
   assert.match(failing, /<h1>failing-page<\/h1>/);
   assert.match(failing, /<h1>Duplicate heading<\/h1>/);
@@ -106,7 +106,7 @@ test('fixture pages encode passing rendering and every required failure mode', a
   assert.match(failing, /\.wide-content/);
 });
 
-test('local browser audit passes clean rendered fixture on desktop and mobile', { skip: !runBrowserFixtures }, async (t) => {
+test('local browser audit passes clean rendered fixture on desktop and mobile', async (t) => {
   const baseUrl = await serveFixtures(t);
   const fs = createReportFs();
   const result = await runWikiQa({
@@ -128,7 +128,7 @@ test('local browser audit passes clean rendered fixture on desktop and mobile', 
   assert.equal(fs.reports[0].aggregate.passed, 1);
 });
 
-test('local browser audit reports malformed metadata, image, diagram, and overflow failures', { skip: !runBrowserFixtures }, async (t) => {
+test('local browser audit reports malformed metadata, image, diagram, and overflow failures', async (t) => {
   const baseUrl = await serveFixtures(t);
   const result = await runWikiQa({
     WIKI_QA_BASE_URL: baseUrl,
