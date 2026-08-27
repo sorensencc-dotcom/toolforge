@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-19T02:35:06.0187392Z
+**Generated:** 2026-08-23T18:12:52.9936451Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 42 |
+| Total Skills | 45 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 33 |
+| Orphan Skills | 36 |
 
 ---
 
@@ -105,6 +105,12 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### hook-validator
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### html-visual-verify
 
 | Dependency | Type | Status |
@@ -147,6 +153,12 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### pre-flight-test-checker
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### pre-wrap-audit
 
 | Dependency | Type | Status |
@@ -167,6 +179,12 @@
 | update-focus-areas.mjs | external | ❌ Missing |
 
 ### retro-export
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### retro-schema-validator
 
 | Dependency | Type | Status |
 |------------|------|--------|
@@ -345,6 +363,9 @@ No inbound dependencies (root skill)\n
 ### context-manager
 
 No inbound dependencies (root skill)\n
+### hook-validator
+
+No inbound dependencies (root skill)\n
 ### html-visual-verify
 
 No inbound dependencies (root skill)\n
@@ -366,6 +387,9 @@ No inbound dependencies (root skill)\n
 ### plan-extractor-integration
 
 No inbound dependencies (root skill)\n
+### pre-flight-test-checker
+
+No inbound dependencies (root skill)\n
 ### pre-wrap-audit
 
 No inbound dependencies (root skill)\n
@@ -376,6 +400,9 @@ No inbound dependencies (root skill)\n
 
 No inbound dependencies (root skill)\n
 ### retro-export
+
+No inbound dependencies (root skill)\n
+### retro-schema-validator
 
 No inbound dependencies (root skill)\n
 ### rewrite-labs-orchestrator
@@ -469,6 +496,7 @@ Depth N = Depends on at least one skill at depth N-1
 | cic-roadmap-updater | 0 |
 | cic-section-summarizer | 0 |
 | context-manager | 0 |
+| hook-validator | 0 |
 | html-visual-verify | 0 |
 | kb-sync-artifact-generator | 0 |
 | kb-sync-nightly | 0 |
@@ -476,8 +504,10 @@ Depth N = Depends on at least one skill at depth N-1
 | operator-image-build | 0 |
 | permission-governor | 0 |
 | plan-extractor-integration | 0 |
+| pre-flight-test-checker | 0 |
 | reconcile-vector-store | 0 |
 | retro-export | 0 |
+| retro-schema-validator | 0 |
 | rewrite-labs-orchestrator | 0 |
 | roadmap-validator | 0 |
 | rollback-phase | 0 |
@@ -516,6 +546,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | cic-roadmap-updater |
 | cic-section-summarizer |
 | context-manager |
+| hook-validator |
 | html-visual-verify |
 | kb-sync-artifact-generator |
 | kb-sync-nightly |
@@ -523,10 +554,12 @@ Skills that have no inbound dependencies (nothing depends on them).
 | operator-image-build |
 | permission-governor |
 | plan-extractor-integration |
+| pre-flight-test-checker |
 | pre-wrap-audit |
 | reconcile-vector-store |
 | research-questions |
 | retro-export |
+| retro-schema-validator |
 | rewrite-labs-orchestrator |
 | roadmap-validator |
 | rollback-phase |
@@ -551,7 +584,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 33 orphan skill(s) |
+| Orphans | ⚠️ WARN | 36 orphan skill(s) |
 
 ---
 

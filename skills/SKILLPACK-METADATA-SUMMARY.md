@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-19T17:36:05.8339017Z
+**Generated:** 2026-08-24T14:41:49.3644147Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 42 | 100% |
-| Active | 42 | 100% |
+| **Total Skills** | 45 | 100% |
+| Active | 45 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 41 | 97.6% |
-| ⚠️ Warning | 1 | 2.4% |
+| ✅ Good | 45 | 100% |
+| ⚠️ Warning | 0 | 0% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -38,6 +38,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### research-questions
+
+| Field | Value |
+|-------|-------|
+| Name | Research Questions |
+| Category | research-ops |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | prompt |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 2 external |
 ### retro-export
 
 | Field | Value |
@@ -47,6 +60,19 @@
 | Version | 1.0.0 |
 | Owner | Soren (Cast Iron Forge) |
 | Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### retro-schema-validator
+
+| Field | Value |
+|-------|-------|
+| Name | Retro Schema Validator |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | javascript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | Never |
@@ -259,19 +285,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### research-questions
-
-| Field | Value |
-|-------|-------|
-| Name | Research Questions |
-| Category | research-ops |
-| Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | prompt |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | Never |
-| Dependencies | 0 internal, 2 external |
 ### reconcile-vector-store
 
 | Field | Value |
@@ -285,6 +298,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 1 external |
 ### pre-wrap-audit
 
 | Field | Value |
@@ -415,19 +441,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
-### workspace-storage-cleaner
-
-| Field | Value |
-|-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | python |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | Never |
-| Dependencies | 0 internal, 1 external |
 ### cic-roadmap-updater
 
 | Field | Value |
@@ -441,6 +454,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### cic-run-gate
+
+| Field | Value |
+|-------|-------|
+| Name | CIC Run Gate |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 1 internal, 0 external |
 ### cic-section-summarizer
 
 | Field | Value |
@@ -466,6 +492,19 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### hook-validator
+
+| Field | Value |
+|-------|-------|
+| Name | Hook Validator |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | javascript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### html-visual-verify
 
@@ -545,19 +584,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### cic-run-gate
+### pre-flight-test-checker
 
 | Field | Value |
 |-------|-------|
-| Name | CIC Run Gate |
-| Category | governance |
+| Name | Pre-Flight Test Checker |
+| Category | validation |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | node |
+| Runtime | javascript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 1 internal, 0 external |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### writing-heuristics
 
 | Field | Value |
@@ -568,7 +607,7 @@
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
-| Health | ⚠️ WARN |
+| Health | ✅ GOOD |
 | Last Run | 2026-08-19T12:04:53.442905+00:00 |
 | Dependencies | 0 internal, 0 external |
 

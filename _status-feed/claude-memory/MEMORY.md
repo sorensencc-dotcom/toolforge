@@ -1,5 +1,20 @@
 # Memory Index
 
+## 2026-08-17
+- [Project: Multi-Agent Handoff Protocol Spec](project-multi-agent-handoff-protocol-spec-2026-08-17.md) — governance doc closing recurring unreviewed-squash pattern; 4 review rounds converged, two-gate ratification model, drafted not committed/not Tier-1-approved.
+- [Project: Sigil v0.1.1 Corrective Release](project-sigil-v0.1.1-corrective-release-2026-08-17.md) — audited unreviewed 5a86f23 squash, fixed 3 real bugs (receipt ID mismatch, heartbeat off-by-one, wait-for-receipt race) + closed coverage gaps, verified live vs Postgres, shipped v0.1.1, tags now match HEAD.
+- [Feedback: Codex Scope Creep + Autopush (sigil-repo)](feedback_codex_scope_creep_autopush_sigil.md) — updated: recurrence confirmed, squashed unreviewed commits keep landing on main; needs PR-per-task gate or dedicated audit budget.
+
+## 2026-08-16
+- [Session Wrap: Sigil Conformance Gap Spec](session-wrap-2026-08-16-sigil-conformance-spec.md) — §18 audit + design spec, 4 review rounds (Codex+human), 0 open items, pushed (07d61b8). writing-plans next session.
+- [Feedback: Sigil Relay State + Mailbox Ambiguity](feedback_sigil_relay_state_and_mailbox_ambiguity.md) — in-memory relay loses state on restart; empty inbox is ambiguous, ask for ledger confirmation not resend loops. Also: sigil-repo is canonical checkout, not sigil.
+- [Session Wrap: Sigil inbox --wait Shipped](session-wrap-2026-08-16-sigil-inbox-wait-shipped.md) — designed, built, live-proven round trip, /sigil-consult skill built, all pushed (40525a5).
+
+## 2026-08-15
+- [Project: Sigil Consult-Skill Backlog](project-sigil-consult-skill-backlog-2026-08-15.md) — user wants a skill wrapping "send context to Sigil peer, read reply" instead of manual send/inbox; deferred, depends on inbox --wait landing.
+- [Project: Sigil npm Packaging Decision](project-sigil-npm-packaging-decision-2026-08-15.md) — bin/sigil.mjs (connector) kept alongside relay CLI; next feature = env-aware auto-switch local vs remote.
+- [Feedback: Codex Scope Creep + Autopush (sigil-repo)](feedback_codex_scope_creep_autopush_sigil.md) — Codex extends scope past dispatched task, auto-pushes to real origin/main; check full commit range, not just the stated commit.
+
 ## 2026-08-14
 - [Feedback: Checkpoint Long Autonomous Chains](feedback_checkpoint_long_autonomous_chains.md) — don't chain repeated long TaskOutput blocks (use ScheduleWakeup instead) or run large-blast-radius multi-step work unattended past initial scope approval; checkpoint mid-chain.
 

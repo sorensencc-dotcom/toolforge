@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-19T17:36:05.8339017Z",
+  "timestamp": "2026-08-24T14:41:49.3644147Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -30,6 +30,36 @@
       }
     },
     {
+      "id": "research-questions",
+      "name": "Research Questions",
+      "category": "research-ops",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "prompt",
+      "entrypoint": "SKILL.md",
+      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "scan-gaps.mjs",
+          "update-focus-areas.mjs"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T18:41:45.5186640Z",
+        "lastValidation": "2026-08-16T18:41:45.5186640Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "retro-export",
       "name": "Retro Export",
       "category": "monitoring",
@@ -53,6 +83,33 @@
       "timestamps": {
         "created": "2026-08-16T17:27:19.1809541Z",
         "lastValidation": "2026-08-16T17:27:19.1809541Z",
+        "lastRun": null
+      }
+    },
+    {
+      "id": "retro-schema-validator",
+      "name": "Retro Schema Validator",
+      "category": "validation",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "javascript",
+      "entrypoint": "src/index.js",
+      "description": "Validates .retro/*.json files against the canonical retro schema v1.0 (required fields, types, ranges, unknown fields)",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-23T17:34:37.3597852Z",
+        "lastValidation": "2026-08-23T17:34:37.3597852Z",
         "lastRun": null
       }
     },
@@ -513,36 +570,6 @@
       }
     },
     {
-      "id": "research-questions",
-      "name": "Research Questions",
-      "category": "research-ops",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "prompt",
-      "entrypoint": "SKILL.md",
-      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "scan-gaps.mjs",
-          "update-focus-areas.mjs"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T18:41:45.5186640Z",
-        "lastValidation": "2026-08-16T18:41:45.5186640Z",
-        "lastRun": null
-      }
-    },
-    {
       "id": "reconcile-vector-store",
       "name": "Reconcile Vector Store",
       "category": "data-management",
@@ -567,6 +594,35 @@
         "created": "2026-07-10T21:43:59.2615565Z",
         "lastValidation": "2026-07-10T21:43:59.2615565Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
+      }
+    },
+    {
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "lastRun": null
       }
     },
     {
@@ -854,35 +910,6 @@
       }
     },
     {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
-        "lastRun": null
-      }
-    },
-    {
       "id": "cic-roadmap-updater",
       "name": "CIC Roadmap Updater",
       "category": "analysis",
@@ -906,6 +933,35 @@
       "timestamps": {
         "created": "2026-07-10T21:43:58.9401449Z",
         "lastValidation": "2026-07-10T21:43:58.9401449Z",
+        "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "cic-run-gate",
+      "name": "CIC Run Gate",
+      "category": "governance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
+      "status": "active",
+      "dependencies": {
+        "internal": [
+          "_cic-shared"
+        ],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7227316Z",
+        "lastValidation": "2026-08-16T17:39:59.7227316Z",
         "lastRun": "2026-08-07T21:38:00Z"
       }
     },
@@ -961,6 +1017,33 @@
         "created": "2026-07-15T15:04:33.2172721Z",
         "lastValidation": "2026-07-15T15:04:33.2172721Z",
         "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "hook-validator",
+      "name": "Hook Validator",
+      "category": "validation",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "javascript",
+      "entrypoint": "src/index.js",
+      "description": "Audits the pre-commit hook chain for completeness, merged-shim provenance, and execution order",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-23T17:34:16.9514019Z",
+        "lastValidation": "2026-08-23T17:34:16.9514019Z",
+        "lastRun": null
       }
     },
     {
@@ -1132,32 +1215,30 @@
       }
     },
     {
-      "id": "cic-run-gate",
-      "name": "CIC Run Gate",
-      "category": "governance",
+      "id": "pre-flight-test-checker",
+      "name": "Pre-Flight Test Checker",
+      "category": "validation",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
+      "runtime": "javascript",
+      "entrypoint": "src/index.js",
+      "description": "Validates the test environment (ESLint ignore config, external fixtures, platform-specific assumptions) before npm test runs",
       "status": "active",
       "dependencies": {
-        "internal": [
-          "_cic-shared"
-        ],
+        "internal": [],
         "external": []
       },
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "functional",
+        "runtime": "untested",
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:39:59.7227316Z",
-        "lastValidation": "2026-08-16T17:39:59.7227316Z",
-        "lastRun": "2026-08-07T21:38:00Z"
+        "created": "2026-08-23T17:34:26.3468335Z",
+        "lastValidation": "2026-08-23T17:34:26.3468335Z",
+        "lastRun": null
       }
     },
     {
@@ -1184,9 +1265,9 @@
       },
       "health": {
         "canonical": true,
-        "distributed": false,
+        "distributed": true,
         "runtime": "functional",
-        "overall": "warn"
+        "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-19T02:43:05.0236337Z",
@@ -1196,11 +1277,11 @@
     }
   ],
   "summary": {
-    "total": 42,
-    "active": 42,
+    "total": 45,
+    "active": 45,
     "deprecated": 0,
-    "health_good": 41,
-    "health_warn": 1,
+    "health_good": 45,
+    "health_warn": 0,
     "health_error": 0
   }
 }

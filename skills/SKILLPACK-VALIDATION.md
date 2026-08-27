@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-08-19T08:43:44.0406242Z
+**Generated**: 2026-08-24T14:41:45.5611889Z
 
 ---
 
@@ -9,15 +9,15 @@
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 26 | 0 | ✅ |
-| Distributed | 0 | 10 | 0 | ✅ |
+| Distributed | 0 | 9 | 0 | ✅ |
 | Manifest | 0 | 95 | 0 | ✅ |
-| Cowork | 0 | 42 | 0 | ✅ |
+| Cowork | 0 | 45 | 0 | ✅ |
 | Dependencies | 0 | 14 | 1 | ✅ |
-| Runtime | 0 | 0 | 42 | ✅ |
+| Runtime | 0 | 0 | 45 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 187
+**Total Warnings**: 189
 
 **Overall Status**: ✅ PASS
 
@@ -40,6 +40,7 @@
 | cic-run-gate | CIC Run Gate | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-section-summarizer | CIC Section Summarizer | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | context-manager | Context Manager | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| hook-validator | Hook Validator | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
 | html-visual-verify | HTML Visual Verify | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | kb-sync-artifact-generator | KB Sync Artifact Generator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | kb-sync-nightly | KB Sync Nightly | 1.0.2 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
@@ -47,10 +48,12 @@
 | operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | permission-governor | Permission Governor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | plan-extractor-integration | Plan Extractor Integration | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| pre-flight-test-checker | Pre-Flight Test Checker | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
 | pre-wrap-audit | Pre Wrap Audit | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | reconcile-vector-store | Reconcile Vector Store | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | research-questions | Research Questions | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
 | retro-export | Retro Export | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
+| retro-schema-validator | Retro Schema Validator | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
 | rewrite-labs-orchestrator | Rewrite Labs Orchestrator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | roadmap-validator | Roadmap Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | rollback-phase | Rollback Phase | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -68,7 +71,7 @@
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | workspace-storage-cleaner | Workspace & Brain Storage Cleaner | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
-| writing-heuristics | Writing Heuristics and Style Engine | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| writing-heuristics | Writing Heuristics and Style Engine | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 
 ---
 
@@ -112,7 +115,6 @@
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
-⚠️ **writing-heuristics**: Directory missing in distributed
 
 ## Manifest Validation
 
@@ -227,6 +229,7 @@
 ⚠️ **cic-run-gate**: Not registered (installer will register on next run)
 ⚠️ **cic-section-summarizer**: Not registered (installer will register on next run)
 ⚠️ **context-manager**: Not registered (installer will register on next run)
+⚠️ **hook-validator**: Not registered (installer will register on next run)
 ⚠️ **html-visual-verify**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-artifact-generator**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-nightly**: Not registered (installer will register on next run)
@@ -234,10 +237,12 @@
 ⚠️ **operator-image-build**: Not registered (installer will register on next run)
 ⚠️ **permission-governor**: Not registered (installer will register on next run)
 ⚠️ **plan-extractor-integration**: Not registered (installer will register on next run)
+⚠️ **pre-flight-test-checker**: Not registered (installer will register on next run)
 ⚠️ **pre-wrap-audit**: Not registered (installer will register on next run)
 ⚠️ **reconcile-vector-store**: Not registered (installer will register on next run)
 ⚠️ **research-questions**: Not registered (installer will register on next run)
 ⚠️ **retro-export**: Not registered (installer will register on next run)
+⚠️ **retro-schema-validator**: Not registered (installer will register on next run)
 ⚠️ **rewrite-labs-orchestrator**: Not registered (installer will register on next run)
 ⚠️ **roadmap-validator**: Not registered (installer will register on next run)
 ⚠️ **rollback-phase**: Not registered (installer will register on next run)
@@ -289,6 +294,7 @@
 ℹ️ **cic-run-gate**: Skill inactive (status: )
 ℹ️ **cic-section-summarizer**: Skill inactive (status: )
 ℹ️ **context-manager**: Skill inactive (status: )
+ℹ️ **hook-validator**: Discoverable
 ℹ️ **html-visual-verify**: Discoverable
 ℹ️ **kb-sync-artifact-generator**: Skill inactive (status: )
 ℹ️ **kb-sync-nightly**: Skill inactive (status: )
@@ -296,10 +302,12 @@
 ℹ️ **operator-image-build**: Skill inactive (status: )
 ℹ️ **permission-governor**: Skill inactive (status: )
 ℹ️ **plan-extractor-integration**: Skill inactive (status: )
+ℹ️ **pre-flight-test-checker**: Discoverable
 ℹ️ **pre-wrap-audit**: Skill inactive (status: )
 ℹ️ **reconcile-vector-store**: Skill inactive (status: )
 ℹ️ **research-questions**: Discoverable
 ℹ️ **retro-export**: Discoverable
+ℹ️ **retro-schema-validator**: Discoverable
 ℹ️ **rewrite-labs-orchestrator**: Skill inactive (status: )
 ℹ️ **roadmap-validator**: Skill inactive (status: )
 ℹ️ **rollback-phase**: Skill inactive (status: )

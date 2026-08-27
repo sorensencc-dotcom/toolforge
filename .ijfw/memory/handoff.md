@@ -28,9 +28,3 @@ Next Steps
 3. Implement tests first, then adapter/runner/checks/policy and npm script.
 4. Verify local mirror, focused tests, and live smoke only with explicit approval.
 5. Review diff; push only after explicit approval.
-
-Blockers
---------
-- gstack browser server timed out during startup; executable exists at `C:\Users\soren\.agents\skills\gstack\browse\dist\browse.exe`.
-- `.gstack\projects` denied access, so eng-review test-plan artifact/dashboard persistence is incomplete.
-- Existing governance artifacts were committed in `1f9c539`; preserve unless directed otherwise.

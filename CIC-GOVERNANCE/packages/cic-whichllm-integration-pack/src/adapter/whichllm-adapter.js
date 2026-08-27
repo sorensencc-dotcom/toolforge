@@ -154,6 +154,7 @@ export class WhichLLMAdapter extends EventEmitter {
     if (this.#config.openRouterApiKey) {
       this.#openRouterProvider = new OpenRouterProvider({
         apiKey: this.#config.openRouterApiKey,
+        budgetLedger: this.#config.budgetLedger,
       });
     }
   }
@@ -172,8 +173,9 @@ export class WhichLLMAdapter extends EventEmitter {
     const span = this.#observer.startSpan('adapter.query', { queryId: query.queryId });
 
     try {
-      // 1. Pre-flight governance check
-      await this.#governance.preCheck(query);
+      // 1. Pre-flight governance check — results forwarded to attest() so the
+      //    attestation envelope reflects all phases without re-running checks.
+      const preFlightResults = await this.#governance.preCheck(query);
 
       let parsed;
       let latencyMs;
@@ -224,12 +226,11 @@ export class WhichLLMAdapter extends EventEmitter {
         model: parsed.model,
       });
 
-      // 4. Post-flight governance attestation
-      const governanceAttestation = await this.#governance.attest({
-        query,
-        result: parsed,
-        lineageHash,
-      });
+      // 4. Post-flight governance attestation (pre-flight results forwarded)
+      const governanceAttestation = await this.#governance.attest(
+        { query, result: parsed, lineageHash },
+        preFlightResults
+      );
 
       // 5. Assemble result
       const result = {

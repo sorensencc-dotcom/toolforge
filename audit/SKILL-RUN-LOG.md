@@ -394,3 +394,62 @@ status: initialized
 version: 1.0.0
 runtime: node
 result: pass
+---
+## Execution: research-questions / Init
+
+skill_id: research-questions
+timestamp: 2026-08-26T12:46:48.8494896Z
+status: initialized
+version: 1.0.0
+runtime: prompt
+result: pass
+
+---
+## Execution: retro-export / Init
+
+skill_id: retro-export
+timestamp: 2026-08-26T12:46:48.8494896Z
+status: initialized
+version: 1.0.0
+runtime: typescript
+result: pass
+
+---
+## Execution: workspace-storage-cleaner / Init
+
+skill_id: workspace-storage-cleaner
+timestamp: 2026-08-26T12:46:48.8494896Z
+status: initialized
+version: 1.0.0
+runtime: python
+result: pass
+
+---
+## Execution: hook-validator / Init
+
+skill_id: hook-validator
+timestamp: 2026-08-26T12:46:48.8494896Z
+status: initialized
+version: 1.0.0
+runtime: javascript
+result: pass
+
+---
+## Execution: pre-flight-test-checker / Init
+
+skill_id: pre-flight-test-checker
+timestamp: 2026-08-26T12:46:48.8494896Z
+status: initialized
+version: 1.0.0
+runtime: javascript
+result: pass
+
+---
+## Execution: retro-schema-validator / Init
+
+skill_id: retro-schema-validator
+timestamp: 2026-08-26T12:46:48.8494896Z
+status: initialized
+version: 1.0.0
+runtime: javascript
+result: pass

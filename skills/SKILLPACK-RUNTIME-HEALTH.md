@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-19T12:05:01.3918947Z
+**Generated:** 2026-08-26T12:50:07.0572159Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 280 | 7 | 0 | 287 |
-| % Pass | 97.6% | 2.4% | 0% | 100% |
+| **Totals** | 308 | 0 | 0 | 308 |
+| % Pass | 100% | 0% | 0% | 100% |
 
 ---
 
@@ -161,6 +161,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### hook-validator — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.js |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### html-visual-verify — ✅ GOOD
 
 | Check | Result | Details |
@@ -245,6 +257,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### pre-flight-test-checker — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.js |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### pre-wrap-audit — ✅ GOOD
 
 | Check | Result | Details |
@@ -269,19 +293,19 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### research-questions — ⚠️ WARN
+### research-questions — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
 | Entrypoint | ✅ PASS | Valid: SKILL.md |
-| Runtime | ⚠️ WARN | Unknown runtime: prompt |
+| Runtime | ✅ PASS | Prompt-only skill; no executable required |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Runtime prompt (dry-run not applicable) |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### retro-export — ⚠️ WARN
+### retro-export — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -289,8 +313,20 @@
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### retro-schema-validator — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.js |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### rewrite-labs-orchestrator — ✅ GOOD
@@ -485,7 +521,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### workspace-storage-cleaner — ⚠️ WARN
+### workspace-storage-cleaner — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -493,8 +529,8 @@
 | Runtime | ✅ PASS | Found: python |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Runtime python (dry-run not applicable) |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### writing-heuristics — ✅ GOOD
@@ -528,6 +564,7 @@ Skills passing all checks:
 - cic-run-gate
 - cic-section-summarizer
 - context-manager
+- hook-validator
 - html-visual-verify
 - kb-sync-artifact-generator
 - kb-sync-nightly
@@ -535,8 +572,12 @@ Skills passing all checks:
 - operator-image-build
 - permission-governor
 - plan-extractor-integration
+- pre-flight-test-checker
 - pre-wrap-audit
 - reconcile-vector-store
+- research-questions
+- retro-export
+- retro-schema-validator
 - rewrite-labs-orchestrator
 - roadmap-validator
 - rollback-phase
@@ -553,14 +594,13 @@ Skills passing all checks:
 - trm-feedback-report
 - trm-status
 - work-summarizer
+- workspace-storage-cleaner
 - writing-heuristics
 
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
-- research-questions
-- retro-export
-- workspace-storage-cleaner
+*(none)*
 
 ### ❌ Error Health
 
