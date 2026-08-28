@@ -33,6 +33,11 @@ test('performs read-only lookup and maps stale flag', () => {
     source_hash: 'src-hash',
     tier_hash: 'tier-hash',
     artifact: 'wiki/concepts/one.md',
+    category: null,
+    tier_available: true,
+    compiled_at: null,
+    source_path: null,
+    freshness: 'stale',
     stale: true,
   });
   assert.equal(index.get('20260828-000000', 'viking://kb-sync/wiki/concepts/one.md', 'L0'), null);

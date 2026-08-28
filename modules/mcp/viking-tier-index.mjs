@@ -8,6 +8,11 @@ CREATE TABLE IF NOT EXISTS viking_tier_metadata (
   source_hash TEXT NOT NULL,
   tier_hash TEXT NOT NULL,
   artifact TEXT NOT NULL,
+  category TEXT,
+  tier_available INTEGER NOT NULL DEFAULT 1 CHECK (tier_available IN (0, 1)),
+  compiled_at TEXT,
+  source_path TEXT,
+  freshness TEXT,
   stale INTEGER NOT NULL DEFAULT 0 CHECK (stale IN (0, 1)),
   PRIMARY KEY (snapshot_id, uri, tier)
 );
@@ -31,6 +36,11 @@ function mapRow(row) {
     source_hash: row.source_hash,
     tier_hash: row.tier_hash,
     artifact: row.artifact,
+    category: row.category ?? null,
+    tier_available: row.tier_available !== 0,
+    compiled_at: row.compiled_at ?? null,
+    source_path: row.source_path ?? null,
+    freshness: row.freshness ?? (row.stale === 1 ? 'stale' : 'fresh'),
     stale: row.stale === 1,
   } : null;
 }
@@ -41,7 +51,7 @@ export function createTierIndex({ database, filename, readonly = true } = {}) {
   if (!db) throw new TypeError('database or filename is required');
 
   const getStatement = db.prepare(`
-    SELECT snapshot_id, uri, tier, source_hash, tier_hash, artifact, stale
+    SELECT snapshot_id, uri, tier, source_hash, tier_hash, artifact, category, tier_available, compiled_at, source_path, freshness, stale
     FROM viking_tier_metadata
     WHERE snapshot_id = ? AND uri = ? AND tier = ?
   `);
