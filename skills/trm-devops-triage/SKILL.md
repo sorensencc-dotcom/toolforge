@@ -123,3 +123,9 @@ If interacting via an MCP client, call the following tools:
 - `sync_dev_triage`: Syncs un-ingested failure logs and updates `queue.md`.
 - `prune_triage_source`: Prunes resolved defects and deletes remote notebook sources.
 - `query_dev_notebook`: Queries the NotebookLM operational buffer for historical context.
+
+---
+
+**Full reference:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
+
+**For detailed workflow:** See [docs/USAGE.md](docs/USAGE.md).
