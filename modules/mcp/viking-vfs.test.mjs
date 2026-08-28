@@ -44,8 +44,7 @@ test('maps errors at MCP boundary without leaking physical paths', async () => {
 
 test('returns stable errors for unavailable snapshot and tier', () => {
   const f = fixture();
-  const missing = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: 'missing' });
-  assert.throws(() => missing.stat('viking://kb-sync/wiki'), { code: 'SNAPSHOT_UNAVAILABLE' });
+  assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: 'missing' }), { code: 'SNAPSHOT_UNAVAILABLE' });
   const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' });
   assert.throws(() => resolver.read('viking://kb-sync/wiki/concepts/one.md', 'L1'), { code: 'TIER_UNAVAILABLE' });
   assert.throws(() => resolver.stat('viking://kb-sync/wiki/%E0%A4%A'), { code: 'INVALID_URI' });
@@ -89,4 +88,8 @@ test('rejects omitted manifest files and symlink escapes', () => {
   try { fs.symlinkSync(outside, path.join(f.snapshot, 'sources', 'escape.js')); } catch (error) { if (error.code === 'EPERM') return; throw error; }
   fs.appendFileSync(path.join(f.snapshot, 'FILES.manifest.txt'), '\nsources/escape.js');
   assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }).stat('viking://kb-sync/sources/escape.js'), { code: 'PATH_TRAVERSAL_REJECTED' });
+});
+test('rejects non-timestamped snapshot identities', () => {
+  const f = fixture();
+  assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: 'latest' }), { code: 'SNAPSHOT_UNAVAILABLE' });
 });

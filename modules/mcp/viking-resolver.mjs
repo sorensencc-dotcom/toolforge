@@ -65,6 +65,7 @@ function sha256(file) {
 
 export function createResolver({ vaultRoot, vaultName, snapshotId, layerRoots, tierIndex = {}, maxBytes = 1024 * 1024, allowLegacy = false }) {
   if (!vaultRoot || !vaultName || !snapshotId) throw new Error('vaultRoot, vaultName, and snapshotId are required');
+  if (!/^\d{8}-\d{6}$/.test(snapshotId)) throw new VikingError(ERROR_CODES.SNAPSHOT_UNAVAILABLE, 'Snapshot ID is not timestamped', { snapshot_id: snapshotId });
   const roots = { sources: 'sources', wiki: 'wiki', schema: 'schema', ...layerRoots };
   const snapshotRoot = path.resolve(vaultRoot, '_kb-sync-staging', snapshotId);
   const rootReal = fs.existsSync(snapshotRoot) ? fs.realpathSync(snapshotRoot) : null;
