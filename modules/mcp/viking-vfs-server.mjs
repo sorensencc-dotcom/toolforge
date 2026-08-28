@@ -1,5 +1,6 @@
 import readline from 'node:readline';
 import { createResolver, VikingError } from './viking-resolver.mjs';
+import { validateRequest, validateResponse } from './viking-vfs-contracts.mjs';
 
 function requireParams(request) {
   if (!request || typeof request !== 'object' || typeof request.method !== 'string') throw new VikingError('INVALID_REQUEST', 'Request must include a method');
