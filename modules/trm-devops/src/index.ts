@@ -5,4 +5,5 @@ export * from "./core/extractor.ts";
 export * from "./core/notebooklm-client.ts";
 export * from "./core/reconciler.ts";
 export * from "./core/pruning.ts";
+export * from "./cli/index.ts";
 
