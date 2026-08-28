@@ -74,20 +74,28 @@ export function validateRequest(request) {
   return value;
 }
 
-function validateResult(result) {
+function validateResult(result, method) {
   object(result, '$.result');
+  if (method === 'resources/list') {
+    if (!Array.isArray(result.resources)) fail('resources must be an array', '$.result.resources');
+    return result;
+  }
+  if (method === 'resources/read') {
+    if (!Array.isArray(result.contents)) fail('contents must be an array', '$.result.contents');
+    return result;
+  }
   string(result.uri, '$.result.uri');
   string(result.snapshot_id, '$.result.snapshot_id');
   return result;
 }
 
-export function validateResponse(response) {
+export function validateResponse(response, { method } = {}) {
   const value = object(response, '$');
   noUnknown(value, ['jsonrpc', 'id', 'result', 'error'], '$');
   if (value.jsonrpc !== '2.0') fail('must equal 2.0', '$.jsonrpc');
   if (!('id' in value) || (value.id !== null && !['string', 'number'].includes(typeof value.id))) fail('must be string, number, or null', '$.id');
   if (('result' in value) === ('error' in value)) fail('must contain exactly one of result or error', '$');
-  if ('result' in value) return validateResult(value.result);
+  if ('result' in value) return validateResult(value.result, method);
   const error = object(value.error, '$.error');
   noUnknown(error, ['code', 'message', 'data'], '$.error');
   string(error.code, '$.error.code');

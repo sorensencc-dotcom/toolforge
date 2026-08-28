@@ -1,6 +1,7 @@
 import readline from 'node:readline';
 import { createResolver, VikingError } from './viking-resolver.mjs';
 import { validateRequest, validateResponse } from './viking-vfs-contracts.mjs';
+import { readPinnedSnapshot } from './viking-snapshot.mjs';
 
 function requireParams(request) {
   if (!request || typeof request !== 'object' || typeof request.method !== 'string') throw new VikingError('INVALID_REQUEST', 'Request must include a method');
@@ -38,13 +39,16 @@ export function createServer(resolver) {
 if (import.meta.url === `file://${process.argv[1]}`) {
   const vaultRoot = process.env.VIKING_VAULT_ROOT;
   const vaultName = process.env.VIKING_VAULT_NAME ?? 'kb-sync';
-  const snapshotId = process.env.VIKING_SNAPSHOT_ID;
-  const resolver = createResolver({ vaultRoot, vaultName, snapshotId, layerRoots: { sources: 'sources', wiki: 'wiki', schema: 'schema' } });
+  const pinned = process.env.VIKING_SNAPSHOT_ID ? null : readPinnedSnapshot({ vaultRoot });
+  const snapshotId = process.env.VIKING_SNAPSHOT_ID ?? pinned.snapshotId;
+  const resolver = createResolver({ vaultRoot, vaultName, snapshotId, snapshotRoot: pinned?.snapshotRoot, layerRoots: { sources: 'sources', wiki: 'wiki', schema: 'schema' } });
   const server = createServer(resolver);
   const input = readline.createInterface({ input: process.stdin });
   input.on('line', async (line) => {
     const request = JSON.parse(line);
     const result = await server.handle(request);
-    process.stdout.write(`${JSON.stringify(toJsonRpcResponse(request.id, result))}\n`);
+    const response = toJsonRpcResponse(request.id, result);
+    validateResponse(response, { method: request.method });
+    process.stdout.write(`${JSON.stringify(response)}\n`);
   });
 }
