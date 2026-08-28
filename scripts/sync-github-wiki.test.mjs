@@ -38,6 +38,7 @@ test('passes validation when local markdown image target exists', async () => {
   }
 });
 
+// Regression test suite for wiki sync and markdown image validation
 test('copies supported wiki files and skips generated dependency trees', async () => {
   const root = await mkdtemp(path.join(tmpdir(), 'wiki-sync-test-'));
   const destination = await mkdtemp(path.join(tmpdir(), 'wiki-sync-dest-'));

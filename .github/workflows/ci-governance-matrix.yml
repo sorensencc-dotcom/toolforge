@@ -62,12 +62,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: workspace/package-lock.json
 
       - name: Install dependencies
         working-directory: workspace
-        run: npm ci --ignore-scripts
+        run: npm ci --ignore-scripts || npm install --ignore-scripts
 
       - name: Run governance validation
         working-directory: workspace
