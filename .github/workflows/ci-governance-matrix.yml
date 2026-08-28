@@ -1,0 +1,65 @@
+name: CI governance gate matrix
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: governance-matrix-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+permissions:
+  contents: read
+
+jobs:
+  governance:
+    name: ${{ matrix.repository }} governance
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - repository: CIC-GOVERNANCE
+            validate: npm run gov:validate
+            smoke: npm run gov:smoke
+          - repository: kb-sync
+            validate: npm run gov:validate
+            smoke: npm run gov:smoke
+          - repository: trm
+            validate: npm run gov:validate
+            smoke: npm run gov:smoke
+          - repository: cic-ingestion
+            validate: npm run gov:validate
+            smoke: npm run gov:smoke
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ${{ matrix.repository }}/package-lock.json
+      - name: Install dependencies
+        working-directory: ${{ matrix.repository }}
+        run: npm ci --ignore-scripts
+      - name: Verify canonical governance command contract
+        working-directory: ${{ matrix.repository }}
+        env:
+          EXPECTED_VALIDATE: ${{ matrix.validate }}
+          EXPECTED_SMOKE: ${{ matrix.smoke }}
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const scripts = JSON.parse(fs.readFileSync('package.json', 'utf8')).scripts ?? {};
+          for (const [name, expected] of [['gov:validate', process.env.EXPECTED_VALIDATE], ['gov:smoke', process.env.EXPECTED_SMOKE]]) {
+            if (scripts[name] !== expected) throw new Error(`${name} drifted from canonical preset: expected '${expected}', got '${scripts[name] ?? '<missing>'}'`);
+          }
+          NODE
+      - name: Run governance validation
+        working-directory: ${{ matrix.repository }}
+        run: ${{ matrix.validate }}
+      - name: Run governance smoke test
+        working-directory: ${{ matrix.repository }}
+        run: ${{ matrix.smoke }}
