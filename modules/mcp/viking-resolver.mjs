@@ -68,10 +68,19 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, layerRoots, t
   const roots = { sources: 'sources', wiki: 'wiki', schema: 'schema', ...layerRoots };
   const snapshotRoot = path.resolve(vaultRoot, '_kb-sync-staging', snapshotId);
   const rootReal = fs.existsSync(snapshotRoot) ? fs.realpathSync(snapshotRoot) : null;
+  const manifestFile = rootReal ? path.join(rootReal, 'FILES.manifest.txt') : null;
+  const manifestEntries = new Set();
+  if (manifestFile && fs.existsSync(manifestFile)) {
+    for (const line of fs.readFileSync(manifestFile, 'utf8').split(/\\r?\\n/)) {
+      const entry = line.trim();
+      if (entry && !entry.startsWith('#')) manifestEntries.add(entry.replaceAll('\\\\', '/'));
+    }
+  }
 
   function resolve(input) {
     const parsed = parseUri(input, vaultName, { allowLegacy });
     if (!rootReal) throw new VikingError(ERROR_CODES.SNAPSHOT_UNAVAILABLE, 'Selected snapshot is unavailable', { snapshot_id: snapshotId });
+    if (!fs.existsSync(manifestFile) || manifestEntries.size === 0) throw new VikingError(ERROR_CODES.MANIFEST_INVALID, 'Snapshot manifest is missing or empty', { snapshot_id: snapshotId });
     const candidate = path.resolve(rootReal, roots[parsed.layer], parsed.relativePath);
     if (!candidate.startsWith(`${rootReal}${path.sep}`)) throw new VikingError(ERROR_CODES.PATH_TRAVERSAL_REJECTED, 'Resolved path escapes snapshot');
     if (!fs.existsSync(candidate)) throw new VikingError(ERROR_CODES.RESOURCE_NOT_FOUND, 'Resource not found');

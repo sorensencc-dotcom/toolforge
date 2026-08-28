@@ -14,6 +14,9 @@ function fixture() {
   fs.mkdirSync(path.join(snapshot, 'schema'), { recursive: true });
   fs.writeFileSync(path.join(snapshot, 'wiki', 'concepts', 'one.md'), '# One');
   fs.writeFileSync(path.join(snapshot, 'sources', 'one.js'), 'export const one = 1;');
+
+  fs.writeFileSync(path.join(snapshot, 'FILES.manifest.txt'), 'wiki/concepts/one.md\nsources/one.js');
+
   return { root, snapshot };
 }
 
