@@ -9,6 +9,11 @@ function requireParams(request) {
   return params;
 }
 
+export function toJsonRpcResponse(id, payload) {
+  if (payload?.error) return { jsonrpc: '2.0', id: id ?? null, error: payload.error };
+  return { jsonrpc: '2.0', id: id ?? null, result: payload };
+}
+
 export function createServer(resolver) {
   return Object.freeze({
     async handle(request) {
@@ -39,6 +44,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   input.on('line', async (line) => {
     const request = JSON.parse(line);
     const result = await server.handle(request);
-    process.stdout.write(`${JSON.stringify({ jsonrpc: '2.0', id: request.id ?? null, result })}\n`);
+    process.stdout.write(`${JSON.stringify(toJsonRpcResponse(request.id, result))}\n`);
   });
 }

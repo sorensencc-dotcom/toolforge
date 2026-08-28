@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createResolver } from './viking-resolver.mjs';
-import { createServer } from './viking-vfs-server.mjs';
+import { createServer, toJsonRpcResponse } from './viking-vfs-server.mjs';
 
 function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'viking-'));
@@ -65,4 +65,8 @@ test('rejects malformed MCP request envelopes', async () => {
   const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
   assert.equal((await server.handle({ method: 'viking/stat', params: {} })).error.code, 'INVALID_REQUEST');
   assert.equal((await server.handle({ params: {} })).error.code, 'INVALID_REQUEST');
+});
+test('formats MCP success and error envelopes correctly', () => {
+  assert.deepEqual(toJsonRpcResponse(1, { ok: true }), { jsonrpc: '2.0', id: 1, result: { ok: true } });
+  assert.deepEqual(toJsonRpcResponse(2, { error: { code: 'INVALID_REQUEST' } }), { jsonrpc: '2.0', id: 2, error: { code: 'INVALID_REQUEST' } });
 });
