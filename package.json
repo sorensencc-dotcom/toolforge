@@ -49,7 +49,8 @@
     "install:whichllm": "npm --prefix CIC-GOVERNANCE run install:whichllm",
     "test:whichllm": "npm --prefix CIC-GOVERNANCE run test:whichllm",
     "simulate:whichllm": "npm --prefix CIC-GOVERNANCE run simulate:whichllm",
-    "plan:whichllm": "npm --prefix CIC-GOVERNANCE run plan:whichllm"
+    "plan:whichllm": "npm --prefix CIC-GOVERNANCE run plan:whichllm",
+    "viking-vfs": "node modules/mcp/viking-vfs-server.mjs"
   },
   "keywords": [
     "toolforge",
