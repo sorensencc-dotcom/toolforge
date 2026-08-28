@@ -26,6 +26,18 @@ test('reports missing local markdown image targets', async () => {
   }
 });
 
+test('passes validation when local markdown image target exists', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'wiki-sync-test-'));
+  try {
+    await mkdir(path.join(root, 'assets'), { recursive: true });
+    await writeFile(path.join(root, 'assets', 'diagram.png'), 'fake-png-data');
+    await writeFile(path.join(root, 'Page.md'), '![diagram](assets/diagram.png)');
+    assert.doesNotThrow(() => validateMarkdownImages(root));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test('copies supported wiki files and skips generated dependency trees', async () => {
   const root = await mkdtemp(path.join(tmpdir(), 'wiki-sync-test-'));
   const destination = await mkdtemp(path.join(tmpdir(), 'wiki-sync-dest-'));

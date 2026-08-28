@@ -4,7 +4,8 @@
 ## Active Defects
 
 ### [DEV-001] CI/CD Failure across main and feat/openrouter-oxalpha-integration
-- **Status:** OPEN
+- **Status:** IN_PROGRESS
+- **Owner:** soren
 - **Tags:** `ci`, `governance`, `release`
 - **Target Repo:** `sorensencc-dotcom/toolforge`
 - **Failing Workflows:**
@@ -25,5 +26,6 @@
   1. `gh run view --repo sorensencc-dotcom/toolforge --log-failed`
   2. `pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path C:\dev`
 <!-- operator-notes-start -->
+[context]: Claimed by soren. Investigating failed runs on sorensencc-dotcom/toolforge across Governance and Release workflows.
 <!-- operator-notes-end -->
 
