@@ -38,3 +38,12 @@ test('maps errors at MCP boundary without leaking physical paths', async () => {
   assert.equal(response.error.code, 'NAMESPACE_REJECTED');
   assert.equal(JSON.stringify(response).includes(f.root), false);
 });
+
+test('returns stable errors for unavailable snapshot and tier', () => {
+  const f = fixture();
+  const missing = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: 'missing' });
+  assert.throws(() => missing.stat('viking://kb-sync/wiki'), { code: 'SNAPSHOT_UNAVAILABLE' });
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' });
+  assert.throws(() => resolver.read('viking://kb-sync/wiki/concepts/one.md', 'L1'), { code: 'TIER_UNAVAILABLE' });
+  assert.throws(() => resolver.stat('viking://kb-sync/wiki/%E0%A4%A'), { code: 'INVALID_URI' });
+});

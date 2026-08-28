@@ -24,9 +24,10 @@ export class VikingError extends Error {
 }
 
 function normalizeRelative(raw) {
-  const decoded = decodeURIComponent(raw);
+  let decoded;
+  try { decoded = decodeURIComponent(raw); } catch { throw new VikingError(ERROR_CODES.INVALID_URI, 'URI contains invalid encoding'); }
   if (decoded === '') return '';
-  if (decoded.includes('\\\\') || path.posix.isAbsolute(decoded) || decoded.split('/').some((segment) => segment === '.' || segment === '..')) {
+  if (decoded.includes('\\') || path.posix.isAbsolute(decoded) || decoded.split('/').some((segment) => segment === '.' || segment === '..')) {
     throw new VikingError(ERROR_CODES.PATH_TRAVERSAL_REJECTED, 'Path is not a safe relative path');
   }
   const normalized = path.posix.normalize(decoded);
