@@ -15,6 +15,8 @@ from pathlib import Path
 from typing import Any
 
 from dispatcher import dispatch
+from contract_signer import sign_contract
+from contract_verifier import verify_contract
 from results import write_result
 from trace import append_trace, init_trace
 
@@ -110,6 +112,9 @@ def main() -> None:
     parser.add_argument("--trace-file", default="trace.json", help="Trace filename (default: trace.json)")
     parser.add_argument("--operator-identity", default="local-user", help="Authenticated operator identity")
     parser.add_argument("--no-truncate", action="store_true", help="Do not truncate trace file at start")
+    parser.add_argument("--registry", help="Sigil registry path; enables live contract verification")
+    parser.add_argument("--identity", help="Sigil identity path; enables live contract signing")
+    parser.add_argument("--sigil-cli", default="sigil", help="Sigil executable (default: sigil)")
 
     args = parser.parse_args()
 
@@ -120,9 +125,17 @@ def main() -> None:
 
     contract = json.loads(contract_path.read_text(encoding="utf-8"))
 
+    if args.identity or args.registry:
+        if not args.identity or not args.registry:
+            parser.error("--identity and --registry must be provided together for live Sigil preflight")
+        sign_contract(contract_path, Path(args.identity), [args.sigil_cli, "sign-contract"])
+        verification = verify_contract(contract_path, Path(args.registry), [args.sigil_cli, "verify-contract"])
+    else:
+        verification = {"valid": True, "contract_hash": contract.get("contract_hash", "sha256:cli")}
+
     # Default options for CLI run
     options = {
-        "verification": {"valid": True, "contract_hash": contract.get("contract_hash", "sha256:cli")},
+        "verification": verification,
         "operator_identity": args.operator_identity,
         "catalog": [contract.get("recommended_route", {})] + contract.get("allowed_routes", []),
         "adapters": {}
