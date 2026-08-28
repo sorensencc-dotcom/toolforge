@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -172,6 +172,18 @@ function explicitUrls(env, baseUrl) {
   });
 }
 
+async function inventoryUrls(baseUrl) {
+  try {
+    const inventoryPath = resolve('docs/documentation-publishing.json');
+    const inventory = JSON.parse(await readFile(inventoryPath, 'utf8'));
+    return (inventory.entries ?? [])
+      .map((entry) => canonicalUrl(entry.wiki, baseUrl))
+      .filter((url) => url && isWithinWikiScope(url, baseUrl));
+  } catch {
+    return [];
+  }
+}
+
 function discoveredUrls(observation, baseUrl) {
   return (observation.links ?? [])
     .filter((link) => link?.inScope !== false)
@@ -281,6 +293,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
         linkScope,
       });
       urls = discoveredUrls(index, baseUrl);
+      if (urls.length === 0) urls = await inventoryUrls(baseUrl);
     }
     urls = dedupe(urls);
     if (urls.length === 0) {
