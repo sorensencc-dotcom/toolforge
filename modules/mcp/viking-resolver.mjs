@@ -93,6 +93,7 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, layerRoots, t
     const key = `${parsed.uri}:${tier}`;
     const record = tierIndex[key];
     if (tier !== 'L2' && !record) throw new VikingError(ERROR_CODES.TIER_UNAVAILABLE, 'Generated tier is unavailable', { uri: parsed.uri, tier });
+    if (record && (record.snapshot_id !== snapshotId || typeof record.source_hash !== 'string' || typeof record.tier_hash !== 'string' || typeof record.artifact !== 'string')) throw new VikingError(ERROR_CODES.INTEGRITY_FAILED, 'Tier metadata is not bound to the selected snapshot', { uri: parsed.uri, tier, snapshot_id: snapshotId });
     const file = tier === 'L2' ? candidate : path.resolve(rootReal, record.artifact);
     if (!file.startsWith(`${rootReal}${path.sep}`) || !fs.existsSync(file)) throw new VikingError(ERROR_CODES.TIER_UNAVAILABLE, 'Generated tier is unavailable', { uri: parsed.uri, tier });
     const stat = fs.statSync(file);

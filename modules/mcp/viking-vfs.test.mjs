@@ -70,3 +70,13 @@ test('formats MCP success and error envelopes correctly', () => {
   assert.deepEqual(toJsonRpcResponse(1, { ok: true }), { jsonrpc: '2.0', id: 1, result: { ok: true } });
   assert.deepEqual(toJsonRpcResponse(2, { error: { code: 'INVALID_REQUEST' } }), { jsonrpc: '2.0', id: 2, error: { code: 'INVALID_REQUEST' } });
 });
+test('rejects tier metadata from another snapshot', () => {
+  const f = fixture();
+  const resolver = createResolver({
+    vaultRoot: f.root,
+    vaultName: 'kb-sync',
+    snapshotId: '20260828-000000',
+    tierIndex: { 'viking://kb-sync/wiki/concepts/one.md:L1': { snapshot_id: 'other', source_hash: 'x', tier_hash: 'y', artifact: 'wiki/concepts/one.md' } },
+  });
+  assert.throws(() => resolver.read('viking://kb-sync/wiki/concepts/one.md', 'L1'), { code: 'INTEGRITY_FAILED' });
+});
