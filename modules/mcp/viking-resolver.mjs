@@ -108,12 +108,13 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, layerRoots, t
     return { uri: parsed.uri, snapshot_id: snapshotId, size_bytes: info.size, last_modified: info.mtime.toISOString(), sha256: sha256(candidate), verification_status: 'verified' };
   }
 
-  function list(input) {
+  function list(input, { offset = 0, limit = 100 } = {}) {
     const { parsed, candidate } = resolve(input);
     if (!fs.statSync(candidate).isDirectory()) throw new VikingError(ERROR_CODES.RESOURCE_NOT_FOUND, 'Directory not found');
+    if (!Number.isInteger(offset) || offset < 0 || !Number.isInteger(limit) || limit < 1 || limit > 100) throw new VikingError(ERROR_CODES.INVALID_URI, 'Invalid list bounds');
     const entries = fs.readdirSync(candidate, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
-    return { uri: parsed.uri, snapshot_id: snapshotId, complete: true, directories: entries.filter((e) => e.isDirectory()).map((e) => e.name), files: entries.filter((e) => e.isFile()).map((e) => ({ name: e.name, uri: `${parsed.uri}/${e.name}`, abstract: tierIndex[`${parsed.uri}/${e.name}:L0`]?.abstract ?? null, tier_status: tierIndex[`${parsed.uri}/${e.name}:L0`] ? 'available' : 'TIER_UNAVAILABLE' })) };
+    const page = entries.slice(offset, offset + limit);
+    return { uri: parsed.uri, snapshot_id: snapshotId, complete: offset + page.length >= entries.length, next_offset: offset + page.length < entries.length ? offset + page.length : null, directories: page.filter((e) => e.isDirectory()).map((e) => e.name), files: page.filter((e) => e.isFile()).map((e) => ({ name: e.name, uri: `${parsed.uri}/${e.name}`, abstract: tierIndex[`${parsed.uri}/${e.name}:L0`]?.abstract ?? null, tier_status: tierIndex[`${parsed.uri}/${e.name}:L0`] ? 'available' : 'TIER_UNAVAILABLE' })) };
   }
-
   return Object.freeze({ parseUri: (uri) => parseUri(uri, vaultName, { allowLegacy }), list, stat, read: readFile });
 }

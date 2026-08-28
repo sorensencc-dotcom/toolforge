@@ -50,3 +50,13 @@ test('returns stable errors for unavailable snapshot and tier', () => {
   assert.throws(() => resolver.read('viking://kb-sync/wiki/concepts/one.md', 'L1'), { code: 'TIER_UNAVAILABLE' });
   assert.throws(() => resolver.stat('viking://kb-sync/wiki/%E0%A4%A'), { code: 'INVALID_URI' });
 });
+test('paginates lists with bounded limits', () => {
+  const f = fixture();
+  fs.writeFileSync(path.join(f.snapshot, 'wiki', 'concepts', 'two.md'), '# Two');
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' });
+  const page = resolver.list('viking://kb-sync/wiki/concepts', { limit: 1 });
+  assert.equal(page.files.length, 1);
+  assert.equal(page.complete, false);
+  assert.equal(page.next_offset, 1);
+  assert.throws(() => resolver.list('viking://kb-sync/wiki/concepts', { limit: 101 }), { code: 'INVALID_URI' });
+});

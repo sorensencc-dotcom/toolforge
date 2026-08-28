@@ -6,10 +6,10 @@ export function createServer(resolver) {
     async handle(request) {
       try {
         if (request.method === 'initialize') return { protocolVersion: '2025-06-18', capabilities: { resources: { listChanged: false } }, serverInfo: { name: 'viking-vfs', version: '0.1.0' } };
-        if (request.method === 'resources/list') return resolver.list(request.params?.uri ?? 'viking://kb-sync/wiki');
+        if (request.method === 'resources/list') return resolver.list(request.params?.uri ?? 'viking://kb-sync/wiki', request.params);
         if (request.method === 'resources/read') return { contents: [{ uri: request.params?.uri, mimeType: 'text/plain', text: resolver.read(request.params?.uri, request.params?.resolution_tier ?? 'L1').content }] };
         if (request.method === 'viking/stat') return resolver.stat(request.params?.uri);
-        if (request.method === 'viking/list') return resolver.list(request.params?.uri);
+        if (request.method === 'viking/list') return resolver.list(request.params?.uri, request.params);
         if (request.method === 'viking/read') return resolver.read(request.params?.uri, request.params?.resolution_tier ?? 'L1');
         throw new VikingError('METHOD_NOT_FOUND', `Unsupported method: ${request.method}`);
       } catch (error) {
