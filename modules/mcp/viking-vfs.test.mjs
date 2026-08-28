@@ -60,3 +60,9 @@ test('paginates lists with bounded limits', () => {
   assert.equal(page.next_offset, 1);
   assert.throws(() => resolver.list('viking://kb-sync/wiki/concepts', { limit: 101 }), { code: 'INVALID_URI' });
 });
+test('rejects malformed MCP request envelopes', async () => {
+  const f = fixture();
+  const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
+  assert.equal((await server.handle({ method: 'viking/stat', params: {} })).error.code, 'INVALID_REQUEST');
+  assert.equal((await server.handle({ params: {} })).error.code, 'INVALID_REQUEST');
+});
