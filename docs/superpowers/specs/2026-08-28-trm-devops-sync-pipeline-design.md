@@ -159,12 +159,15 @@ export interface SyncOptions {
 ```
 
 ### 2. Normalization Guardrails (`src/core/normalizer.ts`)
-To prevent over-normalization and accidental hash collisions:
-1. **Strip Execution Metadata Only**: Strips ephemeral log timestamps (line-leading `2026-08-28T11:34:25Z`), runner runtimes (`[145.2ms]`), process IDs (`PID: 1234`), and container UUIDs (`runner-.*`, `container_[a-zA-Z0-9_-]+`).
-2. **Preserve Semantic Error Timestamps**: Preserves domain-level time strings inside error payloads (e.g., `"token expired at 2026-08-28"`, `"TTL reached: 3600s"`).
-3. **Cross-Platform Path Normalization**: Standardizes file path separators (`\` normalized to `/`) and strips local user directory prefixes (`C:/Users/...` and `/home/runner/work/...`).
-4. **Strip ANSI Escape Sequences**: Removes color and terminal styling codes (`\x1b[[0-9;]*m`).
-5. **Compute Deterministic SHA-256**: Generates signature hash on the sanitized string.
+To prevent over-normalization and accidental hash collisions, the normalizer executes the verified transformation pipeline:
+1. **Strip ANSI Escape Sequences**: Removes color and terminal styling codes (`\x1b[[0-9;]*m`).
+2. **Cross-Platform Path Normalization**: Standardizes file path separators (`\` normalized to `/`) and maps workspace paths to `<WORKDIR>`:
+   ```typescript
+   /(?:\/home\/runner\/work\/[^\/]+|[a-zA-Z]:\/Users\/[^\/]+\/work\/[^\/]+|[a-zA-Z]:\/[^\/]+\/work\/[^\/]+)/gi -> "<WORKDIR>"
+   ```
+3. **Strip Ephemeral Runner Metadata**: Replaces runner IDs (`runner-[a-zA-Z0-9_\-]+`), containers (`container_[a-zA-Z0-9_\-]+`), and process tokens (`\bPID:\s*\d+\b`) with stable tags.
+4. **Strip Line-Leading Metadata Timestamps**: Strips line-leading ISO/bracketed timestamps (`/^[ \t]*\[?\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?\]?[ \t]*/gm`) and execution durations (`/\[\d+(?:\.\d+)?(?:ms|s)\]/gi`), while preserving semantic timestamps inside error bodies (e.g. `"token expired at 2026-08-28"`).
+5. **Normalize Linebreaks & Spaces**: Trims lines, collapses multi-spaces, and generates deterministic SHA-256 over non-empty lines.
 
 ---
 
