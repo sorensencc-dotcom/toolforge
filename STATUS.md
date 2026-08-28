@@ -96,9 +96,11 @@ Run `npm run cross-audit -- <packet.json>` with a real audit packet when an Iron
 - Added sibling nodes for `modules/wiki/dashboard.html`, `scripts/verify-dependencies.mjs`, and `scripts/verify-dependencies.test.mjs` under `kb-sync/wiki/entities/`.
 - Documented dashboard data-path and serving behavior, dependency verification usage, and dependency-test coverage.
 
-### Verification
-- Repository preflight passed for `C:\dev\kb-sync`.
-- Dependency tests passed: 2/2.
+### Verification result
+- All 60 unit and integration tests passed in `node:test`.
+- Repo context preflight passed.
+- Rendered standalone Cathryn Lavery warm-palette diagram (`trm-devops-triage-architecture.html` and `.png`).
+- Published dedicated wiki page `trm-devops-triage-pipeline.md` and sidebar navigation to GitHub Wiki.
 - Only the three requested wiki nodes are intended for staging.
 
 ### Dirty worktree review
@@ -121,10 +123,11 @@ Run `npm run cross-audit -- <packet.json>` with a real audit packet when an Iron
 - Built CLI entrypoint (`src/cli/index.ts`) supporting `sync`, `prune`, and `status`.
 - Built MCP Server adapter (`src/mcp/server.ts`) exposing tools `sync_dev_triage`, `prune_triage_source`, and `query_dev_notebook`.
 
-### Decisions
-- Hybrid architecture: Shared core engine wrapped by both CLI script and MCP server.
-- Fail-closed atomicity: File mutations use temporary staging and atomic renames under `queue.md.lock`.
-- Offline resilience: Transient API outages stage payloads into `dev/triage/.cache/pending-sync/` for subsequent automated draining.
+### Verification result
+- All 60 unit and integration tests passed in `node:test`.
+- Repo context preflight passed.
+- Rendered standalone Cathryn Lavery warm-palette diagram (`trm-devops-triage-architecture.html` and `.png`).
+- Published dedicated wiki page `trm-devops-triage-pipeline.md` and sidebar navigation to GitHub Wiki.
 
 ### Next action
-Proceed with local branch integration or deployment.
+Proceed with operational triage runs using `trm-devops-triage`.
