@@ -177,7 +177,7 @@ async function inventoryUrls(baseUrl) {
     const inventoryPath = resolve('docs/documentation-publishing.json');
     const inventory = JSON.parse(await readFile(inventoryPath, 'utf8'));
     return (inventory.entries ?? [])
-      .map((entry) => canonicalUrl(entry.wiki, baseUrl))
+      .map((entry) => canonicalUrl(entry.wiki?.replace(/\.md$/i, ''), baseUrl))
       .filter((url) => url && isWithinWikiScope(url, baseUrl));
   } catch {
     return [];
@@ -244,7 +244,7 @@ async function auditPage(url, context) {
 export async function runWikiQa(env = process.env, dependencies = {}) {
   const fs = dependencies.fs ?? { mkdir, writeFile };
   const clock = dependencies.clock ?? { now: () => Date.now(), sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)) };
-  const adapter = dependencies.adapter ?? createBackendAdapter(env, { timeoutMs: asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 30_000) });
+  const adapter = dependencies.adapter ?? createBackendAdapter(env, { timeoutMs: asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 90_000) });
   const activePolicy = dependencies.policy ?? policy;
   const signal = dependencies.signal;
   const baseUrl = normalizeBaseUrl(env.WIKI_QA_BASE_URL);
@@ -252,7 +252,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
   const linkScope = linkScopeFor(baseUrl, env);
   const reportPath = env.WIKI_QA_REPORT || DEFAULT_REPORT_PATH;
   const concurrency = asPositiveInteger(env.WIKI_QA_CONCURRENCY, DEFAULT_CONCURRENCY, MAX_CONCURRENCY);
-  const pageTimeoutMs = asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 30_000);
+  const pageTimeoutMs = asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 90_000);
   const startedAt = nowMilliseconds(clock);
   const report = {
     target: baseUrl,
