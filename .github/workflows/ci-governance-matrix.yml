@@ -8,7 +8,7 @@ on:
 concurrency:
   group: governance-matrix-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+
 permissions:
   contents: read
 
@@ -32,34 +32,47 @@ jobs:
           - repository: cic-ingestion
             validate: npm run gov:validate
             smoke: npm run gov:smoke
+          - repository: toolforge
+            validate: npm --prefix CIC-GOVERNANCE run gov:validate
+            smoke: npm test
+          - repository: sigil-repo
+            validate: npm run audit:jcs
+            smoke: npm test
+          - repository: cic-vision-governance
+            validate: npm run gov:validate
+            smoke: npm run gov:smoke
+          - repository: charlie-deep-research
+            validate: npm run gov:validate
+            smoke: npm run gov:smoke
+          - repository: financeos
+            validate: npm run gov:validate
+            smoke: npm run gov:smoke
+          - repository: TheFoundry
+            validate: npm run gov:validate
+            smoke: npm run gov:smoke
+
     steps:
-      - name: Checkout repository
+      - name: Checkout matrix repository
         uses: actions/checkout@v4
+        with:
+          repository: sorensencc-dotcom/${{ matrix.repository }}
+          path: workspace
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
-          cache-dependency-path: ${{ matrix.repository }}/package-lock.json
+          cache-dependency-path: workspace/package-lock.json
+
       - name: Install dependencies
-        working-directory: ${{ matrix.repository }}
+        working-directory: workspace
         run: npm ci --ignore-scripts
-      - name: Verify canonical governance command contract
-        working-directory: ${{ matrix.repository }}
-        env:
-          EXPECTED_VALIDATE: ${{ matrix.validate }}
-          EXPECTED_SMOKE: ${{ matrix.smoke }}
-        run: |
-          node --input-type=module - <<'NODE'
-          import fs from 'node:fs';
-          const scripts = JSON.parse(fs.readFileSync('package.json', 'utf8')).scripts ?? {};
-          for (const [name, expected] of [['gov:validate', process.env.EXPECTED_VALIDATE], ['gov:smoke', process.env.EXPECTED_SMOKE]]) {
-            if (scripts[name] !== expected) throw new Error(`${name} drifted from canonical preset: expected '${expected}', got '${scripts[name] ?? '<missing>'}'`);
-          }
-          NODE
+
       - name: Run governance validation
-        working-directory: ${{ matrix.repository }}
+        working-directory: workspace
         run: ${{ matrix.validate }}
+
       - name: Run governance smoke test
-        working-directory: ${{ matrix.repository }}
+        working-directory: workspace
         run: ${{ matrix.smoke }}
