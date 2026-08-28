@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
@@ -16,6 +17,7 @@ from cost_governance_runtime import (
     GovernanceViolation,
     PINNED_SPEC_VERSION,
     RateCard,
+    RateCardManager,
     ScopeLimitsRegistry,
 )
 
@@ -29,6 +31,83 @@ SIDE_EFFECT_ORDER = {
     "approval_required": 2,
     "checkpointed": 3,
 }
+
+
+def build_agent_dispatch_contract(
+    payload: Dict[str, Any],
+    candidates: List[Dict[str, Any]],
+    required_capabilities: Optional[List[str]] = None,
+) -> Dict[str, Any]:
+    """Translate a verified TorqueQuery contract into an agent-dispatch contract."""
+    contract = TorqueQueryRouteContract.from_dict(payload)
+    selected = TorqueQueryRoutingEngine().choose_model(candidates, required_capabilities)
+    rate_card = RateCardManager().get(contract.rate_card_version)
+
+    def to_route(candidate: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            "provider": str(candidate.get("provider", contract.provider)),
+            "model": str(candidate["model"]),
+            "execution_mode": str(candidate.get("execution_mode", "api")),
+            "cost_policy": {
+                "input_per_1k": rate_card.input_rate / 1000,
+                "output_per_1k": rate_card.output_rate / 1000,
+            },
+            "credential_ref": str(candidate.get("credential_ref", "governed")),
+        }
+
+    return {
+        "task": " ".join(contract.success_criteria),
+        "recommended_route": to_route(selected),
+        "allowed_routes": [to_route(candidate) for candidate in candidates],
+        "max_cost_usd": contract.max_cost_usd,
+        "max_attempts": min(3, contract.max_model_calls, contract.max_retries + 1),
+        "operator_override": False,
+        "task_id": contract.task_id,
+    }
+
+
+def dispatch_governed(
+    payload: Dict[str, Any],
+    candidates: List[Dict[str, Any]],
+    options: Dict[str, Any],
+    required_capabilities: Optional[List[str]] = None,
+) -> Dict[str, Any]:
+    """Verify policy, reserve the governed budget, and invoke agent dispatch."""
+    dispatch_root = Path(__file__).resolve().parents[2] / "tools" / "agent-dispatch"
+    if str(dispatch_root) not in sys.path:
+        sys.path.insert(0, str(dispatch_root))
+    from contract_verifier import verify_contract
+    from dispatcher import dispatch
+
+    contract = TorqueQueryRouteContract.from_dict(payload)
+    rate_card = RateCardManager().get(contract.rate_card_version)
+    gate = AtomicBudgetGate(contract.max_cost_usd)
+    engine = TorqueQueryRoutingEngine()
+    reservation = engine.reserve_budget(
+        contract,
+        gate,
+        payload.get("attempt_id", "ATT-001"),
+        rate_card,
+        float(payload.get("expected_tool_cost", 0.0)),
+    )
+    gate.release_reservation(contract.task_id, reservation)
+    dispatch_contract = build_agent_dispatch_contract(payload, candidates, required_capabilities)
+    verification = options.get("verification", {"valid": True})
+    if options.get("contract_path") and options.get("registry_path") and options.get("verifier_command"):
+        verification = verify_contract(
+            Path(options["contract_path"]),
+            Path(options["registry_path"]),
+            list(options["verifier_command"]),
+        )
+    return dispatch(
+        dispatch_contract,
+        {
+            **options,
+            "verification": verification,
+            "catalog": dispatch_contract["allowed_routes"],
+            "adapters": options.get("adapters", {}),
+        },
+    )
 
 
 def request_hash(payload: Dict[str, Any]) -> str:

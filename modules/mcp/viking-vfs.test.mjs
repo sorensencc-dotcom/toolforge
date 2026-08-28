@@ -1,0 +1,103 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { createResolver } from './viking-resolver.mjs';
+import { createServer, toJsonRpcResponse } from './viking-vfs-server.mjs';
+
+function fixture() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'viking-'));
+  const snapshot = path.join(root, '_kb-sync-staging', '20260828-000000');
+  fs.mkdirSync(path.join(snapshot, 'wiki', 'concepts'), { recursive: true });
+  fs.mkdirSync(path.join(snapshot, 'sources'), { recursive: true });
+  fs.mkdirSync(path.join(snapshot, 'schema'), { recursive: true });
+  fs.writeFileSync(path.join(snapshot, 'wiki', 'concepts', 'one.md'), '# One');
+  fs.writeFileSync(path.join(snapshot, 'sources', 'one.js'), 'export const one = 1;');
+
+  fs.writeFileSync(path.join(snapshot, 'FILES.manifest.txt'), 'wiki/concepts/one.md\nsources/one.js');
+
+  return { root, snapshot };
+}
+
+test('reads immutable L2 snapshot and lists sorted children', () => {
+  const f = fixture();
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' });
+  assert.equal(resolver.read('viking://kb-sync/sources/one.js', 'L2').content, 'export const one = 1;');
+  assert.deepEqual(resolver.list('viking://kb-sync/wiki/concepts').files.map((x) => x.name), ['one.md']);
+});
+
+test('rejects foreign namespaces and traversal', () => {
+  const f = fixture();
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' });
+  assert.throws(() => resolver.stat('viking://other/wiki/concepts/one.md'), { code: 'NAMESPACE_REJECTED' });
+  assert.throws(() => resolver.stat('viking://kb-sync/wiki/../sources/one.js'), { code: 'PATH_TRAVERSAL_REJECTED' });
+});
+
+test('maps errors at MCP boundary without leaking physical paths', async () => {
+  const f = fixture();
+  const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
+  const response = await server.handle({ method: 'viking/stat', params: { uri: 'viking://other/wiki/x' } });
+  assert.equal(response.error.code, 'NAMESPACE_REJECTED');
+  assert.equal(JSON.stringify(response).includes(f.root), false);
+});
+
+test('returns stable errors for unavailable snapshot and tier', () => {
+  const f = fixture();
+  assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: 'missing' }), { code: 'SNAPSHOT_UNAVAILABLE' });
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' });
+  assert.throws(() => resolver.read('viking://kb-sync/wiki/concepts/one.md', 'L1'), { code: 'TIER_UNAVAILABLE' });
+  assert.throws(() => resolver.stat('viking://kb-sync/wiki/%E0%A4%A'), { code: 'INVALID_URI' });
+});
+test('paginates lists with bounded limits', () => {
+  const f = fixture();
+  fs.writeFileSync(path.join(f.snapshot, 'wiki', 'concepts', 'two.md'), '# Two');
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' });
+  const page = resolver.list('viking://kb-sync/wiki/concepts', { limit: 1 });
+  assert.equal(page.files.length, 1);
+  assert.equal(page.complete, false);
+  assert.equal(page.next_offset, 1);
+  assert.throws(() => resolver.list('viking://kb-sync/wiki/concepts', { limit: 101 }), { code: 'INVALID_URI' });
+});
+test('rejects malformed MCP request envelopes', async () => {
+  const f = fixture();
+  const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
+  assert.equal((await server.handle({ method: 'viking/stat', params: {} })).error.code, 'INVALID_REQUEST');
+  assert.equal((await server.handle({ params: {} })).error.code, 'INVALID_REQUEST');
+});
+test('formats MCP success and error envelopes correctly', () => {
+  assert.deepEqual(toJsonRpcResponse(1, { ok: true }), { jsonrpc: '2.0', id: 1, result: { ok: true } });
+  assert.deepEqual(toJsonRpcResponse(2, { error: { code: 'INVALID_REQUEST' } }), { jsonrpc: '2.0', id: 2, error: { code: 'INVALID_REQUEST' } });
+});
+test('rejects tier metadata from another snapshot', () => {
+  const f = fixture();
+  const resolver = createResolver({
+    vaultRoot: f.root,
+    vaultName: 'kb-sync',
+    snapshotId: '20260828-000000',
+    tierIndex: { 'viking://kb-sync/wiki/concepts/one.md:L1': { snapshot_id: 'other', source_hash: 'x', tier_hash: 'y', artifact: 'wiki/concepts/one.md' } },
+  });
+  assert.throws(() => resolver.read('viking://kb-sync/wiki/concepts/one.md', 'L1'), { code: 'INTEGRITY_FAILED' });
+});
+test('rejects omitted manifest files and symlink escapes', () => {
+  const f = fixture();
+  fs.writeFileSync(path.join(f.snapshot, 'sources', 'omitted.js'), 'not listed');
+  assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }).stat('viking://kb-sync/sources/omitted.js'), { code: 'MANIFEST_INVALID' });
+  const outside = path.join(f.root, 'outside.js');
+  fs.writeFileSync(outside, 'outside');
+  try { fs.symlinkSync(outside, path.join(f.snapshot, 'sources', 'escape.js')); } catch (error) { if (error.code === 'EPERM') return; throw error; }
+  fs.appendFileSync(path.join(f.snapshot, 'FILES.manifest.txt'), '\nsources/escape.js');
+  assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }).stat('viking://kb-sync/sources/escape.js'), { code: 'PATH_TRAVERSAL_REJECTED' });
+});
+test('rejects non-timestamped snapshot identities', () => {
+  const f = fixture();
+  assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: 'latest' }), { code: 'SNAPSHOT_UNAVAILABLE' });
+});
+test('supports standard MCP resource listing without a URI', async () => {
+  const f = fixture();
+  const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
+  const init = await server.handle({ method: 'initialize', params: {} });
+  const listing = await server.handle({ method: 'resources/list', params: {} });
+  assert.equal(init.capabilities.resources.listChanged, false);
+  assert.ok(Array.isArray(listing.resources));
+});

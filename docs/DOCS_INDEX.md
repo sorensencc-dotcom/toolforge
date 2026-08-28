@@ -11,7 +11,7 @@ Auto-generated index of all Toolforge tool documentation.
 
 Multi-repository scanning, drift detection, and synchronization tools.
 
-### [multiRepoRoadmapSync](sync-tools/multiRepoRoadmapSync.md)
+### multiRepoRoadmapSync
 
 Unified drift detector + roadmap updater for sorensencc-dotcom repos.
 
@@ -19,7 +19,7 @@ Unified drift detector + roadmap updater for sorensencc-dotcom repos.
 - **Status**: active
 - **Schedule**: Daily 09:00 UTC
 - **Dependencies**: Node.js 20+, PowerShell 7+
-- **Tags**: sync, automation, multi-repo
+- **Tool tags**: sync, automation, multi-repo
 
 Quick start:
 ```powershell
@@ -32,7 +32,7 @@ Quick start:
 
 Background services and long-running processes.
 
-### [toolforgeManifestSync](daemons/toolforgeManifestSync.md)
+### toolforgeManifestSync
 
 Background daemon that syncs toolforge manifest index.
 
@@ -40,29 +40,29 @@ Background daemon that syncs toolforge manifest index.
 - **Status**: active
 - **Schedule**: Every 15 minutes
 - **Dependencies**: PowerShell 7+
-- **Tags**: daemon, metadata
+- **Tool tags**: daemon, metadata
 
 Automatically discovers new tools and updates manifest.json.
 
-### [toolforgeDocsSync](daemons/toolforgeDocsSync.md)
+### toolforgeDocsSync
 
 Background daemon that regenerates tool documentation.
 
 - **Version**: 0.1.0
 - **Status**: active
 - **Dependencies**: PowerShell 7+
-- **Tags**: daemon, documentation
+- **Tool tags**: daemon, documentation
 
 Extracts tool metadata and generates markdown docs in `C:\dev\toolforge\docs\<category>\`.
 
-### [toolforgeIndexSync](daemons/toolforgeIndexSync.md)
+### toolforgeIndexSync
 
 Background daemon that updates tool index (INDEX.md).
 
 - **Version**: 0.1.0
 - **Status**: active
 - **Dependencies**: PowerShell 7+
-- **Tags**: daemon, metadata
+- **Tool tags**: daemon, metadata
 
 Generates human-readable tool index from manifest.json.
 
@@ -72,14 +72,14 @@ Generates human-readable tool index from manifest.json.
 
 Setup, installation, and helper scripts.
 
-### [setupTaskScheduler](utilities/setupTaskScheduler.md)
+### setupTaskScheduler
 
 Windows Task Scheduler registration for toolforge daemons and sync-tools.
 
 - **Version**: 1.0.0
 - **Status**: active
 - **Dependencies**: PowerShell 7+, Administrator privileges
-- **Tags**: setup, scheduling, windows
+- **Tool tags**: setup, scheduling, windows
 
 Quick start:
 ```powershell
@@ -165,15 +165,15 @@ Manual process:
 3. Run `toolforgeDocsSync` to generate markdown doc
 4. Verify doc in `C:\dev\toolforge\docs\<category>\<tool-name>.md`
 
-See [TOOL_CREATION_GUIDE.md](../TOOL_CREATION_GUIDE.md) for details.
+See [TOOL_CREATION_GUIDE](TOOL_CREATION_GUIDE) for details.
 
 ---
 
 ## See Also
 
-- [README.md](../README.md) — Toolforge overview
-- [OPERATOR_GUIDE.md](../OPERATOR_GUIDE.md) — How to run tools
-- [GOVERNANCE.md](../GOVERNANCE.md) — Tool standards
-- [TOOL_CREATION_GUIDE.md](../TOOL_CREATION_GUIDE.md) — Create new tools
-- [manifest.json](../manifest.json) — Machine-readable tool registry
-- [INDEX.md](../INDEX.md) — Tool index (generated)
+- [Home](Home) — Toolforge overview
+- [OPERATOR_GUIDE](OPERATOR_GUIDE) — How to run tools
+- [GOVERNANCE](GOVERNANCE) — Tool standards
+- [TOOL_CREATION_GUIDE](TOOL_CREATION_GUIDE) — Create new tools
+- [manifest.json](https://github.com/sorensencc-dotcom/toolforge/blob/main/manifest.json) — Machine-readable tool registry
+- [INDEX](INDEX) — Tool index (generated)
