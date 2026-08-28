@@ -71,9 +71,9 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, layerRoots, t
   const manifestFile = rootReal ? path.join(rootReal, 'FILES.manifest.txt') : null;
   const manifestEntries = new Set();
   if (manifestFile && fs.existsSync(manifestFile)) {
-    for (const line of fs.readFileSync(manifestFile, 'utf8').split(/\\r?\\n/)) {
+    for (const line of fs.readFileSync(manifestFile, 'utf8').split(/\r?\n/)) {
       const entry = line.trim();
-      if (entry && !entry.startsWith('#')) manifestEntries.add(entry.replaceAll('\\\\', '/'));
+      if (entry && !entry.startsWith('#')) manifestEntries.add(entry.replaceAll('\\', '/'));
     }
   }
 
@@ -82,11 +82,16 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, layerRoots, t
     if (!rootReal) throw new VikingError(ERROR_CODES.SNAPSHOT_UNAVAILABLE, 'Selected snapshot is unavailable', { snapshot_id: snapshotId });
     if (!fs.existsSync(manifestFile) || manifestEntries.size === 0) throw new VikingError(ERROR_CODES.MANIFEST_INVALID, 'Snapshot manifest is missing or empty', { snapshot_id: snapshotId });
     const candidate = path.resolve(rootReal, roots[parsed.layer], parsed.relativePath);
-    if (!candidate.startsWith(`${rootReal}${path.sep}`)) throw new VikingError(ERROR_CODES.PATH_TRAVERSAL_REJECTED, 'Resolved path escapes snapshot');
+    if (!candidate.startsWith(`${rootReal}${path.sep}`) && candidate !== rootReal) throw new VikingError(ERROR_CODES.PATH_TRAVERSAL_REJECTED, 'Resolved path escapes snapshot');
     if (!fs.existsSync(candidate)) throw new VikingError(ERROR_CODES.RESOURCE_NOT_FOUND, 'Resource not found');
-    return { parsed, candidate };
+    const resolvedCandidate = fs.realpathSync(candidate);
+    if (!resolvedCandidate.startsWith(`${rootReal}${path.sep}`) && resolvedCandidate !== rootReal) throw new VikingError(ERROR_CODES.PATH_TRAVERSAL_REJECTED, 'Resolved path escapes snapshot');
+    if (fs.statSync(resolvedCandidate).isFile()) {
+      const manifestPath = path.relative(rootReal, resolvedCandidate).replaceAll('\\', '/');
+      if (!manifestEntries.has(manifestPath)) throw new VikingError(ERROR_CODES.MANIFEST_INVALID, 'Resource is not listed in snapshot manifest', { snapshot_id: snapshotId });
+    }
+    return { parsed, candidate: resolvedCandidate };
   }
-
   function readFile(input, tier = 'L1') {
     const { parsed, candidate } = resolve(input);
     if (!['L0', 'L1', 'L2'].includes(tier)) throw new VikingError(ERROR_CODES.INVALID_URI, 'Unknown resolution tier');

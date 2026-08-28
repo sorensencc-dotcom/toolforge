@@ -80,3 +80,13 @@ test('rejects tier metadata from another snapshot', () => {
   });
   assert.throws(() => resolver.read('viking://kb-sync/wiki/concepts/one.md', 'L1'), { code: 'INTEGRITY_FAILED' });
 });
+test('rejects omitted manifest files and symlink escapes', () => {
+  const f = fixture();
+  fs.writeFileSync(path.join(f.snapshot, 'sources', 'omitted.js'), 'not listed');
+  assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }).stat('viking://kb-sync/sources/omitted.js'), { code: 'MANIFEST_INVALID' });
+  const outside = path.join(f.root, 'outside.js');
+  fs.writeFileSync(outside, 'outside');
+  try { fs.symlinkSync(outside, path.join(f.snapshot, 'sources', 'escape.js')); } catch (error) { if (error.code === 'EPERM') return; throw error; }
+  fs.appendFileSync(path.join(f.snapshot, 'FILES.manifest.txt'), '\nsources/escape.js');
+  assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }).stat('viking://kb-sync/sources/escape.js'), { code: 'PATH_TRAVERSAL_REJECTED' });
+});
