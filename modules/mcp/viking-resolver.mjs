@@ -105,12 +105,15 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, layerRoots, t
     if (tier !== 'L2' && !record) throw new VikingError(ERROR_CODES.TIER_UNAVAILABLE, 'Generated tier is unavailable', { uri: parsed.uri, tier });
     if (record && (record.snapshot_id !== snapshotId || typeof record.source_hash !== 'string' || typeof record.tier_hash !== 'string' || typeof record.artifact !== 'string')) throw new VikingError(ERROR_CODES.INTEGRITY_FAILED, 'Tier metadata is not bound to the selected snapshot', { uri: parsed.uri, tier, snapshot_id: snapshotId });
     const file = tier === 'L2' ? candidate : path.resolve(rootReal, record.artifact);
+    const sourceFile = tier === 'L2' ? candidate : path.resolve(rootReal, record.source_artifact ?? path.relative(rootReal, candidate));
     if (!file.startsWith(`${rootReal}${path.sep}`) || !fs.existsSync(file)) throw new VikingError(ERROR_CODES.TIER_UNAVAILABLE, 'Generated tier is unavailable', { uri: parsed.uri, tier });
     const stat = fs.statSync(file);
     if (stat.size > maxBytes) throw new VikingError(ERROR_CODES.RESOURCE_TOO_LARGE, 'Resource exceeds read limit', { max_bytes: maxBytes });
     const actualHash = sha256(file);
     if (record?.tier_hash && record.tier_hash !== actualHash) throw new VikingError(ERROR_CODES.INTEGRITY_FAILED, 'Tier hash mismatch', { uri: parsed.uri, tier });
-    return { uri: parsed.uri, resolution_tier: tier, snapshot_id: snapshotId, stale: Boolean(record?.stale), sha256: actualHash, content: fs.readFileSync(file, 'utf8') };
+    const sourceHash = sha256(sourceFile);
+    const stale = tier === 'L2' ? false : sourceHash !== record.source_hash;
+    return { uri: parsed.uri, resolution_tier: tier, snapshot_id: snapshotId, stale, source_hash: sourceHash, compiled_at: record?.compiled_at ?? null, sha256: actualHash, content: fs.readFileSync(file, 'utf8') };
   }
 
   function stat(input) {
