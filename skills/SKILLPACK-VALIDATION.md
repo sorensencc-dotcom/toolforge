@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-08-27T04:05:57.1632249Z
+**Generated**: 2026-08-27T21:00:04.9249009Z
 
 ---
 
@@ -9,7 +9,7 @@
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 27 | 0 | ✅ |
-| Distributed | 0 | 10 | 0 | ✅ |
+| Distributed | 0 | 9 | 0 | ✅ |
 | Manifest | 0 | 109 | 0 | ✅ |
 | Cowork | 0 | 46 | 0 | ✅ |
 | Dependencies | 0 | 17 | 1 | ✅ |
@@ -17,7 +17,7 @@
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 209
+**Total Warnings**: 208
 
 **Overall Status**: ✅ PASS
 
@@ -67,7 +67,7 @@
 | toolforge-drift-monitor | Toolforge Drift Monitor | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-registry-manager | Toolforge Registry Manager | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-submission-validator | Toolforge Submission Validator | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
-| trm-closed-loop-research | TRM Closed-Loop Research | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ✅ |
+| trm-closed-loop-research | TRM Closed-Loop Research | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -117,7 +117,6 @@
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
-⚠️ **trm-closed-loop-research**: Directory missing in distributed
 
 ## Manifest Validation
 
@@ -286,17 +285,17 @@
 ⚠️ **cic-ingest-world**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-orchestrate-flow**: Internal dependencies mismatch (distributed): canonical '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate', distributed ''
 ⚠️ **cic-repair-pipeline**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
-⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
+⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
-⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
 ⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
+⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
 ⚠️ **trm-closed-loop-research**: Missing external dependency: git
-⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
 ⚠️ **trm-closed-loop-research**: Missing external dependency: node
-⚠️ **trm-feedback-report**: Missing external dependency: trm
+⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
 ⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
+⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-status**: Missing external dependency: git
 ⚠️ **workspace-storage-cleaner**: Missing external dependency: python3
 

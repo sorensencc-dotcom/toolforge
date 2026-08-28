@@ -101,6 +101,18 @@ test('passes .markdown-body content selector to the adapter for GitHub-rendered 
   assert.equal(result.report.contentSelector, '.markdown-body');
 });
 
+test('passes the GitHub Wiki path as the default link scope', async () => {
+  const seen = [];
+  await runWikiQa({
+    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge/wiki',
+    WIKI_QA_PAGES: 'GOVERNANCE',
+  }, dependencies(createAdapter(async (url, options) => {
+    seen.push(options?.linkScope ?? null);
+    return passingObservation(url);
+  })));
+  assert.deepEqual(seen, ['/sorensencc-dotcom/toolforge']);
+});
+
 test('leaves the content selector unset for non-GitHub wiki targets', async () => {
   const seen = [];
   const result = await runWikiQa({
@@ -176,12 +188,12 @@ test('retries a transient initial index discovery failure before crawling pages'
   assert.equal(result.report.pages[0].status, 'passed');
 });
 
-test('fails closed when index discovery yields no auditable pages', async () => {
+test('falls back to the publication inventory when index discovery yields no auditable pages', async () => {
   const result = await runWikiQa({ WIKI_QA_BASE_URL: BASE_URL }, dependencies(createAdapter(async (url) => passingObservation(url))));
 
-  assert.equal(result.report.partial, true);
-  assert.equal(result.report.reason, 'no pages discovered');
-  assert.equal(result.exitCode, 1);
+  assert.equal(result.report.partial, false);
+  assert.equal(result.report.pages.length, 3);
+  assert.equal(result.exitCode, 0);
 });
 
 test('keeps page navigation within the configured conservative concurrency bound', async () => {

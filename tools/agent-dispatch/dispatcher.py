@@ -31,6 +31,7 @@ def dispatch(contract: dict[str, Any], options: dict[str, Any]) -> dict[str, Any
         "operator_identity": options.get("operator_identity"),
         "artifact_paths": options.get("artifact_paths", []),
     }
+    total_cost = 0.0
     invalid = _validate(contract, options)
     if invalid:
         return {**receipt, "final_status": "refused", "attempts": [], "recommendation": contract.get("recommended_route"), "override": False, "reason": invalid, "termination_reason": invalid}
@@ -41,7 +42,7 @@ def dispatch(contract: dict[str, Any], options: dict[str, Any]) -> dict[str, Any
         candidates = [recommendation] + [r for r in allowed if r != recommendation]
     if any(route not in allowed for route in candidates) or (options.get("operator_override") and not contract.get("operator_override")):
         reason = "ROUTE_NOT_ALLOWLISTED"
-        return {**receipt, "final_status": "refused", "attempts": [], "recommendation": recommendation, "override": bool(options.get("operator_override")), "reason": reason, "termination_reason": reason}
+        return {**receipt, "final_status": "refused", "attempts": [], "recommendation": recommendation, "override": bool(options.get("operator_override")), "reason": reason, "termination_reason": reason, "total_cost": total_cost}
     candidates = candidates[: min(3, contract.get("max_attempts", 1))]
     if options.get("announce"):
         options["announce"](recommendation)
@@ -54,7 +55,8 @@ def dispatch(contract: dict[str, Any], options: dict[str, Any]) -> dict[str, Any
             result = adapter(route, contract["task"], options.get("execution_context", {}))
             result = result.__dict__ if hasattr(result, "__dict__") else result
         attempts.append({"route": route, "result": result})
+        total_cost = round(total_cost + float(result.get("cost", 0) or 0), 10)
         if result.get("status") == "succeeded":
-            return {**receipt, "final_status": "succeeded", "attempts": attempts, "recommendation": recommendation, "override": bool(options.get("operator_override")), "final_provider": route["provider"], "final_model": route["model"], "termination_reason": "completed"}
+            return {**receipt, "final_status": "succeeded", "attempts": attempts, "recommendation": recommendation, "override": bool(options.get("operator_override")), "final_provider": route["provider"], "final_model": route["model"], "termination_reason": "completed", "total_cost": total_cost}
     reason = "ATTEMPTS_EXHAUSTED"
-    return {**receipt, "final_status": "failed", "attempts": attempts, "recommendation": recommendation, "override": bool(options.get("operator_override")), "reason": reason, "termination_reason": reason}
+    return {**receipt, "final_status": "failed", "attempts": attempts, "recommendation": recommendation, "override": bool(options.get("operator_override")), "reason": reason, "termination_reason": reason, "total_cost": total_cost}

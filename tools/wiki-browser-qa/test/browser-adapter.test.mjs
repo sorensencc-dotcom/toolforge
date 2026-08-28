@@ -405,6 +405,13 @@ test('probes in-scope links with same-origin credentials by default', () => {
   assert.doesNotMatch(expression, /credentials: 'omit'/);
 });
 
+test('limits same-origin link probes to the configured documentation scope', () => {
+  const expression = pageEvidenceExpression([], { linkScope: '/owner/repo/wiki' });
+  assert.match(expression, /const LINK_SCOPE =/);
+  assert.match(expression, /url\.pathname === LINK_SCOPE/);
+  assert.match(expression, /url\.pathname\.startsWith\(LINK_SCOPE \+ '\/'\)/);
+});
+
 test('scopes DOM evidence collection to a content selector when supplied', () => {
   const expression = pageEvidenceExpression(
     [{ selector: '.diagram-container > svg', sourceAsset: 'wiki/x.html', assetPattern: '(?:^|/)x\\.html$', githubSelector: 'img[src$="x.png"]', githubAssetPattern: '(?:^|/)x\\.png$' }],

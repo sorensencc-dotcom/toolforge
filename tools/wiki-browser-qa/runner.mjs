@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -50,6 +50,15 @@ function contentSelectorFor(baseUrl, env) {
   if (env.WIKI_QA_CONTENT_SELECTOR?.trim()) return env.WIKI_QA_CONTENT_SELECTOR.trim();
   const url = new URL(baseUrl);
   if (/(^|\.)github\.com$/i.test(url.host) && /\/wiki(\/|$)/.test(url.pathname)) return '.markdown-body';
+  return null;
+}
+
+function linkScopeFor(baseUrl, env) {
+  if (env.WIKI_QA_LINK_SCOPE?.trim()) return env.WIKI_QA_LINK_SCOPE.trim();
+  const url = new URL(baseUrl);
+  if (/(^|\.)github\.com$/i.test(url.host) && /\/wiki(\/|$)/.test(url.pathname)) {
+    return url.pathname.replace(/\/[^/]+$/, '');
+  }
   return null;
 }
 
@@ -163,6 +172,18 @@ function explicitUrls(env, baseUrl) {
   });
 }
 
+async function inventoryUrls(baseUrl) {
+  try {
+    const inventoryPath = resolve('docs/documentation-publishing.json');
+    const inventory = JSON.parse(await readFile(inventoryPath, 'utf8'));
+    return (inventory.entries ?? [])
+      .map((entry) => canonicalUrl(entry.wiki, baseUrl))
+      .filter((url) => url && isWithinWikiScope(url, baseUrl));
+  } catch {
+    return [];
+  }
+}
+
 function discoveredUrls(observation, baseUrl) {
   return (observation.links ?? [])
     .filter((link) => link?.inScope !== false)
@@ -183,6 +204,7 @@ async function openPageWithTransientRetry(url, context) {
         timeoutMs: context.pageTimeoutMs,
         diagramRules: context.diagramRules ?? [],
         contentSelector: context.contentSelector ?? null,
+        linkScope: context.linkScope ?? null,
       });
       return { observation, attempts };
     } catch (error) {
@@ -227,6 +249,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
   const signal = dependencies.signal;
   const baseUrl = normalizeBaseUrl(env.WIKI_QA_BASE_URL);
   const contentSelector = contentSelectorFor(baseUrl, env);
+  const linkScope = linkScopeFor(baseUrl, env);
   const reportPath = env.WIKI_QA_REPORT || DEFAULT_REPORT_PATH;
   const concurrency = asPositiveInteger(env.WIKI_QA_CONCURRENCY, DEFAULT_CONCURRENCY, MAX_CONCURRENCY);
   const pageTimeoutMs = asPositiveInteger(env.WIKI_QA_TIMEOUT_MS, 30_000);
@@ -267,8 +290,10 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
         pageTimeoutMs,
         diagramRules: [],
         contentSelector,
+        linkScope,
       });
       urls = discoveredUrls(index, baseUrl);
+      if (urls.length === 0) urls = await inventoryUrls(baseUrl);
     }
     urls = dedupe(urls);
     if (urls.length === 0) {
@@ -292,7 +317,7 @@ export async function runWikiQa(env = process.env, dependencies = {}) {
           pages[index] = pageResult(urls[index], 'unfinished');
           continue;
         }
-        const result = await auditPage(urls[index], { adapter, clock, policy: activePolicy, pageTimeoutMs, contentSelector });
+    const result = await auditPage(urls[index], { adapter, clock, policy: activePolicy, pageTimeoutMs, contentSelector, linkScope });
         stoppedReason ??= shouldStop();
         pages[index] = stoppedReason && result.status === 'passed'
           ? pageResult(urls[index], 'unfinished', { attempts: result.attempts })

@@ -1,5 +1,5 @@
 {
-  "evaluated_at": "2026-08-23T18:59:22.542Z",
+  "evaluated_at": "2026-08-27T20:43:16.000Z",
   "hardware_profile": {
     "gpu_count": 1,
     "gpu_name": "NVIDIA RTX 4090",
@@ -117,5 +117,5 @@
       "hardware_aware_compaction"
     ]
   },
-  "hash_chain_self": "c6659f67ff72ca0fd99b13da758f8cece559f79db02db832f8f19d92db67e656"
+  "hash_chain_self": "7c762b0b7041a28fa1a129cf7cb4f47a921aea778e95daf01e5271636d20af83"
 }

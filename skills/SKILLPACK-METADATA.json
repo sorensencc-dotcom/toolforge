@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-27T04:05:58.6329124Z",
+  "timestamp": "2026-08-27T13:50:07.8948882Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -473,9 +473,9 @@
       },
       "health": {
         "canonical": true,
-        "distributed": false,
+        "distributed": true,
         "runtime": "untested",
-        "overall": "warn"
+        "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-27T04:05:48.8960378Z",
@@ -1311,8 +1311,8 @@
     "total": 46,
     "active": 46,
     "deprecated": 0,
-    "health_good": 45,
-    "health_warn": 1,
+    "health_good": 46,
+    "health_warn": 0,
     "health_error": 0
   }
 }
