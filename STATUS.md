@@ -58,10 +58,60 @@ Audit each CLI entry point for preflight enforcement, then propose a staged adop
 ### Next action
 Restart with `npm run wiki:dashboard:serve`, then verify the dashboard in BrowserOS neo at `http://127.0.0.1:8080/modules/wiki/dashboard.html`.
 
+### Verification result
+- Corrected `modules/wiki/dashboard.html` to fetch `../../.validation-report.json`.
+- BrowserOS neo loaded live report data: 2,357 files, 0 errors, and 2,630 warnings.
+- Dashboard and report endpoints both returned HTTP 200.
+
+## Dashboard process persistence (2026-08-28)
+
+### Completed work
+- Added `scripts/ensure-dashboard-server.ps1` to health-check, repair, and verify the localhost dashboard server.
+- Added `scripts/register-dashboard-server-task.ps1` for idempotent startup/logon registration with restart-on-failure settings.
+- Added `wiki:dashboard:watchdog` and `wiki:dashboard:install-task` npm commands.
+- Watchdog execution, PowerShell parsing, and registration-script list mode passed.
+
+### Next action
+Run `npm run wiki:dashboard:install-task` once to register the Windows task.
+
+## Cross-audit integration (2026-08-28)
+
+### Completed work
+- Added `scripts/cross-audit.mjs` as the executable kb-sync bridge to the shared adversarial auditor.
+- Added strict packet validation, verdict validation, non-consensus exit code `2`, and malformed-input exit code `1`.
+- Added focused adapter tests covering successful invocation and rejected packets.
+- Added `cross-audit` and `test:cross-audit` npm commands.
+
+### Verification
+- Repository preflight passed for `C:\dev\kb-sync`.
+- Cross-audit adapter tests passed: 2/2.
+- Node syntax check passed.
+
+### Next action
+Run `npm run cross-audit -- <packet.json>` with a real audit packet when an Iron Gate failure needs independent review.
+
+## Wiki sibling documentation (2026-08-28)
+
+### Completed work
+- Added sibling nodes for `modules/wiki/dashboard.html`, `scripts/verify-dependencies.mjs`, and `scripts/verify-dependencies.test.mjs` under `kb-sync/wiki/entities/`.
+- Documented dashboard data-path and serving behavior, dependency verification usage, and dependency-test coverage.
+
+### Verification
+- Repository preflight passed for `C:\dev\kb-sync`.
+- Dependency tests passed: 2/2.
+- Only the three requested wiki nodes are intended for staging.
+
+### Dirty worktree review
+- Existing generated and unrelated changes remain deferred: validation/sync reports, Obsidian mirrors, research RFCs, temporary publish files, `TODOS.md`, governance config, and dashboard task scripts.
+- No unrelated files were edited or staged.
+
 ## TRM DevOps NotebookLM Sync & Triage Pipeline (2026-08-28)
 
 ### Completed work
-- Designed, simulated, and implemented the full TRM DevOps pipeline in `modules/trm-devops/`.
+- Added `@toolforge/trm-devops` module in `modules/trm-devops/` with normalization, validation, locking, reconciler, and pruning.
+- Created `trm-devops-triage` skill in `skills/trm-devops-triage/` (with `SKILL.md`, `README.md`, `docs/USAGE.md`) and `.agents/skills/trm-devops-triage/`.
+- Validated with 60 / 60 passing tests across 9 test suites in `modules/trm-devops`.
+- Completed `/plan-eng-review` architectural, code quality, test coverage, and failure mode analysis.
 - Built error normalizer and SHA-256 signature generator with cross-platform invariance and semantic timestamp preservation (`src/core/normalizer.ts`).
 - Built concurrency file lock with exponential backoff and stale-lock recovery (`src/core/lock.ts`).
 - Built zero-hallucination chunk schema validator with dead-letter quarantine (`src/core/extractor.ts`).
@@ -70,7 +120,6 @@ Restart with `npm run wiki:dashboard:serve`, then verify the dashboard in Browse
 - Built monthly archival engine with duration metric fallbacks and global `index.json` management (`src/core/pruning.ts`).
 - Built CLI entrypoint (`src/cli/index.ts`) supporting `sync`, `prune`, and `status`.
 - Built MCP Server adapter (`src/mcp/server.ts`) exposing tools `sync_dev_triage`, `prune_triage_source`, and `query_dev_notebook`.
-- Verified 60/60 unit and integration tests passing cleanly.
 
 ### Decisions
 - Hybrid architecture: Shared core engine wrapped by both CLI script and MCP server.
@@ -79,4 +128,3 @@ Restart with `npm run wiki:dashboard:serve`, then verify the dashboard in Browse
 
 ### Next action
 Proceed with local branch integration or deployment.
-

@@ -1,0 +1,46 @@
+{
+  "id": "trm-devops-triage",
+  "name": "TRM DevOps Triage",
+  "version": "1.0.0",
+  "description": "Operational defect triage and resolution operator workflow for the TRM DevOps sync pipeline: inspect queue, claim defect, run deterministic diagnostic actions, verify fix, and prune remote sources.",
+  "author": "Soren (Cast Iron Forge)",
+  "owner": "Soren (Cast Iron Forge)",
+  "status": "active",
+  "license": "MIT",
+  "category": "monitoring",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "keywords": ["trm", "devops", "triage", "ci-cd", "queue", "operator-workflow"],
+  "commands": {
+    "invoke": "npx trm-devops status",
+    "usage": "npx trm-devops [sync|prune|status] [options]"
+  },
+  "inputs": {
+    "queuePath": "string (optional) — defaults to dev/triage/queue.md",
+    "archivePath": "string (optional) — defaults to dev/triage/archive",
+    "bufferPath": "string (optional) — defaults to dev/triage/.cache/pending-sync"
+  },
+  "outputs": {
+    "activeQueue": "Updated markdown triage queue in dev/triage/queue.md",
+    "archiveRecords": "Archived defect logs in dev/triage/archive/YYYY-MM/",
+    "archiveIndex": "Updated global index in dev/triage/archive/index.json"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "errorConditions": [
+    { "code": "LOCK_TIMEOUT", "message": "Failed to acquire queue.md.lock within timeout", "handler": "retries with exponential backoff or evicts stale lock" },
+    { "code": "MALFORMED_CHUNK", "message": "Unparseable or invalid chunk schema", "handler": "quarantines chunk to .cache/quarantine/" }
+  ],
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "terminal",
+      "registrationPath": "cowork://toolforge/skills/trm-devops-triage",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Operational defect triage operator workflow for the TRM DevOps sync pipeline."
+}

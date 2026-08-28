@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-27T13:50:07.8948882Z
+**Generated:** 2026-08-28T22:13:45.4560302Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 46 | 100% |
-| Active | 46 | 100% |
+| **Total Skills** | 47 | 100% |
+| Active | 47 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 46 | 100% |
-| ⚠️ Warning | 0 | 0% |
+| ✅ Good | 46 | 97.9% |
+| ⚠️ Warning | 1 | 2.1% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -155,6 +155,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### research-questions
+
+| Field | Value |
+|-------|-------|
+| Name | Research Questions |
+| Category | research-ops |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | prompt |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 2 external |
 ### skill-security-auditor
 
 | Field | Value |
@@ -168,19 +181,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
-### tool-lifecycle-manager
-
-| Field | Value |
-|-------|-------|
-| Name | Tool Lifecycle Manager |
-| Category | pipeline |
-| Version | 0.1.0 |
-| Owner | soren |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
 ### toolforge-cli
 
 | Field | Value |
@@ -246,6 +246,19 @@
 | Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 3 external |
+### trm-devops-triage
+
+| Field | Value |
+|-------|-------|
+| Name | TRM DevOps Triage |
+| Category | monitoring |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### trm-feedback-report
 
 | Field | Value |
@@ -285,19 +298,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### research-questions
+### tool-lifecycle-manager
 
 | Field | Value |
 |-------|-------|
-| Name | Research Questions |
-| Category | research-ops |
+| Name | Tool Lifecycle Manager |
+| Category | pipeline |
+| Version | 0.1.0 |
+| Owner | soren |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
 | Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | prompt |
+| Owner | unknown |
+| Runtime | python |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 2 external |
+| Dependencies | 0 internal, 1 external |
 ### reconcile-vector-store
 
 | Field | Value |
@@ -311,19 +337,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### pre-wrap-audit
-
-| Field | Value |
-|-------|-------|
-| Name | Pre Wrap Audit |
-| Category | session-management |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 1 internal, 0 external |
 ### pre-flight-test-checker
 
 | Field | Value |
@@ -454,19 +467,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### workspace-storage-cleaner
+### pre-wrap-audit
 
 | Field | Value |
 |-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
+| Name | Pre Wrap Audit |
+| Category | session-management |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | python |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 1 external |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 1 internal, 0 external |
 ### cic-run-gate
 
 | Field | Value |
