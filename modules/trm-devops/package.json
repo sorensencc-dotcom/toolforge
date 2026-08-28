@@ -1,0 +1,20 @@
+{
+  "name": "@toolforge/trm-devops",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test test/**/*.test.ts",
+    "dev:sync": "node dist/cli/index.js sync",
+    "dev:prune": "node dist/cli/index.js prune"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
