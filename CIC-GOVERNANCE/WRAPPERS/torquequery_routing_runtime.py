@@ -150,6 +150,28 @@ class TorqueQueryRouteContract:
         )
 
 
+def build_agent_dispatch_contract(payload: Dict[str, Any], candidates: List[Dict[str, Any]], required_capabilities: Optional[List[str]] = None) -> Dict[str, Any]:
+    contract = TorqueQueryRouteContract.from_dict(payload)
+    selected = TorqueQueryRoutingEngine().choose_model(candidates, required_capabilities)
+    rate_card = RateCardManager().get(contract.rate_card_version)
+    def route(candidate: Dict[str, Any]) -> Dict[str, Any]:
+        return {"provider": str(candidate.get("provider", contract.provider)), "model": str(candidate["model"]), "execution_mode": str(candidate.get("execution_mode", "api")), "cost_policy": {"input_per_1k": rate_card.input_rate / 1000, "output_per_1k": rate_card.output_rate / 1000}, "credential_ref": str(candidate.get("credential_ref", "governed"))}
+    return {"task": " ".join(contract.success_criteria), "recommended_route": route(selected), "allowed_routes": [route(c) for c in candidates], "max_cost_usd": contract.max_cost_usd, "max_attempts": min(3, contract.max_model_calls, contract.max_retries + 1), "operator_override": False, "task_id": contract.task_id}
+
+
+def emit_decomposed_dispatch_contracts(payload: Dict[str, Any], decomposed_tasks: List[Dict[str, Any] | str], candidates: List[Dict[str, Any]], required_capabilities: Optional[List[str]] = None) -> str:
+    if not decomposed_tasks: raise GovernanceViolation(400, "DECOMPOSITION_EMPTY", "at least one decomposed task is required")
+    contracts = []
+    for i, item in enumerate(decomposed_tasks, 1):
+        task_id = f"{payload['task_id']}-subtask-{i}" if isinstance(item, str) else str(item.get("task_id", f"{payload['task_id']}-subtask-{i}"))
+        criteria = [item] if isinstance(item, str) else item.get("success_criteria") or item.get("task")
+        if isinstance(criteria, str): criteria = [criteria]
+        if not isinstance(criteria, list) or not criteria or not all(isinstance(v, str) and v for v in criteria): raise GovernanceViolation(400, "DECOMPOSITION_INVALID", f"subtask {i} must contain non-empty text")
+        contracts.append(build_agent_dispatch_contract({**payload, "task_id": task_id, "success_criteria": criteria}, candidates, required_capabilities))
+    return json.dumps(contracts, sort_keys=True, separators=(",", ":"))
+
+
+
 @dataclass(frozen=True)
 class RetryDecision:
     action: str
