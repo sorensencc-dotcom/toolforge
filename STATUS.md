@@ -24,3 +24,23 @@ Maintain the cross-repository governance CI matrix and onboard repositories in w
 
 ## Next action
 Confirm Wave 3 repository manifests and replace placeholder governance commands with executable adapters.
+
+## Cross-repository path-drift containment (2026-08-28)
+
+### Completed work
+- Added `C:\dev\scripts\verify-repo-context.ps1`, a fail-closed preflight requiring an absolute Git repository root, attached branch, and root `package.json`.
+- Added the mandatory invocation and ambiguity rule to `AGENTS.md`.
+- Verified six canonical repositories: `cic-ingestion`, `kb-sync`, `rewrite-docs`, `rewrite-mcp`, `sigil-repo`, and `trm`.
+- Verified relative paths and nested repository paths fail closed.
+
+### Findings
+- Twelve top-level Git checkouts are present under `C:\dev`.
+- Eleven lack a local `STATUS.md`; all inspected top-level repositories lack a local `AGENTS.md`.
+- Several checkouts are dirty, so bulk synchronization remains unsafe without repository-by-repository review.
+
+### Blockers
+- Cross-CLI adoption and per-repository instruction rollout remain incomplete.
+- Existing dirty worktrees require explicit preservation checks before any automated repair.
+
+### Next action
+Audit each CLI entry point for preflight enforcement, then propose a staged adoption plan for the remaining repositories.
