@@ -93,3 +93,11 @@ test('rejects non-timestamped snapshot identities', () => {
   const f = fixture();
   assert.throws(() => createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: 'latest' }), { code: 'SNAPSHOT_UNAVAILABLE' });
 });
+test('supports standard MCP resource listing without a URI', async () => {
+  const f = fixture();
+  const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
+  const init = await server.handle({ method: 'initialize', params: {} });
+  const listing = await server.handle({ method: 'resources/list', params: {} });
+  assert.equal(init.capabilities.resources.listChanged, false);
+  assert.ok(Array.isArray(listing.resources));
+});

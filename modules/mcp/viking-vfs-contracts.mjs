@@ -1,4 +1,4 @@
-const METHODS = Object.freeze(['initialize', 'viking/list', 'viking/stat', 'viking/read']);
+const METHODS = Object.freeze(['initialize', 'resources/list', 'resources/read', 'viking/list', 'viking/stat', 'viking/read']);
 const TIERS = Object.freeze(['L0', 'L1', 'L2']);
 
 export const CONTRACT_VERSION = '1.0.0';
@@ -47,7 +47,9 @@ function validateParams(method, params) {
     if ('protocolVersion' in params) string(params.protocolVersion, '$.params.protocolVersion');
     return params;
   }
+  if (method === 'resources/list') { noUnknown(params, ['uri', 'offset', 'limit'], '$.params'); if ('uri' in params) uri(params.uri, '$.params.uri'); if ('offset' in params) integer(params.offset, '$.params.offset'); if ('limit' in params) integer(params.limit, '$.params.limit', { min: 1 }); if (params.limit > 100) fail('must be <= 100', '$.params.limit'); return params; }
   uri(params.uri, '$.params.uri');
+  if (method === 'resources/read') { noUnknown(params, ['uri'], '$.params'); return params; }
   if (method === 'viking/list') {
     noUnknown(params, ['uri', 'offset', 'limit'], '$.params');
     if ('offset' in params) integer(params.offset, '$.params.offset');
