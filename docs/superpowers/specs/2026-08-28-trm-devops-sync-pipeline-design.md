@@ -1,4 +1,4 @@
-# TRM DevOps Sync & Triage Pipeline Design Specification (v1.1)
+# TRM DevOps Sync & Triage Pipeline Design Specification (v1.2)
 
 ## Overview
 This specification details the architecture, extraction contracts, data schemas, concurrency controls, and lifecycle reconciler for adapting the Topic Research Mining (TRM) pattern to development operations. The pipeline ingests unstructured diagnostic logs, failure threads, and CI/CD traces into a NotebookLM operational buffer (`[Open Dev Issues]`), executes deterministic extraction queries, and reconciles the results into local, actionable Markdown artifacts (`dev/triage/queue.md`, `dev/triage/archive/index.json`, and `dev/triage/archive/`).
@@ -110,7 +110,7 @@ export interface StructuredOperatorNotes {
   context?: string;
   attemptedFixes?: string[];
   blockedOn?: string;
-  rawText?: string;
+  rawText?: string;                  // Fallback for unformatted free-form comments
 }
 
 export interface DefectItem {
@@ -172,14 +172,15 @@ To prevent over-normalization and accidental hash collisions:
 
 ### 1. Concurrency Locking (`src/core/lock.ts`)
 To protect against race conditions when CLI syncs and MCP agent tools write simultaneously:
-* Creates `dev/triage/queue.md.lock` containing the current process PID and timestamp before reading or modifying `queue.md`.
-* If a lock file exists, retries with exponential backoff (initial delay 50ms, jitter $\pm 20\%$, max backoff 2000ms) up to `lockTimeoutMs` (default 5000ms).
-* Stale lock detection: If `queue.md.lock` is older than 30 seconds, breaks the lock, logs a warning, and reacquires.
-* Releases `queue.md.lock` immediately after the atomic rename of `queue.md.tmp` to `queue.md`.
+* Creates `dev/triage/queue.md.lock` containing current process PID and timestamp before reading or modifying `queue.md`.
+* On each lock acquisition attempt, checks file `mtime`. If the lock file is older than 30 seconds, immediately breaks the stale lock, logs a recovery warning, and acquires the lock without waiting for `lockTimeoutMs` to expire.
+* If an active lock exists (<30s), retries with exponential backoff (initial delay 50ms, jitter $\pm 20\%$, max backoff 2000ms) up to `lockTimeoutMs` (default 5000ms).
+* Releases `queue.md.lock` immediately following the atomic rename of `queue.md.tmp` to `queue.md`.
 
 ### 2. Local Fallback Buffer (`src/core/notebooklm-client.ts`)
 If the NotebookLM API is offline or returns transient HTTP errors:
-* Unprocessed or newly submitted failure logs are staged locally to `dev/triage/.cache/pending-sync/<timestamp>-<hash>.json`.
+* Ensures `dev/triage/.cache/pending-sync/` exists dynamically via recursive directory creation (`mkdirSync(dir, { recursive: true })`).
+* Writes raw unparsed or newly submitted failure logs locally to `dev/triage/.cache/pending-sync/<timestamp>-<hash>.json`.
 * On the next sync cycle, the engine drains both `pending-sync/` and remote NotebookLM chunks, merging them idempotently.
 
 ---
@@ -225,7 +226,7 @@ If the NotebookLM API is offline or returns transient HTTP errors:
 
 ### Reconciler Invariants (`src/core/reconciler.ts`)
 1. **Atomic Writes**: Writes changes to `dev/triage/queue.md.tmp` and executes an atomic file rename under `queue.md.lock`.
-2. **State Preservation**: Matches entries on `signatureHash`. Preserves structured operator notes (`[context]`, `[attempted-fixes]`, `[blocked-on]`), manual ownership, tags, and status transitions (`OPEN`, `IN_PROGRESS`, `MUTED`).
+2. **State Preservation**: Matches entries on `signatureHash`. Preserves structured operator notes (`[context]`, `[attempted-fixes]`, `[blocked-on]`), unformatted free-form comments (stored in `rawText`), manual ownership, tags, and status transitions (`OPEN`, `IN_PROGRESS`, `MUTED`).
 3. **Idempotency**: Running 10 successive sync passes against identical source inputs generates identical Markdown output byte-for-byte.
 
 ---
@@ -234,7 +235,8 @@ If the NotebookLM API is offline or returns transient HTTP errors:
 
 When an operator marks an item `RESOLVED` in `dev/triage/queue.md` and invokes `prune`:
 1. **Archival Target**: The entry is moved from `queue.md` into `dev/triage/archive/YYYY-MM/resolved-defects.md`.
-2. **Global Index Update**: Appends or updates the entry in `dev/triage/archive/index.json`:
+2. **Duration Metric Fallback**: Computes `durationMs = Date.parse(resolvedAt) - Date.parse(firstSeen)`. If `firstSeen` is undefined on a manually injected defect, falls back to `Date.parse(resolvedAt) - fileStat.birthtimeMs`.
+3. **Global Index Update**: Appends or updates the entry in `dev/triage/archive/index.json`:
    ```json
    {
      "id": "DEV-001",
@@ -250,15 +252,15 @@ When an operator marks an item `RESOLVED` in `dev/triage/queue.md` and invokes `
      "tags": ["ci", "governance", "release"]
    }
    ```
-3. **Remote Source Deletion**: The engine calls `notebooklmClient.deleteSource(sourceId)` to delete the raw source chunk from the NotebookLM buffer.
-4. **Missing Source Tolerance**: If a source ID no longer exists on NotebookLM, the engine logs an informational notice and completes local archival without throwing an unhandled exception.
+4. **Remote Source Deletion**: The engine calls `notebooklmClient.deleteSource(sourceId)` to delete the raw source chunk from the NotebookLM buffer.
+5. **Missing Source Tolerance**: If a source ID no longer exists on NotebookLM, the engine logs an informational notice and completes local archival without throwing an unhandled exception.
 
 ---
 
 ## Dead-Letter Quotas & Observability
 
 1. **Quarantine Retention**: Malformed chunks are written to `dev/triage/.cache/unparsed-chunks-<timestamp>.json`.
-2. **Dynamic Quota & Compression**: Retains 50 files by default (expanding to 200 if free disk space exceeds 1GB). Automatically compresses chunks older than 7 days into `.gz` archives.
+2. **Dynamic Quota & Atomic Compression**: Retains 50 files by default (expanding to 200 if free disk space exceeds 1GB). Automatically compresses chunks older than 7 days into `.gz` archives using a temp-write and rename pattern with stream error trapping to prevent partial `.gz` files.
 3. **Dry-Run Invariant**: Executing `--dry-run` performs zero file writes and zero remote source deletions, outputting planned actions directly to stdout.
 
 ---
@@ -269,9 +271,9 @@ When an operator marks an item `RESOLVED` in `dev/triage/queue.md` and invokes `
 |---|---|---|
 | **Unit** | `normalizer.test.ts` | Path normalization (`\` vs `/`), semantic timestamp preservation vs metadata stripping, ANSI stripping, deterministic SHA-256 outputs. |
 | **Unit** | `extractor.test.ts` | JSON schema parsing, missing field fallbacks, dead-letter quarantine routing, and source fingerprint generation. |
-| **Unit** | `lock.test.ts` | Concurrency lock acquisition, exponential backoff on collision, and stale lock recovery. |
-| **Unit** | `reconciler.test.ts` | Atomic writes, 10x idempotency, structured operator notes preservation, lineage links, and status transitions. |
-| **Unit** | `pruning.test.ts` | Archive file creation, `index.json` schema updates, source deletion dispatch, and safe handling of missing remote IDs. |
-| **Unit** | `fallback.test.ts` | Staging to `pending-sync/` on API outage and automated recovery during next sync cycle. |
-| **Integration** | `cli.test.ts` | CLI command exit codes, stdout summaries, `--dry-run` guarantees, and quarantine cleanup limits. |
+| **Unit** | `lock.test.ts` | Concurrency lock acquisition, exponential backoff on collision, immediate stale-lock busting on `mtime > 30s`, and clean release. |
+| **Unit** | `reconciler.test.ts` | Atomic writes, 10x idempotency, structured and unformatted `rawText` operator notes preservation, lineage links, and status transitions. |
+| **Unit** | `pruning.test.ts` | Archive file creation, `index.json` schema updates, `durationMs` fallback calculation, source deletion dispatch, and safe handling of missing remote IDs. |
+| **Unit** | `fallback.test.ts` | Recursive directory creation, staging to `pending-sync/` on API outage, and automated recovery during next sync cycle. |
+| **Integration** | `cli.test.ts` | CLI command exit codes, stdout summaries, `--dry-run` guarantees, atomic `.gz` compression, and quarantine cleanup limits. |
 | **Contract** | `mcp.test.ts` | Verifies MCP tools (`sync_dev_triage`, `prune_triage_source`, `query_dev_notebook`) conform to MCP schemas. |
