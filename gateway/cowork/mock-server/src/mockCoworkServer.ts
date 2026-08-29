@@ -37,7 +37,10 @@ function safeHeaders(headers: Record<string, unknown>): Record<string, unknown> 
 }
 
 export function createMockCoworkServer(opts: MockCoworkServerOpts = {}) {
-  const apiKey = opts.apiKey || 'mock-api-key-1234567890ab';
+  const apiKey = opts.apiKey;
+  if (!apiKey) {
+    throw new Error('apiKey is required to start the mock Cowork server');
+  }
   let httpServer: Server | null = null;
 
   const state: MockCoworkState = {

@@ -5,7 +5,11 @@
 
 import { createMockCoworkServer } from '../src/mockCoworkServer';
 
-const apiKey = process.env.COWORK_API_KEY || 'mock-api-key-1234567890ab';
+const apiKey = process.env.COWORK_API_KEY;
+if (!apiKey) {
+  console.error('COWORK_API_KEY is required to start the mock Cowork server');
+  process.exit(1);
+}
 const port = process.env.COWORK_MOCK_PORT ? parseInt(process.env.COWORK_MOCK_PORT, 10) : 4790;
 
 const server = createMockCoworkServer({ apiKey });
@@ -14,7 +18,6 @@ const server = createMockCoworkServer({ apiKey });
   try {
     const { baseUrl, port: actualPort } = await server.start(port);
     console.log(`Mock Cowork server listening on ${baseUrl}`);
-    console.log(`API Key: ${apiKey}`);
     console.log(`Set COWORK_API_URL=${baseUrl} in your .env`);
 
     process.on('SIGINT', async () => {
