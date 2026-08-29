@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.54.1
+Date: 2026-08-29
+
+### Changes
+- e99aa58 - chore(triage): archive resolved DEV-001 and clear active queue (Chris)
+
 ## Version 2.54.0
 Date: 2026-08-28
 
