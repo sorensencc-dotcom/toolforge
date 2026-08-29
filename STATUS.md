@@ -131,3 +131,49 @@ Run `npm run cross-audit -- <packet.json>` with a real audit packet when an Iron
 
 ### Next action
 Proceed with operational triage runs using `trm-devops-triage`.
+
+## Dependency verification lock (2026-08-28)
+
+### Completed work
+- Strengthened `kb-sync/scripts/verify-dependencies.mjs` to require installed `typescript@5.4.5` and `js-tiktoken@1.0.21` package metadata in `node_modules`, in addition to exact manifest and lockfile pins.
+- Added tests for missing and mismatched installed dependencies.
+
+### Verification
+- Dependency verifier tests passed: 4 / 4.
+- `npm run deps:verify` passed in `C:\dev\kb-sync`.
+- Existing unrelated trailing whitespace remains in wiki files; no cleanup was performed.
+
+### Next action
+Use `npm run deps:verify` before committing compiler or context-compaction changes.
+
+## Wave 2 repair audit gate (2026-08-28)
+
+### Completed work
+- Added `kb-sync/modules/healing/repair-audit-gate.ts` as a deterministic local referee for compiler/linter collisions.
+- Added bounded remediation recipes, declared-scope checks, and focused tests.
+- Added `npm run test:repair-audit`.
+
+### Verification
+- Repair-audit tests passed: 3 / 3.
+- Explicit TypeScript 5.4.5 type check passed.
+- `npm run deps:verify` passed.
+
+### Next action
+Run `npm run test:repair-audit` after a failed local compiler or linter gate.
+
+## Headless visual verification (2026-08-28)
+
+### Completed work
+- Added `kb-sync/skills/html-visual-verify/src/render-quality.ts` for headless Chromium rendering of HTML dashboards and Mermaid charts.
+- Added screenshot pixel metrics for non-background fraction, dark fraction, and color variance.
+- Added blank-screen and browser-console-error failure detection.
+- Added `npm run visual:verify` and focused fixtures.
+- Added project dependencies `playwright` and `pngjs`.
+
+### Verification
+- Visual verification tests passed: 2 / 2.
+- Explicit TypeScript check passed.
+- `npm run deps:verify` passed.
+
+### Next action
+Run `npm run visual:verify` against generated dashboards before delivery.
