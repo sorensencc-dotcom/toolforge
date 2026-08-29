@@ -177,3 +177,35 @@ Run `npm run test:repair-audit` after a failed local compiler or linter gate.
 
 ### Next action
 Run `npm run visual:verify` against generated dashboards before delivery.
+
+## Recipient-not-found relay guard (2026-08-28)
+
+### Completed work
+- Added transaction-time recipient existence checks for federated and non-federated envelopes.
+- Updated PostgreSQL lookup to use the exact endpoint ID, including its federated domain.
+- Added equivalent active-registry lookup to the in-memory relay repository.
+- Added HTTP and acceptance-path regression tests proving unknown recipients do not persist.
+
+### Verification
+- Envelope and HTTP relay tests passed: 71 / 71.
+- Repository preflight passed for `C:\dev\sigil-repo`.
+
+### Next action
+Commit and push the recipient validation guard after review.
+
+## GBrain Local Engine Setup (2026-08-28)
+
+### Completed work
+- Compiled and linked `gbrain` v0.47.4.0 binary on PATH.
+- Initialized local PGLite database engine at `~/.gbrain/brain.pglite`.
+- Configured local brain settings in `~/.gbrain/config.json`.
+- Registered `toolforge` source for `c:\dev` and created `.gbrain-source` pin.
+
+### Verification
+- `gbrain version`: 0.47.4.0.
+- `gbrain doctor --fast --json` and `gbrain stats` executed cleanly.
+- Repository preflight passed for `C:\dev`.
+
+### Next action
+Index repository sources with `gbrain sync --source toolforge`.
+
