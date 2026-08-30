@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TRM DevOps Sync & Triage Pipeline Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Geist+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #f2ece2;
+    color: #2c2420;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .diagram-container {
+    background-color: #f2ece2;
+    border: 2px solid #5c5349;
+    padding: 28px;
+    width: 1060px;
+    box-shadow: 6px 6px 0px #5c5349;
+  }
+  .header {
+    border-bottom: 2px solid #c4501a;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .title-group h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2420;
+    letter-spacing: -0.5px;
+  }
+  .title-group p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    color: #5c5349;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+  .badge {
+    background-color: #2c2420;
+    color: #f2ece2;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .node-rect {
+    fill: #f2ece2;
+    stroke: #2c2420;
+    stroke-width: 2;
+  }
+  .node-accent {
+    fill: #f2ece2;
+    stroke: #c4501a;
+    stroke-width: 2;
+  }
+  .node-dark {
+    fill: #2c2420;
+    stroke: #2c2420;
+  }
+  .text-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    fill: #2c2420;
+  }
+  .text-sans {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    fill: #2c2420;
+  }
+  .text-muted {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    fill: #5c5349;
+  }
+  .text-mono {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    fill: #2c2420;
+  }
+  .text-white {
+    fill: #f2ece2;
+  }
+  .edge {
+    stroke: #5c5349;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .edge-accent {
+    stroke: #c4501a;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .edge-dashed {
+    stroke: #5c5349;
+    stroke-width: 1.5;
+    stroke-dasharray: 4 4;
+  }
+  .footer-note {
+    margin-top: 16px;
+    padding-top: 8px;
+    border-top: 1px dashed #5c5349;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #5c5349;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-container">
+  <div class="header">
+    <div class="title-group">
+      <h1>TRM DevOps Sync & Triage Pipeline</h1>
+      <p>Continuous Ingestion, Zero-Hallucination Extraction & Deterministic Operator Lifecycle</p>
+    </div>
+    <div class="badge">SYSTEM TOPOLOGY v1.2</div>
+  </div>
+
+  <svg viewBox="0 0 1000 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#5c5349" />
+      </marker>
+      <marker id="arrow-accent" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#c4501a" />
+      </marker>
+    </defs>
+
+    <!-- LAYER 1: INGESTION SOURCE -->
+    <g id="layer-ingestion">
+      <rect x="50" y="10" width="400" height="85" class="node-rect" />
+      <rect x="50" y="10" width="8" height="85" fill="#c4501a" />
+      <text x="75" y="38" class="text-title" font-size="17">NotebookLM Operational Buffer</text>
+      <text x="75" y="60" class="text-sans" font-size="13">Corpus: "Open Dev Issues" (cb0498ce-1ea5-4668-9f65...)</text>
+      <text x="75" y="80" class="text-muted" font-size="12">Ingests CI traces, build breaks, & diagnostic logs</text>
+
+      <rect x="550" y="10" width="400" height="85" class="node-rect" stroke-dasharray="4 4" />
+      <text x="575" y="38" class="text-title" font-size="17">Offline Sync Buffer (Fallback)</text>
+      <text x="575" y="60" class="text-mono">dev/triage/.cache/pending-sync/*.json</text>
+      <text x="575" y="80" class="text-muted" font-size="12">Local staging buffer for non-blocking offline operations</text>
+    </g>
+
+    <!-- CONNECTIONS: Layer 1 to Layer 2 -->
+    <path d="M 250 95 L 250 140" class="edge-accent" marker-end="url(#arrow-accent)" />
+    <path d="M 750 95 L 750 120 L 520 120 L 520 140" class="edge" marker-end="url(#arrow)" />
+
+    <!-- LAYER 2: CORE RECONCILER ENGINE -->
+    <g id="layer-core">
+      <rect x="50" y="140" width="900" height="185" class="node-rect" fill="#f8f4ed" />
+      <rect x="50" y="140" width="900" height="28" class="node-dark" />
+      <text x="70" y="159" class="text-sans text-white" font-size="13" letter-spacing="1">SHARED CORE ENGINE — @toolforge/trm-devops (modules/trm-devops/src/core)</text>
+
+      <!-- Sub-module: Normalizer -->
+      <rect x="75" y="185" width="260" height="120" class="node-accent" />
+      <text x="90" y="210" class="text-sans" font-size="15">Trace Normalizer</text>
+      <text x="90" y="230" class="text-muted" font-size="12">• Cross-platform SHA-256 signatures</text>
+      <text x="90" y="250" class="text-muted" font-size="12">• Strips ANSI, container hashes & UUIDs</text>
+      <text x="90" y="270" class="text-muted" font-size="12">• Preserves semantic timestamp order</text>
+      <text x="90" y="292" class="text-mono" font-size="10">signatureHash deduplication</text>
+
+      <!-- Sub-module: Validator & Quarantine -->
+      <rect x="365" y="185" width="270" height="120" class="node-rect" />
+      <text x="380" y="210" class="text-sans" font-size="15">Zero-Hallucination Extractor</text>
+      <text x="380" y="230" class="text-muted" font-size="12">• Strict DefectItem schema validation</text>
+      <text x="380" y="250" class="text-muted" font-size="12">• Fail-soft dead-letter quarantine</text>
+      <text x="380" y="270" class="text-muted" font-size="12">• Multi-attempt triage resilience</text>
+      <text x="380" y="292" class="text-mono" font-size="10">.cache/quarantine/quarantine-*.json</text>
+
+      <!-- Sub-module: Lock & Reconciler -->
+      <rect x="665" y="185" width="260" height="120" class="node-rect" />
+      <text x="680" y="210" class="text-sans" font-size="15">Lock & Atomic Reconciler</text>
+      <text x="680" y="230" class="text-muted" font-size="12">• PID lease locking (queue.md.lock)</text>
+      <text x="680" y="250" class="text-muted" font-size="12">• Exponential backoff (50ms → 1000ms)</text>
+      <text x="680" y="270" class="text-muted" font-size="12">• Preserves human operator notes</text>
+      <text x="680" y="292" class="text-mono" font-size="10">Atomic write-and-rename</text>
+    </g>
+
+    <!-- CONNECTIONS: Layer 2 to Layer 3 -->
+    <path d="M 280 325 L 280 365" class="edge-accent" marker-end="url(#arrow-accent)" />
+    <path d="M 720 325 L 720 365" class="edge" marker-end="url(#arrow)" />
+
+    <!-- LAYER 3: ENTRYPOINTS -->
+    <g id="layer-entrypoints">
+      <rect x="90" y="365" width="380" height="80" class="node-rect" />
+      <text x="110" y="392" class="text-title" font-size="16">CLI Entrypoint</text>
+      <text x="110" y="414" class="text-mono">npx trm-devops [sync | prune | status]</text>
+      <text x="110" y="432" class="text-muted" font-size="12">Terminal execution, dry-run previews, scheduled tasks</text>
+
+      <rect x="530" y="365" width="380" height="80" class="node-rect" />
+      <text x="550" y="392" class="text-title" font-size="16">MCP Server Adapter</text>
+      <text x="550" y="414" class="text-mono">sync_dev_triage | prune_triage_source</text>
+      <text x="550" y="432" class="text-muted" font-size="12">Structured tools for Claude Code, Antigravity, & Agents</text>
+    </g>
+
+    <!-- CONNECTIONS: Layer 3 to Layer 4 -->
+    <path d="M 280 445 L 280 485" class="edge" marker-end="url(#arrow)" />
+    <path d="M 720 445 L 720 485" class="edge" marker-end="url(#arrow)" />
+
+    <!-- LAYER 4: LOCAL EXECUTION & ARTIFACTS -->
+    <g id="layer-artifacts">
+      <!-- Active Queue -->
+      <rect x="50" y="485" width="420" height="135" class="node-accent" />
+      <rect x="50" y="485" width="8" height="135" fill="#c4501a" />
+      <text x="75" y="515" class="text-title" font-size="17">Active Triage Queue</text>
+      <text x="75" y="538" class="text-mono">dev/triage/queue.md</text>
+      <text x="75" y="560" class="text-sans" font-size="13">4-Step Operator Lifecycle:</text>
+      <text x="75" y="580" class="text-muted" font-size="12">1. Inspect ──> 2. Claim & Run Steps ──> 3. Verify</text>
+      <text x="75" y="602" class="text-muted" font-size="12">Contains deterministic action steps & human notes</text>
+
+      <!-- Archive Engine -->
+      <rect x="530" y="485" width="420" height="135" class="node-rect" />
+      <rect x="530" y="485" width="8" height="135" fill="#2c2420" />
+      <text x="555" y="515" class="text-title" font-size="17">Pruning & Archival Store</text>
+      <text x="555" y="538" class="text-mono">dev/triage/archive/YYYY-MM/resolved-defects.md</text>
+      <text x="555" y="560" class="text-mono">dev/triage/archive/index.json</text>
+      <text x="555" y="582" class="text-sans" font-size="13">4. Resolve & Prune:</text>
+      <text x="555" y="602" class="text-muted" font-size="12">Moves RESOLVED defects & purges remote buffer</text>
+    </g>
+
+    <!-- FEEDBACK LOOP: Archive prune cleans remote source -->
+    <path d="M 950 550 L 980 550 L 980 52 L 450 52" class="edge-dashed" marker-end="url(#arrow)" />
+    <text x="985" y="315" class="text-mono" font-size="10" transform="rotate(90 985 315)" fill="#5c5349">prune cleans remote source</text>
+  </svg>
+
+  <div class="footer-note">
+    <span>CONFORMANCE: CATHRYN LAVERY WARM-PALETTE SPEC</span>
+    <span>SOURCE: @toolforge/trm-devops</span>
+    <span>RUNTIME: Node.js 20+ / TypeScript</span>
+  </div>
+</div>
+
+</body>
+</html>
