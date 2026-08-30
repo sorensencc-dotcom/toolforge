@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.55.1
+Date: 2026-08-30
+
+### Changes
+- 6ecf4cf - fix(wiki-sync): resolve root image references and add retry logic on Windows (Chris)
+- 7afe782 - chore(merge): sync remote updates (Chris)
+- ccbe648 - chore(audit): record test suite validation entries in wiki log (Chris)
+
 ## Version 2.55.0
 Date: 2026-08-30
 
