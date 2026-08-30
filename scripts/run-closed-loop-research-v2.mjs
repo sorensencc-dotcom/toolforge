@@ -37,20 +37,9 @@ const GAPS_OUT_DIR  = path.join(TRM_VAULT, 'trm', 'research-gaps');
 const BFCL_DRY_RUN  = process.env.BFCL_DRY_RUN  === '1'; // skip live notebooklm push
 const SKIP_MINE     = process.env.TRM_SKIP_MINE  === '1'; // skip Step 1 re-mine (use existing vault file)
 
-// Thematic notebook targets
-export const NOTEBOOK_TARGETS = {
-  'willow-run':      '6fd7c40b-df90-444b-9c7a-a64682925856',
-  'ford-politics':   '0caf6707-f8f2-4d2a-acd2-020acead55ba',
-  'post-war':        '9c469910-a900-43a4-877c-a43c9f545b5f',
-  'willys-overland': '9c469910-a900-43a4-877c-a43c9f545b5f',
-  'master-kb':       '679b8bab-2d87-42cb-a726-6dc54c83acc2',
-  'daily':           '1b4861a3-931f-4632-8fc1-343a8dd37df8',
-};
+import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/config.mjs';
 
-export function resolveNotebookId(category) {
-  if (!category) return NOTEBOOK_TARGETS['daily'];
-  return NOTEBOOK_TARGETS[String(category).toLowerCase().trim()] ?? NOTEBOOK_TARGETS['daily'];
-}
+export { NOTEBOOK_TARGETS, resolveNotebookId };
 
 export function extractFrontmatterCategory(content) {
   if (!content) return 'daily';
@@ -394,6 +383,7 @@ async function run() {
     { filename: 'pack_willow_run.txt',      category: 'willow-run' },
     { filename: 'pack_ford_politics.txt',   category: 'ford-politics' },
     { filename: 'pack_willys_overland.txt', category: 'post-war' },
+    { filename: 'pack_cuban_seizures.txt',  category: 'cuban-seizures' },
     { filename: 'pack_master_kb.txt',       category: 'master-kb' },
   ];
 

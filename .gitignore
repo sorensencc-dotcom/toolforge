@@ -19,6 +19,9 @@ skills/*/cic/
 sigil-wiki/
 trm-wiki/
 scratch/
+.nlm_pack/
+_kb-sync-staging/
+dev-sandbox/
 
 # Dependency lock files (Wave A: token optimization)
 package-lock.json

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": "2026-08-29-1",
   "notebooks": [
     {
       "notebook_id": "679b8bab-2d87-42cb-a726-6dc54c83acc2",
@@ -303,6 +303,13 @@
         "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d:adjacent-topics:e2510fbd56f9b30c7f14210ee8f1ae3a666cd3db8a587ff5430fd35c2360a9c2",
         "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d:follow-up:50da93c3bf8a12bfbf694e271fe21315720830b4d6a851e2db898363dfbd0f90"
       ]
+    },
+    {
+      "notebook_id": "c8360946-dbee-4a2c-b622-7f89b05695b0",
+      "title": "CIC - Cuban Seizures & Retired Assets",
+      "url": "https://notebooklm.google.com/notebook/c8360946-dbee-4a2c-b622-7f89b05695b0",
+      "last_pulled_hashes": {},
+      "quarantined": {}
     }
   ]
 }

@@ -426,3 +426,11 @@ status: "active"
 - [2026-08-26T21:48:32.278Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-daily-research.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
 - [2026-08-27T02:58:31.082Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-daily-research.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
 - [2026-08-27T03:17:59.093Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-reddit.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-08-30T02:01:01Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 27, SHA256: ACEBE7A7688A5D67302B189EB83A76DBE1FA1E8B67AD6EABA48D2A43217BA111, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-08-30T02:01:14Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 27, SHA256: 144B49395499BBCDC606D44A3430927FB576A1E9ABC204EC58A7D7D71C67F522, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-08-30T02:01:17.146Z] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.
+- [2026-08-30T02:01:19.240109+00:00] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.
+- [2026-08-30T02:01:21.876Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: 7c762b0b). Gap source: willow-run-videos.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-08-30T02:02:07Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 1, SHA256: 5A3F9D983207A5AD24A63256B06A3705969F34A1B6C279D4966A1A863771AA36, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).

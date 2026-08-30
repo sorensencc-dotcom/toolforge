@@ -17,21 +17,63 @@ if hasattr(sys.stderr, 'reconfigure'):
     except Exception:
         pass
 
-# Configuration: Thematic Notebook Targets
-NOTEBOOK_TARGETS = {
-    'willow-run': '6fd7c40b-df90-444b-9c7a-a64682925856', # CIC - Willow Run & Aviation Engineering
-    'ford-politics': '0caf6707-f8f2-4d2a-acd2-020acead55ba', # CIC - Ford Executive Dynamics & Politics
-    'post-war': '9c469910-a900-43a4-877c-a43c9f545b5f', # CIC - Post-War & Willys-Overland
-    'willys-overland': '9c469910-a900-43a4-877c-a43c9f545b5f', # CIC - Post-War & Willys-Overland (alias)
-    'master-kb': '679b8bab-2d87-42cb-a726-6dc54c83acc2', # CIC-KB
-    'daily': '1b4861a3-931f-4632-8fc1-343a8dd37df8' # CIC - Daily Research
-}
+# Load categories dynamically from single source of truth
+CATEGORIES_JSON_PATH = os.path.join(os.path.dirname(__file__), '..', 'kb-sync', 'core', 'categories.json')
 
-def resolve_notebook_id(category: str) -> str:
+def load_categories_data():
+    try:
+        if os.path.exists(CATEGORIES_JSON_PATH):
+            with open(CATEGORIES_JSON_PATH, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"[WARN] Failed to load categories.json: {e}", file=sys.stderr)
+    return {"version": "1.0.0", "categories": {}, "placeholders": {}}
+
+def build_notebook_targets():
+    data = load_categories_data()
+    targets = {}
+    for cat_name, cat_def in data.get('categories', {}).items():
+        targets[cat_name.lower().strip()] = cat_def.get('target', '')
+        for alias in cat_def.get('aliases', []):
+            targets[alias.lower().strip()] = cat_def.get('target', '')
+    return targets
+
+NOTEBOOK_TARGETS = build_notebook_targets()
+
+def resolve_notebook_id(category: str, warn: bool = True) -> str:
+    targets = build_notebook_targets()
+    daily_id = targets.get('daily', '1b4861a3-931f-4632-8fc1-343a8dd37df8')
     if not category:
-        return NOTEBOOK_TARGETS['daily']
+        return daily_id
     norm = str(category).lower().strip()
-    return NOTEBOOK_TARGETS.get(norm, NOTEBOOK_TARGETS['daily'])
+    if norm in targets:
+        return targets[norm]
+
+    # Dynamic placeholder registration
+    placeholder_key = f"placeholder::{norm}"
+    try:
+        data = load_categories_data()
+        if 'placeholders' not in data:
+            data['placeholders'] = {}
+        if placeholder_key not in data['placeholders']:
+            data['placeholders'][placeholder_key] = {
+                "category": placeholder_key,
+                "slug": norm,
+                "created_at": datetime.datetime.now().isoformat(),
+                "source": "runtime-python",
+                "status": "unmapped",
+                "fallback_notebook_id": daily_id,
+                "operator_required": True
+            }
+            with open(CATEGORIES_JSON_PATH, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2)
+            if warn:
+                print(f"{COLOR_YELLOW}[TRM-CLOSED-LOOP] [PLACEHOLDER] Unmapped topic '{norm}' detected. Registered placeholder '{placeholder_key}'. Requires operator assignment before ingestion.{COLOR_RESET}")
+    except Exception as e:
+        if warn:
+            print(f"[WARN] Could not persist placeholder for {norm}: {e}")
+
+    return daily_id
 
 def extract_frontmatter_category(content: str) -> str:
     if not content:
