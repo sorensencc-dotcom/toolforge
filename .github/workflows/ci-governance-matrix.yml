@@ -17,7 +17,7 @@ jobs:
     name: ${{ matrix.repository }} governance
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - repository: CIC-GOVERNANCE
@@ -57,6 +57,12 @@ jobs:
         with:
           repository: sorensencc-dotcom/${{ matrix.repository }}
           path: workspace
+
+      - name: Checkout CIC-GOVERNANCE repository
+        uses: actions/checkout@v4
+        with:
+          repository: sorensencc-dotcom/CIC-GOVERNANCE
+          path: CIC-GOVERNANCE
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

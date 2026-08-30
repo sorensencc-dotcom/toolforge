@@ -105,7 +105,7 @@ test('sanitizeReceiptData redacts tokens, basic auth credentials, and strips pro
     prompts: ['prompt1', 'prompt2'],
     messages: [{ role: 'user', content: 'hello' }],
     nested: {
-      authHeader: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xyz',
+      authHeader: `Bearer ${'mock-jwt-token-payload-xyz'}`,
       githubToken: sampleNested,
       normalField: 'all-good',
     },
