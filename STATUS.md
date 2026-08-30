@@ -1,29 +1,30 @@
 # Project status
 
 ## Current goal
-Maintain the cross-repository governance CI matrix and onboard repositories in waves.
+Maintain and expand Topic Research Mining (TRM) registry and closed-loop research pipelines.
 
 ## Completed work
-- Added the CI governance matrix for the initial repositories.
-- Added Wave 2 entries for `toolforge` and `sigil-repo`.
-- Added Wave 3 entries for `cic-vision-governance`, `charlie-deep-research`, `financeos`, and `TheFoundry`.
-- Pushed commits `09657c0d` and `ae0ddc1` to `feat/openrouter-oxalpha-integration`.
+- Added 4 new NotebookLM notebooks to `notebooklm-registry.json` and synchronized `trm-vault/notebooklm-registry.json` (total 11 notebooks):
+  - `6fd7c40b-df90-444b-9c7a-a64682925856`: CIC - Willow Run & Aviation Engineering
+  - `c8360946-dbee-4a2c-b622-7f89b05695b0`: CIC - Cuban Seizures & Retired Assets
+  - `9c469910-a900-43a4-877c-a43c9f545b5f`: CIC - Post-War & Willys-Overland
+  - `0caf6707-f8f2-4d2a-acd2-020acead55ba`: CIC - Ford Executive Dynamics & Politics
+- Updated `skills/trm-closed-loop-research/SKILL.md` flowchart and expected output gap documents.
+- Validated category bindings in `kb-sync/core/categories.json`.
 
 ## Decisions
-- `AGENTS.md` is the canonical shared instruction surface.
-- `CLAUDE.md` imports `AGENTS.md` instead of duplicating project rules.
-- Wave 3 repositories use the standard `gov:validate` and `gov:smoke` contract until their manifests expose verified commands.
+- All 11 research notebooks participate in scheduled and on-demand TRM mining sweeps.
+- `notebooklm-registry.json` remains synchronized between the `toolforge` repository root and `C:\Users\soren\trm-vault`.
 
 ## Tests
-- Initial governance matrix commands passed for the four established repositories.
-- Matrix structure verified with 10 repository entries, 10 validation commands, and 10 smoke commands.
-- Wave 3 commands were not executable locally because several checkouts lack package manifests or governance scripts.
+- Verified JSON schema validity and array count for both repository and vault `notebooklm-registry.json` files (11 entries each).
+- Executed repository preflight check (`verify-repo-context.ps1` -> `PREFLIGHT_PASS`).
 
 ## Blockers
-- Wave 3 repository command entry points remain unverified in local checkouts.
+- None.
 
 ## Next action
-Confirm Wave 3 repository manifests and replace placeholder governance commands with executable adapters.
+Run the scheduled multi-notebook mining sweep or trigger on-demand TRM research cycle across newly registered notebooks.
 
 ## Cross-repository path-drift containment (2026-08-28)
 

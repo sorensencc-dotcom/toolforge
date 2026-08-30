@@ -1,6 +1,13 @@
 node_modules/
 dist/
 build/
+
+# Machine-local status-feed inputs — read from the working tree by the
+# CIC-Daily-Status aggregator (aggregate_status.py); not tracked on main.
+# Tracked backlogs live per-subrepo (kb-sync/TODOS.md, sigil-repo/TODOS.md).
+/TODOS.md
+/.ijfw/memory/handoff.md
+
 site/
 out/
 .playwright-mcp/

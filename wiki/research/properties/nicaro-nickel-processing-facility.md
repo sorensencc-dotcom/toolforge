@@ -21,6 +21,6 @@
 source_path: C:/Users/soren/trm-vault/intake/notebooklm/cic-daily-research/1664b2dc-3a06-4c69-8419-19b8eac400ad--the-sorensen-asset-reconstruction-and-forensic-audit-strategy.md
 source_type: md
 hash_sha256: b0ef48e6d93ddd294af56e8093159da5cb5455f1106f5e37ca7161d174af8ce1
-extracted_at: 2026-08-30T02:42:02.815Z
+extracted_at: 2026-08-30T13:58:06.450Z
 extractor_version: 2026-08-29-1
 ===================
