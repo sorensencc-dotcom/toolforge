@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.56.0
+Date: 2026-08-30
+
+### Changes
+- 0614058 - chore(merge): sync remote tags (Chris)
+- 17bdc6f - feat(daily-miner): add Tor proxy health telemetry, daily multi-notebook orchestrator, and 9PM scheduler (Chris)
+
 ## Version 2.55.1
 Date: 2026-08-30
 
