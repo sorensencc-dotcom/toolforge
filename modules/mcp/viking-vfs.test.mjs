@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { createResolver } from './viking-resolver.mjs';
-import { createServer, toJsonRpcResponse } from './viking-vfs-server.mjs';
+import { createServer, JSON_RPC_CODES, processJsonRpcLine, toJsonRpcResponse } from './viking-vfs-server.mjs';
 
 function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'viking-'));
@@ -38,7 +39,8 @@ test('maps errors at MCP boundary without leaking physical paths', async () => {
   const f = fixture();
   const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
   const response = await server.handle({ method: 'viking/stat', params: { uri: 'viking://other/wiki/x' } });
-  assert.equal(response.error.code, 'NAMESPACE_REJECTED');
+  assert.equal(response.error.code, JSON_RPC_CODES.INVALID_PARAMS);
+  assert.equal(response.error.data.viking_code, 'NAMESPACE_REJECTED');
   assert.equal(JSON.stringify(response).includes(f.root), false);
 });
 
@@ -62,12 +64,12 @@ test('paginates lists with bounded limits', () => {
 test('rejects malformed MCP request envelopes', async () => {
   const f = fixture();
   const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
-  assert.equal((await server.handle({ method: 'viking/stat', params: {} })).error.code, 'INVALID_REQUEST');
-  assert.equal((await server.handle({ params: {} })).error.code, 'INVALID_REQUEST');
+  assert.equal((await server.handle({ method: 'viking/stat', params: {} })).error.code, JSON_RPC_CODES.INVALID_REQUEST);
+  assert.equal((await server.handle({ params: {} })).error.code, JSON_RPC_CODES.INVALID_REQUEST);
 });
 test('formats MCP success and error envelopes correctly', () => {
   assert.deepEqual(toJsonRpcResponse(1, { ok: true }), { jsonrpc: '2.0', id: 1, result: { ok: true } });
-  assert.deepEqual(toJsonRpcResponse(2, { error: { code: 'INVALID_REQUEST' } }), { jsonrpc: '2.0', id: 2, error: { code: 'INVALID_REQUEST' } });
+  assert.deepEqual(toJsonRpcResponse(2, { error: { code: -32600, message: 'bad' } }), { jsonrpc: '2.0', id: 2, error: { code: -32600, message: 'bad' } });
 });
 test('rejects tier metadata from another snapshot', () => {
   const f = fixture();
@@ -100,4 +102,62 @@ test('supports standard MCP resource listing without a URI', async () => {
   const listing = await server.handle({ method: 'resources/list', params: {} });
   assert.equal(init.capabilities.resources.listChanged, false);
   assert.ok(Array.isArray(listing.resources));
+});
+
+test('uses SQLite-style tier lookup for inline L0 abstracts and stat freshness', () => {
+  const f = fixture();
+  const content = fs.readFileSync(path.join(f.snapshot, 'wiki', 'concepts', 'one.md'));
+  const hash = crypto.createHash('sha256').update(content).digest('hex');
+  const tierIndex = {
+    get(snapshotId, resourceUri, tier) {
+      if (tier !== 'L0' || resourceUri !== 'viking://kb-sync/wiki/concepts/one.md') return null;
+      return { snapshot_id: snapshotId, uri: resourceUri, tier, source_hash: hash, tier_hash: hash, artifact: 'wiki/concepts/one.md', tier_available: true, compiled_at: '2026-08-28T00:00:00.000Z' };
+    },
+  };
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000', tierIndex });
+  const listing = resolver.list('viking://kb-sync/wiki/concepts');
+  assert.equal(listing.files[0].abstract, '# One');
+  assert.equal(listing.files[0].stale, false);
+  const metadata = resolver.stat('viking://kb-sync/wiki/concepts/one.md');
+  assert.equal(metadata.tiers.L0.available, true);
+  assert.equal(metadata.tiers.L0.stale, false);
+  assert.equal(metadata.tiers.L1.available, false);
+  assert.equal(metadata.tiers.L2.available, true);
+});
+
+test('batch reads pin one snapshot and isolate per-item errors', async () => {
+  const f = fixture();
+  const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
+  const response = await server.handle({ method: 'viking/readBatch', params: { items: [
+    { uri: 'viking://kb-sync/sources/one.js', resolution_tier: 'L2' },
+    { uri: 'viking://kb-sync/sources/missing.js', resolution_tier: 'L2' },
+  ] } });
+  assert.equal(response.snapshot_id, '20260828-000000');
+  assert.equal(response.results[0].result.content, 'export const one = 1;');
+  assert.equal(response.results[1].error.data.viking_code, 'RESOURCE_NOT_FOUND');
+});
+
+test('batch reads enforce the aggregate response byte cap per item', async () => {
+  const f = fixture();
+  const server = createServer(
+    createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }),
+    { maxBatchBytes: 5 },
+  );
+  const response = await server.handle({ method: 'viking/readBatch', params: { items: [
+    { uri: 'viking://kb-sync/sources/one.js', resolution_tier: 'L2' },
+  ] } });
+  assert.equal(response.results.length, 1);
+  assert.equal(response.results[0].error.code, JSON_RPC_CODES.RESOURCE_LIMIT);
+  assert.equal(response.results[0].error.data.viking_code, 'BATCH_LIMIT_EXCEEDED');
+});
+
+test('validates wire requests and returns parse and parameter errors without throwing', async () => {
+  const f = fixture();
+  const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
+  const parseError = await processJsonRpcLine('{', server);
+  assert.equal(parseError.error.code, JSON_RPC_CODES.PARSE_ERROR);
+  const paramsError = await processJsonRpcLine(JSON.stringify({ jsonrpc: '2.0', id: 7, method: 'resources/list', params: { offset: 0 } }), server);
+  assert.equal(paramsError.error.code, JSON_RPC_CODES.INVALID_PARAMS);
+  const initialized = await processJsonRpcLine(JSON.stringify({ jsonrpc: '2.0', id: 8, method: 'initialize', params: {} }), server);
+  assert.equal(initialized.result.protocolVersion, '2025-06-18');
 });

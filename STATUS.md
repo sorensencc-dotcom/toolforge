@@ -1,5 +1,36 @@
 # Project status
 
+## Viking VFS Phase 3 harness integration (2026-08-30)
+
+### Active goal
+Connect the snapshot-isolated Viking client to `trm-devops` and `kb-sync`, then measure dual-mode exploration costs.
+
+### Completed work
+- Merged current Toolforge `main` into the Phase 2 feature line in the isolated `feat/viking-harness-integration` worktree.
+- Ported the Phase 3 MCP contract closure and `@toolforge/viking-client` scaffold into the canonical Toolforge repository.
+- Added `trm-devops` `resolveDefectContext` with explicit raw and Viking modes.
+- Batched L1 reads, batched only required L2 escalations, enforced P0/P1 stale escalation, and retained P2-P4 stale L1 evidence with operator notes.
+- Fixed the `kb-sync` skeletonizer regression by restoring JSDoc preservation required by its compaction specification and existing test contract.
+- Added the `kb-sync` Viking bridge with L1 relevance filtering, AST-skeleton escalation, targeted L2 reads, and structured telemetry.
+- Added the five-scenario dual-mode token benchmark with median aggregation, outcome-fingerprint equality checks, exact-tokenizer publication gating, and idempotent daily-status rendering.
+
+### Verification
+- Viking MCP, benchmark, and client: 36 passed, 0 failed.
+- `trm-devops` baseline and Viking resolver: 64 passed, 0 failed.
+- `trm-devops` TypeScript build passed.
+- `kb-sync` skeletonizer: 4 passed, 0 failed.
+- `kb-sync` autoheal: 13 passed, 0 failed.
+- `kb-sync` Viking bridge: 4 passed, 0 failed.
+- Benchmark harness: 5 passed, 0 failed.
+- Toolforge root regression suite: 226 passed, 0 failed, 1 optional external fixture skipped.
+- Governance regression: 5 passed, 0 failed after teaching the test to follow the explicit `CLAUDE.md` -> `AGENTS.md` delegation.
+
+### Blockers
+- No implementation blocker. Publication-grade savings figures still require a live benchmark adapter that executes identical agent tasks in both modes and reports exact tokenizer counts plus matching outcome fingerprints.
+
+### Next action
+Run `npm run benchmark:viking -- --adapter <module> --daily-status <report>` against the frozen five-task corpus, then review the 60-80% input-token and maximum 20% L2-escalation targets.
+
 ## Current goal
 Maintain and expand Topic Research Mining (TRM) registry and closed-loop research pipelines.
 
@@ -209,4 +240,3 @@ Commit and push the recipient validation guard after review.
 
 ### Next action
 Index repository sources with `gbrain sync --source toolforge`.
-
