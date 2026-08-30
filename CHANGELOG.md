@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.58.1
+Date: 2026-08-30
+
+### Changes
+- fbf4ec4 - fix(ci): sanitize mock token, fix wave-d action tags, and checkout sibling governance repo in matrix (Chris)
+
 ## Version 2.58.0
 Date: 2026-08-30
 
