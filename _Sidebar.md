@@ -17,7 +17,13 @@
 - [[WhichLLM Model Selection Evaluator|whichllm-model-selection-evaluator]]
 - [[Research Gaps Registry|trm-research-gaps]]
 
-#### TRM & Competitor Monitoring
+#### Skill Library
+- [[Tool Index|INDEX]]
+- [[Tool Creation Guide|TOOL_CREATION_GUIDE]]
+- [[Operator Guide|OPERATOR_GUIDE]]
+
+#### TRM & Operational DevOps
+- [[TRM DevOps Triage Pipeline|trm-devops-triage-pipeline]]
 - [[Competitor Watchlist Drift Engine|competitor-watchlist-drift-engine]]
 - [[Historical Revocation Verification|historical-revocation-verification]]
 - [[Mobile WebSocket Heartbeats|mobile-websocket-heartbeats]]

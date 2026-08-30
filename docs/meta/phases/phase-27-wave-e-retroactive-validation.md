@@ -1,11 +1,3 @@
----
-title: Phase 27 Wave E Retroactive Validation — Observability Spec Upfront
-date: 2026-07-11
-status: COMPLETE
-validation_target: Phase 27 Wave E Six Rules Framework
-source_amendment: governance-amendment-observability-phase-d
----
-
 # Phase 27 Wave E Retroactive Validation
 
 **Question:** Were telemetry/observability needs specified upfront (before Phase 27 Wave E execution)?

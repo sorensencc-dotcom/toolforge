@@ -1,12 +1,3 @@
----
-title: Phase 4 Implementation Plan — Governance, Canary & Promotion
-date: 2026-07-11
-status: READY_FOR_DISPATCH
-phase_gate: Phase D Complete
-approval_status: TIER1_APPROVED
-observability_contract: LOCKED
----
-
 # Phase 4 Implementation Plan — Governance, Canary & Promotion
 
 **Phase:** 4  

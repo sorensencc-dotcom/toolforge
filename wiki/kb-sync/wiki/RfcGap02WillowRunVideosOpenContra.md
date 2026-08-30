@@ -1,11 +1,3 @@
----
-title: "RfcGap02WillowRunVideosOpenContra"
-category: "wiki"
-status: "active"
-draft: true
-created: "2026-08-25T02:38:44.484Z"
----
-
 # RfcGap02WillowRunVideosOpenContra
 
 ## Summary

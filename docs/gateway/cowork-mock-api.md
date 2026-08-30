@@ -1,11 +1,3 @@
----
-title: Cowork Mock API Specification
-summary: Internal-only mock HTTP API for Phase 3.B testing. No external Cowork API exists yet.
-created: 2026-07-10
-updated: 2026-07-10
-tags: cowork, mock, gateway, phase-3, testing, internal
----
-
 # Cowork Mock API Specification
 
 **Status:** INTERNAL MOCK ONLY  

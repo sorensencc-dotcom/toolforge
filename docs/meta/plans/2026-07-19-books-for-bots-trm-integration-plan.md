@@ -1,12 +1,3 @@
----
-title: books-for-bots TRM Integration Plan
-date: 2026-07-19
-status: DRAFT
-phase: TRM Expansion
-category: Ingest Pipeline & Query Navigation
-scope: TIER2_EXECUTION
----
-
 # books-for-bots TRM Integration Plan
 
 ## Executive Summary

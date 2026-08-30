@@ -1,13 +1,3 @@
----
-source_title: "NARA Record: Willow Run Hydraulic Press & Tooling Transfers"
-repository: "nara_records"
-document_date: "1945-06-30"
-verification_status: "verified"
-category: "willow-run"
-topic: "gap-willow-run-b24-tooling"
-status: "active"
-last_updated: "2026-08-30T02:41:48.908Z"
----
 # NARA Record: Willow Run Hydraulic Press & Tooling Transfers
 
 ## Summary

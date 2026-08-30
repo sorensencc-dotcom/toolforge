@@ -1,3 +1,0 @@
-2026-07-13T00:00:00Z | INIT | registry | SUCCESS | Registry initialized
-2026-08-01T08:55:31Z | ADD | trm-status | SUCCESS | Entry added with checksum sha256-46a80687563cc462205b42f6332d3fdf41d68c8bb1595d32f555802330d7f53c
-2026-08-01T11:07:24Z | PUBLISH | trm-status | SUCCESS | Marked published, visibility set to public

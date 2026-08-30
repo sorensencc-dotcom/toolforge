@@ -1,9 +1,3 @@
----
-title: "Wiki Activity Log"
-category: "wiki"
-status: "active"
----
-
 # Wiki Activity Log
 
 ## [2026-08-18 17:58] auto-synthesize

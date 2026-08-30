@@ -1,16 +1,3 @@
----
-title: "WhichLLM v2.4.0 Model Selection Evaluator Specification"
-source_title: "WhichLLM v2.4.0 Model Selection Evaluator Specification"
-repository: "Toolforge & CIC Evaluator Suite"
-document_date: "2026-08-24"
-verification_status: "verified"
-category: "wiki"
-topic: whichllm-model-selection-evaluator
-status: active
-synthesized_by: "claude-3-5-sonnet"
-last_updated: "2026-08-24T10:50:00.000Z"
----
-
 # WhichLLM v2.4.0 Model Selection & OpenRouter Evaluator
 
 ## Architecture & Purpose

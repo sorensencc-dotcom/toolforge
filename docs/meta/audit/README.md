@@ -1,9 +1,3 @@
----
-title: Audit Reports Directory
-description: Archive of pre-charter audit reports (Audit-First Scope Lock gate)
-date: 2026-07-11
----
-
 # Audit Reports
 
 **Purpose:** Archive for pre-charter audit reports generated during Audit-First Scope Lock gate (before charter scope freeze).

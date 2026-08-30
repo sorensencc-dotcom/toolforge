@@ -1,12 +1,3 @@
----
-title: Phase 4 Scope Charter — Governance, Canary & Promotion
-date: 2026-07-10
-status: TIER1_APPROVED
-decision: APPROVED
-approved_date: 2026-07-11
-critical_path: false
----
-
 # Phase 4 Scope Charter — Governance, Canary & Promotion
 
 ## Executive Summary

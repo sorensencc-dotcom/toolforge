@@ -1,14 +1,3 @@
----
-title: Phase 5 ijfw-plan — Multi-Cohort Canary & A/B Testing
-date: 2026-07-11
-status: READY_FOR_DISPATCH
-phase: 5
-waves: 2
-agents: 6
-tests: 27
-deadline: 2026-07-18
----
-
 # Phase 5 ijfw-plan — Multi-Cohort Canary & A/B Testing
 
 **Dispatch Target:** 2026-07-11 (after Phase 4 PASS)  

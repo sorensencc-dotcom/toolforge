@@ -1,9 +1,3 @@
----
-title: "Wiki Index"
-category: "wiki"
-status: "active"
----
-
 # Wiki Index
 
 ## Pages

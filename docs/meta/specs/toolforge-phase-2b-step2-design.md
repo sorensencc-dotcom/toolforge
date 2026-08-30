@@ -1,13 +1,3 @@
----
-title: Toolforge Phase 2b — Step 2 End-to-End Architecture (Error Collection + Alerts)
-date: 2026-07-11
-status: DESIGN_LOCKED
-version: 1.0
-scope: Step 2 (W3–W4) only — errors table population, error taxonomy, alert engine, Dashboard v2 Errors tab
-depends_on: docs/meta/specs/toolforge-phase-2b-step1-design.md
-supersedes_ambiguity_in: docs/meta/plans/toolforge-phase-2b-implementation-plan.md (Step 2 sections, lines ~790–1114)
----
-
 # Toolforge Phase 2b — Step 2 Architecture (DESIGN_LOCKED)
 
 Authoritative build contract for **Step 2**. A builder implements each file mechanically from

@@ -1,9 +1,3 @@
----
-title: "TRM sync-treatment: factKey bugfix + daily automation"
-date: 2026-08-01
-status: DRAFT
----
-
 # TRM sync-treatment: factKey bugfix + daily automation
 
 ## Context

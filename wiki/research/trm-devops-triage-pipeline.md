@@ -1,11 +1,3 @@
----
-title: "TRM DevOps Sync & Triage Pipeline Architecture"
-category: "architecture"
-topic: "trm-devops-triage"
-created_at: "2026-08-28T18:25:00Z"
-tags: ["trm", "devops", "triage", "architecture", "notebooklm", "concurrency"]
----
-
 # TRM DevOps Sync & Triage Pipeline Architecture
 
 The **TRM DevOps Sync & Triage Pipeline** adapts the Topic Research Mining (TRM) pattern to developer operations. It continuously ingests diagnostic logs, CI failure traces, and GitHub Actions telemetry into a structured NotebookLM operational buffer (`[Open Dev Issues]`), extracts actionable defect models, and reconciles them into local Markdown triage queues with bi-directional human note preservation.

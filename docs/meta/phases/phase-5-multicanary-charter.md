@@ -1,13 +1,3 @@
----
-title: Phase 5 Scope Charter — Multi-Cohort Canary & A/B Testing
-date: 2026-07-11
-status: TIER1_APPROVED
-decision: APPROVED
-approved_date: 2026-07-11
-critical_path: false
-deadline: 2026-07-18
----
-
 # Phase 5 Scope Charter — Multi-Cohort Canary & A/B Testing
 
 ## Executive Summary

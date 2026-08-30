@@ -1,11 +1,3 @@
----
-title: Sub-Charter 2B.1 — Audit rewrite-mcp/skills/
-date: 2026-07-10
-status: COMPLETE
-approved_date: null
-parent_charter: phase-2b-scope-charter.md
----
-
 # Sub-Charter 2B.1 — Audit rewrite-mcp/skills/
 
 ## Executive Summary

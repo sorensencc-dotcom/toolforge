@@ -1,12 +1,3 @@
----
-title: "TorqueQuery AI Agent Routing Policy"
-date: 2026-08-01
-status: CANDIDATE
-decision: PROPOSED
-critical_path: false
-parent_spec: "CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1"
----
-
 # TorqueQuery AI Agent Routing Policy
 
 ## Purpose

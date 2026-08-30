@@ -1,9 +1,3 @@
----
-title: Pre-Charter Audit Checklist
-description: Mandatory pre-lock validation suite — codebase mapping, infrastructure alignment, pattern conformance
-date: 2026-07-11
----
-
 # Pre-Charter Audit Checklist
 
 **Mandatory Gate:** All items must PASS before charter scope freeze. Audit must complete in parallel (30 min SLA).

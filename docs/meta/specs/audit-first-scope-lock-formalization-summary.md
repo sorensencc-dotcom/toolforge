@@ -1,11 +1,3 @@
----
-title: Audit-First Scope Lock — Formalization Complete
-description: Gate moved from post-lock to mandatory pre-lock. Integrated into ijfw-spec-phase, Phase ABC model, and global governance rules.
-date: 2026-07-11
-status: DELIVERED
-approval_path: Pending Tier 1
----
-
 # Audit-First Scope Lock — Formalization Summary
 
 **Date:** 2026-07-11  
