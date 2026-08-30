@@ -426,3 +426,165 @@ status: "active"
 - [2026-08-26T21:48:32.278Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-daily-research.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
 - [2026-08-27T02:58:31.082Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-daily-research.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
 - [2026-08-27T03:17:59.093Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: c6659f67). Gap source: cic-reddit.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-08-30T02:01:01Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 27, SHA256: ACEBE7A7688A5D67302B189EB83A76DBE1FA1E8B67AD6EABA48D2A43217BA111, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-08-30T02:01:14Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 27, SHA256: 144B49395499BBCDC606D44A3430927FB576A1E9ABC204EC58A7D7D71C67F522, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-08-30T02:01:17.146Z] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.
+- [2026-08-30T02:01:19.240109+00:00] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.
+- [2026-08-30T02:01:21.876Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: 7c762b0b). Gap source: willow-run-videos.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-08-30T02:02:07Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 1, SHA256: 5A3F9D983207A5AD24A63256B06A3705969F34A1B6C279D4966A1A863771AA36, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+## 2026-08-30T02:26:16.914Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6u6z0
+- **Target Category:** test-temp-topic-mtf6u6z0
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:26:16.918Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6u6z0
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:26:16.923Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6u6z0
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:01.970Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6v5qi
+- **Target Category:** test-temp-topic-mtf6v5qi
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:27:01.975Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6v5qi
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:01.979Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6v5qi
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:09.976Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vbwy
+- **Target Category:** test-temp-topic-mtf6vbwy
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:27:09.982Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vbwy
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:09.987Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vbwy
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+- [2026-08-30T02:27:13Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 5, SHA256: BDAD0574F48FD4E5C0EE3A8CE9CA72FC197C228C565453547CC4FB06DA0BFB68, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+## 2026-08-30T02:27:20.819Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vka4
+- **Target Category:** test-temp-topic-mtf6vka4
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:27:20.824Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vka4
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:20.828Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vka4
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+- [2026-08-30T02:27:23Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 5, SHA256: 951E9CD95D45B6F99C267333293D0D2F48A0F8A7CF48D5C931AD84B017E8119E, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+## 2026-08-30T02:32:38.318Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf72d9i
+- **Target Category:** test-temp-topic-mtf72d9i
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:32:38.323Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf72d9i
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:32:38.327Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf72d9i
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+- [2026-08-30T02:32:40Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 5, SHA256: 800F1521C39E5E6B6150214FDA61EDFF67DC7921F587F9C81DD011DEF574D41E, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-08-30T02:42:05Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 4, SHA256: 85580A8507DE68E02A98E66CED837631D17FF3571F42537FBB73E1A9981974C3, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
+
+- [2026-08-30T02:42:06Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_ford_politics.txt (Pack: ford-politics, Items: 4, SHA256: D05757C77F9C8C4051A816BE8D3785EE522F3B556E7A552D97E678F740F4A4F2, Target: 0caf6707-f8f2-4d2a-acd2-020acead55ba).
+
+- [2026-08-30T02:42:09Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_master_kb.txt (Pack: master-kb, Items: 1560, SHA256: 5AB97A33E38FFCAA447F8A9CFBBBCE1F7D1798DDC0FB04C183CD4744DAFCAF81, Target: 679b8bab-2d87-42cb-a726-6dc54c83acc2).
+
+- [2026-08-30T02:42:10Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_daily.txt (Pack: daily, Items: 6, SHA256: 3B3463197D289D35D10C3ECF5963B7447AF90071562BEE4383074D5CE548F99D, Target: 1b4861a3-931f-4632-8fc1-343a8dd37df8).
+
+## 2026-08-30T02:42:10.471Z - Daily Research Mining Run (RUN-2026-08-30T02-42-02-532Z-63557c15)
+- **Duration:** 7.94s
+- **Dry Run:** true
+- **Categories Processed:** willow-run (dry_run_success), ford-politics (dry_run_success), post-war (quarantined), cuban-seizures (quarantined), master-kb (dry_run_success), daily (dry_run_success)
+
+- [2026-08-30T13:58:09Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 4, SHA256: 2D3F55994965E998FAE3FE85A53C13264AA791D2B11CF3B3396C58A0302CE5BB, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
+
+- [2026-08-30T13:58:17Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_ford_politics.txt (Pack: ford-politics, Items: 4, SHA256: B84850D38F500C11B629C80354E51F11C42C0694BA85F786B72B42F7983B0725, Target: 0caf6707-f8f2-4d2a-acd2-020acead55ba).
+
+- [2026-08-30T13:58:24Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 5, SHA256: AD987B34986D1085303229714FBE0097115AC8AD1B396ECC17C6551B6582EE3E, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-08-30T13:58:31Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_master_kb.txt (Pack: master-kb, Items: 1560, SHA256: F0F31D5D6C8CC83F65D8D3A4A741D2548BE91B27ED7B6104F285EE9665672A50, Target: 679b8bab-2d87-42cb-a726-6dc54c83acc2).
+
+- [2026-08-30T13:59:23Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_daily.txt (Pack: daily, Items: 6, SHA256: 064C15BB32B80DC6BA05E615D9328C887055674B9A80117DE66860D2BEE84913, Target: 1b4861a3-931f-4632-8fc1-343a8dd37df8).
+
+## 2026-08-30T13:59:32.533Z - Daily Research Mining Run (RUN-2026-08-30T13-58-06-148Z-ea6c7e73)
+- **Duration:** 86.39s
+- **Dry Run:** false
+- **Categories Processed:** willow-run (synced), ford-politics (synced), post-war (quarantined), cuban-seizures (synced), master-kb (synced), daily (synced)

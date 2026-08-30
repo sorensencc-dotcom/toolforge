@@ -25,6 +25,12 @@
         "@nanonets/graft",
         "mcp"
       ]
+    },
+    "trm-devops": {
+      "command": "node",
+      "args": [
+        "C:\\dev\\modules\\trm-devops\\dist\\mcp\\server.js"
+      ]
     }
   }
 }

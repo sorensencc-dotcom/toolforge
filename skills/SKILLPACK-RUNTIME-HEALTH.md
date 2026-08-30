@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-27T20:58:02.0085319Z
+**Generated:** 2026-08-28T22:13:45.7585991Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 313 | 2 | 0 | 315 |
-| % Pass | 99.4% | 0.6% | 0% | 100% |
+| **Totals** | 318 | 4 | 0 | 322 |
+| % Pass | 98.8% | 1.2% | 0% | 100% |
 
 ---
 
@@ -497,6 +497,18 @@
 | AuditLog | ⚠️ WARN | No runtime history in audit log |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### trm-devops-triage — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### trm-feedback-report — ✅ GOOD
 
 | Check | Result | Details |
@@ -613,6 +625,7 @@ Skills passing all checks:
 
 Skills with warnings but no failures:
 - trm-closed-loop-research
+- trm-devops-triage
 
 ### ❌ Error Health
 

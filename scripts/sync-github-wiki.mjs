@@ -10,8 +10,8 @@ const root = path.resolve(here, '..');
 const args = process.argv.slice(2);
 const value = (name, fallback = null) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
 
-const repoUrl = value('--repo-url', process.env.WIKI_REPO_URL || 'https://github.com/sorensencc-dotcom/toolforge.wiki.git');
-const targetWikiDir = path.resolve(root, value('--target-dir', '.wiki-publish-temp'));
+const repoUrl = value('--repo-url', process.env.WIKI_REPO_URL || 'git@github.com:sorensencc-dotcom/toolforge.wiki.git');
+const targetWikiDir = path.resolve(root, value('--target-dir', `.wiki-publish-temp-${Date.now().toString(36)}`));
 const shouldPush = args.includes('--push') || process.env.AUTO_PUSH === 'true' || true;
 const commitMessage = value('--commit-msg', 'docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar');
 
@@ -69,7 +69,21 @@ export function validateMarkdownImages(wikiDir) {
         for (const match of text.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)) {
           const target = match[1].trim().split(/\s+/)[0];
           if (/^(?:https?:|data:|#)/i.test(target)) continue;
-          if (!fs.existsSync(path.resolve(path.dirname(full), target))) missing.push(`${path.relative(wikiDir, full)} -> ${target}`);
+          const targetPath = path.resolve(path.dirname(full), target);
+          if (!fs.existsSync(targetPath)) {
+            // Check if available in root or root/assets/
+            const rootSrc = path.join(root, target);
+            const assetsSrc = path.join(root, 'assets', target);
+            if (fs.existsSync(rootSrc)) {
+              fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+              fs.copyFileSync(rootSrc, targetPath);
+            } else if (fs.existsSync(assetsSrc)) {
+              fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+              fs.copyFileSync(assetsSrc, targetPath);
+            } else {
+              missing.push(`${path.relative(wikiDir, full)} -> ${target}`);
+            }
+          }
         }
       }
     }
@@ -116,7 +130,8 @@ function generateSidebar(wikiDir) {
 - [[Tool Creation Guide|TOOL_CREATION_GUIDE]]
 - [[Operator Guide|OPERATOR_GUIDE]]
 
-#### TRM & Competitor Monitoring
+#### TRM & Operational DevOps
+- [[TRM DevOps Triage Pipeline|trm-devops-triage-pipeline]]
 - [[Competitor Watchlist Drift Engine|competitor-watchlist-drift-engine]]
 - [[Historical Revocation Verification|historical-revocation-verification]]
 - [[Mobile WebSocket Heartbeats|mobile-websocket-heartbeats]]
@@ -155,7 +170,9 @@ async function main() {
 
   // 1. Prepare target clone
   if (fs.existsSync(targetWikiDir)) {
-    fs.rmSync(targetWikiDir, { recursive: true, force: true });
+    try {
+      fs.rmSync(targetWikiDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 500 });
+    } catch (_) {}
   }
 
   console.log(`Cloning remote wiki git repository...`);

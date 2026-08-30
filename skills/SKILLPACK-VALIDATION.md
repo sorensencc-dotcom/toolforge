@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-08-27T21:00:04.9249009Z
+**Generated**: 2026-08-30T02:47:53.8223608Z
 
 ---
 
@@ -11,13 +11,13 @@
 | Canonical | 0 | 27 | 0 | ✅ |
 | Distributed | 0 | 9 | 0 | ✅ |
 | Manifest | 0 | 109 | 0 | ✅ |
-| Cowork | 0 | 46 | 0 | ✅ |
+| Cowork | 0 | 47 | 0 | ✅ |
 | Dependencies | 0 | 17 | 1 | ✅ |
-| Runtime | 0 | 0 | 46 | ✅ |
+| Runtime | 0 | 0 | 47 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 208
+**Total Warnings**: 209
 
 **Overall Status**: ✅ PASS
 
@@ -68,6 +68,7 @@
 | toolforge-registry-manager | Toolforge Registry Manager | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-submission-validator | Toolforge Submission Validator | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | trm-closed-loop-research | TRM Closed-Loop Research | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
+| trm-devops-triage | TRM DevOps Triage | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -273,6 +274,7 @@
 ⚠️ **toolforge-registry-manager**: Not registered (installer will register on next run)
 ⚠️ **toolforge-submission-validator**: Not registered (installer will register on next run)
 ⚠️ **trm-closed-loop-research**: Not registered (installer will register on next run)
+⚠️ **trm-devops-triage**: Not registered (installer will register on next run)
 ⚠️ **trm-feedback-report**: Not registered (installer will register on next run)
 ⚠️ **trm-status**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
@@ -342,6 +344,7 @@
 ℹ️ **toolforge-registry-manager**: Discoverable
 ℹ️ **toolforge-submission-validator**: Discoverable
 ℹ️ **trm-closed-loop-research**: Discoverable
+ℹ️ **trm-devops-triage**: Discoverable
 ℹ️ **trm-feedback-report**: Skill inactive (status: )
 ℹ️ **trm-status**: Discoverable
 ℹ️ **work-summarizer**: Skill inactive (status: )
