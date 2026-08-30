@@ -434,3 +434,103 @@ status: "active"
 - [2026-08-30T02:01:19.240109+00:00] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.
 - [2026-08-30T02:01:21.876Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'llama3:8b-instruct-fp16' (BFCL: 0.694, Hash: 7c762b0b). Gap source: willow-run-videos.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
 - [2026-08-30T02:02:07Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 1, SHA256: 5A3F9D983207A5AD24A63256B06A3705969F34A1B6C279D4966A1A863771AA36, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+## 2026-08-30T02:26:16.914Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6u6z0
+- **Target Category:** test-temp-topic-mtf6u6z0
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:26:16.918Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6u6z0
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:26:16.923Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6u6z0
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:01.970Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6v5qi
+- **Target Category:** test-temp-topic-mtf6v5qi
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:27:01.975Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6v5qi
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:01.979Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6v5qi
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:09.976Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vbwy
+- **Target Category:** test-temp-topic-mtf6vbwy
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:27:09.982Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vbwy
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:09.987Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vbwy
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+- [2026-08-30T02:27:13Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 5, SHA256: BDAD0574F48FD4E5C0EE3A8CE9CA72FC197C228C565453547CC4FB06DA0BFB68, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+## 2026-08-30T02:27:20.819Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vka4
+- **Target Category:** test-temp-topic-mtf6vka4
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:27:20.824Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vka4
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:27:20.828Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf6vka4
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+- [2026-08-30T02:27:23Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 5, SHA256: 951E9CD95D45B6F99C267333293D0D2F48A0F8A7CF48D5C931AD84B017E8119E, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).

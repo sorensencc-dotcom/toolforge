@@ -1,0 +1,102 @@
+[
+  {
+    "timestamp": "2026-08-30T02:26:16.914Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf6u6z0",
+    "category": "test-temp-topic-mtf6u6z0",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:26:16.918Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf6u6z0",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:26:16.923Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf6u6z0",
+    "reason": "Automated test teardown",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:01.970Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf6v5qi",
+    "category": "test-temp-topic-mtf6v5qi",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:01.975Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf6v5qi",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:01.979Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf6v5qi",
+    "reason": "Automated test teardown",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:09.976Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf6vbwy",
+    "category": "test-temp-topic-mtf6vbwy",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:09.982Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf6vbwy",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:09.987Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf6vbwy",
+    "reason": "Automated test teardown",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:20.819Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf6vka4",
+    "category": "test-temp-topic-mtf6vka4",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:20.824Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf6vka4",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:20.828Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf6vka4",
+    "reason": "Automated test teardown",
+    "result": "success"
+  }
+]
