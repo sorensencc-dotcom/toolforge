@@ -69,7 +69,21 @@ export function validateMarkdownImages(wikiDir) {
         for (const match of text.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)) {
           const target = match[1].trim().split(/\s+/)[0];
           if (/^(?:https?:|data:|#)/i.test(target)) continue;
-          if (!fs.existsSync(path.resolve(path.dirname(full), target))) missing.push(`${path.relative(wikiDir, full)} -> ${target}`);
+          const targetPath = path.resolve(path.dirname(full), target);
+          if (!fs.existsSync(targetPath)) {
+            // Check if available in root or root/assets/
+            const rootSrc = path.join(root, target);
+            const assetsSrc = path.join(root, 'assets', target);
+            if (fs.existsSync(rootSrc)) {
+              fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+              fs.copyFileSync(rootSrc, targetPath);
+            } else if (fs.existsSync(assetsSrc)) {
+              fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+              fs.copyFileSync(assetsSrc, targetPath);
+            } else {
+              missing.push(`${path.relative(wikiDir, full)} -> ${target}`);
+            }
+          }
         }
       }
     }
@@ -156,7 +170,9 @@ async function main() {
 
   // 1. Prepare target clone
   if (fs.existsSync(targetWikiDir)) {
-    fs.rmSync(targetWikiDir, { recursive: true, force: true });
+    try {
+      fs.rmSync(targetWikiDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 500 });
+    } catch (_) {}
   }
 
   console.log(`Cloning remote wiki git repository...`);
