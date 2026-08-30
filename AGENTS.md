@@ -445,3 +445,7 @@ The preflight fails closed when the path is relative, nested below the Git
 root, detached, missing `package.json`, or inconsistent with an expected
 repository or branch. Never infer a repository from the current directory
 when more than one checkout exists under `C:\dev`.
+
+Writable repository work must use a real checkout under C:\dev\dev-sandbox; treat C:\dev itself as read-only.
+ Do not default to Documents\Codex when a sandbox checkout is available.
+

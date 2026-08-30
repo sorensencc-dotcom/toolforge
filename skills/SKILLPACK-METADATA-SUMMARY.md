@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-28T22:13:45.4560302Z
+**Generated:** 2026-08-30T01:00:07.6259660Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -18,8 +18,8 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 46 | 97.9% |
-| ⚠️ Warning | 1 | 2.1% |
+| ✅ Good | 47 | 100% |
+| ⚠️ Warning | 0 | 0% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -256,7 +256,7 @@
 | Owner | Soren (Cast Iron Forge) |
 | Runtime | typescript |
 | Status | active |
-| Health | ⚠️ WARN |
+| Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### trm-feedback-report

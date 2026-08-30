@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T14:54:08.838071+00:00",
+  "generated_at": "2026-08-29T13:06:09.407395+00:00",
   "sources_checked": [
     "C:\\dev\\kb-sync\\.sync-status.json",
     "C:\\dev\\kb-sync\\.drift-report.json",
@@ -17,25 +17,25 @@
     "C:\\dev\\.ijfw\\memory\\handoff.md"
   ],
   "kb_sync": {
-    "last_sync": "2026-08-28T00:18:30.672Z",
-    "last_sync_age_hours": 14.6,
+    "last_sync": "2026-08-29T00:04:05.911Z",
+    "last_sync_age_hours": 13.0,
     "sync_status": "SUCCESS",
-    "file_count": 1582,
+    "file_count": 1589,
     "drift_status": "DRIFT_DETECTED",
-    "drift_stale_pages": 18,
-    "drift_checked_at": "2026-08-28T00:18:39.626Z",
-    "drift_age_hours": 14.6,
+    "drift_stale_pages": 27,
+    "drift_checked_at": "2026-08-29T00:04:15.010Z",
+    "drift_age_hours": 13.0,
     "drifted_files": [
       "modules/cache/db-schema.mjs",
       "modules/cache/sync-cache.mjs",
       "modules/cache/vector-store.mjs",
+      "modules/healing/repair-audit-gate.test.ts",
+      "modules/healing/repair-audit-gate.ts",
       "modules/trm/ast-grounding.mjs",
       "modules/trm/gap-triage-engine.mjs",
       "modules/trm/query-expander.mjs",
-      "scripts/install-git-hooks.mjs",
-      "scripts/register-trm-triage-task.ps1",
-      "scripts/schedule-task-wrapper-KB-Sync-Master.ps1",
-      "scripts/schedule-task-wrapper-TRM-Triage.ps1"
+      "modules/wiki/dashboard.html",
+      "scripts/cross-audit.mjs"
     ],
     "coverage_pct": 100,
     "coverage_checked_at": "2026-08-18T17:57:29.787Z",
@@ -79,7 +79,7 @@
   "trm_pipeline": {
     "latest_report": "TRM_SYNC_REPORT_DRYRUN_all_20260828T113155_196a5235-11bf-44fa-b4f9-59b263866fce.md",
     "run_at": "2026-08-28T11:31:55.730Z",
-    "run_age_hours": 3.4,
+    "run_age_hours": 25.6,
     "partial_run": "false",
     "fact_key_collisions": "0"
   },
@@ -90,52 +90,52 @@
       {
         "name": "charlie",
         "modified": "2026-08-20T22:28:40.157172+00:00",
-        "age_hours": 184.4
+        "age_hours": 206.6
       },
       {
         "name": "charlie/benson-ford",
         "modified": "2026-08-19T23:55:05.907636+00:00",
-        "age_hours": 207.0
+        "age_hours": 229.2
       },
       {
         "name": "charlie/cuba",
         "modified": "2026-08-22T00:28:25.689975+00:00",
-        "age_hours": 158.4
+        "age_hours": 180.6
       },
       {
         "name": "charlie/helene",
         "modified": "2026-08-22T00:28:25.683590+00:00",
-        "age_hours": 158.4
+        "age_hours": 180.6
       },
       {
         "name": "charlie/helene-i",
         "modified": "2026-08-20T00:04:57.840026+00:00",
-        "age_hours": 206.8
+        "age_hours": 229.0
       },
       {
         "name": "charlie/michigan-flight-museum",
         "modified": "2026-08-22T00:28:25.689975+00:00",
-        "age_hours": 158.4
+        "age_hours": 180.6
       },
       {
         "name": "charlie/retirement",
         "modified": "2026-08-22T00:28:25.689975+00:00",
-        "age_hours": 158.4
+        "age_hours": 180.6
       },
       {
         "name": "charlie/willow-run",
         "modified": "2026-08-22T00:28:25.681077+00:00",
-        "age_hours": 158.4
+        "age_hours": 180.6
       },
       {
         "name": "charlie/willys-overland",
         "modified": "2026-08-22T00:28:25.683590+00:00",
-        "age_hours": 158.4
+        "age_hours": 180.6
       },
       {
         "name": "cuba",
         "modified": "2026-08-20T00:08:09.955268+00:00",
-        "age_hours": 206.8
+        "age_hours": 229.0
       }
     ],
     "topics_created": [],
@@ -418,193 +418,193 @@
       {
         "target": "CIC-Reddit (follow-up)",
         "triaged": true,
-        "excerpt": "To truly elevate the findings in your notebook from a fascinating blend of local folklore and high-level summaries into a rigorously verified historic)))",
+        "excerpt": "To truly elevate the findings in your notebook from a fascinating blend of local folklore and high-level summaries into a rigorously verified historic))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--cic-reddit-follow-up.md"
       },
       {
         "target": "CIC-Reddit (adjacent-topics)",
         "triaged": true,
-        "excerpt": "Looking closely at your complete library of 21 sources [1, 21], there are several highly specific adjacent topics and historical threads that the sour)))",
+        "excerpt": "Looking closely at your complete library of 21 sources [1, 21], there are several highly specific adjacent topics and historical threads that the sour))))))))",
         "rfc_link": "wiki/research/rfc-gap-02--cic-reddit-adjacent-topics.md"
       },
       {
         "target": "CIC-Reddit (under-sourced)",
         "triaged": true,
-        "excerpt": "When examining the historical record across your notebook\u2019s 21 sources, there is a clear division between documented historical consensus and claims t)))",
+        "excerpt": "When examining the historical record across your notebook\u2019s 21 sources, there is a clear division between documented historical consensus and claims t))))))))",
         "rfc_link": "wiki/research/rfc-gap-03--cic-reddit-under-sourced.md"
       },
       {
         "target": "CIC-Reddit (open-contradictions)",
         "triaged": true,
-        "excerpt": "### **The Assembly Line's L-Shape and the \"Tax Turn\" Legend** A major structural and political contradiction lies in the physical layout of the Willow)))",
+        "excerpt": "### **The Assembly Line's L-Shape and the \"Tax Turn\" Legend** A major structural and political contradiction lies in the physical layout of the Willow))))))))",
         "rfc_link": "wiki/research/rfc-gap-04--cic-reddit-open-contradiction.md"
       },
       {
         "target": "CastIronCharlie-Facebook (adjacent-topics)",
         "triaged": true,
-        "excerpt": "The expanded archives in your notebook point directly to several highly technical, logistical, and social adjacent histories that remain rich, untappe))))",
+        "excerpt": "The expanded archives in your notebook point directly to several highly technical, logistical, and social adjacent histories that remain rich, untappe)))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--castironcharlie-facebook-adja.md"
       },
       {
         "target": "CastIronCharlie-Facebook (under-sourced)",
         "triaged": true,
-        "excerpt": "A close, critical reading of the expanded archives in your notebook reveals several major historical claims that\u2014while compelling\u2014are **single-sourced))))",
+        "excerpt": "A close, critical reading of the expanded archives in your notebook reveals several major historical claims that\u2014while compelling\u2014are **single-sourced)))))))))",
         "rfc_link": "wiki/research/rfc-gap-02--castironcharlie-facebook-unde.md"
       },
       {
         "target": "The Sorensen Photographic Archive: Industrial Giants at Willow Run (adjacent-topics)",
         "triaged": true,
-        "excerpt": "The minimalist captions in the photo log and your compiled research synthesis point directly to several major, high-stakes historical narratives that)))))",
+        "excerpt": "The minimalist captions in the photo log and your compiled research synthesis point directly to several major, high-stakes historical narratives that))))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--the-sorensen-photographic-arc.md"
       },
       {
         "target": "The Sorensen Photographic Archive: Industrial Giants at Willow Run (under-sourced)",
         "triaged": true,
-        "excerpt": "Because your notebook contains only the minimalist catalog **\"Sorensen Photos\"** [1] and the **\"TRM Research Gaps & Synthesis\"** meta-log (which merel)))))",
+        "excerpt": "Because your notebook contains only the minimalist catalog **\"Sorensen Photos\"** [1] and the **\"TRM Research Gaps & Synthesis\"** meta-log (which merel))))))))))",
         "rfc_link": "wiki/research/rfc-gap-02--the-sorensen-photographic-arc.md"
       },
       {
         "target": "The Sorensen Photographic Archive: Industrial Giants at Willow Run (open-contradictions)",
         "triaged": true,
-        "excerpt": "The introduction of your second source, **\"TRM Research Gaps & Synthesis\"** [1], adds a new layer to our project. Instead of analyzing just the photo)))))",
+        "excerpt": "The introduction of your second source, **\"TRM Research Gaps & Synthesis\"** [1], adds a new layer to our project. Instead of analyzing just the photo))))))))))",
         "rfc_link": "wiki/research/rfc-gap-03--the-sorensen-photographic-arc.md"
       },
       {
         "target": "Cast Iron Charlie - Research Logs (follow-up)",
         "triaged": true,
-        "excerpt": "To turn your current documentary leads into historically rigorous proof, your research logs outline several highly targeted, actionable follow-up inve))))))",
+        "excerpt": "To turn your current documentary leads into historically rigorous proof, your research logs outline several highly targeted, actionable follow-up inve)))))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--cast-iron-charlie-research-lo.md"
       },
       {
         "target": "Cast Iron Charlie - Research Logs (adjacent-topics)",
         "triaged": true,
-        "excerpt": "Your research logs point to several rich, adjacent topics that represent completely unexplored or undocumented territory for the documentary:  *   **T))))))",
+        "excerpt": "Your research logs point to several rich, adjacent topics that represent completely unexplored or undocumented territory for the documentary:  *   **T)))))))))))",
         "rfc_link": "wiki/research/rfc-gap-02--cast-iron-charlie-research-lo.md"
       },
       {
         "target": "Cast Iron Charlie - Research Logs (under-sourced)",
         "triaged": true,
-        "excerpt": "### 1. The Cuban Land Seizures & Holdings *   **The Core Seizure Narrative:** The dramatically significant claim that Fidel Castro's government seized))))))",
+        "excerpt": "### 1. The Cuban Land Seizures & Holdings *   **The Core Seizure Narrative:** The dramatically significant claim that Fidel Castro's government seized)))))))))))",
         "rfc_link": "wiki/research/rfc-gap-03--cast-iron-charlie-research-lo.md"
       },
       {
         "target": "Cast Iron Charlie - Research Logs (open-contradictions)",
         "triaged": true,
-        "excerpt": "### Biographical Contradictions & Discrepancies  *   **The Contested Death Date:** There is a direct historical conflict regarding the exact date of C))))))",
+        "excerpt": "### Biographical Contradictions & Discrepancies  *   **The Contested Death Date:** There is a direct historical conflict regarding the exact date of C)))))))))))",
         "rfc_link": "wiki/research/rfc-gap-04--cast-iron-charlie-research-lo.md"
       },
       {
         "target": "Willow Run Videos (follow-up)",
         "triaged": true,
-        "excerpt": "Our recent investigation into **Albert Kahn's L-Bend** successfully demystified the architectural and tax battle of the county line, proving that airp)))))))",
+        "excerpt": "Our recent investigation into **Albert Kahn's L-Bend** successfully demystified the architectural and tax battle of the county line, proving that airp))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--willow-run-videos-follow-up.md"
       },
       {
         "target": "Willow Run Videos (adjacent-topics)",
         "triaged": true,
-        "excerpt": "Now that we have successfully translated the **George Selden Patent War** legal thriller into a production-ready script (`selden-patent-script.md` [1])))))))",
+        "excerpt": "Now that we have successfully translated the **George Selden Patent War** legal thriller into a production-ready script (`selden-patent-script.md` [1]))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-02--willow-run-videos-adjacent-to.md"
       },
       {
         "target": "Willow Run Videos (under-sourced)",
         "triaged": true,
-        "excerpt": "### **The Boeing B-17 Flying Fortress Production Claim** *   **The Claim:** One highly detailed video transcript asserts that Boeing's **B-17 Flying F)))))))",
+        "excerpt": "### **The Boeing B-17 Flying Fortress Production Claim** *   **The Claim:** One highly detailed video transcript asserts that Boeing's **B-17 Flying F))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-03--willow-run-videos-under-sourc.md"
       },
       {
         "target": "Willow Run Videos (open-contradictions)",
         "triaged": true,
-        "excerpt": "Based on **The Sorensen Records** [1] and your newly imported **Research Report on the L-Bend** [2], we now have the primary source evidence to **defi)))))))",
+        "excerpt": "Based on **The Sorensen Records** [1] and your newly imported **Research Report on the L-Bend** [2], we now have the primary source evidence to **defi))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-04--willow-run-videos-open-contra.md"
       },
       {
         "target": "CIC - Daily Research (follow-up)",
         "triaged": true,
-        "excerpt": "To push your documentary and legal asset recovery efforts to a professional finish, you need to turn the **unresolved contradictions** and **under-cor))))))))",
+        "excerpt": "To push your documentary and legal asset recovery efforts to a professional finish, you need to turn the **unresolved contradictions** and **under-cor)))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--cic-daily-research-follow-up.md"
       },
       {
         "target": "CIC - Daily Research (adjacent-topics)",
         "triaged": true,
-        "excerpt": "The extensive primary source oral histories, private family papers, and local research logs point to **five highly compelling, unmapped adjacent stori))))))))",
+        "excerpt": "The extensive primary source oral histories, private family papers, and local research logs point to **five highly compelling, unmapped adjacent stori)))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-02--cic-daily-research-adjacent-t.md"
       },
       {
         "target": "CIC - Daily Research (under-sourced)",
         "triaged": true,
-        "excerpt": "Reviewing the primary dictated oral histories, declassified litigation files, and historical research logs reveals several prominent claims that are *))))))))",
+        "excerpt": "Reviewing the primary dictated oral histories, declassified litigation files, and historical research logs reveals several prominent claims that are *)))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-03--cic-daily-research-under-sour.md"
       },
       {
         "target": "CIC - Daily Research (open-contradictions)",
         "triaged": true,
-        "excerpt": "A thorough cross-examination of the primary dictated oral histories, declassified court files, and historical research logs reveals several prominent))))))))",
+        "excerpt": "A thorough cross-examination of the primary dictated oral histories, declassified court files, and historical research logs reveals several prominent)))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-04--cic-daily-research-open-contr.md"
       },
       {
         "target": "CIC-KB (adjacent-topics)",
         "triaged": true,
-        "excerpt": "The sources point to several highly specialized, adjacent architectural paradigms, deferred protocol specifications, and strategic integrations that a)))))))))",
+        "excerpt": "The sources point to several highly specialized, adjacent architectural paradigms, deferred protocol specifications, and strategic integrations that a))))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--cic-kb-adjacent-topics.md"
       },
       {
         "target": "CIC-KB (open-contradictions)",
         "triaged": true,
-        "excerpt": "An analysis of your multi-repository specifications, performance reviews, and active documentation reveals several critical technical gaps, unvetted a)))))))))",
+        "excerpt": "An analysis of your multi-repository specifications, performance reviews, and active documentation reveals several critical technical gaps, unvetted a))))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-02--cic-kb-open-contradictions.md"
       },
       {
         "target": "CIC-KB (under-sourced)",
         "triaged": true,
-        "excerpt": "An audit of the multi-repository specifications, performance reviews, and active documentation reveals several prominent technical claims and baseline))))))))))",
+        "excerpt": "An audit of the multi-repository specifications, performance reviews, and active documentation reveals several prominent technical claims and baseline)))))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-02--cic-kb-under-sourced.md"
       },
       {
         "target": "CastIronCharlie-Facebook (follow-up)",
         "triaged": true,
-        "excerpt": "To most effectively strengthen our current findings\u2014especially now that we have successfully resolved the **Sperry M-7 precision engineering** and the))))))))))))))))",
+        "excerpt": "To most effectively strengthen our current findings\u2014especially now that we have successfully resolved the **Sperry M-7 precision engineering** and the)))))))))))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--castironcharlie-facebook-foll.md"
       },
       {
         "target": "CastIronCharlie-Facebook (open-contradictions)",
         "triaged": true,
-        "excerpt": "The historical files in your notebook reveal several deep-seated contradictions, unresolved narratives, and organizational tensions that complicate th))))))))))))))))",
+        "excerpt": "The historical files in your notebook reveal several deep-seated contradictions, unresolved narratives, and organizational tensions that complicate th)))))))))))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-04--castironcharlie-facebook-open.md"
       },
       {
         "target": "The Sorensen Photographic Archive: Industrial Giants at Willow Run (follow-up)",
         "triaged": true,
-        "excerpt": "To transform the minimalist index of photograph captions into a thorough, narrative-driven history of Willow Run, follow-up research should target thr)))))))))))))))))",
+        "excerpt": "To transform the minimalist index of photograph captions into a thorough, narrative-driven history of Willow Run, follow-up research should target thr))))))))))))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--the-sorensen-photographic-arc.md"
       },
       {
         "target": "CIC-KB (follow-up)",
         "triaged": true,
-        "excerpt": "To systematically strengthen the architectural foundations, safety boundaries, and performance metrics of the **Cast Iron Charlie (CIC)** and **`kb-sy)))))))))))))))))))))",
+        "excerpt": "To systematically strengthen the architectural foundations, safety boundaries, and performance metrics of the **Cast Iron Charlie (CIC)** and **`kb-sy))))))))))))))))))))))))))",
         "rfc_link": "wiki/research/rfc-gap-01--cic-kb-follow-up.md"
       }
     ]
   },
   "automation_logs": {
     "ci_pipeline": {
-      "latest": "ci-pipeline-2026-08-27_212815.log",
-      "age_hours": 13.4
+      "latest": "ci-pipeline-2026-08-28_232835.log",
+      "age_hours": 9.6
     },
     "trm_sync_treatment": {
       "latest": "trm-sync-treatment-2026-08-28.log",
-      "age_hours": 3.4
+      "age_hours": 25.6
     },
     "retro_audit": {
-      "latest": "retro-audit-20260827.log",
-      "age_hours": 16.9
+      "latest": "retro-audit-20260828.log",
+      "age_hours": 15.1
     },
     "daily_report_agent": {
       "latest": "2026-08-28.md",
-      "age_hours": 3.4
+      "age_hours": 20.3
     },
     "weekly_report_agent": {
       "latest": "2026-W35.md",
-      "age_hours": 99.7
+      "age_hours": 121.9
     }
   },
   "claude_project_memory": {
@@ -612,64 +612,64 @@
     "mirror_exists": true,
     "files": [
       {
-        "name": "MEMORY.md",
-        "last_modified": "2026-08-27T19:27:38.177938+00:00",
-        "age_hours": 19.4,
-        "excerpt": "# Memory Index  ## 2026-08-27 - [Session Wrap: Wiki-QA GitHub-DOM Scoping](session-wrap-2026-08-27-wiki-qa-github-dom.md) \u2014 closed the prior entry's open items: PR #6 merged (d2d5754), PR #12 merged (457fcec) scoping the audit to `.markdown-body` on GitHub wiki pages. GOVERNANCE diagram still fails \u2014 real content bug (`GOVERNANCE.md:7` `](wiki/\u2026png)` path), fix is in sync-github-wiki.mjs, not the "
-      },
-      {
         "name": "session-wrap-2026-08-27-wiki-qa-github-dom.md",
-        "last_modified": "2026-08-27T19:10:52.866846+00:00",
-        "age_hours": 19.7,
+        "last_modified": "2026-08-28T17:01:11.940209+00:00",
+        "age_hours": 20.1,
         "excerpt": "--- name: session-wrap-2026-08-27-wiki-qa-github-dom description: \"Merged toolforge PR #6 + built/merged PR #12 fixing wiki browser-QA audit false failures on GitHub-rendered pages; GOVERNANCE diagram is a real unfixed content bug.\" metadata:    node_type: memory   type: project   originSessionId: d33678fe-ab6b-49bc-9371-ced3fa9eb955   modified: 2026-08-27T19:10:52.856Z ---  Session 2026-08-27 (~3"
       },
       {
-        "name": "project-wiki-qa-neo-backend-2026-08-27.md",
-        "last_modified": "2026-08-27T14:26:41.866052+00:00",
-        "age_hours": 24.5,
-        "excerpt": "--- name: project-wiki-qa-neo-backend-2026-08-27 description: \"Wiki browser-QA gained a BrowserOS Neo backend; PR #6 open, live-audit GitHub-chrome false positives left for next session.\" metadata:    node_type: memory   type: project   originSessionId: dda3f29b-6957-4b35-89b6-6333d2a32693   modified: 2026-08-27T14:26:41.858Z ---  `tools/wiki-browser-qa/` now has a selectable browser backend: `gst"
-      },
-      {
-        "name": "project-multi-agent-handoff-protocol-spec-2026-08-17.md",
-        "last_modified": "2026-08-17T23:55:51.180036+00:00",
-        "age_hours": 255.0,
-        "excerpt": "--- name: project-multi-agent-handoff-protocol-spec-2026-08-17 description: \"Governance spec drafted at docs/meta/governance/multi-agent-handoff-protocol.md to close the recurring unreviewed-squash-on-main pattern (5a86f23); 4 review rounds, two-gate ratification model, not yet committed or Tier 1 approved.\" metadata:    node_type: memory   type: project   originSessionId: 464d12e6-06ec-459c-bff6-"
-      },
-      {
-        "name": "project-sigil-v0.1.1-corrective-release-2026-08-17.md",
-        "last_modified": "2026-08-17T22:43:15.777928+00:00",
-        "age_hours": 256.2,
-        "excerpt": "--- name: project-sigil-v0-1-1-corrective-release-2026-08-17 description: Sigil v0.1.1 corrective patch closed 3 real bugs + coverage gaps found auditing the unreviewed 5a86f23 squash; tags now match HEAD. metadata:    node_type: memory   type: project   originSessionId: f4721667-6a4f-48e8-b32c-a563d8dcf589   modified: 2026-08-17T22:43:15.770Z ---  Audited `5a86f23` (\"feat: close Sigil v1 conforma"
-      },
-      {
-        "name": "feedback_codex_scope_creep_autopush_sigil.md",
-        "last_modified": "2026-08-17T15:53:25.076161+00:00",
-        "age_hours": 263.0,
-        "excerpt": "--- name: feedback-codex-scope-creep-autopush-sigil description: \"Codex extends scope well beyond a single dispatched task and auto-pushes straight to origin/main with no review gate; verify diffs, not just test-pass claims.\" metadata:    node_type: memory   type: feedback   originSessionId: 6294ff91-fde0-4654-bfc7-e05c971e527f   modified: 2026-08-17T15:53:25.047Z ---  In sigil-repo (2026-08-15), "
-      },
-      {
-        "name": "feedback_checkin_before_session_cap.md",
-        "last_modified": "2026-08-17T02:21:07.406714+00:00",
-        "age_hours": 276.6,
-        "excerpt": "--- name: checkin-before-session-cap description: \"Checkpoint with user before burning a full 5hr token window on long autonomous SDD runs, not just at named stop conditions\" metadata:    node_type: memory   type: feedback   originSessionId: 51061bde-6290-4632-b90c-09117e55b1be   modified: 2026-08-17T02:21:07.398Z ---  Don't run a long subagent-driven-development execution (19+ tasks) straight thr"
-      },
-      {
-        "name": "feedback_sigil_relay_state_and_mailbox_ambiguity.md",
-        "last_modified": "2026-08-16T18:13:34.435483+00:00",
-        "age_hours": 284.7,
-        "excerpt": "--- name: feedback_sigil_relay_state_and_mailbox_ambiguity description: \"Sigil local relay (sigil relay up) is in-memory only and loses all queued state on restart; empty inbox is ambiguous between \\\"drained by a live watcher\\\" and \\\"never delivered\\\" \u2014 don't loop resends, ask for explicit ledger confirmation.\" metadata:    node_type: memory   type: feedback   originSessionId: 5ae3c205-297a-40a4-8"
+        "name": "session-wrap-2026-08-16-sigil-inbox-wait-shipped.md",
+        "last_modified": "2026-08-28T17:01:11.939211+00:00",
+        "age_hours": 20.1,
+        "excerpt": "--- name: session-wrap-2026-08-16-sigil-inbox-wait-shipped description: \"Sigil inbox --wait shipped + live-proven end to end, sigil-consult skill built, both pushed\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T14:05:41.219Z ---  Shipped tonight (2026-08-15/16, sigil-repo, pushed to origin/main at ea6bf17): - `config-"
       },
       {
         "name": "session-wrap-2026-08-16-sigil-conformance-spec.md",
-        "last_modified": "2026-08-16T18:13:07.178864+00:00",
-        "age_hours": 284.7,
+        "last_modified": "2026-08-28T17:01:11.938208+00:00",
+        "age_hours": 20.1,
         "excerpt": "--- name: session-wrap-2026-08-16-sigil-conformance-spec description: \"Sigil v1 \u00a718 conformance gap closure design spec \u2014 audited, drafted, reviewed 4 rounds (Codex + human), committed and pushed; writing-plans deferred to next session.\" metadata:    node_type: memory   type: project   originSessionId: 5ae3c205-297a-40a4-896d-c3fbc44ef13e   modified: 2026-08-16T18:13:07.157Z ---  Audited `C:\\dev\\s"
       },
       {
-        "name": "session-wrap-2026-08-16-sigil-inbox-wait-shipped.md",
-        "last_modified": "2026-08-16T14:05:41.227670+00:00",
-        "age_hours": 288.8,
-        "excerpt": "--- name: session-wrap-2026-08-16-sigil-inbox-wait-shipped description: \"Sigil inbox --wait shipped + live-proven end to end, sigil-consult skill built, both pushed\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T14:05:41.219Z ---  Shipped tonight (2026-08-15/16, sigil-repo, pushed to origin/main at ea6bf17): - `config-"
+        "name": "project-wiki-qa-neo-backend-2026-08-27.md",
+        "last_modified": "2026-08-28T17:01:11.937201+00:00",
+        "age_hours": 20.1,
+        "excerpt": "--- name: project-wiki-qa-neo-backend-2026-08-27 description: \"Wiki browser-QA gained a BrowserOS Neo backend; PR #6 open, live-audit GitHub-chrome false positives left for next session.\" metadata:    node_type: memory   type: project   originSessionId: dda3f29b-6957-4b35-89b6-6333d2a32693   modified: 2026-08-27T14:26:41.858Z ---  `tools/wiki-browser-qa/` now has a selectable browser backend: `gst"
+      },
+      {
+        "name": "project-sigil-npm-packaging-decision-2026-08-15.md",
+        "last_modified": "2026-08-28T17:01:11.935682+00:00",
+        "age_hours": 20.1,
+        "excerpt": "--- name: project-sigil-npm-packaging-decision-2026-08-15 description: \"Decision on sigil npm packaging (bin/sigil.mjs) vs relay CLI (sigil/cli/sigil.mjs) \u2014 keep both, add env-aware auto-switching\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T00:24:15.631Z ---  Decision (2026-08-15): npm packaging (`bin/sigil.mjs`, MC"
+      },
+      {
+        "name": "project-sigil-v0.1.1-corrective-release-2026-08-17.md",
+        "last_modified": "2026-08-28T17:01:11.935682+00:00",
+        "age_hours": 20.1,
+        "excerpt": "--- name: project-sigil-v0-1-1-corrective-release-2026-08-17 description: Sigil v0.1.1 corrective patch closed 3 real bugs + coverage gaps found auditing the unreviewed 5a86f23 squash; tags now match HEAD. metadata:    node_type: memory   type: project   originSessionId: f4721667-6a4f-48e8-b32c-a563d8dcf589   modified: 2026-08-17T22:43:15.770Z ---  Audited `5a86f23` (\"feat: close Sigil v1 conforma"
+      },
+      {
+        "name": "project-sigil-consult-skill-backlog-2026-08-15.md",
+        "last_modified": "2026-08-28T17:01:11.934175+00:00",
+        "age_hours": 20.1,
+        "excerpt": "--- name: project-sigil-consult-skill-backlog-2026-08-15 description: \"Backlog idea from user \u2014 turn \\\"send current context to a Sigil peer for feedback\\\" into a proper skill\" metadata:    node_type: memory   type: project   originSessionId: f2b61664-db06-4322-a0b2-7f2788dcbb07   modified: 2026-08-16T04:44:35.581Z ---  User idea (2026-08-15, during sigil `inbox --wait` design): what we did manuall"
+      },
+      {
+        "name": "feedback_sigil_relay_state_and_mailbox_ambiguity.md",
+        "last_modified": "2026-08-28T17:01:11.933167+00:00",
+        "age_hours": 20.1,
+        "excerpt": "--- name: feedback_sigil_relay_state_and_mailbox_ambiguity description: \"Sigil local relay (sigil relay up) is in-memory only and loses all queued state on restart; empty inbox is ambiguous between \\\"drained by a live watcher\\\" and \\\"never delivered\\\" \u2014 don't loop resends, ask for explicit ledger confirmation.\" metadata:    node_type: memory   type: feedback   originSessionId: 5ae3c205-297a-40a4-8"
+      },
+      {
+        "name": "project-multi-agent-handoff-protocol-spec-2026-08-17.md",
+        "last_modified": "2026-08-28T17:01:11.933167+00:00",
+        "age_hours": 20.1,
+        "excerpt": "--- name: project-multi-agent-handoff-protocol-spec-2026-08-17 description: \"Governance spec drafted at docs/meta/governance/multi-agent-handoff-protocol.md to close the recurring unreviewed-squash-on-main pattern (5a86f23); 4 review rounds, two-gate ratification model, not yet committed or Tier 1 approved.\" metadata:    node_type: memory   type: project   originSessionId: 464d12e6-06ec-459c-bff6-"
+      },
+      {
+        "name": "feedback_codex_scope_creep_autopush_sigil.md",
+        "last_modified": "2026-08-28T17:01:11.932429+00:00",
+        "age_hours": 20.1,
+        "excerpt": "--- name: feedback-codex-scope-creep-autopush-sigil description: \"Codex extends scope well beyond a single dispatched task and auto-pushes straight to origin/main with no review gate; verify diffs, not just test-pass claims.\" metadata:    node_type: memory   type: feedback   originSessionId: 6294ff91-fde0-4654-bfc7-e05c971e527f   modified: 2026-08-17T15:53:25.047Z ---  In sigil-repo (2026-08-15), "
       }
     ]
   }

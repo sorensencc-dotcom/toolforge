@@ -1,9 +1,9 @@
-﻿# Toolforge Drift Detection Report
+# Toolforge Drift Detection Report
 
-**Generated**: 2026-08-17T15:48:43.3072968Z
+**Generated**: 2026-08-29T13:06:44.2301672Z
 
-**Canonical**: C:\dev
-**Distributed**: C:\dev\rewrite-mcp\toolforge
+**Canonical**: `C:\dev`
+**Distributed**: `C:\dev\rewrite-mcp\toolforge`
 
 ---
 
@@ -11,13 +11,13 @@
 
 | Category | Drifts | Severity |
 |----------|--------|----------|
-| Structure | 46 | WARN |
+| Structure | 63 | WARN |
 | Tools | 0 | OK |
 | Skills | 2 | WARN |
 | Docs | 0 | OK |
 | Manifest | 0 | OK |
 
-**Total Drifts**: 48
+**Total Drifts**: 65
 **Status**: DRIFTED
 
 ---
@@ -25,9 +25,16 @@
 ## Findings
 ### Structure Drifts
 
+- **missing** .agents (in distributed)
+- **missing** .artifacts (in distributed)
+- **missing** .codex (in distributed)
 - **missing** .cursor (in distributed)
 - **missing** .gemini (in distributed)
+- **missing** .gstack (in distributed)
 - **missing** .nlm_pack (in distributed)
+- **missing** .tmp (in distributed)
+- **missing** .wayland (in distributed)
+- **missing** .wayland-core (in distributed)
 - **missing** .windsurf (in distributed)
 - **missing** assets (in distributed)
 - **missing** audit (in distributed)
@@ -37,6 +44,8 @@
 - **missing** cic-vision-governance (in distributed)
 - **missing** config (in distributed)
 - **missing** data (in distributed)
+- **missing** dev (in distributed)
+- **missing** dev-sandbox (in distributed)
 - **missing** dlq (in distributed)
 - **missing** drift (in distributed)
 - **missing** engines (in distributed)
@@ -52,20 +61,28 @@
 - **missing** post_seal_ops (in distributed)
 - **missing** rewrite-docs (in distributed)
 - **missing** roadmap-runner (in distributed)
+- **missing** scratch (in distributed)
 - **missing** scripts (in distributed)
 - **missing** services (in distributed)
 - **missing** sigil (in distributed)
 - **missing** sigil-npm-cache (in distributed)
 - **missing** sigil-package-test (in distributed)
 - **missing** sigil-repo (in distributed)
+- **missing** sigil-wiki (in distributed)
 - **missing** src (in distributed)
 - **missing** task-observatory (in distributed)
 - **missing** tests (in distributed)
 - **missing** TheFoundry (in distributed)
 - **missing** toolforge (in distributed)
 - **missing** toolforge-pdf (in distributed)
+- **missing** tools (in distributed)
 - **missing** trm (in distributed)
+- **missing** trm-wiki (in distributed)
+- **missing** viking-phase3 (in distributed)
+- **missing** wiki (in distributed)
+- **missing** wiki-home-check-20260828 (in distributed)
 - **missing** windows-task-manager (in distributed)
+- **missing** _integration (in distributed)
 - **missing** _status-feed (in distributed)
 - **extra** adapters (in distributed)
 - **extra** mcp-servers (in distributed)
