@@ -534,3 +534,29 @@ status: "active"
 - **Result:** success
 
 - [2026-08-30T02:27:23Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 5, SHA256: 951E9CD95D45B6F99C267333293D0D2F48A0F8A7CF48D5C931AD84B017E8119E, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+## 2026-08-30T02:32:38.318Z
+- **Action:** map
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf72d9i
+- **Target Category:** test-temp-topic-mtf72d9i
+- **Notebook ID:** 11111111-2222-3333-4444-555555555555
+- **Result:** success
+
+## 2026-08-30T02:32:38.323Z
+- **Action:** merge
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf72d9i
+- **Target Category:** daily
+- **Notebook ID:** N/A
+- **Result:** success
+
+## 2026-08-30T02:32:38.327Z
+- **Action:** retire
+- **Actor:** soren
+- **Placeholder:** placeholder::test-temp-topic-mtf72d9i
+- **Target Category:** N/A
+- **Notebook ID:** N/A
+- **Result:** success
+
+- [2026-08-30T02:32:40Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 5, SHA256: 800F1521C39E5E6B6150214FDA61EDFF67DC7921F587F9C81DD011DEF574D41E, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).

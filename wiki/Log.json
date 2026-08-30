@@ -98,5 +98,30 @@
     "placeholder": "placeholder::test-temp-topic-mtf6vka4",
     "reason": "Automated test teardown",
     "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:32:38.318Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf72d9i",
+    "category": "test-temp-topic-mtf72d9i",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:32:38.323Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf72d9i",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:32:38.327Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf72d9i",
+    "reason": "Automated test teardown",
+    "result": "success"
   }
 ]
