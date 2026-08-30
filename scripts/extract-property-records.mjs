@@ -158,13 +158,15 @@ export function runPropertyExtraction(options = {}) {
     if (!fs.existsSync(cDir)) continue;
     for (const entry of fs.readdirSync(cDir)) {
       if (!entry.endsWith('.md') && !entry.endsWith('.txt')) continue;
+      if (entry.startsWith('_') || entry.includes('devops') || entry.includes('websocket')) continue;
       const fullPath = path.join(cDir, entry);
       try {
         const content = fs.readFileSync(fullPath, 'utf8');
-        if (/cuba|claim|seizure|expropriat|sugar|nickel/i.test(content)) {
+        // Require explicit Cuban seizure / FCSC claims context
+        if (/(?:fcsc|nationaliz|expropriat|law\s*851|agrarian\s*reform|moa\s*bay|nicaro|cuban\s*telephone)/i.test(content)) {
           const profile = extractPropertyProfile(fullPath, content, normTables);
 
-          if (profile.confidenceScore >= minConfidence) {
+          if (profile.confidenceScore >= minConfidence && profile.assetName !== 'Cuban Commercial Asset') {
             const slug = profile.assetName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
             const outFile = path.join(PROPERTIES_DIR, `${slug}.md`);
             const sha256 = crypto.createHash('sha256').update(content.trim()).digest('hex');
@@ -199,7 +201,7 @@ export function runPropertyExtraction(options = {}) {
             fs.writeFileSync(outFile, md, 'utf8');
             profilesGenerated.push({ slug, outFile, profile });
           } else {
-            errorsLogged.push({ file: entry, reason: `Low confidence (${profile.confidenceScore})` });
+            errorsLogged.push({ file: entry, reason: `Filtered out or low confidence (${profile.confidenceScore})` });
           }
         }
       } catch (err) {
