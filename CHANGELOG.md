@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.57.0
+Date: 2026-08-30
+
+### Changes
+- a38c9e4 - feat(trm): register 4 new NotebookLM notebooks for closed-loop research (Chris)
+- 46b9130 - docs(report): add daily report for 2026-08-30 (Chris)
+
 ## Version 2.56.1
 Date: 2026-08-30
 
