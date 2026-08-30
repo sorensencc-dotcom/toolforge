@@ -33,7 +33,7 @@ jobs:
           - repository: cic-ingestion
             validate: npm run gov:validate
             smoke: npm run gov:smoke
-          - repository: sigil-repo
+          - repository: sigil
             validate: npm run audit:jcs
             smoke: npm test
 
@@ -53,12 +53,14 @@ jobs:
             CIC-GOVERNANCE
 
       - name: Link CIC-GOVERNANCE
-        run: cp -r toolforge-source/CIC-GOVERNANCE ./CIC-GOVERNANCE
+        run: |
+          mkdir -p CIC-GOVERNANCE
+          cp -r toolforge-source/CIC-GOVERNANCE/* CIC-GOVERNANCE/ || cp -r toolforge-source/* CIC-GOVERNANCE/ || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: "24"
 
       - name: Install dependencies
         working-directory: workspace
