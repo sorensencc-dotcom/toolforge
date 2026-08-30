@@ -22,3 +22,8 @@ vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
 | What claims are asserted but single-sourced or under-corroborated? | ### **The Boeing B-17 Flying Fortress Production Claim** *   **The Claim:** One highly detailed video transcript asserts that Boeing's **B-17 Flying Fortress** was the primary aircraft manufactured at... | Willow Run Videos | 2026-08-28 | ef78168d-b7b9-4952-8e0f-fcb353a21181:under-sourced:952e899cf4bfe11a8469420b8d294235c58e512cde87a5e589cd8c00d2dade4f |
 | What adjacent topics do these sources point to that aren't covered yet? | Now that we have successfully translated the **George Selden Patent War** legal thriller into a production-ready script (`selden-patent-script.md` [1]) and matching conceptual artwork [2-4], several k... | Willow Run Videos | 2026-08-28 | ef78168d-b7b9-4952-8e0f-fcb353a21181:adjacent-topics:af2931f0672cfd45409ffeadbf4554a0597987f12d881adff76000ee09049358 |
 | What follow-up research would most strengthen current findings? | Our recent investigation into **Albert Kahn's L-Bend** successfully demystified the architectural and tax battle of the county line, proving that airport runway clearance was the primary structural dr... | Willow Run Videos | 2026-08-28 | ef78168d-b7b9-4952-8e0f-fcb353a21181:follow-up:0cedca5ac66a51035d24543c1ab563de2471da179ab6b71d0b4d40e9319051bd |
+
+## Triage & Resolution Registry
+
+- [x] **[GAP-04] Willow Run L-Bend Assembly Line vs. Tax Turn Legend**: Resolved via primary engineering records and airfield glide-path specs. Canonical note: [willow-run-l-bend-tax-legend.md](file:///C:/dev/wiki/research/willow-run-l-bend-tax-legend.md)
+
