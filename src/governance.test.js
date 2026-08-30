@@ -5,7 +5,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const read = (relativePath) => fs.readFileSync(path.join(repoRoot, relativePath), 'utf8');
+const read = (relativePath) => {
+  let content = fs.readFileSync(path.join(repoRoot, relativePath), 'utf8');
+  if (content.startsWith('@')) {
+    const target = content.split(/\r?\n/)[0].slice(1).trim();
+    if (fs.existsSync(path.join(repoRoot, target))) {
+      content = fs.readFileSync(path.join(repoRoot, target), 'utf8') + '\n' + content;
+    }
+  }
+  return content;
+};
 
 test('CI governance workflow runs on pushes and pull requests', () => {
   const workflow = read('.github/workflows/governance.yml');
