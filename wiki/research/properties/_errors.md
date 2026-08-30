@@ -1,6 +1,6 @@
 # Property Extraction Errors & Warnings
 
-Generated at: 2026-08-30T02:32:38.703Z
+Generated at: 2026-08-30T02:42:03.225Z
 
 | File | Issue / Reason |
 |---|---|
@@ -47,3 +47,4 @@ Generated at: 2026-08-30T02:32:38.703Z
 | `f2e5c1fe-2b5d-4101-9ec6-ba382c2457e0--the-foreign-claims-settlement-commission-and-the-cuban-claims-program-smu-schola.md` | Filtered out or low confidence (1) |
 | `46f77ec1-283e-4972-940b-5f2408504846--willysresearchlog-v2-20260430.md` | Filtered out or low confidence (0.85) |
 | `f444211d-2e07-4c51-978d-9972048dd13d--laterliferesearchlog-v1-20260430.md` | Filtered out or low confidence (1) |
+| `ford-socony-vacuum.md` | Filtered out or low confidence (1) |

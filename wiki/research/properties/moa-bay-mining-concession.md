@@ -21,6 +21,6 @@
 source_path: C:/dev/wiki/research/fcsc-moa-bay.md
 source_type: md
 hash_sha256: 6a299e6f2b015d36731b86bb531134e2d93b6f51f1ea45d5a1d41a64b2cb3c63
-extracted_at: 2026-08-30T02:32:38.699Z
+extracted_at: 2026-08-30T02:42:03.219Z
 extractor_version: 2026-08-29-1
 ===================

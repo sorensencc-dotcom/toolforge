@@ -20,6 +20,7 @@ sigil-wiki/
 trm-wiki/
 scratch/
 .nlm_pack/
+.nlm_pack_dead_letter/
 _kb-sync-staging/
 dev-sandbox/
 

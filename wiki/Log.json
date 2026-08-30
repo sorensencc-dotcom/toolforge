@@ -123,5 +123,45 @@
     "placeholder": "placeholder::test-temp-topic-mtf72d9i",
     "reason": "Automated test teardown",
     "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:42:10.471Z",
+    "action": "daily_mining_run",
+    "actor": "scheduler",
+    "run_id": "RUN-2026-08-30T02-42-02-532Z-63557c15",
+    "duration_seconds": 7.94,
+    "results": [
+      {
+        "category": "willow-run",
+        "status": "dry_run_success",
+        "durationMs": 853
+      },
+      {
+        "category": "ford-politics",
+        "status": "dry_run_success",
+        "durationMs": 722
+      },
+      {
+        "category": "post-war",
+        "status": "quarantined",
+        "deadLetter": "C:\\dev\\.nlm_pack_dead_letter\\2026-08-30\\post-war\\pack_post_war.txt"
+      },
+      {
+        "category": "cuban-seizures",
+        "status": "quarantined",
+        "deadLetter": "C:\\dev\\.nlm_pack_dead_letter\\2026-08-30\\cuban-seizures\\pack_cuban_seizures.txt"
+      },
+      {
+        "category": "master-kb",
+        "status": "dry_run_success",
+        "durationMs": 2664
+      },
+      {
+        "category": "daily",
+        "status": "dry_run_success",
+        "durationMs": 800
+      }
+    ],
+    "result": "success"
   }
 ]
