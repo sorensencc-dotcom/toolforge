@@ -114,6 +114,9 @@ yours -- IJFW will never touch it.
 
 <!-- IJFW-MEMORY-START -->
 Project memory at .ijfw/memory/. Call `ijfw_memory_prelude` for full context.
+
+Last handoff: Handoff: 2026-08-30
+===================
 <!-- IJFW-MEMORY-END -->
 
 <!-- IJFW-ROUTING-START -->
@@ -223,7 +226,7 @@ All other locations are forbidden:
 - archive/ (historical only)
 - Sync artifacts / node_modules / backups
 
-Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on every commit — live-verified 2026-08-09 (force-staged a roadmap.md under `.claude/worktrees/`, hook threw and blocked). Hook is gitignore-scoped: `.claude/worktrees/` files must be `git add -f`'d to even reach the gate, since the dir itself is gitignored. No CI job scans for roadmap-location violations specifically — `.github/workflows/retro-full-audit.yml` does run on a `schedule:` trigger (`cron: '30 7 * * 5'`, since 2026-08-03) but doesn't check roadmap placement, and `governance.yml` has no roadmap-location scan either; `docs/meta/roadmap-consolidation-design.md` does not exist in this checkout. Treat CI/weekly-scan enforcement of roadmap location as not yet built, not as a live gate.
+Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on every commit — live-verified 2026-08-09 and re-verified 2026-08-30 (force-staged a `roadmap.md` under `.claude/worktrees/`, ran the hook directly, `Test-RoadmapLocations` wrote "ROADMAP.md creation blocked outside allowed locations" and the hook exited 1). The hook lives in `.git/hooks/`, which Git does not track: a fresh clone has only the `*.sample` files until the hooks are installed locally, so this gate cannot be confirmed from the committed tree alone — inspect `.git/hooks/pre-commit.ps1` in a configured checkout, or run it against a staged test file, to corroborate. Hook is gitignore-scoped: `.claude/worktrees/` files must be `git add -f`'d to even reach the gate, since the dir itself is gitignored. No CI job scans for roadmap-location violations specifically — `.github/workflows/retro-full-audit.yml` does run on a `schedule:` trigger (added 2026-08-03 as `cron: '30 7 * * 5'` Fridays; changed to daily `cron: '30 7 * * *'` in 4de792d2 on 2026-08-26) but doesn't check roadmap placement, and `governance.yml` has no roadmap-location scan either; `docs/meta/roadmap-consolidation-design.md` does not exist in this checkout. Treat CI/weekly-scan enforcement of roadmap location as not yet built, not as a live gate.
 
 ## gstack
 
