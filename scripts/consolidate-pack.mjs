@@ -271,7 +271,9 @@ const mainFile = process.argv[1] ? fs.realpathSync(process.argv[1]) : '';
 const thisFile = fs.realpathSync(__filename);
 if (mainFile === thisFile) {
   try {
-    consolidatePacks();
+    const categoryArg = process.argv.find(a => a.startsWith('--category=') || a.startsWith('-c='));
+    const category = categoryArg ? categoryArg.split('=')[1].trim().replace(/^['"]|['"]$/g, '') : null;
+    consolidatePacks({ category });
     logInfo('Thematic knowledge pack consolidation completed successfully.');
   } catch (err) {
     logError(`Consolidation failed: ${err.message}`);

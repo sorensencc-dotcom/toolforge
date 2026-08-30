@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-28T22:13:45.7585991Z
+**Generated:** 2026-08-30T16:10:09.1148169Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 318 | 4 | 0 | 322 |
-| % Pass | 98.8% | 1.2% | 0% | 100% |
+| **Totals** | 323 | 6 | 0 | 329 |
+| % Pass | 98.2% | 1.8% | 0% | 100% |
 
 ---
 
@@ -533,6 +533,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### wiki-sync-recovery — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/diagnose.mjs |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### work-summarizer — ✅ GOOD
 
 | Check | Result | Details |
@@ -626,6 +638,7 @@ Skills passing all checks:
 Skills with warnings but no failures:
 - trm-closed-loop-research
 - trm-devops-triage
+- wiki-sync-recovery
 
 ### ❌ Error Health
 

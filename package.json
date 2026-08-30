@@ -8,6 +8,7 @@
     "secret-scan": "node scripts/secret-scan.mjs",
     "kb:status": "node kb-sync/scripts/check-status.mjs",
     "kb:sync:status": "node kb-sync/scripts/check-status.mjs",
+    "kb:sync:consolidate": "node scripts/consolidate-pack.mjs",
     "kb:dag": "node kb-sync/scripts/build-dag.mjs",
     "kb:dag:check": "node kb-sync/scripts/build-dag.mjs --check-only",
     "kb:dag:recover": "node kb-sync/scripts/build-dag.mjs --recover",

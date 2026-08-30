@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-28T22:13:45.2176220Z
+**Generated:** 2026-08-30T16:10:07.3284015Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 47 |
+| Total Skills | 48 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 38 |
+| Orphan Skills | 39 |
 
 ---
 
@@ -296,6 +296,12 @@
 |------------|------|--------|
 | git | external | ❌ Missing |
 
+### wiki-sync-recovery
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### work-summarizer
 
 | Dependency | Type | Status |
@@ -479,6 +485,9 @@ No inbound dependencies (root skill)\n
 |-----------|------|
 | trm-feedback-report | internal |
 
+### wiki-sync-recovery
+
+No inbound dependencies (root skill)\n
 ### work-summarizer
 
 No inbound dependencies (root skill)\n
@@ -541,6 +550,7 @@ Depth N = Depends on at least one skill at depth N-1
 | toolforge-registry-manager | 0 |
 | toolforge-submission-validator | 0 |
 | trm-devops-triage | 0 |
+| wiki-sync-recovery | 0 |
 | work-summarizer | 0 |
 | writing-heuristics | 0 |
 
@@ -596,6 +606,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | trm-closed-loop-research |
 | trm-devops-triage |
 | trm-feedback-report |
+| wiki-sync-recovery |
 | work-summarizer |
 | workspace-storage-cleaner |
 | writing-heuristics |
@@ -608,7 +619,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 38 orphan skill(s) |
+| Orphans | ⚠️ WARN | 39 orphan skill(s) |
 
 ---
 

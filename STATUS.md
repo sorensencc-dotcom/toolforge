@@ -1,30 +1,27 @@
 # Project status
 
 ## Current goal
-Maintain and expand Topic Research Mining (TRM) registry and closed-loop research pipelines.
+Maintain, package, and upload consolidated thematic knowledge packs to NotebookLM notebooks.
 
 ## Completed work
-- Added 4 new NotebookLM notebooks to `notebooklm-registry.json` and synchronized `trm-vault/notebooklm-registry.json` (total 11 notebooks):
-  - `6fd7c40b-df90-444b-9c7a-a64682925856`: CIC - Willow Run & Aviation Engineering
-  - `c8360946-dbee-4a2c-b622-7f89b05695b0`: CIC - Cuban Seizures & Retired Assets
-  - `9c469910-a900-43a4-877c-a43c9f545b5f`: CIC - Post-War & Willys-Overland
-  - `0caf6707-f8f2-4d2a-acd2-020acead55ba`: CIC - Ford Executive Dynamics & Politics
-- Updated `skills/trm-closed-loop-research/SKILL.md` flowchart and expected output gap documents.
-- Validated category bindings in `kb-sync/core/categories.json`.
+- Added `notebooklm-uploader.js` headless uploader supporting staged upload and automated stale pack source pruning.
+- Added `kb:sync:consolidate` npm script in `package.json` and enabled `--category` filtering in `scripts/consolidate-pack.mjs`.
+- Consolidated Willow Run thematic pack (`.nlm_pack/pack_willow_run.txt`, 9.72 KB) containing canonical L-Bend resolution (`wiki/research/willow-run-l-bend-tax-legend.md`, GAP-04).
+- Executed headless sync to NotebookLM live notebook `6fd7c40b-df90-444b-9c7a-a64682925856` (*CIC - Willow Run & Aviation Engineering*), uploading source ID `77a0a832-c6ec-4663-a934-6eee80a179c8` and pruning 2 stale pack versions.
 
 ## Decisions
-- All 11 research notebooks participate in scheduled and on-demand TRM mining sweeps.
-- `notebooklm-registry.json` remains synchronized between the `toolforge` repository root and `C:\Users\soren\trm-vault`.
+- Knowledge pack uploads must use staged upload semantics (upload fresh pack first, verify success, then purge prior pack versions) to guarantee zero downtime or data loss in notebooks.
 
 ## Tests
-- Verified JSON schema validity and array count for both repository and vault `notebooklm-registry.json` files (11 entries each).
-- Executed repository preflight check (`verify-repo-context.ps1` -> `PREFLIGHT_PASS`).
+- Verified `verify-repo-context.ps1` -> `PREFLIGHT_PASS`.
+- Verified `scripts/consolidate-pack.mjs` outputs valid pack with GAP-04 notes.
+- Verified live NotebookLM API integration (`login --check`, `source add`, `source list`, `source delete`).
 
 ## Blockers
 - None.
 
 ## Next action
-Run the scheduled multi-notebook mining sweep or trigger on-demand TRM research cycle across newly registered notebooks.
+Trigger scheduled or on-demand multi-notebook consolidation and sync sweeps across remaining registered research notebooks.
 
 ## Cross-repository path-drift containment (2026-08-28)
 

@@ -27,10 +27,10 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 - **Hook Installer Race / Overwrite**:
   - *Problem*: Multiple installer scripts (`setup-git-hooks.ps1` and `setup-git-hook.mjs`) wrote `.git/hooks/pre-commit` independently, causing the last-run installer to silently strip retro-schema validation and roadmap location checks. A first fix attempt claimed to merge these but only patched one script's output, reproducing the same race in reverse — caught by the 2026-08-23 weekly audit and re-fixed for real (see Governance entry above).
-  - *Fix & Pattern*: Merge into a single chained shim script that invokes all hook checks sequentially, including `secret-scan-hook.sh` — and verify **both** installer scripts actually emit the merged shim, not just one.
+  - *Prevention steps*: `workflow-checklists-embedded.md` § Pre-Commit Hook Maintenance Checklist (single source — don't restate here).
 - **Pre-Flight Test Unblocking & Fixture Handling**:
   - *Problem*: `npm test` pre-flight broke due to (1) ESLint scanning generated `src/ui/dist` bundles without `.eslintignore`, (2) `toolforge-pdf/ingest.test.js` hard-failing when external `cic-research-vault` fixture was absent, and (3) `analytics.test.js` asserting internal DB error message instead of public wrapped message.
-  - *Fix & Pattern*: Always exclude build outputs (`dist/`, `build/`) in `.eslintignore`. External workspace test dependencies must check fixture existence and gracefully skip when absent rather than blocking clean checkouts.
+  - *Prevention steps*: `workflow-checklists-embedded.md` § Pre-Flight Test Verification Checklist (single source — don't restate here).
 - **Roadmap Audit Scanner Logic Bugs**:
   - *Problem*: `roadmap-consolidation-scanner.ps1` reported `canonical_count=0` across all roots and suffered double scanning because (1) `Get-ChildItem` was duplicated, (2) `ClassifyLocation` checked allowed root prefixes before forbidden patterns, and (3) canonical dictionary entries were indexed with mismatched key formats.
   - *Fix & Pattern*: Evaluate forbidden/exclusion rules before prefix matching; ensure dictionary key serialization matches lookup string format across both storage and query paths.
@@ -38,7 +38,11 @@ Persistent memory system for long-term context across sessions. Individual memor
 ## Preferences & Feedback
 
 - **Load-Bearing Memory**: `memory/MEMORY.md` must be maintained across sessions as primary project memory (`CLAUDE.md:10`).
+  - *Why*: session start loads this file for context; a stale index means every session re-derives project state from scratch and re-litigates settled decisions.
+  - *How to apply*: update `## Current Work` and `## Learnings` at session end when scope changes; treat absence of a recent edit spanning active work as a defect (same failure mode as a stale CHANGELOG).
 - **LOC Metrics Hygiene**: Always exclude lockfiles (`package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`) from line-of-code metric trends to prevent dependency bump distortion.
+  - *Why*: a single `npm install` can add 10k+ lockfile lines, swamping authored-code signal — one 12.7k-LOC resync once ate half a week's headline metric.
+  - *How to apply*: run `scripts/loc-filtered.ps1` (excludes lockfiles and `chore(sync):`-tagged commits, reports their churn on a separate line) instead of raw `git diff --shortstat` for any retro or trend number.
 
 ## Archive
 
