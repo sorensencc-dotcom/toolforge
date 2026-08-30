@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.54.2
+Date: 2026-08-29
+
+### Changes
+- 6972edc - chore(gbrain): configure local pglite engine pin and update status (Chris)
+
 ## Version 2.54.1
 Date: 2026-08-29
 
