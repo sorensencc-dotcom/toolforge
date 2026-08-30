@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.55.0
+Date: 2026-08-30
+
+### Changes
+- 8e7f560 - fix(wiki-sync): use SSH repository URL for automated wiki sync (Chris)
+- 58457d8 - fix(property-extractor): refine candidate regex filtering and remove unparsed generic profile (Chris)
+- cdbec91 - chore(merge): sync origin/main release v2.54.2 (Chris)
+- 6a363a9 - feat(research-automation): add live web harvester, topic triage console, property deed extractor, and golden test suite (Chris)
+- 3ab6f8c - feat(thematic-partitioning): register Cuban Seizures notebook, add dynamic placeholder lifecycle, and pack validator (Chris)
+- a915ec5 - docs(report): add daily report for 2026-08-29 (Chris)
+
 ## Version 2.54.2
 Date: 2026-08-29
 
