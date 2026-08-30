@@ -12,6 +12,7 @@ export const ERROR_CODES = Object.freeze({
   TIER_UNAVAILABLE: 'TIER_UNAVAILABLE',
   INTEGRITY_FAILED: 'INTEGRITY_FAILED',
   RESOURCE_TOO_LARGE: 'RESOURCE_TOO_LARGE',
+  BATCH_LIMIT_EXCEEDED: 'BATCH_LIMIT_EXCEEDED',
 });
 
 export class VikingError extends Error {
@@ -56,7 +57,8 @@ export function parseUri(input, configuredVault, { allowLegacy = false } = {}) {
     throw new VikingError(ERROR_CODES.INVALID_URI, 'Unknown virtual layer');
   }
   const relativePath = normalizeRelative(parts.join('/'));
-  return { vault, layer, relativePath, uri: `viking://${vault}/${layer}/${relativePath}` };
+  const canonicalPath = relativePath.split('/').filter(Boolean).map(encodeURIComponent).join('/');
+  return { vault, layer, relativePath, uri: `viking://${vault}/${layer}${canonicalPath ? `/${canonicalPath}` : ''}` };
 }
 
 function sha256(file) {
@@ -101,14 +103,20 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, snapshotRoot:
     return typeof tierIndex.get === 'function' ? tierIndex.get(snapshotId, uri, tier) : tierIndex[`${uri}:${tier}`];
   }
 
+  function validateTierRecord(uri, tier, record) {
+    if (!record) return null;
+    if (record.snapshot_id !== snapshotId || typeof record.source_hash !== 'string' || typeof record.tier_hash !== 'string' || typeof record.artifact !== 'string') {
+      throw new VikingError(ERROR_CODES.INTEGRITY_FAILED, 'Tier metadata is not bound to the selected snapshot', { uri, tier, snapshot_id: snapshotId });
+    }
+    return record;
+  }
+
   function readFile(input, tier = 'L1') {
     const { parsed, candidate } = resolve(input);
     if (!['L0', 'L1', 'L2'].includes(tier)) throw new VikingError(ERROR_CODES.INVALID_URI, 'Unknown resolution tier');
-    const key = `${parsed.uri}:${tier}`;
-    const record = getTierRecord(parsed.uri, tier);
+    const record = validateTierRecord(parsed.uri, tier, getTierRecord(parsed.uri, tier));
     if (tier !== 'L2' && !record) throw new VikingError(ERROR_CODES.TIER_UNAVAILABLE, 'Generated tier is unavailable', { uri: parsed.uri, tier });
     if (record?.tier_available === false) throw new VikingError(ERROR_CODES.TIER_UNAVAILABLE, 'Generated tier is unavailable', { uri: parsed.uri, tier });
-    if (record && (record.snapshot_id !== snapshotId || typeof record.source_hash !== 'string' || typeof record.tier_hash !== 'string' || typeof record.artifact !== 'string')) throw new VikingError(ERROR_CODES.INTEGRITY_FAILED, 'Tier metadata is not bound to the selected snapshot', { uri: parsed.uri, tier, snapshot_id: snapshotId });
     const file = tier === 'L2' ? candidate : path.resolve(rootReal, record.artifact);
     const sourceFile = tier === 'L2' ? candidate : path.resolve(rootReal, record.source_artifact ?? path.relative(rootReal, candidate));
     if (!file.startsWith(`${rootReal}${path.sep}`) || !fs.existsSync(file)) throw new VikingError(ERROR_CODES.TIER_UNAVAILABLE, 'Generated tier is unavailable', { uri: parsed.uri, tier });
@@ -128,7 +136,24 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, snapshotRoot:
   function stat(input) {
     const { parsed, candidate } = resolve(input);
     const info = fs.statSync(candidate);
-    return { uri: parsed.uri, snapshot_id: snapshotId, size_bytes: info.size, last_modified: info.mtime.toISOString(), sha256: sha256(candidate), verification_status: 'verified', category: (getTierRecord(parsed.uri, 'L0') ?? getTierRecord(parsed.uri, 'L1'))?.category ?? null, tier_available: (getTierRecord(parsed.uri, 'L0') ?? getTierRecord(parsed.uri, 'L1'))?.tier_available ?? false, compiled_at: (getTierRecord(parsed.uri, 'L0') ?? getTierRecord(parsed.uri, 'L1'))?.compiled_at ?? null, source_path: (getTierRecord(parsed.uri, 'L0') ?? getTierRecord(parsed.uri, 'L1'))?.source_path ?? null, freshness: (getTierRecord(parsed.uri, 'L0') ?? getTierRecord(parsed.uri, 'L1'))?.freshness ?? 'unknown' };
+    const sourceHash = info.isFile() ? sha256(candidate) : null;
+    const tiers = {};
+    for (const tier of ['L0', 'L1']) {
+      const record = validateTierRecord(parsed.uri, tier, getTierRecord(parsed.uri, tier));
+      const available = Boolean(record?.tier_available !== false && record);
+      const stale = available && sourceHash !== null ? sourceHash !== record.source_hash : null;
+      tiers[tier] = {
+        available,
+        stale,
+        freshness: available ? (stale ? 'stale' : 'fresh') : 'unavailable',
+        compiled_at: record?.compiled_at ?? null,
+        source_hash: record?.source_hash ?? null,
+        tier_hash: record?.tier_hash ?? null,
+        category: record?.category ?? null,
+      };
+    }
+    tiers.L2 = { available: info.isFile(), stale: false, freshness: 'fresh', compiled_at: null, source_hash: sourceHash, tier_hash: sourceHash, category: null };
+    return { uri: parsed.uri, snapshot_id: snapshotId, size_bytes: info.size, last_modified: info.mtime.toISOString(), sha256: sourceHash, verification_status: 'verified', tiers };
   }
 
   function list(input, { offset = 0, limit = 100 } = {}) {
@@ -137,7 +162,18 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, snapshotRoot:
     if (!Number.isInteger(offset) || offset < 0 || !Number.isInteger(limit) || limit < 1 || limit > 100) throw new VikingError(ERROR_CODES.INVALID_URI, 'Invalid list bounds');
     const entries = fs.readdirSync(candidate, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
     const page = entries.slice(offset, offset + limit);
-    return { uri: parsed.uri, snapshot_id: snapshotId, complete: offset + page.length >= entries.length, next_offset: offset + page.length < entries.length ? offset + page.length : null, directories: page.filter((e) => e.isDirectory()).map((e) => e.name), files: page.filter((e) => e.isFile()).map((e) => ({ name: e.name, uri: `${parsed.uri}/${e.name}`, abstract: tierIndex[`${parsed.uri}/${e.name}:L0`]?.abstract ?? null, tier_status: tierIndex[`${parsed.uri}/${e.name}:L0`] ? 'available' : 'TIER_UNAVAILABLE' })) };
+    const baseUri = parsed.uri.replace(/\/$/, '');
+    const files = page.filter((entry) => entry.isFile()).map((entry) => {
+      const uri = `${baseUri}/${encodeURIComponent(entry.name)}`;
+      try {
+        const l0 = readFile(uri, 'L0');
+        return { name: entry.name, uri, abstract: l0.content, tier_status: 'available', stale: l0.stale };
+      } catch (error) {
+        if (error instanceof VikingError && error.code === ERROR_CODES.TIER_UNAVAILABLE) return { name: entry.name, uri, abstract: null, tier_status: ERROR_CODES.TIER_UNAVAILABLE, stale: null };
+        throw error;
+      }
+    });
+    return { uri: parsed.uri, snapshot_id: snapshotId, complete: offset + page.length >= entries.length, next_offset: offset + page.length < entries.length ? offset + page.length : null, directories: page.filter((e) => e.isDirectory()).map((e) => e.name), files };
   }
-  return Object.freeze({ parseUri: (uri) => parseUri(uri, vaultName, { allowLegacy }), list, stat, read: readFile });
+  return Object.freeze({ snapshotId, parseUri: (uri) => parseUri(uri, vaultName, { allowLegacy }), list, stat, read: readFile });
 }

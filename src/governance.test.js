@@ -18,9 +18,13 @@ test('CI governance workflow runs on pushes and pull requests', () => {
 
 test('governance documentation identifies CI as authoritative', () => {
   const claude = read('CLAUDE.md');
+  const delegation = claude.match(/^@([^\r\n]+)$/m);
+  const governance = delegation
+    ? `${claude}\n${read(delegation[1])}`
+    : claude;
 
-  assert.match(claude, /Local pre-commit hook \(`\.git\/hooks\/pre-commit\.ps1`, Gate 2\) blocks violations/);
-  assert.match(claude, /CI governance check: validates line limits \+ detects duplicate sections/);
+  assert.match(governance, /Local pre-commit hook \(`\.git\/hooks\/pre-commit\.ps1`, Gate 2\) blocks violations/);
+  assert.match(governance, /CI governance check: validates line limits \+ detects duplicate sections/);
 });
 
 test('hook installer derives runtime paths from checkout', () => {
