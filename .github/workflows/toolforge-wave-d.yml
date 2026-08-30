@@ -57,7 +57,7 @@ jobs:
           node-version: "22"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit
 
       - name: Wait for Postgres to be ready
         run: |

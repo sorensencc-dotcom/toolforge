@@ -20,9 +20,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - repository: CIC-GOVERNANCE
-            validate: npm run gov:validate
-            smoke: npm run gov:smoke
+          - repository: toolforge
+            validate: npm --prefix CIC-GOVERNANCE run gov:validate
+            smoke: npm test
           - repository: kb-sync
             validate: npm run gov:validate
             smoke: npm run gov:smoke
@@ -32,24 +32,9 @@ jobs:
           - repository: cic-ingestion
             validate: npm run gov:validate
             smoke: npm run gov:smoke
-          - repository: toolforge
-            validate: npm --prefix CIC-GOVERNANCE run gov:validate
-            smoke: npm test
           - repository: sigil-repo
             validate: npm run audit:jcs
             smoke: npm test
-          - repository: cic-vision-governance
-            validate: npm run gov:validate
-            smoke: npm run gov:smoke
-          - repository: charlie-deep-research
-            validate: npm run gov:validate
-            smoke: npm run gov:smoke
-          - repository: financeos
-            validate: npm run gov:validate
-            smoke: npm run gov:smoke
-          - repository: TheFoundry
-            validate: npm run gov:validate
-            smoke: npm run gov:smoke
 
     steps:
       - name: Checkout matrix repository
@@ -58,11 +43,16 @@ jobs:
           repository: sorensencc-dotcom/${{ matrix.repository }}
           path: workspace
 
-      - name: Checkout CIC-GOVERNANCE repository
+      - name: Checkout toolforge governance source
         uses: actions/checkout@v4
         with:
-          repository: sorensencc-dotcom/CIC-GOVERNANCE
-          path: CIC-GOVERNANCE
+          repository: sorensencc-dotcom/toolforge
+          path: toolforge-source
+          sparse-checkout: |
+            CIC-GOVERNANCE
+
+      - name: Link CIC-GOVERNANCE
+        run: cp -r toolforge-source/CIC-GOVERNANCE ./CIC-GOVERNANCE
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
