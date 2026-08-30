@@ -274,6 +274,30 @@ Test coverage includes:
 
 Add more tests for your skill's specific scenarios.
 
+### External fixtures — graceful skip
+
+If a test needs a fixture that is not committed to this repo (a large sample
+corpus, a checked-out sibling repo, a generated artifact directory), do not let
+its absence break `npm test` for everyone. Gate the block on fixture presence:
+
+```ts
+import fs from "node:fs";
+import path from "node:path";
+
+const FIXTURE = path.resolve(__dirname, "fixtures/large-corpus");
+const withFixture = fs.existsSync(FIXTURE) ? describe : describe.skip;
+
+withFixture("against the real corpus", () => {
+  it("processes the corpus", async () => {
+    /* fixture-backed assertions */
+  });
+});
+```
+
+`describe.skip` reports the block as skipped rather than silently passing, so the
+coverage gap stays visible. Keep the committed happy-path, error, and edge tests
+fixture-free so they always run. See `tests/skill.test.ts` for a working example.
+
 ---
 
 ## Support

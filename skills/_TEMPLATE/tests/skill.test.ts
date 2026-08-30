@@ -5,7 +5,30 @@
  * Run with: npm test
  */
 
+import fs from "node:fs";
+import path from "node:path";
+
 import handler, { SkillInput, SkillOutput } from "../src/index.ts";
+
+/**
+ * External fixtures — graceful skip.
+ *
+ * Some skills need a fixture that is NOT committed to this repo (a large sample
+ * corpus, a checked-out sibling repo, a generated artifact directory). Never let
+ * an absent fixture break `npm test` for everyone. Gate the block instead:
+ *
+ *   const FIXTURE = path.resolve(__dirname, "fixtures/large-corpus");
+ *   const withFixture = fs.existsSync(FIXTURE) ? describe : describe.skip;
+ *   withFixture("against the real corpus", () => { ... });
+ *
+ * A skipped block is reported (not silently passed), so the gap stays visible.
+ * Keep the committed happy-path / error / edge tests fixture-free so they always run.
+ */
+const FIXTURE_DIR = path.resolve(__dirname, "fixtures");
+const withFixtures =
+  fs.existsSync(FIXTURE_DIR) && fs.readdirSync(FIXTURE_DIR).length > 0
+    ? describe
+    : describe.skip;
 
 describe("Template Skill", () => {
   describe("happy path", () => {
@@ -134,6 +157,24 @@ describe("Template Skill", () => {
 
       expect(result.status).toBe("success");
       expect(result.data?.processed).toBe(input.input1);
+    });
+  });
+
+  // Runs only when tests/fixtures/ exists and is non-empty; otherwise reported
+  // as skipped. Replace with your skill's real fixture-backed assertions.
+  withFixtures("against external fixtures", () => {
+    it("processes a fixture file end to end", async () => {
+      const sample = fs
+        .readdirSync(FIXTURE_DIR)
+        .find((f) => fs.statSync(path.join(FIXTURE_DIR, f)).isFile());
+      expect(sample).toBeDefined();
+
+      const input: SkillInput = {
+        input1: fs.readFileSync(path.join(FIXTURE_DIR, sample!), "utf8"),
+      };
+      const result = await handler(input);
+
+      expect(result.status).toBe("success");
     });
   });
 });
