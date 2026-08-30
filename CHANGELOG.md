@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.58.0
+Date: 2026-08-30
+
+### Changes
+- e2b38a6 - Merge branch 'feat/viking-harness-integration' (Chris)
+- 4fa14ae - feat: integrate Viking VFS harnesses (Chris)
+- 50e0f44 - docs(agents): correct stale roadmap-gate evidence in AGENTS.md (Chris)
+- 945ddd5 - Merge branch 'main' into feat/viking-harness-integration (Chris)
+- 9e146ed - fix(research): add missing title to frontmatter for validation compliance (Chris)
+- 2382e6e - docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar (Chris)
+- b0280dc - feat: complete Viking VFS phase 2 (Chris)
+
 ## Version 2.57.0
 Date: 2026-08-30
 
