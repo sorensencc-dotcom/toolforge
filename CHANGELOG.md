@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.56.1
+Date: 2026-08-30
+
+### Changes
+- 83f4981 - chore(merge): conclude merge with origin/main (Chris)
+- 15105d4 - chore(merge): sync remote tags and release commits (Chris)
+- d9f0d4d - fix(wiki-sync): use unique temporary directory for wiki publisher clones (Chris)
+- 9ee34e6 - chore(sync): update TRM research gaps, drift reports, and skill metadata (Chris)
+
 ## Version 2.56.0
 Date: 2026-08-30
 
