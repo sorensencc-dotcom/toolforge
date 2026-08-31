@@ -53,3 +53,13 @@ last_updated: 2026-08-30T12:14:00.000Z
 - **Status:** Resolved
 - **Canonical Note:** [`rfc-gap-02--cic-daily-research-adjacent-t.md`](file:///C:/dev/wiki/research/rfc-gap-02--cic-daily-research-adjacent-t.md)
 - **Summary:** Verified the industrial launch of the Willys CJ-2A at the July 1945 Jeep Day press banquet, where custom 1:16 scale cast-aluminum Al-Toy models were presented as executive souvenirs and dealer marketing aids.
+
+### GAP-04-FORD: Dodge Brothers vs. Henry Ford (1919)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-04-dodge-brothers-vs-henry-ford-g.md`](file:///C:/dev/wiki/research/rfc-gap-04-dodge-brothers-vs-henry-ford-g.md)
+- **Summary:** Grounded the litigation records of Dodge v. Ford Motor Co. (204 Mich. 459, 1919) regarding shareholder primacy, mandatory $19.3M dividend distributions, and the subsequent 100% equity buyout that funded the River Rouge complex.
+
+### GAP-05-FORD: Harry Bennett's Service Department Authority
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-05-harry-bennett-service-departme.md`](file:///C:/dev/wiki/research/rfc-gap-05-harry-bennett-service-departme.md)
+- **Summary:** Documented the 3,000-man shadow security apparatus under Harry Bennett, its subversion of Edsel Ford and A.M. Wibel, manufacturing encroachment against Charles Sorensen, and ultimate dissolution by Henry Ford II on September 21, 1945.
