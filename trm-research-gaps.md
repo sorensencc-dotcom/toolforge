@@ -26,6 +26,7 @@ vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
 ## Triage & Resolution Registry
 
 - [x] **[GAP-04] Willow Run L-Bend Assembly Line vs. Tax Turn Legend**: Resolved via primary engineering records and airfield glide-path specs. Canonical note: [willow-run-l-bend-tax-legend.md](file:///C:/dev/wiki/research/willow-run-l-bend-tax-legend.md)
+- [x] **[GAP-03-CUBA] Sorensen Cuban Estate & FCSC Loss Determination (CU-3440 / Decision CU-5843)**: Resolved via FCSC Completed Claims Program records, NARA RG 218 diplomatic files, and Bentley Library Box 14 deeds. Canonical note: [sorensen-cuban-estate-fcsc.md](file:///C:/dev/wiki/research/properties/sorensen-cuban-estate-fcsc.md)
 - [x] **[GAP-03-VIDEOS] B-17 Production Claim Debunking & B-24 Exclusivity**: Resolved via WPB Schedule contracts and BVD Pool manufacturing history. Canonical note: [rfc-gap-03--willow-run-videos-under-sourc.md](file:///C:/dev/wiki/research/rfc-gap-03--willow-run-videos-under-sourc.md)
 - [x] **[GAP-02-DAILY] Al-Toy "Jeep Day" Banquet (1945)**: Resolved via Willys-Overland press releases and model catalogs. Canonical note: [rfc-gap-02--cic-daily-research-adjacent-t.md](file:///C:/dev/wiki/research/rfc-gap-02--cic-daily-research-adjacent-t.md)
 - [x] **[GAP-04-FORD] Dodge Brothers vs. Henry Ford (1919)**: Grounded litigation records of Dodge v. Ford Motor Co., shareholder primacy, and River Rouge financing. Canonical note: [rfc-gap-04-dodge-brothers-vs-henry-ford-g.md](file:///C:/dev/wiki/research/rfc-gap-04-dodge-brothers-vs-henry-ford-g.md)

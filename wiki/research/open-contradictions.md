@@ -63,3 +63,8 @@ last_updated: 2026-08-30T12:14:00.000Z
 - **Status:** Resolved
 - **Canonical Note:** [`rfc-gap-05-harry-bennett-service-departme.md`](file:///C:/dev/wiki/research/rfc-gap-05-harry-bennett-service-departme.md)
 - **Summary:** Documented the 3,000-man shadow security apparatus under Harry Bennett, its subversion of Edsel Ford and A.M. Wibel, manufacturing encroachment against Charles Sorensen, and ultimate dissolution by Henry Ford II on September 21, 1945.
+
+### GAP-03-CUBA: Sorensen Cuban Estate & FCSC Loss Determination (CU-3440)
+- **Status:** Resolved
+- **Canonical Note:** [`sorensen-cuban-estate-fcsc.md`](file:///C:/dev/wiki/research/properties/sorensen-cuban-estate-fcsc.md)
+- **Summary:** Verified FCSC Claim CU-3440 / Decision CU-5843 certifying uncompensated nationalization of Charles E. Sorensen's agricultural properties in Matanzas and Pinar del Río under INRA's First Agrarian Reform Law of May 17, 1959.

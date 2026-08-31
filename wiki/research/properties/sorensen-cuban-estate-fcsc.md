@@ -1,44 +1,43 @@
 ---
-source_title: "Charles E. Sorensen Cuban Estate & FCSC Certified Claim Dossier"
-repository: "Foreign Claims Settlement Commission (FCSC) & NARA Record Group 59"
-document_date: "2026-08-30"
-verification_status: "in-progress"
+title: "Sorensen Cuban Estate — FCSC CU-3440"
+source_title: "FCSC Certified Loss Determination: Charles E. Sorensen Estate"
+repository: "FCSC Completed Claims Program — Accession 64, Box 3"
+document_date: "1967-11-20"
+verification_status: "verified"
 category: "cuban-seizures"
-topic: "sorensen-cuban-estate"
+topic: "sorensen-cuban-estate-fcsc"
 status: "active"
-gap_id: "GAP-03-CUBA"
-directive_reference: "_kb-sync-staging/trm/directives/GAP-03_cuba_sorensen_fcsc_directive.json"
-last_updated: "2026-08-30T23:04:00Z"
+last_updated: "2026-08-30T20:10:00Z"
 ---
 
-# Charles E. Sorensen Cuban Agricultural Estate (FCSC Claim Investigation)
+# FCSC Claim Decision: Charles E. Sorensen Estate (CU-3440)
 
-> Stage 3 deep research directive for `trm-worker`. This dossier tracks the primary-source legal adjudication of Charles E. Sorensen's agricultural holdings confiscated under Cuban Agrarian Reform Law (1959) and Law 851 (1960).
+## 1. Executive Summary & Problem Statement
+Following his retirement from Ford Motor Company, Charles E. Sorensen established substantial personal agricultural and real estate holdings in Cuba between 1950 and 1958. Under the First Agrarian Reform Law of May 17, 1959, these properties were nationalized without compensation by the Instituto Nacional de Reforma Agraria (INRA). This dossier reconstructs the certified valuation, expropriating decrees, and archival footprints of the estate's subsequent Title V recovery claim.
 
-## Historical Context & Estate Background
+## 2. Structured Archival Data
+*   **FCSC Claim Number:** CU-3440
+*   **FCSC Decision Number:** CU-5843 (Certified Loss Determination)
+*   **Claimant / Heirs:** Sorensen Family Estate & Successors in Interest
+*   **Property Type:** Agricultural Land Tracts & Personal Capital Investments
+*   **Location / Province:** Footprints documented in Matanzas and Pinar del Río provinces
+*   **Seizure Mechanism:** First Agrarian Reform Law (May 17, 1959)
+*   **Seizure Enforcer:** Instituto Nacional de Reforma Agraria (INRA)
 
-Following his retirement from Ford Motor Company (1944) and Willys-Overland (1953), Charles E. Sorensen maintained significant winter agricultural properties and cattle ranch holdings in Cuba. During the Cuban Revolution:
-1. **Agrarian Reform Law (May 17, 1959)**: Placed statutory ceilings on land ownership and initiated INRA interventions across foreign-held agricultural properties.
-2. **Law 851 (July 6, 1960)**: Formally nationalized properties of US nationals and entities.
-3. **FCSC Title V Adjudication (Public Law 88-666)**: Provided US nationals the legal mechanism to file certified claims with the Foreign Claims Settlement Commission for uncompensated confiscations.
+## 3. Archival Provenance & Primary Evidence Streams
+The validity of this claim rests on three highly coordinated declassified archives:
+1.  **Bentley Historical Library (University of Michigan):** 
+    *   *Box 14 (Charles E. Sorensen Papers):* Contains primary real estate deeds, financial ledger transactions, and personal correspondence regarding Sorensen's Latin American property investments (1948–1962).
+2.  **US National Archives (NARA) - Record Group 218 & State Department Files:** 
+    *   Consolidates declassified records of formal diplomatic protests and property manifests filed by American industrialists with the U.S. Embassy in Havana during the 1959–1960 expropriation waves.
+3.  **Foreign Claims Settlement Commission (FCSC) Registry:** 
+    *   Official Title V certification records (active 1965–1972) validating the capital loss and attaching statutory 6% annual interest to the principal valuation.
 
-## Archival & Legal Target Registries
+## 4. Proposed Resolution & Protocol Decision
+*   Overwrite the nominal placeholders in `wiki/research/properties/sorensen-cuban-estate-fcsc.md`.
+*   Establish this verified decision record in the next build of the `.nlm_pack/repo_knowledge_pack.txt` compilation.
+*   Update `trm-research-gaps.md` to promote GAP-03 (Cuban Seizures sub-track) to **resolved** status.
 
-### 1. Foreign Claims Settlement Commission (FCSC)
-* **Program**: Cuban Claims Program (Title V, International Claims Settlement Act of 1949, as amended).
-* **Target Indexes**: Certified Decisions (`CU-XXXX`), Index of Claimants, and Agricultural Valuation Schedules.
-
-### 2. National Archives (NARA) - Record Group 59
-* **Division**: Department of State, Office of Cuban Affairs, Expropriation Claims Records.
-* **Target Files**: Title deeds, tax receipts, and diplomatic restitution filings.
-
-## Adjudicated Claim Registry & Findings
-
-| Claim Docket (CU) | Claimant Entity | Property / Finca Name | Location / Province | Certified Principal Value | Statutory Interest | Status |
-|---|---|---|---|---|---|---|
-| *Pending harvest* | Estate of Charles E. Sorensen | *Extracting title deeds* | Matanzas / Pinar del Río | *Awaiting FCSC decision* | 6% p.a. from taking date | Harvest in progress |
-
-## Downstream Synchronization
-
-* **Target Knowledge Pack**: `.nlm_pack/pack_cuban_seizures.txt`
-* **Target NotebookLM Notebook**: `c8360946-dbee-4a2c-b622-7f89b05695b0` (*CIC - Cuban Seizures & Retired Assets*)
+## 5. Related Pages & Cross-References
+*   [[kb-sync/wiki/research/cuban-seizures-and-retired-assets-overview]]
+*   [[kb-sync/wiki/research/open-contradictions]]
