@@ -54,8 +54,14 @@ jobs:
 
       - name: Link CIC-GOVERNANCE
         run: |
+          mkdir -p workspace/CIC-GOVERNANCE
+          if [ -d "toolforge-source/CIC-GOVERNANCE" ]; then
+            cp -r toolforge-source/CIC-GOVERNANCE/* workspace/CIC-GOVERNANCE/ || true
+          fi
           mkdir -p CIC-GOVERNANCE
-          cp -r toolforge-source/CIC-GOVERNANCE/* CIC-GOVERNANCE/ || cp -r toolforge-source/* CIC-GOVERNANCE/ || true
+          if [ -d "toolforge-source/CIC-GOVERNANCE" ]; then
+            cp -r toolforge-source/CIC-GOVERNANCE/* CIC-GOVERNANCE/ || true
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
