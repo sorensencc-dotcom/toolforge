@@ -47,21 +47,15 @@ jobs:
       - name: Checkout toolforge governance source
         uses: actions/checkout@v4
         with:
-          repository: sorensencc-dotcom/toolforge
+          repository: sorensencc-dotcom/cic-governance
           path: toolforge-source
-          sparse-checkout: |
-            CIC-GOVERNANCE
 
       - name: Link CIC-GOVERNANCE
         run: |
           mkdir -p workspace/CIC-GOVERNANCE
-          if [ -d "toolforge-source/CIC-GOVERNANCE" ]; then
-            cp -r toolforge-source/CIC-GOVERNANCE/* workspace/CIC-GOVERNANCE/ || true
-          fi
+          cp -r toolforge-source/* workspace/CIC-GOVERNANCE/ || true
           mkdir -p CIC-GOVERNANCE
-          if [ -d "toolforge-source/CIC-GOVERNANCE" ]; then
-            cp -r toolforge-source/CIC-GOVERNANCE/* CIC-GOVERNANCE/ || true
-          fi
+          cp -r toolforge-source/* CIC-GOVERNANCE/ || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
