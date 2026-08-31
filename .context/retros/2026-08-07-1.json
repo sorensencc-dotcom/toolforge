@@ -1,0 +1,85 @@
+{
+  "date": "2026-08-07",
+  "window": "session",
+  "since": "2026-08-07T00:00:00",
+  "until": "2026-08-07T23:59:59",
+  "base_branch": "main",
+  "scope": "session-wrap, not full weekly retro (12d gap since last /retro, last: 2026-07-26)",
+  "metrics": {
+    "commits": 4,
+    "commits_no_merge": 4,
+    "contributors": 1,
+    "automation_commits": 0,
+    "insertions_raw": 204,
+    "deletions_raw": 6,
+    "net_loc_raw": 198,
+    "insertions_filtered": 204,
+    "deletions_filtered": 6,
+    "net_loc_filtered": 198,
+    "filter_note": "Session wrap scope",
+    "test_loc_insertions": 25,
+    "test_ratio_pct": 20.0,
+    "active_days": 1,
+    "sessions": 1,
+    "deep_sessions": 1,
+    "peak_hour": 20,
+    "late_night_commits_22_to_04": 0,
+    "release_commits": 0,
+    "focus_area": "TRM batch ingest & HEIC conversion",
+    "feat_pct": 25.0,
+    "fix_pct": 25.0,
+    "docs_pct": 25.0,
+    "chore_pct": 25.0,
+    "test_pct": 0.0,
+    "team_streak_days": 13,
+    "personal_streak_days": 13,
+    "backlog_open_todos": 14,
+    "backlog_closed_this_period": 0,
+    "version_range": ["v2.32.2", "v2.32.2"]
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 4, "role": "human" }
+  },
+  "session_focus": {
+    "summary": "HEIC-to-JPEG conversion in TRM, regex fix for code fences, and willow-run intake preparation",
+    "incidents": [],
+    "process_learnings": []
+  },
+  "repos": {
+    "toolforge (c:\\dev)": {
+      "commits": 2,
+      "insertions": 75,
+      "deletions": 0,
+      "notes": "batch-ingest script only; other commits in window were merge/release-bot noise"
+    },
+    "trm (c:\\dev\\trm)": {
+      "commits": 2,
+      "insertions": 129,
+      "deletions": 6,
+      "test_files_added_or_extended": 2
+    },
+    "trm-vault (C:\\Users\\soren\\trm-vault)": {
+      "commits": 2,
+      "note": "local-only by design, no remote push -- not included in commit-count totals above"
+    }
+  },
+  "shipped": [
+    "fix(trm): claudeCodeRunner stripCodeFence anchored regex broke on preamble text before ```json fence -- root cause of cuba extraction failure, reproduced live, fixed, tested",
+    "feat(trm): HEIC->JPEG conversion via heic-convert, wired into extractImage; unblocks 166 HEIC files in willow-run's 589-file staging batch",
+    "chore(scripts): resumable batch-ingest script for willow-run intake, smoke-tested",
+    "charlie/willys-overland: scored, crosslinked to willow-run, reported",
+    "charlie/cuba: staged intake ingested (full FCSC report superseding a prior partial excerpt), extracted (113 facts), scored, reported",
+    "charlie/helene: staged intake ingested (2 docs), extracted (187 facts), scored, reported",
+    "TREATMENT_DRAFT_v1.3.md + CHANGELOG_v1.3.md drafted (Section 7 sourcing addition) -- left uncommitted per its own pending-signoff convention"
+  ],
+  "findings_flagged_not_yet_resolved": [
+    "Sorensen_ResignationTimeline_March1944.txt (in willow-run's unsorted intake) contains LOC oral-history + contemporary press independent of Sorensen's memoir -- potential corroboration for treatment's V-6.5 keystone (currently BLOCKED). Chronology conflicts with the HFHA/Wikipedia dates already in the treatment -- needs reconciliation, not blind merge.",
+    "Register of Vessels - Cavanaugh 1942/1943/1944.pdf + Weekly Report - Vessel Employment Apr 1944 (unsorted) are scanned PDFs with zero text layer -- likely Helene provenance sources but unreadable without OCR; trm's PDF path has no OCR fallback wired in",
+    "willow-run's 589-file staging batch is ingestable now (HEIC unblocked) but not yet run -- batch script ready, deferred to next session per user request"
+  ],
+  "decisions": [
+    "trm-vault stays local-only -- committed locally this session, explicitly not pushed (pre-push hook blocks it by design)",
+    "TREATMENT_DRAFT_v1.3.md stays uncommitted pending human sign-off, matching v1.2's own stated convention"
+  ]
+}
+

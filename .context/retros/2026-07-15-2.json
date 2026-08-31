@@ -1,0 +1,63 @@
+﻿{
+  "date": "2026-07-15",
+  "window": "1d",
+  "since": "2026-07-15T00:00:00-04:00",
+  "until": "2026-07-16",
+  "base_branch": "main",
+  "prior_retro_baseline": ".context/retros/2026-07-15-1.json",
+  "note": "supersedes 2026-07-15-1 (146 commits @ 22:20) — captures rest of session: TODOS.md creation, push-discipline Stop hook, gstack-upgrade telemetry fix, kb-sync-nightly execSync fix, 2 rebase/merge cycles (v2.2.2, v2.2.3 release-bot landings), version now at v2.2.4",
+  "metrics": {
+    "commits": 152,
+    "commits_no_merge": 0,
+    "contributors": 2,
+    "automation_commits": 0,
+    "insertions_raw": 173427,
+    "deletions_raw": 16143,
+    "net_loc_raw": 157284,
+    "insertions_filtered": 89128,
+    "deletions_filtered": 16533,
+    "net_loc_filtered": 72595,
+    "filter_note": "raw LOC excludes lockfiles (package-lock.json, yarn.lock, etc.) and auto-generated reports",
+    "test_loc_insertions": 6648,
+    "test_ratio_pct": 7.5,
+    "feat_pct": 32.8,
+    "fix_pct": 17.9,
+    "docs_pct": 17.2,
+    "chore_pct": 23.1,
+    "test_pct": 6.7,
+    "active_days": 9,
+    "sessions": 0,
+    "deep_sessions": 0,
+    "peak_hour": 12,
+    "late_night_commits_22_to_04": 45,
+    "team_streak_days": 9,
+    "personal_streak_days": 0,
+    "backlog_open_todos": 5,
+    "backlog_closed_this_period": 1,
+    "version_range": [
+      "v1.0.0",
+      "v1.0.0"
+    ],
+    "release_commits": 0,
+    "focus_area": "unknown"
+  },
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 145,
+      "role": "human",
+      "insertions": 88931,
+      "deletions": 16525
+    },
+    "toolforge-release-bot": {
+      "commits": 6,
+      "role": "human",
+      "insertions": 197,
+      "deletions": 8
+    }
+  },
+  "session_focus": {
+    "summary": "Routine development session",
+    "incidents": [],
+    "process_learnings": []
+  }
+}

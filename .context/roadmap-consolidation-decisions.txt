@@ -1,0 +1,83 @@
+# Canonical Roadmap Assignments
+# Generated: 2026-07-20T18:07:28Z
+# Source: C:\dev\audit\roadmap-consolidation-audit-2026-07-20.json
+# Task: 1.2 Manual Conflict Review & Canonical Assignment
+
+## Canonical Sources (per allowed root)
+
+### cic-ingestion
+- Canonical: C:\dev\cic-ingestion\ROADMAP.md
+  Modified: 2026-07-15T03:46:10Z
+  Status: ✓ Approved
+
+### rewrite-mcp
+- Canonical: C:\dev\rewrite-mcp\ROADMAP.md
+  Modified: 2026-06-28T15:02:16Z
+  Status: ✓ Approved
+
+### rewrite-docs
+- Canonical: C:\dev\rewrite-docs\castironforge\cic-ingestion\toolforge\ROADMAP.md
+  Modified: 2026-07-18T17:41:42Z
+  Status: ✓ Approved (tie-breaker: freshest of multiple variants in root)
+
+### docs/meta
+- Status: No canonical roadmap (0 roadmaps found in allowed root)
+
+### kb-sync
+- Status: No canonical roadmap (0 roadmaps found in allowed root)
+
+## Conflict Resolution Summary
+
+Total conflicts flagged: 7
+Manual review needed: 1 (cic-ingestion paths)
+Resolved by tie-breaker: 6 (superseded_by_fresher)
+
+### Manual Review: cic-ingestion
+- Conflict paths:
+  - C:\dev\cic-ingestion\ROADMAP.md (root level, mtime: 2026-07-15T03:46:10Z)
+  - C:\dev\cic-ingestion\toolforge\ROADMAP.md (nested, mtime: 2026-07-15T03:46:10Z)
+- Tie-breaker applied:
+  Rule 1 (fresher date): Both files identical timestamp (3.46 seconds precision).
+  Rule 2 (root location preferred): Applies. Root-level version canonical.
+- Decision: ✅ Canonical is C:\dev\cic-ingestion\ROADMAP.md.
+  Orphan C:\dev\cic-ingestion\toolforge\ROADMAP.md superseded by root-level version.
+
+## Orphans to Archive
+
+The following 7 superseded roadmaps are archived to docs/meta/archive/ with one-line history note:
+
+1. C:\dev\cic-ingestion\toolforge\ROADMAP.md
+   → Reason: Superseded by canonical C:\dev\cic-ingestion\ROADMAP.md (fresher, root location preferred)
+
+2. C:\dev\rewrite-mcp\toolforge\ROADMAP.md
+   → Reason: Superseded by canonical C:\dev\rewrite-mcp\ROADMAP.md (fresher)
+
+3. C:\dev\rewrite-docs\castironforge\cic-ingestion\ROADMAP.md
+   → Reason: Superseded by canonical C:\dev\rewrite-docs\castironforge\cic-ingestion\toolforge\ROADMAP.md (fresher)
+
+4. C:\dev\rewrite-docs\docs\cic-ref\ROADMAP.md
+   → Reason: Superseded by canonical C:\dev\rewrite-docs\castironforge\cic-ingestion\toolforge\ROADMAP.md (fresher)
+
+5. C:\dev\rewrite-docs\.planning\ROADMAP.md
+   → Reason: Superseded by canonical C:\dev\rewrite-docs\castironforge\cic-ingestion\toolforge\ROADMAP.md (fresher)
+
+6. C:\dev\rewrite-docs\castironforge\toolforge\ROADMAP.md
+   → Reason: Superseded by canonical C:\dev\rewrite-docs\castironforge\cic-ingestion\toolforge\ROADMAP.md (fresher)
+
+7. C:\dev\rewrite-docs\cic-ref\ROADMAP.md
+   → Reason: Superseded by canonical C:\dev\rewrite-docs\castironforge\cic-ingestion\toolforge\ROADMAP.md (fresher)
+
+## Orphans to Delete
+
+Per audit cleanup.orphans_found=10 and 7 archival candidates above, 3 additional ephemeral orphans likely in forbidden locations (.claude/worktrees/, nested clones, sync folders) to be deleted during Phase 2 migration.
+
+These are identified but NOT removed by Phase 1 audit (scanner is read-only per design). Deletion handled in Phase 2.1 migration step.
+
+## Phase 2 Blockers
+
+✅ All conflicts reviewed.
+✅ All tie-breaker resolutions documented.
+✅ 0 unresolved conflicts requiring manual decision beyond tie-breaker rule.
+✅ No Phase 2 blockers.
+
+Ready to proceed to Phase 2 (Migration & Archive).

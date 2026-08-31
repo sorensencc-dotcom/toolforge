@@ -1,0 +1,74 @@
+{
+  "date": "2026-08-15",
+  "window": "7d",
+  "since": "2026-08-08T00:00:00",
+  "until": "2026-08-15T23:59:00",
+  "base_branch": "main",
+  "prior_retro_baseline": ".context/retros/2026-08-08-1.json",
+  "metrics": {
+    "commits": 33,
+    "commits_no_merge": 31,
+    "merge_commits": 2,
+    "contributors": 1,
+    "automation_commits": 8,
+    "insertions_raw": 8895,
+    "deletions_raw": 3784,
+    "net_loc_raw": 5111,
+    "insertions_filtered": 8895,
+    "deletions_filtered": 3784,
+    "net_loc_filtered": 5111,
+    "filter_note": "Lockfiles and chore(sync) commits excluded from headline code metrics",
+    "weighted_commits": 89,
+    "test_loc_insertions": 5,
+    "test_ratio_pct": 0.1,
+    "active_days": 7,
+    "sessions": 16,
+    "deep_sessions": 1,
+    "medium_sessions": 1,
+    "micro_sessions": 14,
+    "peak_hour": 10,
+    "late_night_commits_22_to_04": 5,
+    "release_commits": 8,
+    "focus_area": "NotebookLM CIC Ingestion & Mining Design, Sigil Governed-Mailbox Protocol Spec, Health/TODOS Auto-Resolution, Retro Tooling",
+    "prs_merged": 1,
+    "feat_pct": 6.1,
+    "fix_pct": 18.2,
+    "docs_pct": 36.4,
+    "chore_pct": 30.3,
+    "test_pct": 3.0,
+    "team_streak_days": 2,
+    "personal_streak_days": 2,
+    "prior_streak_note": "18-day streak (2026-07-26 to 2026-08-12) broken by a gap on 2026-08-13; current streak restarted 2026-08-14",
+    "backlog_open_todos": 24,
+    "backlog_open_last_period": 6,
+    "backlog_closed_this_period": 9,
+    "backlog_added_this_period": 8,
+    "backlog_note": "19 of 24 open items are auto-generated 'kb-sync documentation drift remediation' entries, not organic feature backlog",
+    "version_range": ["v2.32.11", "v2.34.0"]
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 25, "insertions": 8815, "deletions": 3771, "role": "human" },
+    "toolforge-release-bot": { "commits": 8, "insertions": 80, "deletions": 13, "role": "automation" }
+  },
+  "session_focus": {
+    "summary": "Heavy docs/spec week: NotebookLM CIC ingest/mining design (4 large spec commits), Sigil governed-mailbox protocol draft, KB-Sync DAG design. Plus retro-tooling maintenance (retro JSON schema patch, retro window fix) and a health/TODOS auto-resolution fix.",
+    "incidents": [],
+    "process_learnings": [
+      "Large single-commit doc/spec drops (3 commits over 1500 insertions each) make this window's diffs hard to review incrementally.",
+      "kb-sync's drift-detector is dumping one TODOS.md line per stale wiki file (19 in this window) -- inflates backlog count without representing real work items."
+    ]
+  },
+  "test_health": {
+    "total_test_files": null,
+    "regression_test_commits": 0
+  },
+  "backlog": {
+    "total_open": 24,
+    "p0_p1": 2,
+    "p2": 3,
+    "completed_this_period": 9,
+    "added_this_period": 8,
+    "note": "19/24 open items are auto-generated kb-sync drift entries"
+  },
+  "tweetable": "Week of Aug 8: 33 commits (1 contributor + release-bot), 5.1k net LOC, 0.1% tests, 8 releases, peak: 10am | Streak broken 8/13 after 18 days, restarted at 2"
+}

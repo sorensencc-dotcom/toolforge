@@ -1,0 +1,72 @@
+{
+  "date": "2026-07-29",
+  "window": "7d",
+  "since": "2026-07-22T00:00:00-04:00",
+  "until": "2026-07-29T23:59:59-04:00",
+  "base_branch": "main",
+  "prior_retro_baseline": ".context/retros/2026-07-28-1.json",
+  "note": "trm-feedback-report skill shipped, sync-treatment spec closed (4 review rounds), commit-tag hygiene convention adopted, real CHANGELOG-dedup bug fixed live.",
+  "metrics": {
+    "commits": 80,
+    "commits_no_merge": 72,
+    "contributors": 2,
+    "automation_commits": 20,
+    "ai_assisted_commits": 33,
+    "insertions_raw": 25805,
+    "deletions_raw": 10763,
+    "net_loc_raw": 15042,
+    "insertions_filtered": 13038,
+    "deletions_filtered": 9030,
+    "net_loc_filtered": 4008,
+    "filter_note": "Excludes bulk_sync_commit 4f66345 (506-file resync, 12767 ins/1733 del confirmed via git show --stat).",
+    "bulk_sync_commit": "4f66345",
+    "bulk_sync_insertions": 12767,
+    "bulk_sync_pct_of_week": 49.5,
+    "test_loc_insertions": 1413,
+    "test_ratio_pct": 5.47,
+    "chore_pct": 31.25,
+    "docs_pct": 26.25,
+    "feat_pct": 16.25,
+    "fix_pct": 15.0,
+    "merge_pct": 5.0,
+    "test_pct": 1.25,
+    "active_days": 6,
+    "sessions": 25,
+    "deep_sessions": 2,
+    "medium_sessions": 3,
+    "micro_sessions": 20,
+    "peak_hour": 1,
+    "late_night_commits_22_to_04": 35,
+    "team_streak_days": 4,
+    "personal_streak_days": 4,
+    "backlog_open_todos": 6,
+    "backlog_closed_this_period": 4,
+    "backlog_open_last_period": 21,
+    "version_range": ["v2.16.0", "v2.24.0"],
+    "release_commits": 20,
+    "focus_area": "docs/ (25% of commits) — sync-treatment spec (4 review rounds) + trm-feedback-report spec/plan"
+  },
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 52,
+      "role": "human"
+    },
+    "toolforge-release-bot": {
+      "commits": 20,
+      "role": "automation"
+    }
+  },
+  "session_focus": {
+    "summary": "trm-feedback-report skill shipped end to end (design, plan, 4 code commits). TRM-to-treatment sync-treatment spec closed after 4 caveman-review rounds. Real Benson Ford ingest artifacts landed via one 506-file bulk-sync commit. Session-end: adopted test:/chore(sync): commit-tag conventions, fixed a live CHANGELOG duplicate-version collision between manual gate-boundary bump and toolforge-release-bot's auto-bump, and closed a real CRITICAL security-audit finding (child_process exemption, Tier 1 approved) that was blocking push.",
+    "incidents": [
+      "506-file bulk-sync commit (4f66345) contributed 49.5% of the week's raw insertion count, distorting every LOC metric.",
+      "toolforge-release-bot and a manual gate-boundary CHANGELOG bump both claimed v2.24.0 same day with different commit lists — real duplicate-version bug, fixed same session.",
+      "trm-feedback-report's child_process import tripped the pre-push SEC-AUDITOR CRITICAL gate; genuine Tier 1 exemption applied (execFileSync, array args, hardcoded binary, no shell-injection surface)."
+    ],
+    "process_learnings": [
+      "Test coverage hides inside fix:/feat: commits when not explicitly tagged — only 1 commit this week used test: despite real test work landing elsewhere.",
+      "Bulk/automated resync commits need their own tag (chore(sync):) or they silently dominate LOC-based retro metrics.",
+      "18 of 25 sessions were micro (<20min) — mostly explained by real backlog-cleanup churn (21→6 open items) rather than context fragmentation, but worth a second look if the pattern repeats without a matching backlog win."
+    ]
+  }
+}
