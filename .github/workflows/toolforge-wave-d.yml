@@ -2,6 +2,7 @@ name: Wave D Gate
 run-name: Wave D Gate (v1.0.0)
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
@@ -12,16 +13,6 @@ on:
       - "src/services/**"
       - "package.json"
       - ".github/workflows/toolforge-wave-d.yml"
-  pull_request:
-    paths:
-      - "src/db/**"
-      - "src/e2e/**"
-      - "src/load-tests/**"
-      - "src/api/**"
-      - "src/services/**"
-      - "package.json"
-      - ".github/workflows/toolforge-wave-d.yml"
-  workflow_dispatch:
 
 jobs:
   wave-d-gate:
