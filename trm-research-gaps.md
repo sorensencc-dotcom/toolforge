@@ -26,4 +26,5 @@ vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
 ## Triage & Resolution Registry
 
 - [x] **[GAP-04] Willow Run L-Bend Assembly Line vs. Tax Turn Legend**: Resolved via primary engineering records and airfield glide-path specs. Canonical note: [willow-run-l-bend-tax-legend.md](file:///C:/dev/wiki/research/willow-run-l-bend-tax-legend.md)
+- [ ] **[GAP-03] Sorensen Monday Keelhauling Meetings**: Stage 3 research directive dispatched to scan Bentley Library & Benson Ford collections. Canonical note: [sorensen-monday-keelhauling-gap-03.md](file:///C:/dev/wiki/research/sorensen-monday-keelhauling-gap-03.md)
 

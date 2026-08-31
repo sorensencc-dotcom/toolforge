@@ -18,6 +18,14 @@ last_updated: 2026-08-30T12:14:00.000Z
 
 > Synthesized from live TRM mining output. See [[wiki/research/willow-run-l-bend-tax-legend]] for canonical resolution.
 
+## Active Investigations
+
+### GAP-03: Sorensen Monday Keelhauling Meetings
+- **Status:** In-Progress (Stage 3 Archival Directive)
+- **Directive:** [`GAP-03_monday_keelhauling_directive.json`](file:///C:/dev/_kb-sync-staging/trm/directives/GAP-03_monday_keelhauling_directive.json)
+- **Working Note:** [`sorensen-monday-keelhauling-gap-03.md`](file:///C:/dev/wiki/research/sorensen-monday-keelhauling-gap-03.md)
+- **Summary:** Deep research query into Bentley Historical Library and Benson Ford Research Center manuscript collections to corroborate whether weekly executive sessions were formalized manufacturing committee conferences or unrecorded oral lore.
+
 ## Resolved Gaps
 
 ### GAP-04: Willow Run L-Bend Assembly Line vs. Tax Turn Legend
