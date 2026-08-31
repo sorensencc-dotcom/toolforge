@@ -26,6 +26,9 @@ vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
 ## Triage & Resolution Registry
 
 - [x] **[GAP-04] Willow Run L-Bend Assembly Line vs. Tax Turn Legend**: Resolved via primary engineering records and airfield glide-path specs. Canonical note: [willow-run-l-bend-tax-legend.md](file:///C:/dev/wiki/research/willow-run-l-bend-tax-legend.md)
+- [x] **[GAP-03-VIDEOS] B-17 Production Claim Debunking & B-24 Exclusivity**: Resolved via WPB Schedule contracts and BVD Pool manufacturing history. Canonical note: [rfc-gap-03--willow-run-videos-under-sourc.md](file:///C:/dev/wiki/research/rfc-gap-03--willow-run-videos-under-sourc.md)
+- [x] **[GAP-02-DAILY] Al-Toy "Jeep Day" Banquet (1945)**: Resolved via Willys-Overland press releases and model catalogs. Canonical note: [rfc-gap-02--cic-daily-research-adjacent-t.md](file:///C:/dev/wiki/research/rfc-gap-02--cic-daily-research-adjacent-t.md)
+- [ ] **[GAP-06] Willow Run B-24 Knock-Down Kit Manufacturing & Logistics**: Active dossier tracking 1,893 sub-assembly shipments via custom 60-ft rigs to Tulsa/Fort Worth. Canonical note: [rfc-gap-06-willow-run-b-24-knock-down-kit.md](file:///C:/dev/wiki/research/rfc-gap-06-willow-run-b-24-knock-down-kit.md)
 - [ ] **[GAP-03] Sorensen Monday Keelhauling Meetings**: Stage 3 research directive dispatched to scan Bentley Library & Benson Ford collections. Canonical note: [sorensen-monday-keelhauling-gap-03.md](file:///C:/dev/wiki/research/sorensen-monday-keelhauling-gap-03.md)
 - [ ] **[GAP-02] The Flying Cow of Willow Run (Cesor Maxim's Irene)**: Stage 3 research directive dispatched to scan 1947 air freight manifests and AGCC registries. Canonical note: [cesor-farms-flying-cow-gap-02.md](file:///C:/dev/wiki/research/cesor-farms-flying-cow-gap-02.md)
 

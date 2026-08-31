@@ -32,9 +32,24 @@ last_updated: 2026-08-30T12:14:00.000Z
 - **Working Note:** [`sorensen-monday-keelhauling-gap-03.md`](file:///C:/dev/wiki/research/sorensen-monday-keelhauling-gap-03.md)
 - **Summary:** Deep research query into Bentley Historical Library and Benson Ford Research Center manuscript collections to corroborate whether weekly executive sessions were formalized manufacturing committee conferences or unrecorded oral lore.
 
+### GAP-06: Willow Run B-24 Knock-Down Kit Manufacturing & Logistics
+- **Status:** In-Progress (Logistics Manifest Synthesis)
+- **Working Note:** [`rfc-gap-06-willow-run-b-24-knock-down-kit.md`](file:///C:/dev/wiki/research/rfc-gap-06-willow-run-b-24-knock-down-kit.md)
+- **Summary:** Tracking the shipment of 1,893 knocked-down B-24 Liberator sub-assembly sets via custom 60-foot Ford truck-trailer highway rigs from Willow Run to Douglas (Tulsa, OK) and Consolidated (Fort Worth, TX).
+
 ## Resolved Gaps
 
 ### GAP-04: Willow Run L-Bend Assembly Line vs. Tax Turn Legend
 - **Status:** Resolved
 - **Canonical Note:** [`willow-run-l-bend-tax-legend.md`](file:///C:/dev/wiki/research/willow-run-l-bend-tax-legend.md)
 - **Summary:** Archival blueprints from Albert Kahn Associates and production records from Charles E. Sorensen prove that airfield runway approach paths necessitated the 90-degree turn. Federal ownership via the Defense Plant Corporation eliminated local property tax motives.
+
+### GAP-03-VIDEOS: B-17 Production Claim Debunking & B-24 Exclusivity
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-03--willow-run-videos-under-sourc.md`](file:///C:/dev/wiki/research/rfc-gap-03--willow-run-videos-under-sourc.md)
+- **Summary:** War Production Board Schedule records prove Willow Run manufactured 8,685 Consolidated B-24 Liberators and 0 Boeing B-17s. B-17 production was executed exclusively under the Boeing-Vega-Douglas (BVD) consortium.
+
+### GAP-02-DAILY: Al-Toy "Jeep Day" Banquet (1945)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-02--cic-daily-research-adjacent-t.md`](file:///C:/dev/wiki/research/rfc-gap-02--cic-daily-research-adjacent-t.md)
+- **Summary:** Verified the industrial launch of the Willys CJ-2A at the July 1945 Jeep Day press banquet, where custom 1:16 scale cast-aluminum Al-Toy models were presented as executive souvenirs and dealer marketing aids.
