@@ -27,4 +27,5 @@ vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
 
 - [x] **[GAP-04] Willow Run L-Bend Assembly Line vs. Tax Turn Legend**: Resolved via primary engineering records and airfield glide-path specs. Canonical note: [willow-run-l-bend-tax-legend.md](file:///C:/dev/wiki/research/willow-run-l-bend-tax-legend.md)
 - [ ] **[GAP-03] Sorensen Monday Keelhauling Meetings**: Stage 3 research directive dispatched to scan Bentley Library & Benson Ford collections. Canonical note: [sorensen-monday-keelhauling-gap-03.md](file:///C:/dev/wiki/research/sorensen-monday-keelhauling-gap-03.md)
+- [ ] **[GAP-02] The Flying Cow of Willow Run (Cesor Maxim's Irene)**: Stage 3 research directive dispatched to scan 1947 air freight manifests and AGCC registries. Canonical note: [cesor-farms-flying-cow-gap-02.md](file:///C:/dev/wiki/research/cesor-farms-flying-cow-gap-02.md)
 

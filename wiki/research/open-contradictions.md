@@ -20,6 +20,12 @@ last_updated: 2026-08-30T12:14:00.000Z
 
 ## Active Investigations
 
+### GAP-02: The Flying Cow of Willow Run (Cesor Maxim's Irene)
+- **Status:** In-Progress (Stage 3 Archival Directive)
+- **Directive:** [`GAP-02_cesor_farms_flying_cow_directive.json`](file:///C:/dev/_kb-sync-staging/trm/directives/GAP-02_cesor_farms_flying_cow_directive.json)
+- **Working Note:** [`cesor-farms-flying-cow-gap-02.md`](file:///C:/dev/wiki/research/cesor-farms-flying-cow-gap-02.md)
+- **Summary:** Archival query into 1947 commercial air freight manifests, regional news archives (Detroit Free Press/News), and AGCC registries verifying the air cargo transport of Charles E. Sorensen's champion Guernsey cow from Willow Run under Kaiser-Frazer airport management.
+
 ### GAP-03: Sorensen Monday Keelhauling Meetings
 - **Status:** In-Progress (Stage 3 Archival Directive)
 - **Directive:** [`GAP-03_monday_keelhauling_directive.json`](file:///C:/dev/_kb-sync-staging/trm/directives/GAP-03_monday_keelhauling_directive.json)
