@@ -1,0 +1,1 @@
+{"id":"parallel-search","name":"Parallel Search","version":"1.0.0","description":"Parallel Web Search, Task API, and DOM Extract integration","status":"active","runtime":"typescript","entrypoint":"src/index.ts","owner":"soren","category":"sync-tools","permissions":{"required":["network:web"],"optional":[]},"dependencies":{"external":["parallel-web"],"internal":[]}}
