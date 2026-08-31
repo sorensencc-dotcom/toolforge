@@ -1,0 +1,27 @@
+{
+  "id": "wiki-sync-recovery",
+  "name": "Wiki Sync Recovery",
+  "version": "0.1.0",
+  "description": "Diagnose a failed GitHub wiki sync by matching its log against the four known failure modes and printing the fix runbook",
+  "category": "monitoring",
+  "triggers": [
+    "wiki-sync-recovery",
+    "wiki sync failed",
+    "diagnose wiki sync",
+    "sync-github-wiki error"
+  ],
+  "role": "ops",
+  "dependencies": {},
+  "runtime": "node",
+  "entrypoint": "src/diagnose.mjs",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "life-buoy",
+      "registrationPath": "cowork://toolforge/skills/wiki-sync-recovery",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Diagnose a failed GitHub wiki sync and print the fix runbook"
+}

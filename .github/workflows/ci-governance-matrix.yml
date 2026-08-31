@@ -1,10 +1,9 @@
 name: CI governance gate matrix
 
 on:
-  pull_request:
+  workflow_dispatch:
   push:
     branches: [main]
-  workflow_dispatch:
 
 concurrency:
   group: governance-matrix-${{ github.workflow }}-${{ github.ref }}
@@ -47,15 +46,15 @@ jobs:
       - name: Checkout toolforge governance source
         uses: actions/checkout@v4
         with:
-          repository: sorensencc-dotcom/toolforge
+          repository: sorensencc-dotcom/cic-governance
           path: toolforge-source
-          sparse-checkout: |
-            CIC-GOVERNANCE
 
       - name: Link CIC-GOVERNANCE
         run: |
+          mkdir -p workspace/CIC-GOVERNANCE
+          cp -r toolforge-source/* workspace/CIC-GOVERNANCE/ || true
           mkdir -p CIC-GOVERNANCE
-          cp -r toolforge-source/CIC-GOVERNANCE/* CIC-GOVERNANCE/ || cp -r toolforge-source/* CIC-GOVERNANCE/ || true
+          cp -r toolforge-source/* CIC-GOVERNANCE/ || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

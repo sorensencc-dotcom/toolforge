@@ -1,0 +1,66 @@
+﻿{
+  "date": "2026-07-28",
+  "window": "7d",
+  "since": "2026-07-28T00:00:00-04:00",
+  "until": "2026-07-28T23:59:59-04:00",
+  "base_branch": "main",
+  "prior_retro_baseline": ".context/retros/2026-07-27-1.json",
+  "note": "Session implemented comprehensive testing roadmap across PDF ingestion, production DB resilience adapter, TRM integration pipeline, vision failure/clamping subsystem, and PowerShell task scheduler XML guard suite.",
+  "metrics": {
+    "commits": 120,
+    "commits_no_merge": 117,
+    "contributors": 2,
+    "automation_commits": 23,
+    "insertions_raw": 35918,
+    "deletions_raw": 11177,
+    "net_loc_raw": 24741,
+    "insertions_filtered": 35918,
+    "deletions_filtered": 11177,
+    "net_loc_filtered": 24741,
+    "filter_note": "No lockfiles or auto-gen reports touched in window; raw == filtered",
+    "test_loc_insertions": 1392,
+    "test_ratio_pct": 3.87,
+    "feat_pct": 28.0,
+    "fix_pct": 14.0,
+    "docs_pct": 26.0,
+    "chore_pct": 25.0,
+    "test_pct": 7.0,
+    "active_days": 7,
+    "sessions": 2,
+    "deep_sessions": 2,
+    "peak_hour": 1,
+    "late_night_commits_22_to_04": 2,
+    "team_streak_days": 3,
+    "personal_streak_days": 3,
+    "backlog_open_todos": 21,
+    "backlog_closed_this_period": 0,
+    "version_range": [
+      "v2.19.0",
+      "v2.21.4"
+    ],
+    "release_commits": 23,
+    "focus_area": "PDF ingestion + API resilient DB adapter + TRM integration + Vision subsystem + Task Scheduler guard suite"
+  },
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 97,
+      "role": "human"
+    },
+    "toolforge-release-bot": {
+      "commits": 23,
+      "role": "automation"
+    }
+  },
+  "session_focus": {
+    "summary": "Full implementation and verification of 5-part testing roadmap: in-repo synthetic PDF fixtures, resilient DB adapter with ECONNREFUSED fallback and recovery logging, TRM integration pipeline with disk I/O contracts, Vision subsystem rate limit failure fallback and dynamic threshold bounds clamping [0.50, 0.95], and PowerShell Task Scheduler XML definition extraction and ShouldProcess guard suite.",
+    "commits_this_session_range": "1dca251",
+    "incidents": [
+      "Initial npm test runner did not include TypeScript vision test files until dedicated vitest.config.vision.js was registered.",
+      "ESLint no-regex-spaces error in governance.test.js resolved before pre-flight gate passed."
+    ],
+    "process_learnings": [
+      "Separate runner configurations are needed when mixing node --test (JavaScript) and Vitest (TypeScript/React).",
+      "Task Scheduler registration tests require XML schema export (-ExportXml) and ShouldProcess protection to verify parameters safely without COM object instantiation."
+    ]
+  }
+}

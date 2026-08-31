@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Canonical Retro Schema v1.0",
+  "description": "Canonical v1.0 schema for .context/retros/*.json files",
+  "type": "object",
+  "required": [
+    "date",
+    "window",
+    "since",
+    "until",
+    "base_branch",
+    "metrics",
+    "authors",
+    "session_focus"
+  ],
+  "properties": {
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Retro date in YYYY-MM-DD format"
+    },
+    "window": {
+      "type": "string",
+      "description": "Lookback window, typically '7d'"
+    },
+    "since": {
+      "type": "string",
+      "description": "ISO 8601 timestamp for window start"
+    },
+    "until": {
+      "type": "string",
+      "description": "ISO 8601 timestamp for window end"
+    },
+    "base_branch": {
+      "type": "string",
+      "description": "Primary target branch, typically 'main'"
+    },
+    "prior_retro_baseline": {
+      "type": ["string", "null"],
+      "description": "Relative path to prior retro baseline JSON file"
+    },
+    "note": {
+      "type": ["string", "null"],
+      "description": "Caveats, schema exceptions, concurrent-session flags"
+    },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "commits",
+        "commits_no_merge",
+        "contributors",
+        "automation_commits",
+        "insertions_raw",
+        "deletions_raw",
+        "net_loc_raw",
+        "insertions_filtered",
+        "deletions_filtered",
+        "net_loc_filtered",
+        "filter_note",
+        "test_loc_insertions",
+        "test_ratio_pct",
+        "feat_pct",
+        "fix_pct",
+        "docs_pct",
+        "chore_pct",
+        "test_pct",
+        "active_days",
+        "sessions",
+        "deep_sessions",
+        "peak_hour",
+        "late_night_commits_22_to_04",
+        "team_streak_days",
+        "personal_streak_days",
+        "backlog_open_todos",
+        "backlog_closed_this_period",
+        "version_range",
+        "release_commits",
+        "focus_area"
+      ],
+      "properties": {
+        "commits": { "type": "integer", "minimum": 0 },
+        "commits_no_merge": { "type": "integer", "minimum": 0 },
+        "contributors": { "type": "integer", "minimum": 0 },
+        "automation_commits": { "type": "integer", "minimum": 0 },
+        "insertions_raw": { "type": "integer" },
+        "deletions_raw": { "type": "integer" },
+        "net_loc_raw": { "type": "integer" },
+        "insertions_filtered": { "type": "integer" },
+        "deletions_filtered": { "type": "integer" },
+        "net_loc_filtered": { "type": "integer" },
+        "filter_note": { "type": "string" },
+        "test_loc_insertions": { "type": "integer", "minimum": 0 },
+        "test_ratio_pct": { "type": "number", "minimum": 0 },
+        "feat_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "fix_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "docs_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "chore_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "test_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "active_days": { "type": "integer", "minimum": 0 },
+        "sessions": { "type": "integer", "minimum": 0 },
+        "deep_sessions": { "type": "integer", "minimum": 0 },
+        "peak_hour": { "type": "integer", "minimum": 0, "maximum": 23 },
+        "late_night_commits_22_to_04": { "type": "integer", "minimum": 0 },
+        "team_streak_days": { "type": "integer", "minimum": 0 },
+        "personal_streak_days": { "type": "integer", "minimum": 0 },
+        "backlog_open_todos": { "type": "integer", "minimum": 0 },
+        "backlog_closed_this_period": { "type": "integer", "minimum": 0 },
+        "version_range": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "string" }
+        },
+        "release_commits": { "type": "integer", "minimum": 0 },
+        "focus_area": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "authors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["commits", "role"],
+        "properties": {
+          "commits": { "type": "integer", "minimum": 0 },
+          "role": { "type": "string", "enum": ["human", "automation"] },
+          "insertions": { "type": "integer" },
+          "deletions": { "type": "integer" },
+          "test_ratio": { "type": "number" },
+          "top_area": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "session_focus": {
+      "type": "object",
+      "required": ["summary", "incidents", "process_learnings"],
+      "properties": {
+        "summary": { "type": "string" },
+        "commits_this_session_range": { "type": "string" },
+        "incidents": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "process_learnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "external_repos_note": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

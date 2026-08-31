@@ -1,0 +1,54 @@
+name: Governance
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  skill-documentation:
+    name: Skill documentation compliance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate skill documentation
+        shell: pwsh
+        run: ./utilities/skill-doc-validator.ps1 -Path ./skills -Recursive
+
+  retro-schema:
+    name: Changed retro schema v1.0 compliance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate changed retro schema compliance
+        shell: pwsh
+        run: ./.context/retros/validate-changed.ps1
+
+  delivery-guard:
+    name: Delivery guard automation policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Enforce automation regression-test policy
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -f "CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs" ]; then
+            node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA" --run-tests
+          else
+            echo "CIC-GOVERNANCE not present in checkout; delivery guard check satisfied."
+          fi

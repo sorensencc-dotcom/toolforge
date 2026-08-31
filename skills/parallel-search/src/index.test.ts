@@ -1,0 +1,9 @@
+import { strict as assert } from "node:assert";
+import test from "node:test";
+import { parallel_extract, parallel_search, parallel_task } from "./index.js";
+
+test("fails closed without API key", async () => { const r = await parallel_search({ objective: "x", search_queries: ["a", "b"] }, { apiKey: " " }); assert.deepEqual(r, { ok: false, error: { code: "API_KEY_MISSING", message: "PARALLEL_API_KEY is required" } }); });
+test("validates search query count", async () => { const r = await parallel_search({ objective: "x", search_queries: ["a"] }, { apiKey: "k" }); assert.equal(r.ok, false); assert.equal((r as { ok: false; error: { code: string } }).error.code, "INVALID_INPUT"); });
+test("validates extract URL limit", async () => { const r = await parallel_extract({ urls: Array.from({ length: 21 }, (_, i) => `https://example.com/${i}`) }, { apiKey: "k" }); assert.equal(r.ok, false); });
+test("calls taskRun create and returns task status", async () => { const r = await parallel_task({ input: "research", processor: "base" }, { apiKey: "k", clientFactory: () => ({ search: async () => ({}), extract: async () => ({}), taskRun: { create: async () => ({ run_id: "r", interaction_id: "i", status: "queued", is_active: true, processor: "base" }) } }) }); assert.deepEqual(r, { ok: true, data: { run_id: "r", interaction_id: "i", status: "queued", is_active: true, processor: "base" } }); });
+test("maps SDK failure without leaking details", async () => { const r = await parallel_search({ objective: "x", search_queries: ["a", "b"] }, { apiKey: "k", clientFactory: () => ({ search: async () => { throw new Error("secret"); }, extract: async () => ({}), taskRun: { create: async () => ({}) } }) }); assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed" } }); });

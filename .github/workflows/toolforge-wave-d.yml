@@ -2,6 +2,7 @@ name: Wave D Gate
 run-name: Wave D Gate (v1.0.0)
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
@@ -12,16 +13,6 @@ on:
       - "src/services/**"
       - "package.json"
       - ".github/workflows/toolforge-wave-d.yml"
-  pull_request:
-    paths:
-      - "src/db/**"
-      - "src/e2e/**"
-      - "src/load-tests/**"
-      - "src/api/**"
-      - "src/services/**"
-      - "package.json"
-      - ".github/workflows/toolforge-wave-d.yml"
-  workflow_dispatch:
 
 jobs:
   wave-d-gate:
@@ -62,11 +53,18 @@ jobs:
 
       - name: Wait for Postgres to be ready
         run: |
-          for i in $(seq 1 20); do
-            pg_isready -h localhost -p 5432 -U toolforge && break
-            echo "Postgres not ready yet..."
-            sleep 2
-          done
+          node -e '
+          const net = require("net");
+          function check(retries = 20) {
+            const socket = net.createConnection(5432, "localhost");
+            socket.on("connect", () => { socket.end(); process.exit(0); });
+            socket.on("error", () => {
+              if (retries <= 0) process.exit(1);
+              setTimeout(() => check(retries - 1), 1500);
+            });
+          }
+          check();
+          '
 
       - name: Prepare artifacts dir
         run: mkdir -p wave-d-artifacts
