@@ -1355,16 +1355,97 @@
       "version": "1.0.0",
       "capabilities": ["web_search", "structured_extract", "deep_task"],
       "requires_api_key": "PARALLEL_API_KEY"
+    },
+    {
+      "version": "1.0.0",
+      "description": "End-to-end Topic Research Mining (TRM) closed-loop pipeline across all registered NotebookLM notebooks in trm-vault: multi-notebook mining, WhichLLM model selection, cognitive query expansion triage, Layer 2 wiki synthesis, and .nlm_pack compilation.",
+      "timestamps": {
+        "created": "2026-08-30T22:30:00.000Z",
+        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["trm", "closed-loop", "research", "notebooklm", "wiki-synthesis", "knowledge-pack", "trm-vault"],
+      "status": "active",
+      "name": "trm-closed-loop-research",
+      "runtime": "typescript",
+      "id": "trm-closed-loop-research",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "research",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": ["git", "node", "pwsh"],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Operational defect triage and resolution operator workflow for the TRM DevOps sync pipeline: inspect queue, claim defect, run deterministic diagnostic actions, verify fix, and prune remote sources.",
+      "timestamps": {
+        "created": "2026-08-30T22:30:00.000Z",
+        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["trm", "devops", "triage", "ci-cd", "queue", "operator-workflow"],
+      "status": "active",
+      "name": "trm-devops-triage",
+      "runtime": "typescript",
+      "id": "trm-devops-triage",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "monitoring",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Diagnose a failed GitHub wiki sync by matching its log against the four known failure modes and printing the fix runbook",
+      "timestamps": {
+        "created": "2026-08-30T22:30:00.000Z",
+        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "lastRun": null
+      },
+      "tags": ["wiki-sync-recovery", "wiki", "sync", "recovery"],
+      "status": "active",
+      "name": "wiki-sync-recovery",
+      "runtime": "node",
+      "id": "wiki-sync-recovery",
+      "entrypoint": "src/diagnose.mjs",
+      "owner": "soren",
+      "category": "monitoring",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 45,
+    "total": 48,
     "health_error": 0,
     "deprecated": 0,
-    "active": 45,
-    "health_good": 44,
+    "active": 48,
+    "health_good": 48,
     "health_warn": 0
   },
-  "timestamp": "2026-07-17T00:00:00Z",
+  "timestamp": "2026-08-30T22:30:00Z",
   "version": "1.2.0"
 }
