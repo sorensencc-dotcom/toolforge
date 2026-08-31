@@ -1344,6 +1344,17 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "id": "parallel-search",
+      "name": "parallel-search",
+      "category": "sync-tools",
+      "description": "Parallel Web Search, Task API, and DOM Extract integration",
+      "entrypoint": "skills/parallel-search/dist/index.js",
+      "status": "active",
+      "version": "1.0.0",
+      "capabilities": ["web_search", "structured_extract", "deep_task"],
+      "requires_api_key": "PARALLEL_API_KEY"
     }
   ],
   "summary": {
