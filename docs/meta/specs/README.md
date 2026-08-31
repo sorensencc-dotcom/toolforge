@@ -7,3 +7,4 @@ Design and integration specs — "how it's built, technically." Not a charter (s
 - `ijfw-agent-integration-guide-v1.5.md` — IJFW agent integration guide (versioned spec release)
 - `audit-first-scope-lock-formalization-summary.md` — audit-first scope lock formalization
 - `phase-7-etcd-integration-spec.md`, `phase-7-unleash-integration-spec.md` — Phase 7 integration specs (charter lives in `docs/meta/phases/`)
+- `ironledger-architecture-design.md` — IronLedger architecture and security design (operator-approved; plan in `plans/`, Phase 0 baseline in `phases/`)

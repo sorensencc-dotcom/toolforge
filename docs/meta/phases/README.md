@@ -17,3 +17,4 @@ Charters, completion reports, and state docs — "what we're doing and why, scop
 - `toolforge-phase-2b-charter.md` — Toolforge Phase 2b charter
 - `cic-ashfall-state.md` — CIC Ashfall state doc
 - `skill-regression-backfill-charter.md` — skill regression backfill charter
+- `ironledger-phase-0-threat-model-baseline.md` — IronLedger Phase 0 repository + threat-model baseline (spec in `specs/`, plan in `plans/`)
