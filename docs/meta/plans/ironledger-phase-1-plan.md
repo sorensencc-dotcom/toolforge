@@ -11,6 +11,14 @@ D-1 concerns the shared repository preflight. `C:/dev/scripts/verify-repo-contex
 
 After D-1 resolution, record the preflight result, repository root, branch, working tree, and remotes before each execution wave. Keep all implementation work in `C:/dev/dev-sandbox/IronLedger`. Keep governed documents under `C:/dev/docs/meta/`.
 
+### D-1b: migration runner
+
+Before task 2, the lead selects the migration mechanism and records it here. Recommended: plain numbered `.sql` files plus a minimal Python runner, no ORM, so SQLite STRICT and foreign-key semantics stay visible and auditable. An ORM or a heavier migration framework requires operator sign-off because it changes how constraints are expressed and reviewed.
+
+### Hash algorithm
+
+All hashes in Phase 1, identity fingerprints, audit event hashes, the audit chain, projection manifests, and source manifests, use SHA-256. No other digest is introduced in this phase.
+
 ## Phase boundary
 
 Phase 1 defines and tests the canonical local accounting foundation:
@@ -43,13 +51,21 @@ Acceptance test: a convention fixture validates a supported account, currency, a
 
 ### 2. Design initial migrations
 
-Create migration definitions for `source_documents`, `source_records`, `staged_transactions`, `ledger_entries`, `ledger_postings`, `audit_events`, and `compile_runs`. Include schema versioning, primary keys, uniqueness rules, required provenance, identity algorithm versions, UTC timestamps, compile status, and recovery state.
+Create migration definitions for `source_documents`, `source_records`, `staged_transactions`, `ledger_entries`, `ledger_postings`, `audit_events`, and `compile_runs`. Include schema versioning, primary keys, uniqueness rules, required provenance, and UTC timestamps.
+
+Each row that carries a record identity also carries `identity_algo_version` and an `identity_method` discriminator (`fitid` or `sha256_fallback`). Add the schema slot for FITID trust records: a per-institution, per-account table (or a config-backed equivalent) that records where FITID is an accepted identity source. Phase 1 only creates the slot; Phase 2 populates it.
+
+`compile_runs` columns are enumerated now so Phase 3 needs no migration to add them: `compile_run_id`, `beancount_version`, `compiler_version`, `input_hash`, `intended_output_hash`, `actual_output_hash`, `status`, `started_at_utc`, `finished_at_utc`, and `recovery_state`.
 
 Acceptance test: a fresh database applies migrations in order, reports the expected schema version, and applies no migration twice. A migration interruption test leaves a recoverable state without a partially accepted schema version.
 
 ### 3. Enforce strict monetary and identity constraints
 
 Use SQLite strict tables and integer amount columns. Require currency in every monetary identity and posting row. Reject floating-point values, malformed currency fields, absent currency fields, unsupported scales, invalid signs, invalid account identifiers, and duplicate source identities. Preserve historical identity algorithm versions.
+
+Every database connection sets `PRAGMA foreign_keys = ON` before use; the connection layer refuses to hand out a connection where the pragma did not take. SQLite defaults this off, so an unverified pragma makes every foreign-key and no-cascade test in task 4 pass hollow.
+
+Constrain stored timestamps to ISO-8601 UTC with an explicit `Z` (STRICT text column plus a CHECK, or a documented application-layer guard that every write path calls).
 
 Acceptance tests:
 
@@ -58,6 +74,9 @@ Acceptance tests:
 - Invalid account names and posting signs fail.
 - Duplicate identity insertion fails without overwriting the first record.
 - Unlike-currency balancing fails.
+- The connection layer rejects a connection where foreign keys did not enable; with enforcement live, a restricted delete raises.
+- A timestamp without a `Z` offset, or in a non-ISO-8601 form, fails.
+- Introducing a new `identity_algo_version` leaves every existing row's stored identity byte-identical; no historical row is re-identified.
 
 ### 4. Protect retained evidence
 
@@ -101,7 +120,10 @@ Record commands, outputs, timestamps, and test results for each acceptance test.
 | Invalid signs fail | Debit/credit sign and balancing validation tests |
 | Duplicate identities fail | Unique-identity and idempotent duplicate-insert tests |
 | Destructive evidence deletes fail | Foreign-key, restricted-delete, and no-cascade evidence-retention tests |
-| Audit chain verifies | Genesis-to-head verification test with stable canonical hashes |
+| Foreign-key enforcement is live | Connection layer rejects a connection with `foreign_keys` off; restricted delete raises with enforcement on |
+| Timestamps are ISO-8601 UTC | Non-`Z`, non-ISO-8601, and offset-bearing timestamp rejection tests |
+| Identity versions are immutable | New `identity_algo_version` leaves all existing identities byte-identical; no historical re-identification |
+| Audit chain verifies | Genesis-to-head verification test with stable SHA-256 hashes |
 | Audit tampering fails | Gap, reorder, duplicate, payload, previous-hash, and head-hash tamper tests |
 | Empty projection validates | Empty SQLite creation, integrity, schema, and manifest-validation test |
 | Manifest tampering fails | Input-hash, row-count, schema-version, ordering, and digest mismatch tests |
@@ -112,4 +134,4 @@ Phase 1 creates no user-facing mutation workflow. Migration setup and test fixtu
 
 ## Approval gate
 
-The operator must resolve D-1, review this plan, and type explicit Phase 1 approval before implementation begins. A later change to Beancount authority, evidence retention, currency policy, network exposure, safe mode, or authorization boundaries requires a design amendment and renewed approval.
+The operator must resolve D-1, review this plan, and type explicit Phase 1 approval before implementation begins. The lead records the D-1b migration-runner choice in this document before task 2. A later change to Beancount authority, evidence retention, currency policy, network exposure, safe mode, or authorization boundaries requires a design amendment and renewed approval.
