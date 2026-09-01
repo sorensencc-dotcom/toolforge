@@ -6,7 +6,9 @@ Derived from: `ironledger-architecture-design.md`, `ironledger-implementation-pl
 
 ## 1. Repository and context verification
 
-### 1.1 Target repository (state at Phase 0 verification)
+### 1.1 Target repository
+
+State recorded at first Phase 0 verification; the repository has since taken its Phase 1 commits.
 
 | Item | Finding |
 |---|---|
