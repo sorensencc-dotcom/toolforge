@@ -10,8 +10,8 @@ Derived from: `ironledger-architecture-design.md`, `ironledger-implementation-pl
 
 | Item | Finding |
 |---|---|
-| Path | `C:\dev\dev-sandbox\IronLedger` (relocated from `C:\dev\IronLedger` per D-0) |
-| Git root | `C:\dev\dev-sandbox\IronLedger` (`core.bare=false`) |
+| Path | `C:\dev\IronLedger` (operator-designated final home; see D-0) |
+| Git root | `C:\dev\IronLedger` (`core.bare=false`) |
 | Branch | `main` |
 | Commits | None. Empty `git init`: no objects, no refs, no reflog. |
 | Remotes | None configured. |
@@ -49,11 +49,11 @@ Phase 1 cannot run its mandated preflight until one of these is chosen.
 - Governed documentation directory: `C:\dev\docs\meta\`. This file is placed there.
 - Forbidden output path: `C:\dev\IronLedger\docs\superpowers\specs\` (and any specs directory inside the repo).
 
-### 1.5 Decision required before Phase 1: writable location
+### 1.5 Writable location decision, required before Phase 1
 
-`C:\dev\CLAUDE.md` states writable repository work must use a real checkout under `C:\dev\dev-sandbox` and treats `C:\dev` as read-only. The operator brief named `C:\dev\IronLedger` as the target. These conflicted.
+`C:\dev\CLAUDE.md` states writable repository work should use a checkout under `C:\dev\dev-sandbox` and otherwise treats `C:\dev` as read-only. The operator brief named `C:\dev\IronLedger` as the target.
 
-**D-0: RESOLVED.** The checkout was relocated to `C:\dev\dev-sandbox\IronLedger` (branch `main`, still zero commits, no remotes). The stray empty `docs\meta\` directory inside it was removed. `C:\dev\IronLedger` no longer exists. All Phase 1+ work happens in the sandbox checkout; `C:\dev` stays read-only apart from the governed docs under `C:\dev\docs\meta\`.
+**D-0: RESOLVED by the operator.** `C:\dev\IronLedger` is the approved final home for the IronLedger repository, an explicit exception to the default sandbox rule. The checkout was briefly staged under `C:\dev\dev-sandbox\IronLedger` and then moved to `C:\dev\IronLedger` with its history intact (branch `main`, no remotes). The stray empty `docs\meta\` directory was removed. `C:\dev` outside this repository and the governed docs under `C:\dev\docs\meta\` stays read-only.
 
 ## 2. Trust model
 
@@ -283,7 +283,7 @@ Met by this document:
 
 Blocking items:
 
-- **D-0** RESOLVED — checkout relocated to `C:\dev\dev-sandbox\IronLedger`; stray repo `docs/` removed.
+- **D-0** RESOLVED — operator designated `C:\dev\IronLedger` as the approved final home; history-preserving move done, stray repo `docs/` removed.
 - **D-1** OPEN — one operator/maintainer choice still required: patch `verify-repo-context.ps1` to accept `pyproject.toml` (recommended), record a preflight exception, or accept a stub `package.json`. A minimal `pyproject.toml` is already in the checkout. This is the only remaining hard blocker for Phase 1's preflight step.
 - **D-6** RESOLVED as policy — Phase 1 locks account/currency *policy*; concrete accounts are added later through the operator-authorization path.
 - **D-11** RESOLVED — safe mode defaults ON; operator opts in to mutation.

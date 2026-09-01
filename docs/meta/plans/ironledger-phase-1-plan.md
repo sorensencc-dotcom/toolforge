@@ -9,7 +9,7 @@ Phase 1 remains blocked until the operator resolves D-1 and types explicit Phase
 
 D-1 concerns the shared repository preflight. `C:/dev/scripts/verify-repo-context.ps1` requires `package.json`, while IronLedger uses `pyproject.toml`. The recommended resolution is a maintainer patch that accepts `package.json`, `pyproject.toml`, `go.mod`, or `Cargo.toml`. The implementation agent must not patch the protected script, add a misleading `package.json`, or treat an exception as resolved without operator direction.
 
-After D-1 resolution, record the preflight result, repository root, branch, working tree, and remotes before each execution wave. Keep all implementation work in `C:/dev/dev-sandbox/IronLedger`. Keep governed documents under `C:/dev/docs/meta/`.
+After D-1 resolution, record the preflight result, repository root, branch, working tree, and remotes before each execution wave. Keep all implementation work in `C:/dev/IronLedger` (the operator-approved final home, D-0). Keep governed documents under `C:/dev/docs/meta/`.
 
 ### D-1b: migration runner
 
