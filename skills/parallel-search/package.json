@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "scripts": {"test": "tsx --test src/index.test.ts"},
-  "dependencies": {"parallel-web": "^0.3.0"},
+  "scripts": {
+    "test": "node scripts/assert-test-count.mjs",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {"parallel-web": "^0.3.2"},
   "devDependencies": {"@types/node": "^22.10.2", "tsx": "^4.19.2", "typescript": "^5.4.5"}
 }

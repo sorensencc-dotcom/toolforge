@@ -14,16 +14,18 @@ function normalize(value: SearchOutput): CharlieResearchRecord[] | undefined {
     if (!item || typeof item !== "object" || Array.isArray(item)) return [];
     const record = item as Record<string, unknown>;
     const title = record.title;
-    const url = record.url ?? record.link;
+    const url = record.url;
     if (typeof title !== "string" || typeof url !== "string" || !/^https?:\/\//.test(url)) return [];
-    return [{ title, url, snippet: typeof record.snippet === "string" ? record.snippet : "" }];
+    const excerpts = record.excerpts;
+    const snippet = Array.isArray(excerpts) && typeof excerpts[0] === "string" ? excerpts[0] : "";
+    return [{ title, url, snippet }];
   });
 }
 
 export async function charlieDeepResearchSearch(topic: string, persona: string, options?: AdapterOptions): Promise<AdapterResult> {
   if (!isEnabled(options)) return fail("FEATURE_DISABLED");
   if (typeof topic !== "string" || !topic.trim() || typeof persona !== "string" || !persona.trim()) return fail("INVALID_INPUT");
-  const result: OperationResult<SearchOutput> = await parallel_search({ objective: `Research ${topic.trim()} from the perspective of ${persona.trim()}`, search_queries: [topic.trim(), `${topic.trim()} history`, `${topic.trim()} primary sources`] }, options);
+  const result: OperationResult<SearchOutput> = await parallel_search({ objective: `Research ${topic.trim()} from the perspective of ${persona.trim()}`, search_queries: [topic.trim(), `${topic.trim()} history`, `${topic.trim()} primary sources`], mode: "agentic" }, options);
   if (result.ok === false) return fail(result.error.code);
   const data = normalize(result.data);
   return data ? { ok: true, data } : fail("INVALID_API_RESPONSE");
