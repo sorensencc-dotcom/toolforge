@@ -41,3 +41,19 @@ test("maps SDK failure without leaking details", async () => {
   });
   assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed" } });
 });
+
+test("extract call includes the search-extract beta header", async () => {
+  let seenParams: Record<string, unknown> | undefined;
+  const r = await parallel_extract({ urls: ["https://example.com/a"] }, {
+    apiKey: "k",
+    clientFactory: () => ({
+      beta: {
+        search: async () => ({}),
+        extract: async (params: Record<string, unknown>) => { seenParams = params; return { results: [], errors: [] }; },
+      },
+      taskRun: { create: async () => ({}) },
+    } as any),
+  });
+  assert.equal(r.ok, true);
+  assert.deepEqual(seenParams?.betas, ["search-extract-2025-10-10"]);
+});
