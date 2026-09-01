@@ -6,7 +6,7 @@ Derived from: `ironledger-architecture-design.md`, `ironledger-implementation-pl
 
 ## 1. Repository and context verification
 
-### 1.1 Target repository
+### 1.1 Target repository (state at Phase 0 verification)
 
 | Item | Finding |
 |---|---|
@@ -28,7 +28,7 @@ The repository is a real, writable, local-only checkout with no upstream. It is 
 Root package manifest is missing: 'C:\dev\IronLedger\package.json'
 ```
 
-The preflight fails closed until a root manifest exists. A minimal `pyproject.toml` (name, version `0.0.0`, `requires-python >=3.12`, empty `dependencies`, no runtime code) was added to the sandbox checkout. The canonical preflight script (`C:\dev\scripts\verify-repo-context.ps1`, line 40) still hard-codes `package.json` and re-run against the sandbox checkout still fails with `Root package manifest is missing: package.json`.
+The preflight fails closed until a root manifest exists. A minimal `pyproject.toml` (name, version `0.0.0`, `requires-python >=3.12`, empty `dependencies`) is in the checkout. The canonical preflight script (`C:\dev\scripts\verify-repo-context.ps1`, line 40) still hard-codes `package.json`, so a re-run still fails with `Root package manifest is missing: package.json`.
 
 **D-1: PARTIALLY RESOLVED, operator action required.** IronLedger is Python-first and will not carry a `package.json`. The shared preflight cannot be edited by the implementation agent (protected `C:\dev\scripts\` path). Pick one:
 
@@ -49,7 +49,7 @@ Phase 1 cannot run its mandated preflight until one of these is chosen.
 - Governed documentation directory: `C:\dev\docs\meta\`. This file is placed there.
 - Forbidden output path: `C:\dev\IronLedger\docs\superpowers\specs\` (and any specs directory inside the repo).
 
-### 1.5 Writable location decision, required before Phase 1
+### 1.5 Writable location decision
 
 `C:\dev\CLAUDE.md` states writable repository work should use a checkout under `C:\dev\dev-sandbox` and otherwise treats `C:\dev` as read-only. The operator brief named `C:\dev\IronLedger` as the target.
 
