@@ -1,6 +1,6 @@
 {
   "workspace": {
-    "roots": ["C:/dev/toolforge"],
+    "roots": ["C:/dev"],
     "description": "Toolforge workspace"
   }
 }

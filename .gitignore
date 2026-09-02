@@ -117,3 +117,11 @@ graft/
 .wayland-core/
 .wayland/
 # --- end Wayland ---
+
+# Local regen / cache / logs — not source (added 2026-09-02 reconcile)
+.kb_cache/
+/logs/mining/
+/cic-vision-governance/artifacts/threshold/
+*.gdoc
+/pwsh
+.context/retros/
