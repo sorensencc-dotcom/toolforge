@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.59.1
+Date: 2026-09-02
+
+### Changes
+- 10e17e4 - chore(gitignore): match .ijfw/scan-state.json.tmp.* temp files (Chris Sorensen)
+
 ## Version 2.59.0
 Date: 2026-09-02
 
