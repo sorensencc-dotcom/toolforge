@@ -221,6 +221,54 @@ test("task_result wait:false returns INVALID_API_RESPONSE when retrieve omits ru
   assert.deepEqual(r, { ok: false, error: { code: "INVALID_API_RESPONSE", message: "Parallel returned an invalid response" } });
 });
 
+test("task_result wait:true invalid shape routes through the debug sink and returns INVALID_API_RESPONSE", async () => {
+  const original = console.error;
+  const calls: unknown[][] = [];
+  console.error = (...args: unknown[]) => { calls.push(args); };
+  process.env.PARALLEL_DEBUG = "1";
+  let seen: unknown;
+  const badBody = { output: { type: "text" }, run: {} };
+  try {
+    const r = await parallel_task_result({ run_id: "r", wait: true }, {
+      apiKey: "k",
+      onError: (e) => { seen = e; },
+      clientFactory: () => taskResultClient({
+        result: async () => badBody,
+      }),
+    });
+    assert.deepEqual(r, { ok: false, error: { code: "INVALID_API_RESPONSE", message: "Parallel returned an invalid response" } });
+    assert.equal(seen, badBody);
+    assert.equal(calls.some((a) => a[0] === badBody), true);
+  } finally {
+    console.error = original;
+    delete process.env.PARALLEL_DEBUG;
+  }
+});
+
+test("task_result wait:false invalid shape routes through the debug sink and returns INVALID_API_RESPONSE", async () => {
+  const original = console.error;
+  const calls: unknown[][] = [];
+  console.error = (...args: unknown[]) => { calls.push(args); };
+  process.env.PARALLEL_DEBUG = "1";
+  let seen: unknown;
+  const badBody = { interaction_id: "i", status: "running", is_active: true, processor: "core" };
+  try {
+    const r = await parallel_task_result({ run_id: "r" }, {
+      apiKey: "k",
+      onError: (e) => { seen = e; },
+      clientFactory: () => taskResultClient({
+        retrieve: async () => badBody,
+      }),
+    });
+    assert.deepEqual(r, { ok: false, error: { code: "INVALID_API_RESPONSE", message: "Parallel returned an invalid response" } });
+    assert.equal(seen, badBody);
+    assert.equal(calls.some((a) => a[0] === badBody), true);
+  } finally {
+    console.error = original;
+    delete process.env.PARALLEL_DEBUG;
+  }
+});
+
 test("task_result wait:true custom timeout catch still feeds the onError debug sink", async () => {
   let seen: unknown;
   const r = await parallel_task_result({ run_id: "r", wait: true }, {
