@@ -333,21 +333,24 @@ recipient is not local.
   `details: { recipientDomain }`. The envelope is **not** queued in `sync`
   mode; the sender re-sends. Audit `federation.forward_unavailable`.
 
-> **Known limitation (final review, I1 — PARKED).** In the implementation
-> as merged, the `sync`-mode forward runs `postForward` (a 5 s-timeout
-> outbound HTTP call) *inside* the `repository.withTransaction` block that
-> wraps `acceptWithRepository`. A slow or hung peer therefore pins one
-> database pool connection for up to the timeout, and enough concurrent
-> forwards to a slow peer can exhaust the pool for all relay traffic,
-> federated or not. Nothing is written locally on the `forward` path, so no
-> transaction is actually required there; the fix is to lift the `forward`
-> branch out of the transactional accept. It was deferred because a
-> contained lift forces reordering the shared `decideRoute` /
-> replay-detection / rejection-audit prologue that the `local`, `reject`,
-> and `queue` branches also depend on — its own change slice with its own
-> review. Until it lands, **`queue` mode is the production path; `sync` mode
-> is not production-ready under slow or unreliable peers.** Recorded in
-> `STATUS.md` "Known limitations".
+> **Resolved (I1, `8fdd1fb` + `7d14e4a` + `e8bf8b7`).** `acceptWithRepository`
+> now runs in two phases. Phase 1 does the `decideRoute` lookup (read-only
+> peers table, no client), the `reject`-route short-circuit, the
+> sync-forward replay check (pool default, nothing written locally), and the
+> `sync`-mode `forward` itself — all before `repository.withTransaction`
+> opens. `postForward` no longer holds a database pool connection, so a slow
+> or hung peer can no longer pin one or exhaust the pool. Phase 2 opens the
+> transaction for `queue` forward (outbox INSERT + audit stay atomic) and
+> `local` accept (unchanged). Phase 1 has its own `try/catch` that maps
+> thrown rejects through `toResponse` and still emits the rejection audit
+> for `AUDITED_REJECTION_CODES` (`7d14e4a`); the sender-key resolution no
+> longer falls back to `lookupRecipientEndpoint` with a null client
+> (`e8bf8b7`). One visible behaviour change: a reused `message_id` bound for
+> an unpinned peer now returns `PEER_NOT_PINNED` (400) rather than
+> `REPLAY_DETECTED` (409), because route validity is checked before replay.
+> **`sync` mode is production-safe with respect to slow peers; `queue` mode
+> remains the choice when at-least-once delivery across peer downtime is
+> required.**
 
 **`queue` mode.** Requires `--database-url` (the outbox is Postgres-only).
 
