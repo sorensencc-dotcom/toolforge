@@ -5,9 +5,9 @@ document_date: "2026-08-30"
 verification_status: "verified"
 category: "willow-run"
 topic: "b24-knock-down-kits-logistics"
-status: "active"
+status: "resolved"
 gap_id: "GAP-06"
-last_updated: "2026-08-30T23:09:00Z"
+last_updated: "2026-09-02T16:06:00Z"
 ---
 
 # B-24 Knock-Down Kit Manufacturing & Overland Logistics (GAP-06)
