@@ -73,6 +73,37 @@ test("PARALLEL_DEBUG logs the raw SDK error to console.error", async () => {
   }
 });
 
+test("a throwing onError callback does not break the never-throw contract", async () => {
+  const r = await parallel_search({ objective: "x" }, {
+    apiKey: "k",
+    onError: () => { throw new Error("logger blew up"); },
+    clientFactory: () => ({ beta: { search: async () => { throw new Error("api"); }, extract: async () => ({}) }, taskRun: { create: async () => ({}) } } as any),
+  });
+  assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed" } });
+});
+
+test("invalid response shape routes through the debug sink and returns INVALID_API_RESPONSE", async () => {
+  const original = console.error;
+  const calls: unknown[][] = [];
+  console.error = (...args: unknown[]) => { calls.push(args); };
+  process.env.PARALLEL_DEBUG = "1";
+  let seen: unknown;
+  const badBody = { unexpected: "no results array" };
+  try {
+    const r = await parallel_search({ objective: "x" }, {
+      apiKey: "k",
+      onError: (err) => { seen = err; },
+      clientFactory: () => ({ beta: { search: async () => badBody, extract: async () => ({}) }, taskRun: { create: async () => ({}) } } as any),
+    });
+    assert.deepEqual(r, { ok: false, error: { code: "INVALID_API_RESPONSE", message: "Parallel returned an invalid response" } });
+    assert.equal(seen, badBody);
+    assert.equal(calls.some((a) => a[0] === badBody), true);
+  } finally {
+    console.error = original;
+    delete process.env.PARALLEL_DEBUG;
+  }
+});
+
 test("extract call includes the search-extract beta header", async () => {
   let seenParams: Record<string, unknown> | undefined;
   const r = await parallel_extract({ urls: ["https://example.com/a"] }, {

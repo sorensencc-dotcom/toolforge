@@ -13,7 +13,7 @@ type Client = Pick<Parallel, "beta" | "taskRun">;
 export type RuntimeOptions = { apiKey?: string; clientFactory?: (key: string) => Client; onError?: (err: unknown) => void };
 
 const error = (code: ErrorCode, message: string): ToolError => ({ ok: false, error: { code, message } });
-function reportError(options: RuntimeOptions | undefined, err: unknown): ToolError { options?.onError?.(err); if (process.env.PARALLEL_DEBUG) console.error(err); return error("PARALLEL_API_ERROR", "Parallel request failed"); }
+function reportError(options: RuntimeOptions | undefined, err: unknown, result: ToolError = error("PARALLEL_API_ERROR", "Parallel request failed")): ToolError { try { options?.onError?.(err); } catch { /* a throwing logger must not break the never-throw contract */ } if (process.env.PARALLEL_DEBUG) console.error(err); return result; }
 const keyFor = (options?: RuntimeOptions) => options?.apiKey?.trim() || process.env.PARALLEL_API_KEY?.trim();
 function clientFor(options?: RuntimeOptions): Client | ToolError { const key = keyFor(options); if (!key) return error("API_KEY_MISSING", "PARALLEL_API_KEY is required"); return options?.clientFactory?.(key) ?? new Parallel({ apiKey: key }); }
 function validText(value: unknown): value is string { return typeof value === "string" && value.trim().length > 0; }
@@ -22,7 +22,7 @@ function responseObject(value: unknown): value is Record<string, unknown> { retu
 function isSearchOutput(value: unknown): value is SearchOutput { return responseObject(value) && Array.isArray(value.results); }
 function isExtractOutput(value: unknown): value is ExtractOutput { return responseObject(value) && Array.isArray(value.results) && Array.isArray(value.errors); }
 function isTaskOutput(value: unknown): value is TaskOutput { return responseObject(value) && validText(value.run_id) && validText(value.interaction_id) && validText(value.status) && typeof value.is_active === "boolean" && validText(value.processor); }
-async function call<T>(options: RuntimeOptions | undefined, fn: (client: Client) => Promise<unknown>, check: (value: unknown) => value is T): Promise<OperationResult<T>> { let client: Client | ToolError; try { client = clientFor(options); } catch (err) { return reportError(options, err); } if (!("beta" in client)) return client; try { const value = await fn(client); return check(value) ? { ok: true, data: value } : error("INVALID_API_RESPONSE", "Parallel returned an invalid response"); } catch (err) { return reportError(options, err); } }
+async function call<T>(options: RuntimeOptions | undefined, fn: (client: Client) => Promise<unknown>, check: (value: unknown) => value is T): Promise<OperationResult<T>> { let client: Client | ToolError; try { client = clientFor(options); } catch (err) { return reportError(options, err); } if (!("beta" in client)) return client; try { const value = await fn(client); if (check(value)) return { ok: true, data: value }; return reportError(options, value, error("INVALID_API_RESPONSE", "Parallel returned an invalid response")); } catch (err) { return reportError(options, err); } }
 
 function defineOperation<TInput, TOutput>(
   validate: (input: TInput) => ToolError | undefined,
