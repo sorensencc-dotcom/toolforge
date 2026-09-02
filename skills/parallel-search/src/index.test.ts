@@ -42,6 +42,37 @@ test("maps SDK failure without leaking details", async () => {
   assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed" } });
 });
 
+test("onError receives the raw error while the return value stays opaque", async () => {
+  let seen: unknown;
+  const thrown = new Error("boom-secret");
+  const r = await parallel_search({ objective: "x" }, {
+    apiKey: "k",
+    onError: (err) => { seen = err; },
+    clientFactory: () => { throw thrown; },
+  });
+  assert.equal(seen, thrown);
+  assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed" } });
+});
+
+test("PARALLEL_DEBUG logs the raw SDK error to console.error", async () => {
+  const original = console.error;
+  const calls: unknown[][] = [];
+  console.error = (...args: unknown[]) => { calls.push(args); };
+  process.env.PARALLEL_DEBUG = "1";
+  const thrown = new Error("raw-sdk-detail");
+  try {
+    const r = await parallel_search({ objective: "x" }, {
+      apiKey: "k",
+      clientFactory: () => ({ beta: { search: async () => { throw thrown; }, extract: async () => ({}) }, taskRun: { create: async () => ({}) } } as any),
+    });
+    assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed" } });
+    assert.equal(calls.some((a) => a[0] === thrown), true);
+  } finally {
+    console.error = original;
+    delete process.env.PARALLEL_DEBUG;
+  }
+});
+
 test("extract call includes the search-extract beta header", async () => {
   let seenParams: Record<string, unknown> | undefined;
   const r = await parallel_extract({ urls: ["https://example.com/a"] }, {
