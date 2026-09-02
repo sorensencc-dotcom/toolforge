@@ -333,6 +333,25 @@ recipient is not local.
   `details: { recipientDomain }`. The envelope is **not** queued in `sync`
   mode; the sender re-sends. Audit `federation.forward_unavailable`.
 
+> **Resolved (I1, `8fdd1fb` + `7d14e4a` + `e8bf8b7`).** `acceptWithRepository`
+> now runs in two phases. Phase 1 does the `decideRoute` lookup (read-only
+> peers table, no client), the `reject`-route short-circuit, the
+> sync-forward replay check (pool default, nothing written locally), and the
+> `sync`-mode `forward` itself — all before `repository.withTransaction`
+> opens. `postForward` no longer holds a database pool connection, so a slow
+> or hung peer can no longer pin one or exhaust the pool. Phase 2 opens the
+> transaction for `queue` forward (outbox INSERT + audit stay atomic) and
+> `local` accept (unchanged). Phase 1 has its own `try/catch` that maps
+> thrown rejects through `toResponse` and still emits the rejection audit
+> for `AUDITED_REJECTION_CODES` (`7d14e4a`); the sender-key resolution no
+> longer falls back to `lookupRecipientEndpoint` with a null client
+> (`e8bf8b7`). One visible behaviour change: a reused `message_id` bound for
+> an unpinned peer now returns `PEER_NOT_PINNED` (400) rather than
+> `REPLAY_DETECTED` (409), because route validity is checked before replay.
+> **`sync` mode is production-safe with respect to slow peers; `queue` mode
+> remains the choice when at-least-once delivery across peer downtime is
+> required.**
+
 **`queue` mode.** Requires `--database-url` (the outbox is Postgres-only).
 
 - On accept, write a `federation_outbox` row (envelope, `recipient_domain`,
@@ -579,9 +598,10 @@ value as a hard stop.
 - **Queue mode** — accept returns `202` + `queued: true` and writes one
   `federation_outbox` row (`state = 'pending'`); a reaper pass with an
   injected clock claims it (`state = 'processing'`, `claim_token` set),
-  forwards it (2xx → `forwarded`, `claim_token` cleared); three injected
-  transport failures walk the 1m/5m/30m schedule (each returning the row to
-  `pending`) and end at `dead_letter` + a `federation.dead_letter` audit
+  forwards it (2xx → `forwarded`, `claim_token` cleared); four injected
+  transport failures — the first three each return the row to `pending`,
+  walking the 1m / 5m / 30m backoff schedule in turn (`MAX_ATTEMPTS = 4`),
+  and the fourth ends at `dead_letter` + a `federation.dead_letter` audit
   event; a peer 4xx during a reaper pass → `forward_rejected` (terminal); an
   expired envelope → `dead_letter` with reason `MESSAGE_EXPIRED`; a row
   stuck in `processing` past the 300 s lease is reclaimed by the next pass

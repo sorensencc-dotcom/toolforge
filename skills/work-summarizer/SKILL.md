@@ -26,7 +26,7 @@ interface SkillInput {
   outputDir?: string;                     // Default: C:\dev\CIP\CIC\logs\work-summaries
   includeRoutingArtifact?: boolean;       // Default: false
   reasoningEnabled?: boolean;             // Default: false
-  anthropicModel?: string;                // Default: claude-haiku-4-5-20251001
+  anthropicModel?: string;                // Default: claude-haiku-4-5
   reasoningTimeoutMs?: number;            // Default: 30000
 }
 ```

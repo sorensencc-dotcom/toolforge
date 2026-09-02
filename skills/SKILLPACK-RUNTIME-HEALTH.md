@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-28T22:13:45.7585991Z
+**Generated:** 2026-08-31T02:37:18.3466342Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 318 | 4 | 0 | 322 |
-| % Pass | 98.8% | 1.2% | 0% | 100% |
+| **Totals** | 336 | 0 | 0 | 336 |
+| % Pass | 100% | 0% | 0% | 100% |
 
 ---
 
@@ -222,6 +222,18 @@
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### operator-image-build — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### parallel-search — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -485,7 +497,7 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### trm-closed-loop-research — ⚠️ WARN
+### trm-closed-loop-research — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -493,11 +505,11 @@
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
-### trm-devops-triage — ⚠️ WARN
+### trm-devops-triage — ✅ GOOD
 
 | Check | Result | Details |
 |-------|--------|---------|
@@ -505,8 +517,8 @@
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
-| Manifest | ⚠️ WARN | No entry in manifest |
-| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### trm-feedback-report — ✅ GOOD
@@ -526,6 +538,18 @@
 | Check | Result | Details |
 |-------|--------|---------|
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ✅ PASS | Runtime history exists |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### wiki-sync-recovery — ✅ GOOD
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/diagnose.mjs |
 | Runtime | ✅ PASS | Found: npm |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
@@ -594,6 +618,7 @@ Skills passing all checks:
 - kb-sync-nightly
 - obsidian-ingest-wiki
 - operator-image-build
+- parallel-search
 - permission-governor
 - plan-extractor-integration
 - pre-flight-test-checker
@@ -615,8 +640,11 @@ Skills passing all checks:
 - toolforge-drift-monitor
 - toolforge-registry-manager
 - toolforge-submission-validator
+- trm-closed-loop-research
+- trm-devops-triage
 - trm-feedback-report
 - trm-status
+- wiki-sync-recovery
 - work-summarizer
 - workspace-storage-cleaner
 - writing-heuristics
@@ -624,8 +652,7 @@ Skills passing all checks:
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
-- trm-closed-loop-research
-- trm-devops-triage
+*(none)*
 
 ### ❌ Error Health
 

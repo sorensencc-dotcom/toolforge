@@ -10,7 +10,7 @@ export class ClaudeProvider implements ReasoningProvider {
   private model: string;
   private timeoutMs: number;
 
-  constructor(apiKey: string, model: string = "claude-3-5-sonnet-20240620", timeoutMs: number = 30000) {
+  constructor(apiKey: string, model: string = "claude-haiku-4-5", timeoutMs: number = 30000) {
     this.client = new Anthropic({ apiKey });
     this.model = model;
     this.timeoutMs = timeoutMs;

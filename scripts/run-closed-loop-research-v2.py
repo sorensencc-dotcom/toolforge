@@ -160,7 +160,7 @@ def main():
 
     recs = model_sweep.get('recommendations', {})
     local_model = recs.get('local_muscle_anchor', 'qwen2.5:32b-instruct-q8_0')
-    frontier_model = recs.get('frontier_judgment_anchor', 'claude-3-5-sonnet-20241022')
+    frontier_model = recs.get('frontier_judgment_anchor', 'claude-opus-5')
     fit_reasoning = recs.get('local_fit_reasoning', 'Default baseline allocation.')
     hash_chain = model_sweep.get('hash_chain_self', 'n/a')
 

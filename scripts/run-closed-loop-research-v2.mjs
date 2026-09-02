@@ -98,7 +98,7 @@ function loadModelSelection(repoRoot) {
   return {
     recommendations: {
       local_muscle_anchor:     'qwen2.5:32b-instruct-q8_0',
-      frontier_judgment_anchor: 'claude-3-5-sonnet-20241022',
+      frontier_judgment_anchor: 'claude-opus-5',
       local_fit_reasoning:     'Default baseline allocation.',
     },
     hash_chain_self:   'deadbeef00000000000000000000000000000000000000000000000000000000',
@@ -138,7 +138,7 @@ async function run() {
 
   const recs          = modelSweep.recommendations ?? {};
   const localModel    = recs.local_muscle_anchor     ?? 'qwen2.5:32b-instruct-q8_0';
-  const frontierModel = recs.frontier_judgment_anchor ?? 'claude-3-5-sonnet-20241022';
+  const frontierModel = recs.frontier_judgment_anchor ?? 'claude-opus-5';
   const fitReasoning  = recs.local_fit_reasoning      ?? 'Default baseline.';
   const hashChain     = modelSweep.hash_chain_self    ?? 'n/a';
 

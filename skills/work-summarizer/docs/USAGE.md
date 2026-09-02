@@ -42,7 +42,7 @@ const weekly = await run({
 const enhanced = await run({
   mode: 'weekly',
   reasoningEnabled: true,
-  anthropicModel: 'claude-haiku-4-5-20251001',  // Default; use any valid Anthropic model ID
+  anthropicModel: 'claude-haiku-4-5',  // Default; use any valid Anthropic model ID
   reasoningTimeoutMs: 30000
 });
 
@@ -90,7 +90,7 @@ if (enhanced.status === 'ok') {
 **LLM Reasoning:**
 
 - `ANTHROPIC_API_KEY` — Required if `reasoningEnabled: true`. Must be visible to skill runtime (use machine-level env var for Task Scheduler).
-- Default model: `claude-haiku-4-5-20251001` (override with `anthropicModel` input)
+- Default model: `claude-haiku-4-5` (override with `anthropicModel` input)
 - Default timeout: 30000 ms (override with `reasoningTimeoutMs` input)
 
 **Fallback:**

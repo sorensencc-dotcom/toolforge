@@ -8,3 +8,4 @@ Ordered task breakdowns — "the ordered task list to build it." Not a charter (
 - `cic-tool-surface-phase1-plan.md` — CIC tool surface Phase 1 implementation plan
 - `parallelism-matrix-delivery-index.md`, `parallelism-matrix-system.md`, `parallelism-matrix-template.md`, `parallelism-matrix-retrofit-example-phase3.md` — Parallelism Matrix system docs (template is the canonical, linked-from-everywhere version — see Task 4 correction note in the plan doc for why)
 - `observability-phase-d-summary.md`, `governance-amendment-observability-phase-d.md` — Observability Phase D
+- `ironledger-implementation-plan.md` — IronLedger phase sequencing and verification (spec in `specs/`)

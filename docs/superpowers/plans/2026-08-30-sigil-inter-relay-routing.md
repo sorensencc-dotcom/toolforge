@@ -76,7 +76,7 @@
 
 **Current behavior (sigil.mjs:98-102):** an explicit `--owner` is `parseFederatedId`-checked and then forced through `isLocalDomain(owner, domain)`, throwing `OWNER_DOMAIN_MISMATCH` otherwise. An omitted `--owner` defaults to `usr_${name}@${domain}`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `sigil/cli/init-federation-owner.test.mjs`:
 
@@ -148,12 +148,12 @@ test('--federation-owner and --owner together is rejected', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/cli/init-federation-owner.test.mjs`
 Expected: FAIL — `--federation-owner` is an unknown option (`parseArgs` throws) or is ignored, so the cross-domain case errors or writes `usr_codex@a.example`.
 
-- [ ] **Step 3: Implement `--federation-owner` in `cmdInit`**
+- [x] **Step 3: Implement `--federation-owner` in `cmdInit`**
 
 In `sigil/cli/sigil.mjs`, change the `parseArgs` options in `cmdInit` to add `'federation-owner': { type: 'string' }`, then replace the owner-resolution block (currently lines 98-102):
 
@@ -190,23 +190,23 @@ Update the usage line (sigil.mjs:41) to:
 
 The identity-file / registry writes below are unchanged — `createIdentity({ ownerId: owner, ... })`, `saveIdentity`, `addEndpointToRegistry` already fail before writing if `parseFederatedId` threw, satisfying the "no partial file" tests.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/cli/init-federation-owner.test.mjs`
 Expected: PASS (5 tests).
 
-- [ ] **Step 5: Run the existing init regression**
+- [x] **Step 5: Run the existing init regression**
 
 Run: `node --test sigil/cli/init-domain.test.mjs`
 Expected: PASS — no behavior change for `--owner` / omitted owner.
 
-- [ ] **Step 6: Record the amendment in the #1 spec revision log**
+- [x] **Step 6: Record the amendment in the #1 spec revision log**
 
 Append to `sigil-repo/docs/superpowers/specs/2026-08-24-sigil-federated-addressing.md` a revision-log entry (match that file's existing revision-log format):
 
 > **2026-08-30 — `--federation-owner` amendment (sub-project #3 prerequisite).** `sigil init` gains `--federation-owner <federated-id>`, mutually exclusive with `--owner`. It accepts an owner id whose domain differs from `--domain`, suppressing `OWNER_DOMAIN_MISMATCH` for that invocation only. Omitted-owner default (`usr_<name>@<domain>`) and plain `--owner` domain-match enforcement are unchanged. Purpose: let one owner id be registered verbatim on two federated relays so sub-project #3's same-owner delivery exemption can fire. Adds no owner-id resolution, directory, or proof of same-principal — that is sub-project #4.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add sigil/cli/sigil.mjs sigil/cli/init-federation-owner.test.mjs docs/superpowers/specs/2026-08-24-sigil-federated-addressing.md
@@ -227,7 +227,7 @@ git commit -m "feat(cli): add sigil init --federation-owner for shared cross-dom
 - Consumes: nothing new.
 - Produces: `persistAcceptedEnvelope(row, client?)` now reads `row.federation_hop` (boolean, default `false`) and stores it on the persisted envelope record and every delivery row it creates. `federation_outbox` table + `federation_hop` columns exist in a fresh DB. Later tasks (9, 10) set `federation_hop: true`; Task 13 uses `federation_outbox`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `sigil/relay/v1/federation-hop-persist.test.mjs`:
 
@@ -266,12 +266,12 @@ test('persistAcceptedEnvelope defaults federation_hop to false', async () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/federation-hop-persist.test.mjs`
 Expected: FAIL — `_debugGetEnvelope` does not exist and `federation_hop` is not stored (first test's `if (stored)` guard makes it currently vacuous; add `_debugGetEnvelope` in Step 3 so the assertion is real).
 
-- [ ] **Step 3: Implement memory-repository changes**
+- [x] **Step 3: Implement memory-repository changes**
 
 In `sigil/cli/memory-repository.mjs`, `persistAcceptedEnvelope` (lines 73-88): add `federation_hop` to the stored envelope row and each delivery row.
 
@@ -302,7 +302,7 @@ Add a debug accessor next to `_debugGetAuditEvents` (end of the returned object)
     _debugGetEnvelope(messageId) { return envelopes.get(messageId) ?? null; },
 ```
 
-- [ ] **Step 4: Implement the migration**
+- [x] **Step 4: Implement the migration**
 
 Create `sigil/migrations/017_federation_outbox.sql`:
 
@@ -350,18 +350,18 @@ CREATE INDEX IF NOT EXISTS federation_outbox_state_claimed_idx
 
 `gen_random_uuid()` is available — `pgcrypto`/`pg_catalog` builtin is already relied on by `recordAuditEvent`-adjacent migrations; if `npm test`'s live-DB job reports it missing, prepend `CREATE EXTENSION IF NOT EXISTS pgcrypto;` (check `001_initial.sql` first — it is already there, so no change needed).
 
-- [ ] **Step 5: Implement postgres-repository `persistAcceptedEnvelope` change**
+- [x] **Step 5: Implement postgres-repository `persistAcceptedEnvelope` change**
 
 In `sigil/relay/v1/postgres-repository.mjs`, locate `persistAcceptedEnvelope`. Add `federation_hop` to the `INSERT INTO envelopes (...)` column list and values (`$N` = `row.federation_hop === true`), and to the `INSERT INTO deliveries (...)` the same. If the method builds the envelope INSERT via a column array, append `'federation_hop'` there and the boolean to the params. Keep `ON CONFLICT` clauses unchanged.
 
-- [ ] **Step 6: Run tests**
+- [x] **Step 6: Run tests**
 
 Run: `node --test sigil/relay/v1/federation-hop-persist.test.mjs`
 Expected: PASS.
 Run: `npm test`
 Expected: PASS. The live-DB matrix job applies `017` and every existing Postgres test still passes (new column has a default, new table is unused).
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add sigil/migrations/017_federation_outbox.sql sigil/cli/memory-repository.mjs sigil/relay/v1/postgres-repository.mjs sigil/relay/v1/federation-hop-persist.test.mjs
@@ -380,7 +380,7 @@ git commit -m "feat(relay): add federation_hop columns + federation_outbox table
 - Consumes: nothing new.
 - Produces: `validateEnvelope(envelope, { ..., skipSenderRegistration })`. When `skipSenderRegistration === true`: skip the `UNKNOWN_ENDPOINT`, `ENDPOINT_REVOKED`, and `ROUTE_NOT_AUTHORIZED` (sender-owner-mismatch) checks. The caller MUST still pass a `registered` Map containing exactly one synthetic entry for `envelope.sender.endpoint_id` of shape `{ endpoint_id, owner_id, key_id, status: 'active', public_key }` so signature verification can run. Every other check (`protocol`, required fields, timestamp window, `MESSAGE_EXPIRED`, signature metadata shape, signature verification, recipient/broadcast XOR, `checkRecipientLocality`, capability coverage, idempotency-map `DUPLICATE_MESSAGE`) is unchanged. Return shape unchanged: `{ accepted, canonical_hash, endpoint_id, message_id }`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `sigil/relay/v1/validate-envelope.skip-sender.test.mjs`:
 
@@ -439,12 +439,12 @@ test('skipSenderRegistration still enforces the expiry window', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/validate-envelope.skip-sender.test.mjs`
 Expected: FAIL — the first test throws `UNKNOWN_ENDPOINT` because the option is ignored (the synthetic entry IS present, so actually check: it may pass; if so, change the first test's `registered` to still trigger the owner-mismatch path by setting the synthetic entry's `owner_id` to `'usr_other@a.example'` and asserting no `ROUTE_NOT_AUTHORIZED`). Confirm at least one assertion fails before Step 3.
 
-- [ ] **Step 3: Implement the option**
+- [x] **Step 3: Implement the option**
 
 In `sigil/relay/v1/validate-envelope.mjs`, add `skipSenderRegistration = false` to the destructured options of `validateEnvelope` (line 62). Replace lines 70-73:
 
@@ -460,17 +460,17 @@ In `sigil/relay/v1/validate-envelope.mjs`, add `skipSenderRegistration = false` 
 
 The trailing `if (!endpoint)` keeps the function safe when a caller passes `skipSenderRegistration: true` but forgets the synthetic entry — it fails closed on signature rather than dereferencing `undefined`. Everything below (key selection at line 77, validity window, `crypto.verify`) already reads `endpoint` / `endpoint.key_id` and now works against the synthetic entry.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/validate-envelope.skip-sender.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 5: Run the full validate-envelope regression**
+- [x] **Step 5: Run the full validate-envelope regression**
 
 Run: `node --test sigil/relay/v1/validate-envelope.test.mjs sigil/relay/v1/accept-envelope.test.mjs`
 Expected: PASS — default `skipSenderRegistration = false` preserves every existing path.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add sigil/relay/v1/validate-envelope.mjs sigil/relay/v1/validate-envelope.skip-sender.test.mjs
@@ -497,7 +497,7 @@ git commit -m "feat(relay): add skipSenderRegistration option to validateEnvelop
   - foreign recipient, no pinned peer → `{ action: 'reject', code: 'PEER_NOT_PINNED', details: { recipientDomain } }`.
   - foreign recipient, pinned peer → `{ action: 'forward', peer, recipientDomain }`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `sigil/relay/v1/federation-router.test.mjs`:
 
@@ -539,12 +539,12 @@ test('stored federation_hop true → reject FEDERATION_HOP_EXCEEDED', async () =
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/federation-router.test.mjs`
 Expected: FAIL — `federation-router.mjs` does not exist.
 
-- [ ] **Step 3: Implement `decideRoute`**
+- [x] **Step 3: Implement `decideRoute`**
 
 Create `sigil/relay/v1/federation-router.mjs`:
 
@@ -592,12 +592,12 @@ export async function decideRoute(envelope, { relayDomain, federationMode, getPe
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/federation-router.test.mjs`
 Expected: PASS (7 tests).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sigil/relay/v1/federation-router.mjs sigil/relay/v1/federation-router.test.mjs
@@ -618,7 +618,7 @@ git commit -m "feat(relay): add federation-router decideRoute"
   `buildForwardRequest(envelope, { originDomain, senderKey, senderOwnerId, now })` → `{ body, canonicalBytes }`. `body` is the wire object `{ origin_domain, envelope, sender_key: { kid, alg, publicKey }, sender_owner_id, forwarded_at }` with `forwarded_at` = `now` as an ISO string. `canonicalBytes` = `canonicalJsonBytes(body)` (a `Buffer`). Pure, no I/O. **`canonicalBytes` is the single source of truth** — callers send it verbatim as the HTTP body and pass it verbatim to `signForwardRequest`; they never re-serialize `body`.
   `signForwardRequest(canonicalBytes, identity)` → `{ signature, keyId }`. `identity` is the parsed `sigil init` identity object (`{ key_id, private_key_pem, ... }`). `signature` = base64url Ed25519 over `canonicalBytes`; `keyId` = `identity.key_id`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to `sigil/relay/v1/federation-router.test.mjs`:
 
@@ -663,12 +663,12 @@ test('signForwardRequest: verifies against identity public key over canonicalByt
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/federation-router.test.mjs`
 Expected: FAIL — `buildForwardRequest` / `signForwardRequest` not exported.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Append to `sigil/relay/v1/federation-router.mjs`:
 
@@ -696,12 +696,12 @@ export function signForwardRequest(canonicalBytes, identity) {
 
 Move the `import crypto` and `import { canonicalJsonBytes }` lines to the top of the file with the other imports (do not leave mid-file imports).
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/federation-router.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sigil/relay/v1/federation-router.mjs sigil/relay/v1/federation-router.test.mjs
@@ -726,7 +726,7 @@ git commit -m "feat(relay): add buildForwardRequest + signForwardRequest to fede
   - `res.status` 4xx → `{ ok: false, status, peerCode? }`. `peerCode` is set only when the body reads (with a 4 KiB cap) as JSON whose `code` is a string matching `/^[A-Z][A-Z0-9_]{0,63}$/`. Otherwise `peerCode` is omitted and raw peer text is never returned or logged.
   - timeout / transport error / `res.status` 5xx → throw `Object.assign(new Error(...), { code: 'FORWARD_TRANSPORT_FAILED' })`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to `sigil/relay/v1/federation-router.test.mjs`:
 
@@ -779,12 +779,12 @@ test('fetch rejection (timeout/transport) → throws FORWARD_TRANSPORT_FAILED', 
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/federation-router.test.mjs`
 Expected: FAIL — `postForward` not exported.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Append to `sigil/relay/v1/federation-router.mjs`:
 
@@ -828,12 +828,12 @@ export async function postForward(peer, canonicalBytes, { signature, keyId }, { 
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/federation-router.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sigil/relay/v1/federation-router.mjs sigil/relay/v1/federation-router.test.mjs
@@ -858,7 +858,7 @@ git commit -m "feat(relay): add postForward with bounded peer-code parsing to fe
   - Returns `crypto.verify(null, canonicalBytes, publicKey, Buffer.from(signature, 'base64url'))`.
   - Any thrown error (bad base64url, malformed key) is caught → `false` (fail closed).
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to `sigil/relay/v1/federation-router.test.mjs`:
 
@@ -901,12 +901,12 @@ test('signature made over non-canonical bytes → false', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/federation-router.test.mjs`
 Expected: FAIL — `verifyRelaySignature` not exported.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Append to `sigil/relay/v1/federation-router.mjs`:
 
@@ -923,12 +923,12 @@ export function verifyRelaySignature(parsedBody, { signature, keyId, peer } = {}
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/federation-router.test.mjs`
 Expected: PASS (all tasks 4-7 tests green).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sigil/relay/v1/federation-router.mjs sigil/relay/v1/federation-router.test.mjs
@@ -954,7 +954,7 @@ git commit -m "feat(relay): add verifyRelaySignature (canonicalize-after-parse, 
   4. `403 SENDER_DOMAIN_FOREIGN` — `parseFederatedId(envelope.sender.endpoint_id).domain` ≠ `origin_domain` (case-insensitive).
   5. `401 INVALID_SIGNATURE` — `envelope.signature` fails against `sender_key.publicKey`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `sigil/relay/v1/accept-federated-envelope.test.mjs`:
 
@@ -1056,12 +1056,12 @@ test('checks 1-5 pass → reaches the stub (replaced in Task 9)', async () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/accept-federated-envelope.test.mjs`
 Expected: FAIL — module does not exist.
 
-- [ ] **Step 3: Implement checks 1-5**
+- [x] **Step 3: Implement checks 1-5**
 
 Create `sigil/relay/v1/accept-federated-envelope.mjs`:
 
@@ -1125,12 +1125,12 @@ export async function acceptFederatedEnvelope(body, headers, options) {
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/accept-federated-envelope.test.mjs`
 Expected: PASS (7 tests).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sigil/relay/v1/accept-federated-envelope.mjs sigil/relay/v1/accept-federated-envelope.test.mjs
@@ -1156,7 +1156,7 @@ git commit -m "feat(relay): acceptFederatedEnvelope checks 1-5 (structural, trus
   10. `202 ACCEPTED` `{ duplicate: false }`; a re-POST resolving to an accepted `(sender.endpoint_id, idempotency_key)` → `202 { duplicate: true }` with the original `message_id`, no second delivery.
   Audit: `federation.inbound_accepted` on success, `federation.inbound_rejected` (with `reason` = failing code) on every non-2xx from checks 2-10.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to `sigil/relay/v1/accept-federated-envelope.test.mjs` (reuses `makeWorld` / `forwardPayload` / `baseOpts` / `senderEnvelope` from Task 8; register the recipient in the world's memory repo):
 
@@ -1238,16 +1238,16 @@ test('replay: same message_id under a new idempotency_key → 409 REPLAY_DETECTE
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/accept-federated-envelope.test.mjs`
 Expected: FAIL — the stub returns `ACCEPTED_STUB`, no delivery, no audit.
 
-- [ ] **Step 3: Confirm `memory-repository.lookupRecipientEndpoint` returns `owner_id`**
+- [x] **Step 3: Confirm `memory-repository.lookupRecipientEndpoint` returns `owner_id`**
 
 Read `sigil/cli/memory-repository.mjs` line ~69. It must return an object including `owner_id` (from the registry Map entry). If it returns only `{ status }` or the raw registry value without `owner_id`, adjust it to `return registry.get(endpointId) ?? null;` where registry entries already carry `owner_id`. Add a matching guarantee to `PostgresRepository.lookupRecipientEndpoint` (it should `SELECT endpoint_id, owner_id, status`).
 
-- [ ] **Step 4: Implement checks 6-10**
+- [x] **Step 4: Implement checks 6-10**
 
 Replace the stub `return` at the end of `acceptFederatedEnvelope` with the transactional body. Add imports at the top: `import { validateEnvelope, signedBytes, reject } from './validate-envelope.mjs';` (extend the existing import) and `import { resolveRateLimits, DEFAULT_INBOX_DEPTH_LIMIT } from './relay-config.mjs';`.
 
@@ -1324,17 +1324,17 @@ Replace the stub `return` at the end of `acceptFederatedEnvelope` with the trans
 
 Also wrap the checks 2-5 early returns so they emit `federation.inbound_rejected` — simplest: after computing each `respond(...)` for codes `PEER_NOT_TRUSTED`, `RELAY_SIGNATURE_INVALID`, `SENDER_DOMAIN_FOREIGN`, `INVALID_SIGNATURE`, call `repository.recordAuditEvent({ eventType: 'federation.inbound_rejected', subjectId: envelope?.message_id ?? null, ... })` first. Check 1 has no reliable `message_id`, so it does not audit (mirrors `accept-envelope.mjs`'s deliberate exclusion of pre-signature `INVALID_ENVELOPE`).
 
-- [ ] **Step 5: Run the test to verify it passes**
+- [x] **Step 5: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/accept-federated-envelope.test.mjs`
 Expected: PASS (all Task 8 + Task 9 tests).
 
-- [ ] **Step 6: Run the memory-repository regression**
+- [x] **Step 6: Run the memory-repository regression**
 
 Run: `node --test sigil/cli/memory-repository.test.mjs sigil/cli/memory-repository.peer.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add sigil/relay/v1/accept-federated-envelope.mjs sigil/relay/v1/accept-federated-envelope.test.mjs sigil/cli/memory-repository.mjs sigil/relay/v1/postgres-repository.mjs
@@ -1353,7 +1353,7 @@ git commit -m "feat(relay): acceptFederatedEnvelope checks 6-10 (validate, same-
 - Consumes: `acceptFederatedEnvelope` from `accept-federated-envelope.mjs`; `readBody`, `registry`, `repository`, `relayDomain`, `requestId`, `now`, `stream` already in scope in `createRelayServer`.
 - Produces: `POST /v1/federation/envelopes` → reads raw body (413 cap via existing `readBody`), `JSON.parse` (→ `400 INVALID_FEDERATION_REQUEST` on parse failure), lowercases header keys, calls `acceptFederatedEnvelope(parsed, headers, { repository, registered: registry, relayDomain, request_id: requestId, now, onPersisted })`. `onPersisted` calls `stream.notify(recipient.endpoint_id, message_id)` (same as `/v1/envelopes`, no receipt to the federated sender). Writes `result.status` + `result.body`. The route is unauthenticated at the transport layer (trust is the relay signature) — it must sit **before** the `authenticateRequest` gate at line 151, next to `/v1/health`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `sigil/relay/v1/http-server.federation-inbound.test.mjs`. Build a relay via the same helper `http-server.test.mjs` uses (import `createRelayServer`, start on port 0, use a memory repository seeded with a pinned origin peer and a local recipient). Reuse `buildForwardRequest` / `signForwardRequest` to craft a signed forward, `POST` it with `fetch`, assert `202` + `{ code: 'ACCEPTED' }`, and assert a second identical POST returns `202 duplicate:true`. Add a negative: unpinned origin → `403 PEER_NOT_TRUSTED`.
 
@@ -1376,12 +1376,12 @@ test('POST /v1/federation/envelopes from an unpinned origin → 403 PEER_NOT_TRU
 
 (Fill in the world setup by copying the `worldWithRecipient` helper; the plan's Task 9 test file is the reference.)
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/http-server.federation-inbound.test.mjs`
 Expected: FAIL — route returns 404 (no handler).
 
-- [ ] **Step 3: Implement the route**
+- [x] **Step 3: Implement the route**
 
 In `sigil/relay/v1/http-server.mjs`, `createRelayServer({ ... })` — add `federationMode`, `federationIdentity`, `fetchImpl` to the destructured options (used by Tasks 11-12). Immediately after the `/v1/health` block (line 149), add:
 
@@ -1409,17 +1409,17 @@ In `sigil/relay/v1/http-server.mjs`, `createRelayServer({ ... })` — add `feder
 
 Add `import { acceptFederatedEnvelope } from './accept-federated-envelope.mjs';` at the top.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/http-server.federation-inbound.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 5: Run the http-server regression**
+- [x] **Step 5: Run the http-server regression**
 
 Run: `node --test sigil/relay/v1/http-server.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add sigil/relay/v1/http-server.mjs sigil/relay/v1/http-server.federation-inbound.test.mjs
@@ -1502,30 +1502,30 @@ Add to `statusByCode`: `PEER_NOT_PINNED: 400, FEDERATION_HOP_EXCEEDED: 400, FORW
 
 **Note:** in `sync` mode the forward happens inside the accept transaction (`client` in scope) but writes nothing to local `envelopes`/`deliveries` — `forwardEnvelope` returns before `persistAcceptedEnvelope` is reached. The transaction commits with no rows written. That is acceptable (no-op transaction); do not restructure the accept path to avoid opening it.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `sigil/relay/v1/accept-envelope.federation-sync.test.mjs`: seed a memory repo with a pinned peer for `b.example` and a local sender `ep_codex@a.example` (owner + key). Call `acceptEnvelopeAsync(envelope, { repository, registered, relayDomain: 'a.example', federationMode: 'sync', federationIdentity, now, request_id, postForwardImpl })` with an injected `postForwardImpl` returning `{ ok: true, status: 202 }` → assert `202` + `forwarded: true` + `forwarded_to: 'b.example'` and nothing in `repo._debugGetEnvelope`. Then `{ ok: false, status: 403, peerCode: 'DIRECTORY_LINK_REQUIRED' }` → `502 FORWARD_REJECTED`. Then a `postForwardImpl` that throws `FORWARD_TRANSPORT_FAILED` → `504 FORWARD_UNAVAILABLE`. Then a sender with no registered key → `500 FORWARD_MISCONFIGURED`.
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/relay/v1/accept-envelope.federation-sync.test.mjs`
 Expected: FAIL — options ignored, foreign recipient still `RECIPIENT_NOT_LOCAL`.
 
-- [ ] **Step 3: Implement** per the interface block above. Add `import { decideRoute, buildForwardRequest, signForwardRequest, postForward } from './federation-router.mjs';` to `accept-envelope.mjs`.
+- [x] **Step 3: Implement** per the interface block above. Add `import { decideRoute, buildForwardRequest, signForwardRequest, postForward } from './federation-router.mjs';` to `accept-envelope.mjs`.
 
-- [ ] **Step 4: Wire http-server** — in the `/v1/envelopes` handler (line 212), add `federationMode, federationIdentity, fetchImpl` to the `acceptEnvelopeAsync` options object (values from `createRelayServer`'s destructured options).
+- [x] **Step 4: Wire http-server** — in the `/v1/envelopes` handler (line 212), add `federationMode, federationIdentity, fetchImpl` to the `acceptEnvelopeAsync` options object (values from `createRelayServer`'s destructured options).
 
-- [ ] **Step 5: Run the test to verify it passes**
+- [x] **Step 5: Run the test to verify it passes**
 
 Run: `node --test sigil/relay/v1/accept-envelope.federation-sync.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 6: Regression**
+- [x] **Step 6: Regression**
 
 Run: `node --test sigil/relay/v1/accept-envelope.test.mjs sigil/relay/v1/http-server.test.mjs sigil/cli/relay-up-domain.test.mjs`
 Expected: PASS — with `federationMode` undefined, `decideRoute` delegates to `checkRecipientLocality` and every existing path is byte-identical.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add sigil/relay/v1/accept-envelope.mjs sigil/relay/v1/http-server.mjs sigil/relay/v1/accept-envelope.federation-sync.test.mjs
@@ -1551,7 +1551,7 @@ git commit -m "feat(relay): sync-mode foreign-envelope forwarding via decideRout
   - `queue` on an in-memory relay (no `databaseUrl`) → same abort (covered by the line above).
   Then pass `federationMode` and `federationIdentity: loadIdentity(path)` into `createRelayServer({ ..., federationMode, federationIdentity })`. (Reaper start for `queue` is Task 16.)
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `sigil/cli/relay-up-federation.test.mjs`. Shell out with a short timeout and assert the process exits non-zero with the expected message on stderr before binding. Pattern:
 
@@ -1586,12 +1586,12 @@ test('--federation-mode sync without --domain aborts', () => { /* ... */ });
 test('--federation-identity pointing at a missing file aborts', () => { /* ... */ });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `node --test sigil/cli/relay-up-federation.test.mjs`
 Expected: FAIL — flags unknown to `parseArgs`, or ignored (relay tries to bind and the test times out).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 In `cmdRelayUp`'s `parseArgs` options add `'federation-mode': { type: 'string' }, 'federation-identity': { type: 'string' }`. After the `relayDomain` block (line ~145-151) add:
 
@@ -1610,17 +1610,17 @@ In `cmdRelayUp`'s `parseArgs` options add `'federation-mode': { type: 'string' }
 
 Add `federationMode, federationIdentity` to the `createRelayServer({ ... })` call (line ~212). Add `loadIdentity` to the `sigil/cli/identity.mjs` import at the top of `sigil.mjs` if not already imported. Update the `relay up` usage text.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `node --test sigil/cli/relay-up-federation.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 5: Regression**
+- [x] **Step 5: Regression**
 
 Run: `node --test sigil/cli/relay-up-domain.test.mjs sigil/cli/sigil-relay-postgres-startup.integration.test.mjs`
 Expected: PASS (the Postgres startup test needs a live DB; skip locally if unavailable, it runs in CI).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add sigil/cli/sigil.mjs sigil/cli/relay-up-federation.test.mjs
@@ -1646,23 +1646,23 @@ git commit -m "feat(cli): sigil relay up --federation-mode sync --federation-ide
   - `retryFederationForward(id, now, client)` → `{ retried: boolean, reason? }`. Only a `forward_rejected` or `dead_letter` row: `UPDATE ... SET state='pending', attempt_count=0, claim_token=NULL, claimed_at=NULL, next_attempt_at=$now, last_reason_code=NULL WHERE id=$id AND state IN ('forward_rejected','dead_letter')`. If the row's envelope `expires_at` <= `now` → do not update, return `{ retried: false, reason: 'MESSAGE_EXPIRED' }`.
   - `rowToFederationOutboxRecord(row)` → camelCase `{ id, messageId, idempotencyKey, recipientDomain, originDomain, envelope, senderKey, senderOwnerId, state, attemptCount, nextAttemptAt, claimedAt, claimToken, lastReasonCode, createdAt, updatedAt }`.
 
-- [ ] **Step 1: Write the failing test** — `sigil/relay/v1/postgres-repository.federation-outbox.test.mjs`, guarded by `SIGIL_DATABASE_URL` (skip when unset, mirroring `postgres-repository.peer.test.mjs`). Cases: enqueue inserts one row (`inserted: true`); re-enqueue same `(message_id, idempotency_key)` → `inserted: false` + existing row; `claimDueFederationForwards` moves `pending`→`processing` and sets `claim_token`; a `processing` row past the lease is re-claimed with `attempt_count` incremented; `finalizeFederationForward` with the right token updates, with a stale token is a no-op (`updated: false`); `retryFederationForward` moves `dead_letter`→`pending`; retry of an expired-envelope row → `{ retried: false, reason: 'MESSAGE_EXPIRED' }`; **two concurrent `claimDueFederationForwards` callers never return the same row** (run two `withTransaction` claims in `Promise.all`, assert disjoint id sets).
+- [x] **Step 1: Write the failing test** — `sigil/relay/v1/postgres-repository.federation-outbox.test.mjs`, guarded by `SIGIL_DATABASE_URL` (skip when unset, mirroring `postgres-repository.peer.test.mjs`). Cases: enqueue inserts one row (`inserted: true`); re-enqueue same `(message_id, idempotency_key)` → `inserted: false` + existing row; `claimDueFederationForwards` moves `pending`→`processing` and sets `claim_token`; a `processing` row past the lease is re-claimed with `attempt_count` incremented; `finalizeFederationForward` with the right token updates, with a stale token is a no-op (`updated: false`); `retryFederationForward` moves `dead_letter`→`pending`; retry of an expired-envelope row → `{ retried: false, reason: 'MESSAGE_EXPIRED' }`; **two concurrent `claimDueFederationForwards` callers never return the same row** (run two `withTransaction` claims in `Promise.all`, assert disjoint id sets).
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `SIGIL_DATABASE_URL=$SIGIL_TEST_DATABASE_URL node --test sigil/relay/v1/postgres-repository.federation-outbox.test.mjs`
 Expected: FAIL — methods undefined.
 
-- [ ] **Step 3: Implement** the six methods + helper on `PostgresRepository`, following the existing method style (e.g. `claimDelivery` at line ~423 for the claim/lease pattern, `upsertPeer` for `ON CONFLICT ... RETURNING` + `rowTo…Record`).
+- [x] **Step 3: Implement** the six methods + helper on `PostgresRepository`, following the existing method style (e.g. `claimDelivery` at line ~423 for the claim/lease pattern, `upsertPeer` for `ON CONFLICT ... RETURNING` + `rowTo…Record`).
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `SIGIL_DATABASE_URL=$SIGIL_TEST_DATABASE_URL node --test sigil/relay/v1/postgres-repository.federation-outbox.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 5: Run `npm test`** (invokes the live-DB job in CI; locally runs what it can). Expected: PASS.
+- [x] **Step 5: Run `npm test`** (invokes the live-DB job in CI; locally runs what it can). Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add sigil/relay/v1/postgres-repository.mjs sigil/relay/v1/postgres-repository.federation-outbox.test.mjs
@@ -1696,17 +1696,17 @@ async function enqueueForward(envelope, route, options, client, { senderKey, sen
 
 The unique constraint makes a client retry land as `inserted: false` → `queued: true, duplicate: true`, no second row, no second forward (the spec's "any state, including forwarded/terminal" case is covered because the unique index has no state predicate).
 
-- [ ] **Step 1: Write the failing test** — `accept-envelope.federation-queue.test.mjs` (skip without `SIGIL_DATABASE_URL`): a `PostgresRepository`-backed accept with `federationMode: 'queue'`, pinned peer, local sender → `202 queued:true` and exactly one `federation_outbox` row (`state='pending'`); a second identical accept → `202 queued:true, duplicate:true` and still one row. An in-memory repo + `federationMode: 'queue'` is not exercised here (Task 16 asserts startup abort).
+- [x] **Step 1: Write the failing test** — `accept-envelope.federation-queue.test.mjs` (skip without `SIGIL_DATABASE_URL`): a `PostgresRepository`-backed accept with `federationMode: 'queue'`, pinned peer, local sender → `202 queued:true` and exactly one `federation_outbox` row (`state='pending'`); a second identical accept → `202 queued:true, duplicate:true` and still one row. An in-memory repo + `federationMode: 'queue'` is not exercised here (Task 16 asserts startup abort).
 
-- [ ] **Step 2: Run to verify it fails.** `enqueueForward` throws (`repository.enqueueFederationForward` undefined on the path, or the branch not wired).
+- [x] **Step 2: Run to verify it fails.** `enqueueForward` throws (`repository.enqueueFederationForward` undefined on the path, or the branch not wired).
 
-- [ ] **Step 3: Implement** `enqueueForward` and the `if (options.federationMode === 'queue') return enqueueForward(...)` branch in `forwardEnvelope` (already stubbed in Task 11's code).
+- [x] **Step 3: Implement** `enqueueForward` and the `if (options.federationMode === 'queue') return enqueueForward(...)` branch in `forwardEnvelope` (already stubbed in Task 11's code).
 
-- [ ] **Step 4: Run to verify it passes.**
+- [x] **Step 4: Run to verify it passes.**
 
-- [ ] **Step 5: Regression** — `node --test sigil/relay/v1/accept-envelope.federation-sync.test.mjs sigil/relay/v1/accept-envelope.test.mjs`. Expected: PASS.
+- [x] **Step 5: Regression** — `node --test sigil/relay/v1/accept-envelope.federation-sync.test.mjs sigil/relay/v1/accept-envelope.test.mjs`. Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add sigil/relay/v1/accept-envelope.mjs sigil/relay/v1/accept-envelope.federation-queue.test.mjs
@@ -1730,23 +1730,23 @@ git commit -m "feat(relay): queue-mode federation_outbox enqueue on accept"
   - Step 3: ownership-guarded `repository.finalizeFederationForward(row.id, row.claimToken, state, { attemptCount, nextAttemptAt, reasonCode }, client)` inside a `withTransaction`; if `{ updated: false }` → discard silently.
     - `ok:true` → `state='forwarded'`, audit `federation.forwarded`.
     - `ok:false` (4xx) → `state='forward_rejected'`, `reasonCode = outcome.peerCode ?? null`, audit `federation.forward_rejected`.
-    - `FORWARD_TRANSPORT_FAILED` (throw) → `attemptCount = row.attemptCount` (already incremented by the claim's reclaim rule? no — increment here): `nextAttemptCount = row.attemptCount + 1`; if `nextAttemptCount >= 3` → `state='dead_letter'`, audit `federation.dead_letter`; else `state='pending'`, `nextAttemptAt = now + [60000, 300000, 1800000][nextAttemptCount - 1]` ms, audit `federation.forward_unavailable` with `attempt_count`.
+    - `FORWARD_TRANSPORT_FAILED` (throw) → `attemptCount = row.attemptCount` (already incremented by the claim's reclaim rule? no — increment here): `nextAttemptCount = row.attemptCount + 1`; if `nextAttemptCount >= 4` (`MAX_ATTEMPTS = 4`, revised in final-review fix I4 so all three backoff tiers are walked) → `state='dead_letter'`, audit `federation.dead_letter`; else `state='pending'`, `nextAttemptAt = now + [60000, 300000, 1800000][nextAttemptCount - 1]` ms, audit `federation.forward_unavailable` with `attempt_count`.
   `startFederationReaper({ repository, identity, originDomain, intervalMs = 60_000, fetchImpl })` → the `setInterval` handle (`.unref()`'d), mirroring `startOidcIssuerAllowlistPolling` in `sigil.mjs:121`. Each tick calls `runFederationReaperPass(...)` and `console.error`s on a thrown pass (keeps ticking).
 
-- [ ] **Step 1: Write the failing test** — `federation-reaper.test.mjs` with an in-memory fake repository object exposing `withTransaction(fn) { return fn(null); }`, `claimDueFederationForwards`, `finalizeFederationForward`, `recordAuditEvent`, `getPeerByDomain`, plus a rows array. Cases with injected `now` and `postForwardImpl`:
+- [x] **Step 1: Write the failing test** — `federation-reaper.test.mjs` with an in-memory fake repository object exposing `withTransaction(fn) { return fn(null); }`, `claimDueFederationForwards`, `finalizeFederationForward`, `recordAuditEvent`, `getPeerByDomain`, plus a rows array. Cases with injected `now` and `postForwardImpl`:
   - one due row, `postForwardImpl` → `{ ok: true }` → row `forwarded`, `federation.forwarded` audit.
   - `postForwardImpl` → `{ ok: false, status: 403, peerCode: 'DIRECTORY_LINK_REQUIRED' }` → `forward_rejected` (terminal), audit carries `peerCode`.
   - `postForwardImpl` throwing `FORWARD_TRANSPORT_FAILED` three times across three passes → `pending` with `next_attempt_at` at +60s, +300s, then `dead_letter` + `federation.dead_letter`.
   - a row whose `envelope.expires_at` is before `now` → `dead_letter` reason `MESSAGE_EXPIRED`, no forward attempted.
   - `finalizeFederationForward` returning `{ updated: false }` (stale token) → pass does not throw, no audit for that row.
 
-- [ ] **Step 2: Run to verify it fails.** Module missing.
+- [x] **Step 2: Run to verify it fails.** Module missing.
 
-- [ ] **Step 3: Implement** `runFederationReaperPass` + `startFederationReaper`.
+- [x] **Step 3: Implement** `runFederationReaperPass` + `startFederationReaper`.
 
-- [ ] **Step 4: Run to verify it passes.**
+- [x] **Step 4: Run to verify it passes.**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sigil/relay/v1/federation-reaper.mjs sigil/relay/v1/federation-reaper.test.mjs
@@ -1776,17 +1776,17 @@ git commit -m "feat(relay): federation reaper pass + interval driver"
 
 The Task 12 validation already aborts `queue` without `--database-url`; an in-memory relay never sets `databaseUrl`, so `queue` + in-memory hits that same abort — add a test asserting the message names the in-memory case (adjust the Task 12 error string to `--federation-mode queue requires --database-url (or SIGIL_DATABASE_URL); in-memory relays have no durable outbox`).
 
-- [ ] **Step 1: Write the failing test** — extend `relay-up-federation.test.mjs`: `--federation-mode queue` on a relay with no `--database-url` aborts with a message mentioning "in-memory relays have no durable outbox". (A positive "reaper actually starts" assertion needs a live DB + process management; leave that to the CI Postgres startup integration test — add a `TODO` note there.)
+- [x] **Step 1: Write the failing test** — extend `relay-up-federation.test.mjs`: `--federation-mode queue` on a relay with no `--database-url` aborts with a message mentioning "in-memory relays have no durable outbox". (A positive "reaper actually starts" assertion needs a live DB + process management; leave that to the CI Postgres startup integration test — add a `TODO` note there.)
 
-- [ ] **Step 2: Run to verify it fails.**
+- [x] **Step 2: Run to verify it fails.**
 
-- [ ] **Step 3: Implement** the reaper start + refine the abort message.
+- [x] **Step 3: Implement** the reaper start + refine the abort message.
 
-- [ ] **Step 4: Run to verify it passes.**
+- [x] **Step 4: Run to verify it passes.**
 
-- [ ] **Step 5: Regression** — `node --test sigil/cli/relay-up-federation.test.mjs sigil/cli/relay-up-domain.test.mjs`. Expected: PASS.
+- [x] **Step 5: Regression** — `node --test sigil/cli/relay-up-federation.test.mjs sigil/cli/relay-up-domain.test.mjs`. Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add sigil/cli/sigil.mjs sigil/cli/relay-up-federation.test.mjs
@@ -1809,15 +1809,15 @@ git commit -m "feat(cli): start federation outbox reaper for queue-mode relays"
   - `sigil federation outbox retry <id> [--database-url url]` → calls `retryFederationForward(id, new Date())`; prints `Re-queued <id>` or, on `{ retried: false, reason: 'MESSAGE_EXPIRED' }`, `Cannot retry <id>: the stored envelope has expired — have the sender resend.` and exits non-zero.
   - All three require `--database-url` / `SIGIL_DATABASE_URL` (via `withRepository(args, 'sigil federation outbox requires --database-url ...', ...)`); on a `sync`-mode / in-memory relay the table is simply empty.
 
-- [ ] **Step 1: Write the failing test** — `sigil-federation-outbox.test.mjs` (skip without `SIGIL_DATABASE_URL`): seed a `federation_outbox` row via `applyMigrations` + a direct `INSERT`, then run `sigil federation outbox list` and assert the output has the counts line and the row id but not the word `"text"` (no body). `retry` on a `dead_letter` row prints `Re-queued`. `retry` on an expired row exits non-zero with the resend message.
+- [x] **Step 1: Write the failing test** — `sigil-federation-outbox.test.mjs` (skip without `SIGIL_DATABASE_URL`): seed a `federation_outbox` row via `applyMigrations` + a direct `INSERT`, then run `sigil federation outbox list` and assert the output has the counts line and the row id but not the word `"text"` (no body). `retry` on a `dead_letter` row prints `Re-queued`. `retry` on an expired row exits non-zero with the resend message.
 
-- [ ] **Step 2: Run to verify it fails.** `Unknown command: federation`.
+- [x] **Step 2: Run to verify it fails.** `Unknown command: federation`.
 
-- [ ] **Step 3: Implement** `cmdFederation(argv)` — parse `argv[0] === 'outbox'`, then `argv[1]` in `list|show|retry`, else print usage. Dispatch from the `switch`/`if` chain at `sigil.mjs:729` (`if (command === 'federation') await cmdFederation(process.argv.slice(3));`). Add the usage lines.
+- [x] **Step 3: Implement** `cmdFederation(argv)` — parse `argv[0] === 'outbox'`, then `argv[1]` in `list|show|retry`, else print usage. Dispatch from the `switch`/`if` chain at `sigil.mjs:729` (`if (command === 'federation') await cmdFederation(process.argv.slice(3));`). Add the usage lines.
 
-- [ ] **Step 4: Run to verify it passes.**
+- [x] **Step 4: Run to verify it passes.**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sigil/cli/sigil.mjs sigil/cli/sigil-federation-outbox.test.mjs
@@ -1841,15 +1841,15 @@ git commit -m "feat(cli): sigil federation outbox list|show|retry"
   3. Reachability: `GET {peer.relayUrl}/v1/health` with a 5s `AbortSignal.timeout`; print `Reachable: yes (NNms)` or `Reachable: no (<reason>)`.
   4. **Advisory** same-owner line: `loadIdentity(--identity).owner_id` vs the recipient's `owner_id` **if the recipient endpoint is resolvable in the local registry** (`--registry` default). Print `Same-owner exemption: would apply (advisory)` / `would NOT apply (advisory) — owner ids differ` / `not determinable locally`. Always followed by `(advisory only — the receiving relay re-checks against its own registry)`.
 
-- [ ] **Step 1: Write the failing test** — `sigil-route-test.test.mjs`: with a memory-only setup this is limited; assert (a) a malformed recipient exits non-zero, (b) with an unpinned domain the output says `Pinned: no`, (c) with a pinned peer (seed via `sigil peer add` against a `--database-url` test DB, or skip when unset) the output includes `Peer relay URL:` and a `Reachable:` line (point `--relay-url` / peer URL at a throwaway `http.createServer` that answers `/v1/health` with 200). No envelope is ever POSTed — assert the stub server received only `GET /v1/health`.
+- [x] **Step 1: Write the failing test** — `sigil-route-test.test.mjs`: with a memory-only setup this is limited; assert (a) a malformed recipient exits non-zero, (b) with an unpinned domain the output says `Pinned: no`, (c) with a pinned peer (seed via `sigil peer add` against a `--database-url` test DB, or skip when unset) the output includes `Peer relay URL:` and a `Reachable:` line (point `--relay-url` / peer URL at a throwaway `http.createServer` that answers `/v1/health` with 200). No envelope is ever POSTed — assert the stub server received only `GET /v1/health`.
 
-- [ ] **Step 2: Run to verify it fails.** `Unknown command: route`.
+- [x] **Step 2: Run to verify it fails.** `Unknown command: route`.
 
-- [ ] **Step 3: Implement** `cmdRoute(argv)` (`argv[0] === 'test'`), dispatch (`if (command === 'route') await cmdRoute(process.argv.slice(3));`), usage text.
+- [x] **Step 3: Implement** `cmdRoute(argv)` (`argv[0] === 'test'`), dispatch (`if (command === 'route') await cmdRoute(process.argv.slice(3));`), usage text.
 
-- [ ] **Step 4: Run to verify it passes.**
+- [x] **Step 4: Run to verify it passes.**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sigil/cli/sigil.mjs sigil/cli/sigil-route-test.test.mjs
@@ -1867,7 +1867,7 @@ git commit -m "feat(cli): sigil route test read-only federation diagnostic"
 
 **Interfaces:** none new.
 
-- [ ] **Step 1: Write the regression tests**
+- [x] **Step 1: Write the regression tests**
 
 Create `sigil/relay/v1/federation-regression.test.mjs`:
 
@@ -1890,30 +1890,30 @@ test('two federated recipients differing only in local-part case stay distinct t
 });
 ```
 
-- [ ] **Step 2: Run the regression tests**
+- [x] **Step 2: Run the regression tests**
 
 Run: `node --test sigil/relay/v1/federation-regression.test.mjs`
 Expected: PASS.
 
-- [ ] **Step 3: Run the whole suite**
+- [x] **Step 3: Run the whole suite**
 
 Run: `npm test`
 Expected: PASS (dep audit + JCS audit + all `node --test` files, including the live-DB job in CI).
 
-- [ ] **Step 4: Update `CHANGELOG.md`** — add an entry under the working version:
+- [x] **Step 4: Update `CHANGELOG.md`** — add an entry under the working version:
 
 > **Federation sub-project #3 — inter-relay routing.** Opt-in `sigil relay up --federation-mode sync|queue --federation-identity <path>` forwards foreign-domain envelopes to TOFU-pinned peer relays over `POST /v1/federation/envelopes`, signed with the origin relay's `.well-known/sigil` key. `queue` mode persists to a new `federation_outbox` table drained by a 60s reaper (300s lease, `FOR UPDATE SKIP LOCKED` + `claim_token` guard). Receiver enforces mutual pinning, canonicalize-after-parse relay-signature verification, end-to-end sender-key verification, and a relay-signed `sender_owner_id` same-owner exemption; every accepted federated envelope is stored `federation_hop = true` (one hop, structural). New: `sigil init --federation-owner`, `sigil route test`, `sigil federation outbox list|show|retry`. Migration `017_federation_outbox.sql`.
 
-- [ ] **Step 5: Update `STATUS.md`** — set the active goal to "Federation #3 (inter-relay routing) — shipped on `feat/federation-inter-relay-routing`", list the 19 tasks done, note tests green, next action "open PR; then sub-project #4 (cross-federation directory/presence)".
+- [x] **Step 5: Update `STATUS.md`** — set the active goal to "Federation #3 (inter-relay routing) — shipped on `feat/federation-inter-relay-routing`", list the 19 tasks done, note tests green, next action "open PR; then sub-project #4 (cross-federation directory/presence)".
 
-- [ ] **Step 6: Check every box in this plan file**, then commit.
+- [x] **Step 6: Check every box in this plan file**, then commit.
 
 ```bash
 git add sigil/relay/v1/federation-regression.test.mjs CHANGELOG.md STATUS.md
 git commit -m "test(relay): federation routing regression sweep + changelog/status"
 ```
 
-- [ ] **Step 7: Open the PR**
+- [x] **Step 7: Open the PR**
 
 ```bash
 git push -u origin feat/federation-inter-relay-routing
@@ -1954,7 +1954,7 @@ This plan is executed with `superpowers:subagent-driven-development`, **one batc
 | CLI `--federation-mode` / `--federation-identity` validation | 12 |
 | `federation_outbox` table + indexes + repo methods (claim/lease/finalize/list/retry, 2-concurrent-claimers) | 2, 13 |
 | Queue-mode enqueue (unique-constraint idempotent duplicate in any state) | 14 |
-| Reaper: claim→commit→forward→ownership-guarded finalize; 1m/5m/30m; dead_letter after 3 / on expiry; audit events | 15 |
+| Reaper: claim→commit→forward→ownership-guarded finalize; 1m/5m/30m (all three walked); dead_letter after 4 / on expiry; audit events | 15 |
 | Reaper wired into `sigil relay up` for `queue`; in-memory + `queue` aborts | 16 |
 | `sigil federation outbox list|show|retry` (no bodies; expired-retry refusal) | 17 |
 | `sigil route test` (read-only, advisory same-owner line, sends nothing) | 18 |
