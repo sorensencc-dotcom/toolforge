@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.60.0
+Date: 2026-09-02
+
+### Changes
+- 8cbb9a2 - feat(graft): add mcp registration, pre-push hook, and ci audit workflow (Chris Sorensen)
+- 0283413 - chore: ignore local regen artifacts, point workspace root at C:/dev (Chris Sorensen)
+- 340084d - docs(report): add daily report for 2026-09-02 (Chris Sorensen)
+
 ## Version 2.59.1
 Date: 2026-09-02
 
