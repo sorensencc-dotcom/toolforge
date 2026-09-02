@@ -106,3 +106,22 @@ test("Charlie adapter taskRun path carries no run_id when task creation itself f
   assert.deepEqual(result, { ok: false, error: { code: "PARALLEL_API_ERROR" } });
   assert.equal("run_id" in (result as { ok: false; error: Record<string, unknown> }).error, false);
 });
+
+test("Charlie adapter taskRun path sources run_id from the parallel_task response when parallel_task_result fails its shape guard", async () => {
+  const result = await charlieDeepResearchSearch("Willow Run", "The Industrial Architect", {
+    enabled: true,
+    taskRun: true,
+    apiKey: "k",
+    clientFactory: () => ({
+      beta: { search: async () => ({}), extract: async () => ({}) },
+      taskRun: {
+        create: async () => ({ run_id: "run_9", interaction_id: "i_9", status: "queued", is_active: true, processor: "core" }),
+        // Structurally invalid wait:true body: no output.content / output.basis, run.status absent.
+        // parallel_task_result returns { ok:false, error:{ code:"INVALID_API_RESPONSE" } } with NO run_id key,
+        // so a surfaced run_id can only have come from created.data.run_id.
+        result: async () => ({ output: { type: "text" }, run: {} }),
+      },
+    } as any),
+  });
+  assert.deepEqual(result, { ok: false, error: { code: "INVALID_API_RESPONSE", run_id: "run_9" } });
+});
