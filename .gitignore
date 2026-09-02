@@ -88,6 +88,7 @@ research-data/raw/**/*.mov
 
 # Pure regenerated cache/index, not source (matches scan-state.json.tmp.* pattern)
 .ijfw/scan-state.json
+.ijfw/scan-state.json.tmp.*
 .ijfw/.*
 .ijfw/index/
 .ijfw/metrics/
