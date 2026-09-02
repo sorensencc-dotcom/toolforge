@@ -1,19 +1,19 @@
 # IronLedger Phase 1 plan
 
-Status: draft for operator review  
-Scope: canonical ledger, schema, and integrity foundations; no implementation authorization
+Status: approved. The operator typed explicit "phase1 approved" in the transcript on 2026-09-01 after reviewing commits `c0aa72e..6e7b4b5` and `docs/meta/phases/ironledger-phase-1-evidence.md`.  
+Scope: canonical ledger, schema, and integrity foundations. All seven tasks implemented and re-landed as reviewed commits; 77 focused tests pass.
 
 ## Gate before execution
 
-Phase 1 remains blocked until the operator resolves D-1 and types explicit Phase 1 approval in the transcript.
+Cleared. D-1 is resolved and the operator approved the exit gate in the transcript on 2026-09-01. The record below is retained for provenance.
 
-D-1 concerns the shared repository preflight. `C:/dev/scripts/verify-repo-context.ps1` requires `package.json`, while IronLedger uses `pyproject.toml`. The recommended resolution is a maintainer patch that accepts `package.json`, `pyproject.toml`, `go.mod`, or `Cargo.toml`. The implementation agent must not patch the protected script, add a misleading `package.json`, or treat an exception as resolved without operator direction.
+D-1 concerned the shared repository preflight. `C:/dev/scripts/verify-repo-context.ps1` required `package.json`, while IronLedger uses `pyproject.toml`. Resolution: the maintainer patch landed. The script now accepts `package.json`, `pyproject.toml`, `go.mod`, or `Cargo.toml`, and `verify-repo-context.ps1 -Path C:\dev\IronLedger` reports `PREFLIGHT_PASS` against `pyproject.toml`. No misleading `package.json` was added and the protected script was not bypassed.
 
-After D-1 resolution, record the preflight result, repository root, branch, working tree, and remotes before each execution wave. Keep all implementation work in `C:/dev/IronLedger` (the operator-approved final home, D-0). Keep governed documents under `C:/dev/docs/meta/`.
+Record the preflight result, repository root, branch, working tree, and remotes before each execution wave. Keep all implementation work in `C:/dev/IronLedger` (the operator-approved final home, D-0). Keep governed documents under `C:/dev/docs/meta/`.
 
 ### D-1b: migration runner
 
-Before task 2, the lead selects the migration mechanism and records it here. Recommended: plain numbered `.sql` files plus a minimal Python runner, no ORM, so SQLite STRICT and foreign-key semantics stay visible and auditable. An ORM or a heavier migration framework requires operator sign-off because it changes how constraints are expressed and reviewed.
+Decision recorded: plain numbered `.sql` files in `src/ironledger/db/schema/` applied by a minimal forward-only Python runner (`src/ironledger/db/migrations.py`), no ORM and no third-party migration framework, so every STRICT table and foreign-key clause stays visible in a plain-SQL diff. Each migration body plus its `schema_migrations` bookkeeping row commits in one transaction; an error rolls the whole file back and `current_version` does not advance. Each recorded migration stores a SHA-256 checksum of its file text and a later on-disk change raises `ChecksumMismatch`. Versions must be a gapless 1-based sequence.
 
 ### Hash algorithm
 

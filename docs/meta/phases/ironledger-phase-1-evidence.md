@@ -1,6 +1,7 @@
 # IronLedger Phase 1 evidence and exit verification
 
-Status: Phase 1 implementation submitted for operator review; NOT approved.
+Status: Phase 1 exit gate APPROVED. The operator typed explicit "phase1 approved" in the
+transcript on 2026-09-01 after reviewing commits `c0aa72e..6e7b4b5` and this document.
 Scope: canonical ledger, schema, and integrity foundations; focused migration and integrity evidence only.
 
 ## 1. Provenance of this evidence
@@ -13,8 +14,10 @@ tasks 3 through 6 one reviewed commit at a time from the retained
 `backup/antigravity-raw-20260831` branch. Every number in this document comes from test
 runs the operator executed during that review, not from the discarded Antigravity evidence.
 
-Phase 1 is not approved. This document exists so the operator can review the implementation
-and decide the exit gate.
+The operator reviewed this document and the five commits and approved the Phase 1 exit gate
+in the transcript on 2026-09-01. D-1 is resolved: the shared preflight now accepts
+`pyproject.toml` and reports `PREFLIGHT_PASS` for `C:\dev\IronLedger`. The open items in
+section 5 were surfaced in that review and carried forward with the dispositions noted there.
 
 ## 2. Repository and environment state
 
@@ -146,6 +149,12 @@ $env:PYTHONPATH='src'; python -m pytest -q
 2. **Identity version immutability is a schema-level placeholder.** `test_identity_version_immutability` shows that inserting a row under a new `identity_algo_version` does not alter existing rows. No re-identification code exists yet, so end-to-end immutability across import runs cannot be exercised until the Phase 2 identity generator lands.
 3. **Audit sequence allocation under concurrency is not tested.** `append_audit_event` reads the last sequence and increments in application code. `test_duplicate_sequence_number_rejected_by_primary_key` proves the `seq` primary key rejects a duplicate, so concurrent writers fail closed rather than corrupt the chain, but no test simulates two concurrent appenders. Plan task 5 lists concurrent or replayed allocation as an acceptance point; only the replay and duplicate-key half is covered. Acceptable for the local-first single-writer design; revisit if Phase 2 introduces a second writer.
 
+4. **The audit chain and the manifests are tamper-evident, not tamper-proof.** `event_hash` and `manifest_self_hash` are plain SHA-256 over public canonical bytes, with no keyed MAC or signature. A party that can write the SQLite file can drop the append-only triggers and recompute a fully self-consistent chain from genesis; a party that can write a manifest file can forge a matching self-hash. Detection depends on comparing the head hash, or a manifest digest, against a value held outside the database. This matches the Phase 0 stance that SQLite is disposable and rebuildable while Beancount plus retained evidence is the accounting authority. Accepted for Phase 1. If a later phase needs the audit log itself to be an authority, add a keyed or signed chain under a design amendment.
+
+5. **`verify_manifest` interpolates a manifest-supplied table name into SQL.** In `src/ironledger/manifests.py`, the row-count check builds `SELECT count(*) FROM {tbl_name}` where `tbl_name` comes from the parsed manifest's `row_counts`. `sqlite3` executes one statement per call, so statement injection is not possible, and a tampered `row_counts` also breaks the self-hash check earlier in the same function. The residual issue is that a forged manifest, per caveat 4, reaches this line and a bad table name raises `sqlite3.OperationalError` instead of `ManifestVerificationError`, so a caller catching only the verification error would miss it. Open, low severity. Fix in Phase 2: validate every `row_counts` key against `sqlite_master` before the count query.
+
+6. **`STRICT` integer columns coerce integral floats.** A `minor_units INTEGER` column in a `STRICT` table rejects `12.34` but stores `2.0` as `2`. The application guard `validate_amount_minor_units` rejects every `float`, so the sanctioned write path is exact; the phrase "STRICT INTEGER column rejects float" in the section 3 matrix describes the application path, not a schema-only guarantee. Documentation note only.
+
 ## 6. Phase 1 exit recommendation
 
-All seven tasks in `docs/meta/plans/ironledger-phase-1-plan.md` have implementation and 77 passing focused tests. The implementation is submitted for operator review. Phase 1 remains blocked until the operator resolves D-1 and types explicit Phase 1 exit approval in the transcript. Phase 2 work (file ingestion and review CLI) is not authorized; the ingestion package Antigravity produced on 2026-08-31 was discarded and retained only on `backup/antigravity-cf8e886`.
+All seven tasks in `docs/meta/plans/ironledger-phase-1-plan.md` have implementation and 77 passing focused tests. D-1 is resolved and the operator typed explicit Phase 1 exit approval in the transcript on 2026-09-01, so the exit gate is cleared. Caveats 2, 3, and 6 are accepted as documented Phase 1 limitations. Caveat 4 is accepted for Phase 1 with the wording above. Caveat 5 is an open low-severity fix carried into Phase 2. Phase 2 work (file ingestion and review CLI) is now authorized to be planned fresh; the ingestion package Antigravity produced on 2026-08-31 is not an input and remains discarded on `backup/antigravity-cf8e886` only.
