@@ -1,0 +1,80 @@
+{
+  "prep_id": "CIC-GOV-GATE-04-R2-PREP-20260714-0001",
+  "status": "READY_FOR_R2_SUBMISSION",
+  "mode": "GOVERNANCE_PREPARE",
+  "generated_at": "2026-07-14T14:53:21.687Z",
+  "gate_id": "GATE-04",
+  "actor": {
+    "actor_id": "ACT-20260714-0001",
+    "display_name": "CIC Production Executor",
+    "actor_type": "HUMAN",
+    "state": "ACTIVE",
+    "registered_by": "ACT-20260713-0001",
+    "registration_lineage_id": "LIN-c3f0b3900a5a40d3a4ac4f51b9281023",
+    "activation_lineage_id": "LIN-f98daafd0d144d818c12f5ff72153f42"
+  },
+  "installation": {
+    "gate_root": "C:/dev/CIC-GOVERNANCE/GATES/GATE-04/",
+    "harness_root": "C:/dev/CIC-GOVERNANCE/GATES/GATE-04/harness/",
+    "files": [
+      {
+        "path": "GATES/GATE-04/harness/driver.py",
+        "sha256": "fb9bc8cd7e9863d88e6a5ad2c4465dd9d90a102952189affb5e62d60b27be9e1"
+      },
+      {
+        "path": "GATES/GATE-04/harness/fault_matrix.json",
+        "sha256": "de15ecbd15c8e59f33d44b5d40c659591abbcb8d903fb8b4475ee1b304b78796"
+      },
+      {
+        "path": "GATES/GATE-04/harness/evidence_builder.py",
+        "sha256": "0ddf3ee9184cec94cb8cf5af8cc0f00d42aedd9dcf17f9457755c652719bcfaa"
+      },
+      {
+        "path": "GATES/GATE-04/harness/submission_orchestrator.py",
+        "sha256": "43a10026afddd83d61d88709b0e975a1e4be5117ed4c08935711770ef9724b38"
+      }
+    ]
+  },
+  "path_normalization": {
+    "requested_registry": "C:/dev/CIC-GOVERNANCE/WRAPPERS/governance_runtime.py",
+    "persistent_actor_registry": "C:/dev/CIC-GOVERNANCE/WRAPPERS/actor-registry.json",
+    "runtime_implementation": "C:/dev/CIC-GOVERNANCE/WRAPPERS/governance_runtime.py"
+  },
+  "evidence": {
+    "driver_packet": "C:/dev/CIC-GOVERNANCE/confirmation/GATE-04-R2-DRIVER-EVIDENCE.json",
+    "driver_packet_sha256": "61396058adc322cd15e1193ba175f41db95aa4bc31ffad1319b6f2520150c6ee",
+    "r2_report": "C:/dev/CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-04-R2.json",
+    "r2_report_sha256": "c330b3d0ac15b521db99688d6d31f271b85ef3dfc17d1e8091f5259c54c42da4",
+    "result": "PASS",
+    "passed": 8,
+    "failed": 0,
+    "filesystem": "NTFS",
+    "submission_ready": true,
+    "submitted_for_ratification": false
+  },
+  "verification": {
+    "harness_compilation": "PASS",
+    "fault_matrix_cases": 8,
+    "process_level_cases": "8/8 PASS",
+    "submission_orchestrator_validation": "PASS",
+    "full_governance_suite": "46/46 PASS",
+    "lineage_hash_chain": "PASS",
+    "lineage_record_count": 6,
+    "lineage_tail_hash": "9adadd459a16e01d0dc78b845159850ba62d7d2bc216b9d3d8e8b454171f2296"
+  },
+  "integrity": {
+    "actor_registry_sha256": "c300dbb2102290c408102cc256182b8040cc0d533ef16df1d4aec9e56651b6ff",
+    "lineage_sha256": "b4a300426b6310ad090b5133786918c9a052d4aa56e090367b6e129813ffdcd5",
+    "manifest_sha256": "dc567f37f9c5bb22f8b67651d641d83860e9ccd454bdf07ae65acfcb99fc0462",
+    "gate_status_sha256": "7aabf01768bd75864edfd8f9015fdac0b26e99ce6a96e9c0c4a5bc3391cf374f"
+  },
+  "governance_effects": {
+    "actor_registered": true,
+    "actor_activated": true,
+    "gate_closed": false,
+    "r2_submitted": false,
+    "closure_amendment_created": false,
+    "runtime_activated": false
+  },
+  "next_action": "Run Gate-04 R2 submission block using installed submission_orchestrator.py."
+}

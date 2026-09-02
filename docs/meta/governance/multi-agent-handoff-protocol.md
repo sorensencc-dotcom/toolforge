@@ -1,3 +1,10 @@
+---
+title: Governance Rule Addition — Multi-Agent Handoff Protocol
+description: Proposed Section 13 (Control-Change Handoff) for CIC + Rewrite Labs Global Rules, closing the process-bypass gap that let squash 5a86f23 skip task-review
+date: 2026-08-17
+status: GATE 1 APPROVED (design) — gate 2 (build+verify) pending, not enforceable yet
+---
+
 # Governance Rule: Multi-Agent Handoff Protocol
 
 **Document:** CIC + Rewrite Labs Global Rules

@@ -1,0 +1,24 @@
+{
+  "name": "rollback-phase",
+  "version": "1.0.0",
+  "description": "Revert CIC pipeline to prior phase checkpoint",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "rollback",
+    "pipeline",
+    "checkpoint"
+  ],
+  "author": "Soren",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  }
+}

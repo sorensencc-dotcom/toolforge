@@ -1,3 +1,11 @@
+---
+title: "CIC AI Agent Cost Governance Runtime Design Specification"
+date: 2026-08-01
+document_id: "CIC-COST-GOV-DESIGN-001"
+status: CANDIDATE
+parent_spec: "CIC-AI-AGENT-COST-SPEC-001@1.0.0-candidate.1"
+---
+
 # CIC AI Agent Cost Governance Runtime Design Specification
 
 Document ID: `CIC-COST-GOV-DESIGN-001`  

@@ -1,0 +1,24 @@
+{
+  "specVersion": "research.task.v1",
+  "taskId": "TASK-CIC-GAP-103",
+  "idempotencyKey": "cic-wr-gap-volume-103",
+  "sourceTargets": [
+    {
+      "sourceId": "src-army-air-force-contract-1941-06",
+      "sourceRevision": "sha256:685d9cc103f5491746e7f72c333d0b78221dcbe5b298fb6603cf0265bc08072a",
+      "span": {
+        "start": 560,
+        "end": 701
+      }
+    }
+  ],
+  "exactQuestion": "What target monthly production volume was mandated by AAF Materiel Command for Willow Run?",
+  "subject": "Army Air Force Materiel Command Volume Target",
+  "evidenceType": "fact",
+  "outputContract": "candidate.fact.v1",
+  "approvalRequired": true,
+  "provenanceGap": {
+    "triggeredByFactKey": "fact-cic-wr-coronado-sketch-194101",
+    "gapType": "production_volume_discrepancy"
+  }
+}

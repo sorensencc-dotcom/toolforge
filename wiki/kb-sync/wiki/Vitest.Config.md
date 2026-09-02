@@ -1,3 +1,11 @@
+---
+title: "Vitest.Config"
+category: "wiki"
+status: "active"
+draft: true
+created: "2026-08-25T02:38:44.484Z"
+---
+
 # Vitest.Config
 
 ## Summary

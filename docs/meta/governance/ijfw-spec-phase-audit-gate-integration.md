@@ -1,3 +1,9 @@
+---
+title: ijfw-spec-phase Audit Gate Integration
+description: Workflow integration — audit suite runs in parallel before charter scope freeze
+date: 2026-07-11
+---
+
 # ijfw-spec-phase: Audit Gate Integration
 
 **Workflow Stage:** Post-discuss, pre-lock (Charter Scope Freeze decision point)

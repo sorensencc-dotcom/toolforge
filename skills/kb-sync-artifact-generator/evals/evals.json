@@ -1,0 +1,26 @@
+{
+  "skill_name": "kb-sync-artifact-generator",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Generate an interactive KB sync report with sortable tables, charts, and search functionality.",
+      "expected_output": "Interactive HTML artifact with broken links table (sortable, searchable), category breakdown chart (Chart.js), drill-down sections for each issue type, dark theme (CIC design), and theme toggle. Artifact should parse sync-report.json and report.json from _integration/ directory.",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 1,
+      "prompt": "I need to visualize the knowledge base sync results with a dashboard that shows broken links by category and lets me search/filter them interactively.",
+      "expected_output": "HTML artifact with: (1) Summary stats card showing total pages scanned and broken links count, (2) Bar chart showing issues grouped by category (missing roadmaps, missing operations, missing architecture, external refs, template vars), (3) Sortable/searchable Grid.js table with source file, target, category, and severity columns, (4) Expandable drill-down sections for each category showing affected files.",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "Update the persisted KB sync artifact in Cowork to make it interactive. It should run the latest sync, parse the reports, and generate a dashboard with charts and a searchable broken links table. Use the CIC design system and dark theme.",
+      "expected_output": "Updated/created persisted Cowork artifact (id: kb-sync-interactive-report) with interactive HTML dashboard. Should include: live broken links table with search (Grid.js), bar chart showing issues by category (Chart.js), drill-down sections, cross-reference summary, theme toggle, CIC design system (Baskerville font, Ember/Brass/Sage colors, dark theme default), and responsive layout.",
+      "files": [],
+      "assertions": []
+    }
+  ]
+}

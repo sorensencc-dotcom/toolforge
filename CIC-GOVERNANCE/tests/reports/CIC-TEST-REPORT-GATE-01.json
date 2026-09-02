@@ -1,0 +1,163 @@
+{
+  "report_id": "CIC-TEST-REPORT-GATE-01",
+  "gate_id": "GATE-01",
+  "gate_name": "Artifact-Store Transaction / Rollback",
+  "spec_version": "2.4.0",
+  "gate_closure_spec_version": "1.0.0",
+  "gate_closure_spec_ref": "CIC-GATE-SPEC-001 § 3",
+  "test_environment": {
+    "os": "Windows 11 10.0.26200.0 (AMD64)",
+    "runtime": "CPython 3.12.2; pytest 9.1.0",
+    "storage_backend": "Local filesystem at C:/dev; Windows filesystem type unavailable because volume query returned Access denied",
+    "cic_governance_path": "C:/dev/CIC-GOVERNANCE"
+  },
+  "executed_by": "ACT-20260713-0001",
+  "execution_timestamp": "2026-07-13T18:09:32.663792Z",
+  "test_cases": [
+    {
+      "test_id": "TC-01-001",
+      "description": "Clean commit success — valid artifact, no failures",
+      "acceptance_criterion": "AC-01-001",
+      "trigger_condition": "Valid artifact submitted, no injected failures",
+      "expected_outcome": "Artifact written, lineage record appended",
+      "pass_criterion": "Both artifact and lineage record present and consistent",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "notes": "Artifact and lineage consistency exercised."
+    },
+    {
+      "test_id": "TC-01-002",
+      "description": "Rollback on schema write failure — force failure after artifact write, before lineage write",
+      "acceptance_criterion": "AC-01-001 / AC-01-002",
+      "trigger_condition": "Injected failure after artifact write, before lineage write",
+      "expected_outcome": "Artifact removed, no lineage INGESTED record written",
+      "pass_criterion": "Store SHA-256 hash matches pre-commit hash",
+      "outcome": "PASS",
+      "execution_time_ms": 72.0,
+      "notes": "Failure injected after artifact write and before lineage append; store hash restored."
+    },
+    {
+      "test_id": "TC-01-003",
+      "description": "Rollback on lineage write failure — force failure mid-lineage write",
+      "acceptance_criterion": "AC-01-003",
+      "trigger_condition": "Injected failure mid-lineage write",
+      "expected_outcome": "Artifact removed, lineage VOID record present",
+      "pass_criterion": "VOID record exists, no INGESTED record present",
+      "outcome": "FAIL",
+      "execution_time_ms": 45.0,
+      "notes": "No true mid-lineage-write fault injection. Reconciled candidate uses append-only ROLLBACK, not VOID mutation."
+    },
+    {
+      "test_id": "TC-01-004",
+      "description": "Concurrent transaction isolation — T1 forced rollback, T2 committed successfully",
+      "acceptance_criterion": "AC-01-005",
+      "trigger_condition": "Two simultaneous commits, T1 force-rolled back",
+      "expected_outcome": "T2 artifact present and committed, T1 artifact absent",
+      "pass_criterion": "T2 artifact present, T1 artifact absent, no cross-contamination",
+      "outcome": "PASS",
+      "execution_time_ms": 155.0,
+      "notes": "Two concurrent transactions exercised; failed transaction did not remove successful artifact."
+    },
+    {
+      "test_id": "TC-01-005",
+      "description": "Rollback timing — rollback completes within SLA under normal load",
+      "acceptance_criterion": "AC-01-007",
+      "trigger_condition": "Triggered rollback on artifact under 10MB under normal load",
+      "expected_outcome": "Rollback completes in ≤500ms",
+      "pass_criterion": "Measured rollback time ≤500ms",
+      "outcome": "PASS",
+      "execution_time_ms": 56.0,
+      "notes": "Measured local candidate rollback stayed below 500ms."
+    },
+    {
+      "test_id": "TC-01-006",
+      "description": "ROLLBACK lineage record — any triggered rollback produces a valid lineage record",
+      "acceptance_criterion": "AC-01-004",
+      "trigger_condition": "Any rollback event",
+      "expected_outcome": "ROLLBACK lineage record written with artifact_id, timestamp, failure_reason, transaction_id",
+      "pass_criterion": "Record present and schema-valid",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "notes": "ROLLBACK record contains transaction_id and failure reason."
+    },
+    {
+      "test_id": "TC-01-007",
+      "description": "Store hash integrity — pre-commit hash equals post-rollback hash",
+      "acceptance_criterion": "AC-01-002",
+      "trigger_condition": "Rollback triggered; compare pre-commit vs post-rollback SHA-256",
+      "expected_outcome": "Hashes match",
+      "pass_criterion": "SHA-256 of store pre-commit === SHA-256 of store post-rollback",
+      "outcome": "PASS",
+      "execution_time_ms": 208.0,
+      "notes": "Existing artifact bytes restored exactly after injected failure."
+    }
+  ],
+  "_additional_test_cases_note": "Append any implementation-side test cases beyond the spec-defined set below. total_cases, passed, failed, skipped must reflect all cases including additions.",
+  "additional_test_cases": [
+    {
+      "test_id": "ADD-01-001",
+      "pytest_node": "GovernanceEngineTests::test_accepts_valid_submission_and_appends_lineage",
+      "description": "accepts valid submission and appends lineage",
+      "outcome": "PASS",
+      "execution_time_ms": 33.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-01-002",
+      "pytest_node": "GovernanceEngineTests::test_deprecate_requires_parent",
+      "description": "deprecate requires parent",
+      "outcome": "PASS",
+      "execution_time_ms": 6.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-01-003",
+      "pytest_node": "GovernanceEngineTests::test_hash_is_canonical",
+      "description": "hash is canonical",
+      "outcome": "PASS",
+      "execution_time_ms": 8.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-01-004",
+      "pytest_node": "GovernanceEngineTests::test_rejects_hash_mismatch",
+      "description": "rejects hash mismatch",
+      "outcome": "PASS",
+      "execution_time_ms": 8.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-01-005",
+      "pytest_node": "GovernanceEngineTests::test_rejects_missing_field",
+      "description": "rejects missing field",
+      "outcome": "PASS",
+      "execution_time_ms": 7.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-01-006",
+      "pytest_node": "GovernanceEngineTests::test_rejects_unknown_field",
+      "description": "rejects unknown field",
+      "outcome": "PASS",
+      "execution_time_ms": 7.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-01-007",
+      "pytest_node": "GovernanceEngineTests::test_schema_is_valid_json",
+      "description": "schema is valid json",
+      "outcome": "PASS",
+      "execution_time_ms": 9.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    }
+  ],
+  "total_cases": 14,
+  "passed": 13,
+  "failed": 1,
+  "skipped": 0,
+  "overall_result": "FAIL",
+  "anomalies": "Pytest full suite passed 45/45, but strict gate mapping identified spec cases not exercised at required production fidelity. Production target equivalence and Windows filesystem type are unverified. executed_by uses candidate harness actor ID; no durable production actor binding was available.",
+  "submitted_for_ratification": null,
+  "_amendment_target": "AMD-v2.4.0-GATE-01-CLOSED",
+  "_minimum_passing_threshold": "7/7 spec-defined cases (plus all additional cases)"
+}

@@ -1,0 +1,23 @@
+{
+  "registry_version": "1.0",
+  "generated": "2026-08-01T11:07:24Z",
+  "plugins": [
+    {
+      "added_date": "2026-08-01T08:55:30Z",
+      "checksum": "sha256-46a80687563cc462205b42f6332d3fdf41d68c8bb1595d32f555802330d7f53c",
+      "last_updated": "2026-08-01T11:07:23Z",
+      "manifest_path": "C:\\dev\\skills\\trm-status",
+      "published_date": "2026-08-01T11:07:23Z",
+      "marketplace_visibility": "public",
+      "installed_count": 0,
+      "id": "trm-status",
+      "submission_status": "published"
+    }
+  ],
+  "metadata": {
+    "total_plugins": 1,
+    "published_count": 1,
+    "pending_count": 0,
+    "deprecated_count": 0
+  }
+}

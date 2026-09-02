@@ -1,0 +1,31 @@
+{
+  "status": "active",
+  "category": "utility",
+  "runtime": "powershell",
+  "permissions": {
+    "required": ["file.read", "file.write", "network"],
+    "optional": []
+  },
+  "tags": ["cli", "toolforge", "marketplace"],
+  "id": "toolforge-cli",
+  "timeout": 30000,
+  "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
+  "entrypoint": "src/cli.ps1",
+  "name": "Toolforge CLI",
+  "dependencies": {
+    "external": [],
+    "internal": ["toolforge-registry-manager", "toolforge-submission-validator"]
+  },
+  "owner": "soren",
+  "version": "0.1.0",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "terminal",
+      "registrationPath": "cowork://toolforge/skills/toolforge-cli",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "CLI for Toolforge Marketplace: list, install, submit plugins"
+}

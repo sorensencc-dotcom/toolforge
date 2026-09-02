@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "enforced_at": "2026-07-11T00:00:00Z",
+  "tier_1_approval": "Chris Sorensen",
+  "approval_commits": ["e375a7d", "9d81801"],
+  "enforcement": {
+    "phase_0_pattern_research_gate": {
+      "enabled": true,
+      "description": "30min research checkpoint before Phase 1",
+      "required_for": "major_components"
+    },
+    "audit_first_scope_lock": {
+      "enabled": true,
+      "description": "Scope lock before Phase 1 execution",
+      "required_for": "all_phases"
+    },
+    "data_contracts_spec_time": {
+      "enabled": true,
+      "description": "Data contract validation at spec-time",
+      "required_for": "cross_system_flows"
+    },
+    "parallelism_matrix_orchestration": {
+      "enabled": true,
+      "description": "Wave orchestration and parallelism gating",
+      "required_for": "multi_wave_phases"
+    },
+    "observability_instrumentation_gates": {
+      "enabled": true,
+      "description": "Observability checkpoints at key gates",
+      "required_for": "all_phases"
+    }
+  },
+  "agent_behavior": {
+    "check_on_spawn": true,
+    "enforce_violations": "BLOCK",
+    "log_level": "INFO"
+  }
+}

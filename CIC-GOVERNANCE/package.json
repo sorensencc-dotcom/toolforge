@@ -1,0 +1,29 @@
+{
+  "name": "cic-governance",
+  "version": "1.0.0",
+  "description": "Cast Iron Charlie (CIC) Governance Architecture & Verification Suite",
+  "main": "WRAPPERS/governance_runtime.py",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "gov:validate": "npm run gov:validate-contract",
+    "gov:smoke": "python -m unittest discover -s tests -v",
+    "gov:validate-contract": "node scripts/validate-governance-contract.mjs",
+    "gov:backfill": "node scripts/governance-contract-backfill.mjs",
+    "gov:setup-hook": "node scripts/setup-git-hook.mjs",
+    "gov:pre-flight": "npm run gov:validate-contract && python -m unittest discover -s tests -v",
+    "test:whichllm": "node --test packages/*/tests/**/*.test.js packages/*/tests/*.test.js",
+    "simulate:whichllm": "node packages/cic-whichllm-pipeline-simulation/bin/run-simulation.js",
+    "plan:whichllm": "node packages/cic-whichllm-upgrade-planner/bin/cic-whichllm-upgrade-planner.js",
+    "sweep:whichllm": "node packages/cic-whichllm-upgrade-planner/bin/run-sweep.js",
+    "decide:whichllm": "node packages/cic-whichllm-upgrade-planner/bin/decide-proposal.js",
+    "install:whichllm": "node packages/cic-whichllm-upgrade-planner/bin/install-approved.js"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "author": "Cast Iron Charlie Governance Team",
+  "license": "UNLICENSED"
+}

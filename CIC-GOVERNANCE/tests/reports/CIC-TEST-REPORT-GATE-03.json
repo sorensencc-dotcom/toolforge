@@ -1,0 +1,137 @@
+{
+  "report_id": "CIC-TEST-REPORT-GATE-03",
+  "gate_id": "GATE-03",
+  "gate_name": "Persistent Actor Registry",
+  "spec_version": "2.4.0",
+  "gate_closure_spec_version": "1.0.0",
+  "gate_closure_spec_ref": "CIC-GATE-SPEC-001 § 5",
+  "test_environment": {
+    "os": "Windows 11 10.0.26200.0 (AMD64)",
+    "runtime": "CPython 3.12.2; pytest 9.1.0",
+    "storage_backend": "Local filesystem at C:/dev; Windows filesystem type unavailable because volume query returned Access denied",
+    "cic_governance_path": "C:/dev/CIC-GOVERNANCE"
+  },
+  "executed_by": "ACT-20260713-0001",
+  "execution_timestamp": "2026-07-13T18:09:32.663792Z",
+  "test_cases": [
+    {
+      "test_id": "TC-03-001",
+      "description": "Persistence across restart — actor registered pre-restart is present and ACTIVE post-restart",
+      "acceptance_criterion": "AC-03-001",
+      "trigger_condition": "Register actor, perform process restart, query actor",
+      "expected_outcome": "Actor present with state ACTIVE after restart",
+      "pass_criterion": "Actor retrievable by actor_id, state ACTIVE, no reseeding required",
+      "outcome": "FAIL",
+      "execution_time_ms": 57.0,
+      "notes": "Registry object re-instantiation tested; full process restart was not executed."
+    },
+    {
+      "test_id": "TC-03-002",
+      "description": "State transition enforcement — illegal state skip (PENDING → RETIRED) is rejected",
+      "acceptance_criterion": "AC-03-002",
+      "trigger_condition": "Attempt transition from PENDING directly to RETIRED",
+      "expected_outcome": "Transition rejected, actor state remains PENDING",
+      "pass_criterion": "Error returned; actor state unchanged at PENDING",
+      "outcome": "PASS",
+      "execution_time_ms": 34.0,
+      "notes": "PENDING to RETIRED skip rejected and state preserved."
+    },
+    {
+      "test_id": "TC-03-003",
+      "description": "Submission rejection by state — SUSPENDED actor receives 403",
+      "acceptance_criterion": "AC-03-004",
+      "trigger_condition": "Pipeline submission from a SUSPENDED actor",
+      "expected_outcome": "403 ACTOR_UNREGISTERED returned; rejection lineage record written",
+      "pass_criterion": "403 returned; lineage rejection record present",
+      "outcome": "FAIL",
+      "execution_time_ms": 24.0,
+      "notes": "Inactive-state lookup tested; pipeline 403 and rejection lineage integration not exercised."
+    },
+    {
+      "test_id": "TC-03-004",
+      "description": "Registry mutation lineage — every state transition generates a lineage record",
+      "acceptance_criterion": "AC-03-003",
+      "trigger_condition": "Any actor state transition performed",
+      "expected_outcome": "Lineage record written with actor_id, mutation type, operator",
+      "pass_criterion": "Record present, action: MUTATED, all required fields populated",
+      "outcome": "PASS",
+      "execution_time_ms": 70.0,
+      "notes": "Registration and activation produced MUTATED records."
+    },
+    {
+      "test_id": "TC-03-005",
+      "description": "actor_id format enforcement — malformed actor_id rejected at registration",
+      "acceptance_criterion": "AC-03-005",
+      "trigger_condition": "Registration attempt with actor_id not matching ACT-YYYYMMDD-NNNN",
+      "expected_outcome": "Registration rejected; no actor created",
+      "pass_criterion": "Error returned; actor absent from registry",
+      "outcome": "PASS",
+      "execution_time_ms": 12.0,
+      "notes": "Malformed actor_id rejected without creation."
+    },
+    {
+      "test_id": "TC-03-006",
+      "description": "Lookup performance — O(1) average lookup in 10,000-actor registry",
+      "acceptance_criterion": "AC-03-006",
+      "trigger_condition": "Seed registry with 10,000 actors; run 100 random lookups",
+      "expected_outcome": "Average lookup time ≤5ms",
+      "pass_criterion": "Mean of 100 lookup times ≤5ms",
+      "outcome": "FAIL",
+      "execution_time_ms": 59.0,
+      "notes": "Single lookup exercised; 10,000-actor registry and 100-trial <=5ms benchmark not executed."
+    },
+    {
+      "test_id": "TC-03-007",
+      "description": "Registry export — full actor list returned with no credentials exposed",
+      "acceptance_criterion": "AC-03-007",
+      "trigger_condition": "Operator triggers full registry export",
+      "expected_outcome": "All actors returned; no credentials or secrets in output",
+      "pass_criterion": "Export contains all actor fields; credential fields absent or redacted",
+      "outcome": "PASS",
+      "execution_time_ms": 65.0,
+      "notes": "Export contained actor records and no credential fields."
+    },
+    {
+      "test_id": "TC-03-008",
+      "description": "Bootstrap credential rotation — old credential rejected after rotation",
+      "acceptance_criterion": "AC-03-008",
+      "trigger_condition": "Rotate bootstrap credential after registry is seeded with an ACTIVE human actor",
+      "expected_outcome": "Old credential returns 403; new credential active",
+      "pass_criterion": "Old credential rejected; new credential accepted",
+      "outcome": "FAIL",
+      "execution_time_ms": 16.0,
+      "notes": "Credential rotation tested, but not after seeding an ACTIVE human actor."
+    },
+    {
+      "test_id": "TC-03-009",
+      "description": "RETIRED actor permanent block — RETIRED actor cannot submit and state cannot be changed",
+      "acceptance_criterion": "AC-03-002 / AC-03-004",
+      "trigger_condition": "Retire an actor; attempt submission; attempt state change from RETIRED",
+      "expected_outcome": "403 on submission; state change from RETIRED rejected permanently",
+      "pass_criterion": "Submission rejected; no state transition from RETIRED possible",
+      "outcome": "FAIL",
+      "execution_time_ms": 136.0,
+      "notes": "Terminal transition tested; retired-actor pipeline submission and 403 were not exercised."
+    }
+  ],
+  "_additional_test_cases_note": "Append any implementation-side test cases beyond the spec-defined set below. total_cases, passed, failed, skipped must reflect all cases including additions.",
+  "additional_test_cases": [
+    {
+      "test_id": "ADD-03-001",
+      "pytest_node": "GovernanceEngineTests::test_rejects_unknown_actor",
+      "description": "rejects unknown actor",
+      "outcome": "PASS",
+      "execution_time_ms": 8.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    }
+  ],
+  "total_cases": 10,
+  "passed": 5,
+  "failed": 5,
+  "skipped": 0,
+  "overall_result": "FAIL",
+  "anomalies": "Pytest full suite passed 45/45, but strict gate mapping identified spec cases not exercised at required production fidelity. Production target equivalence and Windows filesystem type are unverified. executed_by uses candidate harness actor ID; no durable production actor binding was available.",
+  "submitted_for_ratification": null,
+  "_amendment_target": "AMD-v2.4.0-GATE-03-CLOSED",
+  "_minimum_passing_threshold": "9/9 spec-defined cases (plus all additional cases)"
+}

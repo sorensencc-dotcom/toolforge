@@ -1,0 +1,59 @@
+{
+  "id": "automation-audit",
+  "name": "Automation Audit",
+  "version": "1.0.0",
+  "description": "Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)",
+  "author": "Soren (Cast Iron Forge)",
+  "license": "MIT",
+  "category": "operations",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "keywords": [
+    "automation",
+    "devops-audit",
+    "log-rotation",
+    "backup-retention"
+  ],
+  "commands": {
+    "invoke": "automation-audit",
+    "usage": "automation-audit [--repoRoot=path] [--logSizeMB=10] [--backupItemThreshold=10]"
+  },
+  "inputs": {
+    "repoRoot": "string (optional, default cwd)",
+    "logSizeMB": "number (optional, default 10) — logs above this size flagged for rotation",
+    "backupItemThreshold": "number (optional, default 10) — folders with more items flagged for retention policy",
+    "manualMarkerPattern": "RegExp source (optional, default /\\b(TODO|manual)\\b/i) — script comments flagged as manual steps",
+    "excludeDirs": "array<string> (optional, default node_modules,.git,dist,build)"
+  },
+  "outputs": {
+    "auditReport": {
+      "scanTimestamp": "ISO 8601",
+      "repoRoot": "string",
+      "totalOpportunities": "number",
+      "byPriority": "{high, medium, low}",
+      "byCategory": "object",
+      "opportunities": "array<Opportunity>"
+    }
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "errorConditions": [
+    {
+      "code": "REPO_ROOT_NOT_FOUND",
+      "message": "repoRoot does not exist",
+      "handler": "fail"
+    }
+  ],
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "search",
+      "registrationPath": "cowork://toolforge/skills/automation-audit",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Read-only repo scan for automation opportunities: log rotation, backup retention, manual-step markers."
+}

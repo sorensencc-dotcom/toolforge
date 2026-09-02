@@ -1,0 +1,26 @@
+{
+  "id": "permission-governor",
+  "name": "Permission Governor",
+  "version": "1.0.0",
+  "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
+  "category": "validation",
+  "triggers": [
+    "permission-governor",
+    "permission manager",
+    "whitelist tool",
+    "bottlenecks"
+  ],
+  "role": "ops",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "shield",
+      "registrationPath": "cowork://toolforge/skills/permission-governor",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Auto-approval of whitelisted operations, cache and bottleneck analysis"
+}

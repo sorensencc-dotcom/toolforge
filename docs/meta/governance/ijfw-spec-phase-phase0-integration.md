@@ -1,3 +1,10 @@
+---
+title: ijfw-spec-phase Integration — Phase 0 Gate
+date: 2026-07-11
+status: ACTIVE
+owner: Tier2 (Operators)
+---
+
 # ijfw-spec-phase Workflow: Phase 0 Gate Integration
 
 **Purpose:** Integrate Phase 0 Pattern Research Gate into ijfw-spec-phase process. Phase 0 decision gate inserted before Phase 1 charter lock.

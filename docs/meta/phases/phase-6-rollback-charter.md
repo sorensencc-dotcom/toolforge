@@ -1,3 +1,13 @@
+---
+title: Phase 6 Scope Charter — Rollback Execution Engine
+date: 2026-07-11
+status: TIER1_APPROVED
+decision: APPROVED_CONDITIONAL
+approved_date: 2026-07-11
+critical_path: false
+deadline: 2026-07-18
+---
+
 # Phase 6 Scope Charter — Rollback Execution Engine
 
 ## Executive Summary

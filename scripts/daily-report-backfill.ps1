@@ -1,0 +1,330 @@
+# Daily Report Backfill v1.0
+# Generates historical daily reports for a specified date range
+# Phase 4 Phase 0: prepare data for verification and scheduled agent testing
+
+param(
+    [Parameter(Mandatory = $true)]
+    [DateTime]$StartDate,
+
+    [DateTime]$EndDate = (Get-Date),
+
+    [string]$RepoRoot = "C:\dev",
+
+    [switch]$ShowVerbose
+)
+
+$ErrorActionPreference = "Continue"
+$Verbose = $ShowVerbose
+
+# ============================================================================
+# Configuration
+# ============================================================================
+
+$reportsDir = Join-Path $RepoRoot "docs\reports\daily"
+$createdReports = @()
+$failedReports = @()
+
+# ============================================================================
+# Helper Functions
+# ============================================================================
+
+function Get-BackfillDates {
+    <#
+    .SYNOPSIS
+    Generate array of dates in range (inclusive)
+    #>
+    param(
+        [DateTime]$start,
+        [DateTime]$end
+    )
+
+    $dates = @()
+    $current = $start.Date
+    $endDate = $end.Date
+
+    while ($current -le $endDate) {
+        $dates += $current
+        $current = $current.AddDays(1)
+    }
+
+    return $dates
+}
+
+function Get-BackfillReportPath {
+    <#
+    .SYNOPSIS
+    Return path for backfill report for a specific date
+    #>
+    param(
+        [string]$repoRoot,
+        [DateTime]$reportDate
+    )
+
+    $dateStr = $reportDate.ToString("yyyy-MM-dd")
+    return Join-Path $repoRoot "docs\reports\daily\$dateStr.md"
+}
+
+function Get-CommitsSinceDate {
+    <#
+    .SYNOPSIS
+    Get commits from a 24-hour window for backfill
+    .NOTES
+    Reused from daily-report-agent.ps1, adapted for specific date window
+    #>
+    param(
+        [string]$repoRoot,
+        [DateTime]$startTime,
+        [DateTime]$endTime
+    )
+
+    $repos = Get-ChildItem $repoRoot -Directory -ErrorAction SilentlyContinue |
+        Where-Object { Test-Path "$($_.FullName)\.git" }
+
+    $commits = @()
+    foreach ($repo in $repos) {
+        try {
+            $log = & git -C $repo.FullName log --since $startTime --until $endTime --format="%h|%s|%ae|%ai" 2>&1
+            if ($log) {
+                $log | ForEach-Object {
+                    $parts = $_ -split '\|'
+                    if ($parts.Count -eq 4) {
+                        $commits += @{
+                            hash = $parts[0]
+                            message = $parts[1]
+                            author = $parts[2]
+                            date = $parts[3]
+                            repo = $repo.Name
+                        }
+                    }
+                }
+            }
+        } catch {
+            Write-Host "Warning: git log failed for $($repo.Name): $_" -ForegroundColor Yellow
+        }
+    }
+    return $commits
+}
+
+function Get-StubMetrics {
+    <#
+    .SYNOPSIS
+    Generate stub metrics for backfill report
+    .NOTES
+    Uses commit count as primary metric. Other metrics are zeroed for backfill.
+    #>
+    param(
+        [array]$commits
+    )
+
+    $metrics = @{
+        commits = $commits.Count
+        filesChanged = 0
+        skillsCount = 0
+        testsRun = 0
+        testsPassed = 0
+        tokens = 0
+        model = "backfill-stub"
+        coworkSessions = 0
+        concurrentAgents = 0
+        handoffs = 0
+    }
+
+    return $metrics
+}
+
+function New-BackfillReport {
+    <#
+    .SYNOPSIS
+    Generate backfill daily report markdown
+    #>
+    param(
+        [array]$commits,
+        [object]$metrics,
+        [DateTime]$reportDate
+    )
+
+    $dateStr = $reportDate.ToString("yyyy-MM-dd")
+    $dayOfWeek = $reportDate.DayOfWeek.ToString()
+
+    # Build metrics table
+    $metricsMarkdown = @"
+| Metric | Count |
+|--------|-------|
+| Commits | $($metrics.commits) |
+| Files Changed | $($metrics.filesChanged) |
+| Skills Invoked | $($metrics.skillsCount) |
+| Tests Run | $($metrics.testsRun) |
+| Tests Passed | $($metrics.testsPassed) |
+| Tokens Used | $([string]::Format("{0:N0}", $metrics.tokens)) |
+| Models Used | $($metrics.model) |
+| Cowork Sessions | $($metrics.coworkSessions) |
+| Concurrent Agents | $($metrics.concurrentAgents) |
+| Handoffs | $($metrics.handoffs) |
+"@
+
+    # Build commits section
+    $commitsSummary = ""
+    if ($commits.Count -gt 0) {
+        $commitsSummary += "### Commits`n`n"
+        $commits | Group-Object -Property repo | ForEach-Object {
+            $commitsSummary += "**$($_.Name):** $($_.Count) commit(s)`n"
+            $_.Group | ForEach-Object {
+                $commitsSummary += "  - $($_.hash): $($_.message)`n"
+            }
+        }
+    } else {
+        $commitsSummary += "### Commits`n`n(No commits recorded for this day)`n"
+    }
+
+    # Build final report
+    $report = @"
+# Daily Report: $dateStr ($dayOfWeek)
+
+## Metrics
+
+$metricsMarkdown
+
+## Summary
+
+$commitsSummary
+
+---
+*This report was generated by the daily report backfill system for historical data preparation.*
+"@
+
+    return $report
+}
+
+function Invoke-DailyReportBackfill {
+    <#
+    .SYNOPSIS
+    Main backfill orchestrator - loops through date range and generates reports
+    #>
+    param(
+        [DateTime]$startDate,
+        [DateTime]$endDate,
+        [string]$repoRoot
+    )
+
+    # Ensure reports directory exists
+    if (-not (Test-Path $reportsDir)) {
+        New-Item -ItemType Directory -Path $reportsDir -Force | Out-Null
+        if ($Verbose) { Write-Host "Created reports directory: $reportsDir" }
+    }
+
+    # Get date range
+    $dates = Get-BackfillDates -start $startDate -end $endDate
+    Write-Host "Backfilling daily reports from $($startDate.ToString('yyyy-MM-dd')) to $($endDate.ToString('yyyy-MM-dd')) ($($dates.Count) days)" -ForegroundColor Cyan
+
+    $successCount = 0
+    $failureCount = 0
+
+    foreach ($date in $dates) {
+        $dateStr = $date.ToString("yyyy-MM-dd")
+        $reportPath = Get-BackfillReportPath -repoRoot $repoRoot -reportDate $date
+
+        try {
+            # Skip if report already exists
+            if (Test-Path $reportPath) {
+                if ($Verbose) {
+                    Write-Host "  Skipping $dateStr - report already exists" -ForegroundColor Gray
+                }
+                continue
+            }
+
+            # Get commits for this day (24-hour window)
+            $dayStart = $date
+            $dayEnd = $date.AddDays(1)
+            $commits = Get-CommitsSinceDate -repoRoot $repoRoot -startTime $dayStart -endTime $dayEnd
+
+            # Generate stub metrics
+            $metrics = Get-StubMetrics -commits $commits
+
+            # Create report
+            $report = New-BackfillReport -commits $commits -metrics $metrics -reportDate $date
+
+            # Write report file
+            Set-Content -Path $reportPath -Value $report -Encoding UTF8
+
+            # Commit to git
+            try {
+                & git -C $repoRoot add $reportPath 2>&1 | Out-Null
+                & git -C $repoRoot commit -m "docs(report): backfill daily report for $dateStr" 2>&1 | Out-Null
+            } catch {
+                Write-Host "  Warning: Failed to commit report for $dateStr`: $_" -ForegroundColor Yellow
+                $failureCount++
+                $failedReports += $dateStr
+                continue
+            }
+
+            $successCount++
+            $createdReports += $dateStr
+            Write-Host "  ✓ $dateStr - $($commits.Count) commits" -ForegroundColor Green
+
+        } catch {
+            Write-Host "  ✗ Failed to process $dateStr`: $_" -ForegroundColor Red
+            $failureCount++
+            $failedReports += $dateStr
+        }
+    }
+
+    # Return summary
+    $summary = @{
+        startDate = $startDate
+        endDate = $endDate
+        daysProcessed = $dates.Count
+        reportsCreated = $successCount
+        reportsFailed = $failureCount
+        createdReports = $createdReports
+        failedReports = $failedReports
+    }
+
+    return $summary
+}
+
+# ============================================================================
+# Main
+# ============================================================================
+
+Write-Host "Daily Report Backfill v1.0" -ForegroundColor Cyan
+Write-Host "Repository root: $RepoRoot"
+Write-Host ""
+
+# Validate parameters
+if ($StartDate -gt $EndDate) {
+    Write-Host "Error: StartDate ($($StartDate.ToString('yyyy-MM-dd'))) must be before or equal to EndDate ($($EndDate.ToString('yyyy-MM-dd')))" -ForegroundColor Red
+    exit 1
+}
+
+# Run backfill
+$result = Invoke-DailyReportBackfill -startDate $StartDate -endDate $EndDate -repoRoot $RepoRoot
+
+# Print summary
+Write-Host ""
+Write-Host "=== Backfill Summary ===" -ForegroundColor Cyan
+Write-Host "Date range: $($result.startDate.ToString('yyyy-MM-dd')) to $($result.endDate.ToString('yyyy-MM-dd'))"
+Write-Host "Days processed: $($result.daysProcessed)"
+Write-Host "Reports created: $($result.reportsCreated)" -ForegroundColor Green
+Write-Host "Reports failed: $($result.reportsFailed)" -ForegroundColor $(if ($result.reportsFailed -gt 0) { "Red" } else { "Green" })
+
+if ($result.createdReports.Count -gt 0) {
+    Write-Host ""
+    Write-Host "Created reports:" -ForegroundColor Green
+    $result.createdReports | ForEach-Object {
+        Write-Host "  - $_"
+    }
+}
+
+if ($result.failedReports.Count -gt 0) {
+    Write-Host ""
+    Write-Host "Failed reports:" -ForegroundColor Red
+    $result.failedReports | ForEach-Object {
+        Write-Host "  - $_"
+    }
+}
+
+Write-Host ""
+Write-Host "Backfill complete." -ForegroundColor Cyan
+
+# Return result for script consumers
+$result

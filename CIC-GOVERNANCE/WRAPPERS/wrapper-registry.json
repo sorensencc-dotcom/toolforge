@@ -1,0 +1,16 @@
+{
+  "registry_version": "1.0.0-draft",
+  "status": "CANDIDATE",
+  "wrappers": [
+    {
+      "wrapper_id": "WRP-0024",
+      "wrapper_version": "3.1.0-candidate.1",
+      "spec_version_pinned": "2.4.0",
+      "status": "CANDIDATE",
+      "release_date": null,
+      "retirement_date": null,
+      "compatibility_notes": "Local validation candidate; requires Tier 1 ratification before activation.",
+      "entry_point": "Codex-Governance-Engine-Wrapper.py"
+    }
+  ]
+}

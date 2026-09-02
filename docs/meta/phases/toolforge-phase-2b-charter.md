@@ -1,3 +1,12 @@
+---
+title: Toolforge Phase 2b Charter — Dashboard v2, Execution History & Release Automation
+date: 2026-07-11
+status: TIER1_APPROVAL_PENDING
+decision: APPROVED_FOR_EXECUTION
+critical_path: true
+deadline: 2026-08-01
+---
+
 # Toolforge Phase 2b Charter — Dashboard v2, Execution History & Release Automation
 
 ## Executive Summary

@@ -1,0 +1,10 @@
+{
+  "id": "TC-04",
+  "title": "Hash-chain corruption detection",
+  "fault_injection": "flip bits in hash_chain_self",
+  "expected": [
+    "Extractor rejects artifact",
+    "Governance wrapper logs corruption",
+    "Pipeline halts"
+  ]
+}

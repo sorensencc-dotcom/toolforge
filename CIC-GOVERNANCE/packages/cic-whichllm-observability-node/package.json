@@ -1,0 +1,20 @@
+{
+  "name": "@cic/whichllm-observability-node",
+  "version": "1.0.0",
+  "description": "CIC-WHICHLLM Observability Node v1.0 — standalone metrics daemon, lineage integrity monitor, and alert dispatcher.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "main": "./src/index.js",
+  "bin": {
+    "cic-whichllm-observability-node": "./bin/cic-whichllm-observability-node.js"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "node bin/cic-whichllm-observability-node.js"
+  },
+  "dependencies": {
+    "@cic/whichllm-integration-pack": "file:../cic-whichllm-integration-pack"
+  }
+}

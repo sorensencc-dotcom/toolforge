@@ -1,3 +1,12 @@
+---
+title: Governance Amendment — Move Observability Planning to Phase D
+date: 2026-07-11
+status: APPROVED
+amendment_type: scope-reallocation
+phase_affected: 4, 5
+retroactive_validation: Phase 27 Wave E
+---
+
 # Governance Amendment: Observability Planning Moved to Phase D
 
 ## Change Summary

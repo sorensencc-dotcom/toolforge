@@ -1,0 +1,19 @@
+{
+  "driver_version": "1.0.0-candidate.1",
+  "gate_id": "GATE-05",
+  "executed_at": "2026-07-14T22:11:24.187745Z",
+  "cases": [
+    {
+      "test_id": "TC-05-001",
+      "outcome": "PASS",
+      "details": {
+        "error_code": "GATES_OPEN",
+        "status_written": false
+      }
+    }
+  ],
+  "total": 1,
+  "passed": 1,
+  "failed": 0,
+  "overall_result": "PASS"
+}

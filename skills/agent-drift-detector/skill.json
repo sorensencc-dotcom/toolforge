@@ -1,0 +1,26 @@
+{
+  "id": "agent-drift-detector",
+  "name": "Agent Drift Detector",
+  "version": "1.0.0",
+  "description": "Detect schema drift in agent messages and APIs",
+  "category": "validation",
+  "triggers": [
+    "agent-drift-detector",
+    "detect drift",
+    "schema drift",
+    "drift check"
+  ],
+  "role": "ops",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "alert-triangle",
+      "registrationPath": "cowork://toolforge/skills/agent-drift-detector",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Detect schema drift in agent messages and APIs"
+}

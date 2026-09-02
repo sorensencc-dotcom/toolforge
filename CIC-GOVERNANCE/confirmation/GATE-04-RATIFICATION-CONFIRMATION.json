@@ -1,0 +1,67 @@
+{
+  "confirmation_id": "CIC-GOV-GATE-04-RATIFICATION-20260714-0001",
+  "status": "RATIFIED_AND_CLOSED",
+  "mode": "GOVERNANCE_RATIFY",
+  "ratified_at": "2026-07-14T16:40:29.277834Z",
+  "verified_at": "2026-07-14T16:44:28.924Z",
+  "gate_id": "GATE-04",
+  "actor": {
+    "actor_id": "ACT-20260714-0001",
+    "state": "ACTIVE",
+    "authority": "Tier 1 (Chris)"
+  },
+  "amendment": {
+    "amendment_id": "AMD-v2.4.0-GATE-04-CLOSED",
+    "status": "RATIFIED",
+    "ratified_by": "Tier 1 (Chris)",
+    "report_id": "CIC-TEST-REPORT-GATE-04-R2"
+  },
+  "closure": {
+    "from": "OPEN",
+    "to": "CLOSED",
+    "closure_lineage_id": "LIN-dd33c1542ff643b7948bcee9d4c864cd",
+    "parent_submission_lineage_id": "LIN-36e65b1721784fdfa5754e113f7e0af1",
+    "lineage_record_hash": "282e356109ee09cff200d5593c315d01d3f16236c233abedc0e83c46398631f1",
+    "lineage_tail_hash": "282e356109ee09cff200d5593c315d01d3f16236c233abedc0e83c46398631f1"
+  },
+  "validation": {
+    "report_result": "PASS",
+    "report_cases": "8/8",
+    "filesystem": "NTFS",
+    "actor_active": true,
+    "submission_lineage_valid": true,
+    "closure_lineage_valid": true,
+    "amendment_registry_finalized": true,
+    "gate_registry_transitioned": true,
+    "full_governance_suite": "46/46 PASS"
+  },
+  "resulting_gate_states": {
+    "GATE-01": "CLOSED",
+    "GATE-02": "OPEN",
+    "GATE-03": "OPEN",
+    "GATE-04": "CLOSED",
+    "GATE-05": "OPEN"
+  },
+  "hash_chain": {
+    "canonical_location": "C:/dev/CIC-GOVERNANCE/LINEAGE/CIC-Lineage-v2.4.jsonl",
+    "encoding": "embedded previous_hash and record_hash",
+    "separate_hash_chain_log_authoritative": false,
+    "valid": true,
+    "record_count": 9
+  },
+  "integrity": {
+    "amendment_sha256": "9da927429928aae75de3530a644491d8c562663d2625b17194235e361076515c",
+    "amendment_registry_sha256": "fc05a58f56a82e1ab6524acbd45b7ece86190a66e7e321911cc3991cdd78d7b0",
+    "gate_registry_sha256": "5e1208e9031020f3e4d24d3ca265120e57489f3ea47fba59ec15a616386e9c21",
+    "manifest_sha256": "7ed95dca31e8234b16f3ca14df85593d90514b9898601c95457fe520685d97fa",
+    "gate_status_sha256": "75fd6c95ce94e40e04f329010dd75800ad681ea36a6897df4e7ff5dfd0395f5e",
+    "lineage_sha256": "9791135dac32f48d0af5d5e43a71bfa2d22633dc7d7ebfe44f5dd2d04b1af601",
+    "report_sha256": "3ddb78bd67fad92990db63bd3f44226fd6036007b1e15424430c4c877da70474"
+  },
+  "governance_effects": {
+    "gate_closed": true,
+    "amendment_ratified": true,
+    "runtime_activated": false,
+    "gate_05_closed": false
+  }
+}

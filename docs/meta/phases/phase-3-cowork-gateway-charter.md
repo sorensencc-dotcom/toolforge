@@ -1,3 +1,13 @@
+---
+title: Phase 3 Scope Charter — Cowork Gateway Integration
+date: 2026-07-10
+status: TIER1_APPROVED
+decision: APPROVED
+approved_date: 2026-07-11
+critical_path: true
+deadline: 2026-07-15
+---
+
 # Phase 3 Scope Charter — Cowork Gateway Integration
 
 ## Executive Summary

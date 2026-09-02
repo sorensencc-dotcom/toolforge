@@ -1,0 +1,72 @@
+{
+  "repair_id": "CIC-GOV-GATE-04-REPAIR-20260714-0001",
+  "mode": "CIC_GOVERNANCE_REPAIR",
+  "status": "REPAIR_REVALIDATED_CANDIDATE",
+  "generated_at": "2026-07-14T14:24:50.085Z",
+  "execution_sequence": 2,
+  "idempotent_repair": true,
+  "requested_actor": "ACT-20260714-0001",
+  "actor_registry_status": "UNREGISTERED_FOR_GOVERNANCE_MUTATION",
+  "target_gate": "GATE-04",
+  "gate_state": "OPEN",
+  "diagnostic_packet": "C:/dev/CIC-GOVERNANCE/confirmation/GATE-04-DIAGNOSTIC.json",
+  "diagnostic_packet_sha256": "343e4197e8565fdfac37af88ff10da4d11d322b4b640fb8f85891405dc2fb102",
+  "implementation_resolution": {
+    "declared_path": "C:/dev/CIC-GOVERNANCE/GATES/GATE-04/",
+    "declared_path_exists": false,
+    "deployed_path": "C:/dev/CIC-GOVERNANCE/WRAPPERS/governance_runtime.py"
+  },
+  "root_cause": "Unfair same-process polling allowed a writer to exhaust the 2000 ms acquisition deadline while peers repeatedly reacquired the atomic file lock.",
+  "repair": {
+    "strategy": "Add fair process-local ticket admission before existing cross-process atomic file lock.",
+    "timeout_contract_preserved_ms": 2000,
+    "cross_process_file_lock_preserved": true,
+    "patch_fault_injection": "TEST_CAPTURE_IMPROVED",
+    "patch_partial_write_handler": "NOT_REQUIRED_VERIFIED_EXISTING",
+    "patch_hash_chain_repair": "NOT_REQUIRED_VERIFIED_EXISTING",
+    "patch_quarantine_logic": "NOT_REQUIRED_VERIFIED_EXISTING",
+    "patch_recovery_path": "REPAIRED_LOCAL_CONTENTION_ADMISSION",
+    "regression_test": "Gate04LineageTests.test_ten_writer_stress now synchronizes writer start and fails explicitly on writer exceptions."
+  },
+  "validation": {
+    "gate04_targeted_suite": {
+      "result": "PASS",
+      "passed": 8,
+      "failed": 0,
+      "elapsed_seconds": 7.80
+    },
+    "post_repair_stress_matrix": {
+      "result": "PASS",
+      "trials": 10,
+      "expected_writes": 1000,
+      "observed_writes": 1000,
+      "writer_failures": 0,
+      "hash_chain_failures": 0,
+      "leftover_locks": 0
+    },
+    "full_governance_suite": {
+      "result": "PASS",
+      "passed": 46,
+      "failed": 0,
+      "elapsed_seconds": 10.86
+    }
+  },
+  "artifact_hashes": {
+    "WRAPPERS/governance_runtime.py": "47c6dc6b9decded39d037a2171a361e7d2900cf89274c7288f808d2c65222bbe",
+    "tests/test_gate_runtime.py": "cd547951f88b4457d0c03f3967c7c32e493ea2dbef3bcdf33695a15803b98b30"
+  },
+  "governance_effects": {
+    "gate_closed": false,
+    "lineage_appended": false,
+    "manifest_modified": false,
+    "gate_registry_modified": false,
+    "amendment_registry_modified": false,
+    "r2_report_generated": false
+  },
+  "remaining_gate04_closure_work": [
+    "Run required process-level contention and crash-kill tests.",
+    "Verify production filesystem behavior directly.",
+    "Generate complete GATE-04 R2 report.",
+    "Submit closure amendment for Tier 1 ratification."
+  ]
+}

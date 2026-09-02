@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-08-30T16:10:05.1097958Z
+**Generated**: 2026-08-30T02:47:53.8223608Z
 
 ---
 
@@ -9,15 +9,15 @@
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 27 | 0 | ✅ |
-| Distributed | 0 | 10 | 0 | ✅ |
+| Distributed | 0 | 9 | 0 | ✅ |
 | Manifest | 0 | 109 | 0 | ✅ |
-| Cowork | 0 | 48 | 0 | ✅ |
+| Cowork | 0 | 47 | 0 | ✅ |
 | Dependencies | 0 | 17 | 1 | ✅ |
-| Runtime | 0 | 0 | 48 | ✅ |
+| Runtime | 0 | 0 | 47 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 211
+**Total Warnings**: 209
 
 **Overall Status**: ✅ PASS
 
@@ -71,7 +71,6 @@
 | trm-devops-triage | TRM DevOps Triage | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ✅ |
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
-| wiki-sync-recovery | Wiki Sync Recovery | 0.1.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | workspace-storage-cleaner | Workspace & Brain Storage Cleaner | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | writing-heuristics | Writing Heuristics and Style Engine | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -119,7 +118,6 @@
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
-⚠️ **wiki-sync-recovery**: Directory missing in distributed
 
 ## Manifest Validation
 
@@ -279,7 +277,6 @@
 ⚠️ **trm-devops-triage**: Not registered (installer will register on next run)
 ⚠️ **trm-feedback-report**: Not registered (installer will register on next run)
 ⚠️ **trm-status**: Not registered (installer will register on next run)
-⚠️ **wiki-sync-recovery**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
 ⚠️ **workspace-storage-cleaner**: Not registered (installer will register on next run)
 ⚠️ **writing-heuristics**: Not registered (installer will register on next run)
@@ -299,8 +296,8 @@
 ⚠️ **trm-closed-loop-research**: Missing external dependency: git
 ⚠️ **trm-closed-loop-research**: Missing external dependency: node
 ⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
-⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
+⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-status**: Missing external dependency: git
 ⚠️ **workspace-storage-cleaner**: Missing external dependency: python3
 
@@ -350,7 +347,6 @@
 ℹ️ **trm-devops-triage**: Discoverable
 ℹ️ **trm-feedback-report**: Skill inactive (status: )
 ℹ️ **trm-status**: Discoverable
-ℹ️ **wiki-sync-recovery**: Skill inactive (status: )
 ℹ️ **work-summarizer**: Skill inactive (status: )
 ℹ️ **workspace-storage-cleaner**: Skill inactive (status: )
 ℹ️ **writing-heuristics**: Skill inactive (status: )

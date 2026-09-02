@@ -1,3 +1,16 @@
+---
+title: Phase 7 Sub-Charter — Config & Feature Flag Rollback Validation
+date: 2026-07-11
+status: DRAFT
+decision: PENDING_TIER1_REVIEW
+approved_date: null
+critical_path: true
+deadline: 2026-07-22
+review_status: CONDITIONAL_PASS
+review_date: 2026-07-11
+review_document: phase-7-rollback-config-featureflag-charter-REVIEW.md
+---
+
 # Phase 7 Sub-Charter — Config & Feature Flag Rollback Validation
 
 ## Executive Summary

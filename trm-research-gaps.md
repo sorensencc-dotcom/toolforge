@@ -1,3 +1,18 @@
+---
+source_title: "Mined Research Gaps and Topics Registry"
+repository: "CIC Research Protocols — Live Vault Snapshot"
+document_date: "2026-08-30"
+verification_status: "verified"
+category: daily
+notebook_id: 1b4861a3-931f-4632-8fc1-343a8dd37df8
+status: active
+generated_at: 2026-08-30T02:01:21.876Z
+evaluated_model: "llama3:8b-instruct-fp16"
+bfcl_score: 0.694
+hash_chain_self: "7c762b0b7041a28fa1a129cf7cb4f47a921aea778e95daf01e5271636d20af83"
+vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
+---
+
 <!-- Snapshot consolidated from trm-vault by run-closed-loop-research-v2.mjs -->
 # Research Gaps: Willow Run Videos
 

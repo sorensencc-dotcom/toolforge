@@ -1,3 +1,13 @@
+---
+source_title: "FCSC Record: Ford Continental Asset Settlement"
+repository: "foreign_claims_settlement"
+document_date: "1948-11-15"
+verification_status: "verified"
+category: "ford-politics"
+topic: "gap-ford-socony-vacuum"
+status: "active"
+last_updated: "2026-08-30T02:41:49.918Z"
+---
 # FCSC Record: Ford Continental Asset Settlement
 
 ## Summary

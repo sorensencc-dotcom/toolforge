@@ -1,3 +1,12 @@
+---
+title: Phase 2.B Scope Charter — Optional Migrations
+date: 2026-07-10
+status: TIER1_APPROVED_DEFER
+approved_date: 2026-07-10
+decision_date: 2026-07-10
+decision: DEFER
+---
+
 # Phase 2.B Scope Charter — Optional Migrations
 
 ## Executive Summary

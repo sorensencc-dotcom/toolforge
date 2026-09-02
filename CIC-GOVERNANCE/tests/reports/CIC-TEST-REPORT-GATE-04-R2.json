@@ -1,0 +1,240 @@
+{
+  "report_id": "CIC-TEST-REPORT-GATE-04-R2",
+  "supersedes": "CIC-TEST-REPORT-GATE-04",
+  "gate_id": "GATE-04",
+  "gate_name": "Cross-Process Lineage Locking",
+  "spec_version": "2.4.0",
+  "gate_closure_spec_version": "1.0.1-candidate.1",
+  "gate_closure_spec_ref": "CIC-GATE-SPEC-001 section 6",
+  "executed_by": "ACT-20260714-0001",
+  "actor_registry_state": "ACTIVE",
+  "execution_timestamp": "2026-07-14T14:51:49.139640Z",
+  "test_environment": {
+    "platform": "win32",
+    "python": "3.12.2",
+    "filesystem": "NTFS",
+    "root": "C:/dev/CIC-GOVERNANCE"
+  },
+  "test_cases": [
+    {
+      "test_id": "TC-04-001",
+      "description": "Two-process exclusive lineage lock",
+      "acceptance_criterion": "AC-04-001",
+      "expected_outcome": "Second process waits for lock, then appends without overlap or loss.",
+      "outcome": "PASS",
+      "execution_time_ms": 813.0,
+      "failure": null,
+      "evidence": {
+        "wait_ms": 313.0,
+        "holder_exit": 0,
+        "hash_chain": {
+          "valid": true,
+          "count": 1,
+          "tail_hash": "4a918c47e3a17f355e7a1016df6750230213eb4166d0bbf31d9d504b062ec891"
+        }
+      }
+    },
+    {
+      "test_id": "TC-04-002",
+      "description": "Default lock timeout",
+      "acceptance_criterion": "AC-04-002 / AC-04-003",
+      "expected_outcome": "Contender returns LINEAGE_CONFLICT within 2100 ms.",
+      "outcome": "PASS",
+      "execution_time_ms": 2890.0,
+      "failure": null,
+      "evidence": {
+        "code": "LINEAGE_CONFLICT",
+        "elapsed_ms": 2000.0,
+        "holder_exit": 0
+      }
+    },
+    {
+      "test_id": "TC-04-003",
+      "description": "Stale lock expiry",
+      "acceptance_criterion": "AC-04-004",
+      "expected_outcome": "Lock older than 30 seconds is removed and append succeeds.",
+      "outcome": "PASS",
+      "execution_time_ms": 32.0,
+      "failure": null,
+      "evidence": {
+        "hash_chain": {
+          "valid": true,
+          "count": 1,
+          "tail_hash": "1eaf1ebab45896b1ff6541cb184212c5abe5e275529f02541e4a1436a819eb80"
+        }
+      }
+    },
+    {
+      "test_id": "TC-04-004",
+      "description": "Fifty-process lineage ID uniqueness",
+      "acceptance_criterion": "AC-04-005",
+      "expected_outcome": "Fifty commits produce fifty unique lineage IDs.",
+      "outcome": "PASS",
+      "execution_time_ms": 4781.0,
+      "failure": null,
+      "evidence": {
+        "expected_writes": 50,
+        "observed_writes": 50,
+        "elapsed_ms": 3578.0,
+        "worker_messages": 50,
+        "exit_codes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "hung_processes": [],
+        "writer_failures": [],
+        "unique_lineage_ids": 50,
+        "hash_chain": {
+          "valid": true,
+          "count": 50,
+          "tail_hash": "829fbe1db86f15bcf48eead5be652e64ddfa370ec183ae246cdbb6cfda23a382"
+        },
+        "lock_leftover": false
+      }
+    },
+    {
+      "test_id": "TC-04-005",
+      "description": "Crash during lineage write",
+      "acceptance_criterion": "AC-04-006",
+      "expected_outcome": "Partial bytes are quarantined and CORRUPT_RECORD evidence is appended.",
+      "outcome": "PASS",
+      "execution_time_ms": 484.0,
+      "failure": null,
+      "evidence": {
+        "worker_exit": 17,
+        "quarantine": "tc005.jsonl.corrupt-c3a61a9f98eb4082b258fa634c4bc077",
+        "hash_chain": {
+          "valid": true,
+          "count": 2,
+          "tail_hash": "6a0b4cf2e88031c62fef743e0b40e0fd842a7fa04b532c98bd9419834ac175c5"
+        }
+      }
+    },
+    {
+      "test_id": "TC-04-006",
+      "description": "One hundred-record hash chain",
+      "acceptance_criterion": "AC-04-007",
+      "expected_outcome": "One hundred sequential records verify end to end.",
+      "outcome": "PASS",
+      "execution_time_ms": 3032.0,
+      "failure": null,
+      "evidence": {
+        "hash_chain": {
+          "valid": true,
+          "count": 100,
+          "tail_hash": "0626cff8cad40b3cf0529d2822607f91222ddc303ec05b46bdf18e34e561d4fa"
+        }
+      }
+    },
+    {
+      "test_id": "TC-04-007",
+      "description": "Exact hash-break detection",
+      "acceptance_criterion": "AC-04-007",
+      "expected_outcome": "Integrity audit identifies exact corrupted record.",
+      "outcome": "PASS",
+      "execution_time_ms": 2859.0,
+      "failure": null,
+      "evidence": {
+        "hash_chain": {
+          "valid": false,
+          "corrupt_record": 50
+        }
+      }
+    },
+    {
+      "test_id": "TC-04-008",
+      "description": "Ten-process, one-hundred-write stress",
+      "acceptance_criterion": "AC-04-008",
+      "expected_outcome": "Exactly one hundred valid records; no loss, corruption, or hung process.",
+      "outcome": "PASS",
+      "execution_time_ms": 3469.0,
+      "failure": null,
+      "evidence": {
+        "expected_writes": 100,
+        "observed_writes": 100,
+        "elapsed_ms": 3296.0,
+        "worker_messages": 10,
+        "exit_codes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "hung_processes": [],
+        "writer_failures": [],
+        "unique_lineage_ids": 100,
+        "hash_chain": {
+          "valid": true,
+          "count": 100,
+          "tail_hash": "59de8e3cbab2920c6e9fc41039fd96be87d0dc8cb4ad360a122b01c921ec50d0"
+        },
+        "lock_leftover": false
+      }
+    }
+  ],
+  "additional_test_cases": [],
+  "total_cases": 8,
+  "passed": 8,
+  "failed": 0,
+  "skipped": 0,
+  "overall_result": "PASS",
+  "anomalies": null,
+  "submitted_for_ratification": "2026-07-14T15:59:02.558357Z",
+  "_amendment_target": "AMD-v2.4.0-GATE-04-CLOSED",
+  "_minimum_passing_threshold": "8/8 process-level cases",
+  "_submission_ready": true
+}

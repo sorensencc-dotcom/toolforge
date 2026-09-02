@@ -1,0 +1,27 @@
+{
+  "name": "ashfall",
+  "version": "1.0.0",
+  "description": "Deterministic session-termination and context-handoff engine",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "invoke": "node -r ts-node/register src/index.ts"
+  },
+  "keywords": [
+    "session-management",
+    "context-handoff",
+    "audit"
+  ],
+  "author": "Soren",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}

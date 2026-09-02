@@ -1,0 +1,9 @@
+{
+  "id": "TC-05",
+  "title": "Actor registry binding validation",
+  "expected": [
+    "executed_by matches durable actor",
+    "No anonymous actor allowed",
+    "Registry signature verified"
+  ]
+}

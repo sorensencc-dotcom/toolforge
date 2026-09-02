@@ -1,0 +1,59 @@
+{
+  "name": "@cic/whichllm-integration-pack",
+  "version": "1.1.0",
+  "description": "CIC-WHICHLLM Integration Pack v1.0 — deterministic adapter, governance wrapper, lineage contract, harvester registry, test suite, and observability dashboard node. CIC Spec v2.4.0 / Amendment §2/S3-A1.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./adapter": "./src/adapter/whichllm-adapter.js",
+    "./governance": "./src/governance/governance-wrapper.js",
+    "./lineage": "./src/lineage/lineage-contract.js",
+    "./harvester": "./src/harvester/harvester-registry.js",
+    "./observability": "./src/observability/adapter-observer.js",
+    "./schemas/*": "./schemas/*"
+  },
+  "scripts": {
+    "test": "node --test --experimental-test-coverage tests/unit/*.test.js tests/integration/*.test.js tests/e2e/*.test.js",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "test:integration": "node --test tests/integration/*.test.js",
+    "test:e2e": "node --test tests/e2e/*.test.js",
+    "test:watch": "node --test --watch tests/unit/*.test.js",
+    "lint": "node --check src/**/*.js tests/**/*.test.js",
+    "health": "node scripts/health-check.js",
+    "observe": "node scripts/start-observer.js",
+    "validate-schema": "node scripts/validate-schema.js"
+  },
+  "keywords": [
+    "cic",
+    "whichllm",
+    "governance",
+    "lineage",
+    "llm",
+    "adapter",
+    "observability",
+    "deterministic"
+  ],
+  "license": "UNLICENSED",
+  "files": [
+    "src/",
+    "schemas/",
+    "scripts/",
+    "config/",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "dependencies": {
+    "@cic/delivery-guard": "*"
+  },
+  "devDependencies": {},
+  "cic": {
+    "specVersion": "2.4.0",
+    "amendmentRef": "§2/S3-A1",
+    "packVersion": "1.0.0",
+    "buildDate": "2026-08-23"
+  }
+}

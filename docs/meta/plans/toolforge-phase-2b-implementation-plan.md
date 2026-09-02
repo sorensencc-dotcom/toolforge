@@ -1,3 +1,10 @@
+---
+title: Toolforge Phase 2b Implementation Plan — Step-by-Step Specification
+date: 2026-07-11
+status: DRAFT
+version: 1.0
+---
+
 # Toolforge Phase 2b Implementation Plan
 
 Detailed specification for each of 4 execution steps (Step 1–4). This plan is executable — every file, function, route, and test is specified deterministically.

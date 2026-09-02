@@ -1,3 +1,10 @@
+---
+title: CIC + Rewrite Labs Global Rules — Amendment v1.3 → v1.4
+description: Section 12 (Charter Lifecycle & Audit-First Scope Lock) addition
+date: 2026-07-11
+type: amendment
+---
+
 # Amendment: v1.3 → v1.4
 
 **Document:** CIC + Rewrite Labs Global Rules  

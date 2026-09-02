@@ -1,0 +1,13 @@
+{"timestamp": "2026-08-23T22:12:13.145888+00:00", "action": "COMMITTED_CANONICAL", "factKey": "fact-unit-test-001", "taskId": "TASK-TEST-001", "status": "validated", "auditVerdict": "passed"}
+{"timestamp": "2026-08-24T01:34:05.902714+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T01:34:11.171110+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T01:34:20.719580+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T01:48:45.772073+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T01:48:55.971889+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T01:57:04.438512+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T01:57:31.924033+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T02:08:41.844846+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T02:08:45.660735+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T02:09:24.745992+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T02:12:02.154614+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}
+{"timestamp": "2026-08-24T02:15:50.524803+00:00", "action": "ADJUDICATED_CONTRADICTED", "factKey": "fact-test-staged-001", "status": "contradicted", "details": "Testing contradiction link"}

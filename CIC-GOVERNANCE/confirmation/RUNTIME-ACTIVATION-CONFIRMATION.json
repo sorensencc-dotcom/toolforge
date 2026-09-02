@@ -1,0 +1,13 @@
+{
+  "status": "ACTIVE",
+  "runtime_activated": true,
+  "declaration_id": "CIC-ACTIVATION-20260714-0001",
+  "activation_lineage_id": "LIN-ce71078bb0f740609fc815842e7f4142",
+  "lineage_tail_hash": "9ac84b67beca4c61c509a1a489ea22dcbab2dd2257a1a9860e90dce3d3f5c562",
+  "gate_closure_references": [
+    "AMD-v2.4.0-GATE-01-CLOSED",
+    "AMD-v2.4.0-GATE-02-CLOSED",
+    "AMD-v2.4.0-GATE-03-CLOSED",
+    "AMD-v2.4.0-GATE-04-CLOSED"
+  ]
+}

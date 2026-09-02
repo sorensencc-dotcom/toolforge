@@ -1,0 +1,25 @@
+{
+  "name": "permission-governor",
+  "version": "1.0.0",
+  "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+  },
+  "keywords": [
+    "permissions",
+    "access-control",
+    "audit"
+  ],
+  "author": "Soren",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,3 +1,11 @@
+---
+title: Phase 4 Observability Contract — Governance & Canary
+date: 2026-07-11
+status: LOCKED
+phase_gate: Phase D (before agent dispatch)
+approval_status: TIER1_APPROVED
+---
+
 # Phase 4 Observability Contract
 
 **Gate Status:** ✅ LOCKED (Phase D entry requirement)  

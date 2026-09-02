@@ -1,4 +1,14 @@
--
+---
+title: "Mobile Browser WebSocket Heartbeats Specification & Analysis"
+source_title: "Mobile Browser WebSocket Heartbeats Specification & Analysis"
+repository: "CIC Architecture & Research Archive - Accession 65, Box 69"
+document_date: "2026-08-30"
+verification_status: "verified"
+category: "willow-run"
+topic: mobile-websocket-heartbeats
+status: active
+last_updated: 2026-08-30T02:01:19.240109+00:00
+---
 # Mobile Browser WebSocket Heartbeats
 
 Mobile operating systems heavily throttle background JS intervals (e.g., locking `setInterval` to 1 ping/minute or pausing it entirely). 

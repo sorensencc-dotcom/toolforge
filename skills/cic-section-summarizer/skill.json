@@ -1,0 +1,26 @@
+{
+  "id": "cic-section-summarizer",
+  "name": "CIC Section Summarizer",
+  "version": "1.0.0",
+  "description": "Auto-summarize CIC phase progress and files reviewed",
+  "category": "analysis",
+  "triggers": [
+    "cic-section-summarizer",
+    "summarize section",
+    "section progress",
+    "phase summary"
+  ],
+  "role": "ops",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "book-open",
+      "registrationPath": "cowork://toolforge/skills/cic-section-summarizer",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Auto-summarize CIC phase progress and files reviewed"
+}

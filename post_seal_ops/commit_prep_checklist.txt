@@ -1,0 +1,17 @@
+Commit Prep Checklist — post_seal_ops
+-------------------------------------
+[ ] post_seal_ops.yaml validated
+[ ] ops/ fully implemented (18 ops)
+[ ] integration_manifest.json present
+[ ] registry.json present (after PSPW)
+[ ] sealed_store/ present (after PSPW)
+[ ] lineage_lock.json present (after PSPW)
+[ ] promotion_freeze.json present (after PSPW)
+[ ] ratification_queue.json present (after GRW)
+[ ] event_log.json present (after SVW/PSPW/PSDAW)
+[ ] run_tests.py passes all cases
+[ ] validate_post_seal_ops.py PASS
+[ ] Ready for commit
+
+Recommended commit message:
+"Add post_seal_ops module (SVW, PSPW, GRW, PSDAW) — fully implemented"

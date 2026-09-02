@@ -1,3 +1,14 @@
+---
+title: Toolforge Marketplace v1.0 — Charter & Specification
+date: 2026-07-13
+version: "1.0"
+status: DRAFT
+owner: "Tier 1 (Chris Sorensen)"
+authority: "Tier 1 decision required to lock"
+phase: "Phase 8 Wave D (Parallel submission pipeline)"
+conformance_check: "PENDING"
+---
+
 # Toolforge Marketplace v1.0 — Charter & Specification
 
 **Executive Summary:**  

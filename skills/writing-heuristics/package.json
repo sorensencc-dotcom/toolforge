@@ -1,0 +1,30 @@
+{
+  "name": "writing-heuristics",
+  "version": "1.0.0",
+  "description": "Deterministic technical writing heuristics, anti-slop rules, and Google Developer Style enforcement engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "lint-heuristics": "./bin/lint-heuristics.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "compile": "node bin/compile.js",
+    "test": "vitest run"
+  },
+  "author": "soren",
+  "license": "MIT",
+  "dependencies": {
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}

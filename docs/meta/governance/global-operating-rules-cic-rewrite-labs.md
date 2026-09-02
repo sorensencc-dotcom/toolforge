@@ -1,3 +1,12 @@
+---
+title: Global Operating Rules — CIC + Rewrite Labs
+date: 2026-07-12
+version: "2.0"
+status: ACTIVE
+owner: "Tier 1 (Chris)"
+review_cadence: "Quarterly (Jan, Apr, Jul, Oct)"
+---
+
 # Global Operating Rules — CIC + Rewrite Labs
 
 **Authoritative Version:** 2.0 (Principle-driven rewrite, July 12, 2026)

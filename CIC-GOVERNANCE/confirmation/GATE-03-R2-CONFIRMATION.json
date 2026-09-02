@@ -1,0 +1,14 @@
+{
+  "status": "SUBMITTED_FOR_RATIFICATION",
+  "gate_id": "GATE-03",
+  "gate_state": "OPEN",
+  "report_id": "CIC-TEST-REPORT-GATE-03-R2",
+  "report_result": "PASS",
+  "amendment_id": "AMD-v2.4.0-GATE-03-CLOSED",
+  "amendment_status": "PROPOSED",
+  "actor": "ACT-20260714-0001",
+  "ingested_lineage_id": "LIN-5d7ac5c45a5146d190bfc5355c011a3a",
+  "confirmed_lineage_id": "LIN-eb1e01a4c5de419b986ba4e1bfd5f4f2",
+  "lineage_tail_hash": "886e51b336dcf19fa206b950707f12e95321b2426769b2966995edbdadc2eb4c",
+  "submitted_at": "2026-07-14T19:50:28.358864Z"
+}

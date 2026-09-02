@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-08-30T16:10:08.1506231Z
+**Generated:** 2026-08-30T01:00:07.6259660Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 48 | 100% |
-| Active | 48 | 100% |
+| **Total Skills** | 47 | 100% |
+| Active | 47 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 47 | 97.9% |
-| ⚠️ Warning | 1 | 2.1% |
+| ✅ Good | 47 | 100% |
+| ⚠️ Warning | 0 | 0% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -37,6 +37,19 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### retro-export
+
+| Field | Value |
+|-------|-------|
+| Name | Retro Export |
+| Category | monitoring |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### retro-schema-validator
 
@@ -142,6 +155,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### research-questions
+
+| Field | Value |
+|-------|-------|
+| Name | Research Questions |
+| Category | research-ops |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | prompt |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 2 external |
 ### skill-security-auditor
 
 | Field | Value |
@@ -155,32 +181,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
-### retro-export
+### toolforge-cli
 
 | Field | Value |
 |-------|-------|
-| Name | Retro Export |
-| Category | monitoring |
-| Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 0 external |
-### tool-lifecycle-manager
-
-| Field | Value |
-|-------|-------|
-| Name | Tool Lifecycle Manager |
-| Category | pipeline |
+| Name | Toolforge CLI |
+| Category | utility |
 | Version | 0.1.0 |
 | Owner | soren |
-| Runtime | typescript |
+| Runtime | powershell |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 2 internal, 0 external |
 ### toolforge-drift-monitor
 
 | Field | Value |
@@ -272,19 +285,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
-### wiki-sync-recovery
-
-| Field | Value |
-|-------|-------|
-| Name | Wiki Sync Recovery |
-| Category | monitoring |
-| Version | 0.1.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ⚠️ WARN |
-| Last Run | Never |
-| Dependencies | 0 internal, 0 external |
 ### work-summarizer
 
 | Field | Value |
@@ -298,32 +298,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### toolforge-cli
+### tool-lifecycle-manager
 
 | Field | Value |
 |-------|-------|
-| Name | Toolforge CLI |
-| Category | utility |
+| Name | Tool Lifecycle Manager |
+| Category | pipeline |
 | Version | 0.1.0 |
 | Owner | soren |
-| Runtime | powershell |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 2 internal, 0 external |
-### research-questions
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### workspace-storage-cleaner
 
 | Field | Value |
 |-------|-------|
-| Name | Research Questions |
-| Category | research-ops |
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
 | Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | prompt |
+| Owner | unknown |
+| Runtime | python |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 2 external |
+| Dependencies | 0 internal, 1 external |
 ### reconcile-vector-store
 
 | Field | Value |
@@ -337,19 +337,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### pre-wrap-audit
+### pre-flight-test-checker
 
 | Field | Value |
 |-------|-------|
-| Name | Pre Wrap Audit |
-| Category | session-management |
+| Name | Pre-Flight Test Checker |
+| Category | validation |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | node |
+| Runtime | javascript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 1 internal, 0 external |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 0 external |
 ### agent-drift-detector
 
 | Field | Value |
@@ -467,6 +467,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### pre-wrap-audit
+
+| Field | Value |
+|-------|-------|
+| Name | Pre Wrap Audit |
+| Category | session-management |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 1 internal, 0 external |
 ### cic-run-gate
 
 | Field | Value |
@@ -480,19 +493,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
-### cic-section-summarizer
-
-| Field | Value |
-|-------|-------|
-| Name | CIC Section Summarizer |
-| Category | analysis |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
 ### context-manager
 
 | Field | Value |
@@ -610,32 +610,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### pre-flight-test-checker
+### cic-section-summarizer
 
 | Field | Value |
 |-------|-------|
-| Name | Pre-Flight Test Checker |
-| Category | validation |
+| Name | CIC Section Summarizer |
+| Category | analysis |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | javascript |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### workspace-storage-cleaner
-
-| Field | Value |
-|-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | python |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 1 external |
 ### writing-heuristics
 
 | Field | Value |

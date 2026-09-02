@@ -1,0 +1,212 @@
+[
+  {
+    "timestamp": "2026-08-30T02:26:16.914Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf6u6z0",
+    "category": "test-temp-topic-mtf6u6z0",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:26:16.918Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf6u6z0",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:26:16.923Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf6u6z0",
+    "reason": "Automated test teardown",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:01.970Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf6v5qi",
+    "category": "test-temp-topic-mtf6v5qi",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:01.975Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf6v5qi",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:01.979Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf6v5qi",
+    "reason": "Automated test teardown",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:09.976Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf6vbwy",
+    "category": "test-temp-topic-mtf6vbwy",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:09.982Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf6vbwy",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:09.987Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf6vbwy",
+    "reason": "Automated test teardown",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:20.819Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf6vka4",
+    "category": "test-temp-topic-mtf6vka4",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:20.824Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf6vka4",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:27:20.828Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf6vka4",
+    "reason": "Automated test teardown",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:32:38.318Z",
+    "actor": "soren",
+    "action": "map",
+    "placeholder": "placeholder::test-temp-topic-mtf72d9i",
+    "category": "test-temp-topic-mtf72d9i",
+    "notebookId": "11111111-2222-3333-4444-555555555555",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:32:38.323Z",
+    "actor": "soren",
+    "action": "merge",
+    "placeholder": "placeholder::test-temp-topic-mtf72d9i",
+    "targetCategory": "daily",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:32:38.327Z",
+    "actor": "soren",
+    "action": "retire",
+    "placeholder": "placeholder::test-temp-topic-mtf72d9i",
+    "reason": "Automated test teardown",
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T02:42:10.471Z",
+    "action": "daily_mining_run",
+    "actor": "scheduler",
+    "run_id": "RUN-2026-08-30T02-42-02-532Z-63557c15",
+    "duration_seconds": 7.94,
+    "results": [
+      {
+        "category": "willow-run",
+        "status": "dry_run_success",
+        "durationMs": 853
+      },
+      {
+        "category": "ford-politics",
+        "status": "dry_run_success",
+        "durationMs": 722
+      },
+      {
+        "category": "post-war",
+        "status": "quarantined",
+        "deadLetter": "C:\\dev\\.nlm_pack_dead_letter\\2026-08-30\\post-war\\pack_post_war.txt"
+      },
+      {
+        "category": "cuban-seizures",
+        "status": "quarantined",
+        "deadLetter": "C:\\dev\\.nlm_pack_dead_letter\\2026-08-30\\cuban-seizures\\pack_cuban_seizures.txt"
+      },
+      {
+        "category": "master-kb",
+        "status": "dry_run_success",
+        "durationMs": 2664
+      },
+      {
+        "category": "daily",
+        "status": "dry_run_success",
+        "durationMs": 800
+      }
+    ],
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-08-30T13:59:32.533Z",
+    "action": "daily_mining_run",
+    "actor": "scheduler",
+    "run_id": "RUN-2026-08-30T13-58-06-148Z-ea6c7e73",
+    "duration_seconds": 86.39,
+    "results": [
+      {
+        "category": "willow-run",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 8063
+      },
+      {
+        "category": "ford-politics",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 6407
+      },
+      {
+        "category": "post-war",
+        "status": "quarantined",
+        "deadLetter": "C:\\dev\\.nlm_pack_dead_letter\\2026-08-30\\post-war\\pack_post_war.txt"
+      },
+      {
+        "category": "cuban-seizures",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 6084
+      },
+      {
+        "category": "master-kb",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 53112
+      },
+      {
+        "category": "daily",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 9473
+      }
+    ],
+    "result": "success"
+  }
+]

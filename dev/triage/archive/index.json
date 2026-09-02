@@ -1,0 +1,18 @@
+[
+  {
+    "id": "DEV-001",
+    "signatureHash": "3fe6031c62d2dec97126940c2ecdc3d19de29526da5b55821b992df3e4cd15cb",
+    "targetRepo": "sorensencc-dotcom/toolforge",
+    "blastRadius": "P0",
+    "firstSeen": "2026-08-28T11:30:00Z",
+    "resolvedAt": "2026-08-28T23:07:02.116Z",
+    "durationMs": 41822116,
+    "archiveFile": "2026-08/resolved-defects.md",
+    "triageOwner": "soren",
+    "tags": [
+      "ci",
+      "governance",
+      "release"
+    ]
+  }
+]

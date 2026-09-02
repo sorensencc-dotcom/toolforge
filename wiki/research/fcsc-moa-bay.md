@@ -1,3 +1,13 @@
+---
+source_title: "FCSC Claim Decision: Moa Bay Mining & Freeport Sulphur"
+repository: "Foreign Claims Settlement Commission Decisions - fcsc_certified_claims"
+document_date: "1960-08-06"
+verification_status: "verified"
+category: "cuban-seizures"
+topic: "gap-fcsc-moa-bay"
+status: "active"
+last_updated: "2026-08-30T02:26:48.503Z"
+---
 # FCSC Claim Decision: Moa Bay Mining & Freeport Sulphur
 
 ## Summary

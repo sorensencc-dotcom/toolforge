@@ -1,0 +1,38 @@
+name: Retro Full History Audit
+
+on:
+  schedule:
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retro-full-audit:
+    name: Retro full-history audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Validate all retro history
+        shell: pwsh
+        run: ./.context/retros/validate.ps1
+      - name: Generate audit findings report
+        shell: pwsh
+        run: |
+          $latest = Get-ChildItem .context/retros -Filter '*.json' |
+            Where-Object { $_.Name -ne 'retro.schema.json' } |
+            Sort-Object Name | Select-Object -Last 1
+          New-Item -ItemType Directory -Force -Path logs | Out-Null
+          ./scripts/generate-retro-audit-report.ps1 -RetroFile $latest.Name -Path (Join-Path (Get-Location) '.context/retros') |
+            Tee-Object -FilePath "logs/retro-audit-$(Get-Date -Format yyyyMMdd).log"
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: retro-full-audit-${{ github.run_id }}
+          path: |
+            .context/retros/*.json
+            logs/retro-audit-*.log
+          if-no-files-found: error

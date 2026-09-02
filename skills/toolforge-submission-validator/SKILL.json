@@ -1,0 +1,31 @@
+{
+  "status": "active",
+  "category": "governance",
+  "runtime": "node",
+  "permissions": {
+    "required": ["file.read", "file.write"],
+    "optional": []
+  },
+  "tags": ["validation", "conformance", "toolforge", "marketplace"],
+  "id": "toolforge-submission-validator",
+  "timeout": 30000,
+  "description": "Validates skill submissions against conformance gate (manifest, tests, docs, governance, caveman review)",
+  "entrypoint": "src/validate.ts",
+  "name": "Toolforge Submission Validator",
+  "dependencies": {
+    "external": [],
+    "internal": []
+  },
+  "owner": "soren",
+  "version": "0.1.0",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "check-circle",
+      "registrationPath": "cowork://toolforge/skills/toolforge-submission-validator",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Validates skill submissions against conformance gate"
+}

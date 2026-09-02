@@ -1,3 +1,9 @@
+---
+title: Phase ABC Extension — Audit Phases A.5–C (Permanent Fixture)
+description: Integration of Audit-First Scope Lock into Phase ABC model as ongoing governance layer
+date: 2026-07-11
+---
+
 # Phase ABC Extension: Audit Phases
 
 **Context:** Phase ABC established repository governance framework (file-lifecycle, ownership, naming). Audit Phases embed governance enforcement into charter decision cycle as permanent fixture.

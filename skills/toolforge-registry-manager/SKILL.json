@@ -1,0 +1,31 @@
+{
+  "status": "active",
+  "category": "pipeline",
+  "runtime": "powershell",
+  "permissions": {
+    "required": ["file.read", "file.write"],
+    "optional": []
+  },
+  "tags": ["registry", "toolforge", "marketplace"],
+  "id": "toolforge-registry-manager",
+  "timeout": 30000,
+  "description": "Manages Toolforge plugin registry with append-only semantics",
+  "entrypoint": "src/registry.ps1",
+  "name": "Toolforge Registry Manager",
+  "dependencies": {
+    "external": [],
+    "internal": []
+  },
+  "owner": "soren",
+  "version": "0.1.0",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "database",
+      "registrationPath": "cowork://toolforge/skills/toolforge-registry-manager",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Manages Toolforge plugin registry with append-only semantics"
+}

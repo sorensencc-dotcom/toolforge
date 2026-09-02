@@ -1,3 +1,13 @@
+---
+title: TorqueQuery Reconciliation Charter
+date: 2026-07-17
+status: TIER1_APPROVED
+decision: APPROVED
+approved_date: 2026-07-17
+critical_path: false
+deadline: TBD
+---
+
 # TorqueQuery Reconciliation Charter
 
 ## Executive Summary

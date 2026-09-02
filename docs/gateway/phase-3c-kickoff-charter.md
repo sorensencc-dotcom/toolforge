@@ -1,3 +1,11 @@
+---
+title: Phase 3.C Kickoff Charter — External Cowork API Integration
+summary: Formal scope, prerequisites, acceptance criteria, and execution plan for Phase 3.C (real Cowork API binding)
+created: 2026-07-10
+updated: 2026-07-10
+tags: cowork, gateway, phase-3, integration, external-dependency, charter
+---
+
 # Phase 3.C Kickoff Charter — Cowork Gateway External Integration
 
 **Date:** 2026-07-10  

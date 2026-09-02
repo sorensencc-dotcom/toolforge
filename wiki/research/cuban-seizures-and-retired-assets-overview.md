@@ -1,3 +1,13 @@
+---
+source_title: "CIC Cuban Seizures & Retired Assets Operational Dossier"
+repository: "FCSC Foreign Claims Settlement Commission & NARA Records"
+document_date: "2026-08-29"
+verification_status: "verified"
+category: "cuban-seizures"
+topic: "cuban-seizures-overview"
+status: "active"
+last_updated: "2026-08-29T22:00:00Z"
+---
 # Cuban Seizures & Retired Assets Dossier
 
 ## Historical Context & Expropriation Framework

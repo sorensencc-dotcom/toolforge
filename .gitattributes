@@ -1,0 +1,13 @@
+# Lockfiles
+package-lock.json linguist-generated=true -diff
+yarn.lock linguist-generated=true -diff
+pnpm-lock.yaml linguist-generated=true -diff
+
+*.sh text eol=lf
+
+# Generated files
+docs/generated/** linguist-generated=true
+dist/** linguist-generated=true
+build/** linguist-generated=true
+coverage/** linguist-generated=true
+*.generated.* linguist-generated=true

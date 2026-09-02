@@ -1,0 +1,65 @@
+{
+  "id": "session-wrap",
+  "name": "Session Wrap",
+  "version": "1.1.0",
+  "description": "Atomic session wrap-up: doc updates, scoped git staging, prefixed commit, structured report",
+  "author": "Soren (Cast Iron Forge)",
+  "license": "MIT",
+  "category": "session-management",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "keywords": [
+    "session-wrap",
+    "git-commit",
+    "documentation",
+    "atomic-commit"
+  ],
+  "commands": {
+    "invoke": "session-wrap",
+    "usage": "session-wrap --commitMessage='[claude] ...' [--summary=...] [--dryRun]"
+  },
+  "inputs": {
+    "commitMessage": "string (required) — must start with [claude]|[copilot]|[gemini]|[human]",
+    "summary": "string (optional)",
+    "docUpdates": "array<{path, content}> (optional)",
+    "stageFiles": "array<string> (optional) — explicit paths to stage; defaults to docUpdates paths + already-tracked modifications, NOT git add -A",
+    "stageAll": "boolean (optional, default false) — opt-in to git add -A",
+    "dryRun": "boolean (optional, default false)"
+  },
+  "outputs": {
+    "wrapResult": {
+      "success": "boolean",
+      "commitHash": "string | null",
+      "docUpdates": "array<{path, status}>",
+      "stagedFiles": "array<string>",
+      "skippedCommit": "boolean",
+      "report": "object"
+    }
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "errorConditions": [
+    {
+      "code": "BAD_COMMIT_PREFIX",
+      "message": "commitMessage must start with [claude]|[copilot]|[gemini]|[human]",
+      "handler": "fail"
+    },
+    {
+      "code": "NOTHING_STAGED",
+      "message": "No files staged after doc updates and stageFiles resolution — commit skipped",
+      "handler": "warn"
+    }
+  ],
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "check-circle",
+      "registrationPath": "cowork://toolforge/skills/session-wrap",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Wrap up session: update docs, stage scoped changes, commit atomically, report."
+}

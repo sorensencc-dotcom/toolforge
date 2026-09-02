@@ -1,3 +1,15 @@
+---
+title: "Competitor Watchlist & Semantic Drift Detection Architecture"
+source_title: "Competitor Watchlist & Semantic Drift Detection Architecture"
+repository: "Sigil Governance & TRM Protocols - Accession 91, Box 2"
+document_date: "2026-08-23"
+verification_status: "verified"
+category: "wiki"
+topic: competitor-watchlist-drift-engine
+status: active
+last_updated: "2026-08-23T19:37:00.000Z"
+---
+
 # Competitor Watchlist & Semantic Drift Detection Engine
 
 ## Overview

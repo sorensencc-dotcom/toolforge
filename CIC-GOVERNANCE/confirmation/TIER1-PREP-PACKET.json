@@ -1,0 +1,239 @@
+{
+  "packet_id": "TIER1-PREP-20260713-0001",
+  "mode": "CIC_GOVERNANCE_PREPARE_RATIFICATION",
+  "status": "PREPARED_WITH_BLOCKERS",
+  "generated_at": "2026-07-14T02:47:25.716Z",
+  "actor": "ACT-20260713-0001",
+  "source_revision": "13d40b9922bf266404e6e689707facddbcc1fc0c",
+  "authority": {
+    "automation_tier": 3,
+    "decision_tier": 1,
+    "ratification_performed": false,
+    "gate_closure_performed": false
+  },
+  "canonical_layout": {
+    "normalized": true,
+    "relocations_performed": false,
+    "paths": {
+      "spec": {
+        "path": "C:/dev/CIC-GOVERNANCE/SPEC/Spec_v2.4.0.md",
+        "exists": true,
+        "sha256": "d60a50d0d0ae94674d8cf1a9ba67dedd2f2f1d9bbd8a38f229a9bf2441ca58aa"
+      },
+      "manifest": {
+        "path": "C:/dev/CIC-GOVERNANCE/MANIFEST/CIC-GOV-MANIFEST-001.md",
+        "exists": true,
+        "sha256": "367e2767f32d909245bc731939e5ef0b7ed97eebeba50a22bf512d0ae75d3316"
+      },
+      "gate_registry": {
+        "path": "C:/dev/CIC-GOVERNANCE/MANIFEST/gate-registry.json",
+        "exists": true,
+        "sha256": "f58f6935696230d8c96419a13d39f22c4a66d04744c8cbe9b807b20cedfd980d"
+      },
+      "reports": {
+        "path": "C:/dev/CIC-GOVERNANCE/tests/reports/",
+        "exists": true
+      },
+      "lineage": {
+        "path": "C:/dev/CIC-GOVERNANCE/LINEAGE/CIC-Lineage-v2.4.jsonl",
+        "exists": true,
+        "sha256": "1f639af21a33ce0ef6cb0b065eeac31a77ce1ee3a375d25a61fa669bdd9edce5"
+      },
+      "amendments": {
+        "path": "C:/dev/CIC-GOVERNANCE/AMENDMENTS/",
+        "exists": true
+      },
+      "wrapper": {
+        "path": "C:/dev/CIC-GOVERNANCE/WRAPPERS/Codex-Governance-Engine-Wrapper.py",
+        "exists": true,
+        "sha256": "326afb4146a1f310ee2a9a244847ea804cce2674a2a96467ab14c1eb1db51dcc"
+      }
+    }
+  },
+  "requirements_validation": {
+    "gate_registry_all_open": {
+      "expected": true,
+      "observed": true,
+      "result": "PASS"
+    },
+    "closure_amendments_remain_unratified": {
+      "expected": true,
+      "observed": true,
+      "result": "PASS",
+      "note": "GATE-01 closure draft is PROPOSED; no closure amendment is ratified."
+    },
+    "reports_require_submission": {
+      "expected": true,
+      "observed": true,
+      "result": "PASS"
+    },
+    "manifest_status": {
+      "expected": "CANDIDATE",
+      "observed": "CANDIDATE - NOT RATIFIED",
+      "result": "PASS"
+    },
+    "wrapper_entrypoint_missing": {
+      "expected": true,
+      "observed": true,
+      "result": "PASS"
+    },
+    "confirmation_orchestration_missing": {
+      "expected": true,
+      "observed": true,
+      "result": "PASS"
+    }
+  },
+  "report_completeness": [
+    {
+      "gate": "GATE-01",
+      "report_id": "CIC-TEST-REPORT-GATE-01-R2",
+      "path": "C:/dev/CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-01-R2.json",
+      "sha256": "a5f07971b647115cd530daad04d5759710e56d3095b309e7dbe41ba784039989",
+      "result": "PASS",
+      "cases": 15,
+      "passed": 15,
+      "failed": 0,
+      "placeholders": 0,
+      "submitted_for_ratification": null,
+      "submission_readiness": "READY_FOR_TIER1_REVIEW",
+      "blockers": [
+        "Manifest Owner must acknowledge NTFS environmental inference.",
+        "Tier 1 must ratify AMD-v2.4.0-GATE-01-CLOSED."
+      ]
+    },
+    {
+      "gate": "GATE-02",
+      "report_id": "CIC-TEST-REPORT-GATE-02-R2",
+      "path": "C:/dev/CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-02-R2.json",
+      "sha256": "06ac3a688bc88de8e109b2d9823dcffce8834e016e53cfdace69c1f5843987dc",
+      "result": "INCOMPLETE",
+      "cases": null,
+      "passed": null,
+      "failed": null,
+      "placeholders": 4,
+      "submitted_for_ratification": null,
+      "submission_readiness": "BLOCKED",
+      "blockers": [
+        "TC-02-003 outcome and timing are FILL_IN.",
+        "TC-02-004 outcome and timing are FILL_IN.",
+        "Execution timestamp is FILL_IN.",
+        "Aggregate result and counts are unset."
+      ]
+    },
+    {
+      "gate": "GATE-03",
+      "report_id": "CIC-TEST-REPORT-GATE-03",
+      "result": "FAIL",
+      "cases": 10,
+      "passed": 5,
+      "failed": 5,
+      "submitted_for_ratification": null,
+      "submission_readiness": "BLOCKED",
+      "blockers": [
+        "Passing R2 evidence does not exist."
+      ]
+    },
+    {
+      "gate": "GATE-04",
+      "report_id": "CIC-TEST-REPORT-GATE-04",
+      "result": "FAIL",
+      "cases": 13,
+      "passed": 8,
+      "failed": 5,
+      "submitted_for_ratification": null,
+      "submission_readiness": "BLOCKED",
+      "blockers": [
+        "Passing R2 evidence does not exist."
+      ]
+    }
+  ],
+  "submission_packets": [
+    {
+      "gate": "GATE-01",
+      "status": "PREPARED_NOT_SUBMITTED",
+      "report": "CIC-TEST-REPORT-GATE-01-R2",
+      "closure_amendment": "AMD-v2.4.0-GATE-01-CLOSED",
+      "closure_amendment_path": "C:/dev/CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-GATE-01-CLOSED.draft.json",
+      "closure_amendment_sha256": "83bde96ecfb590663452b6bcef8b6a49e93cce4dc73fc2172486903b325e9cab",
+      "tier1_decisions_required": [
+        "Acknowledge NTFS environmental inference or require rerun with direct filesystem evidence.",
+        "Ratify, revise, or reject closure amendment.",
+        "If ratified, authorize linked gate-registry and amendment-registry updates."
+      ]
+    },
+    {
+      "gate": "GATE-02",
+      "status": "BLOCKED_INCOMPLETE_REPORT",
+      "report": "CIC-TEST-REPORT-GATE-02-R2"
+    },
+    {
+      "gate": "GATE-03",
+      "status": "BLOCKED_FAILED_REPORT",
+      "report": "CIC-TEST-REPORT-GATE-03"
+    },
+    {
+      "gate": "GATE-04",
+      "status": "BLOCKED_FAILED_REPORT",
+      "report": "CIC-TEST-REPORT-GATE-04"
+    }
+  ],
+  "manifest_ratification_prep": {
+    "current_status": "CANDIDATE - NOT RATIFIED",
+    "ready_for_ratification": false,
+    "canonical_file_modified": false,
+    "required_before_status_change": [
+      "Close or explicitly waive GATE-01 through GATE-04 through Tier 1 decisions.",
+      "Complete GATE-05 Tier 1 ratification decision.",
+      "Deploy an approved wrapper entrypoint and confirmation orchestration.",
+      "Update manifest and component registries together after approval."
+    ]
+  },
+  "gate_registry_tier1_prep": {
+    "canonical_file_modified": false,
+    "current_states": {
+      "GATE-01": "OPEN",
+      "GATE-02": "OPEN",
+      "GATE-03": "OPEN",
+      "GATE-04": "OPEN",
+      "GATE-05": "OPEN"
+    },
+    "conditional_actions": [
+      {
+        "gate": "GATE-01",
+        "action": "CLOSE_ONLY_AFTER_TIER1_RATIFICATION_AND_LINKED_REGISTRY_UPDATE"
+      },
+      {
+        "gate": "GATE-02",
+        "action": "KEEP_OPEN_PENDING_COMPLETE_PASSING_R2"
+      },
+      {
+        "gate": "GATE-03",
+        "action": "KEEP_OPEN_PENDING_PASSING_R2"
+      },
+      {
+        "gate": "GATE-04",
+        "action": "KEEP_OPEN_PENDING_PASSING_R2"
+      },
+      {
+        "gate": "GATE-05",
+        "action": "KEEP_OPEN_PENDING_TIER1_RATIFICATION"
+      }
+    ]
+  },
+  "execution_controls": {
+    "gate_closure_halted": true,
+    "lineage_appended": false,
+    "manifest_modified": false,
+    "gate_registry_modified": false,
+    "amendment_registry_modified": false,
+    "reports_modified": false,
+    "wrapper_executed": false
+  },
+  "next_actions": [
+    "Tier 1 reviews GATE-01 prepared submission and environmental acknowledgment.",
+    "Tier 2 completes and verifies GATE-02 R2 evidence.",
+    "Tier 2 produces passing GATE-03 and GATE-04 R2 evidence.",
+    "Tier 2 implements and tests approved execution and confirmation entrypoint.",
+    "Tier 1 decides gate closures and final ratification."
+  ]
+}

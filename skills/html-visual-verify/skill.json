@@ -1,0 +1,16 @@
+{
+  "id": "html-visual-verify",
+  "name": "HTML Visual Verify",
+  "version": "1.0.0",
+  "description": "Validate, test, and auto-fix local HTML files for visual correctness: syntax check, WCAG contrast validation, Playwright screenshot + interaction tests, headless rendering",
+  "category": "validation",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "owner": "soren",
+  "tags": ["html", "validation", "testing", "wcag", "visual"],
+  "status": "active",
+  "timestamps": {
+    "created": "2026-07-09T23:45:00Z",
+    "lastValidation": "2026-07-09T23:45:00Z"
+  }
+}

@@ -1,3 +1,13 @@
+---
+title: "CIC Ashfall Handoff — Project State"
+summary: "State document tracking volatile dates, status, and progress for Ashfall"
+created: "2026-07-04"
+updated: "2026-07-17"
+tags:
+  - state
+  - ashfall
+  - progress
+---
 # CIC Ashfall Handoff — Project State
 
 **Last Updated:** 2026-07-17

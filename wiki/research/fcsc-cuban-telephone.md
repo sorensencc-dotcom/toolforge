@@ -1,3 +1,13 @@
+---
+source_title: "FCSC Claim Decision: Cuban Telephone Company & ITT"
+repository: "Foreign Claims Settlement Commission Decisions - fcsc_certified_claims"
+document_date: "1960-08-06"
+verification_status: "verified"
+category: "cuban-seizures"
+topic: "gap-fcsc-cuban-telephone"
+status: "active"
+last_updated: "2026-08-30T02:26:49.508Z"
+---
 # FCSC Claim Decision: Cuban Telephone Company & ITT
 
 ## Summary

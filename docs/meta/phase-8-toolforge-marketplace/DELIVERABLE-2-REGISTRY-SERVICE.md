@@ -1,3 +1,10 @@
+---
+title: Deliverable 2 — Registry Service
+phase: Phase 8 Wave D
+owner: Tier 2 (Implementation)
+status: READY FOR EXECUTION
+---
+
 # Deliverable 2 — Registry Service
 
 ## Objective

@@ -1,0 +1,41 @@
+{
+  "$schema_version": "1.0",
+  "evaluation_interval_minutes": 5,
+  "alerts": [
+    {
+      "name": "error_spike",
+      "description": "More than `threshold` errors of the listed codes within the window.",
+      "threshold": 10,
+      "comparison": "gt",
+      "window_minutes": 10,
+      "error_codes": ["E_RUNTIME"],
+      "severity": "CRITICAL",
+      "scope": "system",
+      "enabled": true
+    },
+    {
+      "name": "fail_rate",
+      "description": "Failed-run ratio exceeds `threshold` within the window (system-wide).",
+      "threshold": 0.15,
+      "comparison": "gt",
+      "window_minutes": 60,
+      "min_samples": 10,
+      "severity": "CRITICAL",
+      "scope": "system",
+      "enabled": true
+    },
+    {
+      "name": "duration_anomaly",
+      "description": "Per-tool p99 duration in the window exceeds multiplier x the tool's rolling baseline average.",
+      "threshold_multiplier": 2.0,
+      "window_minutes": 60,
+      "baseline_days": 7,
+      "percentile": 99,
+      "min_samples": 20,
+      "min_baseline_samples": 30,
+      "severity": "WARNING",
+      "scope": "per_tool",
+      "enabled": true
+    }
+  ]
+}

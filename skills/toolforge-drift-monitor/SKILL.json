@@ -1,0 +1,51 @@
+{
+  "status": "active",
+  "category": "monitoring",
+  "runtime": "typescript",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "tags": [],
+  "id": "toolforge-drift-monitor",
+  "timeout": 30000,
+  "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
+  "entrypoint": "src/index.ts",
+  "name": "Toolforge Drift Monitor",
+  "dependencies": {
+    "external": [],
+    "internal": []
+  },
+  "owner": "soren",
+  "version": "0.1.0",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "zap",
+      "registrationPath": "cowork://toolforge/skills/toolforge-drift-monitor",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Detects drift between canonical, distributed, manifest, and Cowork systems",
+  "_marketplace": {
+    "registry_entry": "toolforge-marketplace:1.0",
+    "submission_status": "pending",
+    "published_date": null,
+    "installed_count": 0,
+    "marketplace_visibility": "private",
+    "submission_id": null,
+    "conformance_check": {
+      "passed": false,
+      "timestamp": "2026-07-13T00:00:00Z",
+      "checks": {
+        "manifest_valid": true,
+        "tests_pass": null,
+        "docs_complete": null,
+        "governance_aligned": null,
+        "caveman_review": "pending"
+      },
+      "blockers": []
+    }
+  }
+}

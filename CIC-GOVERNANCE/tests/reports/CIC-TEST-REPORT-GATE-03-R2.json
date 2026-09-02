@@ -1,0 +1,128 @@
+{
+  "report_id": "CIC-TEST-REPORT-GATE-03-R2",
+  "supersedes": "CIC-TEST-REPORT-GATE-03",
+  "gate_id": "GATE-03",
+  "gate_name": "Persistent Actor Registry",
+  "spec_version": "2.4.0",
+  "gate_closure_spec_version": "1.0.0",
+  "gate_closure_spec_ref": "CIC-GATE-SPEC-001 section 5",
+  "executed_by": "ACT-20260714-0001",
+  "actor_registry_state": "ACTIVE",
+  "execution_timestamp": "2026-07-14T19:46:41.450466Z",
+  "test_cases": [
+    {
+      "test_id": "TC-03-001",
+      "outcome": "PASS",
+      "execution_time_ms": 62.0,
+      "failure": null,
+      "description": "TC-03-001",
+      "acceptance_criterion": "TC-03-001",
+      "expected_outcome": "Required behavior",
+      "evidence": {}
+    },
+    {
+      "test_id": "TC-03-002",
+      "outcome": "PASS",
+      "execution_time_ms": 32.0,
+      "failure": null,
+      "description": "TC-03-002",
+      "acceptance_criterion": "TC-03-002",
+      "expected_outcome": "Required behavior",
+      "evidence": {}
+    },
+    {
+      "test_id": "TC-03-003",
+      "outcome": "PASS",
+      "execution_time_ms": 93.0,
+      "failure": null,
+      "description": "TC-03-003",
+      "acceptance_criterion": "TC-03-003",
+      "expected_outcome": "Required behavior",
+      "evidence": {}
+    },
+    {
+      "test_id": "TC-03-004",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "failure": null,
+      "description": "TC-03-004",
+      "acceptance_criterion": "TC-03-004",
+      "expected_outcome": "Required behavior",
+      "evidence": {
+        "records": 7,
+        "tail_before": "bb98bf6bd77e094c91bc25c3840c9d5ceac66f346cf6757794e09ce043eee2c5",
+        "tail_after": "23f2681d183ef8870d60b5809c7b88f588116e0171631517e34d646f7bd20500"
+      }
+    },
+    {
+      "test_id": "TC-03-005",
+      "outcome": "PASS",
+      "execution_time_ms": 0.0,
+      "failure": null,
+      "description": "TC-03-005",
+      "acceptance_criterion": "TC-03-005",
+      "expected_outcome": "Required behavior",
+      "evidence": {}
+    },
+    {
+      "test_id": "TC-03-006",
+      "outcome": "PASS",
+      "execution_time_ms": 47.0,
+      "failure": null,
+      "description": "TC-03-006",
+      "acceptance_criterion": "TC-03-006",
+      "expected_outcome": "Required behavior",
+      "evidence": {
+        "actors": 1000,
+        "elapsed_ms": 0.0
+      }
+    },
+    {
+      "test_id": "TC-03-007",
+      "outcome": "PASS",
+      "execution_time_ms": 31.0,
+      "failure": null,
+      "description": "TC-03-007",
+      "acceptance_criterion": "TC-03-007",
+      "expected_outcome": "Required behavior",
+      "evidence": {}
+    },
+    {
+      "test_id": "TC-03-008",
+      "outcome": "PASS",
+      "execution_time_ms": 32.0,
+      "failure": null,
+      "description": "TC-03-008",
+      "acceptance_criterion": "TC-03-008",
+      "expected_outcome": "Required behavior",
+      "evidence": {}
+    },
+    {
+      "test_id": "TC-03-009",
+      "outcome": "PASS",
+      "execution_time_ms": 140.0,
+      "failure": null,
+      "description": "TC-03-009",
+      "acceptance_criterion": "TC-03-009",
+      "expected_outcome": "Required behavior",
+      "evidence": {}
+    }
+  ],
+  "additional_test_cases": [
+    {
+      "test_id": "ADD-03-001",
+      "description": "driver schema completeness",
+      "outcome": "PASS"
+    }
+  ],
+  "total_cases": 10,
+  "passed": 10,
+  "failed": 0,
+  "skipped": 0,
+  "overall_result": "PASS",
+  "anomalies": null,
+  "submitted_for_ratification": "2026-07-14T19:50:28.358864Z",
+  "_amendment_target": "AMD-v2.4.0-GATE-03-CLOSED",
+  "_minimum_passing_threshold": "9/9 spec-defined cases plus additions",
+  "_submission_ready": true
+}

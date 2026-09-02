@@ -1,0 +1,7 @@
+.performance-report.json
+.validation-report.json
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.log

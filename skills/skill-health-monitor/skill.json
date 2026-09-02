@@ -1,0 +1,59 @@
+{
+  "id": "skill-health-monitor",
+  "name": "Skill Health Monitor",
+  "version": "1.0.0",
+  "description": "Manifest-driven ecosystem health: staleness, never-run skills, and manifest/directory drift",
+  "author": "Soren (Cast Iron Forge)",
+  "license": "MIT",
+  "category": "monitoring",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "keywords": [
+    "skill-health",
+    "manifest-audit",
+    "staleness",
+    "inventory"
+  ],
+  "commands": {
+    "invoke": "skill-health-monitor",
+    "usage": "skill-health-monitor [--manifest=path/to/manifest.json] [--staleDays=30]"
+  },
+  "inputs": {
+    "manifestPath": "string (optional, default toolforge/manifest.json)",
+    "skillsDir": "string (optional, default toolforge/skills)",
+    "staleDays": "number (optional, default 30) — lastValidation older than this is flagged stale"
+  },
+  "outputs": {
+    "healthReport": {
+      "reportDate": "ISO 8601",
+      "totalSkills": "number",
+      "neverRun": "array<string>",
+      "stale": "array<string>",
+      "orphanedManifestEntries": "array<string>",
+      "unregisteredDirs": "array<string>",
+      "healthScore": "number 0-100",
+      "recommendations": "array<string>"
+    }
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "errorConditions": [
+    {
+      "code": "MANIFEST_NOT_FOUND",
+      "message": "manifest.json not found at resolved path",
+      "handler": "fail"
+    }
+  ],
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "activity",
+      "registrationPath": "cowork://toolforge/skills/skill-health-monitor",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Ecosystem health from real manifest data — staleness, never-run, manifest/directory drift."
+}

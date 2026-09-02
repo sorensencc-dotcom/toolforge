@@ -1,3 +1,11 @@
+---
+title: "GithubActionsSetup"
+category: "wiki"
+status: "active"
+draft: true
+created: "2026-08-18T17:58:05.314Z"
+---
+
 # GithubActionsSetup
 
 ## Summary

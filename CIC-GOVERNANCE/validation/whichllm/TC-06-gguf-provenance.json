@@ -1,0 +1,14 @@
+{
+  "id": "TC-06",
+  "title": "GGUF provenance verification",
+  "steps": [
+    "Run whichllm with --json",
+    "Validate provenance block",
+    "Cross-check quantization metadata"
+  ],
+  "expected": [
+    "Provenance present",
+    "Quantization source trusted",
+    "No orphaned GGUF artifacts"
+  ]
+}

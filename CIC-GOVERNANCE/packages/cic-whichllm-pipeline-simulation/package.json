@@ -1,0 +1,17 @@
+{
+  "name": "@cic/whichllm-pipeline-simulation",
+  "version": "1.0.0",
+  "description": "CIC-WHICHLLM Pipeline Simulation v1.0 — fault injector, rollback verifier, and TC-01..08 executor.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "main": "./src/index.js",
+  "bin": {
+    "run-whichllm-simulation": "./bin/run-simulation.js"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "simulate": "node bin/run-simulation.js"
+  }
+}

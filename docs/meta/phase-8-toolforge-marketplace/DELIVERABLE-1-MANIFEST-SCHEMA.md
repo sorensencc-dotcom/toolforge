@@ -1,3 +1,10 @@
+---
+title: Deliverable 1 — Plugin Manifest Schema
+phase: Phase 8 Wave D
+owner: Tier 2 (Implementation)
+status: READY FOR EXECUTION
+---
+
 # Deliverable 1 — Plugin Manifest Schema
 
 ## Objective

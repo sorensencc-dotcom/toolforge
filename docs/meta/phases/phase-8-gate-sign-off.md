@@ -1,3 +1,11 @@
+---
+title: Phase 8 Gate Sign-Off
+date: 2026-07-14
+phase: 8
+status: READY FOR GATE
+authority: Tier 2 Execution
+---
+
 # Phase 8 Gate Sign-Off
 
 **Target Gate Date:** 2026-07-26  

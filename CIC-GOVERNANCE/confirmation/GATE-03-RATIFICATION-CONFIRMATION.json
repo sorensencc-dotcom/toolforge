@@ -1,0 +1,27 @@
+{
+  "confirmation_id": "CIC-GOV-GATE-03-RATIFICATION-20260714-0001",
+  "status": "RATIFIED_AND_CLOSED",
+  "mode": "GOVERNANCE_RATIFY",
+  "ratified_at": "2026-07-14T19:52:30.740775Z",
+  "gate_id": "GATE-03",
+  "amendment": {
+    "amendment_id": "AMD-v2.4.0-GATE-03-CLOSED",
+    "status": "RATIFIED",
+    "ratified_by": "Tier 1 (Chris)",
+    "report_id": "CIC-TEST-REPORT-GATE-03-R2"
+  },
+  "closure": {
+    "from": "OPEN",
+    "to": "CLOSED",
+    "closure_lineage_id": "LIN-3bb51d7d4f8047bd9c814efe22a03eef",
+    "parent_submission_lineage_id": "LIN-eb1e01a4c5de419b986ba4e1bfd5f4f2",
+    "lineage_record_hash": "ff4c101604d02580caba7263bc03cec7f654460695f811f1961665db787c5329",
+    "lineage_tail_hash": "ff4c101604d02580caba7263bc03cec7f654460695f811f1961665db787c5329"
+  },
+  "governance_effects": {
+    "gate_closed": true,
+    "amendment_ratified": true,
+    "runtime_activated": false,
+    "gate_05_closed": false
+  }
+}

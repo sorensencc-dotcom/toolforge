@@ -1,0 +1,159 @@
+{
+  "report_id": "CIC-TEST-REPORT-GATE-04",
+  "gate_id": "GATE-04",
+  "gate_name": "Cross-Process Lineage Locking",
+  "spec_version": "2.4.0",
+  "gate_closure_spec_version": "1.0.0",
+  "gate_closure_spec_ref": "CIC-GATE-SPEC-001 § 6",
+  "test_environment": {
+    "os": "Windows 11 10.0.26200.0 (AMD64)",
+    "runtime": "CPython 3.12.2; pytest 9.1.0",
+    "storage_backend": "Local filesystem at C:/dev; Windows filesystem type unavailable because volume query returned Access denied",
+    "cic_governance_path": "C:/dev/CIC-GOVERNANCE"
+  },
+  "executed_by": "ACT-20260713-0001",
+  "execution_timestamp": "2026-07-13T18:09:32.663792Z",
+  "_windows_contention_note": "Windows file-contention bug was surfaced and fixed during candidate stress testing. TC-04-001 and TC-04-008 directly cover the regression path. Annotate notes fields with observed behaviour if any edge cases surface.",
+  "test_cases": [
+    {
+      "test_id": "TC-04-001",
+      "description": "Exclusive lock enforcement — two simultaneous writers; only one acquires lock",
+      "acceptance_criterion": "AC-04-001",
+      "trigger_condition": "Two processes attempt simultaneous lineage write",
+      "expected_outcome": "Only one process acquires lock; second waits or times out; no interleaved records",
+      "pass_criterion": "Lineage file contains no interleaved or partially overlapping records",
+      "outcome": "FAIL",
+      "execution_time_ms": 19.0,
+      "notes": "Exclusive lock tested within one process; required two-process write contention not executed."
+    },
+    {
+      "test_id": "TC-04-002",
+      "description": "Lock timeout — second process returns 409 when lock held beyond timeout",
+      "acceptance_criterion": "AC-04-002 / AC-04-003",
+      "trigger_condition": "Lock held indefinitely; second process waits beyond 2000ms default timeout",
+      "expected_outcome": "Second process returns 409 LINEAGE_CONFLICT within timeout + 100ms",
+      "pass_criterion": "409 returned; measured time ≤2100ms from lock attempt",
+      "outcome": "FAIL",
+      "execution_time_ms": 20.0,
+      "notes": "Configured short timeout and LINEAGE_CONFLICT tested; default 2000ms plus 100ms bound not measured."
+    },
+    {
+      "test_id": "TC-04-003",
+      "description": "Stale lock expiry — next process acquires lock after 30s stale lock lifetime",
+      "acceptance_criterion": "AC-04-004",
+      "trigger_condition": "Simulate crashed lock holder; stale lock age ≥30s",
+      "expected_outcome": "Next process acquires lock within 31s of stale lock creation",
+      "pass_criterion": "Lock acquired; no manual intervention required",
+      "outcome": "FAIL",
+      "execution_time_ms": 13.0,
+      "notes": "Stale recovery tested with accelerated threshold; 30-second production threshold not measured."
+    },
+    {
+      "test_id": "TC-04-004",
+      "description": "Unique lineage_id under concurrency — 50 simultaneous commits produce zero duplicate IDs",
+      "acceptance_criterion": "AC-04-005",
+      "trigger_condition": "50 concurrent commit processes, each generating a lineage record",
+      "expected_outcome": "All 50 lineage_ids unique",
+      "pass_criterion": "Zero duplicate lineage_ids in resulting lineage file",
+      "outcome": "FAIL",
+      "execution_time_ms": 1631.0,
+      "notes": "50 concurrent threads produced unique IDs; required process-level commits not executed."
+    },
+    {
+      "test_id": "TC-04-005",
+      "description": "Partial write detection — crash mid-write triggers CORRUPT_RECORD entry",
+      "acceptance_criterion": "AC-04-006",
+      "trigger_condition": "Simulated process crash mid-lineage write",
+      "expected_outcome": "Corrupt record detected; CORRUPT_RECORD lineage entry appended",
+      "pass_criterion": "CORRUPT_RECORD entry present and schema-valid; partial record flagged",
+      "outcome": "PASS",
+      "execution_time_ms": 137.0,
+      "notes": "Invalid trailing bytes quarantined and CORRUPT_RECORD appended."
+    },
+    {
+      "test_id": "TC-04-006",
+      "description": "Hash chain integrity — 100 sequential commits produce unbroken hash chain",
+      "acceptance_criterion": "AC-04-007",
+      "trigger_condition": "100 sequential commits under normal operation",
+      "expected_outcome": "Each record's hash field equals SHA-256 of the previous record",
+      "pass_criterion": "Hash chain validates end-to-end from record 1 to record 100",
+      "outcome": "PASS",
+      "execution_time_ms": 2871.0,
+      "notes": "100 sequential records verified end-to-end."
+    },
+    {
+      "test_id": "TC-04-007",
+      "description": "Hash chain break detection — integrity check identifies exact corrupt record",
+      "acceptance_criterion": "AC-04-007",
+      "trigger_condition": "Manually corrupt one record in a 100-record lineage file; run integrity check",
+      "expected_outcome": "Integrity check flags the break; exact corrupt record identified in report",
+      "pass_criterion": "Correct record index reported as corrupt; no false positives on other records",
+      "outcome": "PASS",
+      "execution_time_ms": 52.0,
+      "notes": "Integrity audit identified exact corrupted record index."
+    },
+    {
+      "test_id": "TC-04-008",
+      "description": "10-writer stress test — 10 concurrent writers × 10 commits each; no loss, corruption, or deadlock",
+      "acceptance_criterion": "AC-04-008",
+      "trigger_condition": "10 concurrent writer processes, each performing 10 lineage commits",
+      "expected_outcome": "100 valid records written; lineage file parseable; no deadlock or livelock",
+      "pass_criterion": "Exactly 100 records present; all schema-valid; hash chain intact; no process hung",
+      "outcome": "FAIL",
+      "execution_time_ms": 2641.0,
+      "notes": "10 threads x 10 writes passed with no loss; required 10-process stress test not executed."
+    }
+  ],
+  "_additional_test_cases_note": "Append any implementation-side test cases beyond the spec-defined set below. total_cases, passed, failed, skipped must reflect all cases including additions.",
+  "additional_test_cases": [
+    {
+      "test_id": "ADD-04-001",
+      "pytest_node": "GovernanceEngineTests::test_corrupt_lineage_halts",
+      "description": "corrupt lineage halts",
+      "outcome": "PASS",
+      "execution_time_ms": 28.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-04-002",
+      "pytest_node": "GovernanceEngineTests::test_rejects_wrong_spec",
+      "description": "rejects wrong spec",
+      "outcome": "PASS",
+      "execution_time_ms": 9.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-04-003",
+      "pytest_node": "GovernanceEngineTests::test_update_links_parent_lineage",
+      "description": "update links parent lineage",
+      "outcome": "PASS",
+      "execution_time_ms": 55.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-04-004",
+      "pytest_node": "GovernanceEngineTests::test_update_requires_existing_parent",
+      "description": "update requires existing parent",
+      "outcome": "PASS",
+      "execution_time_ms": 8.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    },
+    {
+      "test_id": "ADD-04-005",
+      "pytest_node": "Gate05ActivationTests::test_open_gates_block_activation",
+      "description": "open gates block activation",
+      "outcome": "PASS",
+      "execution_time_ms": 19.0,
+      "notes": "Implementation-side regression or baseline test; not a substitute for spec-defined gate case."
+    }
+  ],
+  "total_cases": 13,
+  "passed": 8,
+  "failed": 5,
+  "skipped": 0,
+  "overall_result": "FAIL",
+  "anomalies": "Pytest full suite passed 45/45, but strict gate mapping identified spec cases not exercised at required production fidelity. Production target equivalence and Windows filesystem type are unverified. executed_by uses candidate harness actor ID; no durable production actor binding was available.",
+  "submitted_for_ratification": null,
+  "_amendment_target": "AMD-v2.4.0-GATE-04-CLOSED",
+  "_minimum_passing_threshold": "8/8 spec-defined cases (plus all additional cases)"
+}

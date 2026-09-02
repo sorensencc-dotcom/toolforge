@@ -1,0 +1,20 @@
+{
+  "specVersion": "research.task.v1",
+  "taskId": "TASK-CIC-BATCH-201",
+  "idempotencyKey": "cic-wr-batch-201",
+  "sourceTargets": [
+    {
+      "sourceId": "src-bfrc-accession-1941-05",
+      "sourceRevision": "sha256:fbfad98683d315661ecce10e14fb234bda92347a321d3c9e0abd0de990f8a489",
+      "span": {
+        "start": 420,
+        "end": 614
+      }
+    }
+  ],
+  "exactQuestion": "How many master toolmakers were allocated at Rouge in May 1941 for B-24 wing die tooling?",
+  "subject": "Rouge Tool and Die Plant",
+  "evidenceType": "fact",
+  "outputContract": "candidate.fact.v1",
+  "approvalRequired": true
+}

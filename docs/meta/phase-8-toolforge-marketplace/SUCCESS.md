@@ -1,3 +1,11 @@
+---
+title: Phase 8 Wave D Success Criteria Checklist
+phase: Phase 8 Wave D
+target_date: 2026-07-26
+owner: Tier 2 (Implementation) / Tier 1 (Verification)
+status: TEMPLATE FOR EXECUTION
+---
+
 # Phase 8 Wave D — Success Criteria (Binary Checklist)
 
 **Mission:** Deliver Toolforge Marketplace v1.0 (4 deliverables: manifest schema, registry service, CLI, validator).

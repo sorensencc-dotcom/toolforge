@@ -1,0 +1,44 @@
+{
+  "status": "SUBMITTED_FOR_RATIFICATION",
+  "gate_id": "GATE-04",
+  "report_id": "CIC-TEST-REPORT-GATE-04-R2",
+  "amendment_id": "AMD-v2.4.0-GATE-04-CLOSED",
+  "actor": "ACT-20260714-0001",
+  "transaction_id": "TX-a5c9a57fa453891544dbaef0e36c019b",
+  "ingested_lineage_id": "LIN-b0d78ae0553c4b988d89aabb8b3bd0d8",
+  "confirmed_lineage_id": "LIN-36e65b1721784fdfa5754e113f7e0af1",
+  "lineage_tail_hash": "70f596707c5e6610abfec4f4ecaec63cc90c89177f952ec1df32e02330935a0a",
+  "submitted_at": "2026-07-14T15:59:02.558357Z",
+  "verified_at": "2026-07-14T16:01:50.560Z",
+  "submission": {
+    "report_result": "PASS",
+    "process_cases": "8/8",
+    "filesystem": "NTFS",
+    "actor_state": "ACTIVE",
+    "gate_state": "OPEN",
+    "amendment_state": "PROPOSED",
+    "submitted_for_ratification": true,
+    "gate_closed": false,
+    "runtime_activated": false
+  },
+  "policy_execution": {
+    "transaction_isolation": "SERIALIZED",
+    "append_records": [
+      "INGESTED",
+      "CONFIRMED"
+    ],
+    "rollback_required": false,
+    "corrupt_record_required": false,
+    "canonical_hash_chain": "embedded record_hash and previous_hash fields in LINEAGE/CIC-Lineage-v2.4.jsonl",
+    "separate_hash_chain_log_authoritative": false
+  },
+  "integrity": {
+    "evidence_snapshot_sha256": "c330b3d0ac15b521db99688d6d31f271b85ef3dfc17d1e8091f5259c54c42da4",
+    "submitted_report_sha256": "3ddb78bd67fad92990db63bd3f44226fd6036007b1e15424430c4c877da70474",
+    "closure_draft_sha256": "97bb8cf210491e89ed1bcc61bf9e6b7f2278d78c745003a08c938228e32d4cc0",
+    "amendment_registry_sha256": "1c36a27987ba55e8f136b0813becf2b80dcbe44c01b584fde87e0c9e4c4ad72a",
+    "lineage_sha256": "889cc23a4b7c6d2b2372091fbd970bee6a066ca2245bb0eba21e8025bbb81be2",
+    "manifest_sha256": "b59a614f1577bc7914d6cc5672f61156e0bb1684013ce0c7b9e40df2fbb8e874",
+    "gate_status_sha256": "49ac39eda4db4dc98d346c4f016dcee1ab279dd271e595be9cd128f5d9ff62ea"
+  }
+}

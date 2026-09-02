@@ -1,3 +1,10 @@
+---
+title: Deliverable 3 — CLI (list, install, submit)
+phase: Phase 8 Wave D
+owner: Tier 2 (Implementation)
+status: READY FOR EXECUTION
+---
+
 # Deliverable 3 — CLI (list, install, submit)
 
 ## Objective

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="280" viewBox="0 0 640 280" role="img" aria-label="Local Wiki QA flow">
+  <rect width="640" height="280" fill="#f2ece2"/>
+  <rect x="40" y="95" width="150" height="90" rx="8" fill="#c4501a"/>
+  <rect x="245" y="95" width="150" height="90" rx="8" fill="#5c5349"/>
+  <rect x="450" y="95" width="150" height="90" rx="8" fill="#2c2420"/>
+  <path d="M195 140h45m155 0h50" stroke="#2c2420" stroke-width="8"/>
+  <text x="115" y="145" text-anchor="middle" fill="#fff" font-family="sans-serif">Fixture</text>
+  <text x="320" y="145" text-anchor="middle" fill="#fff" font-family="sans-serif">Browser</text>
+  <text x="525" y="145" text-anchor="middle" fill="#fff" font-family="sans-serif">Report</text>
+</svg>

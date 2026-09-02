@@ -1,3 +1,9 @@
+---
+title: Governance Rule Addition — Audit-First Scope Lock
+description: New Section 12 (Charter Lifecycle) for CIC + Rewrite Labs Global Rules v1.4
+date: 2026-07-11
+---
+
 # Governance Rule: Audit-First Scope Lock
 
 **Document:** CIC + Rewrite Labs Global Rules  

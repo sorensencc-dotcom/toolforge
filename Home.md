@@ -29,10 +29,6 @@ graph TD
 * **Observability**: Structured `ToolResult` with execution ID, latency, retries, and error metadata.
 * **Exposure**: MCP stdio and HTTP interfaces; adapters for LangGraph, OpenAI function calling, and IDE integrations.
 
-### Governed Agent Dispatch
-
-Toolforge includes a TorqueQuery hybrid dispatcher for bounded agent work. It verifies signed task contracts through the Sigil verifier boundary, applies zero-cost route and trusted-catalog policy, supports at most three sequential attempts, and records structured results with contract, operator, termination, and artifact metadata. Provider adapters cover local subscription CLIs, Ollama, and OpenRouter; live provider execution remains opt-in and requires explicit operator configuration.
-
 ---
 
 ## System Architecture & Components
@@ -112,6 +108,5 @@ Modern AI agents call tools as raw function calls with no governance, no observa
 | `kb-sync/` | TRM closed-loop synthesis, context cache, competitor drift | `.mjs` / `.ts` | `watch-competitors-v2.mjs`, `mcp-memory-server.mjs` |
 | `scripts/` | Evaluation runners, closed-loop orchestrators | `.py` / `.mjs` | `run-closed-loop-research-v2.py`, `whichllm-bfcl-evaluator.py` |
 | `adapters/` | External data transformers | `.ts` or `.js` | `CIC-WHICHLLM` integration pack |
-| `tools/agent-dispatch/` | Signed, bounded hybrid agent routing and result receipts | `.py` | `dispatcher.py`, provider adapters, focused tests |
 | `mcp-servers/` | MCP protocol implementations | `server.ts` | MCP server packages |
 | `utilities/` | Helper scripts, setup, configuration | `.ps1` or `.sh` | `setup-task-scheduler` |

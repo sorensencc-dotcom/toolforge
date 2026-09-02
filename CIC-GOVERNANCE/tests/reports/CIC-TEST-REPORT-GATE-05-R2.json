@@ -1,0 +1,28 @@
+{
+  "report_id": "CIC-TEST-REPORT-GATE-05-R2",
+  "gate_id": "GATE-05",
+  "gate_name": "Tier 1 Ratification",
+  "spec_version": "2.4.0",
+  "executed_by": "ACT-20260714-0001",
+  "actor_registry_state": "ACTIVE",
+  "execution_timestamp": "2026-07-14T22:11:24.187745Z",
+  "test_cases": [
+    {
+      "test_id": "TC-05-001",
+      "outcome": "PASS",
+      "details": {
+        "error_code": "GATES_OPEN",
+        "status_written": false
+      }
+    }
+  ],
+  "additional_test_cases": [],
+  "total_cases": 1,
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "overall_result": "PASS",
+  "submitted_for_ratification": "2026-07-14T23:53:40.212531Z",
+  "_amendment_target": "AMD-v2.4.0-GATE-05-CLOSED",
+  "_submission_ready": true
+}

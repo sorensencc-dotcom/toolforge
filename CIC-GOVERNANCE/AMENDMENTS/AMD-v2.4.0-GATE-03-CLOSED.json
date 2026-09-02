@@ -1,0 +1,19 @@
+{
+  "amendment_id": "AMD-v2.4.0-GATE-03-CLOSED",
+  "title": "GATE-03 closure - Persistent Actor Registry",
+  "status": "RATIFIED",
+  "submitted_date": "2026-07-14",
+  "ratified_date": "2026-07-14",
+  "submitted_by": "ACT-20260714-0001",
+  "ratified_by": "Tier 1 (Chris)",
+  "affected_sections": [
+    "CIC-GATE-SPEC-001 section 5",
+    "MANIFEST/gate-registry.json"
+  ],
+  "change_summary": "Propose GATE-03 closure after deterministic R2 passed 9/9.",
+  "breaking_change": false,
+  "linked_lineage_id": "LIN-3bb51d7d4f8047bd9c814efe22a03eef",
+  "submission_lineage_id": "LIN-5d7ac5c45a5146d190bfc5355c011a3a",
+  "linked_report_id": "CIC-TEST-REPORT-GATE-03-R2",
+  "decision_note": "Tier 1 ratified Gate-03 closure on 2026-07-14."
+}

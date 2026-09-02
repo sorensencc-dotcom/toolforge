@@ -1,0 +1,19 @@
+{
+  "amendment_id": "AMD-v2.4.0-GATE-02-CLOSED",
+  "title": "GATE-02 closure - Publication and Retries",
+  "status": "RATIFIED",
+  "submitted_date": "2026-07-14",
+  "ratified_date": "2026-07-14",
+  "submitted_by": "ACT-20260714-0001",
+  "ratified_by": "Tier 1 (Chris)",
+  "affected_sections": [
+    "CIC-GATE-SPEC-001 section 4",
+    "MANIFEST/gate-registry.json"
+  ],
+  "change_summary": "GATE-02 declared CLOSED after CIC-TEST-REPORT-GATE-02-R2 passed all 8 deterministic cases on NTFS, including retry scheduling, failure-state visibility, re-publication, idempotence, consumer isolation, and event linkage.",
+  "breaking_change": false,
+  "linked_lineage_id": "LIN-28d8025f38ef470fbc3238377fe7d056",
+  "submission_lineage_id": "LIN-8c734c0e13f04e628a76ea7a3f461c2e",
+  "linked_report_id": "CIC-TEST-REPORT-GATE-02-R2",
+  "decision_note": "Tier 1 ratified Gate-02 closure on 2026-07-14. Closure does not activate governance runtime or close any other gate."
+}

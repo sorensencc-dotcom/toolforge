@@ -1,3 +1,12 @@
+---
+title: "Phase 0: Pattern Research Gate [COMPONENT_NAME]"
+date: "2026-07-11"
+status: TEMPLATE
+decision: RESEARCH_REQUIRED
+approval_required: TIER1_BEFORE_PHASE_1
+time_boxed: 30min
+---
+
 # Phase 0: Pattern Research Gate — [COMPONENT_NAME]
 
 **Purpose:** Pre-charter discovery checkpoint. Validates whether proposed component is (a) novel, (b) applies existing patterns, or (c) duplicates. Informs charter scope + risk surface.

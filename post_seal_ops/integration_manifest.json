@@ -1,0 +1,45 @@
+{
+  "test_cases": [
+    "TC-PS-01",
+    "TC-PS-02",
+    "TC-PS-03",
+    "TC-PS-04"
+  ],
+  "workflows": [
+    "SVW",
+    "PSPW",
+    "GRW",
+    "PSDAW"
+  ],
+  "module_id": "post_seal_ops",
+  "artifacts": {
+    "promotion_freeze": true,
+    "lineage_lock": true,
+    "event_log": true,
+    "sealed_store": true,
+    "ratification_queue": true,
+    "registry": true
+  },
+  "version": "1.0.0",
+  "generated_timestamp": "2026-07-14T23:50:32Z",
+  "ops_implemented": [
+    "validate_hash_chain",
+    "verify_immutable_storage",
+    "recompute_seal_hash",
+    "verify_governance_signature",
+    "emit_event",
+    "register_artifact",
+    "publish_artifact",
+    "lock_lineage",
+    "freeze_promotion",
+    "validate_wrapper_logs",
+    "resolve_actor",
+    "fault_replay",
+    "detect_fs_type",
+    "submit_ratification",
+    "compute_drift",
+    "semantic_diff",
+    "validate_treatment_graph",
+    "check_redesign_alignment"
+  ]
+}

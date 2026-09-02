@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Validate skill documentation
         shell: pwsh
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Validate changed retro schema compliance
         shell: pwsh
@@ -39,16 +39,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Enforce automation regression-test policy
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: |
-          if [ -f "CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs" ]; then
-            node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA" --run-tests
-          else
-            echo "CIC-GOVERNANCE not present in checkout; delivery guard check satisfied."
-          fi
+        run: >
+          node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA" --run-tests

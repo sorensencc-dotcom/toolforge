@@ -1,3 +1,12 @@
+---
+title: ijfw Agent Integration Guide — Governance v1.5
+date: 2026-07-11
+version: "1.0"
+status: DEPLOYED
+owner: "Tier 1 (Chris) + Claude Code"
+applies_to: "ijfw-plan, ijfw-spec-phase, ijfw-verify agents"
+---
+
 # ijfw Agent Integration Guide — 5 Governance Improvements (v1.5)
 
 **Deploy Date:** 2026-07-11  
