@@ -1,0 +1,67 @@
+name: Graft & AST Architecture Audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.js'
+      - '**/*.mjs'
+      - '**/*.ts'
+      - '**/*.sh'
+      - 'graft/**'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.js'
+      - '**/*.mjs'
+      - '**/*.ts'
+      - '**/*.sh'
+      - 'graft/**'
+
+jobs:
+  graft-audit:
+    name: AST Call-Graph & Sibling Contract Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Project Dependencies
+        run: npm ci
+
+      - name: Identify Changed Code Files
+        id: changed-files
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="origin/${{ github.base_ref }}"
+          else
+            BASE_REF="HEAD~1"
+          fi
+          
+          echo "Comparing against base ref: $BASE_REF"
+          CHANGED=$(git diff --name-only "$BASE_REF" HEAD | grep -E '\.(js|mjs|ts|sh)$' || true)
+          
+          if [ -n "$CHANGED" ]; then
+            CSV_FILES=$(echo "$CHANGED" | paste -sd, -)
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "files=$CSV_FILES" >> "$GITHUB_OUTPUT"
+            echo "Detected changed files:"
+            echo "$CHANGED"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No relevant code files modified."
+          fi
+
+      - name: Run Graft & Sibling Pattern Validation
+        if: steps.changed-files.outputs.has_changes == 'true'
+        run: |
+          node scripts/run-sibling-check-v2.mjs --mode=pre-push --files="${{ steps.changed-files.outputs.files }}"
