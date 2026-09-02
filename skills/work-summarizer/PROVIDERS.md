@@ -43,7 +43,7 @@ Enable reasoning with provider selection:
   "mode": "daily",
   "reasoningEnabled": true,
   "reasoningProvider": "claude",
-  "anthropicModel": "claude-3-5-sonnet-20240620"
+  "anthropicModel": "claude-haiku-4-5"
 }
 ```
 
@@ -59,14 +59,14 @@ import { OllamaProvider } from "./providers/ollamaProvider.js";
 import { createProvider, createProviderFromEnv } from "./providers/index.js";
 
 // Direct instantiation
-const claude = new ClaudeProvider(apiKey, "claude-3-5-sonnet-20240620", 30000);
+const claude = new ClaudeProvider(apiKey, "claude-haiku-4-5", 30000);
 const ollama = new OllamaProvider("llama3");
 
 // Factory
 const provider = createProvider({
   type: "claude",
   apiKey: process.env.ANTHROPIC_API_KEY,
-  model: "claude-3-5-sonnet-20240620"
+  model: "claude-haiku-4-5"
 });
 
 // From environment
@@ -79,7 +79,7 @@ const providerFromEnv = createProviderFromEnv("claude", 30000);
 - **File**: `src/providers/claudeProvider.ts`
 - **Features**: Timeout handling, JSON extraction from markdown, strict validation
 - **Env vars**: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`
-- **Default model**: `claude-3-5-sonnet-20240620`
+- **Default model**: `claude-haiku-4-5`
 
 ### Ollama Provider
 - **File**: `src/providers/ollamaProvider.ts`

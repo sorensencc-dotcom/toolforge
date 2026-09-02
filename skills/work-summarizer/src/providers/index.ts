@@ -38,7 +38,7 @@ export function createProviderFromEnv(
   if (type === "claude") {
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) return null;
-    const model = process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20240620";
+    const model = process.env.ANTHROPIC_MODEL || "claude-haiku-4-5";
     return new ClaudeProvider(apiKey, model, timeoutMs);
   }
 
