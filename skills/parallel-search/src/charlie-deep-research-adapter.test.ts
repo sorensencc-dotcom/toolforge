@@ -1,7 +1,16 @@
 import { strict as assert } from "node:assert";
 import test from "node:test";
 import Parallel from "parallel-web";
-import { charlieDeepResearchSearch } from "./charlie-deep-research-adapter.js";
+import { charlieDeepResearchSearch, charlieResearchQueries } from "./charlie-deep-research-adapter.js";
+
+test("charlieResearchQueries returns the documented historical / primary-source triple", () => {
+  assert.deepEqual(charlieResearchQueries("Willow Run"), [
+    "Willow Run",
+    "Willow Run history",
+    "Willow Run primary sources",
+  ]);
+  assert.deepEqual(charlieResearchQueries("  spaced  "), ["spaced", "spaced history", "spaced primary sources"]);
+});
 
 test("Charlie adapter is disabled by default", async () => {
   const result = await charlieDeepResearchSearch("Willow Run", "The Industrial Architect", { enabled: false, apiKey: "k" });
