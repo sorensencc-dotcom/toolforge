@@ -1,6 +1,14 @@
 import { strict as assert } from "node:assert";
 import test from "node:test";
-import { parallel_extract, parallel_search, parallel_task } from "./index.js";
+import Parallel from "parallel-web";
+import {
+  parallel_extract,
+  parallel_search,
+  parallel_task,
+  parallel_task_result,
+  TASK_RESULT_TIMEOUT_DEFAULT,
+  TASK_RESULT_TIMEOUT_MAX,
+} from "./index.js";
 
 test("fails closed without API key", async () => {
   const r = await parallel_search({ objective: "x" }, { apiKey: " " });
@@ -118,4 +126,110 @@ test("extract call includes the search-extract beta header", async () => {
   });
   assert.equal(r.ok, true);
   assert.deepEqual(seenParams?.betas, ["search-extract-2025-10-10"]);
+});
+
+// --- Task 4: parallel_task_result wrapper -----------------------------------
+
+const taskResultClient = (taskRun: Record<string, unknown>) =>
+  ({ beta: { search: async () => ({}), extract: async () => ({}) }, taskRun } as any);
+
+test("task_result rejects an empty run_id", async () => {
+  const r = await parallel_task_result({ run_id: " " }, { apiKey: "k" });
+  assert.deepEqual(r, { ok: false, error: { code: "INVALID_INPUT", message: "run_id and timeout_seconds must be valid" } });
+});
+
+test("task_result rejects timeout_seconds over the max", async () => {
+  const r = await parallel_task_result({ run_id: "r", timeout_seconds: TASK_RESULT_TIMEOUT_MAX + 100 }, { apiKey: "k" });
+  assert.deepEqual(r, { ok: false, error: { code: "INVALID_INPUT", message: "run_id and timeout_seconds must be valid" } });
+});
+
+test("task_result wait:false polls retrieve and narrows to the 5-field subset", async () => {
+  const r = await parallel_task_result({ run_id: "r" }, {
+    apiKey: "k",
+    clientFactory: () => taskResultClient({
+      retrieve: async () => ({ run_id: "r", interaction_id: "i", status: "running", is_active: true, processor: "core", created_at: null, modified_at: null }),
+    }),
+  });
+  assert.deepEqual(r, { ok: true, data: { run_id: "r", interaction_id: "i", status: "running", is_active: true, processor: "core" } });
+});
+
+test("task_result wait:true delegates to result with the default timeout and unwraps output", async () => {
+  let seenQuery: unknown;
+  const r = await parallel_task_result({ run_id: "r", wait: true }, {
+    apiKey: "k",
+    clientFactory: () => taskResultClient({
+      result: async (_id: string, query: unknown) => {
+        seenQuery = query;
+        return { output: { type: "text", content: "x", basis: [] }, run: { run_id: "r", interaction_id: "i", status: "completed", is_active: false, processor: "core" } };
+      },
+    }),
+  });
+  assert.deepEqual(seenQuery, { timeout: TASK_RESULT_TIMEOUT_DEFAULT });
+  assert.deepEqual(r, { ok: true, data: { status: "completed", output: { type: "text", content: "x", basis: [] } } });
+});
+
+test("task_result treats a terminal 'failed' status from retrieve as data, not an error", async () => {
+  const r = await parallel_task_result({ run_id: "r" }, {
+    apiKey: "k",
+    clientFactory: () => taskResultClient({
+      retrieve: async () => ({ run_id: "r", interaction_id: "i", status: "failed", is_active: false, processor: "core" }),
+    }),
+  });
+  assert.equal(r.ok, true);
+  assert.equal((r as { ok: true; data: { status: string } }).data.status, "failed");
+});
+
+test("task_result treats a terminal 'cancelled' status from retrieve as data, not an error", async () => {
+  const r = await parallel_task_result({ run_id: "r" }, {
+    apiKey: "k",
+    clientFactory: () => taskResultClient({
+      retrieve: async () => ({ run_id: "r", interaction_id: "i", status: "cancelled", is_active: false, processor: "core" }),
+    }),
+  });
+  assert.equal(r.ok, true);
+  assert.equal((r as { ok: true; data: { status: string } }).data.status, "cancelled");
+});
+
+test("task_result wait:true maps a real APIConnectionTimeoutError to PARALLEL_API_ERROR with run_id", async () => {
+  const r = await parallel_task_result({ run_id: "r", wait: true }, {
+    apiKey: "k",
+    clientFactory: () => taskResultClient({
+      result: async () => { throw new Parallel.APIConnectionTimeoutError({ message: "timed out" }); },
+    }),
+  });
+  assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed", run_id: "r" } });
+});
+
+test("task_result wait:true maps a plain error to PARALLEL_API_ERROR with no run_id key", async () => {
+  const r = await parallel_task_result({ run_id: "r", wait: true }, {
+    apiKey: "k",
+    clientFactory: () => taskResultClient({
+      result: async () => { throw new Error("boom"); },
+    }),
+  });
+  assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed" } });
+  assert.equal("run_id" in (r as { ok: false; error: object }).error, false);
+});
+
+test("task_result wait:false returns INVALID_API_RESPONSE when retrieve omits run_id", async () => {
+  const r = await parallel_task_result({ run_id: "r" }, {
+    apiKey: "k",
+    clientFactory: () => taskResultClient({
+      retrieve: async () => ({ interaction_id: "i", status: "running", is_active: true, processor: "core" }),
+    }),
+  });
+  assert.deepEqual(r, { ok: false, error: { code: "INVALID_API_RESPONSE", message: "Parallel returned an invalid response" } });
+});
+
+test("task_result wait:true custom timeout catch still feeds the onError debug sink", async () => {
+  let seen: unknown;
+  const r = await parallel_task_result({ run_id: "r", wait: true }, {
+    apiKey: "k",
+    onError: (e) => { seen = e; },
+    clientFactory: () => taskResultClient({
+      result: async () => { throw new Parallel.APIConnectionTimeoutError({ message: "timed out" }); },
+    }),
+  });
+  assert.equal(seen instanceof Parallel.APIConnectionTimeoutError, true);
+  assert.deepEqual(r, { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed", run_id: "r" } });
 });

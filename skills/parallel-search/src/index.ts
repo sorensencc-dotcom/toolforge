@@ -1,7 +1,7 @@
 import Parallel from "parallel-web";
 
 export type ErrorCode = "API_KEY_MISSING" | "INVALID_INPUT" | "INVALID_API_RESPONSE" | "PARALLEL_API_ERROR";
-export type ToolError = { ok: false; error: { code: ErrorCode; message: string } };
+export type ToolError = { ok: false; error: { code: ErrorCode; message: string; run_id?: string } };
 export type OperationResult<T> = { ok: true; data: T } | ToolError;
 export type SearchInput = { objective?: string; search_queries?: string[]; mode?: "one-shot" | "agentic" | "fast" };
 export type ExtractInput = { urls: string[]; objective?: string };
@@ -69,3 +69,65 @@ export const parallel_task: (input: TaskInput, options?: RuntimeOptions) => Prom
     (client, input) => client.taskRun.create({ input: input.input, processor: input.processor.trim() }),
     isTaskOutput,
   );
+
+export const TASK_RESULT_TIMEOUT_DEFAULT = 300;
+export const TASK_RESULT_TIMEOUT_MAX = 600;
+
+type TaskResultWait = { status: string; output: { type: "text" | "json"; content: string | Record<string, unknown>; basis: unknown[] } };
+type TaskResultOutput = TaskOutput | TaskResultWait;
+
+function isTaskResultWait(value: unknown): value is { run: { status: string }; output: { type: "text" | "json"; content: string | Record<string, unknown>; basis: unknown[] } } {
+  if (!responseObject(value) || !responseObject(value.output) || !responseObject(value.run)) return false;
+  const output = value.output;
+  if (output.type !== "text" && output.type !== "json") return false;
+  if (output.content == null || !Array.isArray(output.basis)) return false;
+  return typeof value.run.status === "string";
+}
+
+// Async task lifecycle:
+//   parallel_task(create)              -> { run_id, status: 'queued', is_active: true }
+//   parallel_task_result(wait:false)   -> { status: 'running' | 'queued' | 'completed' | ... }   (non-blocking poll)
+//   parallel_task_result(wait:true)    -> { status: 'completed', output: { type, content, basis } }
+//                                         delegates blocking to client.taskRun.result(timeout seconds)
+//   timeout before settle              -> { ok:false, error:{ code:'PARALLEL_API_ERROR', run_id } }   // run NOT orphaned
+//   terminal 'failed'/'cancelled'/'action_required' come back as data (ok:true), never as errors
+export const parallel_task_result = async (
+  input: { run_id: string; wait?: boolean; timeout_seconds?: number },
+  options?: RuntimeOptions,
+): Promise<OperationResult<TaskResultOutput>> => {
+  const timeout = input?.timeout_seconds;
+  if (
+    !responseObject(input) ||
+    !validText(input.run_id) ||
+    (timeout !== undefined && (typeof timeout !== "number" || !(timeout > 0) || timeout > TASK_RESULT_TIMEOUT_MAX))
+  ) {
+    return error("INVALID_INPUT", "run_id and timeout_seconds must be valid");
+  }
+
+  let client: Client | ToolError;
+  try { client = clientFor(options); } catch (err) { return reportError(options, err); }
+  if (!("beta" in client)) return client;
+
+  if (input.wait === true) {
+    try {
+      const value = await client.taskRun.result(input.run_id, { timeout: timeout ?? TASK_RESULT_TIMEOUT_DEFAULT });
+      if (!isTaskResultWait(value)) return error("INVALID_API_RESPONSE", "Parallel returned an invalid response");
+      return { ok: true, data: { status: value.run.status, output: { type: value.output.type, content: value.output.content, basis: value.output.basis } } };
+    } catch (err) {
+      try { options?.onError?.(err); } catch { /* a throwing logger must not break the never-throw contract */ }
+      if (process.env.PARALLEL_DEBUG) console.error(err);
+      if (err instanceof Parallel.APIConnectionTimeoutError) {
+        return { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed", run_id: input.run_id } };
+      }
+      return { ok: false, error: { code: "PARALLEL_API_ERROR", message: "Parallel request failed" } };
+    }
+  }
+
+  try {
+    const value = await client.taskRun.retrieve(input.run_id);
+    if (!isTaskOutput(value)) return error("INVALID_API_RESPONSE", "Parallel returned an invalid response");
+    return { ok: true, data: { run_id: value.run_id, interaction_id: value.interaction_id, status: value.status, is_active: value.is_active, processor: value.processor } };
+  } catch (err) {
+    return reportError(options, err);
+  }
+};
