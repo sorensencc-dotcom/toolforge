@@ -333,6 +333,22 @@ recipient is not local.
   `details: { recipientDomain }`. The envelope is **not** queued in `sync`
   mode; the sender re-sends. Audit `federation.forward_unavailable`.
 
+> **Known limitation (final review, I1 — PARKED).** In the implementation
+> as merged, the `sync`-mode forward runs `postForward` (a 5 s-timeout
+> outbound HTTP call) *inside* the `repository.withTransaction` block that
+> wraps `acceptWithRepository`. A slow or hung peer therefore pins one
+> database pool connection for up to the timeout, and enough concurrent
+> forwards to a slow peer can exhaust the pool for all relay traffic,
+> federated or not. Nothing is written locally on the `forward` path, so no
+> transaction is actually required there; the fix is to lift the `forward`
+> branch out of the transactional accept. It was deferred because a
+> contained lift forces reordering the shared `decideRoute` /
+> replay-detection / rejection-audit prologue that the `local`, `reject`,
+> and `queue` branches also depend on — its own change slice with its own
+> review. Until it lands, **`queue` mode is the production path; `sync` mode
+> is not production-ready under slow or unreliable peers.** Recorded in
+> `STATUS.md` "Known limitations".
+
 **`queue` mode.** Requires `--database-url` (the outbox is Postgres-only).
 
 - On accept, write a `federation_outbox` row (envelope, `recipient_domain`,
@@ -579,9 +595,10 @@ value as a hard stop.
 - **Queue mode** — accept returns `202` + `queued: true` and writes one
   `federation_outbox` row (`state = 'pending'`); a reaper pass with an
   injected clock claims it (`state = 'processing'`, `claim_token` set),
-  forwards it (2xx → `forwarded`, `claim_token` cleared); three injected
-  transport failures walk the 1m/5m/30m schedule (each returning the row to
-  `pending`) and end at `dead_letter` + a `federation.dead_letter` audit
+  forwards it (2xx → `forwarded`, `claim_token` cleared); four injected
+  transport failures — the first three each return the row to `pending`,
+  walking the 1m / 5m / 30m backoff schedule in turn (`MAX_ATTEMPTS = 4`),
+  and the fourth ends at `dead_letter` + a `federation.dead_letter` audit
   event; a peer 4xx during a reaper pass → `forward_rejected` (terminal); an
   expired envelope → `dead_letter` with reason `MESSAGE_EXPIRED`; a row
   stuck in `processing` past the 300 s lease is reclaimed by the next pass
