@@ -111,7 +111,7 @@ export const parallel_task_result = async (
   if (input.wait === true) {
     try {
       const value = await client.taskRun.result(input.run_id, { timeout: timeout ?? TASK_RESULT_TIMEOUT_DEFAULT });
-      if (!isTaskResultWait(value)) return error("INVALID_API_RESPONSE", "Parallel returned an invalid response");
+      if (!isTaskResultWait(value)) return reportError(options, value, error("INVALID_API_RESPONSE", "Parallel returned an invalid response"));
       return { ok: true, data: { status: value.run.status, output: { type: value.output.type, content: value.output.content, basis: value.output.basis } } };
     } catch (err) {
       try { options?.onError?.(err); } catch { /* a throwing logger must not break the never-throw contract */ }
@@ -125,7 +125,7 @@ export const parallel_task_result = async (
 
   try {
     const value = await client.taskRun.retrieve(input.run_id);
-    if (!isTaskOutput(value)) return error("INVALID_API_RESPONSE", "Parallel returned an invalid response");
+    if (!isTaskOutput(value)) return reportError(options, value, error("INVALID_API_RESPONSE", "Parallel returned an invalid response"));
     return { ok: true, data: { run_id: value.run_id, interaction_id: value.interaction_id, status: value.status, is_active: value.is_active, processor: value.processor } };
   } catch (err) {
     return reportError(options, err);
