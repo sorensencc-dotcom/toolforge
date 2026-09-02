@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.61.0
+Date: 2026-09-02
+
+### Changes
+- 3e34488 - feat(trm): add unattended scheduled miner script and resolve GAP-06 dossier (Chris Sorensen)
+
 ## Version 2.60.0
 Date: 2026-09-02
 
