@@ -8,6 +8,14 @@ export type AdapterOptions = RuntimeOptions & { enabled?: boolean; taskRun?: boo
 const isEnabled = (options?: AdapterOptions) => options?.enabled ?? ["1", "true", "yes"].includes(process.env.CHARLIE_PARALLEL_SEARCH_ENABLED?.trim().toLowerCase() ?? "");
 const fail = (code: AdapterErrorCode): AdapterResult => ({ ok: false, error: { code } });
 
+// The Cast Iron Charlie historical / primary-source query bias, in one overridable place.
+// A named helper rather than three inline literals so the research strategy is reviewable
+// and swappable here without touching the request-building code.
+export function charlieResearchQueries(topic: string): [string, string, string] {
+  const t = topic.trim();
+  return [t, `${t} history`, `${t} primary sources`];
+}
+
 // Per-candidate drop/shape rule shared by the Search path and the Task Run path.
 // Returns the record, or undefined to drop it.
 function toRecord(candidate: unknown): CharlieResearchRecord | undefined {
@@ -63,7 +71,7 @@ export async function charlieDeepResearchSearch(topic: string, persona: string, 
     return records ? { ok: true, data: records } : fail("INVALID_API_RESPONSE");
   }
 
-  const result: OperationResult<SearchOutput> = await parallel_search({ objective, search_queries: [topic.trim(), `${topic.trim()} history`, `${topic.trim()} primary sources`], mode: "agentic" }, options);
+  const result: OperationResult<SearchOutput> = await parallel_search({ objective, search_queries: charlieResearchQueries(topic), mode: "agentic" }, options);
   if (result.ok === false) return fail(result.error.code);
   const data = normalize(result.data);
   return data ? { ok: true, data } : fail("INVALID_API_RESPONSE");

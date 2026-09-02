@@ -3,7 +3,7 @@ import { globSync } from "node:fs";
 
 // Default suite: every src/**/*.test.ts EXCEPT the live smoke test, which hits
 // the real Parallel API and must never run in default CI (design spec, defect 7).
-const EXPECTED_MIN = 29;
+const EXPECTED_MIN = 35;
 const files = globSync("src/**/*.test.ts").filter(f => !f.endsWith(".smoke.test.ts"));
 if (files.length === 0) {
   console.error("No test files matched src/**/*.test.ts. A suite was silently dropped.");
