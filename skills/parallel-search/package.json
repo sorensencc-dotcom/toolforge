@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node scripts/assert-test-count.mjs",
+    "test:smoke": "tsx --test src/index.smoke.test.ts",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {"parallel-web": "^0.3.2"},
