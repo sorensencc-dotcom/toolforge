@@ -37,14 +37,22 @@ if ($ExpectedBranch -and $branch -cne $ExpectedBranch) {
   throw "Branch mismatch for '$gitRoot'. Expected '$ExpectedBranch'; got '$branch'."
 }
 
-$manifest = Join-Path $root 'package.json'
-if (-not (Test-Path -LiteralPath $manifest -PathType Leaf)) {
-  throw "Root package manifest is missing: '$manifest'"
+$manifests = @('package.json', 'pyproject.toml', 'go.mod', 'Cargo.toml')
+$manifest = $null
+foreach ($m in $manifests) {
+  $candidate = Join-Path $root $m
+  if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+    $manifest = $candidate
+    break
+  }
+}
+if ($null -eq $manifest) {
+  throw "No recognised root manifest found in '$root'. Expected one of: $($manifests -join ', ')"
 }
 
 [pscustomobject]@{
   RepositoryRoot = $gitRoot
-  Branch = $branch
-  Manifest = $manifest
-  Status = 'PREFLIGHT_PASS'
+  Branch         = $branch
+  Manifest       = $manifest
+  Status         = 'PREFLIGHT_PASS'
 }
