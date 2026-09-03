@@ -1,6 +1,6 @@
 # IronLedger Phase 2a evidence and exit verification
 
-Status: Phase 2a evidence; pending operator approval of the exit gate.
+Status: Phase 2a exit gate approved by the operator in the session transcript on 2026-09-03. Phase 2b may start.
 Scope: file acquisition, parsing, canonical versioned identity, idempotent staging, a read-only `review list`, and the operator-authorization gate for `import` and `fitid-trust add`. Focused-suite evidence only.
 
 ## 1. Provenance of this evidence
@@ -172,3 +172,7 @@ This is focused-suite evidence only. Full-suite runs, live bank-file imports, an
 Tasks 1 through 14 of `docs/meta/plans/ironledger-phase-2a-plan.md` have implementation and 155 passing, 1 skipped focused tests. Every spec §12 item maps to named tests in section 5. The dependency posture is a single pure-Python parser dependency with a committed lockfile. The gaps in section 7 are documented limitations, not regressions.
 
 Do not mark Phase 2a complete until the operator reviews this evidence and approves the exit gate in the transcript.
+
+## 11. Exit gate decision
+
+The operator approved the Phase 2a exit gate in the session transcript on 2026-09-03. Tasks 1 through 14 are accepted on focused-suite evidence. The section 7 gaps are carried forward as known limitations, not blockers. Phase 2b (reconcile, categorization, approval, compile to Beancount) is cleared to start. Full-suite runs, live bank-file imports, and production evidence remain deferred and out of scope for this gate.
