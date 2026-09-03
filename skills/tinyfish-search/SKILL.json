@@ -1,0 +1,23 @@
+{
+  "id": "tinyfish-search",
+  "name": "TinyFish Search",
+  "version": "1.0.0",
+  "description": "TinyFish AI high-speed search and clean Markdown fetch integration",
+  "status": "active",
+  "runtime": "typescript",
+  "entrypoint": "skills/tinyfish-search/dist/index.js",
+  "owner": "soren",
+  "category": "sync-tools",
+  "permissions": {
+    "required": [
+      "network:web"
+    ],
+    "optional": []
+  },
+  "dependencies": {
+    "external": [
+      "@tiny-fish/sdk"
+    ],
+    "internal": []
+  }
+}

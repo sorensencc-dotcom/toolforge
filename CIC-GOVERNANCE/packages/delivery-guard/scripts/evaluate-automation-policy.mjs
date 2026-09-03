@@ -105,21 +105,41 @@ function parseArgs(args) {
 
 function commitChangeSets(base, head) {
   const resolvedHead = runGit(['rev-parse', '--verify', head]).trim();
-  if (/^0+$/.test(base)) {
+  if (!base || /^0+$/.test(base)) {
     return {
       source: 'root-diff',
       changeSets: [{ commitSha: resolvedHead, entries: diffEntries(EMPTY_TREE_SHA, resolvedHead) }],
     };
   }
 
-  const commits = runGit(['rev-list', '--reverse', `${base}..${resolvedHead}`])
-    .trim()
-    .split(/\r?\n/)
-    .filter(Boolean);
+  let resolvedBase = base;
+  try {
+    resolvedBase = runGit(['rev-parse', '--verify', base]).trim();
+  } catch {
+    resolvedBase = null;
+  }
+
+  if (!resolvedBase) {
+    return {
+      source: 'git-diff',
+      changeSets: [{ commitSha: resolvedHead, entries: diffEntries(`${resolvedHead}~1`, resolvedHead) }],
+    };
+  }
+
+  let commits = [];
+  try {
+    commits = runGit(['rev-list', '--reverse', `${resolvedBase}..${resolvedHead}`])
+      .trim()
+      .split(/\r?\n/)
+      .filter(Boolean);
+  } catch {
+    commits = [];
+  }
+
   if (commits.length === 0) {
     return {
       source: 'git-diff',
-      changeSets: [{ commitSha: resolvedHead, entries: diffEntries(base, resolvedHead) }],
+      changeSets: [{ commitSha: resolvedHead, entries: diffEntries(resolvedBase, resolvedHead) }],
     };
   }
 

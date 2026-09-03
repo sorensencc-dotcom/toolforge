@@ -32,11 +32,10 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: "24"
 
       - name: Install Project Dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts || npm install --ignore-scripts --no-audit
 
       - name: Identify Changed Code Files
         id: changed-files

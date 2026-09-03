@@ -188,3 +188,19 @@ test('CI wrapper handles an all-zero base as a root diff', () => {
   const record = JSON.parse(result.stdout);
   assert.equal(record.source, 'root-diff');
 });
+
+test('CI wrapper handles an unresolvable base ref defensively without crashing', () => {
+  const result = spawnSync(process.execPath, [
+    wrapperPath,
+    '--base', 'nonexistent-base-ref-12345678',
+    '--head', 'HEAD',
+  ], {
+    cwd: cicRoot,
+    encoding: 'utf8',
+  });
+
+  assert.notEqual(result.status, 128, result.stderr);
+  const record = JSON.parse(result.stdout);
+  assert.equal(record.source, 'git-diff');
+});
+
