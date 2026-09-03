@@ -1,5 +1,21 @@
 # Changelog
 
+## Version 2.61.1
+Date: 2026-09-03
+
+### Changes
+- 983f7d8 - docs(plan): add TinyFish search skill implementation plan (Chris Sorensen)
+- 76ffd4d - docs(spec): address review findings for client guard, types, and timeout semantics (Chris Sorensen)
+- 9799ce6 - docs(spec): add provider hygiene, timeout semantics, and future-proofing to TinyFish spec (Chris Sorensen)
+- 1f489f6 - chore(sync): register parallel-search skill, refresh skillpack metadata (Chris Sorensen)
+- 935bdc5 - fix(skillpack): stop regen from clobbering timestamps and line endings (Chris Sorensen)
+- 7a80dd0 - docs(spec): sigil cross-federation directory design (federation #4) (Chris Sorensen)
+- bc5f02a - fix(validator): expand canonical skill category allow-list (Chris Sorensen)
+- fc17eb2 - docs(meta): add Claude API caching + batch cost checklist, retire DCO-BIP padding engine (Chris Sorensen)
+- 7037895 - docs(sigil): fold I1 fabb4fe + I4 MAX_ATTEMPTS=4 into routing plan/spec (Chris Sorensen)
+- ef25b6a - chore(sync): bump handoff date to 2026-09-01, append session-end journal entries (Chris Sorensen)
+- 099dc06 - docs(report): add weekly report for 2026-W36 (Chris Sorensen)
+
 ## Version 2.61.0
 Date: 2026-09-02
 
