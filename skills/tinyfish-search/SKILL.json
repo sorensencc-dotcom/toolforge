@@ -5,7 +5,7 @@
   "description": "TinyFish AI high-speed search and clean Markdown fetch integration",
   "status": "active",
   "runtime": "typescript",
-  "entrypoint": "skills/tinyfish-search/dist/index.js",
+  "entrypoint": "src/index.ts",
   "owner": "soren",
   "category": "sync-tools",
   "permissions": {

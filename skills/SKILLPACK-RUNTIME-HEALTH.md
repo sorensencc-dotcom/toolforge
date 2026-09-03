@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-08-31T02:37:18.3466342Z
+**Generated:** 2026-09-03T02:55:14.7261024Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 336 | 0 | 0 | 336 |
-| % Pass | 100% | 0% | 0% | 100% |
+| **Totals** | 340 | 2 | 1 | 343 |
+| % Pass | 99.1% | 0.6% | 0.3% | 100% |
 
 ---
 
@@ -437,6 +437,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### tinyfish-search — ❌ ERROR
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ❌ FAIL | File not found: skills/tinyfish-search/dist/index.js |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ⚠️ WARN | No exports detected in entrypoint |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### tool-lifecycle-manager — ✅ GOOD
 
 | Check | Result | Details |
@@ -657,7 +669,7 @@ Skills with warnings but no failures:
 ### ❌ Error Health
 
 Skills with critical failures:
-*(none)*
+- tinyfish-search
 
 ---
 

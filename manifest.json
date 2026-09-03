@@ -1361,7 +1361,7 @@
       "name": "tinyfish-search",
       "category": "sync-tools",
       "description": "TinyFish AI high-speed search and clean Markdown fetch integration",
-      "entrypoint": "skills/tinyfish-search/dist/index.js",
+      "entrypoint": "src/index.ts",
       "status": "active",
       "version": "1.0.0",
       "runtime": "typescript",

@@ -49,14 +49,15 @@ function Write-IfChanged {
 }
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\skills"
-$COWORK_REGISTRY = "C:\dev\audit\COWORK-REGISTERED-SKILLS.md"
-$MANIFEST_FILE = "C:\dev\manifest.json"
-$SYNC_REPORT = "C:\dev\audit\COWORK-AUTO-SYNC-REPORT.md"
-$VALIDATOR = "C:\dev\utilities\toolforgeSkillValidator.ps1"
-$METADATA_GEN = "C:\dev\utilities\toolforgeMetadataGenerator.ps1"
-$HEALTH_CHECK = "C:\dev\utilities\toolforgeSkillHealthCheck.ps1"
-$DEP_GRAPH = "C:\dev\utilities\toolforgeDependencyGraph.ps1"
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$CANONICAL_SKILLS = Join-Path $repoRoot "skills"
+$COWORK_REGISTRY = Join-Path $repoRoot "audit\COWORK-REGISTERED-SKILLS.md"
+$MANIFEST_FILE = Join-Path $repoRoot "manifest.json"
+$SYNC_REPORT = Join-Path $repoRoot "audit\COWORK-AUTO-SYNC-REPORT.md"
+$VALIDATOR = Join-Path $repoRoot "utilities\toolforgeSkillValidator.ps1"
+$METADATA_GEN = Join-Path $repoRoot "utilities\toolforgeMetadataGenerator.ps1"
+$HEALTH_CHECK = Join-Path $repoRoot "utilities\toolforgeSkillHealthCheck.ps1"
+$DEP_GRAPH = Join-Path $repoRoot "utilities\toolforgeDependencyGraph.ps1"
 
 # Sync state
 $sync = @{

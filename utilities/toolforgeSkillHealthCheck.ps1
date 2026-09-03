@@ -64,9 +64,10 @@ function Write-IfChanged {
 }
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\skills"
-$MANIFEST_FILE = "C:\dev\manifest.json"
-$RUNTIME_LOG = "C:\dev\audit\SKILL-RUN-LOG.md"
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$CANONICAL_SKILLS = Join-Path $repoRoot "skills"
+$MANIFEST_FILE = Join-Path $repoRoot "manifest.json"
+$RUNTIME_LOG = Join-Path $repoRoot "audit\SKILL-RUN-LOG.md"
 $INTERNAL_SKILLS = @("_cic-shared")
 
 # Health state
@@ -140,7 +141,9 @@ function Sync-WarningsToTodos {
     $checkName = [string]$group.Name
     $groupMarker = "<!-- todo-group: toolforge-health-warning:$checkName -->"
     [void]$activeMarkers.Add($groupMarker)
-    if (-not $content.Contains($groupMarker)) {`n      $newLines += "- [ ] **[P2] Toolforge health warning group: $checkName** (created $dateStr) — $($skills.Count) skill(s): $($skills -join ', '). Source: SKILLPACK-RUNTIME-HEALTH.md. $groupMarker"`n    }
+    if (-not $content.Contains($groupMarker)) {
+      $newLines += "- [ ] **[P2] Toolforge health warning group: $checkName** (created $dateStr) — $($skills.Count) skill(s): $($skills -join ', '). Source: SKILLPACK-RUNTIME-HEALTH.md. $groupMarker"
+    }
   }
   # Clean up / auto-resolve stale warning items in TODOS.md
   $lines = $content -split "\r?\n"

@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
   Toolforge Skill Validator Refinement
   Multi-system consistency check for skill lifecycle.
@@ -63,11 +63,12 @@ function Write-IfChanged {
 }
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\skills"
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$CANONICAL_SKILLS = Join-Path $repoRoot "skills"
 $DISTRIBUTED_SKILLS = "C:\dev\rewrite-mcp\toolforge\skills"
-$MANIFEST_FILE = "C:\dev\manifest.json"
-$COWORK_REGISTRY = "C:\dev\audit\COWORK-REGISTERED-SKILLS.md"
-$RUNTIME_LOG = "C:\dev\audit\SKILL-RUN-LOG.md"
+$MANIFEST_FILE = Join-Path $repoRoot "manifest.json"
+$COWORK_REGISTRY = Join-Path $repoRoot "audit\COWORK-REGISTERED-SKILLS.md"
+$RUNTIME_LOG = Join-Path $repoRoot "audit\SKILL-RUN-LOG.md"
 
 # Validation state
 $validation = @{
@@ -1157,10 +1158,10 @@ Write-Host ""
 Write-Host "🔄 Running Phase 1.4–1.7 generators..." -ForegroundColor Cyan
 
 $generators = @(
-  @{ name = "Dependency Graph (1.4)"; path = "C:\dev\utilities\toolforgeDependencyGraph.ps1" }
-  @{ name = "Metadata Schema (1.5)"; path = "C:\dev\utilities\toolforgeMetadataGenerator.ps1" }
-  @{ name = "Health Check (1.6)"; path = "C:\dev\utilities\toolforgeSkillHealthCheck.ps1" }
-  @{ name = "Cowork Auto-Sync (1.7)"; path = "C:\dev\daemons\cowork-auto-sync.ps1" }
+  @{ name = "Dependency Graph (1.4)"; path = Join-Path $PSScriptRoot "toolforgeDependencyGraph.ps1" }
+  @{ name = "Metadata Schema (1.5)"; path = Join-Path $PSScriptRoot "toolforgeMetadataGenerator.ps1" }
+  @{ name = "Health Check (1.6)"; path = Join-Path $PSScriptRoot "toolforgeSkillHealthCheck.ps1" }
+  @{ name = "Cowork Auto-Sync (1.7)"; path = Join-Path $repoRoot "daemons\cowork-auto-sync.ps1" }
 )
 
 $genErrors = 0
