@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.62.0
+Date: 2026-09-03
+
+### Changes
+- 86eabb4 - feat(tinyfish): add tinyfish-search skill — search and Markdown extract via @tiny-fish/sdk (#27) (Chris Sorensen)
+
 ## Version 2.61.1
 Date: 2026-09-03
 
