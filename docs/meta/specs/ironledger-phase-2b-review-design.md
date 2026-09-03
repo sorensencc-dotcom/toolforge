@@ -56,24 +56,27 @@ pending  <->  categorized  <->  rejected
 
 ## 4. Schema migration `0004_review_workflow.sql`
 
-The migration applies once on a fresh database, is never re-applied, and leaves no partial schema version if interrupted, matching the Phase 1 runner contract. It runs inside one transaction with `PRAGMA foreign_keys` handled per the SQLite table-rebuild procedure.
+The migration applies once on a fresh database, is never re-applied, and leaves no partial schema version if interrupted, matching the Phase 1 runner contract.
+
+The Phase 1 migration runner wraps every migration file in a single `BEGIN; … COMMIT;`, and SQLite ignores `PRAGMA foreign_keys` inside a transaction. The classic table rebuild's `PRAGMA foreign_keys = OFF` step is therefore unavailable. The migration instead rebuilds with foreign keys still enforced by first removing the only inbound reference that would bite.
 
 ### 4.1 Rebuild `staged_transactions`
 
-`staged_transactions` is a `STRICT` table with a `status` `CHECK`. SQLite cannot alter a `CHECK`, so the migration performs the standard twelve-step rebuild:
+`staged_transactions` is a `STRICT` table with a `status` `CHECK`; SQLite cannot alter a `CHECK`. Two tables reference `staged_transactions.staged_transaction_id`: `staged_postings` (migration 0003, `ON DELETE CASCADE`) and `ledger_entries` (migration 0001, `ON DELETE RESTRICT`, always empty in Phase 2b because no compile has run). With foreign keys on, `DROP TABLE staged_transactions` would cascade-delete every `staged_postings` row, so the migration parks and restores that child table:
 
-1. `PRAGMA foreign_keys = OFF` (the migration runner already brackets each migration; this is asserted, not toggled per statement).
-2. Create `staged_transactions_new` with the widened `status` `CHECK (status IN ('pending', 'categorized', 'approved', 'rejected'))`, the existing columns unchanged, and two new columns:
-   - `reject_reason TEXT` — nullable; set only on a transition into `rejected` with `--reason`, cleared on `reopen`.
+1. `CREATE TABLE staged_postings_rebuild_backup AS SELECT * FROM staged_postings;` — a plain, constraint-free copy of the child rows.
+2. `DELETE FROM staged_postings;` — the child table is now empty, so the later `DROP` cascades into nothing.
+3. `CREATE TABLE staged_transactions_new (…)` with the widened `status` `CHECK (status IN ('pending', 'categorized', 'approved', 'rejected'))`, every existing column and the `UNIQUE (identity_algo_version, identity_fingerprint)` constraint unchanged, plus two new columns:
+   - `reject_reason TEXT` — nullable; set on a transition into `rejected` with `--reason`, cleared on `reopen`.
    - `categorized_at_utc TEXT CHECK (categorized_at_utc IS NULL OR categorized_at_utc GLOB '????-??-??T??:??:??*Z')` — set on the first move to `categorized`, cleared on `reopen`.
-3. `INSERT INTO staged_transactions_new SELECT ..., NULL, NULL FROM staged_transactions`.
-4. `DROP TABLE staged_transactions`.
-5. `ALTER TABLE staged_transactions_new RENAME TO staged_transactions`.
-6. Recreate the `UNIQUE (identity_algo_version, identity_fingerprint)` constraint (carried in the new table definition) and any indexes.
-7. `PRAGMA foreign_key_check` returns no rows.
-8. Re-assert `PRAGMA foreign_keys = ON` at the runner boundary.
+4. `INSERT INTO staged_transactions_new SELECT <existing columns>, NULL, NULL FROM staged_transactions;`
+5. `DROP TABLE staged_transactions;` — `staged_postings` is empty so its `CASCADE` deletes nothing; `ledger_entries` is empty so its `RESTRICT` is not triggered.
+6. `ALTER TABLE staged_transactions_new RENAME TO staged_transactions;` — the `staged_postings` and `ledger_entries` foreign-key clauses still name `staged_transactions` and now resolve to the rebuilt table.
+7. `INSERT INTO staged_postings SELECT * FROM staged_postings_rebuild_backup;` — every parent row exists again under the same primary key, so each child foreign key resolves.
+8. `DROP TABLE staged_postings_rebuild_backup;`
+9. The `staged_postings` indexes (`idx_staged_postings_transaction`, `idx_staged_postings_source`) survive the `DELETE`/re-`INSERT` because the table itself is never dropped. No index on `staged_transactions` beyond the inline `UNIQUE` needs recreating.
 
-`staged_postings.staged_transaction_id` references `staged_transactions (staged_transaction_id)` with `ON DELETE CASCADE ON UPDATE RESTRICT`. The rebuild keeps the same primary-key values, so the child rows stay valid; `PRAGMA foreign_key_check` in step 7 proves it.
+A test asserts `PRAGMA foreign_key_check` returns no rows after the migration and that a pre-existing `staged_transactions` row plus its `staged_postings` children survive the rebuild intact.
 
 The append-only audit triggers from migration `0002` target `audit_events` only and are untouched.
 
@@ -242,19 +245,26 @@ Every phrase-gated action records the authorizing mechanism (`tty` or `confirm-f
 
 ## 10. Observability
 
-New audit event types, all append-only, hash-chained, and fail-closed, none carrying a raw payload or a secret:
+`audit.append_audit_event` has a fixed field envelope (`seq`, `ts_utc`, `actor`, `action`, `target`, `result`, and six nullable ledger/hash fields); it has no free-form payload column. Phase 2a already carries event detail in the `action` string (`import (records_created=5)`, `import (denied: safe mode is on)`). Phase 2b follows the same convention. Every event below has `actor = "operator"`, `target` as noted, and `result` one of `ok` / `denied` / `error`:
 
-- `categorize` — target account, and the `rule_id` when the account came from accepting a loop suggestion.
-- `auto_match` — one event per filled row (staged transaction id, target account, `rule_id`), and the command also emits a final `auto_match` summary event with `matched` and `candidates` counts.
-- `approve` — both posting accounts, identity method, identity fingerprint.
-- `reject` — the reason string or `null`.
-- `reopen` — the from-state.
-- `rule_add`, `rule_disable` — the rule fields, or the `rule_id` and `disabled_at_utc`.
-- `rule_compile_skipped` — a stored `regex` rule that failed to compile at resolution time; the `rule_id`, no abort.
-- `review_session_start`, `review_session_end` — the loop boundaries; the end event carries the per-decision counts.
-- The Phase 2a `import` event gains a `rules_applied` integer field.
+| `action` string | `target` | When |
+|---|---|---|
+| `review categorize (<target_account>)` | staged transaction id | account set on a `pending` or `categorized` row |
+| `review categorize (<target_account>; rule <rule_id>)` | staged transaction id | account came from accepting a loop rule suggestion |
+| `review auto-match (<target_account>; rule <rule_id>)` | staged transaction id | one per row filled by `auto-match` |
+| `review auto-match (matched <n> of <m>)` | `<importing-account>` or `all` | `auto-match` summary, one per command |
+| `review approve` | staged transaction id | approve-gate pass |
+| `review reject` | staged transaction id | move to `rejected` (reason stored on the row, not the event) |
+| `review reopen (from <state>)` | staged transaction id | move back to `pending` |
+| `rule add (<match_type> <pattern> -> <target_account>)` | rule id | `rule add` or `--persist-rule` |
+| `rule disable` | rule id | `rule disable` |
+| `rule resolve (skipped uncompilable regex)` | rule id | a stored `regex` rule failed to compile at resolution time; `result = error`, no abort |
+| `review-session start` | database file basename | guided loop entered |
+| `review-session end (c=<n> a=<n> r=<n> s=<n>)` | database file basename | guided loop exited |
 
-`denied` results use the existing rejection-audit path with the failing check named. No new query surface; `GET /v1/audit` is Phase 5 and unaffected.
+The Phase 2a `import` event's `action` string gains the count: `import (records_created=<n>, rules_applied=<k>)`.
+
+`denied` events reuse the Phase 2a pattern `<action> (denied: <reason>)` written by `auth.require_operator` and by the `categorize` safe-mode guard. No new query surface; `GET /v1/audit` is Phase 5 and unaffected.
 
 ## 11. Error handling
 
