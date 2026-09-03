@@ -76,9 +76,12 @@ federation boundary:
 - Enforcement is **forward-only**. Revocation never retroactively
   invalidates delivered mail; it rejects queued and future envelopes at
   their next delivery or accept.
-- Every directory table already carries a `home_relay` column, added by
-  the local spec's §9 as federation groundwork so a cross-relay version
-  is an application-logic change, not a breaking migration.
+- Every *local* directory table carries a `home_relay` column, added by
+  the local spec's §9 as federation groundwork. This spec does not extend
+  those tables — it adds its own (`federation_directory_invites`,
+  `federation_directory_links`) with explicit `peer_domain` /
+  `remote_domain` columns, so `home_relay` is not carried forward onto
+  them.
 
 ### What #3 already guarantees that this spec builds on
 
@@ -106,10 +109,15 @@ active such row a second way to pass #3's `acceptFederatedEnvelope` step
 8.
 
 - A new self-describing invite code,
-  `sigil-fed-invite:<issuer-domain>:<base64url-random>`, is minted by the
-  issuer relay and shared out-of-band by the issuing human. It is
-  redeemable only on a relay that the issuer relay has named as the
-  intended peer and that has the issuer relay pinned.
+  `sigil-fed-invite:<issuer-domain>:<link-ref>:<base64url-random>`, is
+  minted by the issuer relay and shared out-of-band by the issuing human.
+  `<link-ref>` is the uuid correlation handle (not a secret — it appears
+  in every relay-to-relay message and in `link show`); `<base64url-random>`
+  is the single-use secret whose SHA-256 the issuer relay stores. Both
+  the redeeming relay and the issuing relay learn `link_ref` by parsing
+  the code, so neither side has to wait for a round-trip to key its rows.
+  The code is redeemable only on a relay that the issuer relay has named
+  as the intended peer and that has the issuer relay pinned.
 - The redeeming human redeems on **their own** relay (they have no
   session on the issuer relay). The redeeming relay posts the redemption
   to the issuer relay over a new relay-authenticated route. Each relay
@@ -146,7 +154,7 @@ active such row a second way to pass #3's `acceptFederatedEnvelope` step
 ### Relationship to a future OIDC-match on-ramp
 
 v1 is invite-code only. The schema keeps the invite record in its own
-table and leaves `federation_directory_links.initiated_via` implicitly
+table and defaults `federation_directory_links.initiated_via` to
 `invite`, so adding an `oidc_match` on-ramp later is application logic
 plus a match-request-propagation design, not a migration. Cross-relay
 OIDC match is a non-goal of this spec.
@@ -157,24 +165,37 @@ Extract #3's inbound relay-signature verification into a shared helper so
 both `acceptFederatedEnvelope` and the new directory routes call one
 implementation.
 
-- **`verifyInboundRelayRequest(rawBody, headers, { getPeerByDomain })`**
-  → `Promise<{ ok: true, originDomain, parsedBody }>` or throws
-  `Object.assign(new Error(msg), { code, httpStatus })`. Steps:
+- **`verifyInboundRelayRequest(rawBody, headers, { getPeerByKid })`**
+  → `Promise<{ ok: true, originDomain, peerRecord, parsedBody }>` or
+  throws `Object.assign(new Error(msg), { code, httpStatus })`. Steps:
   1. Parse `rawBody` as JSON; malformed → `400 INVALID_FEDERATION_REQUEST`.
-  2. Read the claimed origin domain from `parsedBody.origin_domain`
-     (envelopes) or `parsedBody.redeemer_domain` / the stored row's
-     `peer_domain` for directory messages — the caller passes which field
-     names the acting relay. `parseDomain` it; invalid →
-     `400 INVALID_FEDERATION_REQUEST`.
-  3. `getPeerByDomain(originDomain)` on the receiver's own directory.
-     None → `403 PEER_NOT_TRUSTED`.
-  4. Re-run JCS canonicalization on `parsedBody`. Verify
-     `Sigil-Relay-Signature` against the pinned peer key whose `kid`
-     equals `Sigil-Relay-Key-Id`; both `kid` and `publicKey` must belong
-     to the same pinned key entry. Failure → `401 RELAY_SIGNATURE_INVALID`.
+  2. Read `Sigil-Relay-Key-Id`; absent → `401 RELAY_SIGNATURE_INVALID`.
+     `getPeerByKid(kid)` resolves the pinned peer record (and its
+     `domain`) that published that `kid`. The acting relay's identity
+     comes from **which pinned key signed the request**, never from a
+     body field — so confirmation and revocation bodies, which carry no
+     domain, authenticate the same way as redemption. No pinned peer owns
+     that `kid` → `403 PEER_NOT_TRUSTED`.
+  3. Re-run JCS canonicalization on `parsedBody`. Verify
+     `Sigil-Relay-Signature` against that peer key. `kid` and `publicKey`
+     must belong to the same pinned key entry (a spoofed request cannot
+     reuse a known `kid` with a new key). Failure →
+     `401 RELAY_SIGNATURE_INVALID`.
+  4. Return `originDomain = peerRecord.domain`, `peerRecord`, and the
+     `parsedBody`. Each handler then asserts its own body/row consistency
+     against `originDomain` (redemption: `redeemer_domain === originDomain`
+     and the redeemer endpoint's domain `=== originDomain`;
+     confirmation/revocation: the stored row's `peer_domain ===
+     originDomain`).
+- A `getPeerByKid(kid)` accessor is added to both repositories (a reverse
+  index over the pinned `keys[].kid`); `getPeerByDomain` is unchanged.
 - #3's `acceptFederatedEnvelope` is refactored to call this helper for
-  its steps 1–3. No behaviour change; the #3 regression suite must stay
-  green.
+  its steps 1–3 (it already reads `Sigil-Relay-Key-Id`; the change is
+  resolving the peer by `kid` instead of by `origin_domain`, then
+  asserting `parsedBody.origin_domain === originDomain` in the handler).
+  No behaviour change for a well-formed request; the #3 regression suite
+  must stay green, plus a new case: a request whose `origin_domain` body
+  field disagrees with the `kid`'s pinned domain → `403 PEER_NOT_TRUSTED`.
 
 ## New module: `sigil/relay/v1/federation-directory-client.mjs`
 
@@ -224,28 +245,34 @@ matching `acceptWithRepository`'s structure. Each returns
 (`originDomain` is the verified posting relay from
 `verifyInboundRelayRequest`).
 
-1. **Structural.** `link_ref` is a uuid; `code` is a
-   `sigil-fed-invite:<domain>:<segment>` string whose `<domain>` parses
-   (`parseDomain`) **and equals this relay's own configured `--domain`
+1. **Structural.** `code` is a
+   `sigil-fed-invite:<domain>:<link-ref>:<segment>` string that parses
+   into exactly those four colon-separated parts; `<domain>` passes
+   `parseDomain` **and equals this relay's own configured `--domain`
    case-insensitively** — a code whose embedded issuer domain names a
    different relay is rejected here even if `<segment>` would hash to a
    local invite row, so the self-describing domain the redeeming human
    saw is always the relay that actually processes the redemption;
-   `redeemer.owner_id` and `redeemer.endpoint_id` are well-formed
-   federated ids (`parseFederatedId`); `redeemer_domain` is a well-formed
-   domain and equals `originDomain`;
+   `<link-ref>` is a uuid and **equals** the body's top-level `link_ref`
+   (they are the same value, carried twice so the signature covers it and
+   the parser has it without splitting the code); `redeemer.owner_id` and
+   `redeemer.endpoint_id` are well-formed federated ids
+   (`parseFederatedId`); `redeemer_domain` is a well-formed domain and
+   equals `originDomain`;
    `parseFederatedId(redeemer.endpoint_id).domain` equals `originDomain`.
    Any failure → `400 INVALID_FEDERATION_REQUEST`.
-2. **Invite lookup.** `repository.getFederationDirectoryInviteByHash(peerDomain
-   = originDomain, codeHash = sha256(segment))`. Resolve the invite by
-   `(peer_domain, code_hash)`. Absent, `status != 'pending'`, or
+2. **Invite lookup.** `repository.getFederationDirectoryInviteByRef(linkRef,
+   client, { forUpdate: true })`, then constant-time compare
+   `sha256(<segment>)` (the code's 4th part) against the row's
+   `code_hash`. Absent row, hash mismatch, `status != 'pending'`, or
    `expires_at <= now` → `403 INVALID_FEDERATION_INVITE` (one generic
-   code for all four cases — no oracle). An expired `pending` invite
+   code for every case — no oracle). An expired `pending` invite
    transitions to `expired` in this same transaction before the reject
-   (lazy atomic, per local §7).
-3. **Peer-domain match.** The invite's `peer_domain` equals `originDomain`
-   (already used as the lookup key; re-assert defensively). Mismatch →
-   `403 INVALID_FEDERATION_INVITE`.
+   (lazy atomic, per local §7). Looking up by the non-secret `link_ref`
+   and verifying the secret hash separately keeps the lookup key stable
+   while the `FOR UPDATE` serialises concurrent redemptions of one code.
+3. **Peer-domain match.** The invite's `peer_domain` equals `originDomain`.
+   Mismatch → `403 INVALID_FEDERATION_INVITE`.
 4. **Idempotent replay.** If the invite is already `redeemed` **and** its
    `redeemed_by_owner_id` / `redeemed_by_endpoint_id` equal this
    request's `redeemer`, return `202` with the issuer identity and the
@@ -273,7 +300,7 @@ matching `acceptWithRepository`'s structure. Each returns
    status = 'pending', remoteConfirmedAt = now, localConfirmedAt = null,
    sourceInviteId = invite.invite_id, peerDomain = originDomain })`. This
    `INSERT` and the invite update commit in one transaction; a
-   concurrent second redemption that lost the `getFederationDirectoryInviteByHash`
+   concurrent second redemption that lost the `getFederationDirectoryInviteByRef`
    `FOR UPDATE` race observes the invite already `redeemed` at step 4 and
    takes the idempotent-`202` branch (same redeemer) or the
    `INVALID_FEDERATION_INVITE` branch (different redeemer).
@@ -324,19 +351,21 @@ matching `acceptWithRepository`'s structure. Each returns
 
 ## New routes: `http-server.mjs`
 
-Three routes, each: read the raw body, call
-`verifyInboundRelayRequest(rawBody, headers, { getPeerByDomain })`, open a
-transaction, dispatch to the matching `accept*` function, map the result
-through the existing `{ request_id, code, message, details }` shape.
+Three routes, each: **first**, if this relay is not Postgres-backed,
+return `501 FEDERATION_DIRECTORY_UNAVAILABLE` immediately — before any
+body parse or signature work, the cheapest possible reject. Otherwise:
+read the raw body, call `verifyInboundRelayRequest(rawBody, headers,
+{ getPeerByKid })`, open a transaction, dispatch to the matching
+`accept*` function, map the result through the existing
+`{ request_id, code, message, details }` shape.
 
 - `POST /v1/federation/directory/redemptions` → `acceptDirectoryRedemption`
 - `POST /v1/federation/directory/confirmations` → `acceptDirectoryConfirmation`
 - `POST /v1/federation/directory/revocations` → `acceptDirectoryRevocation`
 
-All three require a repository-backed (Postgres) relay; on an in-memory
-relay the routes return `501 FEDERATION_DIRECTORY_UNAVAILABLE`. They are
-unauthenticated at the HTTP layer beyond the relay signature — there is
-no endpoint session, exactly as `POST /v1/federation/envelopes`.
+The routes are unauthenticated at the HTTP layer beyond the relay
+signature — there is no endpoint session, exactly as
+`POST /v1/federation/envelopes`.
 
 ## Wire formats
 
@@ -345,7 +374,7 @@ no endpoint session, exactly as `POST /v1/federation/envelopes`.
 ```json
 {
   "link_ref": "3f2a…-uuid",
-  "code": "sigil-fed-invite:a.example:Yk9f…base64url",
+  "code": "sigil-fed-invite:a.example:3f2a…-uuid:Yk9f…base64url",
   "redeemer": { "owner_id": "usr_bob@b.example", "endpoint_id": "ep_claude@b.example" },
   "redeemer_domain": "b.example",
   "requested_at": "2026-09-02T12:00:00.000Z"
@@ -392,32 +421,39 @@ The full happy path across two relays, relay-a issuing to relay-b:
 
 1. **`sigil federation invite create --peer b.example --endpoint
    ep_codex@a.example`** (relay-a, human A authenticated). relay-a mints
-   `link_ref` (uuid) and a random code segment, stores a
-   `federation_directory_invites` row (`status = 'pending'`, `code_hash =
-   sha256(segment)`, `peer_domain = 'b.example'`, `expires_at = now +
-   ttl`), prints `sigil-fed-invite:a.example:<segment>` once. No link row
+   `link_ref` (uuid) and a random secret segment, stores a
+   `federation_directory_invites` row (`link_ref`, `status = 'pending'`,
+   `code_hash = sha256(segment)`, `peer_domain = 'b.example'`,
+   `expires_at = now + ttl`), prints
+   `sigil-fed-invite:a.example:<link_ref>:<segment>` once. No link row
    yet.
 2. A shares the code with B out-of-band.
-3. **`sigil federation invite redeem sigil-fed-invite:a.example:<segment>`**
-   (relay-b, human B authenticated). relay-b parses the issuer domain
-   `a.example`; requires `a.example` pinned (`getPeerByDomain`), else a
-   clear "pin the peer relay first" error. relay-b writes its
-   `federation_directory_links` row: `role = 'redeemer'`, `status =
-   'pending'`, `local_confirmed_at = now` (redeeming a code is B's
-   consent, per local §3.1.3), `remote_confirmed_at = null`,
-   `remote_domain = 'a.example'`. Enqueues a `federation_outbox` row with
-   `kind = 'directory_redemption'`, `idempotency_key = link_ref`,
-   `message_id = link_ref` (synthesised so the existing unique index
-   applies).
+3. **`sigil federation invite redeem sigil-fed-invite:a.example:<link_ref>:<segment>`**
+   (relay-b, human B authenticated). relay-b parses the code into issuer
+   domain `a.example`, `link_ref`, and `segment`; requires `a.example`
+   pinned (`getPeerByDomain`), else a clear "pin the peer relay first"
+   error. relay-b writes its `federation_directory_links` row (`link_ref`
+   from the code, `role = 'redeemer'`, `status = 'pending'`,
+   `local_confirmed_at = now` — redeeming a code is B's consent, per
+   local §3.1.3 — `remote_confirmed_at = null`, `remote_domain =
+   'a.example'`). Enqueues a `federation_outbox` row with `kind =
+   'directory_redemption'`, `idempotency_key = link_ref`, `message_id =
+   link_ref` (both synthesised from the parsed `link_ref` so the existing
+   `(message_id, idempotency_key)` unique index applies).
 4. **Reaper drains** the `directory_redemption` row →
    `postDirectory(peerA, '/v1/federation/directory/redemptions', …)`.
    relay-a runs `acceptDirectoryRedemption`: validates the code, marks
-   the invite `redeemed`, writes relay-a's link row (`role = 'issuer'`,
-   `status = 'pending'`, `remote_confirmed_at = now`, `local_confirmed_at
-   = null`), responds `202` with A's identity. On a `2xx` the outbox row
-   is `forwarded`; on `4xx` it is `forward_rejected` (terminal — a bad or
-   expired code will not become good); on transport failure it walks the
-   1m/5m/30m schedule then `dead_letter`.
+   the invite `redeemed`, writes relay-a's link row (`link_ref`, `role =
+   'issuer'`, `status = 'pending'`, `remote_confirmed_at = now`,
+   `local_confirmed_at = null`), responds `202` with A's identity. On a
+   `2xx` the outbox row is `forwarded`; on `4xx` (`INVALID_FEDERATION_INVITE`,
+   `409 FEDERATION_LINK_EXISTS`) it is `forward_rejected` (terminal — a
+   bad, expired, or superseded code will not become good); on transport
+   failure it walks the 1m/5m/30m schedule then `dead_letter`. **On any
+   terminal non-`forwarded` state, relay-b marks its own `link_ref` row
+   `expired` (reason from the outbox `last_reason_code`), so the redeeming
+   human sees the dead link via `sigil federation link show` rather than a
+   silently stuck `pending` row.**
 5. **`sigil federation link confirm <link_ref>`** (relay-a, human A
    authenticated, human session owner equals `local_owner_id`). relay-a
    runs the same `setFederationDirectoryLinkConfirmation(linkRef,
@@ -510,8 +546,8 @@ relay they abort with the stated limitation.
   `owner_id` (an endpoint key alone cannot mint, matching local §5
   actor-binding). Validates `--peer` with `parseDomain` and
   `--endpoint`'s domain against the relay's own `--domain`. Prints
-  `sigil-fed-invite:<domain>:<segment>` exactly once, plus the
-  `link_ref`. Stores only `sha256(segment)`.
+  `sigil-fed-invite:<domain>:<link_ref>:<segment>` exactly once, plus the
+  bare `link_ref`. Stores only `sha256(segment)`.
 - **`sigil federation invite list`** — the issuer's invites: `link_ref`,
   `peer_domain`, `status`, `expires_at`. No hashes, no code segments.
 - **`sigil federation invite revoke <link_ref>`** — issuer side. Moves a
@@ -521,9 +557,10 @@ relay they abort with the stated limitation.
   instead) or already terminal. Local-only — an unredeemed invite has no
   peer-side row to notify.
 - **`sigil federation invite redeem <code>`** — redeemer side. Parses the
-  issuer domain from the code, requires it pinned, writes the local
-  `pending` link row (redeemer side confirmed), enqueues the redemption.
-  Prints the `link_ref` and "waiting for issuer confirmation."
+  code into issuer domain, `link_ref`, and secret segment; requires the
+  issuer domain pinned; writes the local `pending` link row keyed by that
+  `link_ref` (redeemer side confirmed); enqueues the redemption. Prints
+  the `link_ref` and "waiting for issuer confirmation."
 - **`sigil federation link list [--status <s>]`** — both roles:
   `link_ref`, `role`, `local_owner_id`,
   `remote_owner_id@remote_domain`, `status`, both confirmation
@@ -586,17 +623,19 @@ Migration `018_federation_directory.sql`.
 | `issuer_endpoint_id` | text not null | local federated id (the "A" side) |
 | `issuer_owner_id` | text not null | local federated id |
 | `peer_domain` | text not null | `parseDomain`-valid; the only relay allowed to redeem |
-| `code_hash` | text not null | `sha256` of the random segment; plaintext never stored |
+| `code_hash` | text not null | `sha256` of the secret segment (the code's 4th part); plaintext never stored |
 | `status` | text not null | check in (`pending`, `redeemed`, `expired`, `revoked`) |
 | `redeemed_by_owner_id` | text | filled at redemption |
 | `redeemed_by_endpoint_id` | text | filled at redemption |
 | `redeemed_at` | timestamptz | |
 | `expires_at` | timestamptz not null | |
-| `home_relay` | text not null | deployment relay origin, per local §9 |
 | `created_at` | timestamptz not null | |
 
-`unique (peer_domain, code_hash)`. Index `(status, expires_at)` for lazy
-expiry hygiene.
+`link_ref` is the primary redemption lookup key (`unique`); the separate
+`unique (peer_domain, code_hash)` blocks a duplicate hash under one peer.
+Index `(status, expires_at)` for lazy expiry hygiene. No `home_relay`
+column — this table is issuer-relay-local and `peer_domain` already names
+the other side; the local spec's §9 groundwork column has no role here.
 
 ### `federation_directory_links` (both relays)
 
@@ -618,7 +657,7 @@ expiry hygiene.
 | `peer_domain` | text not null | equals `remote_domain`; the relay allowed to send confirmation/revocation |
 | `revoked_at` | timestamptz | |
 | `revoked_by` | text | check in (`local`, `remote`); nullable |
-| `home_relay` | text not null | per local §9 |
+| `last_reason_code` | text | nullable; set when the reaper marks this row `expired` after its redemption outbox row went terminal |
 | `created_at` | timestamptz not null | |
 | `updated_at` | timestamptz not null | |
 
@@ -637,14 +676,36 @@ Constraints:
 
 ### `federation_outbox` change (from #3)
 
-Add `kind text not null default 'envelope'` with `CHECK (kind IN
-('envelope', 'directory_redemption', 'directory_confirmation',
-'directory_revocation'))`. Existing rows default to `envelope`; the
-existing `(message_id, idempotency_key)` unique index is unchanged.
-Directory rows synthesise `message_id` and `idempotency_key` from
-`link_ref` (redemption uses `link_ref`; confirmation uses
-`link_ref || ':confirm'`; revocation uses `link_ref || ':revoke'`) so one
-of each kind can coexist for a link. The reaper dispatches on `kind`.
+Migration `017` created `federation_outbox` with `envelope jsonb NOT
+NULL`, `sender_key jsonb NOT NULL`, and `sender_owner_id text NOT NULL` —
+none of which a directory row has. Migration `018`:
+
+- adds `kind text not null default 'envelope'` with `CHECK (kind IN
+  ('envelope', 'directory_redemption', 'directory_confirmation',
+  'directory_revocation'))`;
+- adds `directory_payload jsonb` (nullable) — the JCS wire body for a
+  directory row (`{ link_ref, code, redeemer, … }` for a redemption,
+  `{ link_ref, confirmed_at }` / `{ link_ref, revoked_at }` for the
+  others);
+- **drops the `NOT NULL`** on `envelope`, `sender_key`, and
+  `sender_owner_id`, replacing each with a conditional check
+  `CHECK (kind <> 'envelope' OR envelope IS NOT NULL)` (and the same for
+  `sender_key`, `sender_owner_id`), plus
+  `CHECK (kind = 'envelope' OR directory_payload IS NOT NULL)`. Existing
+  rows all have `kind = 'envelope'` and non-null envelope columns, so the
+  new constraints validate without a rewrite;
+- `recipient_domain` / `origin_domain` stay `NOT NULL` and are reused
+  as-is: a `directory_redemption` row sets `recipient_domain` to the
+  issuer relay, `origin_domain` to the redeemer relay.
+
+Existing rows default to `envelope`; the `(message_id, idempotency_key)`
+unique index is unchanged. Directory rows synthesise `message_id` and
+`idempotency_key` from the parsed `link_ref` — redemption uses `link_ref`,
+confirmation `link_ref || ':confirm'`, revocation `link_ref || ':revoke'`
+— so one of each kind can coexist for a link. The reaper dispatches on
+`kind`: `envelope` → `postForward`; `directory_*` → build the signed
+request from `directory_payload` and `postDirectory` to the matching
+path.
 
 ### Repository methods
 
@@ -653,13 +714,17 @@ of each kind can coexist for a link. The reaper dispatches on `kind`.
 link create, confirm, revoke, list) but not the outbox-drained posts:
 
 - `createFederationDirectoryInvite(row, client)`
-- `getFederationDirectoryInviteByHash(peerDomain, codeHash, client)` —
-  also performs the lazy `pending` → `expired` transition when
-  `expires_at <= now`
+- `getFederationDirectoryInviteByRef(linkRef, client, { forUpdate = false })`
+  — primary redemption lookup; also performs the lazy `pending` →
+  `expired` transition when `expires_at <= now`. The caller compares
+  `sha256(segment)` against the returned `code_hash` in constant time.
 - `markFederationDirectoryInviteRedeemed(inviteId, redeemer, now, client)`
 - `revokeFederationDirectoryInvite(linkRef, now, client)` — `pending` →
   `revoked`; no-op / error when already `redeemed` or terminal
 - `listFederationDirectoryInvites(filter)`
+- `getPeerByKid(kid, client?)` — reverse index over pinned `keys[].kid`,
+  used by `verifyInboundRelayRequest` to resolve the acting relay from
+  the signature rather than a body field. On both repositories.
 - `createFederationDirectoryLink(row, client)` — the `INSERT`; a
   partial-unique violation surfaces as a typed
   `FEDERATION_LINK_EXISTS` error carrying the existing row's `link_ref`,
@@ -683,6 +748,14 @@ link create, confirm, revoke, list) but not the outbox-drained posts:
   `expired`) is a no-op. Revocation always wins a race with a concurrent
   confirmation because both take `FOR UPDATE` on the row and the
   confirmation CAS additionally requires `status = 'pending'`.
+- `markFederationDirectoryLinkExpired(linkRef, reasonCode, now, client)` —
+  `UPDATE … SET status = 'expired', last_reason_code = $reason WHERE
+  link_ref = $ref AND status = 'pending'`. Called by the reaper on the
+  **redeemer** relay when that link's `directory_redemption` outbox row
+  reaches a terminal non-`forwarded` state (`forward_rejected` or
+  `dead_letter`), so a redemption the issuer refused does not leave a
+  permanently `pending` row. No-op on a row that has since gone `active`
+  or `revoked`.
 - `listFederationDirectoryLinks(filter)`
 - `getActiveFederationDirectoryLink(localOwnerId, remoteOwnerId,
   remoteDomain, client)` — the step-8 authority; returns the row only
@@ -803,13 +876,18 @@ link create, confirm, revoke, list) but not the outbox-drained posts:
   `envelope.sender.owner_id`.
 - **Reaper** (`federation-reaper.test.mjs` extension) — a
   `kind = 'directory_redemption'` row posts via `postDirectory` to
-  `/redemptions`; `2xx` → `forwarded`; `4xx` → `forward_rejected`
-  (terminal); transport failure walks 1m / 5m / 30m then `dead_letter`
-  (`MAX_ATTEMPTS = 4`); `kind = 'envelope'` rows are unaffected; a mixed
-  batch dispatches each row by `kind`.
+  `/redemptions` with its body from `directory_payload`; `2xx` →
+  `forwarded`; `4xx` → `forward_rejected` (terminal) **and the redeemer
+  relay's matching `link_ref` link row is moved `pending` → `expired`
+  with `last_reason_code`**; transport failure walks 1m / 5m / 30m then
+  `dead_letter` (also expiring the link row); `kind = 'envelope'` rows
+  are unaffected and still carry a non-null `envelope`; a mixed batch
+  dispatches each row by `kind`; a directory row with a null
+  `directory_payload` is rejected by the `018` check constraint at insert
+  time.
 - **CLI** — `invite create` prints a parseable
-  `sigil-fed-invite:<domain>:<segment>` exactly once and persists only
-  the hash; `invite create` without a human session for the endpoint
+  `sigil-fed-invite:<domain>:<link_ref>:<segment>` exactly once and
+  persists only the hash of the segment; `invite create` without a human session for the endpoint
   owner aborts; `invite redeem` of a code whose issuer domain is unpinned
   gives a clear "pin the peer relay first" message; `invite redeem`
   writes the `pending` link and enqueues; `link confirm` by a human whose
