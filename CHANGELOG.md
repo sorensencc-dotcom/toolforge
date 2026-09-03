@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.62.1
+Date: 2026-09-03
+
+### Changes
+- 50580ae - fix(toolforge): normalize entrypoint, add integration diagram, and resolve repository paths dynamically (Chris Sorensen)
+
 ## Version 2.62.0
 Date: 2026-09-03
 
