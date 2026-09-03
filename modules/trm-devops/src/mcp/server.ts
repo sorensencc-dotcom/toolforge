@@ -10,6 +10,7 @@ import { pruneResolvedDefects } from "../core/pruning.ts";
 import { NotebookLMClient } from "../core/notebooklm-client.ts";
 import { validateDefectChunk, quarantineMalformedChunk } from "../core/extractor.ts";
 import type { DefectItem } from "../core/types.ts";
+import { resolveSafePath } from "../core/path-safety.ts";
 
 export interface McpToolDefinition {
   name: string;
@@ -127,13 +128,13 @@ export function createMcpServer(options: McpServerOptions = {}): Server {
       const dryRun = Boolean(args?.dryRun);
       const queuePath =
         typeof args?.queuePath === "string" && args.queuePath
-          ? path.resolve(args.queuePath)
+          ? resolveSafePath(args.queuePath, "queue path")
           : options.queuePath
             ? path.resolve(options.queuePath)
             : path.resolve(process.cwd(), "dev/triage/queue.md");
       const bufferDir =
         typeof args?.offlineBufferDir === "string" && args.offlineBufferDir
-          ? path.resolve(args.offlineBufferDir)
+          ? resolveSafePath(args.offlineBufferDir, "buffer path")
           : options.offlineBufferDir
             ? path.resolve(options.offlineBufferDir)
             : path.resolve(process.cwd(), "dev/triage/.cache/pending-sync");
@@ -191,19 +192,19 @@ export function createMcpServer(options: McpServerOptions = {}): Server {
     if (name === "prune_triage_source") {
       const queuePath =
         typeof args?.queuePath === "string" && args.queuePath
-          ? path.resolve(args.queuePath)
+          ? resolveSafePath(args.queuePath, "queue path")
           : options.queuePath
             ? path.resolve(options.queuePath)
             : path.resolve(process.cwd(), "dev/triage/queue.md");
       const archiveDir =
         typeof args?.archiveDir === "string" && args.archiveDir
-          ? path.resolve(args.archiveDir)
+          ? resolveSafePath(args.archiveDir, "archive path")
           : options.archiveDir
             ? path.resolve(options.archiveDir)
             : path.resolve(process.cwd(), "dev/triage/archive");
       const bufferDir =
         typeof args?.offlineBufferDir === "string" && args.offlineBufferDir
-          ? path.resolve(args.offlineBufferDir)
+          ? resolveSafePath(args.offlineBufferDir, "buffer path")
           : options.offlineBufferDir
             ? path.resolve(options.offlineBufferDir)
             : path.resolve(process.cwd(), "dev/triage/.cache/pending-sync");
@@ -239,7 +240,7 @@ export function createMcpServer(options: McpServerOptions = {}): Server {
       const queryStr = String(args?.query || "");
       const bufferDir =
         typeof args?.offlineBufferDir === "string" && args.offlineBufferDir
-          ? path.resolve(args.offlineBufferDir)
+          ? resolveSafePath(args.offlineBufferDir, "buffer path")
           : options.offlineBufferDir
             ? path.resolve(options.offlineBufferDir)
             : path.resolve(process.cwd(), "dev/triage/.cache/pending-sync");
