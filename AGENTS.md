@@ -139,7 +139,7 @@ yours -- IJFW will never touch it.
 <!-- IJFW-MEMORY-START -->
 Project memory at .ijfw/memory/. Call `ijfw_memory_prelude` for full context.
 
-Last handoff: Handoff: 2026-08-30
+Last handoff: Handoff: 2026-09-01
 ===================
 <!-- IJFW-MEMORY-END -->
 
