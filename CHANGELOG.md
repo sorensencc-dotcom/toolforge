@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.63.0
+Date: 2026-09-03
+
+### Changes
+- fe29dd9 - docs(wiki): add root wiki page mappings and sidebar links for parallel-search and tinyfish-search (Chris Sorensen)
+- 158b109 - feat(trm): resolve open research gaps GAP-02, GAP-03, GAP-06 with archival citations (Chris Sorensen)
+- 46ad5fe - docs(wiki): add dedicated wiki documentation for parallel-search and tinyfish-search (#29) (Chris Sorensen)
+- 3c471be - docs(spec): apply Codex review to cross-federation directory spec (#4) (Chris Sorensen)
+
 ## Version 2.62.1
 Date: 2026-09-03
 
