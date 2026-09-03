@@ -4,7 +4,7 @@
 
 **Goal:** Give a staged transaction a contra account and move it through an explicit `pending -> categorized -> approved | rejected` lifecycle under operator authorization, with a database-backed payee rule engine that auto-fills the contra account at import time and a guided interactive review loop.
 
-**Architecture:** A new `src/ironledger/review/` package holds the state machine (`state.py`), the approve precondition (`approve_gate.py`), the rule engine (`rules.py`), and the guided loop (`loop.py`). Migration `0004` rebuilds `staged_transactions` to widen its `status` CHECK and adds `categorization_rules`. The Phase 2a import pipeline gains one call into `rules.resolve_rule` and loses `_with_placeholder_account`. The CLI grows a `review` subcommand tree and a `rule` subcommand tree that reuse the extended `cli/auth.py` gate.
+**Architecture:** A new `src/ironledger/review/` package holds the state machine (`state.py`), the approve precondition (`approve_gate.py`), the rule engine (`rules.py`), and the guided loop (`loop.py`). Migration `0004`, written whole in Task 1, rebuilds `staged_transactions` to widen its `status` CHECK and adds `categorization_rules`. The Phase 2a import pipeline gains one call into `rules.resolve_rule`, replaces `_with_placeholder_account` with a required `--importing-account` flag for OFX/QFX, and threads a `rules_applied` count. The CLI grows a `review` subcommand tree and a `rule` subcommand tree that reuse the extended `cli/auth.py` gate.
 
 **Tech Stack:** Python 3.12+ standard library only (`argparse`, `sqlite3`, `re`, `unicodedata`, `io`). One existing runtime dependency (`ofxtools`) is untouched. Tests are `pytest` (dev-only dependency).
 
@@ -21,13 +21,17 @@
 - Account names are validated with `ironledger.conventions.validate_account_name(name) -> str`, which raises `ConventionError` (a `ValueError` subclass). Valid roots: `Assets`, `Liabilities`, `Equity`, `Income`, `Expenses`.
 - Payee canonicalization for rule matching is `ironledger.ingest.identity.canonical_payee(value)` — NFC, casefold, ASCII whitespace collapse, strip. Frozen for identity version 1; reuse it, do not reimplement.
 - Migration files are `NNNN_name.sql` in `src/ironledger/db/schema/`, applied by `ironledger.db.migrations.migrate`. The runner wraps each file in a single `BEGIN; <file> <bookkeeping> COMMIT;`. **A migration file must not contain its own `BEGIN`/`COMMIT` and must not rely on `PRAGMA foreign_keys` (ignored inside a transaction).** Versions must be a gapless 1-based sequence, so the new file is `0004_review_workflow.sql`.
+- `ironledger.db.migrations` stores a SHA-256 of each migration file's text and raises `ChecksumMismatch` if a recorded file changes on disk. **`0004_review_workflow.sql` is therefore written whole in Task 1 and never edited again.** Task 2 adds only test coverage for the `categorization_rules` table that Task 1's file already creates. Do not run the CLI against a persistent database between tasks; tests use `:memory:` and are unaffected.
+- `ironledger.conventions.validate_same_currency_balance(postings)` takes a list of `{account, minor_units, currency}`-shaped dicts, returns `{currency: 0}` on success, and raises `ConventionError` on a non-zero per-currency sum, fewer than two postings, or a zero-amount posting. Reuse it; do not hand-roll a balance loop.
 - Every mutating command fails closed: safe mode on, or missing/wrong `--confirm` on a non-TTY, raises `AuthorizationError` (exit code 3) and writes one `denied` audit event.
 - Tests are the focused `pytest` suite only. Full-suite, live-bank-file, and production evidence stay deferred. Every task keeps the suite green.
 - CRLF note: this repo's files are LF. Write new files LF. Do not let an editor rewrite existing files to CRLF or vice versa; check `git diff --stat` before staging.
 
 ---
 
-### Task 1: Migration 0004 — rebuild `staged_transactions`
+### Task 1: Migration 0004 — the complete review-workflow schema
+
+Write `0004_review_workflow.sql` **whole** in this task: the `staged_transactions` rebuild **and** the `categorization_rules` table. The migration runner records a checksum of this file, so it must not change again (Global Constraints). Task 2 adds only more tests against it.
 
 **Files:**
 - Create: `src/ironledger/db/schema/0004_review_workflow.sql`
@@ -35,7 +39,7 @@
 
 **Interfaces:**
 - Consumes: `ironledger.db.migrations.migrate`, `ironledger.db.connection.connect` (Phase 1).
-- Produces: schema version 4; `staged_transactions` with `status IN ('pending','categorized','approved','rejected')` and new nullable columns `reject_reason TEXT`, `categorized_at_utc TEXT`.
+- Produces: schema version 4; `staged_transactions` with `status IN ('pending','categorized','approved','rejected')` and new nullable columns `reject_reason TEXT`, `categorized_at_utc TEXT`; the `categorization_rules` table with `UNIQUE (match_type, pattern, importing_account)` and index `idx_categorization_rules_active_priority (active, priority)`.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -147,8 +151,14 @@ Expected: FAIL — `migrations.MigrationError` (no `0004_*.sql`) or version is 3
 -- foreign_keys is ignored inside a transaction, so the classic
 -- "foreign_keys = OFF" table rebuild is unavailable. Two tables reference
 -- staged_transactions.staged_transaction_id: staged_postings (ON DELETE CASCADE)
--- and ledger_entries (ON DELETE RESTRICT, always empty in Phase 2b). The rebuild
--- parks and restores staged_postings so DROP TABLE cascades into nothing.
+-- and ledger_entries (ON DELETE RESTRICT). The rebuild parks and restores
+-- staged_postings so DROP TABLE cascades into nothing.
+--
+-- ledger_entries is created by migration 0001 but is only ever populated by the
+-- Phase 3 compiler, which does not exist yet. 0004 is recorded before any
+-- Phase 3 work runs, so at apply time ledger_entries has zero rows and the
+-- implicit DELETE inside DROP TABLE never triggers its ON DELETE RESTRICT.
+-- If a future migration reorders this, revisit the DROP below.
 
 CREATE TABLE staged_postings_rebuild_backup AS SELECT * FROM staged_postings;
 
@@ -191,12 +201,51 @@ ALTER TABLE staged_transactions_new RENAME TO staged_transactions;
 INSERT INTO staged_postings SELECT * FROM staged_postings_rebuild_backup;
 
 DROP TABLE staged_postings_rebuild_backup;
+
+CREATE TABLE categorization_rules (
+    rule_id           TEXT PRIMARY KEY,
+    match_type        TEXT NOT NULL CHECK (match_type IN ('exact', 'prefix', 'regex')),
+    pattern           TEXT NOT NULL,
+    importing_account TEXT CHECK (
+        importing_account IS NULL
+        OR importing_account GLOB 'Assets:*' OR importing_account GLOB 'Liabilities:*'
+        OR importing_account GLOB 'Equity:*' OR importing_account GLOB 'Income:*'
+        OR importing_account GLOB 'Expenses:*'
+    ),
+    target_account    TEXT NOT NULL CHECK (
+        target_account GLOB 'Assets:*' OR target_account GLOB 'Liabilities:*'
+        OR target_account GLOB 'Equity:*' OR target_account GLOB 'Income:*'
+        OR target_account GLOB 'Expenses:*'
+    ),
+    priority          INTEGER NOT NULL DEFAULT 100,
+    active            INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)),
+    created_at_utc    TEXT NOT NULL CHECK (created_at_utc GLOB '????-??-??T??:??:??*Z'),
+    disabled_at_utc   TEXT CHECK (disabled_at_utc IS NULL OR disabled_at_utc GLOB '????-??-??T??:??:??*Z'),
+    UNIQUE (match_type, pattern, importing_account)
+) STRICT;
+
+CREATE INDEX idx_categorization_rules_active_priority ON categorization_rules (active, priority);
+```
+
+Add two assertions to `tests/test_migration_0004.py` so this task also proves the rules table landed:
+
+```python
+def test_categorization_rules_table_and_index_present(db: sqlite3.Connection):
+    db.execute(
+        "INSERT INTO categorization_rules (rule_id, match_type, pattern, importing_account, "
+        " target_account, priority, active, created_at_utc) "
+        "VALUES ('r1','exact','coffee bar',NULL,'Expenses:Coffee',100,1,'2026-09-03T10:00:00Z')"
+    )
+    db.commit()
+    assert db.execute("SELECT count(*) FROM categorization_rules").fetchone()[0] == 1
+    names = {r[1] for r in db.execute("PRAGMA index_list('categorization_rules')")}
+    assert "idx_categorization_rules_active_priority" in names
 ```
 
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `PYTHONPATH=src python -m pytest tests/test_migration_0004.py -q`
-Expected: PASS (5 tests).
+Expected: PASS (6 tests).
 
 - [ ] **Step 5: Run the whole suite**
 
@@ -207,19 +256,21 @@ Expected: the Phase 2a `test_migration_0003.py::test_migrate_reaches_version_thr
 
 ```bash
 git add src/ironledger/db/schema/0004_review_workflow.sql tests/test_migration_0004.py
-git commit -m "feat(phase-2b): migration 0004 rebuilds staged_transactions for the review lifecycle"
+git commit -m "feat(phase-2b): migration 0004 — review lifecycle rebuild and categorization_rules"
 ```
 
 ---
 
-### Task 2: Migration 0004 — `categorization_rules` table
+### Task 2: `categorization_rules` constraint coverage
+
+The table and index already exist in `0004_review_workflow.sql` from Task 1 (the file's checksum is now frozen — do not edit it). This task adds the remaining constraint tests in their own file.
 
 **Files:**
-- Modify: `src/ironledger/db/schema/0004_review_workflow.sql` (append)
 - Test: `tests/test_migration_0004_rules.py`
 
 **Interfaces:**
-- Produces: table `categorization_rules` with columns `rule_id`, `match_type`, `pattern`, `importing_account`, `target_account`, `priority`, `active`, `created_at_utc`, `disabled_at_utc`; `UNIQUE (match_type, pattern, importing_account)`; index `idx_categorization_rules_active_priority (active, priority)`.
+- Consumes: the `categorization_rules` table from Task 1.
+- Produces: no code — test coverage only.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -290,57 +341,25 @@ def test_active_priority_index_present(db: sqlite3.Connection):
     assert "idx_categorization_rules_active_priority" in names
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [ ] **Step 2: Run the tests**
 
 Run: `PYTHONPATH=src python -m pytest tests/test_migration_0004_rules.py -q`
-Expected: FAIL — `sqlite3.OperationalError: no such table: categorization_rules`. (If the runner raises `ChecksumMismatch` because the file changed after being recorded in another dev DB, that only affects a persisted DB; `:memory:` fixtures are unaffected.)
+Expected: **PASS** immediately — the table and index were created by Task 1's migration file. This task is coverage, not a red-green cycle: it exists so a reviewer can reject the constraint set independently of the rebuild. If any test fails, the bug is in Task 1's `0004_review_workflow.sql`; fix it there (the checksum is not yet frozen against any persistent DB, only `:memory:` test runs) and re-run Task 1's suite too.
 
-- [ ] **Step 3: Append to the migration file**
+- [ ] **Step 3: (no migration edit)**
 
-Append below the `DROP TABLE staged_postings_rebuild_backup;` line:
+The migration file is complete and its checksum is frozen. Do not touch `0004_review_workflow.sql` in this task.
 
-```sql
-
-CREATE TABLE categorization_rules (
-    rule_id           TEXT PRIMARY KEY,
-    match_type        TEXT NOT NULL CHECK (match_type IN ('exact', 'prefix', 'regex')),
-    pattern           TEXT NOT NULL,
-    importing_account TEXT CHECK (
-        importing_account IS NULL
-        OR importing_account GLOB 'Assets:*' OR importing_account GLOB 'Liabilities:*'
-        OR importing_account GLOB 'Equity:*' OR importing_account GLOB 'Income:*'
-        OR importing_account GLOB 'Expenses:*'
-    ),
-    target_account    TEXT NOT NULL CHECK (
-        target_account GLOB 'Assets:*' OR target_account GLOB 'Liabilities:*'
-        OR target_account GLOB 'Equity:*' OR target_account GLOB 'Income:*'
-        OR target_account GLOB 'Expenses:*'
-    ),
-    priority          INTEGER NOT NULL DEFAULT 100,
-    active            INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)),
-    created_at_utc    TEXT NOT NULL CHECK (created_at_utc GLOB '????-??-??T??:??:??*Z'),
-    disabled_at_utc   TEXT CHECK (disabled_at_utc IS NULL OR disabled_at_utc GLOB '????-??-??T??:??:??*Z'),
-    UNIQUE (match_type, pattern, importing_account)
-) STRICT;
-
-CREATE INDEX idx_categorization_rules_active_priority ON categorization_rules (active, priority);
-```
-
-- [ ] **Step 4: Run tests to verify they pass**
-
-Run: `PYTHONPATH=src python -m pytest tests/test_migration_0004_rules.py tests/test_migration_0004.py -q`
-Expected: PASS (all).
-
-- [ ] **Step 5: Run the whole suite**
+- [ ] **Step 4: Run the whole suite**
 
 Run: `PYTHONPATH=src python -m pytest -q`
 Expected: green.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
-git add src/ironledger/db/schema/0004_review_workflow.sql tests/test_migration_0004_rules.py
-git commit -m "feat(phase-2b): add categorization_rules table to migration 0004"
+git add tests/test_migration_0004_rules.py
+git commit -m "test(phase-2b): categorization_rules constraint coverage"
 ```
 
 ---
@@ -355,7 +374,7 @@ git commit -m "feat(phase-2b): add categorization_rules table to migration 0004"
 **Interfaces:**
 - Consumes: `ironledger.ingest.identity.canonical_payee`, `ironledger.audit.append_audit_event`.
 - Produces:
-  - `resolve_rule(conn, canonical_payee_value: str, importing_account: str, *, now_utc: str | None = None) -> str | None` — returns the winning rule's `target_account`, or `None`. `canonical_payee_value` is already canonicalized by the caller.
+  - `resolve_rule(conn, canonical_payee_value: str, importing_account: str, *, audit_skips: bool = True, now_utc: str | None = None) -> str | None` — returns the winning rule's `target_account`, or `None`. `canonical_payee_value` is already canonicalized by the caller. With `audit_skips=True` (import staging, `auto-match`), a stored `regex` that will not compile is skipped and one audit event records it. With `audit_skips=False` (`review show`, the loop suggestion line), the bad rule is skipped with **no audit write** — those are read paths and must not mutate `audit_events`.
   - `RuleError(ValueError)` — raised for a bad `match_type` or an uncompilable regex at write time (used by Task 4).
 
 - [ ] **Step 1: Write the failing test**
@@ -441,6 +460,16 @@ def test_uncompilable_regex_is_skipped_and_audited(db):
         "SELECT action, target, result FROM audit_events ORDER BY seq DESC LIMIT 1"
     ).fetchone()
     assert row == ("rule resolve (skipped uncompilable regex)", "bad", "error")
+
+
+def test_uncompilable_regex_with_audit_skips_false_writes_nothing(db):
+    _add(db, "bad", match_type="regex", pattern="(unclosed", target="Expenses:X", priority=10)
+    _add(db, "ok", match_type="exact", pattern="coffee bar", target="Expenses:Coffee", priority=20)
+    before = db.execute("SELECT count(*) FROM audit_events").fetchone()[0]
+    assert resolve_rule(
+        db, canonical_payee("Coffee Bar"), "Assets:Bank:Checking", audit_skips=False
+    ) == "Expenses:Coffee"
+    assert db.execute("SELECT count(*) FROM audit_events").fetchone()[0] == before
 ```
 
 - [ ] **Step 2: Run tests to verify they fail**
@@ -477,14 +506,17 @@ def resolve_rule(
     canonical_payee_value: str,
     importing_account: str,
     *,
+    audit_skips: bool = True,
     now_utc: str | None = None,
 ) -> str | None:
     """Return the winning active rule's target_account for this payee and account, or None.
 
     `canonical_payee_value` must already be canonicalized by the caller
     (`ironledger.ingest.identity.canonical_payee`). A stored regex rule that
-    fails to compile is skipped and recorded once as an audit event; it never
-    aborts resolution.
+    fails to compile is skipped; it never aborts resolution. When `audit_skips`
+    is True (import staging, auto-match) the skip is recorded as one audit
+    event. When False (`review show`, the loop suggestion) nothing is written —
+    those are read paths.
     """
     rows = conn.execute(
         "SELECT rule_id, match_type, pattern, target_account FROM categorization_rules "
@@ -504,14 +536,15 @@ def resolve_rule(
             try:
                 compiled = re.compile(pattern)
             except re.error:
-                append_audit_event(
-                    conn,
-                    actor="operator",
-                    action="rule resolve (skipped uncompilable regex)",
-                    target=rule_id,
-                    result="error",
-                    ts_utc=now_utc,
-                )
+                if audit_skips:
+                    append_audit_event(
+                        conn,
+                        actor="operator",
+                        action="rule resolve (skipped uncompilable regex)",
+                        target=rule_id,
+                        result="error",
+                        ts_utc=now_utc,
+                    )
                 continue
             if compiled.search(canonical_payee_value) is not None:
                 return target_account
@@ -521,7 +554,7 @@ def resolve_rule(
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `PYTHONPATH=src python -m pytest tests/test_review_rules_resolve.py -q`
-Expected: PASS (8 tests).
+Expected: PASS (9 tests).
 
 - [ ] **Step 5: Commit**
 
@@ -1102,24 +1135,29 @@ git commit -m "feat(phase-2b): upsert_staged accepts a rule-resolved contra acco
 
 ---
 
-### Task 7: `pipeline.py` — wire rule auto-fill, drop the placeholder
+### Task 7: `pipeline.py` — rule auto-fill and `--importing-account`
 
 **Files:**
 - Modify: `src/ironledger/ingest/pipeline.py`
-- Modify: `tests/test_ingest_pipeline.py` (update the OFX placeholder expectation)
+- Modify: `src/ironledger/cli/__main__.py` (add `--importing-account` to the `import` subparser and thread it)
+- Modify: `tests/test_ingest_pipeline.py` (the three OFX tests pass the new arg)
+- Modify: `tests/test_cli_import.py` (if it drives an OFX import)
 - Test: `tests/test_ingest_pipeline_rules.py`
 
 **Interfaces:**
-- Consumes: `ironledger.review.rules.resolve_rule`, `ironledger.ingest.identity.canonical_payee`.
-- Produces: `run_import` resolves a rule per row and passes the result as `contra_account` to `upsert_staged`; counts matches as `rules_applied`; the single `import` audit event's `action` becomes `import (records_created=<n>, rules_applied=<k>)`; `_with_placeholder_account` is removed and an OFX/QFX file with `parsed.account is None` now stages with `account = parsed.account` (which the OFX parser sets — verify) or, if still `None`, raises `ParseError` naming the unmapped account. `ImportResult` is unchanged in shape.
-
-> Investigation note for the implementer: confirm what `parse_ofx` sets for `parsed.account`. Phase 2a's `_parse` returns a `ParsedFile`; `_with_placeholder_account` only ran `if parsed.account is None`. If the OFX parser always leaves `account is None` (the importing account name is genuinely not in an OFX file), then removing the placeholder means the `imported` posting has no account — which the `staged_postings` CHECK forbids (`imported` may not be NULL). In that case the correct Phase 2b behavior is: the OFX importing account must come from somewhere. Options, decide with the spec's section 5.2 intent ("OFX contra now behaves like CSV"): (a) require a `--importing-account <name>` flag on `import` for OFX files and thread it into `parsed.account`; (b) keep deriving the importing-account *name* from the OFX `BANKACCTFROM`/`CCACCTFROM` as `_with_placeholder_account` did, but treat it as the real importing account, not a placeholder. The spec text says the placeholder (a fabricated `Assets:Unmapped:*` contra) is what goes away, and section 9 of the Phase 2a spec already derives an `institution_account_key` from `BANKACCTFROM`. Recommended: (a) add `--importing-account` for OFX, mirroring how CSV gets its account from the profile; a missing value for an OFX import is a `ParseError`. Implement (a) and note it in the commit.
+- Consumes: `ironledger.review.rules.resolve_rule`, `ironledger.ingest.identity.canonical_payee`, `ironledger.conventions.validate_account_name`.
+- Produces:
+  - `run_import(conn, resolved_path, *, config_dir, evidence_dir, records_dir, csv_profile=None, importing_account: str | None = None, allow_partial=False, actor="operator", now_utc=None) -> ImportResult` — new `importing_account` keyword. `ImportResult` shape unchanged.
+  - Behavior: after `_parse`, if `parsed.account is None` (an OFX/QFX file) and `importing_account is None` → `raise ParseError("an OFX or QFX import needs --importing-account")`; if `parsed.account is not None` (a CSV file, account from the profile) and `importing_account is not None` → `raise ParseError("--importing-account is only for OFX/QFX; a CSV import takes its account from the profile")`; otherwise when `parsed.account is None`, `parsed = replace(parsed, account=validate_account_name(importing_account))`.
+  - `_with_placeholder_account` is deleted.
+  - Each newly-inserted row resolves a rule on `(canonical_payee(row.payee), parsed.account)` and passes the result as `contra_account` to `upsert_staged`; `rules_applied` counts the hits.
+  - The success audit note becomes `records_created=<n>, rules_applied=<k>`; the short-circuit note becomes `records_created=0, rules_applied=0`.
 
 - [ ] **Step 1: Write the failing test**
 
 ```python
 # tests/test_ingest_pipeline_rules.py
-"""Phase 2b: import consults categorization rules and no longer fabricates a placeholder."""
+"""Phase 2b: import consults categorization rules and takes --importing-account for OFX."""
 
 from __future__ import annotations
 
@@ -1130,112 +1168,208 @@ import pytest
 
 from ironledger.db import migrations
 from ironledger.db.connection import connect
+from ironledger.ingest.errors import ParseError
 from ironledger.ingest.pipeline import run_import
 from ironledger.review.rules import add_rule
 
+FIXTURES = Path(__file__).parent / "fixtures"
+CSV_IMPORTED_ACCOUNT = "Assets:Bank:Checking:ExampleBank"  # from config/csv-profiles/example-bank.json
+OFX_IMPORTING_ACCOUNT = "Assets:Bank:Checking:SampleOfx"
+
 
 @pytest.fixture
-def db() -> sqlite3.Connection:
-    conn = connect(":memory:")
+def env(tmp_path: Path):
+    conn = connect(str(tmp_path / "ledger.db"))
     migrations.migrate(conn)
-    return conn
+    config_dir = tmp_path / "config"
+    (config_dir / "csv-profiles").mkdir(parents=True)
+    (config_dir / "csv-profiles" / "example-bank.json").write_text(
+        Path("config/csv-profiles/example-bank.json").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+    paths = {
+        "config_dir": config_dir,
+        "evidence_dir": tmp_path / "evidence",
+        "records_dir": tmp_path / "evidence" / "source_records",
+    }
+    return conn, paths
 
 
-def _csv(tmp_path: Path) -> Path:
-    # A minimal CSV that the Phase 2a csv_engine parses with the fixture profile.
-    # Reuse whatever helper tests/test_ingest_pipeline.py already uses to build a
-    # CSV + profile; this test only adds the rule assertions on top.
-    ...
+def _contra(conn, stx_like="stx:%"):
+    return conn.execute(
+        "SELECT account FROM staged_postings WHERE role = 'contra' ORDER BY staged_posting_id"
+    ).fetchall()
 
 
-def test_matching_rule_fills_contra_and_row_stays_pending(db, tmp_path, monkeypatch):
-    # Arrange: a rule for the payee in the fixture CSV.
-    add_rule(db, match_type="exact", pattern="coffee bar", target_account="Expenses:Coffee",
-             importing_account="Assets:Bank:Checking", now_utc="2026-09-03T09:00:00Z")
-    db.commit()
-    # Act: run_import against the fixture CSV (see the Phase 2a pipeline test for setup).
-    # Assert: the contra posting account is Expenses:Coffee and status is still 'pending';
-    # the import audit action string contains "rules_applied=1".
-    ...
+def _last_import_action(conn) -> str:
+    return conn.execute(
+        "SELECT action FROM audit_events WHERE action LIKE 'import%' ORDER BY seq DESC LIMIT 1"
+    ).fetchone()[0]
 
 
-def test_no_matching_rule_leaves_contra_null(db, tmp_path):
-    # run_import with no rule -> contra account NULL, rules_applied=0
-    ...
+def test_matching_rule_fills_contra_and_row_stays_pending(env):
+    conn, paths = env
+    # sample_bank.csv row 1 payee is "COFFEE BAR" -> canonical "coffee bar";
+    # the profile's imported account is Assets:Bank:Checking:ExampleBank.
+    add_rule(conn, match_type="exact", pattern="coffee bar", target_account="Expenses:Coffee",
+             importing_account=CSV_IMPORTED_ACCOUNT, now_utc="2026-09-03T09:00:00Z")
+    conn.commit()
+    run_import(conn, FIXTURES / "sample_bank.csv", csv_profile="example-bank",
+               now_utc="2026-09-03T10:00:00Z", **paths)
+    filled = conn.execute(
+        "SELECT p.account FROM staged_postings p JOIN staged_transactions t "
+        "  ON t.staged_transaction_id = p.staged_transaction_id "
+        "WHERE p.role = 'contra' AND t.payee = 'COFFEE BAR'"
+    ).fetchone()[0]
+    status = conn.execute(
+        "SELECT status FROM staged_transactions WHERE payee = 'COFFEE BAR'"
+    ).fetchone()[0]
+    assert filled == "Expenses:Coffee"
+    assert status == "pending"
+    assert "rules_applied=1" in _last_import_action(conn)
 
 
-def test_reimport_after_rule_change_is_a_noop(db, tmp_path):
-    # import once (no rule) -> contra NULL; add a rule; re-import the same file ->
-    # 0 new rows, contra still NULL (existing fingerprint short-circuits the upsert)
-    ...
+def test_no_matching_rule_leaves_contra_null(env):
+    conn, paths = env
+    run_import(conn, FIXTURES / "sample_bank.csv", csv_profile="example-bank",
+               now_utc="2026-09-03T10:00:00Z", **paths)
+    nulls = conn.execute(
+        "SELECT count(*) FROM staged_postings WHERE role = 'contra' AND account IS NULL"
+    ).fetchone()[0]
+    assert nulls == 3  # every row in sample_bank.csv
+    assert "rules_applied=0" in _last_import_action(conn)
+
+
+def test_reimport_after_rule_change_is_a_noop(env):
+    conn, paths = env
+    run_import(conn, FIXTURES / "sample_bank.csv", csv_profile="example-bank",
+               now_utc="2026-09-03T10:00:00Z", **paths)
+    add_rule(conn, match_type="exact", pattern="coffee bar", target_account="Expenses:Coffee",
+             importing_account=CSV_IMPORTED_ACCOUNT, now_utc="2026-09-03T10:30:00Z")
+    conn.commit()
+    result = run_import(conn, FIXTURES / "sample_bank.csv", csv_profile="example-bank",
+                        now_utc="2026-09-03T11:00:00Z", **paths)
+    assert result.records_created == 0 and result.short_circuited is True
+    coffee_contra = conn.execute(
+        "SELECT p.account FROM staged_postings p JOIN staged_transactions t "
+        "  ON t.staged_transaction_id = p.staged_transaction_id "
+        "WHERE p.role = 'contra' AND t.payee = 'COFFEE BAR'"
+    ).fetchone()[0]
+    assert coffee_contra is None  # the pre-existing fingerprint short-circuits; no rewrite
+
+
+def test_ofx_without_importing_account_is_a_parse_error(env):
+    conn, paths = env
+    with pytest.raises(ParseError):
+        run_import(conn, FIXTURES / "sample_v1.ofx", csv_profile=None,
+                   now_utc="2026-09-03T10:00:00Z", **paths)
+    assert conn.execute("SELECT count(*) FROM staged_transactions").fetchone()[0] == 0
+
+
+def test_csv_with_importing_account_is_a_parse_error(env):
+    conn, paths = env
+    with pytest.raises(ParseError):
+        run_import(conn, FIXTURES / "sample_bank.csv", csv_profile="example-bank",
+                   importing_account="Assets:Bank:Checking:Wrong",
+                   now_utc="2026-09-03T10:00:00Z", **paths)
+    assert conn.execute("SELECT count(*) FROM staged_transactions").fetchone()[0] == 0
+
+
+def test_ofx_import_with_importing_account_and_rule_fills_contra(env):
+    conn, paths = env
+    add_rule(conn, match_type="exact", pattern="coffee bar", target_account="Expenses:Coffee",
+             importing_account=OFX_IMPORTING_ACCOUNT, now_utc="2026-09-03T09:00:00Z")
+    conn.commit()
+    run_import(conn, FIXTURES / "sample_v1.ofx", csv_profile=None,
+               importing_account=OFX_IMPORTING_ACCOUNT, now_utc="2026-09-03T10:00:00Z", **paths)
+    coffee_contra = conn.execute(
+        "SELECT p.account FROM staged_postings p JOIN staged_transactions t "
+        "  ON t.staged_transaction_id = p.staged_transaction_id "
+        "WHERE p.role = 'contra' AND t.payee = 'COFFEE BAR'"
+    ).fetchone()[0]
+    imported = conn.execute(
+        "SELECT DISTINCT account FROM staged_postings WHERE role = 'imported'"
+    ).fetchall()
+    assert coffee_contra == "Expenses:Coffee"
+    assert imported == [(OFX_IMPORTING_ACCOUNT,)]  # no fabricated Assets:Unmapped:* name
 ```
-
-> The implementer fills the `...` bodies using the exact CSV+profile construction already in `tests/test_ingest_pipeline.py`. Keep each assertion explicit (no loops hiding a missing check).
 
 - [ ] **Step 2: Run tests to verify they fail**
 
 Run: `PYTHONPATH=src python -m pytest tests/test_ingest_pipeline_rules.py -q`
-Expected: FAIL — assertions on `rules_applied` and the contra account.
+Expected: FAIL — `TypeError` on the `importing_account` kwarg, then assertion failures.
 
 - [ ] **Step 3: Modify `pipeline.py`**
 
-1. Add imports:
+1. Extend the imports:
 
 ```python
+from dataclasses import replace
+from ironledger.conventions import ConventionError, currency_scale, validate_currency, validate_account_name
 from ironledger.ingest.identity import fingerprint, select_identity_method, canonical_payee
 from ironledger.review.rules import resolve_rule
 ```
 
-2. Delete the `_with_placeholder_account` function and its call site. Replace the `if parsed.account is None:` block with the chosen OFX importing-account resolution (recommended: a new `importing_account: str | None = None` parameter on `run_import`, set from a new `--importing-account` CLI flag; when `parsed.account is None and importing_account is None` for an OFX/QFX file, `raise ParseError("an OFX/QFX import needs --importing-account")`; otherwise `parsed = replace(parsed, account=importing_account)` when `parsed.account is None`).
+2. Add the `importing_account: str | None = None` keyword to `run_import`'s signature (keyword-only, next to `csv_profile`).
 
-3. In the row loop, after computing `currency`/`minor_units`, resolve a rule:
+3. Delete `_with_placeholder_account` entirely. Replace its `if parsed.account is None:` call site with:
+
+```python
+        if parsed.account is None and importing_account is None:
+            raise ParseError("an OFX or QFX import needs --importing-account")
+        if parsed.account is not None and importing_account is not None:
+            raise ParseError(
+                "--importing-account is only for OFX/QFX; a CSV import takes its account from the profile"
+            )
+        if parsed.account is None:
+            try:
+                parsed = replace(parsed, account=validate_account_name(importing_account))
+            except ConventionError as exc:
+                raise ParseError(f"--importing-account: {exc}") from exc
+```
+
+4. In the row loop, after `minor_units = minor_units_from_text(...)` and before `write_source_record`, initialize a counter once (`rules_applied = 0` next to `created = 0`) and inside the loop:
 
 ```python
             contra_account = resolve_rule(
                 conn, canonical_payee(row.payee), parsed.account, now_utc=now_utc
             )
-            _stx_id, was_created = upsert_staged(
-                conn,
-                StagedInput(...),   # unchanged
-                now_utc=now_utc,
-                contra_account=contra_account,
-            )
+```
+
+Pass `contra_account=contra_account` into `upsert_staged(...)`, and:
+
+```python
             if was_created:
                 created += 1
                 if contra_account is not None:
                     rules_applied += 1
 ```
 
-Initialize `rules_applied = 0` next to `created = 0`.
+5. Success audit: `note=f"records_created={created}, rules_applied={rules_applied}"`. Short-circuit audit: `note="records_created=0, rules_applied=0"`.
 
-4. Change the success audit call:
+- [ ] **Step 4: Add the CLI flag**
 
-```python
-        _audit(conn, actor, acq.source_document_id, "ok", now_utc,
-               note=f"records_created={created}, rules_applied={rules_applied}")
-```
+In `src/ironledger/cli/__main__.py`, add to the `import` subparser: `imp.add_argument("--importing-account", default=None)`. In `_cmd_import`, pass `importing_account=args.importing_account` into `run_import`. (Task 14 does not touch the `import` command; it is fully handled here.)
 
-and the short-circuit call to `note="records_created=0, rules_applied=0"`.
+- [ ] **Step 5: Update the three Phase 2a OFX tests**
 
-- [ ] **Step 4: Update the Phase 2a placeholder test**
+In `tests/test_ingest_pipeline.py`, add `importing_account="Assets:Bank:Checking:SampleOfx"` to the `run_import` call in each of `test_ofx_import_stages_rows_and_writes_one_audit_event`, `test_reimport_short_circuits_with_zero_records_and_one_more_audit_event`, and `test_ofx_unresolvable_curdef_audits_error_and_rolls_back`. Their assertions (row counts, audit counts, rollback) are unchanged. If `tests/test_cli_import.py` drives `sample_v1.ofx`, add `--importing-account Assets:Bank:Checking:SampleOfx` to that invocation; a CSV-only `test_cli_import.py` needs no change.
 
-In `tests/test_ingest_pipeline.py`, find the test asserting an `Assets:Unmapped:*` contra account (or that OFX import produced a placeholder). Change it to assert the OFX import now requires `--importing-account` (or, per the chosen option, that the contra account is `NULL`). Keep the test name meaningful; add a one-line docstring pointing at Phase 2b spec section 5.2.
-
-- [ ] **Step 5: Run tests to verify they pass**
+- [ ] **Step 6: Run tests to verify they pass**
 
 Run: `PYTHONPATH=src python -m pytest tests/test_ingest_pipeline_rules.py tests/test_ingest_pipeline.py tests/test_cli_import.py -q`
-Expected: PASS. If `test_cli_import.py` drove an OFX import, update it to pass `--importing-account` (Task 14 adds the flag; if this task needs it first, add the flag to `_build_parser` here and note the overlap in the commit).
+Expected: PASS.
 
-- [ ] **Step 6: Run the whole suite**
+- [ ] **Step 7: Run the whole suite**
 
 Run: `PYTHONPATH=src python -m pytest -q`
 Expected: green.
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
-git add src/ironledger/ingest/pipeline.py tests/test_ingest_pipeline_rules.py tests/test_ingest_pipeline.py
-git commit -m "feat(phase-2b): import-time rule auto-fill; remove the OFX placeholder account"
+git add src/ironledger/ingest/pipeline.py src/ironledger/cli/__main__.py tests/test_ingest_pipeline_rules.py tests/test_ingest_pipeline.py tests/test_cli_import.py
+git commit -m "feat(phase-2b): import-time rule auto-fill; --importing-account replaces the OFX placeholder"
 ```
 
 ---
@@ -1585,9 +1719,8 @@ single-currency, and balanced."""
 from __future__ import annotations
 
 import sqlite3
-from collections import defaultdict
 
-from ironledger.conventions import ConventionError, validate_account_name
+from ironledger.conventions import ConventionError, validate_account_name, validate_same_currency_balance
 
 __all__ = ["ApproveGateError", "check_approvable"]
 
@@ -1608,14 +1741,16 @@ def check_approvable(conn: sqlite3.Connection, stx_id: str) -> None:
         raise ApproveGateError("status", f"{stx_id} is {row[0]}, not approvable")
 
     postings = conn.execute(
-        "SELECT role, account, minor_units, currency FROM staged_postings "
+        "SELECT account, minor_units, currency, minor_unit_scale FROM staged_postings "
         "WHERE staged_transaction_id = ? ORDER BY posting_index",
         (stx_id,),
     ).fetchall()
-    if not postings:
-        raise ApproveGateError("missing_account", f"{stx_id} has no postings")
+    if len(postings) < 2:
+        raise ApproveGateError("missing_account", f"{stx_id} has fewer than two postings")
 
-    for _role, account, _minor, _currency in postings:
+    # Explicit NULL / grammar check first, so the caller gets a precise reason
+    # slug instead of the generic ConventionError from validate_same_currency_balance.
+    for account, _minor, _currency, _scale in postings:
         if account is None:
             raise ApproveGateError("missing_account", f"{stx_id} has a posting with no account")
         try:
@@ -1623,15 +1758,22 @@ def check_approvable(conn: sqlite3.Connection, stx_id: str) -> None:
         except ConventionError as exc:
             raise ApproveGateError("invalid_account", f"{stx_id}: {exc}") from exc
 
-    currencies = {p[3] for p in postings}
-    if len(currencies) > 1:
-        raise ApproveGateError("multi_currency", f"{stx_id} mixes currencies {sorted(currencies)}")
+    # Reject any multi-currency transaction outright. validate_same_currency_balance
+    # only checks that each currency independently nets to zero, which would let a
+    # balanced two-currency transaction through; Phase 2b compiles neither.
+    if len({p[2] for p in postings}) > 1:
+        raise ApproveGateError(
+            "multi_currency", f"{stx_id} mixes currencies {sorted({p[2] for p in postings})}"
+        )
 
-    sums: dict[str, int] = defaultdict(int)
-    for _role, _account, minor, currency in postings:
-        sums[currency] += minor
-    if any(v != 0 for v in sums.values()):
-        raise ApproveGateError("unbalanced", f"{stx_id} postings do not sum to zero: {dict(sums)}")
+    # Reuse the locked convention for the zero-sum / non-zero-amount check.
+    try:
+        validate_same_currency_balance([
+            {"account": a, "minor_units": m, "currency": c, "scale": s}
+            for a, m, c, s in postings
+        ])
+    except ConventionError as exc:
+        raise ApproveGateError("unbalanced", f"{stx_id}: {exc}") from exc
 ```
 
 - [ ] **Step 4: Run tests to verify they pass**
@@ -1977,8 +2119,12 @@ In `src/ironledger/review/rules.py`, add `resolve_rule_row` and make `resolve_ru
 __all__ = [..., "resolve_rule_row"]
 
 
-def resolve_rule_row(conn, canonical_payee_value, importing_account, *, now_utc=None):
-    """Like resolve_rule but returns (rule_id, target_account) or None."""
+def resolve_rule_row(conn, canonical_payee_value, importing_account, *, audit_skips=True, now_utc=None):
+    """Like resolve_rule but returns (rule_id, target_account) or None.
+
+    `audit_skips` has the same meaning as in `resolve_rule`: True records an
+    uncompilable-regex skip as one audit event; False writes nothing.
+    """
     rows = conn.execute(
         "SELECT rule_id, match_type, pattern, target_account FROM categorization_rules "
         "WHERE active = 1 AND (importing_account IS NULL OR importing_account = ?) "
@@ -1994,23 +2140,26 @@ def resolve_rule_row(conn, canonical_payee_value, importing_account, *, now_utc=
             try:
                 compiled = re.compile(pattern)
             except re.error:
-                append_audit_event(
-                    conn, actor="operator",
-                    action="rule resolve (skipped uncompilable regex)",
-                    target=rule_id, result="error", ts_utc=now_utc,
-                )
+                if audit_skips:
+                    append_audit_event(
+                        conn, actor="operator",
+                        action="rule resolve (skipped uncompilable regex)",
+                        target=rule_id, result="error", ts_utc=now_utc,
+                    )
                 continue
             if compiled.search(canonical_payee_value) is not None:
                 return rule_id, target_account
     return None
 
 
-def resolve_rule(conn, canonical_payee_value, importing_account, *, now_utc=None):
-    hit = resolve_rule_row(conn, canonical_payee_value, importing_account, now_utc=now_utc)
+def resolve_rule(conn, canonical_payee_value, importing_account, *, audit_skips=True, now_utc=None):
+    hit = resolve_rule_row(
+        conn, canonical_payee_value, importing_account, audit_skips=audit_skips, now_utc=now_utc
+    )
     return None if hit is None else hit[1]
 ```
 
-Keep the existing `resolve_rule` tests green (they assert the account string, unchanged).
+Keep the existing `resolve_rule` tests green (they assert the account string, unchanged). The Step 3 `resolve_rule` body is now replaced by this delegating version — the match loop lives only in `resolve_rule_row`.
 
 - [ ] **Step 3b: Add `auto_match` to `state.py`**
 
@@ -2298,7 +2447,7 @@ def run_review_loop(
 
     for stx_id, status, payee, date, imp_acct, con_acct in _rows(conn):
         suggestion = (
-            resolve_rule(conn, canonical_payee(payee), imp_acct, now_utc=now_utc)
+            resolve_rule(conn, canonical_payee(payee), imp_acct, audit_skips=False, now_utc=now_utc)
             if con_acct is None else None
         )
         re_show = True
@@ -2522,7 +2671,7 @@ git commit -m "feat(phase-2b): render helpers for review show and rule list"
 **Interfaces:**
 - Consumes: every Task 3–13 public function.
 - Produces: new subcommands, each opening a connection with `connect`, running `migrations.migrate`, doing its work, and returning an exit code (`_EXIT_OK`, `_EXIT_AUTH`, `_EXIT_INGEST` reused; add `_EXIT_STATE = 5` for a `ReviewStateError`/`RuleError` that is not an auth failure):
-  - `review show <id> [--json]` — read-only; `render_review_show`.
+  - `review show <id> [--json]` — read-only. Load the header row and both postings; when the `contra` account is `NULL`, compute the suggestion with `resolve_rule(conn, canonical_payee(row_payee), imported_account, audit_skips=False)` so a broken rule never makes this command write; pass all three to `render_review_show`. No `conn.commit()`, no auth gate.
   - `review categorize <id> <account> [--persist-rule] [--confirm <phrase>]` — `require_safe_mode_off` (no phrase); `state.categorize`; if `--persist-rule`, `rules.persist_exact_rule` in the same connection before commit; a `RuleExistsError` → print, exit 5, no categorize committed (call persist first, then categorize, then one commit).
   - `review auto-match [--importing-account <acct>] [--confirm <phrase>]` — `require_operator(action="review-auto-match", subject=importing_account or "all")`; `state.auto_match`; print the summary.
   - `review approve <id> [--confirm <phrase>]` — `require_operator(action="review-approve", subject=id)`; `state.approve`; on `ApproveGateError` write a `denied` audit event (`append_audit_event(action=f"review approve (denied: {exc.reason})", target=id, result="denied")`), print, exit 3.
@@ -2905,25 +3054,25 @@ git commit -m "docs(phase-2b): exit evidence skeleton and test-contract mapping"
 |---|---|
 | 3 state machine + transition table | 8, 10, 11 |
 | 4.1 `staged_transactions` rebuild | 1 |
-| 4.2 `categorization_rules` | 2 |
+| 4.2 `categorization_rules` | 1 (schema, whole file), 2 (constraint coverage) |
 | 5.1 import-time auto-fill + `rules_applied` | 6, 7 |
-| 5.2 remove `_with_placeholder_account` | 7 |
+| 5.2 `--importing-account` replaces `_with_placeholder_account` | 7 (pipeline + CLI flag + the three OFX test updates) |
 | 6.1 payee canonicalization reuse | 3 (imports `identity.canonical_payee`) |
-| 6.2 resolution ordering + skip-on-bad-regex | 3, 11 (`resolve_rule_row`) |
+| 6.2 resolution ordering + `audit_skips` skip-on-bad-regex | 3, 11 (`resolve_rule_row`) |
 | 6.3 `--persist-rule` | 4, 14 |
 | 6.4 `rule add`/`list`/`disable` | 4, 13, 14 |
-| 7 command surface | 14 |
-| 7.1 guided loop | 12, 14 |
-| 8 approve gate | 9, 10 |
+| 7 command surface (`review show` uses `audit_skips=False`) | 14 |
+| 7.1 guided loop (suggestion uses `audit_skips=False`) | 12, 14 |
+| 8 approve gate (reuses `validate_same_currency_balance`) | 9, 10 |
 | 9 auth-gate extension | 5, 14 |
 | 10 observability (`action`-string events) | every mutating task asserts its `action` string |
-| 11 error-handling table | 8, 9, 10, 14 (exit codes) |
+| 11 error-handling table (incl. OFX-without-`--importing-account`, CSV-with-`--importing-account`) | 7, 8, 9, 10, 14 (exit codes) |
 | 12 test contract | 15 mapping |
 | 13 out of scope | respected — no compile/projection/MCP code |
 
-**2. Placeholder scan:** Task 7's test bodies contain `...` for the CSV-fixture construction. That is deliberate and bounded: the exact fixture already exists in `tests/test_ingest_pipeline.py`, and the surrounding assertions are spelled out. The implementer copies the fixture helper. Every other task has complete code.
+**2. Placeholder scan:** No `...` stubs remain. Task 7's test bodies are fully written against the real fixtures (`tests/fixtures/sample_bank.csv` — payees `COFFEE BAR` / `ACME PAYROLL` / `PARENS VENDOR`, imported account `Assets:Bank:Checking:ExampleBank` from `config/csv-profiles/example-bank.json` — and `tests/fixtures/sample_v1.ofx`). Every task has complete code.
 
-**3. Type consistency:** `resolve_rule(conn, canonical_payee_value, importing_account, *, now_utc)` returns `str | None`; `resolve_rule_row(...)` returns `tuple[str, str] | None`; both used consistently in Tasks 7, 11, 12. `categorize(conn, stx_id, target_account, *, rule_id=None, now_utc=None)` — call sites in Tasks 10 (n/a), 12 (loop, `rule_id=None`), 14 (CLI). `auto_match` returns `tuple[int, int]` = `(matched, candidates)` — asserted that shape in Task 11 and printed in Task 14. `check_approvable` raises `ApproveGateError` with `.reason`; consumed in Task 10 (`approve` re-raises) and Task 14 (CLI maps to `denied` audit). `add_rule` / `persist_exact_rule` return `str` (rule id); `RuleExistsError.existing_rule_id` used in Task 4 test and Task 14 handler.
+**3. Type consistency:** `resolve_rule(conn, canonical_payee_value, importing_account, *, audit_skips=True, now_utc=None)` returns `str | None`; `resolve_rule_row(..., audit_skips=True, ...)` returns `tuple[str, str] | None`; `resolve_rule` delegates to `resolve_rule_row` after Task 11. Call sites: Task 7 pipeline (`audit_skips` default), Task 11 `auto_match` (`resolve_rule_row`, default), Task 12/14 read paths (`audit_skips=False`). `categorize(conn, stx_id, target_account, *, rule_id=None, now_utc=None)` — call sites in Tasks 12 (loop, `rule_id=None`) and 14 (CLI). `auto_match` returns `tuple[int, int]` = `(matched, candidates)` — asserted in Task 11, printed in Task 14. `check_approvable` raises `ApproveGateError` with `.reason` in `{status, missing_account, invalid_account, multi_currency, unbalanced}`; consumed in Task 10 (`approve` re-raises) and Task 14 (CLI maps to a `denied` audit). `add_rule` / `persist_exact_rule` return `str` (rule id); `RuleExistsError.existing_rule_id` used in Task 4 test and Task 14 handler. `run_import` gains keyword `importing_account: str | None = None` (Task 7); the CLI `import` command passes it (Task 7 step 4).
 
 ## Execution Handoff
 

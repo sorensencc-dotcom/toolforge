@@ -101,11 +101,11 @@ Table constraints:
 - `UNIQUE (match_type, pattern, importing_account)` — one rule per match target and scope. A second identical target is a clean error, not a silent duplicate. `NULL` `importing_account` values collate as distinct from any concrete account under SQLite `UNIQUE`, which is the intended behavior: a global rule and an account-scoped rule for the same pattern coexist.
 - Index `(active, priority)` for the resolution query.
 
-`regex` patterns are compiled with Python `re` at `rule add` time and at `--persist-rule` time; a `re.error` rejects the write before any row is inserted. A stored `regex` rule that somehow fails to compile at resolution time (for example after a Python upgrade changes `re` semantics) is skipped, and the resolver records a single audit event `rule_compile_skipped` naming the `rule_id`; it never aborts a review.
+`regex` patterns are compiled with Python `re` at `rule add` time and at `--persist-rule` time; a `re.error` rejects the write before any row is inserted. A stored `regex` rule that somehow fails to compile at resolution time (for example after a Python upgrade changes `re` semantics) is skipped so it never aborts a review. On a **mutation** resolution path (import staging, `review auto-match`) the resolver records a single audit event `rule resolve (skipped uncompilable regex)` naming the `rule_id`. On a **read** resolution path (`review show`, the guided-loop suggestion line) the bad rule is skipped **silently** — a query must not write to `audit_events` — so those callers pass `audit_skips = False` to the resolver (section 6.2).
 
 ## 5. Phase 2a implementation changes
 
-Phase 2b modifies Phase 2a code in exactly two bounded places. Both preserve the Phase 2a exit-gate test suite.
+Phase 2b modifies Phase 2a code in three bounded places. All preserve the Phase 2a exit-gate test suite (the three OFX import tests are updated to pass the new `--importing-account`, per section 5.2).
 
 ### 5.1 Import-time rule auto-fill
 
@@ -118,13 +118,15 @@ Phase 2b modifies Phase 2a code in exactly two bounded places. Both preserve the
 
 The all-or-nothing rollback, `--allow-partial`, and content-hash short-circuit behavior are unchanged.
 
-### 5.2 Remove `_with_placeholder_account`
+### 5.2 Replace `_with_placeholder_account` with `--importing-account`
 
-Phase 2a's `_with_placeholder_account` gave OFX imports a deterministic placeholder contra account so a row could stage without a categorization step. With migration 0004's explicit `categorized` status and section 5.1's rule auto-fill, the placeholder is removed:
+Phase 2a's `_with_placeholder_account` fabricated **both** an importing-account name (`Assets:Unmapped:<acct-id>`, written to the `imported` posting, which the `staged_postings` CHECK requires to be non-null) and, by extension, a categorization stand-in. An OFX or QFX file genuinely does not carry the operator's account name — only `BANKACCTFROM` / `CCACCTFROM` identifiers. Phase 2b removes the fabricated name and takes the real one from the operator:
 
-- OFX and QFX imports leave the `contra` account `NULL` unless a rule matches, exactly as CSV imports do.
-- Re-import idempotency is unaffected: a `NULL` contra account is stable across re-imports, and the identity fingerprint never included the contra account.
-- The Phase 2a test that asserted the OFX placeholder is updated to assert a `NULL` contra account plus, in a separate case, a rule-filled account.
+- `ironledger import` gains `--importing-account <federated-account-name>`. It is required for an OFX or QFX file (a CSV file gets its account from the profile's `account` key, unchanged). Passing it for a CSV file is an error (`ParseError`).
+- For an OFX or QFX import, `parsed.account` is set from `--importing-account`, validated with `conventions.validate_account_name`. A missing value for an OFX or QFX import is a `ParseError` naming the flag; nothing is written.
+- The `contra` account still starts `NULL` unless a rule matches, exactly as a CSV import does. `_with_placeholder_account` is deleted.
+- Re-import idempotency is unaffected: the identity fingerprint never included the contra account, and it does include `canonical_account` (the importing account), which is now the operator-supplied name instead of the fabricated one. **An operator who imported an OFX file under the old placeholder and re-imports under a real `--importing-account` gets a fresh set of staged rows** — the fingerprints differ by construction, the same known limitation the Phase 2a spec section 9 already documents for the FITID / fallback split. Phase 2b introduces no OFX data under the old placeholder, so this only matters to a pre-existing Phase 2a database; note it in the Phase 2b evidence.
+- The three Phase 2a OFX pipeline tests (`test_ofx_import_stages_rows_and_writes_one_audit_event`, `test_reimport_short_circuits_with_zero_records_and_one_more_audit_event`, `test_ofx_unresolvable_curdef_audits_error_and_rolls_back`) pass `importing_account="Assets:Bank:Checking:SampleOfx"` to `run_import`. A new test asserts a missing `--importing-account` on an OFX import is a `ParseError` with nothing written, and a separate test asserts a rule-filled `contra` account on an OFX import.
 
 ## 6. Categorization rule engine
 
@@ -144,7 +146,7 @@ Given `(canonical_payee, importing_account)`:
    - `regex`: `re.search(pattern, canonical_payee)` is not `None`.
 4. No rule matches: return no account.
 
-Resolution is pure and side-effect free apart from the `rule_compile_skipped` audit event described in section 4.2. It is called from import staging (section 5.1), from `review auto-match` (section 7), and from the guided loop to compute a suggested account.
+The resolver takes an `audit_skips: bool = True` flag. Import staging (section 5.1) and `review auto-match` (section 7) take the default: an uncompilable stored `regex` is skipped and one audit event records it. `review show` and the guided-loop suggestion line pass `audit_skips = False`: the bad rule is skipped with no audit write, keeping those read paths free of any mutation (section 7, test-contract item 10). Resolution is otherwise pure and side-effect free.
 
 ### 6.3 `--persist-rule`
 
@@ -183,7 +185,7 @@ ironledger rule disable <rule_id> [--confirm <phrase>]
 ```
 
 - `review list` is the Phase 2a command, extended only to accept `categorized` in `--status`.
-- `review show` prints one staged transaction: header fields, both postings with accounts and signed minor units, the identity method and fingerprint, the source document and source record references, and, when the contra account is `NULL`, the rule suggestion if one resolves. Read-only, `--json` supported, no mutation path.
+- `review show` prints one staged transaction: header fields, both postings with accounts and signed minor units, the identity method and fingerprint, the source document and source record references, and, when the contra account is `NULL`, the rule suggestion if one resolves (via the resolver with `audit_skips = False`, so a broken rule never makes this command write). Read-only, `--json` supported, no mutation path.
 - `review categorize` sets the contra account (section 3 lifecycle note). Not phrase-gated; safe mode is still checked and a denied attempt emits an audit event with `result = denied`.
 - `review auto-match` resolves rules for every `pending` transaction whose contra account is `NULL`, optionally filtered to one `--importing-account`. Each filled row moves to `categorized` with `categorized_at_utc = now` and emits one `auto_match` audit event; the command prints a summary line (`matched N of M`). Phrase-gated, because it is a bulk state change.
 - `review approve` applies the approve gate (section 8) and, on success, sets `status = 'approved'`, `decided_at_utc = now`, emits `approve`. Phrase-gated.
@@ -196,7 +198,7 @@ ironledger rule disable <rule_id> [--confirm <phrase>]
 
 - Refuses to start if safe mode is on (`AuthorizationError`, exit 3, audit `denied`).
 - Emits `review_session_start`, then iterates staged transactions in status order `pending` then `categorized`, each group oldest-first by `created_at_utc`.
-- For each row it prints the `review show` view plus, when the contra account is `NULL`, the resolved rule suggestion, then prompts:
+- For each row it prints the `review show` view plus, when the contra account is `NULL`, the resolved rule suggestion (resolver called with `audit_skips = False` — displaying a suggestion never writes an audit event), then prompts:
 
   ```
   [c]ategorize  [a]pprove  [r]eject  [s]kip  [q]uit >
@@ -281,6 +283,8 @@ Every failure path fails closed. No command leaves a row in a half-changed state
 | `rule add` with an invalid `--match-type`, an uncompilable `regex`, or an invalid account name | `ValueError`-class error, exit non-zero, nothing written |
 | `rule add` or `--persist-rule` colliding on `UNIQUE (match_type, pattern, importing_account)` | error naming the existing `rule_id` and `rule disable`, nothing written |
 | `rule disable` on an unknown or already-disabled `rule_id` | error, nothing written |
+| `import` of an OFX or QFX file with no `--importing-account` | `ParseError` naming the flag, nothing written |
+| `import` of a CSV file with `--importing-account` passed | `ParseError` (the profile is the account source for CSV), nothing written |
 | SQLite constraint violation during any write | transaction rolls back, error surfaced, schema version unaffected |
 | Migration 0004 interrupted mid-rebuild | no partial schema version; the runner leaves the database at the prior version |
 
@@ -290,18 +294,18 @@ Focused `pytest` suite only, matching the Phase 1 and Phase 2a evidence discipli
 
 1. **Migration.** 0004 applies on a fresh database, is not applied twice, and leaves no partial schema version when interrupted. After the `staged_transactions` rebuild, `PRAGMA foreign_key_check` is clean and existing `staged_postings` rows still resolve. The widened `status` `CHECK` accepts `categorized` and rejects any fifth value.
 2. **State machine.** Every transition in the section 3 table succeeds and emits exactly one audit event. `approved` rejects `categorize`, `reject`, `reopen`, and a second `approve`. `categorize` on `rejected` and on `approved` fails closed naming `reopen`. `reopen` from `categorized` and from `rejected` returns the row to `pending` and clears `reject_reason`, `categorized_at_utc`, and `decided_at_utc` while leaving the contra account intact.
-3. **Rule resolution.** `exact`, `prefix`, and `regex` each match the right payees; `priority ASC` then `created_at_utc ASC` ordering is proven with overlapping rules; an `importing_account`-scoped rule does not fire for another account; an `active = 0` rule is skipped. An uncompilable `regex` is rejected at `rule add`. A stored `regex` that fails at resolution time is skipped with a `rule_compile_skipped` event and does not abort.
-4. **Import-time auto-fill.** A matching rule sets the contra account at stage time, the row stays `pending`, and the `import` event reports the right `rules_applied` count. No match leaves the contra account `NULL`. Re-importing the same file after adding or changing a rule is still a zero-row no-op and does not rewrite the existing row. OFX and QFX imports no longer produce a placeholder contra account; a separate case proves a rule-filled OFX contra account.
+3. **Rule resolution.** `exact`, `prefix`, and `regex` each match the right payees; `priority ASC` then `created_at_utc ASC` ordering is proven with overlapping rules; an `importing_account`-scoped rule does not fire for another account; an `active = 0` rule is skipped. An uncompilable `regex` is rejected at `rule add`. A stored `regex` that fails at resolution time with `audit_skips = True` is skipped with one `rule resolve (skipped uncompilable regex)` event and does not abort; with `audit_skips = False` (the `review show` / loop path) it is skipped with **zero** audit writes.
+4. **Import-time auto-fill and `--importing-account`.** A matching rule sets the contra account at stage time, the row stays `pending`, and the `import` event reports the right `rules_applied` count. No match leaves the contra account `NULL`. Re-importing the same file after adding or changing a rule is still a zero-row no-op and does not rewrite the existing row. An OFX or QFX import with no `--importing-account` is a `ParseError` with nothing written; with `--importing-account` set, the `imported` posting carries that account and no placeholder is fabricated. A CSV import with `--importing-account` passed is a `ParseError`. A separate case proves a rule-filled `contra` account on an OFX import.
 5. **`--persist-rule`.** `categorize --persist-rule` writes one `exact`, account-scoped, `priority = 50` rule in the same transaction as the categorization. A `UNIQUE` collision aborts the whole command and the categorization does not apply.
 6. **`auto-match`.** It fills only `pending` transactions with a `NULL` contra account, moves each to `categorized`, emits one `auto_match` event per row plus a summary event, and honors `--importing-account`. A row already `categorized` is untouched.
 7. **Authorization.** `approve`, `reject`, `reopen`, `auto-match`, `rule add`, and `rule disable` each fail closed with safe mode on, and with non-TTY stdin and no or wrong `--confirm`; each emits a `denied` audit event. `categorize` fails closed on safe mode only. Every gated success records `tty` or `confirm-flag`.
 8. **Approve gate.** A null contra account, an invalid account name, a constructed non-balancing posting set, and a constructed multi-currency posting set each block `approve` with a `denied` event and no state change. A fully categorized, balanced, single-currency transaction approves and sets `decided_at_utc`.
 9. **Guided loop.** Driven by a scripted stdin stream: a `c` then `a`, a `c` then `r`, an `s`, and a `q` across several rows produce the expected end states; the authorization phrase is prompted exactly once for the whole session; one audit event fires per decision; `review_session_start` and `review_session_end` bracket the run and the end event carries correct counts. The loop refuses to start with safe mode on.
-10. **Read-only surfaces.** `review list --status categorized`, `review show`, `review show --json`, and `rule list` expose no mutation path and emit no mutating audit event.
+10. **Read-only surfaces.** `review list --status categorized`, `review show`, `review show --json`, and `rule list` expose no mutation path and emit no audit event of any kind — including `review show` on a staged transaction whose only matching rule has an uncompilable `regex` (proves the `audit_skips = False` path).
 
 ## 13. Out of scope for Phase 2b
 
-Beancount compilation, `bean-check`, ledger writes, un-approval, projection, search, FTS, MCP, SimpleFIN, RAG export, mobile access, encrypted backup, and Git publication. Rule matching on amount, sign, amount range, or institution or account key beyond the optional `importing_account` scope. Rule auto-learning beyond an explicit `--persist-rule`. A `pending` or `categorized` timeout or expiry. A second identity-algorithm version. Any change to the Phase 2a import wire behavior other than the two bounded modifications in section 5.
+Beancount compilation, `bean-check`, ledger writes, un-approval, projection, search, FTS, MCP, SimpleFIN, RAG export, mobile access, encrypted backup, and Git publication. Rule matching on amount, sign, amount range, or institution or account key beyond the optional `importing_account` scope. Rule auto-learning beyond an explicit `--persist-rule`. A `pending` or `categorized` timeout or expiry. A second identity-algorithm version. Any change to the Phase 2a import wire behavior other than the three bounded modifications in section 5.
 
 ## 14. Open items carried
 
