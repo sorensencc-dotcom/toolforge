@@ -31,6 +31,8 @@ export const ROOT_WIKI_PAGE_MAPPINGS = [
   { src: 'trm-gap-triage-architecture.png', dest: 'trm-gap-triage-architecture.png' },
   { src: 'trm-gap-triage-architecture.png', dest: 'kb-sync/trm-gap-triage-architecture.png' },
   { src: 'trm-gap-triage-architecture.html', dest: 'trm-gap-triage-architecture.html' },
+  { src: 'wiki/sync-tools/parallel-search.md', dest: 'parallel-search.md' },
+  { src: 'wiki/sync-tools/tinyfish-search.md', dest: 'tinyfish-search.md' },
   { src: 'wiki/Log.md', dest: 'Log.md' },
 ];
 

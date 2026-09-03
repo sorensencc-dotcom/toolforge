@@ -126,6 +126,8 @@ function generateSidebar(wikiDir) {
 - [[Research Gaps Registry|trm-research-gaps]]
 
 #### Skill Library
+- [[Parallel Search Integration|parallel-search]]
+- [[TinyFish Search Integration|tinyfish-search]]
 - [[Tool Index|INDEX]]
 - [[Tool Creation Guide|TOOL_CREATION_GUIDE]]
 - [[Operator Guide|OPERATOR_GUIDE]]

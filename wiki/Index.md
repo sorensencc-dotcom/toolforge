@@ -192,5 +192,5 @@ status: "active"
 - [[kb-sync/wiki/TestWatchlistRun.Mjs]]
 - [[kb-sync/wiki/WatchCompetitorsV2.Mjs]]
 - [[kb-sync/wiki/WatchCompetitors.Mjs]]
-- [[sync-tools/parallel-search]]
-- [[sync-tools/tinyfish-search]]
+- [[parallel-search]]
+- [[tinyfish-search]]
