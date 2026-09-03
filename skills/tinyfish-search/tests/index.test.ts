@@ -7,6 +7,8 @@ describe("tinyfish-search exports", () => {
     assert.equal(typeof TinyFishSkill.tinyfish_search, "function");
     assert.equal(typeof TinyFishSkill.tinyfish_extract, "function");
     assert.equal(typeof TinyFishSkill.TokenBucket, "function");
+    assert.equal(typeof TinyFishSkill.withRetry, "function");
+    assert.equal(typeof TinyFishSkill.getClient, "function");
     assert.ok(TinyFishSkill.searchBucket instanceof TinyFishSkill.TokenBucket);
     assert.ok(TinyFishSkill.extractBucket instanceof TinyFishSkill.TokenBucket);
   });
