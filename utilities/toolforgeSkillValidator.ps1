@@ -191,7 +191,7 @@ function Test-CanonicalSkills {
     }
 
     # Validate category
-    $canonicalCategories = @("automation", "analysis", "monitoring", "validation", "integration", "lifecycle", "utilities")
+    $canonicalCategories = @("adapters", "analysis", "automation", "daemons", "data-management", "governance", "integration", "knowledge-base", "lifecycle", "maintenance", "mcp-servers", "monitoring", "observability", "operations", "pipeline", "research", "research-ops", "session-management", "sync-tools", "utilities", "validation")
     if (-not $skillJson.category -or [string]::IsNullOrWhiteSpace($skillJson.category)) {
       Add-Finding "canonical" $skillId "warning" "Category missing (using fallback: utilities)"
     } elseif ($skillJson.category -notin $canonicalCategories) {
@@ -407,7 +407,7 @@ function Test-ManifestConsistency {
     }
 
     # Validate category quality
-    $canonicalCategories = @("automation", "analysis", "monitoring", "validation", "integration", "lifecycle", "utilities")
+    $canonicalCategories = @("adapters", "analysis", "automation", "daemons", "data-management", "governance", "integration", "knowledge-base", "lifecycle", "maintenance", "mcp-servers", "monitoring", "observability", "operations", "pipeline", "research", "research-ops", "session-management", "sync-tools", "utilities", "validation")
     if ($entry.category -notin $canonicalCategories) {
       Add-Finding "manifest" $skillId "warning" "Invalid category in manifest: $($entry.category)"
     }
