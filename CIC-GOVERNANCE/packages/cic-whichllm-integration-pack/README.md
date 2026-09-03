@@ -14,6 +14,17 @@ A fully self-contained, zero-dependency Node 20+ ESM integration pack for connec
 
 ---
 
+## Provenance & Attribution
+
+> [!NOTE]
+> Toolforge integrates the external **WhichLLM** routing and evaluation system.
+> Source: [https://github.com/whichllm/whichllm](https://github.com/whichllm/whichllm)
+>
+> Toolforge wraps WhichLLM within this integration pack, augmenting it with CIC governance checks (GC-01..GC-05), deterministic SHA-256 lineage hash chaining, BFCL evaluation, and Prometheus observability sidecars.
+
+---
+
+
 ## Architecture
 
 ```
