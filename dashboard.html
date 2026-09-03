@@ -99,7 +99,7 @@
 
 <script type="application/json" id="manifest-data">
 {
-  "timestamp": "2026-08-30T16:10:08.1506231Z",
+  "timestamp": "2026-09-03T01:29:44.6663759Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -127,6 +127,33 @@
         "created": "2026-07-17T16:43:16.0006002Z",
         "lastValidation": "2026-07-17T16:43:16.0006002Z",
         "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "retro-export",
+      "name": "Retro Export",
+      "category": "monitoring",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:27:19.1809541Z",
+        "lastValidation": "2026-08-16T17:27:19.1809541Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -375,33 +402,6 @@
       }
     },
     {
-      "id": "retro-export",
-      "name": "Retro Export",
-      "category": "monitoring",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:27:19.1809541Z",
-        "lastValidation": "2026-08-16T17:27:19.1809541Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
       "id": "tool-lifecycle-manager",
       "name": "Tool Lifecycle Manager",
       "category": "pipeline",
@@ -426,6 +426,40 @@
         "created": "2026-07-14T03:18:38.7892909Z",
         "lastValidation": "2026-07-14T03:18:38.7892909Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
+      }
+    },
+    {
+      "id": "toolforge-cli",
+      "name": "Toolforge CLI",
+      "category": "utility",
+      "tags": [
+        "cli",
+        "toolforge",
+        "marketplace"
+      ],
+      "version": "0.1.0",
+      "owner": "soren",
+      "runtime": "powershell",
+      "entrypoint": "src/cli.ps1",
+      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
+      "status": "active",
+      "dependencies": {
+        "internal": [
+          "toolforge-registry-manager",
+          "toolforge-submission-validator"
+        ],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-14T03:43:17.3269637Z",
+        "lastValidation": "2026-07-14T03:43:17.3269637Z",
+        "lastRun": "2026-08-07T21:38:00Z"
       }
     },
     {
@@ -540,13 +574,13 @@
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "untested",
+        "runtime": "functional",
         "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-28T16:50:45.8556158Z",
         "lastValidation": "2026-08-28T16:50:45.8556158Z",
-        "lastRun": null
+        "lastRun": "2026-08-30T22:30:00.0000000Z"
       }
     },
     {
@@ -567,13 +601,13 @@
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "untested",
+        "runtime": "functional",
         "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-28T22:13:41.2886828Z",
         "lastValidation": "2026-08-28T22:13:41.2886828Z",
-        "lastRun": null
+        "lastRun": "2026-08-30T22:30:00.0000000Z"
       }
     },
     {
@@ -653,14 +687,14 @@
       },
       "health": {
         "canonical": true,
-        "distributed": false,
-        "runtime": "untested",
-        "overall": "warn"
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
       },
       "timestamps": {
         "created": "2026-08-30T16:09:30.5207199Z",
         "lastValidation": "2026-08-30T16:09:30.5207199Z",
-        "lastRun": null
+        "lastRun": "2026-08-30T22:30:00.0000000Z"
       }
     },
     {
@@ -688,40 +722,6 @@
         "created": "2026-07-10T21:43:59.5024800Z",
         "lastValidation": "2026-07-10T21:43:59.5024800Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "toolforge-cli",
-      "name": "Toolforge CLI",
-      "category": "utility",
-      "tags": [
-        "cli",
-        "toolforge",
-        "marketplace"
-      ],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "powershell",
-      "entrypoint": "src/cli.ps1",
-      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "toolforge-registry-manager",
-          "toolforge-submission-validator"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:43:17.3269637Z",
-        "lastValidation": "2026-07-14T03:43:17.3269637Z",
-        "lastRun": "2026-08-07T21:38:00Z"
       }
     },
     {
@@ -755,6 +755,35 @@
       }
     },
     {
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
+      }
+    },
+    {
       "id": "reconcile-vector-store",
       "name": "Reconcile Vector Store",
       "category": "data-management",
@@ -782,20 +811,18 @@
       }
     },
     {
-      "id": "pre-wrap-audit",
-      "name": "Pre Wrap Audit",
-      "category": "session-management",
+      "id": "pre-flight-test-checker",
+      "name": "Pre-Flight Test Checker",
+      "category": "validation",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
+      "runtime": "javascript",
+      "entrypoint": "src/index.js",
+      "description": "Validates the test environment (ESLint ignore config, external fixtures, platform-specific assumptions) before npm test runs",
       "status": "active",
       "dependencies": {
-        "internal": [
-          "ashfall"
-        ],
+        "internal": [],
         "external": []
       },
       "health": {
@@ -805,9 +832,9 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:59.2189839Z",
-        "lastValidation": "2026-07-10T21:43:59.2189839Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
+        "created": "2026-08-23T17:34:26.3468335Z",
+        "lastValidation": "2026-08-23T17:34:26.3468335Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -1317,6 +1344,35 @@
       }
     },
     {
+      "id": "parallel-search",
+      "name": "Parallel Search",
+      "category": "sync-tools",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "soren",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Parallel Web Search, Task API, and DOM Extract integration",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "parallel-web"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-09-02T20:58:02.1035550Z",
+        "lastValidation": "2026-09-02T20:58:02.1035550Z",
+        "lastRun": "2026-08-30T22:30:00.0000000Z"
+      }
+    },
+    {
       "id": "permission-governor",
       "name": "Permission Governor",
       "category": "validation",
@@ -1371,18 +1427,20 @@
       }
     },
     {
-      "id": "pre-flight-test-checker",
-      "name": "Pre-Flight Test Checker",
-      "category": "validation",
+      "id": "pre-wrap-audit",
+      "name": "Pre Wrap Audit",
+      "category": "session-management",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "javascript",
-      "entrypoint": "src/index.js",
-      "description": "Validates the test environment (ESLint ignore config, external fixtures, platform-specific assumptions) before npm test runs",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
       "status": "active",
       "dependencies": {
-        "internal": [],
+        "internal": [
+          "ashfall"
+        ],
         "external": []
       },
       "health": {
@@ -1392,38 +1450,9 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-23T17:34:26.3468335Z",
-        "lastValidation": "2026-08-23T17:34:26.3468335Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
+        "created": "2026-07-10T21:43:59.2189839Z",
+        "lastValidation": "2026-07-10T21:43:59.2189839Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z"
       }
     },
     {
@@ -1462,11 +1491,11 @@
     }
   ],
   "summary": {
-    "total": 48,
-    "active": 48,
+    "total": 49,
+    "active": 49,
     "deprecated": 0,
-    "health_good": 47,
-    "health_warn": 1,
+    "health_good": 49,
+    "health_warn": 0,
     "health_error": 0
   }
 }
