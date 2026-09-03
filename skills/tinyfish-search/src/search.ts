@@ -2,6 +2,9 @@ import { getClient } from "./client.js";
 import { searchBucket, withRetry } from "./limiter.js";
 import type { OperationResult, RuntimeOptions, SearchInput, SearchOutput } from "./types.js";
 
+export const ERR_MSG_INVALID_INPUT = "objective or search_queries is required";
+export const ERR_MSG_INVALID_API_RESPONSE = "TinyFish returned an invalid response";
+
 export async function tinyfish_search(
   input: SearchInput,
   options?: RuntimeOptions,
@@ -12,7 +15,7 @@ export async function tinyfish_search(
       ok: false,
       error: {
         code: "INVALID_INPUT",
-        message: "objective or search_queries is required",
+        message: ERR_MSG_INVALID_INPUT,
       },
     };
   }
@@ -31,16 +34,16 @@ export async function tinyfish_search(
           ok: false,
           error: {
             code: "INVALID_API_RESPONSE",
-            message: "TinyFish returned an invalid response",
+            message: ERR_MSG_INVALID_API_RESPONSE,
           },
         };
       }
 
       const results = response.results.map((r: any) => ({
-        title: String(r.title ?? ""),
-        url: String(r.url ?? ""),
-        snippet: String(r.snippet ?? r.description ?? ""),
-        score: typeof r.score === "number" ? r.score : undefined,
+        title: String(r?.title ?? ""),
+        url: String(r?.url ?? ""),
+        snippet: String(r?.snippet ?? r?.description ?? ""),
+        score: typeof r?.score === "number" ? r.score : undefined,
       }));
 
       return { ok: true, data: { results } };
