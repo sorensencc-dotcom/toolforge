@@ -61,8 +61,12 @@ It claims rows transactionally, is bounded to 500 rows per pass, retries
 moves a delivery to `dead_letter` after three failed attempts or on
 envelope expiry, emits an audit event per transition (state, attempt count,
 reason code, timestamp — never the envelope body), and never auto-replays a
-dead letter. Queue-mode federation retry (below) reuses this reaper and this
-exact policy rather than introducing a second timer.
+dead letter. Queue-mode federation retry (below) reuses this reaper and its
+transactional-claim / audit-per-transition / no-auto-replay policy rather
+than introducing a second timer. It diverges on one parameter: federation
+uses `MAX_ATTEMPTS = 4` (final-review fix I4), dead-lettering after the
+fourth failed attempt so all three backoff tiers (1m, 5m, 30m) are walked,
+where the base delivery reaper stops at three.
 
 ## Decision
 
@@ -333,7 +337,7 @@ recipient is not local.
   `details: { recipientDomain }`. The envelope is **not** queued in `sync`
   mode; the sender re-sends. Audit `federation.forward_unavailable`.
 
-> **Resolved (I1, `8fdd1fb` + `7d14e4a` + `e8bf8b7`).** `acceptWithRepository`
+> **Resolved (I1, `8fdd1fb` + `7d14e4a` + `e8bf8b7` + `fabb4fe`).** `acceptWithRepository`
 > now runs in two phases. Phase 1 does the `decideRoute` lookup (read-only
 > peers table, no client), the `reject`-route short-circuit, the
 > sync-forward replay check (pool default, nothing written locally), and the
@@ -345,7 +349,12 @@ recipient is not local.
 > thrown rejects through `toResponse` and still emits the rejection audit
 > for `AUDITED_REJECTION_CODES` (`7d14e4a`); the sender-key resolution no
 > longer falls back to `lookupRecipientEndpoint` with a null client
-> (`e8bf8b7`). One visible behaviour change: a reused `message_id` bound for
+> (`e8bf8b7`). The Phase 1 `try` was initially placed *after* the
+> `decideRoute` call, so the common foreign-recipient throws
+> (`RECIPIENT_NOT_LOCAL` / `MALFORMED_FEDERATED_ID`) escaped
+> `acceptEnvelopeAsync` unhandled and left `main` red since `8fdd1fb`; the
+> `try` now wraps `decideRoute` and `route` is hoisted to `let` for Phase 2
+> (`fabb4fe`). One visible behaviour change: a reused `message_id` bound for
 > an unpinned peer now returns `PEER_NOT_PINNED` (400) rather than
 > `REPLAY_DETECTED` (409), because route validity is checked before replay.
 > **`sync` mode is production-safe with respect to slow peers; `queue` mode
@@ -392,9 +401,12 @@ recipient is not local.
     `peerCode`.
   - `FORWARD_TRANSPORT_FAILED` → `state = 'pending'`, `claim_token = NULL`,
     `attempt_count += 1`, `next_attempt_at` per the 1-minute / 5-minute /
-    30-minute schedule; after the third failed attempt → `state =
+    30-minute schedule; after the fourth failed attempt → `state =
     'dead_letter'`. Audit `federation.forward_unavailable` per attempt and
-    `federation.dead_letter` on the final transition.
+    `federation.dead_letter` on the final transition. `MAX_ATTEMPTS = 4`
+    (final-review fix I4): federation retry diverges from the base
+    delivery-reaper's three-attempt rule so all three backoff tiers
+    (1m, 5m, 30m) are actually waited out before dead-lettering.
   - An envelope whose `expires_at` has passed before a successful forward →
     `state = 'dead_letter'`, reason `MESSAGE_EXPIRED`, no further attempts.
 - The reaper never auto-replays a `dead_letter` or `forward_rejected` row.
@@ -496,8 +508,8 @@ which is specific to envelope-rejection transaction-rollback timing):
 - `federation.forward_rejected` — peer returned 4xx; carries `peerCode`.
 - `federation.forward_unavailable` — timeout / transport error / peer 5xx;
   carries `attempt_count` in queue mode.
-- `federation.dead_letter` — queue mode, terminal after three failed
-  attempts or on expiry; carries the reason code.
+- `federation.dead_letter` — queue mode, terminal after four failed
+  attempts (`MAX_ATTEMPTS = 4`, I4) or on expiry; carries the reason code.
 - `federation.inbound_accepted` — `acceptFederatedEnvelope` delivered a
   federated envelope locally.
 - `federation.inbound_rejected` — `acceptFederatedEnvelope` rejected;
