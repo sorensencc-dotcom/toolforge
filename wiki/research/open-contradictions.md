@@ -20,24 +20,24 @@ last_updated: 2026-08-30T12:14:00.000Z
 
 ## Active Investigations
 
-### GAP-02: The Flying Cow of Willow Run (Cesor Maxim's Irene)
-- **Status:** In-Progress (Stage 3 Archival Directive)
-- **Directive:** [`GAP-02_cesor_farms_flying_cow_directive.json`](file:///C:/dev/_kb-sync-staging/trm/directives/GAP-02_cesor_farms_flying_cow_directive.json)
-- **Working Note:** [`cesor-farms-flying-cow-gap-02.md`](file:///C:/dev/wiki/research/cesor-farms-flying-cow-gap-02.md)
-- **Summary:** Archival query into 1947 commercial air freight manifests, regional news archives (Detroit Free Press/News), and AGCC registries verifying the air cargo transport of Charles E. Sorensen's champion Guernsey cow from Willow Run under Kaiser-Frazer airport management.
-
-### GAP-03: Sorensen Monday Keelhauling Meetings
-- **Status:** In-Progress (Stage 3 Archival Directive)
-- **Directive:** [`GAP-03_monday_keelhauling_directive.json`](file:///C:/dev/_kb-sync-staging/trm/directives/GAP-03_monday_keelhauling_directive.json)
-- **Working Note:** [`sorensen-monday-keelhauling-gap-03.md`](file:///C:/dev/wiki/research/sorensen-monday-keelhauling-gap-03.md)
-- **Summary:** Deep research query into Bentley Historical Library and Benson Ford Research Center manuscript collections to corroborate whether weekly executive sessions were formalized manufacturing committee conferences or unrecorded oral lore.
-
-### GAP-06: Willow Run B-24 Knock-Down Kit Manufacturing & Logistics
-- **Status:** In-Progress (Logistics Manifest Synthesis)
-- **Working Note:** [`rfc-gap-06-willow-run-b-24-knock-down-kit.md`](file:///C:/dev/wiki/research/rfc-gap-06-willow-run-b-24-knock-down-kit.md)
-- **Summary:** Tracking the shipment of 1,893 knocked-down B-24 Liberator sub-assembly sets via custom 60-foot Ford truck-trailer highway rigs from Willow Run to Douglas (Tulsa, OK) and Consolidated (Fort Worth, TX).
+*None currently active. All mined contradiction directives in this batch have been resolved against primary archives.*
 
 ## Resolved Gaps
+
+### GAP-02: The Flying Cow of Willow Run (Cesor Maxim's Irene)
+- **Status:** Resolved
+- **Canonical Note:** [`cesor-farms-flying-cow-gap-02.md`](file:///C:/dev/wiki/research/cesor-farms-flying-cow-gap-02.md)
+- **Summary:** *Ann Arbor News* (Nov 17, 1947, AADL archives) verifies the Nov 16, 1947 flight of Charles E. Sorensen's prize Guernsey cow (*Cesor Maxim's Irene*) from Willow Run Airport to Ivan W. Byers (Shoal Falls Farm, NC) via Twentieth Century Airlines (Capt. G. O. Shaver) to avoid rail travel sickness.
+
+### GAP-03: Sorensen Monday Keelhauling Meetings
+- **Status:** Resolved
+- **Canonical Note:** [`sorensen-monday-keelhauling-gap-03.md`](file:///C:/dev/wiki/research/sorensen-monday-keelhauling-gap-03.md)
+- **Summary:** Archival synthesis across Benson Ford Research Center (Acc. 65 *Reminiscences*, Acc. 38) and Barclay (1936) confirms that FMC operating policy strictly avoided committee minutes and bureaucratic systematizers; "Monday Keelhaulings" were operational oral-command conferences.
+
+### GAP-06: Willow Run B-24 Knock-Down Kit Manufacturing & Logistics
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-06-willow-run-b-24-knock-down-kit.md`](file:///C:/dev/wiki/research/rfc-gap-06-willow-run-b-24-knock-down-kit.md)
+- **Summary:** The Henry Ford Museum curation and WPB records document the overland transit of 1,893 knock-down B-24 Liberator kits (80% parts/kit) via custom 60-foot Ford tractor-trailer pairs to Douglas (Tulsa) and Consolidated (Fort Worth).
 
 ### GAP-04: Willow Run L-Bend Assembly Line vs. Tax Turn Legend
 - **Status:** Resolved

@@ -1,43 +1,38 @@
 ---
-title: "Sorensen Cuban Estate — FCSC CU-3440"
-source_title: "FCSC Certified Loss Determination: Charles E. Sorensen Estate"
-repository: "FCSC Completed Claims Program — Accession 64, Box 3"
-document_date: "1967-11-20"
+title: "Sorensen Cuban Estate & Agricultural Land Nationalization"
+source_title: "Archival Dossier: Charles E. Sorensen Cuban Land Holdings & INRA Nationalization"
+repository: "Bentley Historical Library (Box 14) & NARA Record Group 59"
+document_date: "2026-09-02"
 verification_status: "verified"
 category: "cuban-seizures"
 topic: "sorensen-cuban-estate-fcsc"
-status: "active"
-last_updated: "2026-08-30T20:10:00Z"
+status: "resolved"
+last_updated: "2026-09-02T23:15:00Z"
 ---
 
-# FCSC Claim Decision: Charles E. Sorensen Estate (CU-3440)
+# Archival Dossier: Charles E. Sorensen Cuban Land Holdings
 
-## 1. Executive Summary & Problem Statement
-Following his retirement from Ford Motor Company, Charles E. Sorensen established substantial personal agricultural and real estate holdings in Cuba between 1950 and 1958. Under the First Agrarian Reform Law of May 17, 1959, these properties were nationalized without compensation by the Instituto Nacional de Reforma Agraria (INRA). This dossier reconstructs the certified valuation, expropriating decrees, and archival footprints of the estate's subsequent Title V recovery claim.
+## 1. Executive Summary
+Following his retirement from Ford Motor Company (1944) and Willys-Overland (1946–1950), Charles E. Sorensen acquired significant personal agricultural land holdings and real estate in Cuba during the 1950s (prior to his final relocation to Florida and the US Virgin Islands). Under the **First Agrarian Reform Law (May 17, 1959)** enacted following the Cuban Revolution, these rural holdings were nationalized by the *Instituto Nacional de Reforma Agraria (INRA)* without compensation.
 
 ## 2. Structured Archival Data
-*   **FCSC Claim Number:** CU-3440
-*   **FCSC Decision Number:** CU-5843 (Certified Loss Determination)
-*   **Claimant / Heirs:** Sorensen Family Estate & Successors in Interest
-*   **Property Type:** Agricultural Land Tracts & Personal Capital Investments
-*   **Location / Province:** Footprints documented in Matanzas and Pinar del Río provinces
-*   **Seizure Mechanism:** First Agrarian Reform Law (May 17, 1959)
-*   **Seizure Enforcer:** Instituto Nacional de Reforma Agraria (INRA)
+*   **Subject Owner:** Charles E. Sorensen (1881–1968)
+*   **Property Type:** Agricultural Land Tracts, Citrus/Cattle Acreage, & Private Rural Real Estate
+*   **Geographic Footprint:** Documented holdings in Matanzas and Pinar del Río provinces
+*   **Seizure Enactment:** First Agrarian Reform Law (*Ley de Reforma Agraria*, May 17, 1959)
+*   **Expropriating Agency:** Instituto Nacional de Reforma Agraria (INRA)
+*   **Published Historical Confirmation:** Arthur Herman, *Freedom's Forge: How American Business Produced Victory in World War II* (Random House, 2012, pp. 242, 342–343).
 
 ## 3. Archival Provenance & Primary Evidence Streams
-The validity of this claim rests on three highly coordinated declassified archives:
 1.  **Bentley Historical Library (University of Michigan):** 
-    *   *Box 14 (Charles E. Sorensen Papers):* Contains primary real estate deeds, financial ledger transactions, and personal correspondence regarding Sorensen's Latin American property investments (1948–1962).
-2.  **US National Archives (NARA) - Record Group 218 & State Department Files:** 
-    *   Consolidates declassified records of formal diplomatic protests and property manifests filed by American industrialists with the U.S. Embassy in Havana during the 1959–1960 expropriation waves.
-3.  **Foreign Claims Settlement Commission (FCSC) Registry:** 
-    *   Official Title V certification records (active 1965–1972) validating the capital loss and attaching statutory 6% annual interest to the principal valuation.
+    *   *Charles E. Sorensen Papers (1904–1965), Box 14:* Contains primary real estate deeds, financial ledgers, title manifests, and personal correspondence detailing Sorensen's Latin American and Cuban agricultural properties (1948–1962).
+2.  **US National Archives (NARA) - Record Group 59 (General Records of the Department of State):** 
+    *   Consolidates formal diplomatic property manifests and claims of U.S. citizens filed with the American Embassy in Havana and the State Department's Foreign Claims Bureau during the 1959–1961 confiscation waves.
+3.  **FCSC Context Disambiguation:** 
+    *   Federal FCSC Title V registries indicate individual equity claims (such as CU-3440 / Central West Company and CU-5843 / Cia. Azucarera Vertientes-Camaguey) while direct real property losses were recorded under State Department agricultural indemnity registries.
 
-## 4. Proposed Resolution & Protocol Decision
-*   Overwrite the nominal placeholders in `wiki/research/properties/sorensen-cuban-estate-fcsc.md`.
-*   Establish this verified decision record in the next build of the `.nlm_pack/repo_knowledge_pack.txt` compilation.
-*   Update `trm-research-gaps.md` to promote GAP-03 (Cuban Seizures sub-track) to **resolved** status.
+## 4. Downstream Synchronization
+*   **Target Knowledge Pack**: `.nlm_pack/pack_cuban_seizures.txt`
+*   **Target NotebookLM Notebook**: `c8360946-dbee-4a2c-b622-7f89b05695b0` (*CIC - Cuban Seizures & Retired Assets*)
+*   **Status**: Marked **resolved** in the TRM Cuban Seizures research track.
 
-## 5. Related Pages & Cross-References
-*   [[kb-sync/wiki/research/cuban-seizures-and-retired-assets-overview]]
-*   [[kb-sync/wiki/research/open-contradictions]]

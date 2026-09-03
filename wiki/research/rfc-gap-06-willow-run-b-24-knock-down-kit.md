@@ -38,6 +38,7 @@ When the War Production Board structured the Liberator Production Pool, Willow R
 
 ## Primary Archival References
 
+* **The Henry Ford Museum Digital Collections**: *Willow Run Bomber Plant Collection: B-24 Bomber Assemblies Being Loaded Into a Trailer (circa 1943)* (`thehenryford.org/collections/explore/sets/detail/willow-run-bomber-plant`).
 * **War Production Board**: *Special Report on Overland Aircraft Component Distribution (WPB Form 124, 1943–1944)*.
 * **Ford Transportation Archives**: *Accession 390: Over-the-Road Heavy Logistics Division Records (Willow Run to Tulsa/Fort Worth)*.
 * **Army Air Forces Materiel Command**: *Technical Order 01-5E-2: B-24 Sub-Assembly Transportation and Re-alignment Standards*.
