@@ -126,9 +126,15 @@ active such row a second way to pass #3's `acceptFederatedEnvelope` step
   `403 DIRECTORY_LINK_REQUIRED`.
 - The origin relay's forward carries **no** link claim. The receiver's
   own active-link row is the sole authority for step 8, so a compromised
-  origin relay cannot manufacture a cross-owner delivery it was not
-  independently granted. This is a stronger property than the same-owner
-  exemption, whose blast radius #3 documented.
+  origin relay cannot manufacture the **receiver-side** authority for a
+  cross-owner delivery — that requires the receiving human's own action
+  on the receiving relay. What each relay *does* vouch for, and what a
+  compromised relay can therefore forge for its own domain's owners, is
+  its own humans' consent acts: a redeeming relay's "this human redeemed
+  the code" and an issuing relay's "this human confirmed the link." That
+  trust is exactly #3's `sender_owner_id` trust — bounded by mutual peer
+  pinning, no wider — and is stated as a boundary, not eliminated. See
+  "Loop prevention, abuse, trust boundary" for the per-role blast radius.
 - The three relay-to-relay messages (redemption posted, confirmation
   posted, revocation posted) are drained through #3's `federation_outbox`
   and reaper, extended with a `kind` discriminator, so cross-federation
@@ -219,11 +225,17 @@ matching `acceptWithRepository`'s structure. Each returns
 `verifyInboundRelayRequest`).
 
 1. **Structural.** `link_ref` is a uuid; `code` is a
-   `sigil-fed-invite:<domain>:<segment>` string; `redeemer.owner_id` and
-   `redeemer.endpoint_id` are well-formed federated ids
-   (`parseFederatedId`); `redeemer_domain` is a well-formed domain and
-   equals `originDomain`; `parseFederatedId(redeemer.endpoint_id).domain`
-   equals `originDomain`. Any failure → `400 INVALID_FEDERATION_REQUEST`.
+   `sigil-fed-invite:<domain>:<segment>` string whose `<domain>` parses
+   (`parseDomain`) **and equals this relay's own configured `--domain`
+   case-insensitively** — a code whose embedded issuer domain names a
+   different relay is rejected here even if `<segment>` would hash to a
+   local invite row, so the self-describing domain the redeeming human
+   saw is always the relay that actually processes the redemption;
+   `redeemer.owner_id` and `redeemer.endpoint_id` are well-formed
+   federated ids (`parseFederatedId`); `redeemer_domain` is a well-formed
+   domain and equals `originDomain`;
+   `parseFederatedId(redeemer.endpoint_id).domain` equals `originDomain`.
+   Any failure → `400 INVALID_FEDERATION_REQUEST`.
 2. **Invite lookup.** `repository.getFederationDirectoryInviteByHash(peerDomain
    = originDomain, codeHash = sha256(segment))`. Resolve the invite by
    `(peer_domain, code_hash)`. Absent, `status != 'pending'`, or
@@ -240,14 +252,32 @@ matching `acceptWithRepository`'s structure. Each returns
    stored `link_ref` — no second row, no state change. This covers the
    reaper re-draining an outbox row after the origin lost the response. A
    `redeemed` invite with a **different** redeemer → `403 INVALID_FEDERATION_INVITE`.
-5. **Write.** Mark the invite `redeemed` (`redeemed_by_*`, `redeemed_at`).
+5. **Owner-pair collision.** If an earlier `pending` or `active`
+   `federation_directory_links` row already exists on this relay for
+   `(issuer_owner_id, redeemer.owner_id, originDomain)` under a
+   **different** `link_ref` — the partial unique index would reject the
+   insert — return `409 FEDERATION_LINK_EXISTS` with
+   `details: { existing_link_ref }`. Deterministic, not the generic
+   invite error: both parties are already authenticated and one is
+   already a party to the existing link, so there is no enumeration
+   concern. The reaper treats a `409` exactly like a peer `4xx` —
+   `forward_rejected`, terminal, no retry; the issuing operator resolves
+   it by revoking the stale link or reusing its `link_ref`. The invite is
+   **not** marked `redeemed` in this branch (it stays `pending` until its
+   own expiry or an explicit `invite revoke`).
+6. **Write.** Mark the invite `redeemed` (`redeemed_by_*`, `redeemed_at`).
    `repository.createFederationDirectoryLink({ linkRef, localOwnerId =
    invite.issuer_owner_id, localEndpointId = invite.issuer_endpoint_id,
    remoteOwnerId = redeemer.owner_id, remoteEndpointId =
    redeemer.endpoint_id, remoteDomain = originDomain, role = 'issuer',
    status = 'pending', remoteConfirmedAt = now, localConfirmedAt = null,
-   sourceInviteId = invite.invite_id, peerDomain = originDomain })`.
-6. **Respond** `202` with
+   sourceInviteId = invite.invite_id, peerDomain = originDomain })`. This
+   `INSERT` and the invite update commit in one transaction; a
+   concurrent second redemption that lost the `getFederationDirectoryInviteByHash`
+   `FOR UPDATE` race observes the invite already `redeemed` at step 4 and
+   takes the idempotent-`202` branch (same redeemer) or the
+   `INVALID_FEDERATION_INVITE` branch (different redeemer).
+7. **Respond** `202` with
    `{ link_ref, issuer: { owner_id: invite.issuer_owner_id, endpoint_id:
    invite.issuer_endpoint_id } }`. Audit
    `federation_directory.redemption_accepted` and
@@ -258,14 +288,26 @@ matching `acceptWithRepository`'s structure. Each returns
 1. **Structural.** `link_ref` is a uuid; `confirmed_at` is an ISO
    timestamp. Failure → `400 INVALID_FEDERATION_REQUEST`.
 2. **Link lookup.** `repository.getFederationDirectoryLinkByRef(linkRef,
-   client)`. Absent → `404 FEDERATION_LINK_NOT_FOUND`. The stored row's
-   `peer_domain` must equal `originDomain` → else `403 PEER_NOT_TRUSTED`.
-3. **Idempotent.** If `remote_confirmed_at` is already set, return `202`
-   no-op.
-4. **Write.** Set `remote_confirmed_at = now`. If `local_confirmed_at` is
-   also set, `status = 'active'`. Audit
-   `federation_directory.confirmation_accepted`, and
-   `federation_directory.link_activated` on the transition to `active`.
+   client)` with `FOR UPDATE`. Absent → `404 FEDERATION_LINK_NOT_FOUND`.
+   The stored row's `peer_domain` must equal `originDomain` → else
+   `403 PEER_NOT_TRUSTED`.
+3. **Terminal / idempotent (revocation wins).** If the row's `status` is
+   `revoked` or `expired`, return `202` no-op — a confirmation that
+   arrives after revocation (a delayed or reaper-retried post) **never**
+   reactivates the row. If `remote_confirmed_at` is already set and
+   `status` is `pending` or `active`, also return `202` no-op
+   (duplicate confirmation).
+4. **Write (compare-and-set).**
+   `setFederationDirectoryLinkConfirmation(linkRef, 'remote', now, client)`
+   issues `UPDATE federation_directory_links SET remote_confirmed_at =
+   $now, status = CASE WHEN local_confirmed_at IS NOT NULL THEN 'active'
+   ELSE 'pending' END, updated_at = $now WHERE link_ref = $ref AND status
+   = 'pending' AND remote_confirmed_at IS NULL`. If it updates zero rows
+   (a concurrent revocation flipped `status` between the step-2 read and
+   this write, despite `FOR UPDATE` this is defence-in-depth), treat it
+   as the step-3 no-op. Audit `federation_directory.confirmation_accepted`
+   on a non-zero update, and `federation_directory.link_activated` when
+   the row moved to `active`.
 5. **Respond** `202`.
 
 ### `acceptDirectoryRevocation(parsedBody, ctx)`
@@ -331,6 +373,19 @@ Both confirmation and revocation are keyed solely by `link_ref`; the
 acting relay is authenticated by the relay signature, and the stored
 row's `peer_domain` pins which relay is allowed to send them.
 
+**Timestamp policy.** `requested_at` / `confirmed_at` / `revoked_at` are
+covered by `Sigil-Relay-Signature` but are **audit metadata only** — no
+handler branches on them. The receiver's own `now` is authoritative for
+every stored `*_at` column and every freshness/expiry evaluation. A
+skewed or future-dated value is recorded in the audit event as-received
+and otherwise ignored; it is never used to order, gate, or reject a
+message. Message freshness/replay is handled structurally, not by
+timestamp: `link_ref` is minted once per invite and is `unique`, so a
+replayed or reaper-retried post either lands on the idempotent branch of
+its handler (same terminal state) or, if the owner pair has since been
+re-invited under a **new** `link_ref`, fails `FEDERATION_LINK_NOT_FOUND`
+against the stale ref rather than touching the new row.
+
 ## State machine
 
 The full happy path across two relays, relay-a issuing to relay-b:
@@ -365,8 +420,13 @@ The full happy path across two relays, relay-a issuing to relay-b:
    1m/5m/30m schedule then `dead_letter`.
 5. **`sigil federation link confirm <link_ref>`** (relay-a, human A
    authenticated, human session owner equals `local_owner_id`). relay-a
-   sets `local_confirmed_at = now`; both timestamps set → `status =
-   'active'`. Enqueues `kind = 'directory_confirmation'`.
+   runs the same `setFederationDirectoryLinkConfirmation(linkRef,
+   'local', …)` compare-and-set — it sets `local_confirmed_at` and flips
+   to `active` only `WHERE status = 'pending'`, so a concurrent
+   `link revoke` (local or peer-originated) wins and the confirm is a
+   no-op. On a non-zero update it enqueues `kind =
+   'directory_confirmation'`; on a zero update it reports the link is
+   already revoked/terminal and enqueues nothing.
 6. **Reaper drains** the confirmation →
    `POST /v1/federation/directory/confirmations` to relay-b. relay-b runs
    `acceptDirectoryConfirmation`: sets `remote_confirmed_at = now`; both
@@ -600,13 +660,29 @@ link create, confirm, revoke, list) but not the outbox-drained posts:
 - `revokeFederationDirectoryInvite(linkRef, now, client)` — `pending` →
   `revoked`; no-op / error when already `redeemed` or terminal
 - `listFederationDirectoryInvites(filter)`
-- `createFederationDirectoryLink(row, client)`
-- `getFederationDirectoryLinkByRef(linkRef, client)`
+- `createFederationDirectoryLink(row, client)` — the `INSERT`; a
+  partial-unique violation surfaces as a typed
+  `FEDERATION_LINK_EXISTS` error carrying the existing row's `link_ref`,
+  so the redemption handler's step-5 collision branch and the
+  `sigil federation invite redeem` CLI path map it deterministically
+  rather than leaking a raw constraint error.
+- `getFederationDirectoryLinkByRef(linkRef, client, { forUpdate = false })`
 - `setFederationDirectoryLinkConfirmation(linkRef, side, now, client)` —
-  `side` in (`local`, `remote`); flips `status` to `active` when both
-  timestamps are set
+  `side` in (`local`, `remote`). Compare-and-set: `UPDATE … SET
+  <side>_confirmed_at = $now, status = CASE WHEN the other side's
+  timestamp IS NOT NULL THEN 'active' ELSE 'pending' END WHERE link_ref =
+  $ref AND status = 'pending' AND <side>_confirmed_at IS NULL`. Returns
+  `{ updated: 0 | 1, activated: boolean }`. A zero update means the row
+  was already `revoked` / `expired` / `active` or that side was already
+  confirmed — the caller treats it as a no-op. **A `revoked` row is never
+  moved back to `pending` or `active` by this method.**
 - `revokeFederationDirectoryLink(linkRef, by, now, client)` — `by` in
-  (`local`, `remote`); no-op when already `revoked`
+  (`local`, `remote`). `UPDATE … SET status = 'revoked', revoked_at =
+  $now, revoked_by = $by WHERE link_ref = $ref AND status IN ('pending',
+  'active')`. Returns `{ updated }`; a zero update (already `revoked` /
+  `expired`) is a no-op. Revocation always wins a race with a concurrent
+  confirmation because both take `FOR UPDATE` on the row and the
+  confirmation CAS additionally requires `status = 'pending'`.
 - `listFederationDirectoryLinks(filter)`
 - `getActiveFederationDirectoryLink(localOwnerId, remoteOwnerId,
   remoteDomain, client)` — the step-8 authority; returns the row only
@@ -621,18 +697,28 @@ link create, confirm, revoke, list) but not the outbox-drained posts:
   so a link `a→b` plus a link `b→c` never yields an `a→c` path.
 - **The receiver's active-link row is the sole step-8 authority.** The
   origin relay's forward carries no link claim. A compromised origin
-  relay cannot manufacture a cross-owner delivery: it can forward
-  envelopes, but relay-b delivers them only if relay-b itself holds an
-  active link, which required relay-b's own human to redeem an
-  out-of-band code and relay-a's own human to confirm.
-- **A compromised issuer relay** can mint invites naming its own
-  endpoints for any `peer_domain` that pins it, and can auto-set its own
-  `remote_confirmed_at` by posting a forged redemption — but it still
-  cannot set the redeeming relay's `local_confirmed_at`, which only a
-  human session on the redeeming relay sets, and the redeeming human
-  always sees the `link_ref` and issuer identity via `sigil federation
-  link show` before running `confirm`/before the link matters. No silent
-  link forms.
+  relay cannot manufacture the **receiver-side** authority for a
+  cross-owner delivery: it can forward envelopes, but relay-b delivers
+  them only if relay-b itself holds an active link, which required
+  relay-b's own human session to redeem the out-of-band code.
+- **Each relay vouches only for its own domain's humans, bounded by
+  mutual pinning — the same trust as #3's `sender_owner_id`.** A relay's
+  redemption post asserts "our human redeemed this code"; its
+  confirmation post asserts "our human confirmed." A malicious or
+  compromised **issuer** relay can mint invites naming its own endpoints
+  for any `peer_domain` that pins it and can forge its own
+  `local_confirmed_at` — but it cannot set the redeeming relay's
+  confirmation, and the redeeming human sees the `link_ref` and issuer
+  identity via `sigil federation link show` before contact matters. A
+  malicious or compromised **redeemer** relay can forge a redemption
+  (which counts as its human's consent, per local §3.1.3) and thereby
+  populate the issuer relay's `remote_confirmed_at` without a real human
+  B — but the issuer relay's own human still has to run
+  `sigil federation link confirm` for the link to activate, and the
+  worst outcome is that relay-a delivers A's envelopes to relay-b, which
+  the attacker already controls. Neither role can forge a link that
+  causes an **uncompromised** relay to deliver to a human who did not
+  act. No silent link forms on an honest relay.
 - **Mutual pinning gates every directory route.**
   `verifyInboundRelayRequest` requires the posting relay to be pinned in
   the receiver's own peer directory. `sigil peer remove <domain>`
@@ -690,6 +776,23 @@ link create, confirm, revoke, list) but not the outbox-drained posts:
   - revocation — sets `revoked` / `revoked_by = 'remote'`; a repeat →
     `202` no-op; an unknown `link_ref` → `202` no-op (no existence leak);
     wrong posting relay → `PEER_NOT_TRUSTED`.
+  - **race / replay** — a confirmation post that arrives after the row is
+    `revoked` returns `202` and does **not** reactivate (revocation
+    wins); a confirmation and a revocation applied concurrently leave the
+    row `revoked` (both take `FOR UPDATE`, the confirmation CAS requires
+    `status = 'pending'`); a duplicate confirmation after the row is
+    already `active` is a `202` no-op; a stale confirmation carrying a
+    `link_ref` whose owner pair has since been re-invited under a new
+    `link_ref` → `404 FEDERATION_LINK_NOT_FOUND`, never touches the new
+    row; a compromised peer's forged confirmation still only sets the
+    peer-attested side and cannot set this relay's local human
+    confirmation; an embedded issuer-domain in the code that is not this
+    relay's `--domain` → `400 INVALID_FEDERATION_REQUEST`; two concurrent
+    redemptions of the same code → one `202` + link row, the other
+    idempotent `202` (same redeemer) or `INVALID_FEDERATION_INVITE`
+    (different redeemer); a redemption for an owner pair with an existing
+    live link under a different `link_ref` → `409 FEDERATION_LINK_EXISTS`
+    with `existing_link_ref`, invite left `pending`.
 - **Step-8 integration** (`accept-federated-envelope` tests) — same-owner
   still delivers with no link row; cross-owner plus an `active` link →
   delivered and inbox-visible; cross-owner plus a `pending`, `revoked`,
@@ -775,6 +878,7 @@ link create, confirm, revoke, list) but not the outbox-drained posts:
 | `PEER_NOT_TRUSTED` | 403 | receiver | Posting relay is not pinned, or is not the relay named by the stored row's `peer_domain` (reused from #3). |
 | `RELAY_SIGNATURE_INVALID` | 401 | receiver | `Sigil-Relay-Signature` failed verification (reused from #3). |
 | `FEDERATION_LINK_NOT_FOUND` | 404 | receiver | Confirmation names a `link_ref` with no local row. |
+| `FEDERATION_LINK_EXISTS` | 409 | receiver (issuer relay) | Redemption would create a second `pending`/`active` link for an owner pair that already has one under a different `link_ref`; carries `existing_link_ref`; reaper-terminal. |
 | `FEDERATION_DIRECTORY_UNAVAILABLE` | 501 | receiver | Directory route hit on a non-Postgres relay. |
 
 Reused unchanged: `DIRECTORY_LINK_REQUIRED` (403, receiver, step 8 — now
