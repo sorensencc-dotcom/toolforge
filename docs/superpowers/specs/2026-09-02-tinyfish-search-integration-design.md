@@ -45,8 +45,21 @@ The implementation targets `@tiny-fish/sdk` (version `^0.5.0`) with Node.js `>=2
 ```typescript
 import { TinyFish } from "@tiny-fish/sdk";
 
-const apiKey = options?.apiKey?.trim() || process.env.TINYFISH_API_KEY?.trim();
-const client = options?.clientFactory?.(apiKey) ?? new TinyFish({ apiKey });
+type TinyFishClient = Pick<TinyFish, "search" | "fetch">;
+
+function getClient(options?: RuntimeOptions): TinyFishClient | ToolError {
+  const apiKey = options?.apiKey?.trim() || process.env.TINYFISH_API_KEY?.trim();
+  if (!apiKey) {
+    return {
+      ok: false,
+      error: {
+        code: "API_KEY_MISSING",
+        message: "TINYFISH_API_KEY is required",
+      },
+    };
+  }
+  return options?.clientFactory?.(apiKey) ?? new TinyFish({ apiKey });
+}
 ```
 
 ### Search operation
@@ -122,7 +135,7 @@ export type ExtractInput = {
 
 export type RuntimeOptions = {
   apiKey?: string;
-  clientFactory?: (key: string) => any;
+  clientFactory?: (key: string) => TinyFishClient;
   onError?: (err: unknown) => void;
 };
 ```
@@ -147,7 +160,10 @@ To prevent dropping requests during bursts and respect TinyFish free-tier quotas
 1. **Token bucket limiter:**
    - Search: maximum capacity 30 tokens, replenishment rate 0.5 tokens/sec (1 every 2 seconds).
    - Fetch: maximum capacity 150 tokens, replenishment rate 2.5 tokens/sec (1 every 400 milliseconds).
-2. **HTTP 429 retry policy:**
+2. **Process isolation constraint:**
+   - The token bucket limiter operates entirely in-memory and is scoped to the active Node.js process.
+   - Independent CLI invocations, background daemons, or separate subagent processes do not share bucket state. Operators running concurrent worker pipelines must throttle dispatch cadence to prevent exceeding upstream quotas.
+3. **HTTP 429 retry policy:**
    - Maximum retries: 3 attempts.
    - Base delay: 1000 milliseconds.
    - Formula: `delay = (base * (2 ** attempt)) + Math.floor(Math.random() * 250)`.
@@ -161,8 +177,9 @@ To prevent dropping requests during bursts and respect TinyFish free-tier quotas
    - Raw exceptions and error objects may only pass to the optional `options.onError` debug handler and never escape the wrapper boundary.
 2. **Timeout semantics:**
    - TinyFish free-tier endpoints occasionally encounter transient latency spikes.
-   - All network calls must enforce a strict 10-second ceiling (e.g. `AbortSignal.timeout(10_000)`).
-   - If a call fails to resolve within 10 seconds, the operation immediately aborts and returns:
+   - **Per-attempt timeout:** All network requests enforce a strict 10-second ceiling per HTTP attempt (`AbortSignal.timeout(10_000)`).
+   - **Cumulative timeout:** The overall operation across all retry attempts and backoff delays is capped by a 45-second deadline.
+   - If an individual attempt or the cumulative operation exceeds its deadline, the call immediately aborts and returns:
      ```typescript
      {
        ok: false,
