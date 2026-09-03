@@ -50,8 +50,26 @@ function Write-IfChanged {
       return $false
     }
   }
-  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  # Preserve the repository's CRLF line-ending convention regardless of the
+  # PowerShell edition running the generator (PS7/Core defaults to LF, which
+  # would rewrite every line of these committed files).
+  $crlf = ($Content -replace "`r`n", "`n") -replace "`n", "`r`n"
+  if (-not $crlf.EndsWith("`r`n")) { $crlf += "`r`n" }
+  [System.IO.File]::WriteAllText($Path, $crlf, (New-Object System.Text.UTF8Encoding($false)))
   return $true
+}
+
+# Existing metadata, keyed by skill id, so stable timestamps (created,
+# lastValidation) survive regeneration instead of snapping to the SKILL.json
+# file mtime on every run.
+$script:ExistingMeta = @{}
+if (Test-Path $OutputPath) {
+  try {
+    $prev = Get-Content $OutputPath -Raw | ConvertFrom-Json -DateKind String
+    foreach ($s in $prev.skills) { $script:ExistingMeta[$s.id] = $s }
+  } catch {
+    Write-Host "  Could not parse existing $OutputPath; timestamps will be reseeded" -ForegroundColor DarkYellow
+  }
 }
 
 # Paths
@@ -152,8 +170,10 @@ function Load-AllSkills {
           overall = $health
         }
         timestamps = [ordered]@{
-          created = $skillJson.created ?? $lastValidation
-          lastValidation = $lastValidation
+          # Carry forward stable timestamps from prior metadata; only seed
+          # from the SKILL.json mtime when the skill is new to the manifest.
+          created = $script:ExistingMeta[$skillId].timestamps.created ?? $skillJson.created ?? $lastValidation
+          lastValidation = $script:ExistingMeta[$skillId].timestamps.lastValidation ?? $lastValidation
           lastRun = $lastRun
         }
       }

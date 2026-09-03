@@ -54,7 +54,11 @@ function Write-IfChanged {
       return $false
     }
   }
-  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  # Preserve the repository's CRLF convention; PS7/Core Set-Content emits LF,
+  # which would rewrite every line of this committed report.
+  $crlf = ($Content -replace "`r`n", "`n") -replace "`n", "`r`n"
+  if (-not $crlf.EndsWith("`r`n")) { $crlf += "`r`n" }
+  [System.IO.File]::WriteAllText($Path, $crlf, (New-Object System.Text.UTF8Encoding($false)))
   return $true
 }
 
