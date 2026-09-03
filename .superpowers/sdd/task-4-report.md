@@ -1,179 +1,48 @@
-# Task 4 Report: Enhance Session-Wrap to Export JSON (Phase 1)
+# Task 4 report: Extract operation and Markdown normalization
 
-## Summary
+## Status
+- Status: Complete
+- Branch: `feat/tinyfish-search-skill`
+- Commit SHA: `ee61d0b47f3d544bcfd560f26285e6fd74369a26`
+- Report path: `C:\dev\dev-sandbox\toolforge-tinyfish-search\.superpowers\sdd\task-4-report.md`
 
-Successfully implemented JSON schema v1.0 export functionality for the session-wrap skill to support the daily/weekly reporting system. The implementation adds structured data export for session metrics (commits, skills, tokens, model, duration).
+## Summary of changes
+1. **Failing test suite first (`skills/tinyfish-search/tests/extract.test.ts`)**:
+   - Created test suite asserting fail-closed behavior across edge cases:
+     - URL validation: empty arrays, invalid URL strings, non-http/https protocols, counts exceeding 20 URLs, and null inputs return `INVALID_INPUT` with `ERR_MSG_INVALID_INPUT`.
+     - Authentication: missing `TINYFISH_API_KEY` returns `API_KEY_MISSING` with `ERR_MSG_API_KEY_MISSING` (verified with `try ... finally` environment isolation).
+     - Response normalization: maps `results` with `url`, `title`, `markdown` (supporting `content` fallback), and numeric `status`.
+     - Partial error propagation: populates `errors` array with `url` and `error` when upstream returns partial failures.
+     - Malformed responses: non-array results (`null`, `undefined`, object, string, number) fail closed with `INVALID_API_RESPONSE` and `ERR_MSG_INVALID_API_RESPONSE`.
+     - Transport exceptions: SDK fetch rejection triggers `options.onError` and returns `TINYFISH_API_ERROR` with `ERR_MSG_FAILED`.
+     - Defensive handling: gracefully normalizes `null` elements in `results` and `errors` using optional chaining and fallback defaults.
+   - Executed `npx tsx --test skills/tinyfish-search/tests/extract.test.ts` and confirmed expected failure (`ERR_MODULE_NOT_FOUND` on missing `src/extract.js`).
+2. **Implementation (`skills/tinyfish-search/src/extract.ts`)**:
+   - Defined and exported module-level error constants:
+     - `ERR_MSG_INVALID_INPUT`: `"Valid http(s) URLs are required"`
+     - `ERR_MSG_INVALID_API_RESPONSE`: `"TinyFish returned an invalid response"`
+     - `ERR_MSG_EXTRACT_FAILED`: `"Failed to extract"`
+   - Implemented `isValidUrl(urlStr: unknown): boolean` checking URL parsing and `http:` or `https:` protocol.
+   - Implemented `tinyfish_extract(input: ExtractInput, options?: RuntimeOptions): Promise<OperationResult<ExtractOutput>>`:
+     - Validates `input.urls` is an array of 1 to 20 valid HTTP(S) URLs.
+     - Obtains authenticated client or propagates tool error from `getClient(options)`.
+     - Enforces token bucket rate limiting via `await extractBucket.acquire(1)`.
+     - Wraps `client.fetch.getContents` inside `withRetry` with configured `timeoutMs`.
+     - Maps raw response results and errors using defensive optional chaining.
+     - Invokes `options?.onError?.(err)` on transport rejection before propagating to retry handler.
+3. **Verification**:
+   - Single test execution: `npx tsx --test skills/tinyfish-search/tests/extract.test.ts` passed (7/7 tests passed).
+   - Full package test suite: `npm test` in `skills/tinyfish-search` passed (25/25 tests passed across 4 suites).
+   - TypeScript compilation: `npx tsc --noEmit -p skills/tinyfish-search/tsconfig.json` exited with code 0 and 0 errors.
+4. **Git commit**:
+   - Staged `skills/tinyfish-search/src/extract.ts` and `skills/tinyfish-search/tests/extract.test.ts`.
+   - Committed changes: `ee61d0b47f3d544bcfd560f26285e6fd74369a26` (`feat(tinyfish): implement extract operation and Markdown normalization`).
 
-## Modifications Made
+## Verification metrics
+- **Extract tests:** 7 passed, 0 failed
+- **Total skill tests:** 25 passed, 0 failed
+- **TypeScript errors:** 0
+- **Pre-commit checks:** Passed (Toolforge pipeline passed with 0 blocking issues)
 
-### File: `skills/session-wrap/src/index.ts`
-
-**Changes:**
-1. Added `os` module import for cross-platform AppData path handling
-2. Added `SessionMetrics` interface to define session metric structure
-3. Updated `SessionWrapParams` to include optional `metrics` field
-4. Updated `SessionWrapResult` to include optional `jsonExportPath` field
-5. Implemented `exportSessionWrapJSON()` function that:
-   - Accepts commits, skills, tokens, model, and durationMinutes
-   - Builds schema v1.0 JSON object with ISO 8601 timestamp
-   - Creates `Claude` directory under platform-specific AppData path
-   - Writes JSON to `%APPDATA%\Claude\session-wrap-export.json` (Windows)
-   - Returns export path for logging/verification
-6. Updated main `sessionWrap()` function to call export when metrics provided
-
-**Schema v1.0 Structure:**
-```json
-{
-  "version": "1.0",
-  "timestamp": "2026-07-19T23:18:53.271Z",
-  "commits": [
-    { "hash": "...", "message": "...", "files": [...], "repo": "..." }
-  ],
-  "skills": [
-    { "name": "...", "count": 0 }
-  ],
-  "tokens": 0,
-  "model": "haiku",
-  "duration_minutes": 0
-}
-```
-
-### File: `skills/session-wrap/tests/skill.test.ts`
-
-**Changes:**
-1. Added test: `exports JSON schema v1.0 with session metrics when provided`
-   - Verifies JSON file creation at correct path
-   - Validates schema structure and field types
-   - Confirms commits array, skills array, and scalar fields present
-2. Added test: `handles missing metrics gracefully`
-   - Verifies no export when metrics not provided
-   - Ensures backward compatibility
-
-## Test Results
-
-All 7 tests pass successfully:
-- ✓ rejects a commit message without a [tool] prefix (4613 ms)
-- ✓ writes docUpdates and commits only those paths (not git add -A) (5719 ms)
-- ✓ skips the commit cleanly when nothing is staged (2368 ms)
-- ✓ dry-run performs no writes and no git operations (2205 ms)
-- ✓ stageAll opts into git add -A explicitly (5345 ms)
-- ✓ **exports JSON schema v1.0 with session metrics when provided (3164 ms)**
-- ✓ **handles missing metrics gracefully (3218 ms)**
-
-**Test Suite Summary:** 1 passed, 7 passed total
-
-## Manual Verification
-
-JSON export verified with test data:
-- **Export Path:** `C:\Users\soren\AppData\Roaming\Claude\session-wrap-export.json`
-- **Schema Version:** 1.0
-- **Timestamp:** ISO 8601 format ✓
-- **Commits Count:** 2 ✓
-- **Skills Count:** 3 ✓
-- **Tokens:** 142500 (int) ✓
-- **Model:** "haiku" (string) ✓
-- **Duration:** 38 minutes (int) ✓
-
-All required fields validated as correct types and accessible.
-
-## Commit Information
-
-- **Base Commit:** 5b8b7cf
-- **Head Commit:** 615d163
-- **Message:** `feat(session-wrap): export JSON schema v1.0 for reporting agents`
-- **Files Changed:** 2 files, 127 insertions
-  - `skills/session-wrap/src/index.ts` (69 insertions)
-  - `skills/session-wrap/tests/skill.test.ts` (58 insertions)
-
-## Task Completion Checklist
-
-- [x] Read current session-wrap implementation (TypeScript, not PowerShell)
-- [x] Add JSON export function with correct signature
-- [x] Implement schema v1.0 with all required fields
-- [x] Call JSON export at session-wrap exit
-- [x] Verify export path: `$env:APPDATA\Claude\session-wrap-export.json`
-- [x] Test JSON export (7 tests pass, 2 new tests specific to JSON export)
-- [x] Verify JSON is valid and parseable
-- [x] Verify all fields present and correct types
-- [x] Commit changes with correct message
-
-## Notes
-
-- Implementation adapted from PowerShell plan to TypeScript (actual skill language)
-- Export path uses `os.homedir()` for cross-platform compatibility
-- Windows: `%APPDATA%\Claude\session-wrap-export.json`
-- macOS/Linux: `~/.config/Claude/session-wrap-export.json`
-- Function exports path for logging; optional field in result
-- Backward compatible: no metrics = no export (no error)
-- Directory creation handled automatically
-
-## Success Status
-
-✓ **COMPLETE** — All requirements met, tests passing, commit pushed.
-
----
-
-## Fix Results: Task 4 Error-Handling Gap
-
-**Finding:** `exportSessionWrapJSON()` at `skills/session-wrap/src/index.ts:145–154` (call site actually at lines 199–208 in the current file) threw unhandled on `mkdir`/`writeFile` failure. If AppData was inaccessible, the entire `sessionWrap()` promise rejected instead of completing with a degraded (metrics-less) result.
-
-### Fix Applied
-
-**File:** `skills/session-wrap/src/index.ts` (function `sessionWrap`, lines 198–217)
-
-Wrapped the `exportSessionWrapJSON()` call in a `try/catch`:
-
-- On success: `jsonExportPath` set as before.
-- On failure: `jsonExportPath` explicitly set to `undefined`, error logged via `console.error`, and a human-readable warning appended to `report.nextSteps` (`"Metrics export failed and was skipped: <message>"`).
-- No rethrow — `sessionWrap()` proceeds to build and return its normal result object; `success` is unaffected since it's derived from `failedDocs.length === 0`, not from the export step.
-
-```ts
-if (params.metrics) {
-  try {
-    jsonExportPath = exportSessionWrapJSON(
-      params.metrics.commits,
-      params.metrics.skills,
-      params.metrics.tokens,
-      params.metrics.model,
-      params.metrics.durationMinutes
-    );
-  } catch (err) {
-    jsonExportPath = undefined;
-    const message = err instanceof Error ? err.message : String(err);
-    console.error(`session-wrap: JSON metrics export failed, continuing without it: ${message}`);
-    report.nextSteps.push(`Metrics export failed and was skipped: ${message}`);
-  }
-}
-```
-
-**File:** `skills/session-wrap/tests/skill.test.ts`
-
-Added test: `does not fail the whole session wrap when JSON export write fails`
-
-- Uses `jest.doMock("fs", ...)` + `jest.resetModules()` + `require("../src/index")` to inject a `writeFileSync` that throws only for paths containing `session-wrap-export.json` (a real `spyOn(fs, "writeFileSync")` failed in this environment — `TypeError: Cannot redefine property: writeFileSync` — because the ESM namespace import isn't reconfigurable here, hence the module-mock approach).
-- Asserts `result.success === true` and `result.jsonExportPath === undefined` when the simulated write failure occurs.
-- Mock is torn down (`jest.dontMock("fs")` + `jest.resetModules()`) in a `finally` block so it doesn't leak into subsequent tests.
-
-### Verification (3-tier)
-
-1. **Tier 1 (re-read):** Confirmed edit present character-for-character at `skills/session-wrap/src/index.ts:198–217`.
-2. **Tier 2 (syntax check):** `npx tsc --noEmit --allowJs` clean on both `src/index.ts` and `tests/skill.test.ts`.
-3. **Tier 3 (project verify):** `npm test` from `skills/session-wrap/` — **8/8 tests pass** (7 original + 1 new error-handling test). No regressions.
-
-```text
-PASS tests/skill.test.ts
-  session-wrap
-    √ rejects a commit message without a [tool] prefix
-    √ writes docUpdates and commits only those paths (not git add -A)
-    √ skips the commit cleanly when nothing is staged
-    √ dry-run performs no writes and no git operations
-    √ stageAll opts into git add -A explicitly
-    √ exports JSON schema v1.0 with session metrics when provided
-    √ handles missing metrics gracefully
-    √ does not fail the whole session wrap when JSON export write fails
-
-Test Suites: 1 passed, 1 total
-Tests:       8 passed, 8 total
-```
-
-### Status: VERIFIED (not yet committed — committing is a separate explicit step; see Commit section below for the message to use)
+## Concerns and notes
+- None. Implementation adheres strictly to fail-closed semantics, preserves raw Markdown content, supports partial failure reporting, and does not leak API keys or raw error exceptions.

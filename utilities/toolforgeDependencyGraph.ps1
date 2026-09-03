@@ -55,8 +55,9 @@ function Write-IfChanged {
 }
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\skills"
-$MANIFEST_FILE = "C:\dev\manifest.json"
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$CANONICAL_SKILLS = Join-Path $repoRoot "skills"
+$MANIFEST_FILE = Join-Path $repoRoot "manifest.json"
 
 # State
 $graph = @{

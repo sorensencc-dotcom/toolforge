@@ -73,11 +73,12 @@ if (Test-Path $OutputPath) {
 }
 
 # Paths
-$CANONICAL_SKILLS = "C:\dev\skills"
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$CANONICAL_SKILLS = Join-Path $repoRoot "skills"
 $DISTRIBUTED_SKILLS = "C:\dev\rewrite-mcp\toolforge\skills"
-$MANIFEST_FILE = "C:\dev\manifest.json"
-$RUNTIME_LOG = "C:\dev\audit\SKILL-RUN-LOG.md"
-$VALIDATION_LOG = "C:\dev\skills\SKILLPACK-VALIDATION.md"
+$MANIFEST_FILE = Join-Path $repoRoot "manifest.json"
+$RUNTIME_LOG = Join-Path $repoRoot "audit\SKILL-RUN-LOG.md"
+$VALIDATION_LOG = Join-Path $repoRoot "skills\SKILLPACK-VALIDATION.md"
 
 # Metadata state
 $metadata = [ordered]@{
