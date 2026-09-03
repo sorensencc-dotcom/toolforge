@@ -1357,6 +1357,45 @@
       "requires_api_key": "PARALLEL_API_KEY"
     },
     {
+      "id": "tinyfish-search",
+      "name": "tinyfish-search",
+      "category": "sync-tools",
+      "description": "TinyFish AI high-speed search and clean Markdown fetch integration",
+      "entrypoint": "skills/tinyfish-search/dist/index.js",
+      "status": "active",
+      "version": "1.0.0",
+      "runtime": "typescript",
+      "owner": "soren",
+      "timestamps": {
+        "created": "2026-09-02T22:00:00.000Z",
+        "lastValidation": "2026-09-02T22:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "tinyfish",
+        "search",
+        "extract",
+        "web"
+      ],
+      "capabilities": [
+        "web_search",
+        "clean_extract"
+      ],
+      "requires_api_key": "TINYFISH_API_KEY",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [
+          "@tiny-fish/sdk"
+        ],
+        "internal": []
+      }
+    },
+    {
       "version": "1.0.0",
       "description": "End-to-end Topic Research Mining (TRM) closed-loop pipeline across all registered NotebookLM notebooks in trm-vault: multi-notebook mining, WhichLLM model selection, cognitive query expansion triage, Layer 2 wiki synthesis, and .nlm_pack compilation.",
       "timestamps": {
