@@ -42,3 +42,16 @@ last_updated: 2026-09-03T20:53:00.000Z
 - **Assertion:** Henry Ford gifted a custom Hacker boat to his mistress Evangeline Dahlinger.
 - **Resolution:** Grounded in [`rfc-gap-16-hacker-runabout-evangeline-title.md`](file:///C:/dev/wiki/research/rfc-gap-16-hacker-runabout-evangeline-title.md). Custom House vessel logs confirm the vessel was legally retained under Ford Motor Company corporate fleet accounts.
 
+### 7. Multi-Vocal Moving Line Attribution
+- **Assertion:** Moving assembly line was invented solely by Henry Ford or Charles Sorensen.
+- **Resolution:** Grounded in [`rfc-gap-17-moving-assembly-line-attribution.md`](file:///C:/dev/wiki/research/rfc-gap-17-moving-assembly-line-attribution.md). BFRC Acc. 499 & Acc. 433 document William Klann's Swift & Co. prototype and Clarence Avery's motion studies.
+
+### 8. Sorensen 1953 Oral History Censorship Delta
+- **Assertion:** *My Forty Years with Ford* is an unvarnished primary source.
+- **Resolution:** Grounded in [`rfc-gap-20-sorensen-oral-history-censorship.md`](file:///C:/dev/wiki/research/rfc-gap-20-sorensen-oral-history-censorship.md). Identifies textual omissions between BFRC Acc. 65 raw transcripts and the 1956 edited volume.
+
+### 9. Clara Ford's 1944 Succession Ultimatum & The Gillespie Gambit
+- **Assertion:** Clara Ford forced Sorensen/Bennett out, and Sorensen attempted counter-intelligence via John Gillespie.
+- **Resolution:** Grounded in [`rfc-gap-21-clara-ford-succession-gillespie-gambit.md`](file:///C:/dev/wiki/research/rfc-gap-21-clara-ford-succession-gillespie-gambit.md). Corroborated by Kanzler testimony and Campsall files (Acc. SE-007).
+
+

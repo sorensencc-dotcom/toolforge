@@ -114,3 +114,29 @@ last_updated: 2026-08-30T12:14:00.000Z
 - **Canonical Note:** [`rfc-gap-16-hacker-runabout-evangeline-title.md`](file:///C:/dev/wiki/research/rfc-gap-16-hacker-runabout-evangeline-title.md)
 - **Summary:** Detroit River Custom House vessel logs confirm the custom 33-ft Hacker runabout was titled under Ford Motor Company corporate fleet accounts rather than deeded privately to Evangeline Dahlinger.
 
+### GAP-17: Multi-Vocal Attribution of the Moving Assembly Line (1913–1914)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-17-moving-assembly-line-attribution.md`](file:///C:/dev/wiki/research/rfc-gap-17-moving-assembly-line-attribution.md)
+- **Summary:** BFRC Acc. 499 (Klann) and Acc. 433 (Avery) resolve the executive memoir flattening: Klann initiated the Swift & Co. concept and April 1913 flywheel magneto test, Avery formalized line motion study and speed calculus, Martin allocated plant tooling, and Sorensen enforced executive pacing.
+
+### GAP-18: Edsel Ford vs. Charles Sorensen Relationship Dynamics
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-18-edsel-sorensen-protector-vs-frustrator.md`](file:///C:/dev/wiki/research/rfc-gap-18-edsel-sorensen-protector-vs-frustrator.md)
+- **Summary:** Resolves the protector vs. frustrator dichotomy: Sorensen personally shielded Edsel from Harry Bennett's physical/security harassment while simultaneously executing Henry Ford's operational vetoes against Edsel's modernization programs.
+
+### GAP-19: Henry Ford Character Polarity (Autocrat vs. Humanitarian)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-19-henry-ford-character-dichotomy.md`](file:///C:/dev/wiki/research/rfc-gap-19-henry-ford-character-dichotomy.md)
+- **Summary:** Reconciles biographical conflict: Ford exhibited genuine paternalistic benevolence toward rustic, village-scale individuals and children, contrasted with paranoid cruelty, espionage, and autocratic subjugation within River Rouge executive operations.
+
+### GAP-20: Sorensen 1953 Oral History Archival Delta & Memoir Censorship
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-20-sorensen-oral-history-censorship.md`](file:///C:/dev/wiki/research/rfc-gap-20-sorensen-oral-history-censorship.md)
+- **Summary:** Isolates specific textual redactions between raw 1,000-page BFRC Acc. 65 transcripts and the 1956 Williamson-edited memoir regarding Henry Ford's stroke delusions, Bennett's mob ties, and shop-floor mechanic attributions.
+
+### GAP-21: Clara Ford Succession Demands & The Gillespie Gambit
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-21-clara-ford-succession-gillespie-gambit.md`](file:///C:/dev/wiki/research/rfc-gap-21-clara-ford-succession-gillespie-gambit.md)
+- **Summary:** Corroborates Clara Ford's 1944 boardroom intervention demanding HF II's elevation under threat of stock liquidation, and documents Sorensen's failed deployment of John Gillespie to counter Harry Bennett's internal intelligence apparatus.
+
+
