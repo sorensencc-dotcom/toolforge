@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-09-03T09:01:03.0251923Z
+**Generated**: 2026-09-04T00:52:54.7721640Z
 
 ---
 
@@ -9,7 +9,7 @@
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 2 | 0 | ✅ |
-| Distributed | 0 | 10 | 0 | ✅ |
+| Distributed | 0 | 9 | 0 | ✅ |
 | Manifest | 0 | 95 | 0 | ✅ |
 | Cowork | 0 | 50 | 0 | ✅ |
 | Dependencies | 0 | 19 | 1 | ✅ |
@@ -17,7 +17,7 @@
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 176
+**Total Warnings**: 175
 
 **Overall Status**: ✅ PASS
 
@@ -63,7 +63,7 @@
 | session-wrap | Session Wrap | 1.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | skill-health-monitor | Skill Health Monitor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | skill-security-auditor | Skill Security Auditor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
-| tinyfish-search | TinyFish Search | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
+| tinyfish-search | TinyFish Search | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | tool-lifecycle-manager | Tool Lifecycle Manager | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | toolforge-cli | Toolforge CLI | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-drift-monitor | Toolforge Drift Monitor | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
@@ -95,7 +95,6 @@
 ⚠️ **obsidian-ingest-wiki**: Version mismatch: canonical 1.1.0, distributed 1.0.0
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
-⚠️ **tinyfish-search**: Directory missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
 
 ## Manifest Validation
@@ -255,19 +254,19 @@
 ⚠️ **cic-ingest-world**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-orchestrate-flow**: Internal dependencies mismatch (distributed): canonical '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate', distributed ''
 ⚠️ **cic-repair-pipeline**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
-⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
+⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
 ⚠️ **parallel-search**: Missing external dependency: parallel-web
-⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
 ⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
+⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
 ⚠️ **tinyfish-search**: Missing external dependency: @tiny-fish/sdk
-⚠️ **trm-closed-loop-research**: Missing external dependency: node
 ⚠️ **trm-closed-loop-research**: Missing external dependency: git
+⚠️ **trm-closed-loop-research**: Missing external dependency: node
 ⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
-⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
+⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-status**: Missing external dependency: git
 ⚠️ **workspace-storage-cleaner**: Missing external dependency: python3
 
