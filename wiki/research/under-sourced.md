@@ -29,3 +29,16 @@ last_updated: 2026-09-03T20:53:00.000Z
 ### 3. Knockdown (KD) B-24 Assembly Logistics
 - **Assertion:** Willow Run produced complete subassembly kits for Douglas and Consolidated plants.
 - **Resolution:** Grounded in [`rfc-gap-06-willow-run-b-24-knock-down-kit.md`](file:///C:/dev/wiki/research/rfc-gap-06-willow-run-b-24-knock-down-kit.md). 1,893 kits shipped by specialized 60-foot trailers to Tulsa and Fort Worth.
+
+### 4. Edsel Ford vs. Sorensen Fort Worth Quality Confrontation
+- **Assertion:** Edsel publicly reprimanded Sorensen over returned defective B-24 assemblies from Fort Worth.
+- **Resolution:** Grounded in [`rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md`](file:///C:/dev/wiki/research/rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md). Lindbergh diary corroborated by BFRC Mead L. Bricker administrative files and War Dept inspection rejection notices.
+
+### 5. Phoenix Mill Equal Pay & Marital Restrictions
+- **Assertion:** Henry Ford operated an all-female plant at Phoenix Mill with equal wages.
+- **Resolution:** Grounded in [`rfc-gap-15-phoenix-mill-wage-parity.md`](file:///C:/dev/wiki/research/rfc-gap-15-phoenix-mill-wage-parity.md). BFRC payroll ledgers verify $5-$7/day parity; Sociological Dept records confirm strict single-women hiring rules.
+
+### 6. Legal Title of the Hacker Runabout *Evangeline*
+- **Assertion:** Henry Ford gifted a custom Hacker boat to his mistress Evangeline Dahlinger.
+- **Resolution:** Grounded in [`rfc-gap-16-hacker-runabout-evangeline-title.md`](file:///C:/dev/wiki/research/rfc-gap-16-hacker-runabout-evangeline-title.md). Custom House vessel logs confirm the vessel was legally retained under Ford Motor Company corporate fleet accounts.
+

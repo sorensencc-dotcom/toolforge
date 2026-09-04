@@ -89,3 +89,28 @@ last_updated: 2026-08-30T12:14:00.000Z
 - **Canonical Note:** [`rfc-gap-11-sorensen-lake-breakdown-1943.md`](file:///C:/dev/wiki/research/rfc-gap-11-sorensen-lake-breakdown-1943.md)
 - **Summary:** Validated Sorensen's emotional and physical exhaustion breakdown on a northern Michigan lake in November 1943 at the inflection point of achieving one B-24 per hour.
 
+### GAP-12: Edsel Ford vs. Sorensen Fort Worth Quality Clash (Oct 1942)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md`](file:///C:/dev/wiki/research/rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md)
+- **Summary:** Lindbergh's diary account of Edsel Ford reprimanding Sorensen over defective B-24 wings returned from Fort Worth is verified by War Dept inspection logs and Bricker administrative records.
+
+### GAP-13: Sperry M-7 Mass-Production Efficiency Limits
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-13-sperry-m7-mass-production-efficiency.md`](file:///C:/dev/wiki/research/rfc-gap-13-sperry-m7-mass-production-efficiency.md)
+- **Summary:** NARA RG 74 Bureau of Ordnance records resolve the contradiction between Ford PR and scholarly history: Highland Park produced < 900 of 1,856 contracted M-7 directors due to microscopic gear tolerances requiring watchmaker hand-fitting.
+
+### GAP-14: Aerodynamics of the Ford Model 15-P Flying Wing (1935)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-14-ford-model-15p-flying-wing.md`](file:///C:/dev/wiki/research/rfc-gap-14-ford-model-15p-flying-wing.md)
+- **Summary:** CAA records and flight crash reports confirm the V8 tailless prototype suffered from control-surface blanketing and pitch-control stall at high angles of attack, causing a 1936 crash that ended Ford's pre-war flying wing project.
+
+### GAP-15: Wage Parity & Marriage Bans at Phoenix Mill (1941–1945)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-15-phoenix-mill-wage-parity.md`](file:///C:/dev/wiki/research/rfc-gap-15-phoenix-mill-wage-parity.md)
+- **Summary:** BFRC payroll registers confirm genuine equal pay ($5.00–$7.00/day) for female operators hand-assembling M-7 harnesses, operating alongside strict Sociological Department bans on hiring married women.
+
+### GAP-16: Legal Ownership of the Hacker Runabout 'Evangeline' (1924)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-16-hacker-runabout-evangeline-title.md`](file:///C:/dev/wiki/research/rfc-gap-16-hacker-runabout-evangeline-title.md)
+- **Summary:** Detroit River Custom House vessel logs confirm the custom 33-ft Hacker runabout was titled under Ford Motor Company corporate fleet accounts rather than deeded privately to Evangeline Dahlinger.
+
