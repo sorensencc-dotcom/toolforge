@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-09-03T01:29:44.6663759Z
+**Generated:** 2026-09-03T02:53:35.0839829Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 49 | 100% |
-| Active | 49 | 100% |
+| **Total Skills** | 50 | 100% |
+| Active | 50 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 49 | 100% |
-| ⚠️ Warning | 0 | 0% |
+| ✅ Good | 49 | 98% |
+| ⚠️ Warning | 1 | 2% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -37,19 +37,6 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### retro-export
-
-| Field | Value |
-|-------|-------|
-| Name | Retro Export |
-| Category | monitoring |
-| Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### retro-schema-validator
 
@@ -167,6 +154,19 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 1 external |
+### tinyfish-search
+
+| Field | Value |
+|-------|-------|
+| Name | TinyFish Search |
+| Category | sync-tools |
+| Version | 1.0.0 |
+| Owner | soren |
+| Runtime | typescript |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
 | Dependencies | 0 internal, 1 external |
 ### tool-lifecycle-manager
 
@@ -311,6 +311,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### retro-export
+
+| Field | Value |
+|-------|-------|
+| Name | Retro Export |
+| Category | monitoring |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 0 external |
 ### research-questions
 
 | Field | Value |
@@ -324,19 +337,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 2 external |
-### workspace-storage-cleaner
-
-| Field | Value |
-|-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | python |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 1 external |
 ### reconcile-vector-store
 
 | Field | Value |
@@ -350,19 +350,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### pre-flight-test-checker
+### pre-wrap-audit
 
 | Field | Value |
 |-------|-------|
-| Name | Pre-Flight Test Checker |
-| Category | validation |
+| Name | Pre Wrap Audit |
+| Category | session-management |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | javascript |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 0 external |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 1 internal, 0 external |
 ### agent-drift-detector
 
 | Field | Value |
@@ -493,25 +493,25 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 1 external |
 ### cic-section-summarizer
 
 | Field | Value |
 |-------|-------|
 | Name | CIC Section Summarizer |
 | Category | analysis |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### context-manager
-
-| Field | Value |
-|-------|-------|
-| Name | Context Manager |
-| Category | utilities |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | typescript |
@@ -636,19 +636,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
-### pre-wrap-audit
+### pre-flight-test-checker
 
 | Field | Value |
 |-------|-------|
-| Name | Pre Wrap Audit |
-| Category | session-management |
+| Name | Pre-Flight Test Checker |
+| Category | validation |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | node |
+| Runtime | javascript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 1 internal, 0 external |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 0 external |
+### context-manager
+
+| Field | Value |
+|-------|-------|
+| Name | Context Manager |
+| Category | utilities |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
 ### writing-heuristics
 
 | Field | Value |

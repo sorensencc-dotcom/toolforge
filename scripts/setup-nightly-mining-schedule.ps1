@@ -66,8 +66,8 @@ $settings = New-ScheduledTaskSettingsSet `
 
 $principal = New-ScheduledTaskPrincipal `
     -UserId $env:USERNAME `
-    -LogonType Interactive `
-    -RunLevel Limited
+    -LogonType S4U `
+    -RunLevel Highest
 
 Register-ScheduledTask `
     -TaskName $taskName `

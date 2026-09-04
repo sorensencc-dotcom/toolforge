@@ -208,5 +208,51 @@
       }
     ],
     "result": "success"
+  },
+  {
+    "timestamp": "2026-09-03T11:25:31.499Z",
+    "action": "daily_mining_run",
+    "actor": "scheduler",
+    "run_id": "RUN-2026-09-03T11-23-18-620Z-313d693c",
+    "duration_seconds": 132.88,
+    "results": [
+      {
+        "category": "willow-run",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 9927
+      },
+      {
+        "category": "ford-politics",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 8036
+      },
+      {
+        "category": "post-war",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 7198
+      },
+      {
+        "category": "cuban-seizures",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 15010
+      },
+      {
+        "category": "master-kb",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 66434
+      },
+      {
+        "category": "daily",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 10081
+      }
+    ],
+    "result": "success"
   }
 ]

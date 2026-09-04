@@ -77,7 +77,7 @@ $settings = New-ScheduledTaskSettingsSet `
 
 # S4U Principal allows task to execute when user is not logged on without storing credentials
 $username = $env:USERNAME
-$principal = New-ScheduledTaskPrincipal -UserId $username -LogonType S4U -RunLevel Limited
+$principal = New-ScheduledTaskPrincipal -UserId $username -LogonType S4U -RunLevel Highest
 
 try {
     Register-ScheduledTask `

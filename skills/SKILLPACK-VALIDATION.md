@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-09-03T01:19:59.0041560Z
+**Generated**: 2026-09-03T09:01:03.0251923Z
 
 ---
 
@@ -9,15 +9,15 @@
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 2 | 0 | ✅ |
-| Distributed | 0 | 9 | 0 | ✅ |
-| Manifest | 0 | 93 | 0 | ✅ |
-| Cowork | 0 | 49 | 0 | ✅ |
-| Dependencies | 0 | 18 | 1 | ✅ |
-| Runtime | 0 | 0 | 49 | ✅ |
+| Distributed | 0 | 10 | 0 | ✅ |
+| Manifest | 0 | 95 | 0 | ✅ |
+| Cowork | 0 | 50 | 0 | ✅ |
+| Dependencies | 0 | 19 | 1 | ✅ |
+| Runtime | 0 | 0 | 50 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 171
+**Total Warnings**: 176
 
 **Overall Status**: ✅ PASS
 
@@ -63,6 +63,7 @@
 | session-wrap | Session Wrap | 1.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | skill-health-monitor | Skill Health Monitor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | skill-security-auditor | Skill Security Auditor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| tinyfish-search | TinyFish Search | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | tool-lifecycle-manager | Tool Lifecycle Manager | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | toolforge-cli | Toolforge CLI | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-drift-monitor | Toolforge Drift Monitor | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
@@ -94,6 +95,7 @@
 ⚠️ **obsidian-ingest-wiki**: Version mismatch: canonical 1.1.0, distributed 1.0.0
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
+⚠️ **tinyfish-search**: Directory missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
 
 ## Manifest Validation
@@ -167,9 +169,11 @@
 ⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
 ⚠️ **session-wrap**: Tags mismatch: canonical '', manifest 'session-wrap, git-commit, documentation, atomic-commit'
 ⚠️ **session-wrap**: Path mismatch: expected 'skills/session-wrap', got ''
-⚠️ **skill-health-monitor**: Path mismatch: expected 'skills/skill-health-monitor', got ''
 ⚠️ **skill-health-monitor**: Tags mismatch: canonical '', manifest 'skill-health, manifest-audit, staleness, inventory'
+⚠️ **skill-health-monitor**: Path mismatch: expected 'skills/skill-health-monitor', got ''
 ⚠️ **skill-security-auditor**: Path mismatch: expected 'skills/skill-security-auditor', got ''
+⚠️ **tinyfish-search**: Tags mismatch: canonical '', manifest 'tinyfish, search, extract, web'
+⚠️ **tinyfish-search**: Path mismatch: expected 'skills/tinyfish-search', got ''
 ⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
 ⚠️ **toolforge-cli**: Invalid category in manifest: utility
 ⚠️ **toolforge-cli**: Path mismatch: expected 'skills/toolforge-cli', got ''
@@ -230,6 +234,7 @@
 ⚠️ **session-wrap**: Not registered (installer will register on next run)
 ⚠️ **skill-health-monitor**: Not registered (installer will register on next run)
 ⚠️ **skill-security-auditor**: Not registered (installer will register on next run)
+⚠️ **tinyfish-search**: Not registered (installer will register on next run)
 ⚠️ **tool-lifecycle-manager**: Not registered (installer will register on next run)
 ⚠️ **toolforge-cli**: Not registered (installer will register on next run)
 ⚠️ **toolforge-drift-monitor**: Not registered (installer will register on next run)
@@ -250,18 +255,19 @@
 ⚠️ **cic-ingest-world**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-orchestrate-flow**: Internal dependencies mismatch (distributed): canonical '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate', distributed ''
 ⚠️ **cic-repair-pipeline**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
-⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
+⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
 ⚠️ **parallel-search**: Missing external dependency: parallel-web
 ⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
 ⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
-⚠️ **trm-closed-loop-research**: Missing external dependency: git
+⚠️ **tinyfish-search**: Missing external dependency: @tiny-fish/sdk
 ⚠️ **trm-closed-loop-research**: Missing external dependency: node
+⚠️ **trm-closed-loop-research**: Missing external dependency: git
 ⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
-⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
 ⚠️ **trm-feedback-report**: Missing external dependency: trm
+⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
 ⚠️ **trm-status**: Missing external dependency: git
 ⚠️ **workspace-storage-cleaner**: Missing external dependency: python3
 
@@ -303,6 +309,7 @@
 ℹ️ **session-wrap**: Skill inactive (status: )
 ℹ️ **skill-health-monitor**: Skill inactive (status: )
 ℹ️ **skill-security-auditor**: Skill inactive (status: )
+ℹ️ **tinyfish-search**: Discoverable
 ℹ️ **tool-lifecycle-manager**: Discoverable
 ℹ️ **toolforge-cli**: Discoverable
 ℹ️ **toolforge-drift-monitor**: Discoverable
