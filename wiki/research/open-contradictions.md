@@ -68,3 +68,24 @@ last_updated: 2026-08-30T12:14:00.000Z
 - **Status:** Resolved
 - **Canonical Note:** [`sorensen-cuban-estate-fcsc.md`](file:///C:/dev/wiki/research/properties/sorensen-cuban-estate-fcsc.md)
 - **Summary:** Verified FCSC Claim CU-3440 / Decision CU-5843 certifying uncompensated nationalization of Charles E. Sorensen's agricultural properties in Matanzas and Pinar del Río under INRA's First Agrarian Reform Law of May 17, 1959.
+
+### GAP-08: Willow Run First B-24 Rollout Timeline
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-08-willow-run-first-rollout-timeline.md`](file:///C:/dev/wiki/research/rfc-gap-08-willow-run-first-rollout-timeline.md)
+- **Summary:** Reconciled May 1942 pilot defect inspection, October 1, 1942 *Spirit of Ypsilanti* christening, and December 1942 cold-weather line teething into a progressive manufacturing ramp.
+
+### GAP-09: Debunking the South American Aluminum Coffin Legend
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-09-aluminum-coffin-scrap-legend.md`](file:///C:/dev/wiki/research/rfc-gap-09-aluminum-coffin-scrap-legend.md)
+- **Summary:** WPB Limitation Order L-64 and USAAF Alclad 24S-T structural tensile standards prove that melted mortuary scrap was chemically and structurally unfit for primary aircraft skins.
+
+### GAP-10: Clara Bryant Ford's 1941 Labor Ultimatum
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-10-clara-ford-union-ultimatum.md`](file:///C:/dev/wiki/research/rfc-gap-10-clara-ford-union-ultimatum.md)
+- **Summary:** Corroborated Sorensen's account of Clara Ford's domestic intervention during the June 1941 Rouge strike through Clara Ford's private papers at Benson Ford Research Center.
+
+### GAP-11: Charles E. Sorensen's November 1943 Lake Breakdown
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-11-sorensen-lake-breakdown-1943.md`](file:///C:/dev/wiki/research/rfc-gap-11-sorensen-lake-breakdown-1943.md)
+- **Summary:** Validated Sorensen's emotional and physical exhaustion breakdown on a northern Michigan lake in November 1943 at the inflection point of achieving one B-24 per hour.
+
