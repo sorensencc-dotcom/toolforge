@@ -1,6 +1,6 @@
 # Property Extraction Errors & Warnings
 
-Generated at: 2026-08-30T13:58:07.011Z
+Generated at: 2026-09-03T11:23:32.910Z
 
 | File | Issue / Reason |
 |---|---|
@@ -48,3 +48,4 @@ Generated at: 2026-08-30T13:58:07.011Z
 | `46f77ec1-283e-4972-940b-5f2408504846--willysresearchlog-v2-20260430.md` | Filtered out or low confidence (0.85) |
 | `f444211d-2e07-4c51-978d-9972048dd13d--laterliferesearchlog-v1-20260430.md` | Filtered out or low confidence (1) |
 | `ford-socony-vacuum.md` | Filtered out or low confidence (1) |
+| `open-contradictions.md` | Filtered out or low confidence (1) |

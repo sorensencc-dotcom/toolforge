@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-09-03T01:19:59.0041560Z
+**Generated**: 2026-09-04T00:52:54.7721640Z
 
 ---
 
@@ -10,14 +10,14 @@
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 2 | 0 | ✅ |
 | Distributed | 0 | 9 | 0 | ✅ |
-| Manifest | 0 | 93 | 0 | ✅ |
-| Cowork | 0 | 49 | 0 | ✅ |
-| Dependencies | 0 | 18 | 1 | ✅ |
-| Runtime | 0 | 0 | 49 | ✅ |
+| Manifest | 0 | 95 | 0 | ✅ |
+| Cowork | 0 | 50 | 0 | ✅ |
+| Dependencies | 0 | 19 | 1 | ✅ |
+| Runtime | 0 | 0 | 50 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 171
+**Total Warnings**: 175
 
 **Overall Status**: ✅ PASS
 
@@ -63,6 +63,7 @@
 | session-wrap | Session Wrap | 1.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | skill-health-monitor | Skill Health Monitor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | skill-security-auditor | Skill Security Auditor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| tinyfish-search | TinyFish Search | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | tool-lifecycle-manager | Tool Lifecycle Manager | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | toolforge-cli | Toolforge CLI | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | toolforge-drift-monitor | Toolforge Drift Monitor | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
@@ -167,9 +168,11 @@
 ⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
 ⚠️ **session-wrap**: Tags mismatch: canonical '', manifest 'session-wrap, git-commit, documentation, atomic-commit'
 ⚠️ **session-wrap**: Path mismatch: expected 'skills/session-wrap', got ''
-⚠️ **skill-health-monitor**: Path mismatch: expected 'skills/skill-health-monitor', got ''
 ⚠️ **skill-health-monitor**: Tags mismatch: canonical '', manifest 'skill-health, manifest-audit, staleness, inventory'
+⚠️ **skill-health-monitor**: Path mismatch: expected 'skills/skill-health-monitor', got ''
 ⚠️ **skill-security-auditor**: Path mismatch: expected 'skills/skill-security-auditor', got ''
+⚠️ **tinyfish-search**: Tags mismatch: canonical '', manifest 'tinyfish, search, extract, web'
+⚠️ **tinyfish-search**: Path mismatch: expected 'skills/tinyfish-search', got ''
 ⚠️ **tool-lifecycle-manager**: Path mismatch: expected 'skills/tool-lifecycle-manager', got ''
 ⚠️ **toolforge-cli**: Invalid category in manifest: utility
 ⚠️ **toolforge-cli**: Path mismatch: expected 'skills/toolforge-cli', got ''
@@ -230,6 +233,7 @@
 ⚠️ **session-wrap**: Not registered (installer will register on next run)
 ⚠️ **skill-health-monitor**: Not registered (installer will register on next run)
 ⚠️ **skill-security-auditor**: Not registered (installer will register on next run)
+⚠️ **tinyfish-search**: Not registered (installer will register on next run)
 ⚠️ **tool-lifecycle-manager**: Not registered (installer will register on next run)
 ⚠️ **toolforge-cli**: Not registered (installer will register on next run)
 ⚠️ **toolforge-drift-monitor**: Not registered (installer will register on next run)
@@ -254,9 +258,10 @@
 ⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
 ⚠️ **parallel-search**: Missing external dependency: parallel-web
-⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
 ⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
+⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
+⚠️ **tinyfish-search**: Missing external dependency: @tiny-fish/sdk
 ⚠️ **trm-closed-loop-research**: Missing external dependency: git
 ⚠️ **trm-closed-loop-research**: Missing external dependency: node
 ⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
@@ -303,6 +308,7 @@
 ℹ️ **session-wrap**: Skill inactive (status: )
 ℹ️ **skill-health-monitor**: Skill inactive (status: )
 ℹ️ **skill-security-auditor**: Skill inactive (status: )
+ℹ️ **tinyfish-search**: Discoverable
 ℹ️ **tool-lifecycle-manager**: Discoverable
 ℹ️ **toolforge-cli**: Discoverable
 ℹ️ **toolforge-drift-monitor**: Discoverable

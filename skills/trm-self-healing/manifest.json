@@ -1,0 +1,121 @@
+{
+  "$schema": "https://toolforge.rewrite.internal/schemas/v1/manifest.json",
+  "manifestVersion": "1.0.0",
+  "name": "trm-self-healing",
+  "packageName": "@toolforge/trm-self-healing",
+  "version": "1.0.0",
+  "description": "DevOps diagnostic and self-healing triage skills for Herdr and TRM fleets",
+  "skills": [
+    {
+      "skillId": "trm-tinyfish-triage",
+      "packageName": "@toolforge/trm-self-healing",
+      "name": "Tier-1 TinyFish Triage",
+      "version": "1.0.0",
+      "description": "Fast local error signature matching and TinyFish search fallback for root-cause analysis",
+      "entry": "src/trm-tinyfish-triage.mjs",
+      "runtime": "node",
+      "inputs": {
+        "type": "object",
+        "required": ["logTrace"],
+        "additionalProperties": false,
+        "properties": {
+          "logTrace": { "type": "string", "description": "Raw log or error message" }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": ["status", "category", "resolution"],
+        "additionalProperties": false,
+        "properties": {
+          "status": { "type": "string", "enum": ["RESOLVED", "ESCALATE", "UNKNOWN"] },
+          "category": { "type": "string" },
+          "resolution": { "type": "string" }
+        }
+      },
+      "permissions": {
+        "filesystem": "read-only",
+        "network": { "bounds": ["api.tinyfish.io"] },
+        "process": "deny"
+      },
+      "env": {
+        "TINYFISH_API_KEY": { "required": true, "sensitive": true }
+      },
+      "securityFlags": ["redactsTokens", "readOnlyFS"]
+    },
+    {
+      "skillId": "trm-parallel-escalation",
+      "packageName": "@toolforge/trm-self-healing",
+      "name": "Tier-2 Parallel Escalation",
+      "version": "1.0.0",
+      "description": "Deep research escalation dispatching unresolved errors to Parallel Task API with cited sources",
+      "entry": "src/trm-parallel-escalation.mjs",
+      "runtime": "node",
+      "inputs": {
+        "type": "object",
+        "required": ["logTrace", "contextSummary"],
+        "additionalProperties": false,
+        "properties": {
+          "logTrace": { "type": "string" },
+          "contextSummary": { "type": "string" }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": ["taskId", "findings", "workaround"],
+        "additionalProperties": false,
+        "properties": {
+          "taskId": { "type": "string" },
+          "findings": { "type": "string" },
+          "workaround": { "type": "string" }
+        }
+      },
+      "permissions": {
+        "filesystem": "read-only",
+        "network": { "bounds": ["api.parallel.ai"] },
+        "process": "deny"
+      },
+      "env": {
+        "PARALLEL_API_KEY": { "required": true, "sensitive": true }
+      },
+      "securityFlags": ["redactsTokens", "concurrencyBounded"]
+    },
+    {
+      "skillId": "trm-sigil-guard",
+      "packageName": "@toolforge/trm-self-healing",
+      "name": "Sigil Biometric Patch Guard",
+      "version": "1.0.0",
+      "description": "Forces patch verification through local Sigil loopback gate and requires physical WebAuthn approval",
+      "entry": "src/trm-sigil-guard.mjs",
+      "runtime": "node",
+      "inputs": {
+        "type": "object",
+        "required": ["patchSummary", "affectedFiles"],
+        "additionalProperties": false,
+        "properties": {
+          "patchSummary": { "type": "string" },
+          "affectedFiles": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": ["approved", "signature", "timestamp"],
+        "additionalProperties": false,
+        "properties": {
+          "approved": { "type": "boolean" },
+          "signature": { "type": "string" },
+          "timestamp": { "type": "string" }
+        }
+      },
+      "permissions": {
+        "filesystem": "read-write",
+        "network": { "bounds": ["127.0.0.1:8787", "127.0.0.1:8795"] },
+        "process": "deny"
+      },
+      "env": {
+        "SIGIL_CONNECTOR_URL": { "required": true, "sensitive": false, "default": "http://127.0.0.1:8787" },
+        "SIGIL_CONNECTOR_TOKEN": { "required": true, "sensitive": true }
+      },
+      "securityFlags": ["requiresSigil", "noExternalNet", "redactsTokens"]
+    }
+  ]
+}
