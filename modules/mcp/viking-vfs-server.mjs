@@ -1,7 +1,8 @@
 import readline from 'node:readline';
+import fs from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { createResolver, VikingError } from './viking-resolver.mjs';
-import { validateRequest, validateResponse } from './viking-vfs-contracts.mjs';
+import { validateRequest, validateResponse, validateReport, computeVikingReport, formatReportMarkdown } from './viking-vfs-contracts.mjs';
 import { readPinnedSnapshot } from './viking-snapshot.mjs';
 import { createTierIndex } from './viking-tier-index.mjs';
 
@@ -15,6 +16,7 @@ export const JSON_RPC_CODES = Object.freeze({
   SNAPSHOT_UNAVAILABLE: -32002,
   INTEGRITY_FAILED: -32003,
   RESOURCE_LIMIT: -32004,
+  VIKING_REPORT_INVALID: -32005,
 });
 
 function protocolCode(vikingCode) {
@@ -25,6 +27,7 @@ function protocolCode(vikingCode) {
   if (vikingCode === 'SNAPSHOT_UNAVAILABLE') return JSON_RPC_CODES.SNAPSHOT_UNAVAILABLE;
   if (['MANIFEST_INVALID', 'INTEGRITY_FAILED'].includes(vikingCode)) return JSON_RPC_CODES.INTEGRITY_FAILED;
   if (['RESOURCE_TOO_LARGE', 'BATCH_LIMIT_EXCEEDED'].includes(vikingCode)) return JSON_RPC_CODES.RESOURCE_LIMIT;
+  if (vikingCode === 'VIKING_REPORT_INVALID') return JSON_RPC_CODES.VIKING_REPORT_INVALID;
   return JSON_RPC_CODES.INTERNAL_ERROR;
 }
 
@@ -53,11 +56,42 @@ export function createServer(resolver, { telemetry = () => {}, resourceRootUri =
       try {
         const params = requireParams(request);
         if (request.method === 'initialize') return { protocolVersion: '2025-06-18', capabilities: { resources: { listChanged: false } }, serverInfo: { name: 'viking-vfs', version: '0.2.0' } };
-        if (request.method === 'resources/list') { const offset = params.cursor === undefined ? 0 : Number.parseInt(params.cursor, 10); if (!Number.isInteger(offset) || offset < 0 || (params.cursor !== undefined && String(offset) !== params.cursor)) throw new VikingError('INVALID_URI', 'cursor must be a non-negative integer token'); const listing = resolver.list(resourceRootUri, { offset, limit: 100 }); return { resources: listing.files.map((file) => ({ uri: file.uri, name: file.name, description: file.abstract ?? undefined, mimeType: 'text/plain', annotations: { stale: file.stale } })), nextCursor: listing.next_offset === null ? undefined : String(listing.next_offset) }; }
-        if (request.method === 'resources/read') { const value = resolver.read(params.uri, 'L1'); telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: Number(process.hrtime.bigint() - started) / 1e6, cache_hit: value.cache_hit }); return { contents: [{ uri: value.uri, mimeType: 'text/plain', text: value.content, annotations: { stale: value.stale, snapshot_id: value.snapshot_id } }] }; }
-        if (request.method === 'viking/stat') return resolver.stat(params.uri);
-        if (request.method === 'viking/list') return resolver.list(params.uri, params);
-        if (request.method === 'viking/read') { const value = resolver.read(params.uri, params.resolution_tier ?? 'L1'); telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: Number(process.hrtime.bigint() - started) / 1e6, cache_hit: value.cache_hit }); return value; }
+        if (request.method === 'resources/list') {
+          const offset = params.cursor === undefined ? 0 : Number.parseInt(params.cursor, 10);
+          if (!Number.isInteger(offset) || offset < 0 || (params.cursor !== undefined && String(offset) !== params.cursor)) throw new VikingError('INVALID_URI', 'cursor must be a non-negative integer token');
+          const listing = resolver.list(resourceRootUri, { offset, limit: 100 });
+          return { resources: listing.files.map((file) => ({ uri: file.uri, name: file.name, description: file.abstract ?? undefined, mimeType: 'text/plain', annotations: { stale: file.stale } })), nextCursor: listing.next_offset === null ? undefined : String(listing.next_offset) };
+        }
+        if (request.method === 'resources/read') {
+          const value = resolver.read(params.uri, 'L1');
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          const report = computeVikingReport({ tier: value.resolution_tier, uri: value.uri, content: value.content, cacheHit: value.cache_hit, latencyMs });
+          try { validateReport(report); } catch (err) { throw new VikingError('VIKING_REPORT_INVALID', `Viking VFS reporting payload failed schema validation: ${err.message}`); }
+          telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: latencyMs, cache_hit: value.cache_hit, report });
+          return { contents: [{ uri: value.uri, mimeType: 'text/plain', text: value.content, annotations: { stale: value.stale, snapshot_id: value.snapshot_id, report } }] };
+        }
+        if (request.method === 'viking/stat') {
+          const statVal = resolver.stat(params.uri);
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          const report = computeVikingReport({ tier: 'L0', uri: statVal.uri, content: '', cacheHit: true, latencyMs, mode: params.mode });
+          try { validateReport(report); } catch (err) { throw new VikingError('VIKING_REPORT_INVALID', `Viking VFS reporting payload failed schema validation: ${err.message}`); }
+          return { ...statVal, report };
+        }
+        if (request.method === 'viking/list') {
+          const listing = resolver.list(params.uri, params);
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          const report = computeVikingReport({ tier: 'L0', uri: params.uri, content: JSON.stringify(listing.files), cacheHit: true, latencyMs, mode: params.mode });
+          try { validateReport(report); } catch (err) { throw new VikingError('VIKING_REPORT_INVALID', `Viking VFS reporting payload failed schema validation: ${err.message}`); }
+          return { ...listing, report };
+        }
+        if (request.method === 'viking/read') {
+          const value = resolver.read(params.uri, params.resolution_tier ?? 'L1');
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          const report = computeVikingReport({ tier: value.resolution_tier, uri: value.uri, content: value.content, cacheHit: value.cache_hit, latencyMs, mode: params.mode, model: params.model });
+          try { validateReport(report); } catch (err) { throw new VikingError('VIKING_REPORT_INVALID', `Viking VFS reporting payload failed schema validation: ${err.message}`); }
+          telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: latencyMs, cache_hit: value.cache_hit, report });
+          return { ...value, report, markdown_report: formatReportMarkdown(report) };
+        }
         if (request.method === 'viking/readBatch') {
           if (params.items.length > maxBatchItems) throw new VikingError('BATCH_LIMIT_EXCEEDED', `Batch exceeds ${maxBatchItems} items`, { max_items: maxBatchItems });
           const byteLimit = Math.min(params.max_total_bytes ?? maxBatchBytes, maxBatchBytes);
@@ -69,7 +103,9 @@ export function createServer(resolver, { telemetry = () => {}, resourceRootUri =
               const valueBytes = Buffer.byteLength(value.content, 'utf8');
               if (responseBytes + valueBytes > byteLimit) throw new VikingError('BATCH_LIMIT_EXCEEDED', 'Batch response exceeds byte limit', { max_total_bytes: byteLimit });
               responseBytes += valueBytes;
-              results.push({ uri: item.uri, result: value });
+              const report = computeVikingReport({ tier: value.resolution_tier, uri: value.uri, content: value.content, cacheHit: value.cache_hit, latencyMs: 0 });
+              validateReport(report);
+              results.push({ uri: item.uri, result: { ...value, report } });
             } catch (error) {
               results.push({ uri: item.uri, error: errorPayload(error) });
             }

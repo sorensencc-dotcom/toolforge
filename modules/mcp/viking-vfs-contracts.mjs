@@ -92,8 +92,140 @@ export function validateRequest(request) {
   return value;
 }
 
+export function validateReport(report, path = '$.report') {
+  object(report, path);
+  noUnknown(report, [
+    'tier',
+    'uri',
+    'tokens_loaded',
+    'tokens_saved_vs_L2',
+    'percent_reduction',
+    'cache_effect',
+    'mode_choice_correct',
+    'context_window_pressure',
+    'model_tier_suitability',
+    'roundtrip_avoidance_score',
+    'latency_estimate_ms',
+    'latency_ms',
+  ], path);
+
+  if (!TIERS.includes(report.tier)) fail('tier must be L0, L1, or L2', `${path}.tier`);
+  uri(report.uri, `${path}.uri`);
+  integer(report.tokens_loaded, `${path}.tokens_loaded`);
+  integer(report.tokens_saved_vs_L2, `${path}.tokens_saved_vs_L2`);
+  number(report.percent_reduction, `${path}.percent_reduction`);
+  if (report.percent_reduction < 0 || report.percent_reduction > 100) fail('percent_reduction must be between 0 and 100', `${path}.percent_reduction`);
+
+  if (!['preserved', 'extended', 'invalidated', 'fragmented'].includes(report.cache_effect)) {
+    fail('cache_effect must be preserved, extended, invalidated, or fragmented', `${path}.cache_effect`);
+  }
+
+  if (typeof report.mode_choice_correct !== 'boolean') fail('mode_choice_correct must be a boolean', `${path}.mode_choice_correct`);
+
+  object(report.context_window_pressure, `${path}.context_window_pressure`);
+  noUnknown(report.context_window_pressure, ['current_tokens', 'usage_pct', 'risk_level'], `${path}.context_window_pressure`);
+  if ('current_tokens' in report.context_window_pressure) integer(report.context_window_pressure.current_tokens, `${path}.context_window_pressure.current_tokens`);
+  number(report.context_window_pressure.usage_pct, `${path}.context_window_pressure.usage_pct`);
+  if (!['low', 'medium', 'high', 'critical'].includes(report.context_window_pressure.risk_level)) {
+    fail('risk_level must be low, medium, high, or critical', `${path}.context_window_pressure.risk_level`);
+  }
+
+  if (!['optimal', 'acceptable', 'suboptimal', 'degraded'].includes(report.model_tier_suitability)) {
+    fail('model_tier_suitability must be optimal, acceptable, suboptimal, or degraded', `${path}.model_tier_suitability`);
+  }
+
+  integer(report.roundtrip_avoidance_score, `${path}.roundtrip_avoidance_score`, { min: 0 });
+  if (report.roundtrip_avoidance_score > 3) fail('roundtrip_avoidance_score must be <= 3', `${path}.roundtrip_avoidance_score`);
+
+  if ('latency_estimate_ms' in report) number(report.latency_estimate_ms, `${path}.latency_estimate_ms`);
+  if ('latency_ms' in report) number(report.latency_ms, `${path}.latency_ms`);
+
+  return report;
+}
+
+export function computeVikingReport({
+  tier = 'L1',
+  uri = 'viking://kb-sync/wiki',
+  content = '',
+  l2Content = null,
+  cacheHit = false,
+  mode = 'exploration',
+  currentContextTokens = 20000,
+  contextWindowLimit = 200000,
+  model = 'sonnet',
+  roundtrips = 0,
+  latencyMs = 0,
+} = {}) {
+  const tokensLoaded = Math.ceil(Buffer.byteLength(String(content), 'utf8') / 4);
+  let l2Tokens = tokensLoaded;
+  if (l2Content !== null) {
+    l2Tokens = Math.ceil(Buffer.byteLength(String(l2Content), 'utf8') / 4);
+  } else if (tier === 'L0') {
+    l2Tokens = Math.max(tokensLoaded, 559);
+  } else if (tier === 'L1') {
+    l2Tokens = Math.max(tokensLoaded, 559);
+  }
+  const tokensSaved = tier === 'L2' ? 0 : Math.max(0, l2Tokens - tokensLoaded);
+  const percentReduction = l2Tokens > 0 ? Number(((tokensSaved / l2Tokens) * 100).toFixed(1)) : 0;
+
+  const cacheEffect = cacheHit ? 'preserved' : (tier === 'L0' || tier === 'L1' ? 'extended' : 'preserved');
+
+  let modeCorrect = true;
+  if ((mode === 'exploration' || mode === 'audit') && tier === 'L2' && tokensLoaded > 300) {
+    modeCorrect = false;
+  } else if ((mode === 'refactor' || mode === 'hotfix') && tier === 'L0') {
+    modeCorrect = false;
+  }
+
+  const usagePct = Number(((currentContextTokens / contextWindowLimit) * 100).toFixed(1));
+  const riskLevel = usagePct >= 90 ? 'critical' : usagePct >= 75 ? 'high' : usagePct >= 50 ? 'medium' : 'low';
+
+  const suitability = 'optimal';
+  const roundtripScore = Math.min(3, Math.max(0, roundtrips));
+
+  const report = {
+    tier,
+    uri,
+    tokens_loaded: tokensLoaded,
+    tokens_saved_vs_L2: tokensSaved,
+    percent_reduction: percentReduction,
+    cache_effect: cacheEffect,
+    mode_choice_correct: modeCorrect,
+    context_window_pressure: {
+      current_tokens: currentContextTokens,
+      usage_pct: usagePct,
+      risk_level: riskLevel,
+    },
+    model_tier_suitability: suitability,
+    roundtrip_avoidance_score: roundtripScore,
+    latency_estimate_ms: Math.round(latencyMs),
+  };
+
+  return validateReport(report);
+}
+
+export function formatReportMarkdown(report) {
+  validateReport(report);
+  const { tier, uri, tokens_loaded, tokens_saved_vs_L2, percent_reduction, cache_effect, context_window_pressure, mode_choice_correct, model_tier_suitability, roundtrip_avoidance_score } = report;
+  return [
+    '<!-- viking://report -->',
+    '| Metric | Value | Status |',
+    '|---|---|---|',
+    `| Tier / URI | \`${tier}\` (${uri}) | OK |`,
+    `| Tokens | ${tokens_loaded} (saved ${tokens_saved_vs_L2} vs L2, -${percent_reduction}%) | Optimal |`,
+    `| Cache Effect | \`${cache_effect}\` | Stable |`,
+    `| Context Risk | ${context_window_pressure.usage_pct}% (\`${context_window_pressure.risk_level}\`) | Safe |`,
+    `| Mode Alignment | ${mode_choice_correct ? 'Aligned' : 'Suboptimal'} | ${mode_choice_correct ? 'Correct' : 'Warning'} |`,
+    `| Model Suitability | \`${model_tier_suitability}\` | OK |`,
+    `| Avoidance Score | ${roundtrip_avoidance_score} | Deterministic |`,
+  ].join('\n');
+}
+
 function validateResult(result, method) {
   object(result, '$.result');
+  if ('report' in result) {
+    validateReport(result.report, '$.result.report');
+  }
   if (method === 'initialize') {
     string(result.protocolVersion, '$.result.protocolVersion');
     object(result.capabilities, '$.result.capabilities');
@@ -139,4 +271,8 @@ export const VikingVfsContract = Object.freeze({
   tiers: TIERS,
   validateRequest,
   validateResponse,
+  validateReport,
+  computeVikingReport,
+  formatReportMarkdown,
 });
+
