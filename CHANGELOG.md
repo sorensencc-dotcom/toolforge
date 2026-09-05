@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.63.1
+Date: 2026-09-05
+
+### Changes
+- 2609f81 - Feat/toolforge herdr trm integration (#30) (Chris Sorensen)
+- 7016fd6 - docs(ironledger): Phase 2b handoff and resume point (Chris Sorensen)
+- 373b44e - docs(ironledger): add Phase 2a spec and plan referenced by the exit evidence (Chris Sorensen)
+- 7d221b0 - docs(ironledger): record Phase 2a exit-gate approval (Chris Sorensen)
+- f4e9ae2 - docs(ironledger): Phase 2a dependency posture and exit-gate evidence (Chris Sorensen)
+- d659625 - docs(plan): cross-federation directory implementation plan (#4) (Chris Sorensen)
+- b895b31 - docs(spec): apply caveman-review to cross-federation directory spec (#4) (Chris Sorensen)
+
 ## Version 2.63.0
 Date: 2026-09-03
 
