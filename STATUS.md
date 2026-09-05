@@ -1,5 +1,37 @@
 # Project status
 
+## TRM Process Enhancement & Historical Grounding (2026-09-03)
+
+### Active goal
+Synthesize 6-topic TRM research gaps into canonical RFC nodes, add live web search fallback (`parallel-cli` / `tinyfish`) to cognitive gap triage, rebuild thematic `.nlm_pack` knowledge packs, and deploy pre-recording YouTube script claim linter.
+
+### Completed work
+- Researched and resolved 6 initial historical topics (B-17 vs B-24 production totals, 1942 rollout timeline, aluminum coffin scrap myth, Albert Kahn L-bend airfield clearance, Clara Ford 1941 labor ultimatum, and Sorensen November 1943 lake breakdown).
+- Synthesized 4 canonical RFC nodes in `wiki/research/`: `rfc-gap-08`, `rfc-gap-09`, `rfc-gap-10`, and `rfc-gap-11`.
+- Researched and synthesized 5 additional high-priority historical topics:
+  - `rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md` (Edsel Ford vs. Sorensen Fort Worth subassembly rejection clash).
+  - `rfc-gap-13-sperry-m7-mass-production-efficiency.md` (Sperry M-7 Highland Park manufacturing bottlenecks & David Mindell historical baseline).
+  - `rfc-gap-14-ford-model-15p-flying-wing.md` (1935 Ford Model 15-P tailless V8 aerodynamics, stall blanketing, and 1936 crash).
+  - `rfc-gap-15-phoenix-mill-wage-parity.md` (Phoenix Mill Village Industry $5-$7/day female wage parity & Sociological Dept marital restrictions).
+  - `rfc-gap-16-hacker-runabout-evangeline-title.md` (Hacker 33-ft runabout *Evangeline* corporate FMC fleet ownership).
+- Codified the Sovereign TRM Architecture and Expanded Historical Treatments Dossier (`sovereign-trm-architecture-historical-dossier.md`).
+- Implemented `web-search-fallback.mjs` with multi-tier `parallel-cli` and `tinyfish` execution.
+- Updated `gap-triage-engine.mjs` and `trm-triage.mjs` with `--web-fallback` / `TRM_WEB_FALLBACK=1` support.
+- Built and validated `scripts/lint-script-claims.mjs` with self-test suite and registered `npm run lint:script`.
+- Consolidated all thematic knowledge packs in `.nlm_pack/` via `node scripts/consolidate-pack.mjs` (1,575 source files).
+- Synchronized local SQLite context cache (`.kb_cache/knowledge.db`) via `node kb-sync/scripts/sync-kb-cache.mjs` (58 total indexed nodes).
+
+### Verification
+- Script claim linter: self-test pass.
+- Web search fallback: 2 passed, 0 failed.
+- Query expander: 25 passed, 0 failed.
+- TRM cache boundary & AST grounding: 13 passed, 0 failed.
+- Total active test assertions: 32 passed, 0 failed (1,653 ms).
+- Thematic knowledge pack consolidation: 1,575 source files indexed.
+
+### Next action
+Run `npm run lint:script <path>` against upcoming video voiceover drafts before studio recording.
+
 ## Viking VFS Phase 3 harness integration (2026-08-30)
 
 ### Active goal

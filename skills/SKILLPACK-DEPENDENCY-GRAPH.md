@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-08-30T16:10:07.3284015Z
+**Generated:** 2026-09-03T02:53:34.6216080Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 48 |
+| Total Skills | 50 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 39 |
+| Orphan Skills | 41 |
 
 ---
 
@@ -141,6 +141,12 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### parallel-search
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| parallel-web | external | ❌ Missing |
+
 ### permission-governor
 
 | Dependency | Type | Status |
@@ -237,6 +243,12 @@
 | Dependency | Type | Status |
 |------------|------|--------|
 | python3 | external | ❌ Missing |
+
+### tinyfish-search
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| @tiny-fish/sdk | external | ❌ Missing |
 
 ### tool-lifecycle-manager
 
@@ -401,6 +413,9 @@ No inbound dependencies (root skill)\n
 ### operator-image-build
 
 No inbound dependencies (root skill)\n
+### parallel-search
+
+No inbound dependencies (root skill)\n
 ### permission-governor
 
 No inbound dependencies (root skill)\n
@@ -447,6 +462,9 @@ No inbound dependencies (root skill)\n
 
 No inbound dependencies (root skill)\n
 ### skill-security-auditor
+
+No inbound dependencies (root skill)\n
+### tinyfish-search
 
 No inbound dependencies (root skill)\n
 ### tool-lifecycle-manager
@@ -511,9 +529,11 @@ Depth N = Depends on at least one skill at depth N-1
 | cic-ingest-world | 1 |
 | cic-repair-pipeline | 1 |
 | cic-run-gate | 1 |
+| parallel-search | 1 |
 | pre-wrap-audit | 1 |
 | research-questions | 1 |
 | skill-security-auditor | 1 |
+| tinyfish-search | 1 |
 | toolforge-cli | 1 |
 | trm-closed-loop-research | 1 |
 | trm-status | 1 |
@@ -584,6 +604,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | kb-sync-nightly |
 | obsidian-ingest-wiki |
 | operator-image-build |
+| parallel-search |
 | permission-governor |
 | plan-extractor-integration |
 | pre-flight-test-checker |
@@ -600,6 +621,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | session-wrap |
 | skill-health-monitor |
 | skill-security-auditor |
+| tinyfish-search |
 | tool-lifecycle-manager |
 | toolforge-cli |
 | toolforge-drift-monitor |
@@ -619,7 +641,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 39 orphan skill(s) |
+| Orphans | ⚠️ WARN | 41 orphan skill(s) |
 
 ---
 

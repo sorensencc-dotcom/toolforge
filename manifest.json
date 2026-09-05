@@ -1353,7 +1353,11 @@
       "entrypoint": "skills/parallel-search/dist/index.js",
       "status": "active",
       "version": "1.0.0",
-      "capabilities": ["web_search", "structured_extract", "deep_task"],
+      "capabilities": [
+        "web_search",
+        "structured_extract",
+        "deep_task"
+      ],
       "requires_api_key": "PARALLEL_API_KEY"
     },
     {
@@ -1403,7 +1407,15 @@
         "lastValidation": "2026-08-30T22:30:00.000Z",
         "lastRun": null
       },
-      "tags": ["trm", "closed-loop", "research", "notebooklm", "wiki-synthesis", "knowledge-pack", "trm-vault"],
+      "tags": [
+        "trm",
+        "closed-loop",
+        "research",
+        "notebooklm",
+        "wiki-synthesis",
+        "knowledge-pack",
+        "trm-vault"
+      ],
       "status": "active",
       "name": "trm-closed-loop-research",
       "runtime": "typescript",
@@ -1418,7 +1430,11 @@
         "overall": "good"
       },
       "dependencies": {
-        "external": ["git", "node", "pwsh"],
+        "external": [
+          "git",
+          "node",
+          "pwsh"
+        ],
         "internal": []
       }
     },
@@ -1430,7 +1446,14 @@
         "lastValidation": "2026-08-30T22:30:00.000Z",
         "lastRun": null
       },
-      "tags": ["trm", "devops", "triage", "ci-cd", "queue", "operator-workflow"],
+      "tags": [
+        "trm",
+        "devops",
+        "triage",
+        "ci-cd",
+        "queue",
+        "operator-workflow"
+      ],
       "status": "active",
       "name": "trm-devops-triage",
       "runtime": "typescript",
@@ -1457,7 +1480,12 @@
         "lastValidation": "2026-08-30T22:30:00.000Z",
         "lastRun": null
       },
-      "tags": ["wiki-sync-recovery", "wiki", "sync", "recovery"],
+      "tags": [
+        "wiki-sync-recovery",
+        "wiki",
+        "sync",
+        "recovery"
+      ],
       "status": "active",
       "name": "wiki-sync-recovery",
       "runtime": "node",
@@ -1475,16 +1503,48 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "id": "trm-self-healing",
+      "name": "trm-self-healing",
+      "category": "observability",
+      "description": "DevOps self-healing triage, research escalation, and Sigil biometric guard skills",
+      "entrypoint": "src/index.mjs",
+      "status": "active",
+      "version": "1.0.0",
+      "runtime": "javascript",
+      "owner": "soren",
+      "timestamps": {
+        "created": "2026-09-04T18:00:00.000Z",
+        "lastValidation": "2026-09-04T18:00:00.000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "trm",
+        "self-healing",
+        "sigil",
+        "triage"
+      ],
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 48,
+    "total": 49,
     "health_error": 0,
     "deprecated": 0,
-    "active": 48,
-    "health_good": 48,
+    "active": 49,
+    "health_good": 49,
     "health_warn": 0
   },
-  "timestamp": "2026-08-30T22:30:00Z",
+  "timestamp": "2026-09-04T18:00:00Z",
   "version": "1.2.0"
 }

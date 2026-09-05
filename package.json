@@ -53,7 +53,8 @@
     "plan:whichllm": "npm --prefix CIC-GOVERNANCE run plan:whichllm",
     "viking-vfs": "node modules/mcp/viking-vfs-server.mjs",
     "test:viking": "node --test modules/mcp/*.test.mjs scripts/benchmark-viking-token-savings.test.mjs && npm --prefix modules/viking-client test",
-    "benchmark:viking": "node scripts/benchmark-viking-token-savings.mjs"
+    "benchmark:viking": "node scripts/benchmark-viking-token-savings.mjs",
+    "lint:script": "node scripts/lint-script-claims.mjs"
   },
   "keywords": [
     "toolforge",

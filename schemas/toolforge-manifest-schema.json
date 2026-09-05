@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://toolforge.rewrite.internal/schemas/v1/manifest.json",
+  "title": "ToolforgeManifest",
+  "type": "object",
+  "description": "Formal Draft-07 schema for toolforge manifest.json registration defining skills, permissions, environments, and entrypoints.",
+  "required": ["manifestVersion", "name", "version", "description", "skills"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "$id": { "type": "string" },
+    "manifestVersion": {
+      "type": "string",
+      "enum": ["1.0.0"],
+      "description": "Explicit schema version of the manifest."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-_]+$",
+      "description": "Unique machine-readable name of the toolforge skill module."
+    },
+    "packageName": {
+      "type": "string",
+      "description": "NPM package namespace or package name."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?$",
+      "description": "Semantic version of the skill pack."
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description outlining the general domain and purpose of these skills."
+    },
+    "skills": {
+      "type": "array",
+      "description": "List of individual skills registered under this module.",
+      "items": {
+        "type": "object",
+        "required": ["skillId", "name", "version", "description", "entry", "runtime", "inputs", "outputs"],
+        "additionalProperties": false,
+        "properties": {
+          "skillId": {
+            "type": "string",
+            "pattern": "^[a-z0-9-_]+$",
+            "description": "Stable, unique identifier of the registered skill."
+          },
+          "packageName": {
+            "type": "string",
+            "description": "Owning package name."
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-friendly display name of the skill."
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?$",
+            "description": "Skill semantic version."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description explaining when the agent should select this skill."
+          },
+          "entry": {
+            "type": "string",
+            "description": "Path to the executable ESM entrypoint relative to the package root."
+          },
+          "runtime": {
+            "type": "string",
+            "enum": ["node", "python", "bash"],
+            "description": "The runtime environment required to run the script."
+          },
+          "inputs": {
+            "type": "object",
+            "description": "JSON Schema defining skill inputs (must enforce additionalProperties: false)."
+          },
+          "outputs": {
+            "type": "object",
+            "description": "JSON Schema defining skill outputs (must enforce additionalProperties: false)."
+          },
+          "permissions": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "filesystem": {
+                "type": "string",
+                "enum": ["deny", "read-only", "read-write"]
+              },
+              "network": {
+                "type": "object",
+                "required": ["bounds"],
+                "additionalProperties": false,
+                "properties": {
+                  "bounds": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "description": "Allowlisted host:port or domain boundaries."
+                  }
+                }
+              },
+              "process": {
+                "type": "string",
+                "enum": ["deny", "allow-child"]
+              }
+            }
+          },
+          "env": {
+            "type": "object",
+            "description": "Map of required environment variables.",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["required", "sensitive"],
+              "additionalProperties": false,
+              "properties": {
+                "required": { "type": "boolean" },
+                "sensitive": { "type": "boolean" },
+                "default": { "type": "string" }
+              }
+            }
+          },
+          "securityFlags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Declarative security constraints (e.g. requiresSigil, redactsTokens, noExternalNet)."
+          }
+        }
+      }
+    }
+  }
+}
