@@ -1,13 +1,20 @@
 import readline from "node:readline";
 
 const CONNECTOR_URL = process.env.SIGIL_CONNECTOR_URL || "http://127.0.0.1:4411";
+const CONNECTOR_TOKEN = process.env.SIGIL_CONNECTOR_TOKEN || "token_local_dev";
 
-interface TaskPayload {
-  recipient_endpoint: string;
-  recipient_owner: string;
-  conversation_id: string;
-  instruction: string;
-  context_refs?: Array<{ kind: string; uri: string; sha256: string }>;
+function getConnectorHeaders(capabilityScope = "sigil.task/*") {
+  const headers = {
+    "Content-Type": "application/json",
+    "x-sigil-request-id": `req_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    "x-sigil-contract": "sigil.connector/v1",
+    "x-sigil-caller": "sigil-grok-bridge",
+    "x-sigil-capability-scope": capabilityScope
+  };
+  if (CONNECTOR_TOKEN) {
+    headers["Authorization"] = `Bearer ${CONNECTOR_TOKEN}`;
+  }
+  return headers;
 }
 
 const TOOLS = [
@@ -51,15 +58,15 @@ const TOOLS = [
   }
 ];
 
-function reply(id: string | number | null, result: any) {
+function reply(id, result) {
   process.stdout.write(`${JSON.stringify({ jsonrpc: "2.0", id, result })}\n`);
 }
 
-function error(id: string | number | null, code: number, message: string) {
+function error(id, code, message) {
   process.stdout.write(`${JSON.stringify({ jsonrpc: "2.0", id, error: { code, message } })}\n`);
 }
 
-export async function handleMcpMessage(message: any) {
+export async function handleMcpMessage(message) {
   if (message.method === "initialize") {
     return reply(message.id, {
       protocolVersion: "2024-11-05",
@@ -81,11 +88,30 @@ export async function handleMcpMessage(message: any) {
 
     try {
       if (name === "sigil_send_task") {
-        const payload = args as unknown as TaskPayload;
+        const payload = args || {};
+        const envelope = payload.envelope || {
+          protocol: "sigil/1",
+          message_id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+          conversation_id: payload.conversation_id,
+          message_type: "task.request",
+          recipient: {
+            endpoint_id: payload.recipient_endpoint,
+            owner_id: payload.recipient_owner
+          },
+          body: {
+            instruction: payload.instruction
+          },
+          context_refs: payload.context_refs || [],
+          capabilities: ["sigil.task/submit"],
+          idempotency_key: `idem_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+          created_at: new Date().toISOString(),
+          expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+        };
+
         const res = await fetch(`${CONNECTOR_URL}/v1/tasks`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          headers: getConnectorHeaders("sigil.task/*"),
+          body: JSON.stringify({ envelope })
         });
 
         if (!res.ok) {
@@ -101,12 +127,15 @@ export async function handleMcpMessage(message: any) {
       }
 
       if (name === "sigil_check_inbox") {
-        const { since_cursor, limit = 10 } = (args as { since_cursor?: string; limit?: number }) || {};
+        const { since_cursor, limit = 10 } = args || {};
         const url = new URL(`${CONNECTOR_URL}/v1/inbox`);
         if (since_cursor) url.searchParams.set("since", since_cursor);
         url.searchParams.set("limit", limit.toString());
 
-        const res = await fetch(url.toString(), { method: "GET" });
+        const res = await fetch(url.toString(), {
+          method: "GET",
+          headers: getConnectorHeaders("sigil.core/read_shared_context")
+        });
         if (!res.ok) {
           return reply(message.id, {
             content: [{ type: "text", text: `Connector Error: ${res.statusText}` }],
@@ -122,7 +151,7 @@ export async function handleMcpMessage(message: any) {
         content: [{ type: "text", text: `Unknown tool: ${name}` }],
         isError: true
       });
-    } catch (err: any) {
+    } catch (err) {
       return reply(message.id, {
         content: [{ type: "text", text: `Bridge Exception: ${err.message}` }],
         isError: true
