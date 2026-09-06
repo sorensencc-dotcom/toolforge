@@ -1,6 +1,6 @@
 # Memory Index
 
-Persistent memory system for long-term context across sessions. Individual memory files under `memory/` carry their own frontmatter (see e.g. `memory/workflow-checklists-embedded.md`); this index file does not.
+Persistent memory system for long-term context across sessions. Individual memory files under `memory/` carry their own frontmatter (see e.g. `memory/workflow-checklists-embedded.md`); this index file does not. Entry structure is intentionally per-section: `Current Work` uses dated one-line status bullets; `Learnings & Incident Post-Mortems` uses Problem / Prevention-steps (or Fix & Pattern); `Preferences & Feedback` uses Why / How-to-apply. Do not homogenize — the shapes match each section's purpose.
 
 ## System Governance & Architecture
 
@@ -28,6 +28,22 @@ Persistent memory system for long-term context across sessions. Individual memor
 - **GitHub Wiki Autoheal Sweeper & Sync** (2026-08-28 to 2026-08-30): Automated autoheal sweep across 444 documentation nodes achieving 100% contract compliance (`wiki:validate-contract` PASS), with author identity reconciliation in CI.
 - **Security Advisory Remediations** (2026-08-30): Remediated GHSA-5p4m-2wfm-xmqj / CVE-2026-59870 via `js-yaml@4.3.2` patch; fixed GitGuardian false-positive secret patterns in tests via dynamic header construction.
 - **Toolforge Skill Health Check Remediations** (2026-08-30): Registered `trm-closed-loop-research`, `trm-devops-triage`, and `wiki-sync-recovery` in `manifest.json`; aligned versioning and initialized audit run logs across all 48 skills (100% health check pass).
+
+### 2026-09-01 → 2026-09-05 (verified against `git log` on `main` / current branch)
+
+- **TinyFish search skill #27** (`86eabb48`): `tinyfish-search` skill — search + Markdown extract via `@tiny-fish/sdk`; spec review folded (`76ffd4d2`, `9799ce63`); dedicated wiki docs #29 (`46ad5fe8`, `fe29dd9f`).
+- **parallel-search skill** (`1f489f63`): registered in skillpack, metadata refreshed; regen no longer clobbers timestamps/EOLs (`935bdc5b`).
+- **Sigil cross-federation directory (federation #4)**: design spec (`7a80dd07`), Codex + caveman review passes (`3c471bed`, `b895b31d`), implementation plan (`d6596255`). Lives in `C:\dev\sigil-repo`; docs mirrored here.
+- **IronLedger Phase 1**: exit-gate approval recorded (`fdd92fd`). Repo home set to `C:\dev\IronLedger` (`b176ecb`), untracked in this monorepo.
+- **IronLedger Phase 2a**: dependency-posture + exit-gate evidence (`f4e9ae25`), exit-gate approval (`7d221b09`), spec/plan backfill (`373b44ed`).
+- **IronLedger Phase 2b**: review + categorization design (`6af4dfb0`), spec amended for migration-runner + audit-envelope (`009a76e6`), 15-task TDD plan (`da9007b3`), plan-eng-review findings folded (`82f602b3`), execution handoff / resume point (`3401e005`, `7016fd6c`). Execution deferred to a fresh session.
+- **TRM research gaps**: GAP-02 / GAP-03 / GAP-06 resolved with archival citations (`158b1095`); canonical RFCs synthesized for gaps 07 (`ba1e1b26`), 12–16 (`183a0c65`), 17–21 (`a13a062b`); deploy-script claim linter added (`e2d8e7c8`).
+- **Toolforge Herdr TRM integration #30** (`2609f81`): design (`35207ca4`) + implementation plan with schema versioning and test runbook (`0bb32074`, `38fc9f71`), merged to `main`.
+- **Viking Phase 3** (`67c61efb`): dynamic reporting + integrity check added to the harness.
+- **Cathryn Lavery diagram-design standard**: made mandatory in `AGENTS.md` (`00232dde`) and enforced across wiki diagram build scripts (`d3779f1e`).
+- **graft repo-context graph**: active for this repo (session-start hook + `graft/INDEX.md`); `graft-audit.yml` workflow present.
+- **Releases**: v2.61.1 → v2.63.0 cut over this window.
+- **Trend watch (retro, directional only)**: comparing `.context/retros/2026-07-12-1.json` to `2026-08-16-1.json` — `test_ratio_pct` and `feat_pct` down sharply, `fix_pct` and `docs_pct` up. Not a clean baseline: the 07-12 retro carried unit-scale + active_days bugs (fixed 2026-08-16) and the windows differ (1-day vs 7-day). Re-check on the next clean multi-week retro before acting.
 
 ## Learnings & Incident Post-Mortems
 

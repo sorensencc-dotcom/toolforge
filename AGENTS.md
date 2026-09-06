@@ -398,7 +398,7 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 
 - CI governance check: validates line limits + detects duplicate sections
 - Caveman review: flags narrative in Input/Output schemas, Troubleshooting outside USAGE.md
-- Toolforge validator: rejects submissions with <line-limit violations
+- Toolforge submission validator: PLANNED (Phase 8 Wave D deliverable) — NOT wired into CI as of 2026-09-06. No `.github/workflows/` job invokes it, and `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains `TEMPLATE FOR EXECUTION` (unsigned). Not an active gate until Wave D is signed.
 
 **Escape Hatch:** Justified exceptions (complex I/O, unique constraints) filed via inline `noqa` + rationale comment. Tier 1 audits exceptions quarterly.
 
