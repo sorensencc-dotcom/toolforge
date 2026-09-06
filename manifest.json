@@ -1353,7 +1353,11 @@
       "entrypoint": "skills/parallel-search/dist/index.js",
       "status": "active",
       "version": "1.0.0",
-      "capabilities": ["web_search", "structured_extract", "deep_task"],
+      "capabilities": [
+        "web_search",
+        "structured_extract",
+        "deep_task"
+      ],
       "requires_api_key": "PARALLEL_API_KEY"
     },
     {
@@ -1367,8 +1371,8 @@
       "runtime": "typescript",
       "owner": "soren",
       "timestamps": {
-        "created": "2026-09-02T22:00:00.000Z",
-        "lastValidation": "2026-09-02T22:00:00.000Z",
+        "created": "2026-09-02T22:00:00Z",
+        "lastValidation": "2026-09-02T22:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -1399,11 +1403,19 @@
       "version": "1.0.0",
       "description": "End-to-end Topic Research Mining (TRM) closed-loop pipeline across all registered NotebookLM notebooks in trm-vault: multi-notebook mining, WhichLLM model selection, cognitive query expansion triage, Layer 2 wiki synthesis, and .nlm_pack compilation.",
       "timestamps": {
-        "created": "2026-08-30T22:30:00.000Z",
-        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "created": "2026-08-30T22:30:00Z",
+        "lastValidation": "2026-08-30T22:30:00Z",
         "lastRun": null
       },
-      "tags": ["trm", "closed-loop", "research", "notebooklm", "wiki-synthesis", "knowledge-pack", "trm-vault"],
+      "tags": [
+        "trm",
+        "closed-loop",
+        "research",
+        "notebooklm",
+        "wiki-synthesis",
+        "knowledge-pack",
+        "trm-vault"
+      ],
       "status": "active",
       "name": "trm-closed-loop-research",
       "runtime": "typescript",
@@ -1418,7 +1430,11 @@
         "overall": "good"
       },
       "dependencies": {
-        "external": ["git", "node", "pwsh"],
+        "external": [
+          "git",
+          "node",
+          "pwsh"
+        ],
         "internal": []
       }
     },
@@ -1426,11 +1442,18 @@
       "version": "1.0.0",
       "description": "Operational defect triage and resolution operator workflow for the TRM DevOps sync pipeline: inspect queue, claim defect, run deterministic diagnostic actions, verify fix, and prune remote sources.",
       "timestamps": {
-        "created": "2026-08-30T22:30:00.000Z",
-        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "created": "2026-08-30T22:30:00Z",
+        "lastValidation": "2026-08-30T22:30:00Z",
         "lastRun": null
       },
-      "tags": ["trm", "devops", "triage", "ci-cd", "queue", "operator-workflow"],
+      "tags": [
+        "trm",
+        "devops",
+        "triage",
+        "ci-cd",
+        "queue",
+        "operator-workflow"
+      ],
       "status": "active",
       "name": "trm-devops-triage",
       "runtime": "typescript",
@@ -1453,11 +1476,16 @@
       "version": "0.1.0",
       "description": "Diagnose a failed GitHub wiki sync by matching its log against the four known failure modes and printing the fix runbook",
       "timestamps": {
-        "created": "2026-08-30T22:30:00.000Z",
-        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "created": "2026-08-30T22:30:00Z",
+        "lastValidation": "2026-08-30T22:30:00Z",
         "lastRun": null
       },
-      "tags": ["wiki-sync-recovery", "wiki", "sync", "recovery"],
+      "tags": [
+        "wiki-sync-recovery",
+        "wiki",
+        "sync",
+        "recovery"
+      ],
       "status": "active",
       "name": "wiki-sync-recovery",
       "runtime": "node",
@@ -1475,16 +1503,51 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Exposes governed Sigil task submission and inbox inspection to Grok Bot over MCP",
+      "timestamps": {
+        "created": "2026-09-06T21:40:14.1135732Z",
+        "lastValidation": "2026-09-06T21:40:14.1231593Z",
+        "lastRun": null
+      },
+      "tags": [
+        "sigil",
+        "mcp",
+        "grok",
+        "bridge",
+        "relay"
+      ],
+      "status": "active",
+      "name": "sigil-grok-bridge",
+      "runtime": "node",
+      "id": "sigil-grok-bridge",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "sync-tools",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [
+          "@modelcontextprotocol/sdk"
+        ],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 48,
+    "total": 51,
     "health_error": 0,
     "deprecated": 0,
-    "active": 48,
-    "health_good": 48,
+    "active": 51,
+    "health_good": 49,
     "health_warn": 0
   },
-  "timestamp": "2026-08-30T22:30:00Z",
+  "timestamp": "2026-09-06T21:40:14.1759808Z",
   "version": "1.2.0"
 }
