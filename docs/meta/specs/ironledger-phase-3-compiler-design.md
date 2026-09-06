@@ -191,12 +191,12 @@ When `bean-check` exits non-zero:
 | On-disk state | Decision |
 |---|---|
 | Staging directory absent; live files hash equals the previous successful run's output | Nothing was written. Mark the dangling run `failed`, journal `failed` with detail `aborted before writes`. |
-| Staging complete and its hash equals `intended_output_hash`; one or more live files still hold the old bytes | Deterministic recovery. Finish the `os.replace` sequence, recompute `actual_output_hash`, assert equality, populate the ledger index, set `status = 'recovered'`, journal `replaced` then `recovered`, emit an audit event `result = "ok"`. |
+| Staging complete and its hash equals `intended_output_hash`; one or more live files still hold the old bytes | Deterministic recovery. Finish the `os.replace` sequence, recompute `actual_output_hash`, assert equality, populate the ledger index, set `status = 'recovered'`, journal `replaced` then `recovered`, emit an audit event `result = "ok"`. This step is **idempotent and re-entrant**: `os.replace` of a file that already holds the intended bytes is a no-op, so a crash *during* recovery leaves the run re-eligible for this same row, and re-running `ironledger compile recover` any number of times drives it to `recovered` without a fresh `started` run and without a row-4 escalation. Recovery journals `replaced` once per invocation that performs at least one replace; a no-op re-run journals only `recovered`. |
 | Staging present but its hash does not equal `intended_output_hash` | Refuse. The run stays `started`, journal `refused` with detail `staging hash mismatch`, print a review report, and instruct the operator to re-run `ironledger compile` from a clean state. |
-| Live files match neither the previous output hash nor `intended_output_hash` (partial replace plus an external edit, or a dual input/output mismatch) | Refuse and escalate. Journal `refused` with detail `live ledger in an unrecognized state`, print the full hash diff, and take no automatic action. |
+| Live files match neither the previous successful output hash nor `intended_output_hash`, **and** no intact staging directory matching `intended_output_hash` is present | Refuse and escalate: this is genuine corruption (a partial replace compounded by an external edit, or a dual input/output mismatch). Journal `refused` with detail `live ledger in an unrecognized state`, print the full hash diff, and take no automatic action. A partially replaced live tree is **not** this row when staging is intact and matches `intended_output_hash` — that is deterministic recovery above. |
 | The run reached `bean_checked` or later in the journal but `bean-check` output shows it failed | Treat as a `failed` run per section 10; do not attempt recovery. |
 
-A recompile from a clean state (no `started` run, live files equal the latest successful output) is always safe and needs no recovery.
+A recompile from a clean state (no `started` run, live files equal the latest successful output) is always safe and needs no recovery. `ironledger compile recover` is safe to invoke when there is nothing to recover: it reports "no dangling run" and exits `0`.
 
 ## 12. Module layout
 
@@ -226,6 +226,8 @@ CLI touch points: `cli/__main__.py` (the `compile` subtree), `cli/auth.py` (two 
 
 ## 14. Test contract for the Phase 3 exit gate
 
+All 17 items below are gate-blocking. Each must be implemented as one or more explicitly named tests in `tests/test_phase3_exit_contract.py` that assert the stated behavior directly; a subset does not pass the gate. Item 11 requires one test per decision-table row in section 11 (including a re-entrant recovery re-run). Item 12 requires a crash-injection fault point in the writer, exercised so `os.replace` stops between two target files and `compile recover` then completes deterministically.
+
 1. `render.py` produces byte-identical output across two runs and across a reordered input set.
 2. Amount formatting is correct for representative `minor_units` and `minor_unit_scale` values, including negative amounts and scale 0.
 3. Entry ordering, posting ordering (`imported` then `contra`), and `open` ordering are deterministic and correct.
@@ -236,8 +238,8 @@ CLI touch points: `cli/__main__.py` (the `compile` subtree), `cli/auth.py` (two 
 8. An approved transaction with a `contra` leg still `NULL` is refused before journaling.
 9. `ledger_entries` and `ledger_postings` are populated after a successful compile and are replaced, not appended, on recompile.
 10. A replayed compile over the same approved set produces byte-identical files and no duplicate index rows.
-11. Every recovery decision-table row: pre-write abort, staging-complete finish, staging hash mismatch refusal, and unrecognized live-state escalation.
-12. An `os.replace` interrupted between two target files (crash injected in the writer) recovers deterministically via `compile recover`.
+11. Every recovery decision-table row: pre-write abort, staging-complete finish, staging hash mismatch refusal, unrecognized live-state escalation, and a `bean_checked`-or-later failed run; plus a re-entrant case where `compile recover` is interrupted mid-recovery and a second `compile recover` still drives the run to `recovered` with no row-4 escalation.
+12. An `os.replace` interrupted between two target files (crash injected in the writer) recovers deterministically via `compile recover`, and a repeat `compile recover` after full recovery is a safe no-op.
 13. Two concurrent `compile` invocations: the second fails with `CompileLockedError` and journals nothing.
 14. Safe mode blocks `compile` and `compile recover`.
 15. Each command requires its exact authorization phrase; a mismatch denies and audits `result = "denied"`.
