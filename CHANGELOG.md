@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.65.0
+Date: 2026-09-07
+
+### Changes
+- 779bcb9 - feat(utilities): add conservative node process janitor (#32) (Chris Sorensen)
+
 ## Version 2.64.0
 Date: 2026-09-07
 
