@@ -204,3 +204,19 @@ test('CI wrapper handles an unresolvable base ref defensively without crashing',
   assert.equal(record.source, 'git-diff');
 });
 
+test('CI wrapper handles an unreachable 40-char base SHA defensively without crashing', () => {
+  const result = spawnSync(process.execPath, [
+    wrapperPath,
+    '--base', 'ffffffffffffffffffffffffffffffffffffffff',
+    '--head', 'HEAD',
+  ], {
+    cwd: cicRoot,
+    encoding: 'utf8',
+  });
+
+  assert.notEqual(result.status, 128, result.stderr);
+  const record = JSON.parse(result.stdout);
+  assert.equal(record.source, 'git-diff');
+});
+
+
