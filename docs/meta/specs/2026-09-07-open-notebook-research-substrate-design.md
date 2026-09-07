@@ -122,6 +122,47 @@ production readiness.
 
 ## Contract lock required before implementation
 
+### Task 1 upstream lock (2026-09-07)
+
+Task 1 inspected the upstream repository at the following immutable revision:
+
+- Repository: `https://github.com/lfnovo/open-notebook`
+- Revision: `2d2df8a3cbb098776e56ca5ee77b9832f848228e` (`main` at inspection)
+- License: MIT, copyright Luis Novo (verified from `LICENSE` at that revision)
+- API reference: `docs/7-DEVELOPMENT/api-reference.md` at the pinned revision
+
+The upstream API exposes `GET /health` without authentication and `POST
+/chat/execute` for chat execution. The API reference documents neither an
+idempotency-key request field or header nor a replay endpoint or replay
+response. The documented asynchronous command polling endpoint (`GET
+/commands/{id}`) does not establish invocation idempotency. Therefore the
+upstream API contract is insufficient for automatic replay.
+
+The local adapter contract is consequently locked as follows:
+
+| Operation | Method and path | Request | Required response evidence |
+| --- | --- | --- | --- |
+| Health | `GET /health` | No body; loopback only | JSON object with `status: "healthy"` |
+| Invoke | `POST /chat/execute` | JSON body carrying the request correlation ID, workflow intent, prompt/input, source references, and explicit provider/model selection | JSON object normalized by TRM to correlation ID, draft output, source references, model, provider, workflow ID, and outcome |
+| Replay | Not available upstream | No automatic replay permitted | TRM records `indeterminate` and requires an operator-resolution record before any separately authorized replay attempt |
+
+TRM MUST NOT synthesize or send an idempotency header, retry an invocation after
+an indeterminate transport result, or treat a command ID as proof of replay
+safety. A future replay implementation requires a new pinned upstream API
+contract that documents idempotency semantics and a successful replay response.
+Until then, the replay fixture records the fail-closed operator-resolution
+response, not an upstream endpoint.
+
+The normalized local request fields are `correlation_id`, `workspace_id`,
+`operator_id`, `source_references`, `workflow_intent`, `provider_opt_in`,
+`input`, `timeout_ms`, and `max_output_bytes`. `workflow_intent` is a closed
+enum owned by TRM. Canonical-write intents are rejected before transport.
+The normalized result fields are `correlation_id`, `draft_output`,
+`source_references`, `model`, `provider`, `workflow_id`, and `outcome`, where
+`outcome` is the closed enum `accepted | rejected | timed_out | indeterminate`.
+Provider and model values MUST equal the explicit WhichLLM selection in
+`_integration/model_selection.json`.
+
 The following must be recorded here before adapter implementation begins:
 
 - Open Notebook upstream git SHA and license verification.
