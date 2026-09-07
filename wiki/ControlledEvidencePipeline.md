@@ -10,6 +10,8 @@ The controlled evidence pipeline is an end-to-end framework for extracting groun
 
 ## End-to-end architecture workflow diagram
 
+> **Visual style:** CIC Industrial Design System — local `C:\dev\charlie-deep-research\cic_design_system.md` + `docs\CIC_DESIGN_SYSTEM_ENFORCEMENT.md`; [GitHub spec](https://github.com/sorensencc-dotcom/charlie-deep-research/blob/main/cic_design_system.md).
+
 ```mermaid
 %%{init: {
   'theme': 'base',
@@ -62,9 +64,9 @@ flowchart TD
         S["trm/topic_coverage_auditor.py"] -->|3-Tier Audit| T["topic_coverage_audit_report.json"]
     end
 
-    classDef pass fill:#1b4332,color:#E8E0D4,stroke:#2d6a4f,stroke-width:2px;
-    classDef fail fill:#641220,color:#E8E0D4,stroke:#a01a2c,stroke-width:2px;
-    classDef process fill:#1d2d44,color:#E8E0D4,stroke:#B8922A,stroke-width:2px;
+    classDef pass fill:#2C2420,color:#E8E0D4,stroke:#B8922A,stroke-width:2px;
+    classDef fail fill:#1A1410,color:#E8E0D4,stroke:#C4501A,stroke-width:2px;
+    classDef process fill:#2C2420,color:#E8E0D4,stroke:#B8922A,stroke-width:2px;
     classDef ember fill:#C4501A,color:#E8E0D4,stroke:#B8922A,stroke-width:2px;
 
     class J,T pass;

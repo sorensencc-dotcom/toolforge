@@ -65,13 +65,13 @@ None (runs on schedule via Task Scheduler). Reads from:
 
 ```powershell
 # Run manually
-& "C:\dev\toolforge\daemons\toolforge-manifest-sync\toolforge-manifest-sync.ps1"
+& "C:\dev\daemons\toolforge-manifest-sync.ps1"
 
 # Check last run
 Get-ScheduledTaskInfo -TaskName "Toolforge-Manifest-15min"
 
 # View manifest
-Get-Content C:\dev\toolforge\manifest.json | ConvertFrom-Json | Select -ExpandProperty tools
+Get-Content C:\dev\manifest.json | ConvertFrom-Json | Select -ExpandProperty tools
 ```
 
 ## Notes

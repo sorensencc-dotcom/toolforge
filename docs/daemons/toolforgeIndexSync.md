@@ -67,7 +67,7 @@ Generated: 2026-06-28 16:35:00
 ### toolName [version] — status
 Description...
 - Entrypoint: file.ps1
-- Path: C:/dev/toolforge/category/toolname
+- Path: C:/dev/category/toolname
 - Owner: user
 - Tags: tag1, tag2
 - Schedule: Daily 10:00 AM
@@ -94,13 +94,13 @@ Description...
 
 ```powershell
 # Run manually
-& "C:\dev\toolforge\daemons\toolforge-index-sync\toolforge-index-sync.ps1"
+& "C:\dev\daemons\toolforge-index-sync.ps1"
 
 # View generated index
-Get-Content C:\dev\toolforge\INDEX.md
+Get-Content C:\dev\INDEX.md
 
 # Check tool summary
-Select-String "^##" C:\dev\toolforge\INDEX.md
+Select-String "^##" C:\dev\INDEX.md
 ```
 
 ## Notes

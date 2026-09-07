@@ -1,39 +1,146 @@
 # Tool Creation Guide
 
-Step-by-step guide for creating and registering new Toolforge tools.
+Step-by-step guide for creating and registering new Toolforge capabilities.
+
+**Workspace root**: `C:\dev` (there is no `C:\dev\toolforge` tree). Skills live under `C:\dev\skills\`; classic helpers still live under `sync-tools\`, `daemons\`, and `utilities\`.
 
 ## Before You Start
 
-- Understand the [GOVERNANCE.md](GOVERNANCE.md) rules
-- Identify the tool category (sync-tools, daemons, utilities, etc.)
-- Have a clear, single-purpose use case
-- Plan versioning (start at 0.1.0-beta)
+- Skim [GOVERNANCE.md](GOVERNANCE.md) for naming, versioning, and lifecycle rules
+- Default to a **skill** unless you truly need a classic sync/daemon/utility
+- Keep a clear, single-purpose use case
+- Start versioning at `0.1.0` (beta until documented and tested)
+- Read [docs/meta/skill-operator-guide.md](docs/meta/skill-operator-guide.md) before writing skill docs
 
-## Step 1: Choose Category
+## Step 1: Choose Category (honest inventory)
 
-| If your tool... | Category |
+### Real categories (create here)
+
+| If your capability... | Category | Path |
+| --- | --- | --- |
+| Reusable agent/automation unit with SKILL.md + README + usage docs | **skills** (primary) | `C:\dev\skills\<id>\` |
+| Scans multiple repos, syncs state, detects drift | sync-tools | `C:\dev\sync-tools\` |
+| Runs as a scheduled/background Windows task | daemons | `C:\dev\daemons\` |
+| One-off setup or helper script | utilities | `C:\dev\utilities\` |
+
+Most new work should be a skill under `skills\<id>`. Classic categories remain for the existing sync/daemon/utility scripts documented under `docs\`.
+
+### Reserved / empty (do not create-here-now)
+
+These names appear in older governance notes. On this machine the folders are **missing**, and they are **not** active create paths:
+
+| Category | Status on disk |
 | --- | --- |
-| Scans multiple repos, syncs state, detects drift | sync-tools |
-| Runs continuously in background, long-lived | daemons |
-| Transforms external data, adapter pattern | adapters |
-| Implements MCP server | mcp-servers |
-| Generates scaffolds, templates | scaffolds |
-| One-off setup or helper script | utilities |
-| Experimental, proof-of-concept | prototypes |
+| `adapters/` | Reserved / empty - not present under `C:\dev` |
+| `mcp-servers/` | Reserved / empty - not present under `C:\dev` |
+| `scaffolds/` | Reserved / empty - not present under `C:\dev` |
+| `prototypes/` | Reserved / empty - not present under `C:\dev` |
 
-## Step 2: Create Directory Structure
+Do not invent tools into phantom categories. If you need experimental work, put it under `skills\<id>` with `status: beta` (or keep it outside the registry until ready).
+
+## Creating a Skill (preferred path)
+
+### 1. Copy the template
+
+```powershell
+$id = "my-skill-id"   # kebab-case; becomes skills\<id>
+Copy-Item -Recurse "C:\dev\skills\_TEMPLATE" "C:\dev\skills\$id"
+cd "C:\dev\skills\$id"
+```
+
+Template layout (what authors edit):
+
+```text
+skills\<id>\
+  SKILL.md          # metadata + execution spec (triggers, schemas, runtime)
+  README.md         # short public face + quick start
+  docs\USAGE.md     # deep workflow, examples, troubleshooting
+  skill.json        # machine metadata (id, inputs/outputs, permissions)
+  src\              # implementation (e.g. index.ts / run.sh)
+  tests\            # unit + at least one integration test
+```
+
+
+Canonical doc roles: [docs/meta/skill-operator-guide.md](docs/meta/skill-operator-guide.md). Do not paste Setup/Requirements/Testing boilerplate into every README - link the operator guide instead.
+
+### 2. Fill the required docs
+
+- **README.md** - one-sentence pitch, quick start, 2-3 outcome bullets, then link the operator guide
+- **SKILL.md** - frontmatter (`name`, `description`, `compatibility`), trigger text, input/output schemas
+- **docs/USAGE.md** - multi-step workflows, integration patterns, troubleshooting only
+
+Validate docs locally:
+
+```powershell
+& "C:\dev\utilities\skill-doc-validator.ps1" -Path "C:\dev\skills\$id"
+```
+
+### 3. Implement and test
+
+Keep the entrypoint aligned with skill.json / manifest.
+Run the skill test suite locally.
+
+### 4. Register in manifest.json
+
+Active skills are listed under the top-level skills array in C:\dev\manifest.json (51 active as of the Sep 2026 refresh).
+Add an entry shaped like the live ones.
+Do not invent a parallel tools-only registration for new skills.
+
+Minimal shape (match neighbors in the file):
+
+```json
+{
+  "id": "my-skill-id",
+  "name": "my-skill-id",
+  "version": "0.1.0",
+  "description": "Clear one-line purpose.",
+  "status": "active",
+  "runtime": "node",
+  "entrypoint": "src/index.ts",
+  "owner": "soren",
+  "category": "automation",
+  "tags": [],
+  "dependencies": {
+    "external": [],
+    "internal": []
+  }
+}
+```
+
+On-disk path is implied as C:\dev\skills\<id>.
+See utilities/run-tool launcher which resolves skills under C:\dev\skills.
+
+### 5. Discover / run
+
+```powershell
+cd C:\dev
+& ".\utilities\run-tool.ps1" -ListOnly
+# interactive select+run (skills-first launcher):
+& ".\utilities\run-tool.ps1"
+```
+
+Root run-tool launcher may still exist for classic discovery; prefer utilities/run-tool for the skills registry.
+
+## Creating a Classic Tool (sync-tools / daemons / utilities)
+
+Only use this path when extending the classic script surface (not a skill).
+
+### Directory
 
 ```powershell
 $toolName = "myNewTool"
-$category = "sync-tools"  # Change as needed
-$toolPath = "C:\dev\toolforge\$category\$toolName"
-
-mkdir $toolPath
+$category = "sync-tools"   # or daemons / utilities
+$toolPath = "C:\dev\$category\$toolName"
+New-Item -ItemType Directory -Path $toolPath -Force | Out-Null
 ```
 
-## Step 3: Add Core Files
+### Core files
 
-### README.md
+- README.md - purpose, usage, config, examples
+- VERSION.md - semver + short changelog
+- Entrypoint: run.ps1, runner.cjs, or language-appropriate script
+
+### README stub
 
 ```markdown
 # Tool Name
@@ -42,317 +149,103 @@ One-line purpose.
 
 ## Usage
 
-\`\`\`powershell
-.\run-tool.ps1 -Run toolName -Config config.json
-\`\`\`
+```powershell
+& "C:\dev\utilities\run-tool.ps1"
+# or direct:
+& "C:\dev\sync-tools\myNewTool\run.ps1" -Config config.json
+```
 
 ## Configuration
 
 Describe config file format and required fields.
-
-## Examples
-
-Show common usage patterns.
 ```
 
-### VERSION.md
+### Best practices
 
-```
-0.1.0-beta
+1. Accept config as an argument
+2. Validate config and dependencies on startup
+3. Log progress with timestamps
+4. Exit non-zero on failure with clear messages
+5. Clean up handles / connections
 
-## Changelog
-
-### 0.1.0 (2026-06-28)
-- Initial release
-- Features: X, Y, Z
-- Dependencies: Node.js 20+, PowerShell 7+
-```
-
-### run.ps1 (or runner.cjs / server.ts)
-
-```powershell
-param([string]$Config)
-
-Write-Host "🚀 Starting myNewTool..." -ForegroundColor Cyan
-
-# Your implementation here
-
-Write-Host "✓ Done" -ForegroundColor Green
-exit 0
-```
-
-For Node.js:
-```javascript
-// runner.cjs or run.js
-const config = process.argv[2];
-console.log("🚀 Starting myNewTool...");
-// Your implementation
-console.log("✓ Done");
-```
-
-## Step 4: Implement Tool Logic
-
-### Best Practices
-
-1. **Configuration**: Accept config file as first argument
-2. **Validation**: Check config and dependencies on startup
-3. **Logging**: Log progress with timestamps
-4. **Error handling**: Exit with code 1+ on failure, clear error messages
-5. **Performance**: Log long operations, consider parallelism
-6. **Cleanup**: Close file handles, DB connections, etc.
-
-### PowerShell Example
+### PowerShell sketch
 
 ```powershell
 param([string]$ConfigPath = "config.json")
 
 $ErrorActionPreference = "Stop"
-$scriptDir = Split-Path -Parent $PSCommandPath
 
-# 1. Validate config
 if (-not (Test-Path $ConfigPath)) {
   Write-Error "Config not found: $ConfigPath"
   exit 1
 }
 
 $config = Get-Content $ConfigPath | ConvertFrom-Json
-if (-not $config.repos) {
-  Write-Error "Config missing 'repos' field"
-  exit 1
-}
-
-# 2. Log startup
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Write-Host "[$timestamp] Starting sync for $($config.repos.Count) repos..." -ForegroundColor Cyan
+Write-Host "[$timestamp] Starting..." -ForegroundColor Cyan
 
-# 3. Do work
-$errors = @()
-$config.repos | ForEach-Object {
-  try {
-    Write-Host "  → $_" -ForegroundColor Gray
-    # Your logic
-  } catch {
-    $errors += $_
-    Write-Host "  ❌ $_" -ForegroundColor Red
-  }
-}
+# work here
 
-# 4. Report results
-Write-Host ""
-if ($errors.Count -gt 0) {
-  Write-Error "$($errors.Count) errors found"
-  exit 1
-}
-
-Write-Host "✓ All repos synced" -ForegroundColor Green
+Write-Host "Done" -ForegroundColor Green
 exit 0
 ```
 
-### Node.js Example
+### Node.js sketch
 
 ```javascript
 const fs = require("fs");
-const path = require("path");
-
 const configPath = process.argv[2] || "config.json";
 
-// 1. Validate config
 if (!fs.existsSync(configPath)) {
   console.error(`Config not found: ${configPath}`);
   process.exit(1);
 }
 
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-if (!config.repos) {
-  console.error("Config missing 'repos' field");
-  process.exit(1);
-}
-
-// 2. Log startup
-const timestamp = new Date().toISOString();
-console.log(`[${timestamp}] Starting sync for ${config.repos.length} repos...`);
-
-// 3. Do work
-const errors = [];
-for (const repo of config.repos) {
-  try {
-    console.log(`  → ${repo}`);
-    // Your logic
-  } catch (err) {
-    errors.push(err);
-    console.error(`  ❌ ${err.message}`);
-  }
-}
-
-// 4. Report results
-if (errors.length > 0) {
-  console.error(`\n${errors.length} errors found`);
-  process.exit(1);
-}
-
-console.log("\n✓ All repos synced");
+console.log(`[${new Date().toISOString()}] Starting...`);
+// work here
+console.log("Done");
 process.exit(0);
 ```
 
-## Step 5: Test Locally
+### Schedule (daemons / periodic sync-tools)
 
 ```powershell
-# Test with sample config
-cd C:\dev\toolforge
-.\run-tool.ps1 -Run myNewTool -Config ./sample-config.json
-
-# Or direct invocation
-& "C:\dev\toolforge\sync-tools\myNewTool\run.ps1" sample-config.json
+& "C:\dev\utilities\setup-task-scheduler.ps1" -Install
+# or register a dedicated task that calls your entrypoint under C:\dev\...
 ```
-
-## Step 6: Register Tool
-
-Auto-discovery:
-```powershell
-.\run-tool.ps1 -Refresh
-```
-
-Verify:
-```powershell
-.\run-tool.ps1 -List
-.\run-tool.ps1 -Inspect myNewTool
-```
-
-## Step 7: Add to Manifest (Optional)
-
-Edit `manifest.json` to add custom metadata:
-
-```json
-{
-  "name": "myNewTool",
-  "category": "sync-tools",
-  "path": "C:/dev/toolforge/sync-tools/myNewTool",
-  "description": "Clear one-line purpose.",
-  "entrypoint": "run.ps1",
-  "status": "active",
-  "version": "0.1.0",
-  "owner": "soren",
-  "tags": ["tag1", "tag2"],
-  "dependencies": ["Node.js 20+"],
-  "schedule": "Daily 10:00 AM",
-  "lastRun": "2026-06-28T10:00:00Z"
-}
-```
-
-## Step 8: Schedule (If Applicable)
-
-For sync-tools or daemons:
-
-```powershell
-# Option A: Use setup-task-scheduler.ps1 (if it supports your tool)
-.\utilities\setup-task-scheduler.ps1 -Install
-
-# Option B: Manual Task Scheduler registration
-$taskName = "Toolforge-MyNewTool"
-$taskAction = New-ScheduledTaskAction `
-  -Execute "pwsh" `
-  -Argument "-NoProfile -File C:\dev\toolforge\run-tool.ps1 -Run myNewTool -Config C:\dev\toolforge\sync-tools\myNewTool\config.json"
-$taskTrigger = New-ScheduledTaskTrigger -Daily -At "10:00 AM"
-Register-ScheduledTask -TaskName $taskName -Action $taskAction -Trigger $taskTrigger -RunLevel Highest
-```
-
-## Step 9: Add Tests (Recommended)
-
-Create `myNewTool.test.ps1` or `myNewTool.test.js`:
-
-```powershell
-# test.ps1
-param([string]$ToolPath = ".")
-
-# Test 1: Config validation
-$result = & "$ToolPath\run.ps1" invalid-config.json 2>&1
-if ($LASTEXITCODE -eq 0) { throw "Should fail on invalid config" }
-
-# Test 2: Success case
-$result = & "$ToolPath\run.ps1" valid-config.json 2>&1
-if ($LASTEXITCODE -ne 0) { throw "Should succeed on valid config" }
-
-Write-Host "✓ All tests passed"
-```
-
-Run tests:
-```powershell
-.\myNewTool.test.ps1 "C:\dev\toolforge\sync-tools\myNewTool"
-```
-
-## Step 10: Document & Contribute
-
-1. Update `README.md` with detailed usage
-2. Add examples to `OPERATOR_GUIDE.md` if broadly useful
-3. Commit and document in CHANGELOG.md
-4. Tag version: `v0.1.0`
 
 ## Template Checklist
 
-- [ ] Directory created in correct category
-- [ ] README.md written (usage, config, examples)
-- [ ] VERSION.md created (0.1.0-beta initial)
-- [ ] Entrypoint script working (run.ps1, runner.cjs, etc.)
-- [ ] Config validation implemented
-- [ ] Error handling working (exit codes, messages)
-- [ ] Logging implemented (timestamps, severity)
-- [ ] Local testing passed
-- [ ] Registered in manifest (`.\run-tool.ps1 -Refresh`)
-- [ ] Verification passed (`.\run-tool.ps1 -Inspect`)
-- [ ] Tests written (optional but recommended)
-- [ ] Task Scheduler registered (if applicable)
-- [ ] Documentation complete
-- [ ] Committed to git with clear message
+### Skills (primary)
 
-## Common Patterns
+- [ ] Copied from skills\_TEMPLATE into skills\<id>
+- [ ] SKILL.md, README.md, and docs\USAGE.md filled (operator guide linked, not duplicated)
+- [ ] skill.json id/name/version/entrypoint match the folder
+- [ ] Implementation under src\ works locally
+- [ ] Tests pass
+- [ ] Entry added to manifest.json skills array
+- [ ] Visible via utilities\run-tool.ps1 -ListOnly
+- [ ] Doc validator clean (utilities\skill-doc-validator.ps1)
 
-### Multi-Repo Scanning
+### Classic tools (secondary)
 
-```powershell
-$registry = Get-Content "repo-registry.json" | ConvertFrom-Json
-$registry.repos | ForEach-Object {
-  if (-not $_.enabled) { return }
-  Write-Host "Scanning: $($_.name)" -ForegroundColor Cyan
-  # Your scan logic
-}
-```
-
-### Async/Parallel Execution
-
-Node.js:
-```javascript
-const repos = config.repos;
-const results = await Promise.all(
-  repos.map(async (repo) => scanRepo(repo))
-);
-```
-
-PowerShell (7+):
-```powershell
-$repos | ForEach-Object -Parallel {
-  scanRepo $_
-} -ThrottleLimit 5
-```
-
-### Logging to File
-
-PowerShell:
-```powershell
-$logPath = "C:\dev\logs\$($scriptName)-$(Get-Date -Format 'yyyy-MM-dd').log"
-New-Item -Path (Split-Path $logPath) -ItemType Directory -Force | Out-Null
-Write-Host "Message" | Tee-Object -FilePath $logPath -Append
-```
-
-Node.js:
-```javascript
-const fs = require("fs");
-const logPath = `C:/dev/logs/${toolName}-${new Date().toISOString().split("T")[0]}.log`;
-const log = (msg) => console.log(msg) && fs.appendFileSync(logPath, `${msg}\n`);
-```
+- [ ] Directory under sync-tools, daemons, or utilities only
+- [ ] README + VERSION + working entrypoint
+- [ ] Config validation + exit codes
+- [ ] Documented under docs\<category>\ when you publish operator docs
+- [ ] Not registered as if it lived under adapters/mcp-servers/scaffolds/prototypes
 
 ## See Also
 
-- [GOVERNANCE.md](GOVERNANCE.md) — Rules and standards
-- [OPERATOR_GUIDE.md](OPERATOR_GUIDE.md) — Running tools
-- [sync-tools/README.md](sync-tools/README.md) — Multi-repo examples
-- [_TEMPLATE/](\_TEMPLATE/) — Reference files
+- [GOVERNANCE.md](GOVERNANCE.md) - naming, versioning, lifecycle
+- [OPERATOR_GUIDE.md](OPERATOR_GUIDE.md) - how to run and inspect
+- [docs/DOCS_INDEX.md](docs/DOCS_INDEX.md) - honest map of docs on disk
+- [docs/meta/skill-operator-guide.md](docs/meta/skill-operator-guide.md) - skill doc standard
+- [skills/_TEMPLATE/](skills/_TEMPLATE/) - skill scaffold
+- [skills/README.md](skills/README.md) - skills folder overview (may lag; trust disk + manifest)
+- [manifest.json](manifest.json) - live skill registry
+
+---
+
+*Aligned to live C:\dev layout on 2026-09-07. Previous copy preserved as TOOL_CREATION_GUIDE.md.bak.*

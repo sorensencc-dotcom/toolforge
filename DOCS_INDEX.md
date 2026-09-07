@@ -1,179 +1,66 @@
-# Toolforge Documentation Index
+# Toolforge docs - start here
 
-Auto-generated index of all Toolforge tool documentation.
+Welcome. This is the root entry point for Toolforge documentation on this machine.
 
-**Generated**: 2026-06-28  
-**Tools Documented**: 5 active  
+## Toolforge root note
 
----
+The Toolforge workspace root is **`C:\dev`**.  
+`manifest.json`, `run-tool.ps1`, `Home.md`, and the other platform files live there.
 
-## Sync-Tools
-
-Multi-repository scanning, drift detection, and synchronization tools.
-
-### [multiRepoRoadmapSync](sync-tools/multiRepoRoadmapSync.md)
-
-Unified drift detector + roadmap updater for sorensencc-dotcom repos.
-
-- **Version**: 0.1.0
-- **Status**: active
-- **Schedule**: Daily 09:00 UTC
-- **Dependencies**: Node.js 20+, PowerShell 7+
-- **Tags**: sync, automation, multi-repo
-
-Quick start:
-```powershell
-.\run-tool.ps1 -Run multiRepoRoadmapSync -Config repo-registry.json
-```
+**There is no root-level `toolforge` folder** (that path does not exist as the repo). You may still see a `\toolforge\` path segment inside archives, clones, or drift heuristics - those mean nested layout copies, not "cd into a root-level toolforge folder".
 
 ---
 
-## Daemons
+## Full documentation map
 
-Background services and long-running processes.
+For the current hub index (tree, 18 utility docs, daemons, sync-tools, meta, reports, and honest "what's on disk" notes), use:
 
-### [toolforgeManifestSync](daemons/toolforgeManifestSync.md)
+**[docs/DOCS_INDEX.md](docs/DOCS_INDEX.md)**
 
-Background daemon that syncs toolforge manifest index.
-
-- **Version**: 0.1.0
-- **Status**: active
-- **Schedule**: Every 15 minutes
-- **Dependencies**: PowerShell 7+
-- **Tags**: daemon, metadata
-
-Automatically discovers new tools and updates manifest.json.
-
-### [toolforgeDocsSync](daemons/toolforgeDocsSync.md)
-
-Background daemon that regenerates tool documentation.
-
-- **Version**: 0.1.0
-- **Status**: active
-- **Dependencies**: PowerShell 7+
-- **Tags**: daemon, documentation
-
-Extracts tool metadata and generates markdown docs in `C:\dev\toolforge\docs\<category>\`.
-
-### [toolforgeIndexSync](daemons/toolforgeIndexSync.md)
-
-Background daemon that updates tool index (INDEX.md).
-
-- **Version**: 0.1.0
-- **Status**: active
-- **Dependencies**: PowerShell 7+
-- **Tags**: daemon, metadata
-
-Generates human-readable tool index from manifest.json.
+That file was refreshed **2026-09-07** and is the day-to-day map. Prefer it over any older five-tool snapshot.
 
 ---
 
-## Utilities
+## Key files at the repo root (`C:\dev`)
 
-Setup, installation, and helper scripts.
+| File | What it is |
+|---|---|
+| [Home.md](Home.md) | Platform overview |
+| [GOVERNANCE.md](GOVERNANCE.md) | Tool standards and registration rules |
+| [OPERATOR_GUIDE.md](OPERATOR_GUIDE.md) | How to run and operate tools |
+| [OPERATOR-COMMANDS.md](OPERATOR-COMMANDS.md) | Quick command cheat sheet |
+| [TOOL_CREATION_GUIDE.md](TOOL_CREATION_GUIDE.md) | How to add a new tool |
+| [manifest.json](manifest.json) | Machine-readable skill / tool registry |
+| [run-tool.ps1](run-tool.ps1) | CLI runner (`-List`, `-Inspect`, `-Run`) |
+| [INDEX.md](INDEX.md) | Generated / staging index (check contents; not always a pure tool catalog) |
+| [AUTOMATION-SETUP.md](AUTOMATION-SETUP.md) | CI / hooks / orchestrator notes |
 
-### [setupTaskScheduler](utilities/setupTaskScheduler.md)
-
-Windows Task Scheduler registration for toolforge daemons and sync-tools.
-
-- **Version**: 1.0.0
-- **Status**: active
-- **Dependencies**: PowerShell 7+, Administrator privileges
-- **Tags**: setup, scheduling, windows
-
-Quick start:
-```powershell
-& "C:\dev\toolforge\utilities\setup-task-scheduler\setup-task-scheduler.ps1" -Install
-```
+Classic per-tool writeups live under [`docs/`](docs/) (`utilities/`, `daemons/`, `sync-tools/`, plus `meta/`, `gateway/`, and more).
 
 ---
 
-## Reserved Categories
-
-The following categories are documented but currently have no active tools:
-
-- **adapters/**: Data transformers (Phase 3)
-- **mcp-servers/**: MCP server implementations (Phase 4)
-- **scaffolds/**: Template generators (Phase 3)
-- **prototypes/**: Experimental tools (on-demand)
-
----
-
-## Documentation Structure
-
-Each tool documentation file includes:
-
-- **Purpose**: What the tool does
-- **Inputs**: Configuration files, data sources
-- **Outputs**: Generated files, logs, reports
-- **Behavior**: Step-by-step operation flow
-- **Dependencies**: Required software/privileges
-- **Entrypoint**: Script file and runtime
-- **Configuration**: Config file format (if applicable)
-- **Schedule**: Execution frequency (if scheduled)
-- **Error Handling**: Exit codes and failure modes
-- **Examples**: Common usage patterns
-- **Notes**: Important operational details
-- **See Also**: Related tools and references
-
----
-
-## Quick Reference
-
-| Tool | Category | Type | Schedule |
-|------|----------|------|----------|
-| multiRepoRoadmapSync | sync-tools | Multi-repo scanner | Daily 09:00 UTC |
-| toolforgeManifestSync | daemons | Background daemon | Every 15 min |
-| toolforgeDocsSync | daemons | Background daemon | On-demand |
-| toolforgeIndexSync | daemons | Background daemon | On-demand |
-| setupTaskScheduler | utilities | Setup tool | N/A (one-time) |
-
-**Total**: 5 active tools across 3 categories
-
----
-
-## How to Use These Docs
-
-1. **Find a tool**: Look through categories above or use search
-2. **Understand purpose**: Read "Purpose" section
-3. **Configure**: See "Configuration" or "Inputs" section
-4. **Run**: Check "Examples" for usage
-5. **Debug**: Refer to "Error Handling" and "Notes"
-
----
-
-## Tool Discovery
-
-To see all available tools:
+## Quick discovery
 
 ```powershell
-cd C:\dev\toolforge
+cd C:\dev
 .\run-tool.ps1 -List
-.\run-tool.ps1 -Inspect toolName
+.\run-tool.ps1 -Inspect <toolName>
+```
+
+Skill inventory from the manifest:
+
+```powershell
+Get-Content C:\dev\manifest.json | ConvertFrom-Json | Select-Object -ExpandProperty skills
 ```
 
 ---
 
-## Contributing New Tools
+## See also
 
-When you create a new tool, auto-documentation is generated by `toolforgeDocsSync` daemon.
-
-Manual process:
-
-1. Create tool in correct category directory
-2. Add metadata to manifest.json
-3. Run `toolforgeDocsSync` to generate markdown doc
-4. Verify doc in `C:\dev\toolforge\docs\<category>\<tool-name>.md`
-
-See [TOOL_CREATION_GUIDE.md](../TOOL_CREATION_GUIDE.md) for details.
+- [docs/DOCS_INDEX.md](docs/DOCS_INDEX.md) - full local docs map
+- [docs/meta/README.md](docs/meta/README.md) - governance / phases / specs / plans
+- Previous root index body (pre-rewrite): [DOCS_INDEX.md.bak](DOCS_INDEX.md.bak)
 
 ---
 
-## See Also
-
-- [README.md](../README.md) — Toolforge overview
-- [OPERATOR_GUIDE.md](../OPERATOR_GUIDE.md) — How to run tools
-- [GOVERNANCE.md](../GOVERNANCE.md) — Tool standards
-- [TOOL_CREATION_GUIDE.md](../TOOL_CREATION_GUIDE.md) — Create new tools
-- [manifest.json](../manifest.json) — Machine-readable tool registry
-- [INDEX.md](../INDEX.md) — Tool index (generated)
+*Root entry point rewritten 2026-09-07. Canonical detailed index: `docs/DOCS_INDEX.md`.*

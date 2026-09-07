@@ -2,15 +2,15 @@
 
 **Status**: Production-ready  
 **Version**: 1.0.0  
-**Location**: `C:\dev\toolforge\utilities\toolforgeSkillValidator.ps1`
+**Location**: `C:\dev\utilities\toolforgeSkillValidator.ps1`
 
 ---
 
 ## Purpose
 
-Automated validation of all skills in `C:\dev\toolforge\skills/` against schema, structure, and integrity requirements.
+Automated validation of all skills in `C:\dev\skills/` against schema, structure, and integrity requirements.
 
-Generates: `C:\dev\toolforge\skills\SKILLPACK-VALIDATION.md`
+Generates: `C:\dev\skills\SKILLPACK-VALIDATION.md`
 
 ---
 
@@ -71,7 +71,7 @@ Shows real-time validation progress + summary:
 
   📦 Validating: roadmap-validator
 
-✓ Report generated: C:\dev\toolforge\skills\SKILLPACK-VALIDATION.md
+✓ Report generated: C:\dev\skills\SKILLPACK-VALIDATION.md
 
 📊 Validation Summary
   ✅ Passed: 5
@@ -98,7 +98,7 @@ Add to GitHub Actions or CI/CD pipeline:
 ```yaml
 - name: Validate Skills
   run: |
-    pwsh -Command "& 'C:\dev\toolforge\utilities\toolforgeSkillValidator.ps1'"
+    pwsh -Command "& 'C:\dev\utilities\toolforgeSkillValidator.ps1'"
 ```
 
 ### Pre-Commit Hook
@@ -106,7 +106,7 @@ Validate before committing skill changes:
 
 ```powershell
 # .git/hooks/pre-commit (PowerShell)
-$result = & "C:\dev\toolforge\utilities\toolforgeSkillValidator.ps1"
+$result = & "C:\dev\utilities\toolforgeSkillValidator.ps1"
 if ($LASTEXITCODE -ne 0) {
   Write-Host "❌ Skills validation failed" -ForegroundColor Red
   exit 1
@@ -122,7 +122,7 @@ $trigger = New-ScheduledTaskTrigger -Daily -At 06:00
 $task = New-ScheduledTaskSettingsSet
 Register-ScheduledTask -TaskName "Toolforge-SkillValidator" `
   -Action (New-ScheduledTaskAction -Execute "powershell.exe" `
-    -Argument "-Command & 'C:\dev\toolforge\utilities\toolforgeSkillValidator.ps1'") `
+    -Argument "-Command & 'C:\dev\utilities\toolforgeSkillValidator.ps1'") `
   -Trigger $trigger `
   -Settings $task
 ```
@@ -196,7 +196,7 @@ skillpack/
 ## Implementation Details
 
 ### Validation Flow
-1. Scan `C:\dev\toolforge\skills/` for subdirectories
+1. Scan `C:\dev\skills/` for subdirectories
 2. For each skill directory:
    - Parse skill.json
    - Validate schema completeness

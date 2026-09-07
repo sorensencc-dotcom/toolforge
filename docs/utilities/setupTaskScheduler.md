@@ -84,13 +84,13 @@ Hardcoded task definitions inside script:
 
 ```powershell
 # Register all Toolforge tasks (run as Administrator)
-& "C:\dev\toolforge\utilities\setup-task-scheduler\setup-task-scheduler.ps1" -Install
+& "C:\dev\utilities\setup-task-scheduler.ps1" -Install
 
 # Unregister all Toolforge tasks
-& "C:\dev\toolforge\utilities\setup-task-scheduler\setup-task-scheduler.ps1" -Remove
+& "C:\dev\utilities\setup-task-scheduler.ps1" -Remove
 
 # Test all tasks (run once)
-& "C:\dev\toolforge\utilities\setup-task-scheduler\setup-task-scheduler.ps1" -Test
+& "C:\dev\utilities\setup-task-scheduler.ps1" -Test
 
 # View registered tasks
 Get-ScheduledTask -TaskName "Toolforge*" | Select TaskName, State, NextRunTime

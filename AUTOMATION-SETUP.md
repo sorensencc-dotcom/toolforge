@@ -30,7 +30,7 @@ Unified CI/CD automation for Toolforge Phase-1. Three integrated systems:
 .\ci-pipeline.ps1 -SkipCowork
 ```
 
-**Logs:** `C:\dev\toolforge\logs\ci\ci-pipeline-TIMESTAMP.log`
+**Logs:** `C:\dev\logs\ci\ci-pipeline-TIMESTAMP.log`
 
 ---
 
@@ -61,7 +61,7 @@ Unified CI/CD automation for Toolforge Phase-1. Three integrated systems:
 .\setup-git-hooks.ps1 -Action Uninstall -Repo "C:\dev\cic"
 ```
 
-**Logs:** `C:\dev\toolforge\logs\hooks\hooks.log`
+**Logs:** `C:\dev\logs\hooks\hooks.log`
 
 ---
 
@@ -111,9 +111,9 @@ Unified CI/CD automation for Toolforge Phase-1. Three integrated systems:
 - `2` = warnings in any repo
 
 **Logs:**
-- Full log: `C:\dev\toolforge\logs\orchestrator\orchestrator-TIMESTAMP.log`
-- Per-repo logs: `C:\dev\toolforge\logs\orchestrator\repo-{name}-TIMESTAMP.log`
-- Report: `C:\dev\toolforge\logs\orchestrator\orchestrator-report-TIMESTAMP.json`
+- Full log: `C:\dev\logs\orchestrator\orchestrator-TIMESTAMP.log`
+- Per-repo logs: `C:\dev\logs\orchestrator\repo-{name}-TIMESTAMP.log`
+- Report: `C:\dev\logs\orchestrator\orchestrator-report-TIMESTAMP.json`
 
 ---
 
@@ -214,7 +214,7 @@ Exit code for downstream (CI/alerts)
 - Windows 11 Pro (Task Scheduler)
 - Git (for hook installation)
 - All 7 repos must have valid package.json (Node.js projects)
-- `C:\dev\toolforge\utilities\` contains validators/generators/checkers
+- `C:\dev\utilities\` contains validators/generators/checkers
 
 ---
 

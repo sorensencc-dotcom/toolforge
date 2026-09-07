@@ -202,14 +202,18 @@ $allowedRootsReportSimple["rewrite-docs"] = $allowedRootsReport["C:\dev\rewrite-
 $allowedRootsReportSimple["rewrite-mcp"] = $allowedRootsReport["C:\dev\rewrite-mcp"]
 $allowedRootsReportSimple["kb-sync"] = $allowedRootsReport["C:\dev\kb-sync"]
 
+# orphans_list: plain path strings for roadmap-orphan-cleanup.ps1 (and humans).
+# Built from the same $orphans entries already counted in cleanup.orphans_found.
+$orphanPaths = @($orphans | ForEach-Object { $_.path })
+
 $report = @{
     timestamp = $timestamp
     allowed_roots = $allowedRootsReportSimple
     cleanup = @{
         orphans_found = $orphans.Count
-        archives_moved = 0
         conflicts_flagged = $conflicts.Count
     }
+    orphans_list = $orphanPaths
     conflicts = $conflicts
 } | ConvertTo-Json -Depth 10
 

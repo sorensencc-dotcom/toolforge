@@ -3,19 +3,14 @@
 Delete orphan ROADMAP.md files identified by the Task 1.1 audit report.
 
 .DESCRIPTION
-Consumes the audit report JSON produced by Task 1.1 (roadmap-consolidation-audit-*.json).
-Primary source of orphan paths is $audit.orphans_list (array of file paths), per the
-Task 2.2 spec.
+Consumes the audit report JSON produced by roadmap-consolidation-scanner.ps1
+(roadmap-consolidation-audit-*.json). Primary source of orphan paths is
+$audit.orphans_list (array of file path strings). The current scanner emits
+that array alongside cleanup.orphans_found.
 
-KNOWN SCHEMA GAP: as of the 2026-07-20 audit report, the JSON does not emit an
-orphans_list array -- it reports only a count (cleanup.orphans_found) plus a
-conflicts[] array of superseded-roadmap pairs (see
-roadmap-consolidation-audit-2026-07-20.SCHEMA-NOTES.md). When orphans_list is
-absent, this script falls back to the legacy targeted scan of known orphan
-locations and prints a reconciliation warning comparing the scan count to
-audit.cleanup.orphans_found. This gap is a Task 1.1 audit-output issue, not
-something this script can safely paper over -- flagged for human follow-up
-rather than fabricated.
+When orphans_list is absent (older audits), falls back to a legacy targeted
+scan of known orphan locations and reconciles the scan count against
+audit.cleanup.orphans_found.
 
 .PARAMETER AuditReport
 Path to audit JSON (default: latest in C:\dev\audit\)
@@ -65,7 +60,7 @@ if (($audit.PSObject.Properties.Name -contains 'orphans_list') -and $audit.orpha
     Write-Host "Consuming orphans_list from audit JSON ($($audit.orphans_list.Count) entries)."
     $orphans = @($audit.orphans_list)
 } else {
-    Write-Host "WARNING: audit JSON has no 'orphans_list' array (schema gap -- see roadmap-consolidation-audit-2026-07-20.SCHEMA-NOTES.md)."
+    Write-Host "WARNING: audit JSON has no 'orphans_list' array (older audit shape). Re-run roadmap-consolidation-scanner.ps1 for a current report, or continue with legacy scan."
     Write-Host "Falling back to legacy targeted scan of known orphan locations."
 
     # 1. Worktree in rewrite-mcp

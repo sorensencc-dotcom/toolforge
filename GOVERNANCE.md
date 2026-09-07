@@ -108,7 +108,7 @@ Every tool must register in `manifest.json`:
 {
   "name": "multiRepoRoadmapSync",
   "category": "sync-tools",
-  "path": "C:/dev/toolforge/sync-tools/multiRepoRoadmapSync",
+  "path": "C:/dev/sync-tools/multiRepoRoadmapSync",
   "description": "Unified drift detector + roadmap updater for sorensencc-dotcom repos.",
   "entrypoint": "run.ps1",
   "status": "active",

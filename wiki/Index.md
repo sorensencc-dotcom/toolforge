@@ -6,6 +6,18 @@ status: "active"
 
 # Wiki Index
 
+---
+
+## CIC Industrial Design System
+
+Cast Iron Charlie wiki diagrams and treatment visuals follow the **CIC Industrial Design System** (forge black / brass / ember; Playfair Display, Barlow Condensed, Libre Baskerville; no shadows, gradients, or rounded corners).
+
+- Spec (local): `C:\dev\charlie-deep-research\cic_design_system.md`
+- Enforcement checklist (local): `C:\dev\charlie-deep-research\docs\CIC_DESIGN_SYSTEM_ENFORCEMENT.md`
+- GitHub: [cic_design_system.md](https://github.com/sorensencc-dotcom/charlie-deep-research/blob/main/cic_design_system.md) | [CIC_DESIGN_SYSTEM_ENFORCEMENT.md](https://github.com/sorensencc-dotcom/charlie-deep-research/blob/main/docs/CIC_DESIGN_SYSTEM_ENFORCEMENT.md) (checklist may still be local-only until published)
+
+When embedding or regenerating diagrams, prefer the repo generators and the enforcement checklist over ad-hoc styling.
+
 ## Pages
 - [[kb-sync/wiki/202608111]]
 - [[kb-sync/wiki/202608121]]

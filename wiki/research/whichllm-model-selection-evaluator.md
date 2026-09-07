@@ -19,6 +19,8 @@ The WhichLLM automated model selection matrix evaluates open-weight local and cl
 
 ![TorqueQuery & WhichLLM Architecture Topology](whichllm-architecture-topology.png)
 
+> **Visual style:** CIC Industrial Design System — local `C:\dev\charlie-deep-research\cic_design_system.md` + `docs\CIC_DESIGN_SYSTEM_ENFORCEMENT.md`; [GitHub spec](https://github.com/sorensencc-dotcom/charlie-deep-research/blob/main/cic_design_system.md).
+
 <details>
 <summary>Mermaid source...</summary>
 

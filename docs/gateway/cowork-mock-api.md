@@ -414,7 +414,7 @@ interface FaultInjectionConfig {
 **Standalone:**
 
 ```bash
-cd C:\dev\toolforge\gateway\cowork
+cd C:\dev\gateway\cowork
 npm install
 npm run mock:server
 # Mock server listening at http://127.0.0.1:4790
@@ -465,7 +465,7 @@ TOOLFORGE_SKILLS_PATH=../../skills         # Skills directory path
 
 - [Phase 3 Scope Charter](phase-3-scope-charter.md) — Full Phase 3 requirements
 - [Phase 3.C Kickoff Charter](phase-3c-kickoff-charter.md) — Real API binding plan + prerequisites
-- [Cowork Gateway README](../../toolforge/gateway/cowork/README.md) — Implementation details
+- [Cowork Gateway README](../gateway/cowork/README.md) — Implementation details
 - [CIC Governance](../CLAUDE.md) — Project governance rules
 
 ---

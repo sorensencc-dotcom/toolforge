@@ -3,7 +3,7 @@
   Validates skill documentation compliance against Skill Operator Guide.
 
 .DESCRIPTION
-  Checks:
+  Report-only (no auto-fix). Checks:
   - README.md < 100 lines
   - SKILL.md < 150 lines
   - No duplicate standard sections (Setup, Requirements, Configuration, Error Handling, Testing)
@@ -13,8 +13,6 @@
 .PARAMETER Path
   Skill directory to validate (e.g., skills/kb-sync-artifact-generator)
 
-.PARAMETER Fix
-  Auto-fix common issues (remove duplicate sections, add links)
 
 .EXAMPLE
   .\skill-doc-validator.ps1 -Path skills/kb-sync-artifact-generator
@@ -24,7 +22,6 @@
 param(
   [string]$Path = 'skills',
   [switch]$Recursive,
-  [switch]$Fix,
   [switch]$Verbose
 )
 

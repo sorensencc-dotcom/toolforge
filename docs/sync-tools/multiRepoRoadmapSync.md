@@ -87,7 +87,7 @@ sync, automation, multi-repo
 .\run-tool.ps1 -Run multiRepoRoadmapSync -Config repo-registry.json
 
 # Direct invocation
-& "C:\dev\toolforge\sync-tools\multiRepoRoadmapSync\run.ps1" repo-registry.json
+& "C:\dev\sync-tools\multiRepoRoadmapSync.cjs" repo-registry.json
 
 # Check logs
 Get-Content "C:\dev\logs\roadmap-sync-*.log" -Tail 50

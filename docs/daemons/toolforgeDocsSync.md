@@ -7,7 +7,7 @@
 
 ## Purpose
 
-Background daemon that regenerates tool documentation. Scans tool source files, extracts metadata, and generates markdown docs in `C:\dev\toolforge\docs\<category>\`.
+Background daemon that regenerates tool documentation. Scans tool source files, extracts metadata, and generates markdown docs in `C:\dev\docs\<category>\`.
 
 ## Tags
 
@@ -22,7 +22,7 @@ Reads from:
 
 ## Outputs
 
-- **Markdown docs**: `C:\dev\toolforge\docs\<category>\<tool-name>.md`
+- **Markdown docs**: `C:\dev\docs\<category>\<tool-name>.md`
 - **DOCS_INDEX.md**: Master index of all generated docs
 - **Console**: Progress (files processed, docs generated)
 - **Logs**: `C:\dev\logs\docs-sync-*.log`
@@ -72,7 +72,7 @@ Reads from:
 ## Generated Docs Structure
 
 ```
-C:\dev\toolforge\docs\
+C:\dev\docs\
 ├── DOCS_INDEX.md
 ├── sync-tools/
 │   ├── multiRepoRoadmapSync.md
@@ -92,13 +92,13 @@ C:\dev\toolforge\docs\
 
 ```powershell
 # Run manually
-& "C:\dev\toolforge\daemons\toolforge-docs-sync\toolforge-docs-sync.ps1"
+& "C:\dev\daemons\toolforge-docs-sync.ps1"
 
 # Trigger via Task Scheduler
 Start-ScheduledTask -TaskName "Toolforge-Docs-OnDemand"
 
 # View generated index
-Get-Content C:\dev\toolforge\docs\DOCS_INDEX.md
+Get-Content C:\dev\docs\DOCS_INDEX.md
 ```
 
 ## Notes

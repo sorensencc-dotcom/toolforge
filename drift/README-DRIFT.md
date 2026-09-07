@@ -2,15 +2,15 @@
 
 **Status**: Operational  
 **Version**: 1.0.0  
-**Detector**: `C:\dev\toolforge\utilities\toolforgeDriftDetector.ps1`  
-**Report**: `C:\dev\toolforge\drift\DRIFT-REPORT.md`
+**Detector**: `C:\dev\utilities\toolforgeDriftDetector.ps1`  
+**Report**: `C:\dev\drift\DRIFT-REPORT.md`
 
 ---
 
 ## Overview
 
 Continuous monitoring system that detects divergence between:
-- **Canonical**: `C:\dev\toolforge\` (source of truth)
+- **Canonical**: `C:\dev\` (source of truth)
 - **Distributed**: `C:\dev\rewrite-mcp\toolforge\` (replica)
 
 Runs daily at **09:00 UTC** via Windows Task Scheduler.
@@ -83,7 +83,7 @@ Runs daily at **09:00 UTC** via Windows Task Scheduler.
 
 ### View Latest Report
 ```powershell
-Get-Content "C:\dev\toolforge\drift\DRIFT-REPORT.md"
+Get-Content "C:\dev\drift\DRIFT-REPORT.md"
 ```
 
 ### Run Scheduled Task
@@ -194,7 +194,7 @@ Set-ScheduledTask -TaskName "Toolforge Drift Detector" -Trigger $trigger
 ## Report Structure
 
 ### File Format
-- **Location**: `C:\dev\toolforge\drift\DRIFT-REPORT.md`
+- **Location**: `C:\dev\drift\DRIFT-REPORT.md`
 - **Format**: Markdown
 - **Updates**: Daily (overwritten)
 - **Archive**: Manual snapshots in `DRIFT-REPORT-ARCHIVE/`
@@ -231,7 +231,7 @@ Add to GitHub Actions:
 ```yaml
 - name: Check Toolforge Drift
   run: |
-    pwsh -Command "& 'C:\dev\toolforge\utilities\toolforgeDriftDetector.ps1'"
+    pwsh -Command "& 'C:\dev\utilities\toolforgeDriftDetector.ps1'"
 ```
 
 ### Health Dashboard
@@ -256,7 +256,7 @@ Get-WinEvent -LogName "Microsoft-Windows-TaskScheduler/Operational" |
 ### Script Execution Issues
 ```powershell
 # Test script directly
-& "C:\dev\toolforge\utilities\toolforgeDriftDetector.ps1" -Verbose
+& "C:\dev\utilities\toolforgeDriftDetector.ps1" -Verbose
 
 # Check execution policy
 Get-ExecutionPolicy
@@ -268,10 +268,10 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
 ### Report Not Generated
 ```powershell
 # Verify drift directory
-Test-Path "C:\dev\toolforge\drift\"
+Test-Path "C:\dev\drift\"
 
 # Create if missing
-New-Item -ItemType Directory -Path "C:\dev\toolforge\drift\" -Force
+New-Item -ItemType Directory -Path "C:\dev\drift\" -Force
 ```
 
 ---

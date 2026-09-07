@@ -7,7 +7,7 @@ Quick reference for running and testing all components.
 ## One-Command Full Test
 
 ```powershell
-cd C:\dev\toolforge\utilities
+cd C:\dev\utilities
 ./toolforgeSkillValidator.ps1 -Verbose
 ```
 
@@ -28,11 +28,11 @@ This runs:
 ### Phase 1.4 — Dependency Graph
 
 ```powershell
-cd C:\dev\toolforge\utilities
+cd C:\dev\utilities
 ./toolforgeDependencyGraph.ps1 -Verbose
 
 # View output
-code C:\dev\toolforge\skills\SKILLPACK-DEPENDENCY-GRAPH.md
+code C:\dev\skills\SKILLPACK-DEPENDENCY-GRAPH.md
 ```
 
 **Checks:**
@@ -46,15 +46,15 @@ code C:\dev\toolforge\skills\SKILLPACK-DEPENDENCY-GRAPH.md
 ### Phase 1.5 — Metadata Generator
 
 ```powershell
-cd C:\dev\toolforge\utilities
+cd C:\dev\utilities
 ./toolforgeMetadataGenerator.ps1 -Verbose
 
 # View JSON
-$meta = Get-Content C:\dev\toolforge\skills\SKILLPACK-METADATA.json | ConvertFrom-Json
+$meta = Get-Content C:\dev\skills\SKILLPACK-METADATA.json | ConvertFrom-Json
 $meta | ConvertTo-Json -Depth 3 | code
 
 # View summary
-code C:\dev\toolforge\skills\SKILLPACK-METADATA-SUMMARY.md
+code C:\dev\skills\SKILLPACK-METADATA-SUMMARY.md
 ```
 
 **Output:**
@@ -66,14 +66,14 @@ code C:\dev\toolforge\skills\SKILLPACK-METADATA-SUMMARY.md
 ### Phase 1.6 — Health Check
 
 ```powershell
-cd C:\dev\toolforge\utilities
+cd C:\dev\utilities
 ./toolforgeSkillHealthCheck.ps1 -Verbose
 
 # View results
-code C:\dev\toolforge\skills\SKILLPACK-RUNTIME-HEALTH.md
+code C:\dev\skills\SKILLPACK-RUNTIME-HEALTH.md
 
 # Extract health summary
-Select-String -Path "C:\dev\toolforge\skills\SKILLPACK-RUNTIME-HEALTH.md" -Pattern "✅|⚠️|❌" | Select-Object -First 20
+Select-String -Path "C:\dev\skills\SKILLPACK-RUNTIME-HEALTH.md" -Pattern "✅|⚠️|❌" | Select-Object -First 20
 ```
 
 **Checks per skill:**
@@ -89,14 +89,14 @@ Select-String -Path "C:\dev\toolforge\skills\SKILLPACK-RUNTIME-HEALTH.md" -Patte
 ### Phase 1.7 — Cowork Auto-Sync
 
 ```powershell
-cd C:\dev\toolforge\daemons
+cd C:\dev\daemons
 ./cowork-auto-sync.ps1 -Verbose
 
 # View sync report
-code C:\dev\toolforge\audit\COWORK-AUTO-SYNC-REPORT.md
+code C:\dev\audit\COWORK-AUTO-SYNC-REPORT.md
 
 # Verify registry updated
-code C:\dev\toolforge\audit\COWORK-REGISTERED-SKILLS.md
+code C:\dev\audit\COWORK-REGISTERED-SKILLS.md
 ```
 
 **Actions:**
@@ -114,21 +114,21 @@ code C:\dev\toolforge\audit\COWORK-REGISTERED-SKILLS.md
 
 ```powershell
 # Quick health snapshot
-$health = Get-Content C:\dev\toolforge\skills\SKILLPACK-RUNTIME-HEALTH.md | Select-String "✅|⚠️|❌" | Select-Object -First 5
+$health = Get-Content C:\dev\skills\SKILLPACK-RUNTIME-HEALTH.md | Select-String "✅|⚠️|❌" | Select-Object -First 5
 $health | Write-Host -ForegroundColor Cyan
 ```
 
 ### List All Skills
 
 ```powershell
-$meta = Get-Content C:\dev\toolforge\skills\SKILLPACK-METADATA.json | ConvertFrom-Json
+$meta = Get-Content C:\dev\skills\SKILLPACK-METADATA.json | ConvertFrom-Json
 $meta.skills | Select-Object id, version, status, @{n='health';e={$_.health.overall}} | Format-Table
 ```
 
 ### Check Skill Dependencies
 
 ```powershell
-$meta = Get-Content C:\dev\toolforge\skills\SKILLPACK-METADATA.json | ConvertFrom-Json
+$meta = Get-Content C:\dev\skills\SKILLPACK-METADATA.json | ConvertFrom-Json
 $skillId = "tool-lifecycle-manager"
 $meta.skills | Where-Object {$_.id -eq $skillId} | Select-Object -ExpandProperty dependencies
 ```
@@ -136,8 +136,8 @@ $meta.skills | Where-Object {$_.id -eq $skillId} | Select-Object -ExpandProperty
 ### Export Metadata for External Use
 
 ```powershell
-$meta = Get-Content C:\dev\toolforge\skills\SKILLPACK-METADATA.json | ConvertFrom-Json
-$meta | ConvertTo-Json -Depth 10 | Out-File "C:\dev\toolforge\audit\METADATA-EXPORT-$(Get-Date -Format 'yyyy-MM-dd').json"
+$meta = Get-Content C:\dev\skills\SKILLPACK-METADATA.json | ConvertFrom-Json
+$meta | ConvertTo-Json -Depth 10 | Out-File "C:\dev\audit\METADATA-EXPORT-$(Get-Date -Format 'yyyy-MM-dd').json"
 ```
 
 ---
@@ -168,7 +168,7 @@ Skills haven't been executed yet (no runtime history).
 **Fix:** Run the skill once:
 
 ```powershell
-cd C:\dev\toolforge
+cd C:\dev
 ./run-tool.ps1 -Skill tool-lifecycle-manager
 ```
 
@@ -181,8 +181,8 @@ Corrupted or incomplete JSON generation.
 **Fix:** Regenerate:
 
 ```powershell
-cd C:\dev\toolforge\utilities
-Remove-Item C:\dev\toolforge\skills\SKILLPACK-METADATA.json -Force
+cd C:\dev\utilities
+Remove-Item C:\dev\skills\SKILLPACK-METADATA.json -Force
 ./toolforgeMetadataGenerator.ps1 -Verbose
 ```
 
@@ -195,7 +195,7 @@ Validators triggered but failed.
 **Check logs:**
 
 ```powershell
-code C:\dev\toolforge\audit\COWORK-AUTO-SYNC-REPORT.md
+code C:\dev\audit\COWORK-AUTO-SYNC-REPORT.md
 
 # Look for:
 # - Phase 1: "Scanned: X skills scanned"
@@ -212,7 +212,7 @@ code C:\dev\toolforge\audit\COWORK-AUTO-SYNC-REPORT.md
 ```powershell
 $action = New-ScheduledTaskAction `
   -Execute "powershell.exe" `
-  -Argument "-NoProfile -File C:\dev\toolforge\daemons\cowork-auto-sync.ps1"
+  -Argument "-NoProfile -File C:\dev\daemons\cowork-auto-sync.ps1"
 
 $trigger = New-ScheduledTaskTrigger -Daily -At 09:15AM
 
@@ -248,21 +248,22 @@ All components support Slack notifications if configured.
 $env:SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/T.../B.../..."
 
 # Run sync (will post to Slack)
-cd C:\dev\toolforge\daemons
+cd C:\dev\daemons
 ./cowork-auto-sync.ps1
 ```
 
 ---
 
-## Node Process Janitor
+## Node/Git Process Janitor
 
-Conservative cleaner for orphaned / duplicate Node daemons (dashboard-server, mcp-memory, ijfw mcp-server, http-server, hung `node --test` / vitest). Default is dry-run; sigil processes are excluded unless `-IncludeSigil`.
+Conservative cleaner for orphaned / duplicate Node daemons (dashboard-server, mcp-memory, ijfw mcp-server, http-server, hung `node --test` / vitest) **and** orphaned Git for Windows `fsmonitor--daemon` processes. Default is dry-run; sigil processes are excluded unless `-IncludeSigil`; git cleanup is on unless `-SkipGit`.
 
 ```powershell
-cd C:\dev\toolforge\utilities
-./node-process-janitor.ps1                 # dry-run
+cd C:\dev\utilities
+./node-process-janitor.ps1                 # dry-run (node + git fsmonitor)
 ./node-process-janitor.ps1 -Apply          # terminate candidates
 ./node-process-janitor.ps1 -Apply -IncludeSigil
+./node-process-janitor.ps1 -Apply -SkipGit # node only
 ```
 
 See `utilities/node-process-janitor.md` for rule details.

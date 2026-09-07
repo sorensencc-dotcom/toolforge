@@ -1,284 +1,190 @@
 # Toolforge Operator Guide
 
-Complete guide for discovering, running, managing, and troubleshooting tools.
+Friendly, skills-first entrypoint for running and finding things on this machine.
 
-## Quick Reference
+**Workspace root**: `C:\dev` (there is no `C:\dev\toolforge` folder).
+**Live inventory**: about 51 active skills in `C:\dev\manifest.json`.
+**Last aligned to disk**: 2026-09-07
 
-### List all tools
+If you only remember one launcher, use `C:\dev\utilities\run-tool.ps1`. Skip the root `C:\dev\run-tool.ps1` (legacy/broken for the current layout - details below).
 
-```powershell
-.\run-tool.ps1 -List
-```
+---
 
-### Run a tool
+## Quick start (skills)
 
-```powershell
-.\run-tool.ps1 -Run multiRepoRoadmapSync -Config sync-config.json
-```
+Skills live under `C:\dev\skills\<id>\` with `SKILL.md` + `README.md`. Deep workflow notes belong in `docs\USAGE.md` per skill (see the Skill Operator Guide).
 
-### Get tool details
+### List active skills
 
 ```powershell
-.\run-tool.ps1 -Inspect multiRepoRoadmapSync
+cd C:\dev
+& ".\utilities\run-tool.ps1" -ListOnly
 ```
 
-### Refresh tool discovery
+That reads `C:\dev\manifest.json` and prints active skills (name, category, description, tags).
+
+### Inspect / target one skill
 
 ```powershell
-.\run-tool.ps1 -Refresh
+& "C:\dev\utilities\run-tool.ps1" -SkillId "roadmap-validator" -Verbose
 ```
 
-## Tool Categories
+Interactive menu (no flags):
+
+```powershell
+& "C:\dev\utilities\run-tool.ps1"
+```
+
+### Honest note on execution
+
+`docs\utilities\runTool.md` is the canonical writeup. The utilities launcher is great for **discovery and selection**. Runtime branches currently print a success-style message; they do **not** yet call `npx ts-node`, `node`, or `& $entrypointPath` (those lines are still stubbed/commented). Until execution is wired, treat `-SkillId` as "resolve + confirm entrypoint path exists," then run the skill entrypoint yourself if you need a real run.
+
+### Manifest peek (machine-readable)
+
+```powershell
+$m = Get-Content C:\dev\manifest.json -Raw | ConvertFrom-Json
+$m.skills | Where-Object status -eq "active" | Select-Object id, name, category, entrypoint, runtime | Format-Table -AutoSize
+```
+
+Expect roughly **51** active entries. Skill folders: `C:\dev\skills\<id>\`.
+
+---
+
+## Where the docs live
+
+| Need | Go here |
+| --- | --- |
+| Docs map for this machine | [`docs\DOCS_INDEX.md`](docs/DOCS_INDEX.md) |
+| Skill authoring / README-SKILL-USAGE contract | [`docs\meta\skill-operator-guide.md`](docs/meta/skill-operator-guide.md) |
+| Utilities launcher details | [`docs\utilities\runTool.md`](docs/utilities/runTool.md) |
+| Per-skill deep workflow | `C:\dev\skills\<id>\docs\USAGE.md` (expected; many skills already have it) |
+| Platform overview | [`Home.md`](Home.md) |
+| Standards / categories (governance text) | [`GOVERNANCE.md`](GOVERNANCE.md) |
+| Machine-readable skill registry | [`manifest.json`](manifest.json) |
+
+**Not a tool catalog:** root [`INDEX.md`](INDEX.md) is an Ollama/staging evidence-gate doc. For tools and skills, use `docs\DOCS_INDEX.md` + `manifest.json`.
+
+---
+
+## Warning: root `run-tool.ps1` is legacy / broken
+
+| Launcher | Path | Status |
+| --- | --- | --- |
+| **Use this** | `C:\dev\utilities\run-tool.ps1` | Live skills launcher (`-ListOnly` / `-SkillId`; reads `C:\dev\manifest.json`) |
+| **Avoid this** | `C:\dev\run-tool.ps1` | Classic category runner. It sets `TOOLFORGE_ROOT` to `C:\dev\toolforge`, which **does not exist** on this machine. Older docs that show `.\run-tool.ps1 -List` / `-Run` / `-Inspect` / `-Refresh` assume that layout. |
+
+Do not chase adapters/mcp-servers/scaffolds/prototypes discovery through the root script either - those category folders are missing on disk (reserved in governance only).
+
+---
+
+## Classic Toolforge (secondary)
+
+Skills are the primary inventory. These classic areas still exist and have docs under `C:\dev\docs\...`, but they are **not** the same as the skills array in `manifest.json`.
 
 ### sync-tools
 
-Multi-repo scanning and automation.
+Still real: `multiRepoRoadmapSync` under `C:\dev\sync-tools\` (`.cjs` / `.ts`, plus `repo-registry.json`). Doc: [`docs\sync-tools\multiRepoRoadmapSync.md`](docs/sync-tools/multiRepoRoadmapSync.md).
 
-**Examples**: multiRepoRoadmapSync (drift detection, roadmap updates)
-
-**How to run**:
-```powershell
-.\run-tool.ps1 -Run multiRepoRoadmapSync -Config C:\dev\toolforge\sync-tools\repo-registry.json
-```
-
-**Output**: Logs to console + optional file (check tool README)
-
-**Schedule**: Task Scheduler (see setup-task-scheduler.ps1)
-
-### daemons
-
-Long-running background services registered as Windows services or tasks.
-
-**Examples**: toolforge-manifest-sync, toolforge-docs-sync, toolforge-index-sync
-
-**How to run**:
-```powershell
-# Manual invocation
-.\toolforge-manifest-sync.ps1
-
-# Via Task Scheduler (production)
-# Check HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
-# or Task Scheduler Library
-```
-
-**Status**: Check `Get-ScheduledTask -TaskName "Toolforge*"`
-
-**Logs**: `C:\dev\logs\toolforge-*.log` (if configured)
-
-### utilities
-
-One-off setup and configuration scripts.
-
-**Examples**: setup-task-scheduler.ps1 (registers daemon tasks)
-
-**How to run**:
-```powershell
-.\utilities\setup-task-scheduler.ps1 -Install
-```
-
-**Idempotent**: Safe to run multiple times
-
-## Manifest System
-
-All tools register in `manifest.json`:
-
-```json
-{
-  "version": "1.0.0",
-  "generated": "2026-06-28T09:00:00Z",
-  "tools": [
-    {
-      "name": "multiRepoRoadmapSync",
-      "category": "sync-tools",
-      "path": "C:/dev/toolforge/sync-tools/multiRepoRoadmapSync",
-      "description": "Unified drift detector + roadmap updater",
-      "entrypoint": "run.ps1",
-      "status": "active",
-      "version": "0.1.0",
-      "owner": "soren",
-      "dependencies": ["Node.js 20+"]
-    }
-  ]
-}
-```
-
-**Maintain manifest**:
-- Auto-generated by `-Refresh` scan
-- Hand-edit to add metadata (owner, tags, dependencies)
-- Version in manifest must match tool's VERSION.md
-
-## Discovery Flow
-
-1. Scan `sync-tools/`, `daemons/`, `adapters/`, `utilities/`, `scaffolds/`, `prototypes/`, `mcp-servers/`
-2. Find all `.cjs`, `.ts`, `.ps1`, `.sh` files
-3. Match against existing manifest entries
-4. Flag missing entrypoints (error) or unmapped tools (warning)
-5. Update `INDEX.md` with discovered tools
-6. Cache results for 5 minutes
-
-**Refresh discovery**: `.\run-tool.ps1 -Refresh` (clears cache, rescans all)
-
-## Running Tools
-
-### Entrypoint Resolution
-
-```
-Tool name: multiRepoRoadmapSync
-Category: sync-tools
-Path: C:\dev\toolforge\sync-tools\multiRepoRoadmapSync
-Entrypoint: run.ps1
-Full path: C:\dev\toolforge\sync-tools\multiRepoRoadmapSync\run.ps1
-```
-
-### Execution by Extension
-
-| Extension | Runtime | Example |
-| --- | --- | --- |
-| `.ps1` | PowerShell 7+ | `& path\to\run.ps1` |
-| `.cjs` | Node.js 20+ | `node path\to\runner.cjs` |
-| `.ts` | TypeScript (ts-node) | `npx ts-node path\to\server.ts` |
-| `.sh` | Bash | `bash path\to\run.sh` |
-
-### Passing Arguments
+Prefer calling the script directly (or via Task Scheduler helpers), not the broken root launcher:
 
 ```powershell
-# Config file path
-.\run-tool.ps1 -Run toolName -Config C:\path\to\config.json
-
-# Tool receives as $args[0] or process.argv[2] or $ARGS[0]
+# Example shape - check the sync-tool README / ROADMAP-SYNC-SETUP for current args
+node C:\dev\sync-tools\multiRepoRoadmapSync.cjs
 ```
 
-### Logging
+### daemons (4)
 
-Check tool's README for log locations:
+Scripts under `C:\dev\daemons\`, docs under `C:\dev\docs\daemons\`:
+
+| Doc | Script |
+| --- | --- |
+| [toolforgeManifestSync](docs/daemons/toolforgeManifestSync.md) | `toolforge-manifest-sync.ps1` |
+| [toolforgeDocsSync](docs/daemons/toolforgeDocsSync.md) | `toolforge-docs-sync.ps1` |
+| [toolforgeIndexSync](docs/daemons/toolforgeIndexSync.md) | `toolforge-index-sync.ps1` |
+| [coworkAutoSync](docs/daemons/coworkAutoSync.md) | `cowork-auto-sync.ps1` |
 
 ```powershell
-# Daemon logs (typically)
-Get-Content C:\dev\logs\toolforge-manifest-sync.log
-
-# Real-time (if running in foreground)
-.\run-tool.ps1 -Run toolName | Tee-Object -FilePath output.log
+Get-ScheduledTask -TaskName "Toolforge*" -ErrorAction SilentlyContinue
+# or run a daemon script directly from C:\dev\daemons for a one-off test
 ```
 
-## Common Tasks
+### utilities (~18 docs)
 
-### Register a new tool
+Setup and operator helpers under `C:\dev\utilities\`, documented in `C:\dev\docs\utilities\` (18 markdown pages). Useful ones:
 
-1. Create directory in appropriate category:
-   ```powershell
-   mkdir C:\dev\toolforge\sync-tools\myNewTool
-   ```
-
-2. Add entrypoint (run.ps1, runner.cjs, etc.)
-
-3. Add README.md and VERSION.md
-
-4. Refresh discovery:
-   ```powershell
-   .\run-tool.ps1 -Refresh
-   ```
-
-5. Verify registration:
-   ```powershell
-   .\run-tool.ps1 -Inspect myNewTool
-   ```
-
-### Schedule a sync-tool
-
-See `sync-tools/ROADMAP-SYNC-SETUP.md` and `utilities/setup-task-scheduler.ps1`
+- `run-tool.ps1` - skills list/select (this guide's primary launcher)
+- `setup-task-scheduler.ps1` - classic scheduled tasks
+- `skill-doc-validator.ps1` - README/SKILL.md compliance vs Skill Operator Guide
+- skill health / install / drift / metadata helpers (`toolforgeSkill*.ps1`, etc.)
 
 ```powershell
-# Register tasks for daily 09:00 UTC
-.\utilities\setup-task-scheduler.ps1 -Install
-
-# Verify
-Get-ScheduledTask -TaskName "Toolforge*" | Select-Object TaskName, State
+& "C:\dev\utilities\setup-task-scheduler.ps1" -Install
+& "C:\dev\utilities\skill-doc-validator.ps1" -Path skills -Recursive
 ```
 
-### Monitor daemon execution
+### Reserved only (not on disk)
 
-```powershell
-# Check task status
-Get-ScheduledTaskInfo -TaskName "toolforge-manifest-sync"
+Governance still names these categories, but **folders are missing** under `C:\dev` and under `C:\dev\docs`:
 
-# View history
-Get-ScheduledTask -TaskName "toolforge-manifest-sync" | Get-ScheduledTaskInfo
+- `adapters/`
+- `mcp-servers/`
+- `scaffolds/`
+- `prototypes/`
 
-# Run manually (for testing)
-Start-ScheduledTask -TaskName "toolforge-manifest-sync"
-```
+Do not invent discovery flows for them. When they appear, update this guide and `docs\DOCS_INDEX.md`.
 
-### Troubleshoot tool failures
+---
 
-```powershell
-# 1. Inspect tool metadata
-.\run-tool.ps1 -Inspect toolName
+## Day-to-day operator flow
 
-# 2. Check entrypoint exists
-Test-Path "C:\dev\toolforge\category\toolName\entrypoint.ext"
+1. **Find a skill** - `utilities\run-tool.ps1 -ListOnly` or skim `manifest.json`.
+2. **Read local docs** - `skills\<id>\README.md`, `SKILL.md`, and `docs\USAGE.md` if present; shared contract in `docs\meta\skill-operator-guide.md`.
+3. **Run for real** - until the launcher executes runtimes, invoke the skill entrypoint from the manifest (`entrypoint` + `runtime`) yourself, or use the skill's documented CLI/test command.
+4. **Classic jobs** - sync-tools / daemons / utilities via their scripts and `docs\` pages; Task Scheduler for recurring work.
+5. **Navigate docs** - start at `docs\DOCS_INDEX.md`, not root `INDEX.md`.
 
-# 3. Run with error output
-$ErrorActionPreference = "Stop"
-.\run-tool.ps1 -Run toolName -Config config.json 2>&1 | Tee-Object error.log
+---
 
-# 4. Validate dependencies
-node --version  # Node.js 20+?
-Get-PowerShellVersion  # PowerShell 7+?
-
-# 5. Check manifest for typos
-Select-String "toolName" manifest.json
-```
-
-## File Locations
+## File locations (live)
 
 | Item | Location |
 | --- | --- |
-| Toolforge root | `C:\dev\toolforge\` |
-| Manifest | `C:\dev\toolforge\manifest.json` |
-| Tool index | `C:\dev\toolforge\INDEX.md` |
-| Governance | `C:\dev\toolforge\GOVERNANCE.md` |
-| Sync-tools | `C:\dev\toolforge\sync-tools\` |
-| Daemons | `C:\dev\toolforge\daemons\` |
-| Utilities | `C:\dev\toolforge\utilities\` |
-| Logs | `C:\dev\logs\` |
-| Repo registry | `C:\dev\toolforge\sync-tools\repo-registry.json` |
+| Workspace / Toolforge root | `C:\dev\` |
+| Skills | `C:\dev\skills\<id>\` |
+| Manifest (skills) | `C:\dev\manifest.json` |
+| Skills launcher | `C:\dev\utilities\run-tool.ps1` |
+| Docs hub | `C:\dev\docs\DOCS_INDEX.md` |
+| Skill Operator Guide | `C:\dev\docs\meta\skill-operator-guide.md` |
+| Classic sync-tools | `C:\dev\sync-tools\` |
+| Classic daemons | `C:\dev\daemons\` |
+| Classic utilities | `C:\dev\utilities\` |
+| Governance | `C:\dev\GOVERNANCE.md` |
+| Home overview | `C:\dev\Home.md` |
+| Evidence-gate index (not a catalog) | `C:\dev\INDEX.md` |
+| Missing / do not use as root | `C:\dev\toolforge\` |
+| Legacy broken launcher | `C:\dev\run-tool.ps1` |
 
-## Manifest Edit Template
+---
 
-Add custom metadata to manifest.json:
+## Roles (short)
 
-```json
-{
-  "name": "toolName",
-  "category": "category",
-  "path": "C:/dev/toolforge/category/toolName",
-  "description": "One-line description",
-  "entrypoint": "run.ps1",
-  "status": "active",
-  "version": "1.0.0",
-  "owner": "soren",
-  "tags": ["tag1", "tag2"],
-  "dependencies": ["Node.js 20+", "PowerShell 7+"],
-  "schedule": "Daily 09:00 UTC",
-  "lastRun": "2026-06-28T09:15:00Z",
-  "nextRun": "2026-06-29T09:00:00Z"
-}
-```
-
-## Roles & Responsibilities
-
-| Role | Responsibilities |
+| Role | Focus |
 | --- | --- |
-| **Operator** | Run tools, schedule tasks, monitor execution, troubleshoot |
-| **Developer** | Create tools, update code, version bumps, testing |
-| **Maintainer** | Update GOVERNANCE, manage manifest, deprecations |
+| **Operator** | List skills, read USAGE, run entrypoints, watch daemons/tasks, troubleshoot |
+| **Developer** | Author skills under `skills\`, keep README/SKILL/USAGE honest, pass doc validator |
+| **Maintainer** | Keep `manifest.json`, governance, and docs indexes matched to disk |
 
-## Automation Hooks
+---
 
-Toolforge integrates with:
+## See also
 
-- **Task Scheduler**: Windows cron for daemons and periodic sync-tools
-- **GitHub Actions**: CI/CD for tool validation and publishing
-- **Claude Code Skills**: Commands like `/run-skill-generator` (future)
+- [`docs\DOCS_INDEX.md`](docs/DOCS_INDEX.md) - what is actually under `docs\`
+- [`docs\meta\skill-operator-guide.md`](docs/meta/skill-operator-guide.md) - skill doc contract
+- [`docs\utilities\runTool.md`](docs/utilities/runTool.md) - launcher behavior (including stubs)
+- [`Home.md`](Home.md) - platform overview
+- [`GOVERNANCE.md`](GOVERNANCE.md) - standards (includes reserved categories)
+- Previous guide backup: `OPERATOR_GUIDE.md.bak`
 
-See `.github/workflows/toolforge-*.yml` for automation pipelines.
+---
+
+*Rewritten 2026-09-07 against live inventory on this Windows machine. Skills-first; classic categories secondary; no phantom folders.*

@@ -79,7 +79,7 @@ Unified drift detector and roadmap updater for sorensencc-dotcom repos.
 ### Manual Execution
 
 ```powershell
-cd C:\dev\toolforge
+cd C:\dev
 .\run-tool.ps1 -Run multiRepoRoadmapSync -Config sync-tools\repo-registry.json
 ```
 
@@ -100,7 +100,7 @@ Get-ScheduledTaskInfo -TaskName "Toolforge-Daily-09UTC"
 
 1. Create subdirectory:
    ```powershell
-   mkdir C:\dev\toolforge\sync-tools\myNewSyncTool
+   mkdir C:\dev\sync-tools\myNewSyncTool
    ```
 
 2. Add entrypoint (run.ps1 or runner.cjs):
@@ -182,7 +182,7 @@ $log = "C:\dev\logs\sync-$(Get-Date -Format yyyy-MM-dd-HHmmss).log"
 # Register in Task Scheduler using setup-task-scheduler.ps1
 # Or manually:
 $taskName = "Toolforge-MyCustomSync"
-$taskAction = New-ScheduledTaskAction -Execute "pwsh" -Argument "-NoProfile -File C:\dev\toolforge\run-tool.ps1 -Run myCustomSync"
+$taskAction = New-ScheduledTaskAction -Execute "pwsh" -Argument "-NoProfile -File C:\dev\run-tool.ps1 -Run myCustomSync"
 $taskTrigger = New-ScheduledTaskTrigger -Daily -At "10:00 AM"
 Register-ScheduledTask -TaskName $taskName -Action $taskAction -Trigger $taskTrigger
 ```
@@ -203,10 +203,10 @@ Register-ScheduledTask -TaskName $taskName -Action $taskAction -Trigger $taskTri
 
 ```powershell
 # Check path
-Test-Path C:\dev\toolforge\sync-tools\repo-registry.json
+Test-Path C:\dev\sync-tools\repo-registry.json
 
 # Absolute paths work best
-.\run-tool.ps1 -Run multiRepoRoadmapSync -Config "C:\dev\toolforge\sync-tools\repo-registry.json"
+.\run-tool.ps1 -Run multiRepoRoadmapSync -Config "C:\dev\sync-tools\repo-registry.json"
 ```
 
 ### Task Scheduler failures
@@ -235,7 +235,7 @@ Select-String "url" repo-registry.json
 ## File Structure
 
 ```
-C:\dev\toolforge\sync-tools\
+C:\dev\sync-tools\
 ├── README.md (this file)
 ├── repo-registry.json (registry of target repos)
 ├── ROADMAP-SYNC-SETUP.md (detailed setup guide)
