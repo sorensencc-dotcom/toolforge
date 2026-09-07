@@ -1,4 +1,15 @@
-const METHODS = Object.freeze(['initialize', 'resources/list', 'resources/read', 'viking/list', 'viking/stat', 'viking/read', 'viking/readBatch']);
+const METHODS = Object.freeze([
+  'initialize',
+  'resources/list',
+  'resources/read',
+  'tools/list',
+  'tools/call',
+  'viking/list',
+  'viking/stat',
+  'viking/read',
+  'viking/readBatch',
+  'viking/upsertDocument',
+]);
 const TIERS = Object.freeze(['L0', 'L1', 'L2']);
 const MAX_BATCH_ITEMS = 32;
 
@@ -54,6 +65,25 @@ function validateParams(method, params) {
     return params;
   }
   if (method === 'resources/list') { noUnknown(params, ['cursor'], '$.params'); if ('cursor' in params) string(params.cursor, '$.params.cursor'); return params; }
+  if (method === 'tools/list') {
+    noUnknown(params, ['cursor'], '$.params');
+    if ('cursor' in params) string(params.cursor, '$.params.cursor');
+    return params;
+  }
+  if (method === 'tools/call') {
+    noUnknown(params, ['name', 'arguments'], '$.params');
+    string(params.name, '$.params.name');
+    if ('arguments' in params) object(params.arguments, '$.params.arguments');
+    return params;
+  }
+  if (method === 'viking/upsertDocument') {
+    noUnknown(params, ['topic', 'category', 'content', 'file_path'], '$.params');
+    string(params.topic, '$.params.topic');
+    string(params.category, '$.params.category');
+    string(params.content, '$.params.content', { nonEmpty: false });
+    if ('file_path' in params) string(params.file_path, '$.params.file_path');
+    return params;
+  }
   if (method === 'viking/readBatch') {
     noUnknown(params, ['items', 'max_total_bytes'], '$.params');
     if (!Array.isArray(params.items) || params.items.length < 1 || params.items.length > MAX_BATCH_ITEMS) fail(`items must contain 1-${MAX_BATCH_ITEMS} entries`, '$.params.items');
@@ -238,6 +268,21 @@ function validateResult(result, method) {
   }
   if (method === 'resources/read') {
     if (!Array.isArray(result.contents)) fail('contents must be an array', '$.result.contents');
+    return result;
+  }
+  if (method === 'tools/list') {
+    if (!Array.isArray(result.tools)) fail('tools must be an array', '$.result.tools');
+    return result;
+  }
+  if (method === 'tools/call') {
+    if ('content' in result && !Array.isArray(result.content)) fail('content must be an array', '$.result.content');
+    return result;
+  }
+  if (method === 'viking/upsertDocument') {
+    if (typeof result.ok !== 'boolean') fail('ok must be a boolean', '$.result.ok');
+    string(result.id, '$.result.id');
+    string(result.file_path, '$.result.file_path');
+    string(result.sha256, '$.result.sha256');
     return result;
   }
   if (method === 'viking/readBatch') {
