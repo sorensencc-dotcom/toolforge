@@ -14,7 +14,10 @@ test('accepts initialize and method-specific list/stat/read requests', () => {
     request('viking/stat', { uri }),
     request('viking/read', { uri, resolution_tier: 'L1' }),
     request('viking/readBatch', { items: [{ uri, resolution_tier: 'L1' }], max_total_bytes: 1024 }),
+    request('viking/upsertDocument', { topic: 'test', category: 'research', content: 'note' }),
     request('resources/list', { cursor: '10' }),
+    request('tools/list', {}),
+    request('tools/call', { name: 'vfs_upsert_document', arguments: { topic: 'test', category: 'research', content: 'note' } }),
   ]) assert.deepEqual(validateRequest(value), value);
 });
 

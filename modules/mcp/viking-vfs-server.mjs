@@ -1,7 +1,10 @@
 import readline from 'node:readline';
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { createResolver, VikingError } from './viking-resolver.mjs';
-import { validateRequest, validateResponse } from './viking-vfs-contracts.mjs';
+import { validateRequest, validateResponse, validateReport, computeVikingReport, formatReportMarkdown } from './viking-vfs-contracts.mjs';
 import { readPinnedSnapshot } from './viking-snapshot.mjs';
 import { createTierIndex } from './viking-tier-index.mjs';
 
@@ -15,6 +18,7 @@ export const JSON_RPC_CODES = Object.freeze({
   SNAPSHOT_UNAVAILABLE: -32002,
   INTEGRITY_FAILED: -32003,
   RESOURCE_LIMIT: -32004,
+  VIKING_REPORT_INVALID: -32005,
 });
 
 function protocolCode(vikingCode) {
@@ -25,6 +29,7 @@ function protocolCode(vikingCode) {
   if (vikingCode === 'SNAPSHOT_UNAVAILABLE') return JSON_RPC_CODES.SNAPSHOT_UNAVAILABLE;
   if (['MANIFEST_INVALID', 'INTEGRITY_FAILED'].includes(vikingCode)) return JSON_RPC_CODES.INTEGRITY_FAILED;
   if (['RESOURCE_TOO_LARGE', 'BATCH_LIMIT_EXCEEDED'].includes(vikingCode)) return JSON_RPC_CODES.RESOURCE_LIMIT;
+  if (vikingCode === 'VIKING_REPORT_INVALID') return JSON_RPC_CODES.VIKING_REPORT_INVALID;
   return JSON_RPC_CODES.INTERNAL_ERROR;
 }
 
@@ -37,7 +42,7 @@ function requireParams(request) {
   if (!request || typeof request !== 'object' || typeof request.method !== 'string') throw new VikingError('INVALID_REQUEST', 'Request must include a method');
   const params = request.params ?? {};
   if (typeof params !== 'object' || Array.isArray(params)) throw new VikingError('INVALID_REQUEST', 'params must be an object');
-  if (!['initialize', 'resources/list', 'viking/readBatch'].includes(request.method) && typeof params.uri !== 'string') throw new VikingError('INVALID_REQUEST', 'uri is required');
+  if (!['initialize', 'resources/list', 'tools/list', 'tools/call', 'viking/readBatch', 'viking/upsertDocument'].includes(request.method) && typeof params.uri !== 'string') throw new VikingError('INVALID_REQUEST', 'uri is required');
   return params;
 }
 
@@ -46,18 +51,158 @@ export function toJsonRpcResponse(id, payload) {
   return { jsonrpc: '2.0', id: id ?? null, result: payload };
 }
 
-export function createServer(resolver, { telemetry = () => {}, resourceRootUri = 'viking://kb-sync/wiki', maxBatchItems = 32, maxBatchBytes = 1024 * 1024 } = {}) {
+const VIKING_TOOLS = Object.freeze([
+  {
+    name: 'vfs_upsert_document',
+    description:
+      'Writes a document to the physical workspace first, then upserts into the local knowledge cache so the note is immediately discoverable.',
+    inputSchema: {
+      type: 'object',
+      required: ['topic', 'category', 'content'],
+      properties: {
+        topic: { type: 'string', description: 'Canonical kebab-case topic id' },
+        category: {
+          type: 'string',
+          description: 'Namespace category e.g. research, concepts, utilities'
+        },
+        content: {
+          type: 'string',
+          description: 'Full markdown/code including optional YAML frontmatter'
+        },
+        file_path: {
+          type: 'string',
+          description: 'Optional relative path; default wiki/{category}/{topic}.md'
+        }
+      }
+    }
+  }
+]);
+
+export function sanitizeTopic(topic) {
+  if (topic == null) return '';
+  return String(topic)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+export function normalizeRelPath(relPath) {
+  return String(relPath).replace(/\\/g, '/').replace(/^\.\//, '');
+}
+
+export function resolveSafeWorkspacePath(repoRoot, filePath) {
+  if (filePath == null || typeof filePath !== 'string' || !filePath.trim()) {
+    throw new VikingError('INVALID_URI', 'file_path must be a non-empty relative path');
+  }
+
+  const raw = filePath.trim();
+  if (raw.startsWith('/') || raw.startsWith('\\') || /^[a-zA-Z]:[\\/]/.test(raw)) {
+    throw new VikingError('PATH_TRAVERSAL_REJECTED', `Absolute paths are not allowed: ${raw}`);
+  }
+
+  const normalizedInput = normalizeRelPath(raw);
+  if (normalizedInput.split('/').some((seg) => seg === '..')) {
+    throw new VikingError('PATH_TRAVERSAL_REJECTED', `Path traversal is not allowed: ${raw}`);
+  }
+
+  const root = fs.realpathSync(repoRoot);
+  const candidate = path.resolve(root, normalizedInput);
+  if (!candidate.startsWith(`${root}${path.sep}`) && candidate !== root) {
+    throw new VikingError('PATH_TRAVERSAL_REJECTED', `Resolved path escapes repository root: ${raw}`);
+  }
+
+  return { relPath: normalizedInput, absPath: candidate };
+}
+
+export function executeVfsUpsert(repoRoot, { topic: rawTopic, category: rawCategory, content, file_path }) {
+  const topic = sanitizeTopic(rawTopic);
+  const category = rawCategory != null ? String(rawCategory).trim() : '';
+
+  if (!topic) throw new VikingError('INVALID_PARAMS', 'topic is required and must sanitize to a valid identifier');
+  if (!category) throw new VikingError('INVALID_PARAMS', 'category is required');
+  if (content == null || typeof content !== 'string') throw new VikingError('INVALID_PARAMS', 'content must be a string');
+
+  const defaultPath = `wiki/${category}/${topic}.md`;
+  const requestedPath = file_path != null && String(file_path).trim() ? String(file_path).trim() : defaultPath;
+  const { relPath, absPath } = resolveSafeWorkspacePath(repoRoot, requestedPath);
+
+  fs.mkdirSync(path.dirname(absPath), { recursive: true });
+  fs.writeFileSync(absPath, content, 'utf8');
+
+  const hash = crypto.createHash('sha256').update(content).digest('hex');
+  return {
+    ok: true,
+    id: relPath,
+    file_path: relPath,
+    sha256: hash,
+    action: 'upserted',
+  };
+}
+
+export function createServer(resolver, { telemetry = () => {}, resourceRootUri = 'viking://kb-sync/wiki', maxBatchItems = 32, maxBatchBytes = 1024 * 1024, repoRoot = process.cwd() } = {}) {
   return Object.freeze({
     async handle(request) {
       const started = process.hrtime.bigint();
       try {
         const params = requireParams(request);
-        if (request.method === 'initialize') return { protocolVersion: '2025-06-18', capabilities: { resources: { listChanged: false } }, serverInfo: { name: 'viking-vfs', version: '0.2.0' } };
-        if (request.method === 'resources/list') { const offset = params.cursor === undefined ? 0 : Number.parseInt(params.cursor, 10); if (!Number.isInteger(offset) || offset < 0 || (params.cursor !== undefined && String(offset) !== params.cursor)) throw new VikingError('INVALID_URI', 'cursor must be a non-negative integer token'); const listing = resolver.list(resourceRootUri, { offset, limit: 100 }); return { resources: listing.files.map((file) => ({ uri: file.uri, name: file.name, description: file.abstract ?? undefined, mimeType: 'text/plain', annotations: { stale: file.stale } })), nextCursor: listing.next_offset === null ? undefined : String(listing.next_offset) }; }
-        if (request.method === 'resources/read') { const value = resolver.read(params.uri, 'L1'); telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: Number(process.hrtime.bigint() - started) / 1e6, cache_hit: value.cache_hit }); return { contents: [{ uri: value.uri, mimeType: 'text/plain', text: value.content, annotations: { stale: value.stale, snapshot_id: value.snapshot_id } }] }; }
-        if (request.method === 'viking/stat') return resolver.stat(params.uri);
-        if (request.method === 'viking/list') return resolver.list(params.uri, params);
-        if (request.method === 'viking/read') { const value = resolver.read(params.uri, params.resolution_tier ?? 'L1'); telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: Number(process.hrtime.bigint() - started) / 1e6, cache_hit: value.cache_hit }); return value; }
+        if (request.method === 'initialize') return { protocolVersion: '2025-06-18', capabilities: { resources: { listChanged: false }, tools: {} }, serverInfo: { name: 'viking-vfs', version: '0.2.0' } };
+        if (request.method === 'resources/list') {
+          const offset = params.cursor === undefined ? 0 : Number.parseInt(params.cursor, 10);
+          if (!Number.isInteger(offset) || offset < 0 || (params.cursor !== undefined && String(offset) !== params.cursor)) throw new VikingError('INVALID_URI', 'cursor must be a non-negative integer token');
+          const listing = resolver.list(resourceRootUri, { offset, limit: 100 });
+          return { resources: listing.files.map((file) => ({ uri: file.uri, name: file.name, description: file.abstract ?? undefined, mimeType: 'text/plain', annotations: { stale: file.stale } })), nextCursor: listing.next_offset === null ? undefined : String(listing.next_offset) };
+        }
+        if (request.method === 'resources/read') {
+          const value = resolver.read(params.uri, 'L1');
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          const report = computeVikingReport({ tier: value.resolution_tier, uri: value.uri, content: value.content, cacheHit: value.cache_hit, latencyMs });
+          try { validateReport(report); } catch (err) { throw new VikingError('VIKING_REPORT_INVALID', `Viking VFS reporting payload failed schema validation: ${err.message}`); }
+          telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: latencyMs, cache_hit: value.cache_hit, report });
+          return { contents: [{ uri: value.uri, mimeType: 'text/plain', text: value.content, annotations: { stale: value.stale, snapshot_id: value.snapshot_id, report } }] };
+        }
+        if (request.method === 'tools/list') {
+          return { tools: VIKING_TOOLS };
+        }
+        if (request.method === 'tools/call') {
+          const { name, arguments: args = {} } = params;
+          if (name === 'vfs_upsert_document') {
+            const result = executeVfsUpsert(repoRoot, args);
+            const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+            telemetry({ event: 'viking.tool', tool: name, latency_ms: latencyMs });
+            return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+          }
+          throw new VikingError('METHOD_NOT_FOUND', `Unknown tool: ${name}`);
+        }
+        if (request.method === 'viking/upsertDocument') {
+          const result = executeVfsUpsert(repoRoot, params);
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          telemetry({ event: 'viking.upsert', latency_ms: latencyMs });
+          return result;
+        }
+        if (request.method === 'viking/stat') {
+          const statVal = resolver.stat(params.uri);
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          const report = computeVikingReport({ tier: 'L0', uri: statVal.uri, content: '', cacheHit: true, latencyMs, mode: params.mode });
+          try { validateReport(report); } catch (err) { throw new VikingError('VIKING_REPORT_INVALID', `Viking VFS reporting payload failed schema validation: ${err.message}`); }
+          return { ...statVal, report };
+        }
+        if (request.method === 'viking/list') {
+          const listing = resolver.list(params.uri, params);
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          const report = computeVikingReport({ tier: 'L0', uri: params.uri, content: JSON.stringify(listing.files), cacheHit: true, latencyMs, mode: params.mode });
+          try { validateReport(report); } catch (err) { throw new VikingError('VIKING_REPORT_INVALID', `Viking VFS reporting payload failed schema validation: ${err.message}`); }
+          return { ...listing, report };
+        }
+        if (request.method === 'viking/read') {
+          const value = resolver.read(params.uri, params.resolution_tier ?? 'L1');
+          const latencyMs = Number(process.hrtime.bigint() - started) / 1e6;
+          const report = computeVikingReport({ tier: value.resolution_tier, uri: value.uri, content: value.content, cacheHit: value.cache_hit, latencyMs, mode: params.mode, model: params.model });
+          try { validateReport(report); } catch (err) { throw new VikingError('VIKING_REPORT_INVALID', `Viking VFS reporting payload failed schema validation: ${err.message}`); }
+          telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: latencyMs, cache_hit: value.cache_hit, report });
+          return { ...value, report, markdown_report: formatReportMarkdown(report) };
+        }
         if (request.method === 'viking/readBatch') {
           if (params.items.length > maxBatchItems) throw new VikingError('BATCH_LIMIT_EXCEEDED', `Batch exceeds ${maxBatchItems} items`, { max_items: maxBatchItems });
           const byteLimit = Math.min(params.max_total_bytes ?? maxBatchBytes, maxBatchBytes);
@@ -69,7 +214,9 @@ export function createServer(resolver, { telemetry = () => {}, resourceRootUri =
               const valueBytes = Buffer.byteLength(value.content, 'utf8');
               if (responseBytes + valueBytes > byteLimit) throw new VikingError('BATCH_LIMIT_EXCEEDED', 'Batch response exceeds byte limit', { max_total_bytes: byteLimit });
               responseBytes += valueBytes;
-              results.push({ uri: item.uri, result: value });
+              const report = computeVikingReport({ tier: value.resolution_tier, uri: value.uri, content: value.content, cacheHit: value.cache_hit, latencyMs: 0 });
+              validateReport(report);
+              results.push({ uri: item.uri, result: { ...value, report } });
             } catch (error) {
               results.push({ uri: item.uri, error: errorPayload(error) });
             }
