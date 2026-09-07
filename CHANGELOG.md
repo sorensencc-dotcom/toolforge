@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.64.0
+Date: 2026-09-07
+
+### Changes
+- 1134846 - feat(mcp): mirror vfs_upsert_document to toolforge Viking VFS surface (#31) (Chris Sorensen)
+
 ## Version 2.63.1
 Date: 2026-09-05
 
