@@ -254,15 +254,16 @@ cd C:\dev\toolforge\daemons
 
 ---
 
-## Node Process Janitor
+## Node/Git Process Janitor
 
-Conservative cleaner for orphaned / duplicate Node daemons (dashboard-server, mcp-memory, ijfw mcp-server, http-server, hung `node --test` / vitest). Default is dry-run; sigil processes are excluded unless `-IncludeSigil`.
+Conservative cleaner for orphaned / duplicate Node daemons (dashboard-server, mcp-memory, ijfw mcp-server, http-server, hung `node --test` / vitest) **and** orphaned Git for Windows `fsmonitor--daemon` processes. Default is dry-run; sigil processes are excluded unless `-IncludeSigil`; git cleanup is on unless `-SkipGit`.
 
 ```powershell
-cd C:\dev\toolforge\utilities
-./node-process-janitor.ps1                 # dry-run
+cd C:\dev\utilities
+./node-process-janitor.ps1                 # dry-run (node + git fsmonitor)
 ./node-process-janitor.ps1 -Apply          # terminate candidates
 ./node-process-janitor.ps1 -Apply -IncludeSigil
+./node-process-janitor.ps1 -Apply -SkipGit # node only
 ```
 
 See `utilities/node-process-janitor.md` for rule details.
