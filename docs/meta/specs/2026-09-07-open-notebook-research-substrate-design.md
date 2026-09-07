@@ -3,7 +3,7 @@ Wall time: 0.4 seconds
 Output:
 # Open Notebook research substrate design
 
-**Status:** Design approved in chat; written-spec review pending  
+**Status:** Engineering review passed with implementation prerequisites
 **Owner:** TRM  
 **Version:** 0.1  
 
@@ -105,9 +105,17 @@ production readiness.
 
 ## Open implementation decisions
 
-The implementation plan must select the existing TRM request/result types,
-local API endpoint contract, receipt storage location, and provider-policy
-configuration names by inspecting current code. It must preserve unrelated
-dirty work and use a writable sandbox checkout for implementation and tests.
+The implementation plan must first create a narrow substrate seam around the
+current NotebookLM scripts; no stable shared adapter interface was evidenced
+during review. It must pin a tested Open Notebook revision, document the exact
+local API contract, and select existing TRM request/result types and provider
+policy names by inspecting current code.
 
+TRM owns the contract, seam, policy, receipts, and adapter tests. Toolforge
+owns process-level CPU, memory, concurrency, timeout, and orphan-cleanup
+enforcement, plus the cross-repository integration test. The implementation
+must preserve unrelated dirty work and use writable sandbox checkouts.
 
+Receipt persistence must be failure-atomic, and pinned Open Notebook response
+fixtures must cover normalization, replay, and idempotency. Toolforge runtime
+limits and TRM request-level limits must be tested separately.
