@@ -161,3 +161,80 @@ test('validates wire requests and returns parse and parameter errors without thr
   const initialized = await processJsonRpcLine(JSON.stringify({ jsonrpc: '2.0', id: 8, method: 'initialize', params: {} }), server);
   assert.equal(initialized.result.protocolVersion, '2025-06-18');
 });
+
+test('lists vfs_upsert_document tool and handles tools/call write-through', async () => {
+  const f = fixture();
+  const server = createServer(
+    createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }),
+    { repoRoot: f.root }
+  );
+
+  const initRes = await server.handle({ method: 'initialize', params: {} });
+  assert.ok(initRes.capabilities.tools);
+
+  const listRes = await server.handle({ method: 'tools/list', params: {} });
+  assert.ok(Array.isArray(listRes.tools));
+  assert.ok(listRes.tools.some((t) => t.name === 'vfs_upsert_document'));
+
+  const content = '# Dynamic Research Note\n\nCreated via Viking VFS MCP write-through.';
+  const callRes = await server.handle({
+    method: 'tools/call',
+    params: {
+      name: 'vfs_upsert_document',
+      arguments: {
+        topic: 'viking-write-test',
+        category: 'research',
+        content,
+      },
+    },
+  });
+
+  assert.ok(!callRes.error);
+  assert.ok(Array.isArray(callRes.content));
+  const payload = JSON.parse(callRes.content[0].text);
+  assert.equal(payload.ok, true);
+  assert.equal(payload.file_path, 'wiki/research/viking-write-test.md');
+
+  const written = path.join(f.root, 'wiki', 'research', 'viking-write-test.md');
+  assert.ok(fs.existsSync(written));
+  assert.equal(fs.readFileSync(written, 'utf8'), content);
+});
+
+test('vfs_upsert_document rejects path traversal and absolute paths', async () => {
+  const f = fixture();
+  const server = createServer(
+    createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }),
+    { repoRoot: f.root }
+  );
+
+  const traversalRes = await server.handle({
+    method: 'tools/call',
+    params: {
+      name: 'vfs_upsert_document',
+      arguments: {
+        topic: 'evil',
+        category: 'research',
+        content: 'test',
+        file_path: '../../../etc/passwd',
+      },
+    },
+  });
+  assert.equal(traversalRes.error.code, JSON_RPC_CODES.INVALID_PARAMS);
+  assert.equal(traversalRes.error.data.viking_code, 'PATH_TRAVERSAL_REJECTED');
+
+  const absRes = await server.handle({
+    method: 'tools/call',
+    params: {
+      name: 'vfs_upsert_document',
+      arguments: {
+        topic: 'evil',
+        category: 'research',
+        content: 'test',
+        file_path: '/absolute/path.md',
+      },
+    },
+  });
+  assert.equal(absRes.error.code, JSON_RPC_CODES.INVALID_PARAMS);
+  assert.equal(absRes.error.data.viking_code, 'PATH_TRAVERSAL_REJECTED');
+});
+
