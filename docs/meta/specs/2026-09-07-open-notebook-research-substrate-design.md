@@ -3,7 +3,7 @@ Wall time: 0.4 seconds
 Output:
 # Open Notebook research substrate design
 
-**Status:** Engineering review passed with implementation prerequisites
+**Status:** DESIGN — blocked on contract lock
 **Owner:** TRM  
 **Version:** 0.1  
 
@@ -16,11 +16,10 @@ Output:
 
 ## Purpose
 
-Place Open Notebook behind TRM's existing NotebookLM research boundary as a
-local-only, non-canonical research substrate. Existing NotebookLM callers keep
-working through substrate selection. Open Notebook adds local ingestion,
-workflow, and model-provider capability without becoming an authority for
-lineage, governance, specifications, or canonical knowledge stores.
+Define an isolated, local-only, non-canonical Open Notebook research adapter
+for TRM. V1 does not alter existing NotebookLM callers or select between
+substrates. Open Notebook adds no authority for lineage, governance,
+specifications, or canonical knowledge stores.
 
 ## Upstream boundary note
 
@@ -35,11 +34,13 @@ loop.
 
 ## Scope and boundary
 
-V1 covers the TRM-facing adapter contract, local policy enforcement, response
-normalization, and immutable research receipts. Toolforge owns Open Notebook's
-managed process group and runtime ceilings. Open Notebook's frontend, API,
-LangGraph workflows, Esperanto provider layer, and SurrealDB remain behind that
-runtime boundary. TRM does not access SurrealDB directly.
+V1 covers the isolated adapter contract, local policy enforcement, response
+normalization, and immutable research receipts. It does not add substrate
+selection to the production research loop. Toolforge owns Open Notebook's
+managed process group and runtime ceilings in a later coordinated slice.
+Open Notebook's frontend, LangGraph workflows, Esperanto provider layer, and
+SurrealDB remain behind the runtime boundary. TRM does not access SurrealDB
+directly.
 
 The adapter accepts only a loopback Open Notebook API endpoint. Cloud-provider
 use is an explicit provider-policy choice, not an implicit fallback. Open
@@ -48,8 +49,10 @@ CIC, or other canonical stores.
 
 ## Components
 
-`ResearchSubstrate` defines the stable TRM-facing interface shared by the
-existing NotebookLM implementation and `open-notebook-local`.
+The V1 seam is the existing closed-loop research script path in
+`scripts/run-closed-loop-research-v2.mjs` and its NotebookLM CLI/upload calls.
+V1 characterizes that path; it does not claim a shared adapter already exists.
+Substrate selection is V2 and requires a signed authority decision.
 
 `OpenNotebookLocalAdapter` validates the request, checks local API health,
 invokes the API, enforces timeout and output-size limits, and normalizes the
@@ -62,8 +65,9 @@ process or network access.
 `ResearchReceiptBuilder` canonicalizes request and response metadata, computes
 SHA-256 input and output hashes, and emits the immutable TRM receipt.
 
-`OpenNotebookHealthProbe` verifies API readiness and process availability. It
-does not query or mutate SurrealDB.
+`OpenNotebookHealthProbe` verifies loopback HTTP API readiness only. Process
+availability and process-group supervision are outside V1 and remain owned by
+Toolforge.
 
 ## Data flow
 
@@ -86,18 +90,20 @@ endpoints, missing workspace or source identity, provider-policy violations,
 timeouts, output ceilings, health failures, missing model/provider/workflow
 metadata, hash failures, or receipt-write failures.
 
-The adapter does not automatically retry an invocation that may have completed
-unless the correlation ID provides idempotent replay. Receipts use exactly one
-of `accepted`, `rejected`, `timed_out`, or `indeterminate`. An `indeterminate`
-receipt cannot enter canonical review without explicit operator resolution.
+The adapter never silently retries an invocation that may have completed. An
+`indeterminate` result requires recorded operator resolution before any replay;
+replay is permitted only after the pinned API contract proves idempotency.
+Receipts use exactly one of `accepted`, `rejected`, `timed_out`, or
+`indeterminate`. An `indeterminate` receipt cannot enter canonical review.
 
 ## Testing and evidence
 
 Focused tests cover valid normalization, endpoint and intent rejection,
 metadata validation, timeout and size limits, deterministic serialization and
 hashes, receipt immutability, idempotency, indeterminate outcomes, and
-NotebookLM compatibility. Mocked local-API integration tests cover the wired
-adapter path.
+characterization tests cover the current closed-loop script seam. Pinned local
+API fixtures cover Open Notebook normalization, replay, and idempotency. No
+shared-interface compatibility claim is made in V1.
 
 Evidence remains separate by layer: local unit and adapter tests, a labeled
 live local Open Notebook smoke test, and production/deployment evidence. A
@@ -110,23 +116,30 @@ production readiness.
 - Remote/shared Open Notebook service access.
 - Automatic cloud-provider fallback.
 - Sigil UI changes.
-- Toolforge process-manager implementation.
+- Toolforge process-manager implementation and process availability checks.
 - KB-Sync writes or canonical CIC/TRM mutations.
 - Governance decisions made by Open Notebook workflows.
 
-## Open implementation decisions
+## Contract lock required before implementation
 
-The implementation plan must first create a narrow substrate seam around the
-current NotebookLM scripts; no stable shared adapter interface was evidenced
-during review. It must pin a tested Open Notebook revision, document the exact
-local API contract, and select existing TRM request/result types and provider
-policy names by inspecting current code.
+The following must be recorded here before adapter implementation begins:
+
+- Open Notebook upstream git SHA and license verification.
+- Exact loopback HTTP health, invoke, and replay methods and paths.
+- Typed TRM request and normalized result schemas, including closed enums for
+  allowed workflow intents and forbidden canonical-write intents.
+- Receipt schema, canonical JSON byte ordering, storage path, hash inputs,
+  failure-atomic temp-file/rename protocol, and review handoff state.
+- Provider-policy document and configuration name. V1 must use the existing
+  WhichLLM selection record from `_integration/model_selection.json` and reject
+  any response whose provider/model echo does not match the explicit opt-in.
+- Operator-resolution record required for every indeterminate invocation.
 
 TRM owns the contract, seam, policy, receipts, and adapter tests. Toolforge
 owns process-level CPU, memory, concurrency, timeout, and orphan-cleanup
-enforcement, plus the cross-repository integration test. The implementation
-must preserve unrelated dirty work and use writable sandbox checkouts.
+enforcement, plus the cross-repository integration test in its own slice.
 
 Receipt persistence must be failure-atomic, and pinned Open Notebook response
 fixtures must cover normalization, replay, and idempotency. Toolforge runtime
-limits and TRM request-level limits must be tested separately.
+limits and TRM request-level limits must be tested separately. Checkout hygiene
+belongs in the implementation plan, not this substrate contract.
