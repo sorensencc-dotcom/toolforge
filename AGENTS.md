@@ -330,6 +330,15 @@ Otherwise keep using Glob — it's already fast for scoped, known-subtree patter
 
 **Before relying on es:** run `where es.exe` to confirm it resolves. If the `es` Bash call errors (binary missing, Everything service not running, non-zero exit), explicitly retry the same lookup via Glob — this is a stated retry step, not an automatic fallback.
 
+## Deterministic Search & Navigation Policy
+
+Before performing workspace-wide text searches (`grep`, `rg`, `findstr`, or `git grep`), consult the deterministic codebase indexes:
+1. **Trace dependencies**: Run `graft callers <symbol>` or use MCP `graft_trace_calls` to evaluate call hierarchies and blast radius.
+2. **Inspect API surface**: Run `graft skeleton <file>` or use MCP `graft_file_api` instead of reading entire source files.
+3. **Coupling and hotspots**: Consult `graft map` or query the local context SQLite database before initiating broad keyword scans.
+
+Raw file grep is permitted only when targeting a single file, or after confirming that a target symbol is absent from Tree-sitter AST extraction. Broad workspace greps are hard-blocked by `scripts/intercept-grep.js`.
+
 ## Skill Approval & Registration
 
 ### Toolforge Skill (Candidate Criteria)
