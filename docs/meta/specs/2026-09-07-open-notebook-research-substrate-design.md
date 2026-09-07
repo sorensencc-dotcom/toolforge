@@ -22,6 +22,17 @@ working through substrate selection. Open Notebook adds local ingestion,
 workflow, and model-provider capability without becoming an authority for
 lineage, governance, specifications, or canonical knowledge stores.
 
+## Upstream boundary note
+
+Open Notebook must not run in parallel with TRM or NotebookLM workflows until
+the surrounding model-routing and authority boundaries are explicitly defined.
+The boundary decision must establish Toolforge ownership of runtime and
+provider policy, local-model defaults, explicit cloud escalation, TRM receipt
+requirements, NotebookLM's grounded-review role, and CIC's canonical authority.
+Until those decisions are recorded and tested, Open Notebook remains an
+isolated research substrate and is not part of the active production research
+loop.
+
 ## Scope and boundary
 
 V1 covers the TRM-facing adapter contract, local policy enforcement, response
