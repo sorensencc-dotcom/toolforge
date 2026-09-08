@@ -49,3 +49,24 @@ Roadmaps follow standard placement rules (spec/plan/charter → docs/meta/ folde
 - Enforced by pre-commit hook + weekly cleanup scan
 
 See: docs/meta/roadmap-consolidation-design.md for full governance.
+
+## Third-Party Attribution & Provenance Policy
+
+Every documentation page, wiki entry, skill doc, or architecture spec that references, wraps, or integrates an external third-party project or tool MUST include explicit provenance and attribution to maintain open-source hygiene and avoid misrepresenting third-party code as first-party Toolforge subsystems.
+
+### Attribution Rules:
+1. **Upstream Link & Author**: Explicitly link to the upstream repository and name the original author/organization.
+2. **Integration Boundary**: State clearly what part is external (unmodified/wrapped) versus what was built natively by Toolforge (guards, pipelines, adapters).
+3. **First-Party Clarification**: Native modules authored in-house (such as `Sigil`, `IronLedger`, `delivery-guard`) must be designated as First-Party/Native when cataloged alongside external tools.
+
+### Standard Provenance Block (Markdown):
+```markdown
+## Provenance & Attribution
+
+> [!NOTE]
+> Toolforge integrates the external project **[Tool Name]**, created by **[Author/Org]**.
+> Source: [https://github.com/org/repo](https://github.com/org/repo) (License: [License])
+>
+> Toolforge wraps/extends this tool via [module/skill path] to support CIC/Rewrite Labs workflows.
+```
+

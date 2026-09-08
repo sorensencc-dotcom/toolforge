@@ -199,6 +199,8 @@ Before shipping a skill, verify:
 - [ ] Tests pass locally (`npm test` / `pytest` / `./tests/run.sh`)
 - [ ] docs/USAGE.md exists if workflow is complex (>3 steps)
 - [ ] No duplicate "Setup", "Requirements", "Testing", or "Troubleshooting" text
+- [ ] Third-party tools/repos include explicit Provenance & Attribution (upstream link, author, boundary)
+
 
 ## Enforcement
 

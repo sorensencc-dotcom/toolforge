@@ -27,9 +27,9 @@ if (-not (Test-Path $script)) {
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 $principal = if ($isAdmin) {
-  New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Highest
+  New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U -RunLevel Highest
 } else {
-  New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive
+  New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U
 }
 
 Write-Host "Weekly Report Task Registration" -ForegroundColor Green

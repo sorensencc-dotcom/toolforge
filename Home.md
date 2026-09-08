@@ -110,3 +110,24 @@ Modern AI agents call tools as raw function calls with no governance, no observa
 | `adapters/` | External data transformers | `.ts` or `.js` | `CIC-WHICHLLM` integration pack |
 | `mcp-servers/` | MCP protocol implementations | `server.ts` | MCP server packages |
 | `utilities/` | Helper scripts, setup, configuration | `.ps1` or `.sh` | `setup-task-scheduler` |
+
+---
+
+## Ecosystem Provenance & Attribution
+
+Toolforge operates as an integration, governance, and execution mediation platform. To maintain transparent open-source attribution, the taxonomy below outlines native systems versus wrapped third-party projects:
+
+### 1. First-Party Native Subsystems
+* **Sigil**: Canonical inter-agent communication, relay directory, and task federation runtime authored natively by Toolforge / CIC-Rewrite Labs.
+* **IronLedger**: Deterministic financial reconciliation and immutable ledger pipeline.
+* **Delivery Guard**: Reusable release governance and merge barrier engine.
+
+### 2. Integrated & Wrapped Third-Party Tools
+* **WhichLLM**: External LLM benchmark and routing engine. Wrapped via `cic-whichllm-integration-pack` with lineage validation and governance gates.
+* **KarpathyLLM**: Educational and reference minimal LLM architectures (e.g. `llm.c` / `nanoGPT` by Andrej Karpathy). Embedded as local benchmarking and tokenizer validation test harnesses.
+* **BrowserOS-Neo**: Headless browser automation runtime. Integrated as an MCP server with session lifecycle safety guards.
+* **GBrain**: Semantic codebase indexer and AST caller graph (from `gstack`). Integrated for multi-agent knowledge resolution.
+* **TinyFish**: Web search and structured page extraction agent. Wrapped with timeout and caching guards via `use-tinyfish`.
+* **Parallel**: Deep web research and data enrichment CLI/API. Wrapped via `parallel-*` execution skills.
+* **Graft**: Git-synced codebase knowledge graph. Integrated for fast token-budgeted symbol and caller resolution.
+

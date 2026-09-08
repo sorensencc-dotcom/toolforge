@@ -475,4 +475,10 @@ when more than one checkout exists under `C:\dev`.
 
 Writable repository work must use a real checkout under C:\dev\dev-sandbox; treat C:\dev itself as read-only.
  Do not default to Documents\Codex when a sandbox checkout is available.
+ 
+ ## Command & Test Execution Protocol
+- NEVER run `npm test` or test binaries directly without a hard timeout wrapper.
+- Always append a timeout or use GNU `timeout 60 npm test`.
+- If a test suite exceeds 60 seconds without emitting output, treat it as hung: abort the process, clear `.staging.lock` / `.kb-sync.lock`, and report the hanging test file.
+- If investigating hanging tests, pass `--detectOpenHandles` or `--test-timeout=10000` to pinpoint unclosed database handles or unmocked network sockets.
 

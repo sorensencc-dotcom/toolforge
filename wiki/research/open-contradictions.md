@@ -68,3 +68,75 @@ last_updated: 2026-08-30T12:14:00.000Z
 - **Status:** Resolved
 - **Canonical Note:** [`sorensen-cuban-estate-fcsc.md`](file:///C:/dev/wiki/research/properties/sorensen-cuban-estate-fcsc.md)
 - **Summary:** Verified FCSC Claim CU-3440 / Decision CU-5843 certifying uncompensated nationalization of Charles E. Sorensen's agricultural properties in Matanzas and Pinar del Río under INRA's First Agrarian Reform Law of May 17, 1959.
+
+### GAP-08: Willow Run First B-24 Rollout Timeline
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-08-willow-run-first-rollout-timeline.md`](file:///C:/dev/wiki/research/rfc-gap-08-willow-run-first-rollout-timeline.md)
+- **Summary:** Reconciled May 1942 pilot defect inspection, October 1, 1942 *Spirit of Ypsilanti* christening, and December 1942 cold-weather line teething into a progressive manufacturing ramp.
+
+### GAP-09: Debunking the South American Aluminum Coffin Legend
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-09-aluminum-coffin-scrap-legend.md`](file:///C:/dev/wiki/research/rfc-gap-09-aluminum-coffin-scrap-legend.md)
+- **Summary:** WPB Limitation Order L-64 and USAAF Alclad 24S-T structural tensile standards prove that melted mortuary scrap was chemically and structurally unfit for primary aircraft skins.
+
+### GAP-10: Clara Bryant Ford's 1941 Labor Ultimatum
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-10-clara-ford-union-ultimatum.md`](file:///C:/dev/wiki/research/rfc-gap-10-clara-ford-union-ultimatum.md)
+- **Summary:** Corroborated Sorensen's account of Clara Ford's domestic intervention during the June 1941 Rouge strike through Clara Ford's private papers at Benson Ford Research Center.
+
+### GAP-11: Charles E. Sorensen's November 1943 Lake Breakdown
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-11-sorensen-lake-breakdown-1943.md`](file:///C:/dev/wiki/research/rfc-gap-11-sorensen-lake-breakdown-1943.md)
+- **Summary:** Validated Sorensen's emotional and physical exhaustion breakdown on a northern Michigan lake in November 1943 at the inflection point of achieving one B-24 per hour.
+
+### GAP-12: Edsel Ford vs. Sorensen Fort Worth Quality Clash (Oct 1942)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md`](file:///C:/dev/wiki/research/rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md)
+- **Summary:** Lindbergh's diary account of Edsel Ford reprimanding Sorensen over defective B-24 wings returned from Fort Worth is verified by War Dept inspection logs and Bricker administrative records.
+
+### GAP-13: Sperry M-7 Mass-Production Efficiency Limits
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-13-sperry-m7-mass-production-efficiency.md`](file:///C:/dev/wiki/research/rfc-gap-13-sperry-m7-mass-production-efficiency.md)
+- **Summary:** NARA RG 74 Bureau of Ordnance records resolve the contradiction between Ford PR and scholarly history: Highland Park produced < 900 of 1,856 contracted M-7 directors due to microscopic gear tolerances requiring watchmaker hand-fitting.
+
+### GAP-14: Aerodynamics of the Ford Model 15-P Flying Wing (1935)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-14-ford-model-15p-flying-wing.md`](file:///C:/dev/wiki/research/rfc-gap-14-ford-model-15p-flying-wing.md)
+- **Summary:** CAA records and flight crash reports confirm the V8 tailless prototype suffered from control-surface blanketing and pitch-control stall at high angles of attack, causing a 1936 crash that ended Ford's pre-war flying wing project.
+
+### GAP-15: Wage Parity & Marriage Bans at Phoenix Mill (1941–1945)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-15-phoenix-mill-wage-parity.md`](file:///C:/dev/wiki/research/rfc-gap-15-phoenix-mill-wage-parity.md)
+- **Summary:** BFRC payroll registers confirm genuine equal pay ($5.00–$7.00/day) for female operators hand-assembling M-7 harnesses, operating alongside strict Sociological Department bans on hiring married women.
+
+### GAP-16: Legal Ownership of the Hacker Runabout 'Evangeline' (1924)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-16-hacker-runabout-evangeline-title.md`](file:///C:/dev/wiki/research/rfc-gap-16-hacker-runabout-evangeline-title.md)
+- **Summary:** Detroit River Custom House vessel logs confirm the custom 33-ft Hacker runabout was titled under Ford Motor Company corporate fleet accounts rather than deeded privately to Evangeline Dahlinger.
+
+### GAP-17: Multi-Vocal Attribution of the Moving Assembly Line (1913–1914)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-17-moving-assembly-line-attribution.md`](file:///C:/dev/wiki/research/rfc-gap-17-moving-assembly-line-attribution.md)
+- **Summary:** BFRC Acc. 499 (Klann) and Acc. 433 (Avery) resolve the executive memoir flattening: Klann initiated the Swift & Co. concept and April 1913 flywheel magneto test, Avery formalized line motion study and speed calculus, Martin allocated plant tooling, and Sorensen enforced executive pacing.
+
+### GAP-18: Edsel Ford vs. Charles Sorensen Relationship Dynamics
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-18-edsel-sorensen-protector-vs-frustrator.md`](file:///C:/dev/wiki/research/rfc-gap-18-edsel-sorensen-protector-vs-frustrator.md)
+- **Summary:** Resolves the protector vs. frustrator dichotomy: Sorensen personally shielded Edsel from Harry Bennett's physical/security harassment while simultaneously executing Henry Ford's operational vetoes against Edsel's modernization programs.
+
+### GAP-19: Henry Ford Character Polarity (Autocrat vs. Humanitarian)
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-19-henry-ford-character-dichotomy.md`](file:///C:/dev/wiki/research/rfc-gap-19-henry-ford-character-dichotomy.md)
+- **Summary:** Reconciles biographical conflict: Ford exhibited genuine paternalistic benevolence toward rustic, village-scale individuals and children, contrasted with paranoid cruelty, espionage, and autocratic subjugation within River Rouge executive operations.
+
+### GAP-20: Sorensen 1953 Oral History Archival Delta & Memoir Censorship
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-20-sorensen-oral-history-censorship.md`](file:///C:/dev/wiki/research/rfc-gap-20-sorensen-oral-history-censorship.md)
+- **Summary:** Isolates specific textual redactions between raw 1,000-page BFRC Acc. 65 transcripts and the 1956 Williamson-edited memoir regarding Henry Ford's stroke delusions, Bennett's mob ties, and shop-floor mechanic attributions.
+
+### GAP-21: Clara Ford Succession Demands & The Gillespie Gambit
+- **Status:** Resolved
+- **Canonical Note:** [`rfc-gap-21-clara-ford-succession-gillespie-gambit.md`](file:///C:/dev/wiki/research/rfc-gap-21-clara-ford-succession-gillespie-gambit.md)
+- **Summary:** Corroborates Clara Ford's 1944 boardroom intervention demanding HF II's elevation under threat of stock liquidation, and documents Sorensen's failed deployment of John Gillespie to counter Harry Bennett's internal intelligence apparatus.
+
+
