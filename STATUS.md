@@ -327,3 +327,22 @@ Commit and push the recipient validation guard after review.
 
 ### Next action
 Index repository sources with `gbrain sync --source toolforge`.
+
+## Runtime-owner Phase B consumer slice (2026-09-08)
+
+### Completed work
+- Fast-forwarded `toolforge-herdr-trm-integration` to `98442b2d` (`v2.65.0`).
+- Recorded the pinned Open Notebook revision, Ubuntu/WSL2 runner, argv, loopback health wait, environment allowlist, and lifecycle assertions in `integration-harness/T07-README.md`.
+- Added `integration-harness/open-notebook.integration.test.mjs` and `npm run test:runtime-owner-integration`.
+
+### Verification
+- Windows runtime-owner tests: 5 passed, 9 Linux-only skipped.
+- Integration test: 1 explicitly skipped as `RUNTIME_FIXTURE_UNAVAILABLE` because the pinned fixture/runtime is not installed.
+- `git diff --check` passed.
+
+### Blocker and next action
+- Live Linux consumer proof remains pending until `OPEN_NOTEBOOK_FIXTURE_DIR` points to the pinned fixture and `uv` is available under Ubuntu/WSL2.
+- Fixture and `uv` were provisioned in WSL2. Startup diagnosis corrected the command to `uv run uvicorn api.main:app --host 127.0.0.1 --port <isolated-port>` from the pinned checkout and the harness now sends the documented `session_id`/`message`/`context` payload. The corrected live run still reached no healthy `/health` response within 30 seconds and failed closed; direct startup emitted only a `uv` hardlink warning, so dependency/bootstrap diagnostics remain required.
+- Docker CLI and Compose are installed in WSL2, but no Docker daemon is running (`/var/run/docker.sock` absent); SurrealDB could not start. Live consumer proof is blocked on starting Docker Desktop/WSL integration or providing an equivalent local SurrealDB service.
+- Docker Desktop's Linux engine and SurrealDB are now available. Bounded child stdout/stderr capture was added. Live startup reaches application imports and SurrealDB command initialization but no `/health` response within 30 seconds; captured output includes repeated dotenv line-4 parse warnings. Provider configuration and the malformed fixture `.env` remain unresolved; no credentials were invented.
+- No push, production enablement, or changes to unrelated review files.
