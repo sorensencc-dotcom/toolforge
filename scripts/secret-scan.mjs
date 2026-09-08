@@ -17,6 +17,9 @@ const ALLOWLIST = [
   // trailing "/toolforge_local" database name — allowlist the truncated form.)
   /:\/\/toolforge:toolforge@localhost:5432$/,
 
+  // Disposable local Sigil relay Postgres development service container
+  /:\/\/sigil:sigil_password@localhost:55432$/,
+
   // Unit-test fixture API key values — obvious placeholder strings that can
   // never be real credentials (too short, no provider prefix).
   // Files: CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/tests/unit/openrouter-provider.test.js
