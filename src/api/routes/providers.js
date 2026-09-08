@@ -82,12 +82,16 @@ export function createProvidersRouter(customProvider, { limiter } = {}) {
         });
       }
 
-      const result = await req.provider.generate(model, prompt);
+      const execution = typeof req.provider.execute === 'function'
+        ? await req.provider.execute({ provider: 'ollama', model, prompt })
+        : { model, response: await req.provider.generate(model, prompt) };
+      const result = execution.response;
 
       // Do NOT echo submitted prompt back in response for privacy and compliance
       res.json({
         success: true,
-        model,
+        provider: 'ollama',
+        model: execution.model || model,
         result,
         timestamp: new Date().toISOString(),
       });
@@ -98,6 +102,9 @@ export function createProvidersRouter(customProvider, { limiter } = {}) {
       }
       if (message.includes('Failed to connect') || message.includes('fetch failed')) {
         return res.status(503).json({ error: 'Ollama unavailable', message });
+      }
+      if (message.includes('PROVIDER_') || message.includes('MODEL_SELECTION_')) {
+        return res.status(502).json({ error: 'Provider validation failed', message, receipt: error?.receipt ?? null, trm_event: error?.trmEvent ?? null });
       }
       res.status(500).json({ error: 'Generation failed', message });
     }

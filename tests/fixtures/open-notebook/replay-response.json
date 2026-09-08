@@ -1,0 +1,21 @@
+{
+  "fixture_kind": "local_operator_rejection",
+  "upstream": {
+    "repository": "lfnovo/open-notebook",
+    "revision": "2d2df8a3cbb098776e56ca5ee77b9832f848228e",
+    "documented_replay_endpoint": false,
+    "documented_idempotency_mechanism": false
+  },
+  "status": "rejected",
+  "reason_code": "REPLAY_UNSUPPORTED",
+  "operator_action": "Resolve the indeterminate invocation manually before any new invocation.",
+  "replay": {
+    "attempted": false,
+    "endpoint": null,
+    "success_contract": null
+  },
+  "local_adapter_envelope": {
+    "is_upstream_contract": false,
+    "purpose": "Operator-required no-replay behavior; this fixture does not represent an upstream replay response."
+  }
+}

@@ -1,5 +1,79 @@
 # Project status
 
+## Open Notebook research substrate Task 1 (2026-09-07)
+
+### Active goal
+Implement the isolated Open Notebook substrate in bounded tasks while preserving the locked no-replay contract.
+
+### Completed work
+- Pinned upstream `lfnovo/open-notebook` revision `2d2df8a3cbb098776e56ca5ee77b9832f848228e` and verified MIT license.
+- Locked documented `GET /health` and `POST /chat/execute` paths and normalized TRM request/result fields.
+- Recorded that upstream exposes no documented idempotency or replay mechanism; automatic replay remains forbidden.
+- Added health, invocation-envelope, and operator-required no-replay fixtures.
+- Committed as `1323d7f6` (`docs: lock Open Notebook HTTP contract`).
+- Characterized the existing closed-loop seam with source-level tests for model selection, `trm mine-notebooklm`, NotebookLM upload command construction, and dry-run gating.
+- Committed as `352c29d7` (`test: characterize TRM research script seam`).
+- Added strict research request/result/policy/receipt contracts with closed outcomes, deterministic serialization, and native SHA-256 hashing.
+- Committed as `4b9d78b3` (`feat: add research substrate contracts`).
+- Added the loopback-only Open Notebook adapter with health probing, bounded responses, strict normalization, timeout handling, indeterminate transport outcomes, and forbidden replay.
+- Committed as `b4857787` (`feat: add isolated Open Notebook adapter`).
+
+### Verification
+- JSON fixture parsing passed.
+- `git diff --check` passed.
+- `npm run docs:validate` passed.
+- Pre-commit governance, retro, roadmap, and sibling-pattern checks passed.
+
+### Blockers
+- Direct import execution of the research script remains unavailable because this checkout lacks `kb-sync/core/config.mjs`; the seam tests intentionally use source-level characterization.
+- TypeScript compiler validation remains unavailable because this checkout lacks a TypeScript compiler package; focused `tsx` tests pass.
+- Task 4 focused adapter tests: 5 passed.
+- Task 5 is blocked: the Toolforge integration sandbox has no managed-process/supervisor owner or API for CPU, memory, concurrency, timeout, and orphan-cleanup enforcement.
+
+### Next action
+Close the three BLOCK items in `docs/meta/reviews/2026-09-07-toolforge-runtime-owner-design-REVIEW.md` inside the runtime-owner spec, then implement `modules/runtime-owner/` in this Toolforge checkout. Do not add the herdr integration test or enable production substrate selection until that spec is implementation-ready.
+
+### 2026-09-08 review
+- Reviewed `docs/meta/specs/2026-09-07-toolforge-runtime-owner-design.md`. Verdict: FAIL (3 BLOCK). Spec is the right owner for the missing supervisor, not implementation-ready. Review: `docs/meta/reviews/2026-09-07-toolforge-runtime-owner-design-REVIEW.md`.
+
+### 2026-09-08 Phase A implementation start
+- Added an initial Linux-gated `modules/runtime-owner/` scaffold for contracts, process-group primitives, polling helpers, orphan cleanup, JSONL events, and supervisor API shape.
+- Focused contract tests passed: 3 / 3. Node syntax checks and `git diff --check` passed under a 60-second test wrapper.
+- This is not Task 6 completion: monitor lifecycle, durable crash recovery, complete resource enforcement, and full Linux integration tests remain unfinished.
+- Added initial monitor polling, CPU/RSS violation dwell logic, PGID-aware status, and non-escalating envelope extension guards; these remain insufficiently tested on Linux.
+- Latest focused contract result: 3 / 3 passed; syntax and `git diff --check` passed. No live Linux evidence exists on this Windows host.
+- Wired monitor startup after spawn, PID/PGID durable state updates, group-kill event emission, and illegal post-violation transition coverage. Latest focused result: 4 / 4 passed.
+- Linux verification: WSL2 Ubuntu focused run passed 6 tests, skipped 1 Windows-only branch. Evidence covers detached PGID identity/signaling, `/proc` RSS sampling, CPU/RSS threshold decisions, and owned-orphan cleanup. Full supervisor monitor enforcement and crash-recovery integration remain unverified.
+- Added live supervisor timeout coverage. Latest WSL2 Ubuntu focused run: 7 passed, 1 skipped. Automatic monitor startup, timeout closure, cleanup, PGID identity, and monotonic event sequencing passed. Live memory pressure, multi-descendant aggregation, and supervisor-crash recovery remain unverified.
+- Added `/proc` PGID member discovery to aggregate descendants during status and monitor sampling. WSL2 Ubuntu focused run: 8 passed, 1 skipped, including a live shell-spawned descendant aggregation test. Live memory-pressure enforcement and supervisor-crash recovery remain unverified.
+- Added live WSL2 RSS-limit termination and durable-PGID orphan recovery tests. Latest focused run: 10 passed, 1 skipped. Local Linux verification now covers process-group signaling, descendant aggregation, timeout, RSS enforcement, and simulated supervisor-loss recovery. T07 remains blocked because `toolforge-herdr-trm-integration` is absent.
+- Added live CPU-bound termination and event persistence fallback tests. Latest WSL2 focused run: 12 passed, 1 skipped. T01–T06 implementation evidence now covers CPU/RSS enforcement, PGID aggregation, timeout, orphan recovery, event sequencing, and fallback visibility; final code review and scoped delivery remain pending.
+- Fixed post-commit review findings: orphan cleanup now verifies a recorded PID still belongs to the PGID; one monitor is allowed per group; state records use atomic temp-file rename. WSL2 focused run remains 12 passed, 1 skipped.
+- Hardened `/proc/<pid>/stat` parsing against process names containing spaces/parentheses and made state temp names collision-resistant. Named-process regression passed in WSL2; full suite rerun pending.
+- Registered `npm run test:runtime-owner` as the reproducible focused command. Windows run: 5 passed, 9 explicit Linux-only skips under a 60-second wrapper; WSL2 remains the Linux evidence environment.
+- Repository preflight passed for the sandbox checkout. `npm run docs:validate` passed with a valid three-entry documentation inventory; `git diff --check` passed.
+
+### Phase A disposition
+- T01–T06 complete for the approved Linux-first internal runtime-owner slice.
+- Evidence: WSL2 focused suite 13 passed, 1 skipped; full Toolforge regression 226 passed, 1 skipped; documentation validation, repository preflight, and governance pre-commit checks passed.
+- T07 deferred to Phase B by decision. No consumer checkout, production substrate selection, HTTP control surface, or cross-repository publishing is present.
+- Phase A is locally delivered through commits `98b451c6`, `03b2ee2d`, `552fd48a`, `d9125a0a`, and `082ec316`. Push/publication remains a separate authorized action.
+- T07 is deferred to Phase B until the runtime-owner lifecycle contract stabilizes; `toolforge-herdr-trm-integration` is intentionally absent from this checkout.
+- T07 remains blocked because `toolforge-herdr-trm-integration` is absent from this checkout.
+
+### Next action
+- Complete and test the supervisor monitor, group-aggregate enforcement, durable orphan recovery, and persistence-failure paths on Linux; then add the labeled consumer integration only after its checkout is available.
+## TRM Process Enhancement & Historical Grounding (2026-09-03)
+
+### Active goal
+Synthesize TRM research gaps into canonical RFC nodes and maintain operational tooling.
+
+### Completed work
+- Merged current mainline operational and documentation updates.
+
+### Next action
+Continue bounded validation and preserve separate runtime-routing evidence.
+
 ## TRM Process Enhancement & Historical Grounding (2026-09-03)
 
 ### Active goal
@@ -295,3 +369,32 @@ Commit and push the recipient validation guard after review.
 
 ### Next action
 Index repository sources with `gbrain sync --source toolforge`.
+
+## Runtime-owner Phase B consumer slice (2026-09-08)
+
+### Completed work
+- Fast-forwarded `toolforge-herdr-trm-integration` to `98442b2d` (`v2.65.0`).
+- Recorded the pinned Open Notebook revision, Ubuntu/WSL2 runner, argv, loopback health wait, environment allowlist, and lifecycle assertions in `integration-harness/T07-README.md`.
+- Added `integration-harness/open-notebook.integration.test.mjs` and `npm run test:runtime-owner-integration`.
+
+### Verification
+- Windows runtime-owner tests: 5 passed, 9 Linux-only skipped.
+- Integration test: 1 explicitly skipped as `RUNTIME_FIXTURE_UNAVAILABLE` because the pinned fixture/runtime is not installed.
+- `git diff --check` passed.
+
+### Blocker and next action
+- Live Linux consumer proof remains pending until `OPEN_NOTEBOOK_FIXTURE_DIR` points to the pinned fixture and `uv` is available under Ubuntu/WSL2.
+- Fixture and `uv` were provisioned in WSL2. Startup diagnosis corrected the command to `uv run uvicorn api.main:app --host 127.0.0.1 --port <isolated-port>` from the pinned checkout and the harness now sends the documented `session_id`/`message`/`context` payload. The corrected live run still reached no healthy `/health` response within 30 seconds and failed closed; direct startup emitted only a `uv` hardlink warning, so dependency/bootstrap diagnostics remain required.
+- Docker CLI and Compose are installed in WSL2, but no Docker daemon is running (`/var/run/docker.sock` absent); SurrealDB could not start. Live consumer proof is blocked on starting Docker Desktop/WSL integration or providing an equivalent local SurrealDB service.
+- Docker Desktop's Linux engine and SurrealDB are now available. Bounded child stdout/stderr capture was added. Live startup reaches application imports and SurrealDB command initialization but no `/health` response within 30 seconds; captured output includes repeated dotenv line-4 parse warnings. Provider configuration and the malformed fixture `.env` remain unresolved; no credentials were invented.
+- No push, production enablement, or changes to unrelated review files.
+## 2026-09-08 local Ollama routing boundary
+
+### Completed work
+- Extended `_integration/model_selection.json` with the validated Ollama selection, local-only routing state, policy version, steward, and fail-closed echo policy; recomputed `hash_chain_self`.
+- Added `src/providers/model-selection.js` and wired `getProvider()` to consume and validate the record.
+- Added validated Ollama execution with requested/echoed provider-model checks, mismatch receipts, TRM validation events, and no retry or fallback. Cloud routing remains disabled.
+- Added focused provider-boundary tests.
+
+### Next action
+Run provider-enabled Ollama integration after a local Ollama service and validated model are available.

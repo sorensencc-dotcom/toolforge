@@ -32,6 +32,8 @@
     "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
     "test:healing": "npx tsx --test modules/healing/*.test.ts",
     "test:trm": "npx tsx --test tests/validate-chunks.test.ts",
+    "test:runtime-owner": "node --test modules/runtime-owner/runtime-owner.test.mjs",
+    "test:runtime-owner-integration": "node --test integration-harness/open-notebook.integration.test.mjs",
     "test:watchlist": "node test-watchlist-run.mjs",
     "wiki:publish": "node scripts/sync-github-wiki.mjs",
     "wiki:sync": "node scripts/sync-github-wiki.mjs",
