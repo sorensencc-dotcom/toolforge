@@ -51,6 +51,7 @@ Close the three BLOCK items in `docs/meta/reviews/2026-09-07-toolforge-runtime-o
 - Fixed post-commit review findings: orphan cleanup now verifies a recorded PID still belongs to the PGID; one monitor is allowed per group; state records use atomic temp-file rename. WSL2 focused run remains 12 passed, 1 skipped.
 - Hardened `/proc/<pid>/stat` parsing against process names containing spaces/parentheses and made state temp names collision-resistant. Named-process regression passed in WSL2; full suite rerun pending.
 - Registered `npm run test:runtime-owner` as the reproducible focused command. Windows run: 5 passed, 9 explicit Linux-only skips under a 60-second wrapper; WSL2 remains the Linux evidence environment.
+- Repository preflight passed for the sandbox checkout. `npm run docs:validate` passed with a valid three-entry documentation inventory; `git diff --check` passed.
 - T07 is deferred to Phase B until the runtime-owner lifecycle contract stabilizes; `toolforge-herdr-trm-integration` is intentionally absent from this checkout.
 - T07 remains blocked because `toolforge-herdr-trm-integration` is absent from this checkout.
 
