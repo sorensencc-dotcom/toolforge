@@ -174,6 +174,22 @@ export async function runDailyMiningPipeline(options = {}) {
     } else {
       let uploadSuccess = false;
       let attempt = 0;
+      const packBaseName = path.basename(packFile);
+
+      // Query existing sources in target notebook to find previous versions of this pack
+      let existingSources = [];
+      try {
+        const out = execSync(`nlm source list "${targetUuid}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+        const parsed = JSON.parse(out);
+        existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+      } catch (e) {
+        logWarn(`  Could not query existing sources for notebook ${targetUuid}: ${e.message}`);
+      }
+
+      const staleSources = existingSources.filter(s => {
+        const title = (s.title || s.name || '').toLowerCase().trim();
+        return title === packBaseName.toLowerCase() || title === `${catDef.title} pack`.toLowerCase();
+      });
 
       while (attempt < maxRetries && !uploadSuccess) {
         attempt++;
@@ -183,6 +199,17 @@ export async function runDailyMiningPipeline(options = {}) {
           uploadSuccess = true;
           logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
           emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { attempt });
+
+          if (staleSources.length > 0) {
+            logInfo(`  Purging ${staleSources.length} stale previous version(s) of ${packBaseName}...`);
+            const idsToDelete = staleSources.map(s => `"${s.id}"`).join(' ');
+            try {
+              execSync(`nlm source delete ${idsToDelete} -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+              logInfo(`  ✓ Purged stale sources for ${packBaseName}`);
+            } catch (delErr) {
+              logWarn(`  Failed to delete stale sources: ${delErr.message}`);
+            }
+          }
         } catch (uploadErr) {
           logWarn(`  Upload attempt ${attempt} failed: ${uploadErr.message}`);
           if (attempt < maxRetries) {

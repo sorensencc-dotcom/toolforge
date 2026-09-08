@@ -1,13 +1,51 @@
 import readline from "node:readline";
+import fs from "node:fs";
+import path from "node:path";
 
 const CONNECTOR_URL = process.env.SIGIL_CONNECTOR_URL || "http://127.0.0.1:4411";
+
+function resolveConnectorToken(): string {
+  if (process.env.SIGIL_CONNECTOR_TOKEN) return process.env.SIGIL_CONNECTOR_TOKEN;
+  const candidatePaths = [
+    "C:\\dev\\sigil-repo\\.sigil\\grokbot.identity.json",
+    path.resolve(process.cwd(), ".sigil/grokbot.identity.json"),
+    path.resolve(process.cwd(), "sigil-repo/.sigil/grokbot.identity.json")
+  ];
+  for (const p of candidatePaths) {
+    try {
+      if (fs.existsSync(p)) {
+        const id = JSON.parse(fs.readFileSync(p, "utf-8"));
+        if (id.connector_token) return id.connector_token;
+      }
+    } catch {}
+  }
+  return "token_local_dev";
+}
+
+const CONNECTOR_TOKEN = resolveConnectorToken();
+
+function getConnectorHeaders(capabilityScope = "sigil.task/*"): Record<string, string> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "x-sigil-request-id": `req_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    "x-sigil-contract": "sigil.connector/v1",
+    "x-sigil-caller": "sigil-grok-bridge",
+    "x-sigil-capability-scope": capabilityScope
+  };
+  if (CONNECTOR_TOKEN) {
+    headers["Authorization"] = `Bearer ${CONNECTOR_TOKEN}`;
+  }
+  return headers;
+}
 
 interface TaskPayload {
   recipient_endpoint: string;
   recipient_owner: string;
   conversation_id: string;
   instruction: string;
+  task_id?: string;
   context_refs?: Array<{ kind: string; uri: string; sha256: string }>;
+  envelope?: any;
 }
 
 const TOOLS = [
@@ -81,11 +119,33 @@ export async function handleMcpMessage(message: any) {
 
     try {
       if (name === "sigil_send_task") {
-        const payload = args as unknown as TaskPayload;
+        const payload = (args || {}) as TaskPayload;
+        const nowMs = Date.now();
+        const taskId = payload.task_id || `task_${nowMs}_${Math.random().toString(36).slice(2, 8)}`;
+        const envelope = payload.envelope || {
+          protocol: "sigil/1",
+          message_id: `msg_${nowMs}_${Math.random().toString(36).slice(2, 8)}`,
+          conversation_id: payload.conversation_id,
+          message_type: "task.request",
+          recipient: {
+            endpoint_id: payload.recipient_endpoint,
+            owner_id: payload.recipient_owner
+          },
+          body: {
+            task_id: taskId,
+            instruction: payload.instruction
+          },
+          context_refs: payload.context_refs || [],
+          capabilities: ["sigil.task/submit"],
+          idempotency_key: `idem_${nowMs}_${Math.random().toString(36).slice(2, 8)}`,
+          created_at: new Date(nowMs).toISOString(),
+          expires_at: new Date(nowMs + 12 * 60 * 60 * 1000).toISOString()
+        };
+
         const res = await fetch(`${CONNECTOR_URL}/v1/tasks`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          headers: getConnectorHeaders("sigil.task/*"),
+          body: JSON.stringify({ envelope })
         });
 
         if (!res.ok) {
@@ -106,7 +166,10 @@ export async function handleMcpMessage(message: any) {
         if (since_cursor) url.searchParams.set("since", since_cursor);
         url.searchParams.set("limit", limit.toString());
 
-        const res = await fetch(url.toString(), { method: "GET" });
+        const res = await fetch(url.toString(), {
+          method: "GET",
+          headers: getConnectorHeaders("sigil.core/read_shared_context")
+        });
         if (!res.ok) {
           return reply(message.id, {
             content: [{ type: "text", text: `Connector Error: ${res.statusText}` }],
@@ -136,13 +199,26 @@ export async function handleMcpMessage(message: any) {
 }
 
 export function startMcpStdioServer(input = process.stdin) {
+  let buffer = "";
   const rl = readline.createInterface({ input, crlfDelay: Infinity });
   rl.on("line", (line) => {
+    buffer += (buffer ? "\n" : "") + line;
     try {
-      const message = JSON.parse(line);
+      const message = JSON.parse(buffer);
+      buffer = "";
       Promise.resolve(handleMcpMessage(message)).catch((cause) => error(message.id, -32000, cause.message));
     } catch {
-      error(null, -32700, "Invalid JSON");
+      // Keep buffering until complete JSON is received
+    }
+  });
+  rl.on("close", () => {
+    if (buffer.trim()) {
+      try {
+        const message = JSON.parse(buffer);
+        Promise.resolve(handleMcpMessage(message)).catch((cause) => error(message.id, -32000, cause.message));
+      } catch {
+        error(null, -32700, "Invalid JSON");
+      }
     }
   });
   return rl;

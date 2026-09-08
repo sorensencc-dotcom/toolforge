@@ -208,7 +208,40 @@ When verifying historical signatures:
     const sizeKb = (fs.statSync(packFilePath).size / 1024).toFixed(2);
     logInfo(`✓ Thematic pack emitted: ${packFilePath} (${sizeKb} KB)`);
     logInfo(`Pushing ${pack.filename} to Target '${pack.category}' (Notebook ID: ${targetNbId})...`);
-    logInfo(`Command: ${nlmCli} source upload --notebook-id="${targetNbId}" --file="${packFilePath}"`);
+
+    const packBaseName = path.basename(packFilePath);
+    try {
+      let existingSources = [];
+      try {
+        const out = execSync(`nlm source list "${targetNbId}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+        const parsed = JSON.parse(out);
+        existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+      } catch (e) {
+        logWarn(`Could not query existing sources for notebook ${targetNbId}: ${e.message}`);
+      }
+
+      const staleSources = existingSources.filter(s => {
+        const title = (s.title || s.name || '').toLowerCase().trim();
+        return title === packBaseName.toLowerCase();
+      });
+
+      logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM (${targetNbId})...`);
+      execSync(`nlm source add "${targetNbId}" --file "${packFilePath}"`, { stdio: 'inherit' });
+      logInfo(`  ✓ Pushed ${pack.filename} → '${pack.category}' (${targetNbId})`);
+
+      if (staleSources.length > 0) {
+        logInfo(`Purging ${staleSources.length} stale previous version(s) of ${packBaseName}...`);
+        const idsToDelete = staleSources.map(s => `"${s.id}"`).join(' ');
+        try {
+          execSync(`nlm source delete ${idsToDelete} -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+          logInfo(`  ✓ Purged stale sources for ${packBaseName}`);
+        } catch (delErr) {
+          logWarn(`Failed to delete stale sources: ${delErr.message}`);
+        }
+      }
+    } catch (err) {
+      logWarn(`NotebookLM push failed for ${pack.filename} (non-fatal): ${err.message}`);
+    }
   }
   
   logInfo('\n================================================================================');

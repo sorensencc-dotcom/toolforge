@@ -245,7 +245,17 @@ async function run() {
     '',
   ].join('\n');
 
-  fs.writeFileSync(repoGapsFilePath, repoGapsHeader + primaryGapsContent, 'utf8');
+  // Preserve existing Triage & Resolution Registry if present
+  let existingRegistry = '';
+  if (fs.existsSync(repoGapsFilePath)) {
+    const prev = fs.readFileSync(repoGapsFilePath, 'utf8');
+    const match = prev.match(/## Triage & Resolution Registry[\s\S]*$/);
+    if (match) {
+      existingRegistry = '\n\n' + match[0].trim() + '\n';
+    }
+  }
+
+  fs.writeFileSync(repoGapsFilePath, repoGapsHeader + primaryGapsContent.trim() + existingRegistry, 'utf8');
   logInfo(`✓ Consolidated vault snapshot written to: ${repoGapsFilePath}`);
 
   // =========================================================================
@@ -256,13 +266,38 @@ async function run() {
   logInfo(`Resolved category: '${resolvedCategory}' → ${targetGapsNbId}`);
   logInfo(`Uploading ${path.basename(repoGapsFilePath)} to NotebookLM (${targetGapsNbId})...`);
 
-  const nlmUploadCmd = `${NLM_CLI} source upload --notebook-id="${targetGapsNbId}" --file="${repoGapsFilePath}"`;
+  const gapsBaseName = path.basename(repoGapsFilePath);
   if (BFCL_DRY_RUN) {
-    logWarn(`[DRY RUN] Would execute: ${nlmUploadCmd}`);
+    logWarn(`[DRY RUN] Would upload ${repoGapsFilePath} to ${targetGapsNbId}`);
   } else {
     try {
-      shInherit(nlmUploadCmd);
+      let existingSources = [];
+      try {
+        const out = sh(`nlm source list "${targetGapsNbId}" --json`);
+        const parsed = JSON.parse(out);
+        existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+      } catch (e) {
+        logWarn(`Could not query existing sources for notebook ${targetGapsNbId}: ${e.message}`);
+      }
+
+      const staleSources = existingSources.filter(s => {
+        const title = (s.title || s.name || '').toLowerCase().trim();
+        return title === gapsBaseName.toLowerCase() || title === 'trm-research-gaps.md' || title === 'mined research gaps and topics registry';
+      });
+
+      sh(`nlm source add "${targetGapsNbId}" --file "${repoGapsFilePath}"`);
       logInfo('✓ Gaps file ingested into NotebookLM as a grounded text source.');
+
+      if (staleSources.length > 0) {
+        logInfo(`Purging ${staleSources.length} stale previous gaps source(s)...`);
+        const idsToDelete = staleSources.map(s => `"${s.id}"`).join(' ');
+        try {
+          sh(`nlm source delete ${idsToDelete} -y`);
+          logInfo('  ✓ Purged stale gaps sources');
+        } catch (delErr) {
+          logWarn(`Failed to delete stale gaps sources: ${delErr.message}`);
+        }
+      }
     } catch (err) {
       logWarn(`NotebookLM upload failed (non-fatal): ${err.message}`);
       logWarn('Continuing — knowledge packs will still be built for manual upload.');
@@ -410,15 +445,42 @@ async function run() {
     const sizeKb = (fs.statSync(packFilePath).size / 1024).toFixed(2);
     logInfo(`✓ Pack emitted: ${packFilePath} (${sizeKb} KB, ${sources.length} source(s))`);
 
-    const pushCmd = `${NLM_CLI} source upload --notebook-id="${targetNbId}" --file="${packFilePath}"`;
+    const packBaseName = path.basename(packFilePath);
     if (BFCL_DRY_RUN) {
-      logWarn(`[DRY RUN] Would push: ${pushCmd}`);
+      logWarn(`[DRY RUN] Would push: ${packFilePath} -> ${targetNbId}`);
     } else {
       try {
-        shInherit(pushCmd);
+        // Query existing sources in target notebook to find previous versions of this pack
+        let existingSources = [];
+        try {
+          const out = sh(`nlm source list "${targetNbId}" --json`);
+          const parsed = JSON.parse(out);
+          existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+        } catch (e) {
+          logWarn(`Could not query existing sources for notebook ${targetNbId}: ${e.message}`);
+        }
+
+        const staleSources = existingSources.filter(s => {
+          const title = (s.title || s.name || '').toLowerCase().trim();
+          return title === packBaseName.toLowerCase();
+        });
+
+        logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM (${targetNbId})...`);
+        sh(`nlm source add "${targetNbId}" --file "${packFilePath}"`);
         logInfo(`  ✓ Pushed ${filename} → '${category}' (${targetNbId})`);
+
+        if (staleSources.length > 0) {
+          logInfo(`Purging ${staleSources.length} stale previous version(s) of ${packBaseName}...`);
+          const idsToDelete = staleSources.map(s => `"${s.id}"`).join(' ');
+          try {
+            sh(`nlm source delete ${idsToDelete} -y`);
+            logInfo(`  ✓ Purged stale sources for ${packBaseName}`);
+          } catch (delErr) {
+            logWarn(`Failed to delete stale sources: ${delErr.message}`);
+          }
+        }
       } catch (err) {
-        logWarn(`  NotebookLM push failed for ${filename} (non-fatal): ${err.message}`);
+        logWarn(`NotebookLM push failed for ${filename} (non-fatal): ${err.message}`);
       }
     }
   }
