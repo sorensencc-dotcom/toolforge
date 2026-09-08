@@ -6,7 +6,7 @@ import { createSupervisor } from '../modules/runtime-owner/index.mjs';
 
 const fixtureDir = process.env.OPEN_NOTEBOOK_FIXTURE_DIR;
 const port = process.env.OPEN_NOTEBOOK_PORT || '18765';
-const uvBin = process.env.UV_BIN || 'uv';
+const pythonBin = process.env.OPEN_NOTEBOOK_PYTHON || join(fixtureDir || '', '.venv', 'bin', 'python');
 
 async function fixtureAvailable() {
   if (process.platform !== 'linux' || !fixtureDir) return false;
@@ -36,7 +36,7 @@ test('Open Notebook consumer lifecycle contract', async (t) => {
   };
   for (const name of providerEnv) if (process.env[name] !== undefined) env[name] = process.env[name];
   await supervisor.spawnInGroup(groupId,
-    [uvBin, 'run', '--with', 'uvicorn', 'python', 'run_api.py'], env, fixtureDir);
+    [pythonBin, 'run_api.py'], env, fixtureDir);
   try {
     const deadline = Date.now() + 30_000;
     let healthy = false;
@@ -49,9 +49,22 @@ test('Open Notebook consumer lifecycle contract', async (t) => {
       await new Promise((resolve) => setTimeout(resolve, 250));
     }
     assert.equal(healthy, true, events.filter((event) => event.event_type === 'process_output').map((event) => `${event.stream}: ${event.data}`).join(''));
-    const response = await fetch(`http://127.0.0.1:${port}/chat/execute`, {
+    if (!process.env.OPEN_NOTEBOOK_PROVIDER_ENV) return t.skip('NO_PROVIDER_CONFIGURED (health-only mode)');
+    const notebook = await fetch(`http://127.0.0.1:${port}/api/notebooks`, {
       method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ session_id: 'runtime-owner-integration-001', message: 'health check', context: {} }),
+      body: JSON.stringify({ name: 'runtime-owner-integration', description: 'bounded fixture' }),
+    });
+    assert.equal(notebook.ok, true);
+    const notebookBody = await notebook.json();
+    const session = await fetch(`http://127.0.0.1:${port}/api/chat/sessions`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ notebook_id: notebookBody.id, title: 'runtime-owner-integration' }),
+    });
+    assert.equal(session.ok, true);
+    const sessionBody = await session.json();
+    const response = await fetch(`http://127.0.0.1:${port}/api/chat/execute`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionBody.id, message: 'health check', context: {} }),
     });
     assert.equal(response.ok, true);
   } finally {
