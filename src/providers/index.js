@@ -4,13 +4,15 @@
  */
 
 import OllamaProvider from './ollama-provider.js';
+import { loadModelSelection } from './model-selection.js';
 
 let cachedProvider = null;
 
 export function getProvider(config) {
   if (cachedProvider) return cachedProvider;
 
-  cachedProvider = new OllamaProvider(config);
+  const selection = config?.selection ?? loadModelSelection(config?.repoRoot);
+  cachedProvider = new OllamaProvider({ ...config, selection });
   return cachedProvider;
 }
 

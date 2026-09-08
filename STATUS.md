@@ -346,3 +346,13 @@ Index repository sources with `gbrain sync --source toolforge`.
 - Docker CLI and Compose are installed in WSL2, but no Docker daemon is running (`/var/run/docker.sock` absent); SurrealDB could not start. Live consumer proof is blocked on starting Docker Desktop/WSL integration or providing an equivalent local SurrealDB service.
 - Docker Desktop's Linux engine and SurrealDB are now available. Bounded child stdout/stderr capture was added. Live startup reaches application imports and SurrealDB command initialization but no `/health` response within 30 seconds; captured output includes repeated dotenv line-4 parse warnings. Provider configuration and the malformed fixture `.env` remain unresolved; no credentials were invented.
 - No push, production enablement, or changes to unrelated review files.
+## 2026-09-08 local Ollama routing boundary
+
+### Completed work
+- Extended `_integration/model_selection.json` with the validated Ollama selection, local-only routing state, policy version, steward, and fail-closed echo policy; recomputed `hash_chain_self`.
+- Added `src/providers/model-selection.js` and wired `getProvider()` to consume and validate the record.
+- Added validated Ollama execution with requested/echoed provider-model checks, mismatch receipts, TRM validation events, and no retry or fallback. Cloud routing remains disabled.
+- Added focused provider-boundary tests.
+
+### Next action
+Run provider-enabled Ollama integration after a local Ollama service and validated model are available.
