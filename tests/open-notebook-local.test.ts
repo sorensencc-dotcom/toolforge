@@ -1,0 +1,13 @@
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
+import { createOpenNotebookLocalAdapter, OpenNotebookAdapterError } from '../src/research-substrate/open-notebook-local.ts';
+import type { ResearchRequest } from '../src/research-substrate/types.ts';
+
+const request: ResearchRequest = { correlation_id: 'c1', workspace_id: 'w1', operator_id: 'o1', source_references: [{ id: 's1', uri: 'source://one' }], workflow_intent: 'research', provider_opt_in: { provider: 'open-notebook', model: 'configured-by-whichllm' }, input: 'research', timeout_ms: 1000, max_output_bytes: 1000 };
+function response(body: unknown, status = 200): Response { return new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } }); }
+
+test('rejects non-loopback before fetch', async () => { let calls = 0; assert.throws(() => createOpenNotebookLocalAdapter({ baseUrl: 'https://example.com', fetchImpl: async () => { calls++; return response({}); } }), /loopback/i); assert.equal(calls, 0); });
+test('health then execute normalizes strict response', async () => { const calls: string[] = []; const adapter = createOpenNotebookLocalAdapter({ baseUrl: 'http://127.0.0.1:3030', fetchImpl: async (input) => { calls.push(String(input)); return calls.length === 1 ? response({ status: 'healthy' }) : response({ content: 'draft', session_id: 'sess' }); } }); const output = await adapter.execute(request); assert.equal(output.outcome, 'accepted'); assert.equal(output.draft_output, 'draft'); assert.match(calls[0], /\/health$/); assert.match(calls[1], /\/chat\/execute$/); });
+test('rejects malformed response and never retries', async () => { let calls = 0; const adapter = createOpenNotebookLocalAdapter({ baseUrl: 'http://localhost:3030', fetchImpl: async () => { calls++; return calls === 1 ? response({ status: 'healthy' }) : response({ content: 'draft' }); } }); await assert.rejects(adapter.execute(request), (e: OpenNotebookAdapterError) => e.code === 'MALFORMED_RESPONSE'); assert.equal(calls, 2); });
+test('transport ambiguity is indeterminate and replay is forbidden', async () => { const adapter = createOpenNotebookLocalAdapter({ baseUrl: 'http://127.0.0.1:3030', fetchImpl: async () => { throw new Error('socket closed'); } }); const output = await adapter.execute(request); assert.equal(output.outcome, 'indeterminate'); await assert.rejects(adapter.replay(), /replay/i); });
+test('provider/model mismatch is rejected', async () => { const adapter = createOpenNotebookLocalAdapter({ baseUrl: 'http://127.0.0.1:3030', fetchImpl: async () => response({}) }); await assert.rejects(adapter.execute(request, { provider: 'other', model: 'other' }), /provider\/model/i); });
