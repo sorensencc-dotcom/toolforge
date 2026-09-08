@@ -48,6 +48,7 @@ Close the three BLOCK items in `docs/meta/reviews/2026-09-07-toolforge-runtime-o
 - Added `/proc` PGID member discovery to aggregate descendants during status and monitor sampling. WSL2 Ubuntu focused run: 8 passed, 1 skipped, including a live shell-spawned descendant aggregation test. Live memory-pressure enforcement and supervisor-crash recovery remain unverified.
 - Added live WSL2 RSS-limit termination and durable-PGID orphan recovery tests. Latest focused run: 10 passed, 1 skipped. Local Linux verification now covers process-group signaling, descendant aggregation, timeout, RSS enforcement, and simulated supervisor-loss recovery. T07 remains blocked because `toolforge-herdr-trm-integration` is absent.
 - Added live CPU-bound termination and event persistence fallback tests. Latest WSL2 focused run: 12 passed, 1 skipped. T01–T06 implementation evidence now covers CPU/RSS enforcement, PGID aggregation, timeout, orphan recovery, event sequencing, and fallback visibility; final code review and scoped delivery remain pending.
+- Fixed post-commit review findings: orphan cleanup now verifies a recorded PID still belongs to the PGID; one monitor is allowed per group; state records use atomic temp-file rename. WSL2 focused run remains 12 passed, 1 skipped.
 - T07 is deferred to Phase B until the runtime-owner lifecycle contract stabilizes; `toolforge-herdr-trm-integration` is intentionally absent from this checkout.
 - T07 remains blocked because `toolforge-herdr-trm-integration` is absent from this checkout.
 

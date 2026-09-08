@@ -8,7 +8,7 @@ import { spawnProcessGroup, signalGroup, assertLinux } from './process-groups.mj
 import { sampleGroup, groupMembers, cpuPercent, violation as exceeds } from './limits.mjs';
 
 export function createSupervisor({ logPath = join(tmpdir(), 'toolforge-runtime-owner', 'events.jsonl'), stateDir = join(tmpdir(), 'toolforge-runtime-owner') } = {}) {
-  const groups = new Map(); const listeners = new Set();
+  const groups = new Map(); const listeners = new Set(); const monitored = new Set();
   const log = createEventLog(logPath, (event) => listeners.forEach((fn) => fn(event)));
   async function event(group, event_type, fields = {}) { return log.emit({ group_id: group.groupId, owner: group.owner, workflow_id: group.envelope.workflow_id, state: group.state, pgid: group.pgid, ...fields, event_type }); }
   async function createGroup(owner, envelope) {
@@ -24,7 +24,7 @@ export function createSupervisor({ logPath = join(tmpdir(), 'toolforge-runtime-o
   }
   async function getGroupStatus(groupId) { const group = groups.get(groupId); if (!group) throw new Error('group not found'); const pids = group.pgid ? await groupMembers(group.pgid) : group.pids; const sample = await sampleGroup(pids); return { pids, pgid: group.pgid, cpuUsage: sample.cpuTicks, rssUsage: sample.rssBytes, state: group.state }; }
   async function monitorGroup(groupId) {
-    const group = groups.get(groupId); if (!group) throw new Error('group not found'); let previous; let violations = 0; const started = Date.now();
+    const group = groups.get(groupId); if (!group) throw new Error('group not found'); if (monitored.has(groupId)) return; monitored.add(groupId); let previous; let violations = 0; const started = Date.now();
     while (group.state === 'running') {
       await new Promise((resolve) => setTimeout(resolve, 250));
       const members = group.pgid ? await groupMembers(group.pgid) : group.pids; group.pids = members; const sample = await sampleGroup(members); sample.cpuPercent = cpuPercent(previous, sample, 250); previous = sample;
@@ -32,9 +32,10 @@ export function createSupervisor({ logPath = join(tmpdir(), 'toolforge-runtime-o
       if (exceeds(sample, group.envelope)) violations += 1; else violations = 0;
       if (violations >= 2) { group.state = transition(group.state, 'violating'); await event(group, 'resource_violation', { reason: 'resource envelope exceeded' }); await terminateGroup(groupId); break; }
     }
+    monitored.delete(groupId);
   }
   function onEvent(callback) { listeners.add(callback); return () => listeners.delete(callback); }
-  async function persist(group) { await writeFile(join(stateDir, `${group.groupId}.json`), JSON.stringify({ groupId: group.groupId, owner: group.owner, workflow_id: group.envelope.workflow_id, pgid: group.pgid, pids: group.pids, state: group.state })); }
+  async function persist(group) { const target = join(stateDir, `${group.groupId}.json`); const temp = `${target}.${process.pid}.tmp`; await writeFile(temp, JSON.stringify({ groupId: group.groupId, owner: group.owner, workflow_id: group.envelope.workflow_id, pgid: group.pgid, pids: group.pids, state: group.state })); const { rename } = await import('node:fs/promises'); await rename(temp, target); }
   async function extendEnvelope(groupId, extension) { const group = groups.get(groupId); if (!group) throw new Error('group not found'); if (!['created', 'running'].includes(group.state)) throw new Error('envelope cannot be extended in current state'); const next = { ...group.envelope, ...extension }; if (next.owner !== group.owner || next.cpu_limit_percent > group.envelope.cpu_limit_percent || next.memory_limit_mb > group.envelope.memory_limit_mb || next.max_concurrency > group.envelope.max_concurrency || next.timeout_seconds > group.envelope.timeout_seconds) throw new Error('envelope extension may not raise ceilings'); group.envelope = validateEnvelope(group.owner, next); await persist(group); return group.envelope; }
   return { createGroup, spawnInGroup, getGroupStatus, monitorGroup, terminateGroup, extendEnvelope, onEvent };
 }

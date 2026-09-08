@@ -38,7 +38,7 @@ test('Linux orphan cleanup only kills the recorded owned PGID', async (t) => {
   if (process.platform !== 'linux') return t.skip('Linux-only orphan test');
   const result = spawnProcessGroup(['sleep', '30'], {}, process.cwd());
   const dir = await mkdtemp(join(tmpdir(), 'runtime-owner-test-')); const path = join(dir, 'state.json');
-  await writeFile(path, JSON.stringify({ groupId: 'orphan-test', owner: 'test-owner', pgid: result.pgid, state: 'running' }));
+  await writeFile(path, JSON.stringify({ groupId: 'orphan-test', owner: 'test-owner', pgid: result.pgid, pids: [result.pid], state: 'running' }));
   const cleaned = await cleanupOrphan(path, 'test-owner'); assert.equal(cleaned.cleaned, true); await new Promise((resolve) => setTimeout(resolve, 50));
   await assert.rejects(() => readFile(path));
 });
@@ -71,7 +71,7 @@ test('Linux supervisor terminates a group that exceeds RSS limit', async (t) => 
 test('Linux orphan recovery reloads durable PGID state after supervisor loss', async (t) => {
   if (process.platform !== 'linux') return t.skip('Linux-only crash-recovery test');
   const result = spawnProcessGroup(['sleep', '30'], {}, process.cwd()); const dir = await mkdtemp(join(tmpdir(), 'runtime-owner-recovery-')); const path = join(dir, 'state.json');
-  await writeFile(path, JSON.stringify({ groupId: 'recovered', owner: 'recovery-owner', pgid: result.pgid, state: 'running' }));
+  await writeFile(path, JSON.stringify({ groupId: 'recovered', owner: 'recovery-owner', pgid: result.pgid, pids: [result.pid], state: 'running' }));
   const recovered = await cleanupOrphan(path, 'recovery-owner'); assert.equal(recovered.pgid, result.pgid); assert.equal(recovered.cleaned, true);
 });
 
