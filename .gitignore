@@ -125,3 +125,11 @@ graft/
 *.gdoc
 /pwsh
 .context/retros/
+
+# Daemon artifacts + nested working repos — not source (added 2026-09-08)
+.autoheal-receipt.json
+.autoheal-report.json
+.repair-manifest.json
+.sigil/
+/IronLedger/
+/viking-phase3/
