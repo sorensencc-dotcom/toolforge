@@ -1,5 +1,35 @@
 # Changelog
 
+## Version 2.66.0
+Date: 2026-09-08
+
+### Changes
+- 1471f6d - feat: wire validated Ollama routing (Chris Sorensen)
+- bc2f4c8 - Merge origin/main into feat/trm-devops-path-safety-reconcile (Chris Sorensen)
+- 7f4ce3d - feat: wire validated Ollama routing (Chris Sorensen)
+- 6777187 - fix(runtime-owner): support health-only consumer checks (Chris Sorensen)
+- f65f9e8 - feat(runtime-owner): add Phase B consumer harness (Chris Sorensen)
+- 97a7f60 - chore: update runtime owner handoff (Chris Sorensen)
+- 2535734 - docs: close runtime owner phase A (Chris Sorensen)
+- 082ec31 - docs: record runtime owner verification (Chris Sorensen)
+- d9125a0 - test: register runtime owner focused suite (Chris Sorensen)
+- 552fd48 - fix: harden runtime owner process accounting (Chris Sorensen)
+- 03b2ee2 - fix: harden runtime owner lifecycle (Chris Sorensen)
+- 98b451c - feat: add Linux runtime owner Phase A (Chris Sorensen)
+- 1ccc932 - docs: close runtime owner design review (Chris Sorensen)
+- a7cbdf5 - docs: design Toolforge runtime owner phase A (Chris Sorensen)
+- a6d8c35 - docs: prepare Open Notebook process handoff (Chris Sorensen)
+- b485778 - feat: add isolated Open Notebook adapter (Chris Sorensen)
+- 4b9d78b - feat: add research substrate contracts (Chris Sorensen)
+- 352c29d - test: characterize TRM research script seam (Chris Sorensen)
+- 1323d7f - docs: lock Open Notebook HTTP contract (Chris Sorensen)
+- c0a7777 - docs: plan Open Notebook contract lock (Chris Sorensen)
+- 57d2f26 - docs: block Open Notebook contract until locked (Chris Sorensen)
+- 50c8935 - docs: record Open Notebook boundary prerequisite (Chris Sorensen)
+- 61159db - docs: record Open Notebook review decisions (Chris Sorensen)
+- 0fc115c - docs: define Open Notebook research substrate (Chris Sorensen)
+- 93cb2e5 - feat(trm-devops): reconcile path safety checks into MCP server and export path-safety core (Chris Sorensen)
+
 ## Version 2.65.0
 Date: 2026-09-07
 
