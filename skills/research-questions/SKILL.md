@@ -1,6 +1,6 @@
 ---
 name: research-questions
-description: Generate and resolve TRM research questions from a curator-approved batch. Runs scan-gaps, does web search + confidence judgment per question, then recomputes focus areas. Trigger: /research-questions <topic>, or after curator-decision-processor finishes a batch.
+description: "Generate and resolve TRM research questions from a curator-approved batch. Runs scan-gaps, does web search + confidence judgment per question, then recomputes focus areas. Trigger: /research-questions <topic>, or after curator-decision-processor finishes a batch."
 ---
 
 # Research Questions
