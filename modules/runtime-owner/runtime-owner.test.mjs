@@ -27,6 +27,12 @@ test('Linux sampling aggregates a descendant in the same PGID', async (t) => {
   try { await new Promise((resolve) => setTimeout(resolve, 100)); const members = await groupMembers(result.pgid); assert.ok(members.length >= 2); const sample = await sampleGroup(members); assert.ok(sample.rssBytes > 0); } finally { signalGroup(result.pgid, 'SIGKILL'); }
 });
 
+test('Linux stat parsing remains group-safe for named processes', async (t) => {
+  if (process.platform !== 'linux') return t.skip('Linux-only stat parsing test');
+  const result = spawnProcessGroup(['bash', '-c', 'exec -a "name with spaces" sleep 30'], {}, process.cwd());
+  try { const members = await groupMembers(result.pgid); assert.ok(members.length >= 1); assert.ok((await sampleGroup(members)).cpuTicks >= 0); } finally { signalGroup(result.pgid, 'SIGKILL'); }
+});
+
 test('Linux resource thresholds use RSS and CPU samples', (t) => {
   if (process.platform !== 'linux') return t.skip('Linux-only resource test');
   assert.equal(violation({ rssBytes: 129 * 1024 * 1024, cpuPercent: 0 }, envelope), true);
