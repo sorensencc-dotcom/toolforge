@@ -1,0 +1,23 @@
+{
+  "id": "trm-self-healing",
+  "name": "TRM Self Healing",
+  "version": "1.0.0",
+  "description": "DevOps self-healing triage, research escalation, and Sigil biometric guard skills",
+  "status": "active",
+  "runtime": "javascript",
+  "entrypoint": "src/index.mjs",
+  "owner": "soren",
+  "category": "observability",
+  "permissions": {
+    "required": [
+      "network:local"
+    ],
+    "optional": [
+      "network:web"
+    ]
+  },
+  "dependencies": {
+    "external": [],
+    "internal": []
+  }
+}

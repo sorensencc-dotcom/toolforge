@@ -2,19 +2,20 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Package DevOps diagnostic scripts into a validated Toolforge skill package (`@toolforge/trm-self-healing`), implement an idempotent schema-validating installer, and configure Herdr multiplexer profiles and semantic state hooks for automated TRM telemetry and Sigil biometric verification.
+**Goal:** Package DevOps diagnostic scripts into a validated Toolforge skill package (`@toolforge/trm-self-healing`), implement an idempotent schema-validating installer, and configure Herdr multiplexer profiles and semantic state hooks for automated TRM telemetry and Sigil biometric verification within an isolated dev-sandbox worktree.
 
-**Architecture:** Draft-07 JSON schema (`$id`, `manifestVersion: "1.0.0"`) enforces skill contracts and strict permission bounds; an idempotent Node.js installer validates schemas and merges skills atomically into `C:\dev\manifest.json`; Herdr TOML configuration isolates agent sessions in git worktrees and wires semantic lifecycle hooks to TRM and Sigil loopback endpoints.
+**Architecture:** Draft-07 JSON schema (`$id`, `manifestVersion: "1.0.0"`) enforces skill contracts and strict permission bounds; an idempotent Node.js installer validates schemas and merges skills atomically into sandbox `manifest.json`; Herdr TOML configuration isolates agent sessions in git worktrees and wires semantic lifecycle hooks to TRM and Sigil loopback endpoints.
 
 **Tech Stack:** Node.js (v18+ ESM), JSON Schema (Draft-07), PowerShell (`pwsh`), POSIX Shell (`bash`), TOML, Sigil Protocol (HTTP/MCP loopback).
 
 ## Global Constraints
 
-- Never run commands with unbounded execution time; all test and CLI executions must use deterministic timeouts.
-- All file paths in manifest configurations must use normalized forward slashes (`/`).
-- Network permissions must enforce zero-trust local bindings (`127.0.0.1`) for IPC and explicitly allowlisted external APIs (`api.tinyfish.io`, `api.parallel.ai`).
-- API keys and tokens must be masked in traces and flagged with `sensitive: true`.
-- Global manifest merge operations must be strictly atomic (`.tmp` + rename) and non-destructive to existing tools (`analyze-token-burn`, `ashfall`, `kb-sync`).
+- **Execution Root**: All implementation code, tests, and configuration edits execute strictly within `C:\dev\dev-sandbox\toolforge-herdr-trm-integration` (branch: `feat/toolforge-herdr-trm-integration`).
+- **Timeout Protocol**: Never run commands with unbounded execution time; all test and CLI executions must use deterministic timeouts.
+- **Path Normalization**: All file paths in manifest configurations must use normalized forward slashes (`/`).
+- **Network Boundaries**: Network permissions must enforce zero-trust local bindings (`127.0.0.1`) for IPC and explicitly allowlisted external APIs (`api.tinyfish.io`, `api.parallel.ai`).
+- **Secret Redaction**: API keys and tokens must be masked in traces and flagged with `sensitive: true`.
+- **Atomic Operations**: Manifest merge operations must be strictly atomic (`.tmp` + rename) and non-destructive to existing tools (`analyze-token-burn`, `ashfall`, `kb-sync`).
 
 ---
 
@@ -158,7 +159,7 @@ describe('Toolforge Manifest Schema Validator Suite', () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test tests/schema-validator.test.mjs`  
+Run: `node --test tests/schema-validator.test.mjs` (in `C:\dev\dev-sandbox\toolforge-herdr-trm-integration`)  
 Expected: FAIL with `Schema file must exist on disk`
 
 - [ ] **Step 3: Implement `schemas/toolforge-manifest-schema.json`**
@@ -634,7 +635,7 @@ git commit -m "feat(trm): implement self-healing diagnostic skills package"
 
 **Interfaces:**
 - Consumes: `schemas/toolforge-manifest-schema.json`, `skills/trm-self-healing/manifest.json`.
-- Produces: Non-destructive, atomic updates to `C:\dev\manifest.json`.
+- Produces: Non-destructive, atomic updates to `manifest.json` in the sandbox root.
 
 - [ ] **Step 1: Write the failing installer test suite**
 
@@ -856,10 +857,10 @@ enabled = true
 api_port = 8795
 
 [semantic_state_tracking.hooks]
-on_working = "node C:/dev/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=working --session-id=$HERDR_SESSION_ID"
-on_idle = "node C:/dev/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=idle --session-id=$HERDR_SESSION_ID"
-on_blocked = "node C:/dev/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=blocked --session-id=$HERDR_SESSION_ID"
-on_done = "node C:/dev/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=done --session-id=$HERDR_SESSION_ID"
+on_working = "node C:/dev/dev-sandbox/toolforge-herdr-trm-integration/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=working --session-id=$HERDR_SESSION_ID"
+on_idle = "node C:/dev/dev-sandbox/toolforge-herdr-trm-integration/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=idle --session-id=$HERDR_SESSION_ID"
+on_blocked = "node C:/dev/dev-sandbox/toolforge-herdr-trm-integration/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=blocked --session-id=$HERDR_SESSION_ID"
+on_done = "node C:/dev/dev-sandbox/toolforge-herdr-trm-integration/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=done --session-id=$HERDR_SESSION_ID"
 ```
 
 - [ ] **Step 2: Commit**
@@ -922,7 +923,7 @@ if (-not $SkipConnectorCheck) {
 }
 
 # 3. Verify Toolforge Manifest
-$manifestPath = "C:\dev\manifest.json"
+$manifestPath = Join-Path (Get-Location) "manifest.json"
 if (Test-Path $manifestPath) {
     Write-Host "[OK] Toolforge global registry verified at $manifestPath" -ForegroundColor Green
 } else {

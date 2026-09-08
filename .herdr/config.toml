@@ -1,0 +1,55 @@
+# ==============================================================================
+# Herdr Workspace Multiplexer Configuration (.herdr/config.toml)
+# Built for Toolforge, TRM Diagnostics, and Sigil Protocol Integration
+# ==============================================================================
+
+[server]
+port = 8792
+socket_path = "~/.herdr/herdr.sock"
+database_url = "sqlite://~/.herdr/state.db"
+host = "127.0.0.1"
+
+[client]
+prefix = "ctrl-p"
+mouse_mode = true
+theme = "tokyo-dark"
+set_title = true
+
+[workspaces]
+base_dir = "C:/dev/dev-sandbox/trm-devops/workspaces"
+use_git_worktrees = true
+auto_clean = true
+
+[profiles]
+default_profile = "claude-code"
+
+[profiles.claude-code]
+name = "Claude Code"
+program = "claude"
+env = { "SIGIL_RUNTIME" = "claude", "SIGIL_CONNECTOR_URL" = "http://127.0.0.1:8787", "SIGIL_PACKAGE_PERMISSIONS" = "sigil.task/*,sigil.approval/request,sigil.core/read_shared_context", "CLAUDE_PACKAGE_MANAGER" = "bun", "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" = "1", "teammateMode" = "tmux" }
+
+[profiles.codex]
+name = "OpenAI Codex"
+program = "codex"
+env = { "SIGIL_RUNTIME" = "codex", "SIGIL_CONNECTOR_URL" = "http://127.0.0.1:8787" }
+
+[profiles.opencode]
+name = "OpenCode CLI"
+program = "opencode"
+env = { "SIGIL_RUNTIME" = "opencode", "SIGIL_CONNECTOR_URL" = "http://127.0.0.1:8787" }
+
+[mcp_servers]
+[mcp_servers.toolforge]
+command = "node"
+args = ["C:/dev/sigil-repo/sigil/connectors/v1/mcp-stdio-server.mjs"]
+env = { "SIGIL_CONNECTOR_URL" = "http://127.0.0.1:8787" }
+
+[semantic_state_tracking]
+enabled = true
+api_port = 8795
+
+[semantic_state_tracking.hooks]
+on_working = "node C:/dev/dev-sandbox/toolforge-herdr-trm-integration/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=working --session-id=$HERDR_SESSION_ID"
+on_idle = "node C:/dev/dev-sandbox/toolforge-herdr-trm-integration/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=idle --session-id=$HERDR_SESSION_ID"
+on_blocked = "node C:/dev/dev-sandbox/toolforge-herdr-trm-integration/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=blocked --session-id=$HERDR_SESSION_ID"
+on_done = "node C:/dev/dev-sandbox/toolforge-herdr-trm-integration/skills/trm-self-healing/src/trm-sigil-guard.mjs --notify-dashboard --state=done --session-id=$HERDR_SESSION_ID"
