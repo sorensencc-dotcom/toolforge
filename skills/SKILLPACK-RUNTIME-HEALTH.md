@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-09-03T03:11:08.7373550Z
+**Generated:** 2026-09-09T03:16:10.0026808Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 342 | 1 | 0 | 343 |
-| % Pass | 99.7% | 0.3% | 0% | 100% |
+| **Totals** | 348 | 2 | 0 | 350 |
+| % Pass | 99.4% | 0.6% | 0% | 100% |
 
 ---
 
@@ -413,6 +413,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### sigil-grok-bridge — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Runtime | ✅ PASS | Found: npm |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### skill-health-monitor — ✅ GOOD
 
 | Check | Result | Details |
@@ -664,6 +676,7 @@ Skills passing all checks:
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
+- sigil-grok-bridge
 - tinyfish-search
 
 ### ❌ Error Health

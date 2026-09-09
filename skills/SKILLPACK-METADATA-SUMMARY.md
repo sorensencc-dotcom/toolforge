@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-09-04T00:52:57.6036137Z
+**Generated:** 2026-09-09T03:16:09.5456866Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,15 +10,15 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 50 | 100% |
-| Active | 50 | 100% |
+| **Total Skills** | 51 | 100% |
+| Active | 51 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 50 | 100% |
+| ✅ Good | 51 | 100% |
 | ⚠️ Warning | 0 | 0% |
 | ❌ Error | 0 | 0% |
 
@@ -129,6 +129,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### sigil-grok-bridge
+
+| Field | Value |
+|-------|-------|
+| Name | Sigil Grok Bridge |
+| Category | sync-tools |
+| Version | 1.0.0 |
+| Owner | soren |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 1 external |
 ### skill-health-monitor
 
 | Field | Value |
@@ -155,6 +168,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
+### retro-export
+
+| Field | Value |
+|-------|-------|
+| Name | Retro Export |
+| Category | monitoring |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 0 external |
 ### tinyfish-search
 
 | Field | Value |
@@ -168,19 +194,6 @@
 | Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 1 external |
-### tool-lifecycle-manager
-
-| Field | Value |
-|-------|-------|
-| Name | Tool Lifecycle Manager |
-| Category | pipeline |
-| Version | 0.1.0 |
-| Owner | soren |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
 ### toolforge-cli
 
 | Field | Value |
@@ -311,19 +324,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### retro-export
+### tool-lifecycle-manager
 
 | Field | Value |
 |-------|-------|
-| Name | Retro Export |
-| Category | monitoring |
-| Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
+| Name | Tool Lifecycle Manager |
+| Category | pipeline |
+| Version | 0.1.0 |
+| Owner | soren |
 | Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 1 external |
 ### research-questions
 
 | Field | Value |
@@ -337,19 +363,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 2 external |
-### reconcile-vector-store
-
-| Field | Value |
-|-------|-------|
-| Name | Reconcile Vector Store |
-| Category | data-management |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
 ### pre-wrap-audit
 
 | Field | Value |
@@ -493,19 +506,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
-### workspace-storage-cleaner
+### reconcile-vector-store
 
 | Field | Value |
 |-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
+| Name | Reconcile Vector Store |
+| Category | data-management |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | python |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 1 external |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
 ### cic-section-summarizer
 
 | Field | Value |

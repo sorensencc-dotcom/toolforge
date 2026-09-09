@@ -99,7 +99,7 @@
 
 <script type="application/json" id="manifest-data">
 {
-  "timestamp": "2026-09-04T00:52:57.6036137Z",
+  "timestamp": "2026-09-09T03:16:09.5456866Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -319,6 +319,35 @@
       }
     },
     {
+      "id": "sigil-grok-bridge",
+      "name": "Sigil Grok Bridge",
+      "category": "sync-tools",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "soren",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Exposes governed Sigil task submission and inbox inspection to Grok Bot over MCP",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "@modelcontextprotocol/sdk"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-09-09T02:12:08.5103341Z",
+        "lastValidation": "2026-09-09T02:12:08.5103341Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "skill-health-monitor",
       "name": "Skill Health Monitor",
       "category": "monitoring",
@@ -375,6 +404,33 @@
       }
     },
     {
+      "id": "retro-export",
+      "name": "Retro Export",
+      "category": "monitoring",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:27:19.1809541Z",
+        "lastValidation": "2026-08-16T17:27:19.1809541Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
+      }
+    },
+    {
       "id": "tinyfish-search",
       "name": "TinyFish Search",
       "category": "sync-tools",
@@ -401,33 +457,6 @@
         "created": "2026-09-03T02:53:31.0994529Z",
         "lastValidation": "2026-09-03T02:53:31.0994529Z",
         "lastRun": null
-      }
-    },
-    {
-      "id": "tool-lifecycle-manager",
-      "name": "Tool Lifecycle Manager",
-      "category": "pipeline",
-      "tags": [],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:18:38.7892909Z",
-        "lastValidation": "2026-07-14T03:18:38.7892909Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
       }
     },
     {
@@ -727,15 +756,15 @@
       }
     },
     {
-      "id": "retro-export",
-      "name": "Retro Export",
-      "category": "monitoring",
+      "id": "tool-lifecycle-manager",
+      "name": "Tool Lifecycle Manager",
+      "category": "pipeline",
       "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
+      "version": "0.1.0",
+      "owner": "soren",
       "runtime": "typescript",
       "entrypoint": "src/index.ts",
-      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+      "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -748,8 +777,37 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:27:19.1809541Z",
-        "lastValidation": "2026-08-16T17:27:19.1809541Z",
+        "created": "2026-07-14T03:18:38.7892909Z",
+        "lastValidation": "2026-07-14T03:18:38.7892909Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z"
+      }
+    },
+    {
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
         "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
@@ -781,33 +839,6 @@
         "created": "2026-08-16T18:41:45.5186640Z",
         "lastValidation": "2026-08-16T18:41:45.5186640Z",
         "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "reconcile-vector-store",
-      "name": "Reconcile Vector Store",
-      "category": "data-management",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2615565Z",
-        "lastValidation": "2026-07-10T21:43:59.2615565Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
       }
     },
     {
@@ -1124,21 +1155,19 @@
       }
     },
     {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
+      "id": "reconcile-vector-store",
+      "name": "Reconcile Vector Store",
+      "category": "data-management",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
       "status": "active",
       "dependencies": {
         "internal": [],
-        "external": [
-          "python3"
-        ]
+        "external": []
       },
       "health": {
         "canonical": true,
@@ -1147,9 +1176,9 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
+        "created": "2026-07-10T21:43:59.2615565Z",
+        "lastValidation": "2026-07-10T21:43:59.2615565Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z"
       }
     },
     {
@@ -1520,10 +1549,10 @@
     }
   ],
   "summary": {
-    "total": 50,
-    "active": 50,
+    "total": 51,
+    "active": 51,
     "deprecated": 0,
-    "health_good": 50,
+    "health_good": 51,
     "health_warn": 0,
     "health_error": 0
   }

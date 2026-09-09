@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-09-04T00:52:54.7721640Z
+**Generated**: 2026-09-09T03:16:07.1028507Z
 
 ---
 
@@ -10,14 +10,14 @@
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 2 | 0 | ✅ |
 | Distributed | 0 | 9 | 0 | ✅ |
-| Manifest | 0 | 95 | 0 | ✅ |
-| Cowork | 0 | 50 | 0 | ✅ |
-| Dependencies | 0 | 19 | 1 | ✅ |
-| Runtime | 0 | 0 | 50 | ✅ |
+| Manifest | 0 | 98 | 0 | ✅ |
+| Cowork | 0 | 51 | 0 | ✅ |
+| Dependencies | 0 | 20 | 1 | ✅ |
+| Runtime | 0 | 0 | 51 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 175
+**Total Warnings**: 180
 
 **Overall Status**: ✅ PASS
 
@@ -61,6 +61,7 @@
 | run-adapter-diagnostic | Run Adapter Diagnostic | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | scale-ingestion-service | Scale Ingestion Service | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | session-wrap | Session Wrap | 1.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| sigil-grok-bridge | Sigil Grok Bridge | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | skill-health-monitor | Skill Health Monitor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | skill-security-auditor | Skill Security Auditor | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | tinyfish-search | TinyFish Search | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
@@ -102,13 +103,13 @@
 ⚠️ **_cic-shared**: Path mismatch: expected 'skills/_cic-shared', got ''
 ⚠️ **agent-drift-detector**: Tags mismatch: canonical '', manifest 'drift, schema, validation'
 ⚠️ **agent-drift-detector**: Path mismatch: expected 'skills/agent-drift-detector', got ''
-⚠️ **analyze-token-burn**: Tags mismatch: canonical '', manifest ''
 ⚠️ **analyze-token-burn**: Path mismatch: expected 'skills/analyze-token-burn', got ''
-⚠️ **ashfall**: Tags mismatch: canonical '', manifest ''
+⚠️ **analyze-token-burn**: Tags mismatch: canonical '', manifest ''
 ⚠️ **ashfall**: Path mismatch: expected 'skills/ashfall', got ''
-⚠️ **automation-audit**: Path mismatch: expected 'skills/automation-audit', got ''
+⚠️ **ashfall**: Tags mismatch: canonical '', manifest ''
 ⚠️ **automation-audit**: Tags mismatch: canonical '', manifest 'automation, devops-audit, log-rotation, backup-retention'
 ⚠️ **automation-audit**: Description mismatch: canonical 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)', manifest 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers)'
+⚠️ **automation-audit**: Path mismatch: expected 'skills/automation-audit', got ''
 ⚠️ **cic-consolidate-artifacts**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-consolidate-artifacts**: Path mismatch: expected 'skills/cic-consolidate-artifacts', got ''
 ⚠️ **cic-ingest-world**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
@@ -117,29 +118,29 @@
 ⚠️ **cic-orchestrate-flow**: Path mismatch: expected 'skills/cic-orchestrate-flow', got ''
 ⚠️ **cic-repair-pipeline**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-repair-pipeline**: Path mismatch: expected 'skills/cic-repair-pipeline', got ''
-⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
 ⚠️ **cic-roadmap-updater**: Tags mismatch: canonical '', manifest 'roadmap, planning, versioning'
+⚠️ **cic-roadmap-updater**: Path mismatch: expected 'skills/cic-roadmap-updater', got ''
 ⚠️ **cic-run-gate**: Tags mismatch: canonical '', manifest 'cic, governance, phase1, gate'
 ⚠️ **cic-run-gate**: Path mismatch: expected 'skills/cic-run-gate', got ''
-⚠️ **cic-section-summarizer**: Path mismatch: expected 'skills/cic-section-summarizer', got ''
 ⚠️ **cic-section-summarizer**: Tags mismatch: canonical '', manifest 'analysis, roadmap, progress'
+⚠️ **cic-section-summarizer**: Path mismatch: expected 'skills/cic-section-summarizer', got ''
 ⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
 ⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
-⚠️ **hook-validator**: Path mismatch: expected 'skills/hook-validator', got ''
 ⚠️ **hook-validator**: Tags mismatch: canonical '', manifest 'git-hooks, pre-commit, governance, installer-race'
+⚠️ **hook-validator**: Path mismatch: expected 'skills/hook-validator', got ''
 ⚠️ **html-visual-verify**: Path mismatch: expected 'skills/html-visual-verify', got ''
-⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-artifact-generator**: Tags mismatch: canonical '', manifest 'kb-sync, artifacts, governance'
-⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
-⚠️ **kb-sync-nightly**: Runtime mismatch: canonical typescript, manifest bash
+⚠️ **kb-sync-artifact-generator**: Path mismatch: expected 'skills/kb-sync-artifact-generator', got ''
 ⚠️ **kb-sync-nightly**: Description mismatch: canonical 'Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\dev\kb-sync.', manifest 'Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.'
 ⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
+⚠️ **kb-sync-nightly**: Runtime mismatch: canonical typescript, manifest bash
+⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
 ⚠️ **obsidian-ingest-wiki**: Tags mismatch: canonical '', manifest 'obsidian, wiki, synthesis, lvm-pattern'
 ⚠️ **obsidian-ingest-wiki**: Path mismatch: expected 'skills/obsidian-ingest-wiki', got ''
-⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
 ⚠️ **operator-image-build**: Tags mismatch: canonical '', manifest ''
-⚠️ **parallel-search**: Path mismatch: expected 'skills/parallel-search', got ''
+⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
 ⚠️ **parallel-search**: Runtime mismatch: canonical typescript, manifest 
+⚠️ **parallel-search**: Path mismatch: expected 'skills/parallel-search', got ''
 ⚠️ **permission-governor**: Tags mismatch: canonical '', manifest 'permissions, security, governance'
 ⚠️ **permission-governor**: Path mismatch: expected 'skills/permission-governor', got ''
 ⚠️ **plan-extractor-integration**: Tags mismatch: canonical '', manifest 'codeflow, extraction, integration'
@@ -150,26 +151,29 @@
 ⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
 ⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
 ⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
-⚠️ **research-questions**: Path mismatch: expected 'skills/research-questions', got ''
 ⚠️ **research-questions**: Tags mismatch: canonical '', manifest 'trm, research-questions, trm-vault, curator'
+⚠️ **research-questions**: Path mismatch: expected 'skills/research-questions', got ''
 ⚠️ **retro-export**: Tags mismatch: canonical '', manifest 'retro, metrics, export, reporting'
 ⚠️ **retro-export**: Path mismatch: expected 'skills/retro-export', got ''
-⚠️ **retro-schema-validator**: Tags mismatch: canonical '', manifest 'retro, schema, json-validation'
 ⚠️ **retro-schema-validator**: Path mismatch: expected 'skills/retro-schema-validator', got ''
+⚠️ **retro-schema-validator**: Tags mismatch: canonical '', manifest 'retro, schema, json-validation'
 ⚠️ **rewrite-labs-orchestrator**: Path mismatch: expected 'skills/rewrite-labs-orchestrator', got ''
 ⚠️ **rewrite-labs-orchestrator**: Tags mismatch: canonical '', manifest 'pipeline, stages, orchestration'
-⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
 ⚠️ **roadmap-validator**: Tags mismatch: canonical '', manifest ''
-⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
+⚠️ **roadmap-validator**: Path mismatch: expected 'skills/roadmap-validator', got ''
 ⚠️ **rollback-phase**: Tags mismatch: canonical '', manifest ''
-⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
+⚠️ **rollback-phase**: Path mismatch: expected 'skills/rollback-phase', got ''
 ⚠️ **run-adapter-diagnostic**: Tags mismatch: canonical '', manifest ''
+⚠️ **run-adapter-diagnostic**: Path mismatch: expected 'skills/run-adapter-diagnostic', got ''
 ⚠️ **scale-ingestion-service**: Path mismatch: expected 'skills/scale-ingestion-service', got ''
 ⚠️ **scale-ingestion-service**: Tags mismatch: canonical '', manifest ''
 ⚠️ **session-wrap**: Tags mismatch: canonical '', manifest 'session-wrap, git-commit, documentation, atomic-commit'
 ⚠️ **session-wrap**: Path mismatch: expected 'skills/session-wrap', got ''
-⚠️ **skill-health-monitor**: Tags mismatch: canonical '', manifest 'skill-health, manifest-audit, staleness, inventory'
+⚠️ **sigil-grok-bridge**: Path mismatch: expected 'skills/sigil-grok-bridge', got ''
+⚠️ **sigil-grok-bridge**: Tags mismatch: canonical '', manifest 'sigil, mcp, grok, bridge, relay'
+⚠️ **sigil-grok-bridge**: Runtime mismatch: canonical typescript, manifest node
 ⚠️ **skill-health-monitor**: Path mismatch: expected 'skills/skill-health-monitor', got ''
+⚠️ **skill-health-monitor**: Tags mismatch: canonical '', manifest 'skill-health, manifest-audit, staleness, inventory'
 ⚠️ **skill-security-auditor**: Path mismatch: expected 'skills/skill-security-auditor', got ''
 ⚠️ **tinyfish-search**: Tags mismatch: canonical '', manifest 'tinyfish, search, extract, web'
 ⚠️ **tinyfish-search**: Path mismatch: expected 'skills/tinyfish-search', got ''
@@ -183,14 +187,14 @@
 ⚠️ **trm-closed-loop-research**: Path mismatch: expected 'skills/trm-closed-loop-research', got ''
 ⚠️ **trm-devops-triage**: Tags mismatch: canonical '', manifest 'trm, devops, triage, ci-cd, queue, operator-workflow'
 ⚠️ **trm-devops-triage**: Path mismatch: expected 'skills/trm-devops-triage', got ''
-⚠️ **trm-feedback-report**: Description mismatch: canonical 'Post-ingest-batch feedback pass for TRM: classifier/extraction quality, OCR latency vs. budget, candidate new-topic surfacing, and a web-search cross-check on low-confidence facts.', manifest 'Post-ingest feedback and quality report for TRM batches.'
 ⚠️ **trm-feedback-report**: Path mismatch: expected 'skills/trm-feedback-report', got ''
-⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
+⚠️ **trm-feedback-report**: Description mismatch: canonical 'Post-ingest-batch feedback pass for TRM: classifier/extraction quality, OCR latency vs. budget, candidate new-topic surfacing, and a web-search cross-check on low-confidence facts.', manifest 'Post-ingest feedback and quality report for TRM batches.'
 ⚠️ **trm-status**: Path mismatch: expected 'skills/trm-status', got ''
+⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
 ⚠️ **wiki-sync-recovery**: Path mismatch: expected 'skills/wiki-sync-recovery', got ''
 ⚠️ **wiki-sync-recovery**: Tags mismatch: canonical '', manifest 'wiki-sync-recovery, wiki, sync, recovery'
-⚠️ **work-summarizer**: Tags mismatch: canonical '', manifest ''
 ⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
+⚠️ **work-summarizer**: Tags mismatch: canonical '', manifest ''
 ⚠️ **workspace-storage-cleaner**: Tags mismatch: canonical '', manifest 'storage, cleaner, brain, disk, maintenance, logs'
 ⚠️ **workspace-storage-cleaner**: Path mismatch: expected 'skills/workspace-storage-cleaner', got ''
 ⚠️ **writing-heuristics**: Path mismatch: expected 'skills/writing-heuristics', got ''
@@ -231,6 +235,7 @@
 ⚠️ **run-adapter-diagnostic**: Not registered (installer will register on next run)
 ⚠️ **scale-ingestion-service**: Not registered (installer will register on next run)
 ⚠️ **session-wrap**: Not registered (installer will register on next run)
+⚠️ **sigil-grok-bridge**: Not registered (installer will register on next run)
 ⚠️ **skill-health-monitor**: Not registered (installer will register on next run)
 ⚠️ **skill-security-auditor**: Not registered (installer will register on next run)
 ⚠️ **tinyfish-search**: Not registered (installer will register on next run)
@@ -254,19 +259,20 @@
 ⚠️ **cic-ingest-world**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-orchestrate-flow**: Internal dependencies mismatch (distributed): canonical '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate', distributed ''
 ⚠️ **cic-repair-pipeline**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
-⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
+⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
 ⚠️ **parallel-search**: Missing external dependency: parallel-web
-⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
 ⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
+⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
+⚠️ **sigil-grok-bridge**: Missing external dependency: @modelcontextprotocol/sdk
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
 ⚠️ **tinyfish-search**: Missing external dependency: @tiny-fish/sdk
 ⚠️ **trm-closed-loop-research**: Missing external dependency: git
-⚠️ **trm-closed-loop-research**: Missing external dependency: node
 ⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
-⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
+⚠️ **trm-closed-loop-research**: Missing external dependency: node
 ⚠️ **trm-feedback-report**: Missing external dependency: trm
+⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
 ⚠️ **trm-status**: Missing external dependency: git
 ⚠️ **workspace-storage-cleaner**: Missing external dependency: python3
 
@@ -306,6 +312,7 @@
 ℹ️ **run-adapter-diagnostic**: Skill inactive (status: )
 ℹ️ **scale-ingestion-service**: Skill inactive (status: )
 ℹ️ **session-wrap**: Skill inactive (status: )
+ℹ️ **sigil-grok-bridge**: Discoverable
 ℹ️ **skill-health-monitor**: Skill inactive (status: )
 ℹ️ **skill-security-auditor**: Skill inactive (status: )
 ℹ️ **tinyfish-search**: Discoverable

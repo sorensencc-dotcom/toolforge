@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-09-03T02:53:34.6216080Z
+**Generated:** 2026-09-09T03:16:09.1886674Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 50 |
+| Total Skills | 51 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 41 |
+| Orphan Skills | 42 |
 
 ---
 
@@ -231,6 +231,12 @@
 | Dependency | Type | Status |
 |------------|------|--------|
 | *(none)* | — | Leaf node |
+
+### sigil-grok-bridge
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| @modelcontextprotocol/sdk | external | ❌ Missing |
 
 ### skill-health-monitor
 
@@ -458,6 +464,9 @@ No inbound dependencies (root skill)\n
 ### session-wrap
 
 No inbound dependencies (root skill)\n
+### sigil-grok-bridge
+
+No inbound dependencies (root skill)\n
 ### skill-health-monitor
 
 No inbound dependencies (root skill)\n
@@ -532,6 +541,7 @@ Depth N = Depends on at least one skill at depth N-1
 | parallel-search | 1 |
 | pre-wrap-audit | 1 |
 | research-questions | 1 |
+| sigil-grok-bridge | 1 |
 | skill-security-auditor | 1 |
 | tinyfish-search | 1 |
 | toolforge-cli | 1 |
@@ -619,6 +629,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | run-adapter-diagnostic |
 | scale-ingestion-service |
 | session-wrap |
+| sigil-grok-bridge |
 | skill-health-monitor |
 | skill-security-auditor |
 | tinyfish-search |
@@ -641,7 +652,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 41 orphan skill(s) |
+| Orphans | ⚠️ WARN | 42 orphan skill(s) |
 
 ---
 
