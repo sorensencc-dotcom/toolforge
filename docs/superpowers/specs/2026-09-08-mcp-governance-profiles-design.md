@@ -46,9 +46,13 @@ This specification introduces a **Centralized Registry with Profile-Based Contex
 
 ## 3. Registry Schema & Profile Token Budgets
 
-### 3.1 Profile Definitions
+### 3.1 Registry Header & Profile Definitions
 
 ```toml
+# Canonical Multi-Client MCP Registry
+registry_version = "2026-09-08"
+schema_version = 1
+
 [profiles.minimal]
 description = "For Ollama and small-context local models (8k-32k window)"
 max_tools = 4
@@ -141,7 +145,7 @@ The compiler executes exact schema token validation:
 2. **Exact Serialized Tokenizer Invariant**:
    For each server, the compiler extracts the live JSON tool schema definitions, serializes them, and counts exact tokens via `js-tiktoken` (cl100k_base / o200k_base):
    $$\sum_{s \in \text{profile}.\text{servers}} \text{tiktoken}(\text{schema}(s)) \le \text{profile}.\text{max\_schema\_tokens}$$
-If any profile exceeds either invariant, `sigil mcp validate` halts execution with exit code 1 and outputs the itemized tool weight breakdown.
+If any profile exceeds either invariant, `sigil mcp validate` halts execution with exit code `10` and outputs the itemized tool weight breakdown.
 
 ---
 
@@ -189,6 +193,38 @@ sigil mcp sync --client codex
 # 6. One-off ephemeral activation
 sigil mcp use research --client claude-code
 ```
+
+### 5.1 Profile Manifest Output (`sigil mcp status`)
+
+The `status` command renders a unified governance dashboard table across all connected clients:
+
+```
+=== MCP Governance Profile Manifest (Registry: 2026-09-08) ===
+
+Client          Active Profile  Tools  Schema Weight  Max Budget  Headroom / Status
+--------------  --------------  -----  -------------  ----------  -----------------
+Codex CLI       dev             3      3,300 tokens   12,000      +8,700 [OK]
+Claude Code     dev             3      3,300 tokens   12,000      +8,700 [OK]
+Grok Bot        dev-minimal     2      1,800 tokens    5,000      +3,200 [OK]
+Claude Desktop  full            6     22,300 tokens   45,000     +22,700 [OK]
+Antigravity     full            6     22,300 tokens   45,000     +22,700 [OK]
+Ollama          minimal         1        600 tokens    2,500      +1,900 [OK]
+
+Total Running Process Overhead: 4 singletons (saved 36 duplicate processes)
+```
+
+### 5.2 Deterministic Error & Exit Codes
+
+All CLI commands return deterministic exit codes for programmatic automation:
+
+| Exit Code | Identifier | Description |
+| :--- | :--- | :--- |
+| `0` | `SUCCESS` | Operation completed cleanly with zero violations. |
+| `10` | `ERR_BUDGET_VIOLATION` | Profile exceeds `max_tools` count or `max_schema_tokens` budget. |
+| `20` | `ERR_AST_PARSE_FAILURE` | Syntax or parser error reading/writing TOML or JSON structure. |
+| `30` | `ERR_ATOMIC_WRITE_FAILURE` | Failed to write `.tmp` or perform atomic rename; rolled back from `.bak`. |
+| `40` | `ERR_CLIENT_CONFIG_INVALID` | Client config target path not found, inaccessible, or corrupted. |
+| `50` | `ERR_REGISTRY_SCHEMA_INVALID` | Missing required fields, version mismatch, or undefined server references. |
 
 ---
 

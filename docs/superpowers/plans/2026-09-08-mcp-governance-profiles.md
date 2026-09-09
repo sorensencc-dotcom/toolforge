@@ -23,13 +23,14 @@
 - Create: `C:/dev/.sigil/mcp-registry.toml`
 
 **Interfaces:**
-- Produces: Complete TOML registry defining `[profiles.*]` and `[servers.*]`.
+- Produces: Complete TOML registry defining `registry_version`, `[profiles.*]`, and `[servers.*]`.
 
 - [ ] **Step 1: Write the canonical registry file**
 
 ```toml
 # Canonical Multi-Client MCP Registry
-version = 1
+registry_version = "2026-09-08"
+schema_version = 1
 
 [profiles.minimal]
 description = "For Ollama and small-context local models (8k-32k window)"
@@ -119,7 +120,7 @@ Expected: `True`
 
 ```bash
 git add .sigil/mcp-registry.toml
-git commit -m "feat(mcp): add canonical mcp-registry.toml"
+git commit -m "feat(mcp): add canonical mcp-registry.toml with registry_version"
 ```
 
 ---
@@ -132,7 +133,8 @@ git commit -m "feat(mcp): add canonical mcp-registry.toml"
 
 **Interfaces:**
 - Produces:
-  - `loadRegistry(filePath): { profiles, servers, version }`
+  - `EXIT_CODES = { SUCCESS: 0, ERR_BUDGET_VIOLATION: 10, ERR_AST_PARSE_FAILURE: 20, ERR_ATOMIC_WRITE_FAILURE: 30, ERR_CLIENT_CONFIG_INVALID: 40, ERR_REGISTRY_SCHEMA_INVALID: 50 }`
+  - `loadRegistry(filePath): { profiles, servers, registry_version, schema_version }`
   - `validateBudgets(registry, customTokenCounts?): { valid: boolean, errors: string[], profileStats: Record<string, any> }`
 
 - [ ] **Step 1: Write the failing test**
@@ -140,10 +142,11 @@ git commit -m "feat(mcp): add canonical mcp-registry.toml"
 ```javascript
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { loadRegistry, validateBudgets } from '../registry.mjs';
+import { loadRegistry, validateBudgets, EXIT_CODES } from '../registry.mjs';
 
-test('loadRegistry parses profiles and servers correctly', () => {
+test('loadRegistry parses version, profiles, and servers correctly', () => {
   const reg = loadRegistry('C:/dev/.sigil/mcp-registry.toml');
+  assert.equal(reg.registry_version, '2026-09-08');
   assert.ok(reg.profiles.dev);
   assert.ok(reg.servers['kb-context-cache']);
   assert.equal(reg.profiles.dev.servers.includes('sigil'), true);
@@ -154,9 +157,10 @@ test('validateBudgets succeeds on valid profile budgets', () => {
   const result = validateBudgets(reg);
   assert.equal(result.valid, true);
   assert.equal(result.errors.length, 0);
+  assert.ok(result.profileStats.dev.headroomTokens > 0);
 });
 
-test('validateBudgets flags tool count and token overruns', () => {
+test('validateBudgets flags tool count and token overruns with error code', () => {
   const invalidReg = {
     profiles: {
       overflow: {
@@ -172,6 +176,7 @@ test('validateBudgets flags tool count and token overruns', () => {
   };
   const result = validateBudgets(invalidReg);
   assert.equal(result.valid, false);
+  assert.equal(result.exitCode, EXIT_CODES.ERR_BUDGET_VIOLATION);
   assert.ok(result.errors.some(e => e.includes('max_tools')));
   assert.ok(result.errors.some(e => e.includes('max_schema_tokens')));
 });
@@ -184,7 +189,7 @@ Expected: FAIL (Cannot find module)
 
 - [ ] **Step 3: Write minimal implementation in `registry.mjs`**
 
-Implement `loadRegistry` and `validateBudgets` supporting TOML parsing and budget validation.
+Implement `loadRegistry`, `validateBudgets`, and `EXIT_CODES` export.
 
 - [ ] **Step 4: Run test to verify it passes**
 
@@ -195,7 +200,7 @@ Expected: PASS
 
 ```bash
 git add scripts/mcp-governance/registry.mjs scripts/mcp-governance/test/registry.test.mjs
-git commit -m "feat(mcp): implement registry parser and budget validator"
+git commit -m "feat(mcp): implement registry parser, budget validator, and exit codes"
 ```
 
 ---
@@ -269,7 +274,7 @@ git commit -m "feat(mcp): implement ast-safe client config compilers"
 
 ---
 
-### Task 4: Unified CLI Controller (`sigil mcp`)
+### Task 4: Unified CLI Controller & Profile Manifest Dashboard
 
 **Files:**
 - Create: `C:/dev/scripts/mcp-governance/cli.mjs`
@@ -278,9 +283,9 @@ git commit -m "feat(mcp): implement ast-safe client config compilers"
 
 **Interfaces:**
 - CLI Commands:
-  - `node scripts/mcp-governance/cli.mjs validate`
-  - `node scripts/mcp-governance/cli.mjs sync [--dry-run] [--client <name>]`
-  - `node scripts/mcp-governance/cli.mjs status`
+  - `node scripts/mcp-governance/cli.mjs validate` -> Exits 0 or 10/20/50
+  - `node scripts/mcp-governance/cli.mjs sync [--dry-run] [--client <name>]` -> Exits 0 or 20/30/40
+  - `node scripts/mcp-governance/cli.mjs status` -> Renders Profile Manifest dashboard table
   - `node scripts/mcp-governance/cli.mjs profile set <client> <profile>`
 
 - [ ] **Step 1: Write the failing test**
@@ -290,11 +295,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 
-test('cli status returns active profiles and budget statistics', () => {
+test('cli status returns active profile manifest dashboard table with headroom', () => {
   const out = execFileSync('node', ['C:/dev/scripts/mcp-governance/cli.mjs', 'status'], { encoding: 'utf8' });
-  assert.ok(out.includes('MCP Governance Status'));
-  assert.ok(out.includes('minimal'));
-  assert.ok(out.includes('dev'));
+  assert.ok(out.includes('MCP Governance Profile Manifest'));
+  assert.ok(out.includes('Active Profile'));
+  assert.ok(out.includes('Headroom'));
+  assert.ok(out.includes('Codex CLI'));
 });
 
 test('cli validate exits 0 on valid registry', () => {
@@ -308,9 +314,9 @@ test('cli validate exits 0 on valid registry', () => {
 Run: `node --test C:/dev/scripts/mcp-governance/test/cli.test.mjs`  
 Expected: FAIL
 
-- [ ] **Step 3: Implement `cli.mjs` command router**
+- [ ] **Step 3: Implement `cli.mjs` command router and manifest generator**
 
-Connect registry, budget validation, and compilers into executable CLI subcommands with `--dry-run` support.
+Connect registry, budget validation, and compilers into executable CLI subcommands with `--dry-run`, manifest formatting, and deterministic exit codes.
 
 - [ ] **Step 4: Run test to verify it passes**
 
@@ -321,7 +327,7 @@ Expected: PASS
 
 ```bash
 git add scripts/mcp-governance/cli.mjs scripts/mcp-governance/test/cli.test.mjs
-git commit -m "feat(mcp): implement unified mcp governance cli router"
+git commit -m "feat(mcp): implement profile manifest status dashboard and cli router"
 ```
 
 ---
