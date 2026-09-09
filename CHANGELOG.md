@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.66.1
+Date: 2026-09-09
+
+### Changes
+- 97ca342 - Merge pull request #35 from sorensencc-dotcom/chore/serial-merge-queue-hardening (Chris Sorensen)
+- c835354 - Merge pull request #36 from sorensencc-dotcom/ironledger/phase-3-docs (Chris Sorensen)
+- a3076c3 - docs(ironledger): add Phase 3 Beancount compiler and recovery journal design (Chris Sorensen)
+- 456859a - fix(merge-queue): validate on staging ref, not main (Chris Sorensen)
+
 ## Version 2.66.0
 Date: 2026-09-08
 
