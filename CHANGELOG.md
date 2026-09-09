@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.66.2
+Date: 2026-09-09
+
+### Changes
+- a653af3 - Merge pull request #37 from sorensencc-dotcom/chore/gitignore-daemon-artifacts (Chris Sorensen)
+- 4434da9 - chore(gitignore): ignore daemon artifacts and nested working repos (Chris Sorensen)
+
 ## Version 2.66.1
 Date: 2026-09-09
 
