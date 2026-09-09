@@ -1,0 +1,81 @@
+# Canonical Multi-Client MCP Registry
+registry_version = "2026-09-08"
+schema_version = 1
+
+[profiles.minimal]
+description = "For Ollama and small-context local models (8k-32k window)"
+max_tools = 4
+max_schema_tokens = 2500
+servers = ["kb-context-cache"]
+
+[profiles.dev-minimal]
+description = "Lightweight CLI profile with memory and core context only"
+max_tools = 6
+max_schema_tokens = 5000
+servers = ["kb-context-cache", "ijfw-memory"]
+
+[profiles.dev]
+description = "Standard developer profile for Codex CLI and Claude Code"
+max_tools = 12
+max_schema_tokens = 12000
+servers = ["kb-context-cache", "ijfw-memory", "sigil"]
+
+[profiles.research]
+description = "Research and documentation focus with search and knowledge tools"
+max_tools = 15
+max_schema_tokens = 20000
+servers = ["kb-context-cache", "ijfw-memory", "notion", "parallel-search"]
+
+[profiles.full]
+description = "Unconstrained profile for Antigravity IDE and Claude Desktop"
+max_tools = 50
+max_schema_tokens = 45000
+servers = ["kb-context-cache", "ijfw-memory", "github", "notion", "chrome-devtools", "sigil"]
+
+# --- Servers ---
+
+[servers.kb-context-cache]
+transport = "stdio"
+command = "node"
+args = ["C:/dev/kb-sync/scripts/mcp-context-server.mjs"]
+schema_weight = 600
+tags = ["knowledge", "memory", "core"]
+
+[servers.ijfw-memory]
+transport = "stdio"
+command = "node"
+args = ["C:/Users/soren/.ijfw/mcp-server/src/server.js"]
+schema_weight = 1200
+tags = ["memory", "governance"]
+
+[servers.sigil]
+transport = "stdio"
+command = "node"
+args = ["C:/dev/sigil-repo/sigil/connectors/v1/mcp-stdio-server.mjs"]
+schema_weight = 1500
+tags = ["sigil", "relay"]
+
+[servers.github]
+transport = "sse"
+url = "http://127.0.0.1:4411/mcp/github"
+schema_weight = 7500
+tags = ["git", "api", "heavy"]
+
+[servers.notion]
+transport = "sse"
+url = "http://127.0.0.1:4411/mcp/notion"
+schema_weight = 4000
+tags = ["docs", "api", "heavy"]
+
+[servers.parallel-search]
+transport = "sse"
+url = "https://search.parallel.ai/mcp"
+schema_weight = 3500
+tags = ["search", "web"]
+
+[servers.chrome-devtools]
+transport = "stdio"
+command = "node"
+args = ["C:/Users/soren/AppData/Local/npm-cache/_npx/15c61037b1978c83/node_modules/chrome-devtools-mcp/dist/index.js"]
+schema_weight = 4500
+tags = ["browser", "qa"]
