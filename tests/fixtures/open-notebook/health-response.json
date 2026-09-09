@@ -1,0 +1,10 @@
+{
+  "fixture_kind": "upstream_response",
+  "upstream": {
+    "repository": "lfnovo/open-notebook",
+    "revision": "2d2df8a3cbb098776e56ca5ee77b9832f848228e",
+    "method": "GET",
+    "path": "/health"
+  },
+  "status": "healthy"
+}

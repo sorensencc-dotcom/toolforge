@@ -23,6 +23,7 @@ out/
 skills/*/cic/
 /cic/
 .worktrees/
+.quarantine/
 sigil-wiki/
 trm-wiki/
 scratch/

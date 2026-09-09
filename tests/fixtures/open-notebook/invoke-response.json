@@ -1,0 +1,28 @@
+{
+  "fixture_kind": "local_adapter_envelope",
+  "upstream": {
+    "repository": "lfnovo/open-notebook",
+    "revision": "2d2df8a3cbb098776e56ca5ee77b9832f848228e",
+    "method": "POST",
+    "path": "/chat/execute"
+  },
+  "upstream_payload": {
+    "content": "The requested research draft is ready.",
+    "session_id": "session-local-fixture-001"
+  },
+  "normalized": {
+    "correlation_id": "corr-local-fixture-001",
+    "workflow_id": "open-notebook-chat-execute",
+    "provider": "open-notebook",
+    "model": "configured-by-whichllm",
+    "source_references": [
+      "source://local-fixture/research-note-001"
+    ],
+    "draft_output": "The requested research draft is ready.",
+    "outcome": "accepted"
+  },
+  "local_adapter_envelope": {
+    "is_upstream_contract": false,
+    "purpose": "Complete normalized metadata for local adapter tests; fields under normalized are not claimed as Open Notebook wire fields."
+  }
+}

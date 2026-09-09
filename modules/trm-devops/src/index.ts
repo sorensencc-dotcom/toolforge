@@ -8,3 +8,4 @@ export * from "./core/reconciler.ts";
 export * from "./core/pruning.ts";
 export * from "./cli/index.ts";
 export * from "./mcp/server.ts";
+export * from "./core/path-safety.ts";

@@ -6,6 +6,7 @@
 
 export class OllamaProvider {
   constructor(config = {}) {
+    this.selection = config.selection;
     this.baseUrl =
       config.baseUrl ||
       process.env.OLLAMA_BASE_URL ||
@@ -13,6 +14,27 @@ export class OllamaProvider {
     this.timeout =
       config.timeout ||
       (process.env.OLLAMA_TIMEOUT ? parseInt(process.env.OLLAMA_TIMEOUT, 10) : 30000);
+  }
+
+  async execute({ provider = this.selection?.provider, model = this.selection?.model, prompt, onEvent } = {}) {
+    if (provider !== 'ollama' || model !== this.selection?.model) {
+      const error = new Error('PROVIDER_REQUEST_REJECTED: requested provider/model is not the validated local selection');
+      error.receipt = { event_type: 'provider_request_rejected', requested_provider: provider, requested_model: model, retry: false, fallback: false };
+      error.trmEvent = { ...error.receipt, event_type: 'trm_provider_validation_failed', reason: 'requested_provider_model_rejected' };
+      onEvent?.(error.trmEvent);
+      throw error;
+    }
+    const response = await this.generate(model, prompt);
+    const echoedProvider = response?.provider ?? 'ollama';
+    const echoedModel = response?.model ?? model;
+    if (echoedProvider !== provider || echoedModel !== model) {
+      const error = new Error('PROVIDER_ECHO_MISMATCH: Ollama response identity mismatch');
+      error.receipt = { event_type: 'provider_echo_mismatch', requested_provider: provider, requested_model: model, echoed_provider: echoedProvider, echoed_model: echoedModel, retry: false, fallback: false };
+      error.trmEvent = { ...error.receipt, event_type: 'trm_provider_validation_failed', reason: 'provider_echo_mismatch' };
+      onEvent?.(error.trmEvent);
+      throw error;
+    }
+    return { provider, model, response: response?.content ?? response };
   }
 
   async generate(modelName, prompt) {

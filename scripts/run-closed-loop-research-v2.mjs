@@ -77,7 +77,7 @@ function shInherit(cmd, opts = {}) {
 // WhichLLM BFCL model selection (Step 0) — unchanged from v2.py behaviour
 // ---------------------------------------------------------------------------
 
-function loadModelSelection(repoRoot) {
+export function loadModelSelection(repoRoot) {
   const evaluatorScript = path.join(repoRoot, 'scripts', 'whichllm-bfcl-evaluator.py');
   const outputPath      = path.join(repoRoot, '_integration', 'model_selection.json');
 
@@ -104,6 +104,14 @@ function loadModelSelection(repoRoot) {
     hash_chain_self:   'deadbeef00000000000000000000000000000000000000000000000000000000',
     ranked_candidates: [],
   };
+}
+
+export function buildNotebookLmUploadCommand({ cli, notebookId, file }) {
+  return `${cli} source upload --notebook-id="${notebookId}" --file="${file}"`;
+}
+
+export function shouldExecuteNotebookLmUpload(dryRun) {
+  return !dryRun;
 }
 
 // ---------------------------------------------------------------------------
@@ -267,8 +275,14 @@ async function run() {
   logInfo(`Uploading ${path.basename(repoGapsFilePath)} to NotebookLM (${targetGapsNbId})...`);
 
   const gapsBaseName = path.basename(repoGapsFilePath);
-  if (BFCL_DRY_RUN) {
+  const nlmUploadCmd = buildNotebookLmUploadCommand({
+    cli: NLM_CLI,
+    notebookId: targetGapsNbId,
+    file: repoGapsFilePath,
+  });
+  if (!shouldExecuteNotebookLmUpload(BFCL_DRY_RUN)) {
     logWarn(`[DRY RUN] Would upload ${repoGapsFilePath} to ${targetGapsNbId}`);
+    logWarn(`[DRY RUN] Would execute: ${nlmUploadCmd}`);
   } else {
     try {
       let existingSources = [];
@@ -446,8 +460,14 @@ async function run() {
     logInfo(`✓ Pack emitted: ${packFilePath} (${sizeKb} KB, ${sources.length} source(s))`);
 
     const packBaseName = path.basename(packFilePath);
-    if (BFCL_DRY_RUN) {
+    const pushCmd = buildNotebookLmUploadCommand({
+      cli: NLM_CLI,
+      notebookId: targetNbId,
+      file: packFilePath,
+    });
+    if (!shouldExecuteNotebookLmUpload(BFCL_DRY_RUN)) {
       logWarn(`[DRY RUN] Would push: ${packFilePath} -> ${targetNbId}`);
+      logWarn(`[DRY RUN] Would push: ${pushCmd}`);
     } else {
       try {
         // Query existing sources in target notebook to find previous versions of this pack
@@ -496,7 +516,9 @@ async function run() {
   console.log('================================================================================\n');
 }
 
-run().catch(err => {
-  logError(`Fatal run error: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  run().catch(err => {
+    logError(`Fatal run error: ${err.message}`);
+    process.exit(1);
+  });
+}
