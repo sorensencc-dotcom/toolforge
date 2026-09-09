@@ -1,53 +1,60 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 /**
  * scripts/quarantine-packet.mjs
- * Generates an incident snapshot into wiki/lessons/ for quarantined packets.
+ *
+ * Writes a failure bundle for a quarantined strike packet into an ignored
+ * `.quarantine/<packet>/<timestamp>/` directory: a `manifest.json`, the
+ * captured Iron Gate stdout/stderr, and the candidate diff.
+ *
+ * It deliberately never writes into `wiki/lessons/`. Promoting an incident
+ * into the wiki is a separate, deliberate step, not an automatic side effect
+ * of a gate crash.
+ *
+ * Log/diff payload arrives as a single JSON object on stdin:
+ *   { "stdout": string, "stderr": string, "diff": string, "mergeSha": string|null }
  */
-const args = process.argv.slice(2);
-const packetArg = args.find(arg => arg.startsWith('--packet-id='));
-const reasonArg = args.find(arg => arg.startsWith('--reason='));
 
-const packetId = packetArg ? packetArg.split('=')[1] : 'unknown-packet';
-const reason = reasonArg ? reasonArg.split('=')[1] : 'INTEGRATION_IRON_GATE_FAILURE';
+function arg(name, fallback = '') {
+  const hit = process.argv.slice(2).find((a) => a.startsWith(`--${name}=`));
+  return hit ? hit.slice(name.length + 3) : fallback;
+}
+
+function readStdinPayload() {
+  try {
+    const raw = fs.readFileSync(0, 'utf8');
+    if (!raw.trim()) return {};
+    return JSON.parse(raw);
+  } catch {
+    return {};
+  }
+}
+
+const packetId = arg('packet-id', 'unknown-packet');
+const reason = arg('reason', 'INTEGRATION_IRON_GATE_FAILURE');
+const baseSha = arg('base-sha') || null;
+const branchName = arg('branch') || null;
+const payload = readStdinPayload();
 
 const timestamp = new Date().toISOString();
-const dateStr = timestamp.split('T')[0];
-const targetDir = path.resolve(process.cwd(), 'wiki/lessons');
-fs.mkdirSync(targetDir, { recursive: true });
-
 const safePacketId = packetId.replace(/[^a-zA-Z0-9-_]/g, '_');
-const filename = `${dateStr}-quarantine-${safePacketId}.md`;
-const filePath = path.join(targetDir, filename);
+const safeStamp = timestamp.replace(/[:.]/g, '-');
+const incidentDir = path.resolve(process.cwd(), '.quarantine', safePacketId, safeStamp);
+fs.mkdirSync(incidentDir, { recursive: true });
 
-const lessonContent = `---
-title: "Quarantine Incident: Strike Packet ${packetId}"
-category: "lessons"
-status: "active"
-tags: ["incident", "tripwire", "quarantine", "needs-enrichment"]
-packet_id: "${packetId}"
-tripped_reason: "${reason}"
-timestamp: "${timestamp}"
----
+const manifest = {
+  packetId,
+  reason,
+  timestamp,
+  branch: branchName,
+  baseSha,
+  mergeSha: payload.mergeSha ?? null,
+};
 
-### Quarantine Incident: Strike Packet ${packetId}
+fs.writeFileSync(path.join(incidentDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+fs.writeFileSync(path.join(incidentDir, 'gate-stdout.log'), payload.stdout ?? '', 'utf8');
+fs.writeFileSync(path.join(incidentDir, 'gate-stderr.log'), payload.stderr ?? '', 'utf8');
+fs.writeFileSync(path.join(incidentDir, 'changes.diff'), payload.diff ?? '', 'utf8');
 
-#### 1. Context & Symptom
-* **Target Subsystem / Packet:** \`${packetId}\`
-* **Error Signature / Reason:** \`${reason}\`
-* **First Identified:** ${dateStr} via Serial Merge Queue
-
-#### 2. Root Cause Analysis
-Diagnostic Log captured from serial merge queue failure. Detailed root cause pending background LLM enrichment pass.
-
-#### 3. Resolution & Prevention
-Programmatic fix pending background LLM enrichment pass.
-
-#### 4. Source Citations
-* **Staged Snapshot:** \`.worktrees/${packetId}\`
-* **Diagnostic Reference:** [[kb-sync/wiki/concepts/deterministic-sync-pipeline]]
-`;
-
-fs.writeFileSync(filePath, lessonContent, 'utf8');
-console.log(`[Quarantine] Incident lesson created: ${filePath}`);
+console.log(`[Quarantine] Incident bundle written: ${incidentDir}`);
