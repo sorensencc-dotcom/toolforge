@@ -1,14 +1,14 @@
 # Unified Multi-Client MCP Governance & Profile-Based Context Optimization
 
 **Date:** 2026-09-08  
-**Status:** Validated Design Spec  
+**Status:** Approved Engineering Spec  
 **Target Clients:** Claude Code CLI, Codex CLI, Grok Bot, Claude Desktop, Antigravity IDE, Ollama / Local Models  
 
 ---
 
 ## 1. Executive Summary & Problem Statement
 
-Modern AI developer environments run multiple heterogeneous coding agents and CLIs concurrently. By default, agents connect to Model Context Protocol (MCP) servers via `stdio` subprocesses, causing two critical failure modes:
+Modern AI developer environments run multiple heterogeneous coding agents and CLIs concurrently. By default, agents connect to Model Context Protocol (MCP) servers via unmanaged `stdio` subprocesses, causing two critical failure modes:
 1. **Context & Token Bloat**: Loading 8–10 full MCP server definitions injects 20,000–35,000+ tokens of raw JSON tool schemas into every prompt. For local models (Ollama) with 8k–32k context windows, this exhausts the budget before prompt processing begins.
 2. **Process Explosion & Memory Waste**: Multiple concurrent CLI sessions fork independent `node.exe` instances for identical servers (e.g., 5 sessions × 8 MCPs = 40+ processes), consuming 4–8 GB of RAM and leaving orphaned processes on Windows.
 
@@ -32,15 +32,15 @@ This specification introduces a **Centralized Registry with Profile-Based Contex
                  ▼                       ▼                       ▼
           [Ollama / Local]        [Codex / Claude Code]    [Antigravity / Desktop]
           - Core fs / context     - Dev tools + Git        - Full suites (DevTools,
-          - Virtual Meta-Tool     - Domain knowledge base    Notion, GitHub, Media)
+          - Curated static tools  - Domain knowledge base    Notion, GitHub, Media)
 ```
 
 ### Core Architecture Components
 
 1. **Canonical Registry (`.sigil/mcp-registry.toml`)**: Single version-controlled catalog declaring all available MCP servers, endpoints, estimated schema token weights (`schema_weight`), transports (`stdio` vs `sse`/`http`), and profile tags.
-2. **Config Compiler (`sigil mcp sync`)**: Deterministic generator that parses the registry and updates native configuration files across all clients (`.codex/config.toml`, `.claude.json`, `claude_desktop_config.json`, `mcp_config.json`).
+2. **Config Compiler (`sigil mcp sync`)**: Deterministic generator that parses the registry and updates native configuration files across all clients (`.codex/config.toml`, `.claude.json`, `claude_desktop_config.json`, `mcp_config.json`, `sigil-grok-bridge`).
 3. **Shared HTTP/SSE Singleton Gateway**: Persistent background daemon for high-weight stateless API integrations (`github-mcp`, `notion-mcp`, `ijfw-memory`), allowing all client sessions to share a single process.
-4. **Virtualized Meta-Tool Gateway**: On-demand tool search/proxy (`mcp.tools.search`, `mcp.tools.execute`) for small-context local models, reducing tool schema footprints by >90%.
+4. **Curated Static Minimal Profile**: Direct, concise native tool definitions for small local models, avoiding multi-step meta-tool indirection failures on 7B/8B models.
 
 ---
 
@@ -53,31 +53,42 @@ This specification introduces a **Centralized Registry with Profile-Based Contex
 description = "For Ollama and small-context local models (8k-32k window)"
 max_tools = 4
 max_schema_tokens = 2500
-fallback_to_meta_tool = true
+servers = ["kb-context-cache"]
+
+[profiles.dev-minimal]
+description = "Lightweight CLI profile with memory and core context only"
+max_tools = 6
+max_schema_tokens = 5000
+servers = ["kb-context-cache", "ijfw-memory"]
 
 [profiles.dev]
-description = "For Codex CLI, Claude Code, and daily CLI workflows"
+description = "Standard developer profile for Codex CLI and Claude Code"
 max_tools = 12
 max_schema_tokens = 12000
-fallback_to_meta_tool = false
+servers = ["kb-context-cache", "ijfw-memory", "sigil"]
+
+[profiles.research]
+description = "Research and documentation focus with search and knowledge tools"
+max_tools = 15
+max_schema_tokens = 20000
+servers = ["kb-context-cache", "ijfw-memory", "notion", "parallel-search"]
 
 [profiles.full]
-description = "For Antigravity IDE and Claude Desktop (large context windows)"
+description = "Unconstrained profile for Antigravity IDE and Claude Desktop"
 max_tools = 50
 max_schema_tokens = 45000
-fallback_to_meta_tool = false
+servers = ["kb-context-cache", "ijfw-memory", "github", "notion", "chrome-devtools", "sigil"]
 ```
 
 ### 3.2 Server Definitions & Schema Weighting
 
 ```toml
-# --- Tier 1: Core Knowledge & Context ---
+# --- Tier 1: Core Knowledge & Context (stdio, isolated state) ---
 [servers.kb-context-cache]
 transport = "stdio"
 command = "node"
 args = ["C:/dev/kb-sync/scripts/mcp-context-server.mjs"]
 schema_weight = 600
-profiles = ["minimal", "dev", "full"]
 tags = ["knowledge", "memory", "core"]
 
 [servers.ijfw-memory]
@@ -85,83 +96,97 @@ transport = "stdio"
 command = "node"
 args = ["C:/Users/soren/.ijfw/mcp-server/src/server.js"]
 schema_weight = 1200
-profiles = ["dev", "full"]
 tags = ["memory", "governance"]
 
-# --- Tier 2: Shared Remote APIs (Shared HTTP/SSE) ---
+[servers.sigil]
+transport = "stdio"
+command = "node"
+args = ["C:/dev/sigil-repo/sigil/connectors/v1/mcp-stdio-server.mjs"]
+schema_weight = 1500
+tags = ["sigil", "relay"]
+
+# --- Tier 2: Shared Remote APIs (Shared HTTP/SSE Singleton) ---
 [servers.github]
 transport = "sse"
 url = "http://127.0.0.1:4411/mcp/github"
 schema_weight = 7500
-profiles = ["full"]
 tags = ["git", "api", "heavy"]
 
 [servers.notion]
 transport = "sse"
 url = "http://127.0.0.1:4411/mcp/notion"
 schema_weight = 4000
-profiles = ["full"]
 tags = ["docs", "api", "heavy"]
 
-# --- Tier 3: Browser & UI Automation ---
+[servers.parallel-search]
+transport = "sse"
+url = "https://search.parallel.ai/mcp"
+schema_weight = 3500
+tags = ["search", "web"]
+
+# --- Tier 3: Browser & UI Automation (Local pinned path) ---
 [servers.chrome-devtools]
 transport = "stdio"
-command = "npx"
-args = ["-y", "chrome-devtools-mcp"]
-schema_weight = 4500
-profiles = ["full"]
-tags = ["browser", "qa"]
-
-# --- Tier 4: On-Demand Virtualized Meta-Tool ---
-[servers.sigil-virtual-tools]
-transport = "stdio"
 command = "node"
-args = ["C:/dev/sigil-repo/sigil/connectors/v1/mcp-virtual-gateway.mjs"]
-schema_weight = 350
-profiles = ["minimal"]
-tags = ["gateway", "virtual"]
+args = ["C:/Users/soren/AppData/Local/npm-cache/_npx/15c61037b1978c83/node_modules/chrome-devtools-mcp/dist/index.js"]
+schema_weight = 4500
+tags = ["browser", "qa"]
 ```
 
-### 3.3 Budget Validation Constraint
+### 3.3 Exact Budget Validation Rules
 
-Compilation strictly enforces:
-$$\sum_{s \in \text{servers}(P)} s.\text{schema\_weight} \le P.\text{max\_schema\_tokens}$$
-If a profile exceeds its configured budget, compilation halts with a diagnostic report identifying offending servers.
+The compiler executes exact schema token validation:
+1. **Tool Count Invariant**:
+   $$\text{count}(\text{profile}.\text{servers}) \le \text{profile}.\text{max\_tools}$$
+2. **Exact Serialized Tokenizer Invariant**:
+   For each server, the compiler extracts the live JSON tool schema definitions, serializes them, and counts exact tokens via `js-tiktoken` (cl100k_base / o200k_base):
+   $$\sum_{s \in \text{profile}.\text{servers}} \text{tiktoken}(\text{schema}(s)) \le \text{profile}.\text{max\_schema\_tokens}$$
+If any profile exceeds either invariant, `sigil mcp validate` halts execution with exit code 1 and outputs the itemized tool weight breakdown.
 
 ---
 
-## 4. Client Bindings & Compilation Targets
+## 4. Client Bindings & AST-Safe Mutation Policy
 
-| Client | Configuration Path | Default Profile | Transport Support |
+| Client | Configuration File | Default Profile | Supported Transports |
 | :--- | :--- | :--- | :--- |
 | **Codex CLI** | `~/.codex/config.toml` | `dev` | `stdio`, `sse`, `http` |
 | **Claude Code** | `~/.claude.json` / `settings.json` | `dev` | `stdio`, `sse`, `http` |
+| **Grok Bot** | `C:\dev\skills\sigil-grok-bridge\config.json` | `dev-minimal` | `stdio`, `http` |
 | **Claude Desktop** | `~/AppData/Roaming/Claude/claude_desktop_config.json` | `full` | `stdio`, `sse` |
-| **Antigravity IDE** | `~/.gemini/antigravity/mcp_config.json` | `full` | `stdio`, `sse` (native lazy loading) |
-| **Ollama / Local Models** | Generated Modelfile / LiteLLM Proxy config | `minimal` | `stdio` / Virtual Meta-Tool |
+| **Antigravity IDE** | `~/.gemini/antigravity/mcp_config.json` | `full` | `stdio`, `sse` (native lazy-loading) |
+| **Ollama / Local Models** | Generated Modelfile / LiteLLM Proxy config | `minimal` | `stdio` |
 
-### Non-Destructive Update Policy
-`sigil mcp sync` parses existing client configuration files and only modifies the MCP server table/object. Non-MCP settings (UI preferences, model flags, trusted paths) are preserved byte-for-byte.
+### Non-Destructive AST/CST Surgical Update Algorithm
+To prevent mangling comments, key ordering, or non-MCP settings:
+1. Create a timestamped backup copy: `<target-file>.bak`.
+2. Parse target file into a Concrete Syntax Tree (CST) or perform bounded section replacement targeting only `[mcp_servers]` (TOML) or `"mcpServers"` (JSON).
+3. Validate modified content syntax before writing.
+4. Write changes to `<target-file>.tmp` and execute an atomic rename (`fs.renameSync`).
+5. On any write or syntax failure, automatically restore from `.bak` and report the error.
 
 ---
 
 ## 5. Operational Commands & CLI Interface
 
 ```powershell
-# 1. Validate registry budgets and schemas
+# 1. Validate registry budgets and schemas against js-tiktoken
 sigil mcp validate
 
-# 2. Sync all client configuration files to designated profiles
+# 2. Sync all client configuration files to designated profiles (atomic)
 sigil mcp sync
 
-# 3. Inspect active client profiles and token footprints
+# 3. Dry-run sync previewing file diffs without writing to disk
+sigil mcp sync --dry-run
+
+# 4. Inspect active client profiles, tool counts, and token footprints
 sigil mcp status
 
-# 4. Switch profile for a specific client
+# 5. Set default profile mapping for a specific client
 sigil mcp profile set codex dev-minimal
+sigil mcp profile set grok dev-minimal
 sigil mcp sync --client codex
 
-# 5. One-off ephemeral activation
+# 6. One-off ephemeral activation
 sigil mcp use research --client claude-code
 ```
 
@@ -170,5 +195,7 @@ sigil mcp use research --client claude-code
 ## 6. Process Janitor & Daemon Lifecycle Integration
 
 1. **Singleton Reaping**: [`node-process-janitor.ps1`](file:///C:/dev/utilities/node-process-janitor.ps1) verifies running MCP instances against active registry singletons and terminates duplicate/orphaned daemons.
-2. **Health Check Endpoints**: Shared SSE gateways expose `/health` and `/ready` endpoints to ensure smooth reconnects without dangling socket handles.
-3. **Graceful Degradation**: If the shared SSE gateway is stopped, client sessions fallback to direct `stdio` mode or alert the user with restart commands.
+2. **Race-Condition & Grace Period Guard**:
+   - The janitor enforces a **60-second creation grace period** before considering any process for termination.
+   - Any process with an **alive parent PID** is strictly protected from termination.
+3. **Health Check Endpoints**: Shared SSE gateways expose `/health` and `/ready` endpoints to ensure smooth reconnects without dangling socket handles.
