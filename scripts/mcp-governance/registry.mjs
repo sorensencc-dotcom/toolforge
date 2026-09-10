@@ -65,8 +65,7 @@ export function parseToml(content) {
     profiles: {},
     servers: {}
   };
-  let currentSection = null;
-  let currentSubkey = null;
+  let currentPath = [];
 
   for (let i = 0; i < lines.length; i++) {
     const rawLine = lines[i];
@@ -76,21 +75,16 @@ export function parseToml(content) {
       continue;
     }
 
-    // Section header: [section.subkey] or [section]
-    const headerMatch = stripped.match(/^\[([a-zA-Z0-9_-]+)(?:\.([a-zA-Z0-9_-]+))?\]$/);
+    // Section header: [section], [section.subkey], [servers.ironledger.env]
+    const headerMatch = stripped.match(/^\[([a-zA-Z0-9_\.-]+)\]$/);
     if (headerMatch) {
-      currentSection = headerMatch[1];
-      currentSubkey = headerMatch[2] || null;
-
-      if (currentSection === 'profiles' || currentSection === 'servers') {
-        if (!result[currentSection]) {
-          result[currentSection] = {};
+      currentPath = headerMatch[1].split('.');
+      let ptr = result;
+      for (const seg of currentPath) {
+        if (!ptr[seg] || typeof ptr[seg] !== 'object') {
+          ptr[seg] = {};
         }
-        if (currentSubkey) {
-          result[currentSection][currentSubkey] = result[currentSection][currentSubkey] || {};
-        }
-      } else if (!result[currentSection]) {
-        result[currentSection] = {};
+        ptr = ptr[seg];
       }
       continue;
     }
@@ -131,10 +125,16 @@ export function parseToml(content) {
         parsedVal = rawVal;
       }
 
-      if (currentSection && currentSubkey && result[currentSection] && result[currentSection][currentSubkey]) {
-        result[currentSection][currentSubkey][key] = parsedVal;
-      } else if (currentSection && result[currentSection] && typeof result[currentSection] === 'object') {
-        result[currentSection][key] = parsedVal;
+      if (currentPath.length > 0) {
+        let ptr = result;
+        for (let j = 0; j < currentPath.length; j++) {
+          const seg = currentPath[j];
+          if (!ptr[seg] || typeof ptr[seg] !== 'object') {
+            ptr[seg] = {};
+          }
+          ptr = ptr[seg];
+        }
+        ptr[key] = parsedVal;
       } else {
         result[key] = parsedVal;
       }
