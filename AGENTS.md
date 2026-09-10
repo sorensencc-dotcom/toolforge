@@ -479,7 +479,9 @@ root, detached, missing `package.json`, or inconsistent with an expected
 repository or branch. Never infer a repository from the current directory
 when more than one checkout exists under `C:\dev`.
 
-Writable repository work must use a real checkout under C:\dev\dev-sandbox; treat C:\dev itself as read-only.
+Writable repository work may use named repositories under C:\dev, including direct subdirectories such as C:\dev\helix. Do not create project files, temporary workspaces, or unrelated artifacts directly in C:\dev itself. Keep all work inside the explicitly named repository directory.
+
+When the correct project directory is unclear, especially for a new project, do not infer the location. Inspect existing repositories and conventions, offer the operator a short list of suitable existing locations or a proposed new directory, and wait for the operator to decide before creating, cloning, or editing files.
  Do not default to Documents\Codex when a sandbox checkout is available.
  
  ## Command & Test Execution Protocol
