@@ -55,6 +55,11 @@ args = ["C:/dev/sigil-repo/sigil/connectors/v1/mcp-stdio-server.mjs"]
 schema_weight = 1500
 tags = ["sigil", "relay"]
 
+[servers.sigil.env]
+SIGIL_CONNECTOR_URL = "http://127.0.0.1:4411"
+SIGIL_CONNECTOR_TOKEN = "HzFjf3_JBLDIZ2rYiLaKLxigfBfPrfri"
+SIGIL_RUNTIME = "claude"
+
 [servers.github]
 transport = "sse"
 url = "http://127.0.0.1:4411/mcp/github"
@@ -76,7 +81,7 @@ tags = ["search", "web"]
 [servers.chrome-devtools]
 transport = "stdio"
 command = "node"
-args = ["C:/Users/soren/AppData/Local/npm-cache/_npx/15c61037b1978c83/node_modules/chrome-devtools-mcp/dist/index.js"]
+args = ["C:/Users/soren/AppData/Roaming/npm/node_modules/chrome-devtools-mcp/build/src/bin/chrome-devtools-mcp.js"]
 schema_weight = 4500
 tags = ["browser", "qa"]
 
