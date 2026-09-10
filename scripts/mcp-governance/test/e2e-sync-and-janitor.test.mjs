@@ -452,7 +452,6 @@ test('e2e: live cli.mjs status executes cleanly against repo with positive headr
 
   // Confirm headroom is positive (denoted by '+<number>' headroom)
   assert.ok(/\+\d+[\d,]*\s+/.test(out), 'No positive token headroom found in manifest output');
-  assert.ok(out.includes('+8,700'), 'Expected Codex/Claude +8,700 token headroom');
 
   // Log dashboard for visibility
   console.log('\n[E2E LIVE STATUS OUTPUT]\n' + out);

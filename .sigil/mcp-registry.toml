@@ -24,13 +24,13 @@ servers = ["kb-context-cache", "ijfw-memory", "sigil", "ironledger"]
 description = "Research and documentation focus with search and knowledge tools"
 max_tools = 15
 max_schema_tokens = 20000
-servers = ["kb-context-cache", "ijfw-memory", "notion", "parallel-search"]
+servers = ["kb-context-cache", "ijfw-memory", "notion", "open-notebook", "parallel-search"]
 
 [profiles.full]
 description = "Unconstrained profile for Antigravity IDE and Claude Desktop"
 max_tools = 50
 max_schema_tokens = 45000
-servers = ["kb-context-cache", "ijfw-memory", "github", "notion", "chrome-devtools", "sigil", "ironledger"]
+servers = ["kb-context-cache", "ijfw-memory", "github", "notion", "open-notebook", "chrome-devtools", "sigil", "ironledger"]
 
 # --- Servers ---
 
@@ -96,4 +96,14 @@ tags = ["finance", "ledger", "read-only"]
 
 [servers.ironledger.env]
 PYTHONPATH = "C:/dev/IronLedger/src"
+
+[servers.open-notebook]
+transport = "stdio"
+command = "uvx"
+args = ["open-notebook-mcp"]
+schema_weight = 3500
+tags = ["knowledge", "notebooks", "local", "search"]
+
+[servers.open-notebook.env]
+OPEN_NOTEBOOK_URL = "http://localhost:5055"
 
