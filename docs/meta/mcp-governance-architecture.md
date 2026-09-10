@@ -42,10 +42,10 @@ Every client profile defines strict ceiling limits on both tool counts and seria
 
 | Client | Configuration Path | Active Profile | Tools | Schema Tokens | Max Budget (Tok/Tool) | Headroom |
 |---|---|---|---|---|---|---|
-| **Codex CLI** | `~/.codex/config.toml` | `dev` | 3 | 3,300 | 12,000 / 12 | +8,700 |
-| **Claude CLI** | `~/.claude.json` | `dev` | 3 | 3,300 | 12,000 / 12 | +8,700 |
-| **Claude Desktop** | `%APPDATA%/Claude/claude_desktop_config.json` | `full` | 6 | 19,300 | 45,000 / 50 | +25,700 |
-| **Antigravity** | `~/.gemini/antigravity/mcp_config.json` | `full` | 6 | 19,300 | 45,000 / 50 | +25,700 |
+| **Codex CLI** | `~/.codex/config.toml` | `dev` | 4 | 3,900 | 12,000 / 12 | +8,100 |
+| **Claude CLI** | `~/.claude.json` | `dev` | 4 | 3,900 | 12,000 / 12 | +8,100 |
+| **Claude Desktop** | `%APPDATA%/Claude/claude_desktop_config.json` | `full` | 7 | 19,900 | 45,000 / 50 | +25,100 |
+| **Antigravity** | `~/.gemini/antigravity/mcp_config.json` | `full` | 7 | 19,900 | 45,000 / 50 | +25,100 |
 | **Grok** | `C:/dev/sigil-repo/modules/grok-bridge/config.json` | `dev-minimal` | 2 | 1,800 | 5,000 / 6 | +3,200 |
 
 ---

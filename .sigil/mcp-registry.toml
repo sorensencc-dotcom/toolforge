@@ -18,7 +18,7 @@ servers = ["kb-context-cache", "ijfw-memory"]
 description = "Standard developer profile for Codex CLI and Claude Code"
 max_tools = 12
 max_schema_tokens = 12000
-servers = ["kb-context-cache", "ijfw-memory", "sigil"]
+servers = ["kb-context-cache", "ijfw-memory", "sigil", "ironledger"]
 
 [profiles.research]
 description = "Research and documentation focus with search and knowledge tools"
@@ -30,7 +30,7 @@ servers = ["kb-context-cache", "ijfw-memory", "notion", "parallel-search"]
 description = "Unconstrained profile for Antigravity IDE and Claude Desktop"
 max_tools = 50
 max_schema_tokens = 45000
-servers = ["kb-context-cache", "ijfw-memory", "github", "notion", "chrome-devtools", "sigil"]
+servers = ["kb-context-cache", "ijfw-memory", "github", "notion", "chrome-devtools", "sigil", "ironledger"]
 
 # --- Servers ---
 
@@ -79,3 +79,10 @@ command = "node"
 args = ["C:/Users/soren/AppData/Local/npm-cache/_npx/15c61037b1978c83/node_modules/chrome-devtools-mcp/dist/index.js"]
 schema_weight = 4500
 tags = ["browser", "qa"]
+
+[servers.ironledger]
+transport = "stdio"
+command = "python"
+args = ["-m", "ironledger.cli", "mcp", "--db", "C:/dev/IronLedger/ironledger.db", "--ledger-dir", "C:/dev/IronLedger/ledger"]
+schema_weight = 600
+tags = ["finance", "ledger", "read-only"]
