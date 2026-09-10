@@ -58,6 +58,8 @@ tags = ["sigil", "relay"]
 [servers.sigil.env]
 SIGIL_CONNECTOR_URL = "http://127.0.0.1:4411"
 SIGIL_CONNECTOR_TOKEN = "HzFjf3_JBLDIZ2rYiLaKLxigfBfPrfri"
+SIGIL_PACKAGE_PERMISSIONS = "sigil.task/*,sigil.approval/*,sigil.core/*"
+SIGIL_CONNECTOR_GRANTS = "sigil.task/*,sigil.approval/*,sigil.core/*"
 SIGIL_RUNTIME = "claude"
 
 [servers.github]
