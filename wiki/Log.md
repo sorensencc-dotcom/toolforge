@@ -605,3 +605,20 @@ status: "active"
 - **Duration:** 132.88s
 - **Dry Run:** false
 - **Categories Processed:** willow-run (synced), ford-politics (synced), post-war (synced), cuban-seizures (synced), master-kb (synced), daily (synced)
+
+- [2026-09-09T06:00:15Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 17, SHA256: 031717D94700B0CAA016A842D8922429CDF73E1CBC2E813D8FEBD50A6103817D, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
+
+- [2026-09-09T06:00:26Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_ford_politics.txt (Pack: ford-politics, Items: 13, SHA256: D639C04554482DE1090891CA22DBF1B277BFCF2BF0B537E7A263FB0DE23AD223, Target: 0caf6707-f8f2-4d2a-acd2-020acead55ba).
+
+- [2026-09-09T06:00:34Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_post_war.txt (Pack: post-war, Items: 1, SHA256: EA355A7DFA855606171EFD7505DD15CB3FFF73C5B22C6D59CDC3D3E6FB6C6789, Target: 9c469910-a900-43a4-877c-a43c9f545b5f).
+
+- [2026-09-09T06:00:43Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 6, SHA256: 6577B0587BBCB59380F28B56A4902FDC50A22251790899F721334A75BBE5DAAB, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-09-09T06:00:56Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_master_kb.txt (Pack: master-kb, Items: 8673, SHA256: B80417533C1B74A52153B4AA5137B9D835A0F8CC239F1E0FEA4B003799E52BA3, Target: 679b8bab-2d87-42cb-a726-6dc54c83acc2).
+
+- [2026-09-09T06:02:51Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_daily.txt (Pack: daily, Items: 12, SHA256: 5BA38C6576E345E7E9FC575224E62A6685EDFC501B6011E676B63044F1323C8F, Target: 1b4861a3-931f-4632-8fc1-343a8dd37df8).
+
+## 2026-09-09T06:03:03.865Z - Daily Research Mining Run (RUN-2026-09-09T06-00-03-261Z-5f3adab2)
+- **Duration:** 180.60s
+- **Dry Run:** false
+- **Categories Processed:** willow-run (synced), ford-politics (synced), post-war (synced), cuban-seizures (synced), master-kb (failed_upload), daily (synced)

@@ -1,6 +1,6 @@
 # Property Extraction Errors & Warnings
 
-Generated at: 2026-09-03T11:23:32.910Z
+Generated at: 2026-09-09T06:00:06.472Z
 
 | File | Issue / Reason |
 |---|---|
@@ -49,3 +49,4 @@ Generated at: 2026-09-03T11:23:32.910Z
 | `f444211d-2e07-4c51-978d-9972048dd13d--laterliferesearchlog-v1-20260430.md` | Filtered out or low confidence (1) |
 | `ford-socony-vacuum.md` | Filtered out or low confidence (1) |
 | `open-contradictions.md` | Filtered out or low confidence (1) |
+| `sovereign-trm-architecture-historical-dossier.md` | Filtered out or low confidence (1) |
