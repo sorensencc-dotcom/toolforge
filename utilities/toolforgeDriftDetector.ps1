@@ -65,7 +65,7 @@ if ([string]::IsNullOrWhiteSpace($DistributedPath)) {
   $DistributedPath = $env:TOOLFORGE_DISTRIBUTED_PATH
 }
 if ([string]::IsNullOrWhiteSpace($DistributedPath)) {
-  $DistributedPath = Join-Path (Split-Path -Parent $CANONICAL) "rewrite-mcp\toolforge"
+  $DistributedPath = Join-Path $CANONICAL "rewrite-mcp\toolforge"
 }
 $DISTRIBUTED = [System.IO.Path]::GetFullPath($DistributedPath)
 
