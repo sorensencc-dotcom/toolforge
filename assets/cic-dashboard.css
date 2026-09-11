@@ -611,3 +611,136 @@ select:focus-visible,
 }
 
 .badge-card-snippet.visible { display: block; }
+
+/* ============================================================
+   Headroom Integration Styles (Header Badges & Iframe Drill-Down)
+   ============================================================ */
+.headroom-header-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(26, 20, 16, 0.85);
+  border: 1px solid rgba(196, 80, 26, 0.35);
+  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.headroom-header-badges:hover,
+.headroom-header-badges:focus-visible {
+  border-color: var(--ember);
+  background: rgba(44, 36, 32, 0.9);
+  box-shadow: 0 0 10px rgba(196, 80, 26, 0.25);
+  outline: none;
+}
+
+.hr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--bone);
+  white-space: nowrap;
+}
+
+.hr-badge + .hr-badge::before {
+  content: "•";
+  color: rgba(154, 144, 136, 0.4);
+  margin-right: 0.3rem;
+}
+
+.hr-badge-status { color: var(--paper); font-weight: 700; }
+.hr-badge-saved { color: #5eead4; }
+.hr-badge-cache { color: #67e8f9; }
+.hr-badge-cost { color: #d8b4fe; }
+
+.hr-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.hr-dot-online {
+  background-color: #34d399;
+  box-shadow: 0 0 6px #34d399;
+}
+
+.hr-dot-checking {
+  background-color: var(--brass);
+  box-shadow: 0 0 6px var(--brass);
+}
+
+.hr-dot-offline {
+  background-color: #ef4444;
+  box-shadow: 0 0 4px #ef4444;
+}
+
+/* Headroom Tab View Container */
+.headroom-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.headroom-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background: var(--forge);
+  border: 1px solid rgba(154, 144, 136, 0.15);
+  padding: 0.6rem 1rem;
+}
+
+.headroom-toolbar-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.headroom-endpoint-badge {
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  color: var(--ash);
+  background: rgba(10, 8, 6, 0.6);
+  padding: 0.15rem 0.45rem;
+  border: 1px solid rgba(154, 144, 136, 0.12);
+  text-transform: none;
+}
+
+.headroom-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.headroom-frame-wrapper {
+  width: 100%;
+  height: 82vh;
+  min-height: 600px;
+  background: #101216;
+  border: 1px solid rgba(154, 144, 136, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.headroom-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+

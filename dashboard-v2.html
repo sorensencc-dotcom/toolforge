@@ -19,7 +19,14 @@
       <button class="tab-button" role="tab" id="tab-btn-errors"  aria-selected="false" aria-controls="tab-errors"  data-tab="errors">Errors</button>
       <button class="tab-button" role="tab" id="tab-btn-release" aria-selected="false" aria-controls="tab-release" data-tab="release">Release Pipeline</button>
       <button class="tab-button" role="tab" id="tab-btn-badges"  aria-selected="false" aria-controls="tab-badges"  data-tab="badges">Status Badges</button>
+      <button class="tab-button" role="tab" id="tab-btn-headroom" aria-selected="false" aria-controls="tab-headroom" data-tab="headroom">Headroom</button>
     </nav>
+    <div id="headroom-header-badges" class="headroom-header-badges" title="Headroom Optimization Status — Click to open drill-down" role="button" tabindex="0" aria-label="Headroom summary badges">
+      <span class="hr-badge hr-badge-status" id="hr-badge-status"><span class="hr-dot hr-dot-checking"></span> Headroom: Checking…</span>
+      <span class="hr-badge hr-badge-saved" id="hr-badge-saved">Saved: —</span>
+      <span class="hr-badge hr-badge-cache" id="hr-badge-cache">Cache: —</span>
+      <span class="hr-badge hr-badge-cost" id="hr-badge-cost">Avoided: —</span>
+    </div>
     <button id="refresh-btn" class="refresh-button" aria-label="Refresh data">REFRESH</button>
     <label class="autopoll"><input type="checkbox" id="autopoll-toggle"> Auto-refresh (30s)</label>
   </header>
@@ -27,6 +34,25 @@
   <main class="container">
     <section id="tab-skills" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-skills" hidden>
       <p class="placeholder">Skills inventory — existing dashboard.html embeds here (deferred).</p>
+    </section>
+
+    <section id="tab-headroom" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-headroom" hidden>
+      <div class="headroom-container">
+        <div class="headroom-toolbar">
+          <div class="headroom-toolbar-title">
+            <span class="hr-dot hr-dot-online" id="headroom-live-indicator"></span>
+            <strong>Headroom Proxy Drill-Down</strong>
+            <span class="headroom-endpoint-badge">http://127.0.0.1:8787/dashboard</span>
+          </div>
+          <div class="headroom-toolbar-actions">
+            <button type="button" id="headroom-reload-btn" class="filter-button" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Reload Iframe</button>
+            <a href="http://127.0.0.1:8787/dashboard" target="_blank" rel="noopener noreferrer" class="filter-button" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center;">Open Standalone ↗</a>
+          </div>
+        </div>
+        <div class="headroom-frame-wrapper">
+          <iframe id="headroom-frame" src="http://127.0.0.1:8787/dashboard" title="Headroom Optimization Dashboard" class="headroom-frame"></iframe>
+        </div>
+      </div>
     </section>
 
     <section id="tab-history" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-history">

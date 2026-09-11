@@ -59,6 +59,8 @@
       if (button.dataset.tab === 'errors') { loadErrors(); }
       // Lazy-load the Badges tab on activation (Step 4).
       if (button.dataset.tab === 'badges') { loadBadges(); }
+      // Update Headroom telemetry on activation.
+      if (button.dataset.tab === 'headroom') { fetchHeadroomStats(); }
     }
 
     tabButtons.forEach((btn, idx) => {
@@ -636,6 +638,80 @@
   }
 
   // ============================================================
+  // Headroom Integration (Live Header Badges & Iframe Handling)
+  // ============================================================
+  const HEADROOM_STATS_URL = 'http://127.0.0.1:8787/stats';
+
+  async function fetchHeadroomStats() {
+    const statusEl = document.getElementById('hr-badge-status');
+    const savedEl = document.getElementById('hr-badge-saved');
+    const cacheEl = document.getElementById('hr-badge-cache');
+    const costEl = document.getElementById('hr-badge-cost');
+    const liveIndicator = document.getElementById('headroom-live-indicator');
+
+    if (!statusEl) return;
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const res = await fetch(HEADROOM_STATS_URL, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      const totalTokensSaved = (data.cost && data.cost.total_tokens_saved) || (data.tokens && data.tokens.tokens_saved) || 0;
+      const savingsPct = (data.cost && data.cost.reduction_pct) || (data.tokens && data.tokens.savings_percent) || 0;
+      const hitRate = (data.prefix_cache && data.prefix_cache.totals && data.prefix_cache.totals.hit_rate) || 0;
+      const costSavedUsd = (data.cost && (data.cost.savings_usd || data.cost.compression_savings_usd)) || 0;
+
+      statusEl.innerHTML = '<span class="hr-dot hr-dot-online"></span> Headroom: Online';
+      if (liveIndicator) liveIndicator.className = 'hr-dot hr-dot-online';
+
+      if (savedEl) savedEl.textContent = `Saved: ${totalTokensSaved.toLocaleString()} tok (${Number(savingsPct).toFixed(1)}%)`;
+      if (cacheEl) cacheEl.textContent = `Cache: ${Number(hitRate).toFixed(1)}% hit`;
+      if (costEl) costEl.textContent = `Avoided: $${Number(costSavedUsd).toFixed(4)}`;
+    } catch {
+      statusEl.innerHTML = '<span class="hr-dot hr-dot-offline"></span> Headroom: Offline';
+      if (liveIndicator) liveIndicator.className = 'hr-dot hr-dot-offline';
+      if (savedEl) savedEl.textContent = 'Saved: —';
+      if (cacheEl) cacheEl.textContent = 'Cache: —';
+      if (costEl) costEl.textContent = 'Avoided: —';
+    }
+  }
+
+  function initHeadroom() {
+    const badgesBtn = document.getElementById('headroom-header-badges');
+    const reloadBtn = document.getElementById('headroom-reload-btn');
+    const headroomTabBtn = document.getElementById('tab-btn-headroom');
+
+    if (badgesBtn && headroomTabBtn) {
+      const triggerHeadroomTab = () => {
+        headroomTabBtn.click();
+      };
+      badgesBtn.addEventListener('click', triggerHeadroomTab);
+      badgesBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          triggerHeadroomTab();
+        }
+      });
+    }
+
+    if (reloadBtn) {
+      reloadBtn.addEventListener('click', () => {
+        const frame = document.getElementById('headroom-frame');
+        if (frame) {
+          frame.src = frame.src;
+        }
+        fetchHeadroomStats();
+      });
+    }
+
+    fetchHeadroomStats();
+  }
+
+  // ============================================================
   // Init
   // ============================================================
   document.addEventListener('DOMContentLoaded', () => {
@@ -644,6 +720,7 @@
     applyFiltersToForm();
     initHistoryControls();
     initErrors();
+    initHeadroom();
     loadRuns();
   });
 })();
