@@ -5,8 +5,8 @@
 
 .DESCRIPTION
   Detects divergence between:
-  - C:\dev\ (canonical)
-  - C:\dev\rewrite-mcp\toolforge\ (distributed)
+  - the repository containing this script (canonical)
+  - a configured distributed checkout
 
   Checks:
   - Directory structure
@@ -20,6 +20,10 @@
 .PARAMETER OutputPath
   Where to save drift report (default: DRIFT-REPORT.md)
 
+.PARAMETER DistributedPath
+  Distributed checkout to compare. Defaults to TOOLFORGE_DISTRIBUTED_PATH,
+  then a sibling rewrite-mcp\toolforge checkout.
+
 .PARAMETER Verbose
   Show detailed drift logs
 
@@ -29,7 +33,8 @@
 #>
 
 param(
-  [string]$OutputPath = "C:\dev\drift\DRIFT-REPORT.md",
+  [string]$OutputPath = "",
+  [string]$DistributedPath = "",
   [switch]$Verbose,
   [switch]$AutoFix
 )
@@ -52,8 +57,17 @@ function Write-IfChanged {
   return $true
 }
 
-$CANONICAL = "C:\dev"
-$DISTRIBUTED = "C:\dev\rewrite-mcp\toolforge"
+$CANONICAL = (Resolve-Path (Join-Path $PSScriptRoot "..\")).Path
+if ([string]::IsNullOrWhiteSpace($OutputPath)) {
+  $OutputPath = Join-Path $CANONICAL "drift\DRIFT-REPORT.md"
+}
+if ([string]::IsNullOrWhiteSpace($DistributedPath)) {
+  $DistributedPath = $env:TOOLFORGE_DISTRIBUTED_PATH
+}
+if ([string]::IsNullOrWhiteSpace($DistributedPath)) {
+  $DistributedPath = Join-Path (Split-Path -Parent $CANONICAL) "rewrite-mcp\toolforge"
+}
+$DISTRIBUTED = [System.IO.Path]::GetFullPath($DistributedPath)
 
 $drift = @{
   structure = @()
