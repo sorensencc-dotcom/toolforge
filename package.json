@@ -54,7 +54,10 @@
     "viking-vfs": "node modules/mcp/viking-vfs-server.mjs",
     "test:viking": "node --test modules/mcp/*.test.mjs scripts/benchmark-viking-token-savings.test.mjs && npm --prefix modules/viking-client test",
     "benchmark:viking": "node scripts/benchmark-viking-token-savings.mjs",
-    "lint:script": "node scripts/lint-script-claims.mjs"
+    "lint:script": "node scripts/lint-script-claims.mjs",
+    "morning:ingest": "node scripts/morning-ingest.mjs",
+    "morning:ingest:stream": "node scripts/morning-ingest.mjs --stream",
+    "test:telemetry": "node --test modules/telemetry/*.test.mjs"
   },
   "keywords": [
     "toolforge",

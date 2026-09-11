@@ -4,8 +4,8 @@
  */
 
 // In any module that needs the provider:
-import { getProvider, resetProvider } from '../providers/index.js';
-import { runAdversarialCrossAudit } from '../modules/healing/adversarial-auditor.js';
+import { getProvider, resetProvider } from "../providers/index.js";
+import { runAdversarialCrossAudit } from "../modules/healing/adversarial-auditor.js";
 
 // Example 1: Using the provider in adversarial auditing flow
 export async function auditWithOllama(auditPacket: any) {
@@ -22,10 +22,10 @@ export async function generateWithModel(modelName: string, prompt: string) {
 }
 
 // Example 3: In Express middleware/route
-import express from 'express';
+import express from "express";
 
 export function setupProviderRoutes(app: express.Express) {
-  app.post('/api/generate', async (req, res) => {
+  app.post("/api/generate", async (req, res) => {
     try {
       const { model, prompt } = req.body;
       const provider = getProvider();
@@ -34,20 +34,20 @@ export function setupProviderRoutes(app: express.Express) {
     } catch (error) {
       res.status(500).json({
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : "Unknown error",
       });
     }
   });
 
-  app.get('/api/health', async (req, res) => {
+  app.get("/api/health", async (req, res) => {
     try {
       const provider = getProvider();
       // Verify by attempting a lightweight check
-      res.json({ status: 'healthy', provider: 'OllamaProvider' });
+      res.json({ status: "healthy", provider: "OllamaProvider" });
     } catch (error) {
       res.status(503).json({
-        status: 'unhealthy',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        status: "unhealthy",
+        error: error instanceof Error ? error.message : "Unknown error",
       });
     }
   });
@@ -58,14 +58,15 @@ export async function initializeApplication() {
   // Initialize provider with explicit config (optional)
   const provider = getProvider({
     baseUrl: process.env.OLLAMA_BASE_URL,
-    timeout: parseInt(process.env.OLLAMA_TIMEOUT || '30000', 10),
+    timeout: parseInt(process.env.OLLAMA_TIMEOUT || "30000", 10),
   });
-  
-  console.log('Provider initialized:', {
-    baseUrl: process.env.OLLAMA_BASE_URL || 'http://host.docker.internal:11434/v1',
-    timeout: process.env.OLLAMA_TIMEOUT || '30000ms',
+
+  console.log("Provider initialized:", {
+    baseUrl:
+      process.env.OLLAMA_BASE_URL || "http://host.docker.internal:11434/v1",
+    timeout: process.env.OLLAMA_TIMEOUT || "30000ms",
   });
-  
+
   return provider;
 }
 

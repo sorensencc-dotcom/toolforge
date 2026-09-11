@@ -3,7 +3,7 @@
  * Returns configured provider instance based on environment
  */
 
-import OllamaProvider, { type LocalProviderLike } from './ollama-provider.js';
+import OllamaProvider, { type LocalProviderLike } from "./ollama-provider.js";
 
 let cachedProvider: LocalProviderLike | null = null;
 

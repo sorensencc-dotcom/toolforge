@@ -1,4 +1,4 @@
-import { AdaptiveThreshold } from './adaptiveThreshold';
+import { AdaptiveThreshold } from "./adaptiveThreshold";
 
 export interface ProviderResult {
   confidence: number;
@@ -37,7 +37,9 @@ export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
   let result: ProviderResult | null = null;
 
   try {
-    const baseline = mocks.clip ? await mocks.clip(buffer) : await runClipBlip(buffer, 'clip');
+    const baseline = mocks.clip
+      ? await mocks.clip(buffer)
+      : await runClipBlip(buffer, "clip");
     if (baseline.confidence >= threshold) return baseline;
     result = baseline;
   } catch {
@@ -46,25 +48,33 @@ export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
 
   // BLIP
   try {
-    const blipResult = mocks.blip ? await mocks.blip(buffer) : await runClipBlip(buffer, 'blip');
+    const blipResult = mocks.blip
+      ? await mocks.blip(buffer)
+      : await runClipBlip(buffer, "blip");
     if (blipResult.confidence >= threshold) return blipResult;
-    if (!result || blipResult.confidence > result.confidence) result = blipResult;
+    if (!result || blipResult.confidence > result.confidence)
+      result = blipResult;
   } catch {
     // BLIP failed, fall through to next provider
   }
 
   // DINO structure
   try {
-    const dinoResult = mocks.dino ? await mocks.dino(buffer) : await runDinoSam(buffer, 'dino');
+    const dinoResult = mocks.dino
+      ? await mocks.dino(buffer)
+      : await runDinoSam(buffer, "dino");
     if (dinoResult.confidence >= threshold) return dinoResult;
-    if (!result || dinoResult.confidence > result.confidence) result = dinoResult;
+    if (!result || dinoResult.confidence > result.confidence)
+      result = dinoResult;
   } catch {
     // DINO failed, fall through to next provider
   }
 
   // SAM
   try {
-    const samResult = mocks.sam ? await mocks.sam(buffer) : await runDinoSam(buffer, 'sam');
+    const samResult = mocks.sam
+      ? await mocks.sam(buffer)
+      : await runDinoSam(buffer, "sam");
     if (samResult.confidence >= threshold) return samResult;
     if (!result || samResult.confidence > result.confidence) result = samResult;
   } catch {
@@ -72,10 +82,13 @@ export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
   }
 
   // Google Vision enrichment (Method A: Gemini API)
-  const apiKey = process.env.GOOGLE_API_KEY || process.env.VISION_API_KEY || process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  const apiKey =
+    process.env.GOOGLE_API_KEY ||
+    process.env.VISION_API_KEY ||
+    process.env.GOOGLE_APPLICATION_CREDENTIALS;
   if (!apiKey) {
     throw new Error(
-      'GOOGLE_API_KEY / VISION_API_KEY / GOOGLE_APPLICATION_CREDENTIALS environment variable not set. Required for Google Vision API (Method A).'
+      "GOOGLE_API_KEY / VISION_API_KEY / GOOGLE_APPLICATION_CREDENTIALS environment variable not set. Required for Google Vision API (Method A).",
     );
   }
 
@@ -84,7 +97,7 @@ export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
     if (mocks.googleVision) {
       enriched = await mocks.googleVision(buffer, {
         apiKey,
-        model: 'gemini-pro-vision',
+        model: "gemini-pro-vision",
       });
     } else {
       enriched = await runGoogleVision(buffer, apiKey);
@@ -106,35 +119,49 @@ export async function analyzeImage(buffer: Buffer): Promise<ProviderResult> {
     throw err;
   }
 
-  const merged = mergeResults(result || { confidence: 0, labels: [], regions: [], metadata: {} }, enriched);
+  const merged = mergeResults(
+    result || { confidence: 0, labels: [], regions: [], metadata: {} },
+    enriched,
+  );
 
   const baseline = result?.confidence ?? 0;
   const structure = Math.max(
     result?.confidence ?? 0,
-    enriched.confidence - 0.1
+    enriched.confidence - 0.1,
   );
 
-  adaptiveThreshold.update(baseline, structure, enriched.confidence - structure);
+  adaptiveThreshold.update(
+    baseline,
+    structure,
+    enriched.confidence - structure,
+  );
 
   return merged;
 }
 
 function sanitizeError(err: unknown): string {
-  let message = 'API_FAILURE';
-  if (err && typeof err === 'object' && typeof (err as Record<string, unknown>).message === 'string') {
+  let message = "API_FAILURE";
+  if (
+    err &&
+    typeof err === "object" &&
+    typeof (err as Record<string, unknown>).message === "string"
+  ) {
     message = (err as Record<string, unknown>).message as string;
-  } else if (typeof err === 'string') {
+  } else if (typeof err === "string") {
     message = err;
   } else if (err !== null && err !== undefined) {
     message = String(err);
   }
 
-  return message.replace(/(AIzaSy[A-Za-z0-9_-]+|key=[A-Za-z0-9_-]+|Bearer\s+[A-Za-z0-9._-]+)/gi, '[REDACTED]');
+  return message.replace(
+    /(AIzaSy[A-Za-z0-9_-]+|key=[A-Za-z0-9_-]+|Bearer\s+[A-Za-z0-9._-]+)/gi,
+    "[REDACTED]",
+  );
 }
 
 async function runClipBlip(
   buffer: Buffer,
-  provider: 'clip' | 'blip'
+  provider: "clip" | "blip",
 ): Promise<ProviderResult> {
   // Placeholder: real implementation would call the provider
   return {
@@ -147,7 +174,7 @@ async function runClipBlip(
 
 async function runDinoSam(
   buffer: Buffer,
-  provider: 'dino' | 'sam'
+  provider: "dino" | "sam",
 ): Promise<ProviderResult> {
   // Placeholder: real implementation would call the provider
   return {
@@ -158,18 +185,24 @@ async function runDinoSam(
   };
 }
 
-async function runGoogleVision(buffer: Buffer, apiKey: string): Promise<ProviderResult> {
+async function runGoogleVision(
+  buffer: Buffer,
+  apiKey: string,
+): Promise<ProviderResult> {
   // Placeholder: real implementation would call Google Vision API
   // Using Method A (Gemini API with API key)
   return {
     confidence: 0.75,
     labels: [],
     regions: [],
-    metadata: { provider: 'googleVision', apiKeyPresent: !!apiKey },
+    metadata: { provider: "googleVision", apiKeyPresent: !!apiKey },
   };
 }
 
-function mergeResults(result1: ProviderResult, result2: ProviderResult): ProviderResult {
+function mergeResults(
+  result1: ProviderResult,
+  result2: ProviderResult,
+): ProviderResult {
   const labels = Array.from(new Set([...result1.labels, ...result2.labels]));
   const confidence = Math.max(result1.confidence, result2.confidence);
 
