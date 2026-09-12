@@ -1,6 +1,6 @@
 # Multi-Agent Memory Synchronization to Obsidian Vault
 
-**Status:** Ready for Review  
+**Status:** Ready for Implementation  
 **Date:** 2026-09-12  
 **Target:** Toolforge Multi-Agent Ecosystem (`sync-tools/agent-memory/`)  
 
@@ -16,21 +16,23 @@ The utility ensures prompt-zero alignment on architecture indexes, wiki conventi
 
 ## 2. Path Resolution & Vault Configuration
 
-Vault root resolution is platform-neutral, environment-aware, and fails closed against invalid paths:
+### 2.1 Dynamic Root Resolution Algorithm
+1. **Environment Override:** If `process.env.OBSIDIAN_VAULT_ROOT` is defined:
+   - Handle tilde expansion: bare `~`, `~/...`, or `~\...` expand to `os.homedir()`. Reject unsupported POSIX `~username` syntax.
+   - Resolve to absolute path (`path.resolve()`).
+2. **Dynamic Fallback Discovery:**
+   - Resolve relative to `process.env.TOOLFORGE_ROOT` or the nearest repository root enclosing `process.cwd()`:
+   - Search `<repoRoot>/kb-sync/obsidian/vault/wiki` -> `<repoRoot>/../kb-sync/obsidian/vault/wiki`.
+   - If not found, check platform default paths:
+     - Windows: `path.join(process.env.SystemDrive || 'C:', 'dev', 'kb-sync', 'obsidian', 'vault', 'wiki')`
+     - POSIX: `path.join(os.homedir(), 'dev', 'kb-sync', 'obsidian', 'vault', 'wiki')`
+3. **Canonical Subtree Guard:**
+   - If resolved directory basename is not `wiki`, append `wiki` only if `path.join(resolvedPath, 'wiki')` exists. Prevents duplicate `/wiki/wiki` appending.
 
-### 2.1 Resolution Algorithm
-1. If `process.env.OBSIDIAN_VAULT_ROOT` is set:
-   - Expand leading `~` to `os.homedir()`.
-   - Resolve to canonical absolute path (`path.resolve()`).
-2. If not set, check standard platform default roots:
-   - Windows: `C:/dev/kb-sync/obsidian/vault/wiki`
-   - POSIX / macOS / Linux: `path.join(os.homedir(), 'dev', 'kb-sync', 'obsidian', 'vault', 'wiki')`
-3. Append `/wiki` if the specified root points to the parent vault.
-
-### 2.2 Validation & Fail-Closed Guardrails
-- **Existence Check:** Verifies directory existence (`fs.existsSync(resolvedPath)`).
-- **Containment Check:** Guarantees target is a directory and contains at least `Index.md` or `Log.md` to prevent pointing agents to empty or unvetted directories.
-- **Fail-Closed Behavior:** If validation fails and `--force` is not set, sync halts with exit code 1 (or skips with warning in `--lenient` discovery mode).
+### 2.2 Strict Fail-Closed Validation
+- **Existence & Type:** Target must exist and be a directory (`fs.statSync().isDirectory()`).
+- **Sentinel Verification:** Target directory must contain canonical entrypoints (`Index.md` or `Log.md`).
+- **Fail-Closed Guarantee:** If validation fails, abort immediately with exit code 1 and error code `ERR_VAULT_NOT_FOUND`. No force bypass is permitted to target non-existent or invalid vault paths.
 
 ---
 
@@ -43,10 +45,11 @@ sync-tools/
 ├── agent-memory-sync.cjs             # CLI orchestrator & workspace resolver
 ├── lib/
 │   ├── managed-region.cjs            # Safe block parser, marker injector & CRLF handler
-│   ├── json-region.cjs               # Format-safe JSON property/key injector (UTF-8, no BOM, CRLF-aware)
-│   ├── vault-context.cjs             # Vault path resolver & validation guardrails
-│   ├── workspace-discovery.cjs       # Hybrid scanner with deterministic ignore rules
-│   └── base-adapter.cjs              # Abstract base class & multi-target lifecycle contract
+│   ├── json-region.cjs               # Indentation-aware, BOM-free JSON mutator
+│   ├── vault-context.cjs             # Vault path resolver & sentinel validator
+│   ├── workspace-discovery.cjs       # Recursive scanner with deterministic ignore sets
+│   ├── safe-write.cjs                # Windows-safe atomic write with rollback & fsync
+│   └── base-adapter.cjs              # Abstract base class & receipt contract
 └── adapters/
     ├── claude-code.cjs               # ~/.claude/projects/<sanitized>/memory/MEMORY.md
     ├── antigravity.cjs               # GEMINI.md / AGENTS.md managed pointer block
@@ -60,46 +63,56 @@ sync-tools/
 
 ## 4. Agent Adapters & Target Governance Contracts
 
-### 4.1 Base Adapter Contract (`BaseAgentAdapter`)
-All adapters subclass `BaseAgentAdapter` and implement standard lifecycle methods returning an array of per-target receipts:
+### 4.1 Base Adapter Contract (`BaseAgentAdapter`) & Receipt Schema
+All adapters subclass `BaseAgentAdapter`. The `sync()` method returns an array of deterministic receipts:
 
 ```javascript
-class BaseAgentAdapter {
-  constructor(name) {
-    this.name = name;
-  }
-  
-  // Returns: Promise<Array<{ adapter: string, targetFile: string, status: 'CREATED'|'UPDATED'|'UNCHANGED'|'SKIPPED'|'ERROR', changesMade: boolean, error?: string }>>
-  async sync(workspaceContext, vaultContext, options = {}) {
-    throw new Error('Not implemented');
-  }
-}
+/**
+ * @typedef {Object} SyncReceipt
+ * @property {string} adapter - Identifier of the executing adapter
+ * @property {string} targetFile - Absolute, canonical path to the mutated file
+ * @property {'CREATED'|'UPDATED'|'UNCHANGED'|'SKIPPED'|'ERROR'} status
+ * @property {boolean} changesMade - True if file content was modified
+ * @property {string} [errorCode] - e.g. 'ERR_FILE_LOCKED', 'ERR_PARSE_JSON', 'ERR_BOUNDARY_VIOLATION'
+ * @property {string} [error] - Descriptive error message
+ */
 ```
 
-### 4.2 Target Write Governance & Boundary Rules
-To protect repository integrity, mutations are strictly classified into **Internal Agent State** vs **Governed Workspace Files**:
+- **Ordering Invariant:** Receipts are deterministically sorted by `targetFile` path.
+- **Exit Code Policy:** If any receipt has status `ERROR`, the CLI terminates with exit code 1.
 
-| Adapter | Target | Category | Write Rule |
+### 4.2 Target Write Governance & Boundary Rules
+
+| Adapter | Target Path | Boundary Category | Governance Rule |
 |---|---|---|---|
 | `ClaudeCodeAdapter` | `~/.claude/projects/<sanitized>/memory/MEMORY.md` | Internal State | Create/Update freely in user home directory. |
 | `AntigravityAdapter` | `GEMINI.md`, `AGENTS.md` | Governed File | Update managed region ONLY if file already exists; never create unmanaged root files. |
 | `CodexAdapter` | `codex/AGENTS.md`, `CODEX.md` | Governed File | Update managed region ONLY if file already exists. |
-| `GrokAdapter` | `.sigil/grok-context.md` | Internal State | Create/Update only if `.sigil/` directory exists or `--create-stubs` is passed. |
+| `GrokAdapter` | `.sigil/grok-context.md` | Internal State | Create/Update only if `.sigil/` directory exists. |
 | `LocalModelAdapter` | `opencode.json` | Governed Config | Update JSON property ONLY if `opencode.json` exists in workspace root. |
 | `LocalModelAdapter` | `.local-agent-context.md` | Internal State | Create/Update pointer stub. |
 
 ### 4.3 Claude Code Path Sanitization Specification
-- Path normalization: lowercases Windows drive letters, replaces all non-alphanumerics (`:`, `\`, `/`, `.`, ` `) with `-`.
-- Example: `C:\dev\sigil-repo` -> `C--dev-sigil-repo` (or `c--dev` for dev root).
-- UNC paths (`\\server\share\repo`) -> `UNC--server-share-repo`.
+Deterministic encoding algorithm:
+```javascript
+function encodeWorkspaceKey(targetPath) {
+  const resolved = path.resolve(targetPath);
+  return resolved
+    .replace(/^([a-zA-Z]):/, (_, drive) => `${drive.toUpperCase()}-`)
+    .replace(/^\\\\/, 'UNC--')
+    .replace(/[^a-zA-Z0-9]/g, '-');
+}
+```
+- Example Windows drive: `C:\dev\sigil-repo` -> `C--dev-sigil-repo`
+- Example UNC path: `\\server\share\repo` -> `UNC--server-share-repo`
+- Example POSIX path: `/home/user/dev/repo` -> `-home-user-dev-repo`
 
 ---
 
-## 5. Mutation Strategies, Line Endings & Concurrency
+## 5. Mutation Strategies, File Encodings & Atomic Write Safety
 
 ### 5.1 Markdown Managed Regions (`managed-region.cjs`)
-Used for all `.md` targets:
-
+- **Marker Standard:**
 ```markdown
 <!-- TOOLFORGE-VAULT-POINTER-START -->
 # Persistent System Memory Pointer
@@ -112,38 +125,46 @@ Used for all `.md` targets:
 - Repository Target: <WorkspaceName>
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 ```
-
-- **Line Ending & Encoding Preservation:** Detects CRLF vs LF on read and guarantees identical line endings on write. Strips UTF-8 BOM if present and writes standard UTF-8.
-- **Duplicate/Malformed Marker Cleanup:** If duplicate markers exist, cleans up redundant blocks into a single canonical block.
+- **Line Ending & UTF-8 Policy:**
+  - Detects CRLF (`\r\n`) vs LF (`\n`) from existing file; defaults to platform newline for new files.
+  - Strips UTF-8 BOM on input; outputs UTF-8 without BOM.
+  - Guarantees exactly one trailing newline at EOF.
+  - Collapses duplicate or broken marker tags into a single canonical block.
 
 ### 5.2 JSON Mutation Strategy (`json-region.cjs`)
-Used for `.json` targets (`opencode.json`):
-- Reads JSON AST / Object, parses safely, merges `system_prompt_pointer` or `vault_context` under `toolforge_memory` namespace.
-- Preserves original indentation (e.g. 2 spaces, tabs) and matches input line endings (CRLF vs LF).
+- **Indentation & Formatting Contract:**
+  - Detects indentation style (spaces vs tabs, default 2 spaces).
+  - Preserves key ordering and valid JSON syntax.
+  - Injects vault context under namespace `toolforge_memory`.
+  - Preserves detected CRLF/LF line endings and trailing newline.
 
-### 5.3 Windows-Safe Atomic Replacement Algorithm
-To prevent `EBUSY` / `EPERM` locks on Windows:
-1. Write payload to temporary file `<target>.tmp.<pid>.<timestamp>` in same directory.
-2. Attempt `fs.renameSync(tempFile, targetFile)`.
-3. If `fs.renameSync` fails due to Windows file lock (`EPERM` / `EEXIST`), fallback to `fs.copyFileSync(tempFile, targetFile)` followed by `fs.unlinkSync(tempFile)`.
-4. Guarantee cleanup of temporary files in `finally` block on error.
+### 5.3 Windows-Safe Atomic Replacement (`safe-write.cjs`)
+1. Write payload to temporary file `<target>.tmp.<pid>.<timestamp>` in target's parent directory.
+2. Flush to disk via `fs.fsyncSync(fd)` to guarantee persistence.
+3. If destination exists, create backup `<target>.bak.<pid>`.
+4. Attempt `fs.renameSync(tempFile, targetFile)`.
+5. On Windows retryable lock errors (`EPERM`, `EBUSY`, `EEXIST`):
+   - Retry with exponential backoff (3 attempts: 50ms, 100ms, 200ms).
+   - If rename still fails, fallback to `fs.copyFileSync(tempFile, targetFile)`.
+6. Verify written file byte length matches source buffer.
+7. Unlink backup and temporary files in `finally` block; on unrecoverable failure, restore from `.bak`.
 
 ---
 
 ## 6. Deterministic Workspace Discovery & Ignore Rules
 
-`workspace-discovery.cjs` resolves workspaces using strict precedence and exclusion filters:
+### 6.1 Discovery Precedence
+1. **Explicit Target:** Single CLI argument `node sync-tools/agent-memory-sync.cjs <path>`.
+2. **Registry Targets:** Repositories listed in `sync-tools/repo-registry.json`.
+3. **Filesystem Walk (`--all`):** Scans directories under base root (default `C:\dev` or detected root).
 
-1. **Precedence:**
-   - Explicit CLI path argument (`node sync-tools/agent-memory-sync.cjs <path>`)
-   - `sync-tools/repo-registry.json` registered workspaces
-   - `--all` filesystem scan of base directory (default `C:\dev`)
-2. **Deterministic Exclusion List:**
-   - Version control: `.git/`, `.worktrees/`, `.hg/`, `.svn/`
-   - Dependencies: `node_modules/`, `vendor/`, `.pnpm-store/`
-   - Staging & artifacts: `_archive/`, `.cache/`, `dist/`, `build/`, `.tmp/`, `_kb-sync-staging/`, `sync-artifacts/`, `coverage/`, `target/`
-3. **Deduplication:**
-   - Canonicalizes absolute paths with `fs.realpathSync` to prevent duplicate operations across directory junctions or symlinks.
+### 6.2 Deterministic Exclusion Set
+During recursive directory traversal, ignore any directory whose normalized basename matches:
+- **VCS & Repos:** `.git`, `.worktrees`, `.hg`, `.svn`
+- **Dependencies:** `node_modules`, `vendor`, `.pnpm-store`
+- **Staging & Build:** `_archive`, `.cache`, `dist`, `build`, `.tmp`, `_kb-sync-staging`, `sync-artifacts`, `coverage`, `target`
+
+- **Symlink / Junction Cycle Prevention:** Resolves realpaths via `fs.realpathSync` and maintains a `Set<string>` of visited inode/path keys.
 
 ---
 
@@ -153,7 +174,7 @@ To onboard any new agent harness (e.g., Cursor, Windsurf, Devin, or bespoke loca
 
 1. **Create Adapter Module (`sync-tools/adapters/<agent-name>.cjs`)**:
    - Subclass `BaseAgentAdapter` from `../lib/base-adapter.cjs`.
-   - Implement `sync(workspaceContext, vaultContext, options)` returning `Promise<Array<Receipt>>`.
+   - Implement `sync(workspaceContext, vaultContext, options)` returning `Promise<Array<SyncReceipt>>`.
 2. **Register in Adapter Registry (`sync-tools/adapters/index.cjs`)**:
    - Add adapter instance to registry export.
 3. **Add Verification Suite (`tests/adapters/<agent-name>.test.mjs`)**:
@@ -174,12 +195,12 @@ Visual specifications are generated using the canonical warm palette (`#f2ece2` 
 ## 9. Comprehensive Test & Acceptance Matrix
 
 1. **Unit Tests (`tests/agent-memory-sync.test.mjs`):**
-   - **Path Sanitization:** Windows drives (`C:\dev`), UNC paths, POSIX paths, spaces, and special characters.
-   - **CRLF/LF & BOM Preservation:** Verifies line endings and UTF-8 encoding are unchanged across Markdown and JSON mutations.
-   - **JSON Format Safety:** Confirms `opencode.json` remains strictly valid JSON without comment injection.
-   - **Managed Marker Idempotency:** Repeated sync passes yield `changesMade: false` and identical byte hashes.
-   - **Atomic Replacement & Error Recovery:** Verifies `.tmp` file cleanup during simulated write failures.
-   - **Exclusion Safety:** Confirms scanner ignores `node_modules`, `_kb-sync-staging`, and nested `.worktrees`.
+   - **Path Sanitization Matrix:** Table tests covering Windows drive paths, UNC shares, POSIX paths, spaces, dots, and hyphens.
+   - **Vault Path & Sentinel Matrix:** Missing vault, empty vault, non-wiki root, tilde expansion (`~`, `~/path`, `~\path`), and `~user` rejection.
+   - **CRLF/LF & BOM Matrix:** Preserves CRLF on Windows files, preserves LF on POSIX files, strips input BOM, verifies zero output BOM.
+   - **JSON Format Matrix:** Validates `opencode.json` indentation preservation, key order preservation, and syntax validity.
+   - **Atomic Replacement & Rollback:** Simulates write failures and verifies rollback recovery from `.bak`.
+   - **Exclusion Matrix:** Verifies recursive walk skips `node_modules`, `_kb-sync-staging`, and `.worktrees`.
 2. **Acceptance Smoke Test:**
    - Execute against `C:\dev` and `C:\dev\sigil-repo`.
    - Submit final code and test outputs to OpenAI Codex (`codex exec`) for automated second-opinion review prior to landing.
