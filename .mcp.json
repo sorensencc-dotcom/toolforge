@@ -31,6 +31,19 @@
       "args": [
         "C:\\dev\\modules\\trm-devops\\dist\\mcp\\server.js"
       ]
+    },
+    "ironledger": {
+      "command": "C:\\dev\\IronLedger\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "ironledger.mcp.stdio",
+        "--ledger-dir",
+        "C:\\dev\\IronLedger\\ledger",
+        "--projection-dir",
+        "C:\\dev\\IronLedger\\projection.db",
+        "--db",
+        "C:\\dev\\IronLedger\\ironledger.db"
+      ]
     }
   }
 }
