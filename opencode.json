@@ -10,5 +10,11 @@
       ],
       "enabled": true
     }
+  },
+  "toolforge_memory": {
+    "vault_root": "C:\\dev\\kb-sync\\obsidian\\vault\\wiki",
+    "architecture": "Index",
+    "conventions": "wiki-schema",
+    "log": "Log"
   }
 }

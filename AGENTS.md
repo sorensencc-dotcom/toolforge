@@ -490,3 +490,23 @@ When the correct project directory is unclear, especially for a new project, do 
 - If a test suite exceeds 60 seconds without emitting output, treat it as hung: abort the process, clear `.staging.lock` / `.kb-sync.lock`, and report the hanging test file.
 - If investigating hanging tests, pass `--detectOpenHandles` or `--test-timeout=10000` to pinpoint unclosed database handles or unmocked network sockets.
 
+<!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
+> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
+- Canonical Knowledge Base Root: C:\dev\kb-sync\obsidian\vault\wiki
+- Ingest Guidelines: docs/targets/obsidian.md
+- Primary Architecture Graph: [[Index]]
+- Active Conventions: [[wiki-schema]]
+- Log Audit Trail: [[Log]]
+- Repository Target: dev
+<!-- TOOLFORGE-VAULT-POINTER-END -->
+<!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
+> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
+- Canonical Knowledge Base Root: C:\dev\kb-sync\obsidian\vault\wiki
+- Ingest Guidelines: docs/targets/obsidian.md
+- Primary Architecture Graph: [[Index]]
+- Active Conventions: [[wiki-schema]]
+- Log Audit Trail: [[Log]]
+- Repository Target: dev
+<!-- TOOLFORGE-VAULT-POINTER-END -->

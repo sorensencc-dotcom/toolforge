@@ -39,3 +39,23 @@ re-read whole files.
 After big code changes, refresh the graph with `graft build` (deterministic,
 no API key, $0).
 <!-- graft:end -->
+<!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
+> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
+- Canonical Knowledge Base Root: C:\dev\kb-sync\obsidian\vault\wiki
+- Ingest Guidelines: docs/targets/obsidian.md
+- Primary Architecture Graph: [[Index]]
+- Active Conventions: [[wiki-schema]]
+- Log Audit Trail: [[Log]]
+- Repository Target: dev
+<!-- TOOLFORGE-VAULT-POINTER-END -->
+<!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
+> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
+- Canonical Knowledge Base Root: C:\dev\kb-sync\obsidian\vault\wiki
+- Ingest Guidelines: docs/targets/obsidian.md
+- Primary Architecture Graph: [[Index]]
+- Active Conventions: [[wiki-schema]]
+- Log Audit Trail: [[Log]]
+- Repository Target: dev
+<!-- TOOLFORGE-VAULT-POINTER-END -->
