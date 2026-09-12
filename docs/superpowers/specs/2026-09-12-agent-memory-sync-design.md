@@ -1,6 +1,6 @@
 # Multi-Agent Memory Synchronization to Obsidian Vault
 
-**Status:** Draft (Addressing Review Findings)  
+**Status:** Ready for Review  
 **Date:** 2026-09-12  
 **Target:** Toolforge Multi-Agent Ecosystem (`sync-tools/agent-memory/`)  
 
@@ -16,16 +16,21 @@ The utility ensures prompt-zero alignment on architecture indexes, wiki conventi
 
 ## 2. Path Resolution & Vault Configuration
 
-The vault location is dynamically resolved with cross-platform and environment variable support:
+Vault root resolution is platform-neutral, environment-aware, and fails closed against invalid paths:
 
-```javascript
-const VAULT_WIKI_PATH = process.env.OBSIDIAN_VAULT_ROOT 
-  ? path.resolve(process.env.OBSIDIAN_VAULT_ROOT, 'wiki')
-  : path.resolve('C:/dev/kb-sync/obsidian/vault/wiki');
-```
+### 2.1 Resolution Algorithm
+1. If `process.env.OBSIDIAN_VAULT_ROOT` is set:
+   - Expand leading `~` to `os.homedir()`.
+   - Resolve to canonical absolute path (`path.resolve()`).
+2. If not set, check standard platform default roots:
+   - Windows: `C:/dev/kb-sync/obsidian/vault/wiki`
+   - POSIX / macOS / Linux: `path.join(os.homedir(), 'dev', 'kb-sync', 'obsidian', 'vault', 'wiki')`
+3. Append `/wiki` if the specified root points to the parent vault.
 
-- **Path Containment & Validation:** Prior to synchronization, the engine verifies that `VAULT_WIKI_PATH` exists and is accessible. If absent, logs a non-fatal warning and enters graceful degradation mode.
-- **Cross-Platform Normalization:** All internal path comparisons use normalized forward slashes or `path.resolve()` to maintain consistency across Windows, WSL, and POSIX runtimes.
+### 2.2 Validation & Fail-Closed Guardrails
+- **Existence Check:** Verifies directory existence (`fs.existsSync(resolvedPath)`).
+- **Containment Check:** Guarantees target is a directory and contains at least `Index.md` or `Log.md` to prevent pointing agents to empty or unvetted directories.
+- **Fail-Closed Behavior:** If validation fails and `--force` is not set, sync halts with exit code 1 (or skips with warning in `--lenient` discovery mode).
 
 ---
 
@@ -38,10 +43,10 @@ sync-tools/
 ├── agent-memory-sync.cjs             # CLI orchestrator & workspace resolver
 ├── lib/
 │   ├── managed-region.cjs            # Safe block parser, marker injector & CRLF handler
-│   ├── json-region.cjs               # Format-safe JSON property/key injector
-│   ├── vault-context.cjs             # Obsidian vault path & schema resolver
-│   ├── workspace-discovery.cjs       # Hybrid scanner with ignore rules
-│   └── base-adapter.cjs              # Abstract base class & lifecycle contract
+│   ├── json-region.cjs               # Format-safe JSON property/key injector (UTF-8, no BOM, CRLF-aware)
+│   ├── vault-context.cjs             # Vault path resolver & validation guardrails
+│   ├── workspace-discovery.cjs       # Hybrid scanner with deterministic ignore rules
+│   └── base-adapter.cjs              # Abstract base class & multi-target lifecycle contract
 └── adapters/
     ├── claude-code.cjs               # ~/.claude/projects/<sanitized>/memory/MEMORY.md
     ├── antigravity.cjs               # GEMINI.md / AGENTS.md managed pointer block
@@ -53,10 +58,10 @@ sync-tools/
 
 ---
 
-## 4. Agent Adapters & Target Contracts
+## 4. Agent Adapters & Target Governance Contracts
 
 ### 4.1 Base Adapter Contract (`BaseAgentAdapter`)
-All adapters subclass `BaseAgentAdapter` and implement standard lifecycle methods returning a structured result:
+All adapters subclass `BaseAgentAdapter` and implement standard lifecycle methods returning an array of per-target receipts:
 
 ```javascript
 class BaseAgentAdapter {
@@ -64,35 +69,33 @@ class BaseAgentAdapter {
     this.name = name;
   }
   
-  // Returns: Promise<{ adapter: string, targetFile: string, status: 'CREATED'|'UPDATED'|'UNCHANGED'|'SKIPPED'|'ERROR', changesMade: boolean, error?: string }>
+  // Returns: Promise<Array<{ adapter: string, targetFile: string, status: 'CREATED'|'UPDATED'|'UNCHANGED'|'SKIPPED'|'ERROR', changesMade: boolean, error?: string }>>
   async sync(workspaceContext, vaultContext, options = {}) {
     throw new Error('Not implemented');
   }
 }
 ```
 
-### 4.2 Claude Code Adapter (`ClaudeCodeAdapter`)
-- **Target Path:** `~/.claude/projects/<sanitized-workspace-path>/memory/MEMORY.md`
-- **Sanitization Specification:**
-  - Converts drive letters and directory separators to dashes matching Claude Code's native Windows format: `C:\dev\sigil-repo` $\rightarrow$ `C--dev-sigil-repo` (or `c--dev` for root).
-  - Handles UNC paths (`\\\\server\\share` $\rightarrow$ `UNC--server-share`), whitespace, and non-alphanumerics deterministically.
-- **Scope:** Updates internal agent memory without polluting workspace files unless explicitly configured.
+### 4.2 Target Write Governance & Boundary Rules
+To protect repository integrity, mutations are strictly classified into **Internal Agent State** vs **Governed Workspace Files**:
 
-### 4.3 Antigravity & Codex Adapters
-- **Target Files:** `GEMINI.md` / `AGENTS.md` (Antigravity) and `codex/AGENTS.md` (Codex).
-- **Write Governance:** Scoped strictly to demarcated managed regions (`<!-- TOOLFORGE-VAULT-POINTER-START -->`). If the governed file exists without markers, updates are non-destructive and preserve 100% of existing directives. Does not create unmanaged repository-level governed files without explicit opt-in.
+| Adapter | Target | Category | Write Rule |
+|---|---|---|---|
+| `ClaudeCodeAdapter` | `~/.claude/projects/<sanitized>/memory/MEMORY.md` | Internal State | Create/Update freely in user home directory. |
+| `AntigravityAdapter` | `GEMINI.md`, `AGENTS.md` | Governed File | Update managed region ONLY if file already exists; never create unmanaged root files. |
+| `CodexAdapter` | `codex/AGENTS.md`, `CODEX.md` | Governed File | Update managed region ONLY if file already exists. |
+| `GrokAdapter` | `.sigil/grok-context.md` | Internal State | Create/Update only if `.sigil/` directory exists or `--create-stubs` is passed. |
+| `LocalModelAdapter` | `opencode.json` | Governed Config | Update JSON property ONLY if `opencode.json` exists in workspace root. |
+| `LocalModelAdapter` | `.local-agent-context.md` | Internal State | Create/Update pointer stub. |
 
-### 4.4 Grok / Sigil Bridge Adapter (`GrokAdapter`)
-- **Target Files:** `.sigil/grok-context.md`
-- **Content:** Dense, token-efficient markdown status summary for Sigil MCP task ingestion.
-
-### 4.5 Local Models & OpenCode Adapter (`LocalModelAdapter`)
-- **Target Files:** `opencode.json` (JSON format) and `.local-agent-context.md` (Markdown format).
-- **Format-Aware Mutation:** Uses `json-region.cjs` to safely parse and merge `instructions` or `vault_context` properties into `opencode.json` without inserting invalid HTML comments into JSON files.
+### 4.3 Claude Code Path Sanitization Specification
+- Path normalization: lowercases Windows drive letters, replaces all non-alphanumerics (`:`, `\`, `/`, `.`, ` `) with `-`.
+- Example: `C:\dev\sigil-repo` -> `C--dev-sigil-repo` (or `c--dev` for dev root).
+- UNC paths (`\\server\share\repo`) -> `UNC--server-share-repo`.
 
 ---
 
-## 5. Mutation Strategies & Idempotency Rules
+## 5. Mutation Strategies, Line Endings & Concurrency
 
 ### 5.1 Markdown Managed Regions (`managed-region.cjs`)
 Used for all `.md` targets:
@@ -110,25 +113,37 @@ Used for all `.md` targets:
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 ```
 
-- **Line Ending & Encoding Preservation:** Detects CRLF vs LF on read and guarantees identical line endings on write.
-- **Duplicate/Malformed Marker Cleanup:** If corrupted or duplicate markers exist, collapses them into a single clean canonical block.
+- **Line Ending & Encoding Preservation:** Detects CRLF vs LF on read and guarantees identical line endings on write. Strips UTF-8 BOM if present and writes standard UTF-8.
+- **Duplicate/Malformed Marker Cleanup:** If duplicate markers exist, cleans up redundant blocks into a single canonical block.
 
 ### 5.2 JSON Mutation Strategy (`json-region.cjs`)
 Used for `.json` targets (`opencode.json`):
 - Reads JSON AST / Object, parses safely, merges `system_prompt_pointer` or `vault_context` under `toolforge_memory` namespace.
-- Formats output preserving original indentation (e.g. 2 spaces) and valid JSON syntax.
+- Preserves original indentation (e.g. 2 spaces, tabs) and matches input line endings (CRLF vs LF).
 
-### 5.3 Concurrency & Atomic Writes
-- Writes output to a temporary sibling file (`<target>.tmp.<pid>.<timestamp>`) and performs an atomic rename (`fs.renameSync`) to eliminate corruption during concurrent agent reads.
+### 5.3 Windows-Safe Atomic Replacement Algorithm
+To prevent `EBUSY` / `EPERM` locks on Windows:
+1. Write payload to temporary file `<target>.tmp.<pid>.<timestamp>` in same directory.
+2. Attempt `fs.renameSync(tempFile, targetFile)`.
+3. If `fs.renameSync` fails due to Windows file lock (`EPERM` / `EEXIST`), fallback to `fs.copyFileSync(tempFile, targetFile)` followed by `fs.unlinkSync(tempFile)`.
+4. Guarantee cleanup of temporary files in `finally` block on error.
 
 ---
 
-## 6. Workspace Discovery & Exclusion Rules
+## 6. Deterministic Workspace Discovery & Ignore Rules
 
-`workspace-discovery.cjs` scans repositories with strict boundary rules:
-- **Registry Lookup:** Reads explicit repositories defined in `sync-tools/repo-registry.json`.
-- **Exclusion Filters:** Hardcoded ignores for `node_modules/`, `.git/`, `.worktrees/`, `_archive/`, `.cache/`, `dist/`, and build artifacts.
-- **Deduplication:** Canonicalizes absolute workspace roots using `fs.realpathSync` to avoid duplicate processing of junctions or symlinks.
+`workspace-discovery.cjs` resolves workspaces using strict precedence and exclusion filters:
+
+1. **Precedence:**
+   - Explicit CLI path argument (`node sync-tools/agent-memory-sync.cjs <path>`)
+   - `sync-tools/repo-registry.json` registered workspaces
+   - `--all` filesystem scan of base directory (default `C:\dev`)
+2. **Deterministic Exclusion List:**
+   - Version control: `.git/`, `.worktrees/`, `.hg/`, `.svn/`
+   - Dependencies: `node_modules/`, `vendor/`, `.pnpm-store/`
+   - Staging & artifacts: `_archive/`, `.cache/`, `dist/`, `build/`, `.tmp/`, `_kb-sync-staging/`, `sync-artifacts/`, `coverage/`, `target/`
+3. **Deduplication:**
+   - Canonicalizes absolute paths with `fs.realpathSync` to prevent duplicate operations across directory junctions or symlinks.
 
 ---
 
@@ -138,7 +153,7 @@ To onboard any new agent harness (e.g., Cursor, Windsurf, Devin, or bespoke loca
 
 1. **Create Adapter Module (`sync-tools/adapters/<agent-name>.cjs`)**:
    - Subclass `BaseAgentAdapter` from `../lib/base-adapter.cjs`.
-   - Implement `sync(workspaceContext, vaultContext, options)` returning the standard `{ adapter, targetFile, status, changesMade, error }` result schema.
+   - Implement `sync(workspaceContext, vaultContext, options)` returning `Promise<Array<Receipt>>`.
 2. **Register in Adapter Registry (`sync-tools/adapters/index.cjs`)**:
    - Add adapter instance to registry export.
 3. **Add Verification Suite (`tests/adapters/<agent-name>.test.mjs`)**:
@@ -151,8 +166,8 @@ To onboard any new agent harness (e.g., Cursor, Windsurf, Devin, or bespoke loca
 ## 8. Visual Specifications (Cathryn Lavery Standard)
 
 Visual specifications are generated using the canonical warm palette (`#f2ece2` paper, `#2c2420` ink, `#c4501a` terracotta accent, Barlow Condensed / Playfair Display typography) via `diagram-tools.mjs`:
-- **Architecture Topology:** `docs/superpowers/specs/assets/agent-memory-sync-topology.html` $\rightarrow$ `.png`
-- **Onboarding Flowchart:** `docs/superpowers/specs/assets/agent-onboarding-flow.html` $\rightarrow$ `.png`
+- **Architecture Topology:** `docs/superpowers/specs/assets/agent-memory-sync-topology.html` -> `.png`
+- **Onboarding Flowchart:** `docs/superpowers/specs/assets/agent-onboarding-flow.html` -> `.png`
 
 ---
 
@@ -160,10 +175,11 @@ Visual specifications are generated using the canonical warm palette (`#f2ece2` 
 
 1. **Unit Tests (`tests/agent-memory-sync.test.mjs`):**
    - **Path Sanitization:** Windows drives (`C:\dev`), UNC paths, POSIX paths, spaces, and special characters.
-   - **CRLF/LF Preservation:** Verifies line endings are unchanged across mutations.
+   - **CRLF/LF & BOM Preservation:** Verifies line endings and UTF-8 encoding are unchanged across Markdown and JSON mutations.
    - **JSON Format Safety:** Confirms `opencode.json` remains strictly valid JSON without comment injection.
    - **Managed Marker Idempotency:** Repeated sync passes yield `changesMade: false` and identical byte hashes.
-   - **Exclusion Safety:** Confirms scanner ignores `node_modules` and nested `.worktrees`.
+   - **Atomic Replacement & Error Recovery:** Verifies `.tmp` file cleanup during simulated write failures.
+   - **Exclusion Safety:** Confirms scanner ignores `node_modules`, `_kb-sync-staging`, and nested `.worktrees`.
 2. **Acceptance Smoke Test:**
    - Execute against `C:\dev` and `C:\dev\sigil-repo`.
    - Submit final code and test outputs to OpenAI Codex (`codex exec`) for automated second-opinion review prior to landing.
