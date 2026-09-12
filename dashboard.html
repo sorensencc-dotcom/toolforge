@@ -67,12 +67,20 @@
     .empty-state { text-align: center; padding: 4rem 2rem; color: var(--ash); }
     .empty-state p { font-size: 0.95rem; line-height: 1.6; }
     .last-updated { font-family: "Barlow Condensed", sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash); margin-left: auto; }
-    .skill-card:focus-visible { outline: 2px solid var(--ember); outline-offset: -1px; }
+    .skill-card:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
     .filter-btn:focus-visible, .refresh-btn:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+    .command-center-banner { background: var(--forge); border-bottom: 1px solid rgba(196, 80, 26, 0.35); padding: 0.6rem 2rem; font-family: "Barlow Condensed", sans-serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ash); display: flex; justify-content: space-between; align-items: center; }
+    .command-center-banner a { color: var(--ember); text-decoration: none; font-weight: 700; transition: color 0.2s; }
+    .command-center-banner a:hover { color: var(--white); }
     @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
 <body>
+
+<div class="command-center-banner">
+  <span>Operational notice: This surface is preserved for mockup/standalone preview.</span>
+  <a href="http://127.0.0.1:8080/modules/wiki/dashboard.html">Launch Iron Command Forge (Unified Dashboard) →</a>
+</div>
 
 <header>
   <div class="header-inner">

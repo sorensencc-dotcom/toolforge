@@ -520,12 +520,12 @@ select:focus-visible,
 }
 .err-detail-row[hidden] { display: none; }
 
-/* Severity ramp — dashboard-scoped, applied via --err-accent (see design §4). */
-.err-E_RUNTIME     { --err-accent: #C4501A; } /* ember  — red    (CRITICAL) */
-.err-E_TIMEOUT     { --err-accent: #D98324; } /* orange          (WARNING)  */
-.err-E_DEPENDENCY  { --err-accent: #8B3A1A; } /* rust   — deep red(CRITICAL)*/
-.err-E_ENVIRONMENT { --err-accent: #B8922A; } /* brass  — yellow (WARNING)  */
-.err-E_VALIDATION  { --err-accent: #C9A24B; } /* gold   — pale   (WARNING)  */
+/* Severity ramp — dashboard-scoped, applied via canonical Cast Iron Charlie tokens. */
+.err-E_RUNTIME     { --err-accent: var(--ember); } /* ember  — primary accent (CRITICAL) */
+.err-E_TIMEOUT     { --err-accent: var(--rust); }  /* rust   — deep accent    (WARNING)  */
+.err-E_DEPENDENCY  { --err-accent: var(--rust); }  /* rust   — deep red       (CRITICAL) */
+.err-E_ENVIRONMENT { --err-accent: var(--brass); } /* brass  — secondary      (WARNING)  */
+.err-E_VALIDATION  { --err-accent: var(--brass); } /* brass  — secondary      (WARNING)  */
 
 /* ============================================================
    Badges tab — Phase 2b Step 4
@@ -743,4 +743,78 @@ select:focus-visible,
   height: 100%;
   border: none;
 }
+
+/* ============================================================
+   Context & Drift Telemetry Section
+   ============================================================ */
+.telemetry-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.telemetry-card {
+  background: var(--forge);
+  border: 1px solid rgba(154, 144, 136, 0.2);
+  border-radius: 4px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.telemetry-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.telemetry-card-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--paper);
+}
+
+.telemetry-desc {
+  font-size: 0.9rem;
+  color: var(--ash);
+  margin-bottom: 1rem;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.stat-box {
+  background: rgba(10, 8, 6, 0.6);
+  border: 1px solid rgba(154, 144, 136, 0.15);
+  border-radius: 4px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stat-value {
+  font-family: var(--font-label);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #5eead4;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ash);
+}
+
+.drift-table-wrapper {
+  overflow-x: auto;
+  margin-top: 0.5rem;
+}
+
 
