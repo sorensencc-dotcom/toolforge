@@ -1,4 +1,18 @@
 const START='<!-- TOOLFORGE-VAULT-POINTER-START -->', END='<!-- TOOLFORGE-VAULT-POINTER-END -->';
 function block(vaultRoot, workspaceName) { return `${START}\n# Persistent System Memory Pointer\n> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.\n- Canonical Knowledge Base Root: ${vaultRoot}\n- Ingest Guidelines: docs/targets/obsidian.md\n- Primary Architecture Graph: [[Index]]\n- Active Conventions: [[wiki-schema]]\n- Log Audit Trail: [[Log]]\n- Repository Target: ${workspaceName}\n${END}`; }
-function update(input, vaultRoot, workspaceName) { const bom=input.charCodeAt(0)===0xfeff?input.slice(1):input; const nl=bom.includes('\r\n')?'\r\n':'\n'; const b=block(vaultRoot,workspaceName).replaceAll('\n',nl); const re=new RegExp(`${START}[\\s\\S]*?${END}`, 'g'); let out=bom.replace(re,b); if (out===bom) out=(out.replace(/[ \t]*$/, '') + (out.endsWith(nl)?'':nl) + b); return out.replace(/(?:\r?\n)+$/,'')+nl; }
-module.exports={START,END,block,update};
+function update(input, vaultRoot, workspaceName) {
+  const bom = input.charCodeAt(0) === 0xfeff ? input.slice(1) : input;
+  const nl = bom.includes('\r\n') ? '\r\n' : '\n';
+  const b = block(vaultRoot, workspaceName).replaceAll('\n', nl);
+  const re = new RegExp(`${START}[\\s\\S]*?${END}`, 'g');
+  let out = '';
+  if (re.test(bom)) {
+    out = bom.replace(re, b);
+  } else if (bom.trim().length === 0) {
+    out = b + nl;
+  } else {
+    out = b + nl + nl + bom.replace(/^(?:\r?\n)+/, '');
+  }
+  return out.replace(/(?:\r?\n)+$/, '') + nl;
+}
+module.exports = { START, END, block, update };
