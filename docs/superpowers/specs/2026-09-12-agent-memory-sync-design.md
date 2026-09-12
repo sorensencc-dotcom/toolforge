@@ -60,19 +60,6 @@ sync-tools/
 - **Target Files:** `opencode.json` and `.local-agent-context.md`.
 - **Content:** Supplies token-efficient system context for Ollama, vLLM, and OpenRouter runtimes.
 
-### 3.6 Extensibility Contract
-New agent harnesses extend `BaseAgentAdapter` and implement:
-```javascript
-class CustomAgentAdapter extends BaseAgentAdapter {
-  constructor() {
-    super('custom-agent');
-  }
-  async sync(workspaceContext, vaultContext, options) {
-    // Adapter implementation
-  }
-}
-```
-
 ---
 
 ## 4. Managed Region Markers & Idempotency
@@ -99,31 +86,33 @@ All updates use non-destructive HTML comment markers:
 
 ---
 
-## 5. CLI & Toolforge PowerShell Integration
+## 5. Agent Onboarding Process & Extensibility Runbook
 
-- **Node CLI:**
-  - `node sync-tools/agent-memory-sync.cjs`
-  - `node sync-tools/agent-memory-sync.cjs <path>`
-  - `node sync-tools/agent-memory-sync.cjs --all`
-  - `node sync-tools/agent-memory-sync.cjs --agent <agent-name>`
-  - `node sync-tools/agent-memory-sync.cjs --dry-run`
-- **PowerShell (`toolforge.ps1`):**
-  - `.\toolforge.ps1 -SyncAgentMemory`
-  - `.\toolforge.ps1 -SyncAgentMemory -Path <path>`
-  - `.\toolforge.ps1 -SyncAgentMemory -All`
-  - `.\toolforge.ps1 -SyncAgentMemory -DryRun`
-- **npm Scripts:**
-  - `"sync:agent-memory": "node sync-tools/agent-memory-sync.cjs"`
+To add any new agent harness (e.g., Cursor, Windsurf, Devin, or bespoke local orchestrators):
+
+1. **Create Adapter Module (`sync-tools/adapters/<agent-name>.cjs`)**:
+   - Subclass `BaseAgentAdapter` from `../lib/base-adapter.cjs`.
+   - Define `name` and target path resolution logic.
+   - Implement `sync(workspaceContext, vaultContext, options)`.
+2. **Register in Adapter Index (`sync-tools/adapters/index.cjs`)**:
+   - Add the adapter to the auto-discovery export list.
+3. **Add Unit Tests (`tests/adapters/<agent-name>.test.mjs`)**:
+   - Validate target path generation and content formatting.
+4. **Run Sync & Verification**:
+   - Execute `node sync-tools/agent-memory-sync.cjs --agent <agent-name>`.
 
 ---
 
-## 6. Verification & Test Plan
+## 6. Architecture & Flow Visualizations (Cathryn Lavery Standard)
 
-1. **Unit Tests (`tests/agent-memory-sync.test.mjs`):**
-   - Path sanitization logic across OS paths.
-   - Idempotent managed-region replacement (ensuring repeated runs produce identical bytes).
-   - Non-destructive preservation of pre-existing session wraps and notes.
-   - Dry-run mode verification.
-2. **Integration & Smoke Verification:**
-   - Execute sync against `C:\dev` and `C:\dev\sigil-repo`.
-   - Inspect generated `MEMORY.md`, `GEMINI.md`, and agent configs.
+All visual specifications are authored as standalone HTML+SVG assets rendered with the canonical warm palette:
+- **Topology Diagram:** `docs/superpowers/specs/assets/agent-memory-sync-topology.html` -> `.png`
+- **Onboarding Flow Diagram:** `docs/superpowers/specs/assets/agent-onboarding-flow.html` -> `.png`
+
+---
+
+## 7. Multi-Agent Codex Review Step
+
+Upon implementation completion, the full deliverable and test suite will be submitted to OpenAI Codex for independent peer code review:
+- Via Sigil protocol bridge (`sigil-reviewer` / grok-codex channel) or direct Codex review invocation.
+- Review findings must be addressed prior to landing.
