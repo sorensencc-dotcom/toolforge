@@ -1,0 +1,1 @@
+const {BaseAgentAdapter}=require('../lib/base-adapter.cjs'); class CodexAdapter extends BaseAgentAdapter{constructor(){super('codex')} targets(workspace){return ['codex/AGENTS.md','CODEX.md'].map(x=>require('node:path').join(workspace,x))}} module.exports=CodexAdapter;

@@ -1,0 +1,4 @@
+import test from 'node:test'; import assert from 'node:assert/strict'; import {encodeWorkspaceKey} from '../../sync-tools/adapters/claude-code.cjs'; import {update} from '../../sync-tools/lib/managed-region.cjs'; import {mutate} from '../../sync-tools/lib/json-region.cjs';
+test('workspace encoding is deterministic',()=>assert.equal(encodeWorkspaceKey('C:\\dev\\sigil-repo'),'C--dev-sigil-repo'));
+test('managed region strips BOM and preserves CRLF',()=>{const out=update('\ufeffhello\r\n', 'C:\\vault\\wiki','demo');assert.equal(out.charCodeAt(0),104);assert.match(out,/\r\n/);assert.equal((out.match(/TOOLFORGE-VAULT-POINTER-START/g)||[]).length,1)});
+test('json mutation preserves valid JSON and adds namespace',()=>{const out=mutate('{\n\t"name": "x"\n}', 'C:\\vault');const obj=JSON.parse(out);assert.equal(obj.name,'x');assert.equal(obj.toolforge_memory.vault_root,'C:\\vault');assert.match(out,/\n\t"toolforge_memory"/)});

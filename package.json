@@ -57,7 +57,8 @@
     "lint:script": "node scripts/lint-script-claims.mjs",
     "morning:ingest": "node scripts/morning-ingest.mjs",
     "morning:ingest:stream": "node scripts/morning-ingest.mjs --stream",
-    "test:telemetry": "node --test modules/telemetry/*.test.mjs"
+    "test:telemetry": "node --test modules/telemetry/*.test.mjs",
+    "agent-memory-sync": "node sync-tools/agent-memory-sync.cjs"
   },
   "keywords": [
     "toolforge",
@@ -76,6 +77,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "headroom-ai": "^0.37.0",
     "pdf-parse": "^2.4.5",
     "pg": "^8.11.3",
     "react": "^18.2.0",
@@ -95,5 +97,9 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "allowScripts": {
+    "better-sqlite3@13.0.3": true,
+    "esbuild@0.21.5": true
   }
 }

@@ -1,0 +1,2 @@
+import test from 'node:test'; import assert from 'node:assert/strict'; import {discover} from '../../sync-tools/lib/workspace-discovery.cjs';
+test('acceptance discovery excludes governed noise directories',()=>{const roots=discover('C:\\dev\\sigil-repo',{all:true});assert.ok(roots.includes('C:\\dev\\sigil-repo'));assert.ok(!roots.some(x=>x.toLowerCase().includes('node_modules')));assert.ok(!roots.some(x=>x.toLowerCase().endsWith('\\.worktrees')))});

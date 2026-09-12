@@ -1,0 +1,1 @@
+const {BaseAgentAdapter}=require('../lib/base-adapter.cjs'); class GrokAdapter extends BaseAgentAdapter{constructor(){super('grok')} target(workspace){return require('node:path').join(workspace,'.sigil','grok-context.md')}} module.exports=GrokAdapter;
