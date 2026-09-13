@@ -26,8 +26,32 @@ function cleanupTempDir(dir) {
   }
 }
 
+function resolveShell() {
+  if (process.platform !== 'win32') {
+    return 'sh';
+  }
+  try {
+    const gitExecPath = execFileSync('git', ['--exec-path'], { encoding: 'utf8' }).trim();
+    const candidates = [
+      path.resolve(gitExecPath, '..', '..', 'bin', 'sh.exe'),
+      path.resolve(gitExecPath, '..', '..', 'usr', 'bin', 'sh.exe'),
+      'C:\\Program Files\\Git\\bin\\sh.exe',
+      'C:\\Program Files\\Git\\usr\\bin\\sh.exe',
+    ];
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate)) {
+        return candidate;
+      }
+    }
+  } catch {
+    // Fallback to sh if git lookup fails
+  }
+  return 'sh';
+}
+
 function runHook(tempRepo) {
-  return spawnSync('sh', ['.git/hooks/pre-commit'], {
+  const shell = resolveShell();
+  return spawnSync(shell, ['.git/hooks/pre-commit'], {
     cwd: tempRepo,
     encoding: 'utf8',
     env: process.env,

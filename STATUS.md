@@ -11,6 +11,33 @@
 
 # Project status
 
+## WhichLLM Evaluator Recovery, TRM Integration & Helix Defense Architecture (2026-09-13)
+
+### Active goal
+Implement the WhichLLM Model Selection Evaluator in TRM (`C:\dev\trm`), establish the automated TRM research cascade (`Local` -> `Claude` -> `Antigravity` -> `Codex` -> `Grok`), implement the fail-closed user-driven Helix model selection flow (`C:\dev\helix`), and integrate the `IcfTelemetryReporter` contract for failure logging.
+
+### Completed work
+- Fixed `@cic/delivery-guard` npm workspace resolution in `CIC-GOVERNANCE`.
+- Resolved POSIX/Windows shell binary lookup in `CIC-GOVERNANCE/packages/delivery-guard/tests/installed-hook.test.js` via `resolveShell()`, achieving 100% test pass across all 248 tests in 50 suites (`npm run test:whichllm`).
+- Recovered and verified the authoritative WhichLLM model selection evaluator specification from `wiki/research/whichllm-model-selection-evaluator.md`.
+- Finalized and approved the dual-path routing and failure architecture in `implementation_plan.md`:
+  - **Automated TRM Research Path**: Multi-tier background cascade with automated 429 rate-limit progression strictly bounded to TRM batch workloads.
+  - **Interactive Helix Path**: Strict invariant that Helix never automatically routes or resends failed payloads; presents selectable alternatives, offers configured cloud preference as an option, and requires active user selection and explicit resubmission.
+  - **Local Model Failure Logging**: Full diagnostic telemetry captured across subsystem logs, run summaries, and ICF telemetry feed.
+  - **Governed Telemetry Adapter**: Decoupled `IcfTelemetryReporter` interface with graded severities (`INFO`, `WARN`, `CRITICAL`).
+
+### Decisions
+- Strictly prohibit manual edits to `_integration/model_selection.json`; enforce generation solely through executable TRM evaluator runs with canonical SHA-256 self-integrity hashing (`hash_chain_self`).
+- Decouple background automated research recovery from user-facing interactive session routing.
+- Abstract ICF telemetry writes behind `IcfTelemetryReporter` interface to prevent uncoordinated writes to ICF-owned disk files.
+
+### Verification
+- `CIC-GOVERNANCE` test suite: 248 passed, 0 failed across 50 test suites (`npm run test:whichllm`).
+- Toolforge preflight verification: `PREFLIGHT_PASS`.
+
+### Next action
+Implement Phase 1 in `C:\dev\trm`: `src/whichllm/ollamaClient.ts`, `src/whichllm/bfclSuite.ts`, `src/whichllm/evaluator.ts`, and register `npm run eval:whichllm`.
+
 ## Iron Command Forge (ICF) Command Center Unification (2026-09-09)
 
 ### Active goal
