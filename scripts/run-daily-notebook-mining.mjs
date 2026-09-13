@@ -186,10 +186,18 @@ export async function runDailyMiningPipeline(options = {}) {
         logWarn(`  Could not query existing sources for notebook ${targetUuid}: ${e.message}`);
       }
 
-      const staleSources = existingSources.filter(s => {
-        const title = (s.title || s.name || '').toLowerCase().trim();
-        return title === packBaseName.toLowerCase() || title === `${catDef.title} pack`.toLowerCase();
-      });
+      // Pre-upload deduplication sweep: prune prior instances of this pack before uploading
+      if (staleSources.length > 0) {
+        logInfo(`  Pruning ${staleSources.length} stale previous version(s) of ${packBaseName} before upload...`);
+        for (const stale of staleSources) {
+          try {
+            execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+            logInfo(`  ✓ Pruned prior source: ${stale.id} ("${stale.title || stale.name}")`);
+          } catch (delErr) {
+            logWarn(`  Failed to delete stale source ${stale.id}: ${delErr.message}`);
+          }
+        }
+      }
 
       while (attempt < maxRetries && !uploadSuccess) {
         attempt++;
@@ -199,17 +207,6 @@ export async function runDailyMiningPipeline(options = {}) {
           uploadSuccess = true;
           logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
           emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { attempt });
-
-          if (staleSources.length > 0) {
-            logInfo(`  Purging ${staleSources.length} stale previous version(s) of ${packBaseName}...`);
-            const idsToDelete = staleSources.map(s => `"${s.id}"`).join(' ');
-            try {
-              execSync(`nlm source delete ${idsToDelete} -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
-              logInfo(`  ✓ Purged stale sources for ${packBaseName}`);
-            } catch (delErr) {
-              logWarn(`  Failed to delete stale sources: ${delErr.message}`);
-            }
-          }
         } catch (uploadErr) {
           logWarn(`  Upload attempt ${attempt} failed: ${uploadErr.message}`);
           if (attempt < maxRetries) {

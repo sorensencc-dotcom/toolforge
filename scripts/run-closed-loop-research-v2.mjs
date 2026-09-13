@@ -271,33 +271,34 @@ async function run() {
     logWarn(`[DRY RUN] Would upload ${repoGapsFilePath} to ${targetGapsNbId}`);
   } else {
     try {
-      let existingSources = [];
+      // 1. Pre-upload deduplication sweep: prune prior instances of gaps before uploading
       try {
         const out = sh(`nlm source list "${targetGapsNbId}" --json`);
         const parsed = JSON.parse(out);
-        existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+        const existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+        const staleSources = existingSources.filter(s => {
+          const title = (s.title || s.name || '').toLowerCase().trim();
+          return title === gapsBaseName.toLowerCase() || title === 'trm-research-gaps.md' || title === 'mined research gaps and topics registry';
+        });
+
+        if (staleSources.length > 0) {
+          logInfo(`Pruning ${staleSources.length} prior/stale gaps source(s) before upload...`);
+          for (const stale of staleSources) {
+            try {
+              sh(`nlm source delete "${stale.id}" -y`);
+              logInfo(`  ✓ Pruned prior gaps source: ${stale.id}`);
+            } catch (delErr) {
+              logWarn(`  Failed to delete source ${stale.id}: ${delErr.message}`);
+            }
+          }
+        }
       } catch (e) {
-        logWarn(`Could not query existing sources for notebook ${targetGapsNbId}: ${e.message}`);
+        logWarn(`Deduplication check skipped or failed for notebook ${targetGapsNbId}: ${e.message}`);
       }
 
-      const staleSources = existingSources.filter(s => {
-        const title = (s.title || s.name || '').toLowerCase().trim();
-        return title === gapsBaseName.toLowerCase() || title === 'trm-research-gaps.md' || title === 'mined research gaps and topics registry';
-      });
-
+      // 2. Upload fresh gaps
       sh(`nlm source add "${targetGapsNbId}" --file "${repoGapsFilePath}"`);
       logInfo('✓ Gaps file ingested into NotebookLM as a grounded text source.');
-
-      if (staleSources.length > 0) {
-        logInfo(`Purging ${staleSources.length} stale previous gaps source(s)...`);
-        const idsToDelete = staleSources.map(s => `"${s.id}"`).join(' ');
-        try {
-          sh(`nlm source delete ${idsToDelete} -y`);
-          logInfo('  ✓ Purged stale gaps sources');
-        } catch (delErr) {
-          logWarn(`Failed to delete stale gaps sources: ${delErr.message}`);
-        }
-      }
     } catch (err) {
       logWarn(`NotebookLM upload failed (non-fatal): ${err.message}`);
       logWarn('Continuing — knowledge packs will still be built for manual upload.');
@@ -450,35 +451,35 @@ async function run() {
       logWarn(`[DRY RUN] Would push: ${packFilePath} -> ${targetNbId}`);
     } else {
       try {
-        // Query existing sources in target notebook to find previous versions of this pack
-        let existingSources = [];
+        // 1. Pre-upload deduplication sweep: prune prior instances of this pack before uploading
         try {
           const out = sh(`nlm source list "${targetNbId}" --json`);
           const parsed = JSON.parse(out);
-          existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+          const existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+          const staleSources = existingSources.filter(s => {
+            const title = (s.title || s.name || '').toLowerCase().trim();
+            return title === packBaseName.toLowerCase() || title.startsWith(packBaseName.replace(/\.[^.]+$/, '').toLowerCase());
+          });
+
+          if (staleSources.length > 0) {
+            logInfo(`Pruning ${staleSources.length} prior/stale version(s) of ${packBaseName} before upload...`);
+            for (const stale of staleSources) {
+              try {
+                sh(`nlm source delete "${stale.id}" -y`);
+                logInfo(`  ✓ Pruned prior source: ${stale.id} ("${stale.title || stale.name}")`);
+              } catch (delErr) {
+                logWarn(`  Failed to delete source ${stale.id}: ${delErr.message}`);
+              }
+            }
+          }
         } catch (e) {
-          logWarn(`Could not query existing sources for notebook ${targetNbId}: ${e.message}`);
+          logWarn(`Deduplication check skipped or failed for notebook ${targetNbId}: ${e.message}`);
         }
 
-        const staleSources = existingSources.filter(s => {
-          const title = (s.title || s.name || '').toLowerCase().trim();
-          return title === packBaseName.toLowerCase();
-        });
-
+        // 2. Upload fresh pack
         logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM (${targetNbId})...`);
         sh(`nlm source add "${targetNbId}" --file "${packFilePath}"`);
         logInfo(`  ✓ Pushed ${filename} → '${category}' (${targetNbId})`);
-
-        if (staleSources.length > 0) {
-          logInfo(`Purging ${staleSources.length} stale previous version(s) of ${packBaseName}...`);
-          const idsToDelete = staleSources.map(s => `"${s.id}"`).join(' ');
-          try {
-            sh(`nlm source delete ${idsToDelete} -y`);
-            logInfo(`  ✓ Purged stale sources for ${packBaseName}`);
-          } catch (delErr) {
-            logWarn(`Failed to delete stale sources: ${delErr.message}`);
-          }
-        }
       } catch (err) {
         logWarn(`NotebookLM push failed for ${filename} (non-fatal): ${err.message}`);
       }

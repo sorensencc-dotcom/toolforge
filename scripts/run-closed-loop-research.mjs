@@ -211,34 +211,35 @@ When verifying historical signatures:
 
     const packBaseName = path.basename(packFilePath);
     try {
-      let existingSources = [];
+      // 1. Pre-upload deduplication sweep: prune prior instances of this pack before uploading
       try {
         const out = execSync(`nlm source list "${targetNbId}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
         const parsed = JSON.parse(out);
-        existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+        const existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+        const staleSources = existingSources.filter(s => {
+          const title = (s.title || s.name || '').toLowerCase().trim();
+          return title === packBaseName.toLowerCase() || title.startsWith(packBaseName.replace(/\.[^.]+$/, '').toLowerCase());
+        });
+
+        if (staleSources.length > 0) {
+          logInfo(`Pruning ${staleSources.length} prior/stale version(s) of ${packBaseName} before upload...`);
+          for (const stale of staleSources) {
+            try {
+              execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+              logInfo(`  ✓ Pruned prior source instance: ${stale.id} ("${stale.title || stale.name}")`);
+            } catch (delErr) {
+              logWarn(`  Failed to delete source ${stale.id}: ${delErr.message}`);
+            }
+          }
+        }
       } catch (e) {
-        logWarn(`Could not query existing sources for notebook ${targetNbId}: ${e.message}`);
+        logWarn(`Deduplication check skipped or failed for notebook ${targetNbId}: ${e.message}`);
       }
 
-      const staleSources = existingSources.filter(s => {
-        const title = (s.title || s.name || '').toLowerCase().trim();
-        return title === packBaseName.toLowerCase();
-      });
-
+      // 2. Upload fresh pack
       logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM (${targetNbId})...`);
       execSync(`nlm source add "${targetNbId}" --file "${packFilePath}"`, { stdio: 'inherit' });
       logInfo(`  ✓ Pushed ${pack.filename} → '${pack.category}' (${targetNbId})`);
-
-      if (staleSources.length > 0) {
-        logInfo(`Purging ${staleSources.length} stale previous version(s) of ${packBaseName}...`);
-        const idsToDelete = staleSources.map(s => `"${s.id}"`).join(' ');
-        try {
-          execSync(`nlm source delete ${idsToDelete} -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
-          logInfo(`  ✓ Purged stale sources for ${packBaseName}`);
-        } catch (delErr) {
-          logWarn(`Failed to delete stale sources: ${delErr.message}`);
-        }
-      }
     } catch (err) {
       logWarn(`NotebookLM push failed for ${pack.filename} (non-fatal): ${err.message}`);
     }

@@ -177,18 +177,9 @@ async function main() {
 
   logInfo(`Found ${existingSources.length} total source(s) in notebook (${staleSources.length} prior knowledge pack versions to replace).`);
 
-  // Step 2: Upload fresh pack (Staged upload)
-  logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM...`);
-  const uploadRes = runNlm(runner, ['source', 'add', notebookId, '--file', packFile], false);
-  if (uploadRes.status !== 0) {
-    logError(`Upload failed with exit code ${uploadRes.status}`);
-    process.exit(1);
-  }
-  logInfo(`✓ Fresh knowledge pack successfully uploaded to NotebookLM!`);
-
-  // Step 3: Purge stale prior pack versions
+  // Step 2: Purge stale prior pack versions before uploading
   if (staleSources.length > 0) {
-    logInfo(`Purging ${staleSources.length} stale previous pack version(s)...`);
+    logInfo(`Purging ${staleSources.length} stale previous pack version(s) before upload...`);
     for (const stale of staleSources) {
       logInfo(`Deleting stale source ID: ${stale.id} ("${stale.title || stale.name}")...`);
       const delRes = runNlm(runner, ['source', 'delete', stale.id, '-y'], true);
@@ -199,6 +190,15 @@ async function main() {
       }
     }
   }
+
+  // Step 3: Upload fresh pack (Staged upload)
+  logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM...`);
+  const uploadRes = runNlm(runner, ['source', 'add', notebookId, '--file', packFile], false);
+  if (uploadRes.status !== 0) {
+    logError(`Upload failed with exit code ${uploadRes.status}`);
+    process.exit(1);
+  }
+  logInfo(`✓ Fresh knowledge pack successfully uploaded to NotebookLM!`);
 
   logInfo(`================================================================================`);
   logInfo(`✓ Headless upload workflow completed successfully for Notebook: ${notebookId}`);
