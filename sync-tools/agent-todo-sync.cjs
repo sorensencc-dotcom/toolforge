@@ -191,6 +191,7 @@ async function syncWorkspaceTodos(options = {}) {
 
   const targetFiles = [
     path.join(rootDir, 'TODOS.md'),
+    path.join(rootDir, 'STATUS.md'),
     path.join(rootDir, 'AGENTS.md'),
     path.join(rootDir, 'GEMINI.md'),
     path.join(rootDir, '.sigil', 'grok-context.md'),
