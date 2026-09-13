@@ -29,7 +29,7 @@ Persistent memory system for long-term context across sessions. Individual memor
 - **Security Advisory Remediations** (2026-08-30): Remediated GHSA-5p4m-2wfm-xmqj / CVE-2026-59870 via `js-yaml@4.3.2` patch; fixed GitGuardian false-positive secret patterns in tests via dynamic header construction.
 - **Toolforge Skill Health Check Remediations** (2026-08-30): Registered `trm-closed-loop-research`, `trm-devops-triage`, and `wiki-sync-recovery` in `manifest.json`; aligned versioning and initialized audit run logs across all 48 skills (100% health check pass).
 
-### 2026-09-01 → 2026-09-05 (verified against `git log` on `main` / current branch)
+### 2026-09-01 → 2026-09-09 (verified against `git log` on `main` / current branch)
 
 - **TinyFish search skill #27** (`86eabb48`): `tinyfish-search` skill — search + Markdown extract via `@tiny-fish/sdk`; spec review folded (`76ffd4d2`, `9799ce63`); dedicated wiki docs #29 (`46ad5fe8`, `fe29dd9f`).
 - **parallel-search skill** (`1f489f63`): registered in skillpack, metadata refreshed; regen no longer clobbers timestamps/EOLs (`935bdc5b`).
@@ -44,6 +44,17 @@ Persistent memory system for long-term context across sessions. Individual memor
 - **graft repo-context graph**: active for this repo (session-start hook + `graft/INDEX.md`); `graft-audit.yml` workflow present.
 - **Releases**: v2.61.1 → v2.63.0 cut over this window.
 - **Trend watch (retro, directional only)**: comparing `.context/retros/2026-07-12-1.json` to `2026-08-16-1.json` — `test_ratio_pct` and `feat_pct` down sharply, `fix_pct` and `docs_pct` up. Not a clean baseline: the 07-12 retro carried unit-scale + active_days bugs (fixed 2026-08-16) and the windows differ (1-day vs 7-day). Re-check on the next clean multi-week retro before acting.
+- **TRM devops path-safety reconciliation** (`93cb2e5b`, 2026-09-03): path-safety checks folded into the MCP server; core exported for reuse.
+- **Node-process janitor** (`779bcb9f`, `fa5534f1`, 2026-09-06—2026-09-07, #32): conservative janitor for stray node processes; extended to also clear orphaned git fsmonitor daemons (`29a6f929`).
+- **Linux runtime owner Phase A** (`98b451c6`, 2026-09-07).
+- **IronLedger Phase 3**: Beancount compiler + recovery-journal design (`10121dba`, 2026-09-06); eng-review decisions A4.1 + T3.1 folded into compiler spec (`15be2bfc`, 2026-09-06).
+- **Sigil grok-bridge**: keyless MCP adapter + conformance suite (`34e3b0d1`, 2026-09-06); registered in central skill manifest (`1db1aa0b`); mesh daemon scripts + grok bridge stdio adapter (`ab612ca2`).
+- **Ollama routing**: validated routing wired in (`7f4ce3d3`, `1471f6d8`, 2026-09-08).
+- **Multi-client MCP governance**: design spec + refinements (`9b6f5f81`, `475bf9f9`, `7e8c4eec`, 2026-09-08); registry parser, budget validator, exit codes, profile manifest dashboard, atomic backup writers, e2e/janitor-cooperation test suite implemented (`8187a048`, `02e90fd0`, `09bd52ea`, `d245004f`, `4249b5c5`, `3ab8545e`, 2026-09-08); ironledger read-only server + multi-segment header support folded into canonical registry (`09e18556`, `e22ba3e0`, 2026-09-09).
+- **Open Notebook MCP server**: added to canonical registry with sync profiles (`9e572deb`, 2026-09-09).
+- **NotebookLM/TRM source dedup**: automated deduplication across pipelines and notebooks (`ab180037`, 2026-09-08).
+- **Governance correction**: false enforcement claim corrected, stale project memory refreshed (`75215731`, 2026-09-06) — see also the CLAUDE.md commit-hash citation fix below.
+- **intercept-grep hook**: added with regression test suite + deterministic search policy (`3c0ad6b7`, 2026-09-07).
 
 ## Learnings & Incident Post-Mortems
 

@@ -192,6 +192,10 @@ Before accepting a retro JSON:
 
 ## Change Log
 
+### v1.2 (2026-09-13)
+- Documented `window` value drift: `1d` for daily retros 2026-07-12→2026-07-17 (13 files, one per day/session that week), then `7d` from 2026-07-21 onward once the cadence moved to weekly. One outlier, `2026-08-07-1.json`, used `window: "session"` (ad-hoc single-session retro, not day- or week-scoped).
+- **Trend-analysis rule**: `commits`/LOC/metric totals are NOT directly comparable across files with different `window` values — normalize to a per-day rate (`metric / window_days`, treating `session` as its own actual elapsed hours, not 1 day) before drawing conclusions. `.context/retros/2026-07-12-1.json` (1d) vs `.context/retros/2026-08-16-1.json` (7d) is the specific pair flagged as non-apples-to-apples in `memory/MEMORY.md`'s Trend watch entry.
+
 ### v1.1 (2026-08-11)
 - Documented `test_health`, `backlog` (object), and `tweetable` fields — present in generator output since gstack-retro SKILL.md added them (2026-08-08 retro, `.context/retros/2026-08-08-1.json:58-68`) but never added to this schema doc. Undocumented `total_test_files` (repo-wide, not window-scoped) caused a false-alarm "13x inflation" flag when compared against window-scoped `test_loc_insertions`.
 
