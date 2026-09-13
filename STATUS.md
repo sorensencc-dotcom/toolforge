@@ -19,7 +19,7 @@ Integrate the CIC + Rewrite Labs Daily Project Status pipeline and Unified MCP S
 ### Completed work
 - Built and deployed the multi-tab Iron Command Forge (ICF) interface in `kb-sync/modules/wiki/dashboard.html` with Cast Iron Charlie design system.
 - Added Tab 01 (Daily Command Feed) showing live priorities from `TODOS.md`, KB-Sync drift telemetry, TRM pipeline state, memory mirrors, and blockers.
-- Added Tab 02 (Unified MCP Matrix) tracking 10 registered MCP servers (`browseros-neo`, `chrome-devtools-mcp`, `github-mcp-server`, `ijfw-memory`, `kb-context-cache`, `notion-mcp-server`, `graft`, `sigil-postgres`, `gmp-code-assist`, `trm-devops`) with tool counts, transport types, and online status.
+- Added Tab 02 (Unified MCP Matrix) tracking 12 registered MCP servers (`headroom`, `ironledger`, `browseros-neo`, `chrome-devtools-mcp`, `github-mcp-server`, `ijfw-memory`, `kb-context-cache`, `notion-mcp-server`, `graft`, `postgres`, `gmp-code-assist`, `trm-devops`) with tool counts, transport types, and online status.
 - Preserved all Tab 03 (Knowledge Graph & Validation) capabilities and Tab 04 (Automation & Daemons) scheduler telemetry.
 - Updated `Run-DailyStatus.ps1` to automatically sync `daily_status.json` to `kb-sync/modules/wiki/daily_status.json` on scheduled runs.
 - Connected `sigil_postgres` Docker container telemetry (port 55432).
