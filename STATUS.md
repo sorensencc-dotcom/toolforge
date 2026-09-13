@@ -20,11 +20,18 @@ Implement the WhichLLM Model Selection Evaluator in TRM (`C:\dev\trm`), establis
 - Fixed `@cic/delivery-guard` npm workspace resolution in `CIC-GOVERNANCE`.
 - Resolved POSIX/Windows shell binary lookup in `CIC-GOVERNANCE/packages/delivery-guard/tests/installed-hook.test.js` via `resolveShell()`, achieving 100% test pass across all 248 tests in 50 suites (`npm run test:whichllm`).
 - Recovered and verified the authoritative WhichLLM model selection evaluator specification from `wiki/research/whichllm-model-selection-evaluator.md`.
-- Finalized and approved the dual-path routing and failure architecture in `implementation_plan.md`:
-  - **Automated TRM Research Path**: Multi-tier background cascade with automated 429 rate-limit progression strictly bounded to TRM batch workloads.
-  - **Interactive Helix Path**: Strict invariant that Helix never automatically routes or resends failed payloads; presents selectable alternatives, offers configured cloud preference as an option, and requires active user selection and explicit resubmission.
-  - **Local Model Failure Logging**: Full diagnostic telemetry captured across subsystem logs, run summaries, and ICF telemetry feed.
-  - **Governed Telemetry Adapter**: Decoupled `IcfTelemetryReporter` interface with graded severities (`INFO`, `WARN`, `CRITICAL`).
+- Implemented native WhichLLM evaluator modules in TRM (`C:\dev\trm`):
+  - `src/whichllm/ollamaClient.ts`: Live Ollama discovery via `GET http://localhost:11434/api/tags`.
+  - `src/whichllm/bfclSuite.ts`: 4 canonical BFCL benchmark disciplines, parameter sizing, and VRAM fit classification.
+  - `src/whichllm/evaluator.ts`: Hardware profiling, candidate ranking, anchor selection, and canonical JSON SHA-256 self-integrity hashing (`hash_chain_self`).
+  - `src/whichllm/cascadeDispatcher.ts`: Automated multi-tier cloud fallback cascade (`Local` -> `Claude` -> `Antigravity` -> `Codex` -> `Grok`) with 429 rate-limit progression for TRM background research.
+  - `src/telemetry/icfReporter.ts`: Decoupled `IcfTelemetryReporter` adapter contract with graded severities (`INFO`, `WARN`, `CRITICAL`).
+  - `src/cli/commands/evalWhichllm.ts`, `src/cli/index.ts`, and `package.json`: Registered `npm run eval:whichllm`.
+- Hardened Helix transport in `C:\dev\helix`:
+  - `src/adapters/transport.ts`: `WhichLlmArtifactTransport` with SHA-256 hash validation, freshness/TTL checks, and local model installation verification.
+  - `tests/whichllm-artifact-transport.test.ts`: Added defense suite including the mandatory invariant test:
+    $$\text{Local Failure} \longrightarrow \text{UI Displays Choices} \longrightarrow \text{0 Dispatches} \longrightarrow \text{User Selects Model} \longrightarrow \text{User Presses Send} \longrightarrow \text{Exactly 1 Dispatch}$$
+- Executed live `npm run eval:whichllm` against local Ollama, generating the signed, hash-verified `_integration/model_selection.json`.
 
 ### Decisions
 - Strictly prohibit manual edits to `_integration/model_selection.json`; enforce generation solely through executable TRM evaluator runs with canonical SHA-256 self-integrity hashing (`hash_chain_self`).
@@ -32,11 +39,14 @@ Implement the WhichLLM Model Selection Evaluator in TRM (`C:\dev\trm`), establis
 - Abstract ICF telemetry writes behind `IcfTelemetryReporter` interface to prevent uncoordinated writes to ICF-owned disk files.
 
 ### Verification
+- `TRM` test suite: 90 passed, 0 failed, 769 tests passing (`npm test`).
+- `Helix` test suite: 29 passed, 0 failed, 143 tests passing (`npm test`).
 - `CIC-GOVERNANCE` test suite: 248 passed, 0 failed across 50 test suites (`npm run test:whichllm`).
+- Live `npm run eval:whichllm` sweep: PASS (`hash_chain_self: ecfb1399...`).
 - Toolforge preflight verification: `PREFLIGHT_PASS`.
 
 ### Next action
-Implement Phase 1 in `C:\dev\trm`: `src/whichllm/ollamaClient.ts`, `src/whichllm/bfclSuite.ts`, `src/whichllm/evaluator.ts`, and register `npm run eval:whichllm`.
+Continue monitoring automated TRM research pipelines and Helix interactive sessions with the active WhichLLM evaluator and defense gate.
 
 ## Iron Command Forge (ICF) Command Center Unification (2026-09-09)
 
