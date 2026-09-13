@@ -44,6 +44,7 @@ Persistent memory system for long-term context across sessions. Individual memor
 - **graft repo-context graph**: active for this repo (session-start hook + `graft/INDEX.md`); `graft-audit.yml` workflow present.
 - **Releases**: v2.61.1 → v2.63.0 cut over this window.
 - **Trend watch (retro, directional only)**: comparing `.context/retros/2026-07-12-1.json` to `2026-08-16-1.json` — `test_ratio_pct` and `feat_pct` down sharply, `fix_pct` and `docs_pct` up. Not a clean baseline: the 07-12 retro carried unit-scale + active_days bugs (fixed 2026-08-16) and the windows differ (1-day vs 7-day). Re-check on the next clean multi-week retro before acting.
+- **Within-stable-window slowdown, confirmed genuine** (2026-07-21→2026-08-16, both `7d` window, apples-to-apples): `net_loc_filtered` 59773→5032 (-91.6%), `commits` 294→25 (-91.5%), `sessions` 51→11 (-78.4%), `test_ratio_pct` 5.0%→0.07%. Verified against source retro JSON directly, not a metrics-capture regression or work migrating to sibling repos: the 2026-08-16 file self-diagnoses as a docs-heavy single-contributor week (`docs_pct` 50%, 1 human contributor, 18-day streak broken twice) with one real feature ship (healing subsystem, 304 LOC).
 - **TRM devops path-safety reconciliation** (`93cb2e5b`, 2026-09-03): path-safety checks folded into the MCP server; core exported for reuse.
 - **Node-process janitor** (`779bcb9f`, `fa5534f1`, 2026-09-06—2026-09-07, #32): conservative janitor for stray node processes; extended to also clear orphaned git fsmonitor daemons (`29a6f929`).
 - **Linux runtime owner Phase A** (`98b451c6`, 2026-09-07).
@@ -76,7 +77,7 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 ## Preferences & Feedback
 
-- **Load-Bearing Memory**: `memory/MEMORY.md` must be maintained across sessions as primary project memory (`CLAUDE.md:10`).
+- **Load-Bearing Memory**: `memory/MEMORY.md` must be maintained across sessions as primary project memory (source: `AGENTS.md`, Governance Framework — Core Principles, principle 2: "Memory Shapes Strategy (long-term > project > working)". Cited by heading/quote, not line number: this lives in `AGENTS.md`, not `CLAUDE.md`, and the prior `CLAUDE.md:10` citation went stale when an auto-managed IJFW block resized the file).
   - *Why*: session start loads this file for context; a stale index means every session re-derives project state from scratch and re-litigates settled decisions.
   - *How to apply*: update `## Current Work` and `## Learnings` at session end when scope changes; treat absence of a recent edit spanning active work as a defect (same failure mode as a stale CHANGELOG).
 - **LOC Metrics Hygiene**: Always exclude lockfiles (`package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`) from line-of-code metric trends to prevent dependency bump distortion.
