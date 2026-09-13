@@ -195,6 +195,8 @@ async function syncWorkspaceTodos(options = {}) {
     path.join(rootDir, 'GEMINI.md'),
     path.join(rootDir, '.sigil', 'grok-context.md'),
     path.join(rootDir, '.local-agent-context.md'),
+    path.join(rootDir, '.ijfw', 'memory', 'handoff.md'),
+    path.join(rootDir, '.ijfw', 'memory', 'project-journal.md'),
     claudeMemoryFile
   ];
 
