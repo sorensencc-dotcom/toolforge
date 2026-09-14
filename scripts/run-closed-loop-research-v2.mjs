@@ -38,6 +38,10 @@ const BFCL_DRY_RUN  = process.env.BFCL_DRY_RUN  === '1'; // skip live notebooklm
 const SKIP_MINE     = process.env.TRM_SKIP_MINE  === '1'; // skip Step 1 re-mine (use existing vault file)
 
 import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/config.mjs';
+import {
+  purgePackFamilyBeforeUpload,
+  buildNotebookLmUploadCommand as buildUploadCmdFromGate,
+} from './nlm-pack-replace-gate.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -107,7 +111,7 @@ export function loadModelSelection(repoRoot) {
 }
 
 export function buildNotebookLmUploadCommand({ cli, notebookId, file }) {
-  return `${cli} source upload --notebook-id="${notebookId}" --file="${file}"`;
+  return buildUploadCmdFromGate({ cli, notebookId, file });
 }
 
 export function shouldExecuteNotebookLmUpload(dryRun) {
@@ -428,9 +432,29 @@ async function run() {
       file: packFilePath,
     });
     if (!shouldExecuteNotebookLmUpload(BFCL_DRY_RUN)) {
-      logWarn(`[DRY RUN] Would push: ${pushCmd}`);
+      logWarn(`[DRY RUN] Would replace-gate + push: ${pushCmd}`);
+      try {
+        purgePackFamilyBeforeUpload({
+          cli: NLM_CLI,
+          notebookId: targetNbId,
+          packFile: packFilePath,
+          dryRun: true,
+          logInfo,
+          logWarn,
+        });
+      } catch (err) {
+        logWarn(`  Replace-gate dry-run failed for ${filename}: ${err.message}`);
+      }
     } else {
       try {
+        purgePackFamilyBeforeUpload({
+          cli: NLM_CLI,
+          notebookId: targetNbId,
+          packFile: packFilePath,
+          dryRun: false,
+          logInfo,
+          logWarn,
+        });
         shInherit(pushCmd);
         logInfo(`  ✓ Pushed ${filename} → '${category}' (${targetNbId})`);
       } catch (err) {

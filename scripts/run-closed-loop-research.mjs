@@ -2,6 +2,7 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/config.mjs';
+import { purgePackFamilyBeforeUpload } from './nlm-pack-replace-gate.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -208,6 +209,19 @@ When verifying historical signatures:
     const sizeKb = (fs.statSync(packFilePath).size / 1024).toFixed(2);
     logInfo(`✓ Thematic pack emitted: ${packFilePath} (${sizeKb} KB)`);
     logInfo(`Pushing ${pack.filename} to Target '${pack.category}' (Notebook ID: ${targetNbId})...`);
+    // Pre-upload replace gate (query + purge pack family) — keeps ≤1 pack family even in dry/mock runs when CLI is available.
+    try {
+      purgePackFamilyBeforeUpload({
+        cli: nlmCli,
+        notebookId: targetNbId,
+        packFile: packFilePath,
+        dryRun: process.env.NLM_REPLACE_GATE_LIVE !== '1', // v1 is mock-upload; set NLM_REPLACE_GATE_LIVE=1 to purge for real
+        logInfo,
+        logWarn,
+      });
+    } catch (err) {
+      logWarn(`Replace-gate skipped/failed for ${pack.filename}: ${err.message}`);
+    }
     logInfo(`Command: ${nlmCli} source upload --notebook-id="${targetNbId}" --file="${packFilePath}"`);
   }
   
