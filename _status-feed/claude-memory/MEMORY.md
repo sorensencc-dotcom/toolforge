@@ -1,5 +1,11 @@
 # Memory Index
 
+## 2026-09-14
+- [Session Wrap: NotebookLM Push-Research Plan Committed](session-wrap-2026-09-14-notebooklm-push-research-plan-committed.md) — plan `ed88465` pushed to trm `origin/main` `e883ea2`. Mid-session ref deletion was user's own parallel session, not corruption — reflog recovery worked. **Next: `superpowers:executing-plans`.**
+
+## 2026-09-13
+- [Session Wrap: NotebookLM Push-Research Spec Done](session-wrap-2026-09-13-notebooklm-push-research-spec-done.md) — spec committed `4b99fc9` on `trm` main, approved. `nlm research start/status/import` lack `--json`; no throwaway notebook to live-probe parser format — deferred to plan execution time. **Next: `superpowers:writing-plans` fresh session.**
+
 ## 2026-09-12
 - [Feedback: Check Before Doubting Docs](feedback_check_before_doubting_docs.md) — flagged real WhichLLM system as possibly hallucinated without grepping first; scripts/artifacts existed exactly as documented. Grep before voicing skepticism.
 

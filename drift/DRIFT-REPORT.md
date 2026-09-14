@@ -1,6 +1,6 @@
 # Toolforge Drift Detection Report
 
-**Generated**: 2026-09-12T13:00:18.3664699Z
+**Generated**: 2026-09-14T13:00:19.0528652Z
 
 **Canonical**: `C:\dev`
 **Distributed**: `C:\dev\rewrite-mcp\toolforge`
@@ -11,13 +11,13 @@
 
 | Category | Drifts | Severity |
 |----------|--------|----------|
-| Structure | 69 | WARN |
+| Structure | 75 | WARN |
 | Tools | 0 | OK |
 | Skills | 2 | WARN |
 | Docs | 0 | OK |
 | Manifest | 0 | OK |
 
-**Total Drifts**: 71
+**Total Drifts**: 77
 **Status**: DRIFTED
 
 ---
@@ -30,6 +30,7 @@
 - **missing** .cursor (in distributed)
 - **missing** .gemini (in distributed)
 - **missing** .gstack (in distributed)
+- **missing** .icf-retros (in distributed)
 - **missing** .kb_cache (in distributed)
 - **missing** .nlm_pack (in distributed)
 - **missing** .nlm_pack_dead_letter (in distributed)
@@ -58,11 +59,14 @@
 - **missing** graft (in distributed)
 - **missing** health (in distributed)
 - **missing** helix (in distributed)
+- **missing** helix-actions-v5 (in distributed)
+- **missing** helix-ci-stderr-fix (in distributed)
 - **missing** ijfw (in distributed)
 - **missing** IronLedger (in distributed)
 - **missing** kb-sync (in distributed)
 - **missing** markitdown (in distributed)
 - **missing** memory (in distributed)
+- **missing** models (in distributed)
 - **missing** modules (in distributed)
 - **missing** operations (in distributed)
 - **missing** post_seal_ops (in distributed)
@@ -80,6 +84,8 @@
 - **missing** task-observatory (in distributed)
 - **missing** tests (in distributed)
 - **missing** TheFoundry (in distributed)
+- **missing** toolforge (in distributed)
+- **missing** toolforge-nlm-pack-gate (in distributed)
 - **missing** toolforge-pdf (in distributed)
 - **missing** tools (in distributed)
 - **missing** trm (in distributed)

@@ -2,6 +2,8 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs';
+import { replaceGate } from './nlm-pack-replace-gate.mjs';
+
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -227,41 +229,19 @@ When persisting double-entry transactions and ledger journal lines:
     logInfo(`✓ Thematic pack emitted: ${packFilePath} (${sizeKb} KB)`);
     logInfo(`Pushing ${pack.filename} to Target '${pack.category}' (Notebook ID: ${targetNbId})...`);
 
-    const packBaseName = path.basename(packFilePath);
     if (!targetNbId || targetNbId.startsWith('<')) {
       logInfo(`[SKIP LIVE PUSH] Target '${pack.category}' is using placeholder ID '${targetNbId}'. Pack saved locally.`);
       continue;
     }
 
     try {
-      // 1. Pre-upload deduplication sweep: prune prior instances of this pack before uploading
-      try {
-        const out = execSync(`nlm source list "${targetNbId}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
-        const parsed = JSON.parse(out);
-        const existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
-        const staleSources = existingSources.filter(s => {
-          const title = (s.title || s.name || '').toLowerCase().trim();
-          return title === packBaseName.toLowerCase() || title.startsWith(packBaseName.replace(/\.[^.]+$/, '').toLowerCase());
-        });
-
-        if (staleSources.length > 0) {
-          logInfo(`Pruning ${staleSources.length} prior/stale version(s) of ${packBaseName} before upload...`);
-          for (const stale of staleSources) {
-            try {
-              execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
-              logInfo(`  ✓ Pruned prior source instance: ${stale.id} ("${stale.title || stale.name}")`);
-            } catch (delErr) {
-              logWarn(`  Failed to delete source ${stale.id}: ${delErr.message}`);
-            }
-          }
-        }
-      } catch (e) {
-        logWarn(`Deduplication check skipped or failed for notebook ${targetNbId}: ${e.message}`);
-      }
-
-      // 2. Upload fresh pack
-      logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM (${targetNbId})...`);
-      execSync(`nlm source add "${targetNbId}" --file "${packFilePath}"`, { stdio: 'inherit' });
+      await replaceGate({
+        packFile:   packFilePath,
+        targetNbId,
+        category:   pack.category,
+        dryRun:     false,
+        repoRoot:   repoRoot,
+      });
       logInfo(`  ✓ Pushed ${pack.filename} → '${pack.category}' (${targetNbId})`);
     } catch (err) {
       logWarn(`NotebookLM push failed for ${pack.filename} (non-fatal): ${err.message}`);

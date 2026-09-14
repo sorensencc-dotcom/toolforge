@@ -1,13 +1,10 @@
 {
-  "evaluated_at": "2026-09-14T03:37:35.092Z",
+  "evaluated_at": "2026-09-14T03:14:54.185Z",
   "hardware_profile": {
-    "gpu_count": 1,
-    "gpu_name": "AMD Radeon 780M Graphics",
-    "vram_gb": 0.5,
-    "ram_gb": 31,
-    "vram_free_gb": 0,
-    "vram_used_gb": 0,
-    "memory_kind": "shared"
+    "gpu_count": 0,
+    "gpu_name": "none",
+    "vram_gb": 0,
+    "ram_gb": 31
   },
   "test_suite_coverage": {
     "total_bfcl_scenarios": 4,
@@ -32,8 +29,8 @@
   },
   "recommendations": {
     "frontier_judgment_anchor": "claude-3-5-sonnet-20241022",
-    "local_muscle_anchor": "qwen2.5:7b",
-    "local_fit_reasoning": "Model fits within the measured shared system-memory budget for the integrated GPU."
+    "local_muscle_anchor": "gemma4:26b",
+    "local_fit_reasoning": "Warning: Model parameter size exceeds physical VRAM. Inference will experience degradation."
   },
   "ranked_candidates": [
     {
@@ -83,7 +80,7 @@
     {
       "model_name": "qwen2.5:7b",
       "tier": "Tier 2 (Muscle)",
-      "vram_fit_status": "fits_easily",
+      "vram_fit_status": "out_of_vram_degraded",
       "benchmark_matrix": {
         "evaluation_mode": "heuristic",
         "bfcl_composite_score": 0.694,
@@ -105,7 +102,7 @@
     {
       "model_name": "llama3.1:8b",
       "tier": "Tier 2 (Muscle)",
-      "vram_fit_status": "fits_easily",
+      "vram_fit_status": "out_of_vram_degraded",
       "benchmark_matrix": {
         "evaluation_mode": "heuristic",
         "bfcl_composite_score": 0.694,
@@ -127,7 +124,7 @@
     {
       "model_name": "llama3.2:latest",
       "tier": "Tier 2 (Muscle)",
-      "vram_fit_status": "fits_easily",
+      "vram_fit_status": "out_of_vram_degraded",
       "benchmark_matrix": {
         "evaluation_mode": "heuristic",
         "bfcl_composite_score": 0.694,
@@ -149,7 +146,7 @@
     {
       "model_name": "llama3.3:latest",
       "tier": "Tier 2 (Muscle)",
-      "vram_fit_status": "fits_easily",
+      "vram_fit_status": "out_of_vram_degraded",
       "benchmark_matrix": {
         "evaluation_mode": "heuristic",
         "bfcl_composite_score": 0.694,
@@ -175,14 +172,14 @@
     "provenance_flags": [
       "bfcl_v2_automated",
       "hardware_aware_compaction",
-      "probed_windows_graphics_telemetry",
+      "preset_hardware_profile",
       "heuristic_bfcl_estimate",
       "live_ollama_discovery"
     ],
     "evaluation_mode": "heuristic",
     "ollama_endpoint": "http://127.0.0.1:11434",
-    "evaluated_at": "2026-09-14T03:37:35.092Z",
+    "evaluated_at": "2026-09-14T03:14:54.185Z",
     "scenario_attempt_counts": 1
   },
-  "hash_chain_self": "42f879a00db2d3ed1e5520987ea895c5bca546eacd0d52cb0520e34b9e23971a"
+  "hash_chain_self": "32b4f840f756a3736cc2aaa940bf4e81e736c8cb7b9e272c0887f69ed1a0c6dd"
 }

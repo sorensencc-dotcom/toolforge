@@ -25,6 +25,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import * as os from 'os';
+import { replaceGate } from './nlm-pack-replace-gate.mjs';
+
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -456,37 +458,17 @@ async function run() {
     }
 
     if (BFCL_DRY_RUN) {
-      logWarn(`[DRY RUN] Would push: ${packFilePath} -> ${targetNbId}`);
+      logWarn(`[DRY RUN] Would push: ${packFilePath} → ${targetNbId}`);
     } else {
       try {
-        // 1. Pre-upload deduplication sweep: prune prior instances of this pack before uploading
-        try {
-          const out = sh(`nlm source list "${targetNbId}" --json`);
-          const parsed = JSON.parse(out);
-          const existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
-          const staleSources = existingSources.filter(s => {
-            const title = (s.title || s.name || '').toLowerCase().trim();
-            return title === packBaseName.toLowerCase() || title.startsWith(packBaseName.replace(/\.[^.]+$/, '').toLowerCase());
-          });
-
-          if (staleSources.length > 0) {
-            logInfo(`Pruning ${staleSources.length} prior/stale version(s) of ${packBaseName} before upload...`);
-            for (const stale of staleSources) {
-              try {
-                sh(`nlm source delete "${stale.id}" -y`);
-                logInfo(`  ✓ Pruned prior source: ${stale.id} ("${stale.title || stale.name}")`);
-              } catch (delErr) {
-                logWarn(`  Failed to delete source ${stale.id}: ${delErr.message}`);
-              }
-            }
-          }
-        } catch (e) {
-          logWarn(`Deduplication check skipped or failed for notebook ${targetNbId}: ${e.message}`);
-        }
-
-        // 2. Upload fresh pack
-        logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM (${targetNbId})...`);
-        sh(`nlm source add "${targetNbId}" --file "${packFilePath}"`);
+        await replaceGate({
+          packFile:   packFilePath,
+          targetNbId,
+          category,
+          nlmCli:     NLM_CLI,
+          dryRun:     false,
+          repoRoot:   path.resolve('.'),
+        });
         logInfo(`  ✓ Pushed ${filename} → '${category}' (${targetNbId})`);
       } catch (err) {
         logWarn(`NotebookLM push failed for ${filename} (non-fatal): ${err.message}`);
