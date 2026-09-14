@@ -7,7 +7,7 @@ $LogDir = Join-Path $SigilDir ".sigil\logs"
 if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Force -Path $LogDir | Out-Null }
 
 $RelayPort = 8791
-$StreamPort = 8793
+$StreamPort = 8792
 $ConnectorPort = 4411
 $RelayUrl = "http://127.0.0.1:$RelayPort"
 $StreamUrl = "ws://127.0.0.1:$StreamPort/v1/stream"
@@ -27,7 +27,7 @@ function Start-LoggedNode {
     [string]$LogPath
   )
   $errPath = "$LogPath.err"
-  Write-Output "[$(Get-Date -Format o)] Starting $Name..."
+  Write-Host "[$(Get-Date -Format o)] Starting $Name..."
   return Start-Process -FilePath "node" `
     -ArgumentList $ArgumentList `
     -WorkingDirectory $SigilDir `
@@ -36,7 +36,7 @@ function Start-LoggedNode {
     -PassThru -NoNewWindow
 }
 
-$env:SIGIL_DATABASE_URL = "postgresql://sigil:sigil_password@localhost:55432/sigil"
+$env:SIGIL_DATABASE_URL = "postgresql://sigil:sigil_password@127.0.0.1:55432/sigil"
 
 $procs = @()
 
@@ -48,8 +48,9 @@ if (Test-PortListen $RelayPort) {
     "sigil/cli/sigil.mjs", "relay", "up",
     "--registry", ".sigil/registry.json",
     "--port", "$RelayPort",
-    "--stream-port", "$StreamPort",
-    "--database-url", "$env:SIGIL_DATABASE_URL"
+    "--federation-mode", "queue",
+    "--domain", "local",
+    "--federation-identity", ".sigil/grokbot.identity.json"
   )
   $procs += $relayProc
   $ready = $false
@@ -87,14 +88,14 @@ if ($existingConnector -and (Test-PortListen $ConnectorPort)) {
   }
 }
 
-$existingListener = Get-CimInstance Win32_Process -Filter "Name='node.exe'" -ErrorAction SilentlyContinue |
+$existingListener = Get-CimInstance Win32_Process -Filter 'Name=''node.exe''' -ErrorAction SilentlyContinue |
   Where-Object { $_.CommandLine -like '*sigil.mjs*inbox*' -and $_.CommandLine -like '*grokbot.identity.json*' -and $_.CommandLine -like '*--loop*' }
 if ($existingListener) {
-  Write-Output "[$(Get-Date -Format o)] grokbot inbox --loop already running (PID $($existingListener.ProcessId)) — reusing."
+  Write-Output ('[{0}] grokbot inbox --loop already running (PID {1}) — reusing.' -f (Get-Date -Format o), $existingListener.ProcessId)
   $inboxProc = $null
 } else {
-  Write-Output "[$(Get-Date -Format o)] Starting ep_grokbot inbox --wait --loop..."
-  $inboxProc = Start-Process -FilePath "node" `
+  Write-Output ('[{0}] Starting ep_grokbot inbox --wait --loop...' -f (Get-Date -Format o))
+  $inboxProc = Start-Process -FilePath 'node' `
     -ArgumentList @(
       "sigil/cli/sigil.mjs", "inbox",
       "--identity", ".sigil/grokbot.identity.json",
@@ -104,25 +105,25 @@ if ($existingListener) {
     ) `
     -WorkingDirectory $SigilDir `
     -RedirectStandardOutput $GrokbotInboxLog `
-    -RedirectStandardError ($GrokbotInboxLog + ".err") `
+    -RedirectStandardError ($GrokbotInboxLog + '.err') `
     -PassThru -NoNewWindow
   $procs += $inboxProc
 }
 
-Write-Output "[$(Get-Date -Format o)] Sigil mesh up: relay=$RelayUrl stream=$StreamUrl connector=http://127.0.0.1:$ConnectorPort grokbot-inbox-log=$GrokbotInboxLog"
+Write-Output ('[{0}] Sigil mesh up: relay={1} stream={2} connector=http://127.0.0.1:{3} grokbot-inbox-log={4}' -f (Get-Date -Format o), $RelayUrl, $StreamUrl, $ConnectorPort, $GrokbotInboxLog)
 
 try {
   while ($true) {
     foreach ($proc in $procs) {
       if ($proc -and $proc.HasExited) {
-        Write-Error "Child process terminated unexpectedly (PID $($proc.Id), ExitCode $($proc.ExitCode))."
+        Write-Error ('Child process terminated unexpectedly (PID {0}, ExitCode {1}).' -f $proc.Id, $proc.ExitCode)
       }
     }
     Start-Sleep -Seconds 2
   }
 } finally {
   foreach ($proc in $procs) {
-    if ($proc -and -not $proc.HasExited) {
+    if ($null -ne $proc -and -not $proc.HasExited) {
       Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
     }
   }

@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/config.mjs';
+import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -111,39 +111,39 @@ generated_at: ${new Date().toISOString()}
   const conceptFile1 = path.join(researchDir, 'mobile-websocket-heartbeats.md');
   const conceptContent1 = `---
 source_title: "Mobile Browser WebSocket Heartbeats Specification & Analysis"
-repository: "CIC Architecture & Research Archive - Accession 65, Box 69"
+repository: "Sigil Protocol & Federation - Accession 65, Box 69"
 document_date: "${new Date().toISOString().slice(0, 10)}"
 verification_status: "verified"
-category: "willow-run"
-topic: mobile-websocket-heartbeats
-status: active
-last_updated: ${new Date().toISOString()}
+category: "sigil"
+topic: "mobile-websocket-heartbeats"
+status: "active"
+last_updated: "${new Date().toISOString()}"
 ---
 # Mobile Browser WebSocket Heartbeats
 
 Mobile operating systems heavily throttle background JS intervals (e.g., locking \`setInterval\` to 1 ping/minute or pausing it entirely). 
 
-To ensure liveness under **Workstream H**:
+To ensure liveness under **Sigil Protocol & Federation**:
 1. Leverage the **Page Visibility API** to trigger immediate reconnection and ping when the user focuses the page.
 2. Store WebSocket backoff state in a persistent client cookie or local storage to resist sleep cycles.
 `;
 
-  const conceptFile2 = path.join(researchDir, 'historical-revocation-verification.md');
+  const conceptFile2 = path.join(researchDir, 'ironledger-kms-encryption.md');
   const conceptContent2 = `---
-source_title: "Historical Revocation Verification & Key Epoch Lifecycle"
-repository: "Sigil Trust Engine Protocols - Accession 42, Box 12"
+source_title: "IronLedger KMS Envelope Encryption & Migration 0012"
+repository: "IronLedger Core Engine - Accession 42, Box 12"
 document_date: "${new Date().toISOString().slice(0, 10)}"
 verification_status: "verified"
-category: "ford-politics"
-topic: historical-revocation-verification
-status: active
-last_updated: ${new Date().toISOString()}
+category: "ironledger"
+topic: "ironledger-kms-encryption"
+status: "active"
+last_updated: "${new Date().toISOString()}"
 ---
-# Historical Revocation Verification
+# IronLedger KMS Envelope Encryption
 
-When verifying historical signatures:
-- A signature generated *before* the key's revocation timestamp remains cryptographically valid under the **Sigil Trust Engine**.
-- Local connectors must cache revoked keys with their active revocation intervals inside the **Local SQLite database** to check transaction histories offline.
+When persisting double-entry transactions and ledger journal lines:
+- Envelope encryption leverages Google Cloud KMS to derive deterministic DEKs for journal chunk seals.
+- Database migrations 0012 through 0015 strictly enforce encrypted partition isolation before ledger balancing.
 `;
 
   fs.writeFileSync(conceptFile1, conceptContent1, 'utf8');
@@ -155,7 +155,7 @@ When verifying historical signatures:
   logStep(5, 'Logging to Layer 3 Stable Reference (Audit Trails)');
   // ===========================================================================
   const logFilePath = path.join(wikiDir, 'Log.md');
-  const logEntry = `\n- [${new Date().toISOString()}] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification). Added to Layer 2 wiki.`;
+  const logEntry = `\n- [${new Date().toISOString()}] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, ironledger-kms-encryption). Added to Layer 2 wiki.`;
   fs.appendFileSync(logFilePath, logEntry, 'utf8');
   logInfo(`✓ Appended audit entry to: ${logFilePath}`);
 
@@ -168,29 +168,47 @@ When verifying historical signatures:
     {
       filename: 'pack_willow_run.txt',
       category: 'willow-run',
+      sources: []
+    },
+    {
+      filename: 'pack_cuba_claims.txt',
+      category: 'cuba-claims',
+      sources: []
+    },
+    {
+      filename: 'pack_miami_estate.txt',
+      category: 'miami-estate',
+      sources: []
+    },
+    {
+      filename: 'pack_assembly_line.txt',
+      category: 'assembly-line',
+      sources: []
+    },
+    {
+      filename: 'pack_ironledger.txt',
+      category: 'ironledger',
+      sources: [
+        { title: 'wiki/research/ironledger-kms-encryption.md', content: conceptContent2 }
+      ]
+    },
+    {
+      filename: 'pack_sigil.txt',
+      category: 'sigil',
       sources: [
         { title: 'wiki/research/mobile-websocket-heartbeats.md', content: conceptContent1 }
       ]
     },
     {
-      filename: 'pack_ford_politics.txt',
-      category: 'ford-politics',
-      sources: [
-        { title: 'wiki/research/historical-revocation-verification.md', content: conceptContent2 }
-      ]
-    },
-    {
-      filename: 'pack_willys_overland.txt',
-      category: 'post-war',
+      filename: 'pack_agent_harness.txt',
+      category: 'agent-harness',
       sources: []
     },
     {
       filename: 'pack_master_kb.txt',
       category: 'master-kb',
       sources: [
-        { title: 'trm-research-gaps.md', content: gapsContent },
-        { title: 'wiki/research/mobile-websocket-heartbeats.md', content: conceptContent1 },
-        { title: 'wiki/research/historical-revocation-verification.md', content: conceptContent2 }
+        { title: 'trm-research-gaps.md', content: gapsContent }
       ]
     }
   ];
@@ -210,6 +228,11 @@ When verifying historical signatures:
     logInfo(`Pushing ${pack.filename} to Target '${pack.category}' (Notebook ID: ${targetNbId})...`);
 
     const packBaseName = path.basename(packFilePath);
+    if (!targetNbId || targetNbId.startsWith('<')) {
+      logInfo(`[SKIP LIVE PUSH] Target '${pack.category}' is using placeholder ID '${targetNbId}'. Pack saved locally.`);
+      continue;
+    }
+
     try {
       // 1. Pre-upload deduplication sweep: prune prior instances of this pack before uploading
       try {

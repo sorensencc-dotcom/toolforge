@@ -117,6 +117,36 @@
 
     <section id="tab-headroom" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-headroom" hidden>
       <div class="headroom-container">
+        <div class="telemetry-card" style="margin-bottom: 1.5rem; background: rgba(30, 26, 23, 0.7); border: 1px solid rgba(154, 144, 136, 0.15); padding: 1.5rem;">
+          <div class="telemetry-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 400; color: var(--white); margin: 0;">Knowledge Plane Partition Headroom & Token Ingestion</h3>
+            <span class="badge badge-success" id="partition-headroom-status" style="background: rgba(46, 125, 50, 0.2); color: #81c784; border: 1px solid rgba(76, 175, 80, 0.4); padding: 0.25rem 0.5rem; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">MONITORED</span>
+          </div>
+          <p class="telemetry-desc" style="color: var(--ash); font-size: 0.85rem; margin-bottom: 1.25rem; font-family: 'Libre Baskerville', serif;">Monitors token count consumption across isolated knowledge partitions (IronLedger, Sigil, CIC - Miami Estate, CIC - Rouge Assembly, Personal OS) against context ceilings to prevent partition overflow.</p>
+          <div class="stats-row" id="partition-stats-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-ironledger" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">IronLedger (76e1932c)</span>
+            </div>
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-sigil" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">Sigil Protocol</span>
+            </div>
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-miami" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">CIC - Miami Estate</span>
+            </div>
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-rouge" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">CIC - Rouge Assembly</span>
+            </div>
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-personal" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">Personal OS</span>
+            </div>
+          </div>
+        </div>
+
         <div class="headroom-toolbar">
           <div class="headroom-toolbar-title">
             <span class="hr-dot hr-dot-online" id="headroom-live-indicator"></span>

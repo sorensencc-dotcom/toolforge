@@ -671,6 +671,24 @@
       if (savedEl) savedEl.textContent = `Saved: ${totalTokensSaved.toLocaleString()} tok (${Number(savingsPct).toFixed(1)}%)`;
       if (cacheEl) cacheEl.textContent = `Cache: ${Number(hitRate).toFixed(1)}% hit`;
       if (costEl) costEl.textContent = `Avoided: $${Number(costSavedUsd).toFixed(4)}`;
+
+      // Update Partition Telemetry from data if provided, or default nominal states
+      const partStats = data.partition_headroom?.partitions || {};
+      const updatePart = (id, key) => {
+        const el = document.getElementById(id);
+        if (el) {
+          const p = partStats[key];
+          if (p) {
+            el.textContent = `${p.headroom_pct}% (${(p.estimated_tokens || 0).toLocaleString()} tok)`;
+            el.style.color = p.headroom_pct > 20 ? 'var(--ember)' : '#ef5350';
+          }
+        }
+      };
+      updatePart('part-stat-ironledger', 'ironledger');
+      updatePart('part-stat-sigil', 'sigil');
+      updatePart('part-stat-miami', 'miami-estate');
+      updatePart('part-stat-rouge', 'assembly-line');
+      updatePart('part-stat-personal', 'personal-os');
     } catch {
       statusEl.innerHTML = '<span class="hr-dot hr-dot-offline"></span> Headroom: Offline';
       if (liveIndicator) liveIndicator.className = 'hr-dot hr-dot-offline';
@@ -712,6 +730,27 @@
   }
 
   // ============================================================
+  // Context & Drift Telemetry Integration
+  // ============================================================
+  function initTelemetry() {
+    const telemetryBadgesBtn = document.getElementById('telemetry-header-badges');
+    const telemetryTabBtn = document.getElementById('tab-btn-telemetry');
+
+    if (telemetryBadgesBtn && telemetryTabBtn) {
+      const triggerTelemetryTab = () => {
+        telemetryTabBtn.click();
+      };
+      telemetryBadgesBtn.addEventListener('click', triggerTelemetryTab);
+      telemetryBadgesBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          triggerTelemetryTab();
+        }
+      });
+    }
+  }
+
+  // ============================================================
   // Init
   // ============================================================
   document.addEventListener('DOMContentLoaded', () => {
@@ -721,6 +760,7 @@
     initHistoryControls();
     initErrors();
     initHeadroom();
+    initTelemetry();
     loadRuns();
   });
 })();

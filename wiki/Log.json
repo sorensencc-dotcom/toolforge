@@ -342,5 +342,93 @@
       }
     ],
     "result": "success"
+  },
+  {
+    "timestamp": "2026-09-11T06:04:04.596Z",
+    "action": "daily_mining_run",
+    "actor": "scheduler",
+    "run_id": "RUN-2026-09-11T06-00-03-247Z-2e608ad8",
+    "duration_seconds": 241.35,
+    "results": [
+      {
+        "category": "willow-run",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 20603
+      },
+      {
+        "category": "ford-politics",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 8734
+      },
+      {
+        "category": "post-war",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 8415
+      },
+      {
+        "category": "cuban-seizures",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 8472
+      },
+      {
+        "category": "master-kb",
+        "status": "failed_upload"
+      },
+      {
+        "category": "daily",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 12771
+      }
+    ],
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-09-12T06:04:11.738Z",
+    "action": "daily_mining_run",
+    "actor": "scheduler",
+    "run_id": "RUN-2026-09-12T06-00-02-857Z-fea9f14d",
+    "duration_seconds": 248.88,
+    "results": [
+      {
+        "category": "willow-run",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 11338
+      },
+      {
+        "category": "ford-politics",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 8644
+      },
+      {
+        "category": "post-war",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 8778
+      },
+      {
+        "category": "cuban-seizures",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 8671
+      },
+      {
+        "category": "master-kb",
+        "status": "failed_upload"
+      },
+      {
+        "category": "daily",
+        "status": "synced",
+        "attempts": 1,
+        "durationMs": 12463
+      }
+    ],
+    "result": "success"
   }
 ]

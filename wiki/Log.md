@@ -639,3 +639,53 @@ status: "active"
 - **Duration:** 231.57s
 - **Dry Run:** false
 - **Categories Processed:** willow-run (synced), ford-politics (synced), post-war (synced), cuban-seizures (synced), master-kb (failed_upload), daily (synced)
+
+##### 2026-09-11T04:45:59.488Z — ICF Ingestion Telemetry
+- **Status:** DEGRADED
+- **Worktrees Monitored:** 88
+- **Vault Sync Staging:** Active (4 batches)
+
+##### 2026-09-11T04:48:46.042Z — ICF Ingestion Telemetry
+- **Status:** DEGRADED
+- **Worktrees Monitored:** 88
+- **Vault Sync Staging:** Active (4 batches)
+
+- [2026-09-11T06:00:15Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 17, SHA256: F2F75EB45A67270F24B4AFAB7D8B0BD504915DB749AD5F3F445B1B816BE4F8BE, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
+
+- [2026-09-11T06:00:35Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_ford_politics.txt (Pack: ford-politics, Items: 13, SHA256: EBFB233268B7023F9735654C6792EBCB7EB436409430A893D576745AA3EF04B1, Target: 0caf6707-f8f2-4d2a-acd2-020acead55ba).
+
+- [2026-09-11T06:00:44Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_post_war.txt (Pack: post-war, Items: 1, SHA256: 6C987CFA1B352F4E9ACF1FA316A619B60EAD18E3CFBBD5CFC4E7C23E5DD4919F, Target: 9c469910-a900-43a4-877c-a43c9f545b5f).
+
+- [2026-09-11T06:00:52Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 6, SHA256: 6EADDF989C62820D7D140D95A15C7904E79A068141F4C4564C7FDF88CB7E95CF, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-09-11T06:01:05Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_master_kb.txt (Pack: master-kb, Items: 8673, SHA256: DA0F212A2C6329D7833E1C50D5944535DB13F69113D1B913AF9CC9EAD8560AE6, Target: 679b8bab-2d87-42cb-a726-6dc54c83acc2).
+
+- [2026-09-11T06:03:52Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_daily.txt (Pack: daily, Items: 12, SHA256: E32BB6EC1AC0CD7FA92670CA6E6AA22C3ADDB9328908EDF6BA344089C17754EC, Target: 1b4861a3-931f-4632-8fc1-343a8dd37df8).
+
+## 2026-09-11T06:04:04.596Z - Daily Research Mining Run (RUN-2026-09-11T06-00-03-247Z-2e608ad8)
+- **Duration:** 241.35s
+- **Dry Run:** false
+- **Categories Processed:** willow-run (synced), ford-politics (synced), post-war (synced), cuban-seizures (synced), master-kb (failed_upload), daily (synced)
+
+- [2026-09-12T06:00:29Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 17, SHA256: 8E246A9204B28B2C3ADFD547440177756097D9377C326FA51977531269DEBF5D, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
+
+- [2026-09-12T06:00:40Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_ford_politics.txt (Pack: ford-politics, Items: 13, SHA256: 52288A3C8735AC5E4A945ED68A3478B94A873D43404FA0127C7D3313752C1820, Target: 0caf6707-f8f2-4d2a-acd2-020acead55ba).
+
+- [2026-09-12T06:00:48Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_post_war.txt (Pack: post-war, Items: 1, SHA256: 3DAD7D655055D95AB810B5D2DD7052D4E153E5335BD9289D0B2BE12870BCF606, Target: 9c469910-a900-43a4-877c-a43c9f545b5f).
+
+- [2026-09-12T06:00:57Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_cuban_seizures.txt (Pack: cuban-seizures, Items: 6, SHA256: 4F10F0A20A9A0E4E7B4730E11186109E2D16E5CC8F6A54C3EF9F17320110CB52, Target: c8360946-dbee-4a2c-b622-7f89b05695b0).
+
+- [2026-09-12T06:01:23Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_master_kb.txt (Pack: master-kb, Items: 8673, SHA256: 64F16EFCEF94AC305B8A682CDB1B825FCE7B4B1562E06E8FF463332C40AB62BA, Target: 679b8bab-2d87-42cb-a726-6dc54c83acc2).
+
+- [2026-09-12T06:03:59Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_daily.txt (Pack: daily, Items: 12, SHA256: 42329D021AA048C20E7FA1C82AE3609730B9E8F179370FB400F6A7FA3DAF2010, Target: 1b4861a3-931f-4632-8fc1-343a8dd37df8).
+
+## 2026-09-12T06:04:11.738Z - Daily Research Mining Run (RUN-2026-09-12T06-00-02-857Z-fea9f14d)
+- **Duration:** 248.88s
+- **Dry Run:** false
+- **Categories Processed:** willow-run (synced), ford-politics (synced), post-war (synced), cuban-seizures (synced), master-kb (failed_upload), daily (synced)
+
+- [2026-09-13T06:00:24Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 17, SHA256: E85D3C90B44C458CDBCC81C0F2D8FEEB9AC00478FEE5A574685A72AF64218570, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
+
+- [2026-09-14T01:23:12.425Z] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, ironledger-kms-encryption). Added to Layer 2 wiki.
+- [2026-09-14T01:23:44.830Z] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, ironledger-kms-encryption). Added to Layer 2 wiki.
+- [2026-09-14T01:34:18.859Z] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, ironledger-kms-encryption). Added to Layer 2 wiki.

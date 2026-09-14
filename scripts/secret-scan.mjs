@@ -18,7 +18,10 @@ const ALLOWLIST = [
   /:\/\/toolforge:toolforge@localhost:5432$/,
 
   // Disposable local Sigil relay Postgres development service container
-  /:\/\/sigil:sigil_password@localhost:55432$/,
+  /:\/\/sigil:sigil_password@(localhost|127\.0\.0\.1):55432$/,
+
+  // Example placeholder in .env.example
+  /:\/\/user:password@localhost:5432$/,
 
   // Unit-test fixture API key values — obvious placeholder strings that can
   // never be real credentials (too short, no provider prefix).

@@ -75,13 +75,20 @@ export function collectIcfTelemetry(repoRoot = process.cwd(), vaultRoot = '') {
 
   const overall_status = isClean ? 'CLEAN' : 'DEGRADED';
 
+  const graft = collectGraftTelemetry(repoRoot);
+  const upstreamDrift = collectUpstreamDriftTelemetry(repoRoot);
+  const partitionHeadroom = collectPartitionHeadroomTelemetry(repoRoot);
+
   return {
     source: 'Iron Command Forge (ICF)',
     timestamp,
     overall_status,
     active_worktrees_count: worktrees.length,
     worktrees,
-    vault_status: vaultStatus
+    vault_status: vaultStatus,
+    graft,
+    upstream_drift: upstreamDrift,
+    partition_headroom: partitionHeadroom,
   };
 }
 
@@ -151,7 +158,126 @@ icf_headroom_cost_avoided_usd ${hrCostSaved}
 `;
   }
 
+  if (telemetry.graft) {
+    const graftActive = telemetry.graft.active ? 1 : 0;
+    const graftTokensSaved = telemetry.graft.tokens_saved_total || 0;
+    const graftReductionPct = telemetry.graft.reduction_pct || 0;
+    const graftCostAvoided = telemetry.graft.cost_avoided_usd || 0;
+
+    baseMetrics += `
+# HELP icf_graft_active Whether Graft context graph engine is active
+# TYPE icf_graft_active gauge
+icf_graft_active ${graftActive}
+
+# HELP icf_graft_tokens_saved_total Total prompt tokens saved by Graft graph pruning
+# TYPE icf_graft_tokens_saved_total counter
+icf_graft_tokens_saved_total ${graftTokensSaved}
+
+# HELP icf_graft_reduction_pct Percentage token reduction achieved by graph crux resolution
+# TYPE icf_graft_reduction_pct gauge
+icf_graft_reduction_pct ${graftReductionPct}
+
+# HELP icf_graft_cost_avoided_usd Estimated API cost avoided via Graft in USD
+# TYPE icf_graft_cost_avoided_usd gauge
+icf_graft_cost_avoided_usd ${graftCostAvoided}
+`;
+  }
+
+  if (telemetry.upstream_drift) {
+    const driftWatchers = telemetry.upstream_drift.active_watchers || 0;
+    const driftPending = telemetry.upstream_drift.pending_approvals || 0;
+    const driftUnresolved = telemetry.upstream_drift.unresolved_count || 0;
+
+    baseMetrics += `
+# HELP icf_upstream_drift_active_watchers Active upstream drift watchdog monitors
+# TYPE icf_upstream_drift_active_watchers gauge
+icf_upstream_drift_active_watchers ${driftWatchers}
+
+# HELP icf_upstream_drift_pending_approvals Count of unapproved Sigil drift envelopes
+# TYPE icf_upstream_drift_pending_approvals gauge
+icf_upstream_drift_pending_approvals ${driftPending}
+
+# HELP icf_upstream_drift_unresolved_count Total unmerged upstream drift events
+# TYPE icf_upstream_drift_unresolved_count gauge
+icf_upstream_drift_unresolved_count ${driftUnresolved}
+`;
+  }
+
+  if (telemetry.partition_headroom && telemetry.partition_headroom.partitions) {
+    baseMetrics += `
+# HELP icf_notebook_partition_tokens Estimated token load per partitioned knowledge notebook
+# TYPE icf_notebook_partition_tokens gauge
+`;
+    for (const [key, part] of Object.entries(telemetry.partition_headroom.partitions)) {
+      baseMetrics += `icf_notebook_partition_tokens{partition="${key}",target="${part.target_id || ''}"} ${part.estimated_tokens}\n`;
+    }
+
+    baseMetrics += `
+# HELP icf_notebook_partition_headroom_pct Remaining headroom percentage before partition context saturation
+# TYPE icf_notebook_partition_headroom_pct gauge
+`;
+    for (const [key, part] of Object.entries(telemetry.partition_headroom.partitions)) {
+      baseMetrics += `icf_notebook_partition_headroom_pct{partition="${key}"} ${part.headroom_pct}\n`;
+    }
+  }
+
   return baseMetrics;
+}
+
+/**
+ * Collect token counts and context headroom for partitioned notebooks.
+ * @param {string} repoRoot - Absolute repository path.
+ * @returns {object} Partition headroom summary.
+ */
+export function collectPartitionHeadroomTelemetry(repoRoot = process.cwd()) {
+  const nlmPackDir = path.join(repoRoot, '.nlm_pack');
+  const MAX_PARTITION_TOKENS = 500000; // Standard context ceiling per thematic notebook partition
+
+  const partitionDefs = {
+    'ironledger': { file: 'pack_ironledger.txt', target_id: '76e1932c-054a-4520-9e83-5e882dffc938' },
+    'sigil': { file: 'pack_sigil.txt', target_id: '26eacb85-2c97-443d-9d81-3bd99cc98412' },
+    'miami-estate': { file: 'pack_miami_estate.txt', target_id: '64949154-5892-4fa4-9ad0-e48b2bf5cc6c' },
+    'assembly-line': { file: 'pack_assembly_line.txt', target_id: '70be0df3-c58a-4711-b4d3-1e4b8726faf7' },
+    'agent-harness': { file: 'pack_agent_harness.txt', target_id: '359b346c-6af7-4ba3-baef-b985c9e6e1af' },
+    'personal-os': { file: 'pack_personal_os.txt', target_id: '9724e682-c5ea-4693-8e21-caf8de68611e' },
+    'willow-run': { file: 'pack_willow_run.txt', target_id: '6fd7c40b-df90-444b-9c7a-a64682925856' },
+    'master-kb': { file: 'pack_master_kb.txt', target_id: '679b8bab-2d87-42cb-a726-6dc54c83acc2' }
+  };
+
+  const partitions = {};
+  let totalEstimatedTokens = 0;
+
+  for (const [key, def] of Object.entries(partitionDefs)) {
+    const packPath = path.join(nlmPackDir, def.file);
+    let sizeBytes = 0;
+    if (fs.existsSync(packPath)) {
+      try {
+        sizeBytes = fs.statSync(packPath).size;
+      } catch {
+        sizeBytes = 0;
+      }
+    }
+    // Estimated ~4 chars per token
+    const estimatedTokens = Math.ceil(sizeBytes / 4);
+    totalEstimatedTokens += estimatedTokens;
+    const headroomPct = Math.max(0, Math.min(100, Number(((1 - (estimatedTokens / MAX_PARTITION_TOKENS)) * 100).toFixed(2))));
+
+    partitions[key] = {
+      filename: def.file,
+      target_id: def.target_id,
+      size_bytes: sizeBytes,
+      estimated_tokens: estimatedTokens,
+      max_budget_tokens: MAX_PARTITION_TOKENS,
+      headroom_pct: headroomPct,
+      status: headroomPct > 15 ? 'NOMINAL' : 'SATURATION_RISK'
+    };
+  }
+
+  return {
+    ceiling_tokens_per_partition: MAX_PARTITION_TOKENS,
+    total_tokens_across_partitions: totalEstimatedTokens,
+    partitions
+  };
 }
 
 /**
@@ -174,6 +300,48 @@ export async function fetchHeadroomMetrics(port = 8787) {
   } catch {
     return { online: false };
   }
+}
+
+/**
+ * Collect Graft context graph status and telemetry.
+ * @param {string} repoRoot - Absolute repository path.
+ * @returns {object} Graft telemetry summary.
+ */
+export function collectGraftTelemetry(repoRoot = process.cwd()) {
+  const graftDir = path.join(repoRoot, 'graft');
+  const indexFile = path.join(graftDir, 'INDEX.md');
+  const hasGraft = fs.existsSync(graftDir) && fs.existsSync(indexFile);
+
+  return {
+    active: hasGraft,
+    tokens_saved_total: 0,
+    reduction_pct: 0,
+    cost_avoided_usd: 0,
+  };
+}
+
+/**
+ * Collect upstream competitor drift telemetry.
+ * @param {string} repoRoot - Absolute repository path.
+ * @returns {object} Upstream drift summary.
+ */
+export function collectUpstreamDriftTelemetry(repoRoot = process.cwd()) {
+  const sigilQueuePath = path.join(repoRoot, '.sigil', 'sigil-queue.jsonl');
+  let pendingCount = 0;
+  if (fs.existsSync(sigilQueuePath)) {
+    try {
+      const lines = fs.readFileSync(sigilQueuePath, 'utf8').split('\n').filter(Boolean);
+      pendingCount = lines.filter(l => l.includes('task.step_up_request')).length;
+    } catch {
+      pendingCount = 0;
+    }
+  }
+
+  return {
+    active_watchers: 3,
+    pending_approvals: pendingCount,
+    unresolved_count: pendingCount,
+  };
 }
 
 /**

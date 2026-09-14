@@ -3,7 +3,7 @@ version: '3.9'
 services:
   # Ollama service for local model inference
   ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.3.0
     container_name: toolforge-ollama
     ports:
       - "11434:11434"
@@ -22,10 +22,10 @@ services:
 
   # API Server
   api:
-    image: node:24-alpine
+    build:
+      context: .
+      target: runtime
     container_name: toolforge-api
-    working_dir: /app
-    command: npm run api:dev
     ports:
       - "3000:3000"
     environment:
@@ -34,12 +34,12 @@ services:
       OLLAMA_BASE_URL: http://ollama:11434/v1
       OLLAMA_TIMEOUT: 30000
       COWORK_API_URL: http://127.0.0.1:4790
-      COWORK_API_KEY: mock-api-key-1234567890ab
       COWORK_GATEWAY_ID: toolforge-gateway
       COWORK_SYNC_INTERVAL: 300
     volumes:
       - .:/app
       - /app/node_modules
+    working_dir: /app
     depends_on:
       ollama:
         condition: service_healthy
@@ -50,15 +50,17 @@ services:
 
   # React UI development server
   ui:
-    image: node:24-alpine
+    build:
+      context: .
+      target: runtime
     container_name: toolforge-ui
-    working_dir: /app
     command: npm run ui:dev
     ports:
       - "5173:5173"
     volumes:
       - .:/app
       - /app/node_modules
+    working_dir: /app
     networks:
       - toolforge-network
     env_file:

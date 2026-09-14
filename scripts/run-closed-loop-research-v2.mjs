@@ -37,7 +37,7 @@ const GAPS_OUT_DIR  = path.join(TRM_VAULT, 'trm', 'research-gaps');
 const BFCL_DRY_RUN  = process.env.BFCL_DRY_RUN  === '1'; // skip live notebooklm push
 const SKIP_MINE     = process.env.TRM_SKIP_MINE  === '1'; // skip Step 1 re-mine (use existing vault file)
 
-import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/config.mjs';
+import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -417,9 +417,12 @@ async function run() {
 
   const packDefs = [
     { filename: 'pack_willow_run.txt',      category: 'willow-run' },
-    { filename: 'pack_ford_politics.txt',   category: 'ford-politics' },
-    { filename: 'pack_willys_overland.txt', category: 'post-war' },
-    { filename: 'pack_cuban_seizures.txt',  category: 'cuban-seizures' },
+    { filename: 'pack_cuba_claims.txt',     category: 'cuba-claims' },
+    { filename: 'pack_miami_estate.txt',    category: 'miami-estate' },
+    { filename: 'pack_assembly_line.txt',   category: 'assembly-line' },
+    { filename: 'pack_ironledger.txt',      category: 'ironledger' },
+    { filename: 'pack_sigil.txt',           category: 'sigil' },
+    { filename: 'pack_agent_harness.txt',   category: 'agent-harness' },
     { filename: 'pack_master_kb.txt',       category: 'master-kb' },
   ];
 
@@ -447,6 +450,11 @@ async function run() {
     logInfo(`✓ Pack emitted: ${packFilePath} (${sizeKb} KB, ${sources.length} source(s))`);
 
     const packBaseName = path.basename(packFilePath);
+    if (!targetNbId || targetNbId.startsWith('<')) {
+      logInfo(`[SKIP LIVE PUSH] Target '${category}' is using placeholder ID '${targetNbId}'. Pack saved locally.`);
+      continue;
+    }
+
     if (BFCL_DRY_RUN) {
       logWarn(`[DRY RUN] Would push: ${packFilePath} -> ${targetNbId}`);
     } else {
