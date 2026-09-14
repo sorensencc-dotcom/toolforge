@@ -329,7 +329,7 @@ export async function replaceGate(opts) {
     packFile,
     targetNbId,
     category   = path.basename(packFile, '.txt'),
-    nlmCli     = process.env.NOTEBOOKLM_BIN ?? 'notebooklm',
+    nlmCli     = process.env.NOTEBOOKLM_BIN ?? 'nlm',
     dryRun     = false,
     repoRoot   = path.resolve(__dirname, '..'),
   } = opts;
@@ -528,7 +528,7 @@ Options:
     packFile:   path.resolve(args['file']),
     targetNbId: args['notebook-id'],
     category:   args['category'],
-    nlmCli:     args['nlm-cli'] ?? process.env.NOTEBOOKLM_BIN ?? 'notebooklm',
+    nlmCli:     args['nlm-cli'] ?? process.env.NOTEBOOKLM_BIN ?? 'nlm',
     dryRun:     args['dry-run'] === true || args['dry-run'] === 'true',
     repoRoot:   args['repo-root'] ? path.resolve(args['repo-root']) : path.resolve(__dirname, '..'),
   })

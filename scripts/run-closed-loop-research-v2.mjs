@@ -33,7 +33,7 @@ import { replaceGate } from './nlm-pack-replace-gate.mjs';
 // ---------------------------------------------------------------------------
 
 const TRM_CLI       = process.env.TRM_BIN        ?? 'node "C:\\dev\\trm\\dist\\cli\\index.js"';
-const NLM_CLI       = process.env.NOTEBOOKLM_BIN ?? 'notebooklm';
+const NLM_CLI       = process.env.NOTEBOOKLM_BIN ?? 'nlm';
 const TRM_VAULT     = process.env.TRM_VAULT       ?? 'C:\\Users\\soren\\trm-vault';
 const GAPS_OUT_DIR  = path.join(TRM_VAULT, 'trm', 'research-gaps');
 const BFCL_DRY_RUN  = process.env.BFCL_DRY_RUN  === '1'; // skip live notebooklm push

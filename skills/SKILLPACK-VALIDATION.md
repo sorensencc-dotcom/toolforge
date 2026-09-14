@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-09-14T07:00:03.2373613Z
+**Generated**: 2026-09-14T15:23:22.8066353Z
 
 ---
 
@@ -259,8 +259,8 @@
 ⚠️ **cic-ingest-world**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
 ⚠️ **cic-orchestrate-flow**: Internal dependencies mismatch (distributed): canonical '_cic-shared, cic-consolidate-artifacts, cic-ingest-world, cic-repair-pipeline, cic-run-gate', distributed ''
 ⚠️ **cic-repair-pipeline**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
-⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **cic-run-gate**: Internal dependencies mismatch (distributed): canonical '_cic-shared', distributed ''
+⚠️ **cic-run-gate**: External dependencies mismatch: canonical '', manifest 'python3.12'
 ⚠️ **html-visual-verify**: External dependencies mismatch: canonical '', manifest '@playwright/test'
 ⚠️ **parallel-search**: Missing external dependency: parallel-web
 ⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
@@ -268,9 +268,9 @@
 ⚠️ **sigil-grok-bridge**: Missing external dependency: @modelcontextprotocol/sdk
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
 ⚠️ **tinyfish-search**: Missing external dependency: @tiny-fish/sdk
-⚠️ **trm-closed-loop-research**: Missing external dependency: git
-⚠️ **trm-closed-loop-research**: Missing external dependency: node
 ⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
+⚠️ **trm-closed-loop-research**: Missing external dependency: node
+⚠️ **trm-closed-loop-research**: Missing external dependency: git
 ⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
 ⚠️ **trm-status**: Missing external dependency: git
