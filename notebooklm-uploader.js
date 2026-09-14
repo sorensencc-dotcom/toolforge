@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { purgePackFamilyBeforeUpload } from './scripts/nlm-pack-replace-gate.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -167,17 +168,26 @@ async function main() {
     }
   }
 
-  const packBaseName = path.basename(packFile);
-  const staleSources = existingSources.filter(s => {
-    const title = (s.title || s.name || '').toLowerCase().trim();
-    return title === packBaseName.toLowerCase() ||
-           title.includes('willow run & aviation engineering pack') ||
-           title.startsWith('pack_willow_run');
-  });
+    const packBaseName = path.basename(packFile);
+  logInfo(`Found ${existingSources.length} total source(s) before replace-gate.`);
 
-  logInfo(`Found ${existingSources.length} total source(s) in notebook (${staleSources.length} prior knowledge pack versions to replace).`);
+  // Step 2: Purge pack-family sources BEFORE upload (≤1 logical pack family).
+  const cliLabel = [runner.exec, ...runner.prefixArgs].join(' ');
+  try {
+    purgePackFamilyBeforeUpload({
+      cli: cliLabel,
+      notebookId,
+      packFile,
+      dryRun: false,
+      logInfo,
+      logWarn,
+    });
+  } catch (err) {
+    logError(`Replace-gate failed — refusing to stack a second pack: ${err.message}`);
+    process.exit(1);
+  }
 
-  // Step 2: Upload fresh pack (Staged upload)
+  // Step 3: Upload fresh pack
   logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM...`);
   const uploadRes = runNlm(runner, ['source', 'add', notebookId, '--file', packFile], false);
   if (uploadRes.status !== 0) {
@@ -185,19 +195,6 @@ async function main() {
     process.exit(1);
   }
   logInfo(`✓ Fresh knowledge pack successfully uploaded to NotebookLM!`);
-
-  // Step 3: Purge stale prior pack versions
-  if (staleSources.length > 0) {
-    logInfo(`Purging ${staleSources.length} stale previous pack version(s)...`);
-    for (const stale of staleSources) {
-      logInfo(`Deleting stale source ID: ${stale.id} ("${stale.title || stale.name}")...`);
-      const delRes = runNlm(runner, ['source', 'delete', stale.id, '-y'], true);
-      if (delRes.status === 0) {
-        logInfo(`✓ Purged stale source ${stale.id}`);
-      } else {
-        logWarn(`Failed to delete stale source ${stale.id}: ${delRes.stderr || delRes.stdout}`);
-      }
-    }
   }
 
   logInfo(`================================================================================`);
