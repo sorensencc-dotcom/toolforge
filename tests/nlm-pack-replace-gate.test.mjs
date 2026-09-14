@@ -10,6 +10,9 @@ test('isPackFamilyTitle matches pack family titles', () => {
   assert.equal(isPackFamilyTitle('repo_knowledge_pack_master'), true);
   assert.equal(isPackFamilyTitle('Seed Engineering Pack'), true);
   assert.equal(isPackFamilyTitle('Willow Run & Aviation Engineering Pack'), true);
+  assert.equal(isPackFamilyTitle('CIC - Ford Executive Dynamics & Politics Pack'), true);
+  assert.equal(isPackFamilyTitle('CIC - Ford Executive Dynamics & Politics Pack', 'pack_ford_politics.txt'), true);
+  assert.equal(isPackFamilyTitle('Master Knowledge Pack'), true);
   assert.equal(isPackFamilyTitle('random meeting notes'), false);
   assert.equal(isPackFamilyTitle('Daily Digest'), false);
   assert.equal(isPackFamilyTitle('PACK_MASTER_KB', 'pack_master_kb.txt'), true);

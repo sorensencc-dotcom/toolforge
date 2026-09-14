@@ -21,6 +21,10 @@ const PACK_FAMILY_TITLE_RE = [
   /\bengineering\b.*\bpack\b/i,
   /\baviation engineering pack\b/i,
   /\bthematic knowledge pack\b/i,
+  /\bknowledge pack\b/i,
+  /\bpolitics\b.*\bpack\b/i,
+  /\bpack\b.*\bpolitics\b/i,
+  /^cic\b.*\bpack\b/i,
 ];
 
 /**
