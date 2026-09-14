@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.66.3
+Date: 2026-09-14
+
+### Changes
+- 53f1a32 - Merge pull request #38 from sorensencc-dotcom/fix/nlm-closed-loop-pack-replace-gate (Chris Sorensen)
+- 9f6cfd3 - fix(nlm): match politics/knowledge pack titles in replace gate (Chris Sorensen)
+- 1f1d014 - fix(nlm): pre-upload pack replace gate for closed-loop push (Chris Sorensen)
+
 ## Version 2.66.2
 Date: 2026-09-09
 
