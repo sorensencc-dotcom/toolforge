@@ -3,6 +3,7 @@ param(
     [string]$RepoRoot = $(if ($env:RETRO_REPO_ROOT) { $env:RETRO_REPO_ROOT } else { 'C:\dev' }),
     [string]$OutputDir = $(if ($env:RETRO_OUTPUT_DIR) { $env:RETRO_OUTPUT_DIR } else { 'C:\dev\.icf-retros\weekly' }),
     [string]$LogDir = $(if ($env:RETRO_LOG_DIR) { $env:RETRO_LOG_DIR } else { 'C:\dev\logs\retro' }),
+    [string]$ProjectionPath = $(if ($env:RETRO_PROJECTION_PATH) { $env:RETRO_PROJECTION_PATH } else { '' }),
     [string]$RunnerExe = $(if ($env:RETRO_RUNNER_EXE) { $env:RETRO_RUNNER_EXE } elseif ($env:CLAUDE_EXE) { $env:CLAUDE_EXE } else { 'C:\Users\soren\.local\bin\claude.exe' }),
     [string[]]$RunnerArgs = @('-p', $(if ($env:RETRO_PROMPT) { $env:RETRO_PROMPT } else { '/retro' }), '--permission-mode', 'bypassPermissions')
 )
@@ -58,6 +59,8 @@ $date = Get-Date -Format 'yyyy-MM-dd'
 $logFile = Join-Path $LogDir "retro-$stamp.log"
 $runFile = Join-Path $OutputDir "retro-$date.json"
 $latestFile = Join-Path $OutputDir 'latest-weekly-retro.json'
+$rawFile = Join-Path $OutputDir "retro-$date.raw.json"
+$publisher = 'C:\dev\icf\scripts\publish-weekly-retro-artifact.mjs'
 
 Push-Location $RepoRoot
 try {
@@ -97,10 +100,19 @@ try {
     }
     if ($null -eq $retro.metrics) { throw 'Retro JSON is missing required top-level property: metrics' }
 
-    Write-AtomicJsonArtifact -Path $runFile -Value $retro
-    Write-AtomicJsonArtifact -Path $latestFile -Value $retro
+    Write-AtomicJsonArtifact -Path $rawFile -Value $retro
+    $publishArgs = @($publisher, '--report', $rawFile, '--run', $runFile, '--latest', $latestFile)
+    if ($ProjectionPath) {
+        if (-not (Test-Path -LiteralPath $ProjectionPath -PathType Leaf)) {
+            throw "Projection sidecar not found: $ProjectionPath"
+        }
+        $publishArgs += @('--projection', $ProjectionPath)
+    }
+    & node @publishArgs
+    if ($LASTEXITCODE -ne 0) { throw "ICF artifact publication failed with exit code $LASTEXITCODE. See $logFile" }
     Write-Output "Weekly retro published: $runFile"
     Write-Output "Latest weekly retro updated: $latestFile"
 } finally {
+    if (Test-Path -LiteralPath $rawFile) { Remove-Item -LiteralPath $rawFile -Force }
     Pop-Location
 }
