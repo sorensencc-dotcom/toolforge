@@ -5,7 +5,9 @@ param(
     [string]$LogDir = $(if ($env:RETRO_LOG_DIR) { $env:RETRO_LOG_DIR } else { 'C:\dev\logs\retro' }),
     [string]$ProjectionPath = $(if ($env:RETRO_PROJECTION_PATH) { $env:RETRO_PROJECTION_PATH } else { '' }),
     [string]$RunnerExe = $(if ($env:RETRO_RUNNER_EXE) { $env:RETRO_RUNNER_EXE } elseif ($env:CLAUDE_EXE) { $env:CLAUDE_EXE } else { 'C:\Users\soren\.local\bin\claude.exe' }),
-    [string[]]$RunnerArgs = @('-p', $(if ($env:RETRO_PROMPT) { $env:RETRO_PROMPT } else { '/retro' }), '--permission-mode', 'bypassPermissions')
+    [string[]]$RunnerArgs = @('-p', $(if ($env:RETRO_PROMPT) { $env:RETRO_PROMPT } else {
+        "/retro`nReturn the normal weekly report JSON. When the report contains explicit follow-up work, include an actions array. Each action must preserve sourceSystem, sourceId, weekKey, categoryId, wording, displayLabel, status, and provenanceLinks with a safe URL or path. Do not invent actions; omit actions when no explicit follow-up work is present."
+    }), '--permission-mode', 'bypassPermissions')
 )
 
 $ErrorActionPreference = 'Stop'
