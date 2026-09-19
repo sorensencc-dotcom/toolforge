@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-09-14T15:23:22.8066353Z
+**Generated**: 2026-09-19T09:02:47.5192361Z
 
 ---
 
@@ -268,9 +268,9 @@
 ⚠️ **sigil-grok-bridge**: Missing external dependency: @modelcontextprotocol/sdk
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
 ⚠️ **tinyfish-search**: Missing external dependency: @tiny-fish/sdk
+⚠️ **trm-closed-loop-research**: Missing external dependency: git
 ⚠️ **trm-closed-loop-research**: Missing external dependency: pwsh
 ⚠️ **trm-closed-loop-research**: Missing external dependency: node
-⚠️ **trm-closed-loop-research**: Missing external dependency: git
 ⚠️ **trm-feedback-report**: Missing external dependency: trm
 ⚠️ **trm-feedback-report**: Internal dependencies mismatch (distributed): canonical 'trm-status', distributed 'trm CLI (validate, feedback-stats, crosslink subcommands)'
 ⚠️ **trm-status**: Missing external dependency: git
