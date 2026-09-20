@@ -7,24 +7,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { styleText } from 'node:util';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const REPO_ROOT = __dirname;
+const REPO_ROOT = import.meta.dirname;
 
-const COLOR = {
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  cyan: '\x1b[36m',
-  reset: '\x1b[0m',
-  bold: '\x1b[1m'
-};
-
-const logInfo = (msg) => console.log(`${COLOR.green}[NLM-UPLOADER] [INFO]${COLOR.reset} ${msg}`);
-const logWarn = (msg) => console.log(`${COLOR.yellow}[NLM-UPLOADER] [WARN]${COLOR.reset} ${msg}`);
-const logError = (msg) => console.error(`${COLOR.red}[NLM-UPLOADER] [ERROR]${COLOR.reset} ${msg}`);
+const logInfo = (msg) => console.log(`${styleText('green', '[NLM-UPLOADER] [INFO]')} ${msg}`);
+const logWarn = (msg) => console.log(`${styleText('yellow', '[NLM-UPLOADER] [WARN]')} ${msg}`);
+const logError = (msg) => console.error(`${styleText('red', '[NLM-UPLOADER] [ERROR]')} ${msg}`);
 
 function loadCategories() {
   const catPath = path.join(REPO_ROOT, 'kb-sync/core/categories.json');
@@ -127,8 +116,8 @@ async function main() {
   const packFile = resolvePackFile(notebookId);
 
   logInfo(`Initializing NotebookLM Headless Uploader...`);
-  logInfo(`Target Notebook ID: ${COLOR.bold}${notebookId}${COLOR.reset}`);
-  logInfo(`Target Knowledge Pack: ${COLOR.bold}${packFile}${COLOR.reset}`);
+  logInfo(`Target Notebook ID: ${styleText('bold', notebookId)}`);
+  logInfo(`Target Knowledge Pack: ${styleText('bold', packFile)}`);
 
   if (!fs.existsSync(packFile)) {
     logWarn(`Pack file ${packFile} does not exist. Running consolidation first...`);

@@ -2,30 +2,25 @@ import Database from 'better-sqlite3';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as crypto from 'node:crypto';
+import { styleText } from 'node:util';
 import { monitorCompetitorWatchlist } from './watch-competitors.mjs';
 
-// terminal logging colors
-const COLOR_GREEN = '\x1b[32m';
-const COLOR_YELLOW = '\x1b[33m';
-const COLOR_RED = '\x1b[31m';
-const COLOR_CYAN = '\x1b[36m';
-const COLOR_RESET = '\x1b[0m';
 const TAG = '[WATCHLIST-TEST]';
 
 function logStep(step, title) {
-  console.log(`\n${COLOR_CYAN}=== [STEP ${step}] ${title} ===${COLOR_RESET}`);
+  console.log(`\n${styleText('cyan', `=== [STEP ${step}] ${title} ===`)}`);
 }
 
 function logInfo(msg) {
-  console.log(`${COLOR_GREEN}${TAG} [INFO]${COLOR_RESET} ${msg}`);
+  console.log(`${styleText('green', `${TAG} [INFO]`)} ${msg}`);
 }
 
 function logWarn(msg) {
-  console.log(`${COLOR_YELLOW}${TAG} [WARN]${COLOR_RESET} ${msg}`);
+  console.log(`${styleText('yellow', `${TAG} [WARN]`)} ${msg}`);
 }
 
 function logError(msg) {
-  console.error(`${COLOR_RED}${TAG} [ERROR]${COLOR_RESET} ${msg}`);
+  console.error(`${styleText('red', `${TAG} [ERROR]`)} ${msg}`);
 }
 
 async function run() {

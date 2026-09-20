@@ -11,6 +11,75 @@
 
 # Project status
 
+## Ponytail Codebase Audit & Simplification Refactor (2026-09-20)
+
+### Active goal
+Execute Ponytail audit recommendations to eliminate hand-rolled helpers, migrate CLI commands to native `fetch()`, replace boilerplate URL path resolvers with ESM `import.meta` built-ins, and adopt `node:util` `styleText`.
+
+### Completed work
+- Installed and registered `ponytail` plugin in Antigravity configuration.
+- Executed `/ponytail-audit` and reviewed findings across CLI, DB migration, test harnesses, and maintenance scripts.
+- Migrated CLI commands (`src/cli/commands/search.js`, `src/cli/commands/list.js`, `src/cli/commands/install.js`) from `axios` to native `fetch()` and `URL` query parameter builders.
+- Replaced ESM `fileURLToPath(import.meta.url)` and `path.dirname()` boilerplate in `src/db/migrate.js`, `src/e2e/harness.js`, and `notebooklm-uploader.js` with `import.meta.dirname` / `import.meta.filename`.
+- Replaced manual ANSI escape strings in `test-watchlist-run.mjs` and `notebooklm-uploader.js` with `styleText()` from `node:util`.
+- Replaced custom `expect()` error-throwing logic in `src/e2e/harness.js` with `assert.ok()` from `node:assert/strict`.
+
+### Decisions
+- Retain `createResilientDb` in `src/db/connect.js` as it is explicitly covered by unit test contracts in `src/api/server.test.js`.
+- Adopt native Node.js 24 platform primitives to reduce external dependencies and custom boilerplate.
+
+### Verification
+- Repository preflight: `PREFLIGHT_PASS` (`pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path C:\dev`).
+- Test suite: 226 passed, 0 failed, 1 skipped (`npm test`).
+
+### Next action
+- Continue active multi-agent tasks in `GEMINI.md`.
+
+## Iron Command Forge (ICF) Standalone Repository Migration — Phase 1 Audit & Phase 2 Scaffolding (2026-09-19)
+
+### Active goal
+Migrate Iron Command Forge (ICF) into its dedicated standalone repository at `C:\dev\icf` (`sorensencc-dotcom/icf`), establish root manifest contracts, unify HTTP gateway and API projections, decouple web dashboard assets, and configure background daemon supervision.
+
+### Completed work
+- Executed Phase 1 Code & Wiki Audit:
+  - Audited legacy components in `C:\dev\kb-sync\modules\wiki`, `C:\dev\kb-sync\server.mjs`, and `C:\dev\icf\reporting`.
+  - Authored Cathryn Lavery visual design standard diagram in standalone HTML+SVG (`C:\dev\icf\docs\icf-architecture-diagram.html`) and rendered 88.5 KB PNG asset.
+  - Authored canonical concept note in Obsidian vault (`C:\dev\kb-sync\obsidian\vault\wiki\concepts\iron-command-forge.md`) with embedded PNG and Mermaid details.
+  - Executed OpenAI Codex CLI independent review and `/caveman-review`, cataloging and locking 10 acceptance gates.
+- Executed Phase 2 Scaffolding & Consolidation:
+  - Created root `package.json` with npm workspaces (`reporting`, `dashboard`) and unified `test`, `test:gateway`, `start`, and `build` scripts.
+  - Created `dashboard/package.json` and migrated dashboard assets (`dashboard/index.html`, `dashboard/support.js`, and `dashboard/_ds/`).
+  - Implemented authoritative `src/server.mjs` gateway uniting static asset hosting, strict path traversal boundary checks (`safePath.startsWith(DASHBOARD_DIR + sep)`), `LocalFileAdapterTransport`, and reporting API endpoints (`/api/reporting/weekly-retro/*`).
+  - Modernized `scripts/ensure-dashboard-server.ps1` and `scripts/register-dashboard-server-task.ps1` to target `C:\dev\icf`, probe `/dashboard` and API endpoints, and supervise the `ICF-Dashboard-Server` Scheduled Task.
+  - Added root gateway integration test suite (`test/gateway.test.mjs`) asserting HTTP 200 on `/dashboard` and `/api/reporting/weekly-retro/categories`, plus 403 on path traversal attacks.
+  - Authored authoritative standalone `README.md`.
+  - Pushed commit `cef8677` to remote branch `codex/weekly-retro-reporting` in `sorensencc-dotcom/icf`.
+- Synchronized GitHub Remote Wiki (`sorensencc-dotcom/icf.wiki.git`):
+  - Populated `Home.md` with system overview, architecture diagram, and quick-start guides.
+  - Added `Architecture.md` specifying four core subsystems and embedding the Cathryn Lavery diagram and Mermaid source.
+  - Added `Reporting-Engine.md` documenting SQLite snapshot stores, schema migrations 001-005, rolling trend algorithms, and action continuity.
+  - Added `Web-Dashboard.md` detailing Cast Iron Charlie design tokens, typography, and `<weekly-reporting-dashboard>` component bindings.
+  - Added `Operations-Guide.md` with daemon commands, Scheduled Task registration, and preflight health checks.
+  - Added `_Sidebar.md` navigation and `_Footer.md`.
+  - Committed and pushed commit `d4b14b5` to `origin/master` of the remote wiki repository.
+
+### Decisions
+- Lock npm workspaces across `./reporting` and `./dashboard` to anchor root repository preflight and scripts.
+- Enforce strict path traversal check requiring all static file requests to resolve within `DASHBOARD_DIR`.
+- Combine file-based weekly retro caching with dynamic SQLite reporting projection fallbacks in `src/server.mjs`.
+- Maintain dedicated GitHub Wiki repository (`icf.wiki.git`) alongside the Obsidian vault concept notes to ensure public GitHub documentation parity.
+
+### Verification
+- Repository preflight: `PREFLIGHT_PASS` (`pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path C:\dev\icf`).
+- Test suite: 84 passed, 0 failed across all suites (`npm test` executing 83 reporting tests + 1 gateway integration test).
+- Live gateway server: tested via `ensure-dashboard-server.ps1`, responding HTTP 200 on `http://127.0.0.1:8080/dashboard`.
+- GitHub Remote Branch: commit `cef8677` live on `sorensencc-dotcom/icf` (`codex/weekly-retro-reporting`).
+- GitHub Remote Wiki: commit `d4b14b5` live on `sorensencc-dotcom/icf.wiki` (`master`).
+
+### Next action
+1. Update `C:\dev\kb-sync\package.json` dashboard scripts to point to `C:\dev\icf` or invoke `ensure-dashboard-server.ps1`.
+2. Open Pull Request on GitHub for branch `codex/weekly-retro-reporting`.
+
 ## WhichLLM Evaluator Recovery, Empirical Benchmarking & Helix Defense Architecture (2026-09-13)
 
 ### Active goal

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { fileURLToPath } from 'url';
+import assert from 'node:assert/strict';
 // Phase 9 Wave D — E2E runner harness.
 //
 // Runs the 5 charter end-to-end scenarios (discover -> install -> rate ->
@@ -17,7 +17,7 @@ import { fileURLToPath } from 'url';
 // NOT RUN LIVE in this environment (no PostgreSQL). Execute in the target env.
 
 const SKIP_MESSAGE =
-  'E2E requires provisioned PG — set DATABASE_URL (e.g. postgresql://user:pass@host/db) to run. Skipping.';
+  'E2E requires provisioned PG — set DATABASE_URL (e.g. postgresql://localhost:5432/marketplace_dev) to run. Skipping.';
 
 /**
  * A short random run id so parallel/rerun invocations never collide and each run
@@ -60,11 +60,9 @@ export function makeClient(base) {
   };
 }
 
-/** Tiny assertion helper that throws a labeled error on failure. */
+/** Assertion helper backed by node:assert/strict. */
 export function expect(label, condition, detail = '') {
-  if (!condition) {
-    throw new Error(`ASSERT FAILED: ${label}${detail ? ` — ${detail}` : ''}`);
-  }
+  assert.ok(condition, `ASSERT FAILED: ${label}${detail ? ` — ${detail}` : ''}`);
 }
 
 /**
@@ -205,7 +203,7 @@ async function main() {
 }
 
 // Only run when invoked directly (not when imported by a scenario for helpers).
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+const isMain = process.argv[1] && import.meta.filename === process.argv[1];
 if (isMain) {
   main().catch((err) => {
     console.error('[e2e] harness crashed:', err);

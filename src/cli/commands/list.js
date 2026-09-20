@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export default {
   command: 'list',
   describe: 'List available skills',
@@ -25,17 +23,19 @@ export default {
         console.log(`Fetching skills from ${apiUrl}...`);
       }
 
-      const params = {
-        limit: Math.min(argv.limit, 100),
-        offset: 0,
-      };
-
+      const url = new URL(`${apiUrl}/api/v1/skills`);
+      url.searchParams.set('limit', String(Math.min(argv.limit, 100)));
+      url.searchParams.set('offset', '0');
       if (argv.category) {
-        params.category = argv.category;
+        url.searchParams.set('category', argv.category);
       }
 
-      const response = await axios.get(`${apiUrl}/api/v1/skills`, { params });
-      const skills = response.data.data || [];
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      const json = await response.json();
+      const skills = json.data || [];
 
       if (skills.length === 0) {
         console.log('No skills found.');

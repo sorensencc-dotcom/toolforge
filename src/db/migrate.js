@@ -1,17 +1,13 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
 import pg from 'pg';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const { Pool } = pg;
-
 const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://localhost/marketplace_dev';
-const MIGRATIONS_DIR = path.join(__dirname, 'migrations');
+const MIGRATIONS_DIR = path.join(import.meta.dirname, 'migrations');
 
-const pool = new Pool({
+const pool = new pg.Pool({
   connectionString: DATABASE_URL,
 });
 
