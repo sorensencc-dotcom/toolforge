@@ -13,6 +13,7 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 - **Session audit reconciliation (2026-09-20)**: Fast-forwarded `main` to `736f738` (`v2.66.3`); canonical retro validation passes 36/36, but no new retro exists after `2026-08-16-1.json`. The daily workflow validates and reports existing files only. Next session must capture and commit a bounded canonical retro.
 - **Test-ratio remediation tracking (2026-09-20)**: The 0.07% test LOC ratio in `2026-08-16-1.json` is a commit-diff metric, not repo-wide test health. Treat it as an action signal: record test-file changes and assertion-only coverage separately in the next retro instead of inferring coverage from insertion ratio.
+- **Test-ratio investigation (2026-09-20)**: `scripts/investigate-retro-test-ratio.ps1` shows the 2026-08-09..16 window had 566 test LOC insertions across 9 changed test files and 3 commits with test changes, while the repository had 44 test files. The recorded 0.07% ratio is therefore not evidence of absent testing; it reflects the retro's LOC denominator or classification and needs metric recalculation before trend use.
 
 - **Healing Subsystem** (2026-08-15): TripwireMonitor, AdversarialAuditor modules under `modules/healing/`.
 - **NotebookLM CIC Ingestion/Mining Design** (2026-08-12): ingestion + mining design for CIC docs into NotebookLM.
