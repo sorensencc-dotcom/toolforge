@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.67.0
+Date: 2026-09-20
+
+### Changes
+- 905912a - merge: integrate v2.66.4 release (Chris Sorensen)
+- fcda28e - feat(retro): explain test ratio evidence (Chris Sorensen)
+
 ## Version 2.66.4
 Date: 2026-09-20
 
