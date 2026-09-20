@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.67.1
+Date: 2026-09-20
+
+### Changes
+- f9296cd - docs(retro): clarify neutral placeholders for test inventory in 2026-09-14 retro (Chris Sorensen)
+
 ## Version 2.67.0
 Date: 2026-09-20
 
