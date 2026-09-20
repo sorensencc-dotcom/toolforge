@@ -11,6 +11,9 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 ## Current Work
 
+- **Session audit reconciliation (2026-09-20)**: Fast-forwarded `main` to `736f738` (`v2.66.3`); canonical retro validation passes 36/36, but no new retro exists after `2026-08-16-1.json`. The daily workflow validates and reports existing files only. Next session must capture and commit a bounded canonical retro.
+- **Test-ratio remediation tracking (2026-09-20)**: The 0.07% test LOC ratio in `2026-08-16-1.json` is a commit-diff metric, not repo-wide test health. Treat it as an action signal: record test-file changes and assertion-only coverage separately in the next retro instead of inferring coverage from insertion ratio.
+
 - **Healing Subsystem** (2026-08-15): TripwireMonitor, AdversarialAuditor modules under `modules/healing/`.
 - **NotebookLM CIC Ingestion/Mining Design** (2026-08-12): ingestion + mining design for CIC docs into NotebookLM.
 - **Sigil Governed-Mailbox Protocol Spec** (2026-08-12): spec for peer-to-peer agent mailbox protocol.
@@ -27,9 +30,13 @@ Persistent memory system for long-term context across sessions. Individual memor
 - **Cross-Audit Adversarial Bridge** (2026-08-28): `scripts/cross-audit.mjs` with deterministic packet/verdict validation and non-consensus exit code handling.
 - **GitHub Wiki Autoheal Sweeper & Sync** (2026-08-28 to 2026-08-30): Automated autoheal sweep across 444 documentation nodes achieving 100% contract compliance (`wiki:validate-contract` PASS), with author identity reconciliation in CI.
 - **Security Advisory Remediations** (2026-08-30): Remediated GHSA-5p4m-2wfm-xmqj / CVE-2026-59870 via `js-yaml@4.3.2` patch; fixed GitGuardian false-positive secret patterns in tests via dynamic header construction.
-- **Toolforge Skill Health Check Remediations** (2026-08-30): Registered `trm-closed-loop-research`, `trm-devops-triage`, and `wiki-sync-recovery` in `manifest.json`; aligned versioning and initialized audit run logs across all 48 skills (100% health check pass).
+- **Toolforge Skill Health Check Remediations** (2026-08-30): Registered `trm-closed-loop-research`, `trm-devops-triage`, and `wiki-sync-recovery` in `manifest.json`; aligned versioning and initialized audit run logs. The historical "48 skills / 100% health check pass" claim is retained as a past report, not treated as current source-count evidence: current checkout has 51 manifest skill names and 52 `skills/` directories containing `SKILL.md`.
 
 ## Learnings & Incident Post-Mortems
+
+- **Retro evidence boundary**:
+  - *Problem*: The scheduled audit workflow validates and analyzes existing retros but does not create a new session retro, allowing the history to stop silently.
+  - *Prevention steps*: Run the canonical retro capture at session end; record the exact bounded commit window, distinguish commit-diff test ratio from repo-wide test health, and update `STATUS.md` and this memory entry together.
 
 - **Hook Installer Race / Overwrite**:
   - *Problem*: Multiple installer scripts (`setup-git-hooks.ps1` and `setup-git-hook.mjs`) wrote `.git/hooks/pre-commit` independently, causing the last-run installer to silently strip retro-schema validation and roadmap location checks. A first fix attempt claimed to merge these but only patched one script's output, reproducing the same race in reverse — caught by the 2026-08-23 weekly audit and re-fixed for real (see Governance entry above).

@@ -1,5 +1,22 @@
 # Project status
 
+## Session audit reconciliation (2026-09-20)
+
+### Active goal
+Restore session-end evidence after the 2026-08-16 retro, keep project memory aligned with `main`, and verify retro trend claims against comparable windows.
+
+### Completed work
+- Fast-forwarded local `main` from `2eb5897` to `736f738` (`v2.66.3`), preserving a clean working tree.
+- Re-ran canonical retro validation: 36 / 36 retro files passed; existing warnings are author-count mismatches in historical files.
+- Re-ran trend and audit scripts. They report the latest available retro as `2026-08-16-1.json` and correctly skip the non-comparable 7-day window check.
+- Confirmed the scheduled workflow runs daily at `30 7 * * *` and only validates or reports existing retros; it does not create retros.
+
+### Blockers
+- No repository command currently generates a new canonical retro artifact from the session automatically; the next retro requires explicit metric capture before commit.
+
+### Next action
+Create the next canonical retro from a bounded commit window, then update this section and `memory/MEMORY.md` in the same session-end change.
+
 ## Open Notebook research substrate Task 1 (2026-09-07)
 
 ### Active goal
