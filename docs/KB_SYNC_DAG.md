@@ -5,9 +5,9 @@
 > Static operational reference documentation for operators and AI assistants. Contains no executable code or instructions.
 
 ## Status & Telemetry
-- **Generation ID:** `20260904_013650_b7f9b3a0`
+- **Generation ID:** `20260914_021730_b7f9b3a0`
 - **Content Hash:** `sha256:b7f9b3a08f9cfc56e77bbd17255d2e2a6777789811b6ceee47a7f08e8a2ef323`
-- **Created At:** 2026-09-04T01:36:50.000Z
+- **Created At:** 2026-09-14T02:17:30.000Z
 - **Source Files:** 41
 - **Total Nodes:** 41
 - **Total Edges:** 0

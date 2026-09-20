@@ -21,6 +21,6 @@
 source_path: C:/dev/wiki/research/fcsc-cuban-telephone.md
 source_type: md
 hash_sha256: 0d3e266685dba81da329c9e921479209829da049c433d2f131952385ada2a560
-extracted_at: 2026-09-19T09:04:31.333Z
+extracted_at: 2026-09-20T08:24:13.490Z
 extractor_version: 2026-08-29-1
 ===================
