@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.66.4
+Date: 2026-09-20
+
+### Changes
+- 03936a8 - docs: reconcile weekly session audit (Chris Sorensen)
+
 ## Version 2.66.3
 Date: 2026-09-14
 
