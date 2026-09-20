@@ -44,7 +44,7 @@
   "authors": {
     "Chris Sorensen": { "commits": 41, "role": "human" }
   },
-  "note": "Backfilled on 2026-09-20 because no session retro existed after 2026-08-16-1.json. LOC, session, and clock metrics not available from the existing retro tooling for this historical window and are explicitly left at neutral values.",
+  "note": "Backfilled on 2026-09-20 because no session retro existed after 2026-08-16-1.json. LOC, session, test inventory, and clock metrics were not available from retro tooling for this historical window and are explicitly recorded as neutral placeholders.",
   "session_focus": {
     "summary": "Delivered IronLedger phase documentation, Linux runtime-owner Phase A/B work, Open Notebook substrate and adapter work, TRM routing and path-safety changes, Viking VFS work, and releases through v2.66.3.",
     "commits_this_session_range": "2026-09-07..2026-09-14",
