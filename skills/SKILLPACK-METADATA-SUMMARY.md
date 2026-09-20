@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-09-09T03:16:09.5456866Z
+**Generated:** 2026-09-20T14:34:39.1115873Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 51 | 100% |
-| Active | 51 | 100% |
+| **Total Skills** | 52 | 100% |
+| Active | 52 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 51 | 100% |
-| ⚠️ Warning | 0 | 0% |
+| ✅ Good | 51 | 98.1% |
+| ⚠️ Warning | 1 | 1.9% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -37,19 +37,6 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### retro-schema-validator
-
-| Field | Value |
-|-------|-------|
-| Name | Retro Schema Validator |
-| Category | validation |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | javascript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### rewrite-labs-orchestrator
 
@@ -168,15 +155,28 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
-### retro-export
+### third-party-repo-auditor
 
 | Field | Value |
 |-------|-------|
-| Name | Retro Export |
-| Category | monitoring |
+| Name | Third-Party Repository Auditor |
+| Category | observability |
 | Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | typescript |
+| Owner | soren |
+| Runtime | powershell |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### retro-schema-validator
+
+| Field | Value |
+|-------|-------|
+| Name | Retro Schema Validator |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | javascript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
@@ -337,19 +337,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### workspace-storage-cleaner
+### retro-export
 
 | Field | Value |
 |-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
+| Name | Retro Export |
+| Category | monitoring |
 | Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | python |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 1 external |
+| Dependencies | 0 internal, 0 external |
 ### research-questions
 
 | Field | Value |
@@ -363,19 +363,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 2 external |
-### pre-wrap-audit
+### reconcile-vector-store
 
 | Field | Value |
 |-------|-------|
-| Name | Pre Wrap Audit |
-| Category | session-management |
+| Name | Reconcile Vector Store |
+| Category | data-management |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 1 internal, 0 external |
+| Dependencies | 0 internal, 0 external |
 ### agent-drift-detector
 
 | Field | Value |
@@ -506,25 +506,25 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
-### reconcile-vector-store
-
-| Field | Value |
-|-------|-------|
-| Name | Reconcile Vector Store |
-| Category | data-management |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
 ### cic-section-summarizer
 
 | Field | Value |
 |-------|-------|
 | Name | CIC Section Summarizer |
 | Category | analysis |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### context-manager
+
+| Field | Value |
+|-------|-------|
+| Name | Context Manager |
+| Category | utilities |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | typescript |
@@ -662,19 +662,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
-### context-manager
+### pre-wrap-audit
 
 | Field | Value |
 |-------|-------|
-| Name | Context Manager |
-| Category | utilities |
+| Name | Pre Wrap Audit |
+| Category | session-management |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | typescript |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 1 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 1 external |
 ### writing-heuristics
 
 | Field | Value |

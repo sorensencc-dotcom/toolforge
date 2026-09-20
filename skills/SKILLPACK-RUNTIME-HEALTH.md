@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-09-09T03:16:10.0026808Z
+**Generated:** 2026-09-20T14:34:39.4043052Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 348 | 2 | 0 | 350 |
-| % Pass | 99.4% | 0.6% | 0% | 100% |
+| **Totals** | 354 | 3 | 0 | 357 |
+| % Pass | 99.2% | 0.8% | 0% | 100% |
 
 ---
 
@@ -449,6 +449,18 @@
 | AuditLog | ✅ PASS | Runtime history exists |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### third-party-repo-auditor — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| Entrypoint | ✅ PASS | Valid: src/audit.ps1 |
+| Runtime | ✅ PASS | Found: pwsh |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Script syntax valid |
+| Manifest | ✅ PASS | Consistent |
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### tinyfish-search — ⚠️ WARN
 
 | Check | Result | Details |
@@ -677,6 +689,7 @@ Skills passing all checks:
 
 Skills with warnings but no failures:
 - sigil-grok-bridge
+- third-party-repo-auditor
 - tinyfish-search
 
 ### ❌ Error Health

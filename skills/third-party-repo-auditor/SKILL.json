@@ -1,0 +1,31 @@
+{
+  "status": "active",
+  "category": "observability",
+  "runtime": "powershell",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "tags": ["git", "third-party", "audit", "upstream"],
+  "id": "third-party-repo-auditor",
+  "timeout": 60000,
+  "description": "Audits third-party Git repositories against upstream remotes for pending commits, tags, and patch status",
+  "entrypoint": "src/audit.ps1",
+  "name": "Third-Party Repository Auditor",
+  "dependencies": {
+    "external": [],
+    "internal": []
+  },
+  "owner": "soren",
+  "version": "1.0.0",
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "git-pull-request",
+      "registrationPath": "cowork://toolforge/skills/third-party-repo-auditor",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Audits third-party Git repositories against upstream remotes"
+}

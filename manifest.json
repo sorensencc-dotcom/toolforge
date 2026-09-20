@@ -1538,16 +1538,48 @@
         ],
         "internal": []
       }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Audits third-party Git repositories against upstream remotes for pending commits, tags, and patch status",
+      "timestamps": {
+        "created": "2026-09-20T10:34:00.0000000Z",
+        "lastValidation": "2026-09-20T10:34:00.0000000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "git",
+        "third-party",
+        "audit",
+        "upstream"
+      ],
+      "status": "active",
+      "name": "third-party-repo-auditor",
+      "runtime": "powershell",
+      "id": "third-party-repo-auditor",
+      "entrypoint": "src/audit.ps1",
+      "owner": "soren",
+      "category": "observability",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 51,
+    "total": 52,
     "health_error": 0,
     "deprecated": 0,
-    "active": 51,
-    "health_good": 49,
+    "active": 52,
+    "health_good": 50,
     "health_warn": 0
   },
-  "timestamp": "2026-09-06T21:40:14.1759808Z",
+  "timestamp": "2026-09-20T10:34:00.0000000Z",
   "version": "1.2.0"
 }
