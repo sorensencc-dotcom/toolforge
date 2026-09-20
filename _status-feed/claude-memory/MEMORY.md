@@ -1,4 +1,9 @@
-# Memory Index
+# Memory Index (Historical / Deprecated)
+
+> [!WARNING]
+> **DEPRECATED / FROZEN**: This memory index is historical and no longer maintained as of 2026-09-02.
+> The canonical persistent system memory index is located at [`memory/MEMORY.md`](file:///c:/dev/memory/MEMORY.md).
+> All new memory entries, session learnings, and project states must be written to [`memory/MEMORY.md`](file:///c:/dev/memory/MEMORY.md).
 
 ## 2026-09-14
 - [Session Wrap: NotebookLM Push-Research Plan Committed](session-wrap-2026-09-14-notebooklm-push-research-plan-committed.md) — plan `ed88465` pushed to trm `origin/main` `e883ea2`. Mid-session ref deletion was user's own parallel session, not corruption — reflog recovery worked. **Next: `superpowers:executing-plans`.**

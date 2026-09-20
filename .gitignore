@@ -134,3 +134,8 @@ graft/
 !.sigil/mcp-registry.toml
 /IronLedger/
 /viking-phase3/
+
+# agent-secret-manager
+.agent-secret-manager/
+.env.*
+!.env.example

@@ -2,7 +2,7 @@
 
 Persistent memory system for long-term context across sessions. Individual memory files under `memory/` carry their own frontmatter (see e.g. `memory/workflow-checklists-embedded.md`); this index file does not. Entry structure is intentionally per-section: `Current Work` uses dated one-line status bullets; `Learnings & Incident Post-Mortems` uses Problem / Prevention-steps (or Fix & Pattern); `Preferences & Feedback` uses Why / How-to-apply. Do not homogenize — the shapes match each section's purpose.
 
-## System Governance & Architecture
+### System Governance & Architecture
 
 - **3-Tier Authority Model**: Tier 1 (Decision / Strategic) | Tier 2 (Execution / Feature) | Tier 3 (Automation / CI).
 - **Pre-Commit Hook Shim Architecture** (fixed 2026-08-23): both `setup-git-hooks.ps1` and `CIC-GOVERNANCE/scripts/setup-git-hook.mjs` now write the identical chained shim to `.git/hooks/pre-commit` (governance validation → secret scanning via `scripts/secret-scan-hook.sh` → retro/roadmap `pre-commit.ps1` gate). Order-independent: whichever installer runs last, the result is the same full chain — closes the earlier race where running `setup-git-hooks.ps1` last silently dropped governance/secret checks.
@@ -11,25 +11,15 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 ## Current Work
 
-- **Healing Subsystem** (2026-08-15): TripwireMonitor, AdversarialAuditor modules under `modules/healing/`.
-- **NotebookLM CIC Ingestion/Mining Design** (2026-08-12): ingestion + mining design for CIC docs into NotebookLM.
-- **Sigil Governed-Mailbox Protocol Spec** (2026-08-12): spec for peer-to-peer agent mailbox protocol.
 - **Toolforge Marketplace Phase 8 Wave D**: still not shipped — `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains TEMPLATE FOR EXECUTION, unchecked, unsigned. Target date 2026-07-26 passed unmet. Treat as not started until signed.
 - **Retro Schema Canonical v1.0 Lock**: Retro files locked to canonical schema structure to ensure multi-week trend stability. Note: earliest retro (`2026-07-12-1.json`) had unit-scale + active_days bugs, fixed 2026-08-16.
 - **Pre-Flight Test Readiness**: ESLint configuration and dist exclusions locked to maintain clean test runs (`npm test`).
-- **Multi-Agent Handoff Protocol Spec** (2026-08-16 to 2026-08-17): handoff spec for cross-agent session continuity.
-- **Writing-Heuristics Skill** (2026-08-18 to 2026-08-19): Phase 1+2 complete — 48 tests, 11-rule catalog.
-- **Retro-Audit Automation Restoration** (2026-08-18): automated retro-audit pipeline restored.
-- **CastIronCharlie-Facebook Notebook Ingest** (2026-08-19 to 2026-08-20): notebook ingestion for CastIronCharlie-Facebook data.
-- **TRM Thematic Routing** (2026-08-22): thematic routing added to TRM.
 - **Local GBrain Engine Setup** (2026-08-28): `gbrain v0.47.4.0` binary linked with local PGLite database engine at `~/.gbrain/brain.pglite`.
 - **TRM DevOps Sync & Triage Pipeline** (2026-08-28): `@toolforge/trm-devops` module with normalization, file locking, schema validator, Markdown queue reconciler, and `trm-devops-triage` skill (60/60 tests passing).
-- **Cross-Audit Adversarial Bridge** (2026-08-28): `scripts/cross-audit.mjs` with deterministic packet/verdict validation and non-consensus exit code handling.
-- **GitHub Wiki Autoheal Sweeper & Sync** (2026-08-28 to 2026-08-30): Automated autoheal sweep across 444 documentation nodes achieving 100% contract compliance (`wiki:validate-contract` PASS), with author identity reconciliation in CI.
-- **Security Advisory Remediations** (2026-08-30): Remediated GHSA-5p4m-2wfm-xmqj / CVE-2026-59870 via `js-yaml@4.3.2` patch; fixed GitGuardian false-positive secret patterns in tests via dynamic header construction.
 - **Toolforge Skill Health Check Remediations** (2026-08-30): Registered `trm-closed-loop-research`, `trm-devops-triage`, and `wiki-sync-recovery` in `manifest.json`; aligned versioning and initialized audit run logs across all 48 skills (100% health check pass).
+- **Memory Store Consolidation** (2026-09-20): Formally deprecated `_status-feed/claude-memory/` in favor of canonical `memory/MEMORY.md`.
 
-### 2026-09-01 → 2026-09-09 (verified against `git log` on `main` / current branch)
+### 2026-09-01 → 2026-09-15+ (verified against `git log` on `main` / current branch)
 
 - **TinyFish search skill #27** (`86eabb48`): `tinyfish-search` skill — search + Markdown extract via `@tiny-fish/sdk`; spec review folded (`76ffd4d2`, `9799ce63`); dedicated wiki docs #29 (`46ad5fe8`, `fe29dd9f`).
 - **parallel-search skill** (`1f489f63`): registered in skillpack, metadata refreshed; regen no longer clobbers timestamps/EOLs (`935bdc5b`).
@@ -37,24 +27,21 @@ Persistent memory system for long-term context across sessions. Individual memor
 - **IronLedger Phase 1**: exit-gate approval recorded (`fdd92fd`). Repo home set to `C:\dev\IronLedger` (`b176ecb`), untracked in this monorepo.
 - **IronLedger Phase 2a**: dependency-posture + exit-gate evidence (`f4e9ae25`), exit-gate approval (`7d221b09`), spec/plan backfill (`373b44ed`).
 - **IronLedger Phase 2b**: review + categorization design (`6af4dfb0`), spec amended for migration-runner + audit-envelope (`009a76e6`), 15-task TDD plan (`da9007b3`), plan-eng-review findings folded (`82f602b3`), execution handoff / resume point (`3401e005`, `7016fd6c`). Execution deferred to a fresh session.
-- **TRM research gaps**: GAP-02 / GAP-03 / GAP-06 resolved with archival citations (`158b1095`); canonical RFCs synthesized for gaps 07 (`ba1e1b26`), 12–16 (`183a0c65`), 17–21 (`a13a062b`); deploy-script claim linter added (`e2d8e7c8`).
+- **IronLedger Phase 3**: Beancount compiler + recovery-journal design (`10121dba`, 2026-09-06); eng-review decisions A4.1 + T3.1 folded into compiler spec (`15be2bfc`, 2026-09-06). Fix wave closed on HEAD `4abb71f` (`c835354`).
+- **Linux runtime owner Phase A/B** (`98b451c6`, `a3076c3`, 2026-09-07).
+- **Open Notebook MCP server & substrate** (`9e572deb`, `f65f9e8`, 2026-09-09 to 2026-09-14): added to canonical registry with sync profiles.
+- **TRM research gaps & routing**: GAP-02 / GAP-03 / GAP-06 resolved with archival citations (`158b1095`); canonical RFCs synthesized for gaps 07 (`ba1e1b26`), 12–16 (`183a0c65`), 17–21 (`a13a062b`); deploy-script claim linter added (`e2d8e7c8`); path-safety checks folded into MCP (`93cb2e5b`, `6777187`).
 - **Toolforge Herdr TRM integration #30** (`2609f81`): design (`35207ca4`) + implementation plan with schema versioning and test runbook (`0bb32074`, `38fc9f71`), merged to `main`.
-- **Viking Phase 3** (`67c61efb`): dynamic reporting + integrity check added to the harness.
+- **Viking Phase 3 / VFS** (`67c61efb`, 2026-09-14): dynamic reporting, VFS adapter, and integrity check added to the harness.
 - **Cathryn Lavery diagram-design standard**: made mandatory in `AGENTS.md` (`00232dde`) and enforced across wiki diagram build scripts (`d3779f1e`).
 - **graft repo-context graph**: active for this repo (session-start hook + `graft/INDEX.md`); `graft-audit.yml` workflow present.
-- **Releases**: v2.61.1 → v2.63.0 cut over this window.
-- **Trend watch (retro, directional only)**: comparing `.context/retros/2026-07-12-1.json` to `2026-08-16-1.json` — `test_ratio_pct` and `feat_pct` down sharply, `fix_pct` and `docs_pct` up. Not a clean baseline: the 07-12 retro carried unit-scale + active_days bugs (fixed 2026-08-16) and the windows differ (1-day vs 7-day). Re-check on the next clean multi-week retro before acting.
-- **Within-stable-window slowdown, confirmed genuine** (2026-07-21→2026-08-16, both `7d` window, apples-to-apples): `net_loc_filtered` 59773→5032 (-91.6%), `commits` 294→25 (-91.5%), `sessions` 51→11 (-78.4%), `test_ratio_pct` 5.0%→0.07%. Verified against source retro JSON directly, not a metrics-capture regression or work migrating to sibling repos: the 2026-08-16 file self-diagnoses as a docs-heavy single-contributor week (`docs_pct` 50%, 1 human contributor, 18-day streak broken twice) with one real feature ship (healing subsystem, 304 LOC).
-- **TRM devops path-safety reconciliation** (`93cb2e5b`, 2026-09-03): path-safety checks folded into the MCP server; core exported for reuse.
+- **Releases**: v2.61.1 → v2.66.3 cut over this window.
 - **Node-process janitor** (`779bcb9f`, `fa5534f1`, 2026-09-06—2026-09-07, #32): conservative janitor for stray node processes; extended to also clear orphaned git fsmonitor daemons (`29a6f929`).
-- **Linux runtime owner Phase A** (`98b451c6`, 2026-09-07).
-- **IronLedger Phase 3**: Beancount compiler + recovery-journal design (`10121dba`, 2026-09-06); eng-review decisions A4.1 + T3.1 folded into compiler spec (`15be2bfc`, 2026-09-06).
 - **Sigil grok-bridge**: keyless MCP adapter + conformance suite (`34e3b0d1`, 2026-09-06); registered in central skill manifest (`1db1aa0b`); mesh daemon scripts + grok bridge stdio adapter (`ab612ca2`).
 - **Ollama routing**: validated routing wired in (`7f4ce3d3`, `1471f6d8`, 2026-09-08).
 - **Multi-client MCP governance**: design spec + refinements (`9b6f5f81`, `475bf9f9`, `7e8c4eec`, 2026-09-08); registry parser, budget validator, exit codes, profile manifest dashboard, atomic backup writers, e2e/janitor-cooperation test suite implemented (`8187a048`, `02e90fd0`, `09bd52ea`, `d245004f`, `4249b5c5`, `3ab8545e`, 2026-09-08); ironledger read-only server + multi-segment header support folded into canonical registry (`09e18556`, `e22ba3e0`, 2026-09-09).
-- **Open Notebook MCP server**: added to canonical registry with sync profiles (`9e572deb`, 2026-09-09).
 - **NotebookLM/TRM source dedup**: automated deduplication across pipelines and notebooks (`ab180037`, 2026-09-08).
-- **Governance correction**: false enforcement claim corrected, stale project memory refreshed (`75215731`, 2026-09-06) — see also the CLAUDE.md commit-hash citation fix below.
+- **Governance correction**: false enforcement claim corrected, stale project memory refreshed (`75215731`, 2026-09-06).
 - **intercept-grep hook**: added with regression test suite + deterministic search policy (`3c0ad6b7`, 2026-09-07).
 
 ## Learnings & Incident Post-Mortems
@@ -86,7 +73,19 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 ## Archive
 
+- **Completed August 2026 Initiatives**:
+  - *Healing Subsystem* (2026-08-15): TripwireMonitor, AdversarialAuditor modules under `modules/healing/`.
+  - *NotebookLM CIC Ingestion/Mining Design* (2026-08-12): Ingestion + mining design for CIC docs into NotebookLM.
+  - *Sigil Governed-Mailbox Protocol Spec* (2026-08-12): Spec for peer-to-peer agent mailbox protocol.
+  - *Multi-Agent Handoff Protocol Spec* (2026-08-16 to 2026-08-17): Handoff spec for cross-agent session continuity.
+  - *Writing-Heuristics Skill* (2026-08-18 to 2026-08-19): Phase 1+2 complete — 48 tests, 11-rule catalog.
+  - *Retro-Audit Automation Restoration* (2026-08-18): Automated retro-audit pipeline restored.
+  - *CastIronCharlie-Facebook Notebook Ingest* (2026-08-19 to 2026-08-20): Notebook ingestion for CastIronCharlie-Facebook data.
+  - *TRM Thematic Routing* (2026-08-22): Thematic routing added to TRM.
+  - *Cross-Audit Adversarial Bridge* (2026-08-28): `scripts/cross-audit.mjs` with deterministic packet/verdict validation and non-consensus exit code handling.
+  - *GitHub Wiki Autoheal Sweeper & Sync* (2026-08-28 to 2026-08-30): Automated autoheal sweep across 444 documentation nodes achieving 100% contract compliance (`wiki:validate-contract` PASS), with author identity reconciliation in CI.
+  - *Security Advisory Remediations* (2026-08-30): Remediated GHSA-5p4m-2wfm-xmqj / CVE-2026-59870 via `js-yaml@4.3.2` patch; fixed GitGuardian false-positive secret patterns in tests via dynamic header construction.
 - Session wrap logs: `SESSION_WRAP_20260715.md`, `SESSION_WRAP_20260716.md`.
 - Audit logs: `audit/COWORK-AUTO-SYNC-REPORT.md`, `audit/COWORK-REGISTERED-SKILLS.md`.
 - Historical retro records: `.context/retros/*.json` (validated under v1.0 canonical schema).
-
+- Historical memory store: `_status-feed/claude-memory/` (frozen and deprecated as of 2026-09-02).
