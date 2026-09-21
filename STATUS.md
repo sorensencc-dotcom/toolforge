@@ -11,10 +11,29 @@
 
 # Project status
 
-## Ponytail Codebase Audit & Simplification Refactor (2026-09-20)
+## Ironbots Autonomous Fleet & Unattended S4U Automation (2026-09-21)
 
 ### Active goal
-Execute Ponytail audit recommendations to eliminate hand-rolled helpers, migrate CLI commands to native `fetch()`, replace boilerplate URL path resolvers with ESM `import.meta` built-ins, and adopt `node:util` `styleText`.
+Deploy and supervise zero-token autonomous background robot fleet (`\Ironbots\`) running 24/7 unattended via Windows Task Scheduler `S4U` logon, synchronize ICF interactive dashboard telemetry, and enforce mandatory documentation-first discipline before code commits.
+
+### Policy & discipline
+- **Documentation-First Rule**: All architectural updates, bot specifications, Cathryn Lavery warm-palette diagrams (`.html` + `.png`), Remote Wiki nodes, and ICF dashboard matrix entries must be fully authored and verified *before* creating any new code commits.
+- **Unattended Execution (`S4U`)**: All Ironbots must use `New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U -RunLevel Highest` to execute without requiring an active user logon and without storing passwords.
+- **Deterministic Zero-Token Design**: Pure Node.js ESM and PowerShell scripts with SHA-256 state tracking, structured `_status-feed/*.json` telemetry, and local SQLite FTS5 matching.
+
+### Completed work
+- Built, tested, and registered 4 active Ironbots in `\Ironbots\`:
+  1. `KB-Sentinel`: Wiki frontmatter linting and link autohealing.
+  2. `TRM-Bot`: Research gap triage and RFC note drafting.
+  3. `Daemon-Healer`: Port 8080 ICF Gateway supervision and auto-restart.
+  4. `CI-Watchdog`: GitHub Actions workflow audit and failure log extractor.
+- Registered dedicated Ironbots fleet panel in ICF Dashboard at `http://127.0.0.1:8080/dashboard` under Tab 06 (*Operations & Automation*).
+- Created Remote Wiki specification (`wiki/Ironbots.md`), Cathryn Lavery visual design standard diagram (`wiki/ironbots-autonomous-architecture.html` + `.png`), and ICF architecture documentation (`icf/docs/ironbots-autonomous-agent-pipeline.md`).
+- Authored test suite `tests/ironbots.test.mjs` with 5 passing tests, satisfying Delivery Guard automation policy.
+- Pushed commits to remote branches in both `toolforge` (`parkd821-20260908`) and `icf` (`codex/weekly-retro-reporting`).
+
+### Next action
+- Author documentation and architecture specs for Bot 5 (`Notebook-Ingester`) and Bot 6 (`Watchlist-Miner`) before committing new bot code.
 
 ### Completed work
 - Installed and registered `ponytail` plugin in Antigravity configuration.
