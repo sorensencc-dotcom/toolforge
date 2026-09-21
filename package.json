@@ -61,7 +61,9 @@
     "agent-memory-sync": "node sync-tools/agent-memory-sync.cjs",
     "bot:kb:sentinel": "node scripts/kb-sentinel-bot.mjs",
     "bot:trm:triage": "node scripts/trm-bot-runner.mjs",
-    "bot:all": "npm run bot:kb:sentinel && npm run bot:trm:triage"
+    "bot:daemon:heal": "node scripts/daemon-healer-bot.mjs",
+    "bot:ci:watchdog": "node scripts/ci-watchdog-bot.mjs",
+    "bot:all": "npm run bot:kb:sentinel && npm run bot:trm:triage && npm run bot:daemon:heal && npm run bot:ci:watchdog"
   },
   "keywords": [
     "toolforge",

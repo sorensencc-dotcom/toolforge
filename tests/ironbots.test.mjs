@@ -51,18 +51,58 @@ test('trm-bot-runner runs in dry-run mode and writes valid telemetry', () => {
   assert.equal(report.dryRun, true);
 });
 
+test('daemon-healer-bot runs in check-only mode and writes valid telemetry', () => {
+  const scriptPath = path.join(REPO_ROOT, 'scripts', 'daemon-healer-bot.mjs');
+  assert.ok(fs.existsSync(scriptPath), 'daemon-healer-bot.mjs should exist');
+
+  const stdout = execFileSync('node', [scriptPath, '--dry-run', '--check-only'], {
+    cwd: REPO_ROOT,
+    encoding: 'utf8'
+  });
+
+  assert.match(stdout, /\[Daemon-Healer\] Checking dashboard daemon health/);
+
+  const reportPath = path.join(REPO_ROOT, '_status-feed', 'daemon_health.json');
+  assert.ok(fs.existsSync(reportPath), 'daemon_health.json should exist');
+
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+  assert.ok(typeof report.status === 'string');
+  assert.equal(report.dryRun, true);
+});
+
+test('ci-watchdog-bot runs in dry-run mode and writes valid telemetry', () => {
+  const scriptPath = path.join(REPO_ROOT, 'scripts', 'ci-watchdog-bot.mjs');
+  assert.ok(fs.existsSync(scriptPath), 'ci-watchdog-bot.mjs should exist');
+
+  const stdout = execFileSync('node', [scriptPath, '--dry-run'], {
+    cwd: REPO_ROOT,
+    encoding: 'utf8'
+  });
+
+  assert.match(stdout, /\[CI-Watchdog\] Checking remote CI and GitHub Actions status/);
+
+  const reportPath = path.join(REPO_ROOT, '_status-feed', 'ci_alerts.json');
+  assert.ok(fs.existsSync(reportPath), 'ci_alerts.json should exist');
+
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+  assert.ok(typeof report.status === 'string');
+  assert.equal(report.dryRun, true);
+});
+
 test('Ironbots scheduled task wrappers exist and contain valid configuration', () => {
-  const kbWrapper = path.join(REPO_ROOT, 'scripts', 'schedule-task-wrapper-KB-Sentinel.ps1');
-  const trmWrapper = path.join(REPO_ROOT, 'scripts', 'schedule-task-wrapper-TRM-Bot.ps1');
+  const wrappers = [
+    { file: 'scripts/schedule-task-wrapper-KB-Sentinel.ps1', name: 'KB-Sentinel' },
+    { file: 'scripts/schedule-task-wrapper-TRM-Bot.ps1', name: 'TRM-Bot' },
+    { file: 'scripts/schedule-task-wrapper-Daemon-Healer.ps1', name: 'Daemon-Healer' },
+    { file: 'scripts/schedule-task-wrapper-CI-Watchdog.ps1', name: 'CI-Watchdog' }
+  ];
 
-  assert.ok(fs.existsSync(kbWrapper), 'KB Sentinel wrapper should exist');
-  assert.ok(fs.existsSync(trmWrapper), 'TRM Bot wrapper should exist');
-
-  const kbContent = fs.readFileSync(kbWrapper, 'utf8');
-  assert.match(kbContent, /\\Ironbots\\/);
-  assert.match(kbContent, /KB-Sentinel/);
-
-  const trmContent = fs.readFileSync(trmWrapper, 'utf8');
-  assert.match(trmContent, /\\Ironbots\\/);
-  assert.match(trmContent, /TRM-Bot/);
+  for (const w of wrappers) {
+    const fullPath = path.join(REPO_ROOT, w.file);
+    assert.ok(fs.existsSync(fullPath), `${w.file} should exist`);
+    const content = fs.readFileSync(fullPath, 'utf8');
+    assert.match(content, /\\Ironbots\\/, `${w.file} should use \\Ironbots\\ path`);
+    assert.match(content, new RegExp(w.name), `${w.file} should define ${w.name}`);
+    assert.match(content, /S4U/, `${w.file} should support S4U unattended execution`);
+  }
 });

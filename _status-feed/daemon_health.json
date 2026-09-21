@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-09-21T17:45:58.442Z",
+  "elapsedMs": 9,
+  "targetUrl": "http://127.0.0.1:8080/modules/wiki/dashboard.html",
+  "status": "HEALTHY",
+  "initialProbe": {
+    "ok": true,
+    "statusCode": 200,
+    "headers": {
+      "server": "SimpleHTTP/0.6 Python/3.14.6",
+      "date": "Mon, 21 Sep 2026 17:45:58 GMT",
+      "content-type": "text/html",
+      "content-length": "151317",
+      "last-modified": "Sun, 20 Sep 2026 13:44:15 GMT"
+    }
+  },
+  "healed": false,
+  "restartedPid": null,
+  "dryRun": false
+}
