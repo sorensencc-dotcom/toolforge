@@ -18,8 +18,9 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 const REPORT_PATH = path.resolve(REPO_ROOT, '_status-feed', 'daemon_health.json');
-const TARGET_URL = 'http://127.0.0.1:8080/modules/wiki/dashboard.html';
-const PYTHON_PATH = 'C:\\Python314\\python.exe';
+const TARGET_URL = 'http://127.0.0.1:8080/dashboard';
+const ICF_SERVER_PATH = path.resolve(REPO_ROOT, 'icf', 'src', 'server.mjs');
+const ICF_DIR = path.resolve(REPO_ROOT, 'icf');
 
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
@@ -77,7 +78,7 @@ function startDashboardDaemon() {
     execFileSync('powershell.exe', [
       '-NoProfile',
       '-Command',
-      `Start-Process -FilePath "${PYTHON_PATH}" -ArgumentList "-m http.server 8080 -d ${REPO_ROOT}" -WorkingDirectory "${REPO_ROOT}" -WindowStyle Hidden`
+      `Start-Process -FilePath "node.exe" -ArgumentList "${ICF_SERVER_PATH}" -WorkingDirectory "${ICF_DIR}" -WindowStyle Hidden`
     ], { cwd: REPO_ROOT, stdio: 'ignore' });
     return 'launched-via-start-process';
   } catch {
