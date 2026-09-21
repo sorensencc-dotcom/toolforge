@@ -177,3 +177,29 @@ test('Ironbots scheduled task wrappers exist and contain valid configuration', (
     assert.match(content, /S4U/, `${w.file} should support S4U unattended execution`);
   }
 });
+
+test('reconcile-scheduled-tasks script exists and defines all fleet categories', () => {
+  const scriptPath = path.join(REPO_ROOT, 'scripts', 'reconcile-scheduled-tasks.ps1');
+  assert.ok(fs.existsSync(scriptPath), 'reconcile-scheduled-tasks.ps1 should exist');
+
+  const content = fs.readFileSync(scriptPath, 'utf8');
+  assert.match(content, /\\Ironbots\\/);
+  assert.match(content, /\\toolforge\\/);
+  assert.match(content, /\\CIC\\/);
+  assert.match(content, /\\TRM\\/);
+  assert.match(content, /\\KB-SYNC\\/);
+  assert.match(content, /LogonType S4U/);
+});
+
+test('weekly retro and reporting schedule scripts exist and target toolforge category', () => {
+  const weeklyScript = path.join(REPO_ROOT, 'scripts', 'setup-weekly-report-schedule.ps1');
+  const runRetroScript = path.join(REPO_ROOT, 'scripts', 'run-weekly-retro.ps1');
+
+  assert.ok(fs.existsSync(weeklyScript), 'setup-weekly-report-schedule.ps1 should exist');
+  assert.ok(fs.existsSync(runRetroScript), 'run-weekly-retro.ps1 should exist');
+
+  const content = fs.readFileSync(weeklyScript, 'utf8');
+  assert.match(content, /\\toolforge\\/);
+  assert.match(content, /toolforge-weekly-report-agent/);
+});
+
