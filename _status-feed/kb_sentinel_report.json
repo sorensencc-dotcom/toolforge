@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-09-21T21:05:44.141Z",
-  "elapsedMs": 547,
+  "timestamp": "2026-09-21T21:20:59.805Z",
+  "elapsedMs": 2475,
   "healthScore": 92,
   "status": "PASS",
-  "scanned": 412,
+  "scanned": 413,
   "frontmatterMissing": 4,
   "brokenLinks": 1,
   "healed": 0,
-  "dryRun": true,
+  "dryRun": false,
   "recentIssues": [
     {
       "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",

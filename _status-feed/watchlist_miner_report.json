@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-09-21T21:05:49.244Z",
-  "elapsedMs": 7,
+  "timestamp": "2026-09-21T21:21:03.009Z",
+  "elapsedMs": 22,
   "status": "DRIFT_DETECTED",
   "totalWatchlists": 3,
-  "targetsEvaluated": 2,
-  "driftsDetected": 2,
+  "targetsEvaluated": 3,
+  "driftsDetected": 3,
   "driftFindings": [
     {
       "watchlistId": "trm:watchlist:google-sam-mesh",
@@ -23,7 +23,16 @@
       "baselineHash": "c0ffee0000000000000000000000000000000000000000000000000000000000",
       "observedHash": "afb6c532b499c0b63bcc92976403e8533b668cc7aa97122e0ac2e5c323911dc7",
       "wikiPath": "wiki/research/competitor-drift-anthropic-computer-use.md"
+    },
+    {
+      "watchlistId": "trm:watchlist:openai-swarm-agents",
+      "competitorName": "OpenAI Swarm & Handoff Framework",
+      "targetId": "openai-swarm",
+      "url": "https://github.com/openai/swarm",
+      "baselineHash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+      "observedHash": "05cc804a37143eefa54f31a1761a04a628b508c214862e72c6b4344428d2a004",
+      "wikiPath": "wiki/research/competitor-drift-openai-swarm.md"
     }
   ],
-  "dryRun": true
+  "dryRun": false
 }

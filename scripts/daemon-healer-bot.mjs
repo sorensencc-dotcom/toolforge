@@ -75,12 +75,12 @@ function killProcess(pid) {
 
 function startDashboardDaemon() {
   try {
-    execFileSync('powershell.exe', [
+    const out = execFileSync('powershell.exe', [
       '-NoProfile',
       '-Command',
-      `Start-Process -FilePath "node.exe" -ArgumentList "${ICF_SERVER_PATH}" -WorkingDirectory "${ICF_DIR}" -WindowStyle Hidden`
-    ], { cwd: REPO_ROOT, stdio: 'ignore' });
-    return 'launched-via-start-process';
+      `Start-Process -FilePath "node.exe" -ArgumentList "src/server.mjs" -WorkingDirectory "${ICF_DIR}" -PassThru | Select-Object -ExpandProperty Id`
+    ], { encoding: 'utf8' }).trim();
+    return out || 'launched';
   } catch {
     return null;
   }

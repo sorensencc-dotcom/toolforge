@@ -716,3 +716,27 @@ status: "active"
   - `wiki/research/competitor-drift-google-sam.md` (Google Sovereign Agent Mesh / sam-p2p-repository)
   - `wiki/research/competitor-drift-anthropic-computer-use.md` (Anthropic Computer Use & Agent Workflows / anthropic-quickstarts)
   - `wiki/research/competitor-drift-openai-swarm.md` (OpenAI Swarm & Handoff Framework / openai-swarm)
+
+## [2026-09-21 21:17] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 93/100 (HEALTHY)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-21 21:21] watchlist-miner-competitor-drift
+
+- Provider: `watchlist-miner-bot` (`v1.0.0`)
+- Targets Evaluated: 3
+- Drifts Detected: 3
+- Logged Research Notes:
+  - `wiki/research/competitor-drift-google-sam.md` (Google Sovereign Agent Mesh / sam-p2p-repository)
+  - `wiki/research/competitor-drift-anthropic-computer-use.md` (Anthropic Computer Use & Agent Workflows / anthropic-quickstarts)
+  - `wiki/research/competitor-drift-openai-swarm.md` (OpenAI Swarm & Handoff Framework / openai-swarm)
+
+## [2026-09-21 21:21] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 93/100 (HEALTHY)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`

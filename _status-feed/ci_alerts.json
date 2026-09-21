@@ -1,11 +1,18 @@
 {
-  "timestamp": "2026-09-21T21:05:47.411Z",
-  "elapsedMs": 2924,
-  "status": "FAILURES_DETECTED",
+  "timestamp": "2026-09-21T21:21:24.448Z",
+  "elapsedMs": 5240,
+  "status": "HEALTHY",
   "scannedCount": 6,
   "activeCount": 0,
-  "failureCount": 1,
+  "failureCount": 0,
   "recentRuns": [
+    {
+      "id": 35655174879,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
     {
       "id": 35651820799,
       "name": "Governance",
@@ -40,28 +47,8 @@
       "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "success"
-    },
-    {
-      "id": 35628550778,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "failure"
     }
   ],
-  "alerts": [
-    {
-      "runId": 35628550778,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "sha": "259c6760",
-      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/35628550778",
-      "createdAt": "2026-09-21T16:54:05Z",
-      "errorSummary": [
-        "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T16:54:36.3046585Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/schedule-task-wrapper-KB-Sentinel.ps1\",\"scripts/schedule-task-wrapper-TRM-Bot.ps1\"],\"regressionTestPaths\":[],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"259c67603b9e2079620170e3ac9d5fc97c06369e\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/schedule-task-wrapper-KB-Sentinel.ps1\",\"scripts/schedule-task-wrapper-TRM-Bot.ps1\"],\"regressionTestPaths\":[],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
-        "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T16:54:36.3109010Z ##[error]Process completed with exit code 1."
-      ]
-    }
-  ],
-  "dryRun": true
+  "alerts": [],
+  "dryRun": false
 }

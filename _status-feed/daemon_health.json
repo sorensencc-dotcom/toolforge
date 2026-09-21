@@ -1,20 +1,14 @@
 {
-  "timestamp": "2026-09-21T21:05:44.391Z",
-  "elapsedMs": 14,
+  "timestamp": "2026-09-21T21:21:16.733Z",
+  "elapsedMs": 12467,
   "targetUrl": "http://127.0.0.1:8080/dashboard",
-  "status": "HEALTHY",
+  "status": "RECOVERED",
   "initialProbe": {
-    "ok": true,
-    "statusCode": 200,
-    "headers": {
-      "content-type": "text/html; charset=UTF-8",
-      "date": "Mon, 21 Sep 2026 21:05:44 GMT",
-      "connection": "keep-alive",
-      "keep-alive": "timeout=5",
-      "transfer-encoding": "chunked"
-    }
+    "ok": false,
+    "error": "ECONNREFUSED",
+    "statusCode": 0
   },
-  "healed": false,
-  "restartedPid": null,
-  "dryRun": true
+  "healed": true,
+  "restartedPid": "54232",
+  "dryRun": false
 }
