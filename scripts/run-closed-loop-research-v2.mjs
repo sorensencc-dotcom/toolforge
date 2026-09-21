@@ -40,6 +40,8 @@ const BFCL_DRY_RUN  = process.env.BFCL_DRY_RUN  === '1'; // skip live notebooklm
 const SKIP_MINE     = process.env.TRM_SKIP_MINE  === '1'; // skip Step 1 re-mine (use existing vault file)
 
 import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs';
+import { deduplicateMinedGaps, loadGapAliases } from './gap-normalizer.mjs';
+import { parseGapItems } from '../kb-sync/modules/trm/gap-triage-engine.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -247,13 +249,51 @@ async function run() {
     '',
   ].join('\n');
 
-  // Preserve existing Triage & Resolution Registry if present
+  // Preserve existing Triage & Resolution Registry if present and run deduplication
+  const aliasFilePath = path.join(repoRoot, 'kb-sync', 'data', 'trm-gap-aliases.json');
+  const aliasMap = loadGapAliases(aliasFilePath);
+
+  let existingRegistryItems = [];
   let existingRegistry = '';
   if (fs.existsSync(repoGapsFilePath)) {
     const prev = fs.readFileSync(repoGapsFilePath, 'utf8');
     const match = prev.match(/## Triage & Resolution Registry[\s\S]*$/);
     if (match) {
       existingRegistry = '\n\n' + match[0].trim() + '\n';
+      existingRegistryItems = parseGapItems(match[0]);
+    }
+  }
+
+  // Parse candidate table rows from mined gaps content for cross-notebook deduplication
+  const minedTableLines = primaryGapsContent.split(/\r?\n/);
+  const minedCandidates = [];
+  for (const line of minedTableLines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('|') && !trimmed.startsWith('| Question') && !trimmed.startsWith('|---')) {
+      const cells = trimmed.split('|').map(c => c.trim()).filter(Boolean);
+      if (cells.length >= 5) {
+        minedCandidates.push({
+          title: cells[0],
+          description: cells[1],
+          notebookName: cells[2],
+          firstSeen: cells[3],
+          entryKey: cells[4],
+          raw: line
+        });
+      }
+    }
+  }
+
+  if (minedCandidates.length > 0) {
+    const dedupReport = deduplicateMinedGaps(minedCandidates, existingRegistryItems, aliasMap);
+    if (dedupReport.retiredSuppressions.length > 0) {
+      logInfo(`✓ Auto-suppressed ${dedupReport.retiredSuppressions.length} previously resolved/retired gap(s):`);
+      for (const supp of dedupReport.retiredSuppressions) {
+        logInfo(`  • Suppressed: [${supp.canonicalGapId}] '${supp.candidate.title}' (${supp.reason})`);
+      }
+    }
+    if (dedupReport.mergedOccurrences.length > 0) {
+      logInfo(`✓ Merged ${dedupReport.mergedOccurrences.length} cross-notebook gap occurrence(s) under existing canonical IDs.`);
     }
   }
 
@@ -444,7 +484,9 @@ async function run() {
     ].join('\n');
 
     for (const src of sources) {
-      payload += `\n--- SOURCE: ${src.title} ---\n${src.content}\n`;
+      payload += `\n--- SOURCE: ${src.title} ---\n`;
+      payload += `<!-- PROVENANCE: synthesized_canonical_resolution | GENERATION_TIMESTAMP: ${nowIso} -->\n`;
+      payload += `${src.content}\n`;
     }
 
     fs.writeFileSync(packFilePath, payload, 'utf8');
