@@ -58,7 +58,10 @@
     "morning:ingest": "node scripts/morning-ingest.mjs",
     "morning:ingest:stream": "node scripts/morning-ingest.mjs --stream",
     "test:telemetry": "node --test modules/telemetry/*.test.mjs",
-    "agent-memory-sync": "node sync-tools/agent-memory-sync.cjs"
+    "agent-memory-sync": "node sync-tools/agent-memory-sync.cjs",
+    "bot:kb:sentinel": "node scripts/kb-sentinel-bot.mjs",
+    "bot:trm:triage": "node scripts/trm-bot-runner.mjs",
+    "bot:all": "npm run bot:kb:sentinel && npm run bot:trm:triage"
   },
   "keywords": [
     "toolforge",
