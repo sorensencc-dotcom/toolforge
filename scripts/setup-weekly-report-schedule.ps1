@@ -4,7 +4,7 @@
 Register Windows scheduled task for weekly report generation.
 
 .DESCRIPTION
-Creates a Windows Task Scheduler task that runs weekly-report-agent.ps1 every Monday at 6 AM.
+Creates a Windows Task Scheduler task that runs the ICF JSON weekly publisher every Sunday at 6 PM.
 Requires admin privileges.
 #>
 
@@ -14,7 +14,7 @@ param(
 
 $taskName = "toolforge-weekly-report-agent"
 $taskPath = "\toolforge\"
-$script = "C:\dev\scripts\weekly-report-agent.ps1"
+$script = "C:\dev\scripts\run-weekly-retro.ps1"
 $repoRoot = "C:\dev"
 
 # Verify script exists
@@ -53,11 +53,11 @@ $action = New-ScheduledTaskAction `
   -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`" -RepoRoot `"$repoRoot`"" `
   -WorkingDirectory "C:\dev"
 
-# Create task trigger: Weekly (Monday) at 6 AM
+# Create task trigger: Weekly (Sunday) at 6 PM
 $trigger = New-ScheduledTaskTrigger `
   -Weekly `
-  -DaysOfWeek Monday `
-  -At "06:00"
+  -DaysOfWeek Sunday `
+  -At "18:00"
 
 # Create task settings with timeout
 $settings = New-ScheduledTaskSettingsSet `
@@ -68,7 +68,7 @@ $settings = New-ScheduledTaskSettingsSet `
 
 # Create and register task
 Write-Host "Registering task: $taskName" -ForegroundColor Cyan
-Write-Host "  Schedule: Weekly (Monday) at 6:00 AM" -ForegroundColor Gray
+Write-Host "  Schedule: Weekly (Sunday) at 6:00 PM" -ForegroundColor Gray
 Write-Host "  Script: $script" -ForegroundColor Gray
 Write-Host "  Timeout: 2 hours" -ForegroundColor Gray
 
@@ -91,6 +91,5 @@ try {
   Write-Host "  Run now:   Start-ScheduledTask -TaskName '$taskName'" -ForegroundColor Gray
   Write-Host "  Logs:      C:\dev\logs\weekly-report-*.log" -ForegroundColor Gray
 } catch {
-  Write-Host "[ERROR] Failed to register task: $_" -ForegroundColor Red
-  exit 1
+  throw "Failed to register task: $_"
 }
