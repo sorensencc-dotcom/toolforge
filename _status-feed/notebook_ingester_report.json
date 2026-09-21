@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-09-21T21:05:49.111Z",
+  "elapsedMs": 1464,
+  "status": "HEALTHY",
+  "totalFiles": 462,
+  "indexedCount": 462,
+  "updatedCount": 0,
+  "skippedCount": 0,
+  "databasePath": ".kb_cache/knowledge_fts5.db",
+  "dryRun": true
+}

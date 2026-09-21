@@ -1,11 +1,32 @@
 {
-  "timestamp": "2026-09-21T17:46:01.732Z",
-  "elapsedMs": 2886,
+  "timestamp": "2026-09-21T21:05:47.411Z",
+  "elapsedMs": 2924,
   "status": "FAILURES_DETECTED",
   "scannedCount": 6,
   "activeCount": 0,
-  "failureCount": 2,
+  "failureCount": 1,
   "recentRuns": [
+    {
+      "id": 35651820799,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35651787878,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "id": 35634189753,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
     {
       "id": 35629036810,
       "name": "Governance",
@@ -26,27 +47,6 @@
       "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "failure"
-    },
-    {
-      "id": 35626333805,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "failure"
-    },
-    {
-      "id": 35612444225,
-      "name": "Retro Full History Audit",
-      "branch": "main",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 35547553808,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
     }
   ],
   "alerts": [
@@ -61,19 +61,7 @@
         "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T16:54:36.3046585Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/schedule-task-wrapper-KB-Sentinel.ps1\",\"scripts/schedule-task-wrapper-TRM-Bot.ps1\"],\"regressionTestPaths\":[],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"259c67603b9e2079620170e3ac9d5fc97c06369e\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/schedule-task-wrapper-KB-Sentinel.ps1\",\"scripts/schedule-task-wrapper-TRM-Bot.ps1\"],\"regressionTestPaths\":[],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
         "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T16:54:36.3109010Z ##[error]Process completed with exit code 1."
       ]
-    },
-    {
-      "runId": 35626333805,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "sha": "a4e1ffe6",
-      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/35626333805",
-      "createdAt": "2026-09-21T16:33:16Z",
-      "errorSummary": [
-        "Delivery guard automation policy\tUNKNOWN STEP\t2026-09-21T16:33:48.5855901Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/kb-sentinel-bot.mjs\",\"scripts/schedule-task-wrapper-KB-Sentinel.ps1\",\"scripts/schedule-task-wrapper-TRM-Bot.ps1\",\"scripts/trm-bot-runner.mjs\"],\"regressionTestPaths\":[],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"a4e1ffe64a5fb9670e4bee75f5aa4a24230d07a9\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/kb-sentinel-bot.mjs\",\"scripts/schedule-task-wrapper-KB-Sentinel.ps1\",\"scripts/schedule-task-wrapper-TRM-Bot.ps1\",\"scripts/trm-bot-runner.mjs\"],\"regressionTestPaths\":[],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
-        "Delivery guard automation policy\tUNKNOWN STEP\t2026-09-21T16:33:48.5936644Z ##[error]Process completed with exit code 1."
-      ]
     }
   ],
-  "dryRun": false
+  "dryRun": true
 }

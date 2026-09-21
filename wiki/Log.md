@@ -702,3 +702,17 @@ status: "active"
 - [2026-09-19T09:05:56Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 16, SHA256: C3F86F8BB5806F02FB586FD0527F37285B23CBBFBB3E06283F871F048D48AF9B, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
 
 - [2026-09-20T10:33:59Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 18, SHA256: 54679205D07A23E8DFC82FE19D7CD101F1052B95020C80282F2014453456750C, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
+
+- [2026-09-21T00:03:43.094Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'qwen2.5:7b' (BFCL: 0.694, Hash: 42f879a0). Gap source: cic-ford-executive-dynamics-politics.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-09-21T00:22:49.513Z] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: 'qwen2.5:7b' (BFCL: 0.694, Hash: 42f879a0). Gap source: cic-ford-executive-dynamics-politics.md. Synthesized: [open-contradictions, under-sourced, adjacent-topics, follow-up].
+- [2026-09-21T12:22:10Z] VALIDATE-PACK: Verified C:\dev\.nlm_pack\pack_willow_run.txt (Pack: willow-run, Items: 24, SHA256: F73A5366B757F486873DAD9D15B6D0A420D8376D115EAF00411775FA73F786CD, Target: 6fd7c40b-df90-444b-9c7a-a64682925856).
+
+## [2026-09-21 20:33] watchlist-miner-competitor-drift
+
+- Provider: `watchlist-miner-bot` (`v1.0.0`)
+- Targets Evaluated: 3
+- Drifts Detected: 3
+- Logged Research Notes:
+  - `wiki/research/competitor-drift-google-sam.md` (Google Sovereign Agent Mesh / sam-p2p-repository)
+  - `wiki/research/competitor-drift-anthropic-computer-use.md` (Anthropic Computer Use & Agent Workflows / anthropic-quickstarts)
+  - `wiki/research/competitor-drift-openai-swarm.md` (OpenAI Swarm & Handoff Framework / openai-swarm)

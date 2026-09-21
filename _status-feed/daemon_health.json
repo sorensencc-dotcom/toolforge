@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-21T20:31:18.348Z",
-  "elapsedMs": 6,
+  "timestamp": "2026-09-21T21:05:44.391Z",
+  "elapsedMs": 14,
   "targetUrl": "http://127.0.0.1:8080/dashboard",
   "status": "HEALTHY",
   "initialProbe": {
@@ -8,7 +8,7 @@
     "statusCode": 200,
     "headers": {
       "content-type": "text/html; charset=UTF-8",
-      "date": "Mon, 21 Sep 2026 20:31:18 GMT",
+      "date": "Mon, 21 Sep 2026 21:05:44 GMT",
       "connection": "keep-alive",
       "keep-alive": "timeout=5",
       "transfer-encoding": "chunked"

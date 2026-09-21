@@ -89,10 +89,56 @@ test('ci-watchdog-bot runs in dry-run mode and writes valid telemetry', () => {
   assert.equal(report.dryRun, true);
 });
 
+test('notebook-ingester-bot runs in dry-run mode and writes valid telemetry', () => {
+  const scriptPath = path.join(REPO_ROOT, 'scripts', 'notebook-ingester-bot.mjs');
+  assert.ok(fs.existsSync(scriptPath), 'notebook-ingester-bot.mjs should exist');
+
+  const stdout = execFileSync('node', [scriptPath, '--dry-run'], {
+    cwd: REPO_ROOT,
+    encoding: 'utf8'
+  });
+
+  assert.match(stdout, /\[Notebook-Ingester\] Starting Knowledge Ingester Bot/);
+  assert.match(stdout, /Completed indexing in/);
+
+  const reportPath = path.join(REPO_ROOT, '_status-feed', 'notebook_ingester_report.json');
+  assert.ok(fs.existsSync(reportPath), 'notebook_ingester_report.json should exist');
+
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+  assert.equal(typeof report.totalFiles, 'number');
+  assert.ok(report.totalFiles > 0);
+  assert.equal(report.dryRun, true);
+  assert.equal(report.status, 'HEALTHY');
+});
+
+test('watchlist-miner-bot runs in dry-run mode and writes valid telemetry', () => {
+  const scriptPath = path.join(REPO_ROOT, 'scripts', 'watchlist-miner-bot.mjs');
+  assert.ok(fs.existsSync(scriptPath), 'watchlist-miner-bot.mjs should exist');
+
+  const stdout = execFileSync('node', [scriptPath, '--dry-run', '--limit=2'], {
+    cwd: REPO_ROOT,
+    encoding: 'utf8'
+  });
+
+  assert.match(stdout, /\[Watchlist-Miner\] Starting Competitor Drift Miner Bot/);
+  assert.match(stdout, /Execution complete in/);
+
+  const reportPath = path.join(REPO_ROOT, '_status-feed', 'watchlist_miner_report.json');
+  assert.ok(fs.existsSync(reportPath), 'watchlist_miner_report.json should exist');
+
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+  assert.equal(typeof report.totalWatchlists, 'number');
+  assert.ok(report.totalWatchlists > 0);
+  assert.equal(report.dryRun, true);
+  assert.ok(['PASS', 'DRIFT_DETECTED'].includes(report.status));
+});
+
 test('Ironbots scheduled task wrappers exist and contain valid configuration', () => {
   const wrappers = [
+    { file: 'scripts/schedule-task-wrapper-Notebook-Ingester.ps1', name: 'Notebook-Ingester' },
     { file: 'scripts/schedule-task-wrapper-KB-Sentinel.ps1', name: 'KB-Sentinel' },
     { file: 'scripts/schedule-task-wrapper-TRM-Bot.ps1', name: 'TRM-Bot' },
+    { file: 'scripts/schedule-task-wrapper-Watchlist-Miner.ps1', name: 'Watchlist-Miner' },
     { file: 'scripts/schedule-task-wrapper-Daemon-Healer.ps1', name: 'Daemon-Healer' },
     { file: 'scripts/schedule-task-wrapper-CI-Watchdog.ps1', name: 'CI-Watchdog' }
   ];

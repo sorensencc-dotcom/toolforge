@@ -15,7 +15,7 @@ tags:
 
 # Ironbots autonomous bot architecture & policy
 
-Ironbots is the automated, zero-token background robot fleet in Toolforge and Iron Command Forge designed to maintain repository health, supervise background daemons, audit CI workflows, and triage Topic Research Mining (TRM) research gaps.
+Ironbots is the automated, zero-token background robot fleet in Toolforge and Iron Command Forge designed to maintain repository health, supervise background daemons, audit CI workflows, triage Topic Research Mining (TRM) research gaps, index knowledge into SQLite FTS5, and track competitor drift.
 
 ![Ironbots Autonomous Architecture](ironbots-autonomous-architecture.png)
 
@@ -32,35 +32,47 @@ flowchart TD
     end
 
     subgraph Engines["2. Autonomous Bot Fleet"]
+        NB["Notebook-Ingester Bot (Daily 02:00 AM)\nscripts/notebook-ingester-bot.mjs"]
         D["KB-Sentinel Bot (Daily 03:00 AM)\nscripts/kb-sentinel-bot.mjs"]
         E["TRM-Bot (Daily 04:00 AM)\nscripts/trm-bot-runner.mjs"]
+        WM["Watchlist-Miner Bot (Daily 05:00 AM)\nscripts/watchlist-miner-bot.mjs"]
         K["Daemon-Healer Bot (Every 15 Min)\nscripts/daemon-healer-bot.mjs"]
-        L["CI-Watchdog Bot (Hourly / 06:00 AM)\nscripts/ci-watchdog-bot.mjs"]
+        L["CI-Watchdog Bot (Daily 06:00 AM)\nscripts/ci-watchdog-bot.mjs"]
     end
 
     subgraph Targets["3. Knowledge Base & Telemetry"]
+        FTS["SQLite FTS5 Knowledge Base (.kb_cache/knowledge_fts5.db)"]
         F["Wiki Frontmatter & Link Autoheal"]
         G["RFC Decision Notes (wiki/research/rfc-gap-*.md)"]
+        CD["Competitor Drift Reports (wiki/research/competitor-drift-*.md)"]
         M["Port 8080 Process Recovery & Uptime"]
         N["CI Failure Detection & Error Logs"]
         I["Telemetry Hub (_status-feed/*.json)"]
         J["Iron Command Forge (ICF Snapshot Store)"]
     end
 
+    A -->|Daily 02:00 AM| NB
     A -->|Daily 03:00 AM| D
     A -->|Daily 04:00 AM| E
+    A -->|Daily 05:00 AM| WM
     A -->|Every 15 Min| K
-    A -->|Hourly 06:00 AM| L
+    A -->|Daily 06:00 AM| L
 
+    B --> NB
     B --> D
     B --> E
+    B --> WM
     B --> K
     B --> L
 
+    NB --> FTS
+    NB --> I
     D --> F
     D --> I
     E --> G
     E --> I
+    WM --> CD
+    WM --> I
     K --> M
     K --> I
     L --> N
@@ -93,7 +105,16 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 
 ## Active bot roster
 
-### 1. KB-Sentinel Bot
+### 1. NotebookLM & Knowledge Ingester Bot
+- **Script**: `scripts/notebook-ingester-bot.mjs`
+- **Schedule**: Daily at 02:00 AM (`\Ironbots\Notebook-Ingester`)
+- **Wrapper**: `scripts/schedule-task-wrapper-Notebook-Ingester.ps1`
+- **Telemetry**: `_status-feed/notebook_ingester_report.json`
+- **Function**: Ingests markdown wiki nodes, research packs, and PDF documents into a local SQLite FTS5 index (`.kb_cache/knowledge_fts5.db`) with SHA-256 change detection for fast, zero-token contextual retrieval.
+
+---
+
+### 2. KB-Sentinel Bot
 - **Script**: `scripts/kb-sentinel-bot.mjs`
 - **Schedule**: Daily at 03:00 AM (`\Ironbots\KB-Sentinel`)
 - **Wrapper**: `scripts/schedule-task-wrapper-KB-Sentinel.ps1`
@@ -102,16 +123,25 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 
 ---
 
-### 2. TRM Gap Triage & RFC Drafter Bot
+### 3. TRM Gap Triage & RFC Drafter Bot
 - **Script**: `scripts/trm-bot-runner.mjs`
 - **Schedule**: Daily at 04:00 AM (`\Ironbots\TRM-Bot`)
 - **Wrapper**: `scripts/schedule-task-wrapper-TRM-Bot.ps1`
 - **Telemetry**: `_status-feed/trm_bot_report.json`
-- **Function**: Evaluates open research gaps in `kb-sync/trm-research-gaps.md`, queries local SQLite FTS5 database (`.kb_cache/knowledge.db`), drafts structured RFC notes in `wiki/research/rfc-gap-*.md`, and writes SHA-256 audit logs to `wiki/Log.md`.
+- **Function**: Evaluates open research gaps in `kb-sync/trm-research-gaps.md`, queries local SQLite FTS5 database (`.kb_cache/knowledge_fts5.db`), drafts structured RFC notes in `wiki/research/rfc-gap-*.md`, and writes SHA-256 audit logs to `wiki/Log.md`.
 
 ---
 
-### 3. Daemon-Healer Bot
+### 4. Watchlist & Competitor Drift Miner Bot
+- **Script**: `scripts/watchlist-miner-bot.mjs`
+- **Schedule**: Daily at 05:00 AM (`\Ironbots\Watchlist-Miner`)
+- **Wrapper**: `scripts/schedule-task-wrapper-Watchlist-Miner.ps1`
+- **Telemetry**: `_status-feed/watchlist_miner_report.json`
+- **Function**: Tracks model specifications, open-source repositories, and external frameworks defined in `kb-sync/core/competitor_watchlist.json`. Detects SHA-256 fingerprint drift and drafts architectural alert notes in `wiki/research/competitor-drift-*.md`.
+
+---
+
+### 5. Daemon-Healer Bot
 - **Script**: `scripts/daemon-healer-bot.mjs`
 - **Schedule**: Repeating every 15 minutes (`\Ironbots\Daemon-Healer`)
 - **Wrapper**: `scripts/schedule-task-wrapper-Daemon-Healer.ps1`
@@ -120,7 +150,7 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 
 ---
 
-### 4. CI-Watchdog Bot
+### 6. CI-Watchdog Bot
 - **Script**: `scripts/ci-watchdog-bot.mjs`
 - **Schedule**: Daily at 06:00 AM / On-demand (`\Ironbots\CI-Watchdog`)
 - **Wrapper**: `scripts/schedule-task-wrapper-CI-Watchdog.ps1`
@@ -133,12 +163,14 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 
 ### Run fleet synchronously
 ```bash
-# Run all 4 bots sequentially
+# Run all 6 bots sequentially
 npm run bot:all
 
 # Run individual bots
+npm run bot:notebook:ingest
 npm run bot:kb:sentinel
 npm run bot:trm:triage
+npm run bot:watchlist:mine
 npm run bot:daemon:heal
 npm run bot:ci:watchdog
 ```
@@ -149,12 +181,18 @@ npm run bot:ci:watchdog
 Get-ScheduledTask -TaskPath "\Ironbots\"
 
 # Check status of any bot
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Notebook-Ingester.ps1 -Action Status
+pwsh -NoProfile -File scripts/schedule-task-wrapper-KB-Sentinel.ps1 -Action Status
+pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Bot.ps1 -Action Status
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Watchlist-Miner.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Daemon-Healer.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-CI-Watchdog.ps1 -Action Status
 
 # Register / Upgrade all to Unattended S4U Mode (Run in Administrator PowerShell)
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Notebook-Ingester.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-KB-Sentinel.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Bot.ps1 -Action Register -Unattended -Force
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Watchlist-Miner.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Daemon-Healer.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-CI-Watchdog.ps1 -Action Register -Unattended -Force
 ```
