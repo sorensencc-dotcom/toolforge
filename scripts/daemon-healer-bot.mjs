@@ -73,16 +73,16 @@ function killProcess(pid) {
 }
 
 function startDashboardDaemon() {
-  const pythonExe = fs.stat(PYTHON_PATH).then(() => PYTHON_PATH).catch(() => 'python');
-  
-  const child = spawn('python.exe', ['-m', 'http.server', '8080', '--directory', REPO_ROOT], {
-    cwd: REPO_ROOT,
-    detached: true,
-    stdio: 'ignore',
-    windowsHide: true
-  });
-  child.unref();
-  return child.pid;
+  try {
+    execFileSync('powershell.exe', [
+      '-NoProfile',
+      '-Command',
+      `Start-Process -FilePath "${PYTHON_PATH}" -ArgumentList "-m http.server 8080 -d ${REPO_ROOT}" -WorkingDirectory "${REPO_ROOT}" -WindowStyle Hidden`
+    ], { cwd: REPO_ROOT, stdio: 'ignore' });
+    return 'launched-via-start-process';
+  } catch {
+    return null;
+  }
 }
 
 async function runDaemonHealer() {
