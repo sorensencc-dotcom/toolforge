@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { loadCategoriesData, buildNotebookTargetMap, NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/config.mjs';
+import { loadCategoriesData, buildNotebookTargetMap, NOTEBOOK_TARGETS, resolveNotebookId, getMasterKbExclusions } from '../kb-sync/core/config.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,6 +58,22 @@ export function extractFrontmatter(content) {
   return data;
 }
 
+export function formatProvenanceHeader(item) {
+  return [
+    '=== PROVENANCE ===',
+    `source_path: ${item.relPath}`,
+    `source_type: ${item.sourceType}`,
+    `hash_sha256: ${item.sha256}`,
+    `ingested_at: ${new Date().toISOString()}`,
+    `source_title: ${item.frontmatter.source_title || 'N/A'}`,
+    `repository: ${item.frontmatter.repository || 'N/A'}`,
+    `document_date: ${item.frontmatter.document_date || 'N/A'}`,
+    `verification_status: ${item.frontmatter.verification_status || 'N/A'}`,
+    '===================',
+    '',
+  ].join('\n');
+}
+
 export function consolidatePacks(options = {}) {
   const rootDir = options.rootDir || path.resolve(__dirname, '..');
   const outDir = options.outDir || path.join(rootDir, '.nlm_pack');
@@ -69,7 +85,8 @@ export function consolidatePacks(options = {}) {
   logInfo(`Consolidating thematic packs from root: ${rootDir}`);
   logInfo(`Output directory: ${outDir}`);
 
-  const canonicalPacks = getCanonicalPacks();
+  const canonicalPacks = getCanonicalPacks().filter(packDef => !options.category || packDef.category === options.category);
+  const exclusions = getMasterKbExclusions();
 
   // Map category aliases to canonical category key
   const aliasMap = new Map();
@@ -81,7 +98,7 @@ export function consolidatePacks(options = {}) {
   }
 
   // Collect candidate files from wiki and staging
-  const scanDirs = [
+  const scanDirs = options.scanDirs || [
     path.join(rootDir, 'wiki'),
     path.join(rootDir, '_kb-sync-staging')
   ];
@@ -94,10 +111,11 @@ export function consolidatePacks(options = {}) {
 
   function walk(dir) {
     if (!fs.existsSync(dir)) return;
+    const IGNORED_DIRS = new Set(['node_modules', '.git', '_archive', 'archive', 'dist', 'build', '.cache', '.tmp', 'coverage']);
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
-        if (entry.name !== 'node_modules' && entry.name !== '.git') {
+        if (!IGNORED_DIRS.has(entry.name) && !entry.name.startsWith('.')) {
           walk(full);
         }
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
@@ -137,8 +155,9 @@ export function consolidatePacks(options = {}) {
         sourceType: 'markdown'
       };
 
+      let canonicalKey;
       if (rawCat && aliasMap.has(rawCat)) {
-        const canonicalKey = aliasMap.get(rawCat);
+        canonicalKey = aliasMap.get(rawCat);
         categorized[canonicalKey].push(item);
       } else if (rawCat) {
         // Unknown category: dynamically bucket
@@ -149,13 +168,15 @@ export function consolidatePacks(options = {}) {
       }
 
       // Master KB includes all valid notes
-      if (categorized['master-kb']) {
+      if (categorized['master-kb'] && !exclusions.has(canonicalKey)) {
         categorized['master-kb'].push(item);
       }
     } catch (err) {
       logWarn(`Could not read ${filePath}: ${err.message}`);
     }
   }
+
+  if (options.category) dynamicPacks.clear();
 
   const generatedPacks = [];
 
@@ -190,16 +211,7 @@ export function consolidatePacks(options = {}) {
     payload += `# ==============================================================================\n\n`;
 
     for (const item of items) {
-      payload += `=== PROVENANCE ===\n`;
-      payload += `source_path: ${item.relPath}\n`;
-      payload += `source_type: ${item.sourceType}\n`;
-      payload += `hash_sha256: ${item.sha256}\n`;
-      payload += `ingested_at: ${new Date().toISOString()}\n`;
-      payload += `source_title: ${item.frontmatter.source_title || 'N/A'}\n`;
-      payload += `repository: ${item.frontmatter.repository || 'N/A'}\n`;
-      payload += `document_date: ${item.frontmatter.document_date || 'N/A'}\n`;
-      payload += `verification_status: ${item.frontmatter.verification_status || 'N/A'}\n`;
-      payload += `===================\n\n`;
+      payload += formatProvenanceHeader(item);
       payload += `${item.content}\n\n`;
       payload += `--- END OF FILE: ${item.relPath} ---\n\n`;
     }
@@ -240,14 +252,7 @@ export function consolidatePacks(options = {}) {
     payload += `# ==============================================================================\n\n`;
 
     for (const item of dynItems) {
-      payload += `=== PROVENANCE ===\n`;
-      payload += `source_path: ${item.relPath}\n`;
-      payload += `source_type: ${item.sourceType}\n`;
-      payload += `hash_sha256: ${item.sha256}\n`;
-      payload += `ingested_at: ${new Date().toISOString()}\n`;
-      payload += `source_title: ${item.frontmatter.source_title || 'N/A'}\n`;
-      payload += `repository: ${item.frontmatter.repository || 'N/A'}\n`;
-      payload += `===================\n\n`;
+      payload += formatProvenanceHeader(item);
       payload += `${item.content}\n\n`;
       payload += `--- END OF FILE: ${item.relPath} ---\n\n`;
     }
