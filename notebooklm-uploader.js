@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { styleText } from 'node:util';
+import { loadCategoriesData } from './kb-sync/core/config.mjs';
 
 const REPO_ROOT = import.meta.dirname;
 
@@ -15,21 +16,9 @@ const logInfo = (msg) => console.log(`${styleText('green', '[NLM-UPLOADER] [INFO
 const logWarn = (msg) => console.log(`${styleText('yellow', '[NLM-UPLOADER] [WARN]')} ${msg}`);
 const logError = (msg) => console.error(`${styleText('red', '[NLM-UPLOADER] [ERROR]')} ${msg}`);
 
-function loadCategories() {
-  const catPath = path.join(REPO_ROOT, 'kb-sync/core/categories.json');
-  if (fs.existsSync(catPath)) {
-    try {
-      return JSON.parse(fs.readFileSync(catPath, 'utf8'));
-    } catch (e) {
-      logWarn(`Failed to parse categories.json: ${e.message}`);
-    }
-  }
-  return { categories: {} };
-}
-
-function resolveTargetNotebook() {
+export function resolveTargetNotebook(argv = process.argv.slice(2)) {
   // 1. Check CLI args
-  for (const arg of process.argv.slice(2)) {
+  for (const arg of argv) {
     if (arg.startsWith('--notebook=')) return arg.split('=')[1].trim();
     if (arg.startsWith('--notebook-id=')) return arg.split('=')[1].trim();
   }
@@ -38,34 +27,27 @@ function resolveTargetNotebook() {
     return process.env.NOTEBOOK_ID.trim();
   }
   // 3. Check category arg
-  for (const arg of process.argv.slice(2)) {
+  for (const arg of argv) {
     if (arg.startsWith('--category=')) {
       const cat = arg.split('=')[1].trim().toLowerCase();
-      const catData = loadCategories();
-      if (catData.categories[cat]?.target) {
-        return catData.categories[cat].target;
-      }
+      const category = loadCategoriesData().categories?.[cat];
+      if (!category?.target) throw new Error(`CATEGORY_NOT_FOUND: ${cat}`);
+      return category.target;
     }
   }
-  // Default to Willow Run
-  return '6fd7c40b-df90-444b-9c7a-a64682925856';
+  throw new Error('NOTEBOOK_TARGET_REQUIRED: provide --notebook, --notebook-id, --category, or NOTEBOOK_ID');
 }
 
-function resolvePackFile(notebookId) {
+export function resolvePackFile(notebookId, argv = process.argv.slice(2)) {
   // Check CLI override
-  for (const arg of process.argv.slice(2)) {
+  for (const arg of argv) {
     if (arg.startsWith('--file=')) return path.resolve(REPO_ROOT, arg.split('=')[1].trim());
     if (arg.startsWith('--pack=')) return path.resolve(REPO_ROOT, arg.split('=')[1].trim());
   }
 
-  const catData = loadCategories();
-  let categoryKey = 'willow-run';
-  for (const [key, catDef] of Object.entries(catData.categories || {})) {
-    if (catDef.target === notebookId) {
-      categoryKey = key;
-      break;
-    }
-  }
+  const categories = loadCategoriesData().categories || {};
+  const categoryKey = Object.entries(categories).find(([, catDef]) => catDef.target === notebookId)?.[0];
+  if (!categoryKey) throw new Error(`CATEGORY_NOT_FOUND: no category targets notebook ${notebookId}`);
 
   const safeFilename = `pack_${categoryKey.replace(/-/g, '_').replace(/[^a-zA-Z0-9_]/g, '_')}.txt`;
   return path.join(REPO_ROOT, '.nlm_pack', safeFilename);
@@ -159,9 +141,7 @@ async function main() {
   const packBaseName = path.basename(packFile);
   const staleSources = existingSources.filter(s => {
     const title = (s.title || s.name || '').toLowerCase().trim();
-    return title === packBaseName.toLowerCase() ||
-           title.includes('willow run & aviation engineering pack') ||
-           title.startsWith('pack_willow_run');
+    return title === packBaseName.toLowerCase();
   });
 
   logInfo(`Found ${existingSources.length} total source(s) in notebook (${staleSources.length} prior knowledge pack versions to replace).`);
@@ -194,7 +174,9 @@ async function main() {
   logInfo(`================================================================================`);
 }
 
-main().catch(err => {
-  logError(`Fatal upload error: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
+  main().catch(err => {
+    logError(`Fatal upload error: ${err.message}`);
+    process.exit(1);
+  });
+}
