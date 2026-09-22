@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TRM Master Entity Topic Registry Schema",
+  "type": "object",
+  "required": ["version", "updated_at", "entities"],
+  "properties": {
+    "version": { "type": "string" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "entities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["canonical_name", "primary_category", "aliases", "l0_summary"],
+        "properties": {
+          "canonical_name": { "type": "string", "minLength": 2 },
+          "primary_category": { "type": "string", "minLength": 2 },
+          "aliases": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 1
+          },
+          "l0_summary": { "type": "string", "minLength": 20 },
+          "l1_digest_source": { "type": "string" }
+        }
+      }
+    }
+  }
+}
