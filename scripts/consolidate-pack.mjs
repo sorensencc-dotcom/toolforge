@@ -169,10 +169,9 @@ export function consolidatePacks(options = {}) {
     }
   }
 
-  // Collect candidate files from wiki and staging
+  // Collect candidate files from wiki
   const scanDirs = options.scanDirs || [
-    path.join(rootDir, 'wiki'),
-    path.join(rootDir, '_kb-sync-staging')
+    path.join(rootDir, 'wiki')
   ];
 
   const candidateFiles = [];
@@ -183,7 +182,7 @@ export function consolidatePacks(options = {}) {
 
   function walk(dir) {
     if (!fs.existsSync(dir)) return;
-    const IGNORED_DIRS = new Set(['node_modules', '.git', '_archive', 'archive', 'dist', 'build', '.cache', '.tmp', 'coverage']);
+    const IGNORED_DIRS = new Set(['node_modules', '.git', '_archive', 'archive', 'dist', 'build', '.cache', '.tmp', 'coverage', '_kb-sync-staging']);
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
