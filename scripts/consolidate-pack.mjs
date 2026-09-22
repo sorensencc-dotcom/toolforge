@@ -58,6 +58,41 @@ export function extractFrontmatter(content) {
   return data;
 }
 
+export function loadEntityManifest(rootDir = path.resolve(__dirname, '..')) {
+  const manifestPath = path.join(rootDir, '_kb-sync-staging', 'trm', 'master_entity_manifest.json');
+  return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export function injectCrossNotebookDigests(content, currentCategory, manifest, categoriesData) {
+  let result = content;
+  const entities = manifest?.entities || {};
+  const categories = categoriesData?.categories || {};
+
+  for (const [entityKey, entity] of Object.entries(entities)) {
+    if (entity.primary_category === currentCategory) continue;
+    const targetNotebook = categories[entity.primary_category]?.target;
+    if (!targetNotebook) continue;
+
+    const aliases = Array.isArray(entity.aliases) ? entity.aliases : [];
+    const mentioned = aliases.some(alias => {
+      if (!alias) return false;
+      return new RegExp(`\\b${escapeRegExp(alias)}\\b`, 'i').test(content);
+    }) || content.includes(`[[${entityKey}]]`);
+    if (!mentioned || result.includes(`=== CROSS-NOTEBOOK DIGEST: ${entity.canonical_name} ===`)) continue;
+
+    result += `\n\n=== CROSS-NOTEBOOK DIGEST: ${entity.canonical_name} ===\n`;
+    result += `Target Notebook ID: ${targetNotebook}\n`;
+    result += `Entity Key: ${entityKey}\n`;
+    result += `${entity.l0_summary || ''}\n`;
+  }
+
+  return result;
+}
+
 export function formatProvenanceHeader(item) {
   return [
     '=== PROVENANCE ===',
@@ -210,9 +245,18 @@ export function consolidatePacks(options = {}) {
     payload += `# FILE_COUNT: ${items.length}\n`;
     payload += `# ==============================================================================\n\n`;
 
+    let entityManifest;
+    try {
+      entityManifest = loadEntityManifest(rootDir);
+    } catch (_) {
+      entityManifest = { entities: {} };
+    }
+    const categoriesData = loadCategoriesData();
+
     for (const item of items) {
       payload += formatProvenanceHeader(item);
-      payload += `${item.content}\n\n`;
+      const enrichedContent = injectCrossNotebookDigests(item.content, packDef.category, entityManifest, categoriesData);
+      payload += `${enrichedContent}\n\n`;
       payload += `--- END OF FILE: ${item.relPath} ---\n\n`;
     }
 
