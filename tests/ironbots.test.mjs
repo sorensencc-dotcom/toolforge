@@ -89,6 +89,33 @@ test('ci-watchdog-bot runs in dry-run mode and writes valid telemetry', () => {
   assert.equal(report.dryRun, true);
 });
 
+test('ci-watchdog-bot evaluateRunAlerts filters superseded failures and flags active failures', async () => {
+  const { evaluateRunAlerts } = await import('../scripts/ci-watchdog-bot.mjs');
+
+  const mockRuns = [
+    // 1. In-progress run
+    { databaseId: 101, name: 'Delivery Guard', headBranch: 'feature/x', status: 'in_progress', conclusion: null },
+    // 2. Latest run on parkd821-20260908 is success
+    { databaseId: 102, name: 'Governance', headBranch: 'parkd821-20260908', status: 'completed', conclusion: 'success', headSha: '2a6478061234', url: 'https://github.com/.../102' },
+    // 3. Historical superseded run on same branch is failure (should be ignored)
+    { databaseId: 103, name: 'Governance', headBranch: 'parkd821-20260908', status: 'completed', conclusion: 'failure', headSha: 'e354e2af1234', url: 'https://github.com/.../103' },
+    // 4. Latest run on another-branch is failure (should be alerted)
+    { databaseId: 104, name: 'Lint', headBranch: 'bugfix/y', status: 'completed', conclusion: 'failure', headSha: 'deadbeef1234', url: 'https://github.com/.../104' }
+  ];
+
+  const mockLogFn = (runId) => [`Error in run ${runId}`];
+  const result = evaluateRunAlerts(mockRuns, mockLogFn);
+
+  assert.equal(result.activeRuns.length, 1);
+  assert.equal(result.activeRuns[0].databaseId, 101);
+  assert.equal(result.completedRuns.length, 3);
+  assert.equal(result.failureCount, 1, 'Only active latest failures should be counted, superseded ignored');
+  assert.equal(result.status, 'FAILURES_DETECTED');
+  assert.equal(result.alerts.length, 1);
+  assert.equal(result.alerts[0].runId, 104);
+  assert.equal(result.alerts[0].branch, 'bugfix/y');
+});
+
 test('notebook-ingester-bot runs in dry-run mode and writes valid telemetry', () => {
   const scriptPath = path.join(REPO_ROOT, 'scripts', 'notebook-ingester-bot.mjs');
   assert.ok(fs.existsSync(scriptPath), 'notebook-ingester-bot.mjs should exist');

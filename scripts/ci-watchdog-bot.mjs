@@ -67,37 +67,54 @@ function getFailedRunLogSummary(runId) {
   }
 }
 
+export function evaluateRunAlerts(runs = [], getFailedLogFn = getFailedRunLogSummary) {
+  const activeRuns = runs.filter(r => r.status === 'in_progress' || r.status === 'queued');
+  const completedRuns = runs.filter(r => r.status === 'completed');
+
+  // Track the newest completed run per branch + workflow name
+  const latestByWorkflow = new Map();
+  for (const r of completedRuns) {
+    const key = `${r.headBranch || 'unknown'}::${r.name || 'unknown'}`;
+    if (!latestByWorkflow.has(key)) {
+      latestByWorkflow.set(key, r);
+    }
+  }
+
+  const alerts = [];
+  let failureCount = 0;
+
+  for (const [key, latestRun] of latestByWorkflow.entries()) {
+    if (latestRun.conclusion === 'failure') {
+      failureCount++;
+      const errorSnippet = getFailedLogFn(latestRun.databaseId || latestRun.id);
+      alerts.push({
+        runId: latestRun.databaseId || latestRun.id,
+        name: latestRun.name,
+        branch: latestRun.headBranch,
+        sha: latestRun.headSha ? latestRun.headSha.slice(0, 8) : 'unknown',
+        url: latestRun.url,
+        createdAt: latestRun.createdAt,
+        errorSummary: errorSnippet
+      });
+    }
+  }
+
+  const status = failureCount === 0 ? 'HEALTHY' : 'FAILURES_DETECTED';
+  return { activeRuns, completedRuns, alerts, failureCount, status };
+}
+
 async function runCiWatchdog() {
   const startTime = Date.now();
   console.log(`[CI-Watchdog] Checking remote CI and GitHub Actions status... (dry-run: ${isDryRun})`);
 
-  const runs = getRecentWorkflowRuns(6);
-  const activeRuns = runs.filter(r => r.status === 'in_progress' || r.status === 'queued');
-  const completedRuns = runs.filter(r => r.status === 'completed');
-  const failedRuns = completedRuns.filter(r => r.conclusion === 'failure');
-
-  const alerts = [];
-
-  for (const failed of failedRuns) {
-    const errorSnippet = getFailedRunLogSummary(failed.databaseId);
-    alerts.push({
-      runId: failed.databaseId,
-      name: failed.name,
-      branch: failed.headBranch,
-      sha: failed.headSha ? failed.headSha.slice(0, 8) : 'unknown',
-      url: failed.url,
-      createdAt: failed.createdAt,
-      errorSummary: errorSnippet
-    });
-  }
-
-  const status = failedRuns.length === 0 ? 'HEALTHY' : 'FAILURES_DETECTED';
+  const runs = getRecentWorkflowRuns(10);
+  const { activeRuns, alerts, failureCount, status } = evaluateRunAlerts(runs, getFailedRunLogSummary);
   const elapsedMs = Date.now() - startTime;
 
   console.log(`[CI-Watchdog] Scanned ${runs.length} recent runs in ${elapsedMs}ms.`);
   console.log(`  - Active / In-Progress: ${activeRuns.length}`);
-  console.log(`  - Recent Failures: ${failedRuns.length}`);
-  console.log(`  - Status: ${status}`);
+  console.log(`  - Active Failures:      ${failureCount}`);
+  console.log(`  - Status:               ${status}`);
 
   const report = {
     timestamp: new Date().toISOString(),
@@ -105,9 +122,9 @@ async function runCiWatchdog() {
     status,
     scannedCount: runs.length,
     activeCount: activeRuns.length,
-    failureCount: failedRuns.length,
+    failureCount,
     recentRuns: runs.map(r => ({
-      id: r.databaseId,
+      id: r.databaseId || r.id,
       name: r.name,
       branch: r.headBranch,
       status: r.status,
@@ -124,7 +141,10 @@ async function runCiWatchdog() {
   return report;
 }
 
-runCiWatchdog().catch(err => {
-  console.error(`[CI-Watchdog FATAL] ${err.stack || err.message}`);
-  process.exit(1);
-});
+const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+if (isDirectRun) {
+  runCiWatchdog().catch(err => {
+    console.error(`[CI-Watchdog FATAL] ${err.stack || err.message}`);
+    process.exit(1);
+  });
+}

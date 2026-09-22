@@ -1,9 +1,9 @@
 {
-  "date": "2026-09-21",
-  "timestamp": "2026-09-21T21:39:48.882Z",
-  "elapsedMs": 3,
-  "fleetHealthScore": 83,
-  "fleetStatus": "DEGRADED",
+  "date": "2026-09-22",
+  "timestamp": "2026-09-22T12:04:50.603Z",
+  "elapsedMs": 5,
+  "fleetHealthScore": 93,
+  "fleetStatus": "HEALTHY",
   "botCount": 6,
   "activeBots": [
     {
@@ -11,33 +11,40 @@
       "name": "NotebookLM & Knowledge Ingester",
       "schedule": "Daily 02:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-21T21:38:32.049Z",
-        "elapsedMs": 794,
+        "timestamp": "2026-09-22T06:01:00.675Z",
+        "elapsedMs": 57844,
         "status": "HEALTHY",
-        "totalFiles": 463,
-        "indexedCount": 463,
-        "updatedCount": 0,
-        "skippedCount": 0,
+        "totalFiles": 460,
+        "indexedCount": 0,
+        "updatedCount": 11,
+        "skippedCount": 449,
         "databasePath": ".kb_cache/knowledge_fts5.db",
-        "dryRun": true
+        "dryRun": false,
+        "lastDispatch": {
+          "timestamp": "2026-09-22T08:02:04.619Z",
+          "status": "SUCCESS",
+          "dryRun": true,
+          "dispatchedPacks": 0,
+          "results": []
+        }
       },
       "status": "HEALTHY",
-      "summary": "463 documents indexed into SQLite FTS5"
+      "summary": "460 documents indexed into SQLite FTS5"
     },
     {
       "id": "kb-sentinel",
       "name": "KB-Sentinel Drift & Autoheal",
       "schedule": "Daily 03:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-21T21:38:28.744Z",
-        "elapsedMs": 109,
+        "timestamp": "2026-09-22T07:00:02.086Z",
+        "elapsedMs": 372,
         "healthScore": 92,
         "status": "PASS",
         "scanned": 413,
         "frontmatterMissing": 4,
         "brokenLinks": 1,
         "healed": 0,
-        "dryRun": true,
+        "dryRun": false,
         "recentIssues": [
           {
             "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",
@@ -69,15 +76,15 @@
       "name": "TRM Gap Triage & RFC Drafter",
       "schedule": "Daily 04:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-21T21:38:28.824Z",
-        "elapsedMs": 10,
+        "timestamp": "2026-09-22T08:00:02.159Z",
+        "elapsedMs": 9,
         "totalGaps": 2056,
         "pending": 0,
         "drafted": 2056,
         "resolved": 0,
         "triagedCount": 0,
         "generatedRfcs": [],
-        "dryRun": true
+        "dryRun": false
       },
       "status": "PASS",
       "summary": "2056 total gaps (2056 drafted)"
@@ -87,12 +94,12 @@
       "name": "Watchlist & Competitor Drift Miner",
       "schedule": "Daily 05:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-21T21:38:32.187Z",
-        "elapsedMs": 6,
+        "timestamp": "2026-09-22T09:00:03.303Z",
+        "elapsedMs": 1503,
         "status": "DRIFT_DETECTED",
         "totalWatchlists": 3,
-        "targetsEvaluated": 2,
-        "driftsDetected": 2,
+        "targetsEvaluated": 3,
+        "driftsDetected": 3,
         "driftFindings": [
           {
             "watchlistId": "trm:watchlist:google-sam-mesh",
@@ -111,36 +118,66 @@
             "baselineHash": "c0ffee0000000000000000000000000000000000000000000000000000000000",
             "observedHash": "afb6c532b499c0b63bcc92976403e8533b668cc7aa97122e0ac2e5c323911dc7",
             "wikiPath": "wiki/research/competitor-drift-anthropic-computer-use.md"
+          },
+          {
+            "watchlistId": "trm:watchlist:openai-swarm-agents",
+            "competitorName": "OpenAI Swarm & Handoff Framework",
+            "targetId": "openai-swarm",
+            "url": "https://github.com/openai/swarm",
+            "baselineHash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+            "observedHash": "05cc804a37143eefa54f31a1761a04a628b508c214862e72c6b4344428d2a004",
+            "wikiPath": "wiki/research/competitor-drift-openai-swarm.md"
           }
         ],
-        "dryRun": true
+        "dryRun": false
       },
       "status": "DRIFT_DETECTED",
-      "summary": "2 targets evaluated (2 drifts)"
+      "summary": "3 targets evaluated (3 drifts)"
     },
     {
       "id": "daemon-healer",
       "name": "Daemon-Healer Port 8080 Supervisor",
       "schedule": "Every 15 Min",
       "telemetry": {
-        "timestamp": "2026-09-21T21:38:28.928Z",
+        "timestamp": "2026-09-22T11:58:54.248Z",
         "elapsedMs": 9,
         "targetUrl": "http://127.0.0.1:8080/dashboard",
+        "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
         "status": "HEALTHY",
         "initialProbe": {
           "ok": true,
           "statusCode": 200,
-          "headers": {
-            "content-type": "text/html; charset=UTF-8",
-            "date": "Mon, 21 Sep 2026 21:38:28 GMT",
-            "connection": "keep-alive",
-            "keep-alive": "timeout=5",
-            "transfer-encoding": "chunked"
+          "uiProbe": {
+            "ok": true,
+            "statusCode": 200,
+            "headers": {
+              "content-type": "text/html; charset=UTF-8",
+              "date": "Tue, 22 Sep 2026 11:58:54 GMT",
+              "connection": "keep-alive",
+              "keep-alive": "timeout=5",
+              "transfer-encoding": "chunked"
+            },
+            "payloadValid": true,
+            "preview": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, in"
+          },
+          "apiProbe": {
+            "ok": true,
+            "statusCode": 200,
+            "headers": {
+              "content-type": "application/json; charset=UTF-8",
+              "access-control-allow-origin": "*",
+              "date": "Tue, 22 Sep 2026 11:58:54 GMT",
+              "connection": "keep-alive",
+              "keep-alive": "timeout=5",
+              "transfer-encoding": "chunked"
+            },
+            "payloadValid": true,
+            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-22\",\"timestamp\":\"2026-09-22T11:45:25.077Z\",\"elapsedMs\":6,\"fleetHealthScore\":"
           }
         },
         "healed": false,
         "restartedPid": null,
-        "dryRun": true
+        "dryRun": false
       },
       "status": "HEALTHY",
       "summary": "Port 8080 status: HEALTHY (healed: false)"
@@ -150,13 +187,62 @@
       "name": "CI-Watchdog Workflow Failure Triage",
       "schedule": "Daily 06:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-21T21:39:43.830Z",
-        "elapsedMs": 1822,
-        "status": "FAILURES_DETECTED",
-        "scannedCount": 6,
+        "timestamp": "2026-09-22T12:04:44.254Z",
+        "elapsedMs": 1748,
+        "status": "HEALTHY",
+        "scannedCount": 10,
         "activeCount": 0,
-        "failureCount": 1,
+        "failureCount": 0,
         "recentRuns": [
+          {
+            "id": 35723150200,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35702656832,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 35702448083,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 35684615038,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35684484926,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 35677399346,
+            "name": "Governance",
+            "branch": "fix/nlm-closed-loop-pack-replace-gate",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35677376692,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
           {
             "id": 35658378697,
             "name": "Governance",
@@ -177,56 +263,22 @@
             "branch": "parkd821-20260908",
             "status": "completed",
             "conclusion": "success"
-          },
-          {
-            "id": 35655174879,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 35651820799,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 35651787878,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "cancelled"
           }
         ],
-        "alerts": [
-          {
-            "runId": 35657630324,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "sha": "7b937490",
-            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/35657630324",
-            "createdAt": "2026-09-21T21:31:09Z",
-            "errorSummary": [
-              "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T21:31:44.2666196Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/reconcile-scheduled-tasks.ps1\",\"scripts/run-weekly-retro.ps1\",\"scripts/setup-weekly-report-schedule.ps1\"],\"regressionTestPaths\":[],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"7b9374907f3733c8222ccde581f472cdee00b471\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/reconcile-scheduled-tasks.ps1\",\"scripts/run-weekly-retro.ps1\",\"scripts/setup-weekly-report-schedule.ps1\"],\"regressionTestPaths\":[],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
-              "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T21:31:44.2889240Z ##[error]Process completed with exit code 1."
-            ]
-          }
-        ],
+        "alerts": [],
         "dryRun": false
       },
-      "status": "FAILURES_DETECTED",
-      "summary": "6 runs scanned (1 failures)"
+      "status": "HEALTHY",
+      "summary": "10 runs scanned (0 failures)"
     }
   ],
   "summaryMetrics": {
-    "totalDocsIndexed": 463,
+    "totalDocsIndexed": 460,
     "wikiHealthScore": 92,
     "totalResearchGaps": 2056,
-    "competitorDrifts": 2,
+    "competitorDrifts": 3,
     "daemonStatus": "HEALTHY",
-    "ciFailures": 1
+    "ciFailures": 0
   },
   "dryRun": false
 }
