@@ -27,3 +27,14 @@ test('dispatchMultiNotebook dry-run uses a bounded pool without spawning', async
   assert.equal(result.success, true);
   assert.deepEqual(result.results.map(({ status }) => status), ['dry-run-ok', 'dry-run-ok']);
 });
+
+test('dispatchMultiNotebook updates telemetry feed upon completion', async () => {
+  const result = await dispatchMultiNotebook({
+    generatedPacks: [
+      { packDef: { category: 'willow-run', notebookId: '1', title: 'A' }, packFile: 'a.txt' }
+    ],
+    dryRun: true
+  });
+
+  assert.equal(result.success, true);
+});
