@@ -20,4 +20,7 @@ async function main(): Promise<void> {
   process.exit(1);
 }
 
-main();
+main().catch((error) => {
+  console.error(`slop-grader error: ${error instanceof Error ? error.message : String(error)}`);
+  process.exit(1);
+});

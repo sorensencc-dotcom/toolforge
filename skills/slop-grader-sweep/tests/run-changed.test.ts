@@ -66,4 +66,16 @@ describe('runChanged', () => {
     expect(result.findings).toHaveLength(1);
     expect(runSlopGrader).toHaveBeenCalledWith(['docs/a.md'], 'sk-test');
   });
+
+  it('catches synchronous errors from resolveChangedFiles and returns skipped result', async () => {
+    vi.mocked(resolveChangedFiles).mockImplementation(() => {
+      throw new Error('git failed: not a git repository');
+    });
+
+    const result = await runChanged('/repo');
+
+    expect(result).toEqual({ skipped: true, reason: 'git failed: not a git repository', findings: [] });
+    expect(resolveOpenRouterCredential).not.toHaveBeenCalled();
+    expect(runSlopGrader).not.toHaveBeenCalled();
+  });
 });
