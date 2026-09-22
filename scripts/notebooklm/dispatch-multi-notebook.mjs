@@ -53,7 +53,11 @@ export async function dispatchMultiNotebook(options = {}) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
-  dispatchMultiNotebook({ dryRun: process.argv.includes('--dry-run') })
-    .then(result => { if (!result.success) process.exitCode = 1; })
+  const dryRun = process.argv.includes('--dry-run');
+  dispatchMultiNotebook({ dryRun, ...(dryRun ? { generatedPacks: [] } : {}) })
+    .then(result => {
+      if (!result.success) process.exitCode = 1;
+      else console.log('[KIS-P DISPATCHER] completed successfully');
+    })
     .catch(error => { console.error(error.message); process.exitCode = 1; });
 }
