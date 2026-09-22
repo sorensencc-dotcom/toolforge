@@ -1,0 +1,22 @@
+{
+  "name": "slop-grader-sweep",
+  "version": "1.0.0",
+  "description": "Grades markdown docs/wiki/specs against slop-grader's no-ai-slop and tech-docs rulesets, warn-only on pre-commit, report-only on a scheduled sweep",
+  "main": "dist/cli.js",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run"
+  },
+  "author": "soren",
+  "license": "MIT",
+  "dependencies": {
+    "@lukstei/slop-grader": "0.2.5",
+    "glob": "^10.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^1.6.1"
+  }
+}

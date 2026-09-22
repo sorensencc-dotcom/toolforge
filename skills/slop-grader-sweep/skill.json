@@ -1,0 +1,34 @@
+{
+  "id": "slop-grader-sweep",
+  "name": "Slop Grader Sweep",
+  "version": "1.0.0",
+  "description": "LLM-graded prose quality sweep (no-ai-slop + tech-docs rulesets) for docs/wiki/specs markdown, complementing the deterministic writing-heuristics engine",
+  "author": "soren",
+  "license": "MIT",
+  "category": "docs-quality",
+  "metadata": {
+    "runtime": "typescript",
+    "entrypoint": "src/cli.ts",
+    "timeout": 30000,
+    "tags": ["writing", "slop-grader", "docs-quality", "governance"]
+  },
+  "modes": {
+    "supported": ["changed", "sweep"],
+    "default": "changed",
+    "descriptions": {
+      "changed": "Grades staged markdown files, warn-only, always exits 0. Invoked from the pre-commit hook.",
+      "sweep": "Grades all markdown under docs/wiki/specs and writes drift/SLOP-REPORT.md. Invoked from a scheduled workflow."
+    }
+  },
+  "validation": {
+    "testsRequiredBeforeActivation": true,
+    "testRunner": "vitest"
+  },
+  "permissions": {
+    "required": ["read:repo"],
+    "optional": ["write:file", "network:openrouter"],
+    "restrictions": ["delete:permanent"]
+  },
+  "entrypoint": "src/cli.ts",
+  "runtime": "node"
+}
