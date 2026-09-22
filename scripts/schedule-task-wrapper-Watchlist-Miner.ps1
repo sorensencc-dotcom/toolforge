@@ -15,9 +15,9 @@ param(
     [ValidateSet('Register', 'Unregister', 'Status', 'Test')]
     [string]$Action = 'Status',
 
-    [string]$RepoRoot = 'C:\dev',
+    [string]$RepoRoot = $(if ($PSScriptRoot) { Split-Path -Parent $PSScriptRoot } else { 'C:\dev' }),
     [string]$NodePath = 'node.exe',
-    [string]$LogDirectory = 'C:\dev\logs',
+    [string]$LogDirectory = $(Join-Path $(if ($PSScriptRoot) { Split-Path -Parent $PSScriptRoot } else { 'C:\dev' }) 'logs'),
     [ValidatePattern('^([01]\d|2[0-3]):[0-5]\d$')]
     [string]$ScheduleTime = '05:00',
     [string]$TaskName = 'Watchlist-Miner',
@@ -48,7 +48,7 @@ function Ensure-TaskFolder {
             $root.CreateFolder($cleanPath) | Out-Null
         }
     } catch {
-        # Fallback if COM creation fails
+        Write-Verbose "Task folder registration note for $($Path): $($_.Exception.Message)"
     }
 }
 

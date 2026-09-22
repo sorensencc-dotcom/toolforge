@@ -31,39 +31,42 @@ flowchart TD
         P["Fleet Engineering Policy Contract"]
     end
 
-    subgraph Engines["2. Autonomous Bot Fleet"]
+    subgraph Engines["2. Autonomous Bot Fleet (6 Bots + 1 Reporter)"]
         NB["Notebook-Ingester Bot (Daily 02:00 AM)\nscripts/notebook-ingester-bot.mjs"]
         D["KB-Sentinel Bot (Daily 03:00 AM)\nscripts/kb-sentinel-bot.mjs"]
         E["TRM-Bot (Daily 04:00 AM)\nscripts/trm-bot-runner.mjs"]
         WM["Watchlist-Miner Bot (Daily 05:00 AM)\nscripts/watchlist-miner-bot.mjs"]
-        K["Daemon-Healer Bot (Every 15 Min)\nscripts/daemon-healer-bot.mjs"]
         L["CI-Watchdog Bot (Daily 06:00 AM)\nscripts/ci-watchdog-bot.mjs"]
+        K["Daemon-Healer Bot (Every 15 Min)\nscripts/daemon-healer-bot.mjs"]
+        R["Daily Fleet Reporter (Daily 06:30 AM)\nscripts/ironbots-daily-reporter.mjs"]
     end
 
-    subgraph Targets["3. Knowledge Base & Telemetry"]
+    subgraph Targets["3. Knowledge Base & Telemetry Hub"]
         FTS["SQLite FTS5 Knowledge Base (.kb_cache/knowledge_fts5.db)"]
         F["Wiki Frontmatter & Link Autoheal"]
         G["RFC Decision Notes (wiki/research/rfc-gap-*.md)"]
         CD["Competitor Drift Reports (wiki/research/competitor-drift-*.md)"]
-        M["Port 8080 Process Recovery & Uptime"]
         N["CI Failure Detection & Error Logs"]
+        M["Port 8080 Gateway Uptime (/dashboard & /api/reporting/ironbots)"]
         I["Telemetry Hub (_status-feed/*.json)"]
-        J["Iron Command Forge (ICF Snapshot Store)"]
+        J["Daily Aggregated Report (wiki/research/ironbots-daily-report.md)"]
     end
 
     A -->|Daily 02:00 AM| NB
     A -->|Daily 03:00 AM| D
     A -->|Daily 04:00 AM| E
     A -->|Daily 05:00 AM| WM
-    A -->|Every 15 Min| K
     A -->|Daily 06:00 AM| L
+    A -->|Every 15 Min| K
+    A -->|Daily 06:30 AM| R
 
     B --> NB
     B --> D
     B --> E
     B --> WM
-    B --> K
     B --> L
+    B --> K
+    B --> R
 
     NB --> FTS
     NB --> I
@@ -73,11 +76,13 @@ flowchart TD
     E --> I
     WM --> CD
     WM --> I
-    K --> M
-    K --> I
     L --> N
     L --> I
-    I --> J
+    K --> M
+    K --> I
+
+    I --> R
+    R --> J
     I -.-> C
 ```
 
@@ -87,18 +92,21 @@ flowchart TD
 
 ## Mandatory Ironbots engineering policy
 
-All background automation bots added to the `\Ironbots\` fleet must strictly comply with the following four governance rules:
+All background automation bots added to the `\Ironbots\` fleet must strictly comply with the following core governance rules:
 
 1. **Unattended execution (S4U)**:
    - Every bot must provide a PowerShell scheduled task wrapper (`scripts/schedule-task-wrapper-*.ps1`) registered under Task Scheduler folder `\Ironbots\`.
    - Principal must use Service-for-User (`-LogonType S4U`) so tasks execute 24/7 whether the user is logged on or not, without storing passwords.
+   - All scripts must resolve repository root dynamically via `$PSScriptRoot` rather than hardcoding paths.
 2. **Zero-token deterministic computation**:
-   - High-throughput scans (filesystem traversals, regex parsing, SQLite FTS5 queries, process probing) must run locally on the CPU without invoking LLM completions.
+   - High-throughput scans (filesystem traversals, regex parsing, SQLite FTS5 queries, process probing, git ref lookups) must run locally on the CPU without invoking LLM completions.
    - LLMs may only be queried for final text synthesis where deterministic AST/regex logic is insufficient.
 3. **Structured JSON telemetry emission**:
    - Every bot run must write a structured, machine-readable JSON artifact to `_status-feed/<bot>_report.json`.
    - Telemetry must include `timestamp`, `elapsedMs`, `status`, and granular operational metrics.
-4. **Paired regression test requirement**:
+4. **Centralized scoring policy**:
+   - Fleet health scores must use the centralized `FLEET_SCORING_POLICY` defined in `scripts/ironbots-daily-reporter.mjs` (penalty weights for KB drift, CI failure, daemon outage, and competitor drift).
+5. **Paired regression test requirement**:
    - To satisfy the CI Delivery Guard policy (`CIC-GOVERNANCE/packages/delivery-guard`), every bot script and wrapper in `scripts/` must be paired with automated regression tests in `tests/ironbots.test.mjs`.
 
 ---
@@ -119,7 +127,7 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 - **Schedule**: Daily at 03:00 AM (`\Ironbots\KB-Sentinel`)
 - **Wrapper**: `scripts/schedule-task-wrapper-KB-Sentinel.ps1`
 - **Telemetry**: `_status-feed/kb_sentinel_report.json`
-- **Function**: Scans 400+ wiki entities for frontmatter validity, checks `[[Wikilink]]` integrity, computes health score (0–100), and performs automated link healing.
+- **Function**: Scans 400+ wiki entities for frontmatter validity, checks `[[Wikilink]]` integrity, computes health score (0–100), and performs automated frontmatter healing (`--fix`).
 
 ---
 
@@ -128,7 +136,7 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 - **Schedule**: Daily at 04:00 AM (`\Ironbots\TRM-Bot`)
 - **Wrapper**: `scripts/schedule-task-wrapper-TRM-Bot.ps1`
 - **Telemetry**: `_status-feed/trm_bot_report.json`
-- **Function**: Evaluates open research gaps in `kb-sync/trm-research-gaps.md`, queries local SQLite FTS5 database (`.kb_cache/knowledge_fts5.db`), drafts structured RFC notes in `wiki/research/rfc-gap-*.md`, and writes SHA-256 audit logs to `wiki/Log.md`.
+- **Function**: Evaluates open research gaps in `kb-sync/trm-research-gaps.md`, queries local SQLite FTS5 database (`.kb_cache/knowledge_fts5.db`), drafts structured RFC notes in `wiki/research/rfc-gap-*.md`, updates gap registry status from `- [ ]` to `- [/]`, and writes SHA-256 audit logs to `wiki/Log.md`.
 
 ---
 
@@ -137,20 +145,11 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 - **Schedule**: Daily at 05:00 AM (`\Ironbots\Watchlist-Miner`)
 - **Wrapper**: `scripts/schedule-task-wrapper-Watchlist-Miner.ps1`
 - **Telemetry**: `_status-feed/watchlist_miner_report.json`
-- **Function**: Tracks model specifications, open-source repositories, and external frameworks defined in `kb-sync/core/competitor_watchlist.json`. Detects SHA-256 fingerprint drift and drafts architectural alert notes in `wiki/research/competitor-drift-*.md`.
+- **Function**: Tracks model specifications and external repositories defined in `data/competitor_watchlist.json`. Computes upstream git ref / release ETag fingerprints, detects drift, and drafts architectural alert notes in `wiki/research/competitor-drift-*.md`.
 
 ---
 
-### 5. Daemon-Healer Bot
-- **Script**: `scripts/daemon-healer-bot.mjs`
-- **Schedule**: Repeating every 15 minutes (`\Ironbots\Daemon-Healer`)
-- **Wrapper**: `scripts/schedule-task-wrapper-Daemon-Healer.ps1`
-- **Telemetry**: `_status-feed/daemon_health.json`
-- **Function**: Continuously probes `http://127.0.0.1:8080/modules/wiki/dashboard.html`. If the server is dead, unresponsive, or returning `404`, it kills stale processes on port 8080 and restarts the HTTP server rooted at `C:\dev`.
-
----
-
-### 6. CI-Watchdog Bot
+### 5. CI-Watchdog Bot
 - **Script**: `scripts/ci-watchdog-bot.mjs`
 - **Schedule**: Daily at 06:00 AM / On-demand (`\Ironbots\CI-Watchdog`)
 - **Wrapper**: `scripts/schedule-task-wrapper-CI-Watchdog.ps1`
@@ -159,11 +158,29 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 
 ---
 
+### 6. Daemon-Healer Bot
+- **Script**: `scripts/daemon-healer-bot.mjs`
+- **Schedule**: Repeating every 15 minutes (`\Ironbots\Daemon-Healer`)
+- **Wrapper**: `scripts/schedule-task-wrapper-Daemon-Healer.ps1`
+- **Telemetry**: `_status-feed/daemon_health.json`
+- **Function**: Concurrently validates both the UI contract (`http://127.0.0.1:8080/dashboard`) and the Telemetry API contract (`http://127.0.0.1:8080/api/reporting/ironbots`). If either endpoint is unresponsive, mis-scoped, or colliding with a rogue process, it terminates conflicting socket owners across IPv4/IPv6 and restarts the unified ICF gateway server.
+
+---
+
+### 7. Daily Fleet Reporter
+- **Script**: `scripts/ironbots-daily-reporter.mjs`
+- **Schedule**: Daily at 06:30 AM (`\Ironbots\Ironbots-Reporter`)
+- **Wrapper**: `scripts/schedule-task-wrapper-Ironbots-Reporter.ps1`
+- **Telemetry**: `_status-feed/ironbots_daily_report.json`
+- **Function**: Ingests telemetry from all 6 Ironbots, evaluates fleet health using `FLEET_SCORING_POLICY`, maintains historical snapshots in `_status-feed/ironbots_history/`, and publishes the daily markdown brief to `wiki/research/ironbots-daily-report.md`.
+
+---
+
 ## Operational CLI commands
 
 ### Run fleet synchronously
 ```bash
-# Run all 6 bots sequentially
+# Run all 6 bots + daily reporter sequentially
 npm run bot:all
 
 # Run individual bots
@@ -171,8 +188,9 @@ npm run bot:notebook:ingest
 npm run bot:kb:sentinel
 npm run bot:trm:triage
 npm run bot:watchlist:mine
-npm run bot:daemon:heal
 npm run bot:ci:watchdog
+npm run bot:daemon:heal
+npm run bot:report
 ```
 
 ### Windows Task Scheduler administration
@@ -185,16 +203,18 @@ pwsh -NoProfile -File scripts/schedule-task-wrapper-Notebook-Ingester.ps1 -Actio
 pwsh -NoProfile -File scripts/schedule-task-wrapper-KB-Sentinel.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Bot.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Watchlist-Miner.ps1 -Action Status
-pwsh -NoProfile -File scripts/schedule-task-wrapper-Daemon-Healer.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-CI-Watchdog.ps1 -Action Status
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Daemon-Healer.ps1 -Action Status
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Ironbots-Reporter.ps1 -Action Status
 
 # Register / Upgrade all to Unattended S4U Mode (Run in Administrator PowerShell)
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Notebook-Ingester.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-KB-Sentinel.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Bot.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Watchlist-Miner.ps1 -Action Register -Unattended -Force
-pwsh -NoProfile -File scripts/schedule-task-wrapper-Daemon-Healer.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-CI-Watchdog.ps1 -Action Register -Unattended -Force
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Daemon-Healer.ps1 -Action Register -Unattended -Force
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Ironbots-Reporter.ps1 -Action Register -Unattended -Force
 ```
 
 ---
@@ -203,5 +223,6 @@ pwsh -NoProfile -File scripts/schedule-task-wrapper-CI-Watchdog.ps1 -Action Regi
 
 - [[Index]]
 - [[ControlledEvidencePipeline]]
+- [Ironbots Development Standards](file:///c:/dev/docs/meta/governance/ironbots-development-standards.md) (`GOV-IRONBOTS-STD-v1.0`)
 - [[research/trm-devops-triage-pipeline|trm-devops-triage-pipeline]]
 - [[research/whichllm-model-selection-evaluator|whichllm-model-selection-evaluator]]

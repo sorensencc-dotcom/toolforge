@@ -11,7 +11,11 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+
+const execFileAsync = promisify(execFile);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -28,7 +32,25 @@ const isVerbose = args.includes('--verbose');
 const limitArg = args.find(a => a.startsWith('--limit='));
 const maxTargetsToProcess = limitArg ? parseInt(limitArg.split('=')[1], 10) : 10;
 
-function computeFingerprint(target) {
+async function computeFingerprint(target) {
+  // If target is a git repo, attempt zero-token git ls-remote ref query
+  if (target.type === 'git_repo' && target.url && !isDryRun) {
+    try {
+      const { stdout } = await execFileAsync('git', ['ls-remote', '--heads', target.url, 'HEAD'], {
+        timeout: 3500,
+        encoding: 'utf8'
+      });
+      if (stdout && stdout.trim()) {
+        const firstRef = stdout.trim().split(/\s+/)[0];
+        if (firstRef && /^[0-9a-f]{40,64}$/i.test(firstRef)) {
+          return crypto.createHash('sha256').update(firstRef).digest('hex');
+        }
+      }
+    } catch {
+      // Fallback to content payload digest if network is offline or unauthenticated
+    }
+  }
+
   // Deterministic target hash generator based on URL + target_id + static metadata
   const payload = `${target.target_id}::${target.url}::${target.type || 'git_repo'}`;
   return crypto.createHash('sha256').update(payload).digest('hex');
@@ -104,7 +126,7 @@ async function runWatchlistMiner() {
       if (evaluatedTargets >= maxTargetsToProcess) break;
       evaluatedTargets++;
 
-      const currentHash = computeFingerprint(target);
+      const currentHash = await computeFingerprint(target);
       const hasDrift = currentHash !== target.baseline_hash;
 
       if (isVerbose) {

@@ -36,6 +36,20 @@ const BOT_ARTIFACTS = {
   ciWatchdog: 'ci_alerts.json'
 };
 
+export const FLEET_SCORING_POLICY = {
+  weights: {
+    kbSentinelPenaltyFactor: 0.3,
+    ciFailurePenaltyPerRun: 10,
+    maxCiFailurePenalty: 25,
+    daemonUnhealthyPenalty: 20,
+    competitorDriftPenalty: 5
+  },
+  thresholds: {
+    healthyMinScore: 85,
+    attentionMinScore: 60
+  }
+};
+
 async function readJsonSafe(filePath, defaultVal = null) {
   try {
     const raw = await fs.readFile(filePath, 'utf8');
@@ -111,22 +125,25 @@ export async function aggregateFleetActivity(options = {}) {
   // Compute overall fleet health score (0–100)
   let healthPenalties = 0;
   if (results.kbSentinel?.healthScore) {
-    healthPenalties += Math.max(0, 100 - results.kbSentinel.healthScore) * 0.3;
+    healthPenalties += Math.max(0, 100 - results.kbSentinel.healthScore) * FLEET_SCORING_POLICY.weights.kbSentinelPenaltyFactor;
   }
   if (results.ciWatchdog?.failureCount > 0) {
-    healthPenalties += Math.min(25, results.ciWatchdog.failureCount * 10);
+    healthPenalties += Math.min(
+      FLEET_SCORING_POLICY.weights.maxCiFailurePenalty,
+      results.ciWatchdog.failureCount * FLEET_SCORING_POLICY.weights.ciFailurePenaltyPerRun
+    );
   }
   if (results.daemonHealer?.status !== 'HEALTHY' && results.daemonHealer?.status !== 'RECOVERED') {
-    healthPenalties += 20;
+    healthPenalties += FLEET_SCORING_POLICY.weights.daemonUnhealthyPenalty;
   }
   if (results.watchlistMiner?.driftsDetected > 0) {
-    healthPenalties += 5;
+    healthPenalties += FLEET_SCORING_POLICY.weights.competitorDriftPenalty;
   }
 
   const fleetHealthScore = Math.max(0, Math.min(100, Math.round(100 - healthPenalties)));
   let fleetStatus = 'HEALTHY';
-  if (fleetHealthScore < 85) fleetStatus = 'DEGRADED';
-  if (fleetHealthScore < 60) fleetStatus = 'ATTENTION_REQUIRED';
+  if (fleetHealthScore < FLEET_SCORING_POLICY.thresholds.healthyMinScore) fleetStatus = 'DEGRADED';
+  if (fleetHealthScore < FLEET_SCORING_POLICY.thresholds.attentionMinScore) fleetStatus = 'ATTENTION_REQUIRED';
 
   const elapsedMs = Date.now() - startTime;
 

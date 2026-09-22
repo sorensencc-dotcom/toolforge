@@ -30,6 +30,8 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+$RepoRoot = if ($PSScriptRoot) { Split-Path -Parent $PSScriptRoot } else { 'C:\dev' }
+
 function Test-IsAdministrator {
     $currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = [Security.Principal.WindowsPrincipal]$currentIdentity
@@ -50,7 +52,7 @@ function Ensure-TaskFolder {
             $root.CreateFolder($cleanPath) | Out-Null
         }
     } catch {
-        # Best effort COM fallback
+        Write-Verbose "Task folder registration note for $($Path): $($_.Exception.Message)"
     }
 }
 
@@ -60,72 +62,72 @@ $TaskDefinitions = @(
     @{
         TaskName = "Notebook-Ingester"
         Category = "\Ironbots\"
-        Script = "C:\dev\scripts\schedule-task-wrapper-Notebook-Ingester.ps1"
+        Script = "$RepoRoot\scripts\schedule-task-wrapper-Notebook-Ingester.ps1"
         Description = "Ironbots: SQLite FTS5 Knowledge Base and NotebookLM indexer."
         TriggerType = "Daily"
         TriggerTime = "02:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' C:\dev\scripts\notebook-ingester-bot.mjs 1>> 'C:\dev\logs\notebook-ingester-bot.stdout.log' 2>> 'C:\dev\logs\notebook-ingester-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\notebook-ingester-bot.mjs 1>> '$RepoRoot\logs\notebook-ingester-bot.stdout.log' 2>> '$RepoRoot\logs\notebook-ingester-bot.stderr.log'`""
     },
     @{
         TaskName = "KB-Sentinel"
         Category = "\Ironbots\"
-        Script = "C:\dev\scripts\schedule-task-wrapper-KB-Sentinel.ps1"
+        Script = "$RepoRoot\scripts\schedule-task-wrapper-KB-Sentinel.ps1"
         Description = "Ironbots: Knowledge Base drift detection and autohealing sentinel."
         TriggerType = "Daily"
         TriggerTime = "03:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' C:\dev\scripts\kb-sentinel-bot.mjs 1>> 'C:\dev\logs\kb-sentinel-bot.stdout.log' 2>> 'C:\dev\logs\kb-sentinel-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\kb-sentinel-bot.mjs 1>> '$RepoRoot\logs\kb-sentinel-bot.stdout.log' 2>> '$RepoRoot\logs\kb-sentinel-bot.stderr.log'`""
     },
     @{
         TaskName = "TRM-Bot"
         Category = "\Ironbots\"
-        Script = "C:\dev\scripts\schedule-task-wrapper-TRM-Bot.ps1"
+        Script = "$RepoRoot\scripts\schedule-task-wrapper-TRM-Bot.ps1"
         Description = "Ironbots: Research gap triage, local SQLite FTS5 search, and RFC drafting."
         TriggerType = "Daily"
         TriggerTime = "04:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' C:\dev\scripts\trm-bot-runner.mjs 1>> 'C:\dev\logs\trm-bot-runner.stdout.log' 2>> 'C:\dev\logs\trm-bot-runner.stderr.log'`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\trm-bot-runner.mjs 1>> '$RepoRoot\logs\trm-bot-runner.stdout.log' 2>> '$RepoRoot\logs\trm-bot-runner.stderr.log'`""
     },
     @{
         TaskName = "Watchlist-Miner"
         Category = "\Ironbots\"
-        Script = "C:\dev\scripts\schedule-task-wrapper-Watchlist-Miner.ps1"
+        Script = "$RepoRoot\scripts\schedule-task-wrapper-Watchlist-Miner.ps1"
         Description = "Ironbots: Watchlist and competitor drift miner."
         TriggerType = "Daily"
         TriggerTime = "05:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' C:\dev\scripts\watchlist-miner-bot.mjs 1>> 'C:\dev\logs\watchlist-miner-bot.stdout.log' 2>> 'C:\dev\logs\watchlist-miner-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\watchlist-miner-bot.mjs 1>> '$RepoRoot\logs\watchlist-miner-bot.stdout.log' 2>> '$RepoRoot\logs\watchlist-miner-bot.stderr.log'`""
     },
     @{
         TaskName = "Daemon-Healer"
         Category = "\Ironbots\"
-        Script = "C:\dev\scripts\schedule-task-wrapper-Daemon-Healer.ps1"
+        Script = "$RepoRoot\scripts\schedule-task-wrapper-Daemon-Healer.ps1"
         Description = "Ironbots: Port 8080 health supervisor and auto-recovery daemon."
         TriggerType = "Repeating"
         RepetitionInterval = (New-TimeSpan -Minutes 15)
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' C:\dev\scripts\daemon-healer-bot.mjs 1>> 'C:\dev\logs\daemon-healer-bot.stdout.log' 2>> 'C:\dev\logs\daemon-healer-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\daemon-healer-bot.mjs 1>> '$RepoRoot\logs\daemon-healer-bot.stdout.log' 2>> '$RepoRoot\logs\daemon-healer-bot.stderr.log'`""
     },
     @{
         TaskName = "CI-Watchdog"
         Category = "\Ironbots\"
-        Script = "C:\dev\scripts\schedule-task-wrapper-CI-Watchdog.ps1"
+        Script = "$RepoRoot\scripts\schedule-task-wrapper-CI-Watchdog.ps1"
         Description = "Ironbots: GitHub Actions workflow failure triage and alert emitter."
         TriggerType = "Daily"
         TriggerTime = "06:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' C:\dev\scripts\ci-watchdog-bot.mjs 1>> 'C:\dev\logs\ci-watchdog-bot.stdout.log' 2>> 'C:\dev\logs\ci-watchdog-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\ci-watchdog-bot.mjs 1>> '$RepoRoot\logs\ci-watchdog-bot.stdout.log' 2>> '$RepoRoot\logs\ci-watchdog-bot.stderr.log'`""
     },
     @{
         TaskName = "Ironbots-Reporter"
         Category = "\Ironbots\"
-        Script = "C:\dev\scripts\schedule-task-wrapper-Ironbots-Reporter.ps1"
+        Script = "$RepoRoot\scripts\schedule-task-wrapper-Ironbots-Reporter.ps1"
         Description = "Ironbots: Daily fleet activity and telemetry aggregator."
         TriggerType = "Daily"
         TriggerTime = "06:30"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' C:\dev\scripts\ironbots-daily-reporter.mjs 1>> 'C:\dev\logs\ironbots-reporter.stdout.log' 2>> 'C:\dev\logs\ironbots-reporter.stderr.log'`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\ironbots-daily-reporter.mjs 1>> '$RepoRoot\logs\ironbots-reporter.stdout.log' 2>> '$RepoRoot\logs\ironbots-reporter.stderr.log'`""
     },
 
     # --- \toolforge\ Tasks ---
@@ -137,7 +139,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "06:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"C:\dev\scripts\daily-report-agent.ps1`" -RepoRoot `"C:\dev`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\daily-report-agent.ps1`" -RepoRoot `"$RepoRoot`""
     },
     @{
         TaskName = "toolforge-retro-audit-agent"
@@ -147,7 +149,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "04:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"C:\dev\scripts\retro-audit-agent.ps1`" -RepoRoot `"C:\dev`""
+        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\retro-audit-agent.ps1`" -RepoRoot `"$RepoRoot`""
     },
     @{
         TaskName = "toolforge-weekly-report-agent"

@@ -144,8 +144,23 @@ async function runTrmBot() {
     }
   }
 
-  // Update audit log if changes were made
+  // Update registry status and audit log if changes were made
   if (!isDryRun && generatedRfcs.length > 0) {
+    let updatedGapsContent = gapsContent;
+    for (const rfc of generatedRfcs) {
+      const targetPattern = new RegExp(`^- \\[ \\]\\s+\\[${rfc.gapId}\\](.*)$`, 'm');
+      updatedGapsContent = updatedGapsContent.replace(targetPattern, (match, rest) => {
+        return `- [/] [${rfc.gapId}]${rest} (Drafted: \`${rfc.file}\`)`;
+      });
+    }
+
+    try {
+      await fs.writeFile(GAPS_FILE, updatedGapsContent, 'utf8');
+      console.log(`[TRM-Bot] Updated ${generatedRfcs.length} gap statuses in ${path.relative(REPO_ROOT, GAPS_FILE)}`);
+    } catch (err) {
+      console.warn(`[TRM-Bot] Could not update ${GAPS_FILE}: ${err.message}`);
+    }
+
     const now = new Date();
     const dateStr = now.toISOString().replace('T', ' ').slice(0, 16);
     const logEntry = `\n## [${dateStr}] trm-bot-gap-triage\n\n- Provider: \`trm-bot-runner\` (\`v1.0.0\`)\n- Gaps Triaged: ${generatedRfcs.length}\n- Created RFC Decision Notes:\n` +

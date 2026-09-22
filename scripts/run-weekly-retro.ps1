@@ -99,6 +99,9 @@ try {
         }
     }
     if ($null -eq $retro.metrics) { throw 'Retro JSON is missing required top-level property: metrics' }
+    if ($null -eq $retro.metrics.loc_per_session_hour -and $retro.metrics.sessions -gt 0 -and $retro.metrics.avg_session_minutes -gt 0) {
+        $retro.metrics | Add-Member -NotePropertyName loc_per_session_hour -NotePropertyValue ([math]::Round($retro.metrics.logical_sloc_added / ($retro.metrics.sessions * $retro.metrics.avg_session_minutes / 60), 2))
+    }
 
     Write-AtomicJsonArtifact -Path $rawFile -Value $retro
     $publishArgs = @($publisher, '--report', $rawFile, '--run', $runFile, '--latest', $latestFile)

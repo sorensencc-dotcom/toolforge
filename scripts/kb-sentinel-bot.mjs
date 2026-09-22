@@ -69,6 +69,27 @@ function extractWikilinks(content) {
   return links;
 }
 
+function synthesizeFrontmatter(filePath, rawContent) {
+  const base = path.basename(filePath, '.md');
+  const title = base.replace(/[-_]+/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const now = new Date().toISOString().slice(0, 10);
+  const rel = path.relative(REPO_ROOT, filePath).replace(/\\/g, '/');
+  const isResearch = rel.includes('research/');
+  const category = isResearch ? 'research' : 'knowledge';
+
+  return `---
+title: "${title}"
+category: "${category}"
+status: "active"
+created_at: "${now}"
+tags:
+  - auto-healed
+  - ${category}
+---
+
+${rawContent.trimStart()}`;
+}
+
 async function runSentinel() {
   const startTime = Date.now();
   console.log(`[KB-Sentinel] Starting KB-Sync drift and autoheal audit... (dry-run: ${isDryRun}, fix: ${shouldFix})`);
@@ -94,6 +115,15 @@ async function runSentinel() {
       if (!fm) {
         stats.missingFrontmatter++;
         stats.issues.push({ file: relPath, type: 'MISSING_FRONTMATTER', detail: 'No YAML frontmatter found' });
+
+        if (shouldFix) {
+          if (!isDryRun) {
+            const healedContent = synthesizeFrontmatter(filePath, content);
+            await fs.writeFile(filePath, healedContent, 'utf8');
+          }
+          stats.healedCount++;
+          if (isVerbose) console.log(`  [Autoheal] Frontmatter generated for ${relPath}`);
+        }
       }
 
       const wikilinks = extractWikilinks(content);

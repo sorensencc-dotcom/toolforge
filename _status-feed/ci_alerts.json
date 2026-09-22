@@ -1,54 +1,67 @@
 {
-  "timestamp": "2026-09-21T21:21:24.448Z",
-  "elapsedMs": 5240,
-  "status": "HEALTHY",
+  "timestamp": "2026-09-22T03:34:08.970Z",
+  "elapsedMs": 2520,
+  "status": "FAILURES_DETECTED",
   "scannedCount": 6,
   "activeCount": 0,
-  "failureCount": 0,
+  "failureCount": 1,
   "recentRuns": [
+    {
+      "id": 35677399346,
+      "name": "Governance",
+      "branch": "fix/nlm-closed-loop-pack-replace-gate",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35677376692,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35658378697,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35657630324,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 35656717117,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
     {
       "id": 35655174879,
       "name": "Governance",
       "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "success"
-    },
-    {
-      "id": 35651820799,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 35651787878,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "cancelled"
-    },
-    {
-      "id": 35634189753,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 35629036810,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 35628882970,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
     }
   ],
-  "alerts": [],
-  "dryRun": false
+  "alerts": [
+    {
+      "runId": 35657630324,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "sha": "7b937490",
+      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/35657630324",
+      "createdAt": "2026-09-21T21:31:09Z",
+      "errorSummary": [
+        "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T21:31:44.2666196Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/reconcile-scheduled-tasks.ps1\",\"scripts/run-weekly-retro.ps1\",\"scripts/setup-weekly-report-schedule.ps1\"],\"regressionTestPaths\":[],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"7b9374907f3733c8222ccde581f472cdee00b471\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/reconcile-scheduled-tasks.ps1\",\"scripts/run-weekly-retro.ps1\",\"scripts/setup-weekly-report-schedule.ps1\"],\"regressionTestPaths\":[],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
+        "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T21:31:44.2889240Z ##[error]Process completed with exit code 1."
+      ]
+    }
+  ],
+  "dryRun": true
 }
