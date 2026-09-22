@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { consolidatePacks } from '../consolidate-pack.mjs';
@@ -49,7 +49,33 @@ export async function dispatchMultiNotebook(options = {}) {
   }
 
   await Promise.all(Array.from({ length: Math.min(limit, plan.length) }, worker));
-  return { success: results.every(result => result.status !== 'failed'), results };
+  const success = results.every(result => result.status !== 'failed');
+
+  try {
+    const reportPath = path.join(REPO_ROOT, '_status-feed', 'notebook_ingester_report.json');
+    let existing = {};
+    if (fs.existsSync(reportPath)) {
+      try { existing = JSON.parse(fs.readFileSync(reportPath, 'utf8')); } catch {}
+    }
+    const updated = {
+      ...existing,
+      lastDispatch: {
+        timestamp: new Date().toISOString(),
+        status: success ? 'SUCCESS' : 'FAILED',
+        dryRun: Boolean(options.dryRun),
+        dispatchedPacks: plan.length,
+        results: results.map(r => ({
+          category: r?.task?.category,
+          packFile: r?.task?.filename,
+          status: r?.status
+        }))
+      }
+    };
+    fs.mkdirSync(path.dirname(reportPath), { recursive: true });
+    fs.writeFileSync(reportPath, JSON.stringify(updated, null, 2), 'utf8');
+  } catch {}
+
+  return { success, results };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
