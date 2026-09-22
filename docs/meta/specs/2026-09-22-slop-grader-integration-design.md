@@ -90,9 +90,15 @@ slop-grader stays an external npm dependency (not vendored); the adapter
 shells out to its CLI. Declared as a pinned exact-version `dependency`
 (not `devDependency` — it runs in CI and in the pre-commit hook, both
 outside a dev-only install) in `skills/slop-grader-sweep/package.json`,
-with a committed `package-lock.json` for that directory. CI and the
-hook installer both run `npm ci` before first use. Missing/uninstalled
-binary is not a hard failure on either path — see Error handling.
+with a committed `package-lock.json` for that directory. Scoped to that
+subdirectory only — not a repo-root dependency, so a plain `npm install`
+at `C:\dev` never pulls it in. CI runs `npm ci` inside
+`skills/slop-grader-sweep/` before invoking `sweep` mode. Locally, the
+developer runs `npm ci` inside that same directory once, as part of the
+`install-hook.mjs` setup step (documented in `docs/USAGE.md`) — the
+installer script itself does not run `npm ci` on the caller's behalf.
+Missing/uninstalled binary is not a hard failure on either path — see
+Error handling.
 
 ### Components & credential wiring
 
@@ -117,11 +123,14 @@ binary is not a hard failure on either path — see Error handling.
   a fresh clone or reach CI. Fix: this skill ships a tracked installer,
   `skills/slop-grader-sweep/scripts/install-hook.mjs`, that appends the
   `run-slop-grader.mjs changed` call to the existing (or a newly
-  scaffolded) `.git/hooks/pre-commit.ps1`, idempotently (checks for a
-  marker comment before appending). Run once manually after `npm install`
-  in this skill's directory; documented as a setup step in
-  `docs/USAGE.md`. CI does not depend on this hook at all — CI coverage
-  comes exclusively from the scheduled sweep workflow below. Warn-only:
+  scaffolded) `.git/hooks/pre-commit.ps1`, idempotently (checks for the
+  literal marker comment `# slop-grader-sweep: installed` before
+  appending; skips if already present). Not run automatically by
+  `npm install` (no `postinstall` hook) — a manual, one-time,
+  documented step: `node skills/slop-grader-sweep/scripts/install-hook.mjs`,
+  listed in `docs/USAGE.md` setup. CI does not depend on this hook at
+  all — CI coverage comes exclusively from the scheduled sweep workflow
+  below. Warn-only:
   the appended step prints findings, always exits 0, and wraps the
   subprocess call in a hard 30-second timeout (kill + treat as
   unavailable on expiry) so a slow OpenRouter call cannot stall a commit.
@@ -138,9 +147,11 @@ binary is not a hard failure on either path — see Error handling.
     overlapping runs.
   - `paths-ignore: ['drift/SLOP-REPORT.md']` on the trigger — the report
     commit cannot re-trigger this same workflow.
-  - Commits as `github-actions[bot]`; the commit step first runs
-    `git diff --quiet -- drift/SLOP-REPORT.md` and skips the commit
-    entirely on a no-op (no findings changed since last run).
+  - Commits as `github-actions[bot]`; after `run-slop-grader.mjs sweep`
+    writes the report to the checked-out working tree, the commit step
+    runs `git diff --quiet -- drift/SLOP-REPORT.md` against that
+    working tree (pre-`git add`, post-checkout-of-trigger-ref) and skips
+    the commit entirely on a no-op (no findings changed since last run).
   - Runs `run-slop-grader.mjs sweep`, writes `drift/SLOP-REPORT.md` (same
     location/format convention as the existing `drift/DRIFT-REPORT.md`).
 
@@ -173,7 +184,8 @@ binary is not a hard failure on either path — see Error handling.
 - **OpenRouter API failure (rate-limit, auth, timeout) — changed path:**
   catch subprocess error or the 30-second timeout, print one-line warning
   (`slop-grader unavailable: <reason>, skipping`), exit 0.
-- **OpenRouter API failure — sweep path:** retry once; on second failure,
+- **OpenRouter API failure — sweep path:** retry once after a fixed 5s
+  delay (avoids hammering the same rate-limit); on second failure,
   write `drift/SLOP-REPORT.md` with a `Status: DEGRADED` header (same
   convention as morning-ingestion's DEGRADED marking) rather than failing
   the workflow or leaving a stale report uncommitted.
