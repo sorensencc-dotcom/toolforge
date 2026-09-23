@@ -2,6 +2,7 @@
 # `workflow_dispatch`, so its own commit-back step (which pushes to
 # main) cannot re-trigger it. paths-ignore is not needed because
 # there is no push trigger to filter.
+
 name: Slop Grader Sweep
 
 on:
