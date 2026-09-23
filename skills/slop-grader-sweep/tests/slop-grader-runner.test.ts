@@ -15,6 +15,7 @@ import {
   parseSlopGraderJson,
   resolveGraderEntrypoint,
   RULESETS,
+  DEFAULT_MODEL,
 } from '../src/slop-grader-runner';
 
 function fakeChild() {
@@ -43,12 +44,16 @@ const CLEAN_JSON = JSON.stringify({
 });
 
 describe('buildGraderArgs', () => {
-  it('emits one repeated -r flag per ruleset, --json, and exactly one file', () => {
+  it('emits one repeated -r flag per ruleset, the free-model provider pin, --json, and exactly one file', () => {
     expect(buildGraderArgs('docs/a.md')).toEqual([
       '-r',
       'no-ai-slop',
       '-r',
       'tech-docs',
+      '--provider',
+      'openrouter',
+      '--model',
+      DEFAULT_MODEL,
       '--json',
       'docs/a.md',
     ]);

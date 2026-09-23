@@ -29,7 +29,10 @@ slop-grader failure, timeout (30s), or missing credential.
 file under the same three roots repo-wide, and commits
 `drift/SLOP-REPORT.md` as `github-actions[bot]` if the report changed.
 Requires the `OPENROUTER_API_KEY` repo secret; its absence produces a
-`Status: DEGRADED` report rather than a failed workflow run.
+`Status: DEGRADED` report rather than a failed workflow run. Grades
+against a pinned free-tier model (`DEFAULT_MODEL` in
+`src/slop-grader-runner.ts`, override via `SLOP_GRADER_MODEL`) so the
+weekly sweep never spends against the key.
 
 ## Manual smoke test (run once at build time, not automated)
 
