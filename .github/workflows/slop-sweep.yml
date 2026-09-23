@@ -1,0 +1,56 @@
+# No `push` trigger: this workflow only runs on `schedule` and
+# `workflow_dispatch`, so its own commit-back step (which pushes to
+# main) cannot re-trigger it. paths-ignore is not needed because
+# there is no push trigger to filter.
+name: Slop Grader Sweep
+
+on:
+  schedule:
+    - cron: '30 8 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: slop-sweep
+  cancel-in-progress: true
+
+jobs:
+  sweep:
+    name: Slop grader full-repo sweep
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install skill dependencies
+        working-directory: skills/slop-grader-sweep
+        run: npm ci
+
+      - name: Build skill
+        working-directory: skills/slop-grader-sweep
+        run: npm run build
+
+      - name: Run sweep
+        working-directory: skills/slop-grader-sweep
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: node dist/cli.js sweep
+
+      - name: Commit report if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "actions@github.com"
+          if git diff --quiet -- drift/SLOP-REPORT.md; then
+            echo "No change in drift/SLOP-REPORT.md, skipping commit"
+            exit 0
+          fi
+          git add drift/SLOP-REPORT.md
+          git commit -m "chore(slop-sweep): update drift/SLOP-REPORT.md"
+          git push origin HEAD:main
