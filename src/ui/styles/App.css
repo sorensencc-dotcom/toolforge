@@ -5,14 +5,16 @@
 
 :root {
   /* Cast Iron Charlie Palette */
-  --black: #0a0805;
+  --black: #0a0806;
   --forge: #1a1410;
-  --ash: #9a9088;
-  --bone: #d4c9b8;
-  --white: #f0ebe5;
-  --ember: #c85a37;
-  --rust: #8b4513;
-  --brass: #b8860b;
+  --iron:  #2c2420;
+  --rust:  #8B3A1A;
+  --ember: #C4501A;
+  --brass: #B8922A;
+  --ash:   #9a9088;
+  --bone:  #e8e0d4;
+  --paper: #f2ece2;
+  --white: #faf6f0;
 }
 
 * {

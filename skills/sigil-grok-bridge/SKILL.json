@@ -1,0 +1,23 @@
+{
+  "id": "sigil-grok-bridge",
+  "name": "Sigil Grok Bridge",
+  "version": "1.0.0",
+  "description": "Exposes governed Sigil task submission and inbox inspection to Grok Bot over MCP",
+  "status": "active",
+  "runtime": "typescript",
+  "entrypoint": "src/index.ts",
+  "owner": "soren",
+  "category": "sync-tools",
+  "permissions": {
+    "required": [
+      "network"
+    ],
+    "optional": []
+  },
+  "dependencies": {
+    "external": [
+      "@modelcontextprotocol/sdk"
+    ],
+    "internal": []
+  }
+}

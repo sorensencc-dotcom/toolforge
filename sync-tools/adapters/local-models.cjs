@@ -1,0 +1,1 @@
+const {BaseAgentAdapter}=require('../lib/base-adapter.cjs'); class LocalModelAdapter extends BaseAgentAdapter{constructor(){super('local-models')} targets(workspace){const p=require('node:path');return [p.join(workspace,'opencode.json'),p.join(workspace,'.local-agent-context.md')]}} module.exports=LocalModelAdapter;

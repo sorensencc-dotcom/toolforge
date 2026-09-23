@@ -1,0 +1,2 @@
+const ClaudeCodeAdapter=require('./claude-code.cjs'); const AntigravityAdapter=require('./antigravity.cjs'); const CodexAdapter=require('./codex.cjs'); const GrokAdapter=require('./grok.cjs'); const LocalModelAdapter=require('./local-models.cjs');
+module.exports={'claude-code':new ClaudeCodeAdapter(),antigravity:new AntigravityAdapter(),codex:new CodexAdapter(),grok:new GrokAdapter(),'local-models':new LocalModelAdapter()};

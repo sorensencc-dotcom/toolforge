@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export default {
   command: 'search <query>',
   describe: 'Search for skills',
@@ -26,11 +24,16 @@ export default {
         console.log(`API URL: ${apiUrl}`);
       }
 
-      const response = await axios.get(`${apiUrl}/api/v1/skills/search`, {
-        params: { q: query, limit: Math.min(argv.limit, 100) },
-      });
+      const url = new URL(`${apiUrl}/api/v1/skills/search`);
+      url.searchParams.set('q', query);
+      url.searchParams.set('limit', String(Math.min(argv.limit, 100)));
 
-      const skills = response.data.data || [];
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      const json = await response.json();
+      const skills = json.data || [];
 
       if (skills.length === 0) {
         console.log(`No skills found matching: "${query}"`);

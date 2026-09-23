@@ -174,6 +174,30 @@ export async function runDailyMiningPipeline(options = {}) {
     } else {
       let uploadSuccess = false;
       let attempt = 0;
+      const packBaseName = path.basename(packFile);
+
+      // Query existing sources in target notebook to find previous versions of this pack
+      let existingSources = [];
+      try {
+        const out = execSync(`nlm source list "${targetUuid}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+        const parsed = JSON.parse(out);
+        existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+      } catch (e) {
+        logWarn(`  Could not query existing sources for notebook ${targetUuid}: ${e.message}`);
+      }
+
+      // Pre-upload deduplication sweep: prune prior instances of this pack before uploading
+      if (staleSources.length > 0) {
+        logInfo(`  Pruning ${staleSources.length} stale previous version(s) of ${packBaseName} before upload...`);
+        for (const stale of staleSources) {
+          try {
+            execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+            logInfo(`  ✓ Pruned prior source: ${stale.id} ("${stale.title || stale.name}")`);
+          } catch (delErr) {
+            logWarn(`  Failed to delete stale source ${stale.id}: ${delErr.message}`);
+          }
+        }
+      }
 
       while (attempt < maxRetries && !uploadSuccess) {
         attempt++;

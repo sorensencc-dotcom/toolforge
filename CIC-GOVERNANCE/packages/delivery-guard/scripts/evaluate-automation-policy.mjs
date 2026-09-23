@@ -137,10 +137,23 @@ function commitChangeSets(base, head) {
   }
 
   if (commits.length === 0) {
-    return {
-      source: 'git-diff',
-      changeSets: [{ commitSha: resolvedHead, entries: diffEntries(resolvedBase, resolvedHead) }],
-    };
+    try {
+      return {
+        source: 'git-diff',
+        changeSets: [{ commitSha: resolvedHead, entries: diffEntries(resolvedBase, resolvedHead) }],
+      };
+    } catch {
+      let fallbackParent = `${resolvedHead}~1`;
+      try {
+        runGit(['rev-parse', '--verify', `${fallbackParent}^{commit}`]);
+      } catch {
+        fallbackParent = EMPTY_TREE_SHA;
+      }
+      return {
+        source: 'git-diff',
+        changeSets: [{ commitSha: resolvedHead, entries: diffEntries(fallbackParent, resolvedHead) }],
+      };
+    }
   }
 
   return {

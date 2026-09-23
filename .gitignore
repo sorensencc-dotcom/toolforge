@@ -131,6 +131,11 @@ graft/
 .autoheal-receipt.json
 .autoheal-report.json
 .repair-manifest.json
-.sigil/
+.sigil/*
+!.sigil/mcp-registry.toml
 /IronLedger/
 /viking-phase3/
+# agent-secret-manager
+.agent-secret-manager/
+.env.*
+!.env.example

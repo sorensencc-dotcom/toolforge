@@ -1,0 +1,49 @@
+{
+  "$schema": "./master_entity_manifest.schema.json",
+  "version": "1.0.0",
+  "updated_at": "2026-09-21T00:00:00.000Z",
+  "entities": {
+    "charles-e-sorensen": {
+      "canonical_name": "Charles E. Sorensen",
+      "primary_category": "willow-run",
+      "aliases": ["Sorensen", "Sorenson", "Cast-Iron Charlie", "Charles Sorensen", "C. E. Sorensen"],
+      "l0_summary": "Executive head of Ford manufacturing; architect of Highland Park assembly line and Willow Run B-24 Bomber Plant.",
+      "l1_digest_source": "wiki/entities/charles-e-sorensen.md"
+    },
+    "willow-run-bomber-plant": {
+      "canonical_name": "Willow Run Bomber Plant",
+      "primary_category": "willow-run",
+      "aliases": ["Willow Run", "Willow Run Plant", "B-24 Plant", "Bomber Plant"],
+      "l0_summary": "Ford mass-production aircraft facility manufacturing B-24 Liberator bombers using moving assembly line techniques.",
+      "l1_digest_source": "wiki/topics/willow-run.md"
+    },
+    "cesor-corporation": {
+      "canonical_name": "CESOR Corporation",
+      "primary_category": "cuba-claims",
+      "aliases": ["CESOR", "Cesor Corp", "Cuban Economic Studies & Operations Research"],
+      "l0_summary": "Entity managing Sorensen Cuban agricultural and plantation assets subject to 1960 nationalization claims.",
+      "l1_digest_source": "wiki/entities/cesor-corporation.md"
+    },
+    "willys-overland-motors": {
+      "canonical_name": "Willys-Overland Motors",
+      "primary_category": "post-war",
+      "aliases": ["Willys", "Willys-Overland", "Willys Overland", "CJ-3B"],
+      "l0_summary": "Post-war automotive company where Sorensen served as President/Vice Chairman, developing civilian Jeep lines.",
+      "l1_digest_source": "wiki/topics/willys-overland.md"
+    },
+    "harry-bennett": {
+      "canonical_name": "Harry Bennett",
+      "primary_category": "ford-politics",
+      "aliases": ["Harry Bennett", "Bennett", "Ford Service Department"],
+      "l0_summary": "Head of Ford Service Department; key antagonist in Ford executive politics against Edsel Ford and Sorensen.",
+      "l1_digest_source": "wiki/entities/harry-bennett.md"
+    },
+    "helene-estate": {
+      "canonical_name": "Helene Estate & Miami Properties",
+      "primary_category": "miami-estate",
+      "aliases": ["Helene", "Helene I", "Helene II", "5185 N Bay Rd", "5185 North Bay Road", "Miami Beach Estate"],
+      "l0_summary": "Sorensen Miami Beach residence and luxury yachts (Helene I & II) utilized during retirement and Florida operations.",
+      "l1_digest_source": "wiki/topics/miami-estate.md"
+    }
+  }
+}

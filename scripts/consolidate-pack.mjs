@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { loadCategoriesData, buildNotebookTargetMap, NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/config.mjs';
+import { loadCategoriesData, buildNotebookTargetMap, NOTEBOOK_TARGETS, resolveNotebookId, getMasterKbExclusions } from '../kb-sync/core/config.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +22,7 @@ const COLOR = { red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', reset: '
 const logInfo = (msg) => console.log(`${COLOR.green}[CONSOLIDATE-PACK] [INFO]${COLOR.reset} ${msg}`);
 const logWarn = (msg) => console.log(`${COLOR.yellow}[CONSOLIDATE-PACK] [WARN]${COLOR.reset} ${msg}`);
 const logError = (msg) => console.error(`${COLOR.red}[CONSOLIDATE-PACK] [ERROR]${COLOR.reset} ${msg}`);
+export const MAX_PACK_BYTES = 380 * 1024;
 
 export function getCanonicalPacks() {
   const data = loadCategoriesData();
@@ -58,6 +59,93 @@ export function extractFrontmatter(content) {
   return data;
 }
 
+export function loadEntityManifest(rootDir = path.resolve(__dirname, '..')) {
+  const manifestPath = path.join(rootDir, '_kb-sync-staging', 'trm', 'master_entity_manifest.json');
+  return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export function injectCrossNotebookDigests(content, currentCategory, manifest, categoriesData) {
+  let result = content;
+  const entities = manifest?.entities || {};
+  const categories = categoriesData?.categories || {};
+
+  for (const [entityKey, entity] of Object.entries(entities)) {
+    if (entity.primary_category === currentCategory) continue;
+    const targetNotebook = categories[entity.primary_category]?.target;
+    if (!targetNotebook) continue;
+
+    const aliases = Array.isArray(entity.aliases) ? entity.aliases : [];
+    const mentioned = aliases.some(alias => {
+      if (!alias) return false;
+      return new RegExp(`\\b${escapeRegExp(alias)}\\b`, 'i').test(content);
+    }) || content.includes(`[[${entityKey}]]`);
+    if (!mentioned || result.includes(`=== CROSS-NOTEBOOK DIGEST: ${entity.canonical_name} ===`)) continue;
+
+    result += `\n\n=== CROSS-NOTEBOOK DIGEST: ${entity.canonical_name} ===\n`;
+    result += `Target Notebook ID: ${targetNotebook}\n`;
+    result += `Entity Key: ${entityKey}\n`;
+    result += `${entity.l0_summary || ''}\n`;
+  }
+
+  return result;
+}
+
+export function formatProvenanceHeader(item) {
+  return [
+    '=== PROVENANCE ===',
+    `source_path: ${item.relPath}`,
+    `source_type: ${item.sourceType}`,
+    `hash_sha256: ${item.sha256}`,
+    `ingested_at: ${new Date().toISOString()}`,
+    `source_title: ${item.frontmatter.source_title || 'N/A'}`,
+    `repository: ${item.frontmatter.repository || 'N/A'}`,
+    `document_date: ${item.frontmatter.document_date || 'N/A'}`,
+    `verification_status: ${item.frontmatter.verification_status || 'N/A'}`,
+    '===================',
+    '',
+  ].join('\n');
+}
+
+function serializePackItem(item) {
+  const content = item.enrichedContent ?? item.content;
+  return `${formatProvenanceHeader(item)}${content}\n\n--- END OF FILE: ${item.relPath} ---\n\n`;
+}
+
+export function partitionPackItems(items, maxBytes = MAX_PACK_BYTES, options = {}) {
+  const serialize = options.itemSerializer || serializePackItem;
+  const prefix = options.prefix || '';
+  const suffix = options.suffix || '';
+  const chunks = [];
+  for (const item of items) {
+    const one = serialize(item);
+    if (Buffer.byteLength(prefix + one + suffix, 'utf8') > maxBytes) {
+      throw new Error(`ITEM_EXCEEDS_BUDGET: ${item.relPath}`);
+    }
+    const current = chunks.at(-1);
+    const candidate = [...(current || []), item];
+    if (current && Buffer.byteLength(prefix + candidate.map(serialize).join('') + suffix, 'utf8') > maxBytes) {
+      chunks.push([item]);
+    } else if (current) {
+      current.push(item);
+    } else {
+      chunks.push([item]);
+    }
+  }
+  return chunks;
+}
+
+function removePackFiles(outDir, category) {
+  const safe = category.replace(/-/g, '_').replace(/[^a-zA-Z0-9_]/g, '_');
+  const pattern = new RegExp(`^pack_${safe}(?:_part\\d+)?\\.txt$`);
+  for (const name of fs.readdirSync(outDir)) {
+    if (pattern.test(name)) fs.unlinkSync(path.join(outDir, name));
+  }
+}
+
 export function consolidatePacks(options = {}) {
   const rootDir = options.rootDir || path.resolve(__dirname, '..');
   const outDir = options.outDir || path.join(rootDir, '.nlm_pack');
@@ -69,7 +157,8 @@ export function consolidatePacks(options = {}) {
   logInfo(`Consolidating thematic packs from root: ${rootDir}`);
   logInfo(`Output directory: ${outDir}`);
 
-  const canonicalPacks = getCanonicalPacks();
+  const canonicalPacks = getCanonicalPacks().filter(packDef => !options.category || packDef.category === options.category);
+  const exclusions = getMasterKbExclusions();
 
   // Map category aliases to canonical category key
   const aliasMap = new Map();
@@ -80,10 +169,9 @@ export function consolidatePacks(options = {}) {
     }
   }
 
-  // Collect candidate files from wiki and staging
-  const scanDirs = [
-    path.join(rootDir, 'wiki'),
-    path.join(rootDir, '_kb-sync-staging')
+  // Collect candidate files from wiki
+  const scanDirs = options.scanDirs || [
+    path.join(rootDir, 'wiki')
   ];
 
   const candidateFiles = [];
@@ -94,10 +182,11 @@ export function consolidatePacks(options = {}) {
 
   function walk(dir) {
     if (!fs.existsSync(dir)) return;
+    const IGNORED_DIRS = new Set(['node_modules', '.git', '_archive', 'archive', 'dist', 'build', '.cache', '.tmp', 'coverage', '_kb-sync-staging']);
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
-        if (entry.name !== 'node_modules' && entry.name !== '.git') {
+        if (!IGNORED_DIRS.has(entry.name) && !entry.name.startsWith('.')) {
           walk(full);
         }
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
@@ -137,8 +226,9 @@ export function consolidatePacks(options = {}) {
         sourceType: 'markdown'
       };
 
+      let canonicalKey;
       if (rawCat && aliasMap.has(rawCat)) {
-        const canonicalKey = aliasMap.get(rawCat);
+        canonicalKey = aliasMap.get(rawCat);
         categorized[canonicalKey].push(item);
       } else if (rawCat) {
         // Unknown category: dynamically bucket
@@ -149,7 +239,7 @@ export function consolidatePacks(options = {}) {
       }
 
       // Master KB includes all valid notes
-      if (categorized['master-kb']) {
+      if (categorized['master-kb'] && !exclusions.has(canonicalKey)) {
         categorized['master-kb'].push(item);
       }
     } catch (err) {
@@ -157,27 +247,14 @@ export function consolidatePacks(options = {}) {
     }
   }
 
+  if (options.category) dynamicPacks.clear();
+
   const generatedPacks = [];
 
   // Emit Canonical Packs
   for (const packDef of canonicalPacks) {
-    const packFile = path.join(outDir, packDef.filename);
+    removePackFiles(outDir, packDef.category);
     const items = categorized[packDef.category] || [];
-
-    // Invariant: Do not overwrite an existing rich seed pack with an empty pack
-    if (items.length === 0 && fs.existsSync(packFile)) {
-      const existing = fs.readFileSync(packFile, 'utf8');
-      if (existing.includes('=== PROVENANCE ===') || existing.includes('seed-notebook-topic.mjs')) {
-        logInfo(`Preserving non-empty seed pack: ${packDef.filename} (${(fs.statSync(packFile).size / 1024).toFixed(2)} KB)`);
-        generatedPacks.push({
-          packDef,
-          packFile,
-          bytes: fs.statSync(packFile).size,
-          fileCount: (existing.match(/=== PROVENANCE ===/g) || []).length
-        });
-        continue;
-      }
-    }
 
     let payload = `# ==============================================================================\n`;
     payload += `# PACK: ${packDef.category}\n`;
@@ -189,36 +266,27 @@ export function consolidatePacks(options = {}) {
     payload += `# FILE_COUNT: ${items.length}\n`;
     payload += `# ==============================================================================\n\n`;
 
-    for (const item of items) {
-      payload += `=== PROVENANCE ===\n`;
-      payload += `source_path: ${item.relPath}\n`;
-      payload += `source_type: ${item.sourceType}\n`;
-      payload += `hash_sha256: ${item.sha256}\n`;
-      payload += `ingested_at: ${new Date().toISOString()}\n`;
-      payload += `source_title: ${item.frontmatter.source_title || 'N/A'}\n`;
-      payload += `repository: ${item.frontmatter.repository || 'N/A'}\n`;
-      payload += `document_date: ${item.frontmatter.document_date || 'N/A'}\n`;
-      payload += `verification_status: ${item.frontmatter.verification_status || 'N/A'}\n`;
-      payload += `===================\n\n`;
-      payload += `${item.content}\n\n`;
-      payload += `--- END OF FILE: ${item.relPath} ---\n\n`;
+    let entityManifest;
+    try {
+      entityManifest = loadEntityManifest(rootDir);
+    } catch (_) {
+      entityManifest = { entities: {} };
     }
+    const categoriesData = loadCategoriesData();
 
-    fs.writeFileSync(packFile, payload, 'utf8');
-    const bytes = fs.statSync(packFile).size;
-    const mb = bytes / (1024 * 1024);
-
-    if (mb > 5.0) {
-      logWarn(`Pack ${packDef.filename} (${mb.toFixed(2)} MB) exceeds 5.0 MB warning limit!`);
-    } else {
-      logInfo(`✓ Emitted ${packDef.filename} (${(bytes / 1024).toFixed(2)} KB, ${items.length} files) -> Target: ${packDef.notebookId}`);
-    }
-
-    generatedPacks.push({
-      packDef,
-      packFile,
-      bytes,
-      fileCount: items.length
+    const enrichedItems = items.map(item => ({
+      ...item,
+      enrichedContent: injectCrossNotebookDigests(item.content, packDef.category, entityManifest, categoriesData)
+    }));
+    const chunks = partitionPackItems(enrichedItems, MAX_PACK_BYTES, { prefix: payload });
+    chunks.forEach((chunk, index) => {
+      const filename = chunks.length === 1 ? packDef.filename : `pack_${packDef.category.replace(/-/g, '_')}_part${index + 1}.txt`;
+      const packFile = path.join(outDir, filename);
+      const serialized = payload + chunk.map(serializePackItem).join('');
+      fs.writeFileSync(packFile, serialized, 'utf8');
+      const bytes = Buffer.byteLength(serialized, 'utf8');
+      logInfo(`✓ Emitted ${filename} (${(bytes / 1024).toFixed(2)} KB, ${chunk.length} files) -> Target: ${packDef.notebookId}`);
+      generatedPacks.push({ packDef: { ...packDef, filename }, packFile, bytes, fileCount: chunk.length });
     });
   }
 
@@ -240,14 +308,7 @@ export function consolidatePacks(options = {}) {
     payload += `# ==============================================================================\n\n`;
 
     for (const item of dynItems) {
-      payload += `=== PROVENANCE ===\n`;
-      payload += `source_path: ${item.relPath}\n`;
-      payload += `source_type: ${item.sourceType}\n`;
-      payload += `hash_sha256: ${item.sha256}\n`;
-      payload += `ingested_at: ${new Date().toISOString()}\n`;
-      payload += `source_title: ${item.frontmatter.source_title || 'N/A'}\n`;
-      payload += `repository: ${item.frontmatter.repository || 'N/A'}\n`;
-      payload += `===================\n\n`;
+      payload += formatProvenanceHeader(item);
       payload += `${item.content}\n\n`;
       payload += `--- END OF FILE: ${item.relPath} ---\n\n`;
     }

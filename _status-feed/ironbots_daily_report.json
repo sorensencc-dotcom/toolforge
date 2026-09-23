@@ -1,0 +1,284 @@
+{
+  "date": "2026-09-22",
+  "timestamp": "2026-09-22T12:04:50.603Z",
+  "elapsedMs": 5,
+  "fleetHealthScore": 93,
+  "fleetStatus": "HEALTHY",
+  "botCount": 6,
+  "activeBots": [
+    {
+      "id": "notebook-ingester",
+      "name": "NotebookLM & Knowledge Ingester",
+      "schedule": "Daily 02:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-22T06:01:00.675Z",
+        "elapsedMs": 57844,
+        "status": "HEALTHY",
+        "totalFiles": 460,
+        "indexedCount": 0,
+        "updatedCount": 11,
+        "skippedCount": 449,
+        "databasePath": ".kb_cache/knowledge_fts5.db",
+        "dryRun": false,
+        "lastDispatch": {
+          "timestamp": "2026-09-22T08:02:04.619Z",
+          "status": "SUCCESS",
+          "dryRun": true,
+          "dispatchedPacks": 0,
+          "results": []
+        }
+      },
+      "status": "HEALTHY",
+      "summary": "460 documents indexed into SQLite FTS5"
+    },
+    {
+      "id": "kb-sentinel",
+      "name": "KB-Sentinel Drift & Autoheal",
+      "schedule": "Daily 03:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-22T07:00:02.086Z",
+        "elapsedMs": 372,
+        "healthScore": 92,
+        "status": "PASS",
+        "scanned": 413,
+        "frontmatterMissing": 4,
+        "brokenLinks": 1,
+        "healed": 0,
+        "dryRun": false,
+        "recentIssues": [
+          {
+            "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/moa-bay-mining-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/nicaro-nickel-processing-facility.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/_errors.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          }
+        ]
+      },
+      "status": "PASS",
+      "summary": "Health Score: 92/100 (413 files scanned)"
+    },
+    {
+      "id": "trm-bot",
+      "name": "TRM Gap Triage & RFC Drafter",
+      "schedule": "Daily 04:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-22T08:00:02.159Z",
+        "elapsedMs": 9,
+        "totalGaps": 2056,
+        "pending": 0,
+        "drafted": 2056,
+        "resolved": 0,
+        "triagedCount": 0,
+        "generatedRfcs": [],
+        "dryRun": false
+      },
+      "status": "PASS",
+      "summary": "2056 total gaps (2056 drafted)"
+    },
+    {
+      "id": "watchlist-miner",
+      "name": "Watchlist & Competitor Drift Miner",
+      "schedule": "Daily 05:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-22T09:00:03.303Z",
+        "elapsedMs": 1503,
+        "status": "DRIFT_DETECTED",
+        "totalWatchlists": 3,
+        "targetsEvaluated": 3,
+        "driftsDetected": 3,
+        "driftFindings": [
+          {
+            "watchlistId": "trm:watchlist:google-sam-mesh",
+            "competitorName": "Google Sovereign Agent Mesh",
+            "targetId": "sam-p2p-repository",
+            "url": "https://github.com/google/sam",
+            "baselineHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "observedHash": "2b956b0eead179eb6d085f035ba5594c4cb52c3b76401ebe9176d7942d2d72a4",
+            "wikiPath": "wiki/research/competitor-drift-google-sam.md"
+          },
+          {
+            "watchlistId": "trm:watchlist:anthropic-computer-use",
+            "competitorName": "Anthropic Computer Use & Agent Workflows",
+            "targetId": "anthropic-quickstarts",
+            "url": "https://github.com/anthropics/anthropic-quickstarts",
+            "baselineHash": "c0ffee0000000000000000000000000000000000000000000000000000000000",
+            "observedHash": "afb6c532b499c0b63bcc92976403e8533b668cc7aa97122e0ac2e5c323911dc7",
+            "wikiPath": "wiki/research/competitor-drift-anthropic-computer-use.md"
+          },
+          {
+            "watchlistId": "trm:watchlist:openai-swarm-agents",
+            "competitorName": "OpenAI Swarm & Handoff Framework",
+            "targetId": "openai-swarm",
+            "url": "https://github.com/openai/swarm",
+            "baselineHash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+            "observedHash": "05cc804a37143eefa54f31a1761a04a628b508c214862e72c6b4344428d2a004",
+            "wikiPath": "wiki/research/competitor-drift-openai-swarm.md"
+          }
+        ],
+        "dryRun": false
+      },
+      "status": "DRIFT_DETECTED",
+      "summary": "3 targets evaluated (3 drifts)"
+    },
+    {
+      "id": "daemon-healer",
+      "name": "Daemon-Healer Port 8080 Supervisor",
+      "schedule": "Every 15 Min",
+      "telemetry": {
+        "timestamp": "2026-09-22T11:58:54.248Z",
+        "elapsedMs": 9,
+        "targetUrl": "http://127.0.0.1:8080/dashboard",
+        "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
+        "status": "HEALTHY",
+        "initialProbe": {
+          "ok": true,
+          "statusCode": 200,
+          "uiProbe": {
+            "ok": true,
+            "statusCode": 200,
+            "headers": {
+              "content-type": "text/html; charset=UTF-8",
+              "date": "Tue, 22 Sep 2026 11:58:54 GMT",
+              "connection": "keep-alive",
+              "keep-alive": "timeout=5",
+              "transfer-encoding": "chunked"
+            },
+            "payloadValid": true,
+            "preview": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, in"
+          },
+          "apiProbe": {
+            "ok": true,
+            "statusCode": 200,
+            "headers": {
+              "content-type": "application/json; charset=UTF-8",
+              "access-control-allow-origin": "*",
+              "date": "Tue, 22 Sep 2026 11:58:54 GMT",
+              "connection": "keep-alive",
+              "keep-alive": "timeout=5",
+              "transfer-encoding": "chunked"
+            },
+            "payloadValid": true,
+            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-22\",\"timestamp\":\"2026-09-22T11:45:25.077Z\",\"elapsedMs\":6,\"fleetHealthScore\":"
+          }
+        },
+        "healed": false,
+        "restartedPid": null,
+        "dryRun": false
+      },
+      "status": "HEALTHY",
+      "summary": "Port 8080 status: HEALTHY (healed: false)"
+    },
+    {
+      "id": "ci-watchdog",
+      "name": "CI-Watchdog Workflow Failure Triage",
+      "schedule": "Daily 06:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-22T12:04:44.254Z",
+        "elapsedMs": 1748,
+        "status": "HEALTHY",
+        "scannedCount": 10,
+        "activeCount": 0,
+        "failureCount": 0,
+        "recentRuns": [
+          {
+            "id": 35723150200,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35702656832,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 35702448083,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 35684615038,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35684484926,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 35677399346,
+            "name": "Governance",
+            "branch": "fix/nlm-closed-loop-pack-replace-gate",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35677376692,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35658378697,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35657630324,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 35656717117,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "alerts": [],
+        "dryRun": false
+      },
+      "status": "HEALTHY",
+      "summary": "10 runs scanned (0 failures)"
+    }
+  ],
+  "summaryMetrics": {
+    "totalDocsIndexed": 460,
+    "wikiHealthScore": 92,
+    "totalResearchGaps": 2056,
+    "competitorDrifts": 3,
+    "daemonStatus": "HEALTHY",
+    "ciFailures": 0
+  },
+  "dryRun": false
+}

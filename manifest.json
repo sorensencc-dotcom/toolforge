@@ -110,7 +110,7 @@
     },
     {
       "version": "1.0.0",
-      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
+      "description": "Session wrap audit \u00e2\u20ac\u201d 12-point blind-spot assessment before termination",
       "timestamps": {
         "created": "2026-07-08T18:28:04.4823311Z",
         "lastValidation": "2026-07-09T03:21:53.3879858Z",
@@ -1371,8 +1371,8 @@
       "runtime": "typescript",
       "owner": "soren",
       "timestamps": {
-        "created": "2026-09-02T22:00:00.000Z",
-        "lastValidation": "2026-09-02T22:00:00.000Z",
+        "created": "2026-09-02T22:00:00Z",
+        "lastValidation": "2026-09-02T22:00:00Z",
         "lastRun": null
       },
       "tags": [
@@ -1403,8 +1403,8 @@
       "version": "1.0.0",
       "description": "End-to-end Topic Research Mining (TRM) closed-loop pipeline across all registered NotebookLM notebooks in trm-vault: multi-notebook mining, WhichLLM model selection, cognitive query expansion triage, Layer 2 wiki synthesis, and .nlm_pack compilation.",
       "timestamps": {
-        "created": "2026-08-30T22:30:00.000Z",
-        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "created": "2026-08-30T22:30:00Z",
+        "lastValidation": "2026-08-30T22:30:00Z",
         "lastRun": null
       },
       "tags": [
@@ -1442,8 +1442,8 @@
       "version": "1.0.0",
       "description": "Operational defect triage and resolution operator workflow for the TRM DevOps sync pipeline: inspect queue, claim defect, run deterministic diagnostic actions, verify fix, and prune remote sources.",
       "timestamps": {
-        "created": "2026-08-30T22:30:00.000Z",
-        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "created": "2026-08-30T22:30:00Z",
+        "lastValidation": "2026-08-30T22:30:00Z",
         "lastRun": null
       },
       "tags": [
@@ -1476,8 +1476,8 @@
       "version": "0.1.0",
       "description": "Diagnose a failed GitHub wiki sync by matching its log against the four known failure modes and printing the fix runbook",
       "timestamps": {
-        "created": "2026-08-30T22:30:00.000Z",
-        "lastValidation": "2026-08-30T22:30:00.000Z",
+        "created": "2026-08-30T22:30:00Z",
+        "lastValidation": "2026-08-30T22:30:00Z",
         "lastRun": null
       },
       "tags": [
@@ -1496,6 +1496,73 @@
       "health": {
         "canonical": true,
         "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Exposes governed Sigil task submission and inbox inspection to Grok Bot over MCP",
+      "timestamps": {
+        "created": "2026-09-06T21:40:14.1135732Z",
+        "lastValidation": "2026-09-06T21:40:14.1231593Z",
+        "lastRun": null
+      },
+      "tags": [
+        "sigil",
+        "mcp",
+        "grok",
+        "bridge",
+        "relay"
+      ],
+      "status": "active",
+      "name": "sigil-grok-bridge",
+      "runtime": "node",
+      "id": "sigil-grok-bridge",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "sync-tools",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [
+          "@modelcontextprotocol/sdk"
+        ],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Audits third-party Git repositories against upstream remotes for pending commits, tags, and patch status",
+      "timestamps": {
+        "created": "2026-09-20T10:34:00.0000000Z",
+        "lastValidation": "2026-09-20T10:34:00.0000000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "git",
+        "third-party",
+        "audit",
+        "upstream"
+      ],
+      "status": "active",
+      "name": "third-party-repo-auditor",
+      "runtime": "powershell",
+      "id": "third-party-repo-auditor",
+      "entrypoint": "src/audit.ps1",
+      "owner": "soren",
+      "category": "observability",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
         "distributed": true,
         "overall": "good"
       },
@@ -1538,13 +1605,13 @@
     }
   ],
   "summary": {
-    "total": 49,
+    "total": 53,
     "health_error": 0,
     "deprecated": 0,
-    "active": 49,
-    "health_good": 49,
+    "active": 53,
+    "health_good": 51,
     "health_warn": 0
   },
-  "timestamp": "2026-09-04T18:00:00Z",
+  "timestamp": "2026-09-20T10:34:00.0000000Z",
   "version": "1.2.0"
 }

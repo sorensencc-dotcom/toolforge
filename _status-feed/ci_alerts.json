@@ -1,0 +1,82 @@
+{
+  "timestamp": "2026-09-22T12:04:44.254Z",
+  "elapsedMs": 1748,
+  "status": "HEALTHY",
+  "scannedCount": 10,
+  "activeCount": 0,
+  "failureCount": 0,
+  "recentRuns": [
+    {
+      "id": 35723150200,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35702656832,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 35702448083,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 35684615038,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35684484926,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 35677399346,
+      "name": "Governance",
+      "branch": "fix/nlm-closed-loop-pack-replace-gate",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35677376692,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35658378697,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 35657630324,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 35656717117,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "alerts": [],
+  "dryRun": false
+}

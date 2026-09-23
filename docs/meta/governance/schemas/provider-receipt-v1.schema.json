@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cic:provider-receipt:v1",
+  "title": "Hybrid provider receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "operator_id": { "type": "string", "minLength": 1 },
+    "credential_steward": { "type": "string", "minLength": 1 },
+    "provider": { "type": "string", "minLength": 1 },
+    "model": { "type": "string", "minLength": 1 },
+    "requested_provider": { "type": "string", "minLength": 1 },
+    "requested_model": { "type": "string", "minLength": 1 },
+    "echo_provider": { "type": "string", "minLength": 1 },
+    "echo_model": { "type": "string", "minLength": 1 },
+    "echo_mismatch": { "type": "boolean" },
+    "echo_mismatch_code": { "type": "string", "enum": ["PROVIDER_MISMATCH", "MODEL_MISMATCH", "BOTH_MISMATCH"] },
+    "routing_state": { "type": "string", "enum": ["local", "cloud-approved", "rejected"] },
+    "input_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "output_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "envelope_id": { "type": "string", "minLength": 1 },
+    "runtime_owner_version": { "type": "string", "minLength": 1 },
+    "tier_classification": { "type": "string", "enum": ["tier1", "tier2", "tier3"] },
+    "status": { "type": "string", "enum": ["CANDIDATE", "APPROVED"] },
+    "approved_by": { "type": "string" },
+    "approved_at": { "type": "string", "format": "date-time" }
+  },
+  "required": ["receipt_id", "timestamp", "operator_id", "credential_steward", "provider", "model", "requested_provider", "requested_model", "echo_provider", "echo_model", "echo_mismatch", "routing_state", "input_hash", "output_hash", "envelope_id", "runtime_owner_version", "tier_classification", "status"]
+}

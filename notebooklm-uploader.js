@@ -7,41 +7,19 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { styleText } from 'node:util';
+import { loadCategoriesData } from './kb-sync/core/config.mjs';
 import { purgePackFamilyBeforeUpload } from './scripts/nlm-pack-replace-gate.mjs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const REPO_ROOT = __dirname;
+const REPO_ROOT = import.meta.dirname;
 
-const COLOR = {
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  cyan: '\x1b[36m',
-  reset: '\x1b[0m',
-  bold: '\x1b[1m'
-};
+const logInfo = (msg) => console.log(`${styleText('green', '[NLM-UPLOADER] [INFO]')} ${msg}`);
+const logWarn = (msg) => console.log(`${styleText('yellow', '[NLM-UPLOADER] [WARN]')} ${msg}`);
+const logError = (msg) => console.error(`${styleText('red', '[NLM-UPLOADER] [ERROR]')} ${msg}`);
 
-const logInfo = (msg) => console.log(`${COLOR.green}[NLM-UPLOADER] [INFO]${COLOR.reset} ${msg}`);
-const logWarn = (msg) => console.log(`${COLOR.yellow}[NLM-UPLOADER] [WARN]${COLOR.reset} ${msg}`);
-const logError = (msg) => console.error(`${COLOR.red}[NLM-UPLOADER] [ERROR]${COLOR.reset} ${msg}`);
-
-function loadCategories() {
-  const catPath = path.join(REPO_ROOT, 'kb-sync/core/categories.json');
-  if (fs.existsSync(catPath)) {
-    try {
-      return JSON.parse(fs.readFileSync(catPath, 'utf8'));
-    } catch (e) {
-      logWarn(`Failed to parse categories.json: ${e.message}`);
-    }
-  }
-  return { categories: {} };
-}
-
-function resolveTargetNotebook() {
+export function resolveTargetNotebook(argv = process.argv.slice(2)) {
   // 1. Check CLI args
-  for (const arg of process.argv.slice(2)) {
+  for (const arg of argv) {
     if (arg.startsWith('--notebook=')) return arg.split('=')[1].trim();
     if (arg.startsWith('--notebook-id=')) return arg.split('=')[1].trim();
   }
@@ -50,34 +28,27 @@ function resolveTargetNotebook() {
     return process.env.NOTEBOOK_ID.trim();
   }
   // 3. Check category arg
-  for (const arg of process.argv.slice(2)) {
+  for (const arg of argv) {
     if (arg.startsWith('--category=')) {
       const cat = arg.split('=')[1].trim().toLowerCase();
-      const catData = loadCategories();
-      if (catData.categories[cat]?.target) {
-        return catData.categories[cat].target;
-      }
+      const category = loadCategoriesData().categories?.[cat];
+      if (!category?.target) throw new Error(`CATEGORY_NOT_FOUND: ${cat}`);
+      return category.target;
     }
   }
-  // Default to Willow Run
-  return '6fd7c40b-df90-444b-9c7a-a64682925856';
+  throw new Error('NOTEBOOK_TARGET_REQUIRED: provide --notebook, --notebook-id, --category, or NOTEBOOK_ID');
 }
 
-function resolvePackFile(notebookId) {
+export function resolvePackFile(notebookId, argv = process.argv.slice(2)) {
   // Check CLI override
-  for (const arg of process.argv.slice(2)) {
+  for (const arg of argv) {
     if (arg.startsWith('--file=')) return path.resolve(REPO_ROOT, arg.split('=')[1].trim());
     if (arg.startsWith('--pack=')) return path.resolve(REPO_ROOT, arg.split('=')[1].trim());
   }
 
-  const catData = loadCategories();
-  let categoryKey = 'willow-run';
-  for (const [key, catDef] of Object.entries(catData.categories || {})) {
-    if (catDef.target === notebookId) {
-      categoryKey = key;
-      break;
-    }
-  }
+  const categories = loadCategoriesData().categories || {};
+  const categoryKey = Object.entries(categories).find(([, catDef]) => catDef.target === notebookId)?.[0];
+  if (!categoryKey) throw new Error(`CATEGORY_NOT_FOUND: no category targets notebook ${notebookId}`);
 
   const safeFilename = `pack_${categoryKey.replace(/-/g, '_').replace(/[^a-zA-Z0-9_]/g, '_')}.txt`;
   return path.join(REPO_ROOT, '.nlm_pack', safeFilename);
@@ -128,8 +99,8 @@ async function main() {
   const packFile = resolvePackFile(notebookId);
 
   logInfo(`Initializing NotebookLM Headless Uploader...`);
-  logInfo(`Target Notebook ID: ${COLOR.bold}${notebookId}${COLOR.reset}`);
-  logInfo(`Target Knowledge Pack: ${COLOR.bold}${packFile}${COLOR.reset}`);
+  logInfo(`Target Notebook ID: ${styleText('bold', notebookId)}`);
+  logInfo(`Target Knowledge Pack: ${styleText('bold', packFile)}`);
 
   if (!fs.existsSync(packFile)) {
     logWarn(`Pack file ${packFile} does not exist. Running consolidation first...`);
@@ -168,7 +139,7 @@ async function main() {
     }
   }
 
-    const packBaseName = path.basename(packFile);
+  const packBaseName = path.basename(packFile);
   logInfo(`Found ${existingSources.length} total source(s) before replace-gate.`);
 
   // Step 2: Purge pack-family sources BEFORE upload (≤1 logical pack family).
@@ -187,7 +158,7 @@ async function main() {
     process.exit(1);
   }
 
-  // Step 3: Upload fresh pack
+  // Step 3: Upload fresh pack (Staged upload)
   logInfo(`Uploading fresh pack '${packBaseName}' to NotebookLM...`);
   const uploadRes = runNlm(runner, ['source', 'add', notebookId, '--file', packFile], false);
   if (uploadRes.status !== 0) {
@@ -195,14 +166,15 @@ async function main() {
     process.exit(1);
   }
   logInfo(`✓ Fresh knowledge pack successfully uploaded to NotebookLM!`);
-  }
 
   logInfo(`================================================================================`);
   logInfo(`✓ Headless upload workflow completed successfully for Notebook: ${notebookId}`);
   logInfo(`================================================================================`);
 }
 
-main().catch(err => {
-  logError(`Fatal upload error: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
+  main().catch(err => {
+    logError(`Fatal upload error: ${err.message}`);
+    process.exit(1);
+  });
+}

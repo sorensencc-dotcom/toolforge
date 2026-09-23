@@ -25,23 +25,23 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import * as os from 'os';
+import { replaceGate } from './nlm-pack-replace-gate.mjs';
+
 
 // ---------------------------------------------------------------------------
 // Configuration
 // ---------------------------------------------------------------------------
 
 const TRM_CLI       = process.env.TRM_BIN        ?? 'node "C:\\dev\\trm\\dist\\cli\\index.js"';
-const NLM_CLI       = process.env.NOTEBOOKLM_BIN ?? 'notebooklm';
+const NLM_CLI       = process.env.NOTEBOOKLM_BIN ?? 'nlm';
 const TRM_VAULT     = process.env.TRM_VAULT       ?? 'C:\\Users\\soren\\trm-vault';
 const GAPS_OUT_DIR  = path.join(TRM_VAULT, 'trm', 'research-gaps');
 const BFCL_DRY_RUN  = process.env.BFCL_DRY_RUN  === '1'; // skip live notebooklm push
 const SKIP_MINE     = process.env.TRM_SKIP_MINE  === '1'; // skip Step 1 re-mine (use existing vault file)
 
-import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/config.mjs';
-import {
-  purgePackFamilyBeforeUpload,
-  buildNotebookLmUploadCommand as buildUploadCmdFromGate,
-} from './nlm-pack-replace-gate.mjs';
+import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs';
+import { deduplicateMinedGaps, loadGapAliases } from './gap-normalizer.mjs';
+import { parseGapItems } from '../kb-sync/modules/trm/gap-triage-engine.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -257,7 +257,55 @@ async function run() {
     '',
   ].join('\n');
 
-  fs.writeFileSync(repoGapsFilePath, repoGapsHeader + primaryGapsContent, 'utf8');
+  // Preserve existing Triage & Resolution Registry if present and run deduplication
+  const aliasFilePath = path.join(repoRoot, 'kb-sync', 'data', 'trm-gap-aliases.json');
+  const aliasMap = loadGapAliases(aliasFilePath);
+
+  let existingRegistryItems = [];
+  let existingRegistry = '';
+  if (fs.existsSync(repoGapsFilePath)) {
+    const prev = fs.readFileSync(repoGapsFilePath, 'utf8');
+    const match = prev.match(/## Triage & Resolution Registry[\s\S]*$/);
+    if (match) {
+      existingRegistry = '\n\n' + match[0].trim() + '\n';
+      existingRegistryItems = parseGapItems(match[0]);
+    }
+  }
+
+  // Parse candidate table rows from mined gaps content for cross-notebook deduplication
+  const minedTableLines = primaryGapsContent.split(/\r?\n/);
+  const minedCandidates = [];
+  for (const line of minedTableLines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('|') && !trimmed.startsWith('| Question') && !trimmed.startsWith('|---')) {
+      const cells = trimmed.split('|').map(c => c.trim()).filter(Boolean);
+      if (cells.length >= 5) {
+        minedCandidates.push({
+          title: cells[0],
+          description: cells[1],
+          notebookName: cells[2],
+          firstSeen: cells[3],
+          entryKey: cells[4],
+          raw: line
+        });
+      }
+    }
+  }
+
+  if (minedCandidates.length > 0) {
+    const dedupReport = deduplicateMinedGaps(minedCandidates, existingRegistryItems, aliasMap);
+    if (dedupReport.retiredSuppressions.length > 0) {
+      logInfo(`✓ Auto-suppressed ${dedupReport.retiredSuppressions.length} previously resolved/retired gap(s):`);
+      for (const supp of dedupReport.retiredSuppressions) {
+        logInfo(`  • Suppressed: [${supp.canonicalGapId}] '${supp.candidate.title}' (${supp.reason})`);
+      }
+    }
+    if (dedupReport.mergedOccurrences.length > 0) {
+      logInfo(`✓ Merged ${dedupReport.mergedOccurrences.length} cross-notebook gap occurrence(s) under existing canonical IDs.`);
+    }
+  }
+
+  fs.writeFileSync(repoGapsFilePath, repoGapsHeader + primaryGapsContent.trim() + existingRegistry, 'utf8');
   logInfo(`✓ Consolidated vault snapshot written to: ${repoGapsFilePath}`);
 
   // =========================================================================
@@ -268,16 +316,38 @@ async function run() {
   logInfo(`Resolved category: '${resolvedCategory}' → ${targetGapsNbId}`);
   logInfo(`Uploading ${path.basename(repoGapsFilePath)} to NotebookLM (${targetGapsNbId})...`);
 
-  const nlmUploadCmd = buildNotebookLmUploadCommand({
-    cli: NLM_CLI,
-    notebookId: targetGapsNbId,
-    file: repoGapsFilePath,
-  });
-  if (!shouldExecuteNotebookLmUpload(BFCL_DRY_RUN)) {
-    logWarn(`[DRY RUN] Would execute: ${nlmUploadCmd}`);
+  const gapsBaseName = path.basename(repoGapsFilePath);
+  if (BFCL_DRY_RUN) {
+    logWarn(`[DRY RUN] Would upload ${repoGapsFilePath} to ${targetGapsNbId}`);
   } else {
     try {
-      shInherit(nlmUploadCmd);
+      // 1. Pre-upload deduplication sweep: prune prior instances of gaps before uploading
+      try {
+        const out = sh(`nlm source list "${targetGapsNbId}" --json`);
+        const parsed = JSON.parse(out);
+        const existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
+        const staleSources = existingSources.filter(s => {
+          const title = (s.title || s.name || '').toLowerCase().trim();
+          return title === gapsBaseName.toLowerCase() || title === 'trm-research-gaps.md' || title === 'mined research gaps and topics registry';
+        });
+
+        if (staleSources.length > 0) {
+          logInfo(`Pruning ${staleSources.length} prior/stale gaps source(s) before upload...`);
+          for (const stale of staleSources) {
+            try {
+              sh(`nlm source delete "${stale.id}" -y`);
+              logInfo(`  ✓ Pruned prior gaps source: ${stale.id}`);
+            } catch (delErr) {
+              logWarn(`  Failed to delete source ${stale.id}: ${delErr.message}`);
+            }
+          }
+        }
+      } catch (e) {
+        logWarn(`Deduplication check skipped or failed for notebook ${targetGapsNbId}: ${e.message}`);
+      }
+
+      // 2. Upload fresh gaps
+      sh(`nlm source add "${targetGapsNbId}" --file "${repoGapsFilePath}"`);
       logInfo('✓ Gaps file ingested into NotebookLM as a grounded text source.');
     } catch (err) {
       logWarn(`NotebookLM upload failed (non-fatal): ${err.message}`);
@@ -397,9 +467,12 @@ async function run() {
 
   const packDefs = [
     { filename: 'pack_willow_run.txt',      category: 'willow-run' },
-    { filename: 'pack_ford_politics.txt',   category: 'ford-politics' },
-    { filename: 'pack_willys_overland.txt', category: 'post-war' },
-    { filename: 'pack_cuban_seizures.txt',  category: 'cuban-seizures' },
+    { filename: 'pack_cuba_claims.txt',     category: 'cuba-claims' },
+    { filename: 'pack_miami_estate.txt',    category: 'miami-estate' },
+    { filename: 'pack_assembly_line.txt',   category: 'assembly-line' },
+    { filename: 'pack_ironledger.txt',      category: 'ironledger' },
+    { filename: 'pack_sigil.txt',           category: 'sigil' },
+    { filename: 'pack_agent_harness.txt',   category: 'agent-harness' },
     { filename: 'pack_master_kb.txt',       category: 'master-kb' },
   ];
 
@@ -419,46 +492,36 @@ async function run() {
     ].join('\n');
 
     for (const src of sources) {
-      payload += `\n--- SOURCE: ${src.title} ---\n${src.content}\n`;
+      payload += `\n--- SOURCE: ${src.title} ---\n`;
+      payload += `<!-- PROVENANCE: synthesized_canonical_resolution | GENERATION_TIMESTAMP: ${nowIso} -->\n`;
+      payload += `${src.content}\n`;
     }
 
     fs.writeFileSync(packFilePath, payload, 'utf8');
     const sizeKb = (fs.statSync(packFilePath).size / 1024).toFixed(2);
     logInfo(`✓ Pack emitted: ${packFilePath} (${sizeKb} KB, ${sources.length} source(s))`);
 
-    const pushCmd = buildNotebookLmUploadCommand({
-      cli: NLM_CLI,
-      notebookId: targetNbId,
-      file: packFilePath,
-    });
-    if (!shouldExecuteNotebookLmUpload(BFCL_DRY_RUN)) {
-      logWarn(`[DRY RUN] Would replace-gate + push: ${pushCmd}`);
-      try {
-        purgePackFamilyBeforeUpload({
-          cli: NLM_CLI,
-          notebookId: targetNbId,
-          packFile: packFilePath,
-          dryRun: true,
-          logInfo,
-          logWarn,
-        });
-      } catch (err) {
-        logWarn(`  Replace-gate dry-run failed for ${filename}: ${err.message}`);
-      }
+    const packBaseName = path.basename(packFilePath);
+    if (!targetNbId || targetNbId.startsWith('<')) {
+      logInfo(`[SKIP LIVE PUSH] Target '${category}' is using placeholder ID '${targetNbId}'. Pack saved locally.`);
+      continue;
+    }
+
+    if (BFCL_DRY_RUN) {
+      logWarn(`[DRY RUN] Would push: ${packFilePath} → ${targetNbId}`);
     } else {
       try {
-        purgePackFamilyBeforeUpload({
-          cli: NLM_CLI,
-          notebookId: targetNbId,
-          packFile: packFilePath,
-          dryRun: false,
-          logInfo,
-          logWarn,
+        await replaceGate({
+          packFile:   packFilePath,
+          targetNbId,
+          category,
+          nlmCli:     NLM_CLI,
+          dryRun:     false,
+          repoRoot:   path.resolve('.'),
         });
-        shInherit(pushCmd);
         logInfo(`  ✓ Pushed ${filename} → '${category}' (${targetNbId})`);
       } catch (err) {
-        logWarn(`  NotebookLM push failed for ${filename} (non-fatal): ${err.message}`);
+        logWarn(`NotebookLM push failed for ${filename} (non-fatal): ${err.message}`);
       }
     }
   }

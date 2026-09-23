@@ -1,0 +1,2 @@
+class BaseAgentAdapter { constructor(id) { this.id=id; } async sync() { throw new Error('sync() must be implemented'); } receipt(targetFile,status,errorCode,error) { return {adapter:this.id,targetFile,status,changesMade:status==='CREATED'||status==='UPDATED',...(errorCode&&{errorCode}),...(error&&{error})}; } normalize(receipts=[]) { return receipts.sort((a,b)=>a.targetFile.localeCompare(b.targetFile)); } }
+module.exports={BaseAgentAdapter};

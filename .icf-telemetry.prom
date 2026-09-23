@@ -1,0 +1,27 @@
+# HELP icf_worktrees_active Number of active git worktrees monitored by ICF
+# TYPE icf_worktrees_active gauge
+icf_worktrees_active 88
+
+# HELP icf_worktrees_dirty Number of uncommitted or dirty git worktrees
+# TYPE icf_worktrees_dirty gauge
+icf_worktrees_dirty 83
+
+# HELP icf_vault_staging_active Whether vault staging directory is active
+# TYPE icf_vault_staging_active gauge
+icf_vault_staging_active 1
+
+# HELP icf_vault_staged_batches Count of pending sync batches in staging
+# TYPE icf_vault_staged_batches gauge
+icf_vault_staged_batches 4
+
+# HELP icf_vault_concurrency_locked Whether serial merge queue lock is active
+# TYPE icf_vault_concurrency_locked gauge
+icf_vault_concurrency_locked 0
+
+# HELP icf_vault_recovery_pending Whether WAL recovery manifest is pending
+# TYPE icf_vault_recovery_pending gauge
+icf_vault_recovery_pending 0
+
+# HELP icf_status_clean ICF gate health status (1 = CLEAN, 0 = DEGRADED)
+# TYPE icf_status_clean gauge
+icf_status_clean 0

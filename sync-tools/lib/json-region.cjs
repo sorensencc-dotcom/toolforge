@@ -1,0 +1,2 @@
+function mutate(input, vaultRoot) { const text=input.charCodeAt(0)===0xfeff?input.slice(1):input; const nl=text.includes('\r\n')?'\r\n':'\n'; const indent=(text.match(/\n([ \t]+)[^ \t\r\n]/)||[])[1]||'  '; const obj=JSON.parse(text); obj.toolforge_memory={vault_root:vaultRoot, architecture:'Index', conventions:'wiki-schema', log:'Log'}; return JSON.stringify(obj,null,indent)+nl; }
+module.exports={mutate};

@@ -1,4 +1,166 @@
+<!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
+> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
+- Canonical Knowledge Base Root: C:\dev\kb-sync\obsidian\vault\wiki
+- Ingest Guidelines: docs/targets/obsidian.md
+- Primary Architecture Graph: [[Index]]
+- Active Conventions: [[wiki-schema]]
+- Log Audit Trail: [[Log]]
+- Repository Target: dev
+<!-- TOOLFORGE-VAULT-POINTER-END -->
+
 # Project status
+
+## Ironbots Autonomous Fleet & Unattended S4U Automation (2026-09-21)
+
+### Active goal
+Deploy and supervise zero-token autonomous background robot fleet (`\Ironbots\`) running 24/7 unattended via Windows Task Scheduler `S4U` logon, synchronize ICF interactive dashboard telemetry, and enforce mandatory documentation-first discipline before code commits.
+
+### Policy & discipline
+- **Documentation-First Rule**: All architectural updates, bot specifications, Cathryn Lavery warm-palette diagrams (`.html` + `.png`), Remote Wiki nodes, and ICF dashboard matrix entries must be fully authored and verified *before* creating any new code commits.
+- **Unattended Execution (`S4U`)**: All Ironbots must use `New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U -RunLevel Highest` to execute without requiring an active user logon and without storing passwords.
+- **Deterministic Zero-Token Design**: Pure Node.js ESM and PowerShell scripts with SHA-256 state tracking, structured `_status-feed/*.json` telemetry, and local SQLite FTS5 matching.
+
+### Completed work
+- Built, tested, and registered 4 active Ironbots in `\Ironbots\`:
+  1. `KB-Sentinel`: Wiki frontmatter linting and link autohealing.
+  2. `TRM-Bot`: Research gap triage and RFC note drafting.
+  3. `Daemon-Healer`: Port 8080 ICF Gateway supervision and auto-restart.
+  4. `CI-Watchdog`: GitHub Actions workflow audit and failure log extractor.
+- Registered dedicated Ironbots fleet panel in ICF Dashboard at `http://127.0.0.1:8080/dashboard` under Tab 06 (*Operations & Automation*).
+- Created Remote Wiki specification (`wiki/Ironbots.md`), Cathryn Lavery visual design standard diagram (`wiki/ironbots-autonomous-architecture.html` + `.png`), and ICF architecture documentation (`icf/docs/ironbots-autonomous-agent-pipeline.md`).
+- Authored test suite `tests/ironbots.test.mjs` with 5 passing tests, satisfying Delivery Guard automation policy.
+- Pushed commits to remote branches in both `toolforge` (`parkd821-20260908`) and `icf` (`codex/weekly-retro-reporting`).
+
+### Next action
+- Author documentation and architecture specs for Bot 5 (`Notebook-Ingester`) and Bot 6 (`Watchlist-Miner`) before committing new bot code.
+
+### Completed work
+- Installed and registered `ponytail` plugin in Antigravity configuration.
+- Executed `/ponytail-audit` and reviewed findings across CLI, DB migration, test harnesses, and maintenance scripts.
+- Migrated CLI commands (`src/cli/commands/search.js`, `src/cli/commands/list.js`, `src/cli/commands/install.js`) from `axios` to native `fetch()` and `URL` query parameter builders.
+- Replaced ESM `fileURLToPath(import.meta.url)` and `path.dirname()` boilerplate in `src/db/migrate.js`, `src/e2e/harness.js`, and `notebooklm-uploader.js` with `import.meta.dirname` / `import.meta.filename`.
+- Replaced manual ANSI escape strings in `test-watchlist-run.mjs` and `notebooklm-uploader.js` with `styleText()` from `node:util`.
+- Replaced custom `expect()` error-throwing logic in `src/e2e/harness.js` with `assert.ok()` from `node:assert/strict`.
+
+### Decisions
+- Retain `createResilientDb` in `src/db/connect.js` as it is explicitly covered by unit test contracts in `src/api/server.test.js`.
+- Adopt native Node.js 24 platform primitives to reduce external dependencies and custom boilerplate.
+
+### Verification
+- Repository preflight: `PREFLIGHT_PASS` (`pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path C:\dev`).
+- Test suite: 226 passed, 0 failed, 1 skipped (`npm test`).
+
+### Next action
+- Continue active multi-agent tasks in `GEMINI.md`.
+
+## Iron Command Forge (ICF) Standalone Repository Migration — Phase 1 Audit & Phase 2 Scaffolding (2026-09-19)
+
+### Active goal
+Migrate Iron Command Forge (ICF) into its dedicated standalone repository at `C:\dev\icf` (`sorensencc-dotcom/icf`), establish root manifest contracts, unify HTTP gateway and API projections, decouple web dashboard assets, and configure background daemon supervision.
+
+### Completed work
+- Executed Phase 1 Code & Wiki Audit:
+  - Audited legacy components in `C:\dev\kb-sync\modules\wiki`, `C:\dev\kb-sync\server.mjs`, and `C:\dev\icf\reporting`.
+  - Authored Cathryn Lavery visual design standard diagram in standalone HTML+SVG (`C:\dev\icf\docs\icf-architecture-diagram.html`) and rendered 88.5 KB PNG asset.
+  - Authored canonical concept note in Obsidian vault (`C:\dev\kb-sync\obsidian\vault\wiki\concepts\iron-command-forge.md`) with embedded PNG and Mermaid details.
+  - Executed OpenAI Codex CLI independent review and `/caveman-review`, cataloging and locking 10 acceptance gates.
+- Executed Phase 2 Scaffolding & Consolidation:
+  - Created root `package.json` with npm workspaces (`reporting`, `dashboard`) and unified `test`, `test:gateway`, `start`, and `build` scripts.
+  - Created `dashboard/package.json` and migrated dashboard assets (`dashboard/index.html`, `dashboard/support.js`, and `dashboard/_ds/`).
+  - Implemented authoritative `src/server.mjs` gateway uniting static asset hosting, strict path traversal boundary checks (`safePath.startsWith(DASHBOARD_DIR + sep)`), `LocalFileAdapterTransport`, and reporting API endpoints (`/api/reporting/weekly-retro/*`).
+  - Modernized `scripts/ensure-dashboard-server.ps1` and `scripts/register-dashboard-server-task.ps1` to target `C:\dev\icf`, probe `/dashboard` and API endpoints, and supervise the `ICF-Dashboard-Server` Scheduled Task.
+  - Added root gateway integration test suite (`test/gateway.test.mjs`) asserting HTTP 200 on `/dashboard` and `/api/reporting/weekly-retro/categories`, plus 403 on path traversal attacks.
+  - Authored authoritative standalone `README.md`.
+  - Pushed commit `cef8677` to remote branch `codex/weekly-retro-reporting` in `sorensencc-dotcom/icf`.
+- Synchronized GitHub Remote Wiki (`sorensencc-dotcom/icf.wiki.git`):
+  - Populated `Home.md` with system overview, architecture diagram, and quick-start guides.
+  - Added `Architecture.md` specifying four core subsystems and embedding the Cathryn Lavery diagram and Mermaid source.
+  - Added `Reporting-Engine.md` documenting SQLite snapshot stores, schema migrations 001-005, rolling trend algorithms, and action continuity.
+  - Added `Web-Dashboard.md` detailing Cast Iron Charlie design tokens, typography, and `<weekly-reporting-dashboard>` component bindings.
+  - Added `Operations-Guide.md` with daemon commands, Scheduled Task registration, and preflight health checks.
+  - Added `_Sidebar.md` navigation and `_Footer.md`.
+  - Committed and pushed commit `d4b14b5` to `origin/master` of the remote wiki repository.
+
+### Decisions
+- Lock npm workspaces across `./reporting` and `./dashboard` to anchor root repository preflight and scripts.
+- Enforce strict path traversal check requiring all static file requests to resolve within `DASHBOARD_DIR`.
+- Combine file-based weekly retro caching with dynamic SQLite reporting projection fallbacks in `src/server.mjs`.
+- Maintain dedicated GitHub Wiki repository (`icf.wiki.git`) alongside the Obsidian vault concept notes to ensure public GitHub documentation parity.
+
+### Verification
+- Repository preflight: `PREFLIGHT_PASS` (`pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path C:\dev\icf`).
+- Test suite: 84 passed, 0 failed across all suites (`npm test` executing 83 reporting tests + 1 gateway integration test).
+- Live gateway server: tested via `ensure-dashboard-server.ps1`, responding HTTP 200 on `http://127.0.0.1:8080/dashboard`.
+- GitHub Remote Branch: commit `cef8677` live on `sorensencc-dotcom/icf` (`codex/weekly-retro-reporting`).
+- GitHub Remote Wiki: commit `d4b14b5` live on `sorensencc-dotcom/icf.wiki` (`master`).
+
+### Next action
+1. Update `C:\dev\kb-sync\package.json` dashboard scripts to point to `C:\dev\icf` or invoke `ensure-dashboard-server.ps1`.
+2. Open Pull Request on GitHub for branch `codex/weekly-retro-reporting`.
+
+## WhichLLM Evaluator Recovery, Empirical Benchmarking & Helix Defense Architecture (2026-09-13)
+
+### Active goal
+Implement the WhichLLM Model Selection Evaluator in TRM (`C:\dev\trm`) with live empirical BFCL tool-calling benchmarks, strict bounded parser, fail-closed negative relevance safety enforcement, automated TRM research cascade (`Local` -> `Claude` -> `Antigravity` -> `Codex` -> `Grok`), fail-closed user-driven Helix model selection flow (`C:\dev\helix`), and `IcfTelemetryReporter` contract.
+
+### Completed work
+- Fixed `@cic/delivery-guard` npm workspace resolution in `CIC-GOVERNANCE`.
+- Resolved POSIX/Windows shell binary lookup in `CIC-GOVERNANCE/packages/delivery-guard/tests/installed-hook.test.js` via `resolveShell()`, achieving 100% test pass across all 248 tests in 50 suites (`npm run test:whichllm`).
+- Recovered and verified the authoritative WhichLLM model selection evaluator specification from `wiki/research/whichllm-model-selection-evaluator.md`.
+- Implemented native WhichLLM evaluator modules in TRM (`C:\dev\trm`):
+  - `src/whichllm/ollamaClient.ts`: Live Ollama model discovery via `GET http://localhost:11434/api/tags`.
+  - `src/whichllm/bfclSuite.ts`: 4 deterministic BFCL scoring disciplines, parameter sizing heuristics, and hardware-aware VRAM fit classification.
+  - `src/whichllm/inferenceRunner.ts`: Real-time BFCL tool-calling prompt execution via POST `/api/chat` with strict bounded parsing (16 KB max, single candidate, schema check, whitelist of approved tools).
+  - `src/whichllm/toolCallScorer.ts`: Multi-sample empirical scoring ($N \ge 3$) calculating pass rates, per-discipline sample variances, mutually exclusive parser breakdowns, and per-scenario summaries.
+  - `src/whichllm/evaluator.ts`: Configured hardware profiling with host RAM probing (`os.totalmem()`), fail-closed tool-safety policy ($\ge 50\%$ relevance rejection threshold, suppressing local muscle anchor on failure), atomic artifact writes via temp file rename, candidate ranking, and canonical JSON SHA-256 self-integrity hashing (`hash_chain_self`).
+  - `src/whichllm/cascadeDispatcher.ts`: Automated multi-tier cloud fallback cascade (`Local` -> `Claude` -> `Antigravity` -> `Codex` -> `Grok`) with 429 rate-limit progression for TRM background research.
+  - `src/telemetry/icfReporter.ts`: Decoupled `IcfTelemetryReporter` adapter contract with graded severities (`INFO`, `WARN`, `CRITICAL`).
+  - `src/cli/commands/evalWhichllm.ts`, `src/cli/index.ts`, and `package.json`: Registered `npm run eval:whichllm` with `--live-inference`, `--samples`, `--timeout`, and `--allow-unsafe-relevance` flags.
+  - `docs/whichllm-evaluator.md`: Documented schema, provenance flags, and canonical hash invariants.
+- Hardened Helix transport in `C:\dev\helix`:
+  - `src/adapters/transport.ts`: `WhichLlmArtifactTransport` with SHA-256 hash validation, freshness/TTL checks, schema expansion, null local anchor handling (`UNAVAILABLE`), and local model installation verification.
+  - `tests/whichllm-artifact-transport.test.ts`: Added defense suite asserting null anchor returns `UNAVAILABLE` without dispatch, and verified invariant:
+    $$\text{Local Failure} \longrightarrow \text{UI Displays Choices} \longrightarrow \text{0 Dispatches} \longrightarrow \text{User Selects Model} \longrightarrow \text{User Presses Send} \longrightarrow \text{Exactly 1 Dispatch}$$
+- Executed live `node dist/cli/index.js eval-whichllm --live-inference --samples 3 --timeout 15000` against local Ollama, generating the hash-verified `_integration/model_selection.json` with 60 empirical attempts and local anchor suppressed due to relevance safety.
+
+### Decisions
+- Strictly prohibit manual edits to `_integration/model_selection.json`; enforce generation solely through executable TRM evaluator runs with canonical SHA-256 self-integrity hashing (`hash_chain_self`).
+- Suppress `local_muscle_anchor` to `null` when candidate models fail the $50\%$ negative relevance rejection threshold (preventing unsafe automated selection of models hallucinating tool calls).
+- Decouple background automated research recovery from user-facing interactive session routing.
+- Abstract ICF telemetry writes behind `IcfTelemetryReporter` interface to prevent uncoordinated writes to ICF-owned disk files.
+
+### Verification
+- `TRM` test suite: 91 passed, 0 failed, 794 tests passing (37/37 WhichLLM tests).
+- `Helix` test suite: 29 passed, 0 failed, 145 tests passing (`npm test`).
+- `CIC-GOVERNANCE` test suite: 248 passed, 0 failed across 50 test suites (`npm run test:whichllm`).
+- Live empirical `eval-whichllm` sweep ($N=3$, 60 attempts): PASS (Discovered 5 local models; suppressed local anchor due to 0% relevance rejection; atomic write completed; `hash_chain_self: d696bb3c...`).
+- Toolforge preflight verification: `PREFLIGHT_PASS` across all repositories.
+
+### Next action
+- Implement `nvidia-smi` hardware VRAM query utility to complement host RAM probing with live GPU telemetry.
+- Add Playwright browser E2E tests for Helix verifying prompt retention and single dispatch upon user submit.
+
+## Iron Command Forge (ICF) Command Center Unification (2026-09-09)
+
+### Active goal
+Integrate the CIC + Rewrite Labs Daily Project Status pipeline and Unified MCP Server Health Matrix into the KB-Sync Dashboard as the Iron Command Forge (ICF) portal at `http://127.0.0.1:8080/modules/wiki/dashboard.html`.
+
+### Completed work
+- Built and deployed the multi-tab Iron Command Forge (ICF) interface in `kb-sync/modules/wiki/dashboard.html` with Cast Iron Charlie design system.
+- Added Tab 01 (Daily Command Feed) showing live priorities from `TODOS.md`, KB-Sync drift telemetry, TRM pipeline state, memory mirrors, and blockers.
+- Added Tab 02 (Unified MCP Matrix) tracking 13 registered MCP servers (`headroom`, `ironledger`, `notebooklm-mcp`, `browseros-neo`, `chrome-devtools-mcp`, `github-mcp-server`, `ijfw-memory`, `kb-context-cache`, `notion-mcp-server`, `graft`, `postgres`, `gmp-code-assist`, `trm-devops`) with tool counts, transport types, and online status.
+- Preserved all Tab 03 (Knowledge Graph & Validation) capabilities and Tab 04 (Automation & Daemons) scheduler telemetry.
+- Updated `Run-DailyStatus.ps1` to automatically sync `daily_status.json` to `kb-sync/modules/wiki/daily_status.json` on scheduled runs.
+- Connected `sigil_postgres` Docker container telemetry (port 55432).
+
+### Verification
+- `http://127.0.0.1:8080/modules/wiki/dashboard.html` HTTP 200 OK.
+- `http://127.0.0.1:8080/modules/wiki/daily_status.json` HTTP 200 OK.
+- `Run-DailyStatus.ps1` end-to-end execution pass (Exit code 0).
+
+### Next action
+Continue monitoring daily 07:00 ET scheduled runs and expanding automation feeds.
 
 ## Session audit reconciliation (2026-09-20)
 
@@ -415,3 +577,22 @@ Index repository sources with `gbrain sync --source toolforge`.
 
 ### Next action
 Run provider-enabled Ollama integration after a local Ollama service and validated model are available.
+
+<!-- MANAGED-REGION: AGENT-TODOS -->
+### Active Multi-Agent Tasks
+| Status | Priority | Task Description |
+| :---: | :---: | :--- |
+| ⏳ `[ ]` | **P1** | **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`. |
+| ⏳ `[ ]` | **P2** | **[P2] Non-deterministic skillpack generators** (created 2026-09-02) — `SKILLPACK-VALIDATION.md` (~6 lines), `SKILLPACK-DEPENDENCY-GRAPH.md` (~65 lines), and `audit/COWORK-*.md` (~100 lines each) reorder their warning/log lines on every regen, so each pre-commit run that touches `skills/` or `utilities/` produces churn. Separate defect from the timestamp-clobber + LF-flip bug fixed 2026-09-02 in `toolforgeMetadataGenerator.ps1` / `toolforgeSkillValidator.ps1` (commits `bc5f02ac`, `935bdc5b`). Fix: stable sort (by skill id / finding key) before emit in `toolforgeDependencyGraph.ps1`, the validator's finding list, and the Cowork sync-report writer. Deferred — cosmetic churn, no data loss. |
+| ⏳ `[ ]` | **P2** | **[P2] TorqueQuery CIC observability hooks** (deferred, low priority) — TorqueQuery determinism verified 2026-07-17. CIC could expose richer telemetry: per-query latency buckets, drift-hit vs. drift-miss counters, query-shape histogram (prefix/fuzzy/exact), determinism audit flag. Adapter-side only, no TorqueQuery core changes. Defer until CIC dashboard audit surfaces real observability gap. See discussion 2026-07-18. |
+| ⏳ `[ ]` | **P2** | **[P2] xberg native build-out** (low priority) — `toolforge-pdf` plugin ran on a mock stub (`xberg-mock.exe`) that returned placeholder text regardless of input; swapped to real `pdf-parse` text-layer extraction 2026-07-16. Still open: OCR fallback for scanned/image PDFs (needs page-rasterization — `canvas`/native build tooling on Windows or a WASM-only path), and whether to compile a standalone cross-language binary if reused outside Node. Deferred until real need surfaces (e.g. scanned document in the CIC ingestion pipeline, or commercial research-business reuse outside this repo). See `memory/decision-xberg-real-extraction-2026-07-16.md`. |
+| ✅ `[x]` | **P1** | **[P1] Skill Health Check Failures (wiki-sync-recovery)** (created 2026-08-30, resolved 2026-08-30) — Automatically logged by toolforgeSkillHealthCheck.ps1. Fixed and verified 100% PASS across all checks in SKILLPACK-RUNTIME-HEALTH.md. |
+| ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-23, resolved 2026-08-23) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). |
+| ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-24, resolved 2026-08-24) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). |
+| ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-25, resolved 2026-09-02) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). <!-- todo-group: kb-sync-documentation-drift --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: AuditLog** (created 2026-08-19) (resolved 2026-08-30) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:AuditLog --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: DryRun** (created 2026-09-02) (resolved 2026-09-02) — 1 skill(s): tinyfish-search. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:DryRun --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: Manifest** (created 2026-08-19) (resolved 2026-08-30) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Manifest --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: Runtime** (created 2026-08-19) (resolved 2026-08-30) — 1 skill(s): research-questions. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Runtime --> |
+| ✅ `[x]` | **P2** | **kb-sync drift remediation** (resolved 2026-09-02) — Knowledge base drift remediated (`kb:drift` status: `NO_DRIFT`, 0 stale pages, `scripts/install-git-hooks.mjs` entity doc synchronized). |
+<!-- /MANAGED-REGION: AGENT-TODOS -->

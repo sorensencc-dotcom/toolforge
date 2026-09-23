@@ -5,11 +5,11 @@
 > Static operational reference documentation for operators and AI assistants. Contains no executable code or instructions.
 
 ## Status & Telemetry
-- **Generation ID:** `20260716_153612_62d4141f`
-- **Content Hash:** `sha256:62d4141fbd802cebed53cd8476793eaff5f3394fd989947977cdb886d5516e6e`
-- **Created At:** 2026-07-16T15:36:12.000Z
-- **Source Files:** 2
-- **Total Nodes:** 2
+- **Generation ID:** `20260914_021730_b7f9b3a0`
+- **Content Hash:** `sha256:b7f9b3a08f9cfc56e77bbd17255d2e2a6777789811b6ceee47a7f08e8a2ef323`
+- **Created At:** 2026-09-14T02:17:30.000Z
+- **Source Files:** 41
+- **Total Nodes:** 41
 - **Total Edges:** 0
 
 ## Graph Topology
@@ -17,4 +17,43 @@
 graph TD
   node_file_kb_sync_status_md["kb_sync_status.md"]
   node_file_readme_md["readme.md"]
+  node_file_wiki/research/adjacent-topics_md["adjacent-topics.md"]
+  node_file_wiki/research/cesor-farms-flying-cow-gap-02_md["cesor-farms-flying-cow-gap-02.md"]
+  node_file_wiki/research/competitor-watchlist-drift-engine_md["competitor-watchlist-drift-engine.md"]
+  node_file_wiki/research/cuban-seizures-and-retired-assets-overview_md["cuban-seizures-and-retired-assets-overview.md"]
+  node_file_wiki/research/fcsc-cuban-telephone_md["fcsc-cuban-telephone.md"]
+  node_file_wiki/research/fcsc-moa-bay_md["fcsc-moa-bay.md"]
+  node_file_wiki/research/follow-up_md["follow-up.md"]
+  node_file_wiki/research/ford-socony-vacuum_md["ford-socony-vacuum.md"]
+  node_file_wiki/research/historical-revocation-verification_md["historical-revocation-verification.md"]
+  node_file_wiki/research/ironledger-kms-encryption_md["ironledger-kms-encryption.md"]
+  node_file_wiki/research/mobile-websocket-heartbeats_md["mobile-websocket-heartbeats.md"]
+  node_file_wiki/research/open-contradictions_md["open-contradictions.md"]
+  node_file_wiki/research/rfc-gap-02--cic-daily-research-adjacent-t_md["rfc-gap-02--cic-daily-research-adjacent-t.md"]
+  node_file_wiki/research/rfc-gap-03--willow-run-videos-under-sourc_md["rfc-gap-03--willow-run-videos-under-sourc.md"]
+  node_file_wiki/research/rfc-gap-04-dodge-brothers-vs-henry-ford-g_md["rfc-gap-04-dodge-brothers-vs-henry-ford-g.md"]
+  node_file_wiki/research/rfc-gap-05-harry-bennett-service-departme_md["rfc-gap-05-harry-bennett-service-departme.md"]
+  node_file_wiki/research/rfc-gap-06-willow-run-b-24-knock-down-kit_md["rfc-gap-06-willow-run-b-24-knock-down-kit.md"]
+  node_file_wiki/research/rfc-gap-07-the-danish-pipeline-transatlantic-telemetry_md["rfc-gap-07-the-danish-pipeline-transatlantic-telemetry.md"]
+  node_file_wiki/research/rfc-gap-08-willow-run-first-rollout-timeline_md["rfc-gap-08-willow-run-first-rollout-timeline.md"]
+  node_file_wiki/research/rfc-gap-09-aluminum-coffin-scrap-legend_md["rfc-gap-09-aluminum-coffin-scrap-legend.md"]
+  node_file_wiki/research/rfc-gap-10-clara-ford-union-ultimatum_md["rfc-gap-10-clara-ford-union-ultimatum.md"]
+  node_file_wiki/research/rfc-gap-11-sorensen-lake-breakdown-1943_md["rfc-gap-11-sorensen-lake-breakdown-1943.md"]
+  node_file_wiki/research/rfc-gap-12-edsel-sorensen-fort-worth-clash-1942_md["rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md"]
+  node_file_wiki/research/rfc-gap-13-sperry-m7-mass-production-efficiency_md["rfc-gap-13-sperry-m7-mass-production-efficiency.md"]
+  node_file_wiki/research/rfc-gap-14-ford-model-15p-flying-wing_md["rfc-gap-14-ford-model-15p-flying-wing.md"]
+  node_file_wiki/research/rfc-gap-15-phoenix-mill-wage-parity_md["rfc-gap-15-phoenix-mill-wage-parity.md"]
+  node_file_wiki/research/rfc-gap-16-hacker-runabout-evangeline-title_md["rfc-gap-16-hacker-runabout-evangeline-title.md"]
+  node_file_wiki/research/rfc-gap-17-moving-assembly-line-attribution_md["rfc-gap-17-moving-assembly-line-attribution.md"]
+  node_file_wiki/research/rfc-gap-18-edsel-sorensen-protector-vs-frustrator_md["rfc-gap-18-edsel-sorensen-protector-vs-frustrator.md"]
+  node_file_wiki/research/rfc-gap-19-henry-ford-character-dichotomy_md["rfc-gap-19-henry-ford-character-dichotomy.md"]
+  node_file_wiki/research/rfc-gap-20-sorensen-oral-history-censorship_md["rfc-gap-20-sorensen-oral-history-censorship.md"]
+  node_file_wiki/research/rfc-gap-21-clara-ford-succession-gillespie-gambit_md["rfc-gap-21-clara-ford-succession-gillespie-gambit.md"]
+  node_file_wiki/research/sorensen-monday-keelhauling-gap-03_md["sorensen-monday-keelhauling-gap-03.md"]
+  node_file_wiki/research/sovereign-trm-architecture-historical-dossier_md["sovereign-trm-architecture-historical-dossier.md"]
+  node_file_wiki/research/trm-devops-triage-pipeline_md["trm-devops-triage-pipeline.md"]
+  node_file_wiki/research/under-sourced_md["under-sourced.md"]
+  node_file_wiki/research/whichllm-model-selection-evaluator_md["whichllm-model-selection-evaluator.md"]
+  node_file_wiki/research/willow-run-b24-tooling_md["willow-run-b24-tooling.md"]
+  node_file_wiki/research/willow-run-l-bend-tax-legend_md["willow-run-l-bend-tax-legend.md"]
 ```

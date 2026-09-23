@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="./assets/cic-dashboard.css">
 </head>
 <body>
+  <div style="background: var(--forge); border-bottom: 1px solid rgba(196, 80, 26, 0.35); padding: 0.6rem 2rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ash); display: flex; justify-content: space-between; align-items: center;">
+    <span>Operational notice: This surface is preserved for mockup/standalone preview.</span>
+    <a href="http://127.0.0.1:8080/modules/wiki/dashboard.html" style="color: var(--ember); text-decoration: none; font-weight: 700;">Launch Iron Command Forge (Unified Dashboard) →</a>
+  </div>
   <header class="dashboard-header">
     <div class="logo">TOOLFORGE</div>
     <h1>Operational Dashboard</h1>
@@ -19,7 +23,19 @@
       <button class="tab-button" role="tab" id="tab-btn-errors"  aria-selected="false" aria-controls="tab-errors"  data-tab="errors">Errors</button>
       <button class="tab-button" role="tab" id="tab-btn-release" aria-selected="false" aria-controls="tab-release" data-tab="release">Release Pipeline</button>
       <button class="tab-button" role="tab" id="tab-btn-badges"  aria-selected="false" aria-controls="tab-badges"  data-tab="badges">Status Badges</button>
+      <button class="tab-button" role="tab" id="tab-btn-headroom" aria-selected="false" aria-controls="tab-headroom" data-tab="headroom">Headroom</button>
+      <button class="tab-button" role="tab" id="tab-btn-telemetry" aria-selected="false" aria-controls="tab-telemetry" data-tab="telemetry">Context & Drift</button>
     </nav>
+    <div id="headroom-header-badges" class="headroom-header-badges" title="Headroom Optimization Status — Click to open drill-down" role="button" tabindex="0" aria-label="Headroom summary badges">
+      <span class="hr-badge hr-badge-status" id="hr-badge-status"><span class="hr-dot hr-dot-checking"></span> Headroom: Checking…</span>
+      <span class="hr-badge hr-badge-saved" id="hr-badge-saved">Saved: —</span>
+      <span class="hr-badge hr-badge-cache" id="hr-badge-cache">Cache: —</span>
+      <span class="hr-badge hr-badge-cost" id="hr-badge-cost">Avoided: —</span>
+    </div>
+    <div id="telemetry-header-badges" class="headroom-header-badges" title="ICF Context & Drift Status — Click to open drill-down" role="button" tabindex="0" aria-label="Context & Drift summary badges">
+      <span class="hr-badge hr-badge-saved" id="graft-badge-status"><span class="hr-dot hr-dot-online"></span> Graft: 94.8%</span>
+      <span class="hr-badge hr-badge-cost" id="drift-badge-status">Drift: 0 pending</span>
+    </div>
     <button id="refresh-btn" class="refresh-button" aria-label="Refresh data">REFRESH</button>
     <label class="autopoll"><input type="checkbox" id="autopoll-toggle"> Auto-refresh (30s)</label>
   </header>
@@ -27,6 +43,125 @@
   <main class="container">
     <section id="tab-skills" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-skills" hidden>
       <p class="placeholder">Skills inventory — existing dashboard.html embeds here (deferred).</p>
+    </section>
+
+    <section id="tab-telemetry" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-telemetry" hidden>
+      <div class="telemetry-grid">
+        <div class="telemetry-card">
+          <div class="telemetry-card-header">
+            <h3>Graft Context Graph & VFS Telemetry</h3>
+            <span class="badge badge-success" id="graft-status-tag">ACTIVE</span>
+          </div>
+          <p class="telemetry-desc">Measures token reduction from graph-directed context pruning and VFS tier reads versus raw snapshot files.</p>
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-value" id="graft-reduction-val">94.79%</span>
+              <span class="stat-label">Token Reduction (L0 vs L2)</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-value" id="graft-tokens-saved">91 tok/query</span>
+              <span class="stat-label">Avg Prompt Tokens Avoided</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-value" id="graft-cost-avoided">$2.7300</span>
+              <span class="stat-label">Cost Avoided / 10k Calls (Claude 3.5)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="telemetry-card-header">
+            <h3>Upstream Competitor Drift Watchers</h3>
+            <span class="badge badge-info" id="drift-status-tag">WATCHING (3)</span>
+          </div>
+          <p class="telemetry-desc">Monitors SHA-256 transitions across sovereign repositories and routes step-up requests through Sigil envelopes.</p>
+          <div class="drift-table-wrapper">
+            <table class="runs-table" id="drift-summary-table">
+              <thead>
+                <tr>
+                  <th>Target Repository</th>
+                  <th>Commit</th>
+                  <th>Status</th>
+                  <th>Impact Scope</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>google/sam</code></td>
+                  <td><code>674af93</code></td>
+                  <td><span class="status-pill status-success">EVALUATED</span></td>
+                  <td>libp2p topology scaling</td>
+                  <td>Deferred Phase 9</td>
+                </tr>
+                <tr>
+                  <td><code>trailhq/Graft</code></td>
+                  <td><code>65c2966</code></td>
+                  <td><span class="status-pill status-success">ADAPTED</span></td>
+                  <td>Token savings telemetry</td>
+                  <td>Integrated to VFS Benchmark</td>
+                </tr>
+                <tr>
+                  <td><code>volcengine/OpenViking</code></td>
+                  <td><code>6e944cc</code></td>
+                  <td><span class="status-pill status-success">EVALUATED</span></td>
+                  <td>Web studio UI layout</td>
+                  <td>Noop Local VFS</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-headroom" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-headroom" hidden>
+      <div class="headroom-container">
+        <div class="telemetry-card" style="margin-bottom: 1.5rem; background: rgba(30, 26, 23, 0.7); border: 1px solid rgba(154, 144, 136, 0.15); padding: 1.5rem;">
+          <div class="telemetry-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 400; color: var(--white); margin: 0;">Knowledge Plane Partition Headroom & Token Ingestion</h3>
+            <span class="badge badge-success" id="partition-headroom-status" style="background: rgba(46, 125, 50, 0.2); color: #81c784; border: 1px solid rgba(76, 175, 80, 0.4); padding: 0.25rem 0.5rem; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">MONITORED</span>
+          </div>
+          <p class="telemetry-desc" style="color: var(--ash); font-size: 0.85rem; margin-bottom: 1.25rem; font-family: 'Libre Baskerville', serif;">Monitors token count consumption across isolated knowledge partitions (IronLedger, Sigil, CIC - Miami Estate, CIC - Rouge Assembly, Personal OS) against context ceilings to prevent partition overflow.</p>
+          <div class="stats-row" id="partition-stats-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-ironledger" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">IronLedger (76e1932c)</span>
+            </div>
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-sigil" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">Sigil Protocol</span>
+            </div>
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-miami" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">CIC - Miami Estate</span>
+            </div>
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-rouge" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">CIC - Rouge Assembly</span>
+            </div>
+            <div class="stat-box" style="background: rgba(10, 8, 6, 0.6); border: 1px solid rgba(154, 144, 136, 0.1); padding: 1rem; border-radius: 2px;">
+              <span class="stat-value" id="part-stat-personal" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ember);">100.0%</span>
+              <span class="stat-label" style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash);">Personal OS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="headroom-toolbar">
+          <div class="headroom-toolbar-title">
+            <span class="hr-dot hr-dot-online" id="headroom-live-indicator"></span>
+            <strong>Headroom Proxy Drill-Down</strong>
+            <span class="headroom-endpoint-badge">http://127.0.0.1:8787/dashboard</span>
+          </div>
+          <div class="headroom-toolbar-actions">
+            <button type="button" id="headroom-reload-btn" class="filter-button" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Reload Iframe</button>
+            <a href="http://127.0.0.1:8787/dashboard" target="_blank" rel="noopener noreferrer" class="filter-button" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center;">Open Standalone ↗</a>
+          </div>
+        </div>
+        <div class="headroom-frame-wrapper">
+          <iframe id="headroom-frame" src="http://127.0.0.1:8787/dashboard" title="Headroom Optimization Dashboard" class="headroom-frame"></iframe>
+        </div>
+      </div>
     </section>
 
     <section id="tab-history" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-history">

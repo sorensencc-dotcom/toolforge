@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { resolve } from 'node:path';
 import { writeFileSync, mkdirSync } from 'node:fs';
 
@@ -38,14 +37,16 @@ export default {
       // Search for skill by name
       let skillId;
       try {
-        const searchRes = await axios.get(`${apiUrl}/api/v1/skills/search`, {
-          params: { q: skillName, limit: 1 },
-        });
-        if (searchRes.data.data.length === 0) {
+        const searchUrl = new URL(`${apiUrl}/api/v1/skills/search`);
+        searchUrl.searchParams.set('q', skillName);
+        searchUrl.searchParams.set('limit', '1');
+        const searchRes = await fetch(searchUrl);
+        const searchJson = await searchRes.json();
+        if (!searchJson.data || searchJson.data.length === 0) {
           console.error(`✗ Skill not found: ${skillName}`);
           process.exit(1);
         }
-        skillId = searchRes.data.data[0].id;
+        skillId = searchJson.data[0].id;
       } catch (error) {
         console.error(`✗ Failed to search skills: ${error.message}`);
         process.exit(1);
@@ -54,8 +55,9 @@ export default {
       // Fetch skill details
       let skill;
       try {
-        const skillRes = await axios.get(`${apiUrl}/api/v1/skills/${skillId}`);
-        skill = skillRes.data.data;
+        const skillRes = await fetch(`${apiUrl}/api/v1/skills/${skillId}`);
+        const skillJson = await skillRes.json();
+        skill = skillJson.data;
       } catch (error) {
         console.error(`✗ Failed to fetch skill: ${error.message}`);
         process.exit(1);
@@ -64,8 +66,9 @@ export default {
       // Fetch versions
       let versions;
       try {
-        const versionsRes = await axios.get(`${apiUrl}/api/v1/skills/${skillId}/versions`);
-        versions = versionsRes.data.data || [];
+        const versionsRes = await fetch(`${apiUrl}/api/v1/skills/${skillId}/versions`);
+        const versionsJson = await versionsRes.json();
+        versions = versionsJson.data || [];
       } catch (error) {
         console.error(`✗ Failed to fetch versions: ${error.message}`);
         process.exit(1);

@@ -1,0 +1,631 @@
+{
+  "source": "Iron Command Forge (ICF)",
+  "timestamp": "2026-09-11T04:48:46.042Z",
+  "overall_status": "DEGRADED",
+  "active_worktrees_count": 88,
+  "worktrees": [
+    {
+      "path": "C:/dev",
+      "branch": "parkd821-20260908",
+      "head": "81aea1c3",
+      "isClean": false,
+      "dirtyCount": 15
+    },
+    {
+      "path": "C:/dev/.worktrees/copywriter-docs-20260907",
+      "branch": "docs/copywriter-toolforge-2026-09-07",
+      "head": "33f83115",
+      "isClean": false,
+      "dirtyCount": 1
+    },
+    {
+      "path": "C:/dev/.worktrees/delivery-guard-task3",
+      "branch": "codex/delivery-guard-task3",
+      "head": "5aae91b2",
+      "isClean": false,
+      "dirtyCount": 394
+    },
+    {
+      "path": "C:/dev/.worktrees/delivery-guard-task4",
+      "branch": "codex/delivery-guard-task4",
+      "head": "01d67481",
+      "isClean": false,
+      "dirtyCount": 5
+    },
+    {
+      "path": "C:/dev/.worktrees/delivery-guard-task5",
+      "branch": "codex/delivery-guard-task5",
+      "head": "27aa283d",
+      "isClean": false,
+      "dirtyCount": 10
+    },
+    {
+      "path": "C:/dev/.worktrees/delivery-guard-task6",
+      "branch": "codex/delivery-guard-task6",
+      "head": "8443b43d",
+      "isClean": false,
+      "dirtyCount": 5
+    },
+    {
+      "path": "C:/dev/.worktrees/torqquery-hybrid-agent-dispatch",
+      "branch": "codex/torqquery-hybrid-agent-dispatch",
+      "head": "940feda8",
+      "isClean": false,
+      "dirtyCount": 398
+    },
+    {
+      "path": "C:/dev/dev-sandbox/docs-dev-sandbox-lifecycle",
+      "branch": "docs/dev-sandbox-lifecycle-policy",
+      "head": "9535d905",
+      "isClean": true,
+      "dirtyCount": 0
+    },
+    {
+      "path": "C:/dev/dev-sandbox/tool-path-handling-reconcile",
+      "branch": "fix/harden-tool-path-handling-reconciled",
+      "head": "101542d6",
+      "isClean": true,
+      "dirtyCount": 0
+    },
+    {
+      "path": "C:/dev/dev-sandbox/toolforge-herdr-trm-integration",
+      "branch": "main",
+      "head": "98442b2d",
+      "isClean": true,
+      "dirtyCount": 0
+    },
+    {
+      "path": "C:/dev/dev-sandbox/trm-devops-reconcile",
+      "branch": "feat/trm-devops-path-safety-reconcile",
+      "head": "7f4ce3d3",
+      "isClean": false,
+      "dirtyCount": 3
+    },
+    {
+      "path": "C:/dev/dev-sandbox/trm-merge-34",
+      "branch": "detached",
+      "head": "bc2f4c82",
+      "isClean": false,
+      "dirtyCount": 1
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomautomatic-fishstick",
+      "branch": "sorensencc-dotcomautomatic-fishstick",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 160
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomautomatic-guacamole",
+      "branch": "sorensencc-dotcomautomatic-guacamole",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 896
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomautomatic-journey",
+      "branch": "sorensencc-dotcomautomatic-journey",
+      "head": "66188487",
+      "isClean": false,
+      "dirtyCount": 1129
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcombookish-spork",
+      "branch": "sorensencc-dotcombookish-spork",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 28
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcautious-barnacle",
+      "branch": "sorensencc-dotcomcautious-barnacle",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 423
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcongenial-couscous",
+      "branch": "sorensencc-dotcomcongenial-couscous",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 38
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcongenial-fortnight",
+      "branch": "sorensencc-dotcomcongenial-fortnight",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 56
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcongenial-robot",
+      "branch": "sorensencc-dotcomcongenial-robot",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 2
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcongenial-sniffle",
+      "branch": "sorensencc-dotcomcongenial-sniffle",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 219
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcongenial-spork",
+      "branch": "sorensencc-dotcomcongenial-spork",
+      "head": "658da2aa",
+      "isClean": false,
+      "dirtyCount": 658
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcongenial-waffle",
+      "branch": "sorensencc-dotcomcongenial-waffle",
+      "head": "e66ee8e6",
+      "isClean": true,
+      "dirtyCount": 0
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcrispy-fiesta",
+      "branch": "sorensencc-dotcomcrispy-fiesta",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 491
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcurly-bassoon",
+      "branch": "sorensencc-dotcomcurly-bassoon",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 322
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomcurly-sniffle",
+      "branch": "sorensencc-dotcomcurly-sniffle",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 52
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomdidactic-memory",
+      "branch": "sorensencc-dotcomdidactic-memory",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 615
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomdidactic-spoon",
+      "branch": "sorensencc-dotcomdidactic-spoon",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 433
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomexpert-guacamole",
+      "branch": "sorensencc-dotcomexpert-guacamole",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 200
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomfluffy-guide",
+      "branch": "sorensencc-dotcomfluffy-guide",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 845
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomfriendly-guide",
+      "branch": "sorensencc-dotcomfriendly-guide",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 77
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomfuzzy-doodle",
+      "branch": "sorensencc-dotcomfuzzy-doodle",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 5
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomfuzzy-parakeet",
+      "branch": "sorensencc-dotcomfuzzy-parakeet",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 4
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomglowing-adventure",
+      "branch": "sorensencc-dotcomglowing-adventure",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 418
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomglowing-eureka",
+      "branch": "sorensencc-dotcomglowing-eureka",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 781
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomglowing-waffle",
+      "branch": "sorensencc-dotcomglowing-waffle",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 643
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomideal-potato",
+      "branch": "sorensencc-dotcomideal-potato",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 794
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomimproved-garbanzo",
+      "branch": "sorensencc-dotcomimproved-garbanzo",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 139
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomlaughing-waddle",
+      "branch": "sorensencc-dotcomlaughing-waddle",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 417
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomliterate-doodle",
+      "branch": "sorensencc-dotcomliterate-doodle",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 49
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomliterate-train",
+      "branch": "sorensencc-dotcomliterate-train",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 386
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomminiature-disco",
+      "branch": "sorensencc-dotcomminiature-disco",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 1014
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomminiature-engine",
+      "branch": "sorensencc-dotcomminiature-engine",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 270
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomminiature-waffle",
+      "branch": "sorensencc-dotcomminiature-waffle",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 420
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcommusical-invention",
+      "branch": "sorensencc-dotcommusical-invention",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 374
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcommusical-sniffle",
+      "branch": "sorensencc-dotcommusical-sniffle",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 137
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcompotential-journey",
+      "branch": "sorensencc-dotcompotential-journey",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 932
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcompotential-tribble",
+      "branch": "sorensencc-dotcompotential-tribble",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 19
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomprobable-umbrella",
+      "branch": "sorensencc-dotcomprobable-umbrella",
+      "head": "e66ee8e6",
+      "isClean": true,
+      "dirtyCount": 0
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcompsychic-carnival",
+      "branch": "sorensencc-dotcompsychic-carnival",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 575
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcompsychic-disco",
+      "branch": "sorensencc-dotcompsychic-disco",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 415
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcompsychic-invention",
+      "branch": "sorensencc-dotcompsychic-invention",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 946
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomredesigned-journey",
+      "branch": "sorensencc-dotcomredesigned-journey",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 846
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomrefactored-fishstick",
+      "branch": "sorensencc-dotcomrefactored-fishstick",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 7
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomreimagined-train",
+      "branch": "sorensencc-dotcomreimagined-train",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 926
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomscaling-couscous",
+      "branch": "sorensencc-dotcomscaling-couscous",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 439
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomscaling-telegram",
+      "branch": "sorensencc-dotcomscaling-telegram",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 921
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomshiny-adventure",
+      "branch": "sorensencc-dotcomshiny-adventure",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 17
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomshiny-memory",
+      "branch": "sorensencc-dotcomshiny-memory",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 311
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsilver-enigma",
+      "branch": "sorensencc-dotcomsilver-enigma",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 626
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsilver-guide",
+      "branch": "sorensencc-dotcomsilver-guide",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 586
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomspecial-bassoon",
+      "branch": "sorensencc-dotcomspecial-bassoon",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 100
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomspecial-guacamole",
+      "branch": "sorensencc-dotcomspecial-guacamole",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 758
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomspecial-telegram",
+      "branch": "sorensencc-dotcomspecial-telegram",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 108
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomstunning-eureka",
+      "branch": "sorensencc-dotcomstunning-eureka",
+      "head": "ae7dce38",
+      "isClean": false,
+      "dirtyCount": 17
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomstunning-tribble",
+      "branch": "sorensencc-dotcomstunning-tribble",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 46
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsturdy-eureka",
+      "branch": "sorensencc-dotcomsturdy-eureka",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 679
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsturdy-guide",
+      "branch": "sorensencc-dotcomsturdy-guide",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 30
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsturdy-journey",
+      "branch": "sorensencc-dotcomsturdy-journey",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 289
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsturdy-lamp",
+      "branch": "sorensencc-dotcomsturdy-lamp",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 56
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsturdy-spoon",
+      "branch": "sorensencc-dotcomsturdy-spoon",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 15
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsupreme-dollop",
+      "branch": "sorensencc-dotcomsupreme-dollop",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 747
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsymmetrical-fishstick",
+      "branch": "sorensencc-dotcomsymmetrical-fishstick",
+      "head": "441a20d0",
+      "isClean": false,
+      "dirtyCount": 567
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsymmetrical-fortnight",
+      "branch": "sorensencc-dotcomsymmetrical-fortnight",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 368
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomsymmetrical-journey",
+      "branch": "sorensencc-dotcomsymmetrical-journey",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 675
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomturbo-broccoli",
+      "branch": "sorensencc-dotcomturbo-broccoli",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 221
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomturbo-train",
+      "branch": "sorensencc-dotcomturbo-train",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 474
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomubiquitous-waddle",
+      "branch": "sorensencc-dotcomubiquitous-waddle",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 118
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomupgraded-invention",
+      "branch": "sorensencc-dotcomupgraded-invention",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 527
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomupgraded-waffle",
+      "branch": "sorensencc-dotcomupgraded-waffle",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 33
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomurban-disco",
+      "branch": "sorensencc-dotcomurban-disco",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 1012
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomurban-goggles",
+      "branch": "sorensencc-dotcomurban-goggles",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 1214
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomverbose-fiesta",
+      "branch": "sorensencc-dotcomverbose-fiesta",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 263
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomverbose-system",
+      "branch": "sorensencc-dotcomverbose-system",
+      "head": "e66ee8e6",
+      "isClean": false,
+      "dirtyCount": 77
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomvigilant-carnival",
+      "branch": "sorensencc-dotcomvigilant-carnival",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 507
+    },
+    {
+      "path": "C:/dev-worktrees/sorensencc-dotcomvigilant-fishstick",
+      "branch": "sorensencc-dotcomvigilant-fishstick",
+      "head": "88838d53",
+      "isClean": false,
+      "dirtyCount": 202
+    },
+    {
+      "path": "C:/Users/soren/.grok/worktrees/dev/cic",
+      "branch": "detached",
+      "head": "5a82a0fb",
+      "isClean": false,
+      "dirtyCount": 730
+    },
+    {
+      "path": "C:/Users/soren/orca/workspaces/dev/fix-pr-2-2",
+      "branch": "feat/openrouter-oxalpha-integration-2",
+      "head": "b300148f",
+      "isClean": false,
+      "dirtyCount": 20
+    }
+  ],
+  "vault_status": {
+    "vault_initialized": true,
+    "staging_active": true,
+    "staged_batches": 4,
+    "concurrency_locked": false,
+    "recovery_pending": false
+  }
+}

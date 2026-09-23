@@ -1,0 +1,14 @@
+{
+  "name": "sigil-grok-bridge",
+  "version": "1.0.0",
+  "entry": "dist/index.js",
+  "description": "Exposes governed Sigil task submission and inbox inspection to Grok Bot over MCP",
+  "capabilities": [
+    "sigil.core/read_shared_context",
+    "sigil.task/submit"
+  ],
+  "requires_env": [
+    "SIGIL_CONNECTOR_URL"
+  ],
+  "tier": 2
+}

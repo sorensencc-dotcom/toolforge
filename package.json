@@ -13,6 +13,9 @@
     "kb:dag:check": "node kb-sync/scripts/build-dag.mjs --check-only",
     "kb:dag:recover": "node kb-sync/scripts/build-dag.mjs --recover",
     "trm:closed-loop": "node kb-sync/scripts/run-closed-loop-research.mjs",
+    "trm:kisp:validate": "node scripts/validate-trm-semantics.mjs",
+    "trm:kisp:sync": "node scripts/notebooklm/dispatch-multi-notebook.mjs",
+    "trm:kisp:dry-run": "node scripts/notebooklm/dispatch-multi-notebook.mjs --dry-run",
     "migrate": "node src/db/migrate.js",
     "trending:refresh": "node src/services/trending-batch.js",
     "trending:schedule": "pwsh src/services/trending-scheduler.ps1",
@@ -32,9 +35,6 @@
     "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
     "test:healing": "npx tsx --test modules/healing/*.test.ts",
     "test:trm": "npx tsx --test tests/validate-chunks.test.ts",
-    "test:runtime-owner": "node --test modules/runtime-owner/runtime-owner.test.mjs",
-    "test:runtime-owner-integration": "node --test integration-harness/open-notebook.integration.test.mjs",
-    "retro:test-ratio": "pwsh -NoProfile -File scripts/investigate-retro-test-ratio.ps1",
     "test:watchlist": "node test-watchlist-run.mjs",
     "wiki:publish": "node scripts/sync-github-wiki.mjs",
     "wiki:sync": "node scripts/sync-github-wiki.mjs",
@@ -57,7 +57,23 @@
     "viking-vfs": "node modules/mcp/viking-vfs-server.mjs",
     "test:viking": "node --test modules/mcp/*.test.mjs scripts/benchmark-viking-token-savings.test.mjs && npm --prefix modules/viking-client test",
     "benchmark:viking": "node scripts/benchmark-viking-token-savings.mjs",
-    "lint:script": "node scripts/lint-script-claims.mjs"
+    "lint:script": "node scripts/lint-script-claims.mjs",
+    "morning:ingest": "node scripts/morning-ingest.mjs",
+    "morning:ingest:stream": "node scripts/morning-ingest.mjs --stream",
+    "test:telemetry": "node --test modules/telemetry/*.test.mjs",
+    "agent-memory-sync": "node sync-tools/agent-memory-sync.cjs",
+    "bot:notebook:ingest": "node scripts/notebook-ingester-bot.mjs",
+    "bot:kb:sentinel": "node scripts/kb-sentinel-bot.mjs",
+    "bot:trm:triage": "node scripts/trm-bot-runner.mjs",
+    "bot:watchlist:mine": "node scripts/watchlist-miner-bot.mjs",
+    "bot:daemon:heal": "node scripts/daemon-healer-bot.mjs",
+    "bot:ci:watchdog": "node scripts/ci-watchdog-bot.mjs",
+    "bot:report": "node scripts/ironbots-daily-reporter.mjs",
+    "bot:all": "npm run bot:notebook:ingest && npm run bot:kb:sentinel && npm run bot:trm:triage && npm run bot:watchlist:mine && npm run bot:daemon:heal && npm run bot:ci:watchdog && npm run bot:report",
+    "test:ironbots": "node --test tests/ironbots.test.mjs",
+    "test:runtime-owner": "node --test modules/runtime-owner/runtime-owner.test.mjs",
+    "test:runtime-owner-integration": "node --test integration-harness/open-notebook.integration.test.mjs",
+    "retro:test-ratio": "pwsh -NoProfile -File scripts/investigate-retro-test-ratio.ps1"
   },
   "keywords": [
     "toolforge",
@@ -76,6 +92,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "headroom-ai": "^0.37.0",
     "pdf-parse": "^2.4.5",
     "pg": "^8.11.3",
     "react": "^18.2.0",
@@ -95,5 +112,9 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "allowScripts": {
+    "better-sqlite3@13.0.3": true,
+    "esbuild@0.21.5": true
   }
 }

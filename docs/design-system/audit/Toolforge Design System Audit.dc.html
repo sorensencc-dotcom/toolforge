@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<![CDATA[<helmet>
+  <link rel="stylesheet" href="_ds/cast-iron-charlie-design-system-019de132-e506-71df-a7ae-fb03115c075e/colors_and_type.css">
+  <script src="_ds/cast-iron-charlie-design-system-019de132-e506-71df-a7ae-fb03115c075e/_ds_bundle.js"></script>
+</helmet>
+
+<div style="background:var(--black);min-height:100vh;font-family:var(--font-body);color:var(--bone)">
+
+  <header style="padding:2.5rem 4rem 2rem;border-bottom:1px solid var(--color-border-section)">
+    <div class="t-nav-logo" style="margin-bottom:0.75rem">Toolforge</div>
+    <h1 class="t-h2" style="margin-bottom:0.5rem">Design System Audit</h1>
+    <p class="t-body-sm" style="color:var(--ash);max-width:60ch">
+      sorensencc-dotcom/toolforge (main) checked against the Cast Iron Charlie Design System —
+      colors_and_type.css, the canonical bundle, and the dashboard implementations it governs.
+    </p>
+    <div class="rule" style="margin-top:1.5rem"></div>
+  </header>
+
+  <section style="padding:2.5rem 4rem 0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem">
+      <div class="stat-block">
+        <div class="t-stat-number">{{ counts.total }}</div>
+        <div class="t-stat-label">Findings</div>
+      </div>
+      <div class="stat-block" style="border-left-color:var(--ember)">
+        <div class="t-stat-number" style="color:var(--ember)">{{ counts.critical }}</div>
+        <div class="t-stat-label">Critical</div>
+      </div>
+      <div class="stat-block" style="border-left-color:var(--brass)">
+        <div class="t-stat-number" style="color:var(--brass)">{{ counts.warning }}</div>
+        <div class="t-stat-label">Warning</div>
+      </div>
+      <div class="stat-block" style="border-left-color:var(--ash)">
+        <div class="t-stat-number" style="color:var(--ash)">{{ counts.info }}</div>
+        <div class="t-stat-label">Passing / Info</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:2.5rem 4rem 0">
+    <div class="section-label" style="margin-bottom:1.5rem">Findings</div>
+
+    <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+        <button
+          onClick="{{ f.onClick }}"
+          class="t-cta"
+          style="background:transparent;border:none;border-bottom:2px solid transparent;color:var(--ash);padding:0.6rem 0.9rem;letter-spacing:0.2em;cursor:pointer;transition:color 0.2s ease,border-color 0.2s ease"
+          style-hover="color:var(--bone)"
+        >{{ f.label }}</button>
+      </sc-for>
+    </div>
+
+    <div style="border:1px solid var(--color-border-default);background:var(--color-bg-card)">
+      <sc-for list="{{ visibleFindings }}" as="item" hint-placeholder-count="5">
+        <div style="padding:1.5rem 1.75rem;border-bottom:1px solid var(--color-border-default);display:flex;flex-direction:column;gap:0.6rem">
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
+            <span class="tag {{ item.tagClass }}">{{ item.severityLabel }}</span>
+            <span class="t-meta-value" style="font-size:0.85rem">{{ item.file }}</span>
+            <span class="t-label-muted" style="letter-spacing:0.15em">{{ item.area }}</span>
+          </div>
+          <p class="t-body-sm">{{ item.issue }}</p>
+          <sc-if value="{{ item.hasValues }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:2rem;flex-wrap:wrap;font-family:var(--font-ui);font-size:0.8rem;letter-spacing:0.05em">
+              <div><span style="color:var(--ash)">CANONICAL — </span><span style="color:var(--bone)">{{ item.canonical }}</span></div>
+              <div><span style="color:var(--ash)">FOUND — </span><span style="color:var(--ember)">{{ item.found }}</span></div>
+            </div>
+          </sc-if>
+          <p class="t-body-sm" style="color:var(--ash);font-style:italic">{{ item.recommendation }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="padding:3rem 4rem 5rem">
+    <div class="section-label" style="margin-bottom:1.5rem">Recommendations</div>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:0.9rem;max-width:70ch">
+      <sc-for list="{{ recommendations }}" as="rec" hint-placeholder-count="4">
+        <li class="t-body" style="display:flex;gap:0.75rem">
+          <span style="color:var(--ember);flex:0 0 auto">—</span>
+          <span>{{ rec }}</span>
+        </li>
+      </sc-for>
+    </ul>
+  </section>
+
+</div>]]>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { filter: 'all' };
+  }
+
+  getFindings() {
+    return [
+      {
+        severity: 'critical', tagClass: 'tag-high', severityLabel: 'CRITICAL',
+        file: 'dashboard.html', area: 'Color tokens',
+        issue: 'dashboard.html declares its own :root palette instead of importing colors_and_type.css \u2014 every core hex value has drifted from canonical, including the primary accent.',
+        hasValues: true, canonical: '--ember: #C4501A', found: '--ember: #D85A24',
+        recommendation: 'Delete the local :root block and link colors_and_type.css directly.'
+      },
+      {
+        severity: 'critical', tagClass: 'tag-high', severityLabel: 'CRITICAL',
+        file: 'assets/cic-dashboard.css', area: 'Color tokens',
+        issue: 'Error-severity accents (--err-accent) introduce two hex values outside the canonical 10-color palette, violating the system\u2019s own lint rule against raw hex.',
+        hasValues: true, canonical: 'ember / rust / brass / bone / ash', found: '#D98324 (E_TIMEOUT), #C9A24B (E_VALIDATION)',
+        recommendation: 'Map each error code to an existing token (e.g. rust for critical codes, brass for warnings) rather than new hexes.'
+      },
+      {
+        severity: 'warning', tagClass: 'tag-new', severityLabel: 'WARNING',
+        file: 'assets/cic-dashboard.css', area: 'Token source',
+        issue: 'The 10-color token block is copy-pasted from colors_and_type.css rather than imported. Values currently match, but a future palette update in the design system won\u2019t propagate here.',
+        hasValues: false,
+        recommendation: 'Link colors_and_type.css and drop the duplicated :root block, keeping only dashboard-specific classes.'
+      },
+      {
+        severity: 'warning', tagClass: 'tag-new', severityLabel: 'WARNING',
+        file: 'dashboard.html, dashboard-v2.html, cic-dashboard.css', area: 'Component reuse',
+        issue: 'None of the three stylesheets loads colors_and_type.css or the design-system bundle \u2014 each hand-rolls equivalent CSS instead of consuming the canonical source.',
+        hasValues: false,
+        recommendation: 'Standardize all Toolforge surfaces on colors_and_type.css + the bundle, per the design system\u2019s own Quick Start.'
+      },
+      {
+        severity: 'warning', tagClass: 'tag-new', severityLabel: 'WARNING',
+        file: 'dashboard.html', area: 'Focus states',
+        issue: '.skill-card uses outline-offset: -1px on focus, while every other focus-visible rule in the system (colors_and_type.css, cic-dashboard.css) uses +2px.',
+        hasValues: false,
+        recommendation: 'Align .skill-card:focus-visible to outline-offset: 2px for a consistent focus ring across dashboards.'
+      },
+      {
+        severity: 'info', tagClass: 'tag-date', severityLabel: 'PASS',
+        file: 'assets/cic-dashboard.css, dashboard.html', area: 'Corner radius',
+        issue: 'Border-radius is consistently zero across both dashboards, including an explicit override on form inputs \u2014 correctly follows the system\u2019s signature sharp-corner trait.',
+        hasValues: false, recommendation: 'No action needed.'
+      },
+      {
+        severity: 'info', tagClass: 'tag-date', severityLabel: 'PASS',
+        file: 'dashboard.html, dashboard-v2.html', area: 'Typography',
+        issue: 'Both dashboards use the correct three-font system (Playfair Display / Libre Baskerville / Barlow Condensed) with matching weights and letter-spacing conventions.',
+        hasValues: false, recommendation: 'No action needed.'
+      },
+      {
+        severity: 'info', tagClass: 'tag-date', severityLabel: 'PASS',
+        file: 'assets/cic-dashboard.css', area: 'Accessibility',
+        issue: 'Error-severity rows signal via left-border + dot alongside unchanged body text color, avoiding color-only signaling \u2014 matches the file\u2019s own design intent comment.',
+        hasValues: false, recommendation: 'No action needed.'
+      },
+      {
+        severity: 'warning', tagClass: 'tag-new', severityLabel: 'WARNING',
+        file: '_ds-light-theme-extension.css', area: 'Color tokens (unofficial)',
+        issue: 'A Helix-project light-theme extension derives 7 light-mode surface/text tokens (--light-bg, --light-raised, --light-card, --light-border, --light-text-head/body/muted) from existing paper/white/black/forge values, with no new hexes. However, it is not part of the canonical Cast Iron Charlie spec \u2014 colors_and_type.css and its README document a dark-only system with no light mode.',
+        hasValues: false,
+        recommendation: 'Treat as provisional until ratified into colors_and_type.css. Don\u2019t adopt on Toolforge surfaces as-is \u2014 propose it back to the CIC design system owner for review first.'
+      }
+    ];
+  }
+
+  countBy(list, sev) { return list.filter(f => f.severity === sev).length; }
+
+  renderVals() {
+    const { filter } = this.state;
+    const findings = this.getFindings();
+    const visibleFindings = filter === 'all' ? findings : findings.filter(f => f.severity === filter);
+    const filterDefs = [
+      { key: 'all', label: 'All' },
+      { key: 'critical', label: 'Critical' },
+      { key: 'warning', label: 'Warning' },
+      { key: 'info', label: 'Passing' }
+    ];
+    return {
+      counts: {
+        total: findings.length,
+        critical: this.countBy(findings, 'critical'),
+        warning: this.countBy(findings, 'warning'),
+        info: this.countBy(findings, 'info')
+      },
+      filters: filterDefs.map(f => ({
+        label: f.label,
+        onClick: () => this.setState({ filter: f.key })
+      })),
+      visibleFindings,
+      recommendations: [
+        'Delete the hardcoded :root palette in dashboard.html and link colors_and_type.css directly \u2014 that alone fixes the accent-color drift.',
+        'Retire the duplicated token block in cic-dashboard.css in favor of importing colors_and_type.css, keeping only dashboard-specific component classes local.',
+        'Replace the two off-palette error-severity hexes with existing tokens (rust, brass) so the whole error taxonomy stays inside the sanctioned 10-color set.',
+        'Standardize focus-ring offset at 2px across all dashboard surfaces for a consistent keyboard-navigation experience.',
+        'Flag _ds-light-theme-extension.css (from the Helix project) as unofficial \u2014 it is not part of the canonical CIC spec. Get it reviewed and merged into colors_and_type.css before any Toolforge surface adopts it.'
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

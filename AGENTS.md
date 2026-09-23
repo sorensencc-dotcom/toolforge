@@ -138,9 +138,6 @@ yours -- IJFW will never touch it.
 
 <!-- IJFW-MEMORY-START -->
 Project memory at .ijfw/memory/. Call `ijfw_memory_prelude` for full context.
-
-Last handoff: Handoff: 2026-09-01
-===================
 <!-- IJFW-MEMORY-END -->
 
 <!-- IJFW-ROUTING-START -->
@@ -250,7 +247,7 @@ All other locations are forbidden:
 - archive/ (historical only)
 - Sync artifacts / node_modules / backups
 
-Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on every commit — live-verified 2026-08-09 and re-verified 2026-08-30 (force-staged a `roadmap.md` under `.claude/worktrees/`, ran the hook directly, `Test-RoadmapLocations` wrote "ROADMAP.md creation blocked outside allowed locations" and the hook exited 1). The hook lives in `.git/hooks/`, which Git does not track: a fresh clone has only the `*.sample` files until the hooks are installed locally, so this gate cannot be confirmed from the committed tree alone — inspect `.git/hooks/pre-commit.ps1` in a configured checkout, or run it against a staged test file, to corroborate. Hook is gitignore-scoped: `.claude/worktrees/` files must be `git add -f`'d to even reach the gate, since the dir itself is gitignored. No CI job scans for roadmap-location violations specifically — `.github/workflows/retro-full-audit.yml` runs daily at `cron: '30 7 * * *'`, but does not check roadmap placement, and `governance.yml` has no roadmap-location scan either; `docs/meta/roadmap-consolidation-design.md` does not exist in this checkout. Treat CI/weekly-scan enforcement of roadmap location as not yet built, not as a live gate.
+Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on every commit — live-verified 2026-08-09 and re-verified 2026-08-30 (force-staged a `roadmap.md` under `.claude/worktrees/`, ran the hook directly, `Test-RoadmapLocations` wrote "ROADMAP.md creation blocked outside allowed locations" and the hook exited 1). The hook lives in `.git/hooks/`, which Git does not track: a fresh clone has only the `*.sample` files until the hooks are installed locally, so this gate cannot be confirmed from the committed tree alone — inspect `.git/hooks/pre-commit.ps1` in a configured checkout, or run it against a staged test file, to corroborate. Hook is gitignore-scoped: `.claude/worktrees/` files must be `git add -f`'d to even reach the gate, since the dir itself is gitignored. No CI job scans for roadmap-location violations specifically — `.github/workflows/retro-full-audit.yml` does run on a `schedule:` trigger (added 2026-08-03 as `cron: '30 7 * * 5'` Fridays; changed to daily `cron: '30 7 * * *'` on 2026-08-26 — verify current value at `.github/workflows/retro-full-audit.yml:5` directly, since history rewrites can orphan cited commit hashes) but doesn't check roadmap placement, and `governance.yml` has no roadmap-location scan either; `docs/meta/roadmap-consolidation-design.md` does not exist in this checkout. Treat CI/weekly-scan enforcement of roadmap location as not yet built, not as a live gate.
 
 ## gstack
 
@@ -298,7 +295,7 @@ Available gstack skills:
 
 ## Session Wrap & Learnings
 
-End each session: run `/retro` to log insights, patterns, fixes, and decisions. Learnings feed forward to future sessions via `/learn` — cuts repeat debugging and rediscovery.
+End each session: run `pwsh -NoProfile -File scripts/check-retro-needed.ps1` first — exit 1 means no commits since the last same-day retro, skip the run. Exit 0: run `/retro` to log insights, patterns, fixes, and decisions. Learnings feed forward to future sessions via `/learn` — cuts repeat debugging and rediscovery.
 
 ## GBrain Search
 
@@ -329,6 +326,15 @@ Otherwise keep using Glob — it's already fast for scoped, known-subtree patter
 **Noise dirs:** es does not honor `agent-scan.ignore` — it indexes everything on disk. For broad queries, add `!` exclusions for the same high-noise paths listed there (e.g. `!node_modules`, `!_kb-sync-staging`, `!.claude\worktrees`) or the result set will include them even though agent scans don't.
 
 **Before relying on es:** run `where es.exe` to confirm it resolves. If the `es` Bash call errors (binary missing, Everything service not running, non-zero exit), explicitly retry the same lookup via Glob — this is a stated retry step, not an automatic fallback.
+
+## Deterministic Search & Navigation Policy
+
+Before performing workspace-wide text searches (`grep`, `rg`, `findstr`, or `git grep`), consult the deterministic codebase indexes:
+1. **Trace dependencies**: Run `graft callers <symbol>` or use MCP `graft_trace_calls` to evaluate call hierarchies and blast radius.
+2. **Inspect API surface**: Run `graft skeleton <file>` or use MCP `graft_file_api` instead of reading entire source files.
+3. **Coupling and hotspots**: Consult `graft map` or query the local context SQLite database before initiating broad keyword scans.
+
+Raw file grep is permitted only when targeting a single file, or after confirming that a target symbol is absent from Tree-sitter AST extraction. Broad workspace greps are hard-blocked by `scripts/intercept-grep.js`.
 
 ## Skill Approval & Registration
 
@@ -398,7 +404,7 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 
 - CI governance check: validates line limits + detects duplicate sections
 - Caveman review: flags narrative in Input/Output schemas, Troubleshooting outside USAGE.md
-- Toolforge validator: rejects submissions with <line-limit violations
+- Toolforge submission validator: PLANNED (Phase 8 Wave D deliverable) — NOT wired into CI as of 2026-09-06. No `.github/workflows/` job invokes it, and `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains `TEMPLATE FOR EXECUTION` (unsigned). Not an active gate until Wave D is signed.
 
 **Escape Hatch:** Justified exceptions (complex I/O, unique constraints) filed via inline `noqa` + rationale comment. Tier 1 audits exceptions quarterly.
 
@@ -473,7 +479,9 @@ root, detached, missing `package.json`, or inconsistent with an expected
 repository or branch. Never infer a repository from the current directory
 when more than one checkout exists under `C:\dev`.
 
-Writable repository work must use a real checkout under C:\dev\dev-sandbox; treat C:\dev itself as read-only.
+Writable repository work may use named repositories under C:\dev, including direct subdirectories such as C:\dev\helix. Do not create project files, temporary workspaces, or unrelated artifacts directly in C:\dev itself. Keep all work inside the explicitly named repository directory.
+
+When the correct project directory is unclear, especially for a new project, do not infer the location. Inspect existing repositories and conventions, offer the operator a short list of suitable existing locations or a proposed new directory, and wait for the operator to decide before creating, cloning, or editing files.
  Do not default to Documents\Codex when a sandbox checkout is available.
  
  ## Command & Test Execution Protocol
@@ -482,3 +490,42 @@ Writable repository work must use a real checkout under C:\dev\dev-sandbox; trea
 - If a test suite exceeds 60 seconds without emitting output, treat it as hung: abort the process, clear `.staging.lock` / `.kb-sync.lock`, and report the hanging test file.
 - If investigating hanging tests, pass `--detectOpenHandles` or `--test-timeout=10000` to pinpoint unclosed database handles or unmocked network sockets.
 
+<!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
+> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
+- Canonical Knowledge Base Root: C:\dev\kb-sync\obsidian\vault\wiki
+- Ingest Guidelines: docs/targets/obsidian.md
+- Primary Architecture Graph: [[Index]]
+- Active Conventions: [[wiki-schema]]
+- Log Audit Trail: [[Log]]
+- Repository Target: dev
+<!-- TOOLFORGE-VAULT-POINTER-END -->
+<!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
+> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
+- Canonical Knowledge Base Root: C:\dev\kb-sync\obsidian\vault\wiki
+- Ingest Guidelines: docs/targets/obsidian.md
+- Primary Architecture Graph: [[Index]]
+- Active Conventions: [[wiki-schema]]
+- Log Audit Trail: [[Log]]
+- Repository Target: dev
+<!-- TOOLFORGE-VAULT-POINTER-END -->
+
+<!-- MANAGED-REGION: AGENT-TODOS -->
+### Active Multi-Agent Tasks
+| Status | Priority | Task Description |
+| :---: | :---: | :--- |
+| ⏳ `[ ]` | **P1** | **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`. |
+| ⏳ `[ ]` | **P2** | **[P2] Non-deterministic skillpack generators** (created 2026-09-02) — `SKILLPACK-VALIDATION.md` (~6 lines), `SKILLPACK-DEPENDENCY-GRAPH.md` (~65 lines), and `audit/COWORK-*.md` (~100 lines each) reorder their warning/log lines on every regen, so each pre-commit run that touches `skills/` or `utilities/` produces churn. Separate defect from the timestamp-clobber + LF-flip bug fixed 2026-09-02 in `toolforgeMetadataGenerator.ps1` / `toolforgeSkillValidator.ps1` (commits `bc5f02ac`, `935bdc5b`). Fix: stable sort (by skill id / finding key) before emit in `toolforgeDependencyGraph.ps1`, the validator's finding list, and the Cowork sync-report writer. Deferred — cosmetic churn, no data loss. |
+| ⏳ `[ ]` | **P2** | **[P2] TorqueQuery CIC observability hooks** (deferred, low priority) — TorqueQuery determinism verified 2026-07-17. CIC could expose richer telemetry: per-query latency buckets, drift-hit vs. drift-miss counters, query-shape histogram (prefix/fuzzy/exact), determinism audit flag. Adapter-side only, no TorqueQuery core changes. Defer until CIC dashboard audit surfaces real observability gap. See discussion 2026-07-18. |
+| ⏳ `[ ]` | **P2** | **[P2] xberg native build-out** (low priority) — `toolforge-pdf` plugin ran on a mock stub (`xberg-mock.exe`) that returned placeholder text regardless of input; swapped to real `pdf-parse` text-layer extraction 2026-07-16. Still open: OCR fallback for scanned/image PDFs (needs page-rasterization — `canvas`/native build tooling on Windows or a WASM-only path), and whether to compile a standalone cross-language binary if reused outside Node. Deferred until real need surfaces (e.g. scanned document in the CIC ingestion pipeline, or commercial research-business reuse outside this repo). See `memory/decision-xberg-real-extraction-2026-07-16.md`. |
+| ✅ `[x]` | **P1** | **[P1] Skill Health Check Failures (wiki-sync-recovery)** (created 2026-08-30, resolved 2026-08-30) — Automatically logged by toolforgeSkillHealthCheck.ps1. Fixed and verified 100% PASS across all checks in SKILLPACK-RUNTIME-HEALTH.md. |
+| ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-23, resolved 2026-08-23) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). |
+| ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-24, resolved 2026-08-24) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). |
+| ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-25, resolved 2026-09-02) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). <!-- todo-group: kb-sync-documentation-drift --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: AuditLog** (created 2026-08-19) (resolved 2026-08-30) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:AuditLog --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: DryRun** (created 2026-09-02) (resolved 2026-09-02) — 1 skill(s): tinyfish-search. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:DryRun --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: Manifest** (created 2026-08-19) (resolved 2026-08-30) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Manifest --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: Runtime** (created 2026-08-19) (resolved 2026-08-30) — 1 skill(s): research-questions. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Runtime --> |
+| ✅ `[x]` | **P2** | **kb-sync drift remediation** (resolved 2026-09-02) — Knowledge base drift remediated (`kb:drift` status: `NO_DRIFT`, 0 stale pages, `scripts/install-git-hooks.mjs` entity doc synchronized). |
+<!-- /MANAGED-REGION: AGENT-TODOS -->

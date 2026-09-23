@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-09-21T00:00:00Z",
+  "watchlists": [
+    {
+      "id": "trm:watchlist:google-sam-mesh",
+      "competitor_name": "Google Sovereign Agent Mesh",
+      "category": "agent-mesh",
+      "targets": [
+        {
+          "target_id": "sam-p2p-repository",
+          "url": "https://github.com/google/sam",
+          "type": "git_repo",
+          "baseline_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "diff_sensitivity": "high"
+        }
+      ],
+      "memory_alignment": {
+        "wiki_path": "wiki/research/competitor-drift-google-sam.md",
+        "topic": "Sovereign Agent Mesh Architecture"
+      }
+    },
+    {
+      "id": "trm:watchlist:anthropic-computer-use",
+      "competitor_name": "Anthropic Computer Use & Agent Workflows",
+      "category": "tool-use",
+      "targets": [
+        {
+          "target_id": "anthropic-quickstarts",
+          "url": "https://github.com/anthropics/anthropic-quickstarts",
+          "type": "git_repo",
+          "baseline_hash": "c0ffee0000000000000000000000000000000000000000000000000000000000",
+          "diff_sensitivity": "medium"
+        }
+      ],
+      "memory_alignment": {
+        "wiki_path": "wiki/research/competitor-drift-anthropic-computer-use.md",
+        "topic": "Anthropic Computer Use API"
+      }
+    },
+    {
+      "id": "trm:watchlist:openai-swarm-agents",
+      "competitor_name": "OpenAI Swarm & Handoff Framework",
+      "category": "multi-agent",
+      "targets": [
+        {
+          "target_id": "openai-swarm",
+          "url": "https://github.com/openai/swarm",
+          "type": "git_repo",
+          "baseline_hash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+          "diff_sensitivity": "medium"
+        }
+      ],
+      "memory_alignment": {
+        "wiki_path": "wiki/research/competitor-drift-openai-swarm.md",
+        "topic": "OpenAI Multi-Agent Handoff Patterns"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "file": "/abs/path/to/docs/a.md",
+  "rules": ["/abs/path/to/no-ai-slop.md", "/abs/path/to/tech-docs.md"],
+  "violations": {
+    "lines": [
+      { "lineNum": 1, "text": "Our platform empowers teams...", "rules": ["banned_word"] },
+      {
+        "lineNum": 7,
+        "text": "What most people get wrong about databases is simple.",
+        "rules": ["faux_insight", "colon_reveal"]
+      }
+    ],
+    "document": {
+      "narrative_arc": { "score": 1.4, "max": 3, "confidence": 0.72, "label": "Loosely organized" }
+    }
+  },
+  "stats": {
+    "rules": 6,
+    "lineRules": 5,
+    "docRules": 1,
+    "lines": 12,
+    "questions": 61,
+    "apiCalls": 6
+  }
+}

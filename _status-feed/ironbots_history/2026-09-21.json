@@ -1,0 +1,232 @@
+{
+  "date": "2026-09-21",
+  "timestamp": "2026-09-21T21:39:48.882Z",
+  "elapsedMs": 3,
+  "fleetHealthScore": 83,
+  "fleetStatus": "DEGRADED",
+  "botCount": 6,
+  "activeBots": [
+    {
+      "id": "notebook-ingester",
+      "name": "NotebookLM & Knowledge Ingester",
+      "schedule": "Daily 02:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-21T21:38:32.049Z",
+        "elapsedMs": 794,
+        "status": "HEALTHY",
+        "totalFiles": 463,
+        "indexedCount": 463,
+        "updatedCount": 0,
+        "skippedCount": 0,
+        "databasePath": ".kb_cache/knowledge_fts5.db",
+        "dryRun": true
+      },
+      "status": "HEALTHY",
+      "summary": "463 documents indexed into SQLite FTS5"
+    },
+    {
+      "id": "kb-sentinel",
+      "name": "KB-Sentinel Drift & Autoheal",
+      "schedule": "Daily 03:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-21T21:38:28.744Z",
+        "elapsedMs": 109,
+        "healthScore": 92,
+        "status": "PASS",
+        "scanned": 413,
+        "frontmatterMissing": 4,
+        "brokenLinks": 1,
+        "healed": 0,
+        "dryRun": true,
+        "recentIssues": [
+          {
+            "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/moa-bay-mining-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/nicaro-nickel-processing-facility.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/_errors.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          }
+        ]
+      },
+      "status": "PASS",
+      "summary": "Health Score: 92/100 (413 files scanned)"
+    },
+    {
+      "id": "trm-bot",
+      "name": "TRM Gap Triage & RFC Drafter",
+      "schedule": "Daily 04:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-21T21:38:28.824Z",
+        "elapsedMs": 10,
+        "totalGaps": 2056,
+        "pending": 0,
+        "drafted": 2056,
+        "resolved": 0,
+        "triagedCount": 0,
+        "generatedRfcs": [],
+        "dryRun": true
+      },
+      "status": "PASS",
+      "summary": "2056 total gaps (2056 drafted)"
+    },
+    {
+      "id": "watchlist-miner",
+      "name": "Watchlist & Competitor Drift Miner",
+      "schedule": "Daily 05:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-21T21:38:32.187Z",
+        "elapsedMs": 6,
+        "status": "DRIFT_DETECTED",
+        "totalWatchlists": 3,
+        "targetsEvaluated": 2,
+        "driftsDetected": 2,
+        "driftFindings": [
+          {
+            "watchlistId": "trm:watchlist:google-sam-mesh",
+            "competitorName": "Google Sovereign Agent Mesh",
+            "targetId": "sam-p2p-repository",
+            "url": "https://github.com/google/sam",
+            "baselineHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "observedHash": "2b956b0eead179eb6d085f035ba5594c4cb52c3b76401ebe9176d7942d2d72a4",
+            "wikiPath": "wiki/research/competitor-drift-google-sam.md"
+          },
+          {
+            "watchlistId": "trm:watchlist:anthropic-computer-use",
+            "competitorName": "Anthropic Computer Use & Agent Workflows",
+            "targetId": "anthropic-quickstarts",
+            "url": "https://github.com/anthropics/anthropic-quickstarts",
+            "baselineHash": "c0ffee0000000000000000000000000000000000000000000000000000000000",
+            "observedHash": "afb6c532b499c0b63bcc92976403e8533b668cc7aa97122e0ac2e5c323911dc7",
+            "wikiPath": "wiki/research/competitor-drift-anthropic-computer-use.md"
+          }
+        ],
+        "dryRun": true
+      },
+      "status": "DRIFT_DETECTED",
+      "summary": "2 targets evaluated (2 drifts)"
+    },
+    {
+      "id": "daemon-healer",
+      "name": "Daemon-Healer Port 8080 Supervisor",
+      "schedule": "Every 15 Min",
+      "telemetry": {
+        "timestamp": "2026-09-21T21:38:28.928Z",
+        "elapsedMs": 9,
+        "targetUrl": "http://127.0.0.1:8080/dashboard",
+        "status": "HEALTHY",
+        "initialProbe": {
+          "ok": true,
+          "statusCode": 200,
+          "headers": {
+            "content-type": "text/html; charset=UTF-8",
+            "date": "Mon, 21 Sep 2026 21:38:28 GMT",
+            "connection": "keep-alive",
+            "keep-alive": "timeout=5",
+            "transfer-encoding": "chunked"
+          }
+        },
+        "healed": false,
+        "restartedPid": null,
+        "dryRun": true
+      },
+      "status": "HEALTHY",
+      "summary": "Port 8080 status: HEALTHY (healed: false)"
+    },
+    {
+      "id": "ci-watchdog",
+      "name": "CI-Watchdog Workflow Failure Triage",
+      "schedule": "Daily 06:00 AM",
+      "telemetry": {
+        "timestamp": "2026-09-21T21:39:43.830Z",
+        "elapsedMs": 1822,
+        "status": "FAILURES_DETECTED",
+        "scannedCount": 6,
+        "activeCount": 0,
+        "failureCount": 1,
+        "recentRuns": [
+          {
+            "id": 35658378697,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35657630324,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 35656717117,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35655174879,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35651820799,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 35651787878,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "cancelled"
+          }
+        ],
+        "alerts": [
+          {
+            "runId": 35657630324,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "sha": "7b937490",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/35657630324",
+            "createdAt": "2026-09-21T21:31:09Z",
+            "errorSummary": [
+              "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T21:31:44.2666196Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/reconcile-scheduled-tasks.ps1\",\"scripts/run-weekly-retro.ps1\",\"scripts/setup-weekly-report-schedule.ps1\"],\"regressionTestPaths\":[],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"7b9374907f3733c8222ccde581f472cdee00b471\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/reconcile-scheduled-tasks.ps1\",\"scripts/run-weekly-retro.ps1\",\"scripts/setup-weekly-report-schedule.ps1\"],\"regressionTestPaths\":[],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
+              "Delivery guard automation policy\tEnforce automation regression-test policy\t2026-09-21T21:31:44.2889240Z ##[error]Process completed with exit code 1."
+            ]
+          }
+        ],
+        "dryRun": false
+      },
+      "status": "FAILURES_DETECTED",
+      "summary": "6 runs scanned (1 failures)"
+    }
+  ],
+  "summaryMetrics": {
+    "totalDocsIndexed": 463,
+    "wikiHealthScore": 92,
+    "totalResearchGaps": 2056,
+    "competitorDrifts": 2,
+    "daemonStatus": "HEALTHY",
+    "ciFailures": 1
+  },
+  "dryRun": false
+}

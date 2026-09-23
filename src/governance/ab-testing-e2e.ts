@@ -17,7 +17,7 @@
  * - full_100_promotion: Complete end-to-end flow with all stages
  */
 
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect, beforeEach } from "@jest/globals";
 
 // ============================================================================
 // Domain Models
@@ -47,9 +47,9 @@ interface CohortAssignment {
 
 interface CustomMetric {
   name: string;
-  type: 'gauge' | 'counter' | 'histogram';
+  type: "gauge" | "counter" | "histogram";
   threshold: number;
-  operator: '>' | '<' | '>=' | '<=' | '==' | '!=';
+  operator: ">" | "<" | ">=" | "<=" | "==" | "!=";
   unit: string;
 }
 
@@ -65,14 +65,20 @@ interface CohortDecision {
   variant_id: string;
   current_cohort: CohortConfig;
   next_cohort?: CohortConfig;
-  decision: 'promote_cohort' | 'continue_observing' | 'rollback' | 'promote_all';
+  decision:
+    "promote_cohort" | "continue_observing" | "rollback" | "promote_all";
   reason: string;
   recommendation: string;
   timestamp: number;
 }
 
 interface GovernanceLogEntry {
-  event_type: 'variant_registered' | 'cohort_assigned' | 'metrics_recorded' | 'promotion_decided' | 'rollback_initiated';
+  event_type:
+    | "variant_registered"
+    | "cohort_assigned"
+    | "metrics_recorded"
+    | "promotion_decided"
+    | "rollback_initiated";
   proposal_id: string;
   variant_id: string;
   cohort_id?: string;
@@ -108,7 +114,7 @@ class MultiCohortEngine {
   assignCohort(
     proposalId: string,
     variantId: string,
-    cohortSize: number
+    cohortSize: number,
   ): CohortAssignment {
     const cohorts = this.getCohorts();
     let targetCohort = cohorts[0];
@@ -179,24 +185,27 @@ class CustomMetricsEngine {
     if (!metric) return true;
 
     switch (metric.operator) {
-      case '>':
+      case ">":
         return value > metric.threshold;
-      case '<':
+      case "<":
         return value < metric.threshold;
-      case '>=':
+      case ">=":
         return value >= metric.threshold;
-      case '<=':
+      case "<=":
         return value <= metric.threshold;
-      case '==':
+      case "==":
         return value === metric.threshold;
-      case '!=':
+      case "!=":
         return value !== metric.threshold;
       default:
         return true;
     }
   }
 
-  getAggregateMetrics(variantId: string, cohortId: string): Record<string, number> {
+  getAggregateMetrics(
+    variantId: string,
+    cohortId: string,
+  ): Record<string, number> {
     const key = `${variantId}:${cohortId}`;
     const observations = this.observations.get(key) || [];
 
@@ -252,16 +261,16 @@ class CohortPromotionEngine {
     variantId: string,
     currentCohort: CohortConfig,
     metricsPass: boolean,
-    nextCohort?: CohortConfig
+    nextCohort?: CohortConfig,
   ): CohortDecision {
     if (!metricsPass) {
       return {
         proposal_id: proposalId,
         variant_id: variantId,
         current_cohort: currentCohort,
-        decision: 'rollback',
-        reason: 'Custom metrics failed threshold evaluation',
-        recommendation: 'Revert variant, analyze failure, resubmit',
+        decision: "rollback",
+        reason: "Custom metrics failed threshold evaluation",
+        recommendation: "Revert variant, analyze failure, resubmit",
         timestamp: Date.now(),
       };
     }
@@ -272,7 +281,7 @@ class CohortPromotionEngine {
         variant_id: variantId,
         current_cohort: currentCohort,
         next_cohort: nextCohort,
-        decision: 'promote_cohort',
+        decision: "promote_cohort",
         reason: `Metrics pass. Proceed to ${nextCohort.size * 100}% cohort.`,
         recommendation: `Scale from ${currentCohort.size * 100}% to ${nextCohort.size * 100}%`,
         timestamp: Date.now(),
@@ -283,9 +292,9 @@ class CohortPromotionEngine {
       proposal_id: proposalId,
       variant_id: variantId,
       current_cohort: currentCohort,
-      decision: 'promote_all',
-      reason: 'Final cohort metrics pass. Promote to 100%.',
-      recommendation: 'Roll out to all users',
+      decision: "promote_all",
+      reason: "Final cohort metrics pass. Promote to 100%.",
+      recommendation: "Roll out to all users",
       timestamp: Date.now(),
     };
   }
@@ -306,7 +315,7 @@ class GovernanceLog {
     return this.entries.filter(
       (e) =>
         (!proposalId || e.proposal_id === proposalId) &&
-        (!variantId || e.variant_id === variantId)
+        (!variantId || e.variant_id === variantId),
     );
   }
 
@@ -319,7 +328,7 @@ class GovernanceLog {
 // Tests: A/B Testing E2E Flows
 // ============================================================================
 
-describe('Phase 5: A/B Testing E2E Flow', () => {
+describe("Phase 5: A/B Testing E2E Flow", () => {
   let multiCohortEngine: MultiCohortEngine;
   let abTestEngine: ABTestEngine;
   let metricsEngine: CustomMetricsEngine;
@@ -335,47 +344,47 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
 
     // Setup standard cohorts: 10%, 25%, 50%, 100%
     multiCohortEngine.addCohort({
-      id: 'cohort-10pct',
+      id: "cohort-10pct",
       size: 0.1,
       duration_minutes: 30,
     });
     multiCohortEngine.addCohort({
-      id: 'cohort-25pct',
+      id: "cohort-25pct",
       size: 0.25,
       duration_minutes: 45,
     });
     multiCohortEngine.addCohort({
-      id: 'cohort-50pct',
+      id: "cohort-50pct",
       size: 0.5,
       duration_minutes: 60,
     });
     multiCohortEngine.addCohort({
-      id: 'cohort-100pct',
+      id: "cohort-100pct",
       size: 1.0,
       duration_minutes: 0,
     });
 
     // Register standard metrics
     metricsEngine.registerMetric({
-      name: 'error_rate',
-      type: 'gauge',
+      name: "error_rate",
+      type: "gauge",
       threshold: 0.02,
-      operator: '<',
-      unit: 'ratio',
+      operator: "<",
+      unit: "ratio",
     });
     metricsEngine.registerMetric({
-      name: 'cost_delta',
-      type: 'gauge',
+      name: "cost_delta",
+      type: "gauge",
       threshold: 0.002,
-      operator: '<',
-      unit: 'ratio',
+      operator: "<",
+      unit: "ratio",
     });
     metricsEngine.registerMetric({
-      name: 'latency_p99',
-      type: 'gauge',
+      name: "latency_p99",
+      type: "gauge",
       threshold: 500,
-      operator: '<',
-      unit: 'ms',
+      operator: "<",
+      unit: "ms",
     });
   });
 
@@ -383,23 +392,23 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
   // Test 1: Single Variant Full Rollout (10% → 25% → 50% → 100%)
   // ========================================================================
 
-  describe('Test 1: Single Variant Full Rollout', () => {
-    it('executes single variant through complete 10% → 25% → 50% → 100% promotion chain', () => {
-      const proposalId = 'proposal-single-variant';
-      const variantId = 'variant-optimized-v1';
+  describe("Test 1: Single Variant Full Rollout", () => {
+    it("executes single variant through complete 10% → 25% → 50% → 100% promotion chain", () => {
+      const proposalId = "proposal-single-variant";
+      const variantId = "variant-optimized-v1";
 
       // Register variant
       const variant: ABVariant = {
         variant_id: variantId,
-        name: 'Optimized Strategy V1',
-        description: 'Single variant for full rollout test',
-        treatment_config: { strategy: 'optimized', version: 1 },
+        name: "Optimized Strategy V1",
+        description: "Single variant for full rollout test",
+        treatment_config: { strategy: "optimized", version: 1 },
         created_at: Date.now(),
       };
 
       abTestEngine.registerVariant(variant);
       governanceLog.record({
-        event_type: 'variant_registered',
+        event_type: "variant_registered",
         proposal_id: proposalId,
         variant_id: variantId,
         data: { variant_name: variant.name },
@@ -407,11 +416,15 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       });
 
       // Stage 1: 10% Cohort
-      let assignment = multiCohortEngine.assignCohort(proposalId, variantId, 0.1);
+      let assignment = multiCohortEngine.assignCohort(
+        proposalId,
+        variantId,
+        0.1,
+      );
       expect(assignment.cohort_size).toBe(0.1);
 
       governanceLog.record({
-        event_type: 'cohort_assigned',
+        event_type: "cohort_assigned",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -444,13 +457,13 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         variantId,
         currentCohort,
         pass,
-        nextCohort
+        nextCohort,
       );
-      expect(decision.decision).toBe('promote_cohort');
+      expect(decision.decision).toBe("promote_cohort");
       expect(decision.next_cohort?.size).toBe(0.25);
 
       governanceLog.record({
-        event_type: 'promotion_decided',
+        event_type: "promotion_decided",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -463,7 +476,7 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       expect(assignment.cohort_size).toBe(0.25);
 
       governanceLog.record({
-        event_type: 'cohort_assigned',
+        event_type: "cohort_assigned",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -496,13 +509,13 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         variantId,
         currentCohort,
         pass,
-        nextCohort
+        nextCohort,
       );
-      expect(decision.decision).toBe('promote_cohort');
+      expect(decision.decision).toBe("promote_cohort");
       expect(decision.next_cohort?.size).toBe(0.5);
 
       governanceLog.record({
-        event_type: 'promotion_decided',
+        event_type: "promotion_decided",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -515,7 +528,7 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       expect(assignment.cohort_size).toBe(0.5);
 
       governanceLog.record({
-        event_type: 'cohort_assigned',
+        event_type: "cohort_assigned",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -548,13 +561,13 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         variantId,
         currentCohort,
         pass,
-        nextCohort
+        nextCohort,
       );
-      expect(decision.decision).toBe('promote_cohort');
+      expect(decision.decision).toBe("promote_cohort");
       expect(decision.next_cohort?.size).toBe(1.0);
 
       governanceLog.record({
-        event_type: 'promotion_decided',
+        event_type: "promotion_decided",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -567,7 +580,7 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       expect(assignment.cohort_size).toBe(1.0);
 
       governanceLog.record({
-        event_type: 'cohort_assigned',
+        event_type: "cohort_assigned",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -600,13 +613,13 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         variantId,
         currentCohort,
         pass,
-        nextCohort
+        nextCohort,
       );
-      expect(decision.decision).toBe('promote_all');
-      expect(decision.recommendation).toContain('Roll out to all users');
+      expect(decision.decision).toBe("promote_all");
+      expect(decision.recommendation).toContain("Roll out to all users");
 
       governanceLog.record({
-        event_type: 'promotion_decided',
+        event_type: "promotion_decided",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -617,7 +630,9 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       // Verify audit trail
       const entries = governanceLog.getEntries(proposalId, variantId);
       expect(entries.length).toBeGreaterThan(0);
-      const promotionDecisions = entries.filter((e) => e.event_type === 'promotion_decided');
+      const promotionDecisions = entries.filter(
+        (e) => e.event_type === "promotion_decided",
+      );
       expect(promotionDecisions.length).toBe(4); // One per stage
     });
   });
@@ -626,10 +641,10 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
   // Test 2: Multiple Variants Parallel (Independent Cohort Decisions)
   // ========================================================================
 
-  describe('Test 2: Multiple Variants Parallel Rollout', () => {
-    it('executes multiple variants in parallel with independent promotion decisions', () => {
-      const proposalIds = ['proposal-variant-a', 'proposal-variant-b'];
-      const variantIds = ['variant-a-optimized', 'variant-b-optimized'];
+  describe("Test 2: Multiple Variants Parallel Rollout", () => {
+    it("executes multiple variants in parallel with independent promotion decisions", () => {
+      const proposalIds = ["proposal-variant-a", "proposal-variant-b"];
+      const variantIds = ["variant-a-optimized", "variant-b-optimized"];
 
       // Register both variants
       for (let i = 0; i < 2; i++) {
@@ -643,7 +658,7 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
 
         abTestEngine.registerVariant(variant);
         governanceLog.record({
-          event_type: 'variant_registered',
+          event_type: "variant_registered",
           proposal_id: proposalIds[i],
           variant_id: variantIds[i],
           data: { variant_name: variant.name },
@@ -657,13 +672,13 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         const assignment = multiCohortEngine.assignCohort(
           proposalIds[i],
           variantIds[i],
-          0.1
+          0.1,
         );
         assignments.push(assignment);
         expect(assignment.cohort_size).toBe(0.1);
 
         governanceLog.record({
-          event_type: 'cohort_assigned',
+          event_type: "cohort_assigned",
           proposal_id: proposalIds[i],
           variant_id: variantIds[i],
           cohort_id: assignment.cohort_id,
@@ -697,8 +712,14 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       });
 
       // Evaluate both
-      const passA = metricsEngine.allMetricsPass(variantIds[0], assignments[0].cohort_id);
-      const passB = metricsEngine.allMetricsPass(variantIds[1], assignments[1].cohort_id);
+      const passA = metricsEngine.allMetricsPass(
+        variantIds[0],
+        assignments[0].cohort_id,
+      );
+      const passB = metricsEngine.allMetricsPass(
+        variantIds[1],
+        assignments[1].cohort_id,
+      );
 
       expect(passA).toBe(true);
       expect(passB).toBe(false);
@@ -715,9 +736,9 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         variantIds[0],
         currentCohortA,
         passA,
-        nextCohortA
+        nextCohortA,
       );
-      expect(decisionA.decision).toBe('promote_cohort');
+      expect(decisionA.decision).toBe("promote_cohort");
 
       // Decision B: rollback
       const currentCohortB = {
@@ -730,12 +751,12 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         variantIds[1],
         currentCohortB,
         passB,
-        undefined
+        undefined,
       );
-      expect(decisionB.decision).toBe('rollback');
+      expect(decisionB.decision).toBe("rollback");
 
       governanceLog.record({
-        event_type: 'promotion_decided',
+        event_type: "promotion_decided",
         proposal_id: proposalIds[0],
         variant_id: variantIds[0],
         cohort_id: assignments[0].cohort_id,
@@ -744,7 +765,7 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       });
 
       governanceLog.record({
-        event_type: 'promotion_decided',
+        event_type: "promotion_decided",
         proposal_id: proposalIds[1],
         variant_id: variantIds[1],
         cohort_id: assignments[1].cohort_id,
@@ -759,11 +780,15 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       expect(entriesA.length).toBeGreaterThan(0);
       expect(entriesB.length).toBeGreaterThan(0);
 
-      const decisionEntriesA = entriesA.filter((e) => e.event_type === 'promotion_decided');
-      const decisionEntriesB = entriesB.filter((e) => e.event_type === 'promotion_decided');
+      const decisionEntriesA = entriesA.filter(
+        (e) => e.event_type === "promotion_decided",
+      );
+      const decisionEntriesB = entriesB.filter(
+        (e) => e.event_type === "promotion_decided",
+      );
 
-      expect(decisionEntriesA[0].data.decision).toBe('promote_cohort');
-      expect(decisionEntriesB[0].data.decision).toBe('rollback');
+      expect(decisionEntriesA[0].data.decision).toBe("promote_cohort");
+      expect(decisionEntriesB[0].data.decision).toBe("rollback");
     });
   });
 
@@ -771,23 +796,23 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
   // Test 3: Rollback Flow (Variant Fails → Atomic Revert All Cohorts)
   // ========================================================================
 
-  describe('Test 3: Rollback on Metric Failure', () => {
-    it('initiates rollback when variant fails threshold, atomically reverts all cohorts', () => {
-      const proposalId = 'proposal-rollback-test';
-      const variantId = 'variant-rollback-failure';
+  describe("Test 3: Rollback on Metric Failure", () => {
+    it("initiates rollback when variant fails threshold, atomically reverts all cohorts", () => {
+      const proposalId = "proposal-rollback-test";
+      const variantId = "variant-rollback-failure";
 
       // Register variant
       const variant: ABVariant = {
         variant_id: variantId,
-        name: 'Variant With Rollback',
-        description: 'Variant that will fail and rollback',
+        name: "Variant With Rollback",
+        description: "Variant that will fail and rollback",
         treatment_config: { risky_strategy: true },
         created_at: Date.now(),
       };
 
       abTestEngine.registerVariant(variant);
       governanceLog.record({
-        event_type: 'variant_registered',
+        event_type: "variant_registered",
         proposal_id: proposalId,
         variant_id: variantId,
         data: { variant_name: variant.name },
@@ -795,9 +820,13 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       });
 
       // Stage 1: 10% - Success
-      let assignment = multiCohortEngine.assignCohort(proposalId, variantId, 0.1);
+      let assignment = multiCohortEngine.assignCohort(
+        proposalId,
+        variantId,
+        0.1,
+      );
       governanceLog.record({
-        event_type: 'cohort_assigned',
+        event_type: "cohort_assigned",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -831,12 +860,12 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         variantId,
         currentCohort,
         pass,
-        nextCohort
+        nextCohort,
       );
-      expect(decision.decision).toBe('promote_cohort');
+      expect(decision.decision).toBe("promote_cohort");
 
       governanceLog.record({
-        event_type: 'promotion_decided',
+        event_type: "promotion_decided",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -847,7 +876,7 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       // Stage 2: 25% - Failure
       assignment = multiCohortEngine.assignCohort(proposalId, variantId, 0.25);
       governanceLog.record({
-        event_type: 'cohort_assigned',
+        event_type: "cohort_assigned",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -881,13 +910,13 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         variantId,
         currentCohort,
         pass,
-        undefined
+        undefined,
       );
-      expect(decision.decision).toBe('rollback');
-      expect(decision.reason).toContain('metrics failed');
+      expect(decision.decision).toBe("rollback");
+      expect(decision.reason).toContain("metrics failed");
 
       governanceLog.record({
-        event_type: 'rollback_initiated',
+        event_type: "rollback_initiated",
         proposal_id: proposalId,
         variant_id: variantId,
         cohort_id: assignment.cohort_id,
@@ -903,15 +932,23 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       metricsEngine.clearObservations(variantId);
 
       // Verify all cohort data cleared
-      const cohort10Agg = metricsEngine.getAggregateMetrics(variantId, 'cohort-10pct');
-      const cohort25Agg = metricsEngine.getAggregateMetrics(variantId, 'cohort-25pct');
+      const cohort10Agg = metricsEngine.getAggregateMetrics(
+        variantId,
+        "cohort-10pct",
+      );
+      const cohort25Agg = metricsEngine.getAggregateMetrics(
+        variantId,
+        "cohort-25pct",
+      );
 
       expect(cohort10Agg).toEqual({});
       expect(cohort25Agg).toEqual({});
 
       // Verify rollback logged
       const entries = governanceLog.getEntries(proposalId, variantId);
-      const rollbackEntries = entries.filter((e) => e.event_type === 'rollback_initiated');
+      const rollbackEntries = entries.filter(
+        (e) => e.event_type === "rollback_initiated",
+      );
       expect(rollbackEntries.length).toBe(1);
       expect(rollbackEntries[0].data.failed_at_stage).toBe(0.25);
     });
@@ -921,23 +958,23 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
   // Test 4: Full 100% Promotion (Complete End-to-End Flow)
   // ========================================================================
 
-  describe('Test 4: Full 100% Promotion End-to-End', () => {
-    it('completes full variant promotion flow through all four cohort stages to 100%', () => {
-      const proposalId = 'proposal-full-100';
-      const variantId = 'variant-full-promotion';
+  describe("Test 4: Full 100% Promotion End-to-End", () => {
+    it("completes full variant promotion flow through all four cohort stages to 100%", () => {
+      const proposalId = "proposal-full-100";
+      const variantId = "variant-full-promotion";
 
       // Register variant
       const variant: ABVariant = {
         variant_id: variantId,
-        name: 'Full Promotion Variant',
-        description: 'Complete end-to-end flow to 100% rollout',
+        name: "Full Promotion Variant",
+        description: "Complete end-to-end flow to 100% rollout",
         treatment_config: { full_rollout: true },
         created_at: Date.now(),
       };
 
       abTestEngine.registerVariant(variant);
       governanceLog.record({
-        event_type: 'variant_registered',
+        event_type: "variant_registered",
         proposal_id: proposalId,
         variant_id: variantId,
         data: { variant_name: variant.name },
@@ -945,10 +982,22 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       });
 
       const stages = [
-        { size: 0.1, metrics: { error_rate: 0.01, cost_delta: 0.001, latency_p99: 300 } },
-        { size: 0.25, metrics: { error_rate: 0.012, cost_delta: 0.0012, latency_p99: 320 } },
-        { size: 0.5, metrics: { error_rate: 0.015, cost_delta: 0.0018, latency_p99: 350 } },
-        { size: 1.0, metrics: { error_rate: 0.018, cost_delta: 0.002, latency_p99: 400 } },
+        {
+          size: 0.1,
+          metrics: { error_rate: 0.01, cost_delta: 0.001, latency_p99: 300 },
+        },
+        {
+          size: 0.25,
+          metrics: { error_rate: 0.012, cost_delta: 0.0012, latency_p99: 320 },
+        },
+        {
+          size: 0.5,
+          metrics: { error_rate: 0.015, cost_delta: 0.0018, latency_p99: 350 },
+        },
+        {
+          size: 1.0,
+          metrics: { error_rate: 0.018, cost_delta: 0.002, latency_p99: 400 },
+        },
       ];
 
       let lastAssignment;
@@ -957,11 +1006,15 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         const stage = stages[i];
 
         // Assign to cohort
-        const assignment = multiCohortEngine.assignCohort(proposalId, variantId, stage.size);
+        const assignment = multiCohortEngine.assignCohort(
+          proposalId,
+          variantId,
+          stage.size,
+        );
         expect(assignment.cohort_size).toBe(stage.size);
 
         governanceLog.record({
-          event_type: 'cohort_assigned',
+          event_type: "cohort_assigned",
           proposal_id: proposalId,
           variant_id: variantId,
           cohort_id: assignment.cohort_id,
@@ -978,7 +1031,10 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
         });
 
         // Evaluate
-        const pass = metricsEngine.allMetricsPass(variantId, assignment.cohort_id);
+        const pass = metricsEngine.allMetricsPass(
+          variantId,
+          assignment.cohort_id,
+        );
         expect(pass).toBe(true);
 
         // Promote or finalize
@@ -994,18 +1050,18 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
           variantId,
           currentCohort,
           pass,
-          nextCohort
+          nextCohort,
         );
 
         if (i < stages.length - 1) {
-          expect(decision.decision).toBe('promote_cohort');
+          expect(decision.decision).toBe("promote_cohort");
           expect(decision.next_cohort?.size).toBe(stages[i + 1].size);
         } else {
-          expect(decision.decision).toBe('promote_all');
+          expect(decision.decision).toBe("promote_all");
         }
 
         governanceLog.record({
-          event_type: 'promotion_decided',
+          event_type: "promotion_decided",
           proposal_id: proposalId,
           variant_id: variantId,
           cohort_id: assignment.cohort_id,
@@ -1026,12 +1082,14 @@ describe('Phase 5: A/B Testing E2E Flow', () => {
       const entries = governanceLog.getEntries(proposalId, variantId);
       expect(entries.length).toBeGreaterThan(0);
 
-      const promotions = entries.filter((e) => e.event_type === 'promotion_decided');
+      const promotions = entries.filter(
+        (e) => e.event_type === "promotion_decided",
+      );
       expect(promotions.length).toBe(4);
 
       // Last promotion should be promote_all
       const lastPromotion = promotions[promotions.length - 1];
-      expect(lastPromotion.data.decision).toBe('promote_all');
+      expect(lastPromotion.data.decision).toBe("promote_all");
       expect(lastPromotion.data.stage_size).toBe(1.0);
     });
   });
