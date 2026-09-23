@@ -4,7 +4,7 @@ description: LLM-graded prose quality sweep (no-ai-slop + tech-docs rulesets) fo
 version: 1.0.0
 ---
 
-# Slop Grader Sweep
+# Slop grader sweep
 
 Complements `skills/writing-heuristics/` (deterministic, regex-based) with
 LLM-graded checks slop-grader's `no-ai-slop` and `tech-docs` rulesets catch
