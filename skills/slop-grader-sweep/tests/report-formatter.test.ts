@@ -32,6 +32,28 @@ describe('formatSlopReport', () => {
     expect(report).toContain('**Total findings**: 2');
   });
 
+  it('renders document-scope findings (line 0) as Document-level', () => {
+    const byFile = new Map<string, SlopFinding[]>([
+      [
+        'docs/a.md',
+        [
+          {
+            file: 'docs/a.md',
+            line: 0,
+            rule: 'narrative_arc',
+            severity: 'document',
+            message: 'Loosely organized (score 1.4/3)',
+          },
+        ],
+      ],
+    ]);
+
+    const report = formatSlopReport(byFile, { generatedAt: '2026-09-22T10:00:00.000Z' });
+
+    expect(report).toContain('- Document-level: **narrative_arc** (document) - Loosely organized (score 1.4/3)');
+    expect(report).not.toContain('L0:');
+  });
+
   it('renders a DEGRADED status header when degraded', () => {
     const report = formatSlopReport(new Map(), {
       generatedAt: '2026-09-22T10:00:00.000Z',

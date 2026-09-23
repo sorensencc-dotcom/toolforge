@@ -26,6 +26,28 @@ export function resolveChangedFiles(cwd: string = process.cwd()): string[] {
     .filter(isUnderTrackedRoot);
 }
 
+/**
+ * Noise directories excluded from the sweep, mirroring the repo-root
+ * `agent-scan.ignore` list. Without these the sweep grades vendored,
+ * generated, and archived markdown — cost with no signal.
+ */
+export const SWEEP_IGNORE = [
+  '**/node_modules/**',
+  '**/.claude/worktrees/**',
+  '**/_kb-sync-staging/**',
+  '**/archive/**',
+  '**/.venv/**',
+  '**/dist/**',
+  '**/build/**',
+  '**/.next/**',
+  '**/.webpack/**',
+  '**/coverage/**',
+  '**/.cache/**',
+  '**/out/**',
+  '**/target/**',
+  '**/.context/retros/**',
+];
+
 export function resolveSweepFiles(cwd: string = process.cwd()): string[] {
   const patterns = ['docs/**/*.md', 'wiki/**/*.md', '**/specs/**/*.md'];
   const results = new Set<string>();
@@ -34,7 +56,7 @@ export function resolveSweepFiles(cwd: string = process.cwd()): string[] {
     const matches = globSync(pattern, {
       cwd,
       nodir: true,
-      ignore: ['**/node_modules/**'],
+      ignore: SWEEP_IGNORE,
     }) as unknown as string[];
     for (const file of matches) {
       results.add(file);

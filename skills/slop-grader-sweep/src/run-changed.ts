@@ -6,6 +6,8 @@ export interface ChangedRunResult {
   skipped: boolean;
   reason?: string;
   findings: SlopFinding[];
+  /** Per-file failures from a partially successful run. */
+  errors?: string[];
 }
 
 export async function runChanged(cwd: string = process.cwd()): Promise<ChangedRunResult> {
@@ -25,7 +27,7 @@ export async function runChanged(cwd: string = process.cwd()): Promise<ChangedRu
       return { skipped: true, reason: result.reason, findings: [] };
     }
 
-    return { skipped: false, findings: result.findings };
+    return { skipped: false, findings: result.findings, errors: result.errors };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     return { skipped: true, reason: message, findings: [] };
@@ -41,6 +43,10 @@ export function printChangedSummary(result: ChangedRunResult): void {
     return;
   }
 
+  for (const error of result.errors ?? []) {
+    console.log(`slop-grader partial failure: ${error}`);
+  }
+
   if (result.findings.length === 0) {
     console.log('slop-grader: no findings');
     return;
@@ -48,8 +54,9 @@ export function printChangedSummary(result: ChangedRunResult): void {
 
   console.log(`slop-grader: ${result.findings.length} finding(s)`);
   for (const finding of result.findings) {
+    const locator = finding.line === 0 ? 'document' : `L${finding.line}`;
     console.log(
-      `  ${finding.file}:L${finding.line} [${finding.severity}] ${finding.rule} - ${finding.message}`
+      `  ${finding.file}:${locator} [${finding.severity}] ${finding.rule} - ${finding.message}`
     );
   }
 }

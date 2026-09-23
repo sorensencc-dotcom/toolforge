@@ -11,7 +11,7 @@ vi.mock('glob', () => ({
 
 import { execFileSync } from 'node:child_process';
 import { globSync } from 'glob';
-import { resolveChangedFiles, resolveSweepFiles } from '../src/file-list';
+import { resolveChangedFiles, resolveSweepFiles, SWEEP_IGNORE } from '../src/file-list';
 
 describe('resolveChangedFiles', () => {
   beforeEach(() => {
@@ -55,5 +55,23 @@ describe('resolveSweepFiles', () => {
     const result = resolveSweepFiles('/repo');
 
     expect(result).toEqual(['docs/a.md', 'docs/meta/specs/foo.md', 'wiki/b.md']);
+  });
+
+  it('excludes the repo-root agent-scan.ignore noise directories', () => {
+    vi.mocked(globSync).mockReturnValue([]);
+
+    resolveSweepFiles('/repo');
+
+    for (const [, options] of vi.mocked(globSync).mock.calls as [string, any][]) {
+      expect(options.ignore).toBe(SWEEP_IGNORE);
+    }
+    expect(SWEEP_IGNORE).toEqual(
+      expect.arrayContaining([
+        '**/node_modules/**',
+        '**/.claude/worktrees/**',
+        '**/_kb-sync-staging/**',
+        '**/archive/**',
+      ])
+    );
   });
 });

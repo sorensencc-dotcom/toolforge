@@ -50,7 +50,9 @@ export function formatSlopReport(
     lines.push(`### ${file}`);
     lines.push('');
     for (const finding of findings) {
-      lines.push(`- L${finding.line}: **${finding.rule}** (${finding.severity}) - ${finding.message}`);
+      // Document-scope rules carry no line number and arrive as line 0.
+      const locator = finding.line === 0 ? 'Document-level' : `L${finding.line}`;
+      lines.push(`- ${locator}: **${finding.rule}** (${finding.severity}) - ${finding.message}`);
     }
     lines.push('');
   }
