@@ -38,20 +38,26 @@ jobs:
         working-directory: skills/slop-grader-sweep
         run: npm run build
 
+      # Runs from the repo root so the sweep glob and drift/SLOP-REPORT.md
+      # resolve against the repository, not the skill directory.
       - name: Run sweep
-        working-directory: skills/slop-grader-sweep
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-        run: node dist/cli.js sweep
+        run: node skills/slop-grader-sweep/dist/cli.js sweep
 
       - name: Commit report if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "actions@github.com"
-          if git diff --quiet -- drift/SLOP-REPORT.md; then
+          # Stage first: `git diff` alone does not see an untracked report as a
+          # change, so the first-ever write would never be committed.
+          git add drift/SLOP-REPORT.md
+          if git diff --cached --quiet -- drift/SLOP-REPORT.md; then
             echo "No change in drift/SLOP-REPORT.md, skipping commit"
             exit 0
           fi
-          git add drift/SLOP-REPORT.md
           git commit -m "chore(slop-sweep): update drift/SLOP-REPORT.md"
+          # Advisory-only path: rebase onto main so a commit landing between
+          # checkout and push degrades to a retry instead of a red run.
+          git pull --rebase origin main
           git push origin HEAD:main

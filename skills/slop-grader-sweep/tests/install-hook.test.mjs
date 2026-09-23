@@ -36,6 +36,37 @@ describe('installHook', () => {
     expect(content).toContain(MARKER);
   });
 
+  it('inserts the block above a terminal `exit 0` so it is not dead code', () => {
+    writeFileSync(hookPath, '# existing gate\necho "roadmap check"\n\nexit 0\n', 'utf8');
+
+    installHook(hookPath);
+    const content = readFileSync(hookPath, 'utf8');
+
+    expect(content.indexOf(MARKER)).toBeGreaterThan(-1);
+    expect(content.indexOf(MARKER)).toBeLessThan(content.indexOf('exit 0'));
+    expect(content.trimEnd().endsWith('exit 0')).toBe(true);
+  });
+
+  it('inserts the block above a terminal `exit $LASTEXITCODE`', () => {
+    writeFileSync(hookPath, '# existing gate\r\nexit $LASTEXITCODE\r\n', 'utf8');
+
+    installHook(hookPath);
+    const content = readFileSync(hookPath, 'utf8');
+
+    expect(content.indexOf(MARKER)).toBeLessThan(content.indexOf('exit $LASTEXITCODE'));
+    expect(content).toContain('\r\n');
+  });
+
+  it('does not treat an indented exit inside a block as terminal', () => {
+    writeFileSync(hookPath, 'if ($x) {\n    exit 1\n}\n\nexit 0\n', 'utf8');
+
+    installHook(hookPath);
+    const content = readFileSync(hookPath, 'utf8');
+
+    expect(content.indexOf(MARKER)).toBeGreaterThan(content.indexOf('    exit 1'));
+    expect(content.indexOf(MARKER)).toBeLessThan(content.lastIndexOf('exit 0'));
+  });
+
   it('is idempotent: running twice leaves exactly one marker', () => {
     installHook(hookPath);
     const second = installHook(hookPath);
