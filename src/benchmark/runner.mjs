@@ -20,14 +20,14 @@ export async function runBenchmark(stageName, fn, options = {}) {
   // Warm-up phase (unrecorded)
   for (let i = 0; i < warmupIterations; i++) {
     if (Date.now() - startTime > timeoutMs) {
-      throw new Error(`Benchmark exceeded timeout budget of ${timeoutMs}ms during warm-up`);
+      throw new Error(`Benchmark stage '${stageName}' exceeded timeout budget of ${timeoutMs}ms during warm-up`);
     }
     if (typeof global.gc === 'function') {
       global.gc();
     }
     await fn();
     if (Date.now() - startTime > timeoutMs) {
-      throw new Error(`Benchmark exceeded timeout budget of ${timeoutMs}ms during warm-up`);
+      throw new Error(`Benchmark stage '${stageName}' exceeded timeout budget of ${timeoutMs}ms during warm-up`);
     }
   }
 
@@ -35,7 +35,7 @@ export async function runBenchmark(stageName, fn, options = {}) {
   const samples = [];
   for (let i = 0; i < measuredIterations; i++) {
     if (Date.now() - startTime > timeoutMs) {
-      throw new Error(`Benchmark exceeded timeout budget of ${timeoutMs}ms during measurement`);
+      throw new Error(`Benchmark stage '${stageName}' exceeded timeout budget of ${timeoutMs}ms during measurement`);
     }
     if (typeof global.gc === 'function') {
       global.gc();
@@ -49,7 +49,7 @@ export async function runBenchmark(stageName, fn, options = {}) {
     samples.push(elapsedMs);
 
     if (Date.now() - startTime > timeoutMs) {
-      throw new Error(`Benchmark exceeded timeout budget of ${timeoutMs}ms during measurement`);
+      throw new Error(`Benchmark stage '${stageName}' exceeded timeout budget of ${timeoutMs}ms during measurement`);
     }
   }
 

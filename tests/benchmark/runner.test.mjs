@@ -34,7 +34,7 @@ describe('Monotonic Benchmark Runner', () => {
           timeoutMs: 100
         });
       },
-      { message: /Benchmark exceeded timeout budget of 100ms/ }
+      { message: /Benchmark stage 'slow_stage' exceeded timeout budget of 100ms/ }
     );
   });
 
@@ -42,7 +42,7 @@ describe('Monotonic Benchmark Runner', () => {
     const originalGc = global.gc;
     try {
       // 1. When global.gc is absent
-      delete global.gc;
+      global.gc = undefined;
       let countWithoutGc = 0;
       const metricsWithoutGc = await runBenchmark('no_gc', () => { countWithoutGc++; }, {
         warmupIterations: 2,
@@ -65,11 +65,7 @@ describe('Monotonic Benchmark Runner', () => {
       assert.equal(metricsWithGc.sampleCount, 3);
       assert.equal(gcCallCount, 5); // 2 warmup + 3 measured
     } finally {
-      if (originalGc !== undefined) {
-        global.gc = originalGc;
-      } else {
-        delete global.gc;
-      }
+      global.gc = originalGc;
     }
   });
 });
