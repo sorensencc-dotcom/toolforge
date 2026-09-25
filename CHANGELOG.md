@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.69.0
+Date: 2026-09-25
+
+### Changes
+- 11fe083 - Merge pull request #39 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- 7149bc6 - docs(slop-grader-sweep): add reference link to skill operator guide (Chris Sorensen)
+- e0d9e39 - docs(notebook-sync): add operator guide and implementation plan (Chris Sorensen)
+- 0a9bd98 - feat(notebook-sync): add cell-targeted prompt sync engine and validator (Chris Sorensen)
+
 ## Version 2.68.0
 Date: 2026-09-23
 
