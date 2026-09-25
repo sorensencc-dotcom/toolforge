@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.70.0
+Date: 2026-09-25
+
+### Changes
+- bee3190 - Merge pull request #40 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- d7e68a9 - feat(benchmark): add CLI gate evaluation and benchmark runner entrypoint (Chris Sorensen)
+- bd226a9 - feat(benchmark): add atomic artifact persistence and fixture hashing (Chris Sorensen)
+- fa95c0d - fix(benchmark): support --expose-gc property assignment in runner tests and include stageName in timeout errors (Chris Sorensen)
+- 609ec9e - feat(benchmark): add isolated monotonic benchmark runner harness (Chris Sorensen)
+- 028029a - feat(benchmark): add statistical distribution and dynamic gate calculations (Chris Sorensen)
+
 ## Version 2.69.0
 Date: 2026-09-25
 
