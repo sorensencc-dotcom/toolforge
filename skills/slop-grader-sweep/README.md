@@ -20,3 +20,8 @@ Requires `OPENROUTER_API_KEY` resolvable via the repo's
 
 See `docs/USAGE.md` for workflow details, error-handling behavior, and
 troubleshooting. See `SKILL.md` for trigger and I/O schema.
+
+---
+
+**For Setup, Requirements, Inputs/Outputs, Error Codes, Testing:** See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md).
+
