@@ -6,6 +6,17 @@ status: "active"
 
 # Wiki Activity Log
 
+## [2026-09-26 12:00] trm-mobile-ingress-pipeline
+
+- Summary: Established Mobile TRM Ingress & Auto-Triage Pipeline matching Grok/Copilot `drive-it` convention across Gemini Mobile, iOS Shortcuts, and desktop daemon.
+- Created/Updated:
+  - `wiki/research/trm-mobile-ingress-pipeline.md`
+  - `wiki/Ironbots.md` (Registered Bot 7: TRM Ingress Watcher)
+  - `scripts/trm-ingress-watcher.mjs` (Multi-inbox watcher + GitHub Issue creation + auto-remediation)
+  - `_status-feed/trm_ingress_status.json`
+  - `icf/src/server.mjs` (Added `/api/reporting/trm/ingress` endpoint)
+  - `wiki/Index.md`
+
 ## [2026-08-18 17:58] auto-synthesize
 
 - Provider: `offline-template` (`offline-scaffold-v1`)
@@ -3106,4 +3117,340 @@ status: "active"
 - Provider: `ironbots-daily-reporter` (`v1.0.0`)
 - Fleet Health: 61/100 (DEGRADED)
 - Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:13] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:19] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:22] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:22] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:22] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:23] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:23] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:24] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:24] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:25] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:25] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:26] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:27] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:27] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:27] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:28] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:28] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:33] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:33] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:33] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:34] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:34] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:35] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:35] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:36] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:36] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:38] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:39] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:39] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:39] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:40] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:40] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:42] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:43] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:43] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:44] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:45] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:46] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:47] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:48] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:49] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:50] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:51] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:56] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:56] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:57] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:57] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 15:58] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 7
 - Telemetry: `_status-feed/ironbots_daily_report.json`
