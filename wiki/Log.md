@@ -3100,3 +3100,10 @@ status: "active"
 - Fleet Health: 61/100 (DEGRADED)
 - Active Bots: 6
 - Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 14:58] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 61/100 (DEGRADED)
+- Active Bots: 6
+- Telemetry: `_status-feed/ironbots_daily_report.json`

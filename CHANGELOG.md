@@ -1,5 +1,23 @@
 # Changelog
 
+## Version 2.71.0
+Date: 2026-09-26
+
+### Changes
+- 76adc79 - Merge pull request #41 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- abcce12 - feat(trm): add why-verifier module, unit tests, and closed-loop synthesis integration (Chris Sorensen)
+- 0879150 - docs: address caveman review findings in TRM synthesis why spec and plan (Chris Sorensen)
+- e6cb613 - docs: add TRM synthesis why integration implementation plan (Chris Sorensen)
+- 4805ad0 - docs: address codex-review findings in TRM synthesis why design spec (Chris Sorensen)
+- bcb780e - docs: add TRM closed-loop synthesis /why integration design spec (Chris Sorensen)
+- 0c1cac8 - docs: add /why skill implementation plan (Chris Sorensen)
+- 3370d8e - docs: caveman-review fixes — path annotation, YAML syntax, signal placement, stale path (Chris Sorensen)
+- ae5c24d - docs: ponytail-review cuts — drop type field, confidence floats, SINGLE-SOURCED verdict (Chris Sorensen)
+- 66babab - docs: address second-opinion review findings in /why spec (Chris Sorensen)
+- d4e46cd - docs: add /why skill design spec (Chris Sorensen)
+- 055cff1 - feat(ironledger): add verify-ironledger skill and runtime harness (Chris Sorensen)
+- 50fd95c - docs(report): add daily report for 2026-09-25 (Chris Sorensen)
+
 ## Version 2.70.0
 Date: 2026-09-25
 
