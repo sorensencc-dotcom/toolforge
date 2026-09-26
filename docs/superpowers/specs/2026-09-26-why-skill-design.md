@@ -32,7 +32,7 @@ Examples:
 
 ### Retrieval Pipeline (ordered)
 
-1. **Vault-direct (primary):** Grep `C:\Users\soren\trm-vault\trm\research-gaps\` markdown files for entity/topic noun phrases extracted from the query. Take the **top 3 files by match count** (grep hit density). For each, read only the rows whose `Question` or `Answer excerpt` column contains the phrase — not the full file.
+1. **Vault-direct (primary):** Grep `C:\Users\soren\trm-vault\trm\research-gaps\` (**Windows path; use forward slashes cross-platform**) for entity/topic noun phrases extracted from the query. Take the **top 3 files by match count** (hit density — caveat: count ≠ semantic relevance; repetitive gap cards can rank above precise ones). For each, read only rows whose `Question` or `Answer excerpt` contains the phrase.
 2. **kb-context-cache MCP (fallback/supplement):** Run `query_context_cache` + `fetch_topic_note` with the same phrases for anything the vault grep misses or needs deeper context on.
 3. **No evidence:** If both sources return nothing → emit `NO-EVIDENCE` verdict and halt. No inference.
 
@@ -68,7 +68,7 @@ sources:
   - mcp: kb-context-cache / query_context_cache
     excerpt: "…relevant excerpt…"
     corroborated: false
-    single-sourced: true   [low-confidence]
+    single-sourced: true   # low-confidence: excluded from prose summary
 contradictions: []
 verdict: GROUNDED | NO-EVIDENCE
 ```
@@ -97,7 +97,7 @@ Follows the structured block. 3–5 sentences. Each claim cites its source inlin
 
 | Verdict | Agent behavior |
 |---|---|
-| `GROUNDED` | Proceed. Cite sources. Flag any `single-sourced: true` sources in commit message or diagnostic note. |
+| `GROUNDED` | Proceed. Cite sources. If any source has `single-sourced: true`, the evidence block already carries that signal for downstream agents; also note it in the prose summary and (for human readers) in the commit message or diagnostic note. |
 | `NO-EVIDENCE` | **Hard stop.** State what evidence is missing. Do not diagnose, assert, or modify code. |
 
 > [!NOTE]
@@ -130,4 +130,4 @@ No skill wiring, no runtime registration required.
 - **Not** a web search wrapper
 - **Not** a general file summarizer
 - **Not** a replacement for `trm-gap-triage` (that writes gap cards; this reads them)
-- Reads only: `trm-vault/registry/`, `trm-vault/trm/research-gaps/`, and `kb-context-cache` MCP
+- Reads only: `trm-vault/trm/research-gaps/`, and `kb-context-cache` MCP
