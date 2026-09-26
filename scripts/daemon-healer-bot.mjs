@@ -130,9 +130,27 @@ function startDashboardDaemon() {
   }
 }
 
+export const THRASH_GUARD_CONFIG = {
+  maxConsecutiveHeals: 3,
+  cooldownStatus: 'ALERT_ONLY_COOLDOWN'
+};
+
+async function readPriorTelemetry() {
+  try {
+    const raw = await fs.readFile(REPORT_PATH, 'utf8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
 async function runDaemonHealer() {
   const startTime = Date.now();
   console.log(`[Daemon-Healer] Checking dashboard daemon health... (dry-run: ${isDryRun})`);
+
+  const prior = await readPriorTelemetry();
+  let consecutiveHeals = prior?.consecutiveHeals || 0;
+  let thrashCooldownActive = prior?.thrashCooldownActive || false;
 
   const initialProbe = await probeFleetHealth();
   let status = initialProbe.ok ? 'HEALTHY' : 'DOWN';
@@ -142,35 +160,48 @@ async function runDaemonHealer() {
   console.log(`  - UI Endpoint ${TARGET_DASHBOARD_URL} -> Status: ${initialProbe.uiProbe?.statusCode || initialProbe.uiProbe?.error} (valid: ${initialProbe.uiProbe?.payloadValid})`);
   console.log(`  - API Endpoint ${TARGET_API_URL} -> Status: ${initialProbe.apiProbe?.statusCode || initialProbe.apiProbe?.error} (valid: ${initialProbe.apiProbe?.payloadValid})`);
 
-  if (!initialProbe.ok && !isCheckOnly && !isDryRun) {
-    console.log('[Daemon-Healer] Service is unhealthy, mis-scoped, or colliding. Initiating automated recovery...');
-    const stalePids = findProcessOnPort(8080);
-    for (const pid of stalePids) {
-      console.log(`  - Terminating stale/colliding process on port 8080 (PID: ${pid})`);
-      killProcess(pid);
-    }
-
-    // Short wait for socket release
-    await new Promise(r => setTimeout(r, 800));
-
-    restartedPid = startDashboardDaemon();
-    console.log(`  - Launched fresh HTTP server rooted at ${ICF_DIR} (PID: ${restartedPid})`);
-
-    // Verify recovery with retries
-    let postProbe = null;
-    for (let attempt = 1; attempt <= 3; attempt++) {
-      await new Promise(r => setTimeout(r, 800));
-      postProbe = await probeFleetHealth();
-      if (postProbe.ok) break;
-    }
-
-    if (postProbe && postProbe.ok) {
-      status = 'RECOVERED';
-      healed = true;
-      console.log('  ✔ Health check passed after restart (UI & API 200 OK).');
+  if (initialProbe.ok) {
+    // Reset thrash counters on healthy state
+    consecutiveHeals = 0;
+    thrashCooldownActive = false;
+    status = 'HEALTHY';
+  } else if (!isCheckOnly && !isDryRun) {
+    if (consecutiveHeals >= THRASH_GUARD_CONFIG.maxConsecutiveHeals) {
+      thrashCooldownActive = true;
+      status = THRASH_GUARD_CONFIG.cooldownStatus;
+      console.warn(`[Daemon-Healer] ⚠️ Thrash Guard Active: Port 8080 flapped >${THRASH_GUARD_CONFIG.maxConsecutiveHeals} consecutive cycles. Switching to alert-only cooldown mode (skipping process eviction).`);
     } else {
-      status = 'RESTART_FAILED';
-      console.warn(`  ✖ Health check still failing after restart (UI: ${postProbe?.uiProbe?.statusCode || postProbe?.uiProbe?.error}, API: ${postProbe?.apiProbe?.statusCode || postProbe?.apiProbe?.error}).`);
+      console.log(`[Daemon-Healer] Service is unhealthy, mis-scoped, or colliding. Initiating automated recovery (attempt ${consecutiveHeals + 1}/${THRASH_GUARD_CONFIG.maxConsecutiveHeals})...`);
+      const stalePids = findProcessOnPort(8080);
+      for (const pid of stalePids) {
+        console.log(`  - Terminating stale/colliding process on port 8080 (PID: ${pid})`);
+        killProcess(pid);
+      }
+
+      // Short wait for socket release
+      await new Promise(r => setTimeout(r, 800));
+
+      restartedPid = startDashboardDaemon();
+      console.log(`  - Launched fresh HTTP server rooted at ${ICF_DIR} (PID: ${restartedPid})`);
+
+      // Verify recovery with retries
+      let postProbe = null;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        await new Promise(r => setTimeout(r, 800));
+        postProbe = await probeFleetHealth();
+        if (postProbe.ok) break;
+      }
+
+      if (postProbe && postProbe.ok) {
+        status = 'RECOVERED';
+        healed = true;
+        consecutiveHeals += 1;
+        console.log('  ✔ Health check passed after restart (UI & API 200 OK).');
+      } else {
+        status = 'RESTART_FAILED';
+        consecutiveHeals += 1;
+        console.warn(`  ✖ Health check still failing after restart (UI: ${postProbe?.uiProbe?.statusCode || postProbe?.uiProbe?.error}, API: ${postProbe?.apiProbe?.statusCode || postProbe?.apiProbe?.error}).`);
+      }
     }
   }
 
@@ -181,6 +212,8 @@ async function runDaemonHealer() {
     targetUrl: TARGET_DASHBOARD_URL,
     targetApiUrl: TARGET_API_URL,
     status,
+    consecutiveHeals,
+    thrashCooldownActive,
     initialProbe: {
       ok: initialProbe.ok,
       statusCode: initialProbe.statusCode,
