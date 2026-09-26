@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.74.0
+Date: 2026-09-26
+
+### Changes
+- 4b1436e - Merge pull request #51 from sorensencc-dotcom/feat/devin-push-gate-47 (Chris Sorensen)
+- da14517 - feat(git): add git-push-and-wait terminal blocking gate for Devin AI reviews (closes #47) (Chris Sorensen)
+
 ## Version 2.73.1
 Date: 2026-09-26
 
