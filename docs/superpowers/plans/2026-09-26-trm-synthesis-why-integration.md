@@ -34,9 +34,9 @@
 Implement `verifyTopicGaps` and `formatWhyEvidenceBlock` supporting:
 - Category mode vs Topic/Notebook mode
 - Options: `vaultPath`, `gapsFilePath`, `gapsContent`
-- Parsing gap card table rows (`| Question | Answer excerpt | Notebook | First-seen date | Entry key |`)
+- Robust parsing of gap card table rows (`| Question | Answer excerpt | Notebook | First-seen date | Entry key |`) splitting on unescaped pipes (`(?<!\\)\|`)
 - Extracting entry key flags (`:open-contradictions:`, `:under-sourced:`)
-- Generating clean markdown `<details>` blocks
+- Generating clean markdown `<details>` blocks with normalized POSIX paths (`.replace(/\\/g, '/')`)
 
 - [ ] **Step 2: Commit**
 
@@ -64,7 +64,8 @@ Implement automated test cases:
 3. Single-sourced detection (`:under-sourced:`).
 4. Contradiction detection (`:open-contradictions:`).
 5. Non-existent topic handling (`NO-EVIDENCE` / `unverified`).
-6. POSIX path normalization check.
+6. Table rows containing escaped pipes (`\|`).
+7. POSIX path normalization check.
 
 - [ ] **Step 2: Run test suite**
 
@@ -107,10 +108,16 @@ In Step 4 loop, for each `slug` in `gapHeadings`:
 - Prepend contradiction warning banner if `whyResult.contradictions.length > 0`
 - Append `whyResult.evidenceBlockMarkdown` inside the `<details>` wrapper at the bottom of the synthesized note.
 
-- [ ] **Step 3: Test dry run of closed-loop synthesis**
+- [ ] **Step 3: Test dry run of closed-loop synthesis (Cross-Platform)**
 
+PowerShell:
 ```powershell
 $env:BFCL_DRY_RUN="1"; $env:TRM_SKIP_MINE="1"; node scripts/run-closed-loop-research-v2.mjs
+```
+
+POSIX / Bash:
+```bash
+BFCL_DRY_RUN=1 TRM_SKIP_MINE=1 node scripts/run-closed-loop-research-v2.mjs
 ```
 
 Expected: Step 4 logs show verification status per topic; synthesized files in `wiki/research/` carry frontmatter and `## WHY-EVIDENCE` blocks.
@@ -121,6 +128,7 @@ Expected: Step 4 logs show verification status per topic; synthesized files in `
 git add scripts/run-closed-loop-research-v2.mjs
 git commit -m "feat(trm): integrate why-verifier into Step 4 Layer 2 wiki synthesis"
 ```
+
 
 ---
 

@@ -114,7 +114,9 @@ interface WhyVerificationResult {
    - Else if all matched entries contain `:under-sourced:` (or match count == 1 and under-sourced), `verificationStatus = 'single-sourced'`.
    - Else if `corroborated === true` (or valid single well-sourced entry), `verificationStatus = 'verified'`.
    - If `verdict === 'NO-EVIDENCE'`, `verificationStatus = 'unverified'`.
-5. **Path Normalization:** All file paths written to YAML frontmatter or markdown blocks must be normalized to POSIX forward slashes (`/`) to avoid Windows escape character collisions (`\t`, `\r`, `\n`).
+5. **Path Normalization:** All file paths written to YAML frontmatter or markdown blocks must be normalized to POSIX forward slashes (`/`) using `filePath.replace(/\\/g, '/').replace(/\/+/g, '/')` to prevent Windows escape collisions and duplicate slashes.
+6. **Markdown Table Parsing:** Split gap card table rows on unescaped pipe boundaries (`(?<!\\)\|`) to prevent cells containing escaped pipes (`\|`) from misaligning column indices.
+
 
 
 ---
