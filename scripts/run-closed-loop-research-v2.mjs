@@ -42,6 +42,7 @@ const SKIP_MINE     = process.env.TRM_SKIP_MINE  === '1'; // skip Step 1 re-mine
 import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs';
 import { deduplicateMinedGaps, loadGapAliases } from './gap-normalizer.mjs';
 import { parseGapItems } from '../kb-sync/modules/trm/gap-triage-engine.mjs';
+import { verifyTopicGaps } from '../modules/wiki/why-verifier.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -402,12 +403,27 @@ async function run() {
 
   for (const slug of gapHeadings) {
     const conceptFile = path.join(researchDir, `${slug}.md`);
+
+    // Verify grounding against live gap cards via why-verifier
+    const whyResult = verifyTopicGaps(slug, {
+      vaultPath: TRM_VAULT,
+      gapsFilePath: primaryGapsFile,
+      gapsContent: primaryGapsContent
+    });
+
+    logInfo(`  • [WHY-VERIFIER] '${slug}' → verdict: ${whyResult.verdict}, status: ${whyResult.verificationStatus}, corroborated: ${whyResult.corroborated}`);
+
+    const contradictionBanner = whyResult.contradictions.length > 0
+      ? `> [!WARNING] Competing Historical Accounts (Preserved Contradiction)\n> Archival sources dispute: ${whyResult.contradictions.join('; ')}\n\n`
+      : '';
+
     const conceptContent = [
       '---',
       `source_title: "${slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} — TRM Synthesis"`,
       `repository: "CIC Research Vault — Live Synthesis"`,
       `document_date: "${todayStr}"`,
-      `verification_status: "draft"`,
+      `verification_status: "${whyResult.verificationStatus}"`,
+      `why_corroborated: ${whyResult.corroborated}`,
       `category: "${resolvedCategory}"`,
       `topic: ${slug}`,
       `status: active`,
@@ -420,18 +436,23 @@ async function run() {
       '',
       `# ${slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}`,
       '',
-      `> Synthesized from live TRM mining output. See [[kb-sync/wiki/research/${slug}]] for the canonical research page.`,
+      contradictionBanner + `> Synthesized from live TRM mining output. See [[kb-sync/wiki/research/${slug}]] for the canonical research page.`,
       '',
       '## Source gap',
       '',
       '<!-- Extracted from trm-vault by run-closed-loop-research-v2.mjs — fill in synthesis below -->',
       '',
+      '---',
+      '',
+      whyResult.evidenceBlockMarkdown,
+      ''
     ].join('\n');
 
     fs.writeFileSync(conceptFile, conceptContent, 'utf8');
-    synthesizedFiles.push({ slug, file: conceptFile, content: conceptContent });
-    logInfo(`  ✓ Stub wiki page: ${conceptFile}`);
+    synthesizedFiles.push({ slug, file: conceptFile, content: conceptContent, whyResult });
+    logInfo(`  ✓ Synthesized wiki page with WHY-EVIDENCE: ${conceptFile}`);
   }
+
 
   if (synthesizedFiles.length === 0) {
     logWarn('No gap headings extracted — wiki synthesis skipped. Check the gap file format.');
