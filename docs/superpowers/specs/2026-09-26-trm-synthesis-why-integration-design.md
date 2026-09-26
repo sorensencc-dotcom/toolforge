@@ -62,9 +62,11 @@ During Step 4 of `run-closed-loop-research-v2.mjs` (Layer 2 Wiki Synthesis), eve
 /**
  * Verifies a topic against TRM research gap cards in the vault.
  *
- * @param {string} topicSlug - The topic name or slug (e.g. 'cic-willow-run-aviation-engineering')
+ * @param {string} topicSlug - The topic name, category slug (e.g. 'open-contradictions', 'under-sourced'), or notebook slug (e.g. 'cic-willow-run-aviation-engineering')
  * @param {Object} [options]
  * @param {string} [options.vaultPath] - Path to trm-vault root (defaults to env or standard path)
+ * @param {string} [options.gapsFilePath] - Optional explicit path to a single gap card or staging file
+ * @param {string} [options.gapsContent] - Optional in-memory markdown content to evaluate directly
  * @returns {WhyVerificationResult}
  */
 export function verifyTopicGaps(topicSlug, options = {}) { ... }
@@ -100,15 +102,20 @@ interface WhyVerificationResult {
 }
 ```
 
-### Decision Rules
+### Matching & Decision Rules
 
-1. **Grounded vs No-Evidence:** If ≥1 matching gap card entry is found across `trm-vault/trm/research-gaps/*.md`, `verdict = 'GROUNDED'`. Otherwise, `verdict = 'NO-EVIDENCE'`.
-2. **Corroboration:** `corroborated = true` if matching claims or citations appear across ≥2 distinct gap card files.
-3. **Status Assignment:**
+1. **Two-Mode Matching:**
+   - **Category Mode:** If `topicSlug` is a standard gap category (`open-contradictions`, `under-sourced`, `adjacent-topics`, `follow-up`), extract all rows across gap cards where the entry key contains `:${topicSlug}:`.
+   - **Topic/Notebook Mode:** If `topicSlug` is a notebook or subject slug (e.g. `cic-willow-run-aviation-engineering` or `willow-run`), match gap card files whose filename contains the slug, or whose table rows contain the noun phrases.
+2. **Grounded vs No-Evidence:** If ≥1 matching gap card entry is found across `trm-vault/trm/research-gaps/*.md` (or in provided `gapsContent`), `verdict = 'GROUNDED'`. Otherwise, `verdict = 'NO-EVIDENCE'`.
+3. **Corroboration:** `corroborated = true` if matching claims or citations appear across ≥2 distinct gap card files.
+4. **Status Assignment:**
    - If any matched entry contains `:open-contradictions:`, `verificationStatus = 'contradiction_flagged'`.
    - Else if all matched entries contain `:under-sourced:` (or match count == 1 and under-sourced), `verificationStatus = 'single-sourced'`.
    - Else if `corroborated === true` (or valid single well-sourced entry), `verificationStatus = 'verified'`.
    - If `verdict === 'NO-EVIDENCE'`, `verificationStatus = 'unverified'`.
+5. **Path Normalization:** All file paths written to YAML frontmatter or markdown blocks must be normalized to POSIX forward slashes (`/`) to avoid Windows escape character collisions (`\t`, `\r`, `\n`).
+
 
 ---
 
