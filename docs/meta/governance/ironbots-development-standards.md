@@ -137,3 +137,28 @@ Before adding or updating an Ironbot, developers and agents must verify:
 - [ ] **Reporter Integration**: Added to `BOT_ARTIFACTS` and `activeBots` roster in `scripts/ironbots-daily-reporter.mjs`.
 - [ ] **Regression Coverage**: `tests/ironbots.test.mjs` contains passing tests for `--dry-run` and wrapper verification.
 - [ ] **Architecture Sync**: Updated `wiki/ironbots-autonomous-architecture.html` and re-rendered `.png`.
+
+---
+
+## 6. Developer Workflow: Synchronous Push-and-Wait Gate
+
+To bridge the decoupling between local synchronous `git push` transport and asynchronous cloud Devin AI / GitHub Actions review workflows, developers should use the synchronous push-and-wait gate:
+
+```powershell
+# Directly via PowerShell:
+pwsh -NoProfile -File scripts/git-push-and-wait.ps1
+
+# Or via configured Git alias:
+git psw
+```
+
+### Git Alias Configuration
+```bash
+git config alias.psw "!pwsh -NoProfile -File scripts/git-push-and-wait.ps1"
+```
+
+### Execution Behavior
+1. Performs `git push origin <current-branch>`.
+2. Resolves associated open Pull Request via `gh pr view`.
+3. Streams a live terminal spinner while polling for Devin AI review completion (`devin-ai-integration`) and CI check rollup (`statusCheckRollup`).
+4. Prints color-coded summary and exits `0` on clean pass, or exits `1` if issues are flagged.

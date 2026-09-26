@@ -264,3 +264,18 @@ test('weekly retro and reporting schedule scripts exist and target toolforge cat
   assert.match(content, /toolforge-weekly-report-agent/);
 });
 
+test('git-push-and-wait script exists and contains Devin blocking gate parameters', () => {
+  const gateScript = path.join(REPO_ROOT, 'scripts', 'git-push-and-wait.ps1');
+  assert.ok(fs.existsSync(gateScript), 'git-push-and-wait.ps1 should exist');
+
+  const content = fs.readFileSync(gateScript, 'utf8');
+  assert.match(content, /param\(/);
+  assert.match(content, /\[string\]\$Branch/);
+  assert.match(content, /\[int\]\$TimeoutSeconds/);
+  assert.match(content, /\[switch\]\$SkipWait/);
+  assert.match(content, /\[int\]\$PRNumber/);
+  assert.match(content, /gh pr view/);
+  assert.match(content, /statusCheckRollup/);
+  assert.match(content, /devin-ai-integration/);
+});
+
