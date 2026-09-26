@@ -12,6 +12,8 @@
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -43,13 +45,82 @@ export const FLEET_SCORING_POLICY = {
     ciFailurePenaltyPerRun: 10,
     maxCiFailurePenalty: 25,
     daemonUnhealthyPenalty: 20,
-    competitorDriftPenalty: 5
+    competitorDriftPenalty: 5,
+    hostDegradedPenalty: 25
   },
   thresholds: {
     healthyMinScore: 85,
     attentionMinScore: 60
   }
 };
+
+export function getHostHeartbeat() {
+  const uptimeSeconds = Math.floor(os.uptime());
+  const hours = Math.floor(uptimeSeconds / 3600);
+  const minutes = Math.floor((uptimeSeconds % 3600) / 60);
+  const uptimeHuman = `${hours}h ${minutes}m`;
+
+  let taskScheduler = {
+    status: 'UNKNOWN',
+    taskCount: 0,
+    tasks: [],
+    error: null
+  };
+
+  if (process.platform === 'win32') {
+    try {
+      const out = execFileSync('powershell.exe', [
+        '-NoProfile',
+        '-Command',
+        'Get-ScheduledTask -TaskPath "\\Ironbots\\*" -ErrorAction SilentlyContinue | Select-Object TaskName, State | ConvertTo-Json -Compress'
+      ], { encoding: 'utf8', timeout: 5000 }).trim();
+
+      if (out) {
+        let parsed = JSON.parse(out);
+        if (!Array.isArray(parsed)) parsed = [parsed];
+        const tasks = parsed.map(t => ({
+          name: t.TaskName,
+          state: t.State === 3 || t.State === 'Ready' ? 'Ready' : (t.State === 4 || t.State === 'Running' ? 'Running' : String(t.State))
+        }));
+        taskScheduler = {
+          status: tasks.length >= 7 ? 'HEALTHY' : 'DEGRADED',
+          taskCount: tasks.length,
+          tasks,
+          error: null
+        };
+      } else {
+        taskScheduler = {
+          status: 'DEGRADED',
+          taskCount: 0,
+          tasks: [],
+          error: 'No tasks returned from \\Ironbots\\ registry'
+        };
+      }
+    } catch (err) {
+      taskScheduler = {
+        status: 'DEGRADED',
+        taskCount: 0,
+        tasks: [],
+        error: err.message
+      };
+    }
+  } else {
+    taskScheduler = {
+      status: 'NON_WINDOWS',
+      taskCount: 0,
+      tasks: [],
+      error: 'Running on non-Windows host'
+    };
+  }
+
+  return {
+    hostname: os.hostname(),
+    platform: os.platform(),
+    uptimeSeconds,
+    uptimeHuman,
+    taskScheduler
+  };
+}
 
 async function readJsonSafe(filePath, defaultVal = null) {
   try {
@@ -122,14 +193,16 @@ export async function aggregateFleetActivity(options = {}) {
       summary: results.ciWatchdog?.scannedCount !== undefined ? `${results.ciWatchdog.scannedCount} runs scanned (${results.ciWatchdog.failureCount || 0} failures)` : 'No run recorded'
     },
     {
-      id: 'trm-ingress',
-      name: 'TRM Mobile Ingress & Auto-Triage Watcher',
+      id: 'trm-drive-sync',
+      name: 'TRM-Drive-Sync Ingress Watcher',
       schedule: 'Continuous / On-Demand',
       telemetry: results.trmIngress,
       status: results.trmIngress?.status || 'UNKNOWN',
       summary: results.trmIngress?.totalTracked !== undefined ? `${results.trmIngress.totalTracked} action cards tracked (${results.trmIngress.completed || 0} completed, ${results.trmIngress.harnessPending || 0} staged)` : 'No run recorded'
     }
   ];
+
+  const hostHeartbeat = getHostHeartbeat();
 
   // Compute overall fleet health score (0–100)
   let healthPenalties = 0;
@@ -148,6 +221,9 @@ export async function aggregateFleetActivity(options = {}) {
   if (results.watchlistMiner?.driftsDetected > 0) {
     healthPenalties += FLEET_SCORING_POLICY.weights.competitorDriftPenalty;
   }
+  if (hostHeartbeat.taskScheduler.status === 'DEGRADED') {
+    healthPenalties += FLEET_SCORING_POLICY.weights.hostDegradedPenalty;
+  }
 
   const fleetHealthScore = Math.max(0, Math.min(100, Math.round(100 - healthPenalties)));
   let fleetStatus = 'HEALTHY';
@@ -164,6 +240,7 @@ export async function aggregateFleetActivity(options = {}) {
     fleetStatus,
     botCount: activeBots.length,
     activeBots,
+    hostHeartbeat,
     summaryMetrics: {
       totalDocsIndexed: results.notebookIngester?.totalFiles || 0,
       wikiHealthScore: results.kbSentinel?.healthScore || 100,
@@ -191,7 +268,7 @@ export async function aggregateFleetActivity(options = {}) {
 
     // Append to Log.md
     const dateFormatted = nowIso.replace('T', ' ').slice(0, 16);
-    const logEntry = `\n## [${dateFormatted}] ironbots-daily-fleet-report\n\n- Provider: \`ironbots-daily-reporter\` (\`v1.0.0\`)\n- Fleet Health: ${fleetHealthScore}/100 (${fleetStatus})\n- Active Bots: ${activeBots.length}\n- Telemetry: \`_status-feed/ironbots_daily_report.json\`\n`;
+    const logEntry = `\n## [${dateFormatted}] ironbots-daily-fleet-report\n\n- Provider: \`ironbots-daily-reporter\` (\`v1.0.0\`)\n- Fleet Health: ${fleetHealthScore}/100 (${fleetStatus})\n- Active Bots: ${activeBots.length}\n- Host: \`${hostHeartbeat.hostname}\` (Uptime: ${hostHeartbeat.uptimeHuman}, Tasks: ${hostHeartbeat.taskScheduler.taskCount})\n- Telemetry: \`_status-feed/ironbots_daily_report.json\`\n`;
     try {
       await fs.appendFile(WIKI_LOG_FILE, logEntry, 'utf8');
     } catch (_) {}
@@ -201,6 +278,8 @@ export async function aggregateFleetActivity(options = {}) {
 }
 
 function generateMarkdownReport(report) {
+  const host = report.hostHeartbeat || {};
+  const sched = host.taskScheduler || {};
   return `---
 title: "Ironbots Daily Fleet Activity Report"
 category: "reporting"
@@ -221,6 +300,8 @@ tags:
 
 ## 1. Fleet executive summary
 - **Active Bots Supervised**: ${report.botCount} / ${report.botCount}
+- **Host Heartbeat**: \`${host.hostname || 'UNKNOWN'}\` (Uptime: \`${host.uptimeHuman || 'N/A'}\`)
+- **Task Scheduler Registry**: \`${sched.status || 'N/A'}\` (${sched.taskCount || 0} tasks verified under \\\`Ironbots\\\`)
 - **Knowledge Documents Indexed (FTS5)**: ${report.summaryMetrics.totalDocsIndexed}
 - **Wiki Health Score**: ${report.summaryMetrics.wikiHealthScore}/100
 - **Total Research Gaps Tracked**: ${report.summaryMetrics.totalResearchGaps}

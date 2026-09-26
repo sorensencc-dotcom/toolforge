@@ -60,9 +60,11 @@ Any background daemon, scheduled worker, or autonomous maintenance script regist
   1. **UI Contract**: Asserts HTTP 200 and valid HTML markup (`<html` or `<!DOCTYPE`).
   2. **API Contract**: Asserts HTTP 200 and valid JSON payload (`{ status: "SUCCESS" }`).
 - **Comprehensive Socket Sweeping**: Port checks must discover and clear competing socket holders across all interface bindings: IPv4 (`127.0.0.1`, `0.0.0.0`) and IPv6 (`::`, `::1`).
+- **Thrash Guard & Cooldown Policy**: If port 8080 flaps $>3$ consecutive heal cycles, `Daemon-Healer` transitions to `ALERT_ONLY_COOLDOWN` (skipping destructive `taskkill` and process restart loops) until the endpoint stabilizes.
 
-### Pillar 6: Centralized Scoring & Zero Magic Constants
+### Pillar 6: Centralized Scoring, Host Heartbeat & Zero Magic Constants
 - **Config-Driven Weights**: Scoring penalties and health status thresholds must be declared in exported configuration blocks (e.g., `FLEET_SCORING_POLICY`) rather than inline magic numbers.
+- **Host Heartbeat & Registry Validation**: Every daily aggregation run verifies host uptime and `\Ironbots\` Task Scheduler registry availability; host dropouts or missing task registrations trigger immediate `DEGRADED` scoring penalties.
 - **Standard Thresholds**:
   - `HEALTHY` / `PASS`: Score $\ge 85$
   - `DEGRADED`: $60 \le \text{Score} < 85$
@@ -77,63 +79,33 @@ Any background daemon, scheduled worker, or autonomous maintenance script regist
 
 ---
 
-## 3. Standard Bot Implementation Blueprint
+## 3. Standing Ownership Contract (Ironbots vs. GrokBots)
 
-Every Ironbot consists of three components:
-
-```
-c:\dev\
-├── scripts/
-│   ├── <name>-bot.mjs                         # Bot execution engine
-│   └── schedule-task-wrapper-<Name>.ps1       # Windows Task Scheduler wrapper
-├── _status-feed/
-│   └── <name>_report.json                     # Emitted telemetry feed
-└── tests/
-    └── ironbots.test.mjs                      # Paired regression test cases
-```
-
-### 3.1 Standard CLI Arguments Contract
-
-All bot engines (`.mjs`) must support these standard CLI flags:
-
-| Flag | Type | Description |
+| Domain | Ironbot (Deterministic Local Layer) | GrokBot / Cloud Team (Reasoning & Policy) |
 | :--- | :--- | :--- |
-| `--dry-run` | Boolean | Runs full scan and computes metrics without mutating files or database state. |
-| `--fix` | Boolean | Enables automatic remediation / auto-healing passes if supported by the bot. |
-| `--verbose` | Boolean | Outputs detailed diagnostic logging to stdout. |
-| `--limit=<n>` | Number | Caps batch processing size (e.g., maximum gaps or targets to triage per run). |
-
-### 3.2 Standard Scheduled Task Wrapper Contract
-
-All task wrappers (`.ps1`) must support the unified action dispatch interface:
-
-```powershell
-[CmdletBinding()]
-param(
-    [ValidateSet('Register', 'Unregister', 'Status', 'Test')]
-    [string]$Action = 'Status',
-    [switch]$Unattended,
-    [switch]$Force
-)
-```
-
-- **Folder Creation**: `Ensure-TaskFolder` must handle existing folders gracefully and log errors cleanly (never empty `catch {}` blocks).
-- **Execution Limits**: Set task `ExecutionTimeLimit` to `PT1H` (1 hour) to prevent runaway hung processes.
-- **Log Routing**: Standard out and standard error must be captured into dedicated files under `C:\dev\logs\<bot-name>.stdout.log` and `C:\dev\logs\<bot-name>.stderr.log`.
+| **CI** | `CI-Watchdog` — Extracts failed workflow runs and error logs. | `Helix CI Triage` — Root-cause analysis and developer triage briefs. |
+| **NLM / Ingestion** | `Notebook-Ingester` — Builds local SQLite FTS5 index only. | `Replace-Gate` & `Ingestion Guard` — Remote upload decisions; FLAG-only dupes. |
+| **ICF :8080** | `Daemon-Healer` — Port clearing, socket recovery, and daemon restart. | `ICF Ops Sentinel` — Higher-level application health and SLA monitoring. |
+| **Competitor Drift** | `Watchlist-Miner` — Deterministic hash/ETag difference detection. | `Competitor Command Center` — Strategic landscape synthesis and roadmap guidance. |
+| **TRM Gaps** | `TRM-Bot` — Drafts structured RFC notes and staging markers (`status: draft`). | `Research Desk / First Mate` — Review, proof grounding, and final wiki promotion. |
+| **TRM Ingress** | `TRM-Drive-Sync` — Ingests cards, stages to `.harness/`, creates tracking issues. | `Antigravity Harness / Human Operator` — Claiming, resolving, and closing tickets. |
 
 ---
 
 ## 4. Operational Fleet Matrix
 
-| ID | Name | Script | Schedule | Telemetry Output |
+The autonomous fleet comprises **7 autonomous workers + 1 daily aggregator/reporter** (total 8 scheduled tasks registered under `\Ironbots\`):
+
+| Task Name | ID | Script | Schedule | Telemetry Output |
 | :--- | :--- | :--- | :--- | :--- |
-| `notebook-ingester` | NotebookLM & Knowledge Ingester | `scripts/notebook-ingester-bot.mjs` | Daily 02:00 AM | `_status-feed/notebook_ingester_report.json` |
-| `kb-sentinel` | KB-Sentinel Drift & Autoheal | `scripts/kb-sentinel-bot.mjs` | Daily 03:00 AM | `_status-feed/kb_sentinel_report.json` |
-| `trm-bot` | TRM Gap Triage & RFC Drafter | `scripts/trm-bot-runner.mjs` | Daily 04:00 AM | `_status-feed/trm_bot_report.json` |
-| `watchlist-miner` | Watchlist & Competitor Drift Miner | `scripts/watchlist-miner-bot.mjs` | Daily 05:00 AM | `_status-feed/watchlist_miner_report.json` |
-| `ci-watchdog` | CI-Watchdog Workflow Failure Triage | `scripts/ci-watchdog-bot.mjs` | Daily 06:00 AM | `_status-feed/ci_alerts.json` |
-| `daemon-healer` | Daemon-Healer Port 8080 Supervisor | `scripts/daemon-healer-bot.mjs` | Every 15 Min | `_status-feed/daemon_health.json` |
-| `ironbots-reporter` | Daily Fleet Activity Aggregator | `scripts/ironbots-daily-reporter.mjs` | Daily 06:30 AM | `_status-feed/ironbots_daily_report.json` |
+| `Notebook-Ingester` | `notebook-ingester` | `scripts/notebook-ingester-bot.mjs` | Daily 02:00 AM | `_status-feed/notebook_ingester_report.json` |
+| `KB-Sentinel` | `kb-sentinel` | `scripts/kb-sentinel-bot.mjs` | Daily 03:00 AM | `_status-feed/kb_sentinel_report.json` |
+| `TRM-Bot` | `trm-bot` | `scripts/trm-bot-runner.mjs` | Daily 04:00 AM | `_status-feed/trm_bot_report.json` |
+| `Watchlist-Miner` | `watchlist-miner` | `scripts/watchlist-miner-bot.mjs` | Daily 05:00 AM | `_status-feed/watchlist_miner_report.json` |
+| `CI-Watchdog` | `ci-watchdog` | `scripts/ci-watchdog-bot.mjs` | Daily 06:00 AM | `_status-feed/ci_alerts.json` |
+| `Daemon-Healer` | `daemon-healer` | `scripts/daemon-healer-bot.mjs` | Every 15 Min | `_status-feed/daemon_health.json` |
+| `TRM-Drive-Sync` | `trm-drive-sync` | `scripts/trm-ingress-watcher.mjs` | Continuous / On-Demand | `_status-feed/trm_ingress_status.json` |
+| `Ironbots-Reporter` | `ironbots-reporter` | `scripts/ironbots-daily-reporter.mjs` | Daily 06:30 AM | `_status-feed/ironbots_daily_report.json` |
 
 ---
 

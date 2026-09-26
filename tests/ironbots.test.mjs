@@ -160,28 +160,30 @@ test('watchlist-miner-bot runs in dry-run mode and writes valid telemetry', () =
   assert.ok(['PASS', 'DRIFT_DETECTED'].includes(report.status));
 });
 
-test('ironbots-daily-reporter runs and generates aggregated daily telemetry', () => {
-  const scriptPath = path.join(REPO_ROOT, 'scripts', 'ironbots-daily-reporter.mjs');
-  assert.ok(fs.existsSync(scriptPath), 'ironbots-daily-reporter.mjs should exist');
+test('ironbots-daily-reporter runs and generates aggregated daily telemetry with host heartbeat', async () => {
+  const { aggregateFleetActivity, getHostHeartbeat } = await import('../scripts/ironbots-daily-reporter.mjs');
+  
+  const heartbeat = getHostHeartbeat();
+  assert.equal(typeof heartbeat.hostname, 'string');
+  assert.ok(heartbeat.uptimeSeconds >= 0);
+  assert.equal(typeof heartbeat.taskScheduler, 'object');
+  assert.ok(typeof heartbeat.taskScheduler.status === 'string');
 
-  const stdout = execFileSync('node', [scriptPath, '--dry-run'], {
-    cwd: REPO_ROOT,
-    encoding: 'utf8'
-  });
+  const report = await aggregateFleetActivity({ isDryRun: true });
+  assert.equal(typeof report.fleetHealthScore, 'number');
+  assert.ok(report.fleetHealthScore >= 0 && report.fleetHealthScore <= 100);
+  assert.equal(report.botCount, 7);
+  assert.ok(Array.isArray(report.activeBots));
+  assert.equal(report.activeBots.length, 7);
+  assert.ok(report.hostHeartbeat);
+  assert.equal(typeof report.hostHeartbeat.hostname, 'string');
+});
 
-  assert.match(stdout, /\[Ironbots-Reporter\] Compiling daily fleet telemetry report/);
-  assert.match(stdout, /Fleet Report Compiled in/);
-
-  const reportPath = path.join(REPO_ROOT, '_status-feed', 'ironbots_daily_report.json');
-  if (fs.existsSync(reportPath)) {
-    const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-    assert.equal(typeof report.fleetHealthScore, 'number');
-    assert.ok(report.fleetHealthScore >= 0 && report.fleetHealthScore <= 100);
-    assert.equal(typeof report.botCount, 'number');
-    assert.ok(report.botCount >= 6);
-    assert.ok(Array.isArray(report.activeBots));
-    assert.ok(report.activeBots.length >= 6);
-  }
+test('daemon-healer exports thrash guard configuration', async () => {
+  const { THRASH_GUARD_CONFIG } = await import('../scripts/daemon-healer-bot.mjs');
+  assert.ok(THRASH_GUARD_CONFIG);
+  assert.equal(THRASH_GUARD_CONFIG.maxConsecutiveHeals, 3);
+  assert.equal(THRASH_GUARD_CONFIG.cooldownStatus, 'ALERT_ONLY_COOLDOWN');
 });
 
 test('Ironbots scheduled task wrappers exist and contain valid configuration', () => {
@@ -192,6 +194,7 @@ test('Ironbots scheduled task wrappers exist and contain valid configuration', (
     { file: 'scripts/schedule-task-wrapper-Watchlist-Miner.ps1', name: 'Watchlist-Miner' },
     { file: 'scripts/schedule-task-wrapper-Daemon-Healer.ps1', name: 'Daemon-Healer' },
     { file: 'scripts/schedule-task-wrapper-CI-Watchdog.ps1', name: 'CI-Watchdog' },
+    { file: 'scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1', name: 'TRM-Drive-Sync' },
     { file: 'scripts/schedule-task-wrapper-Ironbots-Reporter.ps1', name: 'Ironbots-Reporter' }
   ];
 
