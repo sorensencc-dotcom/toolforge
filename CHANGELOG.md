@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.72.0
+Date: 2026-09-26
+
+### Changes
+- d16429b - Merge pull request #44 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- 4835bab - feat(trm): implement mobile ingress & auto-triage pipeline with ICF integration and remote wiki sync (Chris Sorensen)
+- afe0158 - Merge pull request #42 from sorensencc-dotcom/tmp-fixci-20260926 (Chris Sorensen)
+- 3e66219 - Merge remote-tracking branch 'origin/main' into tmp-fixci-20260926 (Chris Sorensen)
+- 99000ae - docs(wiki): synchronize synthesized Layer 2 research topics with WHY-EVIDENCE provenance (Chris Sorensen)
+- 9656519 - feat(trm): add why-verifier module and integrate into Step 4 Layer 2 wiki synthesis (Chris Sorensen)
+
 ## Version 2.71.0
 Date: 2026-09-26
 
