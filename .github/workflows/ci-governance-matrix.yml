@@ -39,14 +39,18 @@ jobs:
     steps:
       - name: Checkout matrix repository
         uses: actions/checkout@v4
+        continue-on-error: true
         with:
           repository: sorensencc-dotcom/${{ matrix.repository }}
+          token: ${{ secrets.GH_PAT || secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           path: workspace
 
       - name: Checkout toolforge governance source
         uses: actions/checkout@v4
+        continue-on-error: true
         with:
           repository: sorensencc-dotcom/cic-governance
+          token: ${{ secrets.GH_PAT || secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           path: toolforge-source
 
       - name: Link CIC-GOVERNANCE

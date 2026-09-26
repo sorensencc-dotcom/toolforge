@@ -397,7 +397,7 @@ Depth N = Depends on at least one skill at depth N-1
     $md += "✅ No cycles detected.\n"
   } else {
     $md += "⚠️ **CRITICAL:** Circular dependencies detected!\n`n"
-    foreach ($cycle in $graph.cycles) {
+    foreach ($cycle in ($graph.cycles | Sort-Object -Property { $_.nodes -join ' ' })) {
       $md += "- **Cycle:** $($cycle.nodes -join ' → ')`n"
     }
   }
@@ -417,7 +417,7 @@ Dependencies referenced but not found in canonical skills.
   } else {
     $md += "| Dependent | Missing Dependency |`n"
     $md += "|-----------|-------------------|`n"
-    foreach ($miss in $graph.missing) {
+    foreach ($miss in ($graph.missing | Sort-Object -Property dependent, missing)) {
       $md += "| $($miss.dependent) | $($miss.missing) |`n"
     }
   }

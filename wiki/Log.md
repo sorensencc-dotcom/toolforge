@@ -3676,3 +3676,116 @@ status: "active"
 - Active Bots: 7
 - Host: `WIN-DTA4V21LKVR` (Uptime: 21h 37m, Tasks: 8)
 - Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 16:25] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 70/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 21h 44m, Tasks: 8)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 16:28] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 70/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:39] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 70/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:41] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 70/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:41] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 75/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 24h 1m, Tasks: 8)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:41] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 75/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:42] watchlist-miner-competitor-drift
+
+- Provider: `watchlist-miner-bot` (`v1.0.0`)
+- Targets Evaluated: 3
+- Drifts Detected: 3
+- Logged Research Notes:
+  - `wiki/research/competitor-drift-google-sam.md` (Google Sovereign Agent Mesh / sam-p2p-repository)
+  - `wiki/research/competitor-drift-anthropic-computer-use.md` (Anthropic Computer Use & Agent Workflows / anthropic-quickstarts)
+  - `wiki/research/competitor-drift-openai-swarm.md` (OpenAI Swarm & Handoff Framework / openai-swarm)
+
+## [2026-09-26 18:43] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 80/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:45] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 80/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 24h 4m, Tasks: 8)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:45] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 80/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:45] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 80/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 24h 5m, Tasks: 8)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:45] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 80/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:50] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 80/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:50] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 80/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 24h 10m, Tasks: 8)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-26 18:50] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 80/100 (DEGRADED)
+- Active Bots: 7
+- Telemetry: `_status-feed/ironbots_daily_report.json`

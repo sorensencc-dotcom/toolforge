@@ -897,7 +897,7 @@ function Write-DependencyGraphReport {
   # Missing dependencies
   if ($Graph.missingInternal.Count -gt 0) {
     $report += "## Missing Internal Dependencies`n`n"
-    foreach ($missing in $Graph.missingInternal) {
+    foreach ($missing in ($Graph.missingInternal | Sort-Object -Property skill, dependency)) {
       $report += "❌ **$($missing.skill)** → `$($missing.dependency)` (not found in canonical)`n"
     }
     $report += "`n---`n`n"
@@ -905,7 +905,7 @@ function Write-DependencyGraphReport {
 
   if ($Graph.missingExternal.Count -gt 0) {
     $report += "## Missing External Dependencies`n`n"
-    foreach ($missing in $Graph.missingExternal) {
+    foreach ($missing in ($Graph.missingExternal | Sort-Object -Property skill, dependency)) {
       $report += "⚠️  **$($missing.skill)** → `$($missing.dependency)` (not found in tools/daemons/adapters)`n"
     }
     $report += "`n---`n`n"
@@ -994,7 +994,7 @@ function New-ValidationReport {
     if ($findings.Count -gt 0) {
       $report += "## $([System.Globalization.CultureInfo]::InvariantCulture.TextInfo.ToTitleCase($domain)) Validation`n`n"
 
-      foreach ($finding in $findings | Sort-Object -Property skill) {
+      foreach ($finding in ($findings | Sort-Object -Property skill, message, level)) {
         $emoji = switch ($finding.level) {
           "error" { "❌" }
           "warning" { "⚠️" }
