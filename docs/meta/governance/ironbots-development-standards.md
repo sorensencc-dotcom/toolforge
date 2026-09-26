@@ -90,6 +90,23 @@ Any background daemon, scheduled worker, or autonomous maintenance script regist
 | **TRM Gaps** | `TRM-Bot` — Drafts structured RFC notes and staging markers (`status: draft`). | `Research Desk / First Mate` — Review, proof grounding, and final wiki promotion. |
 | **TRM Ingress** | `TRM-Drive-Sync` — Ingests cards, stages to `.harness/`, creates tracking issues. | `Antigravity Harness / Human Operator` — Claiming, resolving, and closing tickets. |
 
+### 3.1 Standard CLI & Wrapper Parameter Contracts
+
+All Ironbot JavaScript engines (`scripts/*-bot.mjs`, `scripts/trm-ingress-watcher.mjs`) and PowerShell scheduled task wrappers (`scripts/schedule-task-wrapper-*.ps1`) must adhere to standard CLI interfaces:
+
+1. **JavaScript Engine CLI Flags**:
+   - `--dry-run`: Runs inspection and schema validation without destructive process termination, deletion, or external mutation; outputs valid telemetry JSON.
+   - `--check-only`: (Daemon-Healer only) Evaluates endpoint health and emits telemetry without process restarting or resetting live production cooldown counters.
+   - `--once`: (TRM-Ingress only) Performs a single synchronous sweep of active inboxes and terminates, required for sequential execution in `npm run bot:all`.
+   - `--status`: Emits formatted CLI health tables to `stdout` and exits cleanly with code 0.
+
+2. **PowerShell Wrapper (`schedule-task-wrapper-*.ps1`) Contracts**:
+   - `-Action <Register|Unregister|Status|Test>`: Action verb defaulting to `Status`. `Register` creates or updates the task under `\Ironbots\` with `-LogonType S4U`; `Test` executes a direct test invocation.
+   - `-Unattended`: Enforces headless S4U execution (`Run whether user is logged on or not`).
+   - `-Continuous`: (TRM-Drive-Sync only) Explicitly launches or registers in persistent `fs.watch` event-listener mode.
+   - `-Once`: (TRM-Drive-Sync only) Overrides background registration to single-sweep execution.
+   - `-DryRun`: Forwards `--dry-run` flag to underlying Node.js script.
+
 ---
 
 ## 4. Operational Fleet Matrix

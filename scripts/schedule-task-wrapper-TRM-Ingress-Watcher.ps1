@@ -22,6 +22,7 @@ param(
     [string]$TaskPath = '\Ironbots\',
     [switch]$Unattended,
     [switch]$Continuous,
+    [switch]$Once,
     [switch]$DryRun,
     [switch]$Force
 )
@@ -56,7 +57,8 @@ function Get-NodeArguments {
     if ($DryRun) {
         $arguments += '--dry-run'
     }
-    if (-not $Continuous) {
+    # Background service registration defaults to continuous watch unless -Once is specified
+    if ($Once -or ($Action -eq 'Test' -and -not $Continuous)) {
         $arguments += '--once'
     }
     return $arguments -join ' '

@@ -132,6 +132,7 @@ function startDashboardDaemon() {
 
 export const THRASH_GUARD_CONFIG = {
   maxConsecutiveHeals: 3,
+  cooldownWindowMs: 60 * 60 * 1000, // 1 hour cooldown window
   cooldownStatus: 'ALERT_ONLY_COOLDOWN'
 };
 
@@ -146,11 +147,23 @@ async function readPriorTelemetry() {
 
 async function runDaemonHealer() {
   const startTime = Date.now();
-  console.log(`[Daemon-Healer] Checking dashboard daemon health... (dry-run: ${isDryRun})`);
+  console.log(`[Daemon-Healer] Checking dashboard daemon health... (dry-run: ${isDryRun}, check-only: ${isCheckOnly})`);
 
   const prior = await readPriorTelemetry();
   let consecutiveHeals = prior?.consecutiveHeals || 0;
   let thrashCooldownActive = prior?.thrashCooldownActive || false;
+  let lastCooldownTime = prior?.lastCooldownTime || null;
+
+  // Check if cooldown window has expired
+  if (thrashCooldownActive && lastCooldownTime) {
+    const elapsedSinceCooldown = Date.now() - new Date(lastCooldownTime).getTime();
+    if (elapsedSinceCooldown > THRASH_GUARD_CONFIG.cooldownWindowMs) {
+      console.log(`[Daemon-Healer] Cooldown window expired (${Math.round(elapsedSinceCooldown / 60000)}m > ${Math.round(THRASH_GUARD_CONFIG.cooldownWindowMs / 60000)}m). Resetting thrash guard.`);
+      consecutiveHeals = 0;
+      thrashCooldownActive = false;
+      lastCooldownTime = null;
+    }
+  }
 
   const initialProbe = await probeFleetHealth();
   let status = initialProbe.ok ? 'HEALTHY' : 'DOWN';
@@ -161,13 +174,19 @@ async function runDaemonHealer() {
   console.log(`  - API Endpoint ${TARGET_API_URL} -> Status: ${initialProbe.apiProbe?.statusCode || initialProbe.apiProbe?.error} (valid: ${initialProbe.apiProbe?.payloadValid})`);
 
   if (initialProbe.ok) {
-    // Reset thrash counters on healthy state
-    consecutiveHeals = 0;
-    thrashCooldownActive = false;
+    if (!isCheckOnly && !isDryRun) {
+      // Reset thrash counters on healthy state only in live execution mode
+      consecutiveHeals = 0;
+      thrashCooldownActive = false;
+      lastCooldownTime = null;
+    }
     status = 'HEALTHY';
   } else if (!isCheckOnly && !isDryRun) {
     if (consecutiveHeals >= THRASH_GUARD_CONFIG.maxConsecutiveHeals) {
       thrashCooldownActive = true;
+      if (!lastCooldownTime) {
+        lastCooldownTime = new Date().toISOString();
+      }
       status = THRASH_GUARD_CONFIG.cooldownStatus;
       console.warn(`[Daemon-Healer] ⚠️ Thrash Guard Active: Port 8080 flapped >${THRASH_GUARD_CONFIG.maxConsecutiveHeals} consecutive cycles. Switching to alert-only cooldown mode (skipping process eviction).`);
     } else {
@@ -214,6 +233,7 @@ async function runDaemonHealer() {
     status,
     consecutiveHeals,
     thrashCooldownActive,
+    lastCooldownTime,
     initialProbe: {
       ok: initialProbe.ok,
       statusCode: initialProbe.statusCode,
@@ -222,7 +242,8 @@ async function runDaemonHealer() {
     },
     healed,
     restartedPid,
-    dryRun: isDryRun
+    dryRun: isDryRun,
+    checkOnly: isCheckOnly
   };
 
   await fs.mkdir(path.dirname(REPORT_PATH), { recursive: true });
