@@ -34,6 +34,11 @@ const LEDGER_MD = path.join(LOCAL_INBOX_ROOT, 'LEDGER.md');
 const STATUS_FEED_DIR = path.resolve(path.join(REPO_ROOT, '_status-feed'));
 const STATUS_FEED_JSON = path.join(STATUS_FEED_DIR, 'trm_ingress_status.json');
 
+const args = process.argv.slice(2);
+const isDryRun = args.includes('--dry-run');
+const isOnce = args.includes('--once') || isDryRun;
+const isStatus = args.includes('--status');
+
 // Discover all active inbox directories
 export function getActiveInboxDirs() {
   const dirs = [];
@@ -200,7 +205,8 @@ export function refreshLedgerMarkdown() {
   emitIcfStatusFeed(rows);
 }
 
-export function emitIcfStatusFeed(rows = null) {
+export function emitIcfStatusFeed(rows = null, options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
   if (!rows && fs.existsSync(LEDGER_JSONL)) {
     const lines = fs.readFileSync(LEDGER_JSONL, 'utf8').trim().split('\n').filter(Boolean);
     rows = lines.map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
@@ -218,6 +224,7 @@ export function emitIcfStatusFeed(rows = null) {
   const telemetry = {
     timestamp: new Date().toISOString(),
     status: quarantinedCount > 0 ? 'ATTENTION' : 'HEALTHY',
+    dryRun,
     triageQueue: triageCount,
     completed: completedCount,
     quarantined: quarantinedCount,
@@ -230,42 +237,64 @@ export function emitIcfStatusFeed(rows = null) {
   fs.writeFileSync(STATUS_FEED_JSON, JSON.stringify(telemetry, null, 2), 'utf8');
 }
 
-export function processFile(filePath) {
-  if (!fs.existsSync(filePath)) return;
+export function processFile(filePath, options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
+  if (!fs.existsSync(filePath)) return null;
 
   const ext = path.extname(filePath).toLowerCase();
-  if (ext !== '.json' && ext !== '.md') return;
+  if (ext !== '.json' && ext !== '.md') return null;
 
   const filename = path.basename(filePath);
   const isFromGDrive = filePath.startsWith(path.resolve(GDRIVE_ROOT));
-  console.log(`[TRM-INGRESS] Reading incoming file: ${filename} (Source: ${isFromGDrive ? 'Google Drive' : 'Local'})`);
+  console.log(`[TRM-INGRESS] Reading incoming file: ${filename} (Source: ${isFromGDrive ? 'Google Drive' : 'Local'}, Dry-Run: ${dryRun})`);
   const startTime = Date.now();
 
   let item;
   try {
     const raw = fs.readFileSync(filePath, 'utf8');
-    if (!raw.trim()) return;
+    if (!raw.trim()) return null;
     item = parsePayload(raw, ext);
     validatePayload(item);
   } catch (err) {
     console.error(`[TRM-INGRESS] Validation failed for ${filename}: ${err.message}`);
+    if (dryRun) {
+      return {
+        id: `invalid-${filename}`,
+        source: 'unknown',
+        action_type: 'unknown',
+        intent: 'validation_error',
+        status: 'VALIDATION_FAILED_DRY_RUN',
+        error: err.message
+      };
+    }
     const qTarget = path.join(QUARANTINE_DIR, `${Date.now()}-${filename}`);
-    safeMoveFile(filePath, qTarget);
+    const moved = safeMoveFile(filePath, qTarget);
     logToLedger({
       id: `invalid-${filename}`,
       processed_at: new Date().toISOString(),
       source: 'unknown',
       action_type: 'unknown',
       intent: 'validation_error',
-      status: 'QUARANTINED',
+      status: moved ? 'QUARANTINED' : 'QUARANTINE_MOVE_FAILED',
       error: err.message,
       duration_ms: Date.now() - startTime
     });
-    return;
+    return null;
   }
 
   const itemId = item.id || `act-${Date.now()}`;
   console.log(`[TRM-INGRESS] Dispatching action: ${itemId} | Type: ${item.action_type} | Intent: ${item.intent}`);
+
+  if (dryRun) {
+    console.log(`[TRM-INGRESS] [DRY-RUN] Inspected card ${itemId} (${item.action_type}) without mutating inbox or ledger.`);
+    return {
+      id: itemId,
+      source: item.source,
+      action_type: item.action_type,
+      intent: item.intent,
+      status: 'INSPECTED_DRY_RUN'
+    };
+  }
 
   try {
     if (item.action_type === 'deterministic_fix') {
@@ -273,29 +302,59 @@ export function processFile(filePath) {
       executeDeterministicFix(item);
       
       const dest = path.join(COMPLETED_DIR, `${Date.now()}-${filename}`);
-      fs.copyFileSync(filePath, dest);
-      
-      // If from Google Drive, archive to GDrive archive or remove from mobile inbox
-      if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
-      } else if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+      let archived = false;
+
+      try {
+        fs.copyFileSync(filePath, dest);
+      } catch (copyErr) {
+        console.error(`[TRM-INGRESS] Failed to copy to completed archive:`, copyErr.message);
       }
       
-      console.log(`[TRM-INGRESS] Successfully executed and archived: ${dest}`);
-      logToLedger({
-        id: itemId,
-        processed_at: new Date().toISOString(),
-        timestamp: item.timestamp,
-        source: item.source,
-        action_type: item.action_type,
-        intent: item.intent,
-        target_notebook: item.target_notebook,
-        target_notebook_name: item.target_notebook_name,
-        summary: item.summary || item.context?.summary || '',
-        status: 'COMPLETED',
-        duration_ms: Date.now() - startTime
-      });
+      // If from Google Drive, archive to GDrive archive or remove from local inbox
+      if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
+        archived = safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
+      } else if (fs.existsSync(filePath)) {
+        try {
+          fs.unlinkSync(filePath);
+          archived = true;
+        } catch (unlinkErr) {
+          console.error(`[TRM-INGRESS] Failed to unlink source card:`, unlinkErr.message);
+          archived = false;
+        }
+      }
+      
+      if (archived) {
+        console.log(`[TRM-INGRESS] Successfully executed and archived: ${dest}`);
+        logToLedger({
+          id: itemId,
+          processed_at: new Date().toISOString(),
+          timestamp: item.timestamp,
+          source: item.source,
+          action_type: item.action_type,
+          intent: item.intent,
+          target_notebook: item.target_notebook,
+          target_notebook_name: item.target_notebook_name,
+          summary: item.summary || item.context?.summary || '',
+          status: 'COMPLETED',
+          duration_ms: Date.now() - startTime
+        });
+      } else {
+        console.warn(`[TRM-INGRESS] ⚠️ Action executed but failed to archive source card from inbox: ${filePath}`);
+        logToLedger({
+          id: itemId,
+          processed_at: new Date().toISOString(),
+          timestamp: item.timestamp,
+          source: item.source,
+          action_type: item.action_type,
+          intent: item.intent,
+          target_notebook: item.target_notebook,
+          target_notebook_name: item.target_notebook_name,
+          summary: item.summary || item.context?.summary || '',
+          status: 'ARCHIVE_MOVE_FAILED',
+          error: 'Action executed but card could not be archived/removed from inbox',
+          duration_ms: Date.now() - startTime
+        });
+      }
     } else if (item.action_type === 'antigravity_triage') {
       // Option A: Auto-create GitHub Issue for tracking/approval + Stage to Harness
       const issueUrl = createGitHubIssue(item);
@@ -304,33 +363,60 @@ export function processFile(filePath) {
       const dest = path.join(HARNESS_PENDING_DIR, filename);
       fs.writeFileSync(dest, JSON.stringify(item, null, 2), 'utf8');
       
+      let archived = false;
       if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
+        archived = safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
       } else if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+        try {
+          fs.unlinkSync(filePath);
+          archived = true;
+        } catch (unlinkErr) {
+          console.error(`[TRM-INGRESS] Failed to unlink source card:`, unlinkErr.message);
+          archived = false;
+        }
       }
       
-      console.log(`[TRM-INGRESS] Staged for Antigravity triage: ${dest}`);
-      logToLedger({
-        id: itemId,
-        processed_at: new Date().toISOString(),
-        timestamp: item.timestamp,
-        source: item.source,
-        action_type: item.action_type,
-        intent: item.intent,
-        target_notebook: item.target_notebook,
-        target_notebook_name: item.target_notebook_name,
-        summary: item.summary || item.context?.summary || '',
-        issue_url: issueUrl,
-        status: 'STAGED_FOR_TRIAGE',
-        duration_ms: Date.now() - startTime
-      });
+      if (archived) {
+        console.log(`[TRM-INGRESS] Staged for Antigravity triage: ${dest}`);
+        logToLedger({
+          id: itemId,
+          processed_at: new Date().toISOString(),
+          timestamp: item.timestamp,
+          source: item.source,
+          action_type: item.action_type,
+          intent: item.intent,
+          target_notebook: item.target_notebook,
+          target_notebook_name: item.target_notebook_name,
+          summary: item.summary || item.context?.summary || '',
+          issue_url: issueUrl,
+          status: 'STAGED_FOR_TRIAGE',
+          duration_ms: Date.now() - startTime
+        });
+      } else {
+        console.warn(`[TRM-INGRESS] ⚠️ Staged to harness but failed to archive source card from inbox: ${filePath}`);
+        logToLedger({
+          id: itemId,
+          processed_at: new Date().toISOString(),
+          timestamp: item.timestamp,
+          source: item.source,
+          action_type: item.action_type,
+          intent: item.intent,
+          target_notebook: item.target_notebook,
+          target_notebook_name: item.target_notebook_name,
+          summary: item.summary || item.context?.summary || '',
+          issue_url: issueUrl,
+          status: 'STAGED_ARCHIVE_FAILED',
+          error: 'Staged to harness but card could not be archived/removed from inbox',
+          duration_ms: Date.now() - startTime
+        });
+      }
     }
   } catch (execErr) {
     console.error(`[TRM-INGRESS] Execution failed for ${itemId}:`, execErr);
+    let quarantined = false;
     if (fs.existsSync(filePath)) {
       const qTarget = path.join(QUARANTINE_DIR, `failed-${Date.now()}-${filename}`);
-      safeMoveFile(filePath, qTarget);
+      quarantined = safeMoveFile(filePath, qTarget);
     }
     logToLedger({
       id: itemId,
@@ -339,7 +425,7 @@ export function processFile(filePath) {
       source: item.source,
       action_type: item.action_type,
       intent: item.intent,
-      status: 'QUARANTINED',
+      status: quarantined ? 'QUARANTINED' : 'QUARANTINE_MOVE_FAILED',
       error: execErr.message,
       duration_ms: Date.now() - startTime
     });
@@ -394,8 +480,10 @@ function executeDeterministicFix(item) {
   }
 }
 
-export function sweepInbox() {
+export function sweepInbox(options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
   const inboxes = getActiveInboxDirs();
+  const inspectedCards = [];
   for (const inbox of inboxes) {
     try {
       const files = fs.readdirSync(inbox);
@@ -403,7 +491,8 @@ export function sweepInbox() {
         const full = path.join(inbox, file);
         try {
           if (fs.statSync(full).isFile()) {
-            processFile(full);
+            const res = processFile(full, { dryRun });
+            if (res) inspectedCards.push(res);
           }
         } catch (e) {
           // Skip temporary/locked files
@@ -411,7 +500,8 @@ export function sweepInbox() {
       }
     } catch {}
   }
-  emitIcfStatusFeed();
+  emitIcfStatusFeed(null, { dryRun });
+  return { inspectedCards, inboxesChecked: inboxes.length };
 }
 
 export function printStatus() {
@@ -439,16 +529,15 @@ export function printStatus() {
 
 // CLI Execution
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'))) {
-  if (process.argv.includes('--status')) {
+  if (isStatus) {
     printStatus();
     process.exit(0);
   }
 
-  const isOnce = process.argv.includes('--once');
-  console.log(`[TRM-INGRESS] Starting Ingress Watcher on ${getActiveInboxDirs().length} active inboxes...`);
-  sweepInbox();
+  console.log(`[TRM-INGRESS] Starting Ingress Watcher on ${getActiveInboxDirs().length} active inboxes... (dry-run: ${isDryRun}, once: ${isOnce})`);
+  sweepInbox({ dryRun: isDryRun });
 
-  if (!isOnce) {
+  if (!isOnce && !isDryRun) {
     console.log(`[TRM-INGRESS] Watching for incoming action items (Ctrl+C to stop)...`);
     for (const inboxDir of getActiveInboxDirs()) {
       fs.watch(inboxDir, (eventType, filename) => {
@@ -457,7 +546,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(im
           if (fs.existsSync(fullPath)) {
             setTimeout(() => {
               if (fs.existsSync(fullPath)) {
-                processFile(fullPath);
+                processFile(fullPath, { dryRun: isDryRun });
               }
             }, 300);
           }

@@ -90,7 +90,7 @@ Any background daemon, scheduled worker, or autonomous maintenance script regist
 | **TRM Gaps** | `TRM-Bot` — Drafts structured RFC notes and staging markers (`status: draft`). | `Research Desk / First Mate` — Review, proof grounding, and final wiki promotion. |
 | **TRM Ingress** | `TRM-Drive-Sync` — Ingests cards, stages to `.harness/`, creates tracking issues. | `Antigravity Harness / Human Operator` — Claiming, resolving, and closing tickets. |
 
-### 3.1 Standard CLI & Wrapper Parameter Contracts
+### 3.1 Standard CLI and wrapper parameter contracts
 
 All Ironbot JavaScript engines (`scripts/*-bot.mjs`, `scripts/trm-ingress-watcher.mjs`) and PowerShell scheduled task wrappers (`scripts/schedule-task-wrapper-*.ps1`) must adhere to standard CLI interfaces:
 

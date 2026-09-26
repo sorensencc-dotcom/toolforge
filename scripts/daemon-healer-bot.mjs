@@ -154,14 +154,18 @@ async function runDaemonHealer() {
   let thrashCooldownActive = prior?.thrashCooldownActive || false;
   let lastCooldownTime = prior?.lastCooldownTime || null;
 
-  // Check if cooldown window has expired
+  // Check if cooldown window has expired (in live execution mode only)
   if (thrashCooldownActive && lastCooldownTime) {
     const elapsedSinceCooldown = Date.now() - new Date(lastCooldownTime).getTime();
     if (elapsedSinceCooldown > THRASH_GUARD_CONFIG.cooldownWindowMs) {
-      console.log(`[Daemon-Healer] Cooldown window expired (${Math.round(elapsedSinceCooldown / 60000)}m > ${Math.round(THRASH_GUARD_CONFIG.cooldownWindowMs / 60000)}m). Resetting thrash guard.`);
-      consecutiveHeals = 0;
-      thrashCooldownActive = false;
-      lastCooldownTime = null;
+      if (!isCheckOnly && !isDryRun) {
+        console.log(`[Daemon-Healer] Cooldown window expired (${Math.round(elapsedSinceCooldown / 60000)}m > ${Math.round(THRASH_GUARD_CONFIG.cooldownWindowMs / 60000)}m). Resetting thrash guard.`);
+        consecutiveHeals = 0;
+        thrashCooldownActive = false;
+        lastCooldownTime = null;
+      } else {
+        console.log(`[Daemon-Healer] Cooldown window expired (${Math.round(elapsedSinceCooldown / 60000)}m > ${Math.round(THRASH_GUARD_CONFIG.cooldownWindowMs / 60000)}m). Retaining state in check-only/dry-run mode.`);
+      }
     }
   }
 

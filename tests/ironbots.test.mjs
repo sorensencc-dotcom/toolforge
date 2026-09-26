@@ -197,10 +197,31 @@ test('ironbots-daily-reporter exports REQUIRED_FLEET_TASKS with 8 tasks', async 
   assert.ok(REQUIRED_FLEET_TASKS.includes('Ironbots-Reporter'));
 });
 
-test('trm-ingress-watcher exports safeMoveFile and parsePayload helpers', async () => {
-  const { safeMoveFile, parsePayload } = await import('../scripts/trm-ingress-watcher.mjs');
+test('trm-ingress-watcher runs in dry-run mode and writes valid telemetry', () => {
+  const scriptPath = path.join(REPO_ROOT, 'scripts', 'trm-ingress-watcher.mjs');
+  assert.ok(fs.existsSync(scriptPath), 'trm-ingress-watcher.mjs should exist');
+
+  const stdout = execFileSync('node', [scriptPath, '--dry-run', '--once'], {
+    cwd: REPO_ROOT,
+    encoding: 'utf8'
+  });
+
+  assert.match(stdout, /\[TRM-INGRESS\] Starting Ingress Watcher/);
+
+  const reportPath = path.join(REPO_ROOT, '_status-feed', 'trm_ingress_status.json');
+  assert.ok(fs.existsSync(reportPath), 'trm_ingress_status.json should exist');
+
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+  assert.ok(typeof report.status === 'string');
+  assert.equal(report.dryRun, true);
+  assert.equal(typeof report.triageQueue, 'number');
+});
+
+test('trm-ingress-watcher exports safeMoveFile, processFile, and parsePayload helpers', async () => {
+  const { safeMoveFile, parsePayload, processFile } = await import('../scripts/trm-ingress-watcher.mjs');
   assert.equal(typeof safeMoveFile, 'function');
   assert.equal(typeof parsePayload, 'function');
+  assert.equal(typeof processFile, 'function');
 
   const validJson = JSON.stringify({
     source: 'mobile-gemini',
