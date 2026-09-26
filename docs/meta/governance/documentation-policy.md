@@ -70,3 +70,6 @@ Every documentation page, wiki entry, skill doc, or architecture spec that refer
 > Toolforge wraps/extends this tool via [module/skill path] to support CIC/Rewrite Labs workflows.
 ```
 
+## GitHub & in-repo wiki surfaces
+
+Curated GitHub wikis and in-repo wiki mirrors MUST follow `docs/meta/governance/wiki-style-and-structure.md` (brand matrix, page skeleton, Home/_Sidebar/_Footer, sync contract, W/R CLI rules). This documentation-policy file still governs `docs/meta/` naming and placement; the wiki guideline governs wiki working trees and publish mirrors. Generated entity dumps are out of curated scope until promoted.

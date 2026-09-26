@@ -197,3 +197,7 @@ Toolforge tools integrate with:
 - **CIC Governance**: Skill validation, proposal workflows
 
 See `.github/workflows/toolforge-*.yml` for pipeline details.
+
+## Documentation & Wiki surfaces
+
+Curated GitHub wikis and in-repo wiki mirrors follow `docs/meta/governance/wiki-style-and-structure.md` (page skeleton, Home/_Sidebar/_Footer, brand matrix, validate vs rewrite). Generated dumps under `wiki/` / `entities/` are excluded from curated MUST until promoted. Wiki page `status` values are separate from tool-manifest statuses in this file.
