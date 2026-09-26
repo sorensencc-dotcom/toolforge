@@ -162,11 +162,18 @@ flowchart TD
 ## Operational CLI commands
 
 ```powershell
-# Run single-pass sweep
-pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1
+# Run single-pass sweep via wrapper
+pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1 -Action Test
+
+# Run single-pass sweep via npm
+npm run bot:trm:ingress
 
 # Start continuous real-time background watcher
-pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1 -Continuous
+pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1 -Action Test -Continuous
+# or: npm run bot:trm:watch
+
+# Register background daemon service under \Ironbots\
+pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1 -Action Register -Unattended
 
 # Check live queue metrics & audit ledger
 pwsh -NoProfile -File scripts/get-trm-status.ps1

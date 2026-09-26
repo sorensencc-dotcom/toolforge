@@ -54,6 +54,17 @@ export const FLEET_SCORING_POLICY = {
   }
 };
 
+export const REQUIRED_FLEET_TASKS = [
+  'Notebook-Ingester',
+  'KB-Sentinel',
+  'TRM-Bot',
+  'Watchlist-Miner',
+  'Daemon-Healer',
+  'CI-Watchdog',
+  'TRM-Drive-Sync',
+  'Ironbots-Reporter'
+];
+
 export function getHostHeartbeat() {
   const uptimeSeconds = Math.floor(os.uptime());
   const hours = Math.floor(uptimeSeconds / 3600);
@@ -82,11 +93,15 @@ export function getHostHeartbeat() {
           name: t.TaskName,
           state: t.State === 3 || t.State === 'Ready' ? 'Ready' : (t.State === 4 || t.State === 'Running' ? 'Running' : String(t.State))
         }));
+
+        const taskNames = new Set(tasks.map(t => t.name));
+        const missing = REQUIRED_FLEET_TASKS.filter(name => !taskNames.has(name) && !(name === 'TRM-Drive-Sync' && taskNames.has('TRM-Ingress-Watcher')));
         taskScheduler = {
-          status: tasks.length >= 7 ? 'HEALTHY' : 'DEGRADED',
+          status: missing.length === 0 && tasks.length >= 8 ? 'HEALTHY' : 'DEGRADED',
           taskCount: tasks.length,
           tasks,
-          error: null
+          missingTasks: missing,
+          error: missing.length > 0 ? `Missing required tasks: ${missing.join(', ')}` : null
         };
       } else {
         taskScheduler = {

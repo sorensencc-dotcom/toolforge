@@ -50,6 +50,25 @@ for (const dir of [LOCAL_INBOX_DIR, LOCAL_DOT_TRM_INBOX, COMPLETED_DIR, QUARANTI
   }
 }
 
+export function safeMoveFile(src, dest) {
+  if (!fs.existsSync(src)) return false;
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  try {
+    fs.renameSync(src, dest);
+    return true;
+  } catch (err) {
+    // Cross-volume or locked move fallback: copy + unlink
+    try {
+      fs.copyFileSync(src, dest);
+      fs.unlinkSync(src);
+      return true;
+    } catch (copyErr) {
+      console.error(`[TRM-INGRESS] Failed to move ${src} -> ${dest}:`, copyErr.message);
+      return false;
+    }
+  }
+}
+
 export function parsePayload(raw, ext) {
   if (ext === '.json') {
     return JSON.parse(raw);
@@ -212,6 +231,8 @@ export function emitIcfStatusFeed(rows = null) {
 }
 
 export function processFile(filePath) {
+  if (!fs.existsSync(filePath)) return;
+
   const ext = path.extname(filePath).toLowerCase();
   if (ext !== '.json' && ext !== '.md') return;
 
@@ -229,7 +250,7 @@ export function processFile(filePath) {
   } catch (err) {
     console.error(`[TRM-INGRESS] Validation failed for ${filename}: ${err.message}`);
     const qTarget = path.join(QUARANTINE_DIR, `${Date.now()}-${filename}`);
-    fs.renameSync(filePath, qTarget);
+    safeMoveFile(filePath, qTarget);
     logToLedger({
       id: `invalid-${filename}`,
       processed_at: new Date().toISOString(),
@@ -256,8 +277,8 @@ export function processFile(filePath) {
       
       // If from Google Drive, archive to GDrive archive or remove from mobile inbox
       if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        fs.renameSync(filePath, path.join(GDRIVE_ARCHIVE, filename));
-      } else {
+        safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
+      } else if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
       
@@ -284,7 +305,7 @@ export function processFile(filePath) {
       fs.writeFileSync(dest, JSON.stringify(item, null, 2), 'utf8');
       
       if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        fs.renameSync(filePath, path.join(GDRIVE_ARCHIVE, filename));
+        safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
       } else if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
@@ -307,8 +328,10 @@ export function processFile(filePath) {
     }
   } catch (execErr) {
     console.error(`[TRM-INGRESS] Execution failed for ${itemId}:`, execErr);
-    const qTarget = path.join(QUARANTINE_DIR, `failed-${Date.now()}-${filename}`);
-    fs.renameSync(filePath, qTarget);
+    if (fs.existsSync(filePath)) {
+      const qTarget = path.join(QUARANTINE_DIR, `failed-${Date.now()}-${filename}`);
+      safeMoveFile(filePath, qTarget);
+    }
     logToLedger({
       id: itemId,
       processed_at: new Date().toISOString(),

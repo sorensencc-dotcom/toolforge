@@ -179,11 +179,42 @@ test('ironbots-daily-reporter runs and generates aggregated daily telemetry with
   assert.equal(typeof report.hostHeartbeat.hostname, 'string');
 });
 
-test('daemon-healer exports thrash guard configuration', async () => {
+test('daemon-healer exports thrash guard configuration with cooldown window', async () => {
   const { THRASH_GUARD_CONFIG } = await import('../scripts/daemon-healer-bot.mjs');
   assert.ok(THRASH_GUARD_CONFIG);
   assert.equal(THRASH_GUARD_CONFIG.maxConsecutiveHeals, 3);
   assert.equal(THRASH_GUARD_CONFIG.cooldownStatus, 'ALERT_ONLY_COOLDOWN');
+  assert.equal(typeof THRASH_GUARD_CONFIG.cooldownWindowMs, 'number');
+  assert.ok(THRASH_GUARD_CONFIG.cooldownWindowMs >= 3600000);
+});
+
+test('ironbots-daily-reporter exports REQUIRED_FLEET_TASKS with 8 tasks', async () => {
+  const { REQUIRED_FLEET_TASKS } = await import('../scripts/ironbots-daily-reporter.mjs');
+  assert.ok(Array.isArray(REQUIRED_FLEET_TASKS));
+  assert.equal(REQUIRED_FLEET_TASKS.length, 8);
+  assert.ok(REQUIRED_FLEET_TASKS.includes('TRM-Drive-Sync'));
+  assert.ok(REQUIRED_FLEET_TASKS.includes('Daemon-Healer'));
+  assert.ok(REQUIRED_FLEET_TASKS.includes('Ironbots-Reporter'));
+});
+
+test('trm-ingress-watcher exports safeMoveFile and parsePayload helpers', async () => {
+  const { safeMoveFile, parsePayload } = await import('../scripts/trm-ingress-watcher.mjs');
+  assert.equal(typeof safeMoveFile, 'function');
+  assert.equal(typeof parsePayload, 'function');
+
+  const validJson = JSON.stringify({
+    source: 'mobile-gemini',
+    action_type: 'antigravity_triage',
+    intent: 'test_intent'
+  });
+  const parsed = parsePayload(validJson, '.json');
+  assert.equal(parsed.source, 'mobile-gemini');
+  assert.equal(parsed.action_type, 'antigravity_triage');
+
+  // safeMoveFile returns false cleanly on non-existent file
+  const nonExistent = path.join(REPO_ROOT, 'logs', `non-existent-${Date.now()}.tmp`);
+  const dest = path.join(REPO_ROOT, 'logs', `dest-${Date.now()}.tmp`);
+  assert.equal(safeMoveFile(nonExistent, dest), false);
 });
 
 test('Ironbots scheduled task wrappers exist and contain valid configuration', () => {
