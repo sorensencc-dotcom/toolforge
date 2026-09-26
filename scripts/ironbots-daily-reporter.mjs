@@ -33,7 +33,8 @@ const BOT_ARTIFACTS = {
   trmBot: 'trm_bot_report.json',
   watchlistMiner: 'watchlist_miner_report.json',
   daemonHealer: 'daemon_health.json',
-  ciWatchdog: 'ci_alerts.json'
+  ciWatchdog: 'ci_alerts.json',
+  trmIngress: 'trm_ingress_status.json'
 };
 
 export const FLEET_SCORING_POLICY = {
@@ -119,6 +120,14 @@ export async function aggregateFleetActivity(options = {}) {
       telemetry: results.ciWatchdog,
       status: results.ciWatchdog?.status || 'UNKNOWN',
       summary: results.ciWatchdog?.scannedCount !== undefined ? `${results.ciWatchdog.scannedCount} runs scanned (${results.ciWatchdog.failureCount || 0} failures)` : 'No run recorded'
+    },
+    {
+      id: 'trm-ingress',
+      name: 'TRM Mobile Ingress & Auto-Triage Watcher',
+      schedule: 'Continuous / On-Demand',
+      telemetry: results.trmIngress,
+      status: results.trmIngress?.status || 'UNKNOWN',
+      summary: results.trmIngress?.totalTracked !== undefined ? `${results.trmIngress.totalTracked} action cards tracked (${results.trmIngress.completed || 0} completed, ${results.trmIngress.harnessPending || 0} staged)` : 'No run recorded'
     }
   ];
 

@@ -1,48 +1,41 @@
 {
-  "date": "2026-09-22",
-  "timestamp": "2026-09-22T12:04:50.603Z",
+  "date": "2026-09-26",
+  "timestamp": "2026-09-26T15:58:04.157Z",
   "elapsedMs": 5,
-  "fleetHealthScore": 93,
-  "fleetStatus": "HEALTHY",
-  "botCount": 6,
+  "fleetHealthScore": 61,
+  "fleetStatus": "DEGRADED",
+  "botCount": 7,
   "activeBots": [
     {
       "id": "notebook-ingester",
       "name": "NotebookLM & Knowledge Ingester",
       "schedule": "Daily 02:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-22T06:01:00.675Z",
-        "elapsedMs": 57844,
+        "timestamp": "2026-09-26T07:34:08.338Z",
+        "elapsedMs": 84224,
         "status": "HEALTHY",
-        "totalFiles": 460,
-        "indexedCount": 0,
-        "updatedCount": 11,
-        "skippedCount": 449,
+        "totalFiles": 435,
+        "indexedCount": 1,
+        "updatedCount": 27,
+        "skippedCount": 407,
         "databasePath": ".kb_cache/knowledge_fts5.db",
-        "dryRun": false,
-        "lastDispatch": {
-          "timestamp": "2026-09-22T08:02:04.619Z",
-          "status": "SUCCESS",
-          "dryRun": true,
-          "dispatchedPacks": 0,
-          "results": []
-        }
+        "dryRun": false
       },
       "status": "HEALTHY",
-      "summary": "460 documents indexed into SQLite FTS5"
+      "summary": "435 documents indexed into SQLite FTS5"
     },
     {
       "id": "kb-sentinel",
       "name": "KB-Sentinel Drift & Autoheal",
       "schedule": "Daily 03:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-22T07:00:02.086Z",
-        "elapsedMs": 372,
-        "healthScore": 92,
-        "status": "PASS",
-        "scanned": 413,
-        "frontmatterMissing": 4,
-        "brokenLinks": 1,
+        "timestamp": "2026-09-26T07:33:03.531Z",
+        "elapsedMs": 20443,
+        "healthScore": 21,
+        "status": "FAIL",
+        "scanned": 3023,
+        "frontmatterMissing": 39,
+        "brokenLinks": 2,
         "healed": 0,
         "dryRun": false,
         "recentIssues": [
@@ -65,37 +58,117 @@
             "file": "wiki/research/properties/_errors.md",
             "type": "MISSING_FRONTMATTER",
             "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/64gb-ddr5-5600mhz-laptop-memory-performance-and-compatibility-guide.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/agent-harnesses-local-execution.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/ai-ideas.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/ai-news-and-tools.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/architectural-design-patterns-for-advanced-artifact-interfaces.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cast-iron-charlie-research-logs.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/castironcharlie-facebook.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-cuban-seizures-retired-assets.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-daily-research.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-ford-executive-dynamics-politics.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-kb.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-miami-estate-florida-retirement.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-post-war-willys-overland.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-reddit.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-rouge-model-t-moving-assembly-line.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "kb-sync/obsidian/vault/wiki/conversations/2026-09-26/cic-willow-run-aviation-engineering.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
           }
         ]
       },
-      "status": "PASS",
-      "summary": "Health Score: 92/100 (413 files scanned)"
+      "status": "FAIL",
+      "summary": "Health Score: 21/100 (3023 files scanned)"
     },
     {
       "id": "trm-bot",
       "name": "TRM Gap Triage & RFC Drafter",
       "schedule": "Daily 04:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-22T08:00:02.159Z",
-        "elapsedMs": 9,
-        "totalGaps": 2056,
+        "timestamp": "2026-09-26T12:46:39.524Z",
+        "elapsedMs": 122,
+        "totalGaps": 4083,
         "pending": 0,
-        "drafted": 2056,
+        "drafted": 4083,
         "resolved": 0,
         "triagedCount": 0,
         "generatedRfcs": [],
         "dryRun": false
       },
       "status": "PASS",
-      "summary": "2056 total gaps (2056 drafted)"
+      "summary": "4083 total gaps (4083 drafted)"
     },
     {
       "id": "watchlist-miner",
       "name": "Watchlist & Competitor Drift Miner",
       "schedule": "Daily 05:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-22T09:00:03.303Z",
-        "elapsedMs": 1503,
+        "timestamp": "2026-09-26T12:46:39.713Z",
+        "elapsedMs": 2922,
         "status": "DRIFT_DETECTED",
         "totalWatchlists": 3,
         "targetsEvaluated": 3,
@@ -139,8 +212,8 @@
       "name": "Daemon-Healer Port 8080 Supervisor",
       "schedule": "Every 15 Min",
       "telemetry": {
-        "timestamp": "2026-09-22T11:58:54.248Z",
-        "elapsedMs": 9,
+        "timestamp": "2026-09-26T15:43:54.441Z",
+        "elapsedMs": 19,
         "targetUrl": "http://127.0.0.1:8080/dashboard",
         "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
         "status": "HEALTHY",
@@ -152,7 +225,7 @@
             "statusCode": 200,
             "headers": {
               "content-type": "text/html; charset=UTF-8",
-              "date": "Tue, 22 Sep 2026 11:58:54 GMT",
+              "date": "Sat, 26 Sep 2026 15:43:54 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
@@ -166,13 +239,13 @@
             "headers": {
               "content-type": "application/json; charset=UTF-8",
               "access-control-allow-origin": "*",
-              "date": "Tue, 22 Sep 2026 11:58:54 GMT",
+              "date": "Sat, 26 Sep 2026 15:43:54 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
             },
             "payloadValid": true,
-            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-22\",\"timestamp\":\"2026-09-22T11:45:25.077Z\",\"elapsedMs\":6,\"fleetHealthScore\":"
+            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-26\",\"timestamp\":\"2026-09-26T15:43:54.432Z\",\"elapsedMs\":6,\"fleetHealthScore\":"
           }
         },
         "healed": false,
@@ -187,98 +260,177 @@
       "name": "CI-Watchdog Workflow Failure Triage",
       "schedule": "Daily 06:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-22T12:04:44.254Z",
-        "elapsedMs": 1748,
-        "status": "HEALTHY",
+        "timestamp": "2026-09-26T12:46:47.695Z",
+        "elapsedMs": 8382,
+        "status": "FAILURES_DETECTED",
         "scannedCount": 10,
         "activeCount": 0,
-        "failureCount": 0,
+        "failureCount": 1,
         "recentRuns": [
           {
-            "id": 35723150200,
+            "id": 36241728889,
+            "name": "Retro Full History Audit",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36212379647,
             "name": "Governance",
             "branch": "parkd821-20260908",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 35702656832,
+            "id": 36186031582,
             "name": "Governance",
             "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36184376981,
+            "name": "Graft & AST Architecture Audit",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36184376957,
+            "name": "CI governance gate matrix",
+            "branch": "main",
             "status": "completed",
             "conclusion": "failure"
           },
           {
-            "id": 35702448083,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
+            "id": 36184376932,
+            "name": "Secret scan",
+            "branch": "main",
             "status": "completed",
-            "conclusion": "failure"
+            "conclusion": "success"
           },
           {
-            "id": 35684615038,
+            "id": 36184376920,
             "name": "Governance",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36184376908,
+            "name": "Toolforge Release",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36183795360,
+            "name": "Graft & AST Architecture Audit",
             "branch": "parkd821-20260908",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 35684484926,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "failure"
-          },
-          {
-            "id": 35677399346,
-            "name": "Governance",
-            "branch": "fix/nlm-closed-loop-pack-replace-gate",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 35677376692,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 35658378697,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 35657630324,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "failure"
-          },
-          {
-            "id": 35656717117,
-            "name": "Governance",
+            "id": 36183795283,
+            "name": "Secret scan",
             "branch": "parkd821-20260908",
             "status": "completed",
             "conclusion": "success"
           }
         ],
-        "alerts": [],
+        "alerts": [
+          {
+            "runId": 36184376957,
+            "name": "CI governance gate matrix",
+            "branch": "main",
+            "sha": "bee31904",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36184376957",
+            "createdAt": "2026-09-25T20:12:41Z",
+            "errorSummary": [
+              "kb-sync governance\tUNKNOWN STEP\t2026-09-25T20:13:12.9456043Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-25T20:13:19.7673264Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "sigil governance\tUNKNOWN STEP\t2026-09-25T20:13:15.1230366Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "toolforge governance\tUNKNOWN STEP\t2026-09-25T20:13:40.5865803Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "trm governance\tUNKNOWN STEP\t2026-09-25T20:13:19.8514097Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository"
+            ]
+          }
+        ],
         "dryRun": false
       },
+      "status": "FAILURES_DETECTED",
+      "summary": "10 runs scanned (1 failures)"
+    },
+    {
+      "id": "trm-ingress",
+      "name": "TRM Mobile Ingress & Auto-Triage Watcher",
+      "schedule": "Continuous / On-Demand",
+      "telemetry": {
+        "timestamp": "2026-09-26T15:52:32.599Z",
+        "status": "HEALTHY",
+        "triageQueue": 0,
+        "completed": 1,
+        "quarantined": 0,
+        "harnessPending": 1,
+        "totalTracked": 3,
+        "activeInboxes": [
+          "G:\\My Drive\\TRM-Research\\mobile-inbox",
+          "c:\\dev\\trm-drive\\inbox\\triage",
+          "c:\\dev\\.trm\\inbox\\triage"
+        ],
+        "recentCards": [
+          {
+            "id": "act-20260926-154308",
+            "processed_at": "2026-09-26T15:48:09.899Z",
+            "timestamp": "2026-09-26T15:43:08Z",
+            "source": "gemini-mobile",
+            "action_type": "deterministic_fix",
+            "intent": "remediate_quarantine_enobufs",
+            "target_notebook": "679b8bab-2d87-42cb-a726-6dc54c83acc2",
+            "target_notebook_name": "CIC-KB",
+            "summary": "Prune 6 dead ENOBUFS overflow sources in CIC-KB and repack 1,093 unsorted items to <= 380 KiB",
+            "status": "COMPLETED",
+            "duration_ms": 1244
+          },
+          {
+            "id": "act-20260926-test-triage",
+            "processed_at": "2026-09-26T15:16:03.076Z",
+            "timestamp": "2026-09-26T15:16:00Z",
+            "source": "mobile-gemini",
+            "action_type": "antigravity_triage",
+            "intent": "evaluate_mobile_triage_latency",
+            "target_notebook": "679b8bab-2d87-42cb-a726-6dc54c83acc2",
+            "target_notebook_name": "CIC-KB",
+            "summary": "Verify automated mobile ingress dispatch to GitHub Issues and Antigravity harness",
+            "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/43",
+            "status": "STAGED_FOR_TRIAGE",
+            "duration_ms": 1053
+          },
+          {
+            "id": "act-20260926-0902",
+            "processed_at": "2026-09-26T13:03:06.000Z",
+            "timestamp": "2026-09-26T13:02:08Z",
+            "source": "mobile-gemini",
+            "action_type": "deterministic_fix",
+            "intent": "remediate_quarantine_enobufs",
+            "target_notebook": "679b8bab-2d87-42cb-a726-6dc54c83acc2",
+            "target_notebook_name": "CIC-KB",
+            "summary": "Prune 6 failed buffer-overflow chunks in CIC-KB and reprocess 1,093 unsorted items under KIS-P hard budget",
+            "status": "COMPLETED",
+            "duration_ms": 2876
+          }
+        ]
+      },
       "status": "HEALTHY",
-      "summary": "10 runs scanned (0 failures)"
+      "summary": "3 action cards tracked (1 completed, 1 staged)"
     }
   ],
   "summaryMetrics": {
-    "totalDocsIndexed": 460,
-    "wikiHealthScore": 92,
-    "totalResearchGaps": 2056,
+    "totalDocsIndexed": 435,
+    "wikiHealthScore": 21,
+    "totalResearchGaps": 4083,
     "competitorDrifts": 3,
     "daemonStatus": "HEALTHY",
-    "ciFailures": 0
+    "ciFailures": 1
   },
   "dryRun": false
 }

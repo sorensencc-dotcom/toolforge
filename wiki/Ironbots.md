@@ -31,13 +31,14 @@ flowchart TD
         P["Fleet Engineering Policy Contract"]
     end
 
-    subgraph Engines["2. Autonomous Bot Fleet (6 Bots + 1 Reporter)"]
+    subgraph Engines["2. Autonomous Bot Fleet (7 Bots + 1 Reporter)"]
         NB["Notebook-Ingester Bot (Daily 02:00 AM)\nscripts/notebook-ingester-bot.mjs"]
         D["KB-Sentinel Bot (Daily 03:00 AM)\nscripts/kb-sentinel-bot.mjs"]
         E["TRM-Bot (Daily 04:00 AM)\nscripts/trm-bot-runner.mjs"]
         WM["Watchlist-Miner Bot (Daily 05:00 AM)\nscripts/watchlist-miner-bot.mjs"]
         L["CI-Watchdog Bot (Daily 06:00 AM)\nscripts/ci-watchdog-bot.mjs"]
         K["Daemon-Healer Bot (Every 15 Min)\nscripts/daemon-healer-bot.mjs"]
+        TI["TRM-Ingress Watcher Bot (Continuous / On-Demand)\nscripts/trm-ingress-watcher.mjs"]
         R["Daily Fleet Reporter (Daily 06:30 AM)\nscripts/ironbots-daily-reporter.mjs"]
     end
 
@@ -48,6 +49,7 @@ flowchart TD
         CD["Competitor Drift Reports (wiki/research/competitor-drift-*.md)"]
         N["CI Failure Detection & Error Logs"]
         M["Port 8080 Gateway Uptime (/dashboard & /api/reporting/ironbots)"]
+        ING["Mobile TRM Staging & GitHub Issues (.harness/tasks/ & LEDGER.md)"]
         I["Telemetry Hub (_status-feed/*.json)"]
         J["Daily Aggregated Report (wiki/research/ironbots-daily-report.md)"]
     end
@@ -58,6 +60,7 @@ flowchart TD
     A -->|Daily 05:00 AM| WM
     A -->|Daily 06:00 AM| L
     A -->|Every 15 Min| K
+    A -->|Continuous / Ingress| TI
     A -->|Daily 06:30 AM| R
 
     B --> NB
@@ -66,6 +69,7 @@ flowchart TD
     B --> WM
     B --> L
     B --> K
+    B --> TI
     B --> R
 
     NB --> FTS
@@ -167,12 +171,21 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 
 ---
 
-### 7. Daily Fleet Reporter
+### 7. TRM-Ingress Watcher Bot
+- **Script**: `scripts/trm-ingress-watcher.mjs`
+- **Schedule**: Continuous / On-demand (`\Ironbots\TRM-Ingress-Watcher`)
+- **Wrapper**: `scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1`
+- **Telemetry**: `_status-feed/trm_ingress_status.json`
+- **Function**: Monitors mobile drop points (`TRM-Research/mobile-inbox/` on Google Drive and local `.trm/inbox/triage/`). Automatically executes deterministic remediations (batch deletion of broken sources, KIS-P re-budgeting), creates tracked GitHub Issues for complex triages, and maintains the live audit ledger in `c:/dev/trm-drive/inbox/LEDGER.md`.
+
+---
+
+### 8. Daily Fleet Reporter
 - **Script**: `scripts/ironbots-daily-reporter.mjs`
 - **Schedule**: Daily at 06:30 AM (`\Ironbots\Ironbots-Reporter`)
 - **Wrapper**: `scripts/schedule-task-wrapper-Ironbots-Reporter.ps1`
 - **Telemetry**: `_status-feed/ironbots_daily_report.json`
-- **Function**: Ingests telemetry from all 6 Ironbots, evaluates fleet health using `FLEET_SCORING_POLICY`, maintains historical snapshots in `_status-feed/ironbots_history/`, and publishes the daily markdown brief to `wiki/research/ironbots-daily-report.md`.
+- **Function**: Ingests telemetry from all 7 Ironbots, evaluates fleet health using `FLEET_SCORING_POLICY`, maintains historical snapshots in `_status-feed/ironbots_history/`, and publishes the daily markdown brief to `wiki/research/ironbots-daily-report.md`.
 
 ---
 
@@ -224,5 +237,6 @@ pwsh -NoProfile -File scripts/schedule-task-wrapper-Ironbots-Reporter.ps1 -Actio
 - [[Index]]
 - [[ControlledEvidencePipeline]]
 - [Ironbots Development Standards](file:///c:/dev/docs/meta/governance/ironbots-development-standards.md) (`GOV-IRONBOTS-STD-v1.0`)
+- [[research/trm-mobile-ingress-pipeline|trm-mobile-ingress-pipeline]]
 - [[research/trm-devops-triage-pipeline|trm-devops-triage-pipeline]]
 - [[research/whichllm-model-selection-evaluator|whichllm-model-selection-evaluator]]
