@@ -43,6 +43,16 @@ export interface SlopGraderJson {
 
 export const RULESETS = ['no-ai-slop', 'tech-docs'];
 
+/**
+ * Default grading model. The grader's own default (`typesafe/jev-1.13`) is a
+ * paid model behind a non-public endpoint; this pins a real OpenRouter
+ * `:free` model instead so the tool never spends against `OPENROUTER_API_KEY`
+ * unless `SLOP_GRADER_MODEL` is explicitly overridden. Free-tier catalog
+ * changes over time — verify with `GET https://openrouter.ai/api/v1/models`
+ * before assuming this id still resolves.
+ */
+export const DEFAULT_MODEL = process.env.SLOP_GRADER_MODEL || 'google/gemma-4-31b-it:free';
+
 /** Pre-commit budget. Scoped to the changed-files path only (plan Global Constraints). */
 export const DEFAULT_TIMEOUT_MS = 30_000;
 
@@ -82,7 +92,7 @@ export function buildGraderArgs(file: string, rulesets: string[] = RULESETS): st
   for (const ruleset of rulesets) {
     args.push('-r', ruleset);
   }
-  args.push('--json', file);
+  args.push('--provider', 'openrouter', '--model', DEFAULT_MODEL, '--json', file);
   return args;
 }
 

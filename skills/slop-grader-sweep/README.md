@@ -18,6 +18,10 @@ Requires `OPENROUTER_API_KEY` resolvable via the repo's
 `credential-resolver.ts` (locally: an environment variable; in CI: the
 `OPENROUTER_API_KEY` repo secret).
 
+Grades against a pinned OpenRouter **free-tier** model
+(`google/gemma-4-31b-it:free` — see `DEFAULT_MODEL` in
+`src/slop-grader-runner.ts`; override with `SLOP_GRADER_MODEL`).
+
 See `docs/USAGE.md` for workflow details, error-handling behavior, and
 troubleshooting. See `SKILL.md` for trigger and I/O schema.
 
