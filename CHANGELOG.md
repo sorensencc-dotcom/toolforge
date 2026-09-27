@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2.75.0
+Date: 2026-09-27
+
+### Changes
+- 58da2f7 - feat(skills): add chris-mode working-conventions skill (#54) (Chris Sorensen)
+- 6f39772 - Merge pull request #56 from sorensencc-dotcom/docs/brand-matrix-sigil-rewrite-2026-09-26 (Chris Sorensen)
+- 0767d0b - docs(governance): add sigil and rewrite-docs brand-matrix buckets (Chris Sorensen)
+- 96a1cda - Merge pull request #55 from sorensencc-dotcom/docs/wiki-sync-registry-2026-09-26 (Chris Sorensen)
+- 96f706c - docs(governance): add wiki sync registry for per-product canonical side (Chris Sorensen)
+- 0260d39 - Merge pull request #53 from sorensencc-dotcom/docs/readme-about-pass-2026-09-26 (Chris Sorensen)
+- 68f5187 - docs(wiki): Home frontmatter, footer identity, strip file:// links (Chris Sorensen)
+- d513af1 - docs(readme): R-rules Status/Audience/Quick start/Docs/Governance pass (Chris Sorensen)
+- 91a0389 - Merge pull request #52 from sorensencc-dotcom/docs/wiki-style-structure-2026-09-26 (Chris Sorensen)
+- 934a01a - docs(governance): add wiki style & structure guideline (Chris Sorensen)
+
 ## Version 2.74.0
 Date: 2026-09-26
 
