@@ -238,7 +238,7 @@ Generated entity pages MUST NOT flood curated sidebar groups. Promote selectivel
 
 Operators MUST document, per product, which side is canonical (clone-first vs repo-first). Ambiguous dual edits MUST be treated as drift: validate SHOULD fail or warn until one side wins.
 
-**TODO:** no per-product canonical-side registry exists yet. Until one does, this rule is unenforceable — the "MUST document" obligation has no target file. Create `docs/meta/governance/wiki-sync-registry.md` (or equivalent) listing each product's canonical side by name before treating this section as active.
+**Registry:** per-product canonical side lives in [`wiki-sync-registry.md`](wiki-sync-registry.md) (status: draft). Until that registry leaves draft and an owner claims each row, treat this section's "MUST document" as pointed at that file — dual edits remain drift.
 
 Dual Toolforge trees (`C:\dev\toolforge`, marketplace / nlm-pack-gate forks, root `C:\dev\wiki`) MUST NOT all be treated as SoT at once — pick the publishing path the sync script actually pushes.
 
