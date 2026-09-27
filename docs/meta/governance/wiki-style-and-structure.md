@@ -2,8 +2,8 @@
 
 **Status:** draft (local review)  
 **Owner:** Chris Sorensen  
-**Last-reviewed:** 2026-09-26  
-**Doc version:** 1.1 (bump on any W/R rule-ID change or renumber, or when brand-matrix rows change; other docs may cite these IDs directly)  
+**Last-reviewed:** 2026-09-27  
+**Doc version:** 1.2 (bump on any W/R rule-ID change or renumber, or when brand-matrix rows change; other docs may cite these IDs directly)  
 **Enforcement:** none yet. No script in `scripts/` implements the W1–W12 / R1–R9 checks below — confirmed 2026-09-26 via `graft grep "validate"` and a scan of `scripts/*validate*`. `sync-github-wiki.mjs` publishes wiki content but does not check frontmatter/status/sidebar/index-collision rules. Treat every rule ID here as spec-only until a wiki-validate script exists and is wired to CI or pre-commit.  
 **Audience:** Copywriters, wiki operators, CLI validators, and agents that author or sync curated GitHub wikis / in-repo wiki mirrors.
 
@@ -63,7 +63,8 @@ Every curated wiki surface MUST declare exactly one primary brand (frontmatter `
 | `sigil` | Sigil product wiki (`sigil-wiki` / `sigil/docs/wiki`), connector / relay / MCP operator guides | **Product** chrome by default — not CIC Industrial. Use Sigil product language (envelopes, capabilities, relay, approvals). CIC diagram skins are allowed **only** when the page documents a CIC-facing surface that happens to use Sigil (call that out in the lede or caption); otherwise keep diagrams on the product skin. | Protocol-precise, operator-grade, security-aware |
 | `rewrite-docs` / `rewrite-labs` | Rewrite Labs / rewrite-docs / rewrite-mcp product docs and any future Rewrite wiki | Rewrite Labs product chrome only. **MUST NOT** use CIC Industrial palette, typography, or forge chrome. Cross-links to Charlie pages are fine; mixed skins are not. | Product / labs, clear and direct |
 | `internal-obsidian` / `kb-sync` | Obsidian vault wiki mirrors, kb-sync operator docs, fleet reconciler notes | Minimal chrome; provenance and sync receipts matter more than brand paint. | Internal ops, provenance-first |
-| `hybrid` | Pages that bridge two brands (e.g. CIC research into Toolforge execution, or Sigil product pages that intentionally show CIC-facing diagrams) | Primary brand owns palette and footer; secondary brand MAY be linked, never mixed into the same diagram skin. Name both in frontmatter when the marker supports it (`brand: hybrid` plus primary/secondary notes). | SHOULD state both audiences in the lede — human/editorial call, not CLI-checkable; no rule ID covers this |
+| `helix` | Helix wiki (`helix-wiki`) — local chat-engine product | Own product chrome (session/routing/approval language: ICF, WhichLLM, Sigil as orchestrated authorities). Not CIC Industrial by default. | Operator-grade, session-first |
+| `hybrid` | Pages that bridge two brands (e.g. CIC research into Toolforge execution, Sigil product pages that intentionally show CIC-facing diagrams, or ICF's ops dashboard, which is its own product but renders on the Cast Iron Charlie design-system tokens) | Primary brand owns palette and footer; secondary brand MAY be linked, never mixed into the same diagram skin. Name both in frontmatter when the marker supports it (`brand: hybrid` plus primary/secondary notes). Example: `icf` — primary `icf` (Iron Command Forge ops/reporting product), secondary `cic` (dashboard chrome literally imports the CIC design-system CSS tokens). | SHOULD state both audiences in the lede — human/editorial call, not CLI-checkable; no rule ID covers this |
 
 **Hard forbid:** Rewrite Labs / rewrite-mcp / rewrite-docs chrome on Charlie (`cic`) pages; Charlie Industrial chrome on Rewrite Labs (`rewrite-docs` / `rewrite-labs`) or default Sigil (`sigil`) product pages; Sigil-as-CIC by default (Sigil is a product bucket — CIC skins only for explicitly CIC-facing Sigil surfaces). Cross-links are fine; mixed skins are not.
 
@@ -112,9 +113,23 @@ title: "Human page title"
 status: active   # draft | active | deprecated | archived | generated
 owner: chris     # github handle or stable operator id
 last-reviewed: 2026-09-26
-brand: cic       # cic | product-toolforge | sigil | rewrite-docs | internal-obsidian | hybrid
+brand: cic       # cic | product-toolforge | sigil | rewrite-docs | internal-obsidian | helix | hybrid
 ---
 ```
+
+On GitHub wiki (Gollum) surfaces, raw YAML frontmatter renders as visible page text — Gollum has no frontmatter-stripping step. On those surfaces only, the same key/value block MAY be wrapped in an HTML comment instead of bare YAML fences:
+
+```html
+<!--
+title: "Human page title"
+status: active
+owner: chris
+last-reviewed: 2026-09-26
+brand: cic
+-->
+```
+
+This satisfies W1–W3 identically; validators MUST parse both forms. Repo-hosted markdown (rendered by GitHub's normal file view, not Gollum) MUST keep bare YAML fences — no visible-text problem there.
 
 SHOULD also include when known: `category`, `replaces`, `replaced-by`, `canonical-path`.
 
