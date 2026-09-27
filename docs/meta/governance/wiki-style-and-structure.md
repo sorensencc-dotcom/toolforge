@@ -3,7 +3,7 @@
 **Status:** draft (local review)  
 **Owner:** Chris Sorensen  
 **Last-reviewed:** 2026-09-26  
-**Doc version:** 1.0 (bump on any W/R rule-ID change or renumber; other docs may cite these IDs directly)  
+**Doc version:** 1.1 (bump on any W/R rule-ID change or renumber, or when brand-matrix rows change; other docs may cite these IDs directly)  
 **Enforcement:** none yet. No script in `scripts/` implements the W1–W12 / R1–R9 checks below — confirmed 2026-09-26 via `graft grep "validate"` and a scan of `scripts/*validate*`. `sync-github-wiki.mjs` publishes wiki content but does not check frontmatter/status/sidebar/index-collision rules. Treat every rule ID here as spec-only until a wiki-validate script exists and is wired to CI or pre-commit.  
 **Audience:** Copywriters, wiki operators, CLI validators, and agents that author or sync curated GitHub wikis / in-repo wiki mirrors.
 
@@ -54,16 +54,18 @@ This is the living rule for how curated wiki surfaces look, nest, and stay synca
 
 ## 2. Brand matrix
 
-Every curated wiki surface MUST declare exactly one primary brand (frontmatter `brand:` or an equivalent machine-readable marker on Home). Hybrid surfaces MUST name the primary and the secondary.
+Every curated wiki surface MUST declare exactly one primary brand (frontmatter `brand:` or an equivalent machine-readable marker on Home). Hybrid surfaces MUST name the primary and the secondary. Every product that ships a curated wiki MUST land in one of the rows below — do not invent a free-text brand that leaves validators with "no matrix bucket."
 
 | Brand id | Typical surfaces | Visual / chrome rules | Nav tone |
 | --- | --- | --- | --- |
-| `cic` | TRM wiki, Charlie / CIC research wikis, Cast Iron Charlie treatments | CIC Industrial Design System only (see section 3). No RewriteLabs chrome. | Grave, precise, research-ops |
+| `cic` | TRM wiki, Charlie / CIC research wikis, Cast Iron Charlie treatments | CIC Industrial Design System only (see section 3). No Rewrite Labs / Sigil product chrome. | Grave, precise, research-ops |
 | `product-toolforge` | Toolforge platform wiki / Home, operator guides, tool index | Product-platform chrome (architecture overview, gateway / runtime / registry language). Do not paste CIC forge palette into product UI chrome unless the page is explicitly CIC-facing. | Operator-grade, deterministic, platform |
+| `sigil` | Sigil product wiki (`sigil-wiki` / `sigil/docs/wiki`), connector / relay / MCP operator guides | **Product** chrome by default — not CIC Industrial. Use Sigil product language (envelopes, capabilities, relay, approvals). CIC diagram skins are allowed **only** when the page documents a CIC-facing surface that happens to use Sigil (call that out in the lede or caption); otherwise keep diagrams on the product skin. | Protocol-precise, operator-grade, security-aware |
+| `rewrite-docs` / `rewrite-labs` | Rewrite Labs / rewrite-docs / rewrite-mcp product docs and any future Rewrite wiki | Rewrite Labs product chrome only. **MUST NOT** use CIC Industrial palette, typography, or forge chrome. Cross-links to Charlie pages are fine; mixed skins are not. | Product / labs, clear and direct |
 | `internal-obsidian` / `kb-sync` | Obsidian vault wiki mirrors, kb-sync operator docs, fleet reconciler notes | Minimal chrome; provenance and sync receipts matter more than brand paint. | Internal ops, provenance-first |
-| `hybrid` | Pages that bridge CIC research into Toolforge execution (or vice versa) | Primary brand owns palette and footer; secondary brand MAY be linked, never mixed into the same diagram skin. | SHOULD state both audiences in the lede — human/editorial call, not CLI-checkable; no rule ID covers this |
+| `hybrid` | Pages that bridge two brands (e.g. CIC research into Toolforge execution, or Sigil product pages that intentionally show CIC-facing diagrams) | Primary brand owns palette and footer; secondary brand MAY be linked, never mixed into the same diagram skin. Name both in frontmatter when the marker supports it (`brand: hybrid` plus primary/secondary notes). | SHOULD state both audiences in the lede — human/editorial call, not CLI-checkable; no rule ID covers this |
 
-**Hard forbid:** RewriteLabs / rewrite-mcp / rewrite-docs chrome on Charlie (`cic`) pages, and Charlie Industrial chrome on RewriteLabs product pages. Cross-links are fine; mixed skins are not.
+**Hard forbid:** Rewrite Labs / rewrite-mcp / rewrite-docs chrome on Charlie (`cic`) pages; Charlie Industrial chrome on Rewrite Labs (`rewrite-docs` / `rewrite-labs`) or default Sigil (`sigil`) product pages; Sigil-as-CIC by default (Sigil is a product bucket — CIC skins only for explicitly CIC-facing Sigil surfaces). Cross-links are fine; mixed skins are not.
 
 ---
 
@@ -110,7 +112,7 @@ title: "Human page title"
 status: active   # draft | active | deprecated | archived | generated
 owner: chris     # github handle or stable operator id
 last-reviewed: 2026-09-26
-brand: cic       # cic | product-toolforge | internal-obsidian | hybrid
+brand: cic       # cic | product-toolforge | sigil | rewrite-docs | internal-obsidian | hybrid
 ---
 ```
 
@@ -211,6 +213,17 @@ Generated entity pages MUST NOT flood curated sidebar groups. Promote selectivel
 
 - Diagrams SHOULD stay sparse; prioritize sync receipts, provenance, and operator steps over brand paint.
 
+### Sigil (`brand: sigil`)
+
+- Default to product diagram language (relay, connector, envelope, capability boundary) — not CIC Industrial.
+- CIC SoT tokens / forge skin are allowed only on pages that document CIC-facing surfaces using Sigil; say so in the caption or lede. Otherwise MUST NOT silently adopt CIC forge tokens.
+- Prefer the same PNG + Mermaid-under-`<details>` pattern as other curated wikis when diagrams ship.
+
+### Rewrite Labs (`brand: rewrite-docs` / `rewrite-labs`)
+
+- Product / labs diagram chrome only. MUST NOT use CIC Industrial palette, type, or forge chrome.
+- Mermaid MAY use neutral Rewrite Labs product colors.
+
 ### Hybrid
 
 - One diagram, one skin. If both brands appear on one page, use separate figures — never a mixed palette in a single Mermaid graph.
@@ -268,7 +281,7 @@ These apply to the **GitHub repository** that owns or publishes the wiki (not ev
 | R5 | About website URL SHOULD be set when a public site/docs URL exists | yes | MAY set known URL | 2026-09-26 |
 | R6 | Topics/tags SHOULD be brand-consistent (no CIC topics on pure RewriteLabs repos and vice versa) | yes | MAY suggest; no silent topic wipe | 2026-09-26 |
 | R7 | Repo/wiki publish tree MUST NOT contain dual `INDEX.md` + `Index.md` | yes | no (human pick) | 2026-09-26 |
-| R8 | README MUST NOT claim the wrong brand chrome (Charlie vs RewriteLabs vs Toolforge product) | yes | no (human) | 2026-09-26 |
+| R8 | README MUST NOT claim the wrong brand chrome (Charlie vs Rewrite Labs vs Toolforge vs Sigil product) | yes | no (human) | 2026-09-26 |
 | R9 | About description MUST NOT contradict the README lede | yes | MAY propose About text | 2026-09-26 |
 
 CLI tools MAY validate R1–R9; they MUST NOT rewrite R1/R2/R7/R8 without an explicit human-approved rewrite mode.
@@ -290,7 +303,7 @@ Wiki working-tree rules for curated surfaces. `validate` = non-zero exit on viol
 | W7 | No broken relative markdown / wiki links among curated pages | yes | no (fix links intentionally) | 2026-09-26 |
 | W8 | No orphan curated pages (unlinked from Home/Sidebar/Index) | yes | no | 2026-09-26 |
 | W9 | `archived` / deprecated handling: banner or `archive/` path; sidebar does not present archived as current | yes | MAY move file to `archive/` with `--rewrite-archive` | 2026-09-26 |
-| W10 | Brand chrome isolation: no RewriteLabs chrome on `cic` pages; no CIC Industrial chrome on RewriteLabs pages | yes | no | 2026-09-26 |
+| W10 | Brand chrome isolation: no Rewrite Labs chrome on `cic` pages; no CIC Industrial chrome on `rewrite-docs` / `rewrite-labs` or default `sigil` product pages; `sigil` MUST NOT be treated as CIC-by-default | yes | no | 2026-09-26 |
 | W11 | Mermaid/diagram tokens for `cic` pages match `cic_design_system.md` (no invented hex) | yes | no (regenerate via Charlie generators) | 2026-09-26 |
 | W12 | `generated` pages are excluded from W2–W9 MUST unless promoted; promotion requires status+owner+sidebar link | yes | no | 2026-09-26 |
 
@@ -316,7 +329,8 @@ Generated dumps under `C:\dev\wiki` and `entities/` MUST be skipped by curated v
 | Wiki structure (Home / Sidebar / Footer / topics / diagram pairs) | `C:\dev\trm-wiki\` (external repo — absolute path correct) |
 | Visual SoT + enforcement | `C:\dev\charlie-deep-research\cic_design_system.md` and `docs\CIC_DESIGN_SYSTEM_ENFORCEMENT.md` (external repo) |
 | Product platform Home / nav tone | `Home.md` (this repo, Toolforge — repo-relative) |
-| CIC-leaning research Home tone | `C:\dev\sigil-wiki\Home.md`, `C:\dev\trm-wiki\Home.md` (external repos) |
+| CIC research Home tone | `C:\dev\trm-wiki\Home.md` (external repo) |
+| Sigil product Home / nav tone | `C:\dev\sigil\docs\wiki\README.md` (canonical) / `C:\dev\sigil-wiki\Home.md` (published twin) — brand `sigil`, not CIC-by-default |
 
 ---
 
@@ -326,4 +340,4 @@ Changes to this guideline SHOULD stay local until Chris reviews. No commits, pus
 
 **Location conformance:** this file lives under `docs/meta/governance/`, satisfying the roadmap/spec placement rule in the root `CLAUDE.md` governance section (specs and roadmaps confined to `docs/meta/` or named project roots). No action needed; noted for future movers of this file.
 
-Bump **Doc version** (top of file) whenever a W/R rule ID is added, removed, or renumbered — other docs and any future validator script may cite these IDs directly, and a silent renumber breaks those references.
+Bump **Doc version** (top of file) whenever a W/R rule ID is added, removed, or renumbered, or whenever brand-matrix rows / brand ids change — other docs and any future validator script may cite these IDs directly, and a silent renumber breaks those references.
