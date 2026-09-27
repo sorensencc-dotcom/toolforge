@@ -14,4 +14,5 @@ Durable rules, policies, and gates that govern how work gets done across phases 
 - `pre-charter-audit-checklist.md` — pre-charter audit checklist
 - `phase-0-pattern-research-gate-template.md` — Phase 0 pattern research gate template
 - `documentation-policy.md` — this repo's docs/meta naming + placement policy
+- `wiki-style-and-structure.md` - curated GitHub/in-repo wiki style, brand matrix, Home/_Sidebar/_Footer, W/R CLI rules
 - `scripts-governance.md` — all scripts (.ps1, .sh, .bat, etc.) belong in C:\dev\scripts\

@@ -1,27 +1,24 @@
 ---
 source_title: "Mined Research Gaps and Topics Registry"
 repository: "CIC Research Protocols — Live Vault Snapshot"
-document_date: "2026-09-21"
+document_date: "2026-09-26"
 verification_status: "verified"
 category: daily
 notebook_id: 1b4861a3-931f-4632-8fc1-343a8dd37df8
 status: active
-generated_at: 2026-09-21T00:22:49.513Z
-evaluated_model: "qwen2.5:7b"
-bfcl_score: 0.694
-hash_chain_self: "42f879a00db2d3ed1e5520987ea895c5bca546eacd0d52cb0520e34b9e23971a"
-vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/cic-ford-executive-dynamics-politics.md"
+generated_at: 2026-09-26T13:15:28.953Z
+evaluated_model: "llama3.1:8b"
+bfcl_score: 0.835
+hash_chain_self: "6729a806b61b32b63c9dbcb86d698c2779d14d00839655e5911117303d538399"
+vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
 ---
 
 <!-- Snapshot consolidated from trm-vault by run-closed-loop-research-v2.mjs -->
-# Research Gaps: CIC - Ford Executive Dynamics & Politics
+# Research Gaps: Willow Run Videos
 
 | Question | Answer excerpt | Notebook | First-seen date | Entry key |
 |---|---|---|---|---|
-| What open questions or unresolved contradictions exist across these sources? | Across historical records, contemporary book reviews, and archival dossiers, several major unresolved contradictions, competing narratives, and open questions exist regarding executive dynamics, corpo... | CIC - Ford Executive Dynamics & Politics | 2026-09-20 | 0caf6707-f8f2-4d2a-acd2-020acead55ba:open-contradictions:0eecb7fd8d6d453ced3ff6b6d144476407e5b0daab3334086e2152164624864e |
-
-| What claims are asserted but single-sourced or under-corroborated? | Several key claims regarding Ford's executive dynamics, corporate politics, and mass production origins are asserted in memoirs, oral accounts, or third-party histories but remain **single-sourced, un... | CIC - Ford Executive Dynamics & Politics | 2026-09-20 | 0caf6707-f8f2-4d2a-acd2-020acead55ba:under-sourced:48976b2ee9f23bbd99d16426805afe780b7ff6bbd8523d5cbf338ea07ed92278 |
-
-| What adjacent topics do these sources point to that aren't covered yet? | Beyond the core narratives of executive dynamics and Willow Run's wartime assembly line, your sources point directly to **six unexamined adjacent topics** spanning corporate law, labor security, inter... | CIC - Ford Executive Dynamics & Politics | 2026-09-20 | 0caf6707-f8f2-4d2a-acd2-020acead55ba:adjacent-topics:16cd9c7a07f41dc7de90d8adb21f67252e7eb9fd9d50ce37777dcc35cd85ff67 |
-
-| What follow-up research would most strengthen current findings? | To resolve uncorroborated assertions, archival censorship, and historical gaps across your sources, follow-up research should be structured around **seven canonical archival tracks** targeting specifi... | CIC - Ford Executive Dynamics & Politics | 2026-09-20 | 0caf6707-f8f2-4d2a-acd2-020acead55ba:follow-up:4e92d08acdc7a76e9048c62822042d8c7ac2b02c866b01c2b0cdbe7a8610cd22 |
+| What open questions or unresolved contradictions exist across these sources? | Across the video transcripts, personal memoirs, architectural studies, and archival reports in your sources, several major **historical contradictions, unresolved open questions, and competing narrati... | Willow Run Videos | 2026-09-26 | ef78168d-b7b9-4952-8e0f-fcb353a21181:open-contradictions:61498fb1e9a7cabd529a206e8419da7e373509aa3a942c6cb4e2a01c4b9affcd |
+| What claims are asserted but single-sourced or under-corroborated? | Across the sources in your notebook, several dramatic manufacturing claims, personal anecdotes, and technical metrics stand out as **single-sourced or under-corroborated**, relying on a single video t... | Willow Run Videos | 2026-09-26 | ef78168d-b7b9-4952-8e0f-fcb353a21181:under-sourced:989c23e5f26520846c695c4acc48fc4b2acfd2f98ce6d1a0e454b9d9d296d0e1 |
+| What adjacent topics do these sources point to that aren't covered yet? | The source material points to **six compelling narrative threads** that extend beyond the core assembly line mechanics of Willow Run:  ---  ### **1. Clara Ford: The Silent Power Broker of Dearborn** *... | Willow Run Videos | 2026-09-25 | ef78168d-b7b9-4952-8e0f-fcb353a21181:adjacent-topics:c6f4e254e1069ed0bfaa41c268edca6ff1cb5cfb300a0be4529cf84b58d84664 |
+| What follow-up research would most strengthen current findings? | To strengthen current findings, resolve remaining single-sourced legends, and verify primary architectural details across your sources, follow-up research should target **five primary archival collect... | Willow Run Videos | 2026-09-26 | ef78168d-b7b9-4952-8e0f-fcb353a21181:follow-up:dc30fa341e658f8e09ff807aceadf556d5c43548b09469d90871c7241323015b |

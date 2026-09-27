@@ -4,6 +4,25 @@ Toolforge is a governed, observable, and deterministic execution platform that p
 
 Toolforge is not a loose collection of functions — it is a full lifecycle system for tool discovery, governance, execution, and observability. Every tool call passes through a controlled pipeline that guarantees correctness, safety, and traceability.
 
+**Status:** Active — platform release [v2.74.0](https://github.com/sorensencc-dotcom/toolforge/releases/tag/v2.74.0)  
+**Audience:** AI agent developers, tool authors, and operators who need governed, observable tool execution (brand: `product-toolforge`).
+
+## Quick start
+
+```bash
+git clone https://github.com/sorensencc-dotcom/toolforge.git
+cd toolforge
+npm install
+npm run dev
+```
+
+## Docs & wiki
+
+- [Wiki index](wiki/Index.md) — curated operator pages
+- [Controlled Evidence Pipeline](wiki/ControlledEvidencePipeline.md)
+- [GOVERNANCE.md](GOVERNANCE.md) — tool naming, versioning, and lifecycle
+- [docs/meta/governance/](docs/meta/governance/) — documentation policy and wiki style & structure
+
 ![Toolforge Platform Architecture Overview](toolforge-architecture-overview.png)
 
 <details>

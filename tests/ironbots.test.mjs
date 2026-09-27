@@ -160,28 +160,61 @@ test('watchlist-miner-bot runs in dry-run mode and writes valid telemetry', () =
   assert.ok(['PASS', 'DRIFT_DETECTED'].includes(report.status));
 });
 
-test('ironbots-daily-reporter runs and generates aggregated daily telemetry', () => {
-  const scriptPath = path.join(REPO_ROOT, 'scripts', 'ironbots-daily-reporter.mjs');
-  assert.ok(fs.existsSync(scriptPath), 'ironbots-daily-reporter.mjs should exist');
+test('ironbots-daily-reporter runs and generates aggregated daily telemetry with host heartbeat', async () => {
+  const { aggregateFleetActivity, getHostHeartbeat } = await import('../scripts/ironbots-daily-reporter.mjs');
+  
+  const heartbeat = getHostHeartbeat();
+  assert.equal(typeof heartbeat.hostname, 'string');
+  assert.ok(heartbeat.uptimeSeconds >= 0);
+  assert.equal(typeof heartbeat.taskScheduler, 'object');
+  assert.ok(typeof heartbeat.taskScheduler.status === 'string');
 
-  const stdout = execFileSync('node', [scriptPath, '--dry-run'], {
-    cwd: REPO_ROOT,
-    encoding: 'utf8'
+  const report = await aggregateFleetActivity({ isDryRun: true });
+  assert.equal(typeof report.fleetHealthScore, 'number');
+  assert.ok(report.fleetHealthScore >= 0 && report.fleetHealthScore <= 100);
+  assert.equal(report.botCount, 7);
+  assert.ok(Array.isArray(report.activeBots));
+  assert.equal(report.activeBots.length, 7);
+  assert.ok(report.hostHeartbeat);
+  assert.equal(typeof report.hostHeartbeat.hostname, 'string');
+});
+
+test('daemon-healer exports thrash guard configuration with cooldown window', async () => {
+  const { THRASH_GUARD_CONFIG } = await import('../scripts/daemon-healer-bot.mjs');
+  assert.ok(THRASH_GUARD_CONFIG);
+  assert.equal(THRASH_GUARD_CONFIG.maxConsecutiveHeals, 3);
+  assert.equal(THRASH_GUARD_CONFIG.cooldownStatus, 'ALERT_ONLY_COOLDOWN');
+  assert.equal(typeof THRASH_GUARD_CONFIG.cooldownWindowMs, 'number');
+  assert.ok(THRASH_GUARD_CONFIG.cooldownWindowMs >= 3600000);
+});
+
+test('ironbots-daily-reporter exports REQUIRED_FLEET_TASKS with 8 tasks', async () => {
+  const { REQUIRED_FLEET_TASKS } = await import('../scripts/ironbots-daily-reporter.mjs');
+  assert.ok(Array.isArray(REQUIRED_FLEET_TASKS));
+  assert.equal(REQUIRED_FLEET_TASKS.length, 8);
+  assert.ok(REQUIRED_FLEET_TASKS.includes('TRM-Drive-Sync'));
+  assert.ok(REQUIRED_FLEET_TASKS.includes('Daemon-Healer'));
+  assert.ok(REQUIRED_FLEET_TASKS.includes('Ironbots-Reporter'));
+});
+
+test('trm-ingress-watcher exports safeMoveFile and parsePayload helpers', async () => {
+  const { safeMoveFile, parsePayload } = await import('../scripts/trm-ingress-watcher.mjs');
+  assert.equal(typeof safeMoveFile, 'function');
+  assert.equal(typeof parsePayload, 'function');
+
+  const validJson = JSON.stringify({
+    source: 'mobile-gemini',
+    action_type: 'antigravity_triage',
+    intent: 'test_intent'
   });
+  const parsed = parsePayload(validJson, '.json');
+  assert.equal(parsed.source, 'mobile-gemini');
+  assert.equal(parsed.action_type, 'antigravity_triage');
 
-  assert.match(stdout, /\[Ironbots-Reporter\] Compiling daily fleet telemetry report/);
-  assert.match(stdout, /Fleet Report Compiled in/);
-
-  const reportPath = path.join(REPO_ROOT, '_status-feed', 'ironbots_daily_report.json');
-  if (fs.existsSync(reportPath)) {
-    const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-    assert.equal(typeof report.fleetHealthScore, 'number');
-    assert.ok(report.fleetHealthScore >= 0 && report.fleetHealthScore <= 100);
-    assert.equal(typeof report.botCount, 'number');
-    assert.ok(report.botCount >= 6);
-    assert.ok(Array.isArray(report.activeBots));
-    assert.ok(report.activeBots.length >= 6);
-  }
+  // safeMoveFile returns false cleanly on non-existent file
+  const nonExistent = path.join(REPO_ROOT, 'logs', `non-existent-${Date.now()}.tmp`);
+  const dest = path.join(REPO_ROOT, 'logs', `dest-${Date.now()}.tmp`);
+  assert.equal(safeMoveFile(nonExistent, dest), false);
 });
 
 test('Ironbots scheduled task wrappers exist and contain valid configuration', () => {
@@ -192,6 +225,7 @@ test('Ironbots scheduled task wrappers exist and contain valid configuration', (
     { file: 'scripts/schedule-task-wrapper-Watchlist-Miner.ps1', name: 'Watchlist-Miner' },
     { file: 'scripts/schedule-task-wrapper-Daemon-Healer.ps1', name: 'Daemon-Healer' },
     { file: 'scripts/schedule-task-wrapper-CI-Watchdog.ps1', name: 'CI-Watchdog' },
+    { file: 'scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1', name: 'TRM-Drive-Sync' },
     { file: 'scripts/schedule-task-wrapper-Ironbots-Reporter.ps1', name: 'Ironbots-Reporter' }
   ];
 
@@ -228,5 +262,20 @@ test('weekly retro and reporting schedule scripts exist and target toolforge cat
   const content = fs.readFileSync(weeklyScript, 'utf8');
   assert.match(content, /\\toolforge\\/);
   assert.match(content, /toolforge-weekly-report-agent/);
+});
+
+test('git-push-and-wait script exists and contains Devin blocking gate parameters', () => {
+  const gateScript = path.join(REPO_ROOT, 'scripts', 'git-push-and-wait.ps1');
+  assert.ok(fs.existsSync(gateScript), 'git-push-and-wait.ps1 should exist');
+
+  const content = fs.readFileSync(gateScript, 'utf8');
+  assert.match(content, /param\(/);
+  assert.match(content, /\[string\]\$Branch/);
+  assert.match(content, /\[int\]\$TimeoutSeconds/);
+  assert.match(content, /\[switch\]\$SkipWait/);
+  assert.match(content, /\[int\]\$PRNumber/);
+  assert.match(content, /gh pr view/);
+  assert.match(content, /statusCheckRollup/);
+  assert.match(content, /devin-ai-integration/);
 });
 

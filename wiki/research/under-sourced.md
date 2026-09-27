@@ -1,57 +1,41 @@
 ---
 source_title: "Under Sourced — TRM Synthesis"
 repository: "CIC Research Vault — Live Synthesis"
-document_date: "2026-09-03"
-verification_status: "verified"
+document_date: "2026-09-26"
+verification_status: "single-sourced"
+why_corroborated: false
 category: "daily"
 topic: under-sourced
-status: resolved
-resolved_by: "rfc-gap-10-clara-ford-union-ultimatum.md"
-synthesized_by: "trm-closed-loop-v2"
+status: active
+synthesized_by: "llama3.1:8b"
+bfcl_score: 0.835
+model_selection_hash: "6729a806b61b32b63c9dbcb86d698c2779d14d00839655e5911117303d538399"
 vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
-last_updated: 2026-09-03T20:53:00.000Z
+last_updated: 2026-09-26T13:15:28.953Z
 ---
 
-# Under Sourced Claims — Grounding Dossier
+# Under Sourced
 
-> Synthesized from live TRM mining output and cross-referenced with primary historical repositories.
+> Synthesized from live TRM mining output. See [[kb-sync/wiki/research/under-sourced]] for the canonical research page.
 
-## Grounded Claims & Resolutions
+## Source gap
 
-### 1. Clara Bryant Ford's 1941 Labor Ultimatum
-- **Assertion:** Henry Ford agreed to sign the June 1941 UAW contract only after Clara threatened to leave him over picket line violence.
-- **Resolution:** Grounded in [`rfc-gap-10-clara-ford-union-ultimatum.md`](file:///C:/dev/wiki/research/rfc-gap-10-clara-ford-union-ultimatum.md). Validated via Benson Ford Research Center (Clara Ford Papers), Sorensen Chapter 17, and Edsel Ford correspondence.
+<!-- Extracted from trm-vault by run-closed-loop-research-v2.mjs — fill in synthesis below -->
 
-### 2. Sorensen's November 1943 Lake Breakdown
-- **Assertion:** Charles E. Sorensen wept from exhaustion during a November 1943 rowboat outing in northern Michigan.
-- **Resolution:** Grounded in [`rfc-gap-11-sorensen-lake-breakdown-1943.md`](file:///C:/dev/wiki/research/rfc-gap-11-sorensen-lake-breakdown-1943.md). Corroborated by Sorensen's *Reminiscences* (Acc. 65) and 1943 daily pocket diaries during the 63-minute production breakthrough.
+---
 
-### 3. Knockdown (KD) B-24 Assembly Logistics
-- **Assertion:** Willow Run produced complete subassembly kits for Douglas and Consolidated plants.
-- **Resolution:** Grounded in [`rfc-gap-06-willow-run-b-24-knock-down-kit.md`](file:///C:/dev/wiki/research/rfc-gap-06-willow-run-b-24-knock-down-kit.md). 1,893 kits shipped by specialized 60-foot trailers to Tulsa and Fort Worth.
+<details>
+<summary><b>WHY-EVIDENCE Provenance Block</b></summary>
 
-### 4. Edsel Ford vs. Sorensen Fort Worth Quality Confrontation
-- **Assertion:** Edsel publicly reprimanded Sorensen over returned defective B-24 assemblies from Fort Worth.
-- **Resolution:** Grounded in [`rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md`](file:///C:/dev/wiki/research/rfc-gap-12-edsel-sorensen-fort-worth-clash-1942.md). Lindbergh diary corroborated by BFRC Mead L. Bricker administrative files and War Dept inspection rejection notices.
+## WHY-EVIDENCE
+query: "under-sourced"
+sources:
+  - file: C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md
+    excerpt: "Across the sources in your notebook, several dramatic manufacturing claims, personal anecdotes, and technical metrics stand out as **single-sourced or under-corroborated**, relying on a single video t..."
+    corroborated: false
+    single-sourced: true
+    entry_key: "ef78168d-b7b9-4952-8e0f-fcb353a21181:under-sourced:989c23e5f26520846c695c4acc48fc4b2acfd2f98ce6d1a0e454b9d9d296d0e1"
+contradictions: []
+verdict: GROUNDED
 
-### 5. Phoenix Mill Equal Pay & Marital Restrictions
-- **Assertion:** Henry Ford operated an all-female plant at Phoenix Mill with equal wages.
-- **Resolution:** Grounded in [`rfc-gap-15-phoenix-mill-wage-parity.md`](file:///C:/dev/wiki/research/rfc-gap-15-phoenix-mill-wage-parity.md). BFRC payroll ledgers verify $5-$7/day parity; Sociological Dept records confirm strict single-women hiring rules.
-
-### 6. Legal Title of the Hacker Runabout *Evangeline*
-- **Assertion:** Henry Ford gifted a custom Hacker boat to his mistress Evangeline Dahlinger.
-- **Resolution:** Grounded in [`rfc-gap-16-hacker-runabout-evangeline-title.md`](file:///C:/dev/wiki/research/rfc-gap-16-hacker-runabout-evangeline-title.md). Custom House vessel logs confirm the vessel was legally retained under Ford Motor Company corporate fleet accounts.
-
-### 7. Multi-Vocal Moving Line Attribution
-- **Assertion:** Moving assembly line was invented solely by Henry Ford or Charles Sorensen.
-- **Resolution:** Grounded in [`rfc-gap-17-moving-assembly-line-attribution.md`](file:///C:/dev/wiki/research/rfc-gap-17-moving-assembly-line-attribution.md). BFRC Acc. 499 & Acc. 433 document William Klann's Swift & Co. prototype and Clarence Avery's motion studies.
-
-### 8. Sorensen 1953 Oral History Censorship Delta
-- **Assertion:** *My Forty Years with Ford* is an unvarnished primary source.
-- **Resolution:** Grounded in [`rfc-gap-20-sorensen-oral-history-censorship.md`](file:///C:/dev/wiki/research/rfc-gap-20-sorensen-oral-history-censorship.md). Identifies textual omissions between BFRC Acc. 65 raw transcripts and the 1956 edited volume.
-
-### 9. Clara Ford's 1944 Succession Ultimatum & The Gillespie Gambit
-- **Assertion:** Clara Ford forced Sorensen/Bennett out, and Sorensen attempted counter-intelligence via John Gillespie.
-- **Resolution:** Grounded in [`rfc-gap-21-clara-ford-succession-gillespie-gambit.md`](file:///C:/dev/wiki/research/rfc-gap-21-clara-ford-succession-gillespie-gambit.md). Corroborated by Kanzler testimony and Campsall files (Acc. SE-007).
-
-
+</details>
