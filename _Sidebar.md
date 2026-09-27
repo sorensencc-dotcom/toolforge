@@ -15,15 +15,8 @@
 
 #### Model Evaluation & WhichLLM
 - [[WhichLLM Model Selection Evaluator|whichllm-model-selection-evaluator]]
-- [[Research Gaps Registry|trm-research-gaps]]
-
-#### TRM & Competitor Monitoring
-- [[Competitor Watchlist Drift Engine|competitor-watchlist-drift-engine]]
-- [[Historical Revocation Verification|historical-revocation-verification]]
-- [[Mobile WebSocket Heartbeats|mobile-websocket-heartbeats]]
 
 #### Architecture & Subsystems
-- [[Knowledge Base Sync (kb-sync)|kb-sync-readme]]
 - [[KB Sync DAG Structure|KB_SYNC_DAG]]
 - [[Documentation Catalog|DOCS_INDEX]]
 - [[Audit Log|Log]]
