@@ -236,7 +236,7 @@ pwsh -NoProfile -File scripts/schedule-task-wrapper-Ironbots-Reporter.ps1 -Actio
 
 - [[Index]]
 - [[ControlledEvidencePipeline]]
-- [Ironbots Development Standards](file:///c:/dev/docs/meta/governance/ironbots-development-standards.md) (`GOV-IRONBOTS-STD-v1.0`)
+- Ironbots Development Standards (`docs/meta/governance/ironbots-development-standards.md`) (`GOV-IRONBOTS-STD-v1.0`)
 - [[research/trm-mobile-ingress-pipeline|trm-mobile-ingress-pipeline]]
 - [[research/trm-devops-triage-pipeline|trm-devops-triage-pipeline]]
 - [[research/whichllm-model-selection-evaluator|whichllm-model-selection-evaluator]]
