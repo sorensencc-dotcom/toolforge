@@ -1,3 +1,11 @@
+---
+title: "Toolforge Platform"
+status: active
+owner: chris
+last-reviewed: 2026-09-26
+brand: product-toolforge
+---
+
 # Toolforge Platform
 
 Toolforge is a governed, observable, and deterministic execution platform that provides AI agents with secure access to tools. It acts as a mediation layer between agents and external capabilities, enforcing validation, authorization, rate-limiting, sandboxing, and structured result reporting for every invocation.
