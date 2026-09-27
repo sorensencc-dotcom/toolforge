@@ -13,12 +13,14 @@ Toolforge is not a loose collection of functions — it is a full lifecycle syst
 git clone https://github.com/sorensencc-dotcom/toolforge.git
 cd toolforge
 npm install
+npm run migrate
 npm run dev
 ```
 
 ## Docs & wiki
 
-- [Wiki index](wiki/Index.md) — curated operator pages
+- [Wiki Home](wiki/Home.md) — curated platform landing page and operator guide
+- [Wiki Index](wiki/Index.md) — knowledge base graph index and entity registry
 - [Controlled Evidence Pipeline](wiki/ControlledEvidencePipeline.md)
 - [GOVERNANCE.md](GOVERNANCE.md) — tool naming, versioning, and lifecycle
 - [docs/meta/governance/](docs/meta/governance/) — documentation policy and wiki style & structure
