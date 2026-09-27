@@ -6,9 +6,10 @@ status: "candidate"
 version: "2.4.0"
 ---
 
-> **Note:** "CIC" here is the ingestion/lineage governance substrate, unrelated to Cast Iron
-> Charlie (the documentary-production pipeline documented under `rewrite-mcp/docs/cic/`). See
-> `rewrite-mcp/docs/glossary.md` for the distinction.
+> **Note:** "CIC" here refers to this ingestion/lineage governance substrate — a distinct,
+> separately versioned system from the Cast Iron Charlie documentary-production pipeline
+> documented under `docs/cic/` in the `sorensencc-dotcom/rewrite-mcp` repository. See that
+> repo's `docs/glossary.md` for the full distinction between the two systems.
 
 # CIC Specification v2.4.0 — Candidate
 

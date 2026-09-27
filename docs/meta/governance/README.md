@@ -26,3 +26,17 @@ when you find or add another):
 - `CIC-GOVERNANCE/MANIFEST/CIC-GOV-MANIFEST-001.md` — cites
   `global-operating-rules-cic-rewrite-labs.md` as an authority the manifest is subordinate to.
 - `GOVERNANCE.md` (repo root) — cites `wiki-style-and-structure.md` for wiki-lifecycle rules.
+- `CIC-GOVERNANCE/README.md:23` — cites `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md`.
+- `CIC-GOVERNANCE/README/CIC-README.md:13` — cites `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md`.
+- `CIC-GOVERNANCE/MANIFEST/PHASE-09-ONBOARDING.md:221-222` — table entries cite
+  `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` and
+  `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`.
+- `AGENTS.md:232` — cites `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md` and
+  `docs/meta/governance/documentation-policy.md`; `AGENTS.md:369` also cites
+  `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`.
+- `scripts/preflight.ps1:21` — references `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md`
+  (with `docs/meta/global-operating-rules-cic-rewrite-labs.md` as an alternate path).
+- `setup-git-hooks.ps1:128` — prints `docs/meta/governance/documentation-policy.md` as the
+  governance reference during hook setup.
+- `scripts/handoff-bootstrap.ps1:3` — cites
+  `docs/meta/governance/multi-agent-handoff-protocol.md §13.1`.

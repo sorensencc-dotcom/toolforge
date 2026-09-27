@@ -1,12 +1,15 @@
 ---
 title: "Docs Audit Remediation — Tier 1 Proposal"
 document_id: "PROPOSAL-2026-09-26-DOCS-AUDIT"
-category: "proposal"
-status: "awaiting Tier 1 review"
+category: "governance"
+status: "draft"
+version: "1.0.0"
 date: 2026-09-26
 ---
 
 # Docs Audit Remediation — Tier 1 Proposal
+
+> **Review status:** awaiting Tier 1 review.
 
 Four decisions from the 2026-09-26 documentation audit (Codex-reviewed) need Tier 1 ratification
 before they're applied. This doc bundles them for one review pass.
@@ -110,6 +113,14 @@ cutover):**
   differences) — harmless today since nothing invokes it directly yet, but must be fixed
   (e.g. `fileURLToPath(import.meta.url) === resolve(process.argv[1])`) before any CI/pre-commit
   wiring is built on top of it.
+- Table cell values (`gate.name`, `gate.status`) are not escaped for literal `|` characters —
+  low risk today (no current registry entry contains one) but would break table rendering if a
+  future entry did.
+- The new test file (`CIC-GOVERNANCE/tests/test_generate_gate_status.mjs`) is not picked up by
+  any existing CI runner — `gov:smoke` uses Python-only test discovery and `test:whichllm` only
+  globs `packages/`. It currently only runs when invoked directly
+  (`node --test CIC-GOVERNANCE/tests/test_generate_gate_status.mjs`). Wire it into CI before
+  relying on it as a regression gate.
 
 ## Decision 3: Codex-validation-report artifact class
 
@@ -133,4 +144,13 @@ state is unpublished. Proposed nav addition:
 ```
 
 Needs Tier 1 sign-off because publishing gate/amendment state externally-visible (even on an
-internal MkDocs site) is a visibility-scope decision, not a pure doc fix.
+internal MkDocs site) is a visibility-scope decision, not a pure doc fix. Two implementation
+options, both needing Tier 1 input:
+
+- **Option A — publish via `rewrite-mcp/mkdocs.yml`** (nav shown above). `rewrite-mcp/` is a
+  separate git repository, not tracked by this repo's own tooling — this needs a cross-repo sync
+  step (e.g. a scripted copy of the relevant `CIC-GOVERNANCE/` files into
+  `rewrite-mcp/docs/cic-governance/` before each MkDocs build), not just a nav-file edit.
+- **Option B — publish via this repo's own `mkdocs.yml`** — avoids the cross-repo sync problem
+  since `CIC-GOVERNANCE/` already lives in this repo, but needs its own nav section added here
+  instead of in `rewrite-mcp/`.

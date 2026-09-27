@@ -26,6 +26,11 @@ Date: 2026-09-26
 - `/c/dev/rewrite-mcp/castironforge/` — a further location for the same project family, also
   containing `cic-ingestion`.
 
+Also checked: `torque-query/` (contains only 7 cache/log files, no source) and a top-level
+`node_modules/` directory alongside the archive path. Neither contains source code, so their
+presence doesn't change the recommendation below — the "safe to relocate" assessment covers all
+top-level entries under the archive path, not just the ones enumerated above.
+
 Within the archive itself, the three sub-projects are not equally significant:
 
 - `chat-agent/` and `chat-frontend/` under the archive contain **only `node_modules`** — no
