@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.77.0
+Date: 2026-09-28
+
+### Changes
+- 81372cf - feat(skills): add usagecheck skill for Claude Code, Codex, and Grok (#65) (Chris Sorensen)
+
 ## Version 2.76.0
 Date: 2026-09-28
 
