@@ -310,3 +310,20 @@ test('retro-full-audit freshness and report steps sort retro files numerically, 
   }
 });
 
+test('notebook-ingester-bot telemetry exports packWarnings array for KIS-P budget safeguards', () => {
+  const reportPath = path.join(REPO_ROOT, '_status-feed', 'notebook_ingester_report.json');
+  assert.ok(fs.existsSync(reportPath), 'notebook_ingester_report.json should exist');
+
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+  assert.ok(Array.isArray(report.packWarnings), 'packWarnings should be an array');
+});
+
+test('kb-sentinel-bot enforces canonical category and status schema whitelists', () => {
+  const scriptPath = path.join(REPO_ROOT, 'scripts', 'kb-sentinel-bot.mjs');
+  const content = fs.readFileSync(scriptPath, 'utf8');
+
+  assert.match(content, /ALLOWED_CATEGORIES/);
+  assert.match(content, /ALLOWED_STATUSES/);
+  assert.match(content, /sanitizeExistingFrontmatter/);
+});
+

@@ -8,13 +8,28 @@
  */
 
 import fs from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
-const GAPS_FILE = path.resolve(REPO_ROOT, 'kb-sync', 'trm-research-gaps.md');
+
+function resolveGapsFile() {
+  const candidatePaths = [
+    path.resolve(REPO_ROOT, 'trm-research-gaps.md'),
+    path.resolve(REPO_ROOT, 'kb-sync', 'trm-research-gaps.md'),
+    path.resolve(REPO_ROOT, '..', 'kb-sync', 'trm-research-gaps.md'),
+    'C:\\dev\\kb-sync\\trm-research-gaps.md'
+  ];
+  for (const candidate of candidatePaths) {
+    if (existsSync(candidate)) return candidate;
+  }
+  return path.resolve(REPO_ROOT, 'trm-research-gaps.md');
+}
+
+const GAPS_FILE = resolveGapsFile();
 const WIKI_RESEARCH_DIR = path.resolve(REPO_ROOT, 'wiki', 'research');
 const WIKI_LOG_FILE = path.resolve(REPO_ROOT, 'wiki', 'Log.md');
 const REPORT_PATH = path.resolve(REPO_ROOT, '_status-feed', 'trm_bot_report.json');

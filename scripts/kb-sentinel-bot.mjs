@@ -59,6 +59,12 @@ function parseFrontmatter(content) {
   return { fields, rawYaml, bodyOffset: endIdx + 4 };
 }
 
+const ALLOWED_CATEGORIES = new Set([
+  'daemons', 'utilities', 'sync-tools', 'adapters', 'mcp-servers',
+  'scaffolds', 'prototypes', 'wiki', 'research', 'lessons'
+]);
+const ALLOWED_STATUSES = new Set(['active', 'beta', 'archived', 'draft', 'proposed']);
+
 function extractWikilinks(content) {
   const links = [];
   const regex = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g;
@@ -75,7 +81,7 @@ function synthesizeFrontmatter(filePath, rawContent) {
   const now = new Date().toISOString().slice(0, 10);
   const rel = path.relative(REPO_ROOT, filePath).replace(/\\/g, '/');
   const isResearch = rel.includes('research/');
-  const category = isResearch ? 'research' : 'knowledge';
+  const category = isResearch ? 'research' : 'wiki';
 
   return `---
 title: "${title}"
@@ -90,6 +96,42 @@ tags:
 ${rawContent.trimStart()}`;
 }
 
+function sanitizeExistingFrontmatter(filePath, content, fm) {
+  const base = path.basename(filePath, '.md');
+  const rel = path.relative(REPO_ROOT, filePath).replace(/\\/g, '/');
+  const isResearch = rel.includes('research/');
+  const defaultCategory = isResearch ? 'research' : 'wiki';
+
+  let rawYaml = fm.rawYaml;
+  let changed = false;
+
+  const currentCategory = (fm.fields.category || '').toLowerCase();
+  if (!currentCategory || !ALLOWED_CATEGORIES.has(currentCategory)) {
+    if (rawYaml.includes('category:')) {
+      rawYaml = rawYaml.replace(/category:\s*["']?[^"'\r\n]+["']?/i, `category: "${defaultCategory}"`);
+    } else {
+      rawYaml += `\ncategory: "${defaultCategory}"`;
+    }
+    changed = true;
+  }
+
+  const currentStatus = (fm.fields.status || '').toLowerCase();
+  if (!currentStatus || !ALLOWED_STATUSES.has(currentStatus)) {
+    if (rawYaml.includes('status:')) {
+      rawYaml = rawYaml.replace(/status:\s*["']?[^"'\r\n]+["']?/i, `status: "active"`);
+    } else {
+      rawYaml += `\nstatus: "active"`;
+    }
+    changed = true;
+  }
+
+  if (changed) {
+    const body = content.slice(fm.bodyOffset);
+    return `---\n${rawYaml}\n---\n${body.trimStart()}`;
+  }
+  return null;
+}
+
 async function runSentinel() {
   const startTime = Date.now();
   console.log(`[KB-Sentinel] Starting KB-Sync drift and autoheal audit... (dry-run: ${isDryRun}, fix: ${shouldFix})`);
@@ -100,6 +142,7 @@ async function runSentinel() {
   const stats = {
     totalFilesScanned: wikiFiles.length,
     missingFrontmatter: 0,
+    invalidSchema: 0,
     brokenWikilinks: 0,
     healedCount: 0,
     issues: [],
@@ -123,6 +166,31 @@ async function runSentinel() {
           }
           stats.healedCount++;
           if (isVerbose) console.log(`  [Autoheal] Frontmatter generated for ${relPath}`);
+        }
+      } else {
+        const cat = (fm.fields.category || '').toLowerCase();
+        const stat = (fm.fields.status || '').toLowerCase();
+        const isCatInvalid = !cat || !ALLOWED_CATEGORIES.has(cat);
+        const isStatInvalid = !stat || !ALLOWED_STATUSES.has(stat);
+
+        if (isCatInvalid || isStatInvalid) {
+          stats.invalidSchema++;
+          stats.issues.push({
+            file: relPath,
+            type: 'INVALID_SCHEMA',
+            detail: `Invalid category '${cat}' or status '${stat}'`
+          });
+
+          if (shouldFix) {
+            const healed = sanitizeExistingFrontmatter(filePath, content, fm);
+            if (healed) {
+              if (!isDryRun) {
+                await fs.writeFile(filePath, healed, 'utf8');
+              }
+              stats.healedCount++;
+              if (isVerbose) console.log(`  [Autoheal] Standardized schema for ${relPath}`);
+            }
+          }
         }
       }
 

@@ -3676,3 +3676,63 @@ status: "active"
 - Active Bots: 7
 - Host: `WIN-DTA4V21LKVR` (Uptime: 21h 37m, Tasks: 8)
 - Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-28 02:50] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 93/100 (HEALTHY)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 56h 9m, Tasks: 9)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-28 02:51] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 73/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 56h 10m, Tasks: 9)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-28 02:53] watchlist-miner-competitor-drift
+
+- Provider: `watchlist-miner-bot` (`v1.0.0`)
+- Targets Evaluated: 3
+- Drifts Detected: 3
+- Logged Research Notes:
+  - `wiki/research/competitor-drift-google-sam.md` (Google Sovereign Agent Mesh / sam-p2p-repository)
+  - `wiki/research/competitor-drift-anthropic-computer-use.md` (Anthropic Computer Use & Agent Workflows / anthropic-quickstarts)
+  - `wiki/research/competitor-drift-openai-swarm.md` (OpenAI Swarm & Handoff Framework / openai-swarm)
+
+## [2026-09-28 02:53] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 73/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 56h 13m, Tasks: 9)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-28 02:57] watchlist-miner-competitor-drift
+
+- Provider: `watchlist-miner-bot` (`v1.0.0`)
+- Targets Evaluated: 3
+- Drifts Detected: 3
+- Logged Research Notes:
+  - `wiki/research/competitor-drift-google-sam.md` (Google Sovereign Agent Mesh / sam-p2p-repository)
+  - `wiki/research/competitor-drift-anthropic-computer-use.md` (Anthropic Computer Use & Agent Workflows / anthropic-quickstarts)
+  - `wiki/research/competitor-drift-openai-swarm.md` (OpenAI Swarm & Handoff Framework / openai-swarm)
+
+## [2026-09-28 02:57] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 73/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 56h 17m, Tasks: 9)
+- Telemetry: `_status-feed/ironbots_daily_report.json`
+
+## [2026-09-28 02:59] ironbots-daily-fleet-report
+
+- Provider: `ironbots-daily-reporter` (`v1.0.0`)
+- Fleet Health: 73/100 (DEGRADED)
+- Active Bots: 7
+- Host: `WIN-DTA4V21LKVR` (Uptime: 56h 19m, Tasks: 9)
+- Telemetry: `_status-feed/ironbots_daily_report.json`

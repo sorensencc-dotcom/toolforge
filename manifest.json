@@ -1602,16 +1602,50 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Detects which coding CLI (Claude Code, Codex, or Grok) is running and reports that agent's usage/rate-limit data through its own mechanism",
+      "timestamps": {
+        "created": "2026-09-27T20:02:50.836Z",
+        "lastValidation": "2026-09-27T20:02:50.836Z",
+        "lastRun": null
+      },
+      "tags": [
+        "usage",
+        "rate-limit",
+        "claude-code",
+        "codex",
+        "grok",
+        "cross-cli"
+      ],
+      "status": "active",
+      "name": "usagecheck",
+      "runtime": "javascript",
+      "id": "usagecheck",
+      "entrypoint": "src/index.js",
+      "owner": "Soren (Cast Iron Forge)",
+      "category": "utilities",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 53,
+    "total": 54,
     "health_error": 0,
     "deprecated": 0,
-    "active": 53,
-    "health_good": 51,
+    "active": 54,
+    "health_good": 52,
     "health_warn": 0
   },
-  "timestamp": "2026-09-20T10:34:00.0000000Z",
+  "timestamp": "2026-09-27T20:02:50.836Z",
   "version": "1.2.0"
 }

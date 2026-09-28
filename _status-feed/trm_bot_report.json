@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-22T03:34:06.241Z",
-  "elapsedMs": 10,
-  "totalGaps": 2056,
+  "timestamp": "2026-09-28T02:59:34.403Z",
+  "elapsedMs": 5,
+  "totalGaps": 0,
   "pending": 0,
-  "drafted": 2056,
+  "drafted": 0,
   "resolved": 0,
   "triagedCount": 0,
   "generatedRfcs": [],

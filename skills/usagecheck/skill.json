@@ -1,0 +1,109 @@
+{
+  "id": "usagecheck",
+  "name": "Usage Check",
+  "version": "0.1.0",
+  "description": "Detects which coding CLI (Claude Code, Codex, or Grok) is running and reports that agent's usage/rate-limit data through its own mechanism",
+  "author": "Soren (Cast Iron Forge)",
+  "license": "MIT",
+  "category": "utilities",
+
+  "metadata": {
+    "runtime": "javascript",
+    "entrypoint": "src/index.js",
+    "timeout": 15000,
+    "retryPolicy": "none",
+    "maxRetries": 0,
+    "tags": ["usage", "rate-limit", "claude-code", "codex", "grok", "cross-cli"],
+    "keywords": ["usagecheck", "rate limits", "quota", "hook"]
+  },
+
+  "inputs": {
+    "required": [],
+    "optional": [
+      {
+        "name": "agent",
+        "type": "string",
+        "description": "Force detection to \"claude-code\", \"codex\", or \"grok\" instead of auto-detecting"
+      },
+      {
+        "name": "stdinText",
+        "type": "string",
+        "description": "Raw JSON payload for the Claude Code hook path (normally piped via stdin, not passed directly)"
+      },
+      {
+        "name": "configPath",
+        "type": "string",
+        "description": "Path to a usagecheck.config.json overriding the Codex/Grok adapters' command or scan directory"
+      }
+    ]
+  },
+
+  "outputs": {
+    "success": {
+      "type": "object",
+      "description": "Normalized usage report",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "agent": { "type": "string" },
+          "detection": { "type": "object" },
+          "available": { "type": "boolean" },
+          "usage": { "type": "object" },
+          "message": { "type": "string" },
+          "timestamp": { "type": "string" }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "description": "Error output object",
+      "schema": {
+        "properties": {
+          "error": { "type": "string" },
+          "code": { "type": "string" }
+        }
+      }
+    }
+  },
+
+  "permissions": {
+    "required": ["read:home-config"],
+    "optional": ["write:claude-cache"],
+    "restrictions": ["delete:permanent"]
+  },
+
+  "integrations": {
+    "toolforge": {
+      "registered": true,
+      "manifestPath": "manifest.json",
+      "docPath": "skills/usagecheck/docs/USAGE.md"
+    },
+    "cic": {
+      "compatible": false,
+      "adapterPath": null,
+      "registryPath": null
+    },
+    "distributed": {
+      "syncable": true,
+      "distributedPath": "rewrite-mcp/toolforge/skills/usagecheck"
+    }
+  },
+
+  "errorConditions": [
+    {
+      "code": "AGENT_UNDETECTED",
+      "message": "Could not detect Claude Code, Codex, or Grok and no agent was forced",
+      "handler": "fail"
+    },
+    {
+      "code": "SKILL_ERROR",
+      "message": "Unexpected execution error",
+      "handler": "fail"
+    }
+  ],
+
+  "dependencies": {
+    "internal": [],
+    "external": []
+  }
+}
