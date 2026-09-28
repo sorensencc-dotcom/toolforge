@@ -93,7 +93,7 @@ function Test-CheckCompleted($c) {
         return $c.status -in @('COMPLETED', 'COMPLETED_SUCCESSFULLY', 'DONE')
     }
     if ($c.PSObject.Properties['state'] -and $c.state) {
-        return $c.state -in @('SUCCESS', 'FAILURE', 'ERROR', 'EXPECTED')
+        return $c.state -in @('SUCCESS', 'FAILURE', 'ERROR')
     }
     return $false
 }

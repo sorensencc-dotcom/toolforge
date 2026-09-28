@@ -16,4 +16,6 @@ Assert-True ($schedule -notmatch '-Weekly') 'Windows scheduled task is not weekl
 Assert-True ($schedule -notmatch '-DaysOfWeek') 'Windows scheduled task is not day-of-week gated'
 Assert-True ($schedule -match 'Daily retro history validation and audit report') 'scheduled task description says daily'
 Assert-True ($workflow -match "cron:\s*'30 7 \* \* \*'") 'GitHub retro audit workflow runs daily'
+Assert-True ($workflow -match 'Check retro freshness') 'GitHub retro audit checks retro freshness'
+Assert-True ($workflow -match 'ageDays -gt 7') 'GitHub retro audit fails when newest retro is older than 7 days'
 Write-Host 'All retro audit schedule regression tests passed.' -ForegroundColor Green

@@ -11,6 +11,24 @@
 
 # Project status
 
+## Retro freshness remediation (2026-09-27)
+
+### Active goal
+Close the stale-retro audit gap reported on 2026-09-27 and make recurrence visible in CI.
+
+### Completed work
+- Added `.context/retros/2026-09-27-1.json` for the 2026-09-14..2026-09-27 window, with explicit branch and dirty-work boundary caveats.
+- Added a `retro-full-audit.yml` freshness gate that fails when the newest dated retro is older than 7 days.
+- Added regression coverage in `scripts/test-retro-audit-agent.ps1` for the freshness gate.
+- Updated `memory/MEMORY.md` with Ironbots/ICF/ponytail sync and Devin AI review-gate learnings.
+
+### Verification
+- Retro schema validation passed: 38 / 38.
+- Retro audit regression test passed, including freshness-gate assertions.
+
+### Next action
+Stage .context/retros/2026-09-27-1.json with git add -f if committing this remediation, because .context/retros/ is ignored by default.
+
 ## Ironbots Autonomous Fleet & Unattended S4U Automation (2026-09-21)
 
 ### Active goal
