@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.77.1
+Date: 2026-09-28
+
+### Changes
+- 18dac37 - fix(governance): preserve wiki frontmatter, harden push gate, and align brand & readme docs (#64) (Chris Sorensen)
+
 ## Version 2.77.0
 Date: 2026-09-28
 
