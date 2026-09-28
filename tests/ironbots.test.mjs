@@ -279,6 +279,37 @@ test('git-push-and-wait script exists and contains Devin blocking gate parameter
   assert.match(content, /devin-ai-integration/);
 });
 
+test('git-push-and-wait Test-CheckCompleted does not treat legacy EXPECTED state as completed', () => {
+  const gateScript = path.join(REPO_ROOT, 'scripts', 'git-push-and-wait.ps1');
+  const content = fs.readFileSync(gateScript, 'utf8');
+
+  const fnMatch = content.match(/function Test-CheckCompleted\([\s\S]*?\n}/);
+  assert.ok(fnMatch, 'Test-CheckCompleted function should exist');
+  assert.doesNotMatch(
+    fnMatch[0],
+    /'EXPECTED'/,
+    'Test-CheckCompleted must not treat a pending/EXPECTED status context as completed, ' +
+      'or the all-checks-done gate can pass before a required check has run'
+  );
+});
+
+test('retro-full-audit freshness and report steps sort retro files numerically, not alphabetically', () => {
+  const workflowPath = path.join(REPO_ROOT, '.github', 'workflows', 'retro-full-audit.yml');
+  assert.ok(fs.existsSync(workflowPath), 'retro-full-audit.yml should exist');
+
+  const content = fs.readFileSync(workflowPath, 'utf8');
+  const sortLines = content.match(/Sort-Object.*$/gm) ?? [];
+  assert.ok(sortLines.length > 0, 'expected at least one Sort-Object call selecting the newest retro');
+  for (const line of sortLines) {
+    assert.doesNotMatch(
+      line,
+      /Sort-Object Name\s*\|/,
+      'sorting retro filenames alphabetically mis-orders same-day retros once the counter ' +
+        'reaches two digits (e.g. "-10" sorts before "-2"); sort by parsed (date, numeric counter) instead'
+    );
+  }
+});
+
 test('notebook-ingester-bot telemetry exports packWarnings array for KIS-P budget safeguards', () => {
   const reportPath = path.join(REPO_ROOT, '_status-feed', 'notebook_ingester_report.json');
   assert.ok(fs.existsSync(reportPath), 'notebook_ingester_report.json should exist');

@@ -18,12 +18,25 @@ jobs:
       - name: Validate all retro history
         shell: pwsh
         run: ./.context/retros/validate.ps1
+      - name: Check retro freshness
+        shell: pwsh
+        run: |
+          $latest = Get-ChildItem .context/retros -Filter '*.json' |
+            Where-Object { $_.Name -match '^\d{4}-\d{2}-\d{2}-\d+\.json$' } |
+            Sort-Object { [DateTime]::ParseExact($_.BaseName.Substring(0, 10), 'yyyy-MM-dd', $null) }, { [int]($_.BaseName.Substring(11)) } |
+            Select-Object -Last 1
+          if (-not $latest) { throw 'No dated retro JSON files found.' }
+          $latestDate = [DateTime]::ParseExact($latest.BaseName.Substring(0, 10), 'yyyy-MM-dd', $null)
+          $ageDays = ((Get-Date).Date - $latestDate.Date).Days
+          if ($ageDays -gt 7) { throw "Newest retro $($latest.Name) is $ageDays days old; run /retro before audit." }
+          Write-Host "Newest retro $($latest.Name) is $ageDays days old."
       - name: Generate audit findings report
         shell: pwsh
         run: |
           $latest = Get-ChildItem .context/retros -Filter '*.json' |
-            Where-Object { $_.Name -ne 'retro.schema.json' } |
-            Sort-Object Name | Select-Object -Last 1
+            Where-Object { $_.Name -match '^\d{4}-\d{2}-\d{2}-\d+\.json$' } |
+            Sort-Object { [DateTime]::ParseExact($_.BaseName.Substring(0, 10), 'yyyy-MM-dd', $null) }, { [int]($_.BaseName.Substring(11)) } |
+            Select-Object -Last 1
           New-Item -ItemType Directory -Force -Path logs | Out-Null
           ./scripts/generate-retro-audit-report.ps1 -RetroFile $latest.Name -Path (Join-Path (Get-Location) '.context/retros') |
             Tee-Object -FilePath "logs/retro-audit-$(Get-Date -Format yyyyMMdd).log"

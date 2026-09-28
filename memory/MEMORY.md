@@ -11,6 +11,9 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 ## Current Work
 
+- **Retro freshness enforcement (2026-09-27)**: Added `.context/retros/2026-09-27-1.json` for the 2026-09-14..2026-09-27 window and wired `.github/workflows/retro-full-audit.yml` to fail when the newest dated retro is older than 7 days.
+- **Ironbots / ICF / Ponytail sync (2026-09-27)**: `STATUS.md` now carries Ironbots autonomous fleet work, ICF standalone migration, and Node 24 ponytail refactors; keep these synchronized in memory during session-end updates.
+
 - **Session audit reconciliation (2026-09-20)**: Fast-forwarded `main` to `736f738` (`v2.66.3`); canonical retro validation passes 36/36, but no new retro exists after `2026-08-16-1.json`. The daily workflow validates and reports existing files only. Next session must capture and commit a bounded canonical retro.
 - **Test-ratio remediation tracking (2026-09-20)**: The 0.07% test LOC ratio in `2026-08-16-1.json` is a commit-diff metric, not repo-wide test health. Treat it as an action signal: record test-file changes and assertion-only coverage separately in the next retro instead of inferring coverage from insertion ratio.
 - **Test-ratio investigation (2026-09-20)**: `scripts/investigate-retro-test-ratio.ps1` shows the 2026-08-09..16 window had 566 test LOC insertions across 9 changed test files and 3 commits with test changes, while the repository had 44 test files. The recorded 0.07% ratio is therefore not evidence of absent testing; it reflects the retro's LOC denominator or classification and needs metric recalculation before trend use.
@@ -34,6 +37,10 @@ Persistent memory system for long-term context across sessions. Individual memor
 - **Toolforge Skill Health Check Remediations** (2026-08-30): Registered `trm-closed-loop-research`, `trm-devops-triage`, and `wiki-sync-recovery` in `manifest.json`; aligned versioning and initialized audit run logs. The historical "48 skills / 100% health check pass" claim is retained as a past report, not treated as current source-count evidence: current checkout has 51 manifest skill names and 52 `skills/` directories containing `SKILL.md`.
 
 ## Learnings & Incident Post-Mortems
+
+- **Devin AI review gate**:
+  - *Problem*: Review findings can land after push, and treating local push success as delivery masks remote review failures.
+  - *Prevention steps*: Use `scripts/git-push-and-wait.ps1` for branches that require Devin AI / CI rollup, and record PR-specific remediation patterns such as PR #45 (`22cba94`) when they affect future delivery.
 
 - **Retro evidence boundary**:
   - *Problem*: The scheduled audit workflow validates and analyzes existing retros but does not create a new session retro, allowing the history to stop silently.

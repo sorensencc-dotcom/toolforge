@@ -38,6 +38,9 @@ if ([string]::IsNullOrWhiteSpace($Branch)) {
     exit 1
 }
 
+$localHead = $(git rev-parse HEAD 2>$null)
+if ($localHead) { $localHead = $localHead.Trim() }
+
 Write-Host "🚀 Pushing branch '$Branch' to origin..." -ForegroundColor Cyan
 git push origin $Branch
 if ($LASTEXITCODE -ne 0) {
@@ -50,7 +53,7 @@ if ($SkipWait) {
     exit 0
 }
 
-Write-Host "⏳ Pushed. Polling for Devin AI review & status checks (Timeout: ${TimeoutSeconds}s)..." -ForegroundColor Yellow
+Write-Host "⏳ Pushed commit ($localHead). Polling for Devin AI review & CI status checks (Timeout: ${TimeoutSeconds}s)..." -ForegroundColor Yellow
 
 $startTime = [DateTime]::UtcNow
 $resolvedPR = $null
@@ -64,7 +67,7 @@ if ($PRNumber -gt 0) {
 } else {
     for ($i = 0; $i -lt 5; $i++) {
         try {
-            $prJson = gh pr view --json number,url,headRefOid,state 2>$null
+            $prJson = gh pr view $Branch --json number,url,headRefOid,state 2>$null
             if ($prJson) {
                 $parsed = $prJson | ConvertFrom-Json
                 if ($parsed.number -gt 0) {
@@ -84,6 +87,41 @@ if ($null -eq $resolvedPR) {
 
 Write-Host "🔍 Monitoring PR #$($resolvedPR.number) ($($resolvedPR.url))..." -ForegroundColor Cyan
 
+function Test-CheckCompleted($c) {
+    if ($null -eq $c) { return $false }
+    if ($c.PSObject.Properties['status'] -and $c.status) {
+        return $c.status -in @('COMPLETED', 'COMPLETED_SUCCESSFULLY', 'DONE')
+    }
+    if ($c.PSObject.Properties['state'] -and $c.state) {
+        return $c.state -in @('SUCCESS', 'FAILURE', 'ERROR')
+    }
+    return $false
+}
+
+function Test-CheckPassed($c) {
+    if ($null -eq $c) { return $false }
+    if ($c.PSObject.Properties['status'] -and $c.status -in @('COMPLETED', 'COMPLETED_SUCCESSFULLY', 'DONE')) {
+        $concl = if ($c.PSObject.Properties['conclusion']) { $c.conclusion } else { '' }
+        return $concl -in @('SUCCESS', 'NEUTRAL', 'SKIPPED')
+    }
+    if ($c.PSObject.Properties['state'] -and $c.state) {
+        return $c.state -eq 'SUCCESS'
+    }
+    return $false
+}
+
+function Test-CheckFailed($c) {
+    if ($null -eq $c) { return $false }
+    if ($c.PSObject.Properties['status'] -and $c.status -in @('COMPLETED', 'COMPLETED_SUCCESSFULLY', 'DONE')) {
+        $concl = if ($c.PSObject.Properties['conclusion']) { $c.conclusion } else { '' }
+        return $concl -in @('FAILURE', 'CANCELLED', 'TIMED_OUT', 'ACTION_REQUIRED', 'STARTUP_FAILURE')
+    }
+    if ($c.PSObject.Properties['state'] -and $c.state) {
+        return $c.state -in @('FAILURE', 'ERROR')
+    }
+    return $false
+}
+
 $spinnerChars = @('|', '/', '-', '\')
 $spinnerIdx = 0
 
@@ -95,16 +133,24 @@ while (([DateTime]::UtcNow - $startTime).TotalSeconds -lt $TimeoutSeconds) {
     Write-Host -NoNewline "`r[$spinner] Waiting for Devin AI & CI checks... (${elapsed}s/${TimeoutSeconds}s)"
 
     try {
-        $viewJson = gh pr view $resolvedPR.number --json reviews,statusCheckRollup,state 2>$null
+        $viewJson = gh pr view $resolvedPR.number --json reviews,statusCheckRollup,state,headRefOid 2>$null
         if ($viewJson) {
             $view = $viewJson | ConvertFrom-Json
             
-            $devinCheck = $null
-            if ($view.statusCheckRollup) {
-                $devinCheck = $view.statusCheckRollup | Where-Object { 
-                    $_.context -eq 'Devin Review' -or $_.name -match 'Devin'
-                } | Select-Object -First 1
+            # Verify commit matches local head if localHead is present
+            if ($localHead -and $view.headRefOid -and ($view.headRefOid -ne $localHead)) {
+                Start-Sleep -Seconds $PollIntervalSeconds
+                continue
             }
+
+            $checks = @()
+            if ($view.statusCheckRollup) {
+                $checks = @($view.statusCheckRollup)
+            }
+
+            $devinCheck = $checks | Where-Object { 
+                $_.context -eq 'Devin Review' -or $_.name -match 'Devin'
+            } | Select-Object -First 1
 
             $devinReview = $null
             if ($view.reviews) {
@@ -113,28 +159,45 @@ while (([DateTime]::UtcNow - $startTime).TotalSeconds -lt $TimeoutSeconds) {
                 } | Select-Object -Last 1
             }
 
-            # Check if Devin has concluded
-            if ($null -ne $devinCheck -and $devinCheck.state -in @('SUCCESS', 'FAILURE', 'ERROR', 'EXPECTED')) {
-                Write-Host "`n"
-                
-                # Check for critical findings in review body
-                $hasCriticalFindings = $false
-                if ($null -ne $devinReview -and $devinReview.body -match 'found (\d+) potential issues') {
-                    $issuesCount = $Matches[1]
-                    if ([int]$issuesCount -gt 0) {
-                        $hasCriticalFindings = $true
+            # Check if any checks failed immediately
+            $failedChecks = $checks | Where-Object { Test-CheckFailed $_ }
+            if ($failedChecks.Count -gt 0) {
+                Write-Host "`n======================================================" -ForegroundColor Red
+                Write-Host "❌ CI STATUS CHECKS FAILED (PR #$($resolvedPR.number))" -ForegroundColor Red
+                Write-Host "======================================================" -ForegroundColor Red
+                foreach ($fc in $failedChecks) {
+                    $name = if ($fc.PSObject.Properties['name'] -and $fc.name) { $fc.name } elseif ($fc.PSObject.Properties['context']) { $fc.context } else { 'Unknown check' }
+                    $detail = if ($fc.PSObject.Properties['conclusion'] -and $fc.conclusion) { $fc.conclusion } else { $fc.state }
+                    Write-Host " - $name : $detail" -ForegroundColor Red
+                }
+                exit 1
+            }
+
+            # Check if all checks completed
+            $allCompleted = ($checks.Count -gt 0)
+            foreach ($c in $checks) {
+                if (-not (Test-CheckCompleted $c)) {
+                    $allCompleted = $false
+                    break
+                }
+            }
+
+            # Evaluate Devin findings
+            $devinHasIssues = $false
+            if ($null -ne $devinReview) {
+                if ($devinReview.state -eq 'CHANGES_REQUESTED') {
+                    $devinHasIssues = $true
+                } elseif ($devinReview.body -match 'found (\d+) potential issues') {
+                    $issuesCount = [int]$Matches[1]
+                    if ($issuesCount -gt 0) {
+                        $devinHasIssues = $true
                     }
                 }
+            }
 
-                if ($devinCheck.state -eq 'SUCCESS' -and -not $hasCriticalFindings) {
-                    Write-Host "======================================================" -ForegroundColor Green
-                    Write-Host "✅ DEVIN AI REVIEW: PASSED (PR #$($resolvedPR.number))" -ForegroundColor Green
-                    Write-Host "======================================================" -ForegroundColor Green
-                    if ($null -ne $devinReview -and $devinReview.body) {
-                        Write-Host $devinReview.body -ForegroundColor Gray
-                    }
-                    exit 0
-                } else {
+            if ($allCompleted) {
+                Write-Host "`n"
+                if ($devinHasIssues) {
                     Write-Host "======================================================" -ForegroundColor Red
                     Write-Host "❌ DEVIN AI REVIEW: FLAGGED ISSUES (PR #$($resolvedPR.number))" -ForegroundColor Red
                     Write-Host "======================================================" -ForegroundColor Red
@@ -143,6 +206,14 @@ while (([DateTime]::UtcNow - $startTime).TotalSeconds -lt $TimeoutSeconds) {
                     }
                     Write-Host "`nUse 'gh pr view $($resolvedPR.number) --comments' to inspect line-by-line review comments." -ForegroundColor Cyan
                     exit 1
+                } else {
+                    Write-Host "======================================================" -ForegroundColor Green
+                    Write-Host "✅ ALL CI CHECKS & DEVIN REVIEW PASSED (PR #$($resolvedPR.number))" -ForegroundColor Green
+                    Write-Host "======================================================" -ForegroundColor Green
+                    if ($null -ne $devinReview -and $devinReview.body) {
+                        Write-Host $devinReview.body -ForegroundColor Gray
+                    }
+                    exit 0
                 }
             }
         }
@@ -153,6 +224,6 @@ while (([DateTime]::UtcNow - $startTime).TotalSeconds -lt $TimeoutSeconds) {
     Start-Sleep -Seconds $PollIntervalSeconds
 }
 
-Write-Host "`n⚠️ Timeout reached after ${TimeoutSeconds}s while waiting for Devin AI review." -ForegroundColor DarkYellow
-Write-Host "Branch '$Branch' is safely pushed to remote. Check status at: $($resolvedPR.url)" -ForegroundColor Cyan
-exit 0
+Write-Host "`n❌ Timeout reached after ${TimeoutSeconds}s while waiting for CI checks / Devin AI review." -ForegroundColor Red
+Write-Host "Branch '$Branch' is pushed, but pending checks did not finish in time. Inspect: $($resolvedPR.url)" -ForegroundColor Yellow
+exit 1

@@ -6,14 +6,14 @@ import test from 'node:test';
 
 import { addFrontmatterTitle, copyRecursive, validateMarkdownImages } from './sync-github-wiki.mjs';
 
-test('moves frontmatter title into a level-one heading and removes metadata', () => {
+test('moves frontmatter title into a level-one heading and preserves metadata in HTML comment', () => {
   const input = '---\ntitle: "A human page"\nlayout: wiki\n---\n\nBody';
-  assert.equal(addFrontmatterTitle(input), '# A human page\n\nBody');
+  assert.equal(addFrontmatterTitle(input), '<!--\n---\ntitle: "A human page"\nlayout: wiki\n---\n-->\n\n# A human page\n\nBody');
 });
 
-test('preserves an existing heading while removing frontmatter', () => {
+test('preserves an existing heading while converting frontmatter to HTML comment', () => {
   const input = '---\ntitle: A human page\n---\n\n# Existing heading\n\nBody';
-  assert.equal(addFrontmatterTitle(input), '# Existing heading\n\nBody');
+  assert.equal(addFrontmatterTitle(input), '<!--\n---\ntitle: A human page\n---\n-->\n\n# Existing heading\n\nBody');
 });
 
 test('reports missing local markdown image targets', async () => {
@@ -49,7 +49,7 @@ test('copies supported wiki files and skips generated dependency trees', async (
     await writeFile(path.join(root, 'nested', 'ignored.txt'), 'ignored');
     await writeFile(path.join(root, 'node_modules', 'ignored.md'), 'ignored');
     assert.equal(copyRecursive(root, destination), 1);
-    assert.equal(await (await import('node:fs/promises')).readFile(path.join(destination, 'nested', 'page.md'), 'utf8'), '# Page\n\n');
+    assert.equal(await (await import('node:fs/promises')).readFile(path.join(destination, 'nested', 'page.md'), 'utf8'), '<!--\n---\ntitle: Page\n---\n-->\n\n# Page\n\n');
     await assert.rejects((await import('node:fs/promises')).access(path.join(destination, 'node_modules', 'ignored.md')));
   } finally {
     await rm(root, { recursive: true, force: true });

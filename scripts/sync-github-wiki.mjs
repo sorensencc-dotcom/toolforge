@@ -48,9 +48,10 @@ export function addFrontmatterTitle(content) {
   const frontmatter = content.slice(4, closing);
   const match = frontmatter.match(/^(?:title|source_title):\s*["']?(.+?)["']?\s*$/m);
   const body = content.slice(closing + 4).trimStart();
-  if (!match || /^#\s/m.test(body)) return body;
+  const commentBlock = `<!--\n---\n${frontmatter.trim()}\n---\n-->\n\n`;
+  if (!match || /^#\s/m.test(body)) return `${commentBlock}${body}`;
   const title = match[1].replace(/["']$/, '').trim();
-  return `# ${title}\n\n${body}`;
+  return `${commentBlock}# ${title}\n\n${body}`;
 }
 
 function copyMarkdownFile(src, dest) {
