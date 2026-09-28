@@ -1,82 +1,107 @@
 {
-  "timestamp": "2026-09-22T12:04:44.254Z",
-  "elapsedMs": 1748,
-  "status": "HEALTHY",
+  "timestamp": "2026-09-28T02:59:38.755Z",
+  "elapsedMs": 2818,
+  "status": "FAILURES_DETECTED",
   "scannedCount": 10,
   "activeCount": 0,
-  "failureCount": 0,
+  "failureCount": 2,
   "recentRuns": [
     {
-      "id": 35723150200,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
+      "id": 36346603623,
+      "name": "Graft & AST Architecture Audit",
+      "branch": "claude/universal-usagecheck-skill-3l2utf",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 35702656832,
+      "id": 36346603592,
+      "name": "Secret scan",
+      "branch": "claude/universal-usagecheck-skill-3l2utf",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36346603585,
       "name": "Governance",
-      "branch": "parkd821-20260908",
+      "branch": "claude/universal-usagecheck-skill-3l2utf",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36346588784,
+      "name": "Governance",
+      "branch": "claude/universal-usagecheck-skill-3l2utf",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36345736582,
+      "name": "Governance",
+      "branch": "fix/governance-gate-and-wiki-alignments",
       "status": "completed",
       "conclusion": "failure"
     },
     {
-      "id": 35702448083,
+      "id": 36345736570,
+      "name": "Secret scan",
+      "branch": "fix/governance-gate-and-wiki-alignments",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36345736530,
+      "name": "Graft & AST Architecture Audit",
+      "branch": "fix/governance-gate-and-wiki-alignments",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36345736521,
+      "name": "Documentation",
+      "branch": "fix/governance-gate-and-wiki-alignments",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36345734364,
       "name": "Governance",
-      "branch": "parkd821-20260908",
+      "branch": "fix/governance-gate-and-wiki-alignments",
       "status": "completed",
       "conclusion": "failure"
     },
     {
-      "id": 35684615038,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 35684484926,
+      "id": 36345389000,
       "name": "Governance",
       "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "failure"
-    },
-    {
-      "id": 35677399346,
-      "name": "Governance",
-      "branch": "fix/nlm-closed-loop-pack-replace-gate",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 35677376692,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 35658378697,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 35657630324,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "failure"
-    },
-    {
-      "id": 35656717117,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
     }
   ],
-  "alerts": [],
-  "dryRun": false
+  "alerts": [
+    {
+      "runId": 36345736582,
+      "name": "Governance",
+      "branch": "fix/governance-gate-and-wiki-alignments",
+      "sha": "805da52d",
+      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36345736582",
+      "createdAt": "2026-09-27T19:49:04Z",
+      "errorSummary": [
+        "Delivery guard automation policy\tUNKNOWN STEP\t2026-09-27T19:49:31.7953317Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\".github/workflows/retro-full-audit.yml\",\"scripts/git-push-and-wait.ps1\",\"scripts/sync-github-wiki.mjs\",\"scripts/sync-github-wiki.test.mjs\",\"scripts/test-retro-audit-agent.ps1\"],\"regressionTestPaths\":[\"scripts/sync-github-wiki.test.mjs\"],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"10a8276b524b8c07ac876190a28f69cef8b820f6\",\"enforcement\":\"blocking\",\"exitCode\":0,\"policy\":{\"decision\":\"allow\",\"issues\":[],\"automationPaths\":[\"scripts/git-push-and-wait.ps1\",\"scripts/sync-github-wiki.mjs\",\"scripts/sync-github-wiki.test.mjs\"],\"regressionTestPaths\":[\"scripts/sync-github-wiki.test.mjs\"],\"exemption\":null}},{\"commitSha\":\"805da52da0f4e0abfb8744c27e7b60b549892bc4\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\".github/workflows/retro-full-audit.yml\",\"scripts/test-retro-audit-agent.ps1\"],\"regressionTestPaths\":[],\"exemption\":null}},{\"commitSha\":\"5c011e1292fe9e997fe0993d5e325f864ac83cd4\",\"enforcement\":\"blocking\",\"exitCode\":0,\"policy\":{\"decision\":\"allow\",\"issues\":[],\"automationPaths\":[\".github/workflows/retro-full-audit.yml\",\"scripts/git-push-and-wait.ps1\",\"scripts/sync-github-wiki.mjs\",\"scripts/sync-github-wiki.test.mjs\",\"scripts/test-retro-audit-agent.ps1\"],\"regressionTestPaths\":[\"scripts/sync-github-wiki.test.mjs\"],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
+        "Delivery guard automation policy\tUNKNOWN STEP\t2026-09-27T19:49:31.8044493Z ##[error]Process completed with exit code 1."
+      ]
+    },
+    {
+      "runId": 36345389000,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "sha": "08cbed1a",
+      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36345389000",
+      "createdAt": "2026-09-27T19:43:21Z",
+      "errorSummary": [
+        "Skill documentation compliance\tUNKNOWN STEP\t2026-09-27T19:44:02.7965298Z ❌ Documentation compliance failures:",
+        "Skill documentation compliance\tUNKNOWN STEP\t2026-09-27T19:44:04.2013041Z ##[error]Process completed with exit code 1."
+      ]
+    }
+  ],
+  "dryRun": true
 }

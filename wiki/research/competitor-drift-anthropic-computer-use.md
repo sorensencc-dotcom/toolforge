@@ -2,7 +2,7 @@
 title: "Competitor Drift: Anthropic Computer Use & Agent Workflows"
 category: "research"
 status: "active"
-created_at: "2026-09-21"
+created_at: "2026-09-28"
 tags:
   - competitor-drift
   - architecture-watch

@@ -134,6 +134,25 @@ async function runIngester() {
 
   console.log(`[Notebook-Ingester] Discovered ${allFiles.length} candidate documents (${wikiFiles.length} wiki, ${packFiles.length} packs).`);
 
+  // Safeguard: KIS-P Hard Budget Guard for NLM Packs (<= 380 KiB)
+  const MAX_PACK_BYTES = 380 * 1024;
+  const packWarnings = [];
+  for (const packFile of packFiles) {
+    try {
+      const stats = await fs.stat(packFile);
+      if (stats.size > MAX_PACK_BYTES) {
+        const rel = path.relative(REPO_ROOT, packFile).replace(/\\/g, '/');
+        const sizeKiB = (stats.size / 1024).toFixed(1);
+        packWarnings.push({
+          file: rel,
+          sizeBytes: stats.size,
+          warning: `Pack size ${sizeKiB} KiB exceeds 380 KiB threshold; partition recommended before NLM upload`
+        });
+        console.warn(`[Notebook-Ingester] ⚠ Pack ${rel} (${sizeKiB} KiB) exceeds 380 KiB limit!`);
+      }
+    } catch {}
+  }
+
   let existingMap = new Map();
   if (db && !forceReindex) {
     const rows = db.prepare('SELECT id, sha256 FROM knowledge_items').all();
@@ -209,6 +228,7 @@ async function runIngester() {
     indexedCount,
     updatedCount,
     skippedCount,
+    packWarnings,
     databasePath: path.relative(REPO_ROOT, DB_PATH).replace(/\\/g, '/'),
     dryRun: isDryRun
   };
