@@ -1,5 +1,23 @@
 # Changelog
 
+## Version 2.76.0
+Date: 2026-09-28
+
+### Changes
+- 8a88301 - fix(ironbots): add schema validation, pack size budget guards, and dynamic gap path resolution (Chris Sorensen)
+- 3d7ff3d - docs: address final-review findings — governance validator, CIC disambiguation wording, citation accuracy (Chris Sorensen)
+- a700bbc - docs(cic-governance): file Tier 1 proposal bundling 4 audit-driven decisions (Chris Sorensen)
+- 77d4749 - feat(cic-governance): add candidate gate-status generator (not wired live) (Chris Sorensen)
+- 3ae014f - docs: add reverse-index (Referenced by) section to docs/meta/governance/README.md (Chris Sorensen)
+- 33ba14a - [claude] docs: add CIC disambiguation banner to CIC-GOVERNANCE Spec v2.4.0 (Chris Sorensen)
+- b601686 - docs: record castironforge archive recoverability findings (no deletion) (Chris Sorensen)
+- bdbcbc1 - docs: add design doc for CIC docs/governance remediation (Chris Sorensen)
+- 0334121 - docs: add CIC docs/governance remediation implementation plan (Chris Sorensen)
+- bd9fab8 - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+- a98175e - docs(governance): add helix brand bucket, icf hybrid example, Gollum HTML-comment frontmatter allowance, registry rows for 6 more product wikis (#59) (Chris Sorensen)
+- 6d131d6 - docs(governance): require parchment fills for CIC wiki diagrams (v1.2) (#57) (Chris Sorensen)
+- f31f49c - docs(wiki): strip kb-sync contamination from toolforge sidebar (#58) (Chris Sorensen)
+
 ## Version 2.75.0
 Date: 2026-09-27
 
