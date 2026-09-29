@@ -3,8 +3,8 @@ title: "Resolving the Sperry M-7 Mass-Production Efficiency Contradiction (GAP-1
 source_title: "Precision Engineering Bottlenecks & Mechanical Computer Assembly at Highland Park"
 repository: "NARA RG 74 (U.S. Navy Bureau of Ordnance) & RG 227 (OSRD Division 7)"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "architecture"
+verification_status: "active"
+category: "research"
 topic: "gap-13-sperry-m7-efficiency"
 status: "resolved"
 gap_id: "GAP-13"
@@ -14,7 +14,6 @@ citations:
   - "NARA Record Group 74: U.S. Navy Bureau of Ordnance Director Procurement & Monthly Acceptance Ledgers (1941-1944)"
   - "NARA Record Group 227: OSRD Division 7 Fire-Control Performance Audits (Highland Park M-7 vs. M-5 Kerrison)"
 ---
-
 # Resolving the Sperry M-7 Mass-Production Efficiency Contradiction (GAP-13)
 
 ## 1. Executive Summary & Resolution

@@ -1,3 +1,13 @@
+---
+title: " Errors"
+category: "research"
+status: "active"
+created_at: "2026-09-29"
+tags:
+  - auto-healed
+  - research
+---
+
 # Property Extraction Errors & Warnings
 
 Generated at: 2026-09-28T06:12:38.599Z

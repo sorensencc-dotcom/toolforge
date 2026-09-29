@@ -2,14 +2,13 @@
 source_title: "Willow Run B-24 Knock-Down Kit Manufacturing & Overland Logistics (GAP-06)"
 repository: "War Production Board Logistics Records & Ford Motor Company Transportation Records"
 document_date: "2026-08-30"
-verification_status: "verified"
-category: "willow-run"
+verification_status: "active"
+category: "research"
 topic: "b24-knock-down-kits-logistics"
 status: "resolved"
 gap_id: "GAP-06"
 last_updated: "2026-09-02T16:06:00Z"
 ---
-
 # B-24 Knock-Down Kit Manufacturing & Overland Logistics (GAP-06)
 
 > Technical dossier detailing the sub-assembly manufacturing and overland transit logistics of Consolidated B-24 knock-down kits from Ford's Willow Run facility.

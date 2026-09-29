@@ -3,8 +3,8 @@ title: "Debunking the 'South American Aluminum Coffin' Scrapping Legend (GAP-09)
 source_title: "Wartime Non-Ferrous Scrap Allocations & Aircraft Metallurgy Standards"
 repository: "War Production Board Records (NARA RG 179) & Benson Ford Research Center"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "willow-run"
+verification_status: "active"
+category: "research"
 topic: "gap-09-aluminum-coffin-legend"
 status: "resolved"
 gap_id: "GAP-09"
@@ -14,7 +14,6 @@ citations:
   - "Benson Ford Research Center Accession 65: Purchasing & Salvage Department Records (1942-1943)"
   - "USAAF Materiel Command Specification 11067: Alclad 24S-T Structural Sheet Standards"
 ---
-
 # Debunking the 'South American Aluminum Coffin' Scrapping Legend (GAP-09)
 
 ## 1. Executive Summary & Resolution

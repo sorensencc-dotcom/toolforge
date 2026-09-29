@@ -2,14 +2,13 @@
 source_title: "Willow Run B-17 Production Claim Debunking & B-24 Liberator Tooling Dossier (GAP-03)"
 repository: "War Production Board Records, Ford Aircraft Building Division, & NARA RG 179"
 document_date: "2026-08-30"
-verification_status: "verified"
-category: "willow-run"
+verification_status: "active"
+category: "research"
 topic: "b17-claim-debunking-b24-tooling"
 status: "resolved"
 gap_id: "GAP-03"
 last_updated: "2026-08-30T23:09:00Z"
 ---
-
 # B-17 Production Claim Debunking & B-24 Engineering Reality (GAP-03)
 
 > Auto-healed research dossier resolving the historical discrepancy regarding heavy bomber manufacturing at the Ford Willow Run plant.

@@ -4,7 +4,7 @@ repository: "CIC Research Vault — Live Synthesis"
 document_date: "2026-09-26"
 verification_status: "verified"
 why_corroborated: false
-category: "daily"
+category: "research"
 topic: adjacent-topics
 status: active
 synthesized_by: "llama3.1:8b"
@@ -13,7 +13,6 @@ model_selection_hash: "6729a806b61b32b63c9dbcb86d698c2779d14d00839655e5911117303
 vault_source: "C:/Users/soren/trm-vault/trm/research-gaps/willow-run-videos.md"
 last_updated: 2026-09-26T13:15:28.953Z
 ---
-
 # Adjacent Topics
 
 > Synthesized from live TRM mining output. See [[kb-sync/wiki/research/adjacent-topics]] for the canonical research page.

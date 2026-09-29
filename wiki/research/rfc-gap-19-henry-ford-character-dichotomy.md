@@ -2,8 +2,8 @@
 source_title: "RFC GAP-19: Henry Ford Character Dichotomy (Cruel Tyrant vs. Kindly Humanitarian)"
 repository: "CIC Research Vault — Archival Resolutions"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "biography"
+verification_status: "active"
+category: "research"
 topic: henry-ford-character-dichotomy
 status: resolved
 resolved_by: "rfc-gap-19-henry-ford-character-dichotomy.md"
@@ -11,7 +11,6 @@ synthesized_by: "trm-closed-loop-v2"
 vault_source: "Sorensen Memoir (1956), Adams Review (1957), Greulich Archives, Marquis (1923), BFRC Accession 1"
 last_updated: 2026-09-03T21:40:00.000Z
 ---
-
 # RFC GAP-19: Henry Ford Character Dichotomy (Cruel Tyrant vs. Kindly Humanitarian)
 
 > **Executive Summary:** Biographical literature on Henry Ford presents an irreconcilable polarity between the vindictive corporate autocrat described by Charles Sorensen, Rev. Samuel Marquis, and Harry Bennett, versus the paternalistic, village-scale humanitarian remembered by George Matthew Adams and Peter E. Greulich. Archival analysis demonstrates that this polarity stems from Ford's cognitive bifurcation: extreme paternalistic empathy for rustic, rural archetypes contrasted with paranoia, anti-bureaucratic cruelty, and psychological sadism within the high-stakes executive environment of River Rouge.

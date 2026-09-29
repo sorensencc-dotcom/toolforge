@@ -2,14 +2,13 @@
 source_title: "The Danish Pipeline: Transatlantic Foundry Telemetry & Systemic Flow (GAP-07)"
 repository: "Rigsarkivet (Copenhagen) Series IV, BFRC Accession 38 (Boxes 3, 5, 20, 21, 25), USPTO Tooling Portfolios"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "foundry-telemetry"
+verification_status: "active"
+category: "research"
 topic: "danish-pipeline-sydhavnen-willow-run"
 status: "resolved"
 gap_id: "GAP-07"
 last_updated: "2026-09-03T20:05:00Z"
 ---
-
 # The Danish Pipeline: Transatlantic Foundry Telemetry & Systemic Flow (GAP-07)
 
 > Archival research dossier and technical telemetry mapping of Charles E. Sorensen's transatlantic control of Ford Motor Company A/S (Sydhavnen, Copenhagen) from Dearborn (1931–1935) as a decentralized proving ground for the high-velocity mass manufacturing later scaled at Willow Run.

@@ -3,8 +3,8 @@ title: "Clara Bryant Ford's 1941 Domestic Ultimatum & UAW Contract Surrender (GA
 source_title: "Clara Ford's Intervention in the 1941 River Rouge Labor Settlement"
 repository: "Benson Ford Research Center (Clara Bryant Ford Papers, Acc. 65) & Fair Lane Archives"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "ford-labor"
+verification_status: "active"
+category: "research"
 topic: "gap-10-clara-ford-ultimatum"
 status: "resolved"
 gap_id: "GAP-10"
@@ -14,7 +14,6 @@ citations:
   - "Clara Bryant Ford Papers & Personal Correspondence (April–June 1941, Benson Ford Research Center)"
   - "Allan Nevins & Frank Ernest Hill, Ford: Decline and Rebirth 1933–1962 (Columbia University Research Archives)"
 ---
-
 # Clara Bryant Ford's 1941 Domestic Ultimatum & UAW Contract Surrender (GAP-10)
 
 ## 1. Executive Summary & Resolution

@@ -3,8 +3,8 @@ title: "Willow Run First B-24 Rollout Timeline: Prototype Inspection vs. Product
 source_title: "Willow Run 1942 Rollout Timeline & Inspection Records"
 repository: "War Department Materiel Command, Ford Aircraft Building Division, & NARA RG 179"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "willow-run"
+verification_status: "active"
+category: "research"
 topic: "gap-08-rollout-timeline"
 status: "resolved"
 gap_id: "GAP-08"
@@ -14,7 +14,6 @@ citations:
   - "Charles E. Sorensen Daily Production Pocket Diaries (1942)"
   - "Ford Aircraft Building Division Acceptance Logs (B-24E Series)"
 ---
-
 # Willow Run First B-24 Rollout Timeline: Prototype Inspection vs. Production Synchronization (GAP-08)
 
 ## 1. Executive Summary & Resolution

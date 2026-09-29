@@ -1,3 +1,13 @@
+---
+title: "Nicaro Nickel Processing Facility"
+category: "research"
+status: "active"
+created_at: "2026-09-29"
+tags:
+  - auto-healed
+  - research
+---
+
 # Property Profile: Nicaro Nickel Processing Facility
 
 ## Core Metadata

@@ -3,8 +3,8 @@ title: "The Sovereign TRM Architecture and Expanded Historical Treatments Dossie
 source_title: "Sovereign TRM Architecture & Historical Grounding Synthesis"
 repository: "Toolforge Knowledge Base & CIC Research Vault"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "architecture"
+verification_status: "active"
+category: "research"
 topic: "sovereign-trm-architecture-historical-dossier"
 status: "canonical"
 last_updated: "2026-09-03T21:07:00Z"
@@ -14,7 +14,6 @@ citations:
   - "Albert Kahn Associates Architectural Layout Blueprints (Willow Run Bomber Plant, 1941)"
   - "Charles E. Sorensen Reminiscences (BFRC Acc. 65) & Fair Lane Labor Dispute Records"
 ---
-
 # The Sovereign TRM Architecture and Expanded Historical Treatments Dossier
 
 ## 1. TRM Process & Workstation Automation Topography

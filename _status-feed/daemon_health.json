@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-29T02:28:54.189Z",
-  "elapsedMs": 186,
+  "timestamp": "2026-09-29T02:53:28.693Z",
+  "elapsedMs": 1318,
   "targetUrl": "http://127.0.0.1:8080/dashboard",
   "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
   "status": "HEALTHY",
@@ -15,7 +15,7 @@
       "statusCode": 200,
       "headers": {
         "content-type": "text/html; charset=UTF-8",
-        "date": "Tue, 29 Sep 2026 02:28:54 GMT",
+        "date": "Tue, 29 Sep 2026 02:53:27 GMT",
         "connection": "keep-alive",
         "keep-alive": "timeout=5",
         "transfer-encoding": "chunked"
@@ -29,13 +29,13 @@
       "headers": {
         "content-type": "application/json; charset=UTF-8",
         "access-control-allow-origin": "*",
-        "date": "Tue, 29 Sep 2026 02:28:54 GMT",
+        "date": "Tue, 29 Sep 2026 02:53:28 GMT",
         "connection": "keep-alive",
         "keep-alive": "timeout=5",
         "transfer-encoding": "chunked"
       },
       "payloadValid": true,
-      "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-29\",\"timestamp\":\"2026-09-29T02:28:54.167Z\",\"elapsedMs\":17,\"fleetHealthScore\""
+      "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-29\",\"timestamp\":\"2026-09-29T02:53:27.393Z\",\"elapsedMs\":1296,\"fleetHealthScor"
     }
   },
   "healed": false,

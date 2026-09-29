@@ -1,3 +1,13 @@
+---
+title: "Cuban Telephone Infrastructure Concession"
+category: "research"
+status: "active"
+created_at: "2026-09-29"
+tags:
+  - auto-healed
+  - research
+---
+
 # Property Profile: Cuban Telephone Infrastructure Concession
 
 ## Core Metadata

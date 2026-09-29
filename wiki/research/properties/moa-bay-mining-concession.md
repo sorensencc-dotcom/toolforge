@@ -1,3 +1,13 @@
+---
+title: "Moa Bay Mining Concession"
+category: "research"
+status: "active"
+created_at: "2026-09-29"
+tags:
+  - auto-healed
+  - research
+---
+
 # Property Profile: Moa Bay Mining Concession
 
 ## Core Metadata

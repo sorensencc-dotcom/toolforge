@@ -12,16 +12,16 @@ tags:
 
 # Ironbots daily fleet activity report
 
-**Date**: 2026-09-29 | **Fleet Health Score**: **96/100** (`HEALTHY`)
+**Date**: 2026-09-29 | **Fleet Health Score**: **99/100** (`HEALTHY`)
 
 ---
 
 ## 1. Fleet executive summary
 - **Active Bots Supervised**: 8 / 8
-- **Host Heartbeat**: `WIN-DTA4V21LKVR` (Uptime: `79h 48m`)
+- **Host Heartbeat**: `WIN-DTA4V21LKVR` (Uptime: `80h 13m`)
 - **Task Scheduler Registry**: `HEALTHY` (9 tasks verified under \`Ironbots\`)
 - **Knowledge Documents Indexed (FTS5)**: 441
-- **Wiki Health Score**: 86/100
+- **Wiki Health Score**: 98/100
 - **Total Research Gaps Tracked**: 0
 - **Competitor Drifts Flagged**: 0
 - **Daemon Port 8080 Health**: `HEALTHY`
@@ -34,7 +34,7 @@ tags:
 | Bot Name | Schedule | Status | Summary |
 |---|---|---|---|
 | **NotebookLM & Knowledge Ingester** | `Daily 02:00 AM` | `HEALTHY` | 441 documents indexed into SQLite FTS5 |
-| **KB-Sentinel Drift & Autoheal** | `Daily 03:00 AM` | `PASS` | Health Score: 86/100 (420 files scanned) |
+| **KB-Sentinel Drift & Autoheal** | `Daily 03:00 AM` | `PASS` | Health Score: 98/100 (420 files scanned) |
 | **TRM Gap Triage & RFC Drafter** | `Daily 04:00 AM` | `PASS` | 0 total gaps (0 drafted) |
 | **Watchlist & Competitor Drift Miner** | `Daily 05:00 AM` | `PASS` | 2 targets evaluated (0 drifts) |
 | **Daemon-Healer Port 8080 Supervisor** | `Every 15 Min` | `HEALTHY` | Port 8080 status: HEALTHY (healed: false) |
