@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.78.0
+Date: 2026-09-29
+
+### Changes
+- c29c3b6 - feat(fleet): integrate Jev typed primitives, TRM mobile triage, generator determinism, and TorqueQuery observability (closes #66) (#66) (Chris Sorensen)
+
 ## Version 2.77.1
 Date: 2026-09-28
 
