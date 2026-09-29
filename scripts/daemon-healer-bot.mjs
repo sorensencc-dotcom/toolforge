@@ -26,10 +26,11 @@ const ICF_DIR = path.resolve(REPO_ROOT, 'icf');
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
 const isCheckOnly = args.includes('--check-only');
+const isReset = args.includes('--reset');
 const isVerbose = args.includes('--verbose');
 
-function probeUrl(url, options = {}) {
-  const { timeoutMs = 2500, expectJson = false, expectHtml = false } = options;
+export function probeUrl(url, options = {}) {
+  const { timeoutMs = 8000, expectJson = false, expectHtml = false } = options;
   return new Promise((resolve) => {
     let rawBody = '';
     const req = http.get(url, { timeout: timeoutMs }, (res) => {
@@ -122,7 +123,7 @@ function startDashboardDaemon() {
     const out = execFileSync('powershell.exe', [
       '-NoProfile',
       '-Command',
-      `Start-Process -FilePath "node.exe" -ArgumentList "src/server.mjs" -WorkingDirectory "${ICF_DIR}" -PassThru | Select-Object -ExpandProperty Id`
+      `Start-Process -FilePath "node.exe" -ArgumentList "src/server.mjs" -WorkingDirectory "${ICF_DIR}" -WindowStyle Hidden -PassThru | Select-Object -ExpandProperty Id`
     ], { encoding: 'utf8' }).trim();
     return out || 'launched';
   } catch {
@@ -154,14 +155,22 @@ async function runDaemonHealer() {
   let thrashCooldownActive = prior?.thrashCooldownActive || false;
   let lastCooldownTime = prior?.lastCooldownTime || null;
 
-  // Check if cooldown window has expired
-  if (thrashCooldownActive && lastCooldownTime) {
+  if (isReset) {
+    console.log(`[Daemon-Healer] Manual reset requested (--reset). Clearing thrash guard counters.`);
+    consecutiveHeals = 0;
+    thrashCooldownActive = false;
+    lastCooldownTime = null;
+  } else if (thrashCooldownActive && lastCooldownTime) {
     const elapsedSinceCooldown = Date.now() - new Date(lastCooldownTime).getTime();
     if (elapsedSinceCooldown > THRASH_GUARD_CONFIG.cooldownWindowMs) {
-      console.log(`[Daemon-Healer] Cooldown window expired (${Math.round(elapsedSinceCooldown / 60000)}m > ${Math.round(THRASH_GUARD_CONFIG.cooldownWindowMs / 60000)}m). Resetting thrash guard.`);
-      consecutiveHeals = 0;
-      thrashCooldownActive = false;
-      lastCooldownTime = null;
+      if (!isCheckOnly && !isDryRun) {
+        console.log(`[Daemon-Healer] Cooldown window expired (${Math.round(elapsedSinceCooldown / 60000)}m > ${Math.round(THRASH_GUARD_CONFIG.cooldownWindowMs / 60000)}m). Resetting thrash guard.`);
+        consecutiveHeals = 0;
+        thrashCooldownActive = false;
+        lastCooldownTime = null;
+      } else {
+        console.log(`[Daemon-Healer] Cooldown window expired (${Math.round(elapsedSinceCooldown / 60000)}m > ${Math.round(THRASH_GUARD_CONFIG.cooldownWindowMs / 60000)}m). Retaining state in check-only/dry-run mode.`);
+      }
     }
   }
 

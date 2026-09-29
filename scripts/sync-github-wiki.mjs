@@ -48,7 +48,8 @@ export function addFrontmatterTitle(content) {
   const frontmatter = content.slice(4, closing);
   const match = frontmatter.match(/^(?:title|source_title):\s*["']?(.+?)["']?\s*$/m);
   const body = content.slice(closing + 4).trimStart();
-  const commentBlock = `<!--\n---\n${frontmatter.trim()}\n---\n-->\n\n`;
+  const sanitizedFrontmatter = frontmatter.trim().replace(/-->/g, '-- >');
+  const commentBlock = `<!--\n---\n${sanitizedFrontmatter}\n---\n-->\n\n`;
   if (!match || /^#\s/m.test(body)) return `${commentBlock}${body}`;
   const title = match[1].replace(/["']$/, '').trim();
   return `${commentBlock}# ${title}\n\n${body}`;

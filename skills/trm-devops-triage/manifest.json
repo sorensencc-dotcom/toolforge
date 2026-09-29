@@ -1,0 +1,215 @@
+{
+  "$schema": "./toolforge-manifest-schema.json",
+  "name": "trm-devops-triage",
+  "version": "1.1.0",
+  "description": "Topic Research Mining DevOps self-healing triage, Sigil safety guard, and No-AI-Slop pre-push verification pipeline.",
+  "skills": [
+    {
+      "id": "trm-tinyfish-triage",
+      "name": "TRM TinyFish Triage",
+      "description": "Tier-1 fast local signature diagnostics & TinyFish search for CI log failures. Invoked immediately upon a Nightly Validator or CI build failure to check for Git checkout credential blocks, submodules blocks, or Node runner deprecations.",
+      "entrypoint": "./scripts/trm-tinyfish-triage.mjs",
+      "runtime": "node",
+      "inputs": {
+        "type": "object",
+        "required": ["logExtract"],
+        "properties": {
+          "logExtract": {
+            "type": "string",
+            "description": "Raw terminal output or error stack trace captured from the failing CI runner."
+          }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": ["status", "remediation", "confidence"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["resolved", "escalated"],
+            "description": "Indicates if a deterministic match was found ('resolved') or if it needs escalation to Tier-2 ('escalated')."
+          },
+          "remediation": {
+            "type": "string",
+            "description": "Targeted patch content, YAML configuration block, or explicit developer fix layout."
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence score of the parsed resolution blueprint."
+          }
+        }
+      },
+      "permissions": {
+        "network": [
+          "api.search.tinyfish.ai",
+          "api.fetch.tinyfish.ai"
+        ],
+        "filesystem": "read-only"
+      },
+      "environment": {
+        "TINYFISH_API_KEY": {
+          "required": true,
+          "secure": true
+        }
+      }
+    },
+    {
+      "id": "trm-parallel-escalation",
+      "name": "TRM Parallel Escalation",
+      "description": "Tier-2 deep agentic research loop with Basis citation tracking via Parallel Task API. Activated when Tier-1 returns low confidence, indicating complex environment collisions, dependency discrepancies, or zero-day issues.",
+      "entrypoint": "./scripts/trm-parallel-escalation.mjs",
+      "runtime": "node",
+      "inputs": {
+        "type": "object",
+        "required": ["logExtract"],
+        "properties": {
+          "logExtract": {
+            "type": "string",
+            "description": "Raw failing build trace and error logs."
+          },
+          "triageContext": {
+            "type": "string",
+            "description": "Optional notes, unsuccessful signatures, or diagnostics passed down by the Tier-1 executor."
+          }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": ["status", "synthesizedRemediation", "citations"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["resolved", "failed"]
+          },
+          "synthesizedRemediation": {
+            "type": "string",
+            "description": "Synthesized resolution plan backed by external research, citations, and specific GitHub pull request guidelines."
+          },
+          "citations": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of source-backed Basis citation URLs and issue references verifying the proposed fix."
+          }
+        }
+      },
+      "permissions": {
+        "network": [
+          "api.parallel.ai"
+        ],
+        "filesystem": "read-only"
+      },
+      "environment": {
+        "PARALLEL_API_KEY": {
+          "required": true,
+          "secure": true
+        }
+      }
+    },
+    {
+      "id": "trm-sigil-guard",
+      "name": "TRM Sigil Guard",
+      "description": "Gates destructive filesystem writes and outbound network actions by wrapping patches into a JCS-canonicalized envelope and prompting local loopback for WebAuthn biometric user consent.",
+      "entrypoint": "./scripts/trm-sigil-guard.mjs",
+      "runtime": "node",
+      "inputs": {
+        "type": "object",
+        "required": ["candidatePatch", "targetFile"],
+        "properties": {
+          "candidatePatch": {
+            "type": "string",
+            "description": "The YAML, workflow, or code patch payload proposed by Tier-1 or Tier-2."
+          },
+          "targetFile": {
+            "type": "string",
+            "description": "The destination file path on the local workstation disk (e.g. '.github/workflows/nightly-validator.yml')."
+          }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": ["approved", "signature", "timestamp"],
+        "properties": {
+          "approved": {
+            "type": "boolean",
+            "description": "True if the WebAuthn physical biometric prompt (Touch ID/Windows Hello) was cleared."
+          },
+          "signature": {
+            "type": "string",
+            "description": "Canonical RFC 8785 lexicographically-sorted JCS signature block validating local owner approval."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "ISO 8601 compliant UTC date-time of the biometric clearance ceremony."
+          }
+        }
+      },
+      "permissions": {
+        "network": [
+          "127.0.0.1"
+        ],
+        "filesystem": "read-write"
+      },
+      "environment": {
+        "SIGIL_CONNECTOR_URL": {
+          "required": true,
+          "default": "http://127.0.0.1:8787"
+        },
+        "SIGIL_CONNECTOR_TOKEN": {
+          "required": true,
+          "secure": true
+        },
+        "SIGIL_CONNECTOR_GRANTS": {
+          "required": true,
+          "default": "sigil.task/*,sigil.approval/request,sigil.core/read_shared_context"
+        }
+      }
+    },
+    {
+      "id": "no-ai-slop",
+      "name": "No AI Slop Quality Linter",
+      "description": "Pre-push and pre-commit verification skill that inspects proposed pull requests, documentation, and commits for 20+ patterns of AI slop, preambular fluff, and conversational padding. Automatically redline or sanitize AI-generated content before committing.",
+      "entrypoint": "./scripts/no-ai-slop.mjs",
+      "runtime": "node",
+      "inputs": {
+        "type": "object",
+        "required": ["content"],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Raw markdown text, documentation, or code patch to analyze for AI slop patterns."
+          },
+          "autoFix": {
+            "type": "boolean",
+            "description": "If true, automatically strips identified slop phrases and returns sanitized content."
+          }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": ["clean", "violationsFound", "sanitizedContent"],
+        "properties": {
+          "clean": {
+            "type": "boolean",
+            "description": "True if no AI slop or banned preamble patterns were detected."
+          },
+          "violationsFound": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of specific AI slop phrases, preambles, or forbidden buzzwords identified."
+          },
+          "sanitizedContent": {
+            "type": "string",
+            "description": "The cleaned text with AI slop patterns removed."
+          }
+        }
+      },
+      "permissions": {
+        "network": [],
+        "filesystem": "read-only"
+      },
+      "environment": {}
+    }
+  ]
+}

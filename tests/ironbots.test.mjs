@@ -172,9 +172,9 @@ test('ironbots-daily-reporter runs and generates aggregated daily telemetry with
   const report = await aggregateFleetActivity({ isDryRun: true });
   assert.equal(typeof report.fleetHealthScore, 'number');
   assert.ok(report.fleetHealthScore >= 0 && report.fleetHealthScore <= 100);
-  assert.equal(report.botCount, 7);
+  assert.equal(report.botCount, 8);
   assert.ok(Array.isArray(report.activeBots));
-  assert.equal(report.activeBots.length, 7);
+  assert.equal(report.activeBots.length, 8);
   assert.ok(report.hostHeartbeat);
   assert.equal(typeof report.hostHeartbeat.hostname, 'string');
 });
@@ -188,19 +188,45 @@ test('daemon-healer exports thrash guard configuration with cooldown window', as
   assert.ok(THRASH_GUARD_CONFIG.cooldownWindowMs >= 3600000);
 });
 
-test('ironbots-daily-reporter exports REQUIRED_FLEET_TASKS with 8 tasks', async () => {
+test('ironbots-daily-reporter exports REQUIRED_FLEET_TASKS with 9 tasks', async () => {
   const { REQUIRED_FLEET_TASKS } = await import('../scripts/ironbots-daily-reporter.mjs');
   assert.ok(Array.isArray(REQUIRED_FLEET_TASKS));
-  assert.equal(REQUIRED_FLEET_TASKS.length, 8);
+  assert.equal(REQUIRED_FLEET_TASKS.length, 9);
   assert.ok(REQUIRED_FLEET_TASKS.includes('TRM-Drive-Sync'));
   assert.ok(REQUIRED_FLEET_TASKS.includes('Daemon-Healer'));
+  assert.ok(REQUIRED_FLEET_TASKS.includes('Storage-Pruner'));
   assert.ok(REQUIRED_FLEET_TASKS.includes('Ironbots-Reporter'));
 });
 
-test('trm-ingress-watcher exports safeMoveFile and parsePayload helpers', async () => {
-  const { safeMoveFile, parsePayload } = await import('../scripts/trm-ingress-watcher.mjs');
+test('trm-ingress-watcher runs in dry-run mode and writes valid telemetry', () => {
+  const scriptPath = path.join(REPO_ROOT, 'scripts', 'trm-ingress-watcher.mjs');
+  assert.ok(fs.existsSync(scriptPath), 'trm-ingress-watcher.mjs should exist');
+
+  const stdout = execFileSync('node', [scriptPath, '--dry-run', '--once'], {
+    cwd: REPO_ROOT,
+    encoding: 'utf8'
+  });
+
+  assert.match(stdout, /\[TRM-INGRESS\] Starting Ingress Watcher/);
+
+  const reportPath = path.join(REPO_ROOT, '_status-feed', 'trm_ingress_status.json');
+  assert.ok(fs.existsSync(reportPath), 'trm_ingress_status.json should exist');
+
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+  assert.ok(typeof report.status === 'string');
+  assert.equal(report.dryRun, true);
+  assert.equal(typeof report.triageQueue, 'number');
+});
+
+test('trm-ingress-watcher exports safeMoveFile, processFile, parsePayload, and dispatchMobileReceipt helpers', async () => {
+  const { safeMoveFile, parsePayload, processFile, getActiveOutboxDirs, dispatchMobileReceipt, cleanupCompanionFiles, processGDocStub } = await import('../scripts/trm-ingress-watcher.mjs');
   assert.equal(typeof safeMoveFile, 'function');
   assert.equal(typeof parsePayload, 'function');
+  assert.equal(typeof processFile, 'function');
+  assert.equal(typeof getActiveOutboxDirs, 'function');
+  assert.equal(typeof dispatchMobileReceipt, 'function');
+  assert.equal(typeof cleanupCompanionFiles, 'function');
+  assert.equal(typeof processGDocStub, 'function');
 
   const validJson = JSON.stringify({
     source: 'mobile-gemini',
@@ -215,6 +241,124 @@ test('trm-ingress-watcher exports safeMoveFile and parsePayload helpers', async 
   const nonExistent = path.join(REPO_ROOT, 'logs', `non-existent-${Date.now()}.tmp`);
   const dest = path.join(REPO_ROOT, 'logs', `dest-${Date.now()}.tmp`);
   assert.equal(safeMoveFile(nonExistent, dest), false);
+
+  // dispatchMobileReceipt returns valid receipt schema in dry-run
+  const receipt = dispatchMobileReceipt({ id: 'act-123', source: 'mobile-test', intent: 'test_fix', action_type: 'deterministic_fix' }, { status: 'RESOLVED', duration_ms: 45 }, { dryRun: true });
+  assert.equal(receipt.action_id, 'act-123');
+  assert.equal(receipt.status, 'RESOLVED');
+  assert.equal(receipt.dryRun, true);
+});
+
+test('trm-ingress-watcher cleans up companion and orphaned .gdoc stubs', async () => {
+  const { cleanupCompanionFiles, processGDocStub } = await import('../scripts/trm-ingress-watcher.mjs');
+  const tempDir = path.join(REPO_ROOT, 'logs', `test-gdoc-${Date.now()}`);
+  fs.mkdirSync(tempDir, { recursive: true });
+
+  try {
+    // 1. Companion .gdoc cleanup when processing .json or .md card
+    const jsonCard = path.join(tempDir, '2026-09-26T170100Z__test__card.json');
+    const companionGdoc = path.join(tempDir, '2026-09-26T170100Z__test__card.md.gdoc');
+    fs.writeFileSync(jsonCard, '{"id":"test-1"}', 'utf8');
+    fs.writeFileSync(companionGdoc, '{"doc_id":"xyz"}', 'utf8');
+
+    assert.ok(fs.existsSync(companionGdoc));
+    cleanupCompanionFiles(jsonCard, false);
+    assert.ok(!fs.existsSync(companionGdoc), 'Companion .gdoc should be cleaned up');
+
+    // 2. Orphaned .gdoc stub matching existing ledger entry
+    const orphanedGdoc = path.join(tempDir, '2026-09-26T170100Z__toolforge__pr-45-devin-review.md.gdoc');
+    fs.writeFileSync(orphanedGdoc, '{"doc_id":"test"}', 'utf8');
+
+    // Dry-run returns match without deleting
+    const dryRes = processGDocStub(orphanedGdoc, tempDir, { dryRun: true });
+    assert.ok(dryRes);
+    assert.equal(dryRes.status, 'MATCHED_HANDLED_GDOC_DRY_RUN');
+    assert.ok(fs.existsSync(orphanedGdoc));
+
+    // Live run moves / archives the stub
+    const liveRes = processGDocStub(orphanedGdoc, tempDir, { dryRun: false });
+    assert.ok(liveRes);
+    assert.equal(liveRes.status, 'ARCHIVED_HANDLED_GDOC');
+    assert.ok(!fs.existsSync(orphanedGdoc), 'Orphaned .gdoc should be moved/archived');
+  } finally {
+    try { fs.rmSync(tempDir, { recursive: true, force: true }); } catch {}
+  }
+});
+
+test('local-small-model-bridge extracts mobile intents and summarizes stack traces', async () => {
+  const { extractMobileIntent, extractIntentDeterministic, summarizeCiStackTrace, summarizeStackTraceDeterministic, checkOllamaHealth } = await import('../scripts/local-small-model-bridge.mjs');
+  
+  assert.equal(typeof extractMobileIntent, 'function');
+  assert.equal(typeof summarizeCiStackTrace, 'function');
+  assert.equal(typeof checkOllamaHealth, 'function');
+
+  // 1. Intent extraction with deterministic rule engine
+  const intent1 = extractIntentDeterministic('Please prune dead sources from Notebook 5 immediately', { source: 'voice-note' });
+  assert.equal(intent1.action_type, 'deterministic_fix');
+  assert.equal(intent1.intent, 'prune_dead_sources');
+  assert.equal(intent1.priority, 'P1');
+  assert.equal(intent1.target_notebook_name, '5 immediately');
+
+  const intent2 = extractIntentDeterministic('We have a quarantine buffer overflow error on TRM', { source: 'mobile-slack' });
+  assert.equal(intent2.action_type, 'deterministic_fix');
+  assert.equal(intent2.intent, 'remediate_quarantine_enobufs');
+
+  const intent3 = extractIntentDeterministic('Investigate why CI fails on branch feature/x', { source: 'mobile-gemini' });
+  assert.equal(intent3.action_type, 'antigravity_triage');
+  assert.equal(intent3.intent, 'investigate_ci_failure');
+
+  // 2. Stack trace summarizer
+  const sampleTrace = `TypeError: Cannot read properties of undefined (reading 'split')\n    at parseCard (C:/dev/scripts/parser.mjs:42:15)\n    at processFile (C:/dev/scripts/watcher.mjs:100:5)`;
+  const summary = summarizeStackTraceDeterministic(sampleTrace);
+  assert.equal(summary.failureType, 'TypeError');
+  assert.match(summary.rootCause, /TypeError/);
+  assert.match(summary.failureLocation, /42:15/);
+
+  // 3. Dry-run async calls return properly structured objects
+  const asyncIntent = await extractMobileIntent('Prune failed sources', { source: 'mobile' }, { dryRun: true });
+  assert.equal(asyncIntent.intent, 'prune_dead_sources');
+
+  const asyncTrace = await summarizeCiStackTrace(sampleTrace, {}, { dryRun: true });
+  assert.equal(asyncTrace.failureType, 'TypeError');
+
+  // 4. Security boundary: loopback enforcement
+  const { validateLoopbackUrl, isLoopbackHostname } = await import('../scripts/local-small-model-bridge.mjs');
+  assert.equal(isLoopbackHostname('127.0.0.1'), true);
+  assert.equal(isLoopbackHostname('localhost'), true);
+  assert.equal(isLoopbackHostname('::1'), true);
+  assert.equal(isLoopbackHostname('127.0.0.2'), true);
+  assert.equal(isLoopbackHostname('api.openai.com'), false);
+  assert.equal(isLoopbackHostname('remote-host.com'), false);
+
+  assert.throws(() => {
+    validateLoopbackUrl('/api/generate', 'http://remote-server.com:11434');
+  }, /Security Violation/);
+
+  const healthRes = await checkOllamaHealth({ baseUrl: 'http://remote-server.com:11434' });
+  assert.equal(healthRes.available, false);
+  assert.match(healthRes.error, /Security Violation/);
+});
+
+test('storage-pruner scans databases, compacts telemetry, and executes dry run', async () => {
+  const { discoverSqliteDatabases, vacuumDatabase, compressHistoricalTelemetry, pruneHarnessTasks, runStoragePruner } = await import('../scripts/storage-pruner.mjs');
+
+  assert.equal(typeof discoverSqliteDatabases, 'function');
+  assert.equal(typeof vacuumDatabase, 'function');
+  assert.equal(typeof compressHistoricalTelemetry, 'function');
+  assert.equal(typeof pruneHarnessTasks, 'function');
+  assert.equal(typeof runStoragePruner, 'function');
+
+  // Discovery finds databases
+  const dbs = discoverSqliteDatabases(REPO_ROOT);
+  assert.ok(Array.isArray(dbs));
+  assert.ok(dbs.length > 0, 'Should discover existing SQLite databases in .kb_cache or icf');
+
+  // Full dry run execution
+  const report = await runStoragePruner({ dryRun: true });
+  assert.equal(report.dryRun, true);
+  assert.equal(report.status, 'HEALTHY');
+  assert.ok(report.databasesScanned > 0);
+  assert.equal(typeof report.totalFreedBytes, 'number');
 });
 
 test('Ironbots scheduled task wrappers exist and contain valid configuration', () => {
@@ -226,6 +370,7 @@ test('Ironbots scheduled task wrappers exist and contain valid configuration', (
     { file: 'scripts/schedule-task-wrapper-Daemon-Healer.ps1', name: 'Daemon-Healer' },
     { file: 'scripts/schedule-task-wrapper-CI-Watchdog.ps1', name: 'CI-Watchdog' },
     { file: 'scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1', name: 'TRM-Drive-Sync' },
+    { file: 'scripts/schedule-task-wrapper-Storage-Pruner.ps1', name: 'Storage-Pruner' },
     { file: 'scripts/schedule-task-wrapper-Ironbots-Reporter.ps1', name: 'Ironbots-Reporter' }
   ];
 
@@ -277,6 +422,45 @@ test('git-push-and-wait script exists and contains Devin blocking gate parameter
   assert.match(content, /gh pr view/);
   assert.match(content, /statusCheckRollup/);
   assert.match(content, /devin-ai-integration/);
+});
+
+test('getHostHeartbeat returns within 100ms on repeated calls using internal cache', async () => {
+  const { getHostHeartbeat } = await import('../scripts/ironbots-daily-reporter.mjs');
+  const t0 = Date.now();
+  const first = getHostHeartbeat();
+  const firstDuration = Date.now() - t0;
+
+  const t1 = Date.now();
+  const second = getHostHeartbeat();
+  const secondDuration = Date.now() - t1;
+
+  assert.ok(secondDuration < 100, `Second call should be cached and fast, took ${secondDuration}ms`);
+  assert.equal(typeof second.hostname, 'string');
+  assert.equal(typeof second.taskScheduler.status, 'string');
+});
+
+test('trm-ingress-watcher processes standalone .gdoc cards via filename metadata extraction', async () => {
+  const { parseGDocFilenameMetadata, processGDocStub } = await import('../scripts/trm-ingress-watcher.mjs');
+  
+  const filename = '2099-01-01T000000Z__action__act-test-999-synthetic-intent-for-unit-test.md.gdoc';
+  const metadata = parseGDocFilenameMetadata(filename);
+  
+  assert.equal(metadata.id, 'act-test-999-synthetic-intent-for-unit-test');
+  assert.equal(metadata.action_type, 'antigravity_triage');
+  assert.equal(metadata.intent, 'act_test_999_synthetic_intent_for_unit_test');
+  assert.equal(metadata.source, 'mobile-gemini-gdoc');
+
+  const tempInbox = path.join(REPO_ROOT, 'logs', `test-gdoc-standalone-${Date.now()}`);
+  fs.mkdirSync(tempInbox, { recursive: true });
+
+  const gdocPath = path.join(tempInbox, filename);
+  fs.writeFileSync(gdocPath, '{"doc_id":"test-standalone"}', 'utf8');
+
+  const dryResult = processGDocStub(gdocPath, tempInbox, { dryRun: true });
+  assert.ok(dryResult);
+  assert.equal(dryResult.status, 'STAGED_STANDALONE_GDOC_DRY_RUN');
+
+  fs.rmSync(tempInbox, { recursive: true, force: true });
 });
 
 test('git-push-and-wait Test-CheckCompleted does not treat legacy EXPECTED state as completed', () => {

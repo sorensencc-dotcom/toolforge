@@ -50,12 +50,17 @@ function Write-IfChanged {
       return $false
     }
   }
-  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  # Preserve the repository's CRLF convention; PS7/Core Set-Content emits LF,
+  # which would rewrite every line of this committed report.
+  $crlf = ($Content -replace "`r`n", "`n") -replace "`n", "`r`n"
+  if (-not $crlf.EndsWith("`r`n")) { $crlf += "`r`n" }
+  [System.IO.File]::WriteAllText($Path, $crlf, (New-Object System.Text.UTF8Encoding($false)))
   return $true
 }
 
 # Paths
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Join-Path (Get-Location).Path "utilities" }
+$repoRoot = (Resolve-Path (Join-Path $scriptRoot "..")).Path
 $CANONICAL_SKILLS = Join-Path $repoRoot "skills"
 $MANIFEST_FILE = Join-Path $repoRoot "manifest.json"
 
@@ -96,7 +101,7 @@ function Load-Skills {
     throw "Canonical skills directory not found"
   }
 
-  $skillDirs = Get-ChildItem -Path $CANONICAL_SKILLS -Directory -Exclude "_TEMPLATE"
+  $skillDirs = Get-ChildItem -Path $CANONICAL_SKILLS -Directory -Exclude "_TEMPLATE" | Sort-Object Name
 
   foreach ($dir in $skillDirs) {
     $skillId = $dir.Name
@@ -116,8 +121,8 @@ function Load-Skills {
         category = $skillJson.category ?? "unknown"
         runtime = $skillJson.runtime ?? "unknown"
         entrypoint = $skillJson.entrypoint ?? ""
-        internal_deps = @($skillJson.dependencies.internal ?? @())
-        external_deps = @($skillJson.dependencies.external ?? @())
+        internal_deps = @($skillJson.dependencies.internal ?? @() | Sort-Object)
+        external_deps = @($skillJson.dependencies.external ?? @() | Sort-Object)
       }
       $graph.stats.total_skills += 1
       Log "Loaded skill: $skillId (deps: internal=$($graph.skills[$skillId].internal_deps.Count), external=$($graph.skills[$skillId].external_deps.Count))"
@@ -134,7 +139,7 @@ function Load-Skills {
 function Build-Adjacency {
   Write-Host "🔗 Building adjacency list..." -ForegroundColor Cyan
 
-  foreach ($skillId in $graph.skills.Keys) {
+  foreach ($skillId in ($graph.skills.Keys | Sort-Object)) {
     $skill = $graph.skills[$skillId]
 
     # Initialize adjacency for this skill
@@ -203,7 +208,7 @@ function Detect-Cycles {
     $newPath = $path + $skillId
 
     if ($graph.adjacency[$skillId]) {
-      foreach ($dep in $graph.adjacency[$skillId].outbound) {
+      foreach ($dep in ($graph.adjacency[$skillId].outbound | Sort-Object -Property skill, type)) {
         Visit-Skill $dep.skill $newPath
       }
     }
@@ -211,7 +216,7 @@ function Detect-Cycles {
     $rec_stack[$skillId] = $false
   }
 
-  foreach ($skillId in $graph.skills.Keys) {
+  foreach ($skillId in ($graph.skills.Keys | Sort-Object)) {
     if (-not $visited[$skillId]) {
       Visit-Skill $skillId
     }
@@ -242,7 +247,7 @@ function Calculate-Depth {
 
     # Get max depth of dependencies
     $max_depth = 0
-    foreach ($dep in $graph.adjacency[$skillId].outbound) {
+    foreach ($dep in ($graph.adjacency[$skillId].outbound | Sort-Object -Property skill, type)) {
       $dep_depth = Get-Depth $dep.skill $memo
       if ($dep_depth -gt $max_depth) {
         $max_depth = $dep_depth
@@ -255,7 +260,7 @@ function Calculate-Depth {
   }
 
   $memo = @{}
-  foreach ($skillId in $graph.skills.Keys) {
+  foreach ($skillId in ($graph.skills.Keys | Sort-Object)) {
     $graph.depths[$skillId] = Get-Depth $skillId $memo
     if ($graph.depths[$skillId] -gt $graph.stats.depth_max) {
       $graph.stats.depth_max = $graph.depths[$skillId]
@@ -275,7 +280,7 @@ function Find-Orphans {
   $referenced = @{}
 
   # Mark all referenced dependencies
-  foreach ($skillId in $graph.skills.Keys) {
+  foreach ($skillId in ($graph.skills.Keys | Sort-Object)) {
     $skill = $graph.skills[$skillId]
     foreach ($dep in $skill.internal_deps + $skill.external_deps) {
       $referenced[$dep] = $true
@@ -283,7 +288,7 @@ function Find-Orphans {
   }
 
   # Find skills never referenced (orphans)
-  foreach ($skillId in $graph.skills.Keys) {
+  foreach ($skillId in ($graph.skills.Keys | Sort-Object)) {
     if (-not $referenced[$skillId] -and $graph.adjacency[$skillId].inbound.Count -eq 0) {
       $graph.orphans += $skillId
       Log "Orphan skill (never referenced): $skillId" "WARN"
@@ -339,7 +344,7 @@ function Generate-Report {
     if ($outbound.Count -eq 0) {
       $md += "| *(none)* | — | Leaf node |`n"
     } else {
-      foreach ($dep in $outbound | Sort-Object -Property skill) {
+      foreach ($dep in ($outbound | Sort-Object -Property skill, type)) {
         $status = if ($graph.skills[$dep.skill]) { "✅ Found" } else { "❌ Missing" }
         $md += "| $($dep.skill) | $($dep.type) | $status |`n"
       }
@@ -362,7 +367,7 @@ function Generate-Report {
     } else {
       $md += "| Dependent | Type |`n"
       $md += "|-----------|------|`n"
-      foreach ($dep in $inbound | Sort-Object -Property skill) {
+      foreach ($dep in ($inbound | Sort-Object -Property skill, type)) {
         $md += "| $($dep.skill) | $($dep.type) |`n"
       }
     }
@@ -381,7 +386,7 @@ Depth N = Depends on at least one skill at depth N-1
 |-------|-------|
 "@
 
-  foreach ($skillId in ($graph.depths.Keys | Sort-Object @{ Expression = { $graph.depths[$_] }; Descending = $true }, @{ Expression = { $_ }; Descending = $false })) {
+  foreach ($skillId in ($graph.depths.Keys | Sort-Object @{ Expression = { $graph.depths[$_] }; Descending = $true }, @{ Expression = { [string]$_ }; Descending = $false })) {
     $md += "| $skillId | $($graph.depths[$skillId]) |`n"
   }
 
@@ -397,7 +402,7 @@ Depth N = Depends on at least one skill at depth N-1
     $md += "✅ No cycles detected.\n"
   } else {
     $md += "⚠️ **CRITICAL:** Circular dependencies detected!\n`n"
-    foreach ($cycle in $graph.cycles) {
+    foreach ($cycle in ($graph.cycles | Sort-Object -Property { $_.nodes -join ' ' })) {
       $md += "- **Cycle:** $($cycle.nodes -join ' → ')`n"
     }
   }
@@ -417,7 +422,7 @@ Dependencies referenced but not found in canonical skills.
   } else {
     $md += "| Dependent | Missing Dependency |`n"
     $md += "|-----------|-------------------|`n"
-    foreach ($miss in $graph.missing) {
+    foreach ($miss in ($graph.missing | Sort-Object -Property dependent, missing, type)) {
       $md += "| $($miss.dependent) | $($miss.missing) |`n"
     }
   }
@@ -437,7 +442,7 @@ Skills that have no inbound dependencies (nothing depends on them).
   } else {
     $md += "| Skill |`n"
     $md += "|-------|`n"
-    foreach ($orphan in $graph.orphans | Sort-Object) {
+    foreach ($orphan in ($graph.orphans | Sort-Object -Unique)) {
       $md += "| $orphan |`n"
     }
   }

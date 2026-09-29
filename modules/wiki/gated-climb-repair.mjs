@@ -10,26 +10,6 @@ import { resolveVaultPaths } from './config-loader.mjs';
 import { sweepStagingVault } from './autoheal-sweeper.mjs';
 import { resolveBashExecutable } from '../notebooklm/lib/bash-resolver.mjs';
 
-const TRIPWIRE_DEFAULTS = { maxRedTests: 3, maxFileChurn: 3, tokenBudget: 25000, wallClockTimeoutMs: 900000 };
-function tripwireReason(telemetry, config = {}) {
-  const limits = { ...TRIPWIRE_DEFAULTS, ...config };
-  if (Date.now() - telemetry.startTime > limits.wallClockTimeoutMs) return 'TRIPWIRE_WALL_CLOCK_TIMEOUT';
-  if (telemetry.tokensConsumed > limits.tokenBudget) return 'TRIPWIRE_TOKEN_BUDGET_BREACH';
-  if (telemetry.consecutiveTestFailures >= limits.maxRedTests) return 'TRIPWIRE_CONSECUTIVE_RED_TESTS';
-  const counts = new Map();
-  for (const edit of telemetry.fileEditHistory) counts.set(edit.path, (counts.get(edit.path) || 0) + 1);
-  for (const [file, count] of counts) if (count >= limits.maxFileChurn) return 'TRIPWIRE_FILE_CHURN: ' + file;
-  const seen = new Set();
-  for (const diff of telemetry.diffHistory) {
-    const value = (diff || '').trim();
-    if (!value) continue;
-    const hash = crypto.createHash('sha256').update(value).digest('hex');
-    if (seen.has(hash)) return 'TRIPWIRE_DIFF_REVERSAL';
-    seen.add(hash);
-  }
-  return null;
-}
-
 /**
  * Normalizes Windows drive letter and path separators.
  * @param {string} p
@@ -237,8 +217,6 @@ export async function runGatedClimbRepair(options = {}) {
   const quarantineDir = options.quarantineDir ? path.resolve(options.quarantineDir) : path.join(baseDir, '_quarantine');
   const logsDir = options.logsDir ? path.resolve(options.logsDir) : path.join(baseDir, 'logs');
   const auditLogPath = options.auditLogPath ? path.resolve(options.auditLogPath) : path.join(logsDir, 'auto-repair-audit.jsonl');
-  const telemetry = { startTime: Date.now(), tokensConsumed: 0, consecutiveTestFailures: 0, fileEditHistory: [], diffHistory: [] };
-  let tripwire = null;
   
   const defaultValidatorScript = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'validate-contract.mjs');
   const validatorScript = options.validatorScript || defaultValidatorScript;
@@ -294,12 +272,9 @@ export async function runGatedClimbRepair(options = {}) {
   let passed = false;
   let destinationPath = null;
   let finalQuarantinePath = null;
-  let lessonError = null;
 
   try {
     while (attempts <= maxRetries) {
-      tripwire = tripwireReason(telemetry, options.tripwireConfig);
-      if (tripwire) break;
       validationResult = runValidatorInternal(targetDir);
       const errors = (validationResult.json && Array.isArray(validationResult.json.errors))
         ? validationResult.json.errors
@@ -315,7 +290,6 @@ export async function runGatedClimbRepair(options = {}) {
         break;
       }
 
-      telemetry.consecutiveTestFailures++;
       attempts++;
 
       // Group errors by file
@@ -355,7 +329,6 @@ export async function runGatedClimbRepair(options = {}) {
         let repairedContent;
         try {
           repairedContent = await options.provider.repair(currentContent, fileErrors, options);
-          telemetry.tokensConsumed = options.tokensConsumed ?? telemetry.tokensConsumed;
         } catch (repairErr) {
           rejectionReasons.set(relFile, repairErr.message);
           continue;
@@ -365,17 +338,12 @@ export async function runGatedClimbRepair(options = {}) {
 
         try {
           validateAllowedDiff(origContent, repairedContent, fileErrors);
-          telemetry.fileEditHistory.push({ path: relFile, hash: crypto.createHash('sha256').update(repairedContent).digest('hex') });
-          telemetry.diffHistory.push(repairedContent);
           fs.writeFileSync(canonicalFile, repairedContent, 'utf8');
           modifiedCount++;
         } catch (diffErr) {
           rejectionReasons.set(relFile, diffErr.message);
         }
       }
-
-      tripwire = tripwireReason(telemetry, options.tripwireConfig);
-      if (tripwire) break;
 
       if (modifiedCount === 0) {
         // No modifications could be made, stop retrying
@@ -445,7 +413,6 @@ export async function runGatedClimbRepair(options = {}) {
         fs.rmdirSync(path.join(baseDir, '.tmp-quarantine'));
       } catch {}
 
-      lessonError = null;
       try {
         const errorSummary = finalErrors.length > 0
           ? finalErrors.map(e => e.message || e.rule || JSON.stringify(e)).join('; ')
@@ -455,14 +422,13 @@ export async function runGatedClimbRepair(options = {}) {
           : targetDir;
         generateLessonFromFailure({
           runId,
-          error: tripwire ? (tripwire + ' : ' + errorSummary) : errorSummary,
+          error: errorSummary,
           targetPath: targetPathStr,
           quarantinePath: finalQuarantinePath,
           vaultRoot: baseDir
         });
       } catch (err) {
-        lessonError = err.message || String(err);
-        console.warn(`[GATED-CLIMB] Warning: Failed to generate lesson file for run ${runId}: ${lessonError}`);
+        console.warn(`[GATED-CLIMB] Warning: Failed to generate lesson file for run ${runId}: ${err.message || err}`);
       }
     }
   } finally {

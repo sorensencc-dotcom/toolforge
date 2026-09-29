@@ -19,7 +19,7 @@ This skill executes the end-to-end Topic Research Mining (TRM) research loop: mi
 
 ```mermaid
 flowchart TD
-    A["notebooklm-registry.json (11 Notebooks)"] --> B["1. Live Mining Sweep (schedule-task-wrapper-TRM-Notebooklm-Mine.ps1)"]
+    A["notebooklm-registry.json (12 Notebooks)"] --> B["1. Live Mining Sweep (schedule-task-wrapper-TRM-Notebooklm-Mine.ps1)"]
     B --> C["C:/Users/soren/trm-vault/trm/research-gaps/*.md"]
     C --> D["2. Consolidated Snapshot & WhichLLM Sweep (run-closed-loop-research-v2.mjs)"]
     D --> E["3. Cognitive Gap Triage (query-expander.mjs & trm-triage.mjs)"]
@@ -50,6 +50,7 @@ pwsh.exe -NoProfile -ExecutionPolicy Bypass -File C:\dev\schedule-task-wrapper-T
 - `cic-willow-run-aviation-engineering.md`
 - `cic-post-war-willys-overland.md`
 - `cic-ford-executive-dynamics-politics.md`
+- `cic-research-deltas-living-matrix.md`
 
 ---
 

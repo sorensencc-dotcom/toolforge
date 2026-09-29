@@ -36,7 +36,8 @@ const BOT_ARTIFACTS = {
   watchlistMiner: 'watchlist_miner_report.json',
   daemonHealer: 'daemon_health.json',
   ciWatchdog: 'ci_alerts.json',
-  trmIngress: 'trm_ingress_status.json'
+  trmIngress: 'trm_ingress_status.json',
+  storagePruner: 'storage_pruner_status.json'
 };
 
 export const FLEET_SCORING_POLICY = {
@@ -62,14 +63,30 @@ export const REQUIRED_FLEET_TASKS = [
   'Daemon-Healer',
   'CI-Watchdog',
   'TRM-Drive-Sync',
+  'Storage-Pruner',
   'Ironbots-Reporter'
 ];
 
-export function getHostHeartbeat() {
+let cachedTaskScheduler = null;
+let lastTaskSchedulerFetch = 0;
+const TASK_SCHEDULER_CACHE_TTL_MS = 60000; // 60s cache
+
+export function getHostHeartbeat(options = {}) {
   const uptimeSeconds = Math.floor(os.uptime());
   const hours = Math.floor(uptimeSeconds / 3600);
   const minutes = Math.floor((uptimeSeconds % 3600) / 60);
   const uptimeHuman = `${hours}h ${minutes}m`;
+
+  const now = Date.now();
+  if (cachedTaskScheduler && (now - lastTaskSchedulerFetch < TASK_SCHEDULER_CACHE_TTL_MS) && !options.forceRefresh) {
+    return {
+      hostname: os.hostname(),
+      platform: os.platform(),
+      uptimeSeconds,
+      uptimeHuman,
+      taskScheduler: cachedTaskScheduler
+    };
+  }
 
   let taskScheduler = {
     status: 'UNKNOWN',
@@ -97,7 +114,7 @@ export function getHostHeartbeat() {
         const taskNames = new Set(tasks.map(t => t.name));
         const missing = REQUIRED_FLEET_TASKS.filter(name => !taskNames.has(name) && !(name === 'TRM-Drive-Sync' && taskNames.has('TRM-Ingress-Watcher')));
         taskScheduler = {
-          status: missing.length === 0 && tasks.length >= 8 ? 'HEALTHY' : 'DEGRADED',
+          status: missing.length === 0 && tasks.length >= 9 ? 'HEALTHY' : 'DEGRADED',
           taskCount: tasks.length,
           tasks,
           missingTasks: missing,
@@ -127,6 +144,9 @@ export function getHostHeartbeat() {
       error: 'Running on non-Windows host'
     };
   }
+
+  cachedTaskScheduler = taskScheduler;
+  lastTaskSchedulerFetch = now;
 
   return {
     hostname: os.hostname(),
@@ -214,6 +234,18 @@ export async function aggregateFleetActivity(options = {}) {
       telemetry: results.trmIngress,
       status: results.trmIngress?.status || 'UNKNOWN',
       summary: results.trmIngress?.totalTracked !== undefined ? `${results.trmIngress.totalTracked} action cards tracked (${results.trmIngress.completed || 0} completed, ${results.trmIngress.harnessPending || 0} staged)` : 'No run recorded'
+    },
+    {
+      id: 'storage-pruner',
+      name: 'Storage-Pruner SQLite & Telemetry Compactor',
+      schedule: 'Weekly Sun 03:30 AM',
+      telemetry: results.storagePruner,
+      status: results.storagePruner?.status || 'UNKNOWN',
+      summary: results.storagePruner?.totalFreedFormatted !== undefined ? (
+        results.storagePruner.dryRun
+          ? `Estimated reclaimable: ${results.storagePruner.totalFreedFormatted} (${results.storagePruner.databasesScanned || 0} DBs scanned, dry-run)`
+          : `Reclaimed ${results.storagePruner.totalFreedFormatted} (${results.storagePruner.databasesScanned || 0} DBs vacuumed)`
+      ) : 'No run recorded'
     }
   ];
 

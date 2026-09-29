@@ -2,7 +2,7 @@
 title: "Ironbots Daily Fleet Activity Report"
 category: "reporting"
 status: "active"
-created_at: "2026-09-28"
+created_at: "2026-09-29"
 tags:
   - ironbots
   - daily-report
@@ -12,20 +12,20 @@ tags:
 
 # Ironbots daily fleet activity report
 
-**Date**: 2026-09-28 | **Fleet Health Score**: **73/100** (`DEGRADED`)
+**Date**: 2026-09-29 | **Fleet Health Score**: **96/100** (`HEALTHY`)
 
 ---
 
 ## 1. Fleet executive summary
-- **Active Bots Supervised**: 7 / 7
-- **Host Heartbeat**: `WIN-DTA4V21LKVR` (Uptime: `56h 19m`)
+- **Active Bots Supervised**: 8 / 8
+- **Host Heartbeat**: `WIN-DTA4V21LKVR` (Uptime: `79h 48m`)
 - **Task Scheduler Registry**: `HEALTHY` (9 tasks verified under \`Ironbots\`)
-- **Knowledge Documents Indexed (FTS5)**: 414
-- **Wiki Health Score**: 92/100
+- **Knowledge Documents Indexed (FTS5)**: 441
+- **Wiki Health Score**: 86/100
 - **Total Research Gaps Tracked**: 0
-- **Competitor Drifts Flagged**: 2
+- **Competitor Drifts Flagged**: 0
 - **Daemon Port 8080 Health**: `HEALTHY`
-- **CI Workflow Failures**: 2
+- **CI Workflow Failures**: 0
 
 ---
 
@@ -33,13 +33,14 @@ tags:
 
 | Bot Name | Schedule | Status | Summary |
 |---|---|---|---|
-| **NotebookLM & Knowledge Ingester** | `Daily 02:00 AM` | `HEALTHY` | 414 documents indexed into SQLite FTS5 |
-| **KB-Sentinel Drift & Autoheal** | `Daily 03:00 AM` | `PASS` | Health Score: 92/100 (414 files scanned) |
+| **NotebookLM & Knowledge Ingester** | `Daily 02:00 AM` | `HEALTHY` | 441 documents indexed into SQLite FTS5 |
+| **KB-Sentinel Drift & Autoheal** | `Daily 03:00 AM` | `PASS` | Health Score: 86/100 (420 files scanned) |
 | **TRM Gap Triage & RFC Drafter** | `Daily 04:00 AM` | `PASS` | 0 total gaps (0 drafted) |
-| **Watchlist & Competitor Drift Miner** | `Daily 05:00 AM` | `DRIFT_DETECTED` | 2 targets evaluated (2 drifts) |
+| **Watchlist & Competitor Drift Miner** | `Daily 05:00 AM` | `PASS` | 2 targets evaluated (0 drifts) |
 | **Daemon-Healer Port 8080 Supervisor** | `Every 15 Min` | `HEALTHY` | Port 8080 status: HEALTHY (healed: false) |
-| **CI-Watchdog Workflow Failure Triage** | `Daily 06:00 AM` | `FAILURES_DETECTED` | 10 runs scanned (2 failures) |
-| **TRM-Drive-Sync Ingress Watcher** | `Continuous / On-Demand` | `HEALTHY` | 4 action cards tracked (1 completed, 2 staged) |
+| **CI-Watchdog Workflow Failure Triage** | `Daily 06:00 AM` | `HEALTHY` | 10 runs scanned (0 failures) |
+| **TRM-Drive-Sync Ingress Watcher** | `Continuous / On-Demand` | `HEALTHY` | 9 action cards tracked (2 completed, 1 staged) |
+| **Storage-Pruner SQLite & Telemetry Compactor** | `Weekly Sun 03:30 AM` | `HEALTHY` | Estimated reclaimable: 784.99 KB (6 DBs scanned, dry-run) |
 
 ---
 

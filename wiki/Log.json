@@ -254,5 +254,245 @@
       }
     ],
     "result": "success"
+  },
+  {
+    "timestamp": "2026-09-27T11:46:44.850Z",
+    "action": "daily_mining_run",
+    "actor": "scheduler",
+    "run_id": "RUN-2026-09-27T11-46-25-369Z-1981016e",
+    "duration_seconds": 19.48,
+    "results": [
+      {
+        "category": "willow-run",
+        "status": "dry_run_success",
+        "durationMs": 1660
+      },
+      {
+        "category": "ford-politics",
+        "status": "dry_run_success",
+        "durationMs": 1531
+      },
+      {
+        "category": "post-war",
+        "status": "dry_run_success",
+        "durationMs": 1417
+      },
+      {
+        "category": "cuba-claims",
+        "status": "dry_run_success",
+        "durationMs": 1708
+      },
+      {
+        "category": "miami-estate",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "assembly-line",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "master-kb",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "daily",
+        "status": "dry_run_success",
+        "durationMs": 1757
+      },
+      {
+        "category": "ironledger",
+        "status": "dry_run_success",
+        "durationMs": 1461
+      },
+      {
+        "category": "sigil",
+        "status": "dry_run_success",
+        "durationMs": 1390
+      },
+      {
+        "category": "agent-harness",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "rewrite-labs",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "dev-triage",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "personal-os",
+        "status": "dry_run_success",
+        "durationMs": 1522
+      },
+      {
+        "category": "governance",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "meta",
+        "status": "dry_run_success",
+        "durationMs": 1415
+      },
+      {
+        "category": "modules",
+        "status": "dry_run_success",
+        "durationMs": 1601
+      },
+      {
+        "category": "operations",
+        "status": "dry_run_success",
+        "durationMs": 1435
+      },
+      {
+        "category": "skills",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "superpowers",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "targets",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "research-deltas",
+        "status": "skipped",
+        "reason": "no pack file"
+      }
+    ],
+    "result": "success"
+  },
+  {
+    "timestamp": "2026-09-27T12:11:22.843Z",
+    "action": "daily_mining_run",
+    "actor": "scheduler",
+    "run_id": "RUN-2026-09-27T12-11-04-605Z-221edb94",
+    "duration_seconds": 18.24,
+    "results": [
+      {
+        "category": "willow-run",
+        "status": "dry_run_success",
+        "durationMs": 1840
+      },
+      {
+        "category": "ford-politics",
+        "status": "dry_run_success",
+        "durationMs": 1476
+      },
+      {
+        "category": "post-war",
+        "status": "dry_run_success",
+        "durationMs": 1388
+      },
+      {
+        "category": "cuba-claims",
+        "status": "dry_run_success",
+        "durationMs": 1397
+      },
+      {
+        "category": "miami-estate",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "assembly-line",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "master-kb",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "daily",
+        "status": "dry_run_success",
+        "durationMs": 1372
+      },
+      {
+        "category": "ironledger",
+        "status": "dry_run_success",
+        "durationMs": 1379
+      },
+      {
+        "category": "sigil",
+        "status": "dry_run_success",
+        "durationMs": 1225
+      },
+      {
+        "category": "agent-harness",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "rewrite-labs",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "dev-triage",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "personal-os",
+        "status": "dry_run_success",
+        "durationMs": 1310
+      },
+      {
+        "category": "governance",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "meta",
+        "status": "dry_run_success",
+        "durationMs": 1250
+      },
+      {
+        "category": "modules",
+        "status": "dry_run_success",
+        "durationMs": 1411
+      },
+      {
+        "category": "operations",
+        "status": "dry_run_success",
+        "durationMs": 1631
+      },
+      {
+        "category": "skills",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "superpowers",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "targets",
+        "status": "skipped",
+        "reason": "no pack file"
+      },
+      {
+        "category": "research-deltas",
+        "status": "skipped",
+        "reason": "no pack file"
+      }
+    ],
+    "result": "success"
   }
 ]

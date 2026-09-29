@@ -1,0 +1,133 @@
+{
+  "id": "ironbots-fleet-status-monitor",
+  "name": "Ironbots Fleet Status Monitor",
+  "version": "1.0.0",
+  "description": "Aggregates execution status and live telemetry across all 9 Ironbots fleet tasks, detects runtime errors, and renders unified fleet health summaries.",
+  "type": "operational",
+  "category": "monitoring",
+  "entrypoint": "src/index.ts",
+  "runtime": "node",
+  "timeout": 30000,
+  "docs": "docs/USAGE.md",
+  "triggers": [
+    "fleet:status",
+    "fleet:aggregate"
+  ],
+  "author": "Toolforge Core Team",
+  "license": "MIT",
+
+  "metadata": {
+    "created": "2026-09-27",
+    "author": "Toolforge Core Team",
+    "maintained": true,
+    "tested": true,
+    "tags": ["ironbots", "fleet", "monitoring", "telemetry", "health"],
+    "keywords": ["ironbots", "telemetry", "fleet-status", "health-check", "scheduled-tasks"]
+  },
+
+  "inputs": {
+    "required": [
+      {
+        "name": "action",
+        "type": "string",
+        "description": "Action to perform: status, aggregate, or diagnose",
+        "enum": ["status", "aggregate", "diagnose"]
+      }
+    ],
+    "optional": [
+      {
+        "name": "statusFeedDir",
+        "type": "string",
+        "description": "Path to status feed telemetry directory",
+        "default": "_status-feed"
+      },
+      {
+        "name": "taskFilter",
+        "type": "array",
+        "description": "Optional list of task names to restrict monitoring to"
+      },
+      {
+        "name": "verbose",
+        "type": "boolean",
+        "description": "Enable verbose telemetry output",
+        "default": false
+      }
+    ]
+  },
+
+  "outputs": {
+    "success": {
+      "type": "object",
+      "description": "Fleet status and telemetry report",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "fleetScore": { "type": "number" },
+          "totalTasks": { "type": "number" },
+          "healthyCount": { "type": "number" },
+          "failedCount": { "type": "number" },
+          "tasks": { "type": "array" },
+          "alerts": { "type": "array" },
+          "timestamp": { "type": "string" }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "description": "Error output",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "error": { "type": "string" },
+          "code": { "type": "string" }
+        }
+      }
+    }
+  },
+
+  "permissions": {
+    "required": ["read:repo"],
+    "optional": ["read:logs"],
+    "restrictions": ["delete:permanent"]
+  },
+
+  "integrations": {
+    "toolforge": {
+      "registered": true,
+      "manifestPath": "manifest.json",
+      "docPath": "docs/skills/ironbots-fleet-status-monitor.md"
+    },
+    "cic": {
+      "compatible": false,
+      "adapterPath": null,
+      "registryPath": null
+    },
+    "distributed": {
+      "syncable": true,
+      "distributedPath": "rewrite-mcp/toolforge/skills/ironbots-fleet-status-monitor"
+    }
+  },
+
+  "errorConditions": [
+    {
+      "code": "STATUS_FEED_MISSING",
+      "message": "Telemetry directory not accessible",
+      "handler": "fallback"
+    },
+    {
+      "code": "TASK_NOT_FOUND",
+      "message": "Specified task ID not recognized",
+      "handler": "warn"
+    },
+    {
+      "code": "INVALID_INPUT",
+      "message": "Invalid action or parameters",
+      "handler": "fail"
+    }
+  ],
+
+  "dependencies": {
+    "internal": [],
+    "external": []
+  }
+}

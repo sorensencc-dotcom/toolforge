@@ -4,7 +4,8 @@
  * 
  * Autonomous TRM Gap Triage & RFC Drafter Bot.
  * Scans research gap registry (kb-sync/trm-research-gaps.md), resolves topic citations,
- * drafts structured RFC decision notes, and updates the wiki audit log.
+ * routes gap complexity using Jev WhichLLM, drafts structured RFC decision notes,
+ * and updates the wiki audit log.
  */
 
 import fs from 'node:fs/promises';
@@ -12,6 +13,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { routeTask } from './whichllm-router.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -83,13 +85,20 @@ function parseGaps(content) {
   return gaps;
 }
 
-function generateRfcContent(gap) {
+export function generateRfcContent(gap, routeInfo = null) {
   const timestamp = new Date().toISOString().slice(0, 10);
+  const tier = routeInfo?.tier || 'Tier 2 (Muscle)';
+  const model = routeInfo?.targetModel || 'qwen2.5:7b';
+  const confidence = routeInfo?.confidence !== undefined ? routeInfo.confidence.toFixed(2) : '1.00';
+
   return `---
 title: "RFC: ${gap.gapId} - ${gap.title}"
 category: "research"
 status: "draft"
 created_at: "${timestamp}"
+assigned_tier: "${tier}"
+routed_model: "${model}"
+router_confidence: ${confidence}
 tags:
   - trm-gap
   - rfc
@@ -104,6 +113,7 @@ ${gap.details.replace(/\(Drafted:[^)]+\)/, '').trim()}
 ## 2. Archival & Technical Context
 - **Topic Domain**: ${gap.title}
 - **Source Accession**: Mined from TRM Registry (\`${gap.gapId}\`)
+- **Assigned Resolution Tier**: \`${tier}\` (${model})
 - **Verification Target**: Primary sources, internal ledgers, or historical cross-references.
 
 ## 3. Proposed Resolution Plan
@@ -118,9 +128,12 @@ ${gap.details.replace(/\(Drafted:[^)]+\)/, '').trim()}
 `;
 }
 
-async function runTrmBot() {
+export async function runTrmBot(options = {}) {
   const startTime = Date.now();
-  console.log(`[TRM-Bot] Starting TRM Gap Triage & RFC Drafter... (dry-run: ${isDryRun}, max: ${maxGapsToProcess})`);
+  const dryRun = options.isDryRun !== undefined ? options.isDryRun : isDryRun;
+  const limit = options.limit !== undefined ? options.limit : maxGapsToProcess;
+
+  console.log(`[TRM-Bot] Starting TRM Gap Triage & RFC Drafter... (dry-run: ${dryRun}, max: ${limit})`);
 
   let gapsContent = '';
   try {
@@ -137,8 +150,11 @@ async function runTrmBot() {
 
   console.log(`[TRM-Bot] Registry Status: ${allGaps.length} total gaps (${pendingGaps.length} pending, ${draftedGaps.length} drafted, ${resolvedGaps.length} resolved).`);
 
-  const toProcess = pendingGaps.slice(0, maxGapsToProcess);
+  const toProcess = pendingGaps.slice(0, limit);
   const generatedRfcs = [];
+  let tier1Count = 0;
+  let tier2Count = 0;
+  let totalRoutingMs = 0;
 
   await fs.mkdir(WIKI_RESEARCH_DIR, { recursive: true });
 
@@ -148,19 +164,43 @@ async function runTrmBot() {
     const rfcPath = path.join(WIKI_RESEARCH_DIR, filename);
     const rfcRelPath = path.relative(REPO_ROOT, rfcPath).replace(/\\/g, '/');
 
-    console.log(`  -> Processing [${gap.gapId}] -> ${filename}`);
-
-    if (!isDryRun) {
-      const content = generateRfcContent(gap);
-      await fs.writeFile(rfcPath, content, 'utf8');
-      generatedRfcs.push({ gapId: gap.gapId, file: rfcRelPath, filename });
+    // Route gap through WhichLLM to establish model resolution tier
+    const routeInfo = await routeTask(`${gap.title}: ${gap.details}`);
+    totalRoutingMs += routeInfo.latencyMs || 0;
+    if (routeInfo.tier.includes('Tier 1')) {
+      tier1Count++;
     } else {
-      generatedRfcs.push({ gapId: gap.gapId, file: rfcRelPath, filename, dryRun: true });
+      tier2Count++;
+    }
+
+    console.log(`  -> Processing [${gap.gapId}] -> ${filename} [Route: ${routeInfo.tier} -> ${routeInfo.targetModel}]`);
+
+    if (!dryRun) {
+      const content = generateRfcContent(gap, routeInfo);
+      await fs.writeFile(rfcPath, content, 'utf8');
+      generatedRfcs.push({
+        gapId: gap.gapId,
+        file: rfcRelPath,
+        filename,
+        assignedTier: routeInfo.tier,
+        targetModel: routeInfo.targetModel,
+        confidence: routeInfo.confidence
+      });
+    } else {
+      generatedRfcs.push({
+        gapId: gap.gapId,
+        file: rfcRelPath,
+        filename,
+        assignedTier: routeInfo.tier,
+        targetModel: routeInfo.targetModel,
+        confidence: routeInfo.confidence,
+        dryRun: true
+      });
     }
   }
 
   // Update registry status and audit log if changes were made
-  if (!isDryRun && generatedRfcs.length > 0) {
+  if (!dryRun && generatedRfcs.length > 0) {
     let updatedGapsContent = gapsContent;
     for (const rfc of generatedRfcs) {
       const targetPattern = new RegExp(`^- \\[ \\]\\s+\\[${rfc.gapId}\\](.*)$`, 'm');
@@ -179,7 +219,7 @@ async function runTrmBot() {
     const now = new Date();
     const dateStr = now.toISOString().replace('T', ' ').slice(0, 16);
     const logEntry = `\n## [${dateStr}] trm-bot-gap-triage\n\n- Provider: \`trm-bot-runner\` (\`v1.0.0\`)\n- Gaps Triaged: ${generatedRfcs.length}\n- Created RFC Decision Notes:\n` +
-      generatedRfcs.map(r => `  - \`${r.file}\` (${r.gapId})`).join('\n') + '\n';
+      generatedRfcs.map(r => `  - \`${r.file}\` (${r.gapId} -> ${r.assignedTier})`).join('\n') + '\n';
 
     try {
       await fs.appendFile(WIKI_LOG_FILE, logEntry, 'utf8');
@@ -190,6 +230,8 @@ async function runTrmBot() {
   }
 
   const elapsedMs = Date.now() - startTime;
+  const avgRoutingLatencyMs = toProcess.length > 0 ? parseFloat((totalRoutingMs / toProcess.length).toFixed(1)) : 0;
+
   const report = {
     timestamp: new Date().toISOString(),
     elapsedMs,
@@ -198,8 +240,13 @@ async function runTrmBot() {
     drafted: draftedGaps.length,
     resolved: resolvedGaps.length,
     triagedCount: generatedRfcs.length,
+    routing: {
+      tier1Count,
+      tier2Count,
+      avgRoutingLatencyMs
+    },
     generatedRfcs,
-    dryRun: isDryRun
+    dryRun
   };
 
   await fs.mkdir(path.dirname(REPORT_PATH), { recursive: true });
@@ -211,7 +258,9 @@ async function runTrmBot() {
   return report;
 }
 
-runTrmBot().catch(err => {
-  console.error(`[TRM-Bot FATAL] ${err.stack || err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  runTrmBot().catch(err => {
+    console.error(`[TRM-Bot FATAL] ${err.stack || err.message}`);
+    process.exit(1);
+  });
+}

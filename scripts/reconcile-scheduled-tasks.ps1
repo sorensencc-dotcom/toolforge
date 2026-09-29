@@ -67,7 +67,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "02:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\notebook-ingester-bot.mjs 1>> '$RepoRoot\logs\notebook-ingester-bot.stdout.log' 2>> '$RepoRoot\logs\notebook-ingester-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\notebook-ingester-bot.mjs 1>> '$RepoRoot\logs\notebook-ingester-bot.stdout.log' 2>> '$RepoRoot\logs\notebook-ingester-bot.stderr.log'`""
     },
     @{
         TaskName = "KB-Sentinel"
@@ -77,7 +77,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "03:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\kb-sentinel-bot.mjs 1>> '$RepoRoot\logs\kb-sentinel-bot.stdout.log' 2>> '$RepoRoot\logs\kb-sentinel-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\kb-sentinel-bot.mjs 1>> '$RepoRoot\logs\kb-sentinel-bot.stdout.log' 2>> '$RepoRoot\logs\kb-sentinel-bot.stderr.log'`""
     },
     @{
         TaskName = "TRM-Bot"
@@ -87,7 +87,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "04:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\trm-bot-runner.mjs 1>> '$RepoRoot\logs\trm-bot-runner.stdout.log' 2>> '$RepoRoot\logs\trm-bot-runner.stderr.log'`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\trm-bot-runner.mjs 1>> '$RepoRoot\logs\trm-bot-runner.stdout.log' 2>> '$RepoRoot\logs\trm-bot-runner.stderr.log'`""
     },
     @{
         TaskName = "Watchlist-Miner"
@@ -97,7 +97,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "05:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\watchlist-miner-bot.mjs 1>> '$RepoRoot\logs\watchlist-miner-bot.stdout.log' 2>> '$RepoRoot\logs\watchlist-miner-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\watchlist-miner-bot.mjs 1>> '$RepoRoot\logs\watchlist-miner-bot.stdout.log' 2>> '$RepoRoot\logs\watchlist-miner-bot.stderr.log'`""
     },
     @{
         TaskName = "Daemon-Healer"
@@ -107,7 +107,7 @@ $TaskDefinitions = @(
         TriggerType = "Repeating"
         RepetitionInterval = (New-TimeSpan -Minutes 15)
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\daemon-healer-bot.mjs 1>> '$RepoRoot\logs\daemon-healer-bot.stdout.log' 2>> '$RepoRoot\logs\daemon-healer-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\daemon-healer-bot.mjs 1>> '$RepoRoot\logs\daemon-healer-bot.stdout.log' 2>> '$RepoRoot\logs\daemon-healer-bot.stderr.log'`""
     },
     @{
         TaskName = "CI-Watchdog"
@@ -117,7 +117,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "06:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\ci-watchdog-bot.mjs 1>> '$RepoRoot\logs\ci-watchdog-bot.stdout.log' 2>> '$RepoRoot\logs\ci-watchdog-bot.stderr.log'`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\ci-watchdog-bot.mjs 1>> '$RepoRoot\logs\ci-watchdog-bot.stdout.log' 2>> '$RepoRoot\logs\ci-watchdog-bot.stderr.log'`""
     },
     @{
         TaskName = "Ironbots-Reporter"
@@ -127,7 +127,26 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "06:30"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\ironbots-daily-reporter.mjs 1>> '$RepoRoot\logs\ironbots-reporter.stdout.log' 2>> '$RepoRoot\logs\ironbots-reporter.stderr.log'`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\ironbots-daily-reporter.mjs 1>> '$RepoRoot\logs\ironbots-reporter.stdout.log' 2>> '$RepoRoot\logs\ironbots-reporter.stderr.log'`""
+    },
+    @{
+        TaskName = "Storage-Pruner"
+        Category = "\Ironbots\"
+        Description = "Ironbots: Storage bloat pruner and atomic log compactor."
+        TriggerType = "Weekly"
+        TriggerDay = "Saturday"
+        TriggerTime = "03:30"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\storage-pruner.mjs 1>> '$RepoRoot\logs\storage-pruner.stdout.log' 2>> '$RepoRoot\logs\storage-pruner.stderr.log'`""
+    },
+    @{
+        TaskName = "TRM-Drive-Sync"
+        Category = "\Ironbots\"
+        Description = "Ironbots: TRM Google Drive transport and findings ingestion sync."
+        TriggerType = "Repeating"
+        RepetitionInterval = (New-TimeSpan -Hours 4)
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-TRM-Drive-Sync.ps1`""
     },
 
     # --- \toolforge\ Tasks ---
@@ -139,7 +158,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "06:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\daily-report-agent.ps1`" -RepoRoot `"$RepoRoot`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\daily-report-agent.ps1`" -RepoRoot `"$RepoRoot`""
     },
     @{
         TaskName = "toolforge-retro-audit-agent"
@@ -149,7 +168,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "04:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\retro-audit-agent.ps1`" -RepoRoot `"$RepoRoot`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\retro-audit-agent.ps1`" -RepoRoot `"$RepoRoot`""
     },
     @{
         TaskName = "toolforge-weekly-report-agent"
@@ -161,7 +180,7 @@ $TaskDefinitions = @(
         TriggerDay = "Sunday"
         TriggerTime = "18:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"C:\dev\scripts\run-weekly-retro.ps1`" -RepoRoot `"C:\dev`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"C:\dev\scripts\run-weekly-retro.ps1`" -RepoRoot `"C:\dev`""
     },
     @{
         TaskName = "Toolforge-CI-Nightly"
@@ -171,7 +190,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "01:00"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -File `"C:\dev\ci-pipeline.ps1`" -Verbose"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -File `"C:\dev\ci-pipeline.ps1`" -Verbose"
     },
     @{
         TaskName = "Toolforge-Drift-Detector"
@@ -182,7 +201,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "02:30"
         ActionExe = "powershell.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"`& 'C:\dev\utilities\toolforgeDriftDetector.ps1' -AutoFix; exit 0`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"`& 'C:\dev\utilities\toolforgeDriftDetector.ps1' -AutoFix; exit 0`""
     },
     @{
         TaskName = "Daily-Roadmap-Sync"
@@ -193,7 +212,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "07:00"
         ActionExe = "node.exe"
-        ActionArgs = "C:\dev\tools\multiRepoRoadmapSync.cjs"
+        ActionArgs = "C:\dev\sync-tools\multiRepoRoadmapSync.cjs"
     },
 
     # --- \CIC\ Tasks ---
@@ -236,7 +255,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "01:30"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"C:\dev\scripts\run-daily-notebook-mining.ps1`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"C:\dev\scripts\run-daily-notebook-mining.ps1`""
     },
 
     # --- \TRM\ Tasks ---
@@ -244,16 +263,28 @@ $TaskDefinitions = @(
         TaskName = "toolforge-trm-sync-treatment"
         Category = "\TRM\"
         Description = "TRM: Sync treatment pipeline."
+        TriggerType = "Daily"
+        TriggerTime = "06:30"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\trm-sync-treatment-agent.ps1`""
     },
     @{
         TaskName = "TRM-Notebooklm-Chat-Archive"
         Category = "\TRM\"
         Description = "TRM: NotebookLM chat archive extractor."
+        TriggerType = "Daily"
+        TriggerTime = "20:00"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\trm\schedule-task-wrapper-TRM-Notebooklm-Chat-Archive.ps1`""
     },
     @{
         TaskName = "TRM-Notebooklm-Mine"
         Category = "\TRM\"
         Description = "TRM: NotebookLM miner."
+        TriggerType = "Daily"
+        TriggerTime = "06:00"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\trm\schedule-task-wrapper-TRM-Notebooklm-Mine.ps1`""
     },
     @{
         TaskName = "CIC-TRM-ClosedLoop-Nightly-Miner"
@@ -263,7 +294,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "03:30"
         ActionExe = "pwsh.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"node scripts/run-sibling-check-v2.mjs --mode=check; node scripts/consolidate-pack.mjs --category=willow-run *>> 'C:\dev\logs\trm-miner-scheduled.log'`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"node scripts/run-sibling-check-v2.mjs --mode=check; node scripts/consolidate-pack.mjs --category=willow-run *>> 'C:\dev\logs\trm-miner-scheduled.log'`""
     },
 
     # --- \KB-SYNC\ Tasks ---
@@ -271,11 +302,19 @@ $TaskDefinitions = @(
         TaskName = "KB-Sync-Master-Pipeline"
         Category = "\KB-SYNC\"
         Description = "KB-Sync: Master synchronization pipeline."
+        TriggerType = "Daily"
+        TriggerTime = "20:00"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-KB-Sync-Master.ps1`""
     },
     @{
         TaskName = "KB-Sync-TRM-Triage"
         Category = "\KB-SYNC\"
         Description = "KB-Sync: TRM triage ingestion pipeline."
+        TriggerType = "Daily"
+        TriggerTime = "20:30"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-TRM-Triage.ps1`""
     },
     @{
         TaskName = "KB-Sync-Dashboard-Server"
@@ -284,7 +323,7 @@ $TaskDefinitions = @(
         Description = "KB-Sync: Dashboard server supervisor."
         TriggerType = "Logon"
         ActionExe = "powershell.exe"
-        ActionArgs = "-NoProfile -ExecutionPolicy Bypass -File `"C:\dev\kb-sync\scripts\ensure-dashboard-server.ps1`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"C:\dev\kb-sync\scripts\ensure-dashboard-server.ps1`""
     },
 
     # --- Subsystem Daemons ---
@@ -314,7 +353,7 @@ $TaskDefinitions = @(
         TriggerType = "Daily"
         TriggerTime = "00:00"
         ActionExe = "powershell.exe"
-        ActionArgs = "-File `"C:\Users\soren\rewritelabs.io\backup\backup.ps1`""
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -File `"C:\Users\soren\rewritelabs.io\backup\backup.ps1`""
     },
     @{
         TaskName = "cua-driver-serve"
@@ -333,7 +372,9 @@ $ObsoleteTasks = @(
     @{ TaskName = "ICF-Dashboard-Server"; TaskPath = "\" },
     @{ TaskName = "ToolforgeWeeklyRetro"; TaskPath = "\" },
     @{ TaskName = "Toolforge Drift Detector"; TaskPath = "\" },
-    @{ TaskName = "Daily Roadmap Sync"; TaskPath = "\" }
+    @{ TaskName = "ToolforgeTrendingRefresh"; TaskPath = "\" },
+    @{ TaskName = "Daily Roadmap Sync"; TaskPath = "\" },
+    @{ TaskName = "CIC-TRM-ClosedLoop-Nightly-Miner"; TaskPath = "\" }
 )
 
 $isAdmin = Test-IsAdministrator

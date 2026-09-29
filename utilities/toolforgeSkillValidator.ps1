@@ -63,7 +63,8 @@ function Write-IfChanged {
 }
 
 # Paths
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Join-Path (Get-Location).Path "utilities" }
+$repoRoot = (Resolve-Path (Join-Path $scriptRoot "..")).Path
 $CANONICAL_SKILLS = Join-Path $repoRoot "skills"
 $DISTRIBUTED_SKILLS = "C:\dev\rewrite-mcp\toolforge\skills"
 $MANIFEST_FILE = Join-Path $repoRoot "manifest.json"
@@ -125,7 +126,7 @@ function Test-CanonicalSkills {
     return
   }
 
-  $skillDirs = Get-ChildItem -Path $CANONICAL_SKILLS -Directory -Exclude "_TEMPLATE"
+  $skillDirs = Get-ChildItem -Path $CANONICAL_SKILLS -Directory -Exclude "_TEMPLATE" | Sort-Object Name
   $seenIds = @{}
   $seenNames = @{}
 
@@ -274,7 +275,7 @@ function Test-DistributedSync {
     return
   }
 
-  foreach ($skillId in $validation.skills.Keys) {
+  foreach ($skillId in ($validation.skills.Keys | Sort-Object)) {
     $canonicalPath = Join-Path $CANONICAL_SKILLS $skillId
     $distributedPath = Join-Path $DISTRIBUTED_SKILLS $skillId
 
@@ -361,7 +362,7 @@ function Test-ManifestConsistency {
   # Validate each manifest entry
   $manifestIds = @{}
 
-  foreach ($entry in $manifest.skills) {
+  foreach ($entry in ($manifest.skills | Sort-Object -Property id)) {
     if (-not $entry.id) {
       Add-Finding "manifest" "unknown" "error" "Manifest entry missing id"
       continue
@@ -475,7 +476,7 @@ function Test-CoworkRegistration {
 
     Log "Found $($registeredIds.Count) registered skills in Cowork"
 
-    foreach ($skillId in $validation.skills.Keys) {
+    foreach ($skillId in ($validation.skills.Keys | Sort-Object)) {
       if ($registeredIds -contains $skillId) {
         $validation.skills[$skillId].cowork = $true
         Add-Finding "cowork" $skillId "info" "Registered"
@@ -503,7 +504,7 @@ function Test-RuntimeDiscovery {
     return
   }
 
-  $skillDirs = Get-ChildItem -Path $CANONICAL_SKILLS -Directory -Exclude "_TEMPLATE"
+  $skillDirs = Get-ChildItem -Path $CANONICAL_SKILLS -Directory -Exclude "_TEMPLATE" | Sort-Object Name
 
   foreach ($dir in $skillDirs) {
     $skillId = $dir.Name
@@ -566,7 +567,7 @@ function Build-DependencyGraph {
   }
 
   # Initialize adjacency list
-  foreach ($skillId in $validation.skills.Keys) {
+  foreach ($skillId in ($validation.skills.Keys | Sort-Object)) {
     $graph.adjacency[$skillId] = @{
       internal = @()
       external = @()
@@ -574,7 +575,7 @@ function Build-DependencyGraph {
   }
 
   # Build graph from canonical SKILL.json files
-  foreach ($skillId in $validation.skills.Keys) {
+  foreach ($skillId in ($validation.skills.Keys | Sort-Object)) {
     $skillPath = Join-Path $CANONICAL_SKILLS $skillId
     $skillJsonPath = Join-Path $skillPath "SKILL.json"
 
@@ -588,7 +589,7 @@ function Build-DependencyGraph {
       if ($skillJson.dependencies) {
         # Internal dependencies
         if ($skillJson.dependencies.internal) {
-          foreach ($dep in $skillJson.dependencies.internal) {
+          foreach ($dep in ($skillJson.dependencies.internal | Sort-Object)) {
             $graph.adjacency[$skillId].internal += $dep
 
             if (-not $validation.skills[$dep]) {
@@ -600,7 +601,7 @@ function Build-DependencyGraph {
 
         # External dependencies
         if ($skillJson.dependencies.external) {
-          foreach ($dep in $skillJson.dependencies.external) {
+          foreach ($dep in ($skillJson.dependencies.external | Sort-Object)) {
             $graph.adjacency[$skillId].external += $dep
             if (-not ($graph.externalDeps -contains $dep)) {
               $graph.externalDeps += $dep
@@ -645,7 +646,7 @@ function Find-Cycles {
     $recursionStack[$Node] = $true
     $Path += $Node
 
-    foreach ($neighbor in $Graph.adjacency[$Node].internal) {
+    foreach ($neighbor in ($Graph.adjacency[$Node].internal | Sort-Object)) {
       if (-not $visited[$neighbor]) {
         $result = DFS $neighbor $Path
         if ($result) {
@@ -663,13 +664,13 @@ function Find-Cycles {
   }
 
   # Initialize visited
-  foreach ($skillId in $Graph.adjacency.Keys) {
+  foreach ($skillId in ($Graph.adjacency.Keys | Sort-Object)) {
     $visited[$skillId] = $true
     $recursionStack[$skillId] = $false
   }
 
   # Run DFS from each unvisited node
-  foreach ($skillId in $Graph.adjacency.Keys) {
+  foreach ($skillId in ($Graph.adjacency.Keys | Sort-Object)) {
     if ($visited[$skillId]) {
       $cycle = DFS $skillId @()
       if ($cycle) {
@@ -697,7 +698,7 @@ function Get-DependencyDepth {
     $visited[$Node] = $true
     $maxDepth = 0
 
-    foreach ($neighbor in $Graph.adjacency[$Node].internal) {
+    foreach ($neighbor in ($Graph.adjacency[$Node].internal | Sort-Object)) {
       $neighborDepth = ComputeDepth $neighbor
       $maxDepth = [Math]::Max($maxDepth, $neighborDepth + 1)
     }
@@ -706,7 +707,7 @@ function Get-DependencyDepth {
     return $maxDepth
   }
 
-  foreach ($skillId in $Graph.adjacency.Keys) {
+  foreach ($skillId in ($Graph.adjacency.Keys | Sort-Object)) {
     if (-not $visited[$skillId]) {
       [void](ComputeDepth $skillId)
     }
@@ -734,7 +735,7 @@ function Test-DependencyConsistency {
   }
 
   # Check each skill's dependencies in manifest
-  foreach ($entry in $manifest.skills) {
+  foreach ($entry in ($manifest.skills | Sort-Object -Property id)) {
     $skillId = $entry.id
     $canonicalDeps = $Graph.adjacency[$skillId]
 
@@ -810,7 +811,7 @@ function Test-AuditLogs {
 
     Log "Found $($auditMatches.Count) skill executions in audit log"
 
-    foreach ($skillId in $loggedSkills.Keys) {
+    foreach ($skillId in ($loggedSkills.Keys | Sort-Object)) {
       if ($validation.skills[$skillId]) {
         Add-Finding "audit" $skillId "info" "Executed $($loggedSkills[$skillId]) time(s)"
       } else {
@@ -860,7 +861,7 @@ function Write-DependencyGraphReport {
 
     if ($internal.Count -gt 0) {
       $report += "**Internal Dependencies:**`n"
-      foreach ($dep in $internal) {
+      foreach ($dep in ($internal | Sort-Object)) {
         $report += "- $dep`n"
       }
       $report += "`n"
@@ -870,7 +871,7 @@ function Write-DependencyGraphReport {
 
     if ($external.Count -gt 0) {
       $report += "**External Dependencies:**`n"
-      foreach ($dep in $external) {
+      foreach ($dep in ($external | Sort-Object)) {
         $report += "- $dep`n"
       }
       $report += "`n"
@@ -886,7 +887,7 @@ function Write-DependencyGraphReport {
   $report += "| Skill | Depth | Dependencies |`n"
   $report += "|-------|-------|--------------|`n"
 
-  foreach ($skillId in ($Depths.Keys | Sort-Object)) {
+  foreach ($skillId in ($Depths.Keys | Sort-Object @{ Expression = { $Depths[$_] }; Descending = $true }, @{ Expression = { [string]$_ }; Descending = $false })) {
     $depth = $Depths[$skillId]
     $depCount = $Graph.adjacency[$skillId].internal.Count + $Graph.adjacency[$skillId].external.Count
     $report += "| $skillId | $depth | $depCount |`n"
@@ -897,7 +898,7 @@ function Write-DependencyGraphReport {
   # Missing dependencies
   if ($Graph.missingInternal.Count -gt 0) {
     $report += "## Missing Internal Dependencies`n`n"
-    foreach ($missing in $Graph.missingInternal) {
+    foreach ($missing in ($Graph.missingInternal | Sort-Object -Property skill, dependency)) {
       $report += "❌ **$($missing.skill)** → `$($missing.dependency)` (not found in canonical)`n"
     }
     $report += "`n---`n`n"
@@ -905,7 +906,7 @@ function Write-DependencyGraphReport {
 
   if ($Graph.missingExternal.Count -gt 0) {
     $report += "## Missing External Dependencies`n`n"
-    foreach ($missing in $Graph.missingExternal) {
+    foreach ($missing in ($Graph.missingExternal | Sort-Object -Property skill, dependency)) {
       $report += "⚠️  **$($missing.skill)** → `$($missing.dependency)` (not found in tools/daemons/adapters)`n"
     }
     $report += "`n---`n`n"
@@ -994,7 +995,7 @@ function New-ValidationReport {
     if ($findings.Count -gt 0) {
       $report += "## $([System.Globalization.CultureInfo]::InvariantCulture.TextInfo.ToTitleCase($domain)) Validation`n`n"
 
-      foreach ($finding in $findings | Sort-Object -Property skill) {
+      foreach ($finding in ($findings | Sort-Object -Property skill, message, level)) {
         $emoji = switch ($finding.level) {
           "error" { "❌" }
           "warning" { "⚠️" }
@@ -1120,7 +1121,7 @@ if ($cycles.Count -gt 0) {
 $depths = Get-DependencyDepth $validation.graph
 
 # Check for orphans
-foreach ($skillId in $validation.graph.adjacency.Keys) {
+foreach ($skillId in ($validation.graph.adjacency.Keys | Sort-Object)) {
   if ($depths[$skillId] -lt 0) {
     Add-Finding "dependencies" $skillId "warning" "Orphan skill (unreachable from graph)"
   }

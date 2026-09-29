@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-09-29T02:28:54.120Z",
+  "dryRun": true,
+  "elapsedMs": 13,
+  "totalFreedBytes": 803831,
+  "totalFreedFormatted": "784.99 KB",
+  "databasesScanned": 6,
+  "databaseResults": [
+    {
+      "dbPath": "C:\\dev\\.kb_cache\\knowledge.db",
+      "sizeBefore": 921600,
+      "sizeAfter": 921600,
+      "bytesSaved": 0,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "dbPath": "C:\\dev\\.kb_cache\\knowledge_fts5.db",
+      "sizeBefore": 271388672,
+      "sizeAfter": 271388672,
+      "bytesSaved": 0,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "dbPath": "C:\\dev\\icf\\.kb_cache\\knowledge.db",
+      "sizeBefore": 61440,
+      "sizeAfter": 61440,
+      "bytesSaved": 0,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "dbPath": "C:\\dev\\.ijfw\\index\\compute.db",
+      "sizeBefore": 151552,
+      "sizeAfter": 151552,
+      "bytesSaved": 0,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "dbPath": "C:\\dev\\.ijfw\\index\\memory.db",
+      "sizeBefore": 143360,
+      "sizeAfter": 143360,
+      "bytesSaved": 0,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "dbPath": "C:\\dev\\.icf-retros\\weekly\\snapshots.sqlite",
+      "sizeBefore": 688128,
+      "sizeAfter": 688128,
+      "bytesSaved": 0,
+      "status": "SKIPPED_DRY_RUN"
+    }
+  ],
+  "telemetryCompactedCount": 5,
+  "telemetryResults": [
+    {
+      "file": "_status-feed/trm_history/2026-09-20.json",
+      "sizeBefore": 234307,
+      "sizeAfter": 35146,
+      "bytesSaved": 199161,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "file": "_status-feed/trm_history/2026-09-21.json",
+      "sizeBefore": 234324,
+      "sizeAfter": 35148,
+      "bytesSaved": 199176,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "file": "_status-feed/ironbots_history/2026-09-21.json",
+      "sizeBefore": 8420,
+      "sizeAfter": 1263,
+      "bytesSaved": 7157,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "file": "icf/dashboard/trm_history/2026-09-20.json",
+      "sizeBefore": 234307,
+      "sizeAfter": 35146,
+      "bytesSaved": 199161,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "file": "icf/dashboard/trm_history/2026-09-21.json",
+      "sizeBefore": 234324,
+      "sizeAfter": 35148,
+      "bytesSaved": 199176,
+      "status": "SKIPPED_DRY_RUN"
+    }
+  ],
+  "harnessTasksPrunedCount": 0,
+  "harnessResults": [],
+  "status": "HEALTHY"
+}

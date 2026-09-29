@@ -271,8 +271,10 @@ async function saveReport(reportDir, results) {
     }
 }
 async function main() {
-    const webhook = process.env.SLACK_WEBHOOK_URL || "https://hooks.slack.com/services/PLACEHOLDER";
-    const registryPath = node_path_1.default.join(process.cwd(), "repo-registry.json");
+    const webhook = process.env.SLACK_WEBHOOK_URL || "";
+    const cwdRegistry = node_path_1.default.join(process.cwd(), "repo-registry.json");
+    const dirnameRegistry = node_path_1.default.join(__dirname, "repo-registry.json");
+    const registryPath = node_fs_1.default.existsSync(cwdRegistry) ? cwdRegistry : dirnameRegistry;
     if (!node_fs_1.default.existsSync(registryPath)) {
         console.error(`Registry not found at ${registryPath}`);
         process.exit(1);

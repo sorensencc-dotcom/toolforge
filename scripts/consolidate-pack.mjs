@@ -183,6 +183,7 @@ export function consolidatePacks(options = {}) {
   function walk(dir) {
     if (!fs.existsSync(dir)) return;
     const IGNORED_DIRS = new Set(['node_modules', '.git', '_archive', 'archive', 'dist', 'build', '.cache', '.tmp', 'coverage', '_kb-sync-staging']);
+    const IGNORED_FILES = new Set(['log.md']);
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
@@ -190,7 +191,9 @@ export function consolidatePacks(options = {}) {
           walk(full);
         }
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
-        candidateFiles.push(full);
+        if (!IGNORED_FILES.has(entry.name.toLowerCase())) {
+          candidateFiles.push(full);
+        }
       }
     }
   }

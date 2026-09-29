@@ -20,11 +20,14 @@ import { execSync } from 'node:child_process';
 const REPO_ROOT = path.resolve('c:/dev');
 const GDRIVE_ROOT = 'G:/My Drive/TRM-Research';
 const GDRIVE_INBOX = path.join(GDRIVE_ROOT, 'mobile-inbox');
+const GDRIVE_OUTBOX = path.join(GDRIVE_ROOT, 'mobile-outbox');
 const GDRIVE_ARCHIVE = path.join(GDRIVE_ROOT, '04_archive/mobile-inbox');
 
 const LOCAL_INBOX_ROOT = path.resolve(process.env.TRM_DRIVE || path.join(REPO_ROOT, 'trm-drive/inbox'));
 const LOCAL_INBOX_DIR = path.join(LOCAL_INBOX_ROOT, 'triage');
+const LOCAL_OUTBOX_DIR = path.join(LOCAL_INBOX_ROOT, 'outbox');
 const LOCAL_DOT_TRM_INBOX = path.join(REPO_ROOT, '.trm/inbox/triage');
+const LOCAL_DOT_TRM_OUTBOX = path.join(REPO_ROOT, '.trm/inbox/outbox');
 
 const COMPLETED_DIR = path.join(LOCAL_INBOX_ROOT, 'completed');
 const QUARANTINE_DIR = path.join(LOCAL_INBOX_ROOT, 'quarantine');
@@ -33,6 +36,11 @@ const LEDGER_JSONL = path.join(LOCAL_INBOX_ROOT, 'ledger.jsonl');
 const LEDGER_MD = path.join(LOCAL_INBOX_ROOT, 'LEDGER.md');
 const STATUS_FEED_DIR = path.resolve(path.join(REPO_ROOT, '_status-feed'));
 const STATUS_FEED_JSON = path.join(STATUS_FEED_DIR, 'trm_ingress_status.json');
+
+const args = process.argv.slice(2);
+const isDryRun = args.includes('--dry-run');
+const isOnce = args.includes('--once') || isDryRun;
+const isStatus = args.includes('--status');
 
 // Discover all active inbox directories
 export function getActiveInboxDirs() {
@@ -43,8 +51,19 @@ export function getActiveInboxDirs() {
   return dirs;
 }
 
+// Discover all active mobile outbox directories
+export function getActiveOutboxDirs() {
+  const dirs = [];
+  if (fs.existsSync(GDRIVE_ROOT)) {
+    dirs.push(GDRIVE_OUTBOX);
+  }
+  dirs.push(LOCAL_OUTBOX_DIR);
+  dirs.push(LOCAL_DOT_TRM_OUTBOX);
+  return dirs;
+}
+
 // Ensure required directories exist
-for (const dir of [LOCAL_INBOX_DIR, LOCAL_DOT_TRM_INBOX, COMPLETED_DIR, QUARANTINE_DIR, HARNESS_PENDING_DIR, STATUS_FEED_DIR]) {
+for (const dir of [LOCAL_INBOX_DIR, LOCAL_OUTBOX_DIR, LOCAL_DOT_TRM_INBOX, LOCAL_DOT_TRM_OUTBOX, COMPLETED_DIR, QUARANTINE_DIR, HARNESS_PENDING_DIR, STATUS_FEED_DIR]) {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -63,10 +82,43 @@ export function safeMoveFile(src, dest) {
       fs.unlinkSync(src);
       return true;
     } catch (copyErr) {
+      if (src.endsWith('.gdoc')) {
+        try {
+          fs.writeFileSync(dest, `{"archived_gdoc": "${path.basename(src)}", "archived_at": "${new Date().toISOString()}"}`, 'utf8');
+          fs.unlinkSync(src);
+          return true;
+        } catch {}
+      }
       console.error(`[TRM-INGRESS] Failed to move ${src} -> ${dest}:`, copyErr.message);
       return false;
     }
   }
+}
+
+export function cleanupCompanionFiles(filePath, isFromGDrive) {
+  try {
+    const dir = path.dirname(filePath);
+    const base = path.basename(filePath);
+    const stem = base.replace(/\.(json|md)$/i, '');
+    const dateMatch = base.match(/^(\d{4}-\d{2}-\d{2}T\d{6}Z)/);
+    const datePrefix = dateMatch ? dateMatch[1] : null;
+
+    if (!fs.existsSync(dir)) return;
+    const siblings = fs.readdirSync(dir);
+    for (const sib of siblings) {
+      if (sib === base) continue;
+      const isMatch = (sib.startsWith(stem) && sib.endsWith('.gdoc')) ||
+                      (datePrefix && sib.startsWith(datePrefix) && sib.endsWith('.gdoc'));
+      if (isMatch) {
+        const fullSib = path.join(dir, sib);
+        if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
+          safeMoveFile(fullSib, path.join(GDRIVE_ARCHIVE, sib));
+        } else {
+          try { fs.unlinkSync(fullSib); } catch {}
+        }
+      }
+    }
+  } catch {}
 }
 
 export function parsePayload(raw, ext) {
@@ -200,7 +252,8 @@ export function refreshLedgerMarkdown() {
   emitIcfStatusFeed(rows);
 }
 
-export function emitIcfStatusFeed(rows = null) {
+export function emitIcfStatusFeed(rows = null, options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
   if (!rows && fs.existsSync(LEDGER_JSONL)) {
     const lines = fs.readFileSync(LEDGER_JSONL, 'utf8').trim().split('\n').filter(Boolean);
     rows = lines.map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
@@ -218,6 +271,7 @@ export function emitIcfStatusFeed(rows = null) {
   const telemetry = {
     timestamp: new Date().toISOString(),
     status: quarantinedCount > 0 ? 'ATTENTION' : 'HEALTHY',
+    dryRun,
     triageQueue: triageCount,
     completed: completedCount,
     quarantined: quarantinedCount,
@@ -230,42 +284,118 @@ export function emitIcfStatusFeed(rows = null) {
   fs.writeFileSync(STATUS_FEED_JSON, JSON.stringify(telemetry, null, 2), 'utf8');
 }
 
-export function processFile(filePath) {
-  if (!fs.existsSync(filePath)) return;
+/**
+ * Dispatch structured action receipt to active mobile outbox channels.
+ */
+export function dispatchMobileReceipt(item, result = {}, options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
+  const receiptId = `rcpt-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+  const outboxes = getActiveOutboxDirs();
+  const receipt = {
+    receipt_id: receiptId,
+    action_id: item.id || 'N/A',
+    source: item.source || 'mobile',
+    intent: item.intent || 'unknown',
+    action_type: item.action_type || 'unknown',
+    status: result.status || 'COMPLETED',
+    summary: item.summary || item.context?.summary || '',
+    issue_url: result.issue_url || item.issue_url || null,
+    target_notebook: item.target_notebook_name || item.target_notebook || null,
+    dispatched_at: new Date().toISOString(),
+    duration_ms: result.duration_ms || 0,
+    error: result.error || null,
+    execution_details: result.details || null,
+    dryRun
+  };
+
+  const safeIntent = (item.intent || 'action').replace(/[^a-zA-Z0-9_\-]/g, '_');
+  const fileNameJson = `receipt-${Date.now()}-${safeIntent}.json`;
+  const fileNameMd = `receipt-${Date.now()}-${safeIntent}.md`;
+
+  const mdContent = `# Action Receipt: \`${receipt.receipt_id}\`\n\n` +
+    `- **Original Action ID**: \`${receipt.action_id}\`\n` +
+    `- **Status**: \`${receipt.status}\`\n` +
+    `- **Intent**: \`${receipt.intent}\`\n` +
+    `- **Source**: \`${receipt.source}\`\n` +
+    `- **Dispatched At**: \`${receipt.dispatched_at}\`\n` +
+    `- **Duration**: \`${receipt.duration_ms}ms\`\n` +
+    (receipt.issue_url ? `- **Tracking Issue**: [${receipt.issue_url}](${receipt.issue_url})\n` : '') +
+    (receipt.error ? `- **Error**: \`${receipt.error}\`\n` : '') +
+    `\n### Summary\n${receipt.summary || 'No summary provided.'}\n`;
+
+  if (!dryRun) {
+    for (const outbox of outboxes) {
+      try {
+        fs.mkdirSync(outbox, { recursive: true });
+        fs.writeFileSync(path.join(outbox, fileNameJson), JSON.stringify(receipt, null, 2), 'utf8');
+        fs.writeFileSync(path.join(outbox, fileNameMd), mdContent, 'utf8');
+      } catch (err) {
+        console.warn(`[TRM-INGRESS] Could not write receipt to outbox ${outbox}: ${err.message}`);
+      }
+    }
+  }
+
+  return receipt;
+}
+
+export function processFile(filePath, options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
+  if (!fs.existsSync(filePath)) return null;
 
   const ext = path.extname(filePath).toLowerCase();
-  if (ext !== '.json' && ext !== '.md') return;
+  if (ext !== '.json' && ext !== '.md') return null;
 
   const filename = path.basename(filePath);
   const isFromGDrive = filePath.startsWith(path.resolve(GDRIVE_ROOT));
-  console.log(`[TRM-INGRESS] Reading incoming file: ${filename} (Source: ${isFromGDrive ? 'Google Drive' : 'Local'})`);
+  console.log(`[TRM-INGRESS] Reading incoming file: ${filename} (Source: ${isFromGDrive ? 'Google Drive' : 'Local'}, Dry-Run: ${dryRun})`);
   const startTime = Date.now();
 
   let item;
   try {
     const raw = fs.readFileSync(filePath, 'utf8');
-    if (!raw.trim()) return;
+    if (!raw.trim()) return null;
     item = parsePayload(raw, ext);
     validatePayload(item);
   } catch (err) {
     console.error(`[TRM-INGRESS] Validation failed for ${filename}: ${err.message}`);
+    if (dryRun) {
+      return {
+        id: `invalid-${filename}`,
+        source: 'unknown',
+        action_type: 'unknown',
+        intent: 'validation_error',
+        status: 'VALIDATION_FAILED_DRY_RUN',
+        error: err.message
+      };
+    }
     const qTarget = path.join(QUARANTINE_DIR, `${Date.now()}-${filename}`);
-    safeMoveFile(filePath, qTarget);
+    const moved = safeMoveFile(filePath, qTarget);
     logToLedger({
       id: `invalid-${filename}`,
       processed_at: new Date().toISOString(),
       source: 'unknown',
       action_type: 'unknown',
       intent: 'validation_error',
-      status: 'QUARANTINED',
+      status: moved ? 'QUARANTINED' : 'QUARANTINE_MOVE_FAILED',
       error: err.message,
       duration_ms: Date.now() - startTime
     });
-    return;
+    return null;
   }
 
   const itemId = item.id || `act-${Date.now()}`;
   console.log(`[TRM-INGRESS] Dispatching action: ${itemId} | Type: ${item.action_type} | Intent: ${item.intent}`);
+
+  if (dryRun) {
+    console.log(`[TRM-INGRESS] [DRY-RUN] Inspected card ${itemId} (${item.action_type}) without mutating inbox or ledger.`);
+    return {
+      id: itemId,
+      source: item.source,
+      action_type: item.action_type,
+      intent: item.intent,
+      status: 'INSPECTED_DRY_RUN'
+    };
+  }
 
   try {
     if (item.action_type === 'deterministic_fix') {
@@ -273,29 +403,65 @@ export function processFile(filePath) {
       executeDeterministicFix(item);
       
       const dest = path.join(COMPLETED_DIR, `${Date.now()}-${filename}`);
-      fs.copyFileSync(filePath, dest);
-      
-      // If from Google Drive, archive to GDrive archive or remove from mobile inbox
-      if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
-      } else if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+      let archived = false;
+
+      try {
+        fs.copyFileSync(filePath, dest);
+      } catch (copyErr) {
+        console.error(`[TRM-INGRESS] Failed to copy to completed archive:`, copyErr.message);
       }
       
-      console.log(`[TRM-INGRESS] Successfully executed and archived: ${dest}`);
-      logToLedger({
-        id: itemId,
-        processed_at: new Date().toISOString(),
-        timestamp: item.timestamp,
-        source: item.source,
-        action_type: item.action_type,
-        intent: item.intent,
-        target_notebook: item.target_notebook,
-        target_notebook_name: item.target_notebook_name,
-        summary: item.summary || item.context?.summary || '',
-        status: 'COMPLETED',
-        duration_ms: Date.now() - startTime
-      });
+      // If from Google Drive, archive to GDrive archive or remove from local inbox
+      if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
+        archived = safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
+      } else if (fs.existsSync(filePath)) {
+        try {
+          fs.unlinkSync(filePath);
+          archived = true;
+        } catch (unlinkErr) {
+          console.error(`[TRM-INGRESS] Failed to unlink source card:`, unlinkErr.message);
+          archived = false;
+        }
+      }
+      
+      if (archived) {
+        cleanupCompanionFiles(filePath, isFromGDrive);
+        console.log(`[TRM-INGRESS] Successfully executed and archived: ${dest}`);
+        logToLedger({
+          id: itemId,
+          processed_at: new Date().toISOString(),
+          timestamp: item.timestamp,
+          source: item.source,
+          action_type: item.action_type,
+          intent: item.intent,
+          target_notebook: item.target_notebook,
+          target_notebook_name: item.target_notebook_name,
+          summary: item.summary || item.context?.summary || '',
+          status: 'COMPLETED',
+          duration_ms: Date.now() - startTime
+        });
+        dispatchMobileReceipt(item, {
+          status: 'RESOLVED',
+          duration_ms: Date.now() - startTime,
+          details: 'Executed deterministic remediation and archived card'
+        });
+      } else {
+        console.warn(`[TRM-INGRESS] ⚠️ Action executed but failed to archive source card from inbox: ${filePath}`);
+        logToLedger({
+          id: itemId,
+          processed_at: new Date().toISOString(),
+          timestamp: item.timestamp,
+          source: item.source,
+          action_type: item.action_type,
+          intent: item.intent,
+          target_notebook: item.target_notebook,
+          target_notebook_name: item.target_notebook_name,
+          summary: item.summary || item.context?.summary || '',
+          status: 'ARCHIVE_MOVE_FAILED',
+          error: 'Action executed but card could not be archived/removed from inbox',
+          duration_ms: Date.now() - startTime
+        });
+      }
     } else if (item.action_type === 'antigravity_triage') {
       // Option A: Auto-create GitHub Issue for tracking/approval + Stage to Harness
       const issueUrl = createGitHubIssue(item);
@@ -304,33 +470,67 @@ export function processFile(filePath) {
       const dest = path.join(HARNESS_PENDING_DIR, filename);
       fs.writeFileSync(dest, JSON.stringify(item, null, 2), 'utf8');
       
+      let archived = false;
       if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
+        archived = safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
       } else if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+        try {
+          fs.unlinkSync(filePath);
+          archived = true;
+        } catch (unlinkErr) {
+          console.error(`[TRM-INGRESS] Failed to unlink source card:`, unlinkErr.message);
+          archived = false;
+        }
       }
       
-      console.log(`[TRM-INGRESS] Staged for Antigravity triage: ${dest}`);
-      logToLedger({
-        id: itemId,
-        processed_at: new Date().toISOString(),
-        timestamp: item.timestamp,
-        source: item.source,
-        action_type: item.action_type,
-        intent: item.intent,
-        target_notebook: item.target_notebook,
-        target_notebook_name: item.target_notebook_name,
-        summary: item.summary || item.context?.summary || '',
-        issue_url: issueUrl,
-        status: 'STAGED_FOR_TRIAGE',
-        duration_ms: Date.now() - startTime
-      });
+      if (archived) {
+        cleanupCompanionFiles(filePath, isFromGDrive);
+        console.log(`[TRM-INGRESS] Staged for Antigravity triage: ${dest}`);
+        logToLedger({
+          id: itemId,
+          processed_at: new Date().toISOString(),
+          timestamp: item.timestamp,
+          source: item.source,
+          action_type: item.action_type,
+          intent: item.intent,
+          target_notebook: item.target_notebook,
+          target_notebook_name: item.target_notebook_name,
+          summary: item.summary || item.context?.summary || '',
+          issue_url: issueUrl,
+          status: 'STAGED_FOR_TRIAGE',
+          duration_ms: Date.now() - startTime
+        });
+        dispatchMobileReceipt(item, {
+          status: 'STAGED_FOR_TRIAGE',
+          issue_url: issueUrl,
+          duration_ms: Date.now() - startTime,
+          details: `Staged to .harness/tasks/pending/${filename}`
+        });
+      } else {
+        console.warn(`[TRM-INGRESS] ⚠️ Staged to harness but failed to archive source card from inbox: ${filePath}`);
+        logToLedger({
+          id: itemId,
+          processed_at: new Date().toISOString(),
+          timestamp: item.timestamp,
+          source: item.source,
+          action_type: item.action_type,
+          intent: item.intent,
+          target_notebook: item.target_notebook,
+          target_notebook_name: item.target_notebook_name,
+          summary: item.summary || item.context?.summary || '',
+          issue_url: issueUrl,
+          status: 'STAGED_ARCHIVE_FAILED',
+          error: 'Staged to harness but card could not be archived/removed from inbox',
+          duration_ms: Date.now() - startTime
+        });
+      }
     }
   } catch (execErr) {
     console.error(`[TRM-INGRESS] Execution failed for ${itemId}:`, execErr);
+    let quarantined = false;
     if (fs.existsSync(filePath)) {
       const qTarget = path.join(QUARANTINE_DIR, `failed-${Date.now()}-${filename}`);
-      safeMoveFile(filePath, qTarget);
+      quarantined = safeMoveFile(filePath, qTarget);
     }
     logToLedger({
       id: itemId,
@@ -339,7 +539,12 @@ export function processFile(filePath) {
       source: item.source,
       action_type: item.action_type,
       intent: item.intent,
-      status: 'QUARANTINED',
+      status: quarantined ? 'QUARANTINED' : 'QUARANTINE_MOVE_FAILED',
+      error: execErr.message,
+      duration_ms: Date.now() - startTime
+    });
+    dispatchMobileReceipt(item, {
+      status: quarantined ? 'QUARANTINED' : 'QUARANTINE_MOVE_FAILED',
       error: execErr.message,
       duration_ms: Date.now() - startTime
     });
@@ -394,8 +599,156 @@ function executeDeterministicFix(item) {
   }
 }
 
-export function sweepInbox() {
+export function parseGDocFilenameMetadata(filename) {
+  const stem = filename.replace(/\.(md\.)?gdoc$/i, '');
+  const parts = stem.split('__');
+  
+  let timestamp = new Date().toISOString();
+  let action_type = 'antigravity_triage';
+  let id = stem;
+  let intent = stem;
+
+  if (parts.length >= 3) {
+    timestamp = parts[0];
+    action_type = parts[1] === 'action' ? 'antigravity_triage' : parts[1];
+    id = parts[2];
+    intent = parts.slice(2).join('__');
+  } else if (parts.length === 2) {
+    timestamp = parts[0];
+    id = parts[1];
+    intent = parts[1];
+  }
+
+  const cleanIntent = intent.replace(/^act-\d+-/, '').replace(/-/g, '_');
+
+  return {
+    id,
+    timestamp,
+    source: 'mobile-gemini-gdoc',
+    action_type: action_type === 'deterministic_fix' ? 'deterministic_fix' : 'antigravity_triage',
+    intent: cleanIntent,
+    summary: `Mobile action item submitted via Google Docs: ${stem}`,
+    context: {
+      gdoc_filename: filename,
+      gdoc_stem: stem,
+      note: 'Ingested from standalone Google Drive .gdoc pointer. Payload body managed via triage issue.'
+    }
+  };
+}
+
+export function processGDocStub(filePath, inboxDir, options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
+  if (!fs.existsSync(filePath)) return null;
+
+  const startTime = Date.now();
+  const filename = path.basename(filePath);
+  const isFromGDrive = filePath.startsWith(path.resolve(GDRIVE_ROOT));
+  const stem = filename.replace(/\.(md\.)?gdoc$/i, '');
+  const dateMatch = filename.match(/^(\d{4}-\d{2}-\d{2}T\d{6}Z)/);
+  const datePrefix = dateMatch ? dateMatch[1] : null;
+
+  // Check if this stub matches any already-tracked ledger row, harness task, or archive file
+  let isAlreadyHandled = false;
+  if (fs.existsSync(LEDGER_JSONL)) {
+    try {
+      const lines = fs.readFileSync(LEDGER_JSONL, 'utf8').split('\n').filter(Boolean);
+      for (const line of lines) {
+        const entry = JSON.parse(line);
+        if ((datePrefix && entry.timestamp && entry.timestamp.replace(/[:-]/g, '').startsWith(datePrefix.replace(/[:-]/g, ''))) ||
+            (entry.id && filename.includes(entry.id)) ||
+            (entry.intent && filename.includes(entry.intent)) ||
+            (stem && entry.id && stem.includes(entry.id))) {
+          isAlreadyHandled = true;
+          break;
+        }
+      }
+    } catch {}
+  }
+
+  if (!isAlreadyHandled && isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
+    try {
+      const archivedFiles = fs.readdirSync(GDRIVE_ARCHIVE);
+      for (const af of archivedFiles) {
+        if ((datePrefix && af.startsWith(datePrefix)) || (stem && af.includes(stem))) {
+          isAlreadyHandled = true;
+          break;
+        }
+      }
+    } catch {}
+  }
+
+  if (isAlreadyHandled) {
+    if (dryRun) {
+      console.log(`[TRM-INGRESS] [DRY-RUN] Found orphaned .gdoc pointer matching handled action: ${filename}`);
+      return { id: filename, status: 'MATCHED_HANDLED_GDOC_DRY_RUN' };
+    }
+
+    const dest = isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)
+      ? path.join(GDRIVE_ARCHIVE, filename)
+      : path.join(COMPLETED_DIR, filename);
+
+    const moved = safeMoveFile(filePath, dest);
+    console.log(`[TRM-INGRESS] Archived handled .gdoc stub: ${filename} (moved: ${moved})`);
+    return { id: filename, status: moved ? 'ARCHIVED_HANDLED_GDOC' : 'ARCHIVE_MOVE_FAILED' };
+  }
+
+  // Handle standalone unhandled .gdoc
+  const item = parseGDocFilenameMetadata(filename);
+  console.log(`[TRM-INGRESS] Ingesting standalone .gdoc card: ${item.id} | Intent: ${item.intent} (Dry-Run: ${dryRun})`);
+
+  if (dryRun) {
+    return { id: item.id, status: 'STAGED_STANDALONE_GDOC_DRY_RUN' };
+  }
+
+  const issueUrl = createGitHubIssue(item);
+  const harnessTask = {
+    id: item.id,
+    timestamp: item.timestamp,
+    source: item.source,
+    action_type: item.action_type,
+    intent: item.intent,
+    summary: item.summary,
+    issue_url: issueUrl,
+    staged_at: new Date().toISOString(),
+    source_file: filename,
+    context: item.context
+  };
+
+  const harnessDest = path.join(HARNESS_PENDING_DIR, `${item.id}.json`);
+  fs.writeFileSync(harnessDest, JSON.stringify(harnessTask, null, 2), 'utf8');
+
+  const dest = isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)
+    ? path.join(GDRIVE_ARCHIVE, filename)
+    : path.join(COMPLETED_DIR, filename);
+
+  const moved = safeMoveFile(filePath, dest);
+
+  logToLedger({
+    id: item.id,
+    processed_at: new Date().toISOString(),
+    timestamp: item.timestamp,
+    source: item.source,
+    action_type: item.action_type,
+    intent: item.intent,
+    status: 'STAGED_FOR_TRIAGE',
+    issue_url: issueUrl,
+    duration_ms: Date.now() - startTime
+  });
+
+  dispatchMobileReceipt(item, {
+    status: 'STAGED_FOR_TRIAGE',
+    issue_url: issueUrl,
+    duration_ms: Date.now() - startTime,
+    details: `Staged standalone .gdoc to .harness/tasks/pending/${item.id}.json`
+  }, { dryRun });
+
+  return { id: item.id, status: 'STAGED_STANDALONE_GDOC', moved };
+}
+
+export function sweepInbox(options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
   const inboxes = getActiveInboxDirs();
+  const inspectedCards = [];
   for (const inbox of inboxes) {
     try {
       const files = fs.readdirSync(inbox);
@@ -403,7 +756,13 @@ export function sweepInbox() {
         const full = path.join(inbox, file);
         try {
           if (fs.statSync(full).isFile()) {
-            processFile(full);
+            if (file.endsWith('.gdoc')) {
+              const gdocRes = processGDocStub(full, inbox, { dryRun });
+              if (gdocRes) inspectedCards.push(gdocRes);
+              continue;
+            }
+            const res = processFile(full, { dryRun });
+            if (res) inspectedCards.push(res);
           }
         } catch (e) {
           // Skip temporary/locked files
@@ -411,7 +770,8 @@ export function sweepInbox() {
       }
     } catch {}
   }
-  emitIcfStatusFeed();
+  emitIcfStatusFeed(null, { dryRun });
+  return { inspectedCards, inboxesChecked: inboxes.length };
 }
 
 export function printStatus() {
@@ -439,16 +799,15 @@ export function printStatus() {
 
 // CLI Execution
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'))) {
-  if (process.argv.includes('--status')) {
+  if (isStatus) {
     printStatus();
     process.exit(0);
   }
 
-  const isOnce = process.argv.includes('--once');
-  console.log(`[TRM-INGRESS] Starting Ingress Watcher on ${getActiveInboxDirs().length} active inboxes...`);
-  sweepInbox();
+  console.log(`[TRM-INGRESS] Starting Ingress Watcher on ${getActiveInboxDirs().length} active inboxes... (dry-run: ${isDryRun}, once: ${isOnce})`);
+  sweepInbox({ dryRun: isDryRun });
 
-  if (!isOnce) {
+  if (!isOnce && !isDryRun) {
     console.log(`[TRM-INGRESS] Watching for incoming action items (Ctrl+C to stop)...`);
     for (const inboxDir of getActiveInboxDirs()) {
       fs.watch(inboxDir, (eventType, filename) => {
@@ -457,7 +816,11 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(im
           if (fs.existsSync(fullPath)) {
             setTimeout(() => {
               if (fs.existsSync(fullPath)) {
-                processFile(fullPath);
+                if (filename.endsWith('.gdoc')) {
+                  processGDocStub(fullPath, inboxDir, { dryRun: isDryRun });
+                } else {
+                  processFile(fullPath, { dryRun: isDryRun });
+                }
               }
             }, 300);
           }

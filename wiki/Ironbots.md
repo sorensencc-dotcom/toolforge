@@ -31,7 +31,7 @@ flowchart TD
         P["Fleet Engineering Policy Contract"]
     end
 
-    subgraph Engines["2. Autonomous Bot Fleet (7 Bots + 1 Reporter)"]
+    subgraph Engines["2. Autonomous Bot Fleet (8 Bots + 1 Reporter)"]
         NB["Notebook-Ingester Bot (Daily 02:00 AM)\nscripts/notebook-ingester-bot.mjs"]
         D["KB-Sentinel Bot (Daily 03:00 AM)\nscripts/kb-sentinel-bot.mjs"]
         E["TRM-Bot (Daily 04:00 AM)\nscripts/trm-bot-runner.mjs"]
@@ -39,6 +39,7 @@ flowchart TD
         L["CI-Watchdog Bot (Daily 06:00 AM)\nscripts/ci-watchdog-bot.mjs"]
         K["Daemon-Healer Bot (Every 15 Min)\nscripts/daemon-healer-bot.mjs"]
         TI["TRM-Ingress Watcher Bot (Continuous / On-Demand)\nscripts/trm-ingress-watcher.mjs"]
+        SP["Storage-Pruner Bot (Weekly Sun 03:30 AM)\nscripts/storage-pruner.mjs"]
         R["Daily Fleet Reporter (Daily 06:30 AM)\nscripts/ironbots-daily-reporter.mjs"]
     end
 
@@ -50,6 +51,7 @@ flowchart TD
         N["CI Failure Detection & Error Logs"]
         M["Port 8080 Gateway Uptime (/dashboard & /api/reporting/ironbots)"]
         ING["Mobile TRM Staging & GitHub Issues (.harness/tasks/ & LEDGER.md)"]
+        VAC["SQLite Compaction & Telemetry Gzip Archive"]
         I["Telemetry Hub (_status-feed/*.json)"]
         J["Daily Aggregated Report (wiki/research/ironbots-daily-report.md)"]
     end
@@ -61,6 +63,7 @@ flowchart TD
     A -->|Daily 06:00 AM| L
     A -->|Every 15 Min| K
     A -->|Continuous / Ingress| TI
+    A -->|Weekly Sun 03:30 AM| SP
     A -->|Daily 06:30 AM| R
 
     B --> NB
@@ -70,6 +73,7 @@ flowchart TD
     B --> L
     B --> K
     B --> TI
+    B --> SP
     B --> R
 
     NB --> FTS
@@ -84,6 +88,8 @@ flowchart TD
     L --> I
     K --> M
     K --> I
+    SP --> VAC
+    SP --> I
 
     I --> R
     R --> J
@@ -103,8 +109,8 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
    - Principal must use Service-for-User (`-LogonType S4U`) so tasks execute 24/7 whether the user is logged on or not, without storing passwords.
    - All scripts must resolve repository root dynamically via `$PSScriptRoot` rather than hardcoding paths.
 2. **Zero-token deterministic computation**:
-   - High-throughput scans (filesystem traversals, regex parsing, SQLite FTS5 queries, process probing, git ref lookups) must run locally on the CPU without invoking LLM completions.
-   - LLMs may only be queried for final text synthesis where deterministic AST/regex logic is insufficient.
+   - High-throughput scans (filesystem traversals, regex parsing, SQLite FTS5 queries, process probing, git ref lookups, database vacuuming) must run locally on the CPU without invoking paid LLM completion endpoints ($0 budget invariant).
+   - Local on-device inference via Ollama (Qwen 2.5 / Llama 3.2 on local CPU/GPU with $0 API token cost and deterministic fallbacks) is explicitly permitted for on-demand unstructured intent parsing and CI stack trace summarization.
 3. **Structured JSON telemetry emission**:
    - Every bot run must write a structured, machine-readable JSON artifact to `_status-feed/<bot>_report.json`.
    - Telemetry must include `timestamp`, `elapsedMs`, `status`, and granular operational metrics.
@@ -173,19 +179,28 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 
 ### 7. TRM-Ingress Watcher Bot
 - **Script**: `scripts/trm-ingress-watcher.mjs`
-- **Schedule**: Continuous / On-demand (`\Ironbots\TRM-Ingress-Watcher`)
+- **Schedule**: Continuous / On-demand (`\Ironbots\TRM-Drive-Sync` / `TRM-Ingress-Watcher`)
 - **Wrapper**: `scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1`
 - **Telemetry**: `_status-feed/trm_ingress_status.json`
-- **Function**: Monitors mobile drop points (`TRM-Research/mobile-inbox/` on Google Drive and local `.trm/inbox/triage/`). Automatically executes deterministic remediations (batch deletion of broken sources, KIS-P re-budgeting), creates tracked GitHub Issues for complex triages, and maintains the live audit ledger in `c:/dev/trm-drive/inbox/LEDGER.md`.
+- **Function**: Monitors mobile drop points (`TRM-Research/mobile-inbox/` on Google Drive and local `.trm/inbox/triage/`). Automatically executes deterministic remediations (batch deletion of broken sources, KIS-P re-budgeting), creates tracked GitHub Issues for complex triages, dispatches closed-loop receipts to `mobile-outbox/`, and maintains the live audit ledger in `c:/dev/trm-drive/inbox/LEDGER.md`.
 
 ---
 
-### 8. Daily Fleet Reporter
+### 8. Storage-Pruner Bot
+- **Script**: `scripts/storage-pruner.mjs`
+- **Schedule**: Weekly Sunday at 03:30 AM (`\Ironbots\Storage-Pruner`)
+- **Wrapper**: `scripts/schedule-task-wrapper-Storage-Pruner.ps1`
+- **Telemetry**: `_status-feed/storage_pruner_status.json`
+- **Function**: Executes SQLite `VACUUM;`, WAL checkpoint truncation, and `PRAGMA optimize;` across `.kb_cache`, `icf/.kb_cache`, `.ijfw/index/memory.db`, and `.icf-retros/weekly/snapshots.sqlite`. Compresses historical telemetry older than 7 days into gzip (`.json.gz`) archives and prunes stale `.harness/tasks/completed` records.
+
+---
+
+### 9. Daily Fleet Reporter
 - **Script**: `scripts/ironbots-daily-reporter.mjs`
 - **Schedule**: Daily at 06:30 AM (`\Ironbots\Ironbots-Reporter`)
 - **Wrapper**: `scripts/schedule-task-wrapper-Ironbots-Reporter.ps1`
 - **Telemetry**: `_status-feed/ironbots_daily_report.json`
-- **Function**: Ingests telemetry from all 7 Ironbots, evaluates fleet health using `FLEET_SCORING_POLICY`, maintains historical snapshots in `_status-feed/ironbots_history/`, and publishes the daily markdown brief to `wiki/research/ironbots-daily-report.md`.
+- **Function**: Ingests telemetry from all 8 Ironbots, evaluates fleet health using `FLEET_SCORING_POLICY`, maintains historical snapshots in `_status-feed/ironbots_history/`, and publishes the daily markdown brief to `wiki/research/ironbots-daily-report.md`.
 
 ---
 
@@ -193,7 +208,7 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 
 ### Run fleet synchronously
 ```bash
-# Run all 6 bots + daily reporter sequentially
+# Run all 8 bots + daily reporter sequentially
 npm run bot:all
 
 # Run individual bots
@@ -203,6 +218,8 @@ npm run bot:trm:triage
 npm run bot:watchlist:mine
 npm run bot:ci:watchdog
 npm run bot:daemon:heal
+npm run bot:trm:ingress
+npm run bot:storage:pruner
 npm run bot:report
 ```
 
@@ -218,6 +235,8 @@ pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Bot.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Watchlist-Miner.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-CI-Watchdog.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Daemon-Healer.ps1 -Action Status
+pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1 -Action Status
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Storage-Pruner.ps1 -Action Status
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Ironbots-Reporter.ps1 -Action Status
 
 # Register / Upgrade all to Unattended S4U Mode (Run in Administrator PowerShell)
@@ -227,6 +246,8 @@ pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Bot.ps1 -Action Register
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Watchlist-Miner.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-CI-Watchdog.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Daemon-Healer.ps1 -Action Register -Unattended -Force
+pwsh -NoProfile -File scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1 -Action Register -Unattended -Force
+pwsh -NoProfile -File scripts/schedule-task-wrapper-Storage-Pruner.ps1 -Action Register -Unattended -Force
 pwsh -NoProfile -File scripts/schedule-task-wrapper-Ironbots-Reporter.ps1 -Action Register -Unattended -Force
 ```
 
