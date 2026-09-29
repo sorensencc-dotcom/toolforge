@@ -7,13 +7,15 @@
  * 1. Weekly SQLite vacuuming and WAL checkpointing across .kb_cache, .ijfw, and reporting databases.
  * 2. Historical telemetry compression (gzip compaction of daily status archives older than retention window).
  * 3. Autonomous .harness task pruning (archiving/pruning completed tasks older than retention threshold).
- * 4. Emits structured telemetry to _status-feed/storage_pruner_status.json.
+ * 4. Shred expired `.agent-scratch/` session directories.
+ * 5. Emits structured telemetry to _status-feed/storage_pruner_status.json.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import Database from 'better-sqlite3';
+import { shredExpiredScratchpads } from './egress-upload-gate.mjs';
 
 export const REPO_ROOT = path.resolve(import.meta.dirname, '..');
 
@@ -286,6 +288,10 @@ export async function runStoragePruner(options = {}) {
   const harnessCompaction = pruneHarnessTasks({ ...options, dryRun });
   console.log(`  - Harness: pruned/archived ${harnessCompaction.totalPruned} completed tasks`);
 
+  // 4. Shred expired agent scratchpads. Dry runs report matches and leave directories in place.
+  const scratchCompaction = shredExpiredScratchpads(options.rootDir || REPO_ROOT, Date.now(), { dryRun });
+  console.log(`  - Scratch: ${dryRun ? 'would shred' : 'shredded'} ${scratchCompaction.shredded.length} expired session directories`);
+
   const hasDbFailures = dbResults.some(r => r.status === 'FAILED');
   const hasTelemetryErrors = telemetryCompaction.results.some(r => r.status === 'ERROR');
   const hasErrors = hasDbFailures || hasTelemetryErrors;
@@ -306,6 +312,8 @@ export async function runStoragePruner(options = {}) {
     telemetryResults: telemetryCompaction.results,
     harnessTasksPrunedCount: harnessCompaction.totalPruned,
     harnessResults: harnessCompaction.pruned,
+    scratchpadsShredded: scratchCompaction.shredded,
+    scratchpadErrors: scratchCompaction.errors,
     status
   };
 

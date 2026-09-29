@@ -11,6 +11,23 @@
 
 # Project status
 
+## Agent intermediate storage egress audit (2026-09-29)
+
+### Active goal
+Close GitHub issue 60: stop agents from using public image hosts or anonymous object storage as scratch, and give sessions a local scratchpad with a size cap and a TTL.
+
+### Completed work
+- Surveyed this checkout. No Imgur, Postimages, Cloudinary, or Catbox client. Visual-verify screenshots stay in the temp directory. Compactor spills stay in `.kb_cache/spills`.
+- Added `scripts/egress-upload-gate.mjs`, the Bash `PreToolUse` hook `.claude/hooks/block-binary-egress.js`, scratch shredding in `scripts/storage-pruner.mjs`, and `docs/meta/agent-scratchpad-standard.md`.
+- Replaced the withdrawn entropy-scanner draft in `wiki/research/rfc-audit-agent-intermediate-storage-exfiltration.md`.
+
+### Verification
+- `npm run test:egress`: 8 passed, 0 failed.
+- `tests/ironbots.test.mjs` storage-pruner dry run did not load: this worktree has no installed `better-sqlite3`. That import predates the scratchpad call.
+
+### Next action
+Issue 60 is still open. Comment and close it after review. Runtimes outside this checkout still need `evaluateOutboundRequest` in front of their own HTTP clients.
+
 ## Jev Primitives, TRM Triage, Generator Determinism & TorqueQuery Observability (2026-09-28)
 
 ### Active goal

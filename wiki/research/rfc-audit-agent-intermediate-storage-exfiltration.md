@@ -3,61 +3,50 @@ title: "RFC: Audit Agent Intermediate Storage & Exfiltration Prevention"
 category: "research"
 topic: "rfc-audit-agent-intermediate-storage-exfiltration"
 gap_id: "act-01-audit-agent-intermediate-storage-exfiltration"
-status: "draft"
+status: "accepted"
 created_at: "2026-09-28T14:25:00.000Z"
-assigned_tier: "Tier 1 (Judgment)"
-routed_model: "claude-3-5-sonnet-20241022"
-router_confidence: 0.50
+revised_at: "2026-09-29T00:00:00.000Z"
 author: "sorensencc-dotcom"
 source: "mobile-gemini-gdoc"
 tracking_issue: "https://github.com/sorensencc-dotcom/toolforge/issues/60"
 citations:
-  - "wiki/research/trm-drive-transport-adapter-spec.md"
+  - "docs/meta/agent-scratchpad-standard.md"
+  - "scripts/egress-upload-gate.mjs"
+  - ".claude/hooks/block-binary-egress.js"
   - "scripts/storage-pruner.mjs"
-  - "scripts/secret-scan.mjs"
+  - "scripts/claude-compactor.mjs"
+  - "skills/html-visual-verify/src/index.ts"
 ---
 
 # RFC: Audit Agent Intermediate Storage & Exfiltration Prevention
 
-## 1. Problem statement & threat model
-Autonomous AI coding agents generate extensive intermediate artifacts across their lifecycle:
-1. **Transient scratchpads & conversation logs**: Logs stored in `.gemini/brain/*/logs/`, `.claude/worktrees/*/logs/`, and `.system_generated/logs/transcript.jsonl`.
-2. **Intermediate file spills & tool dumps**: Large tool outputs dumped into `.kb_cache/spills/` or local `scratch/` directories.
-3. **Sensitive credential exposure**: API tokens, private keys, authorization cookies, and customer data present in environment variables or output buffers.
+## 1. Problem statement & context
 
-Without deterministic scanning and enforcement, these intermediate files risk accidental commit to Git repositories, sync to cloud backup shares, or exfiltration through uncontrolled egress channels.
+Mobile action `act-01-audit-agent-intermediate-storage-exfiltration` (GitHub issue 60) records a public incident in which autonomous agents posted conversation images to third-party image hosts because local scratch was missing. The required outcome is a local ephemeral scratchpad, a deny on outbound binary uploads to those hosts and to anonymous object storage, and a test that proves the halt.
 
----
+The earlier draft of this note proposed a Shannon-entropy scanner and hardware-backed spill encryption. That design is withdrawn. The source document asks for an upload gate and a scratchpad, and this checkout had neither.
 
-## 2. Technical architecture & audit pipeline
+## 2. Evidence grounding
 
-### 2.1 Deterministic secret & entropy scanner
-All session teardown, worktree completion, and pre-push hooks must execute a fail-closed scan across intermediate directories:
-- **Regex token patterns**: High-entropy API keys (`ghp_*`, `sk-ant-*`, `sk-*`, `AIza*`).
-- **Shannon entropy detection**: Flag string sequences exceeding threshold entropy ($H \ge 4.5$) in non-binary scratchpad files.
-- **Path boundaries**: Strict inclusion of `.kb_cache/spills/`, `trm-drive/inbox/`, `.harness/tasks/`, and `_status-feed/`.
+Survey of this repository on 2026-09-29:
 
-### 2.2 Tombstone stubbing & sanitization
-When large tool outputs or sensitive payloads are evicted by the compactor:
-1. Replace in-memory transcript references with sanitized tombstones: `[output omitted (N chars); spilled to disk]`.
-2. Encrypt disk spills with local hardware-backed keys or isolate them within ephemeral ramdisks.
-3. Enforce a 72-hour TTL with automated deletion via `scripts/storage-pruner.mjs`.
+- No executable reference to Imgur, Postimages, Cloudinary, or Catbox.
+- `skills/html-visual-verify/src/index.ts` writes Playwright screenshots to the process temp directory.
+- `scripts/claude-compactor.mjs` spills dropped tool output to `.kb_cache/spills` on disk.
+- `toolforge-pdf` sets `needs_ocr` and does not transmit page crops.
+- No `PreToolUse` hook inspected shell uploads.
 
----
+## 3. Protocol decision
 
-## 3. Protocol decisions & verification gates
+1. Store intermediate binaries under `.agent-scratch/<sessionId>/` with a 32 MiB cap and a 24 hour TTL. `scripts/storage-pruner.mjs` shreds expired directories.
+2. Deny `POST`, `PUT`, and `PATCH` to the public binary hosts in `PUBLIC_BINARY_HOST_SUFFIXES`, and deny anonymous S3 and Google Cloud Storage uploads.
+3. Deny a non-loopback upload whose body is an image file, an image data URL, or credential-shaped material. Loopback and ordinary JSON webhooks stay allowed.
+4. Enforce the shell path with `.claude/hooks/block-binary-egress.js` on Bash `PreToolUse`. Call `evaluateOutboundRequest` before any new outbound image request.
 
-1. **Pre-commit storage verification**:
-   - `scripts/secret-scan.mjs` runs on every staged commit.
-   - Any uncommitted intermediate file under `scratch/` or `.kb_cache/` matching exfiltration heuristics triggers an immediate exit 1.
-2. **Quarantine protocol**:
-   - Non-conforming or unparseable ingress files are moved directly to `trm-drive/inbox/quarantine/` without executing downstream parsers.
-3. **Air-gapped telemetry**:
-   - Status telemetry in `_status-feed/daily_status.json` must scrub all path strings to relative repo basenames before aggregation.
+The operator standard is `docs/meta/agent-scratchpad-standard.md`. Run `npm run test:egress` to prove the halt.
 
----
+## 4. Open questions & residual risk
 
-## 4. References & linked topics
-- [[Index]]
-- [[trm-research-gaps]]
-- [[Log]]
+- The hook fires for Claude Code Bash in this checkout. Antigravity, Rewrite Labs, and CIC runtimes outside this repository still need the same `evaluateOutboundRequest` call in front of their own HTTP clients.
+- A presigned object-store URL is treated as authenticated and is still denied when the payload is an image. A presigned upload of a non-image object is allowed.
+- The gate inspects the shell command text and the request body the caller passes in. It does not intercept a raw socket opened inside an already-running process.

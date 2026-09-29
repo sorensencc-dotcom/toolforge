@@ -27,6 +27,7 @@ skills/*/cic/
 sigil-wiki/
 trm-wiki/
 scratch/
+.agent-scratch/
 .nlm_pack/
 .nlm_pack_dead_letter/
 _kb-sync-staging/
