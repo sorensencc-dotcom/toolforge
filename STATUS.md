@@ -11,6 +11,24 @@
 
 # Project status
 
+## TRM Diff-Only Ingestion & Dynamic Query Protocol v2.9.0 (2026-09-29)
+
+### Active goal
+Implement deterministic 6-stage gated diff-only ingestion protocol for Topic Research Mining (TRM) with cross-process WAL transactional consistency, governed 3-tier evaluator fallbacks, and typed fact settlement.
+
+### Completed work
+- **P1: Atomic Storage & WAL Transaction Manager**: Implemented 30s TTL lockfile auto-eviction, cross-device atomic write-rename (`renameSync` -> `copyFileSync` fallback on `EXDEV`), and WAL two-phase commit with generation check in `modules/trm/storage/transaction-manager.mjs`.
+- **P1: Canonical Text & Span Normalizer**: Implemented `canonicalizeSpanText()`, raw character span offset preservation, column-0 table row sorting, and `<!-- TRM-LINEAGE -->` header parsing in `modules/trm/gap-normalizer.mjs`.
+- **P2: Cross-Process Cloud Budget Limiter**: Implemented atomic budget ledger (`cloud_evaluator_budget.json`) enforcing 50 daily cloud calls and monotonic timestamp cooldowns on rate limits in `modules/trm/evaluators/cloud-budget.mjs`.
+- **P2: Governed 3-Tier Evaluator Engine**: Implemented Tier A (Ollama 10s `AbortController` timeout), Tier B (Claude Haiku fallback gated on `remote_evaluator_allowed: true`), and Tier C (Deterministic keyword template) in `modules/trm/evaluators/index.mjs`.
+- **P3: Manifest Invalidation & Deletion Cascade Runner**: Implemented canonical JSON manifest hashing (`SHA-256`) with 5s timeout guard and deletion cascade marking settled facts `EVIDENCE_REMOVED` and tagging open RFC drafts in `scripts/run-closed-loop-research-v2.mjs`.
+- **P4: Typed Fact Settlement & Contradiction Triage**: Implemented numeric range parser (`parseNumericRange`), typed assertion triple settlement checks, and contradiction routing with bounded filenames in `modules/trm/gap-triage-engine.mjs`.
+- **P5: UTC Adaptive Cadence Scheduler**: Implemented millisecond UTC cadence evaluation (`last_source_delta_utc`) routing `--mode active` vs `--mode weekly` in `scripts/schedule-task-wrapper-TRM-Triage.ps1`.
+- **P6: Test Suite & Live Benchmarks**: Authored 18-scenario verification suite (`tests/trm/trm-diff-ingestion.test.mjs`). All 27 tests passing in 410ms (`node --test tests/trm/*.test.mjs`). Live dry-run verified via PowerShell wrapper.
+
+### Next action
+- Continue daily scheduled TRM triage runs under UTC active cadence.
+
 ## Jev Primitives, TRM Triage, Generator Determinism & TorqueQuery Observability (2026-09-28)
 
 ### Active goal
