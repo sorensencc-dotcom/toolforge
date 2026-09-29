@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-09-04T00:52:57.6036137Z
+**Generated:** 2026-09-28T14:31:54.5194396Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,15 +10,15 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 50 | 100% |
-| Active | 50 | 100% |
+| **Total Skills** | 56 | 100% |
+| Active | 56 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 50 | 100% |
+| ✅ Good | 56 | 100% |
 | ⚠️ Warning | 0 | 0% |
 | ❌ Error | 0 | 0% |
 
@@ -34,32 +34,6 @@
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
-### retro-schema-validator
-
-| Field | Value |
-|-------|-------|
-| Name | Retro Schema Validator |
-| Category | validation |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | javascript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 0 external |
-### rewrite-labs-orchestrator
-
-| Field | Value |
-|-------|-------|
-| Name | Rewrite Labs Orchestrator |
-| Category | automation |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
@@ -129,6 +103,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### sigil-grok-bridge
+
+| Field | Value |
+|-------|-------|
+| Name | Sigil Grok Bridge |
+| Category | sync-tools |
+| Version | 1.0.0 |
+| Owner | soren |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 1 external |
 ### skill-health-monitor
 
 | Field | Value |
@@ -155,6 +142,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
+### slop-grader-sweep
+
+| Field | Value |
+|-------|-------|
+| Name | Slop Grader Sweep |
+| Category | docs-quality |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### third-party-repo-auditor
+
+| Field | Value |
+|-------|-------|
+| Name | Third-Party Repository Auditor |
+| Category | observability |
+| Version | 1.0.0 |
+| Owner | soren |
+| Runtime | powershell |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### tinyfish-search
 
 | Field | Value |
@@ -168,6 +181,19 @@
 | Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 1 external |
+### rewrite-labs-orchestrator
+
+| Field | Value |
+|-------|-------|
+| Name | Rewrite Labs Orchestrator |
+| Category | automation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
 ### tool-lifecycle-manager
 
 | Field | Value |
@@ -181,19 +207,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### toolforge-cli
-
-| Field | Value |
-|-------|-------|
-| Name | Toolforge CLI |
-| Category | utility |
-| Version | 0.1.0 |
-| Owner | soren |
-| Runtime | powershell |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 2 internal, 0 external |
 ### toolforge-drift-monitor
 
 | Field | Value |
@@ -272,6 +285,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 1 external |
+### trm-self-healing
+
+| Field | Value |
+|-------|-------|
+| Name | TRM Self Healing |
+| Category | observability |
+| Version | 1.0.0 |
+| Owner | soren |
+| Runtime | javascript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### trm-status
 
 | Field | Value |
@@ -285,6 +311,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
+### wiki-governance-sync
+
+| Field | Value |
+|-------|-------|
+| Name | Wiki Governance Sync |
+| Category | governance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### wiki-sync-recovery
 
 | Field | Value |
@@ -310,6 +349,32 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### toolforge-cli
+
+| Field | Value |
+|-------|-------|
+| Name | Toolforge CLI |
+| Category | utility |
+| Version | 0.1.0 |
+| Owner | soren |
+| Runtime | powershell |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 2 internal, 0 external |
+### retro-schema-validator
+
+| Field | Value |
+|-------|-------|
+| Name | Retro Schema Validator |
+| Category | validation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | javascript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### retro-export
 
@@ -337,32 +402,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 2 external |
-### reconcile-vector-store
-
-| Field | Value |
-|-------|-------|
-| Name | Reconcile Vector Store |
-| Category | data-management |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 0 internal, 0 external |
-### pre-wrap-audit
-
-| Field | Value |
-|-------|-------|
-| Name | Pre Wrap Audit |
-| Category | session-management |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | node |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 1 internal, 0 external |
 ### agent-drift-detector
 
 | Field | Value |
@@ -493,25 +532,25 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 1 internal, 0 external |
-### workspace-storage-cleaner
-
-| Field | Value |
-|-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | python |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 1 external |
 ### cic-section-summarizer
 
 | Field | Value |
 |-------|-------|
 | Name | CIC Section Summarizer |
 | Category | analysis |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### context-manager
+
+| Field | Value |
+|-------|-------|
+| Name | Context Manager |
+| Category | utilities |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | typescript |
@@ -544,6 +583,19 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### ironbots-fleet-status-monitor
+
+| Field | Value |
+|-------|-------|
+| Name | Ironbots Fleet Status Monitor |
+| Category | monitoring |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### kb-sync-artifact-generator
 
@@ -649,19 +701,45 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
-### context-manager
+### pre-wrap-audit
 
 | Field | Value |
 |-------|-------|
-| Name | Context Manager |
-| Category | utilities |
+| Name | Pre Wrap Audit |
+| Category | session-management |
 | Version | 1.0.0 |
 | Owner | unknown |
-| Runtime | typescript |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 1 internal, 0 external |
+### reconcile-vector-store
+
+| Field | Value |
+|-------|-------|
+| Name | Reconcile Vector Store |
+| Category | data-management |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 1 external |
 ### writing-heuristics
 
 | Field | Value |

@@ -155,4 +155,41 @@ describe('Sigil Grok Bridge Conformance & Guardrails', () => {
       }
     }, /GOVERNANCE_VIOLATION/);
   });
+
+  test('SAFE-01: Sigil Grok Bridge blocks dangerous task instructions via Worktree Safety Gate', async () => {
+    const { handleMcpMessage } = await import('../src/index.mjs');
+    
+    let capturedReply = null;
+    const originalWrite = process.stdout.write;
+    process.stdout.write = (chunk) => {
+      try {
+        capturedReply = JSON.parse(chunk);
+      } catch {}
+      return true;
+    };
+
+    try {
+      await handleMcpMessage({
+        jsonrpc: '2.0',
+        id: 42,
+        method: 'tools/call',
+        params: {
+          name: 'sigil_send_task',
+          arguments: {
+            recipient_endpoint: 'ep_claude',
+            recipient_owner: 'soren',
+            conversation_id: 'conv_123',
+            instruction: 'rm -rf /'
+          }
+        }
+      });
+
+      assert.ok(capturedReply);
+      assert.equal(capturedReply.id, 42);
+      assert.equal(capturedReply.result.isError, true);
+      assert.match(capturedReply.result.content[0].text, /\[Safety Gate BLOCKED\]/);
+    } finally {
+      process.stdout.write = originalWrite;
+    }
+  });
 });

@@ -59,12 +59,17 @@ function Write-IfChanged {
       return $false
     }
   }
-  Set-Content -Path $Path -Value $Content -Encoding UTF8
+  # Preserve the repository's CRLF convention; PS7/Core Set-Content emits LF,
+  # which would rewrite every line of this committed report.
+  $crlf = ($Content -replace "`r`n", "`n") -replace "`n", "`r`n"
+  if (-not $crlf.EndsWith("`r`n")) { $crlf += "`r`n" }
+  [System.IO.File]::WriteAllText($Path, $crlf, (New-Object System.Text.UTF8Encoding($false)))
   return $true
 }
 
 # Paths
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Join-Path (Get-Location).Path "utilities" }
+$repoRoot = (Resolve-Path (Join-Path $scriptRoot "..")).Path
 $CANONICAL_SKILLS = Join-Path $repoRoot "skills"
 $MANIFEST_FILE = Join-Path $repoRoot "manifest.json"
 $RUNTIME_LOG = Join-Path $repoRoot "audit\SKILL-RUN-LOG.md"
@@ -471,7 +476,7 @@ function Run-HealthChecks {
     throw "Canonical skills directory not found"
   }
 
-  $skillDirs = Get-ChildItem -Path $CANONICAL_SKILLS -Directory -Exclude "_TEMPLATE"
+  $skillDirs = Get-ChildItem -Path $CANONICAL_SKILLS -Directory -Exclude "_TEMPLATE" | Sort-Object Name
 
   foreach ($dir in $skillDirs) {
     $skillId = $dir.Name
@@ -562,7 +567,7 @@ function Generate-Report {
     $md += "| Check | Result | Details |`n"
     $md += "|-------|--------|---------|`n"
 
-    foreach ($check in $skillHealth.checks) {
+    foreach ($check in ($skillHealth.checks | Sort-Object -Property name)) {
       $emoji = if ($check.result -eq "pass") { "✅" } elseif ($check.result -eq "warn") { "⚠️" } else { "❌" }
       $details = if ($check.details) { $check.details } else { "—" }
       $md += "| $($check.name) | $emoji $($check.result.ToUpper()) | $details |`n"

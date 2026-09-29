@@ -47,7 +47,7 @@ if ($existing) {
 
 $action = New-ScheduledTaskAction `
   -Execute "pwsh.exe" `
-  -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`"" `
+  -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$script`"" `
   -WorkingDirectory "C:\dev"
 
 $trigger = New-ScheduledTaskTrigger `

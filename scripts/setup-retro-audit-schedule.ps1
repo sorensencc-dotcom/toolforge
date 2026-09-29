@@ -50,7 +50,7 @@ if ($existing) {
 # Create task action
 $action = New-ScheduledTaskAction `
   -Execute "pwsh.exe" `
-  -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`" -RepoRoot `"$repoRoot`"" `
+  -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$script`" -RepoRoot `"$repoRoot`"" `
   -WorkingDirectory "C:\dev"
 
 # Create task trigger: Daily at 6 PM

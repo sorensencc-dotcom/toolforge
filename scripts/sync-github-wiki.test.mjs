@@ -16,6 +16,11 @@ test('preserves an existing heading while converting frontmatter to HTML comment
   assert.equal(addFrontmatterTitle(input), '<!--\n---\ntitle: A human page\n---\n-->\n\n# Existing heading\n\nBody');
 });
 
+test('escapes nested comment closing delimiters in frontmatter', () => {
+  const input = '---\ntitle: A human page\nnote: "use --> with caution"\n---\n\nBody';
+  assert.equal(addFrontmatterTitle(input), '<!--\n---\ntitle: A human page\nnote: "use -- > with caution"\n---\n-->\n\n# A human page\n\nBody');
+});
+
 test('reports missing local markdown image targets', async () => {
   const root = await mkdtemp(path.join(tmpdir(), 'wiki-sync-test-'));
   try {

@@ -11,6 +11,22 @@
 
 # Project status
 
+## Jev Primitives, TRM Triage, Generator Determinism & TorqueQuery Observability (2026-09-28)
+
+### Active goal
+Integrate zero-shot typed decision primitives ($0.00 marginal cost Jev runtime), complete TRM mobile gap triage with WhichLLM routing, enforce generator determinism, and implement rich CIC observability hooks in TorqueQuery.
+
+### Completed work
+- **Jev Typed Decision Primitives**: Implemented and benchmarked sub-second compactor (`scripts/claude-compactor.mjs`), pre-flight safety gate (`scripts/worktree-safety-gate.mjs`), contextual WhichLLM router (`scripts/whichllm-router.mjs`), and DOM action selector (`scripts/dom-action-selector.mjs`). All 17 unit tests passing.
+- **TRM Mobile Harness Gap Triage**: Triaged `act-01`, `act-02`, and `act-03` via WhichLLM routing; authored and published 3 new RFC research notes in `wiki/research/` and synchronized to the live GitHub wiki (`toolforge.wiki.git` commit `3cfed4e`).
+- **Thematic Knowledge Pack Consolidation**: Fixed buffer handling in `scripts/consolidate-pack.mjs` to ignore oversized activity ledgers (`Log.md`); emitted all 12 `.nlm_pack/` partitions cleanly.
+- **P2 Generator Determinism & CRLF Stabilization**: Enforced stable sorting across `toolforgeSkillValidator.ps1`, `toolforgeDependencyGraph.ps1`, `toolforgeSkillHealthCheck.ps1`, and `daemons/cowork-auto-sync.ps1`, eliminating cosmetic churn across git hooks.
+- **P2 TorqueQuery Observability Hooks**: Implemented latency bucketing (`<50ms` to `>500ms`), drift-hit/miss counters, query-shape histograms (`exact`/`prefix`/`fuzzy`/`empty`), and determinism audit flags in `modules/TorqueQueryOrchestrator.mjs` (5/5 tests passing).
+- **Fleet Telemetry & Dashboard**: Live dashboard verified at `http://127.0.0.1:8080/dashboard` with 86/100 fleet health score and 9 ready background Windows Task Scheduler daemons.
+
+### Next action
+- Maintain continuous daemon supervision and evaluate PostgreSQL 15+ environment readiness for Wave D full conformance gate when infrastructure is provisioned.
+
 ## Retro freshness remediation (2026-09-27)
 
 ### Active goal
@@ -29,29 +45,41 @@ Close the stale-retro audit gap reported on 2026-09-27 and make recurrence visib
 ### Next action
 Stage .context/retros/2026-09-27-1.json with git add -f if committing this remediation, because .context/retros/ is ignored by default.
 
-## Ironbots Autonomous Fleet & Unattended S4U Automation (2026-09-21)
+## Ironbots Autonomous Fleet & Unattended S4U Automation (2026-09-26)
 
 ### Active goal
-Deploy and supervise zero-token autonomous background robot fleet (`\Ironbots\`) running 24/7 unattended via Windows Task Scheduler `S4U` logon, synchronize ICF interactive dashboard telemetry, and enforce mandatory documentation-first discipline before code commits.
+Deploy and supervise zero-token autonomous background robot fleet (`\Ironbots\`) running 24/7 unattended via Windows Task Scheduler `S4U` logon, synchronize ICF interactive dashboard telemetry, operate real-time SSE telemetry streaming on `:8080`, and enforce zero-token local-model inference and automated storage compaction.
 
 ### Policy & discipline
 - **Documentation-First Rule**: All architectural updates, bot specifications, Cathryn Lavery warm-palette diagrams (`.html` + `.png`), Remote Wiki nodes, and ICF dashboard matrix entries must be fully authored and verified *before* creating any new code commits.
-- **Unattended Execution (`S4U`)**: All Ironbots must use `New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U -RunLevel Highest` to execute without requiring an active user logon and without storing passwords.
-- **Deterministic Zero-Token Design**: Pure Node.js ESM and PowerShell scripts with SHA-256 state tracking, structured `_status-feed/*.json` telemetry, and local SQLite FTS5 matching.
+- **Unattended Execution (`S4U`)**: All Ironbots must use `New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U -RunLevel Highest` (with interactive fallback) to execute without requiring an active user logon.
+- **Deterministic Zero-Token Design**: Pure Node.js ESM and PowerShell scripts with SHA-256 state tracking, structured `_status-feed/*.json` telemetry, and local SQLite FTS5 matching. Narrow exception: zero-token on-device local inference via Ollama loopback strictly allowed for unstructured mobile intent extraction and CI stack trace parsing.
 
 ### Completed work
-- Built, tested, and registered 4 active Ironbots in `\Ironbots\`:
+- Built, tested, and registered 9 active Ironbots in `\Ironbots\`:
   1. `KB-Sentinel`: Wiki frontmatter linting and link autohealing.
   2. `TRM-Bot`: Research gap triage and RFC note drafting.
   3. `Daemon-Healer`: Port 8080 ICF Gateway supervision and auto-restart.
   4. `CI-Watchdog`: GitHub Actions workflow audit and failure log extractor.
-- Registered dedicated Ironbots fleet panel in ICF Dashboard at `http://127.0.0.1:8080/dashboard` under Tab 06 (*Operations & Automation*).
-- Created Remote Wiki specification (`wiki/Ironbots.md`), Cathryn Lavery visual design standard diagram (`wiki/ironbots-autonomous-architecture.html` + `.png`), and ICF architecture documentation (`icf/docs/ironbots-autonomous-agent-pipeline.md`).
-- Authored test suite `tests/ironbots.test.mjs` with 5 passing tests, satisfying Delivery Guard automation policy.
-- Pushed commits to remote branches in both `toolforge` (`parkd821-20260908`) and `icf` (`codex/weekly-retro-reporting`).
+  5. `Notebook-Ingester`: NotebookLM knowledge source ingestion and FTS5 indexing.
+  6. `Watchlist-Miner`: Competitor research watchlist drift mining.
+  7. `TRM-Drive-Sync`: Bi-directional Google Drive & mobile inbox action card ingestion.
+  8. `Storage-Pruner`: Autonomous SQLite database vacuuming, historical telemetry gzip compaction, and `.harness` task pruning.
+  9. `Ironbots-Reporter`: Unified fleet activity aggregation, health scoring, host heartbeat, and daily Markdown report generation.
+- Implemented **Local Small-Model Bridge** (`scripts/local-small-model-bridge.mjs`) with loopback security boundary (`127.0.0.1`, `localhost`, `::1`), model health checks, and deterministic fallback engines for voice/text intent extraction and CI stack trace root-cause parsing.
+- Built **Closed-Loop Mobile Receipt Channel** (`scripts/trm-ingress-watcher.mjs`) generating structured `.json` and formatted `.md` receipts in `mobile-outbox/` upon card execution/quarantine.
+- Built **Native SSE Event Streaming** (`icf/src/server.mjs`) on `/api/events` with debounced file watching on `_status-feed/`, 15s host heartbeats, and live indicator in `icf/dashboard/index.html`.
+- Executed OpenAI Codex CLI multi-model review, resolving 3 [P1] and 3 [P2] findings across memory markers, error derivation, and loopback security.
+- Executed /caveman-review and /ponytail-review passes: hardened atomic `.gz` compaction via `.gz.tmp` rename in `storage-pruner.mjs`, added socket timeout destruction & CLI file guards in `local-small-model-bridge.mjs`, removed dead tripwire references in `gated-climb-repair.mjs`, and modernized to native `import.meta.dirname`/`import.meta.filename`.
+- Hardened `scripts/git-push-and-wait.ps1` with StrictMode safe property navigation on review author, eliminated double-sleep on commit head mismatch, and added check completion fallback when reviews exist without CI status checks.
+- Hardened `scripts/sync-github-wiki.mjs` against comment delimiter collisions (`-->` sanitized to `-- >`) with comprehensive unit test coverage in `scripts/sync-github-wiki.test.mjs`.
+- Restored ratified local Ollama routing configuration in `_integration/model_selection.json` and verified full platform test suite (230/230 unit/integration tests passing).
+- Verified 100% fleet test pass across all Ironbots (21/21 passing tests in `tests/ironbots.test.mjs`, 87/87 reporting tests, 5/5 ICF gateway integration tests).
+- Authored architectural implementation plan for durable Grok Bot transcript persistence under Temporal harness (`restore-grok-bot-transcripts-plan.md`).
 
 ### Next action
-- Author documentation and architecture specs for Bot 5 (`Notebook-Ingester`) and Bot 6 (`Watchlist-Miner`) before committing new bot code.
+- Push hardened commits via `scripts/git-push-and-wait.ps1` and verify CI/Devin review gates.
+- Proceed with Temporal transcript mirror rollout (Goal A) or ICF Dashboard UI Expansion as selected.
 
 ### Completed work
 - Installed and registered `ponytail` plugin in Antigravity configuration.

@@ -1,3 +1,14 @@
+<!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
+> Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
+- Canonical Knowledge Base Root: C:\dev\kb-sync\obsidian\vault\wiki
+- Ingest Guidelines: docs/targets/obsidian.md
+- Primary Architecture Graph: [[Index]]
+- Active Conventions: [[wiki-schema]]
+- Log Audit Trail: [[Log]]
+- Repository Target: dev
+<!-- TOOLFORGE-VAULT-POINTER-END -->
+
 <!-- ijfw schema:1 -->
 # IJFW Project Journal
 - [2026-07-24T05:55:02Z] session-end: #1200300
@@ -266,3 +277,36 @@
 - [2026-09-03T20:48:39Z] session-end: #1733800
 - [2026-09-03T23:10:02Z] session-end: #2839600
 - [2026-09-03T23:36:16Z] session-end: #7528300
+- [2026-09-26T19:57:42Z] session-end: #4470100
+- [2026-09-26T22:18:04Z] session-end: #5454600
+- [2026-09-26T22:19:28Z] session-end: #4629700
+- [2026-09-26T22:25:32Z] session-end: #0568000
+- [2026-09-27T02:55:41Z] session-end: #2135100
+- [2026-09-27T03:24:11Z] session-end: #9991300
+- [2026-09-27T03:24:21Z] session-end: #6214000
+- [2026-09-27T03:26:16Z] session-end: #5889100
+- [2026-09-27T03:41:49Z] session-end: #9755200
+- [2026-09-27T07:43:27Z] session-end: #4242300
+- [2026-09-27T07:55:46Z] session-end: #6952000
+- [2026-09-27T08:07:55Z] session-end: #2120400
+- [2026-09-27T11:16:51Z] session-end: #8577900
+- [2026-09-27T13:57:36Z] session-end: #5153900
+- [2026-09-27T15:20:40Z] session-end: #6212800
+- [2026-09-27T15:22:48Z] session-end: #1652800
+- [2026-09-27T19:48:22Z] session-end: #1763500
+- [2026-09-27T20:09:44Z] session-end: #4477600
+- [2026-09-27T22:40:50Z] session-end: #6131200
+- [2026-09-27T22:45:04Z] session-end: #5001100
+- [2026-09-27T22:56:06Z] session-end: #7640300
+- [2026-09-27T22:56:20Z] session-end: #6067300
+- [2026-09-28T06:15:38Z] session-end: #6764800
+- [2026-09-28T06:17:20Z] session-end: #5453500
+- [2026-09-28T06:20:40Z] session-end: #4110500
+- [2026-09-28T06:31:09Z] session-end: #9539000
+- [2026-09-28T11:19:27Z] session-end: #6122600
+- [2026-09-28T12:24:30Z] session-end: #3087400
+- [2026-09-28T13:16:47Z] session-end: #3912300
+- [2026-09-28T13:19:28Z] session-end: #5653800
+- [2026-09-28T13:39:08Z] session-end: #4410400
+- [2026-09-28T13:58:20Z] session-end: #1395600
+- [2026-09-29T02:07:05Z] session-end: #5365700

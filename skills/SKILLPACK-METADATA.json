@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-04T00:52:57.6036137Z",
+  "timestamp": "2026-09-28T14:31:54.5194396Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -26,60 +26,6 @@
       "timestamps": {
         "created": "2026-07-17T16:43:16.0006002Z",
         "lastValidation": "2026-07-17T16:43:16.0006002Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "retro-schema-validator",
-      "name": "Retro Schema Validator",
-      "category": "validation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "javascript",
-      "entrypoint": "src/index.js",
-      "description": "Validates .retro/*.json files against the canonical retro schema v1.0 (required fields, types, ranges, unknown fields)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-23T17:34:37.3597852Z",
-        "lastValidation": "2026-08-23T17:34:37.3597852Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "rewrite-labs-orchestrator",
-      "name": "Rewrite Labs Orchestrator",
-      "category": "automation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Orchestrates multi-stage development pipelines and handles blockers",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2839834Z",
-        "lastValidation": "2026-07-10T21:43:59.2839834Z",
         "lastRun": "2026-08-07T21:38:00Z"
       }
     },
@@ -219,6 +165,35 @@
       }
     },
     {
+      "id": "sigil-grok-bridge",
+      "name": "Sigil Grok Bridge",
+      "category": "sync-tools",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "soren",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Exposes governed Sigil task submission and inbox inspection to Grok Bot over MCP",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "@modelcontextprotocol/sdk"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-09-09T02:12:08.5103341Z",
+        "lastValidation": "2026-09-09T02:12:08.5103341Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "skill-health-monitor",
       "name": "Skill Health Monitor",
       "category": "monitoring",
@@ -275,6 +250,65 @@
       }
     },
     {
+      "id": "slop-grader-sweep",
+      "name": "Slop Grader Sweep",
+      "category": "docs-quality",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/cli.ts",
+      "description": "LLM-graded prose quality sweep (no-ai-slop + tech-docs rulesets) for docs/wiki/specs markdown, complementing the deterministic writing-heuristics engine",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-09-22T16:26:52.8977684Z",
+        "lastValidation": "2026-09-22T16:26:52.8977684Z",
+        "lastRun": null
+      }
+    },
+    {
+      "id": "third-party-repo-auditor",
+      "name": "Third-Party Repository Auditor",
+      "category": "observability",
+      "tags": [
+        "git",
+        "third-party",
+        "audit",
+        "upstream"
+      ],
+      "version": "1.0.0",
+      "owner": "soren",
+      "runtime": "powershell",
+      "entrypoint": "src/audit.ps1",
+      "description": "Audits third-party Git repositories against upstream remotes for pending commits, tags, and patch status",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-09-20T14:33:59.4941744Z",
+        "lastValidation": "2026-09-20T14:33:59.4941744Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "tinyfish-search",
       "name": "TinyFish Search",
       "category": "sync-tools",
@@ -304,6 +338,33 @@
       }
     },
     {
+      "id": "rewrite-labs-orchestrator",
+      "name": "Rewrite Labs Orchestrator",
+      "category": "automation",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Orchestrates multi-stage development pipelines and handles blockers",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-10T21:43:59.2839834Z",
+        "lastValidation": "2026-07-10T21:43:59.2839834Z",
+        "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
       "id": "tool-lifecycle-manager",
       "name": "Tool Lifecycle Manager",
       "category": "pipeline",
@@ -328,40 +389,6 @@
         "created": "2026-07-14T03:18:38.7892909Z",
         "lastValidation": "2026-07-14T03:18:38.7892909Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "toolforge-cli",
-      "name": "Toolforge CLI",
-      "category": "utility",
-      "tags": [
-        "cli",
-        "toolforge",
-        "marketplace"
-      ],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "powershell",
-      "entrypoint": "src/cli.ps1",
-      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "toolforge-registry-manager",
-          "toolforge-submission-validator"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:43:17.3269637Z",
-        "lastValidation": "2026-07-14T03:43:17.3269637Z",
-        "lastRun": "2026-08-07T21:38:00Z"
       }
     },
     {
@@ -544,6 +571,33 @@
       }
     },
     {
+      "id": "trm-self-healing",
+      "name": "TRM Self Healing",
+      "category": "observability",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "soren",
+      "runtime": "javascript",
+      "entrypoint": "src/index.mjs",
+      "description": "DevOps self-healing triage, research escalation, and Sigil biometric guard skills",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-09-25T16:08:39.9794463Z",
+        "lastValidation": "2026-09-25T16:08:39.9794463Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "trm-status",
       "name": "TRM Status",
       "category": "monitoring",
@@ -570,6 +624,33 @@
         "created": "2026-08-01T03:33:34.7530183Z",
         "lastValidation": "2026-08-01T03:33:34.7530183Z",
         "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "wiki-governance-sync",
+      "name": "Wiki Governance Sync",
+      "category": "governance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Multi-repository knowledge base synchronization and schema governance engine for Obsidian vaults.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-09-27T15:22:07.2763514Z",
+        "lastValidation": "2026-09-27T15:22:07.2763514Z",
+        "lastRun": null
       }
     },
     {
@@ -627,6 +708,67 @@
       }
     },
     {
+      "id": "toolforge-cli",
+      "name": "Toolforge CLI",
+      "category": "utility",
+      "tags": [
+        "cli",
+        "toolforge",
+        "marketplace"
+      ],
+      "version": "0.1.0",
+      "owner": "soren",
+      "runtime": "powershell",
+      "entrypoint": "src/cli.ps1",
+      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
+      "status": "active",
+      "dependencies": {
+        "internal": [
+          "toolforge-registry-manager",
+          "toolforge-submission-validator"
+        ],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-14T03:43:17.3269637Z",
+        "lastValidation": "2026-07-14T03:43:17.3269637Z",
+        "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "retro-schema-validator",
+      "name": "Retro Schema Validator",
+      "category": "validation",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "javascript",
+      "entrypoint": "src/index.js",
+      "description": "Validates .retro/*.json files against the canonical retro schema v1.0 (required fields, types, ranges, unknown fields)",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-23T17:34:37.3597852Z",
+        "lastValidation": "2026-08-23T17:34:37.3597852Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
+      }
+    },
+    {
       "id": "retro-export",
       "name": "Retro Export",
       "category": "monitoring",
@@ -681,62 +823,6 @@
         "created": "2026-08-16T18:41:45.5186640Z",
         "lastValidation": "2026-08-16T18:41:45.5186640Z",
         "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "reconcile-vector-store",
-      "name": "Reconcile Vector Store",
-      "category": "data-management",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2615565Z",
-        "lastValidation": "2026-07-10T21:43:59.2615565Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "pre-wrap-audit",
-      "name": "Pre Wrap Audit",
-      "category": "session-management",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "ashfall"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2189839Z",
-        "lastValidation": "2026-07-10T21:43:59.2189839Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
       }
     },
     {
@@ -1024,35 +1110,6 @@
       }
     },
     {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
       "id": "cic-section-summarizer",
       "name": "CIC Section Summarizer",
       "category": "analysis",
@@ -1076,6 +1133,33 @@
       "timestamps": {
         "created": "2026-07-10T21:43:58.9776576Z",
         "lastValidation": "2026-07-10T21:43:58.9776576Z",
+        "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "context-manager",
+      "name": "Context Manager",
+      "category": "utilities",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Autonomous execution context detection, validation, and storage",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-15T15:04:33.2172721Z",
+        "lastValidation": "2026-07-15T15:04:33.2172721Z",
         "lastRun": "2026-08-07T21:38:00Z"
       }
     },
@@ -1137,6 +1221,33 @@
         "created": "2026-07-10T21:43:59.0102349Z",
         "lastValidation": "2026-07-10T21:43:59.0102349Z",
         "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "ironbots-fleet-status-monitor",
+      "name": "Ironbots Fleet Status Monitor",
+      "category": "monitoring",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Aggregates execution status and live telemetry across all 9 Ironbots fleet tasks, detects runtime errors, and renders unified fleet health summaries.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-09-27T15:21:21.9051376Z",
+        "lastValidation": "2026-09-27T15:21:21.9051376Z",
+        "lastRun": null
       }
     },
     {
@@ -1358,15 +1469,44 @@
       }
     },
     {
-      "id": "context-manager",
-      "name": "Context Manager",
-      "category": "utilities",
+      "id": "pre-wrap-audit",
+      "name": "Pre Wrap Audit",
+      "category": "session-management",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
-      "runtime": "typescript",
+      "runtime": "node",
       "entrypoint": "src/index.ts",
-      "description": "Autonomous execution context detection, validation, and storage",
+      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
+      "status": "active",
+      "dependencies": {
+        "internal": [
+          "ashfall"
+        ],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-10T21:43:59.2189839Z",
+        "lastValidation": "2026-07-10T21:43:59.2189839Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z"
+      }
+    },
+    {
+      "id": "reconcile-vector-store",
+      "name": "Reconcile Vector Store",
+      "category": "data-management",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
       "status": "active",
       "dependencies": {
         "internal": [],
@@ -1379,9 +1519,38 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-15T15:04:33.2172721Z",
-        "lastValidation": "2026-07-15T15:04:33.2172721Z",
-        "lastRun": "2026-08-07T21:38:00Z"
+        "created": "2026-07-10T21:43:59.2615565Z",
+        "lastValidation": "2026-07-10T21:43:59.2615565Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z"
+      }
+    },
+    {
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -1420,10 +1589,10 @@
     }
   ],
   "summary": {
-    "total": 50,
-    "active": 50,
+    "total": 56,
+    "active": 56,
     "deprecated": 0,
-    "health_good": 50,
+    "health_good": 56,
     "health_warn": 0,
     "health_error": 0
   }

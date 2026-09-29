@@ -1,5 +1,5 @@
 {
-  "evaluated_at": "2026-08-27T20:43:16.000Z",
+  "evaluated_at": "2026-09-27T13:09:51.137Z",
   "hardware_profile": {
     "gpu_count": 1,
     "gpu_name": "NVIDIA RTX 4090",
@@ -111,18 +111,18 @@
       }
     },
     {
-      "model_name": "llama3:8b-instruct-fp16",
+      "model_name": "qwen2.5:7b",
       "tier": "Tier 2 (Muscle)",
       "vram_fit_status": "fits_easily",
       "benchmark_matrix": {
-        "bfcl_composite_score": 0.694,
+        "bfcl_composite_score": 0.72,
         "metrics": {
-          "simple_tool_call_accuracy": 0.77,
-          "parallel_tool_call_accuracy": 0.7,
-          "nested_tool_call_accuracy": 0.59,
-          "relevance_rejection_rate": 0.72
+          "simple_tool_call_accuracy": 0.8,
+          "parallel_tool_call_accuracy": 0.73,
+          "nested_tool_call_accuracy": 0.62,
+          "relevance_rejection_rate": 0.75
         },
-        "quantization_overhead_penalty": 0.15
+        "quantization_overhead_penalty": 0.1
       }
     }
   ],
@@ -134,5 +134,5 @@
       "hardware_aware_compaction"
     ]
   },
-  "hash_chain_self": "6729a806b61b32b63c9dbcb86d698c2779d14d00839655e5911117303d538399"
+  "hash_chain_self": "923dfafa7397480676e5699862098766de993b7bb5445c863c005d1f46fcc211"
 }

@@ -1,11 +1,16 @@
 {
-  "timestamp": "2026-09-28T02:59:34.403Z",
+  "timestamp": "2026-09-29T02:28:50.861Z",
   "elapsedMs": 5,
   "totalGaps": 0,
   "pending": 0,
   "drafted": 0,
   "resolved": 0,
   "triagedCount": 0,
+  "routing": {
+    "tier1Count": 0,
+    "tier2Count": 0,
+    "avgRoutingLatencyMs": 0
+  },
   "generatedRfcs": [],
   "dryRun": true
 }

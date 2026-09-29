@@ -1,6 +1,7 @@
 import readline from "node:readline";
 import fs from "node:fs";
 import path from "node:path";
+import { evaluateCommandSafety } from "../../../scripts/worktree-safety-gate.mjs";
 
 const CONNECTOR_URL = process.env.SIGIL_CONNECTOR_URL || "http://127.0.0.1:4411";
 
@@ -24,13 +25,14 @@ function resolveConnectorToken() {
 
 const CONNECTOR_TOKEN = resolveConnectorToken();
 
-function getConnectorHeaders(capabilityScope = "sigil.task/*") {
+function getConnectorHeaders(capabilityScope = "sigil.task/*", extraHeaders = {}) {
   const headers = {
     "Content-Type": "application/json",
     "x-sigil-request-id": `req_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
     "x-sigil-contract": "sigil.connector/v1",
     "x-sigil-caller": "sigil-grok-bridge",
-    "x-sigil-capability-scope": capabilityScope
+    "x-sigil-capability-scope": capabilityScope,
+    ...extraHeaders
   };
   if (CONNECTOR_TOKEN) {
     headers["Authorization"] = `Bearer ${CONNECTOR_TOKEN}`;
@@ -41,7 +43,7 @@ function getConnectorHeaders(capabilityScope = "sigil.task/*") {
 const TOOLS = [
   {
     name: "sigil_send_task",
-    description: "Dispatch an asynchronous, cryptographically signed task to a Sigil worker (e.g. Claude or Codex).",
+    description: "Dispatch an asynchronous, cryptographically signed task to a Sigil worker (e.g. Claude or Codex). Gated by Jev Pre-Flight Safety Gate.",
     inputSchema: {
       type: "object",
       properties: {
@@ -110,6 +112,20 @@ export async function handleMcpMessage(message) {
     try {
       if (name === "sigil_send_task") {
         const payload = args || {};
+        const instruction = payload.instruction || "";
+
+        // Evaluate task instruction safety using Jev Choice Safety Gate
+        const safetyResult = await evaluateCommandSafety(instruction);
+        if (safetyResult.verdict === "BLOCKED") {
+          return reply(message.id, {
+            content: [{
+              type: "text",
+              text: `[Safety Gate BLOCKED]: Instruction flagged as ${safetyResult.classification} (${safetyResult.reason}). Automatic dispatch halted; manual confirmation required.`
+            }],
+            isError: true
+          });
+        }
+
         const nowMs = Date.now();
         const taskId = payload.task_id || `task_${nowMs}_${Math.random().toString(36).slice(2, 8)}`;
         const envelope = payload.envelope || {
@@ -123,7 +139,9 @@ export async function handleMcpMessage(message) {
           },
           body: {
             task_id: taskId,
-            instruction: payload.instruction
+            instruction: payload.instruction,
+            safety_verdict: safetyResult.verdict,
+            safety_class: safetyResult.classification
           },
           context_refs: payload.context_refs || [],
           capabilities: ["sigil.task/submit"],
@@ -134,7 +152,10 @@ export async function handleMcpMessage(message) {
 
         const res = await fetch(`${CONNECTOR_URL}/v1/tasks`, {
           method: "POST",
-          headers: getConnectorHeaders("sigil.task/*"),
+          headers: getConnectorHeaders("sigil.task/*", {
+            "x-sigil-safety-verdict": safetyResult.verdict,
+            "x-sigil-safety-class": safetyResult.classification
+          }),
           body: JSON.stringify({ envelope })
         });
 

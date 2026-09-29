@@ -53,7 +53,7 @@ function Ensure-TaskFolder {
 }
 
 function Get-NodeArguments {
-    $arguments = @($scriptPath)
+    $arguments = @("`"$scriptPath`"")
     if ($DryRun) {
         $arguments += '--dry-run'
     }
@@ -160,7 +160,10 @@ switch ($Action) {
     }
 
     'Test' {
-        Write-Host "[TEST] Executing one-pass test for $TaskName..." -ForegroundColor Cyan
-        & $NodePath $scriptPath --once
+        $testArgs = @($scriptPath)
+        if ($DryRun) { $testArgs += '--dry-run' }
+        if ($Once -or -not $Continuous) { $testArgs += '--once' }
+        Write-Host "[TEST] Executing test for $TaskName (Args: $($testArgs -join ' '))..." -ForegroundColor Cyan
+        & $NodePath @testArgs
     }
 }

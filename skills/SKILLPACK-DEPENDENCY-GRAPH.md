@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-09-03T02:53:34.6216080Z
+**Generated:** 2026-09-27T15:22:38.9107016Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 50 |
+| Total Skills | 56 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 41 |
+| Orphan Skills | 47 |
 
 ---
 
@@ -112,6 +112,12 @@
 | *(none)* | — | Leaf node |
 
 ### html-visual-verify
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### ironbots-fleet-status-monitor
 
 | Dependency | Type | Status |
 |------------|------|--------|
@@ -232,6 +238,12 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### sigil-grok-bridge
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| @modelcontextprotocol/sdk | external | ❌ Missing |
+
 ### skill-health-monitor
 
 | Dependency | Type | Status |
@@ -243,6 +255,18 @@
 | Dependency | Type | Status |
 |------------|------|--------|
 | python3 | external | ❌ Missing |
+
+### slop-grader-sweep
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### third-party-repo-auditor
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
 ### tinyfish-search
 
@@ -302,11 +326,23 @@
 | trm | external | ❌ Missing |
 | trm-status | internal | ✅ Found |
 
+### trm-self-healing
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### trm-status
 
 | Dependency | Type | Status |
 |------------|------|--------|
 | git | external | ❌ Missing |
+
+### wiki-governance-sync
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
 
 ### wiki-sync-recovery
 
@@ -401,6 +437,9 @@ No inbound dependencies (root skill)\n
 ### html-visual-verify
 
 No inbound dependencies (root skill)\n
+### ironbots-fleet-status-monitor
+
+No inbound dependencies (root skill)\n
 ### kb-sync-artifact-generator
 
 No inbound dependencies (root skill)\n
@@ -458,10 +497,19 @@ No inbound dependencies (root skill)\n
 ### session-wrap
 
 No inbound dependencies (root skill)\n
+### sigil-grok-bridge
+
+No inbound dependencies (root skill)\n
 ### skill-health-monitor
 
 No inbound dependencies (root skill)\n
 ### skill-security-auditor
+
+No inbound dependencies (root skill)\n
+### slop-grader-sweep
+
+No inbound dependencies (root skill)\n
+### third-party-repo-auditor
 
 No inbound dependencies (root skill)\n
 ### tinyfish-search
@@ -497,12 +545,18 @@ No inbound dependencies (root skill)\n
 ### trm-feedback-report
 
 No inbound dependencies (root skill)\n
+### trm-self-healing
+
+No inbound dependencies (root skill)\n
 ### trm-status
 
 | Dependent | Type |
 |-----------|------|
 | trm-feedback-report | internal |
 
+### wiki-governance-sync
+
+No inbound dependencies (root skill)\n
 ### wiki-sync-recovery
 
 No inbound dependencies (root skill)\n
@@ -532,6 +586,7 @@ Depth N = Depends on at least one skill at depth N-1
 | parallel-search | 1 |
 | pre-wrap-audit | 1 |
 | research-questions | 1 |
+| sigil-grok-bridge | 1 |
 | skill-security-auditor | 1 |
 | tinyfish-search | 1 |
 | toolforge-cli | 1 |
@@ -548,6 +603,7 @@ Depth N = Depends on at least one skill at depth N-1
 | context-manager | 0 |
 | hook-validator | 0 |
 | html-visual-verify | 0 |
+| ironbots-fleet-status-monitor | 0 |
 | kb-sync-artifact-generator | 0 |
 | kb-sync-nightly | 0 |
 | obsidian-ingest-wiki | 0 |
@@ -565,11 +621,15 @@ Depth N = Depends on at least one skill at depth N-1
 | scale-ingestion-service | 0 |
 | session-wrap | 0 |
 | skill-health-monitor | 0 |
+| slop-grader-sweep | 0 |
+| third-party-repo-auditor | 0 |
 | tool-lifecycle-manager | 0 |
 | toolforge-drift-monitor | 0 |
 | toolforge-registry-manager | 0 |
 | toolforge-submission-validator | 0 |
 | trm-devops-triage | 0 |
+| trm-self-healing | 0 |
+| wiki-governance-sync | 0 |
 | wiki-sync-recovery | 0 |
 | work-summarizer | 0 |
 | writing-heuristics | 0 |
@@ -600,6 +660,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 | context-manager |
 | hook-validator |
 | html-visual-verify |
+| ironbots-fleet-status-monitor |
 | kb-sync-artifact-generator |
 | kb-sync-nightly |
 | obsidian-ingest-wiki |
@@ -619,8 +680,11 @@ Skills that have no inbound dependencies (nothing depends on them).
 | run-adapter-diagnostic |
 | scale-ingestion-service |
 | session-wrap |
+| sigil-grok-bridge |
 | skill-health-monitor |
 | skill-security-auditor |
+| slop-grader-sweep |
+| third-party-repo-auditor |
 | tinyfish-search |
 | tool-lifecycle-manager |
 | toolforge-cli |
@@ -628,6 +692,8 @@ Skills that have no inbound dependencies (nothing depends on them).
 | trm-closed-loop-research |
 | trm-devops-triage |
 | trm-feedback-report |
+| trm-self-healing |
+| wiki-governance-sync |
 | wiki-sync-recovery |
 | work-summarizer |
 | workspace-storage-cleaner |
@@ -641,7 +707,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 41 orphan skill(s) |
+| Orphans | ⚠️ WARN | 47 orphan skill(s) |
 
 ---
 

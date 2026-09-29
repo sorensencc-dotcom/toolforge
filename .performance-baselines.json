@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schemas.internal/performance-baseline-v2.json",
+  "schema_version": 2,
+  "generated_at": "2026-09-28T06:19:01.524Z",
+  "commit_sha": "local-head",
+  "environment": {
+    "runner_type": "local",
+    "runtime_version": "v24.18.0",
+    "cpu_model": "AMD Ryzen 7 260 w/ Radeon 780M Graphics",
+    "core_count": 16
+  },
+  "fixture_hash": "sha256:static-synthetic-fixture",
+  "stages": {
+    "flattening": {
+      "sample_count": 12,
+      "p50_ms": 0.0442,
+      "min_ms": 0.0437,
+      "max_ms": 0.1476,
+      "iqr_ms": 0.0612,
+      "gate_threshold_ms": 5.05967,
+      "ceiling_limit_ms": 100
+    }
+  }
+}

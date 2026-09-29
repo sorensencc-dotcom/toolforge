@@ -1,14 +1,24 @@
 {
-  "timestamp": "2026-09-28T02:59:34.329Z",
-  "elapsedMs": 445,
-  "healthScore": 92,
+  "timestamp": "2026-09-29T02:28:50.781Z",
+  "elapsedMs": 437,
+  "healthScore": 86,
   "status": "PASS",
-  "scanned": 414,
-  "frontmatterMissing": 4,
-  "brokenLinks": 1,
+  "scanned": 420,
+  "frontmatterMissing": 6,
+  "brokenLinks": 4,
   "healed": 0,
   "dryRun": true,
   "recentIssues": [
+    {
+      "file": "wiki/.ijfw/memory/project-journal.md",
+      "type": "MISSING_FRONTMATTER",
+      "detail": "No YAML frontmatter found"
+    },
+    {
+      "file": "wiki/.ijfw/sessions/session_2026-09-26_23-17-18.md",
+      "type": "MISSING_FRONTMATTER",
+      "detail": "No YAML frontmatter found"
+    },
     {
       "file": "wiki/Ironbots.md",
       "type": "INVALID_SCHEMA",
@@ -98,16 +108,6 @@
       "file": "wiki/research/properties/_errors.md",
       "type": "MISSING_FRONTMATTER",
       "detail": "No YAML frontmatter found"
-    },
-    {
-      "file": "wiki/research/rfc-gap-02--cic-daily-research-adjacent-t.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'post-war' or status 'active'"
-    },
-    {
-      "file": "wiki/research/rfc-gap-03--willow-run-videos-under-sourc.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'willow-run' or status 'resolved'"
     }
   ]
 }

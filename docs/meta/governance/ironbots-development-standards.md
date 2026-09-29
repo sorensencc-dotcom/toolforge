@@ -18,8 +18,9 @@ Any background daemon, scheduled worker, or autonomous maintenance script regist
 ## 2. Core Invariants (The 7 Pillars)
 
 ### Pillar 1: Zero-Token Local Execution
-- **Deterministic Compute**: High-throughput scans (filesystem traversals, AST parsing, regex validation, SQLite FTS5 querying, socket discovery, remote git ref polling) must execute entirely on local CPU cycles.
-- **No Scheduled LLM Calls**: Background cron jobs must never invoke paid LLM completion endpoints. LLM calls are reserved exclusively for on-demand interactive agents.
+- **Deterministic Compute**: High-throughput scans (filesystem traversals, AST parsing, regex validation, SQLite FTS5 querying, socket discovery, remote git ref polling, SQLite vacuuming) must execute entirely on local CPU cycles.
+- **No Paid Cloud LLM Calls in Cron**: Background cron jobs must never invoke paid cloud LLM completion endpoints ($0 budget invariant).
+- **Local Small-Model Bridge Exception**: Local on-device inference via Ollama (Qwen 2.5 / Llama 3.2 on local CPU/GPU with $0 API token cost and offline deterministic fallbacks) is explicitly permitted for on-demand unstructured mobile intent extraction and CI stack trace summarization.
 
 ### Pillar 2: Unattended S4U Execution
 - **24/7 Background Availability**: All scheduled tasks must be configured with Service-for-User logon (`-LogonType S4U`) so they run continuously regardless of whether the operator is logged in.
@@ -64,7 +65,7 @@ Any background daemon, scheduled worker, or autonomous maintenance script regist
 
 ### Pillar 6: Centralized Scoring, Host Heartbeat & Zero Magic Constants
 - **Config-Driven Weights**: Scoring penalties and health status thresholds must be declared in exported configuration blocks (e.g., `FLEET_SCORING_POLICY`) rather than inline magic numbers.
-- **Host Heartbeat & Registry Validation**: Every daily aggregation run verifies host uptime and `\Ironbots\` Task Scheduler registry availability; host dropouts or missing task registrations trigger immediate `DEGRADED` scoring penalties.
+- **Host Heartbeat & Registry Validation**: Every daily aggregation run verifies host uptime and `\Ironbots\` Task Scheduler registry availability (all 9 tasks registered and ready); host dropouts or missing task registrations trigger immediate `DEGRADED` scoring penalties.
 - **Standard Thresholds**:
   - `HEALTHY` / `PASS`: Score $\ge 85$
   - `DEGRADED`: $60 \le \text{Score} < 85$
@@ -89,8 +90,9 @@ Any background daemon, scheduled worker, or autonomous maintenance script regist
 | **Competitor Drift** | `Watchlist-Miner` — Deterministic hash/ETag difference detection. | `Competitor Command Center` — Strategic landscape synthesis and roadmap guidance. |
 | **TRM Gaps** | `TRM-Bot` — Drafts structured RFC notes and staging markers (`status: draft`). | `Research Desk / First Mate` — Review, proof grounding, and final wiki promotion. |
 | **TRM Ingress** | `TRM-Drive-Sync` — Ingests cards, stages to `.harness/`, creates tracking issues. | `Antigravity Harness / Human Operator` — Claiming, resolving, and closing tickets. |
+| **Storage & Telemetry** | `Storage-Pruner` — Weekly SQLite vacuuming (.kb_cache), historical telemetry gzip compaction, and harness task pruning. | `Infrastructure Governance` — Storage capacity planning and archive retention policy. |
 
-### 3.1 Standard CLI & Wrapper Parameter Contracts
+### 3.1 Standard CLI and wrapper parameter contracts
 
 All Ironbot JavaScript engines (`scripts/*-bot.mjs`, `scripts/trm-ingress-watcher.mjs`) and PowerShell scheduled task wrappers (`scripts/schedule-task-wrapper-*.ps1`) must adhere to standard CLI interfaces:
 

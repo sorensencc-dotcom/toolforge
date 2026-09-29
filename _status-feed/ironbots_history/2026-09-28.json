@@ -1,109 +1,53 @@
 {
   "date": "2026-09-28",
-  "timestamp": "2026-09-28T02:59:40.605Z",
-  "elapsedMs": 1251,
-  "fleetHealthScore": 73,
-  "fleetStatus": "DEGRADED",
-  "botCount": 7,
+  "timestamp": "2026-09-28T14:44:42.024Z",
+  "elapsedMs": 1349,
+  "fleetHealthScore": 86,
+  "fleetStatus": "HEALTHY",
+  "botCount": 8,
   "activeBots": [
     {
       "id": "notebook-ingester",
       "name": "NotebookLM & Knowledge Ingester",
       "schedule": "Daily 02:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-28T02:59:39.222Z",
-        "elapsedMs": 388,
+        "timestamp": "2026-09-28T14:22:21.176Z",
+        "elapsedMs": 352,
         "status": "HEALTHY",
-        "totalFiles": 414,
-        "indexedCount": 414,
+        "totalFiles": 438,
+        "indexedCount": 438,
         "updatedCount": 0,
         "skippedCount": 0,
-        "packWarnings": [],
         "databasePath": ".kb_cache/knowledge_fts5.db",
         "dryRun": true
       },
       "status": "HEALTHY",
-      "summary": "414 documents indexed into SQLite FTS5"
+      "summary": "438 documents indexed into SQLite FTS5"
     },
     {
       "id": "kb-sentinel",
       "name": "KB-Sentinel Drift & Autoheal",
       "schedule": "Daily 03:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-28T02:59:34.329Z",
-        "elapsedMs": 445,
-        "healthScore": 92,
+        "timestamp": "2026-09-28T14:22:12.498Z",
+        "elapsedMs": 679,
+        "healthScore": 86,
         "status": "PASS",
-        "scanned": 414,
-        "frontmatterMissing": 4,
-        "brokenLinks": 1,
+        "scanned": 420,
+        "frontmatterMissing": 6,
+        "brokenLinks": 4,
         "healed": 0,
         "dryRun": true,
         "recentIssues": [
           {
-            "file": "wiki/Ironbots.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'architecture' or status 'active'"
+            "file": "wiki/.ijfw/memory/project-journal.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
           },
           {
-            "file": "wiki/research/adjacent-topics.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'daily' or status 'active'"
-          },
-          {
-            "file": "wiki/research/cesor-farms-flying-cow-gap-02.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'willow-run' or status 'resolved'"
-          },
-          {
-            "file": "wiki/research/cuban-seizures-and-retired-assets-overview.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'cuban-seizures' or status 'active'"
-          },
-          {
-            "file": "wiki/research/fcsc-cuban-telephone.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'cuban-seizures' or status 'active'"
-          },
-          {
-            "file": "wiki/research/fcsc-moa-bay.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'cuban-seizures' or status 'active'"
-          },
-          {
-            "file": "wiki/research/follow-up.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'daily' or status 'active'"
-          },
-          {
-            "file": "wiki/research/ford-socony-vacuum.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'ford-politics' or status 'active'"
-          },
-          {
-            "file": "wiki/research/historical-revocation-verification.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'ford-politics' or status 'active'"
-          },
-          {
-            "file": "wiki/research/ironbots-daily-report.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'reporting' or status 'active'"
-          },
-          {
-            "file": "wiki/research/ironledger-kms-encryption.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'ironledger' or status 'active'"
-          },
-          {
-            "file": "wiki/research/mobile-websocket-heartbeats.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'sigil' or status 'active'"
-          },
-          {
-            "file": "wiki/research/open-contradictions.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'daily' or status 'active'"
+            "file": "wiki/.ijfw/sessions/session_2026-09-26_23-17-18.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
           },
           {
             "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",
@@ -121,91 +65,62 @@
             "detail": "No YAML frontmatter found"
           },
           {
-            "file": "wiki/research/properties/sorensen-cuban-estate-fcsc.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'cuban-seizures' or status 'resolved'"
-          },
-          {
             "file": "wiki/research/properties/_errors.md",
             "type": "MISSING_FRONTMATTER",
             "detail": "No YAML frontmatter found"
-          },
-          {
-            "file": "wiki/research/rfc-gap-02--cic-daily-research-adjacent-t.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'post-war' or status 'active'"
-          },
-          {
-            "file": "wiki/research/rfc-gap-03--willow-run-videos-under-sourc.md",
-            "type": "INVALID_SCHEMA",
-            "detail": "Invalid category 'willow-run' or status 'resolved'"
           }
         ]
       },
       "status": "PASS",
-      "summary": "Health Score: 92/100 (414 files scanned)"
+      "summary": "Health Score: 86/100 (420 files scanned)"
     },
     {
       "id": "trm-bot",
       "name": "TRM Gap Triage & RFC Drafter",
       "schedule": "Daily 04:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-28T02:59:34.403Z",
-        "elapsedMs": 5,
-        "totalGaps": 0,
+        "timestamp": "2026-09-28T14:22:12.636Z",
+        "elapsedMs": 27,
+        "totalGaps": 5368,
         "pending": 0,
-        "drafted": 0,
+        "drafted": 5368,
         "resolved": 0,
         "triagedCount": 0,
+        "routing": {
+          "tier1Count": 0,
+          "tier2Count": 0,
+          "avgRoutingLatencyMs": 0
+        },
         "generatedRfcs": [],
         "dryRun": true
       },
       "status": "PASS",
-      "summary": "0 total gaps (0 drafted)"
+      "summary": "5368 total gaps (5368 drafted)"
     },
     {
       "id": "watchlist-miner",
       "name": "Watchlist & Competitor Drift Miner",
       "schedule": "Daily 05:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-28T02:59:39.314Z",
+        "timestamp": "2026-09-28T14:22:21.289Z",
         "elapsedMs": 3,
-        "status": "DRIFT_DETECTED",
+        "status": "PASS",
         "totalWatchlists": 3,
         "targetsEvaluated": 2,
-        "driftsDetected": 2,
-        "driftFindings": [
-          {
-            "watchlistId": "trm:watchlist:google-sam-mesh",
-            "competitorName": "Google Sovereign Agent Mesh",
-            "targetId": "sam-p2p-repository",
-            "url": "https://github.com/google/sam",
-            "baselineHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-            "observedHash": "2b956b0eead179eb6d085f035ba5594c4cb52c3b76401ebe9176d7942d2d72a4",
-            "wikiPath": "wiki/research/competitor-drift-google-sam.md"
-          },
-          {
-            "watchlistId": "trm:watchlist:anthropic-computer-use",
-            "competitorName": "Anthropic Computer Use & Agent Workflows",
-            "targetId": "anthropic-quickstarts",
-            "url": "https://github.com/anthropics/anthropic-quickstarts",
-            "baselineHash": "c0ffee0000000000000000000000000000000000000000000000000000000000",
-            "observedHash": "afb6c532b499c0b63bcc92976403e8533b668cc7aa97122e0ac2e5c323911dc7",
-            "wikiPath": "wiki/research/competitor-drift-anthropic-computer-use.md"
-          }
-        ],
+        "driftsDetected": 0,
+        "driftFindings": [],
         "dryRun": true
       },
-      "status": "DRIFT_DETECTED",
-      "summary": "2 targets evaluated (2 drifts)"
+      "status": "PASS",
+      "summary": "2 targets evaluated (0 drifts)"
     },
     {
       "id": "daemon-healer",
       "name": "Daemon-Healer Port 8080 Supervisor",
       "schedule": "Every 15 Min",
       "telemetry": {
-        "timestamp": "2026-09-28T02:59:35.862Z",
-        "elapsedMs": 1362,
+        "timestamp": "2026-09-28T14:38:29.896Z",
+        "elapsedMs": 2906,
         "targetUrl": "http://127.0.0.1:8080/dashboard",
         "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
         "status": "HEALTHY",
@@ -220,7 +135,7 @@
             "statusCode": 200,
             "headers": {
               "content-type": "text/html; charset=UTF-8",
-              "date": "Mon, 28 Sep 2026 02:59:34 GMT",
+              "date": "Mon, 28 Sep 2026 14:38:27 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
@@ -234,19 +149,19 @@
             "headers": {
               "content-type": "application/json; charset=UTF-8",
               "access-control-allow-origin": "*",
-              "date": "Mon, 28 Sep 2026 02:59:35 GMT",
+              "date": "Mon, 28 Sep 2026 14:38:29 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
             },
             "payloadValid": true,
-            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-28\",\"timestamp\":\"2026-09-28T02:59:34.509Z\",\"elapsedMs\":1348,\"fleetHealthScor"
+            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-28\",\"timestamp\":\"2026-09-28T14:38:27.029Z\",\"elapsedMs\":2848,\"fleetHealthScor"
           }
         },
         "healed": false,
         "restartedPid": null,
-        "dryRun": true,
-        "checkOnly": true
+        "dryRun": false,
+        "checkOnly": false
       },
       "status": "HEALTHY",
       "summary": "Port 8080 status: HEALTHY (healed: false)"
@@ -256,133 +171,183 @@
       "name": "CI-Watchdog Workflow Failure Triage",
       "schedule": "Daily 06:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-28T02:59:38.755Z",
-        "elapsedMs": 2818,
+        "timestamp": "2026-09-28T14:22:42.461Z",
+        "elapsedMs": 2180,
         "status": "FAILURES_DETECTED",
         "scannedCount": 10,
         "activeCount": 0,
-        "failureCount": 2,
+        "failureCount": 1,
         "recentRuns": [
           {
-            "id": 36346603623,
-            "name": "Graft & AST Architecture Audit",
-            "branch": "claude/universal-usagecheck-skill-3l2utf",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36346603592,
-            "name": "Secret scan",
-            "branch": "claude/universal-usagecheck-skill-3l2utf",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36346603585,
+            "id": 36435386929,
             "name": "Governance",
-            "branch": "claude/universal-usagecheck-skill-3l2utf",
+            "branch": "parkd821-20260908",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36346588784,
-            "name": "Governance",
-            "branch": "claude/universal-usagecheck-skill-3l2utf",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36345736582,
-            "name": "Governance",
-            "branch": "fix/governance-gate-and-wiki-alignments",
-            "status": "completed",
-            "conclusion": "failure"
-          },
-          {
-            "id": 36345736570,
-            "name": "Secret scan",
-            "branch": "fix/governance-gate-and-wiki-alignments",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36345736530,
-            "name": "Graft & AST Architecture Audit",
-            "branch": "fix/governance-gate-and-wiki-alignments",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36345736521,
-            "name": "Documentation",
-            "branch": "fix/governance-gate-and-wiki-alignments",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36345734364,
-            "name": "Governance",
-            "branch": "fix/governance-gate-and-wiki-alignments",
-            "status": "completed",
-            "conclusion": "failure"
-          },
-          {
-            "id": 36345389000,
+            "id": 36431303788,
             "name": "Governance",
             "branch": "parkd821-20260908",
             "status": "completed",
             "conclusion": "failure"
+          },
+          {
+            "id": 36430831447,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 36430052813,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 36428086559,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 36414631587,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 36387702431,
+            "name": "Graft & AST Architecture Audit",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36387702352,
+            "name": "Toolforge Release",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36387702349,
+            "name": "CI governance gate matrix",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 36387702323,
+            "name": "Governance",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
           }
         ],
         "alerts": [
           {
-            "runId": 36345736582,
-            "name": "Governance",
-            "branch": "fix/governance-gate-and-wiki-alignments",
-            "sha": "805da52d",
-            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36345736582",
-            "createdAt": "2026-09-27T19:49:04Z",
+            "runId": 36387702349,
+            "name": "CI governance gate matrix",
+            "branch": "main",
+            "sha": "81372cf0",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36387702349",
+            "createdAt": "2026-09-28T06:41:16Z",
             "errorSummary": [
-              "Delivery guard automation policy\tUNKNOWN STEP\t2026-09-27T19:49:31.7953317Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\".github/workflows/retro-full-audit.yml\",\"scripts/git-push-and-wait.ps1\",\"scripts/sync-github-wiki.mjs\",\"scripts/sync-github-wiki.test.mjs\",\"scripts/test-retro-audit-agent.ps1\"],\"regressionTestPaths\":[\"scripts/sync-github-wiki.test.mjs\"],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"10a8276b524b8c07ac876190a28f69cef8b820f6\",\"enforcement\":\"blocking\",\"exitCode\":0,\"policy\":{\"decision\":\"allow\",\"issues\":[],\"automationPaths\":[\"scripts/git-push-and-wait.ps1\",\"scripts/sync-github-wiki.mjs\",\"scripts/sync-github-wiki.test.mjs\"],\"regressionTestPaths\":[\"scripts/sync-github-wiki.test.mjs\"],\"exemption\":null}},{\"commitSha\":\"805da52da0f4e0abfb8744c27e7b60b549892bc4\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\".github/workflows/retro-full-audit.yml\",\"scripts/test-retro-audit-agent.ps1\"],\"regressionTestPaths\":[],\"exemption\":null}},{\"commitSha\":\"5c011e1292fe9e997fe0993d5e325f864ac83cd4\",\"enforcement\":\"blocking\",\"exitCode\":0,\"policy\":{\"decision\":\"allow\",\"issues\":[],\"automationPaths\":[\".github/workflows/retro-full-audit.yml\",\"scripts/git-push-and-wait.ps1\",\"scripts/sync-github-wiki.mjs\",\"scripts/sync-github-wiki.test.mjs\",\"scripts/test-retro-audit-agent.ps1\"],\"regressionTestPaths\":[\"scripts/sync-github-wiki.test.mjs\"],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
-              "Delivery guard automation policy\tUNKNOWN STEP\t2026-09-27T19:49:31.8044493Z ##[error]Process completed with exit code 1."
-            ]
-          },
-          {
-            "runId": 36345389000,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "sha": "08cbed1a",
-            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36345389000",
-            "createdAt": "2026-09-27T19:43:21Z",
-            "errorSummary": [
-              "Skill documentation compliance\tUNKNOWN STEP\t2026-09-27T19:44:02.7965298Z ❌ Documentation compliance failures:",
-              "Skill documentation compliance\tUNKNOWN STEP\t2026-09-27T19:44:04.2013041Z ##[error]Process completed with exit code 1."
+              "kb-sync governance\tUNKNOWN STEP\t2026-09-28T06:41:47.8342222Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-28T06:41:56.9845586Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "sigil governance\tUNKNOWN STEP\t2026-09-28T06:41:56.6221202Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "toolforge governance\tUNKNOWN STEP\t2026-09-28T06:42:16.1542529Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "trm governance\tUNKNOWN STEP\t2026-09-28T06:41:56.7573848Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository"
             ]
           }
         ],
-        "dryRun": true
+        "dryRun": false
       },
       "status": "FAILURES_DETECTED",
-      "summary": "10 runs scanned (2 failures)"
+      "summary": "10 runs scanned (1 failures)"
     },
     {
       "id": "trm-drive-sync",
       "name": "TRM-Drive-Sync Ingress Watcher",
       "schedule": "Continuous / On-Demand",
       "telemetry": {
-        "timestamp": "2026-09-26T18:39:51.126Z",
+        "timestamp": "2026-09-28T14:22:22.781Z",
         "status": "HEALTHY",
-        "triageQueue": 3,
-        "completed": 1,
+        "dryRun": true,
+        "triageQueue": 4,
+        "completed": 2,
         "quarantined": 0,
-        "harnessPending": 2,
-        "totalTracked": 4,
+        "harnessPending": 1,
+        "totalTracked": 9,
         "activeInboxes": [
           "G:\\My Drive\\TRM-Research\\mobile-inbox",
           "c:\\dev\\trm-drive\\inbox\\triage",
           "c:\\dev\\.trm\\inbox\\triage"
         ],
         "recentCards": [
+          {
+            "id": "act-04-frontier-lab-verification-standards-dissent",
+            "processed_at": "2026-09-27T12:57:58.571Z",
+            "timestamp": "2026-09-27T123004Z",
+            "source": "mobile-gemini-gdoc",
+            "action_type": "antigravity_triage",
+            "intent": "frontier_lab_verification_standards_dissent",
+            "status": "COMPLETED",
+            "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/63",
+            "duration_ms": 861
+          },
+          {
+            "id": "act-03-embodied-robotics-actuator-reliability",
+            "processed_at": "2026-09-27T12:57:57.678Z",
+            "timestamp": "2026-09-27T123003Z",
+            "source": "mobile-gemini-gdoc",
+            "action_type": "antigravity_triage",
+            "intent": "embodied_robotics_actuator_reliability",
+            "status": "STAGED_FOR_TRIAGE",
+            "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/62",
+            "duration_ms": 839
+          },
+          {
+            "id": "act-02-deterministic-decision-action-extraction",
+            "processed_at": "2026-09-27T12:57:56.804Z",
+            "timestamp": "2026-09-27T123002Z",
+            "source": "mobile-gemini-gdoc",
+            "action_type": "antigravity_triage",
+            "intent": "deterministic_decision_action_extraction",
+            "status": "STAGED_FOR_TRIAGE",
+            "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/61",
+            "duration_ms": 837
+          },
+          {
+            "id": "act-01-audit-agent-intermediate-storage-exfiltration",
+            "processed_at": "2026-09-27T12:57:55.896Z",
+            "timestamp": "2026-09-27T123001Z",
+            "source": "mobile-gemini-gdoc",
+            "action_type": "antigravity_triage",
+            "intent": "audit_agent_intermediate_storage_exfiltration",
+            "status": "STAGED_FOR_TRIAGE",
+            "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/60",
+            "duration_ms": 922
+          },
+          {
+            "id": "act-20260926-pr45-review",
+            "processed_at": "2026-09-26T18:43:25.121Z",
+            "timestamp": "2026-09-26T17:01:00Z",
+            "source": "gemini-mobile",
+            "action_type": "antigravity_triage",
+            "intent": "triage_pr45_devin_review",
+            "target_notebook": "679b8bab-2d87-42cb-a726-6dc54c83acc2",
+            "target_notebook_name": "toolforge",
+            "summary": "Triage and remediate 10 Devin AI review findings on PR #45 (docs(trm): update TRM mobile ingress architecture diagram)",
+            "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/48",
+            "status": "STAGED_FOR_TRIAGE",
+            "duration_ms": 1483
+          },
           {
             "id": "act-20260926-devin-push-gate",
             "processed_at": "2026-09-26T18:39:51.114Z",
@@ -440,14 +405,93 @@
         ]
       },
       "status": "HEALTHY",
-      "summary": "4 action cards tracked (1 completed, 2 staged)"
+      "summary": "9 action cards tracked (2 completed, 1 staged)"
+    },
+    {
+      "id": "storage-pruner",
+      "name": "Storage-Pruner SQLite & Telemetry Compactor",
+      "schedule": "Weekly Sun 03:30 AM",
+      "telemetry": {
+        "timestamp": "2026-09-28T14:22:22.844Z",
+        "dryRun": true,
+        "elapsedMs": 14,
+        "totalFreedBytes": 398322,
+        "totalFreedFormatted": "388.99 KB",
+        "databasesScanned": 6,
+        "databaseResults": [
+          {
+            "dbPath": "C:\\dev\\.kb_cache\\knowledge.db",
+            "sizeBefore": 921600,
+            "sizeAfter": 921600,
+            "bytesSaved": 0,
+            "status": "SKIPPED_DRY_RUN"
+          },
+          {
+            "dbPath": "C:\\dev\\.kb_cache\\knowledge_fts5.db",
+            "sizeBefore": 271388672,
+            "sizeAfter": 271388672,
+            "bytesSaved": 0,
+            "status": "SKIPPED_DRY_RUN"
+          },
+          {
+            "dbPath": "C:\\dev\\icf\\.kb_cache\\knowledge.db",
+            "sizeBefore": 61440,
+            "sizeAfter": 61440,
+            "bytesSaved": 0,
+            "status": "SKIPPED_DRY_RUN"
+          },
+          {
+            "dbPath": "C:\\dev\\.ijfw\\index\\compute.db",
+            "sizeBefore": 151552,
+            "sizeAfter": 151552,
+            "bytesSaved": 0,
+            "status": "SKIPPED_DRY_RUN"
+          },
+          {
+            "dbPath": "C:\\dev\\.ijfw\\index\\memory.db",
+            "sizeBefore": 143360,
+            "sizeAfter": 143360,
+            "bytesSaved": 0,
+            "status": "SKIPPED_DRY_RUN"
+          },
+          {
+            "dbPath": "C:\\dev\\.icf-retros\\weekly\\snapshots.sqlite",
+            "sizeBefore": 688128,
+            "sizeAfter": 688128,
+            "bytesSaved": 0,
+            "status": "SKIPPED_DRY_RUN"
+          }
+        ],
+        "telemetryCompactedCount": 2,
+        "telemetryResults": [
+          {
+            "file": "_status-feed/trm_history/2026-09-20.json",
+            "sizeBefore": 234307,
+            "sizeAfter": 35146,
+            "bytesSaved": 199161,
+            "status": "SKIPPED_DRY_RUN"
+          },
+          {
+            "file": "icf/dashboard/trm_history/2026-09-20.json",
+            "sizeBefore": 234307,
+            "sizeAfter": 35146,
+            "bytesSaved": 199161,
+            "status": "SKIPPED_DRY_RUN"
+          }
+        ],
+        "harnessTasksPrunedCount": 0,
+        "harnessResults": [],
+        "status": "HEALTHY"
+      },
+      "status": "HEALTHY",
+      "summary": "Estimated reclaimable: 388.99 KB (6 DBs scanned, dry-run)"
     }
   ],
   "hostHeartbeat": {
     "hostname": "WIN-DTA4V21LKVR",
     "platform": "win32",
-    "uptimeSeconds": 202759,
-    "uptimeHuman": "56h 19m",
+    "uptimeSeconds": 245059,
+    "uptimeHuman": "68h 4m",
     "taskScheduler": {
       "status": "HEALTHY",
       "taskCount": 9,
@@ -494,12 +538,12 @@
     }
   },
   "summaryMetrics": {
-    "totalDocsIndexed": 414,
-    "wikiHealthScore": 92,
-    "totalResearchGaps": 0,
-    "competitorDrifts": 2,
+    "totalDocsIndexed": 438,
+    "wikiHealthScore": 86,
+    "totalResearchGaps": 5368,
+    "competitorDrifts": 0,
     "daemonStatus": "HEALTHY",
-    "ciFailures": 2
+    "ciFailures": 1
   },
   "dryRun": false
 }

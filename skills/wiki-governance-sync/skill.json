@@ -1,0 +1,143 @@
+{
+  "id": "wiki-governance-sync",
+  "name": "Wiki Governance Sync",
+  "version": "1.0.0",
+  "description": "Multi-repository knowledge base synchronization and schema governance engine for Obsidian vaults.",
+  "type": "operational",
+  "category": "governance",
+  "entrypoint": "src/index.ts",
+  "runtime": "node",
+  "timeout": 60000,
+  "docs": "docs/USAGE.md",
+  "triggers": [
+    "wiki:audit",
+    "wiki:sync"
+  ],
+  "author": "Toolforge Core Team",
+  "license": "MIT",
+
+  "metadata": {
+    "created": "2026-09-27",
+    "author": "Toolforge Core Team",
+    "maintained": true,
+    "tested": true,
+    "tags": ["wiki", "obsidian", "governance", "sync", "kb-sync", "schema"],
+    "keywords": ["wiki-governance", "obsidian-sync", "schema-validation", "tag-consistency", "documentation-drift"]
+  },
+
+  "inputs": {
+    "required": [
+      {
+        "name": "action",
+        "type": "string",
+        "description": "Action to execute: audit, sync, or archive",
+        "enum": ["audit", "sync", "archive"]
+      }
+    ],
+    "optional": [
+      {
+        "name": "vaultRoot",
+        "type": "string",
+        "description": "Path to the canonical Obsidian wiki root"
+      },
+      {
+        "name": "targetRepos",
+        "type": "array",
+        "description": "List of repository paths to include in sync"
+      },
+      {
+        "name": "autoRemediate",
+        "type": "boolean",
+        "description": "Automatically correct fixable schema issues",
+        "default": false
+      },
+      {
+        "name": "dryRun",
+        "type": "boolean",
+        "description": "Run in preview mode without making changes",
+        "default": false
+      },
+      {
+        "name": "verbose",
+        "type": "boolean",
+        "description": "Enable verbose log output",
+        "default": false
+      }
+    ]
+  },
+
+  "outputs": {
+    "success": {
+      "type": "object",
+      "description": "Wiki governance and synchronization report",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "syncedRepos": { "type": "array" },
+          "findingsCount": { "type": "number" },
+          "remediatedCount": { "type": "number" },
+          "findings": { "type": "array" },
+          "archivedRunsCount": { "type": "number" },
+          "timestamp": { "type": "string" }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "description": "Error report",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "error": { "type": "string" },
+          "code": { "type": "string" }
+        }
+      }
+    }
+  },
+
+  "permissions": {
+    "required": ["read:repo"],
+    "optional": ["write:repo", "write:file"],
+    "restrictions": ["delete:permanent"]
+  },
+
+  "integrations": {
+    "toolforge": {
+      "registered": true,
+      "manifestPath": "manifest.json",
+      "docPath": "docs/skills/wiki-governance-sync.md"
+    },
+    "cic": {
+      "compatible": false,
+      "adapterPath": null,
+      "registryPath": null
+    },
+    "distributed": {
+      "syncable": true,
+      "distributedPath": "rewrite-mcp/toolforge/skills/wiki-governance-sync"
+    }
+  },
+
+  "errorConditions": [
+    {
+      "code": "VAULT_NOT_FOUND",
+      "message": "Vault root directory not found",
+      "handler": "fail"
+    },
+    {
+      "code": "SCHEMA_ERROR",
+      "message": "Wiki schema validation failed",
+      "handler": "fail"
+    },
+    {
+      "code": "INVALID_INPUT",
+      "message": "Invalid input parameters",
+      "handler": "fail"
+    }
+  ],
+
+  "dependencies": {
+    "internal": [],
+    "external": []
+  }
+}

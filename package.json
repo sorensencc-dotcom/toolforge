@@ -68,11 +68,13 @@
     "bot:watchlist:mine": "node scripts/watchlist-miner-bot.mjs",
     "bot:daemon:heal": "node scripts/daemon-healer-bot.mjs",
     "bot:ci:watchdog": "node scripts/ci-watchdog-bot.mjs",
+    "bot:storage:pruner": "node scripts/storage-pruner.mjs",
+    "bridge:small-model": "node scripts/local-small-model-bridge.mjs",
     "bot:trm:ingress": "node scripts/trm-ingress-watcher.mjs --once",
     "bot:trm:drive": "node scripts/trm-ingress-watcher.mjs --once",
     "bot:trm:watch": "node scripts/trm-ingress-watcher.mjs",
     "bot:report": "node scripts/ironbots-daily-reporter.mjs",
-    "bot:all": "npm run bot:notebook:ingest && npm run bot:kb:sentinel && npm run bot:trm:triage && npm run bot:watchlist:mine && npm run bot:daemon:heal && npm run bot:ci:watchdog && npm run bot:trm:ingress && npm run bot:report",
+    "bot:all": "npm run bot:notebook:ingest && npm run bot:kb:sentinel && npm run bot:trm:triage && npm run bot:watchlist:mine && npm run bot:daemon:heal && npm run bot:ci:watchdog && npm run bot:trm:ingress && npm run bot:storage:pruner && npm run bot:report",
     "test:ironbots": "node --test tests/ironbots.test.mjs",
     "test:runtime-owner": "node --test modules/runtime-owner/runtime-owner.test.mjs",
     "test:runtime-owner-integration": "node --test integration-harness/open-notebook.integration.test.mjs",
@@ -110,8 +112,8 @@
     "eslint": "^8.52.0",
     "jsdom": "^24.1.3",
     "nodemon": "^3.0.1",
-    "vite": "^5.0.8",
-    "vitest": "^2.1.9"
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
   },
   "engines": {
     "node": ">=24.0.0"
