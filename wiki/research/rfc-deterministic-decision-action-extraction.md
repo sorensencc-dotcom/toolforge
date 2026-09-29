@@ -1,63 +1,51 @@
 ---
-title: "RFC: Deterministic Decision & Action Extraction from Ingress Payloads"
+title: "RFC: Deterministic Decision & Action Extraction"
 category: "research"
 topic: "rfc-deterministic-decision-action-extraction"
 gap_id: "act-02-deterministic-decision-action-extraction"
-status: "draft"
+status: "accepted"
 created_at: "2026-09-28T14:26:00.000Z"
-assigned_tier: "Tier 1 (Judgment)"
-routed_model: "claude-3-5-sonnet-20241022"
-router_confidence: 0.50
+updated_at: "2026-09-29T00:00:00.000Z"
+assigned_tier: "Tier 2 (Execution)"
 author: "sorensencc-dotcom"
 source: "mobile-gemini-gdoc"
 tracking_issue: "https://github.com/sorensencc-dotcom/toolforge/issues/61"
 citations:
-  - "scripts/trm-ingress-watcher.mjs"
-  - "scripts/whichllm-router.mjs"
-  - "scripts/dom-action-selector.mjs"
+  - "scripts/decision-action-extract.mjs"
+  - "scripts/decision-action-extract.test.mjs"
+  - "dev/triage/decision-staging/README.md"
 ---
 
-# RFC: Deterministic Decision & Action Extraction from Ingress Payloads
+# Deterministic decision and action extraction
 
-## 1. Problem statement & objectives
-Mobile capture tools (Google Docs `.gdoc` shortcuts, voice memos, quick notes) deliver unstructured natural language requests that require transformation into typed, machine-executable action items.
+## Problem
 
-Heuristic, free-form LLM parsers frequently suffer from:
-1. **Schema drift & hallucinated fields**: Outputting arbitrary keys or unvalidated priorities.
-2. **Duplication on re-scan**: Lack of deterministic cryptographic deduplication leading to duplicate GitHub issues or task spawns.
-3. **Uncalibrated routing**: Misclassifying low-complexity deterministic fixes as expensive Tier 1 reasoning tasks.
+Meeting and research transcripts lose owners and deadlines when the notes stay free-form. A card can enter the TRM backlog only when it names one accountable owner, a firm deadline, and an observable completion check.
 
----
+## Decision
 
-## 2. Ingress & extraction pipeline architecture
+`scripts/decision-action-extract.mjs` parses labeled transcript blocks, pipe rows, and strict JSON. It validates four fields, writes accepted cards to `dev/triage/decision-staging/`, and writes failures to `dev/triage/decision-quarantine/`.
 
-### 2.1 Two-phase extraction pipeline
-1. **Phase 1: Deterministic header parsing**:
-   - Extract timestamps, origin signatures, and canonical slugs directly from the file naming convention (`YYYY-MM-DDTHHMMSSZ__action__<intent>.md.gdoc`).
-   - Generate a SHA-256 fingerprint over the sanitized payload body.
-2. **Phase 2: Typed Jev extraction**:
-   - Apply constrained logit decoding or schema-enforced JSON emission for typed intent classification (`antigravity_triage` vs `deterministic_fix`).
-   - Extract discrete action metadata: target repository, priority (`P1`/`P2`/`P3`), dependency links, and required skill bindings.
+| Field | Rule |
+|---|---|
+| `decision_summary` | Concrete decision, 12–400 characters |
+| `owner` | One person, agent slug, or email. Shared owners are rejected |
+| `deadline` | ISO-8601 date or `Sprint N`. "soon" is rejected |
+| `verification_gate` | Observable completion check, such as a test, file, or `git diff` result |
 
-### 2.2 Deduplication ledger & transaction receipting
-- Maintain an append-only transaction ledger at `trm-drive/inbox/ledger.jsonl`.
-- Before staging a task to `.harness/tasks/pending/`, verify whether the SHA-256 fingerprint or action ID already exists in the ledger.
-- Receipt processed tasks by copying a receipt card to `trm-drive/inbox/outbox/` for mobile sync confirmation.
+Copy a staged card into `dev/triage/decision-backlog/` with `--approve <id>`. Approval revalidates the JSON block and checks that the card id still matches the four fields. The script does not run `git commit`.
 
----
+Unlabeled prose produces no owner and no card. That keeps the extractor from filling gaps the transcript did not state.
 
-## 3. Protocol decisions & verification rules
+## Operator steps
 
-1. **Fail-closed schema validation**:
-   - Extracted task objects must validate against the harness JSON schema before placement in `.harness/tasks/pending/`.
-   - Malformed payloads are rejected to `quarantine/` with an actionable diagnostic record.
-2. **Zero-token-waste routing**:
-   - Simple tasks (spelling corrections, lint fixes, sync commands) are routed directly to local Tier 2 models or deterministic bash/node scripts.
-   - Only ambiguous or cross-architectural requests are escalated to Tier 1 frontier models.
+1. Run `node scripts/decision-action-extract.mjs --input <transcript.txt>`.
+2. Read the staged `dec-*.md` card and the quarantine report.
+3. Run `node scripts/decision-action-extract.mjs --approve dec-<id>` for each card you accept.
+4. Review `git diff`, then commit the backlog card yourself.
 
----
+## Verification
 
-## 4. References & linked topics
-- [[Index]]
-- [[trm-research-gaps]]
-- [[Log]]
+Run `node --test --test-timeout=10000 scripts/decision-action-extract.test.mjs`.
+
+A passing run accepts a labeled block, a Meet timestamp line, a pipe row, and a JSON proposal. It rejects "soon", "ASAP", "2026-02-31", "Alex and Jordan", "the team", and unlabeled chatter. The default extract leaves the backlog empty. `--approve` moves one card and refuses a card whose JSON no longer matches its id.

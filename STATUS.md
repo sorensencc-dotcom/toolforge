@@ -11,6 +11,23 @@
 
 # Project status
 
+## Deterministic decision extraction (2026-09-29)
+
+### Active goal
+Close [toolforge issue 61](https://github.com/sorensencc-dotcom/toolforge/issues/61), ACT-02: extract typed decision cards from meeting transcripts, reject vague deadlines and shared owners, and require an operator review before backlog ingestion.
+
+### Completed work
+- Added `scripts/decision-action-extract.mjs`. Labeled blocks, pipe rows, and strict JSON become cards with `decision_summary`, `owner`, `deadline`, and `verification_gate`.
+- Accepted cards land in `dev/triage/decision-staging/`. Failures land in `dev/triage/decision-quarantine/`. `--approve dec-<id>` revalidates a card and copies it to `dev/triage/decision-backlog/`. The script does not run `git commit`.
+- Replaced the ACT-02 research note with the meeting-transcript contract in `wiki/research/rfc-deterministic-decision-action-extraction.md`.
+- Added `npm run decisions:extract` and `npm run test:decisions`.
+
+### Verification
+- `node --test --test-timeout=10000 scripts/decision-action-extract.test.mjs`: 8 passed, 0 failed.
+
+### Next action
+Review a real transcript with `node scripts/decision-action-extract.mjs --input <file>`, then `--approve` the cards you want in the backlog. Issue 61 stays open until this branch merges.
+
 ## Jev Primitives, TRM Triage, Generator Determinism & TorqueQuery Observability (2026-09-28)
 
 ### Active goal

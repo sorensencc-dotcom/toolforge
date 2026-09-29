@@ -70,6 +70,8 @@
     "bot:ci:watchdog": "node scripts/ci-watchdog-bot.mjs",
     "bot:storage:pruner": "node scripts/storage-pruner.mjs",
     "bridge:small-model": "node scripts/local-small-model-bridge.mjs",
+    "decisions:extract": "node scripts/decision-action-extract.mjs",
+    "test:decisions": "node --test --test-timeout=10000 scripts/decision-action-extract.test.mjs",
     "bot:trm:ingress": "node scripts/trm-ingress-watcher.mjs --once",
     "bot:trm:drive": "node scripts/trm-ingress-watcher.mjs --once",
     "bot:trm:watch": "node scripts/trm-ingress-watcher.mjs",
