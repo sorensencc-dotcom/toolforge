@@ -11,6 +11,21 @@
 
 # Project status
 
+## Ironbots fleet expansion: IronLedger-Sentinel & operations dashboard governance (2026-09-29)
+
+### Active goal
+Deploy and govern 10th autonomous fleet robot (`IronLedger-Sentinel` under `\Ironbots\`) for zero-token unattended Workbench health monitoring (`:8000`, `/healthz`, `/readyz`, double-entry balance invariants, ingestion sync tracking, and Docker auto-healing), and synchronize ICF operations dashboard telemetry across `icf/dashboard/index.html` and `dashboard.html`.
+
+### Completed work
+- **P1: IronLedger Sentinel Bot**: Implemented `scripts/ironledger-sentinel-bot.mjs` with deterministic probes, container restart healing, balance invariant verification, and structured telemetry emission to `_status-feed/ironledger_health.json`.
+- **P1: S4U Scheduled Task Wrapper**: Created and registered `scripts/schedule-task-wrapper-IronLedger-Sentinel.ps1` under `\Ironbots\IronLedger-Sentinel` executing every 15 minutes unattended.
+- **P2: Fleet Reporter & Scorer Integration**: Updated `scripts/ironbots-daily-reporter.mjs` to include all 10 required tasks, 9 monitored bot telemetry artifacts, and host heartbeat checks.
+- **P2: Operations Dashboard Synchronization**: Updated `icf/dashboard/index.html` and `dashboard.html` to display `17 Tasks (10 Ironbots)`, rendered `\Ironbots\` category tags across all 10 bot rows, and dynamically bound live health badges.
+- **P3: Governance & Verification**: Verified 29/29 unit tests (`tests/ironledger-sentinel-bot.test.mjs`, `tests/ironbots.test.mjs`), validated codebase index (`npm run index:validate`, 4999 unique entries), passed skill doc compliance (`utilities/skill-doc-validator.ps1`), and confirmed preflight checks (`scripts/preflight.ps1`).
+
+### Next action
+- Maintain continuous S4U scheduled task execution across all 10 Ironbots and monitor daily fleet digests.
+
 ## TRM Diff-Only Ingestion & Dynamic Query Protocol v2.9.0 (2026-09-29)
 
 ### Active goal

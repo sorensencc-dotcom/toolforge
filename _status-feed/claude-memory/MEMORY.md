@@ -1,5 +1,8 @@
 # Memory Index
 
+## 2026-09-29
+- [Session Wrap: IronLedger Sentinel Bot & ICF Operations Dashboard Governance](session-wrap-2026-09-29-ironledger-sentinel-dashboard-governance.md) — 10th autonomous bot `IronLedger-Sentinel` deployed under `\Ironbots\` (probes `:8000`, `/healthz`, `/readyz`, double-entry balance invariants, Docker auto-healing). Fixed dashboard visual defect (`17 Tasks (10 Ironbots)` across `icf/dashboard/index.html` and `dashboard.html`). All 29 unit tests pass, preflight and index validation verified.
+
 ## 2026-09-28
 - [Session Wrap: toolforge PR #64 Delivery-Guard Fixed, Merged](session-wrap-2026-09-28-toolforge-pr64-delivery-guard-fixed-merged.md) — 3 real review bugs fixed (EXPECTED-state gate bug, retro-audit alphabetical sort bug, MEMORY.md CRLF diff-noise), 1 false-positive dismissed. Recurring CI failure root-caused: delivery-guard checks automation-path+test pairing **per commit**, not per-PR-aggregate — fixed via history squash, merged `18dac374`. Worktree `C:\toolforge-pr64` removed. Nothing open from this thread — unrelated to open repo-sprawl work below.
 
