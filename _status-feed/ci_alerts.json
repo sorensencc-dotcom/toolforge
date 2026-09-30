@@ -1,82 +1,101 @@
 {
-  "timestamp": "2026-09-29T02:28:51.872Z",
-  "elapsedMs": 826,
-  "status": "HEALTHY",
+  "timestamp": "2026-09-30T02:02:43.323Z",
+  "elapsedMs": 2053,
+  "status": "FAILURES_DETECTED",
   "scannedCount": 10,
   "activeCount": 0,
-  "failureCount": 0,
+  "failureCount": 1,
   "recentRuns": [
     {
-      "id": 36511937283,
-      "name": "Documentation",
+      "id": 36654490925,
+      "name": "Governance",
       "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 36511937195,
+      "id": 36630338125,
+      "name": "Governance",
+      "branch": "sorensencc-dotcom/trm-triage-p2-deterministic_decision_action_extr",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36630155617,
+      "name": "Governance",
+      "branch": "sorensencc-dotcom/trm-triage-p2-audit_agent_intermediate_storage_e",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36608073107,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36581392880,
+      "name": "Retro Full History Audit",
+      "branch": "main",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36578668919,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36515054078,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 36514086048,
+      "name": "CI governance gate matrix",
+      "branch": "main",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 36514086006,
       "name": "Graft & AST Architecture Audit",
-      "branch": "parkd821-20260908",
+      "branch": "main",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 36511937194,
-      "name": "Secret scan",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36511937161,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36511933435,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36511510877,
-      "name": "Documentation",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36511510862,
-      "name": "Graft & AST Architecture Audit",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36511510850,
-      "name": "Secret scan",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36511510821,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36511507311,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
+      "id": 36514086004,
+      "name": "Toolforge Release",
+      "branch": "main",
       "status": "completed",
       "conclusion": "success"
     }
   ],
-  "alerts": [],
-  "dryRun": true
+  "alerts": [
+    {
+      "runId": 36514086048,
+      "name": "CI governance gate matrix",
+      "branch": "main",
+      "sha": "c29c3b63",
+      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36514086048",
+      "createdAt": "2026-09-29T02:45:33Z",
+      "errorSummary": [
+        "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:13.1040541Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+        "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:24.2703212Z Error: Cannot find module '/home/runner/work/toolforge/toolforge/CIC-GOVERNANCE/scripts/validate-governance-contract.mjs'",
+        "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:24.2853394Z ##[error]Process completed with exit code 1.",
+        "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:11.7483104Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+        "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0394061Z npm error code EUSAGE",
+        "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0452239Z npm error",
+        "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0453346Z npm error The `npm ci` command can only install with an existing package-lock.json or",
+        "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0454943Z npm error npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or"
+      ]
+    }
+  ],
+  "dryRun": false
 }

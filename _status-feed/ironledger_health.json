@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-30T01:15:22.368Z",
-  "elapsedMs": 2610,
+  "timestamp": "2026-09-30T02:02:40.774Z",
+  "elapsedMs": 2625,
   "status": "HEALTHY",
   "workbench": {
     "targetUrl": "http://127.0.0.1:8000",
@@ -22,8 +22,8 @@
   "database": {
     "exists": true,
     "sizeBytes": 18485248,
-    "walExists": true,
-    "walSizeBytes": 8272,
+    "walExists": false,
+    "walSizeBytes": 0,
     "status": "VALID",
     "error": null
   },
@@ -60,6 +60,6 @@
   "consecutiveHeals": 0,
   "thrashCooldownActive": false,
   "lastCooldownTime": null,
-  "dryRun": true,
+  "dryRun": false,
   "checkOnly": false
 }

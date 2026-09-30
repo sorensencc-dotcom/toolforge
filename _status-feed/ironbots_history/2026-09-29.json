@@ -1,9 +1,9 @@
 {
   "date": "2026-09-29",
-  "timestamp": "2026-09-29T02:53:27.393Z",
-  "elapsedMs": 1296,
-  "fleetHealthScore": 99,
-  "fleetStatus": "HEALTHY",
+  "timestamp": "2026-09-29T23:33:32.603Z",
+  "elapsedMs": 9,
+  "fleetHealthScore": 74,
+  "fleetStatus": "DEGRADED",
   "botCount": 8,
   "activeBots": [
     {
@@ -11,13 +11,13 @@
       "name": "NotebookLM & Knowledge Ingester",
       "schedule": "Daily 02:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-29T02:28:52.635Z",
-        "elapsedMs": 402,
+        "timestamp": "2026-09-29T11:54:37.193Z",
+        "elapsedMs": 412012,
         "status": "HEALTHY",
         "totalFiles": 441,
-        "indexedCount": 441,
-        "updatedCount": 0,
-        "skippedCount": 0,
+        "indexedCount": 3,
+        "updatedCount": 57,
+        "skippedCount": 373,
         "packWarnings": [
           {
             "file": ".nlm_pack/pack_master-kb.txt",
@@ -26,7 +26,7 @@
           }
         ],
         "databasePath": ".kb_cache/knowledge_fts5.db",
-        "dryRun": true
+        "dryRun": false
       },
       "status": "HEALTHY",
       "summary": "441 documents indexed into SQLite FTS5"
@@ -36,27 +36,33 @@
       "name": "KB-Sentinel Drift & Autoheal",
       "schedule": "Daily 03:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-29T02:44:42.222Z",
-        "elapsedMs": 333,
-        "healthScore": 98,
+        "timestamp": "2026-09-29T11:49:00.569Z",
+        "elapsedMs": 76254,
+        "healthScore": 96,
         "status": "PASS",
         "scanned": 420,
-        "frontmatterMissing": 0,
+        "frontmatterMissing": 1,
         "brokenLinks": 4,
         "healed": 0,
         "dryRun": false,
-        "recentIssues": []
+        "recentIssues": [
+          {
+            "file": "wiki/research/properties/moa-bay-mining-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          }
+        ]
       },
       "status": "PASS",
-      "summary": "Health Score: 98/100 (420 files scanned)"
+      "summary": "Health Score: 96/100 (420 files scanned)"
     },
     {
       "id": "trm-bot",
       "name": "TRM Gap Triage & RFC Drafter",
       "schedule": "Daily 04:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-29T02:28:50.861Z",
-        "elapsedMs": 5,
+        "timestamp": "2026-09-29T11:47:44.300Z",
+        "elapsedMs": 51,
         "totalGaps": 0,
         "pending": 0,
         "drafted": 0,
@@ -68,7 +74,7 @@
           "avgRoutingLatencyMs": 0
         },
         "generatedRfcs": [],
-        "dryRun": true
+        "dryRun": false
       },
       "status": "PASS",
       "summary": "0 total gaps (0 drafted)"
@@ -78,25 +84,25 @@
       "name": "Watchlist & Competitor Drift Miner",
       "schedule": "Daily 05:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-29T02:28:52.706Z",
-        "elapsedMs": 4,
+        "timestamp": "2026-09-29T11:47:54.828Z",
+        "elapsedMs": 10635,
         "status": "PASS",
         "totalWatchlists": 3,
-        "targetsEvaluated": 2,
+        "targetsEvaluated": 3,
         "driftsDetected": 0,
         "driftFindings": [],
-        "dryRun": true
+        "dryRun": false
       },
       "status": "PASS",
-      "summary": "2 targets evaluated (0 drifts)"
+      "summary": "3 targets evaluated (0 drifts)"
     },
     {
       "id": "daemon-healer",
       "name": "Daemon-Healer Port 8080 Supervisor",
       "schedule": "Every 15 Min",
       "telemetry": {
-        "timestamp": "2026-09-29T02:38:28.137Z",
-        "elapsedMs": 367,
+        "timestamp": "2026-09-29T23:23:28.105Z",
+        "elapsedMs": 60,
         "targetUrl": "http://127.0.0.1:8080/dashboard",
         "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
         "status": "HEALTHY",
@@ -111,7 +117,7 @@
             "statusCode": 200,
             "headers": {
               "content-type": "text/html; charset=UTF-8",
-              "date": "Tue, 29 Sep 2026 02:38:27 GMT",
+              "date": "Tue, 29 Sep 2026 23:23:28 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
@@ -125,13 +131,13 @@
             "headers": {
               "content-type": "application/json; charset=UTF-8",
               "access-control-allow-origin": "*",
-              "date": "Tue, 29 Sep 2026 02:38:28 GMT",
+              "date": "Tue, 29 Sep 2026 23:23:28 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
             },
             "payloadValid": true,
-            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-29\",\"timestamp\":\"2026-09-29T02:38:28.127Z\",\"elapsedMs\":5,\"fleetHealthScore\":"
+            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-29\",\"timestamp\":\"2026-09-29T23:23:28.089Z\",\"elapsedMs\":10,\"fleetHealthScore\""
           }
         },
         "healed": false,
@@ -147,89 +153,138 @@
       "name": "CI-Watchdog Workflow Failure Triage",
       "schedule": "Daily 06:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-29T02:28:51.872Z",
-        "elapsedMs": 826,
-        "status": "HEALTHY",
+        "timestamp": "2026-09-29T11:53:28.715Z",
+        "elapsedMs": 342233,
+        "status": "FAILURES_DETECTED",
         "scannedCount": 10,
         "activeCount": 0,
-        "failureCount": 0,
+        "failureCount": 3,
         "recentRuns": [
           {
-            "id": 36511937283,
-            "name": "Documentation",
+            "id": 36515054078,
+            "name": "Governance",
             "branch": "parkd821-20260908",
             "status": "completed",
-            "conclusion": "success"
+            "conclusion": "failure"
           },
           {
-            "id": 36511937195,
+            "id": 36514086048,
+            "name": "CI governance gate matrix",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 36514086006,
             "name": "Graft & AST Architecture Audit",
-            "branch": "parkd821-20260908",
+            "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36511937194,
-            "name": "Secret scan",
-            "branch": "parkd821-20260908",
+            "id": 36514086004,
+            "name": "Toolforge Release",
+            "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36511937161,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36511933435,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36511510877,
+            "id": 36514085986,
             "name": "Documentation",
-            "branch": "parkd821-20260908",
+            "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36511510862,
-            "name": "Graft & AST Architecture Audit",
-            "branch": "parkd821-20260908",
+            "id": 36514085966,
+            "name": "Governance",
+            "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36511510850,
+            "id": 36514085963,
             "name": "Secret scan",
-            "branch": "parkd821-20260908",
+            "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36511510821,
+            "id": 36514085929,
+            "name": "Wave D Gate (v1.0.0)",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 36512817636,
             "name": "Governance",
             "branch": "parkd821-20260908",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36511507311,
-            "name": "Governance",
+            "id": 36512817579,
+            "name": "Secret scan",
             "branch": "parkd821-20260908",
             "status": "completed",
             "conclusion": "success"
           }
         ],
-        "alerts": [],
-        "dryRun": true
+        "alerts": [
+          {
+            "runId": 36515054078,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "sha": "00736224",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36515054078",
+            "createdAt": "2026-09-29T02:58:25Z",
+            "errorSummary": [
+              "Delivery guard automation policy\tUNKNOWN STEP\t2026-09-29T02:58:59.7382053Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/kb-sentinel-bot.mjs\"],\"regressionTestPaths\":[],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"007362249367eafe911b4b4f1c0e650b72df3e2f\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/kb-sentinel-bot.mjs\"],\"regressionTestPaths\":[],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
+              "Delivery guard automation policy\tUNKNOWN STEP\t2026-09-29T02:58:59.9463995Z ##[error]Process completed with exit code 1."
+            ]
+          },
+          {
+            "runId": 36514086048,
+            "name": "CI governance gate matrix",
+            "branch": "main",
+            "sha": "c29c3b63",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36514086048",
+            "createdAt": "2026-09-29T02:45:33Z",
+            "errorSummary": [
+              "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:13.1040541Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:24.2703212Z Error: Cannot find module '/home/runner/work/toolforge/toolforge/CIC-GOVERNANCE/scripts/validate-governance-contract.mjs'",
+              "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:24.2853394Z ##[error]Process completed with exit code 1.",
+              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:11.7483104Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0394061Z npm error code EUSAGE",
+              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0452239Z npm error",
+              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0453346Z npm error The `npm ci` command can only install with an existing package-lock.json or",
+              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0454943Z npm error npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or"
+            ]
+          },
+          {
+            "runId": 36514085929,
+            "name": "Wave D Gate (v1.0.0)",
+            "branch": "main",
+            "sha": "c29c3b63",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36514085929",
+            "createdAt": "2026-09-29T02:45:33Z",
+            "errorSummary": [
+              "Wave D Gate (PG + migrate + e2e + load)\tUNKNOWN STEP\t2026-09-29T02:46:28.0152034Z npm error code ERESOLVE",
+              "Wave D Gate (PG + migrate + e2e + load)\tUNKNOWN STEP\t2026-09-29T02:46:28.0152824Z npm error ERESOLVE unable to resolve dependency tree",
+              "Wave D Gate (PG + migrate + e2e + load)\tUNKNOWN STEP\t2026-09-29T02:46:28.0153420Z npm error",
+              "Wave D Gate (PG + migrate + e2e + load)\tUNKNOWN STEP\t2026-09-29T02:46:28.0160447Z npm error While resolving: toolforge-marketplace@1.0.0",
+              "Wave D Gate (PG + migrate + e2e + load)\tUNKNOWN STEP\t2026-09-29T02:46:28.0161144Z npm error Found: vite@8.3.1",
+              "Wave D Gate (PG + migrate + e2e + load)\tUNKNOWN STEP\t2026-09-29T02:46:28.0161667Z npm error node_modules/vite",
+              "Wave D Gate (PG + migrate + e2e + load)\tUNKNOWN STEP\t2026-09-29T02:46:28.0162293Z npm error   dev vite@\"^8.3.1\" from the root project",
+              "Wave D Gate (PG + migrate + e2e + load)\tUNKNOWN STEP\t2026-09-29T02:46:28.0163123Z npm error   peer vite@\"*\" from @vitejs/devtools@0.7.6"
+            ]
+          }
+        ],
+        "dryRun": false
       },
-      "status": "HEALTHY",
-      "summary": "10 runs scanned (0 failures)"
+      "status": "FAILURES_DETECTED",
+      "summary": "10 runs scanned (3 failures)"
     },
     {
       "id": "trm-drive-sync",
@@ -471,8 +526,8 @@
   "hostHeartbeat": {
     "hostname": "WIN-DTA4V21LKVR",
     "platform": "win32",
-    "uptimeSeconds": 288784,
-    "uptimeHuman": "80h 13m",
+    "uptimeSeconds": 363190,
+    "uptimeHuman": "100h 53m",
     "taskScheduler": {
       "status": "HEALTHY",
       "taskCount": 9,
@@ -483,7 +538,7 @@
         },
         {
           "name": "Daemon-Healer",
-          "state": "Running"
+          "state": "Ready"
         },
         {
           "name": "Ironbots-Reporter",
@@ -520,11 +575,11 @@
   },
   "summaryMetrics": {
     "totalDocsIndexed": 441,
-    "wikiHealthScore": 98,
+    "wikiHealthScore": 96,
     "totalResearchGaps": 0,
     "competitorDrifts": 0,
     "daemonStatus": "HEALTHY",
-    "ciFailures": 0
+    "ciFailures": 3
   },
   "dryRun": false
 }

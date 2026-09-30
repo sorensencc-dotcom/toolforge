@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-29T02:28:54.120Z",
-  "dryRun": true,
-  "elapsedMs": 13,
-  "totalFreedBytes": 803831,
-  "totalFreedFormatted": "784.99 KB",
+  "timestamp": "2026-09-30T02:02:47.709Z",
+  "dryRun": false,
+  "elapsedMs": 3322,
+  "totalFreedBytes": 6146264,
+  "totalFreedFormatted": "5.86 MB",
   "databasesScanned": 6,
   "databaseResults": [
     {
@@ -11,80 +11,93 @@
       "sizeBefore": 921600,
       "sizeAfter": 921600,
       "bytesSaved": 0,
-      "status": "SKIPPED_DRY_RUN"
+      "status": "SUCCESS"
     },
     {
       "dbPath": "C:\\dev\\.kb_cache\\knowledge_fts5.db",
-      "sizeBefore": 271388672,
-      "sizeAfter": 271388672,
-      "bytesSaved": 0,
-      "status": "SKIPPED_DRY_RUN"
+      "sizeBefore": 307027968,
+      "sizeAfter": 301838336,
+      "bytesSaved": 5189632,
+      "status": "SUCCESS"
     },
     {
       "dbPath": "C:\\dev\\icf\\.kb_cache\\knowledge.db",
       "sizeBefore": 61440,
       "sizeAfter": 61440,
       "bytesSaved": 0,
-      "status": "SKIPPED_DRY_RUN"
+      "status": "SUCCESS"
     },
     {
       "dbPath": "C:\\dev\\.ijfw\\index\\compute.db",
       "sizeBefore": 151552,
       "sizeAfter": 151552,
       "bytesSaved": 0,
-      "status": "SKIPPED_DRY_RUN"
+      "status": "SUCCESS"
     },
     {
       "dbPath": "C:\\dev\\.ijfw\\index\\memory.db",
       "sizeBefore": 143360,
       "sizeAfter": 143360,
       "bytesSaved": 0,
-      "status": "SKIPPED_DRY_RUN"
+      "status": "SUCCESS"
     },
     {
       "dbPath": "C:\\dev\\.icf-retros\\weekly\\snapshots.sqlite",
       "sizeBefore": 688128,
       "sizeAfter": 688128,
       "bytesSaved": 0,
-      "status": "SKIPPED_DRY_RUN"
+      "status": "SUCCESS"
     }
   ],
-  "telemetryCompactedCount": 5,
+  "telemetryCompactedCount": 6,
   "telemetryResults": [
     {
       "file": "_status-feed/trm_history/2026-09-20.json",
+      "gzFile": "_status-feed/trm_history/2026-09-20.json.gz",
       "sizeBefore": 234307,
-      "sizeAfter": 35146,
-      "bytesSaved": 199161,
-      "status": "SKIPPED_DRY_RUN"
+      "sizeAfter": 44155,
+      "bytesSaved": 190152,
+      "status": "COMPRESSED"
     },
     {
       "file": "_status-feed/trm_history/2026-09-21.json",
+      "gzFile": "_status-feed/trm_history/2026-09-21.json.gz",
       "sizeBefore": 234324,
-      "sizeAfter": 35148,
-      "bytesSaved": 199176,
-      "status": "SKIPPED_DRY_RUN"
+      "sizeAfter": 44193,
+      "bytesSaved": 190131,
+      "status": "COMPRESSED"
     },
     {
       "file": "_status-feed/ironbots_history/2026-09-21.json",
+      "gzFile": "_status-feed/ironbots_history/2026-09-21.json.gz",
       "sizeBefore": 8420,
-      "sizeAfter": 1263,
-      "bytesSaved": 7157,
-      "status": "SKIPPED_DRY_RUN"
+      "sizeAfter": 2286,
+      "bytesSaved": 6134,
+      "status": "COMPRESSED"
     },
     {
       "file": "icf/dashboard/trm_history/2026-09-20.json",
+      "gzFile": "icf/dashboard/trm_history/2026-09-20.json.gz",
       "sizeBefore": 234307,
-      "sizeAfter": 35146,
-      "bytesSaved": 199161,
-      "status": "SKIPPED_DRY_RUN"
+      "sizeAfter": 44155,
+      "bytesSaved": 190152,
+      "status": "COMPRESSED"
     },
     {
       "file": "icf/dashboard/trm_history/2026-09-21.json",
+      "gzFile": "icf/dashboard/trm_history/2026-09-21.json.gz",
       "sizeBefore": 234324,
-      "sizeAfter": 35148,
-      "bytesSaved": 199176,
-      "status": "SKIPPED_DRY_RUN"
+      "sizeAfter": 44193,
+      "bytesSaved": 190131,
+      "status": "COMPRESSED"
+    },
+    {
+      "file": "icf/dashboard/trm_history/2026-09-22.json",
+      "gzFile": "icf/dashboard/trm_history/2026-09-22.json.gz",
+      "sizeBefore": 234317,
+      "sizeAfter": 44385,
+      "bytesSaved": 189932,
+      "status": "COMPRESSED"
     }
   ],
   "harnessTasksPrunedCount": 0,

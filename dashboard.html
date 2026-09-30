@@ -721,7 +721,7 @@
     </button>
     <button type="button" class="tab-btn" id="btn-tab-ops" onclick="switchTab('tab-ops')">
       <span>06. Operations &amp; Automation</span>
-      <span class="tag date" id="tabOpsBadge">10 Tasks (4 Ironbots)</span>
+      <span class="tag date" id="tabOpsBadge">17 Tasks (10 Ironbots)</span>
     </button>
     <button type="button" class="tab-btn" id="btn-tab-headroom" onclick="switchTab('tab-headroom')">
       <span>07. Headroom Optimizer</span>
@@ -1719,7 +1719,7 @@ flowchart TD
       <div class="panel-header">
         <div class="panel-title" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
           <span>Autonomous Background Robot Fleet</span>
-          <span class="status-badge live" id="ironbotsOpsActiveBadge">● 9 ACTIVE (UNATTENDED S4U)</span>
+          <span class="status-badge live" id="ironbotsOpsActiveBadge">● 10 ACTIVE (UNATTENDED S4U)</span>
           <span class="tag date">Zero Token Burn</span>
         </div>
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -1785,6 +1785,15 @@ flowchart TD
             <td><span style="font-family:monospace; font-size:0.75rem; color:var(--bone);">_status-feed/daemon_health.json</span></td>
             <td><span class="status-badge live" style="font-size:0.6rem;">● SUPERVISED (200 OK)</span></td>
             <td><button type="button" class="btn-secondary" onclick="copyCommand('Start-ScheduledTask -TaskName \'Daemon-Healer\' -TaskPath \'\\Ironbots\\\'')">Run Task</button></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--white);">IronLedger-Sentinel</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
+            <td><span class="tag high">Every 15 Minutes</span></td>
+            <td>Probes Workbench port 8000, verifies double-entry balance invariants &amp; heals Docker container</td>
+            <td><code>soren (S4U)</code> · Highest</td>
+            <td><span style="font-family:monospace; font-size:0.75rem; color:var(--bone);">_status-feed/ironledger_health.json</span></td>
+            <td><span class="status-badge live" style="font-size:0.6rem;">● SUPERVISED (PORT 8000 OK)</span></td>
+            <td><button type="button" class="btn-secondary" onclick="copyCommand('Start-ScheduledTask -TaskName \'IronLedger-Sentinel\' -TaskPath \'\\Ironbots\\\'')">Run Task</button></td>
           </tr>
           <tr>
             <td><strong style="color:var(--white);">CI-Watchdog</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
@@ -3104,6 +3113,7 @@ flowchart TD
       id: 'notebook-ingester',
       name: 'Notebook-Ingester',
       fullName: 'NotebookLM & Knowledge Ingester',
+      category: '\\Ironbots\\',
       schedule: 'Daily 02:00 AM',
       responsibility: 'Ingests research accessions & wiki nodes into SQLite FTS5 index',
       logonType: 'soren (S4U) · Highest',
@@ -3115,6 +3125,7 @@ flowchart TD
       id: 'kb-sentinel',
       name: 'KB-Sentinel',
       fullName: 'KB-Sentinel Drift & Autoheal',
+      category: '\\Ironbots\\',
       schedule: 'Daily 03:00 AM',
       responsibility: 'Wiki frontmatter linting, broken wikilink check & autohealing',
       logonType: 'soren (S4U) · Highest',
@@ -3126,6 +3137,7 @@ flowchart TD
       id: 'trm-bot',
       name: 'TRM-Bot',
       fullName: 'TRM Gap Triage & RFC Drafter',
+      category: '\\Ironbots\\',
       schedule: 'Daily 04:00 AM',
       responsibility: 'Research gap triage, SQLite FTS5 matching & RFC note drafting',
       logonType: 'soren (S4U) · Highest',
@@ -3137,6 +3149,7 @@ flowchart TD
       id: 'watchlist-miner',
       name: 'Watchlist-Miner',
       fullName: 'Watchlist & Competitor Drift Miner',
+      category: '\\Ironbots\\',
       schedule: 'Daily 05:00 AM',
       responsibility: 'Tracks upstream model architecture baselines and flags competitor drift',
       logonType: 'soren (S4U) · Highest',
@@ -3148,6 +3161,7 @@ flowchart TD
       id: 'daemon-healer',
       name: 'Daemon-Healer',
       fullName: 'Daemon-Healer Port 8080 Supervisor',
+      category: '\\Ironbots\\',
       schedule: 'Every 15 Minutes',
       responsibility: 'Probes port 8080 health; auto-kills stale PIDs & restarts server from C:\\dev',
       logonType: 'soren (S4U) · Highest',
@@ -3156,9 +3170,22 @@ flowchart TD
       npmCmd: 'npm run bot:daemon:heal'
     },
     {
+      id: 'ironledger-sentinel',
+      name: 'IronLedger-Sentinel',
+      fullName: 'IronLedger Sentinel & Workbench Supervisor',
+      category: '\\Ironbots\\',
+      schedule: 'Every 15 Minutes',
+      responsibility: 'Probes Workbench port 8000, verifies double-entry balance invariants & heals Docker container',
+      logonType: 'soren (S4U) · Highest',
+      artifact: '_status-feed/ironledger_health.json',
+      cliCmd: "Start-ScheduledTask -TaskName 'IronLedger-Sentinel' -TaskPath '\\Ironbots\\'",
+      npmCmd: 'npm run bot:ironledger:sentinel'
+    },
+    {
       id: 'ci-watchdog',
       name: 'CI-Watchdog',
       fullName: 'CI-Watchdog Workflow Failure Triage',
+      category: '\\Ironbots\\',
       schedule: 'Daily 06:00 AM',
       responsibility: 'Polls GitHub Actions for failures; extracts delivery-guard error logs',
       logonType: 'soren (S4U) · Highest',
@@ -3170,6 +3197,7 @@ flowchart TD
       id: 'ironbots-reporter',
       name: 'Ironbots-Reporter',
       fullName: 'Ironbots Fleet Reporter & Scorer',
+      category: '\\Ironbots\\',
       schedule: 'Daily 07:00 AM',
       responsibility: 'Aggregates 24h fleet telemetry, computes health score & renders daily digest',
       logonType: 'soren (S4U) · Highest',
@@ -3181,6 +3209,7 @@ flowchart TD
       id: 'storage-pruner',
       name: 'Storage-Pruner',
       fullName: 'Storage-Pruner SQLite & Telemetry Compactor',
+      category: '\\Ironbots\\',
       schedule: 'Weekly Sun 03:30 AM',
       responsibility: 'Vacuums SQLite databases, purges stale staging sandboxes & compacts telemetry',
       logonType: 'soren (S4U) · Highest',
@@ -3192,6 +3221,7 @@ flowchart TD
       id: 'trm-drive-sync',
       name: 'TRM-Drive-Sync',
       fullName: 'TRM-Drive-Sync Ingress Watcher',
+      category: '\\Ironbots\\',
       schedule: 'Continuous / On-Demand',
       responsibility: 'Syncs mobile research notes & triage cards between Drive and local repo',
       logonType: 'soren (S4U) · Highest',
@@ -3221,11 +3251,15 @@ flowchart TD
       if (!data) return;
 
       const opsBadge = document.getElementById('ironbotsOpsActiveBadge');
+      const tabOpsBadgeEl = document.getElementById('tabOpsBadge');
       const opsTbody = document.getElementById('ironbotsOpsTableBody');
 
       const registeredCount = FLEET_DEFINITIONS.length;
       if (opsBadge) {
         opsBadge.textContent = `● ${registeredCount} ACTIVE (UNATTENDED S4U)`;
+      }
+      if (tabOpsBadgeEl) {
+        tabOpsBadgeEl.textContent = `17 Tasks (${registeredCount} Ironbots)`;
       }
 
       // Map activeBots by id or normalized name
@@ -3269,6 +3303,11 @@ flowchart TD
           } else if (def.id === 'daemon-healer') {
             const ok = telem.status === 'HEALTHY' || data.summaryMetrics?.daemonStatus === 'HEALTHY';
             statusText = ok ? 'SUPERVISED (200 OK)' : 'DEGRADED';
+            badgeColor = ok ? '#5a9e6f' : 'var(--ember)';
+            badgeBorder = ok ? 'rgba(90,158,111,0.4)' : 'rgba(196,80,26,0.4)';
+          } else if (def.id === 'ironledger-sentinel') {
+            const ok = telem.status === 'HEALTHY' || telem.workbench?.uiOk;
+            statusText = ok ? 'SUPERVISED (PORT 8000 OK)' : (telem.status || 'DEGRADED');
             badgeColor = ok ? '#5a9e6f' : 'var(--ember)';
             badgeBorder = ok ? 'rgba(90,158,111,0.4)' : 'rgba(196,80,26,0.4)';
           } else if (def.id === 'ci-watchdog') {
@@ -3330,7 +3369,7 @@ flowchart TD
 
 <script type="application/json" id="manifest-data">
 {
-  "timestamp": "2026-09-28T14:31:54.5194396Z",
+  "timestamp": "2026-09-29T11:53:30.1724362Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -3669,33 +3708,6 @@ flowchart TD
       }
     },
     {
-      "id": "rewrite-labs-orchestrator",
-      "name": "Rewrite Labs Orchestrator",
-      "category": "automation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Orchestrates multi-stage development pipelines and handles blockers",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2839834Z",
-        "lastValidation": "2026-07-10T21:43:59.2839834Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
       "id": "tool-lifecycle-manager",
       "name": "Tool Lifecycle Manager",
       "category": "pipeline",
@@ -3720,6 +3732,40 @@ flowchart TD
         "created": "2026-07-14T03:18:38.7892909Z",
         "lastValidation": "2026-07-14T03:18:38.7892909Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
+      }
+    },
+    {
+      "id": "toolforge-cli",
+      "name": "Toolforge CLI",
+      "category": "utility",
+      "tags": [
+        "cli",
+        "toolforge",
+        "marketplace"
+      ],
+      "version": "0.1.0",
+      "owner": "soren",
+      "runtime": "powershell",
+      "entrypoint": "src/cli.ps1",
+      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
+      "status": "active",
+      "dependencies": {
+        "internal": [
+          "toolforge-registry-manager",
+          "toolforge-submission-validator"
+        ],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-14T03:43:17.3269637Z",
+        "lastValidation": "2026-07-14T03:43:17.3269637Z",
+        "lastRun": "2026-08-07T21:38:00Z"
       }
     },
     {
@@ -3958,6 +4004,33 @@ flowchart TD
       }
     },
     {
+      "id": "usagecheck",
+      "name": "Usage Check",
+      "category": "utilities",
+      "tags": [],
+      "version": "0.1.0",
+      "owner": "unknown",
+      "runtime": "unknown",
+      "entrypoint": "",
+      "description": "Detects which coding CLI (Claude Code, Codex, or Grok) is running and reports that agent's usage/rate-limit data through its own mechanism",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": false,
+        "runtime": "untested",
+        "overall": "warn"
+      },
+      "timestamps": {
+        "created": "2026-09-29T02:00:32.5113955Z",
+        "lastValidation": "2026-09-29T02:00:32.5113955Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "wiki-governance-sync",
       "name": "Wiki Governance Sync",
       "category": "governance",
@@ -4039,25 +4112,18 @@ flowchart TD
       }
     },
     {
-      "id": "toolforge-cli",
-      "name": "Toolforge CLI",
-      "category": "utility",
-      "tags": [
-        "cli",
-        "toolforge",
-        "marketplace"
-      ],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "powershell",
-      "entrypoint": "src/cli.ps1",
-      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
+      "id": "rewrite-labs-orchestrator",
+      "name": "Rewrite Labs Orchestrator",
+      "category": "automation",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Orchestrates multi-stage development pipelines and handles blockers",
       "status": "active",
       "dependencies": {
-        "internal": [
-          "toolforge-registry-manager",
-          "toolforge-submission-validator"
-        ],
+        "internal": [],
         "external": []
       },
       "health": {
@@ -4067,9 +4133,38 @@ flowchart TD
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-14T03:43:17.3269637Z",
-        "lastValidation": "2026-07-14T03:43:17.3269637Z",
+        "created": "2026-07-10T21:43:59.2839834Z",
+        "lastValidation": "2026-07-10T21:43:59.2839834Z",
         "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "python3"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -4096,33 +4191,6 @@ flowchart TD
       "timestamps": {
         "created": "2026-08-23T17:34:37.3597852Z",
         "lastValidation": "2026-08-23T17:34:37.3597852Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "retro-export",
-      "name": "Retro Export",
-      "category": "monitoring",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:27:19.1809541Z",
-        "lastValidation": "2026-08-16T17:27:19.1809541Z",
         "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
@@ -4856,21 +4924,19 @@ flowchart TD
       }
     },
     {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
+      "id": "retro-export",
+      "name": "Retro Export",
+      "category": "monitoring",
       "tags": [],
       "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
       "status": "active",
       "dependencies": {
         "internal": [],
-        "external": [
-          "python3"
-        ]
+        "external": []
       },
       "health": {
         "canonical": true,
@@ -4879,8 +4945,8 @@ flowchart TD
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
+        "created": "2026-08-16T17:27:19.1809541Z",
+        "lastValidation": "2026-08-16T17:27:19.1809541Z",
         "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
@@ -4920,11 +4986,11 @@ flowchart TD
     }
   ],
   "summary": {
-    "total": 56,
-    "active": 56,
+    "total": 57,
+    "active": 57,
     "deprecated": 0,
     "health_good": 56,
-    "health_warn": 0,
+    "health_warn": 1,
     "health_error": 0
   }
 }

@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-09-29T02:28:52.706Z",
-  "elapsedMs": 4,
+  "timestamp": "2026-09-30T02:02:37.067Z",
+  "elapsedMs": 1233,
   "status": "PASS",
   "totalWatchlists": 3,
-  "targetsEvaluated": 2,
+  "targetsEvaluated": 3,
   "driftsDetected": 0,
   "driftFindings": [],
-  "dryRun": true
+  "dryRun": false
 }
