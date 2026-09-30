@@ -1,14 +1,16 @@
 import { execSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { collectMeridianTelemetry, DEFAULT_MERIDIAN_DB } from './meridian-telemetry.mjs';
 
 /**
  * Collect telemetry envelope for Iron Command Forge (ICF).
  * @param {string} repoRoot - Absolute repository path.
  * @param {string} vaultRoot - Absolute obsidian/vault path.
+ * @param {object} options - { meridianDbPath, now } overrides.
  * @returns {object} ICF telemetry envelope.
  */
-export function collectIcfTelemetry(repoRoot = process.cwd(), vaultRoot = '') {
+export function collectIcfTelemetry(repoRoot = process.cwd(), vaultRoot = '', options = {}) {
   const timestamp = new Date().toISOString();
   const effectiveVaultRoot = vaultRoot || path.join(repoRoot, 'obsidian', 'vault');
 
@@ -78,6 +80,7 @@ export function collectIcfTelemetry(repoRoot = process.cwd(), vaultRoot = '') {
   const graft = collectGraftTelemetry(repoRoot);
   const upstreamDrift = collectUpstreamDriftTelemetry(repoRoot);
   const partitionHeadroom = collectPartitionHeadroomTelemetry(repoRoot);
+  const meridian = collectMeridianTelemetry(options.meridianDbPath || DEFAULT_MERIDIAN_DB, options.now);
 
   return {
     source: 'Iron Command Forge (ICF)',
@@ -89,6 +92,7 @@ export function collectIcfTelemetry(repoRoot = process.cwd(), vaultRoot = '') {
     graft,
     upstream_drift: upstreamDrift,
     partition_headroom: partitionHeadroom,
+    meridian,
   };
 }
 
@@ -218,6 +222,28 @@ icf_upstream_drift_unresolved_count ${driftUnresolved}
 `;
     for (const [key, part] of Object.entries(telemetry.partition_headroom.partitions)) {
       baseMetrics += `icf_notebook_partition_headroom_pct{partition="${key}"} ${part.headroom_pct}\n`;
+    }
+  }
+
+  if (telemetry.meridian) {
+    const meridian = telemetry.meridian;
+    baseMetrics += `
+# HELP icf_meridian_available Meridian activity database readable (1=yes, 0=no)
+# TYPE icf_meridian_available gauge
+icf_meridian_available ${meridian.available ? 1 : 0}
+`;
+    if (meridian.available) {
+      baseMetrics += `
+# HELP icf_meridian_daemon_fresh Meridian live session seen within the freshness window (1=yes, 0=no)
+# TYPE icf_meridian_daemon_fresh gauge
+icf_meridian_daemon_fresh ${meridian.daemon_fresh ? 1 : 0}
+
+# HELP icf_meridian_today_minutes Minutes of tracked activity today by Meridian category
+# TYPE icf_meridian_today_minutes gauge
+`;
+      for (const [category, minutes] of Object.entries(meridian.today.minutes_by_category)) {
+        baseMetrics += `icf_meridian_today_minutes{category="${category}"} ${minutes}\n`;
+      }
     }
   }
 
