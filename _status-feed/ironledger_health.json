@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-09-30T01:15:22.368Z",
+  "elapsedMs": 2610,
+  "status": "HEALTHY",
+  "workbench": {
+    "targetUrl": "http://127.0.0.1:8000",
+    "uiOk": true,
+    "healthzOk": true,
+    "readyzOk": true,
+    "version": "0.15.0",
+    "container": {
+      "found": true,
+      "id": "76bc7a8b5974",
+      "image": "ironledger-ironledger",
+      "status": "Up 2 days (healthy)",
+      "state": "running",
+      "ports": "0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp",
+      "running": true,
+      "healthy": true
+    }
+  },
+  "database": {
+    "exists": true,
+    "sizeBytes": 18485248,
+    "walExists": true,
+    "walSizeBytes": 8272,
+    "status": "VALID",
+    "error": null
+  },
+  "invariants": {
+    "passed": true,
+    "failures": []
+  },
+  "scheduledSyncs": {
+    "status": "HEALTHY",
+    "taskCount": 4,
+    "tasks": [
+      {
+        "name": "IronLedger-Bank-Sync",
+        "state": "Ready"
+      },
+      {
+        "name": "IronLedger-PriceFeed-Sync",
+        "state": "Ready"
+      },
+      {
+        "name": "IronLedger-Receipt-Sync",
+        "state": "Ready"
+      },
+      {
+        "name": "IronLedger-Sentinel",
+        "state": "Ready"
+      }
+    ],
+    "missingTasks": [],
+    "error": null
+  },
+  "healed": false,
+  "healAction": null,
+  "consecutiveHeals": 0,
+  "thrashCooldownActive": false,
+  "lastCooldownTime": null,
+  "dryRun": true,
+  "checkOnly": false
+}

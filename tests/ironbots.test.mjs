@@ -172,9 +172,9 @@ test('ironbots-daily-reporter runs and generates aggregated daily telemetry with
   const report = await aggregateFleetActivity({ isDryRun: true });
   assert.equal(typeof report.fleetHealthScore, 'number');
   assert.ok(report.fleetHealthScore >= 0 && report.fleetHealthScore <= 100);
-  assert.equal(report.botCount, 8);
+  assert.equal(report.botCount, 9);
   assert.ok(Array.isArray(report.activeBots));
-  assert.equal(report.activeBots.length, 8);
+  assert.equal(report.activeBots.length, 9);
   assert.ok(report.hostHeartbeat);
   assert.equal(typeof report.hostHeartbeat.hostname, 'string');
 });
@@ -188,12 +188,13 @@ test('daemon-healer exports thrash guard configuration with cooldown window', as
   assert.ok(THRASH_GUARD_CONFIG.cooldownWindowMs >= 3600000);
 });
 
-test('ironbots-daily-reporter exports REQUIRED_FLEET_TASKS with 9 tasks', async () => {
+test('ironbots-daily-reporter exports REQUIRED_FLEET_TASKS with 10 tasks', async () => {
   const { REQUIRED_FLEET_TASKS } = await import('../scripts/ironbots-daily-reporter.mjs');
   assert.ok(Array.isArray(REQUIRED_FLEET_TASKS));
-  assert.equal(REQUIRED_FLEET_TASKS.length, 9);
+  assert.equal(REQUIRED_FLEET_TASKS.length, 10);
   assert.ok(REQUIRED_FLEET_TASKS.includes('TRM-Drive-Sync'));
   assert.ok(REQUIRED_FLEET_TASKS.includes('Daemon-Healer'));
+  assert.ok(REQUIRED_FLEET_TASKS.includes('IronLedger-Sentinel'));
   assert.ok(REQUIRED_FLEET_TASKS.includes('Storage-Pruner'));
   assert.ok(REQUIRED_FLEET_TASKS.includes('Ironbots-Reporter'));
 });
@@ -509,5 +510,14 @@ test('kb-sentinel-bot enforces canonical category and status schema whitelists',
   assert.match(content, /ALLOWED_CATEGORIES/);
   assert.match(content, /ALLOWED_STATUSES/);
   assert.match(content, /sanitizeExistingFrontmatter/);
+});
+
+test('ironledger-sentinel-bot is integrated into ironbots fleet and daily reporter', async () => {
+  const { REQUIRED_FLEET_TASKS, FLEET_SCORING_POLICY } = await import('../scripts/ironbots-daily-reporter.mjs');
+  assert.ok(REQUIRED_FLEET_TASKS.includes('IronLedger-Sentinel'), 'IronLedger-Sentinel should be in REQUIRED_FLEET_TASKS');
+  assert.equal(typeof FLEET_SCORING_POLICY.weights.ironledgerUnhealthyPenalty, 'number');
+
+  const sentinelScript = path.join(REPO_ROOT, 'scripts', 'ironledger-sentinel-bot.mjs');
+  assert.ok(fs.existsSync(sentinelScript), 'ironledger-sentinel-bot.mjs should exist');
 });
 
