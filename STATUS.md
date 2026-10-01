@@ -35,8 +35,8 @@ gateway 8/8 (`icf/test/gateway.test.mjs`), telemetry 12/12 (`modules/telemetry/*
 3. Live :8080 already serves `/api/reporting/meridian` (200 on 2026-09-30), so no restart is needed.
 4. Pushed 2026-09-30 with user approval: C:\dev `parkd821-20260908`, icf `fix/dashboard-docs-button-8001`.
 5. Identify the process auto-committing working-tree changes (committed session work twice: `21b5662`, `d4d7dec`/`b1ea095b`).
-6. After Meridian's 21:00 run: `node scripts/check-meridian-isolation.mjs`.
-7. Open decision: idle (`idle_personal`) excluded from tracked totals — confirm with user.
+6. Done 2026-09-30: `node scripts/check-meridian-isolation.mjs` passed after Meridian's 21:00 run (user-confirmed).
+7. Decided 2026-09-30: idle (`idle_personal`) time does not count toward tracked totals. This is the current behavior in `modules/telemetry/meridian-telemetry.mjs` (`IDLE_CATEGORY`), so no code change is needed.
 
 ## Ironbots fleet expansion: IronLedger-Sentinel & operations dashboard governance (2026-09-29)
 
