@@ -8,3 +8,4 @@ Design and integration specs — "how it's built, technically." Not a charter (s
 - `audit-first-scope-lock-formalization-summary.md` — audit-first scope lock formalization
 - `phase-7-etcd-integration-spec.md`, `phase-7-unleash-integration-spec.md` — Phase 7 integration specs (charter lives in `docs/meta/phases/`)
 - `ironledger-architecture-design.md` — IronLedger architecture and security design (operator-approved; plan in `plans/`, Phase 0 baseline in `phases/`)
+- `2026-10-01-adr-process-design.md` — ADR process design: central ADR scope, lifecycle, `new-adr`/`lint-adr` tooling (draft, pending Tier 1 review; policy lands in `governance/adr-policy.md`)

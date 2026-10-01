@@ -150,7 +150,12 @@ Both line endings (CRLF and LF) are accepted. The template's metadata line forma
 
 **Parser:** identical results for CRLF and LF input.
 
-Run: `timeout 60 node --test scripts/new-adr.test.mjs scripts/lint-adr.test.mjs`. Add an npm script `test:adr`. Do not add it to the main `test` script, which globs `src/` only.
+Run under a hard timeout, per the Command & Test Execution Protocol in `AGENTS.md`:
+
+- Git Bash: `timeout 60 node --test scripts/new-adr.test.mjs scripts/lint-adr.test.mjs`
+- PowerShell: `bash -c "timeout 60 node --test scripts/new-adr.test.mjs scripts/lint-adr.test.mjs"`. PowerShell's own `timeout` is a different command (a console pause) and gives no hard timeout, so route through Git Bash's GNU `timeout`.
+
+Add an npm script `test:adr` running `node --test scripts/new-adr.test.mjs scripts/lint-adr.test.mjs` with no timeout inside it: npm runs scripts through `cmd.exe` on Windows, where `timeout` is also the console pause. Callers wrap it, matching the `timeout 60 npm test` form in `AGENTS.md`: `timeout 60 npm run test:adr` from Git Bash. Do not add it to the main `test` script, which globs `src/` only.
 
 ### Rollout
 
