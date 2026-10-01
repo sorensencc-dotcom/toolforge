@@ -28,11 +28,12 @@ Transform the TRM Mobile Ingress $\leftrightarrow$ Outbox pipeline (`TRM-Drive-S
 - **Outbox Archival Retention**: Implemented `sweepOutboxRetention(maxAgeDays = 7)` archiving stale and completed receipts into `04_archive/mobile-outbox/` and `completed/outbox/`. Integrated into `scripts/ironbots-daily-reporter.mjs` morning run.
 - **Continuous Daemon Maintenance Loop**: Added a 5-minute recurring timer in continuous mode (`!isOnce && !isDryRun`) in `scripts/trm-ingress-watcher.mjs` executing `syncCompletionReceipts()` and `sweepOutboxRetention()`.
 - **Mobile Threading & Follow-Up Chaining**: Added `parent_action_id` parsing in `parseGDocFilenameMetadata` (`__ref-<parent_id>__`, `__parent-<parent_id>__`) and `parsePayload`.
-- **Test Suite**: Authored `tests/trm-ingress-routing.test.mjs` (9/9 PASS). Full test suite passes 230/230 unit tests (`npm test`).
+- **Agent Sandbox Egress Gatekeeper & Scratchpad Guard (Issue #60 / act-01)**: Implemented `scripts/agent-egress-guard.mjs` enforcing domain whitelisting, intermediate scratchpad path scanning (`.harness/`, `_status-feed/`, `trm-drive/`, `.ijfw/`), and triggering `SECURITY_HALT` (exit code 2) on exfiltration attempts. Closed GitHub Issue #60 with passing verification suite in `tests/agent-egress-guard.test.mjs` (7/7 PASS).
+- **Test Suite**: Authored `tests/trm-ingress-routing.test.mjs` (9/9 PASS) and `tests/agent-egress-guard.test.mjs` (7/7 PASS). Full test suite passes 230/230 unit tests (`npm test`).
 
 ### Next action
 
-- Monitor daily `\Ironbots\` runs and observe continuous `TRM-Drive-Sync` daemon processing incoming mobile drops.
+- Execute Issue #61 (`act-02`: Deterministic decision & action extraction pipeline) or continue daily `\Ironbots\` runs.
 
 ## Meridian integration + ICF dashboard restructure (2026-09-30) — HANDOFF
 
