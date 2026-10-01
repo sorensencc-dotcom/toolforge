@@ -3,8 +3,8 @@ title: "Tracing the Legal Ownership & Provenance of the Hacker Runabout 'Evangel
 source_title: "Hacker Boat Company Hull Registers & Detroit River Custom House Licensing Records (1924–1940)"
 repository: "Hacker Boat Company Historical Archives & Detroit River Maritime Registry"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "sorensen-biography"
+verification_status: "active"
+category: "research"
 topic: "gap-16-hacker-runabout-evangeline"
 status: "resolved"
 gap_id: "GAP-16"
@@ -14,7 +14,6 @@ citations:
   - "Detroit River District Custom House Vessel Documentation & Licensing Ledgers (Official No. Series 1924-1938)"
   - "Benson Ford Research Center: Dahlinger Family Estate Inventory & Marine Maintenance Accounts"
 ---
-
 # Tracing the Legal Ownership & Provenance of the Hacker Runabout 'Evangeline' (GAP-16)
 
 ## 1. Executive Summary & Resolution

@@ -2,8 +2,8 @@
 source_title: "RFC GAP-20: Sorensen 1953 Oral History Archival Delta (Raw Reminiscences vs. 1956 Published Memoir)"
 repository: "CIC Research Vault — Archival Resolutions"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "biography"
+verification_status: "active"
+category: "research"
 topic: sorensen-oral-history-censorship
 status: resolved
 resolved_by: "rfc-gap-20-sorensen-oral-history-censorship.md"
@@ -11,7 +11,6 @@ synthesized_by: "trm-closed-loop-v2"
 vault_source: "BFRC Accession 65 (Reminiscences of Charles E. Sorensen, Boxes 66-69, 1,000+ pages), Owen Bombard Oral History Collection (1953)"
 last_updated: 2026-09-03T21:40:00.000Z
 ---
-
 # RFC GAP-20: Sorensen 1953 Oral History Archival Delta
 
 > **Executive Summary:** In 1953, Charles E. Sorensen completed an unvarnished, 1,000+ page oral history interview with Dr. Owen Bombard for the Ford Motor Company Archives (BFRC Accession 65). Co-author and editor Samuel T. Williamson substantially restructured, polished, and sanitized this raw transcript into the commercial 1956 publication *My Forty Years with Ford*. Cross-textual archival comparison isolates critical deletions regarding Henry Ford's cognitive decline, Harry Bennett's underworld connections, and specific shop-floor engineering rivalries.

@@ -2,8 +2,8 @@
 source_title: "RFC GAP-21: Clara Ford Succession Maneuvers & The Gillespie Gambit"
 repository: "CIC Research Vault — Archival Resolutions"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "biography"
+verification_status: "active"
+category: "research"
 topic: clara-ford-succession-gillespie-gambit
 status: resolved
 resolved_by: "rfc-gap-21-clara-ford-succession-gillespie-gambit.md"
@@ -11,7 +11,6 @@ synthesized_by: "trm-closed-loop-v2"
 vault_source: "BFRC Accession 65, Accession 823 (P.E. Martin Papers), Accession SE-007 (Frank Campsall Files), Ernest Kanzler Oral History (Acc. 65)"
 last_updated: 2026-09-03T21:40:00.000Z
 ---
-
 # RFC GAP-21: Clara Ford Succession Maneuvers & The Gillespie Gambit
 
 > **Executive Summary:** This dossier examines two crucial under-documented executive episodes in FMC history: (1) Clara Bryant Ford's alleged 1944 boardroom intervention demanding the purge of old-guard autocrats (Sorensen and Bennett) to secure absolute corporate control for her grandson Henry Ford II, and (2) Sorensen's "Gillespie Gambit"—the attempt to install former Detroit Police Commissioner John Gillespie inside River Rouge administration as a bureaucratic buffer against Bennett's Service Department.

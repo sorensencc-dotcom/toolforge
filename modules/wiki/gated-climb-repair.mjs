@@ -413,6 +413,7 @@ export async function runGatedClimbRepair(options = {}) {
         fs.rmdirSync(path.join(baseDir, '.tmp-quarantine'));
       } catch {}
 
+      let lessonError = null;
       try {
         const errorSummary = finalErrors.length > 0
           ? finalErrors.map(e => e.message || e.rule || JSON.stringify(e)).join('; ')

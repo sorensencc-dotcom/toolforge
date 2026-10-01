@@ -23,6 +23,7 @@ jobs:
           - repository: toolforge
             validate: npm --prefix CIC-GOVERNANCE run gov:validate
             smoke: npm test
+            install_flags: --no-audit --legacy-peer-deps
           - repository: kb-sync
             validate: npm run gov:validate
             smoke: npm run gov:smoke
@@ -39,7 +40,6 @@ jobs:
     steps:
       - name: Checkout matrix repository
         uses: actions/checkout@v4
-        continue-on-error: true
         with:
           repository: sorensencc-dotcom/${{ matrix.repository }}
           token: ${{ secrets.GH_PAT || secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
@@ -47,18 +47,19 @@ jobs:
 
       - name: Checkout toolforge governance source
         uses: actions/checkout@v4
-        continue-on-error: true
         with:
-          repository: sorensencc-dotcom/cic-governance
+          repository: sorensencc-dotcom/toolforge
           token: ${{ secrets.GH_PAT || secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           path: toolforge-source
+          sparse-checkout: CIC-GOVERNANCE
+          sparse-checkout-cone-mode: true
 
       - name: Link CIC-GOVERNANCE
         run: |
           mkdir -p workspace/CIC-GOVERNANCE
-          cp -r toolforge-source/* workspace/CIC-GOVERNANCE/ || true
+          cp -a toolforge-source/CIC-GOVERNANCE/. workspace/CIC-GOVERNANCE/
           mkdir -p CIC-GOVERNANCE
-          cp -r toolforge-source/* CIC-GOVERNANCE/ || true
+          cp -a toolforge-source/CIC-GOVERNANCE/. CIC-GOVERNANCE/
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -67,7 +68,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: workspace
-        run: npm ci --ignore-scripts || npm install --ignore-scripts
+        run: npm ci --ignore-scripts || npm install --ignore-scripts ${{ matrix.install_flags }}
 
       - name: Run governance validation
         working-directory: workspace

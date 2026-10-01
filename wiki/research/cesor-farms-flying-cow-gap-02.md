@@ -2,15 +2,14 @@
 source_title: "The Flying Cow of Willow Run: Cesor Maxim's Irene (GAP-02)"
 repository: "Ann Arbor District Library Archives & Detroit Regional News Records"
 document_date: "2026-09-02"
-verification_status: "verified"
-category: "willow-run"
+verification_status: "active"
+category: "research"
 topic: "cesor-farms-flying-cow"
 status: "resolved"
 gap_id: "GAP-02"
 directive_reference: "_kb-sync-staging/trm/directives/GAP-02_cesor_farms_flying_cow_directive.json"
 last_updated: "2026-09-02T23:12:00Z"
 ---
-
 # The Flying Cow of Willow Run: Cesor Maxim's Irene (GAP-02)
 
 > Primary archival dossier resolving the historical record for the November 1947 air cargo transport of Charles E. Sorensen's prize Guernsey cow, *Cesor Maxim's Irene*, from Willow Run Airport.

@@ -3,8 +3,8 @@ title: "Charles E. Sorensen's November 1943 Lake Breakdown & The Personal Cost o
 source_title: "Sorensen's Physical & Emotional Collapse at the Willow Run Synchronization Inflection"
 repository: "Benson Ford Research Center (Accession 65: Reminiscences) & Bentley Historical Library"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "sorensen-biography"
+verification_status: "active"
+category: "research"
 topic: "gap-11-sorensen-lake-breakdown"
 status: "resolved"
 gap_id: "GAP-11"
@@ -14,7 +14,6 @@ citations:
   - "Charles E. Sorensen Personal Pocket Diaries & Production Notebooks (November 1943)"
   - "David L. Lewis, The Public Image of Henry Ford (Wayne State University Press)"
 ---
-
 # Charles E. Sorensen's November 1943 Lake Breakdown & The Personal Cost of Willow Run (GAP-11)
 
 ## 1. Executive Summary & Resolution

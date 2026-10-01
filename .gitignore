@@ -139,3 +139,7 @@ graft/
 .agent-secret-manager/
 .env.*
 !.env.example
+
+# ICF runtime telemetry (rewritten by scripts/morning-ingest.mjs; live machine state)
+.icf-telemetry-latest.json
+.icf-telemetry.prom

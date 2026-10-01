@@ -2,8 +2,8 @@
 source_title: "RFC GAP-18: Edsel Ford vs. Charles Sorensen Relationship Dynamics (Protector vs. Frustrator)"
 repository: "CIC Research Vault — Archival Resolutions"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "biography"
+verification_status: "active"
+category: "research"
 topic: edsel-sorensen-dynamics
 status: resolved
 resolved_by: "rfc-gap-18-edsel-sorensen-protector-vs-frustrator.md"
@@ -11,7 +11,6 @@ synthesized_by: "trm-closed-loop-v2"
 vault_source: "BFRC Accession 65 (Sorensen Reminiscences), Accession 6 (Edsel B. Ford Papers), Charles C. Thompson Review (1957)"
 last_updated: 2026-09-03T21:40:00.000Z
 ---
-
 # RFC GAP-18: Edsel Ford vs. Charles Sorensen Relationship Dynamics
 
 > **Executive Summary:** Historical treatments diverge sharply regarding Sorensen's role in Edsel Ford's executive career. Sorensen portrayed himself in *My Forty Years with Ford* as Edsel's staunch corporate protector against Harry Bennett's brutal security apparatus. In contrast, revisionist historiography (Thompson 1957; Nevins & Hill) identifies Sorensen as Henry Ford's chief operational enforcer who regularly undermined Edsel's progressive design and administrative initiatives, creating an agonizing duality: operational loyalty to Henry Ford while attempting personal shielding of Edsel.

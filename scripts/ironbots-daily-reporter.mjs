@@ -35,6 +35,7 @@ const BOT_ARTIFACTS = {
   trmBot: 'trm_bot_report.json',
   watchlistMiner: 'watchlist_miner_report.json',
   daemonHealer: 'daemon_health.json',
+  ironledgerHealth: 'ironledger_health.json',
   ciWatchdog: 'ci_alerts.json',
   trmIngress: 'trm_ingress_status.json',
   storagePruner: 'storage_pruner_status.json'
@@ -46,6 +47,8 @@ export const FLEET_SCORING_POLICY = {
     ciFailurePenaltyPerRun: 10,
     maxCiFailurePenalty: 25,
     daemonUnhealthyPenalty: 20,
+    ironledgerUnhealthyPenalty: 25,
+    ironledgerDegradedPenalty: 10,
     competitorDriftPenalty: 5,
     hostDegradedPenalty: 25
   },
@@ -61,6 +64,7 @@ export const REQUIRED_FLEET_TASKS = [
   'TRM-Bot',
   'Watchlist-Miner',
   'Daemon-Healer',
+  'IronLedger-Sentinel',
   'CI-Watchdog',
   'TRM-Drive-Sync',
   'Storage-Pruner',
@@ -114,7 +118,7 @@ export function getHostHeartbeat(options = {}) {
         const taskNames = new Set(tasks.map(t => t.name));
         const missing = REQUIRED_FLEET_TASKS.filter(name => !taskNames.has(name) && !(name === 'TRM-Drive-Sync' && taskNames.has('TRM-Ingress-Watcher')));
         taskScheduler = {
-          status: missing.length === 0 && tasks.length >= 9 ? 'HEALTHY' : 'DEGRADED',
+          status: missing.length === 0 && tasks.length >= 10 ? 'HEALTHY' : 'DEGRADED',
           taskCount: tasks.length,
           tasks,
           missingTasks: missing,
@@ -220,6 +224,16 @@ export async function aggregateFleetActivity(options = {}) {
       summary: results.daemonHealer?.targetUrl ? `Port 8080 status: ${results.daemonHealer.status} (healed: ${results.daemonHealer.healed})` : 'No run recorded'
     },
     {
+      id: 'ironledger-sentinel',
+      name: 'IronLedger-Sentinel Workbench & Sync Supervisor',
+      schedule: 'Every 15 Min',
+      telemetry: results.ironledgerHealth,
+      status: results.ironledgerHealth?.status || 'UNKNOWN',
+      summary: results.ironledgerHealth?.workbench?.targetUrl
+        ? `Status: ${results.ironledgerHealth.status} (UI/API: ${results.ironledgerHealth.workbench.uiOk && results.ironledgerHealth.workbench.healthzOk ? 'OK' : 'FAIL'}, Container: ${results.ironledgerHealth.workbench.container?.status || 'N/A'}, Syncs: ${results.ironledgerHealth.scheduledSyncs?.status || 'N/A'})`
+        : 'No run recorded'
+    },
+    {
       id: 'ci-watchdog',
       name: 'CI-Watchdog Workflow Failure Triage',
       schedule: 'Daily 06:00 AM',
@@ -265,6 +279,11 @@ export async function aggregateFleetActivity(options = {}) {
   if (results.daemonHealer?.status !== 'HEALTHY' && results.daemonHealer?.status !== 'RECOVERED') {
     healthPenalties += FLEET_SCORING_POLICY.weights.daemonUnhealthyPenalty;
   }
+  if (results.ironledgerHealth?.status === 'DOWN' || results.ironledgerHealth?.status === 'HEAL_FAILED') {
+    healthPenalties += FLEET_SCORING_POLICY.weights.ironledgerUnhealthyPenalty;
+  } else if (results.ironledgerHealth?.status === 'DEGRADED') {
+    healthPenalties += FLEET_SCORING_POLICY.weights.ironledgerDegradedPenalty;
+  }
   if (results.watchlistMiner?.driftsDetected > 0) {
     healthPenalties += FLEET_SCORING_POLICY.weights.competitorDriftPenalty;
   }
@@ -277,6 +296,7 @@ export async function aggregateFleetActivity(options = {}) {
   if (fleetHealthScore < FLEET_SCORING_POLICY.thresholds.healthyMinScore) fleetStatus = 'DEGRADED';
   if (fleetHealthScore < FLEET_SCORING_POLICY.thresholds.attentionMinScore) fleetStatus = 'ATTENTION_REQUIRED';
 
+  const dryRun = options.isDryRun ?? options.dryRun ?? isDryRun;
   const elapsedMs = Date.now() - startTime;
 
   const dailyReport = {
@@ -294,12 +314,13 @@ export async function aggregateFleetActivity(options = {}) {
       totalResearchGaps: results.trmBot?.totalGaps || 0,
       competitorDrifts: results.watchlistMiner?.driftsDetected || 0,
       daemonStatus: results.daemonHealer?.status || 'UNKNOWN',
+      ironledgerStatus: results.ironledgerHealth?.status || 'UNKNOWN',
       ciFailures: results.ciWatchdog?.failureCount || 0
     },
-    dryRun: isDryRun
+    dryRun
   };
 
-  if (!isDryRun) {
+  if (!dryRun) {
     // Write primary report and archive daily snapshot
     await fs.mkdir(STATUS_FEED_DIR, { recursive: true });
     await fs.mkdir(HISTORY_DIR, { recursive: true });

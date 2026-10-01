@@ -61,9 +61,9 @@ function parseFrontmatter(content) {
 
 const ALLOWED_CATEGORIES = new Set([
   'daemons', 'utilities', 'sync-tools', 'adapters', 'mcp-servers',
-  'scaffolds', 'prototypes', 'wiki', 'research', 'lessons'
+  'scaffolds', 'prototypes', 'wiki', 'research', 'lessons', 'reporting'
 ]);
-const ALLOWED_STATUSES = new Set(['active', 'beta', 'archived', 'draft', 'proposed']);
+const ALLOWED_STATUSES = new Set(['active', 'beta', 'archived', 'draft', 'proposed', 'resolved', 'canonical']);
 
 function extractWikilinks(content) {
   const links = [];

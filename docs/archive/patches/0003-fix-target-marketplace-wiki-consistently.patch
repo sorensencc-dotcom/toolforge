@@ -1,0 +1,62 @@
+From 39965b44690a24dcfc323b91ac0b7819e9dec4a5 Mon Sep 17 00:00:00 2001
+From: Chris Sorensen <sorensencc@gmail.com>
+Date: Fri, 28 Aug 2026 18:55:01 -0400
+Subject: [PATCH 3/4] fix: target marketplace wiki consistently
+
+---
+ scripts/sync-github-wiki.mjs               | 2 +-
+ tools/wiki-browser-qa/runner.mjs           | 2 +-
+ tools/wiki-browser-qa/test/runner.test.mjs | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/sync-github-wiki.mjs b/scripts/sync-github-wiki.mjs
+index 17d1552e..966f72f6 100644
+--- a/scripts/sync-github-wiki.mjs
++++ b/scripts/sync-github-wiki.mjs
+@@ -10,7 +10,7 @@ const root = path.resolve(here, '..');
+ const args = process.argv.slice(2);
+ const value = (name, fallback = null) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
+ 
+-const repoUrl = value('--repo-url', process.env.WIKI_REPO_URL || 'https://github.com/sorensencc-dotcom/toolforge.wiki.git');
++const repoUrl = value('--repo-url', process.env.WIKI_REPO_URL || 'https://github.com/sorensencc-dotcom/toolforge-marketplace.wiki.git');
+ const targetWikiDir = path.resolve(root, value('--target-dir', '.wiki-publish-temp'));
+ const shouldPush = args.includes('--push') || process.env.AUTO_PUSH === 'true' || true;
+ const commitMessage = value('--commit-msg', 'docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar');
+diff --git a/tools/wiki-browser-qa/runner.mjs b/tools/wiki-browser-qa/runner.mjs
+index 438e6b52..4e523930 100644
+--- a/tools/wiki-browser-qa/runner.mjs
++++ b/tools/wiki-browser-qa/runner.mjs
+@@ -6,7 +6,7 @@ import policy from './diagram-policy.json' with { type: 'json' };
+ import { createBackendAdapter } from './backend.mjs';
+ import { checkPageObservation } from './checks.mjs';
+ 
+-const DEFAULT_BASE_URL = 'https://github.com/sorensencc-dotcom/toolforge/wiki';
++const DEFAULT_BASE_URL = 'https://github.com/sorensencc-dotcom/toolforge-marketplace/wiki';
+ const DEFAULT_REPORT_PATH = '.artifacts/wiki-qa/report.json';
+ const DEFAULT_CONCURRENCY = 2;
+ const MAX_CONCURRENCY = 4;
+diff --git a/tools/wiki-browser-qa/test/runner.test.mjs b/tools/wiki-browser-qa/test/runner.test.mjs
+index 0d16ced1..57285eab 100644
+--- a/tools/wiki-browser-qa/test/runner.test.mjs
++++ b/tools/wiki-browser-qa/test/runner.test.mjs
+@@ -90,7 +90,7 @@ test('rejects explicit pages outside the configured Wiki origin or prefix', asyn
+ test('passes .markdown-body content selector to the adapter for GitHub-rendered wiki pages', async () => {
+   const seen = [];
+   const result = await runWikiQa({
+-    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge/wiki',
++    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge-marketplace/wiki',
+     WIKI_QA_PAGES: 'GOVERNANCE',
+   }, dependencies(createAdapter(async (url, options) => {
+     seen.push(options?.contentSelector ?? null);
+@@ -104,7 +104,7 @@ test('passes .markdown-body content selector to the adapter for GitHub-rendered
+ test('passes the GitHub Wiki path as the default link scope', async () => {
+   const seen = [];
+   await runWikiQa({
+-    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge/wiki',
++    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge-marketplace/wiki',
+     WIKI_QA_PAGES: 'GOVERNANCE',
+   }, dependencies(createAdapter(async (url, options) => {
+     seen.push(options?.linkScope ?? null);
+-- 
+2.55.0.windows.4
+

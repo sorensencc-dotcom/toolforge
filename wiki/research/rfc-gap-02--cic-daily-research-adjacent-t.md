@@ -3,13 +3,12 @@ source_title: "The Al-Toy Jeep Day Banquet (1945) — Industrial Launch & Promot
 repository: "Willys-Overland Archival Collection & Commercial Marketing Records"
 document_date: "2026-08-30"
 verification_status: "verified"
-category: "post-war"
+category: "research"
 topic: "al-toy-jeep-day-1945"
 status: "active"
 gap_id: "GAP-02"
 last_updated: "2026-08-30T23:09:00Z"
 ---
-
 # The Al-Toy "Jeep Day" Banquet (1945) (GAP-02)
 
 > Research synthesis regarding post-war toy lore, industrial promotional campaigns, and the marketing launch of the civilian Jeep (CJ-2A) under Charles E. Sorensen and Willys-Overland.

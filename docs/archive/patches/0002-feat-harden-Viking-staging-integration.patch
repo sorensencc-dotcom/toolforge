@@ -1,0 +1,373 @@
+From 717e381a091514a49ab71f00dd3178542b6729ef Mon Sep 17 00:00:00 2001
+From: Chris Sorensen <sorensencc@gmail.com>
+Date: Fri, 28 Aug 2026 18:24:00 -0400
+Subject: [PATCH 2/4] feat: harden Viking staging integration
+
+---
+ modules/mcp/viking-resolver.mjs             |   2 +-
+ modules/mcp/viking-snapshot.mjs             |  42 +++++
+ modules/mcp/viking-tier-index-bootstrap.mjs |  14 ++
+ modules/mcp/viking-vfs-server.mjs           |  18 +-
+ package.json                                | 185 ++++++++++----------
+ src/governance.test.js                      |   6 +-
+ 6 files changed, 165 insertions(+), 102 deletions(-)
+ create mode 100644 modules/mcp/viking-tier-index-bootstrap.mjs
+
+diff --git a/modules/mcp/viking-resolver.mjs b/modules/mcp/viking-resolver.mjs
+index d4d167a5..300823b3 100644
+--- a/modules/mcp/viking-resolver.mjs
++++ b/modules/mcp/viking-resolver.mjs
+@@ -85,7 +85,7 @@ export function createResolver({ vaultRoot, vaultName, snapshotId, snapshotRoot:
+   function resolve(input) {
+     const parsed = parseUri(input, vaultName, { allowLegacy });
+     if (!rootReal) throw new VikingError(ERROR_CODES.SNAPSHOT_UNAVAILABLE, 'Selected snapshot is unavailable', { snapshot_id: snapshotId });
+-    if (!fs.existsSync(manifestFile) || manifestEntries.size === 0) throw new VikingError(ERROR_CODES.MANIFEST_INVALID, 'Snapshot manifest is missing or empty', { snapshot_id: snapshotId });
++    if (manifestEntries.size === 0) throw new VikingError(ERROR_CODES.MANIFEST_INVALID, 'Snapshot manifest is missing or empty', { snapshot_id: snapshotId });
+     const candidate = path.resolve(rootReal, roots[parsed.layer], parsed.relativePath);
+     if (!candidate.startsWith(`${rootReal}${path.sep}`) && candidate !== rootReal) throw new VikingError(ERROR_CODES.PATH_TRAVERSAL_REJECTED, 'Resolved path escapes snapshot');
+     if (!fs.existsSync(candidate)) throw new VikingError(ERROR_CODES.RESOURCE_NOT_FOUND, 'Resource not found');
+diff --git a/modules/mcp/viking-snapshot.mjs b/modules/mcp/viking-snapshot.mjs
+index 5b2dd1ff..0fb2a636 100644
+--- a/modules/mcp/viking-snapshot.mjs
++++ b/modules/mcp/viking-snapshot.mjs
+@@ -3,6 +3,48 @@ import path from 'node:path';
+ import { VikingError, ERROR_CODES } from './viking-resolver.mjs';
+ 
+ function readJson(file) { try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { throw new VikingError(ERROR_CODES.SNAPSHOT_UNAVAILABLE, 'Snapshot metadata is unreadable'); } }
++function atomicWriteJson(file, value) {
++  const temp = `${file}.${process.pid}.${Date.now()}.tmp`;
++  const fd = fs.openSync(temp, 'w');
++  try { fs.writeFileSync(fd, `${JSON.stringify(value, null, 2)}\n`, 'utf8'); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
++  fs.renameSync(temp, file);
++}
++
++export function publishGenerationPointer({ vaultRoot, generationId, sha256 }) {
++  if (typeof generationId !== 'string' || !/^[A-Za-z0-9_-]+$/.test(generationId)) throw new TypeError('generationId is invalid');
++  if (typeof sha256 !== 'string' || !sha256) throw new TypeError('sha256 is required');
++  const pack = path.join(vaultRoot, '.nlm_pack');
++  const generationRoot = path.join(pack, 'generations', generationId);
++  const manifest = readJson(path.join(generationRoot, 'manifest.json'));
++  if (manifest.generation_id !== generationId || manifest.sha256 !== sha256) throw new VikingError(ERROR_CODES.INTEGRITY_FAILED, 'Generation manifest does not match publication pointer');
++  fs.mkdirSync(pack, { recursive: true });
++  const pointer = path.join(pack, 'current_generation.json');
++  if (fs.existsSync(pointer)) fs.copyFileSync(pointer, `${pointer}.previous`);
++  atomicWriteJson(pointer, { active_generation: generationId, sha256 });
++  return readPinnedSnapshot({ vaultRoot });
++}
++
++export function recoverCurrentGeneration({ vaultRoot }) {
++  const pointer = path.join(vaultRoot, '.nlm_pack', 'current_generation.json');
++  const previous = `${pointer}.previous`;
++  if (!fs.existsSync(previous)) throw new VikingError(ERROR_CODES.SNAPSHOT_UNAVAILABLE, 'No recoverable generation pointer');
++  fs.copyFileSync(previous, `${pointer}.recovery.tmp`);
++  fs.renameSync(`${pointer}.recovery.tmp`, pointer);
++  return readPinnedSnapshot({ vaultRoot });
++}
++
++export function collectGenerations({ vaultRoot, keep = 2 }) {
++  if (!Number.isInteger(keep) || keep < 1) throw new TypeError('keep must be a positive integer');
++  const pack = path.join(vaultRoot, '.nlm_pack');
++  const active = readPinnedSnapshot({ vaultRoot }).snapshotId;
++  const dir = path.join(pack, 'generations');
++  const generations = fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort().reverse() : [];
++  const retained = new Set([active, ...generations.slice(0, keep - 1)]);
++  const removed = generations.filter((id) => !retained.has(id));
++  for (const id of removed) fs.rmSync(path.join(dir, id), { recursive: true, force: true });
++  return { retained: [...retained], removed };
++}
++
+ export function readPinnedSnapshot({ vaultRoot, pointerPath = path.join(vaultRoot, '.nlm_pack', 'current_generation.json') }) {
+   const pointer = readJson(pointerPath);
+   const generationId = pointer.active_generation;
+diff --git a/modules/mcp/viking-tier-index-bootstrap.mjs b/modules/mcp/viking-tier-index-bootstrap.mjs
+new file mode 100644
+index 00000000..4157cde8
+--- /dev/null
++++ b/modules/mcp/viking-tier-index-bootstrap.mjs
+@@ -0,0 +1,14 @@
++import fs from 'node:fs';
++import path from 'node:path';
++import { createTierIndexDatabase } from './viking-tier-index.mjs';
++
++const output = path.resolve(process.argv[2] ?? '.nlm_pack/tier-index.sqlite');
++const ownerId = process.env.VIKING_OPERATOR_OWNER ?? 'owner_charlie_001';
++if (!fs.existsSync(output)) {
++  fs.mkdirSync(path.dirname(output), { recursive: true });
++  const db = createTierIndexDatabase(output);
++  db.close();
++}
++const metadata = { owner_id: ownerId, owner_name: 'CIC Engineering', tier_index: path.basename(output), readonly_consumer: true };
++fs.writeFileSync(`${output}.owner.json`, `${JSON.stringify(metadata, null, 2)}\n`, { flag: 'w' });
++console.log(JSON.stringify({ event: 'viking.tier_index_bootstrapped', ...metadata, path: output }));
+\ No newline at end of file
+diff --git a/modules/mcp/viking-vfs-server.mjs b/modules/mcp/viking-vfs-server.mjs
+index 2a22692b..0e834185 100644
+--- a/modules/mcp/viking-vfs-server.mjs
++++ b/modules/mcp/viking-vfs-server.mjs
+@@ -2,6 +2,7 @@ import readline from 'node:readline';
+ import { createResolver, VikingError } from './viking-resolver.mjs';
+ import { validateRequest, validateResponse } from './viking-vfs-contracts.mjs';
+ import { readPinnedSnapshot } from './viking-snapshot.mjs';
++import { createTierIndex } from './viking-tier-index.mjs';
+ 
+ function requireParams(request) {
+   if (!request || typeof request !== 'object' || typeof request.method !== 'string') throw new VikingError('INVALID_REQUEST', 'Request must include a method');
+@@ -16,20 +17,22 @@ export function toJsonRpcResponse(id, payload) {
+   return { jsonrpc: '2.0', id: id ?? null, result: payload };
+ }
+ 
+-export function createServer(resolver) {
++export function createServer(resolver, { telemetry = () => {} } = {}) {
+   return Object.freeze({
+     async handle(request) {
++      const started = process.hrtime.bigint();
+       try {
+         const params = requireParams(request);
+         if (request.method === 'initialize') return { protocolVersion: '2025-06-18', capabilities: { resources: { listChanged: false } }, serverInfo: { name: 'viking-vfs', version: '0.1.0' } };
+         if (request.method === 'resources/list') { const listing = resolver.list(params.uri ?? 'viking://kb-sync/wiki', params); return { resources: listing.files.map((file) => ({ uri: file.uri, name: file.name, description: file.abstract ?? undefined, mimeType: 'text/plain' })), nextCursor: listing.next_offset === null ? undefined : String(listing.next_offset) }; }
+-        if (request.method === 'resources/read') { const value = resolver.read(params.uri, 'L1'); return { contents: [{ uri: value.uri, mimeType: 'text/plain', text: value.content, annotations: { stale: value.stale, snapshot_id: value.snapshot_id } }] }; }
++        if (request.method === 'resources/read') { const value = resolver.read(params.uri, 'L1'); telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: Number(process.hrtime.bigint() - started) / 1e6, cache_hit: value.cache_hit }); return { contents: [{ uri: value.uri, mimeType: 'text/plain', text: value.content, annotations: { stale: value.stale, snapshot_id: value.snapshot_id } }] }; }
+         if (request.method === 'viking/stat') return resolver.stat(params.uri);
+         if (request.method === 'viking/list') return resolver.list(params.uri, params);
+-        if (request.method === 'viking/read') return resolver.read(params.uri, params.resolution_tier ?? 'L1');
++        if (request.method === 'viking/read') { const value = resolver.read(params.uri, params.resolution_tier ?? 'L1'); telemetry({ event: 'viking.request', method: request.method, snapshot_id: value.snapshot_id, generation_hash: value.generation_hash ?? null, tier: value.resolution_tier, latency_ms: Number(process.hrtime.bigint() - started) / 1e6, cache_hit: value.cache_hit }); return value; }
+         throw new VikingError('METHOD_NOT_FOUND', `Unsupported method: ${request.method}`);
+       } catch (error) {
+         const code = error instanceof VikingError ? error.code : 'INTERNAL_ERROR';
++        telemetry({ event: 'viking.error', method: request?.method ?? null, error_code: code, latency_ms: Number(process.hrtime.bigint() - started) / 1e6 });
+         return { error: { code, message: error.message, data: error instanceof VikingError ? error.data : {} } };
+       }
+     },
+@@ -41,7 +44,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
+   const vaultName = process.env.VIKING_VAULT_NAME ?? 'kb-sync';
+   const pinned = process.env.VIKING_SNAPSHOT_ID ? null : readPinnedSnapshot({ vaultRoot });
+   const snapshotId = process.env.VIKING_SNAPSHOT_ID ?? pinned.snapshotId;
+-  const resolver = createResolver({ vaultRoot, vaultName, snapshotId, snapshotRoot: pinned?.snapshotRoot, layerRoots: { sources: 'sources', wiki: 'wiki', schema: 'schema' } });
++  const tierIndexPath = process.env.VIKING_TIER_INDEX ?? (pinned ? `${pinned.snapshotRoot}/tier-index.sqlite` : null);
++  const tierIndex = tierIndexPath ? createTierIndex({ filename: tierIndexPath, readonly: true }) : {};
++  const resolver = createResolver({ vaultRoot, vaultName, snapshotId, snapshotRoot: pinned?.snapshotRoot, snapshotManifest: pinned?.manifest, tierIndex, layerRoots: { sources: 'sources', wiki: 'wiki', schema: 'schema' } });
+   const server = createServer(resolver);
+   const input = readline.createInterface({ input: process.stdin });
+   input.on('line', async (line) => {
+@@ -49,6 +54,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
+     const result = await server.handle(request);
+     const response = toJsonRpcResponse(request.id, result);
+     validateResponse(response, { method: request.method });
+-    process.stdout.write(`${JSON.stringify(response)}\n`);
++    process.stdout.write(`${JSON.stringify(response)}
++`);
+   });
+-}
+\ No newline at end of file
++}
+diff --git a/package.json b/package.json
+index 54d6586d..c677f154 100644
+--- a/package.json
++++ b/package.json
+@@ -1,92 +1,93 @@
+-{
+-  "name": "toolforge-marketplace",
+-  "version": "1.0.0",
+-  "type": "module",
+-  "description": "Toolforge Marketplace: API + UI for skill discovery and installation",
+-  "main": "src/api/server.js",
+-  "scripts": {
+-    "secret-scan": "node scripts/secret-scan.mjs",
+-    "kb:status": "node kb-sync/scripts/check-status.mjs",
+-    "kb:sync:status": "node kb-sync/scripts/check-status.mjs",
+-    "kb:dag": "node kb-sync/scripts/build-dag.mjs",
+-    "kb:dag:check": "node kb-sync/scripts/build-dag.mjs --check-only",
+-    "kb:dag:recover": "node kb-sync/scripts/build-dag.mjs --recover",
+-    "trm:closed-loop": "node kb-sync/scripts/run-closed-loop-research.mjs",
+-    "migrate": "node src/db/migrate.js",
+-    "trending:refresh": "node src/services/trending-batch.js",
+-    "trending:schedule": "pwsh src/services/trending-scheduler.ps1",
+-    "trending:unschedule": "pwsh src/services/trending-scheduler.ps1 -Unregister",
+-    "e2e": "node src/e2e/harness.js",
+-    "load:marketplace": "node src/load-tests/marketplace-load.js",
+-    "migrate:reset": "psql $DATABASE_URL -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;' && npm run migrate",
+-    "api:dev": "node --watch src/api/server.js",
+-    "api:build": "echo 'ESM, no build needed'",
+-    "ui:dev": "vite src/ui",
+-    "ui:build": "vite build src/ui",
+-    "ui:preview": "vite preview src/ui",
+-    "ui:test": "vitest run",
+-    "test": "node --test src/**/*.test.js toolforge-pdf/*.test.js",
+-    "test:vision": "vitest run --config vitest.config.vision.js",
+-    "test:providers": "vitest run --config vitest.config.providers.js",
+-    "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
+-    "test:healing": "npx tsx --test modules/healing/*.test.ts",
+-    "test:trm": "npx tsx --test tests/validate-chunks.test.ts",
+-    "test:watchlist": "node test-watchlist-run.mjs",
+-    "wiki:publish": "node scripts/sync-github-wiki.mjs",
+-    "wiki:sync": "node scripts/sync-github-wiki.mjs",
+-    "wiki:qa": "node tools/wiki-browser-qa/runner.mjs",
+-    "wiki:qa:neo": "node tools/wiki-browser-qa/runner.mjs --backend=neo",
+-    "docs:validate": "node scripts/validate-docs-publishing.mjs",
+-    "test:watch": "node --test --watch src/**/*.test.js",
+-    "preflight": "pwsh -NoProfile -File scripts/preflight.ps1",
+-    "lint": "eslint src/**/*.js",
+-    "pre-flight": "npm run lint && npm test && npm run test:vision && npm run test:scheduler && npm run test:healing && npm run test:trm && npm run index:validate",
+-    "index:validate": "pwsh -NoProfile -File scripts/validate-codebase-index.ps1",
+-    "stress:gate04": "node src/stress-tests/gate04-fairness.js",
+-    "dev": "npm run api:dev",
+-    "sweep:whichllm": "npm --prefix CIC-GOVERNANCE run sweep:whichllm",
+-    "decide:whichllm": "npm --prefix CIC-GOVERNANCE run decide:whichllm",
+-    "install:whichllm": "npm --prefix CIC-GOVERNANCE run install:whichllm",
+-    "test:whichllm": "npm --prefix CIC-GOVERNANCE run test:whichllm",
+-    "simulate:whichllm": "npm --prefix CIC-GOVERNANCE run simulate:whichllm",
+-    "plan:whichllm": "npm --prefix CIC-GOVERNANCE run plan:whichllm",
+-    "viking-vfs": "node modules/mcp/viking-vfs-server.mjs"
+-  },
+-  "keywords": [
+-    "toolforge",
+-    "marketplace",
+-    "skills",
+-    "discovery"
+-  ],
+-  "author": "CIC Team",
+-  "license": "MIT",
+-  "bin": {
+-    "toolforge": "src/cli/index.js"
+-  },
+-  "dependencies": {
+-    "axios": "^1.6.5",
+-    "better-sqlite3": "^13.0.3",
+-    "cors": "^2.8.5",
+-    "dotenv": "^16.3.1",
+-    "express": "^4.18.2",
+-    "pdf-parse": "^2.4.5",
+-    "pg": "^8.11.3",
+-    "react": "^18.2.0",
+-    "react-dom": "^18.2.0",
+-    "yargs": "^17.7.2"
+-  },
+-  "devDependencies": {
+-    "@testing-library/jest-dom": "^6.9.1",
+-    "@testing-library/react": "^16.3.2",
+-    "@testing-library/user-event": "^14.6.1",
+-    "@vitejs/plugin-react": "^4.2.1",
+-    "eslint": "^8.52.0",
+-    "jsdom": "^24.1.3",
+-    "nodemon": "^3.0.1",
+-    "vite": "^5.0.8",
+-    "vitest": "^2.1.9"
+-  },
+-  "engines": {
+-    "node": ">=24.0.0"
+-  }
+-}
++{
++  "name": "toolforge-marketplace",
++  "version": "1.0.0",
++  "type": "module",
++  "description": "Toolforge Marketplace: API + UI for skill discovery and installation",
++  "main": "src/api/server.js",
++  "scripts": {
++    "secret-scan": "node scripts/secret-scan.mjs",
++    "kb:status": "node kb-sync/scripts/check-status.mjs",
++    "kb:sync:status": "node kb-sync/scripts/check-status.mjs",
++    "kb:dag": "node kb-sync/scripts/build-dag.mjs",
++    "kb:dag:check": "node kb-sync/scripts/build-dag.mjs --check-only",
++    "kb:dag:recover": "node kb-sync/scripts/build-dag.mjs --recover",
++    "trm:closed-loop": "node kb-sync/scripts/run-closed-loop-research.mjs",
++    "migrate": "node src/db/migrate.js",
++    "trending:refresh": "node src/services/trending-batch.js",
++    "trending:schedule": "pwsh src/services/trending-scheduler.ps1",
++    "trending:unschedule": "pwsh src/services/trending-scheduler.ps1 -Unregister",
++    "e2e": "node src/e2e/harness.js",
++    "load:marketplace": "node src/load-tests/marketplace-load.js",
++    "migrate:reset": "psql $DATABASE_URL -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;' && npm run migrate",
++    "api:dev": "node --watch src/api/server.js",
++    "api:build": "echo 'ESM, no build needed'",
++    "ui:dev": "vite src/ui",
++    "ui:build": "vite build src/ui",
++    "ui:preview": "vite preview src/ui",
++    "ui:test": "vitest run",
++    "test": "node --test src/**/*.test.js toolforge-pdf/*.test.js",
++    "test:vision": "vitest run --config vitest.config.vision.js",
++    "test:providers": "vitest run --config vitest.config.providers.js",
++    "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
++    "test:healing": "npx tsx --test modules/healing/*.test.ts",
++    "test:trm": "npx tsx --test tests/validate-chunks.test.ts",
++    "test:watchlist": "node test-watchlist-run.mjs",
++    "wiki:publish": "node scripts/sync-github-wiki.mjs",
++    "wiki:sync": "node scripts/sync-github-wiki.mjs",
++    "wiki:qa": "node tools/wiki-browser-qa/runner.mjs",
++    "wiki:qa:neo": "node tools/wiki-browser-qa/runner.mjs --backend=neo",
++    "docs:validate": "node scripts/validate-docs-publishing.mjs",
++    "test:watch": "node --test --watch src/**/*.test.js",
++    "preflight": "pwsh -NoProfile -File scripts/preflight.ps1",
++    "lint": "eslint src/**/*.js",
++    "pre-flight": "npm run lint && npm test && npm run test:vision && npm run test:scheduler && npm run test:healing && npm run test:trm && npm run index:validate",
++    "index:validate": "pwsh -NoProfile -File scripts/validate-codebase-index.ps1",
++    "stress:gate04": "node src/stress-tests/gate04-fairness.js",
++    "dev": "npm run api:dev",
++    "sweep:whichllm": "npm --prefix CIC-GOVERNANCE run sweep:whichllm",
++    "decide:whichllm": "npm --prefix CIC-GOVERNANCE run decide:whichllm",
++    "install:whichllm": "npm --prefix CIC-GOVERNANCE run install:whichllm",
++    "test:whichllm": "npm --prefix CIC-GOVERNANCE run test:whichllm",
++    "simulate:whichllm": "npm --prefix CIC-GOVERNANCE run simulate:whichllm",
++    "plan:whichllm": "npm --prefix CIC-GOVERNANCE run plan:whichllm",
++    "viking-vfs": "node modules/mcp/viking-vfs-server.mjs",
++    "viking:tier-index:bootstrap": "node modules/mcp/viking-tier-index-bootstrap.mjs"
++  },
++  "keywords": [
++    "toolforge",
++    "marketplace",
++    "skills",
++    "discovery"
++  ],
++  "author": "CIC Team",
++  "license": "MIT",
++  "bin": {
++    "toolforge": "src/cli/index.js"
++  },
++  "dependencies": {
++    "axios": "^1.6.5",
++    "better-sqlite3": "^13.0.3",
++    "cors": "^2.8.5",
++    "dotenv": "^16.3.1",
++    "express": "^4.18.2",
++    "pdf-parse": "^2.4.5",
++    "pg": "^8.11.3",
++    "react": "^18.2.0",
++    "react-dom": "^18.2.0",
++    "yargs": "^17.7.2"
++  },
++  "devDependencies": {
++    "@testing-library/jest-dom": "^6.9.1",
++    "@testing-library/react": "^16.3.2",
++    "@testing-library/user-event": "^14.6.1",
++    "@vitejs/plugin-react": "^4.2.1",
++    "eslint": "^8.52.0",
++    "jsdom": "^24.1.3",
++    "nodemon": "^3.0.1",
++    "vite": "^5.0.8",
++    "vitest": "^2.1.9"
++  },
++  "engines": {
++    "node": ">=24.0.0"
++  }
++}
+diff --git a/src/governance.test.js b/src/governance.test.js
+index 38fd9d51..3c30f5f5 100644
+--- a/src/governance.test.js
++++ b/src/governance.test.js
+@@ -17,10 +17,10 @@ test('CI governance workflow runs on pushes and pull requests', () => {
+ });
+ 
+ test('governance documentation identifies CI as authoritative', () => {
+-  const claude = read('CLAUDE.md');
++  const agents = read('AGENTS.md');
+ 
+-  assert.match(claude, /Local pre-commit hook \(`\.git\/hooks\/pre-commit\.ps1`, Gate 2\) blocks violations/);
+-  assert.match(claude, /CI governance check: validates line limits \+ detects duplicate sections/);
++  assert.match(agents, /Local pre-commit hook \(`\.git\/hooks\/pre-commit\.ps1`, Gate 2\) blocks violations/);
++  assert.match(agents, /CI governance check: validates line limits \+ detects duplicate sections/);
+ });
+ 
+ test('hook installer derives runtime paths from checkout', () => {
+-- 
+2.55.0.windows.4
+
