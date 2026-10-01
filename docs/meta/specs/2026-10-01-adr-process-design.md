@@ -52,7 +52,7 @@ docs/meta/governance/
   adr-policy.md          # scope, triggers, lifecycle (this section, as policy)
   adr-template.md        # exists; filename instruction updated
   adr/
-    README.md            # one-line purpose + index table (ID, title, status, date)
+    README.md            # one-line purpose + index of numbered ADRs (ID, title, status, date)
     draft-<slug>.md      # PROPOSED, unnumbered
     adr-NNNN-<slug>.md   # numbered on promotion
 ```
@@ -93,7 +93,7 @@ All scripts are ESM `.mjs` files in `C:\dev\scripts\`, matching the existing `sc
 5. Appends a row to the index table in `adr/README.md`.
 6. With `--dry-run`, prints the planned rename and edits and writes nothing, per the migration dry-run rule in `script-authoring-conventions.md`.
 
-Later status moves (`ACCEPTED`, `SUPERSEDED`) are manual edits validated by the lint.
+Later status moves (`ACCEPTED`, `SUPERSEDED`) are manual edits to both the ADR file and its index row; the lint validates both.
 
 ### `scripts/lint-adr.mjs`
 
@@ -107,8 +107,15 @@ Rules:
 4. Drafts have status `PROPOSED`; numbered files do not.
 5. `ACCEPTED` requires a filled Tier 1 decision line (approver and date) and every evidence row filled with a commit SHA, a command, and exit code `0`.
 6. `SUPERSEDED` requires a `Superseded by` ID that exists, and that ADR's `Supersedes` field points back.
-7. The `adr/README.md` index matches the files: same set of IDs, titles, and statuses.
-8. With `--since <ref>`, each numbered file's status is compared with `git show <ref>:<file>`; any move not in the allowed set fails. Allowed moves: `PROPOSED` to `VERIFYING` or `REJECTED`; `VERIFYING` to `ACCEPTED` or `REJECTED` (verification failed); `ACCEPTED` to `SUPERSEDED`. `REJECTED` and `SUPERSEDED` are terminal.
+7. The `adr/README.md` index lists numbered ADRs only, and matches them exactly: same set of IDs, titles, and statuses. Drafts never appear in the index.
+8. With `--since <ref>`, the lint checks each status transition between `<ref>` and the working tree. For each numbered file `adr-NNNN-<slug>.md`, it resolves the prior status in this order:
+   1. `adr-NNNN-<slug>.md` exists at `<ref>`: use its status.
+   2. Otherwise, `draft-<slug>.md` exists at `<ref>`: the file was promoted in this range; use the draft's status (`PROPOSED`).
+   3. Otherwise: the file has no prior state (drafted and promoted within the range), so no transition check applies. Rules 1 to 7 still apply.
+
+   An unchanged status passes. Allowed changes: `PROPOSED` to `VERIFYING` or `REJECTED`; `VERIFYING` to `ACCEPTED` or `REJECTED` (verification failed); `ACCEPTED` to `SUPERSEDED`. `REJECTED` and `SUPERSEDED` are terminal. Any other change fails.
+
+   A numbered file that exists at `<ref>` but not in the working tree also fails: numbered ADRs are never renamed or deleted. Drafts may disappear (promoted or abandoned) without error.
 
 The future enforcement work (separate topic) can call `node scripts/lint-adr.mjs --since origin/main` from a hook or CI job.
 
@@ -145,8 +152,12 @@ Both line endings (CRLF and LF) are accepted. The template's metadata line forma
 - `ACCEPTED` with an empty evidence row.
 - Evidence row with a non-zero exit code.
 - One-way superseded link.
-- Index out of sync with files.
-- `--since` catching an `ACCEPTED` to `PROPOSED` regression, using a temporary git repo.
+- Index out of sync with numbered files; a draft present with no index row passes.
+- `--since` cases, using a temporary git repo:
+  - an `ACCEPTED` to `PROPOSED` regression fails;
+  - a draft at `<ref>` promoted to `adr-NNNN` in the range passes (rename-aware lookup);
+  - a file drafted and promoted within the range passes with no transition check;
+  - a numbered file deleted since `<ref>` fails.
 
 **Parser:** identical results for CRLF and LF input.
 
