@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 const packageRoot = path.resolve(import.meta.dirname, '..');
 const repositoryRoot = path.resolve(packageRoot, '..', '..', '..');
 const workflowPath = path.join(repositoryRoot, '.github', 'workflows', 'governance.yml');
+const governanceMatrixPath = path.join(repositoryRoot, '.github', 'workflows', 'ci-governance-matrix.yml');
 const hookInstallerPath = path.join(repositoryRoot, 'CIC-GOVERNANCE', 'scripts', 'setup-git-hook.mjs');
 const powershellHookInstallerPath = path.join(repositoryRoot, 'setup-git-hooks.ps1');
 const canonicalShimPath = path.join(repositoryRoot, 'CIC-GOVERNANCE', 'scripts', 'pre-commit-shim.sh');
@@ -21,6 +22,16 @@ test('governance CI invokes the automation policy wrapper in blocking mode', () 
   );
   assert.match(workflow, /--run-tests/);
   assert.doesNotMatch(workflow, /evaluate-automation-policy\.mjs[^\n]*--advisory/);
+});
+test('governance matrix checkouts fail closed and use scoped dependency fallback', () => {
+  const workflow = fs.readFileSync(governanceMatrixPath, 'utf8');
+
+  assert.doesNotMatch(workflow, /continue-on-error:\s*true/);
+  assert.match(workflow, /repository: sorensencc-dotcom\/toolforge/);
+  assert.match(workflow, /sparse-checkout: CIC-GOVERNANCE/);
+  assert.match(workflow, /install_flags: --no-audit --legacy-peer-deps/);
+  assert.match(workflow, /npm install --ignore-scripts \$\{\{ matrix\.install_flags \}\}/);
+  assert.match(workflow, /cp -a toolforge-source\/CIC-GOVERNANCE\/\. workspace\/CIC-GOVERNANCE\//);
 });
 
 test('local hook invokes the automation policy wrapper in advisory staged mode', () => {
