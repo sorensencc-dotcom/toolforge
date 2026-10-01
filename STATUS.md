@@ -29,11 +29,12 @@ Transform the TRM Mobile Ingress $\leftrightarrow$ Outbox pipeline (`TRM-Drive-S
 - **Continuous Daemon Maintenance Loop**: Added a 5-minute recurring timer in continuous mode (`!isOnce && !isDryRun`) in `scripts/trm-ingress-watcher.mjs` executing `syncCompletionReceipts()` and `sweepOutboxRetention()`.
 - **Mobile Threading & Follow-Up Chaining**: Added `parent_action_id` parsing in `parseGDocFilenameMetadata` (`__ref-<parent_id>__`, `__parent-<parent_id>__`) and `parsePayload`.
 - **Agent Sandbox Egress Gatekeeper & Scratchpad Guard (Issue #60 / act-01)**: Implemented `scripts/agent-egress-guard.mjs` enforcing domain whitelisting, intermediate scratchpad path scanning (`.harness/`, `_status-feed/`, `trm-drive/`, `.ijfw/`), and triggering `SECURITY_HALT` (exit code 2) on exfiltration attempts. Closed GitHub Issue #60 with passing verification suite in `tests/agent-egress-guard.test.mjs` (7/7 PASS).
-- **Test Suite**: Authored `tests/trm-ingress-routing.test.mjs` (9/9 PASS) and `tests/agent-egress-guard.test.mjs` (7/7 PASS). Full test suite passes 230/230 unit tests (`npm test`).
+- **Deterministic Decision & Action Extraction Pipeline (Issue #61 / act-02)**: Implemented `scripts/extract-decisions.mjs` for meeting transcripts (Granola, Meet, markdown notes) enforcing fail-closed schema validation (explicit owner, YYYY-MM-DD deadline, and verification gate), cryptographic SHA-256 fingerprint deduplication, and backlog staging to `.harness/decisions/`. Closed GitHub Issue #61 with passing verification suite in `tests/extract-decisions.test.mjs` (6/6 PASS).
+- **Test Suite**: Authored `tests/trm-ingress-routing.test.mjs` (9/9 PASS), `tests/agent-egress-guard.test.mjs` (7/7 PASS), and `tests/extract-decisions.test.mjs` (6/6 PASS). Full test suite passes 230/230 unit tests (`npm test`).
 
 ### Next action
 
-- Execute Issue #61 (`act-02`: Deterministic decision & action extraction pipeline) or continue daily `\Ironbots\` runs.
+- All active pending items from the September 27 intake batch are complete and verified. Maintain scheduled `\Ironbots\` fleet daemons.
 
 ## Meridian integration + ICF dashboard restructure (2026-09-30) — HANDOFF
 

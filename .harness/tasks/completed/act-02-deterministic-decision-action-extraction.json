@@ -8,13 +8,15 @@
   "summary": "Mobile action item submitted via Google Docs: 2026-09-27T123002Z__action__act-02-deterministic-decision-action-extraction",
   "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/61",
   "staged_at": "2026-09-27T12:57:56.787Z",
-  "completed_at": "2026-09-28T14:26:00.000Z",
+  "completed_at": "2026-10-01T12:37:00.000Z",
   "status": "COMPLETED",
   "source_file": "2026-09-27T123002Z__action__act-02-deterministic-decision-action-extraction.md.gdoc",
+  "implementation_file": "scripts/extract-decisions.mjs",
+  "test_file": "tests/extract-decisions.test.mjs",
   "context": {
     "gdoc_filename": "2026-09-27T123002Z__action__act-02-deterministic-decision-action-extraction.md.gdoc",
     "gdoc_stem": "2026-09-27T123002Z__action__act-02-deterministic-decision-action-extraction",
     "rfc_path": "wiki/research/rfc-deterministic-decision-action-extraction.md",
-    "resolution": "Drafted formal research RFC detailing two-phase deterministic header parsing, typed Jev action extraction, deduplication ledgers, and zero-waste routing."
+    "resolution": "Implemented deterministic meeting transcript decision extraction parser and schema validator (scripts/extract-decisions.mjs) with SHA-256 fingerprint deduplication, strict owner/deadline/gate verification, and git-tracked backlog staging (.harness/decisions/). 6/6 unit tests pass."
   }
 }
