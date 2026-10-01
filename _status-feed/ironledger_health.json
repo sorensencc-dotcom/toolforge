@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-30T02:02:40.774Z",
-  "elapsedMs": 2625,
+  "timestamp": "2026-10-01T02:30:05.721Z",
+  "elapsedMs": 3028,
   "status": "HEALTHY",
   "workbench": {
     "targetUrl": "http://127.0.0.1:8000",
@@ -12,7 +12,7 @@
       "found": true,
       "id": "76bc7a8b5974",
       "image": "ironledger-ironledger",
-      "status": "Up 2 days (healthy)",
+      "status": "Up 4 days (healthy)",
       "state": "running",
       "ports": "0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp",
       "running": true,
@@ -21,7 +21,7 @@
   },
   "database": {
     "exists": true,
-    "sizeBytes": 18485248,
+    "sizeBytes": 18927616,
     "walExists": false,
     "walSizeBytes": 0,
     "status": "VALID",
@@ -49,7 +49,7 @@
       },
       {
         "name": "IronLedger-Sentinel",
-        "state": "Ready"
+        "state": "Running"
       }
     ],
     "missingTasks": [],

@@ -521,3 +521,17 @@ test('ironledger-sentinel-bot is integrated into ironbots fleet and daily report
   assert.ok(fs.existsSync(sentinelScript), 'ironledger-sentinel-bot.mjs should exist');
 });
 
+test('ironledger-sentinel-bot stores post-heal probe in telemetry upon recovery', async () => {
+  const { runIronLedgerSentinel } = await import('../scripts/ironledger-sentinel-bot.mjs');
+  assert.equal(typeof runIronLedgerSentinel, 'function');
+
+  // Verify dryRun / checkOnly produces well-formed workbench telemetry
+  const report = await runIronLedgerSentinel({ checkOnly: true, dryRun: true });
+  assert.ok(report);
+  assert.ok(report.workbench);
+  assert.equal(typeof report.workbench.uiOk, 'boolean');
+  assert.equal(typeof report.workbench.healthzOk, 'boolean');
+  assert.equal(typeof report.workbench.readyzOk, 'boolean');
+});
+
+

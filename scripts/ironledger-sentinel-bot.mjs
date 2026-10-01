@@ -347,6 +347,8 @@ export async function runIronLedgerSentinel(options = {}) {
   let healAction = null;
   let workbenchOk = initialProbe.ok;
   let status = 'HEALTHY';
+  let effectiveProbe = initialProbe;
+  let effectiveDockerStatus = dockerStatus;
 
   console.log(`  - Workbench UI (${TARGET_UI_URL}) -> ${initialProbe.ui.ok ? '200 OK' : 'FAIL (' + (initialProbe.ui.statusCode || initialProbe.ui.error) + ')'}`);
   console.log(`  - API /healthz -> ${initialProbe.healthz.ok ? '200 OK (v' + initialProbe.version + ')' : 'FAIL (' + (initialProbe.healthz.statusCode || initialProbe.healthz.error) + ')'}`);
@@ -375,6 +377,11 @@ export async function runIronLedgerSentinel(options = {}) {
         await new Promise(r => setTimeout(r, 1200));
         postProbe = await probeWorkbenchEndpoints();
         if (postProbe.ok) break;
+      }
+
+      if (postProbe) {
+        effectiveProbe = postProbe;
+        effectiveDockerStatus = inspectDockerContainer();
       }
 
       if (postProbe && postProbe.ok) {
@@ -409,11 +416,11 @@ export async function runIronLedgerSentinel(options = {}) {
     status,
     workbench: {
       targetUrl: TARGET_BASE_URL,
-      uiOk: initialProbe.ui.ok,
-      healthzOk: initialProbe.healthz.ok,
-      readyzOk: initialProbe.readyz.ok,
-      version: initialProbe.version,
-      container: dockerStatus
+      uiOk: effectiveProbe.ui.ok,
+      healthzOk: effectiveProbe.healthz.ok,
+      readyzOk: effectiveProbe.readyz.ok,
+      version: effectiveProbe.version,
+      container: effectiveDockerStatus
     },
     database: dbStatus,
     invariants: {

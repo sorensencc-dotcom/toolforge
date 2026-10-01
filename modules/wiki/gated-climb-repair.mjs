@@ -413,6 +413,7 @@ export async function runGatedClimbRepair(options = {}) {
         fs.rmdirSync(path.join(baseDir, '.tmp-quarantine'));
       } catch {}
 
+      let lessonError = null;
       try {
         const errorSummary = finalErrors.length > 0
           ? finalErrors.map(e => e.message || e.rule || JSON.stringify(e)).join('; ')
@@ -428,7 +429,8 @@ export async function runGatedClimbRepair(options = {}) {
           vaultRoot: baseDir
         });
       } catch (err) {
-        console.warn(`[GATED-CLIMB] Warning: Failed to generate lesson file for run ${runId}: ${err.message || err}`);
+        lessonError = err.message || String(err);
+        console.warn(`[GATED-CLIMB] Warning: Failed to generate lesson file for run ${runId}: ${lessonError}`);
       }
     }
   } finally {

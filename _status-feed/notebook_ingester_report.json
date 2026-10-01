@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-09-30T02:02:33.543Z",
-  "elapsedMs": 2838,
+  "timestamp": "2026-09-30T22:05:25.865Z",
+  "elapsedMs": 509,
   "status": "HEALTHY",
   "totalFiles": 433,
-  "indexedCount": 0,
-  "updatedCount": 6,
-  "skippedCount": 427,
+  "indexedCount": 433,
+  "updatedCount": 0,
+  "skippedCount": 0,
   "packWarnings": [
     {
       "file": ".nlm_pack/pack_master-kb.txt",
@@ -14,5 +14,5 @@
     }
   ],
   "databasePath": ".kb_cache/knowledge_fts5.db",
-  "dryRun": false
+  "dryRun": true
 }

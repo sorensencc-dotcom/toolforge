@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-09-28T14:31:52.1575908Z
+**Generated**: 2026-09-30T05:00:02.2254898Z
 
 ---
 
@@ -8,18 +8,18 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 0 | 3 | 0 | ✅ |
+| Canonical | 3 | 3 | 0 | ❌ |
 | Distributed | 0 | 9 | 0 | ✅ |
-| Manifest | 0 | 102 | 0 | ✅ |
-| Cowork | 0 | 56 | 0 | ✅ |
+| Manifest | 0 | 105 | 0 | ✅ |
+| Cowork | 0 | 57 | 0 | ✅ |
 | Dependencies | 0 | 20 | 1 | ✅ |
-| Runtime | 0 | 0 | 56 | ✅ |
+| Runtime | 0 | 0 | 57 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
-**Total Errors**: 0
-**Total Warnings**: 190
+**Total Errors**: 3
+**Total Warnings**: 194
 
-**Overall Status**: ✅ PASS
+**Overall Status**: ❌ FAIL
 
 ---
 
@@ -78,6 +78,7 @@
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-self-healing | TRM Self Healing | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
+| usagecheck | Usage Check | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | wiki-governance-sync | Wiki Governance Sync | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
 | wiki-sync-recovery | Wiki Sync Recovery | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -91,6 +92,9 @@
 ⚠️ **research-questions**: Unknown runtime: prompt
 ⚠️ **slop-grader-sweep**: Invalid category: docs-quality
 ⚠️ **toolforge-cli**: Invalid category: utility
+❌ **usagecheck**: Entrypoint not specified
+❌ **usagecheck**: Missing: INTEGRATION_DIAGRAM.md
+❌ **usagecheck**: Missing: runtime
 
 ## Distributed Validation
 
@@ -201,6 +205,9 @@
 ⚠️ **trm-self-healing**: Tags mismatch: canonical '', manifest 'trm, self-healing, sigil, triage'
 ⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
 ⚠️ **trm-status**: Path mismatch: expected 'skills/trm-status', got ''
+⚠️ **usagecheck**: Path mismatch: expected 'skills/usagecheck', got ''
+⚠️ **usagecheck**: Runtime mismatch: canonical , manifest javascript
+⚠️ **usagecheck**: Tags mismatch: canonical '', manifest 'usage, rate-limit, claude-code, codex, grok, cross-cli'
 ⚠️ **wiki-sync-recovery**: Path mismatch: expected 'skills/wiki-sync-recovery', got ''
 ⚠️ **wiki-sync-recovery**: Tags mismatch: canonical '', manifest 'wiki-sync-recovery, wiki, sync, recovery'
 ⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
@@ -262,6 +269,7 @@
 ⚠️ **trm-feedback-report**: Not registered (installer will register on next run)
 ⚠️ **trm-self-healing**: Not registered (installer will register on next run)
 ⚠️ **trm-status**: Not registered (installer will register on next run)
+⚠️ **usagecheck**: Not registered (installer will register on next run)
 ⚠️ **wiki-governance-sync**: Not registered (installer will register on next run)
 ⚠️ **wiki-sync-recovery**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
@@ -344,6 +352,7 @@
 ℹ️ **trm-feedback-report**: Skill inactive (status: )
 ℹ️ **trm-self-healing**: Discoverable
 ℹ️ **trm-status**: Discoverable
+ℹ️ **usagecheck**: Skill inactive (status: )
 ℹ️ **wiki-governance-sync**: Skill inactive (status: )
 ℹ️ **wiki-sync-recovery**: Skill inactive (status: )
 ℹ️ **work-summarizer**: Skill inactive (status: )

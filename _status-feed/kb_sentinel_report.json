@@ -1,12 +1,33 @@
 {
-  "timestamp": "2026-09-30T02:02:34.721Z",
-  "elapsedMs": 507,
-  "healthScore": 98,
+  "timestamp": "2026-10-01T00:10:14.596Z",
+  "elapsedMs": 946,
+  "healthScore": 90,
   "status": "PASS",
   "scanned": 420,
-  "frontmatterMissing": 0,
+  "frontmatterMissing": 4,
   "brokenLinks": 4,
-  "healed": 0,
+  "healed": 4,
   "dryRun": false,
-  "recentIssues": []
+  "recentIssues": [
+    {
+      "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",
+      "type": "MISSING_FRONTMATTER",
+      "detail": "No YAML frontmatter found"
+    },
+    {
+      "file": "wiki/research/properties/moa-bay-mining-concession.md",
+      "type": "MISSING_FRONTMATTER",
+      "detail": "No YAML frontmatter found"
+    },
+    {
+      "file": "wiki/research/properties/nicaro-nickel-processing-facility.md",
+      "type": "MISSING_FRONTMATTER",
+      "detail": "No YAML frontmatter found"
+    },
+    {
+      "file": "wiki/research/properties/_errors.md",
+      "type": "MISSING_FRONTMATTER",
+      "detail": "No YAML frontmatter found"
+    }
+  ]
 }

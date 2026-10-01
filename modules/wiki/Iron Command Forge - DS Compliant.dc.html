@@ -298,9 +298,10 @@
 const REPO_CD = 'cd C:\\dev\\kb-sync';
 
 const TODOS_RAW = [
-  { priority: 'P2', heading: 'Dev idea pipeline', body: 'Track unbuilt dev ideas in dev-idea-pipeline.md across CLIs. First entry: Warp CLI + WhichLLM local-model routing shim.' },
-  { priority: 'P2', heading: 'fast-jev-compaction compactor plugin wiring', body: 'Parked, deferred follow-up. Point published compactor at local cic-jev engine instead of cloud Jev.' },
-  { priority: 'P2', heading: 'xberg native build-out', body: '(low priority) — `toolforge-pdf` plugin ran on a mock stub (`xberg-mock.exe`) that returned placeholder text regardless of input; swapped to real `pdf-parse` text-layer extraction 2026-07-16.' }
+  { priority: 'P1', heading: 'Wave D full conformance gate', body: 'code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified.' },
+  { priority: 'P2', heading: 'TorqueQuery CIC observability hooks', body: '(deferred, low priority) — TorqueQuery determinism verified 2026-07-17. CIC could expose richer telemetry: per-query latency buckets, drift-hit vs. drift-miss counters, query-shape histogram.' },
+  { priority: 'P2', heading: 'xberg native build-out', body: '(low priority) — `toolforge-pdf` plugin ran on a mock stub (`xberg-mock.exe`) that returned placeholder text regardless of input; swapped to real `pdf-parse` text-layer extraction 2026-07-16.' },
+  { priority: 'P2', heading: 'Non-deterministic skillpack generators', body: '`SKILLPACK-VALIDATION.md`, `SKILLPACK-DEPENDENCY-GRAPH.md`, and `audit/COWORK-*.md` reorder their warning/log lines on every regen, so each pre-commit run that touches `skills/` shows noisy diffs.' }
 ];
 
 const MCP_SERVERS_RAW = [

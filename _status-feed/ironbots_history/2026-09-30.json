@@ -1,8 +1,8 @@
 {
   "date": "2026-09-30",
-  "timestamp": "2026-09-30T02:02:48.231Z",
-  "elapsedMs": 1501,
-  "fleetHealthScore": 89,
+  "timestamp": "2026-09-30T22:04:55.291Z",
+  "elapsedMs": 1392,
+  "fleetHealthScore": 87,
   "fleetStatus": "HEALTHY",
   "botCount": 9,
   "activeBots": [
@@ -11,13 +11,13 @@
       "name": "NotebookLM & Knowledge Ingester",
       "schedule": "Daily 02:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:33.543Z",
-        "elapsedMs": 2838,
+        "timestamp": "2026-09-30T22:04:38.517Z",
+        "elapsedMs": 590,
         "status": "HEALTHY",
         "totalFiles": 433,
-        "indexedCount": 0,
-        "updatedCount": 6,
-        "skippedCount": 427,
+        "indexedCount": 433,
+        "updatedCount": 0,
+        "skippedCount": 0,
         "packWarnings": [
           {
             "file": ".nlm_pack/pack_master-kb.txt",
@@ -26,7 +26,7 @@
           }
         ],
         "databasePath": ".kb_cache/knowledge_fts5.db",
-        "dryRun": false
+        "dryRun": true
       },
       "status": "HEALTHY",
       "summary": "433 documents indexed into SQLite FTS5"
@@ -36,27 +36,48 @@
       "name": "KB-Sentinel Drift & Autoheal",
       "schedule": "Daily 03:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:34.721Z",
-        "elapsedMs": 507,
-        "healthScore": 98,
+        "timestamp": "2026-09-30T22:04:34.555Z",
+        "elapsedMs": 557,
+        "healthScore": 90,
         "status": "PASS",
         "scanned": 420,
-        "frontmatterMissing": 0,
+        "frontmatterMissing": 4,
         "brokenLinks": 4,
         "healed": 0,
-        "dryRun": false,
-        "recentIssues": []
+        "dryRun": true,
+        "recentIssues": [
+          {
+            "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/moa-bay-mining-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/nicaro-nickel-processing-facility.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/_errors.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          }
+        ]
       },
       "status": "PASS",
-      "summary": "Health Score: 98/100 (420 files scanned)"
+      "summary": "Health Score: 90/100 (420 files scanned)"
     },
     {
       "id": "trm-bot",
       "name": "TRM Gap Triage & RFC Drafter",
       "schedule": "Daily 04:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:35.314Z",
-        "elapsedMs": 6,
+        "timestamp": "2026-09-30T22:04:34.646Z",
+        "elapsedMs": 9,
         "totalGaps": 0,
         "pending": 0,
         "drafted": 0,
@@ -68,7 +89,7 @@
           "avgRoutingLatencyMs": 0
         },
         "generatedRfcs": [],
-        "dryRun": false
+        "dryRun": true
       },
       "status": "PASS",
       "summary": "0 total gaps (0 drafted)"
@@ -78,25 +99,25 @@
       "name": "Watchlist & Competitor Drift Miner",
       "schedule": "Daily 05:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:37.067Z",
-        "elapsedMs": 1233,
+        "timestamp": "2026-09-30T22:04:38.601Z",
+        "elapsedMs": 5,
         "status": "PASS",
         "totalWatchlists": 3,
-        "targetsEvaluated": 3,
+        "targetsEvaluated": 2,
         "driftsDetected": 0,
         "driftFindings": [],
-        "dryRun": false
+        "dryRun": true
       },
       "status": "PASS",
-      "summary": "3 targets evaluated (0 drifts)"
+      "summary": "2 targets evaluated (0 drifts)"
     },
     {
       "id": "daemon-healer",
       "name": "Daemon-Healer Port 8080 Supervisor",
       "schedule": "Every 15 Min",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:37.620Z",
-        "elapsedMs": 22,
+        "timestamp": "2026-09-30T22:04:45.109Z",
+        "elapsedMs": 4495,
         "targetUrl": "http://127.0.0.1:8080/dashboard",
         "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
         "status": "HEALTHY",
@@ -111,7 +132,7 @@
             "statusCode": 200,
             "headers": {
               "content-type": "text/html; charset=UTF-8",
-              "date": "Wed, 30 Sep 2026 02:02:37 GMT",
+              "date": "Wed, 30 Sep 2026 22:04:43 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
@@ -125,13 +146,13 @@
             "headers": {
               "content-type": "application/json; charset=UTF-8",
               "access-control-allow-origin": "*",
-              "date": "Wed, 30 Sep 2026 02:02:37 GMT",
+              "date": "Wed, 30 Sep 2026 22:04:43 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
             },
             "payloadValid": true,
-            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-30\",\"timestamp\":\"2026-09-30T02:02:37.610Z\",\"elapsedMs\":9,\"fleetHealthScore\":"
+            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-09-30\",\"timestamp\":\"2026-09-30T22:04:43.540Z\",\"elapsedMs\":1568,\"fleetHealthScor"
           }
         },
         "healed": false,
@@ -147,8 +168,8 @@
       "name": "IronLedger-Sentinel Workbench & Sync Supervisor",
       "schedule": "Every 15 Min",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:40.774Z",
-        "elapsedMs": 2625,
+        "timestamp": "2026-09-30T22:04:55.205Z",
+        "elapsedMs": 2867,
         "status": "HEALTHY",
         "workbench": {
           "targetUrl": "http://127.0.0.1:8000",
@@ -160,7 +181,7 @@
             "found": true,
             "id": "76bc7a8b5974",
             "image": "ironledger-ironledger",
-            "status": "Up 2 days (healthy)",
+            "status": "Up 3 days (healthy)",
             "state": "running",
             "ports": "0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp",
             "running": true,
@@ -169,7 +190,7 @@
         },
         "database": {
           "exists": true,
-          "sizeBytes": 18485248,
+          "sizeBytes": 18853888,
           "walExists": false,
           "walSizeBytes": 0,
           "status": "VALID",
@@ -212,112 +233,112 @@
         "checkOnly": false
       },
       "status": "HEALTHY",
-      "summary": "Status: HEALTHY (UI/API: OK, Container: Up 2 days (healthy), Syncs: HEALTHY)"
+      "summary": "Status: HEALTHY (UI/API: OK, Container: Up 3 days (healthy), Syncs: HEALTHY)"
     },
     {
       "id": "ci-watchdog",
       "name": "CI-Watchdog Workflow Failure Triage",
       "schedule": "Daily 06:00 AM",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:43.323Z",
-        "elapsedMs": 2053,
+        "timestamp": "2026-09-30T22:04:37.824Z",
+        "elapsedMs": 2924,
         "status": "FAILURES_DETECTED",
         "scannedCount": 10,
         "activeCount": 0,
         "failureCount": 1,
         "recentRuns": [
           {
-            "id": 36654490925,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36630338125,
-            "name": "Governance",
-            "branch": "sorensencc-dotcom/trm-triage-p2-deterministic_decision_action_extr",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36630155617,
-            "name": "Governance",
-            "branch": "sorensencc-dotcom/trm-triage-p2-audit_agent_intermediate_storage_e",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36608073107,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36581392880,
+            "id": 36726894225,
             "name": "Retro Full History Audit",
             "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36578668919,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 36515054078,
-            "name": "Governance",
-            "branch": "parkd821-20260908",
-            "status": "completed",
-            "conclusion": "failure"
-          },
-          {
-            "id": 36514086048,
+            "id": 36659074656,
             "name": "CI governance gate matrix",
             "branch": "main",
             "status": "completed",
             "conclusion": "failure"
           },
           {
-            "id": 36514086006,
-            "name": "Graft & AST Architecture Audit",
+            "id": 36659074611,
+            "name": "Secret scan",
             "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 36514086004,
-            "name": "Toolforge Release",
+            "id": 36659074557,
+            "name": "Governance",
             "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36659074539,
+            "name": "Documentation",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36658718996,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36658182871,
+            "name": "Secret scan",
+            "branch": "docs/mkdocs-product-index-rule",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36658182782,
+            "name": "Governance",
+            "branch": "docs/mkdocs-product-index-rule",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36658182761,
+            "name": "Documentation",
+            "branch": "docs/mkdocs-product-index-rule",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 36658148520,
+            "name": "Governance",
+            "branch": "docs/mkdocs-product-index-rule",
             "status": "completed",
             "conclusion": "success"
           }
         ],
         "alerts": [
           {
-            "runId": 36514086048,
+            "runId": 36659074656,
             "name": "CI governance gate matrix",
             "branch": "main",
-            "sha": "c29c3b63",
-            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36514086048",
-            "createdAt": "2026-09-29T02:45:33Z",
+            "sha": "b5657ede",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36659074656",
+            "createdAt": "2026-09-30T02:16:23Z",
             "errorSummary": [
-              "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:13.1040541Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
-              "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:24.2703212Z Error: Cannot find module '/home/runner/work/toolforge/toolforge/CIC-GOVERNANCE/scripts/validate-governance-contract.mjs'",
-              "trm governance\tUNKNOWN STEP\t2026-09-29T02:46:24.2853394Z ##[error]Process completed with exit code 1.",
-              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:11.7483104Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
-              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0394061Z npm error code EUSAGE",
-              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0452239Z npm error",
-              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0453346Z npm error The `npm ci` command can only install with an existing package-lock.json or",
-              "toolforge governance\tUNKNOWN STEP\t2026-09-29T02:47:13.0454943Z npm error npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or"
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:16:54.9965863Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2207419Z npm error Missing script: \"gov:validate\"",
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2208246Z npm error",
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2208803Z npm error To see a list of scripts, run:",
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2209371Z npm error   npm run",
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2222774Z npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2026-09-30T02_17_02_060Z-debug-0.log",
+              "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2282831Z ##[error]Process completed with exit code 1.",
+              "kb-sync governance\tUNKNOWN STEP\t2026-09-30T02:17:02.9009746Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository"
             ]
           }
         ],
-        "dryRun": false
+        "dryRun": true
       },
       "status": "FAILURES_DETECTED",
       "summary": "10 runs scanned (1 failures)"
@@ -327,9 +348,9 @@
       "name": "TRM-Drive-Sync Ingress Watcher",
       "schedule": "Continuous / On-Demand",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:43.867Z",
+        "timestamp": "2026-09-30T22:04:40.689Z",
         "status": "HEALTHY",
-        "dryRun": false,
+        "dryRun": true,
         "triageQueue": 0,
         "completed": 2,
         "quarantined": 0,
@@ -463,11 +484,11 @@
       "name": "Storage-Pruner SQLite & Telemetry Compactor",
       "schedule": "Weekly Sun 03:30 AM",
       "telemetry": {
-        "timestamp": "2026-09-30T02:02:47.709Z",
-        "dryRun": false,
-        "elapsedMs": 3322,
-        "totalFreedBytes": 6146264,
-        "totalFreedFormatted": "5.86 MB",
+        "timestamp": "2026-09-30T22:04:40.753Z",
+        "dryRun": true,
+        "elapsedMs": 9,
+        "totalFreedBytes": 199160,
+        "totalFreedFormatted": "194.49 KB",
         "databasesScanned": 6,
         "databaseResults": [
           {
@@ -475,93 +496,52 @@
             "sizeBefore": 921600,
             "sizeAfter": 921600,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\.kb_cache\\knowledge_fts5.db",
-            "sizeBefore": 307027968,
-            "sizeAfter": 301838336,
-            "bytesSaved": 5189632,
-            "status": "SUCCESS"
+            "sizeBefore": 306839552,
+            "sizeAfter": 306839552,
+            "bytesSaved": 0,
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\icf\\.kb_cache\\knowledge.db",
             "sizeBefore": 61440,
             "sizeAfter": 61440,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\.ijfw\\index\\compute.db",
             "sizeBefore": 151552,
             "sizeAfter": 151552,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\.ijfw\\index\\memory.db",
             "sizeBefore": 143360,
             "sizeAfter": 143360,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\.icf-retros\\weekly\\snapshots.sqlite",
             "sizeBefore": 688128,
             "sizeAfter": 688128,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           }
         ],
-        "telemetryCompactedCount": 6,
+        "telemetryCompactedCount": 1,
         "telemetryResults": [
           {
-            "file": "_status-feed/trm_history/2026-09-20.json",
-            "gzFile": "_status-feed/trm_history/2026-09-20.json.gz",
-            "sizeBefore": 234307,
-            "sizeAfter": 44155,
-            "bytesSaved": 190152,
-            "status": "COMPRESSED"
-          },
-          {
-            "file": "_status-feed/trm_history/2026-09-21.json",
-            "gzFile": "_status-feed/trm_history/2026-09-21.json.gz",
-            "sizeBefore": 234324,
-            "sizeAfter": 44193,
-            "bytesSaved": 190131,
-            "status": "COMPRESSED"
-          },
-          {
-            "file": "_status-feed/ironbots_history/2026-09-21.json",
-            "gzFile": "_status-feed/ironbots_history/2026-09-21.json.gz",
-            "sizeBefore": 8420,
-            "sizeAfter": 2286,
-            "bytesSaved": 6134,
-            "status": "COMPRESSED"
-          },
-          {
-            "file": "icf/dashboard/trm_history/2026-09-20.json",
-            "gzFile": "icf/dashboard/trm_history/2026-09-20.json.gz",
-            "sizeBefore": 234307,
-            "sizeAfter": 44155,
-            "bytesSaved": 190152,
-            "status": "COMPRESSED"
-          },
-          {
-            "file": "icf/dashboard/trm_history/2026-09-21.json",
-            "gzFile": "icf/dashboard/trm_history/2026-09-21.json.gz",
-            "sizeBefore": 234324,
-            "sizeAfter": 44193,
-            "bytesSaved": 190131,
-            "status": "COMPRESSED"
-          },
-          {
-            "file": "icf/dashboard/trm_history/2026-09-22.json",
-            "gzFile": "icf/dashboard/trm_history/2026-09-22.json.gz",
-            "sizeBefore": 234317,
-            "sizeAfter": 44385,
-            "bytesSaved": 189932,
-            "status": "COMPRESSED"
+            "file": "icf/dashboard/trm_history/2026-09-23.json",
+            "sizeBefore": 234305,
+            "sizeAfter": 35145,
+            "bytesSaved": 199160,
+            "status": "SKIPPED_DRY_RUN"
           }
         ],
         "harnessTasksPrunedCount": 0,
@@ -569,14 +549,14 @@
         "status": "HEALTHY"
       },
       "status": "HEALTHY",
-      "summary": "Reclaimed 5.86 MB (6 DBs vacuumed)"
+      "summary": "Estimated reclaimable: 194.49 KB (6 DBs scanned, dry-run)"
     }
   ],
   "hostHeartbeat": {
     "hostname": "WIN-DTA4V21LKVR",
     "platform": "win32",
-    "uptimeSeconds": 372145,
-    "uptimeHuman": "103h 22m",
+    "uptimeSeconds": 444271,
+    "uptimeHuman": "123h 24m",
     "taskScheduler": {
       "status": "HEALTHY",
       "taskCount": 10,
@@ -628,7 +608,7 @@
   },
   "summaryMetrics": {
     "totalDocsIndexed": 433,
-    "wikiHealthScore": 98,
+    "wikiHealthScore": 90,
     "totalResearchGaps": 0,
     "competitorDrifts": 0,
     "daemonStatus": "HEALTHY",

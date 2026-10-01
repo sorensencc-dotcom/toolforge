@@ -2,7 +2,7 @@
 title: "Cuban Telephone Infrastructure Concession"
 category: "research"
 status: "active"
-created_at: "2026-09-29"
+created_at: "2026-10-01"
 tags:
   - auto-healed
   - research
@@ -30,7 +30,7 @@ tags:
 === PROVENANCE ===
 source_path: C:/dev/wiki/research/fcsc-cuban-telephone.md
 source_type: md
-hash_sha256: 0d3e266685dba81da329c9e921479209829da049c433d2f131952385ada2a560
-extracted_at: 2026-09-28T06:12:38.376Z
+hash_sha256: a30305f85c5035248e562d13a2890a02fd4f35a2e16ac3acee2e468cdef589e0
+extracted_at: 2026-09-30T05:30:03.959Z
 extractor_version: 2026-08-29-1
 ===================

@@ -2,7 +2,7 @@
 title: " Errors"
 category: "research"
 status: "active"
-created_at: "2026-09-29"
+created_at: "2026-10-01"
 tags:
   - auto-healed
   - research
@@ -10,7 +10,7 @@ tags:
 
 # Property Extraction Errors & Warnings
 
-Generated at: 2026-09-28T06:12:38.599Z
+Generated at: 2026-09-30T05:30:04.003Z
 
 | File | Issue / Reason |
 |---|---|
@@ -76,6 +76,8 @@ Generated at: 2026-09-28T06:12:38.599Z
 | `7981db2a-37f7-4b71-b683-8b663b2c785f--daily-synthesis-log-2026-09-24.md` | Filtered out or low confidence (0.85) |
 | `7c9e1214-9675-41d0-9c6e-89d11a3c4d71--daily-synthesis-log-2026-09-20.md` | Filtered out or low confidence (0.85) |
 | `7e4ba5c0-3962-424e-8cf3-71745e9612e9--daily-synthesis-log-2026-09-26.md` | Filtered out or low confidence (0.85) |
+| `9e6792a3-c8ae-4774-b9c0-82c3f7d21e80--daily-synthesis-log-2026-09-28.md` | Filtered out or low confidence (0.85) |
+| `d550283e-2fd7-4e54-857f-f95d375c5858--daily-synthesis-log-2026-09-29.md` | Filtered out or low confidence (0.85) |
 | `f06a5547-c74b-4f18-a435-f10db4165202--sorensen-research-brief.md` | Filtered out or low confidence (1) |
 | `f444211d-2e07-4c51-978d-9972048dd13d--laterliferesearchlog-v1-20260430.md` | Filtered out or low confidence (1) |
 | `ford-socony-vacuum.md` | Filtered out or low confidence (1) |
