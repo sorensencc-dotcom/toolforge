@@ -3,8 +3,8 @@ title: "Verification of the Edsel Ford vs. Charles Sorensen Leadership Clash (GA
 source_title: "Edsel Ford's Rebuttal of Sorensen & Fort Worth Subassembly Rejections (October 26, 1942)"
 repository: "Benson Ford Research Center (Mead L. Bricker Papers, Acc. 65) & USAAF Materiel Command"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "ford-politics"
+verification_status: "active"
+category: "research"
 topic: "gap-12-edsel-sorensen-clash"
 status: "resolved"
 gap_id: "GAP-12"
@@ -14,7 +14,6 @@ citations:
   - "Benson Ford Research Center Accession 65 (Mead L. Bricker Administrative Papers & Production Memoranda)"
   - "USAAF Materiel Command & Consolidated Aircraft Fort Worth Plant Rejection Logs (B-24 Center Wing Shipments, Oct 1942)"
 ---
-
 # Verification of the Edsel Ford vs. Charles Sorensen Leadership Clash (GAP-12)
 
 ## 1. Executive Summary & Resolution

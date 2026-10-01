@@ -3,8 +3,8 @@ title: "Wage Parity & Sociological Architecture at the Phoenix Mill Village Indu
 source_title: "Payroll Registers & Female Labor Policy at Henry Ford's Phoenix Mill (1922–1945)"
 repository: "Benson Ford Research Center (Sociological Dept Records, Acc. 21) & Plymouth Historical Museum"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "ford-labor"
+verification_status: "active"
+category: "research"
 topic: "gap-15-phoenix-mill-wages"
 status: "resolved"
 gap_id: "GAP-15"
@@ -14,7 +14,6 @@ citations:
   - "Ford Motor Company Sociological Department Operating Directives (Female Employment Policies, 1920-1943)"
   - "Plymouth Historical Museum Record Group 21: Phoenix Mill Women's History Finding Aid"
 ---
-
 # Wage Parity & Sociological Architecture at the Phoenix Mill Village Industry (GAP-15)
 
 ## 1. Executive Summary & Resolution

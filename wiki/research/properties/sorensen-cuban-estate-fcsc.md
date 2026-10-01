@@ -3,13 +3,12 @@ title: "Sorensen Cuban Estate & Agricultural Land Nationalization"
 source_title: "Archival Dossier: Charles E. Sorensen Cuban Land Holdings & INRA Nationalization"
 repository: "Bentley Historical Library (Box 14) & NARA Record Group 59"
 document_date: "2026-09-02"
-verification_status: "verified"
-category: "cuban-seizures"
+verification_status: "active"
+category: "research"
 topic: "sorensen-cuban-estate-fcsc"
 status: "resolved"
 last_updated: "2026-09-02T23:15:00Z"
 ---
-
 # Archival Dossier: Charles E. Sorensen Cuban Land Holdings
 
 ## 1. Executive Summary

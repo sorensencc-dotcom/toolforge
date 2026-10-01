@@ -43,6 +43,8 @@ import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs
 import { deduplicateMinedGaps, loadGapAliases } from './gap-normalizer.mjs';
 import { parseGapItems } from '../kb-sync/modules/trm/gap-triage-engine.mjs';
 import { verifyTopicGaps } from '../modules/wiki/why-verifier.mjs';
+import { expandSearchQuery } from '../kb-sync/modules/trm/query-expander.mjs';
+import { getDatabase, DEFAULT_DB_PATH } from '../kb-sync/modules/cache/db-schema.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -357,9 +359,9 @@ async function run() {
   }
 
   // =========================================================================
-  logStep(3, 'Deep Web Research on Mined Gaps (stub — no live search API yet)');
+  logStep(3, 'Tier 2 Dynamic Query Expansion on Mined Gaps');
   // =========================================================================
-  logInfo('Parsing mined gaps to derive research topics...');
+  logInfo('Parsing mined gaps and generating dynamic search queries...');
 
   // trm mine-notebooklm writes a markdown TABLE, not ## headings.
   // Entry key column (5th pipe-delimited cell) contains patterns like:
@@ -382,17 +384,48 @@ async function run() {
   const gapHeadings = [...seenSlugs];
   logInfo(`Detected ${gapHeadings.length} gap topic(s): ${gapHeadings.join(', ')}`);
 
+  let dbInstance = null;
+  try {
+    const dbPath = path.join(repoRoot, DEFAULT_DB_PATH);
+    if (fs.existsSync(dbPath)) {
+      dbInstance = getDatabase(dbPath);
+    }
+  } catch (dbErr) {
+    logWarn(`Could not open local SQLite context cache: ${dbErr.message}. Falling back to heuristic expansion.`);
+  }
+
+  const dynamicQueries = [];
+  for (const slug of gapHeadings) {
+    try {
+      const expansion = await expandSearchQuery(
+        { title: slug.replace(/-/g, ' '), description: `Research gap topic for ${slug}` },
+        dbInstance,
+        { provider: 'auto' }
+      );
+      dynamicQueries.push({
+        topic: slug,
+        fts5Query: expansion.query,
+        method: expansion.method,
+        provider: expansion.provider
+      });
+      logInfo(`  • [QUERY-EXPANDER] '${slug}' -> (${expansion.method}/${expansion.provider ?? 'heuristic'}): ${expansion.query}`);
+    } catch (expErr) {
+      logWarn(`  Query expansion failed for ${slug}: ${expErr.message}`);
+    }
+  }
+
   const rawResearchPath = path.join(stagingDir, 'raw_research_conformance.json');
   fs.writeFileSync(rawResearchPath, JSON.stringify({
     timestamp:             nowIso,
     gaps_analyzed:         gapHeadings,
+    dynamic_queries:       dynamicQueries,
     synthesizer_model:     localModel,
     model_selection_hash:  hashChain,
     vault_source:          primaryGapsFile.replace(/\\/g, '/'),
-    findings:              [], // populated when live web-search API is wired in
-    _note:                 'Web-search stub. Wire live search API into Step 3 when available.',
+    findings:              [],
+    _note:                 'Stage 2 Dynamic Query Expansion generated via query-expander.mjs.',
   }, null, 2), 'utf8');
-  logInfo(`✓ Stub research staging file: ${rawResearchPath}`);
+  logInfo(`✓ Dynamic query expansion staged in: ${rawResearchPath}`);
 
   // =========================================================================
   logStep(4, 'Synthesizing Layer 2 Semantic Wiki from Live Gap Content');

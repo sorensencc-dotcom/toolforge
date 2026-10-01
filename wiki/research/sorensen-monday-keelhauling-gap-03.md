@@ -2,7 +2,7 @@
 source_title: "Sorensen Monday Keelhauling Meetings — Archival Resolution (GAP-03)"
 repository: "Benson Ford Research Center & Bentley Historical Library"
 document_date: "2026-09-02"
-verification_status: "verified"
+verification_status: "active"
 category: "research"
 topic: sorensen-monday-keelhauling
 status: resolved
@@ -10,7 +10,6 @@ gap_id: "GAP-03"
 directive_reference: "_kb-sync-staging/trm/directives/GAP-03_monday_keelhauling_directive.json"
 last_updated: "2026-09-02T23:14:00.000Z"
 ---
-
 # Sorensen Monday Keelhauling Meetings (GAP-03)
 
 > Archival synthesis resolving the historical nature of Charles E. Sorensen's weekly superintendents meetings at the Ford Rouge plant.

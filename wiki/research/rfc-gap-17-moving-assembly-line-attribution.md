@@ -2,8 +2,8 @@
 source_title: "RFC GAP-17: Moving Assembly Line Multi-Vocal Attribution (Klann vs. Avery vs. Martin vs. Sorensen)"
 repository: "CIC Research Vault — Archival Resolutions"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "biography"
+verification_status: "active"
+category: "research"
 topic: moving-assembly-line-origins
 status: resolved
 resolved_by: "rfc-gap-17-moving-assembly-line-attribution.md"
@@ -11,7 +11,6 @@ synthesized_by: "trm-closed-loop-v2"
 vault_source: "BFRC Accession 499 (William C. Klann Papers), Accession 433 (Clarence Avery Papers), Accession 65 (Sorensen Reminiscences), Highland Park Time Studies (1912-1914)"
 last_updated: 2026-09-03T21:40:00.000Z
 ---
-
 # RFC GAP-17: Multi-Vocal Attribution of the Moving Assembly Line
 
 > **Executive Summary:** Executive memoirs (*My Forty Years with Ford*, 1956; *My Life and Work*, 1922) consistently frame the moving assembly line as an anonymous executive milestone or general slaughterhouse inspiration. Primary shop-floor documentation—centered on William "Pa" Klann's 1955 oral history (BFRC Accession 499) and Clarence W. Avery's time-study ledgers (Accession 433)—establishes a precise, contested division of labor: Klann proposed the concept from Swift & Co. observations and executed the April 1913 flywheel magneto trial; Avery engineered the conveyor speeds and progressive work stations; Peter E. Martin managed plant retooling; and Charles Sorensen provided executive shielding and raw pacing enforcement.

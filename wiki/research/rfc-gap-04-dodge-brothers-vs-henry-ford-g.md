@@ -3,13 +3,12 @@ source_title: "Dodge v. Ford Motor Co. (1919) — Governance Conflict & Rouge Fi
 repository: "Michigan Supreme Court Records & Ford Corporate Legal Archives"
 document_date: "2026-08-30"
 verification_status: "verified"
-category: "ford-politics"
+category: "research"
 topic: "dodge-brothers-vs-henry-ford"
 status: "active"
 gap_id: "GAP-04"
 last_updated: "2026-08-30T23:09:00Z"
 ---
-
 # Dodge Brothers vs. Henry Ford (GAP-04)
 
 > Legal and corporate governance dossier on *Dodge v. Ford Motor Co.* (204 Mich. 459, 170 N.W. 668, 1919), shareholder primacy, dividend withholding, and the capitalization of the River Rouge complex.

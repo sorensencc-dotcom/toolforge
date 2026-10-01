@@ -3,8 +3,8 @@ title: "Documenting the Aerodynamics & Fate of the Ford Model 15-P Flying Wing (
 source_title: "Pre-War Tailless Aircraft Aerodynamics, Stall Dynamics, and Flight Testing (1935–1936)"
 repository: "Civil Aeronautics Authority (CAA) Historical Registries & Stout Metal Airplane Division Records"
 document_date: "2026-09-03"
-verification_status: "verified"
-category: "willow-run"
+verification_status: "active"
+category: "research"
 topic: "gap-14-ford-model-15p-wing"
 status: "resolved"
 gap_id: "GAP-14"
@@ -14,7 +14,6 @@ citations:
   - "Charles A. Lindbergh Flight Logs & Technical Aviation Observations (1935-1942)"
   - "Stout Metal Airplane Division Prototype Engineering Logs & Crash Assessment (Dearborn, MI, 1936)"
 ---
-
 # Documenting the Aerodynamics & Fate of the Ford Model 15-P Flying Wing (GAP-14)
 
 ## 1. Executive Summary & Resolution

@@ -1,6 +1,6 @@
 ---
 title: "Ironbots Autonomous Architecture & Policy"
-category: "architecture"
+category: "wiki"
 status: "active"
 created_at: "2026-09-21"
 tags:
@@ -12,7 +12,6 @@ tags:
   - trm
   - architecture
 ---
-
 # Ironbots autonomous bot architecture & policy
 
 Ironbots is the automated, zero-token background robot fleet in Toolforge and Iron Command Forge designed to maintain repository health, supervise background daemons, audit CI workflows, triage Topic Research Mining (TRM) research gaps, index knowledge into SQLite FTS5, and track competitor drift.

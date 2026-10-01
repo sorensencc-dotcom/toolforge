@@ -42,6 +42,10 @@ export async function dispatchMultiNotebook(options = {}) {
       }
       const command = options.command ?? process.execPath;
       const script = options.uploaderScript ?? path.join(REPO_ROOT, 'notebooklm-uploader.js');
+      if (!options.spawn && !fs.existsSync(script)) {
+        results[index] = { task, status: 'failed', exitCode: 1, stderr: `Uploader script not found at ${script}` };
+        continue;
+      }
       const run = options.spawn ?? spawnUpload;
       const res = await run(command, [script, `--notebook-id=${task.notebookId}`, `--file=${task.packFile}`]);
       results[index] = { task, status: res.code === 0 ? 'success' : 'failed', exitCode: res.code, stderr: res.stderr };
@@ -73,7 +77,9 @@ export async function dispatchMultiNotebook(options = {}) {
     };
     fs.mkdirSync(path.dirname(reportPath), { recursive: true });
     fs.writeFileSync(reportPath, JSON.stringify(updated, null, 2), 'utf8');
-  } catch {}
+  } catch (err) {
+    console.warn(`[KIS-P DISPATCHER] [WARN] Failed to write telemetry feed: ${err.message}`);
+  }
 
   return { success, results };
 }

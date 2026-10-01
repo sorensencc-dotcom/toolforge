@@ -3,8 +3,8 @@ title: "Willow Run L-Bend Assembly Line: Tax Turn Legend vs. Runway Flight-Path 
 source_title: "Willow Run L-Bend: Architectural and Runway Clearance Resolution"
 repository: "CIC Research Protocols — Live Vault Snapshot"
 document_date: "2026-08-30"
-verification_status: "verified"
-category: "willow-run"
+verification_status: "active"
+category: "research"
 topic: "gap-04-willow-run-l-bend"
 gap_id: "GAP-04"
 status: "resolved"
@@ -13,7 +13,6 @@ citations:
   - "Albert Kahn Associates Architectural Layout Specifications (Willow Run Bomber Plant, 1941)"
   - "War Department Air Corps Airfield Clearance Directives (1941-1942)"
 ---
-
 # Willow Run L-Bend Assembly Line: Tax Turn Legend vs. Runway Flight-Path Clearance
 
 ## 1. Executive Summary & Resolution
