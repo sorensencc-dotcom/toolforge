@@ -38,3 +38,20 @@ test('dispatchMultiNotebook updates telemetry feed upon completion', async () =>
 
   assert.equal(result.success, true);
 });
+
+test('dispatchMultiNotebook propagates non-zero exit codes from custom spawn', async () => {
+  const mockSpawn = async () => ({ code: 1, stderr: 'Upload failed: 403 Forbidden' });
+  const result = await dispatchMultiNotebook({
+    generatedPacks: [
+      { packDef: { category: 'cuba-claims', notebookId: 'uuid-fail', title: 'Cuba' }, packFile: 'cuba.txt' }
+    ],
+    spawn: mockSpawn,
+    dryRun: false
+  });
+
+  assert.equal(result.success, false);
+  assert.equal(result.results[0].status, 'failed');
+  assert.equal(result.results[0].exitCode, 1);
+  assert.match(result.results[0].stderr, /403 Forbidden/);
+});
+
