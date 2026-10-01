@@ -11,6 +11,33 @@
 
 # Project status
 
+## Meridian integration + ICF dashboard restructure (2026-09-30) — HANDOFF
+
+### Active goal
+
+Surface Meridian (local focus tracker, `~/.meridian/meridian.db`) in the ICF dashboard without leaking screen-derived text.
+
+### Completed work
+
+- Isolation check + untracked telemetry artifacts (`470737f5`), Meridian focus in ICF hook (`d5c9ced6`), day/week collectors + git-activity counter (`b1ea095b`).
+- icf: `/api/reporting/meridian`, `/day?date=`, `/week?end=` routes, loopback-only (`21b5662`, `d4d7dec`).
+- icf dashboard: 05 Reporting (Daily/Weekly toggle), new 06 Ironbots Fleet tab (KPI wrap fixed), Operator Focus tile on 01, tabs renumbered to 11.
+- `b1ea095b` and `d4d7dec` were committed by a background process, not the session. Content matches the tested tree.
+
+### Tests
+
+gateway 8/8 (`icf/test/gateway.test.mjs`), telemetry 12/12 (`modules/telemetry/*.test.mjs`). Playwright check on temp :8099 server passed.
+
+### Next actions (fresh session)
+
+1. **Resolved: the existing report was hidden, not deleted.** The diff `21b5662..d4d7dec` removed nothing. The Weekly Retro panel now sits in `#reportWeeklyView`, which is `hidden` because `reportMode` defaults to `'daily'`. The daemon tile moved to 06 Fleet. `/api/reporting/weekly-retro` returns 200, but its data is dated 2026-09-26 (4 days old). Fixed: the retro panel now renders in both views (icf `0bf8894`, verified headless on :8080).
+2. **Resolved: where the Meridian history is.** Meridian was installed 2026-08-22, so no earlier history exists (the only exception is 2 stray `app_sessions` rows on 07-02). `app_sessions` has 19,564 rows covering 08-20..09-30 and is not pruned. `capture_frames` begins at 08-31, which looks like a 30-day screen-frame retention window. Gaps: 09-09..12 have `app_sessions` rows but 0 `etl_runs`, so the ETL/summary job did not run and those days could be regenerated. 09-16..18 have no data at all because Meridian was not running. `meridian.db.encrypted-backup-20260929114959` (6.9 GB) is the pre-upgrade backup from the 09-29 encryption migration (migrations 82-83) and not an older archive. No exports were found.
+3. Live :8080 already serves `/api/reporting/meridian` (200 on 2026-09-30), so no restart is needed.
+4. Pushed 2026-09-30 with user approval: C:\dev `parkd821-20260908`, icf `fix/dashboard-docs-button-8001`.
+5. Identify the process auto-committing working-tree changes (committed session work twice: `21b5662`, `d4d7dec`/`b1ea095b`).
+6. After Meridian's 21:00 run: `node scripts/check-meridian-isolation.mjs`.
+7. Open decision: idle (`idle_personal`) excluded from tracked totals — confirm with user.
+
 ## Ironbots fleet expansion: IronLedger-Sentinel & operations dashboard governance (2026-09-29)
 
 ### Active goal
