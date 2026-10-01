@@ -1,5 +1,33 @@
 # Changelog
 
+## Version 2.79.0
+Date: 2026-10-01
+
+### Changes
+- b37b9fd - Merge pull request #70 from sorensencc-dotcom/merge-ci-governance-fix (Chris Sorensen)
+- 2290f60 - Merge merge-ci-governance-fix into main (Chris Sorensen)
+- be42ea8 - docs(report): add daily report for 2026-10-01 (Chris Sorensen)
+- 2512fed - fix(ci): harden governance matrix checkout (Chris Sorensen)
+- 027bf3d - feat(trm): wire dynamic query expansion and harden multi-notebook dispatch (Chris Sorensen)
+- ce880c3 - docs(governance): re-review a product index when its repo moves past last_reviewed (#68) (Chris Sorensen)
+- db40d04 - docs(status): record Meridian isolation pass and idle-time decision (Chris Sorensen)
+- 646a736 - fix(telemetry): store post-heal probe in ironledger-sentinel (Chris Sorensen)
+- e27c7f8 - docs(status): record Meridian history and missing-report findings (Chris Sorensen)
+- b1ea095 - feat(telemetry): add Meridian day/week collectors and git activity tracker (Chris Sorensen)
+- d5c9ced - feat(icf): add Meridian focus telemetry to ICF hook (Chris Sorensen)
+- 470737f - test: untrack ICF telemetry artifacts; add Meridian isolation check (Chris Sorensen)
+- 9bb3f0d - docs(report): add daily report for 2026-09-30 (Chris Sorensen)
+- b5657ed - docs(governance): require a MkDocs index for known products (#67) (Chris Sorensen)
+- ad6a915 - docs(governance): update STATUS.md and memory for 10-Ironbot fleet (Chris Sorensen)
+- 45bed56 - fix(dashboard): update operations badge and fleet definitions to 10 Ironbots (17 Tasks) (Chris Sorensen)
+- 3400040 - feat(ironbots): add IronLedger-Sentinel supervisor bot and scheduled task wrapper (Chris Sorensen)
+- 0860b00 - docs(trm): document TRM diff-only ingestion protocol v2.9.0 and live verification in STATUS.md (Chris Sorensen)
+- 2f022d5 - docs(audit): close repo-sprawl audit, archive retired clone residue (Chris Sorensen)
+- 02b928a - docs(audit): close sigil and toolforge repo-sprawl clusters (Chris Sorensen)
+- 7ca7082 - docs(report): add daily report for 2026-09-29 (Chris Sorensen)
+- 0073622 - fix(ops): heal kb-sentinel schemas and bind dynamic dashboard action items (Chris Sorensen)
+- 2edb35c - feat(fleet): integrate Jev typed primitives, TRM mobile triage, generator determinism, and TorqueQuery observability (closes #66) (Chris Sorensen)
+
 ## Version 2.78.0
 Date: 2026-09-29
 
