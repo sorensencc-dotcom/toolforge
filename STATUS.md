@@ -11,6 +11,29 @@
 
 # Project status
 
+## TRM Mobile Ingress Closed-Loop Routing, Gatekeeping & Verification (2026-10-01)
+
+### Active goal
+
+Transform the TRM Mobile Ingress $\leftrightarrow$ Outbox pipeline (`TRM-Drive-Sync` / Bot 7 of `\Ironbots\`) from an unrouted fire-and-forget catch-all into a governed, two-way closed-loop transport with target repository routing, category gatekeeping, automated delivery reconciliation, failure/completion receipts, outbox retention lifecycle, and daemon maintenance loops.
+
+### Completed work
+
+- **Target Mapping & Repository Routing**: Configured `TARGET_ROUTING_MAP` in `scripts/trm-ingress-watcher.mjs` (`toolforge` $\rightarrow$ `sorensencc-dotcom/toolforge`, `rewrite` $\rightarrow$ `sorensencc-dotcom/rewrite-mcp`, `sigil` $\rightarrow$ `sorensencc-dotcom/sigil`, `cic`/`research` $\rightarrow$ local research backlog `wiki/research/`). Fixed unrouted default by requiring explicit `--repo` in `gh issue create`.
+- **Category Gatekeeping**: Implemented `inferCategory`, `inferDomain`, and `getRoutingDecision`. GitHub issues are created *only* for `category: IMPLEMENT` on valid code targets. `RESEARCH`, `MONITOR`, and `EVALUATE` cards bypass GitHub issues and stage directly to `wiki/research/` RFCs and `.harness/tasks/pending/`.
+- **GitHub Issue Cleanup**: Closed Issue #62 and Issue #63 on `sorensencc-dotcom/toolforge` with redirection links to local research notes.
+- **Dead-Letter Queue (DLQ) & Failure Receipts**: Implemented `dispatchRejectionReceipt()` and rejected routing to `04_archive/rejected/` and `trm-drive/inbox/rejected/` emitting `receipt-<id>-rejected.json` and `.md` with structured diagnostic remediation.
+- **Delivery Reconciliation**: Built `auditOutboxReconciliation()` tracking active and archived outbox receipts against `ledger.jsonl`. Integrated into `scripts/ironbots-daily-reporter.mjs` and `wiki/research/ironbots-daily-report.md` (Status: `RECONCILED` / 100% Delivery Verified).
+- **Terminal Completion Receipts**: Implemented `syncCompletionReceipts()`, resolving closed GitHub issues, cataloged `wiki/research/` RFCs, and finished `.harness/tasks/completed/<id>.json` worker tasks, writing `receipt-<id>-completed.md` and `.json` to all active outboxes.
+- **Outbox Archival Retention**: Implemented `sweepOutboxRetention(maxAgeDays = 7)` archiving stale and completed receipts into `04_archive/mobile-outbox/` and `completed/outbox/`. Integrated into `scripts/ironbots-daily-reporter.mjs` morning run.
+- **Continuous Daemon Maintenance Loop**: Added a 5-minute recurring timer in continuous mode (`!isOnce && !isDryRun`) in `scripts/trm-ingress-watcher.mjs` executing `syncCompletionReceipts()` and `sweepOutboxRetention()`.
+- **Mobile Threading & Follow-Up Chaining**: Added `parent_action_id` parsing in `parseGDocFilenameMetadata` (`__ref-<parent_id>__`, `__parent-<parent_id>__`) and `parsePayload`.
+- **Test Suite**: Authored `tests/trm-ingress-routing.test.mjs` (9/9 PASS). Full test suite passes 230/230 unit tests (`npm test`).
+
+### Next action
+
+- Monitor daily `\Ironbots\` runs and observe continuous `TRM-Drive-Sync` daemon processing incoming mobile drops.
+
 ## Meridian integration + ICF dashboard restructure (2026-09-30) — HANDOFF
 
 ### Active goal

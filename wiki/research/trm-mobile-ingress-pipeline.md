@@ -89,7 +89,9 @@ flowchart TD
 
 ### 3. Dual-tier dispatch & execution hub
 - **Tier 1 (Deterministic Auto-Fix)**: When `action_type == "deterministic_fix"`, Iron Bots immediately execute automated CLI remediations (e.g. `nlm source delete [ids] --confirm`, `consolidate-pack.mjs --max-size 380k`) and archive originals to `04_archive/mobile-inbox/` and `completed/`.
-- **Tier 2 (GitHub Issue & Agent Harness)**: When `action_type == "antigravity_triage"`, the daemon invokes `gh issue create` with full diagnostic traces, writes the live issue link into `LEDGER.md`, and stages the task into `.harness/tasks/pending/` for coding agents to implement via isolated worktrees and PRs.
+- **Tier 2 (Governed Routing & Category Gatekeeping)**: When `action_type == "antigravity_triage"`, the daemon evaluates domain and category:
+  - **Explicit Code Repositories (`toolforge`, `rewrite-mcp`, `sigil`)**: If `category == "IMPLEMENT"` (or code fix/feature), the daemon invokes `gh issue create --repo <owner/repo>` with full diagnostic traces, writes the issue URL into `LEDGER.md`, and stages the task into `.harness/tasks/pending/` for coding agents to implement via isolated worktrees and PRs.
+  - **Research & Monitoring Backlog (`cic`, `cic-kb`, `research`, `strategic-intelligence`)**: If `category` is `RESEARCH`, `MONITOR`, or `EVALUATE`, the daemon bypasses GitHub issue creation entirely, staging the card directly to local research backlogs (`wiki/research/` RFCs and `TRM-Research/01_actionable_gaps/`), avoiding noisy issue pollution in engineering repositories.
 
 ### 4. Iron Command Forge telemetry integration
 - **Status Feed Emitter**: Emits live queue counts and tracked history to `_status-feed/trm_ingress_status.json`.
