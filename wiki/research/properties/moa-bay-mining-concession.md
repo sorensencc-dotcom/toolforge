@@ -2,7 +2,7 @@
 title: "Moa Bay Mining Concession"
 category: "research"
 status: "active"
-created_at: "2026-10-01"
+created_at: "2026-10-02"
 tags:
   - auto-healed
   - research
@@ -31,6 +31,6 @@ tags:
 source_path: C:/dev/wiki/research/fcsc-moa-bay.md
 source_type: md
 hash_sha256: 7250d0488234c876d82fb92a396e3d9ce397834cd2cd868884176cf6a9880e45
-extracted_at: 2026-09-30T05:30:03.960Z
+extracted_at: 2026-10-01T05:30:04.069Z
 extractor_version: 2026-08-29-1
 ===================

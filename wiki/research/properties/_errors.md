@@ -2,7 +2,7 @@
 title: " Errors"
 category: "research"
 status: "active"
-created_at: "2026-10-01"
+created_at: "2026-10-02"
 tags:
   - auto-healed
   - research
@@ -10,7 +10,7 @@ tags:
 
 # Property Extraction Errors & Warnings
 
-Generated at: 2026-09-30T05:30:04.003Z
+Generated at: 2026-10-01T05:30:04.301Z
 
 | File | Issue / Reason |
 |---|---|
@@ -70,6 +70,7 @@ Generated at: 2026-09-30T05:30:04.003Z
 | `f2e5c1fe-2b5d-4101-9ec6-ba382c2457e0--the-foreign-claims-settlement-commission-and-the-cuban-claims-program-smu-schola.md` | Filtered out or low confidence (1) |
 | `12718fe3-fff5-47f2-9247-8a26df5c9ed8--daily-synthesis-log-2026-09-21.md` | Filtered out or low confidence (0.85) |
 | `1dc5cc60-d783-433e-8618-0d4ca16fa048--the-sorensen-records.md` | Filtered out or low confidence (1) |
+| `3f6f624c-c33a-44bd-913a-a92b95566f93--daily-synthesis-log-2026-09-30.md` | Filtered out or low confidence (0.85) |
 | `46f77ec1-283e-4972-940b-5f2408504846--willysresearchlog-v2-20260430.md` | Filtered out or low confidence (0.85) |
 | `67ed1ef8-653a-46fb-897f-6e5e6eb6c3ef--daily-synthesis-log-2026-09-22.md` | Filtered out or low confidence (0.85) |
 | `6c567e43-cca4-4985-996f-e56160fc94df--daily-synthesis-log-2026-09-25.md` | Filtered out or low confidence (0.85) |
