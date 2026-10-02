@@ -1,7 +1,7 @@
 # Ecosystem Architecture Guide (Current)
 
 > **Document Status:** Authoritative Architectural Standard  
-> **Last Synchronized:** 2026-09-13T21:30:00Z  
+> **Last Synchronized:** 2026-10-02T20:28:48Z  
 > **Target Alignment:** CIC Historical, Core Software Architecture, Personal OS & Organization Repositories
 
 ---
@@ -17,7 +17,8 @@ The knowledge plane is strictly partitioned into three independent domains to el
 | 1. Historical Workstreams (CIC)    | 2. Core Software Architecture & Dev          |
 |    - Willow Run & Aviation         |    - IronLedger Architecture                 |
 |    - Ford Executive Dynamics       |    - Sigil Protocol & Federation             |
-|    - Post-War & Willys-Overland    |    - Agent Harness Registry                  |
+|    - Post-War                      |    - Agent Harness Registry                  |
+|    - Willys-Overland               |                                              |
 |    - Cuban Seizures                |    - Rewrite Labs SSG Platform               |
 |    - Miami Estate & Retirement     |    - Open Dev Triage Buffer                  |
 |    - Rouge & Moving Assembly Line  +----------------------------------------------+
@@ -32,7 +33,8 @@ The knowledge plane is strictly partitioned into three independent domains to el
 |---|---|---|
 | `willow-run` | `6fd7c40b-df90-444b-9c7a-a64682925856` | CIC — Willow Run B-24 production, aviation tooling, and plant logistics. |
 | `ford-politics` | `0caf6707-f8f2-4d2a-acd2-020acead55ba` | CIC — Ford executive dynamics, Bennett Service Dept, and corporate politics. |
-| `post-war` | `9c469910-a900-43a4-877c-a43c9f545b5f` | CIC — Post-War operations, Willys-Overland transition, and utility vehicles. |
+| `post-war` | `9c469910-a900-43a4-877c-a43c9f545b5f` | CIC — Post-war period other than Cuba and Willys-Overland. |
+| `willys-overland` | `fd4ebe29-9440-4f4b-97cf-0184ffbe29a0` | CIC — Willys-Overland as its own topic (civilian Jeep and the utility line), parallel to Cuban Seizures. |
 | `cuba-claims` | `c8360946-dbee-4a2c-b622-7f89b05695b0` | CIC — Cuban asset seizures, FCSC claims, Moa Bay, and certified losses. |
 | `miami-estate` | `64949154-5892-4fa4-9ad0-e48b2bf5cc6c` | CIC — Miami estate management, 4525 Adams Ave, and Florida retirement. |
 | `assembly-line` | `70be0df3-c58a-4711-b4d3-1e4b8726faf7` | CIC — Rouge complex, Model T engineering, and moving assembly line origins. |
@@ -57,6 +59,7 @@ The knowledge plane is strictly partitioned into three independent domains to el
 | FIX Sessions, WebSockets, Signatures | Sigil Protocol (<NEW_SIGIL...>)       |
 | Graft AST, SAM Mesh, Herdr PTY    | Agent Harness Registry (<NEW_AGENT...>) |
 | B-24 Liberator, Tooling, Turrets  | Willow Run (6fd7c40b...)                |
+| Willys-Overland, civilian Jeep    | Willys-Overland (fd4ebe29...)           |
 | FCSC Claims, Moa Bay Seizures     | Cuban Seizures (c8360946...)            |
 | Utilities, Municipal, Auto Leases | Personal OS (9724e682...)               |
 +-----------------------------------+-----------------------------------------+

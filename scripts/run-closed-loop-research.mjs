@@ -172,6 +172,11 @@ When persisting double-entry transactions and ledger journal lines:
       sources: []
     },
     {
+      filename: 'pack_willys_overland.txt',
+      category: 'willys-overland',
+      sources: []
+    },
+    {
       filename: 'pack_cuba_claims.txt',
       category: 'cuba-claims',
       sources: []
