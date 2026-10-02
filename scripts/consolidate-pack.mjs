@@ -110,7 +110,7 @@ export function formatProvenanceHeader(item) {
   ].join('\n');
 }
 
-function serializePackItem(item) {
+export function serializePackItem(item) {
   const content = item.enrichedContent ?? item.content;
   return `${formatProvenanceHeader(item)}${content}\n\n--- END OF FILE: ${item.relPath} ---\n\n`;
 }
