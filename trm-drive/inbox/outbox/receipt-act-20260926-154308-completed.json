@@ -1,0 +1,17 @@
+{
+  "receipt_id": "rcpt-1790855104712-done-act-20260926-154308",
+  "action_id": "act-20260926-154308",
+  "source": "gemini-mobile",
+  "intent": "remediate_quarantine_enobufs",
+  "category": "IMPLEMENT",
+  "target_notebook": "CIC-KB",
+  "action_type": "deterministic_fix",
+  "status": "COMPLETED",
+  "summary": "Action Completed: Prune 6 dead ENOBUFS overflow sources in CIC-KB and repack 1,093 unsorted items to <= 380 KiB",
+  "completion_details": "Prune 6 dead ENOBUFS overflow sources in CIC-KB and repack 1,093 unsorted items to <= 380 KiB",
+  "issue_url": null,
+  "research_ref": null,
+  "completed_at": "2026-10-01T11:45:04.712Z",
+  "dispatched_at": "2026-10-01T11:45:04.712Z",
+  "dryRun": false
+}

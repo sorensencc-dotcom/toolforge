@@ -27,6 +27,7 @@ This is the living rule for how curated wiki surfaces look, nest, and stay synca
 14. [Voice (Copywriter)](#14-voice-copywriter)
 15. [Exemplars](#15-exemplars-follow-these-dont-invent-a-fourth-pattern)
 16. [Amendment](#16-amendment)
+17. [MkDocs product index (served site)](#17-mkdocs-product-index-served-site)
 
 ---
 
@@ -48,6 +49,7 @@ This is the living rule for how curated wiki surfaces look, nest, and stay synca
 - Docs/meta naming & placement: `docs/meta/governance/documentation-policy.md`
 - Tool lifecycle / tool-manifest statuses: `GOVERNANCE.md` (do **not** overload those statuses onto wiki pages)
 - CIC visual SoT: `C:\dev\charlie-deep-research\cic_design_system.md`
+- Served MkDocs knowledge base: rewrite-docs. A known product must have an index page, and that index must be re-reviewed when the product repo moves past `last_reviewed` (section 17). This is not a curated-wiki W rule.
 - CIC enforcement checklist: `C:\dev\charlie-deep-research\docs\CIC_DESIGN_SYSTEM_ENFORCEMENT.md`
 
 ---
@@ -365,3 +367,16 @@ Changes to this guideline SHOULD stay local until Chris reviews, except when Chr
 **Location conformance:** this file lives under `docs/meta/governance/`, satisfying the roadmap/spec placement rule in the root `CLAUDE.md` governance section (specs and roadmaps confined to `docs/meta/` or named project roots). No action needed; noted for future movers of this file.
 
 Bump **Doc version** (top of file) whenever a W/R rule ID is added, removed, or renumbered, or whenever brand-matrix rows / brand ids change — other docs and any future validator script may cite these IDs directly, and a silent renumber breaks those references.
+
+
+## 17. MkDocs product index (served site)
+
+Curated wikis are not the site people read for the cross-product knowledge base. That site is the rewrite-docs MkDocs build at `https://github.com/sorensencc-dotcom/rewrite-docs`. Do not cite a GitHub Pages URL for it. Pages is not set up there.
+
+A known product with no index page on that site is a failed build, and that index has to be re-reviewed when the product repo moves past `last_reviewed`. The list `docs/meta/required-product-indexes.yml` in rewrite-docs names each product, its index path, its GitHub repo, and `last_reviewed` (YYYY-MM-DD). `scripts/check_required_product_indexes.py` is an MkDocs hook, so `mkdocs build --strict` fails when any listed page is missing on disk or missing from `mkdocs.yml` nav. It also fails when the default branch of that repo has a commit after the end of the `last_reviewed` day in America/New_York. Bumping the date is the attestation. The script does not judge whether the page prose was actually rewritten. The rewrite-docs docs workflow runs that same script.
+
+Stub index pages name the product, link the verified GitHub repo, and point at the local writeup tree. They do not inline the product markdown tree.
+
+This check is separate from W1-W13. Those wiki rules are still spec-only until a wiki validator exists. Toolforge `.github/workflows/documentation.yml` builds this repo's own MkDocs site. It is not the rewrite-docs product-index gate.
+
+The list is the source of truth. As of 2026-09-29 it covers Helix, Iron Ledger, Sigil, Iron Command Forge (ICF), Topic Research Module (TRM), Toolforge, Toolforge Marketplace, the CIC Deep Research Toolkit (Cast Iron Charlie / charlie-deep-research), and rewrite-mcp. Adding a product means adding the list row (including `repo` and `last_reviewed`), the stub page, and the nav entry in the same change.

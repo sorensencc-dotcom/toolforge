@@ -1,6 +1,6 @@
 ﻿# Toolforge Drift Detection Report
 
-**Generated**: 2026-09-30T06:30:16.3953759Z
+**Generated**: 2026-09-28T06:30:18.1137586Z
 
 **Canonical**: C:\dev\
 **Distributed**: C:\dev\rewrite-mcp\toolforge
@@ -11,13 +11,13 @@
 
 | Category | Drifts | Severity |
 |----------|--------|----------|
-| Structure | 85 | WARN |
+| Structure | 90 | WARN |
 | Tools | 0 | OK |
 | Skills | 2 | WARN |
 | Docs | 0 | OK |
 | Manifest | 0 | OK |
 
-**Total Drifts**: 87
+**Total Drifts**: 92
 **Status**: DRIFTED
 
 ---
@@ -91,21 +91,26 @@
 - **missing** scratch (in distributed)
 - **missing** scripts (in distributed)
 - **missing** services (in distributed)
+- **missing** sigil (in distributed)
 - **missing** sigil-npm-cache (in distributed)
 - **missing** sigil-package-test (in distributed)
+- **missing** sigil-r2 (in distributed)
 - **missing** sigil-repo (in distributed)
 - **missing** sigil-wiki (in distributed)
 - **missing** src (in distributed)
 - **missing** task-observatory (in distributed)
 - **missing** tests (in distributed)
 - **missing** TheFoundry (in distributed)
+- **missing** toolforge (in distributed)
 - **missing** toolforge-marketplace (in distributed)
 - **missing** toolforge-marketplace-wiki (in distributed)
+- **missing** toolforge-nlm-pack-gate (in distributed)
 - **missing** toolforge-pdf (in distributed)
 - **missing** tools (in distributed)
 - **missing** trm (in distributed)
 - **missing** trm-drive (in distributed)
 - **missing** trm-wiki (in distributed)
+- **missing** viking-phase3 (in distributed)
 - **missing** wiki (in distributed)
 - **missing** windows-task-manager (in distributed)
 - **missing** _integration (in distributed)

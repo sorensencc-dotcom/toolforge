@@ -1,101 +1,82 @@
 {
-  "timestamp": "2026-09-30T22:05:25.266Z",
-  "elapsedMs": 2134,
-  "status": "FAILURES_DETECTED",
+  "timestamp": "2026-09-29T02:28:51.872Z",
+  "elapsedMs": 826,
+  "status": "HEALTHY",
   "scannedCount": 10,
   "activeCount": 0,
-  "failureCount": 1,
+  "failureCount": 0,
   "recentRuns": [
     {
-      "id": 36726894225,
-      "name": "Retro Full History Audit",
-      "branch": "main",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36659074656,
-      "name": "CI governance gate matrix",
-      "branch": "main",
-      "status": "completed",
-      "conclusion": "failure"
-    },
-    {
-      "id": 36659074611,
-      "name": "Secret scan",
-      "branch": "main",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36659074557,
-      "name": "Governance",
-      "branch": "main",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36659074539,
+      "id": 36511937283,
       "name": "Documentation",
-      "branch": "main",
+      "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 36658718996,
+      "id": 36511937195,
+      "name": "Graft & AST Architecture Audit",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36511937194,
+      "name": "Secret scan",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36511937161,
       "name": "Governance",
       "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 36658182871,
-      "name": "Secret scan",
-      "branch": "docs/mkdocs-product-index-rule",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 36658182782,
+      "id": 36511933435,
       "name": "Governance",
-      "branch": "docs/mkdocs-product-index-rule",
+      "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 36658182761,
+      "id": 36511510877,
       "name": "Documentation",
-      "branch": "docs/mkdocs-product-index-rule",
+      "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 36658148520,
+      "id": 36511510862,
+      "name": "Graft & AST Architecture Audit",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36511510850,
+      "name": "Secret scan",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36511510821,
       "name": "Governance",
-      "branch": "docs/mkdocs-product-index-rule",
+      "branch": "parkd821-20260908",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 36511507311,
+      "name": "Governance",
+      "branch": "parkd821-20260908",
       "status": "completed",
       "conclusion": "success"
     }
   ],
-  "alerts": [
-    {
-      "runId": 36659074656,
-      "name": "CI governance gate matrix",
-      "branch": "main",
-      "sha": "b5657ede",
-      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/36659074656",
-      "createdAt": "2026-09-30T02:16:23Z",
-      "errorSummary": [
-        "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:16:54.9965863Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository",
-        "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2207419Z npm error Missing script: \"gov:validate\"",
-        "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2208246Z npm error",
-        "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2208803Z npm error To see a list of scripts, run:",
-        "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2209371Z npm error   npm run",
-        "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2222774Z npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2026-09-30T02_17_02_060Z-debug-0.log",
-        "cic-ingestion governance\tUNKNOWN STEP\t2026-09-30T02:17:02.2282831Z ##[error]Process completed with exit code 1.",
-        "kb-sync governance\tUNKNOWN STEP\t2026-09-30T02:17:02.9009746Z ##[error]Not Found - https://docs.github.com/rest/repos/repos#get-a-repository"
-      ]
-    }
-  ],
+  "alerts": [],
   "dryRun": true
 }

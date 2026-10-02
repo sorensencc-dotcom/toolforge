@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-10-01T02:40:01.015Z",
-  "elapsedMs": 493,
+  "timestamp": "2026-09-29T02:28:52.635Z",
+  "elapsedMs": 402,
   "status": "HEALTHY",
-  "totalFiles": 433,
-  "indexedCount": 433,
+  "totalFiles": 441,
+  "indexedCount": 441,
   "updatedCount": 0,
   "skippedCount": 0,
   "packWarnings": [
@@ -14,18 +14,5 @@
     }
   ],
   "databasePath": ".kb_cache/knowledge_fts5.db",
-  "dryRun": true,
-  "lastDispatch": {
-    "timestamp": "2026-10-01T03:17:25.925Z",
-    "status": "FAILED",
-    "dryRun": false,
-    "dispatchedPacks": 1,
-    "results": [
-      {
-        "category": "cuba-claims",
-        "packFile": "cuba.txt",
-        "status": "failed"
-      }
-    ]
-  }
+  "dryRun": true
 }

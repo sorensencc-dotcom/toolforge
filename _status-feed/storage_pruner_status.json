@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-30T22:05:27.465Z",
+  "timestamp": "2026-09-29T02:28:54.120Z",
   "dryRun": true,
-  "elapsedMs": 6,
-  "totalFreedBytes": 199160,
-  "totalFreedFormatted": "194.49 KB",
+  "elapsedMs": 13,
+  "totalFreedBytes": 803831,
+  "totalFreedFormatted": "784.99 KB",
   "databasesScanned": 6,
   "databaseResults": [
     {
@@ -15,8 +15,8 @@
     },
     {
       "dbPath": "C:\\dev\\.kb_cache\\knowledge_fts5.db",
-      "sizeBefore": 306839552,
-      "sizeAfter": 306839552,
+      "sizeBefore": 271388672,
+      "sizeAfter": 271388672,
       "bytesSaved": 0,
       "status": "SKIPPED_DRY_RUN"
     },
@@ -49,13 +49,41 @@
       "status": "SKIPPED_DRY_RUN"
     }
   ],
-  "telemetryCompactedCount": 1,
+  "telemetryCompactedCount": 5,
   "telemetryResults": [
     {
-      "file": "icf/dashboard/trm_history/2026-09-23.json",
-      "sizeBefore": 234305,
-      "sizeAfter": 35145,
-      "bytesSaved": 199160,
+      "file": "_status-feed/trm_history/2026-09-20.json",
+      "sizeBefore": 234307,
+      "sizeAfter": 35146,
+      "bytesSaved": 199161,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "file": "_status-feed/trm_history/2026-09-21.json",
+      "sizeBefore": 234324,
+      "sizeAfter": 35148,
+      "bytesSaved": 199176,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "file": "_status-feed/ironbots_history/2026-09-21.json",
+      "sizeBefore": 8420,
+      "sizeAfter": 1263,
+      "bytesSaved": 7157,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "file": "icf/dashboard/trm_history/2026-09-20.json",
+      "sizeBefore": 234307,
+      "sizeAfter": 35146,
+      "bytesSaved": 199161,
+      "status": "SKIPPED_DRY_RUN"
+    },
+    {
+      "file": "icf/dashboard/trm_history/2026-09-21.json",
+      "sizeBefore": 234324,
+      "sizeAfter": 35148,
+      "bytesSaved": 199176,
       "status": "SKIPPED_DRY_RUN"
     }
   ],

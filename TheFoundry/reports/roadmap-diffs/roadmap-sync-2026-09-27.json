@@ -1,0 +1,66 @@
+{
+  "timestamp": "2026-09-27T12:12:48.562Z",
+  "summary": {
+    "total": 6,
+    "ok": 3,
+    "stalled": 3,
+    "errors": 0
+  },
+  "results": [
+    {
+      "name": "rewrite-mcp",
+      "status": "ok",
+      "driftSummary": "active",
+      "changes": [
+        "Directory modified in last 24 hours",
+        "Tests directory present",
+        "Source code directory present"
+      ],
+      "lastModified": "2026-09-27T11:17:24.262Z"
+    },
+    {
+      "name": "cic-os",
+      "status": "ok",
+      "driftSummary": "repo directory not found",
+      "changes": [
+        "Path does not exist: C:\\dev\\cic-os"
+      ],
+      "lastModified": "n/a"
+    },
+    {
+      "name": "charlie-deep-research",
+      "status": "ok",
+      "driftSummary": "active",
+      "changes": [
+        "Directory modified in last 24 hours"
+      ],
+      "lastModified": "2026-09-27T11:20:45.433Z"
+    },
+    {
+      "name": "rewrite-mcp/castironforge",
+      "status": "stalled",
+      "driftSummary": "stalled (no activity > 14 days)",
+      "changes": [
+        "Source code directory present"
+      ],
+      "lastModified": "2026-07-10T21:09:34.186Z"
+    },
+    {
+      "name": "cic-ingestion",
+      "status": "stalled",
+      "driftSummary": "stalled (no activity > 14 days)",
+      "changes": [
+        "Tests directory present",
+        "Source code directory present"
+      ],
+      "lastModified": "2026-09-13T03:16:41.246Z"
+    },
+    {
+      "name": "cic",
+      "status": "stalled",
+      "driftSummary": "stalled (no activity > 14 days)",
+      "changes": [],
+      "lastModified": "2026-07-17T16:55:30.099Z"
+    }
+  ]
+}

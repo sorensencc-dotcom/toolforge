@@ -429,8 +429,7 @@ export async function runGatedClimbRepair(options = {}) {
           vaultRoot: baseDir
         });
       } catch (err) {
-        lessonError = err.message || String(err);
-        console.warn(`[GATED-CLIMB] Warning: Failed to generate lesson file for run ${runId}: ${lessonError}`);
+        console.warn(`[GATED-CLIMB] Warning: Failed to generate lesson file for run ${runId}: ${err.message || err}`);
       }
     }
   } finally {

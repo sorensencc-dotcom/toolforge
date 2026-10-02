@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1790513878577-3liav",
+  "action_id": "act-04-frontier-lab-verification-standards-dissent",
+  "source": "mobile-gemini-gdoc",
+  "intent": "frontier_lab_verification_standards_dissent",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_TRIAGE",
+  "summary": "Mobile action item submitted via Google Docs: 2026-09-27T123004Z__action__act-04-frontier-lab-verification-standards-dissent",
+  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/63",
+  "target_notebook": null,
+  "dispatched_at": "2026-09-27T12:57:58.578Z",
+  "duration_ms": 867,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-04-frontier-lab-verification-standards-dissent.json",
+  "dryRun": false
+}

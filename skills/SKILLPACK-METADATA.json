@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-30T05:00:06.0737439Z",
+  "timestamp": "2026-09-28T14:31:54.5194396Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -338,6 +338,33 @@
       }
     },
     {
+      "id": "rewrite-labs-orchestrator",
+      "name": "Rewrite Labs Orchestrator",
+      "category": "automation",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Orchestrates multi-stage development pipelines and handles blockers",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-10T21:43:59.2839834Z",
+        "lastValidation": "2026-07-10T21:43:59.2839834Z",
+        "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
       "id": "tool-lifecycle-manager",
       "name": "Tool Lifecycle Manager",
       "category": "pipeline",
@@ -362,40 +389,6 @@
         "created": "2026-07-14T03:18:38.7892909Z",
         "lastValidation": "2026-07-14T03:18:38.7892909Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "toolforge-cli",
-      "name": "Toolforge CLI",
-      "category": "utility",
-      "tags": [
-        "cli",
-        "toolforge",
-        "marketplace"
-      ],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "powershell",
-      "entrypoint": "src/cli.ps1",
-      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "toolforge-registry-manager",
-          "toolforge-submission-validator"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:43:17.3269637Z",
-        "lastValidation": "2026-07-14T03:43:17.3269637Z",
-        "lastRun": "2026-08-07T21:38:00Z"
       }
     },
     {
@@ -634,33 +627,6 @@
       }
     },
     {
-      "id": "usagecheck",
-      "name": "Usage Check",
-      "category": "utilities",
-      "tags": [],
-      "version": "0.1.0",
-      "owner": "unknown",
-      "runtime": "unknown",
-      "entrypoint": "",
-      "description": "Detects which coding CLI (Claude Code, Codex, or Grok) is running and reports that agent's usage/rate-limit data through its own mechanism",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-29T02:00:32.5113955Z",
-        "lastValidation": "2026-09-29T02:00:32.5113955Z",
-        "lastRun": null
-      }
-    },
-    {
       "id": "wiki-governance-sync",
       "name": "Wiki Governance Sync",
       "category": "governance",
@@ -742,18 +708,25 @@
       }
     },
     {
-      "id": "rewrite-labs-orchestrator",
-      "name": "Rewrite Labs Orchestrator",
-      "category": "automation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Orchestrates multi-stage development pipelines and handles blockers",
+      "id": "toolforge-cli",
+      "name": "Toolforge CLI",
+      "category": "utility",
+      "tags": [
+        "cli",
+        "toolforge",
+        "marketplace"
+      ],
+      "version": "0.1.0",
+      "owner": "soren",
+      "runtime": "powershell",
+      "entrypoint": "src/cli.ps1",
+      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
       "status": "active",
       "dependencies": {
-        "internal": [],
+        "internal": [
+          "toolforge-registry-manager",
+          "toolforge-submission-validator"
+        ],
         "external": []
       },
       "health": {
@@ -763,38 +736,9 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:59.2839834Z",
-        "lastValidation": "2026-07-10T21:43:59.2839834Z",
+        "created": "2026-07-14T03:43:17.3269637Z",
+        "lastValidation": "2026-07-14T03:43:17.3269637Z",
         "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -821,6 +765,33 @@
       "timestamps": {
         "created": "2026-08-23T17:34:37.3597852Z",
         "lastValidation": "2026-08-23T17:34:37.3597852Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
+      }
+    },
+    {
+      "id": "retro-export",
+      "name": "Retro Export",
+      "category": "monitoring",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:27:19.1809541Z",
+        "lastValidation": "2026-08-16T17:27:19.1809541Z",
         "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
@@ -1554,19 +1525,21 @@
       }
     },
     {
-      "id": "retro-export",
-      "name": "Retro Export",
-      "category": "monitoring",
+      "id": "workspace-storage-cleaner",
+      "name": "Workspace & Brain Storage Cleaner",
+      "category": "maintenance",
       "tags": [],
       "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+      "owner": "unknown",
+      "runtime": "python",
+      "entrypoint": "scripts/clean-storage.py",
+      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
       "status": "active",
       "dependencies": {
         "internal": [],
-        "external": []
+        "external": [
+          "python3"
+        ]
       },
       "health": {
         "canonical": true,
@@ -1575,8 +1548,8 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:27:19.1809541Z",
-        "lastValidation": "2026-08-16T17:27:19.1809541Z",
+        "created": "2026-08-16T17:39:59.7247469Z",
+        "lastValidation": "2026-08-16T17:39:59.7247469Z",
         "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
@@ -1616,10 +1589,10 @@
     }
   ],
   "summary": {
-    "total": 57,
-    "active": 57,
+    "total": 56,
+    "active": 56,
     "deprecated": 0,
-    "health_good": 57,
+    "health_good": 56,
     "health_warn": 0,
     "health_error": 0
   }
