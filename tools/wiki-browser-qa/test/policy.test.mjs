@@ -58,7 +58,7 @@ test('policy rejects a nonexistent source mapping', () => {
       pages: [{
         slug: 'toolforge-architecture-overview',
         categories: ['architecture'],
-        sourcePage: 'wiki/toolforge-architecture-overview.html',
+        sourcePage: 'docs/wiki-pages/toolforge-architecture-overview.html',
         acceptedSelectors: ['img'],
         acceptedAssetPatterns: ['toolforge'],
         requirements: { requireAlt: true, requireCaption: true },

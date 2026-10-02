@@ -5,7 +5,7 @@
     {
       "slug": "toolforge-architecture-overview",
       "categories": ["architecture", "provider", "governance", "lifecycle"],
-      "sourcePage": "wiki/toolforge-architecture-overview.html",
+      "sourcePage": "docs/wiki-pages/toolforge-architecture-overview.html",
       "acceptedSelectors": [".diagram-container > svg"],
       "acceptedAssetPatterns": ["(?:^|/)toolforge-architecture-overview\\.html$"],
       "requirements": { "requireAlt": true, "requireCaption": true },
@@ -19,7 +19,7 @@
           "assetPattern": "(?:^|/)toolforge-architecture-overview\\.html$",
           "githubSelector": "img[src$=\"toolforge-architecture-overview.png\"]",
           "githubAssetPattern": "(?:^|/)toolforge-architecture-overview\\.png$",
-          "sourceAsset": "wiki/toolforge-architecture-overview.html",
+          "sourceAsset": "docs/wiki-pages/toolforge-architecture-overview.html",
           "requireAlt": true,
           "requireCaption": true,
           "viewports": {
@@ -29,7 +29,7 @@
         }
       ],
       "sourceMappings": [
-        { "kind": "source-page", "repositoryPath": "wiki/toolforge-architecture-overview.html" }
+        { "kind": "source-page", "repositoryPath": "docs/wiki-pages/toolforge-architecture-overview.html" }
       ]
     },
     {
@@ -130,7 +130,7 @@
       "requiredDiagrams": [{
         "selector": "img[src$=\"toolforge-architecture-overview.png\"]",
         "assetPattern": "(?:^|/)toolforge-architecture-overview\\.png$",
-        "sourceAsset": "wiki/toolforge-architecture-overview.png",
+        "sourceAsset": "docs/wiki-pages/toolforge-architecture-overview.png",
         "requireAlt": true,
         "requireCaption": true,
         "viewports": {
@@ -140,7 +140,7 @@
       }],
       "sourceMappings": [
         { "kind": "source-page", "repositoryPath": "GOVERNANCE.md" },
-        { "kind": "source-asset", "repositoryPath": "wiki/toolforge-architecture-overview.png" }
+        { "kind": "source-asset", "repositoryPath": "docs/wiki-pages/toolforge-architecture-overview.png" }
       ]
     }
   ]
