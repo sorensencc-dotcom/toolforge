@@ -105,6 +105,10 @@ test("ingest() produces a stable, strictly-typed output envelope", async () => {
 
 test("CLI toolforge exec invokes pdf ingestion and outputs valid JSON", async () => {
   const cliPath = resolve(import.meta.dirname, "../src/cli/index.js");
+  const pluginDir = resolve(import.meta.dirname);
+
+  // Ensure plugin is registered in test environment
+  await execFileAsync(process.execPath, [cliPath, "plugins", "add", pluginDir]);
 
   const { stdout } = await execFileAsync(process.execPath, [
     cliPath,
