@@ -94,6 +94,15 @@ export function injectCrossNotebookDigests(content, currentCategory, manifest, c
   return result;
 }
 
+export function normalizeWhitespace(content) {
+  if (typeof content !== 'string') return '';
+  return content
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+$/gm, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 export function formatProvenanceHeader(item) {
   return [
     '=== PROVENANCE ===',
@@ -111,16 +120,110 @@ export function formatProvenanceHeader(item) {
 }
 
 export function serializePackItem(item) {
-  const content = item.enrichedContent ?? item.content;
+  const content = normalizeWhitespace(item.enrichedContent ?? item.content);
   return `${formatProvenanceHeader(item)}${content}\n\n--- END OF FILE: ${item.relPath} ---\n\n`;
+}
+
+function splitItemIntoParts(item, budget, serialize) {
+  const contentToSplit = item.enrichedContent ?? item.content;
+  const paragraphs = contentToSplit.split(/\n\n+/);
+
+  const subItems = [];
+  let currentParagraphs = [];
+  let partIndex = 1;
+
+  function createSubItem(paras, partNum) {
+    const subContent = paras.join('\n\n');
+    const subRelPath = `${item.relPath} (part ${partNum})`;
+    const sub = {
+      ...item,
+      relPath: subRelPath,
+      content: subContent,
+    };
+    if (item.enrichedContent !== undefined) {
+      sub.enrichedContent = subContent;
+    }
+    return sub;
+  }
+
+  for (let i = 0; i < paragraphs.length; i++) {
+    const p = paragraphs[i];
+
+    const testSub = createSubItem([p], partIndex);
+    if (Buffer.byteLength(serialize(testSub), 'utf8') > budget) {
+      if (currentParagraphs.length > 0) {
+        subItems.push(createSubItem(currentParagraphs, partIndex++));
+        currentParagraphs = [];
+      }
+
+      const lines = p.split('\n');
+      let currentLines = [];
+      for (const line of lines) {
+        const testLineSub = createSubItem([...currentLines, line], partIndex);
+        if (Buffer.byteLength(serialize(testLineSub), 'utf8') > budget) {
+          if (currentLines.length > 0) {
+            subItems.push(createSubItem(currentLines, partIndex++));
+            currentLines = [];
+          }
+          let remainingLine = line;
+          while (remainingLine.length > 0) {
+            let sliceLen = remainingLine.length;
+            while (sliceLen > 0) {
+              const sliceCandidate = remainingLine.slice(0, sliceLen);
+              const sliceSub = createSubItem([sliceCandidate], partIndex);
+              if (Buffer.byteLength(serialize(sliceSub), 'utf8') <= budget || sliceLen === 1) {
+                subItems.push(createSubItem([sliceCandidate], partIndex++));
+                remainingLine = remainingLine.slice(sliceLen);
+                break;
+              }
+              sliceLen = Math.floor(sliceLen * 0.8);
+            }
+          }
+        } else {
+          currentLines.push(line);
+        }
+      }
+      if (currentLines.length > 0) {
+        subItems.push(createSubItem(currentLines, partIndex++));
+      }
+      continue;
+    }
+
+    const candidateSub = createSubItem([...currentParagraphs, p], partIndex);
+    if (currentParagraphs.length > 0 && Buffer.byteLength(serialize(candidateSub), 'utf8') > budget) {
+      subItems.push(createSubItem(currentParagraphs, partIndex++));
+      currentParagraphs = [p];
+    } else {
+      currentParagraphs.push(p);
+    }
+  }
+
+  if (currentParagraphs.length > 0) {
+    subItems.push(createSubItem(currentParagraphs, partIndex++));
+  }
+
+  return subItems;
 }
 
 export function partitionPackItems(items, maxBytes = MAX_PACK_BYTES, options = {}) {
   const serialize = options.itemSerializer || serializePackItem;
   const prefix = options.prefix || '';
   const suffix = options.suffix || '';
-  const chunks = [];
+  const budget = maxBytes - Buffer.byteLength(prefix + suffix, 'utf8');
+
+  const effectiveItems = [];
   for (const item of items) {
+    const one = serialize(item);
+    if (Buffer.byteLength(one, 'utf8') > budget) {
+      const parts = splitItemIntoParts(item, budget, serialize);
+      effectiveItems.push(...parts);
+    } else {
+      effectiveItems.push(item);
+    }
+  }
+
+  const chunks = [];
+  for (const item of effectiveItems) {
     const one = serialize(item);
     if (Buffer.byteLength(prefix + one + suffix, 'utf8') > maxBytes) {
       throw new Error(`ITEM_EXCEEDS_BUDGET: ${item.relPath}`);
