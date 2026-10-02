@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.80.2
+Date: 2026-10-02
+
+### Changes
+- 88b7a3d - Merge pull request #73 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- d1aea97 - fix(cic): pin delivery guard dependency (Chris Sorensen)
+
 ## Version 2.80.1
 Date: 2026-10-02
 
