@@ -14,6 +14,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { routeTask } from './whichllm-router.mjs';
+import { appendToWikiLogAsync } from './lib/wiki-log-append.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -33,7 +34,6 @@ function resolveGapsFile() {
 
 const GAPS_FILE = resolveGapsFile();
 const WIKI_RESEARCH_DIR = path.resolve(REPO_ROOT, 'wiki', 'research');
-const WIKI_LOG_FILE = path.resolve(REPO_ROOT, 'wiki', 'Log.md');
 const REPORT_PATH = path.resolve(REPO_ROOT, '_status-feed', 'trm_bot_report.json');
 
 // Parse CLI flags
@@ -222,8 +222,8 @@ export async function runTrmBot(options = {}) {
       generatedRfcs.map(r => `  - \`${r.file}\` (${r.gapId} -> ${r.assignedTier})`).join('\n') + '\n';
 
     try {
-      await fs.appendFile(WIKI_LOG_FILE, logEntry, 'utf8');
-      console.log(`[TRM-Bot] Appended ${generatedRfcs.length} RFC entries to ${path.relative(REPO_ROOT, WIKI_LOG_FILE)}`);
+      await appendToWikiLogAsync(REPO_ROOT, logEntry);
+      console.log(`[TRM-Bot] Appended ${generatedRfcs.length} RFC entries to wiki/Log.md`);
     } catch (err) {
       console.warn(`[TRM-Bot] Could not update wiki/Log.md: ${err.message}`);
     }

@@ -6,6 +6,9 @@ import json
 import re
 import importlib.util
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
+from wiki_log_append import append_to_log_file
+
 """
 run-closed-loop-research-v2.py
 
@@ -314,8 +317,7 @@ When verifying historical signatures:
     # ===========================================================================
     log_file_path = os.path.join(wiki_dir, 'Log.md')
     log_entry = f"\n- [{now_iso}] TRM-CLOSED-LOOP-V2: Model locked in '{local_model}' (BFCL: {bfcl_score}, Hash: {hash_chain[:8]}). Mined and resolved 2 research gaps (mobile-websocket-heartbeats, historical-revocation-verification)."
-    with open(log_file_path, 'a', encoding='utf-8') as f:
-        f.write(log_entry)
+    append_to_log_file(log_file_path, log_entry)
     log_info(f"[OK] Appended audit entry to: {log_file_path}")
 
     # ===========================================================================

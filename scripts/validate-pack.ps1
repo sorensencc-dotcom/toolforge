@@ -101,6 +101,23 @@ Write-Info "Pack SHA-256:     $sha256"
 # 6. Log Validation Entry to Audit Trail
 $logPath = "C:\dev\wiki\Log.md"
 if (Test-Path $logPath) {
+    # Rotate if oversized -- without this the file grows unbounded (hit 16MB/495k lines).
+    $maxLogBytes = 500KB
+    if ((Get-Item $logPath).Length -ge $maxLogBytes) {
+        $archiveDir = Join-Path (Split-Path $logPath -Parent) "archive"
+        New-Item -ItemType Directory -Path $archiveDir -Force | Out-Null
+        $stamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd")
+        $archivePath = Join-Path $archiveDir "Log-$stamp.md"
+        $suffix = 1
+        while (Test-Path $archivePath) {
+            $archivePath = Join-Path $archiveDir "Log-$stamp-$suffix.md"
+            $suffix++
+        }
+        Move-Item -Path $logPath -Destination $archivePath
+        $archiveName = Split-Path $archivePath -Leaf
+        Set-Content -Path $logPath -Value "# Log`n`nRotated $stamp (prior entries exceeded $maxLogBytes bytes). Prior entries: [$archiveName](archive/$archiveName)." -Encoding utf8
+    }
+
     $timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
     $logEntry = "`n- [$timestamp] VALIDATE-PACK: Verified $Pack (Pack: $packName, Items: $($provenanceMatches.Count), SHA256: $sha256, Target: $targetNotebook)."
     Add-Content -Path $logPath -Value $logEntry -Encoding utf8

@@ -14,6 +14,7 @@ import crypto from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { appendToWikiLogAsync } from './lib/wiki-log-append.mjs';
 
 const execFileAsync = promisify(execFile);
 
@@ -22,7 +23,6 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const WATCHLIST_CONFIG = path.resolve(REPO_ROOT, 'data', 'competitor_watchlist.json');
 const WATCHLIST_CONFIG_FALLBACK = path.resolve(REPO_ROOT, 'kb-sync', 'core', 'competitor_watchlist.json');
 const WIKI_RESEARCH_DIR = path.resolve(REPO_ROOT, 'wiki', 'research');
-const WIKI_LOG_FILE = path.resolve(REPO_ROOT, 'wiki', 'Log.md');
 const REPORT_PATH = path.resolve(REPO_ROOT, '_status-feed', 'watchlist_miner_report.json');
 
 // Parse CLI flags
@@ -165,8 +165,8 @@ async function runWatchlistMiner() {
       driftFindings.map(d => `  - \`${d.wikiPath}\` (${d.competitorName} / ${d.targetId})`).join('\n') + '\n';
 
     try {
-      await fs.appendFile(WIKI_LOG_FILE, logEntry, 'utf8');
-      console.log(`[Watchlist-Miner] Appended ${driftFindings.length} drift entries to ${path.relative(REPO_ROOT, WIKI_LOG_FILE)}`);
+      await appendToWikiLogAsync(REPO_ROOT, logEntry);
+      console.log(`[Watchlist-Miner] Appended ${driftFindings.length} drift entries to wiki/Log.md`);
     } catch (err) {
       console.warn(`[Watchlist-Miner] Could not update wiki/Log.md: ${err.message}`);
     }

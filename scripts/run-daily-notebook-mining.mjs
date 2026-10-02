@@ -11,6 +11,7 @@ import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadCategoriesData } from '../kb-sync/core/config.mjs';
+import { appendToWikiLog } from './lib/wiki-log-append.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,7 +23,6 @@ const DEAD_LETTER_DIR = path.join(ROOT_DIR, '.nlm_pack_dead_letter');
 const PACKS_DIR = path.join(ROOT_DIR, '.nlm_pack');
 const PIPELINE_CONFIG_PATH = path.join(ROOT_DIR, 'kb-sync', 'core', 'research_pipeline.json');
 const LOG_JSON_PATH = path.join(ROOT_DIR, 'wiki', 'Log.json');
-const LOG_MD_PATH = path.join(ROOT_DIR, 'wiki', 'Log.md');
 
 const COLOR = { red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', cyan: '\x1b[36m', reset: '\x1b[0m' };
 const logInfo = (msg) => console.log(`${COLOR.green}[DAILY-MINER] [INFO]${COLOR.reset} ${msg}`);
@@ -250,7 +250,7 @@ export async function runDailyMiningPipeline(options = {}) {
     fs.writeFileSync(LOG_JSON_PATH, JSON.stringify(logs, null, 2), 'utf8');
 
     const mdSummary = `\n## ${auditRecord.timestamp} - Daily Research Mining Run (${runId})\n- **Duration:** ${totalDuration}s\n- **Dry Run:** ${isDryRun}\n- **Categories Processed:** ${categoryResults.map(r => `${r.category} (${r.status})`).join(', ')}\n`;
-    fs.appendFileSync(LOG_MD_PATH, mdSummary, 'utf8');
+    appendToWikiLog(ROOT_DIR, mdSummary);
   } catch (_) {}
 
   return { runId, totalDuration, results: categoryResults };

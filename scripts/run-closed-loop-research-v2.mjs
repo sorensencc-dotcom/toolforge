@@ -26,6 +26,7 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import * as os from 'os';
 import { replaceGate } from './nlm-pack-replace-gate.mjs';
+import { appendToWikiLog } from './lib/wiki-log-append.mjs';
 
 
 // ---------------------------------------------------------------------------
@@ -494,11 +495,10 @@ async function run() {
   // =========================================================================
   logStep(5, 'Logging to Layer 3 Stable Reference (Audit Trails)');
   // =========================================================================
-  const logFilePath = path.join(wikiDir, 'Log.md');
   const slugList    = synthesizedFiles.map(f => f.slug).join(', ') || '(none)';
   const logEntry    = `\n- [${nowIso}] TRM-CLOSED-LOOP-V3: LIVE RUN. Model: '${localModel}' (BFCL: ${bfclScore}, Hash: ${String(hashChain).slice(0, 8)}). Gap source: ${path.basename(primaryGapsFile)}. Synthesized: [${slugList}].`;
-  fs.appendFileSync(logFilePath, logEntry, 'utf8');
-  logInfo(`✓ Audit entry appended to: ${logFilePath}`);
+  appendToWikiLog(repoRoot, logEntry);
+  logInfo(`✓ Audit entry appended to wiki/Log.md`);
 
   // =========================================================================
   logStep(6, 'Rebuilding Thematic Knowledge Packs and Pushing to NotebookLM');

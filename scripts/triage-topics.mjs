@@ -9,11 +9,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadCategoriesData, saveCategoriesData } from '../kb-sync/core/config.mjs';
+import { appendToWikiLog } from './lib/wiki-log-append.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const LOG_JSON_PATH = path.join(__dirname, '..', 'wiki', 'Log.json');
-const LOG_MD_PATH = path.join(__dirname, '..', 'wiki', 'Log.md');
+const REPO_ROOT = path.join(__dirname, '..');
+const LOG_JSON_PATH = path.join(REPO_ROOT, 'wiki', 'Log.json');
 
 const COLOR = { red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', cyan: '\x1b[36m', reset: '\x1b[0m' };
 const logInfo = (msg) => console.log(`${COLOR.green}[TOPIC-TRIAGE] [INFO]${COLOR.reset} ${msg}`);
@@ -42,7 +43,7 @@ export function appendAuditLog(entry) {
   // 2. Human-readable Markdown log
   try {
     const mdEntry = `\n## ${record.timestamp}\n- **Action:** ${record.action}\n- **Actor:** ${record.actor}\n- **Placeholder:** ${record.placeholder || 'N/A'}\n- **Target Category:** ${record.targetCategory || record.category || 'N/A'}\n- **Notebook ID:** ${record.notebookId || 'N/A'}\n- **Result:** ${record.result || 'success'}\n`;
-    fs.appendFileSync(LOG_MD_PATH, mdEntry, 'utf8');
+    appendToWikiLog(REPO_ROOT, mdEntry);
   } catch (e) {
     logWarn(`Could not append Log.md: ${e.message}`);
   }
