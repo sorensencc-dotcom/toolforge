@@ -5,6 +5,8 @@
   "description": "Toolforge Marketplace: API + UI for skill discovery and installation",
   "main": "src/api/server.js",
   "scripts": {
+    "docs:sync": "node scripts/doc-sync/run.mjs",
+    "test:doc-sync": "node --test tests/doc-sync-registry.test.mjs tests/doc-sync-stage-mirror.test.mjs tests/doc-sync-sidebar-guard.test.mjs tests/doc-sync-publish.test.mjs tests/doc-sync-run.test.mjs",
     "secret-scan": "node scripts/secret-scan.mjs",
     "kb:status": "node kb-sync/scripts/check-status.mjs",
     "kb:sync:status": "node kb-sync/scripts/check-status.mjs",
