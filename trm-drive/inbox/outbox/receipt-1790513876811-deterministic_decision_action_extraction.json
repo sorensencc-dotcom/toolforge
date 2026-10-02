@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1790513876810-gws85",
+  "action_id": "act-02-deterministic-decision-action-extraction",
+  "source": "mobile-gemini-gdoc",
+  "intent": "deterministic_decision_action_extraction",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_TRIAGE",
+  "summary": "Mobile action item submitted via Google Docs: 2026-09-27T123002Z__action__act-02-deterministic-decision-action-extraction",
+  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/61",
+  "target_notebook": null,
+  "dispatched_at": "2026-09-27T12:57:56.811Z",
+  "duration_ms": 843,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-02-deterministic-decision-action-extraction.json",
+  "dryRun": false
+}

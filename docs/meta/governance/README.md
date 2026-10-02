@@ -13,6 +13,7 @@ Durable rules, policies, and gates that govern how work gets done across phases 
 - `ijfw-spec-phase-phase0-integration.md` — spec-phase Phase 0 integration
 - `pre-charter-audit-checklist.md` — pre-charter audit checklist
 - `phase-0-pattern-research-gate-template.md` — Phase 0 pattern research gate template
+- `adr-template.md` — architecture decision record template; gates promotion into the Ecosystem Architecture Guide
 - `documentation-policy.md` — this repo's docs/meta naming + placement policy
 - `wiki-style-and-structure.md` - curated GitHub/in-repo wiki style, brand matrix, Home/_Sidebar/_Footer, W/R CLI rules
 - `wiki-sync-registry.md` - per-product canonical wiki side (clone vs in-repo) for sync; pairs with wiki-style §10

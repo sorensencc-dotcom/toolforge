@@ -14,7 +14,20 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = path.resolve(__dirname, '..');
+const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..');
+export function resolveRepoRoot(cwd = process.cwd()) {
+  try {
+    return execFileSync('git', ['rev-parse', '--show-toplevel'], {
+      cwd,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim();
+  } catch {
+    return DEFAULT_REPO_ROOT;
+  }
+}
+
+const REPO_ROOT = resolveRepoRoot();
 const REPORT_PATH = path.resolve(REPO_ROOT, '_status-feed', 'ci_alerts.json');
 
 const args = process.argv.slice(2);

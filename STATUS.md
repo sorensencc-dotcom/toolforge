@@ -11,6 +11,112 @@
 
 # Project status
 
+## NotebookLM Knowledge Pack Ingestion Triage & Compaction Hardening (2026-10-01)
+
+### Active goal
+
+Harden `kb-sync` knowledge pack generation and upload pipelines (`scripts/consolidate-pack.mjs` and `scripts/nlm-pack-replace-gate.mjs`) to eliminate NotebookLM ingestion failures (`status: 3`), maintain strict category boundaries, prevent staging directory pollution, and enforce deterministic chunk byte limits ($\le 380\text{ KiB}$) without lossy Markdown/YAML corruption.
+
+### Completed work
+
+- **Ingestion Guard & Live Source Triage**: Investigated NotebookLM `CIC-KB` notebook errors showing 6 failed sources (`repo_knowledge_pack_part_ab` through `part_ag`). Traced root cause to single-file ingestion timeouts on legacy chunks exceeding context thresholds.
+- **NotebookLM Registry Cleanup**: Executed `scripts/cleanup-nlm-duplicates.mjs` across 12 registered notebooks, purging all 6 failed `status: 3` sources from `CIC-KB`, 12 duplicate sources from `CIC - Daily Research`, and 2 duplicate sources from `Research Logs`. Live audit via `nlm source list` verified 100% active sources (`status: 2`).
+- **PR Specification & Codex Adversarial Audit**: Evaluated the proposed "Pre-Pack Token Compression & Staging Isolation Guard" PR specification and implementation. Dispatched to OpenAI Codex (`codex-cli 0.157.1`, `high` reasoning effort), resulting in a unanimous `FAIL` verdict with 3 P0 blockers (silent entrypoint failure, public API breakage, lossy frontmatter/table formatting corruption) and 4 P1 breakages (thematic pack deletion, category isolation leaks, soft byte ceiling bypass, output directory mismatch).
+- **Caveman Review Generation**: Synthesized 11 line-level actionable comments (`L44`, `L48`, `L49`, `L70`, `L73`, `L86`, `L112`, `L121`, `L125`, `L143`, `L145`) ready for PR feedback and author remediation.
+
+### Plan & next actions
+
+1. **Reject Destructive PR v2.0**: Keep canonical `scripts/consolidate-pack.mjs` architecture in place; prevent merge of `consolidate-pack-v2.mjs`.
+2. **Apply Surgical Isolation Guard**: Add `_kb-sync-staging` and build output directories to `IGNORED_DIRS` directly in `scripts/consolidate-pack.mjs` (already verified present at line 185).
+3. **Safe Lossless Whitespace Normalization**: Inject clean whitespace compaction (collapsing $\ge 3$ consecutive newlines to 2 and stripping trailing whitespace) into `serializePackItem()` *after* frontmatter extraction.
+4. **Enforce Paragraph-Aware Budget Splitting**: Ensure `partitionPackItems()` splits any single document $> 380\text{ KiB}$ across paragraph boundaries instead of emitting oversized chunks.
+5. **Stage Legacy Pack Purge**: Coordinate removal of 10 inactive `repo_knowledge_pack_part_*` sources in `CIC-KB` when prompted.
+
+## TRM Mobile Ingress Closed-Loop Routing, Gatekeeping & Verification (2026-10-01)
+
+### Active goal
+
+Transform the TRM Mobile Ingress $\leftrightarrow$ Outbox pipeline (`TRM-Drive-Sync` / Bot 7 of `\Ironbots\`) from an unrouted fire-and-forget catch-all into a governed, two-way closed-loop transport with target repository routing, category gatekeeping, automated delivery reconciliation, failure/completion receipts, outbox retention lifecycle, and daemon maintenance loops.
+
+### Completed work
+
+- **Target Mapping & Repository Routing**: Configured `TARGET_ROUTING_MAP` in `scripts/trm-ingress-watcher.mjs` (`toolforge` $\rightarrow$ `sorensencc-dotcom/toolforge`, `rewrite` $\rightarrow$ `sorensencc-dotcom/rewrite-mcp`, `sigil` $\rightarrow$ `sorensencc-dotcom/sigil`, `cic`/`research` $\rightarrow$ local research backlog `wiki/research/`). Fixed unrouted default by requiring explicit `--repo` in `gh issue create`.
+- **Category Gatekeeping**: Implemented `inferCategory`, `inferDomain`, and `getRoutingDecision`. GitHub issues are created *only* for `category: IMPLEMENT` on valid code targets. `RESEARCH`, `MONITOR`, and `EVALUATE` cards bypass GitHub issues and stage directly to `wiki/research/` RFCs and `.harness/tasks/pending/`.
+- **GitHub Issue Cleanup**: Closed Issue #62 and Issue #63 on `sorensencc-dotcom/toolforge` with redirection links to local research notes.
+- **Dead-Letter Queue (DLQ) & Failure Receipts**: Implemented `dispatchRejectionReceipt()` and rejected routing to `04_archive/rejected/` and `trm-drive/inbox/rejected/` emitting `receipt-<id>-rejected.json` and `.md` with structured diagnostic remediation.
+- **Delivery Reconciliation**: Built `auditOutboxReconciliation()` tracking active and archived outbox receipts against `ledger.jsonl`. Integrated into `scripts/ironbots-daily-reporter.mjs` and `wiki/research/ironbots-daily-report.md` (Status: `RECONCILED` / 100% Delivery Verified).
+- **Terminal Completion Receipts**: Implemented `syncCompletionReceipts()`, resolving closed GitHub issues, cataloged `wiki/research/` RFCs, and finished `.harness/tasks/completed/<id>.json` worker tasks, writing `receipt-<id>-completed.md` and `.json` to all active outboxes.
+- **Outbox Archival Retention**: Implemented `sweepOutboxRetention(maxAgeDays = 7)` archiving stale and completed receipts into `04_archive/mobile-outbox/` and `completed/outbox/`. Integrated into `scripts/ironbots-daily-reporter.mjs` morning run.
+- **Continuous Daemon Maintenance Loop**: Added a 5-minute recurring timer in continuous mode (`!isOnce && !isDryRun`) in `scripts/trm-ingress-watcher.mjs` executing `syncCompletionReceipts()` and `sweepOutboxRetention()`.
+- **Mobile Threading & Follow-Up Chaining**: Added `parent_action_id` parsing in `parseGDocFilenameMetadata` (`__ref-<parent_id>__`, `__parent-<parent_id>__`) and `parsePayload`.
+- **Agent Sandbox Egress Gatekeeper & Scratchpad Guard (Issue #60 / act-01)**: Implemented `scripts/agent-egress-guard.mjs` enforcing domain whitelisting, intermediate scratchpad path scanning (`.harness/`, `_status-feed/`, `trm-drive/`, `.ijfw/`), and triggering `SECURITY_HALT` (exit code 2) on exfiltration attempts. Closed GitHub Issue #60 with passing verification suite in `tests/agent-egress-guard.test.mjs` (7/7 PASS).
+- **Deterministic Decision & Action Extraction Pipeline (Issue #61 / act-02)**: Implemented `scripts/extract-decisions.mjs` for meeting transcripts (Granola, Meet, markdown notes) enforcing fail-closed schema validation (explicit owner, YYYY-MM-DD deadline, and verification gate), cryptographic SHA-256 fingerprint deduplication, and backlog staging to `.harness/decisions/`. Closed GitHub Issue #61 with passing verification suite in `tests/extract-decisions.test.mjs` (6/6 PASS).
+- **Test Suite**: Authored `tests/trm-ingress-routing.test.mjs` (9/9 PASS), `tests/agent-egress-guard.test.mjs` (7/7 PASS), and `tests/extract-decisions.test.mjs` (6/6 PASS). Full test suite passes 230/230 unit tests (`npm test`).
+
+### Next action
+
+- All active pending items from the September 27 intake batch are complete and verified. Maintain scheduled `\Ironbots\` fleet daemons.
+
+## Meridian integration + ICF dashboard restructure (2026-09-30) — HANDOFF
+
+### Active goal
+
+Surface Meridian (local focus tracker, `~/.meridian/meridian.db`) in the ICF dashboard without leaking screen-derived text.
+
+### Completed work
+
+- Isolation check + untracked telemetry artifacts (`470737f5`), Meridian focus in ICF hook (`d5c9ced6`), day/week collectors + git-activity counter (`b1ea095b`).
+- icf: `/api/reporting/meridian`, `/day?date=`, `/week?end=` routes, loopback-only (`21b5662`, `d4d7dec`).
+- icf dashboard: 05 Reporting (Daily/Weekly toggle), new 06 Ironbots Fleet tab (KPI wrap fixed), Operator Focus tile on 01, tabs renumbered to 11.
+- `b1ea095b` and `d4d7dec` were committed by a background process, not the session. Content matches the tested tree.
+
+### Tests
+
+gateway 8/8 (`icf/test/gateway.test.mjs`), telemetry 12/12 (`modules/telemetry/*.test.mjs`). Playwright check on temp :8099 server passed.
+
+### Next actions (fresh session)
+
+1. **Resolved: the existing report was hidden, not deleted.** The diff `21b5662..d4d7dec` removed nothing. The Weekly Retro panel now sits in `#reportWeeklyView`, which is `hidden` because `reportMode` defaults to `'daily'`. The daemon tile moved to 06 Fleet. `/api/reporting/weekly-retro` returns 200, but its data is dated 2026-09-26 (4 days old). Fixed: the retro panel now renders in both views (icf `0bf8894`, verified headless on :8080).
+2. **Resolved: where the Meridian history is.** Meridian was installed 2026-08-22, so no earlier history exists (the only exception is 2 stray `app_sessions` rows on 07-02). `app_sessions` has 19,564 rows covering 08-20..09-30 and is not pruned. `capture_frames` begins at 08-31, which looks like a 30-day screen-frame retention window. Gaps: 09-09..12 have `app_sessions` rows but 0 `etl_runs`, so the ETL/summary job did not run and those days could be regenerated. 09-16..18 have no data at all because Meridian was not running. `meridian.db.encrypted-backup-20260929114959` (6.9 GB) is the pre-upgrade backup from the 09-29 encryption migration (migrations 82-83) and not an older archive. No exports were found.
+3. Live :8080 already serves `/api/reporting/meridian` (200 on 2026-09-30), so no restart is needed.
+4. Pushed 2026-09-30 with user approval: C:\dev `parkd821-20260908`, icf `fix/dashboard-docs-button-8001`.
+5. Auto-committer partly identified (2026-10-01). The Antigravity IDE agent (Gemini) commits and pushes on its own; its conversation DBs under `~/.gemini/antigravity/conversations/` hold the exact commands. Confirmed: `646a736a` (`git add -u` swept 36 unrelated files, then pushed), 09-29 icf `7b42f14`/`88d769c` and dev `3400040f`/`45bed562`/`ad6a915d` (each pushed), six kb-sync `fix(trm)` commits on `fix/fleet-wiki-sidebar-contamination-guard` (pushed; ran `git clean -fd` and `git checkout HEAD -- .` with `-c core.hooksPath=""`), and IronLedger commits pushed to `main`. Still unattributed: `21b5662`, `d4d7dec`, `b1ea095b`. Ruled out: the prior Claude session, Claude hooks (git-ai binary missing), Ironbot and report scheduled tasks, Helix (DB last written 09-27), Sigil daemon, Orca/Kimi/Copilot/Codex/Grok stores, PowerShell history. Antigravity is the likely author but unproven. Next: restrict Antigravity's allowlist (`git commit`, `git push`, `git clean`, `git checkout`); if commits continue afterwards, Antigravity is ruled out.
+6. Done 2026-09-30: `node scripts/check-meridian-isolation.mjs` passed after Meridian's 21:00 run (user-confirmed).
+7. Decided 2026-09-30: idle (`idle_personal`) time does not count toward tracked totals. This is the current behavior in `modules/telemetry/meridian-telemetry.mjs` (`IDLE_CATEGORY`), so no code change is needed.
+
+## Ironbots fleet expansion: IronLedger-Sentinel & operations dashboard governance (2026-09-29)
+
+### Active goal
+Deploy and govern 10th autonomous fleet robot (`IronLedger-Sentinel` under `\Ironbots\`) for zero-token unattended Workbench health monitoring (`:8000`, `/healthz`, `/readyz`, double-entry balance invariants, ingestion sync tracking, and Docker auto-healing), and synchronize ICF operations dashboard telemetry across `icf/dashboard/index.html` and `dashboard.html`.
+
+### Completed work
+- **P1: IronLedger Sentinel Bot**: Implemented `scripts/ironledger-sentinel-bot.mjs` with deterministic probes, container restart healing, balance invariant verification, and structured telemetry emission to `_status-feed/ironledger_health.json`.
+- **P1: S4U Scheduled Task Wrapper**: Created and registered `scripts/schedule-task-wrapper-IronLedger-Sentinel.ps1` under `\Ironbots\IronLedger-Sentinel` executing every 15 minutes unattended.
+- **P2: Fleet Reporter & Scorer Integration**: Updated `scripts/ironbots-daily-reporter.mjs` to include all 10 required tasks, 9 monitored bot telemetry artifacts, and host heartbeat checks.
+- **P2: Operations Dashboard Synchronization**: Updated `icf/dashboard/index.html` and `dashboard.html` to display `17 Tasks (10 Ironbots)`, rendered `\Ironbots\` category tags across all 10 bot rows, and dynamically bound live health badges.
+- **P3: Governance & Verification**: Verified 29/29 unit tests (`tests/ironledger-sentinel-bot.test.mjs`, `tests/ironbots.test.mjs`), validated codebase index (`npm run index:validate`, 4999 unique entries), passed skill doc compliance (`utilities/skill-doc-validator.ps1`), and confirmed preflight checks (`scripts/preflight.ps1`).
+
+### Next action
+- Maintain continuous S4U scheduled task execution across all 10 Ironbots and monitor daily fleet digests.
+
+## TRM Diff-Only Ingestion & Dynamic Query Protocol v2.9.0 (2026-09-29)
+
+### Active goal
+Implement deterministic 6-stage gated diff-only ingestion protocol for Topic Research Mining (TRM) with cross-process WAL transactional consistency, governed 3-tier evaluator fallbacks, and typed fact settlement.
+
+### Completed work
+- **P1: Atomic Storage & WAL Transaction Manager**: Implemented 30s TTL lockfile auto-eviction, cross-device atomic write-rename (`renameSync` -> `copyFileSync` fallback on `EXDEV`), and WAL two-phase commit with generation check in `modules/trm/storage/transaction-manager.mjs`.
+- **P1: Canonical Text & Span Normalizer**: Implemented `canonicalizeSpanText()`, raw character span offset preservation, column-0 table row sorting, and `<!-- TRM-LINEAGE -->` header parsing in `modules/trm/gap-normalizer.mjs`.
+- **P2: Cross-Process Cloud Budget Limiter**: Implemented atomic budget ledger (`cloud_evaluator_budget.json`) enforcing 50 daily cloud calls and monotonic timestamp cooldowns on rate limits in `modules/trm/evaluators/cloud-budget.mjs`.
+- **P2: Governed 3-Tier Evaluator Engine**: Implemented Tier A (Ollama 10s `AbortController` timeout), Tier B (Claude Haiku fallback gated on `remote_evaluator_allowed: true`), and Tier C (Deterministic keyword template) in `modules/trm/evaluators/index.mjs`.
+- **P3: Manifest Invalidation & Deletion Cascade Runner**: Implemented canonical JSON manifest hashing (`SHA-256`) with 5s timeout guard and deletion cascade marking settled facts `EVIDENCE_REMOVED` and tagging open RFC drafts in `scripts/run-closed-loop-research-v2.mjs`.
+- **P4: Typed Fact Settlement & Contradiction Triage**: Implemented numeric range parser (`parseNumericRange`), typed assertion triple settlement checks, and contradiction routing with bounded filenames in `modules/trm/gap-triage-engine.mjs`.
+- **P5: UTC Adaptive Cadence Scheduler**: Implemented millisecond UTC cadence evaluation (`last_source_delta_utc`) routing `--mode active` vs `--mode weekly` in `scripts/schedule-task-wrapper-TRM-Triage.ps1`.
+- **P6: Test Suite & Live Benchmarks**: Authored 18-scenario verification suite (`tests/trm/trm-diff-ingestion.test.mjs`). All 27 tests passing in 410ms (`node --test tests/trm/*.test.mjs`). Live dry-run verified via PowerShell wrapper.
+
+### Next action
+- Continue daily scheduled TRM triage runs under UTC active cadence.
+
 ## Jev Primitives, TRM Triage, Generator Determinism & TorqueQuery Observability (2026-09-28)
 
 ### Active goal

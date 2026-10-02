@@ -15,6 +15,8 @@ import path from 'node:path';
 import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { appendToWikiLogAsync } from './lib/wiki-log-append.mjs';
+import { sweepOutboxRetention } from './trm-ingress-watcher.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -22,7 +24,6 @@ const STATUS_FEED_DIR = path.resolve(REPO_ROOT, '_status-feed');
 const DAILY_REPORT_PATH = path.resolve(STATUS_FEED_DIR, 'ironbots_daily_report.json');
 const HISTORY_DIR = path.resolve(STATUS_FEED_DIR, 'ironbots_history');
 const WIKI_REPORT_PATH = path.resolve(REPO_ROOT, 'wiki', 'research', 'ironbots-daily-report.md');
-const WIKI_LOG_FILE = path.resolve(REPO_ROOT, 'wiki', 'Log.md');
 
 // Parse CLI flags
 const args = process.argv.slice(2);
@@ -247,7 +248,9 @@ export async function aggregateFleetActivity(options = {}) {
       schedule: 'Continuous / On-Demand',
       telemetry: results.trmIngress,
       status: results.trmIngress?.status || 'UNKNOWN',
-      summary: results.trmIngress?.totalTracked !== undefined ? `${results.trmIngress.totalTracked} action cards tracked (${results.trmIngress.completed || 0} completed, ${results.trmIngress.harnessPending || 0} staged)` : 'No run recorded'
+      summary: results.trmIngress?.totalTracked !== undefined
+        ? `${results.trmIngress.totalTracked} cards tracked (${results.trmIngress.outboxReconciliation?.reconciliationStatus || 'RECONCILED'}: ${results.trmIngress.outboxReconciliation?.activeReceiptsCount || 0} active receipts, ${results.trmIngress.outboxReconciliation?.completedReceiptsCount || 0} completed)`
+        : 'No run recorded'
     },
     {
       id: 'storage-pruner',
@@ -315,12 +318,22 @@ export async function aggregateFleetActivity(options = {}) {
       competitorDrifts: results.watchlistMiner?.driftsDetected || 0,
       daemonStatus: results.daemonHealer?.status || 'UNKNOWN',
       ironledgerStatus: results.ironledgerHealth?.status || 'UNKNOWN',
-      ciFailures: results.ciWatchdog?.failureCount || 0
+      ciFailures: results.ciWatchdog?.failureCount || 0,
+      trmReconciliation: results.trmIngress?.outboxReconciliation?.reconciliationStatus || 'RECONCILED',
+      totalTrackedIngressCards: results.trmIngress?.totalTracked || 0,
+      activeOutboxReceipts: results.trmIngress?.outboxReconciliation?.activeReceiptsCount || 0,
+      archivedOutboxReceipts: results.trmIngress?.outboxReconciliation?.archivedReceiptsCount || 0,
+      outboxDeliveryRate: results.trmIngress?.outboxReconciliation?.deliveryRatePercent || 100
     },
     dryRun
   };
 
   if (!dryRun) {
+    // Run automated outbox retention sweep
+    try {
+      sweepOutboxRetention(7, { dryRun: false });
+    } catch (_) {}
+
     // Write primary report and archive daily snapshot
     await fs.mkdir(STATUS_FEED_DIR, { recursive: true });
     await fs.mkdir(HISTORY_DIR, { recursive: true });
@@ -338,7 +351,7 @@ export async function aggregateFleetActivity(options = {}) {
     const dateFormatted = nowIso.replace('T', ' ').slice(0, 16);
     const logEntry = `\n## [${dateFormatted}] ironbots-daily-fleet-report\n\n- Provider: \`ironbots-daily-reporter\` (\`v1.0.0\`)\n- Fleet Health: ${fleetHealthScore}/100 (${fleetStatus})\n- Active Bots: ${activeBots.length}\n- Host: \`${hostHeartbeat.hostname}\` (Uptime: ${hostHeartbeat.uptimeHuman}, Tasks: ${hostHeartbeat.taskScheduler.taskCount})\n- Telemetry: \`_status-feed/ironbots_daily_report.json\`\n`;
     try {
-      await fs.appendFile(WIKI_LOG_FILE, logEntry, 'utf8');
+      await appendToWikiLogAsync(REPO_ROOT, logEntry);
     } catch (_) {}
   }
 
@@ -376,6 +389,7 @@ tags:
 - **Competitor Drifts Flagged**: ${report.summaryMetrics.competitorDrifts}
 - **Daemon Port 8080 Health**: \`${report.summaryMetrics.daemonStatus}\`
 - **CI Workflow Failures**: ${report.summaryMetrics.ciFailures}
+- **TRM Mobile Ingress Reconciliation**: \`${report.summaryMetrics.trmReconciliation}\` (${report.summaryMetrics.outboxDeliveryRate}% delivery rate, ${report.summaryMetrics.activeOutboxReceipts} active receipts)
 
 ---
 

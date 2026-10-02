@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs';
 import { replaceGate } from './nlm-pack-replace-gate.mjs';
+import { appendToWikiLog } from './lib/wiki-log-append.mjs';
 
 export { NOTEBOOK_TARGETS, resolveNotebookId };
 
@@ -155,10 +156,9 @@ When persisting double-entry transactions and ledger journal lines:
   // ===========================================================================
   logStep(5, 'Logging to Layer 3 Stable Reference (Audit Trails)');
   // ===========================================================================
-  const logFilePath = path.join(wikiDir, 'Log.md');
   const logEntry = `\n- [${new Date().toISOString()}] TRM-CLOSED-LOOP: Mined and resolved 2 research gaps (mobile-websocket-heartbeats, ironledger-kms-encryption). Added to Layer 2 wiki.`;
-  fs.appendFileSync(logFilePath, logEntry, 'utf8');
-  logInfo(`✓ Appended audit entry to: ${logFilePath}`);
+  appendToWikiLog(repoRoot, logEntry);
+  logInfo(`✓ Appended audit entry to wiki/Log.md`);
 
   // ===========================================================================
   logStep(6, 'Rebuilding Thematic Knowledge Packs and Pushing to NotebookLM');

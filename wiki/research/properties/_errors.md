@@ -1,6 +1,16 @@
+---
+title: " Errors"
+category: "research"
+status: "active"
+created_at: "2026-10-02"
+tags:
+  - auto-healed
+  - research
+---
+
 # Property Extraction Errors & Warnings
 
-Generated at: 2026-09-28T06:12:38.599Z
+Generated at: 2026-10-01T05:30:04.301Z
 
 | File | Issue / Reason |
 |---|---|
@@ -60,12 +70,15 @@ Generated at: 2026-09-28T06:12:38.599Z
 | `f2e5c1fe-2b5d-4101-9ec6-ba382c2457e0--the-foreign-claims-settlement-commission-and-the-cuban-claims-program-smu-schola.md` | Filtered out or low confidence (1) |
 | `12718fe3-fff5-47f2-9247-8a26df5c9ed8--daily-synthesis-log-2026-09-21.md` | Filtered out or low confidence (0.85) |
 | `1dc5cc60-d783-433e-8618-0d4ca16fa048--the-sorensen-records.md` | Filtered out or low confidence (1) |
+| `3f6f624c-c33a-44bd-913a-a92b95566f93--daily-synthesis-log-2026-09-30.md` | Filtered out or low confidence (0.85) |
 | `46f77ec1-283e-4972-940b-5f2408504846--willysresearchlog-v2-20260430.md` | Filtered out or low confidence (0.85) |
 | `67ed1ef8-653a-46fb-897f-6e5e6eb6c3ef--daily-synthesis-log-2026-09-22.md` | Filtered out or low confidence (0.85) |
 | `6c567e43-cca4-4985-996f-e56160fc94df--daily-synthesis-log-2026-09-25.md` | Filtered out or low confidence (0.85) |
 | `7981db2a-37f7-4b71-b683-8b663b2c785f--daily-synthesis-log-2026-09-24.md` | Filtered out or low confidence (0.85) |
 | `7c9e1214-9675-41d0-9c6e-89d11a3c4d71--daily-synthesis-log-2026-09-20.md` | Filtered out or low confidence (0.85) |
 | `7e4ba5c0-3962-424e-8cf3-71745e9612e9--daily-synthesis-log-2026-09-26.md` | Filtered out or low confidence (0.85) |
+| `9e6792a3-c8ae-4774-b9c0-82c3f7d21e80--daily-synthesis-log-2026-09-28.md` | Filtered out or low confidence (0.85) |
+| `d550283e-2fd7-4e54-857f-f95d375c5858--daily-synthesis-log-2026-09-29.md` | Filtered out or low confidence (0.85) |
 | `f06a5547-c74b-4f18-a435-f10db4165202--sorensen-research-brief.md` | Filtered out or low confidence (1) |
 | `f444211d-2e07-4c51-978d-9972048dd13d--laterliferesearchlog-v1-20260430.md` | Filtered out or low confidence (1) |
 | `ford-socony-vacuum.md` | Filtered out or low confidence (1) |

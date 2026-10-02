@@ -1,0 +1,913 @@
+#!/usr/bin/env node
+// ==============================================================================
+// Staging Markdown Validator
+// Lints a kb-sync staging snapshot (or the wiki dir) for broken relative
+// markdown links, unresolved [[wiki-links]], and missing structure — before
+// the snapshot is handed to the wiki semantic synthesis layer.
+// ==============================================================================
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { execSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import https from 'node:https';
+import { resolveVaultPaths } from './config-loader.mjs';
+import { sweepStagingVault } from './autoheal-sweeper.mjs';
+
+const COLOR = { red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', reset: '\x1b[0m' };
+const logInfo = (msg) => console.error(`${COLOR.green}[VALIDATE-STAGING] [INFO]${COLOR.reset} ${msg}`);
+const logWarn = (msg) => console.error(`${COLOR.yellow}[VALIDATE-STAGING] [WARN]${COLOR.reset} ${msg}`);
+const logError = (msg) => console.error(`${COLOR.red}[VALIDATE-STAGING] [ERROR]${COLOR.reset} ${msg}`);
+
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const SKIP_DIRS = new Set(['.git', 'node_modules']);
+const IGNORE_FILES = ['.cicignore', '.gitignore'];
+
+function repoRoot() {
+  if (process.env.REPO_ROOT && fs.existsSync(path.join(process.env.REPO_ROOT, 'configs', 'obsidian.yaml'))) {
+    return process.env.REPO_ROOT;
+  }
+  if (fs.existsSync(path.join(process.cwd(), 'configs', 'obsidian.yaml'))) {
+    return process.cwd();
+  }
+  const candidateFromScript = path.resolve(SCRIPT_DIR, '..', '..');
+  if (fs.existsSync(path.join(candidateFromScript, 'configs', 'obsidian.yaml'))) {
+    return candidateFromScript;
+  }
+  const tryCommands = ['git.exe rev-parse --show-toplevel', 'git rev-parse --show-toplevel'];
+  for (const cmd of tryCommands) {
+    try {
+      let out = execSync(cmd, { cwd: SCRIPT_DIR, stdio: ['pipe', 'pipe', 'ignore'] }).toString().trim();
+      if (out) {
+        if (process.platform !== 'win32' && /^[A-Za-z]:\//.test(out)) {
+          const drive = out[0].toLowerCase();
+          out = `/mnt/${drive}${out.slice(2)}`;
+        }
+        return out;
+      }
+    } catch {}
+  }
+  return process.cwd();
+}
+
+// Get changed files relative to HEAD (for --diff mode)
+function getChangedFiles(targetDir) {
+  for (const cmd of ['git.exe diff --name-only HEAD', 'git diff --name-only HEAD']) {
+    try {
+      const output = execSync(cmd, { cwd: targetDir, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+      return new Set(output.split('\n').filter(f => f.trim()).map(f => f.replace(/\\/g, '/')));
+    } catch {}
+  }
+  return new Set();
+}
+
+// Mirrors ingest-wiki.sh's get_config_value: tolerant of "key: value" / "key=value",
+// inline "# comment" stripping, and raw (non-YAML-escaped) values like Windows paths.
+function getConfigValue(file, key) {
+  const content = fs.readFileSync(file, 'utf8');
+  const re = new RegExp(`^\\s*${key}\\s*[:=]\\s*(.*)$`, 'm');
+  const match = content.match(re);
+  if (!match) return null;
+  return match[1].replace(/#.*$/, '').trim().replace(/^['"]|['"]$/g, '');
+}
+
+// Load simple KEY=VALUE pairs from the repo-root .env file.
+// Returns a plain object without mutating process.env. Required because the
+// bash ingest modules source .env while scheduler entry points may launch
+// this validator without it -- consulting only process.env made the two
+// layers resolve OBSIDIAN_VAULT_ROOT differently (the vault-root split-brain
+// that routed findLatestStaging() at the stale yaml-fallback snapshot).
+function loadDotEnvValues(root) {
+  const values = {};
+  const envFile = path.join(root, '.env');
+  if (!fs.existsSync(envFile)) return values;
+  for (const rawLine of fs.readFileSync(envFile, 'utf8').split('\n')) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const eq = line.indexOf('=');
+    if (eq <= 0) continue;
+    const key = line.slice(0, eq).trim();
+    let value = line.slice(eq + 1).trim();
+    if (!value.startsWith('"') && !value.startsWith("'")) {
+      value = value.replace(/\s+#.*$/, ''); // strip inline comment (unquoted values only)
+    }
+    value = value.replace(/^["']|["']$/g, '');
+    if (key) values[key] = value;
+  }
+  return values;
+}
+
+function findLatestStaging(vaultRoot, stagingDir) {
+  const base = path.join(vaultRoot, stagingDir, 'kb-sync');
+  if (!fs.existsSync(base)) return null;
+  const snapshots = fs.readdirSync(base, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && /^\d{8}-\d{6}$/.test(d.name))
+    .map((d) => d.name)
+    .sort();
+  return snapshots.length ? path.join(base, snapshots[snapshots.length - 1]) : null;
+}
+
+// Load patterns from .cicignore and .gitignore, returning regex objects
+function loadIgnorePatterns(dir) {
+  const patterns = [];
+  for (const ignoreFile of IGNORE_FILES) {
+    const filePath = path.join(dir, ignoreFile);
+    if (fs.existsSync(filePath)) {
+      const lines = fs.readFileSync(filePath, 'utf8').split('\n');
+      for (const line of lines) {
+        const trimmed = line.replace(/#.*$/, '').trim();
+        if (!trimmed) continue;
+        patterns.push(globToRegex(trimmed));
+      }
+    }
+  }
+  return patterns;
+}
+
+// Convert gitignore glob pattern to regex (basic: *, **, /)
+function globToRegex(pattern) {
+  let isNegation = pattern.startsWith('!');
+  if (isNegation) pattern = pattern.slice(1);
+
+  let regex = pattern
+    .replace(/[.+^${}()|[\]\\]/g, '\\$&')  // Escape special chars
+    .replace(/\*\*/g, '{{DOUBLESTAR}}')     // Temp marker
+    .replace(/\*/g, '[^/]*')                 // Single-level wildcard
+    .replace(/{{DOUBLESTAR}}/g, '.*');      // Multi-level wildcard
+
+  // Trailing slash matches dirs only
+  const dirsOnly = pattern.endsWith('/');
+  if (dirsOnly) regex = regex.slice(0, -2); // Remove escaped /
+
+  return { regex: new RegExp(`^${regex}$`), negation: isNegation, dirsOnly };
+}
+
+// Check if path (relative to root) is ignored
+function isIgnored(relPath, patterns) {
+  const parts = relPath.split(path.sep);
+  let ignored = false;
+
+  for (const pattern of patterns) {
+    if (pattern.dirsOnly && !relPath.endsWith(path.sep)) continue;
+
+    if (pattern.regex.test(relPath) || parts.some((p, i) => {
+      const subPath = parts.slice(0, i + 1).join('/');
+      return pattern.regex.test(subPath);
+    })) {
+      ignored = !pattern.negation;
+    }
+  }
+  return ignored;
+}
+
+function walkMarkdownFiles(dir, ignorePatterns = []) {
+  const results = [];
+  const stack = [dir];
+  while (stack.length) {
+    const current = stack.pop();
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const entryPath = path.join(current, entry.name);
+      const relPath = path.relative(dir, entryPath).replace(/\\/g, '/');
+
+      if (entry.isDirectory()) {
+        if (!SKIP_DIRS.has(entry.name) && !isIgnored(relPath, ignorePatterns)) {
+          stack.push(entryPath);
+        }
+      } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) {
+        if (!isIgnored(relPath, ignorePatterns)) {
+          results.push(entryPath);
+        }
+      }
+    }
+  }
+  return results;
+}
+
+// Maps lowercased basename, kebab-case slug, and relative paths -> array of relative paths
+function buildWikiRegistry(...wikiRoots) {
+  const registry = new Map();
+  const seenFiles = new Set();
+
+  for (const root of wikiRoots.flat()) {
+    if (!root || !fs.existsSync(root)) continue;
+    for (const file of walkMarkdownFiles(root)) {
+      if (seenFiles.has(file)) continue;
+      seenFiles.add(file);
+
+      const base = path.basename(file, '.md');
+      const name = base.toLowerCase();
+      const kebab = base.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      const strippedDot = name.replace(/^\./, '');
+      const relPath = path.relative(root, file).replace(/\\/g, '/');
+      const relPathLower = relPath.toLowerCase().replace(/\.md$/, '');
+      const keys = new Set([
+        name,
+        kebab,
+        strippedDot,
+        relPathLower,
+        relPath.toLowerCase(),
+        `kb-sync/${relPathLower}`,
+        `kb-sync/wiki/${relPathLower}`,
+        `wiki/${relPathLower}`
+      ]);
+
+      for (const key of keys) {
+        if (!key) continue;
+        if (!registry.has(key)) registry.set(key, [relPath]);
+        else if (!registry.get(key).includes(relPath)) registry.get(key).push(relPath);
+      }
+    }
+  }
+  return registry;
+}
+
+const WIKI_LINK_RE = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g;
+const ALIAS_LINK_RE = /\[\[([^\]|]+)\|([^\]]+)\]\]/g;
+const MD_LINK_RE = /\[[^\]]*\]\(([^)]+)\)/g;
+const LEVENSHTEIN_THRESHOLD = 2; // Suggest matches within this distance
+const FRONTMATTER_SCHEMA = {
+  title: { required: true, type: 'string' },
+  description: { required: false, type: 'string' },
+  tags: { required: false, type: 'array' },
+  author: { required: false, type: 'string' },
+  date: { required: false, type: 'string' }
+};
+
+// Levenshtein distance: measure similarity between two strings
+function levenshteinDistance(a, b) {
+  const m = a.length;
+  const n = b.length;
+  const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (a[i - 1] === b[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+      }
+    }
+  }
+  return dp[m][n];
+}
+
+// Find closest matches in registry by Levenshtein distance
+function findSuggestions(name, registry, maxDistance = LEVENSHTEIN_THRESHOLD) {
+  const suggestions = [];
+  const nameLower = name.toLowerCase();
+  for (const [regName, paths] of registry) {
+    const dist = levenshteinDistance(nameLower, regName);
+    if (dist <= maxDistance) {
+      suggestions.push({ name: regName, paths, distance: dist });
+    }
+  }
+  return suggestions.sort((a, b) => a.distance - b.distance).slice(0, 3);
+}
+
+// Detect alias usage: [[page|alias]] and suggest disambiguation
+function detectAliasDisambiguation(content, registry) {
+  const suggestions = [];
+  for (const match of content.matchAll(ALIAS_LINK_RE)) {
+    const page = match[1].trim();
+    const alias = match[2].trim();
+    const pageLower = page.toLowerCase().replace(/\.md$/, '');
+    const aliasLower = alias.toLowerCase().replace(/\.md$/, '');
+    const targetPaths = registry.get(pageLower) || registry.get(pageLower.replace(/^kb-sync\/(?:wiki\/)?/, '')) || [];
+
+    // Check if alias could resolve to a different page
+    const candidates = [];
+    const aliasAlnum = aliasLower.replace(/[^a-z0-9]/g, '');
+    for (const [regName, paths] of registry) {
+      if (regName === pageLower) continue;
+      // If this registry entry points to the same underlying file, it's not a conflict
+      const isSameFile = targetPaths.length > 0 && paths.some(p => targetPaths.includes(p));
+      if (isSameFile) continue;
+
+      // If the alias is the human-formatted version of this target's own slug, it's not a conflict
+      if (regName.replace(/[^a-z0-9]/g, '') === aliasAlnum) continue;
+
+      if (levenshteinDistance(aliasLower, regName) <= LEVENSHTEIN_THRESHOLD) {
+        candidates.push(regName);
+      }
+    }
+
+    if (candidates.length > 0) {
+      suggestions.push({
+        alias: `[[${page}|${alias}]]`,
+        intended: page,
+        conflicts: candidates.slice(0, 2)
+      });
+    }
+  }
+  return suggestions;
+}
+
+// Extract frontmatter from markdown (YAML between --- delimiters)
+function parseFrontmatter(content) {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+  if (!match) return null;
+  const yaml = match[1];
+  const result = {};
+  for (const line of yaml.split('\n')) {
+    const [key, ...valueParts] = line.split(':');
+    if (!key.trim() || !valueParts.length) continue;
+    const value = valueParts.join(':').trim();
+    if (value.startsWith('[') && value.endsWith(']')) {
+      result[key.trim()] = value.slice(1, -1).split(',').map(v => v.trim());
+    } else if (value.toLowerCase() === 'true' || value.toLowerCase() === 'false') {
+      result[key.trim()] = value.toLowerCase() === 'true';
+    } else {
+      result[key.trim()] = value.replace(/^['"]|['"]$/g, '');
+    }
+  }
+  return Object.keys(result).length ? result : null;
+}
+
+// Validate frontmatter against schema
+function validateFrontmatter(frontmatter, schema) {
+  const errors = [];
+  if (!frontmatter && Object.values(schema).some(s => s.required)) {
+    errors.push('missing frontmatter (required fields not found)');
+    return errors;
+  }
+  for (const [key, rule] of Object.entries(schema)) {
+    if (rule.required && !frontmatter?.[key]) {
+      errors.push(`missing required field: ${key}`);
+    } else if (frontmatter?.[key]) {
+      const actual = Array.isArray(frontmatter[key]) ? 'array' : typeof frontmatter[key];
+      if (actual !== rule.type) {
+        errors.push(`field "${key}": expected ${rule.type}, got ${actual}`);
+      }
+    }
+  }
+  return errors;
+}
+
+// Send webhook notification (Slack or generic JSON)
+function sendWebhook(webhookUrl, payload) {
+  return new Promise((resolve, reject) => {
+    try {
+      const url = new URL(webhookUrl);
+      const data = JSON.stringify(payload);
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(data)
+        }
+      };
+
+      const req = https.request(url, options, (res) => {
+        let body = '';
+        res.on('data', chunk => body += chunk);
+        res.on('end', () => {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            resolve({ status: res.statusCode });
+          } else {
+            reject(new Error(`Webhook returned ${res.statusCode}: ${body}`));
+          }
+        });
+      });
+
+      req.on('error', reject);
+      req.write(data);
+      req.end();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+// Format Slack message from validation results
+function formatSlackMessage(summary, batchResults, durationMs) {
+  const status = summary.errors === 0 ? '✅' : '⚠️';
+  const fields = [
+    { title: 'Files', value: summary.files.toString(), short: true },
+    { title: 'Errors', value: summary.errors.toString(), short: true },
+    { title: 'Warnings', value: summary.warnings.toString(), short: true },
+    { title: 'Duration', value: `${durationMs}ms`, short: true },
+    { title: 'Snapshots', value: batchResults.length.toString(), short: true }
+  ];
+
+  return {
+    text: `${status} Validation Report`,
+    attachments: [
+      {
+        color: summary.errors > 0 ? 'danger' : 'good',
+        title: `${summary.files} files scanned`,
+        fields: fields,
+        footer: 'kb-sync validator',
+        ts: Math.floor(Date.now() / 1000)
+      }
+    ]
+  };
+}
+
+// Lint markdown for style issues
+function lintMarkdown(content) {
+  const issues = [];
+  const lines = content.split(/\r?\n/);
+  let inCodeBlock = false;
+  let lastHeadingLevel = null;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    // Check fenced code block boundaries
+    if (/^(`{3,}|~{3,})/.test(trimmed)) {
+      inCodeBlock = !inCodeBlock;
+      continue;
+    }
+
+    // Trailing whitespace (allow intentional markdown hard break: exactly 2 spaces after non-space)
+    if (!inCodeBlock && /\s+$/.test(line) && trimmed) {
+      const isHardLineBreak = /[^\s]  $/.test(line);
+      if (!isHardLineBreak) {
+        issues.push(`line ${i + 1}: trailing whitespace`);
+      }
+    }
+
+    // Double blank lines
+    if (!inCodeBlock && i > 0 && line === '' && lines[i - 1] === '') {
+      issues.push(`line ${i + 1}: double blank line`);
+    }
+
+    // Heading hierarchy (don't jump levels: # -> ### is bad, # -> ## ok; skip code blocks)
+    if (!inCodeBlock && /^#+\s+\S/.test(line)) {
+      const currLevel = line.match(/^#+/)[0].length;
+      if (lastHeadingLevel !== null && currLevel > lastHeadingLevel + 1) {
+        issues.push(`line ${i + 1}: heading jump from h${lastHeadingLevel} to h${currLevel}`);
+      }
+      lastHeadingLevel = currLevel;
+    }
+  }
+
+  return issues;
+}
+
+function safeDecode(target) {
+  try {
+    return decodeURIComponent(target);
+  } catch {
+    return target;
+  }
+}
+
+function extractMetadata(file, content) {
+  const frontmatter = parseFrontmatter(content);
+  const lines = content.split(/\r?\n/);
+  const wordCount = content.split(/\s+/).length;
+  const headings = lines.filter(l => /^#+\s+\S/.test(l)).length;
+  const links = Array.from(content.matchAll(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g)).length;
+  return {
+    file,
+    title: frontmatter?.title || null,
+    description: frontmatter?.description || null,
+    tags: frontmatter?.tags || [],
+    author: frontmatter?.author || null,
+    date: frontmatter?.date || null,
+    stats: { lines: lines.length, words: wordCount, headings, links }
+  };
+}
+
+function validateFile(file, registry, repoRootPath, targetDir = null) {
+  const errors = [];
+  const warnings = [];
+  const content = fs.readFileSync(file, 'utf8');
+  const dir = path.dirname(file);
+  const baseName = path.basename(file);
+  const isNavOrTemplate = baseName === '_Sidebar.md' || baseName === '_Footer.md' || file.includes('templates') || baseName === 'Welcome.md' || baseName === 'create a link.md';
+
+  // Illustrative [[Links]] and (paths) inside fenced code examples or inline code spans
+  // (common in templates/lint-rules docs) aren't real references — don't scan them.
+  const scanContent = content.replace(/(```[\s\S]*?```|`[^`\n]+`)/g, '');
+
+  const frontmatter = parseFrontmatter(content);
+  const fmErrors = validateFrontmatter(frontmatter, FRONTMATTER_SCHEMA);
+  for (const err of fmErrors) {
+    warnings.push(`frontmatter: ${err}`);
+  }
+
+  const lintIssues = lintMarkdown(content);
+  for (const issue of lintIssues) {
+    warnings.push(`lint: ${issue}`);
+  }
+
+  if (!isNavOrTemplate) {
+    const bodyWithoutFm = content.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '');
+    const firstLines = bodyWithoutFm.trimStart().split(/\r?\n/).slice(0, 10);
+    if (!firstLines.some((line) => /^#\s+\S/.test(line))) {
+      warnings.push('missing top-level "# Heading"');
+    }
+  }
+
+  if (!isNavOrTemplate) {
+    const aliasDisambigs = detectAliasDisambiguation(scanContent, registry);
+    for (const disambig of aliasDisambigs) {
+      warnings.push(`link alias ${disambig.alias} may conflict with: ${disambig.conflicts.join(', ')}`);
+    }
+
+    for (const match of scanContent.matchAll(WIKI_LINK_RE)) {
+      const rawTarget = match[1].trim();
+      const name = rawTarget.toLowerCase().replace(/\.md$/, '');
+      const cleanTarget = name.replace(/^kb-sync\/(?:wiki\/)?/, '');
+      const baseName = path.basename(rawTarget, '.md').toLowerCase();
+      const hit = registry.get(name) || registry.get(cleanTarget) || registry.get(baseName);
+      if (!hit) {
+        const suggestions = findSuggestions(name, registry);
+        let msg = `unresolved wiki-link [[${rawTarget}]] (no matching page in wiki registry)`;
+        if (suggestions.length > 0) {
+          const suggStr = suggestions.map(s => `[[${s.name}]]`).join(' or ');
+          msg += `. Did you mean: ${suggStr}?`;
+        }
+        warnings.push(msg);
+      } else if (hit.length > 1) {
+        const exactMatch = hit.find(h => {
+          const hLower = h.toLowerCase().replace(/\.md$/, '');
+          return hLower === cleanTarget || hLower === name || hLower.endsWith('/' + cleanTarget);
+        });
+        if (!exactMatch) {
+          warnings.push(`ambiguous wiki-link [[${rawTarget}]] matches ${hit.length} pages: ${hit.join(', ')}`);
+        }
+      }
+    }
+  }
+
+  for (const match of scanContent.matchAll(MD_LINK_RE)) {
+    let target = match[1].trim();
+    if (!target || /^(https?:|mailto:|file:|#)/i.test(target)) continue;
+    target = target.split('#')[0].trim();
+    if (!target) continue;
+    const decoded = safeDecode(target);
+    const resolved = decoded.startsWith('/')
+      ? path.resolve(repoRootPath, decoded.replace(/^\/+/, ''))
+      : path.resolve(dir, decoded);
+    if (!fs.existsSync(resolved)) {
+      // If the target is an image/media asset excluded from staging bundles, check source repo
+      if (/\.(png|jpe?g|gif|svg|webp|ico)$/i.test(decoded)) {
+        const relToSnapshot = targetDir ? path.relative(targetDir, dir) : '';
+        const sourceDirResolved = path.resolve(repoRootPath, relToSnapshot, decoded);
+        const sourceRootResolved = path.resolve(repoRootPath, decoded);
+        const sourceWikiResolved = path.resolve(repoRootPath, 'wiki', decoded);
+        if (fs.existsSync(sourceDirResolved) || fs.existsSync(sourceRootResolved) || fs.existsSync(sourceWikiResolved)) {
+          continue;
+        }
+      }
+      // If scanning a staging snapshot directory, check if the referenced file exists in source repo
+      if (targetDir && resolved.startsWith(targetDir)) {
+        const relToSnapshot = path.relative(targetDir, resolved);
+        const sourceFileResolved = path.resolve(repoRootPath, relToSnapshot);
+        if (fs.existsSync(sourceFileResolved)) {
+          continue;
+        }
+      }
+      errors.push(`broken relative link -> "${target}" (resolved: ${resolved})`);
+    }
+  }
+
+  const metadata = extractMetadata(file, content);
+  return { errors, warnings, metadata };
+}
+
+async function main() {
+  const startTime = Date.now();
+  const root = repoRoot();
+  const configFile = path.join(root, 'configs', 'obsidian.yaml');
+  if (!fs.existsSync(configFile)) {
+    logError(`Config not found: ${configFile}`);
+    process.exit(1);
+  }
+
+  // Vault root resolution: process env > repo .env > configs/obsidian.yaml.
+  // Mirrors the bash modules (which source .env) so scheduler-launched runs
+  // resolve the same vault root as interactive runs. The source is logged so
+  // validation output proves which layer supplied the path.
+  const dotenvValues = loadDotEnvValues(root);
+  let vaultRootSource = 'configs/obsidian.yaml';
+  let vaultRoot = process.env.OBSIDIAN_VAULT_ROOT;
+  if (vaultRoot) {
+    vaultRootSource = 'process env';
+  } else if (dotenvValues.OBSIDIAN_VAULT_ROOT) {
+    vaultRoot = dotenvValues.OBSIDIAN_VAULT_ROOT;
+    vaultRootSource = '.env';
+  } else {
+    vaultRoot = getConfigValue(configFile, 'vault_root');
+  }
+  const stagingDir = getConfigValue(configFile, 'staging_dir');
+  const wikiDir = getConfigValue(configFile, 'wiki_dir');
+  if (!vaultRoot || !stagingDir || !wikiDir) {
+    logError('vault_root / staging_dir / wiki_dir missing from configs/obsidian.yaml');
+    process.exit(1);
+  }
+  if (process.platform !== 'win32' && typeof vaultRoot === 'string' && /^[A-Za-z]:[/\\]/.test(vaultRoot)) {
+    const drive = vaultRoot[0].toLowerCase();
+    vaultRoot = `/mnt/${drive}${vaultRoot.slice(2).replace(/\\/g, '/')}`;
+  }
+  logInfo(`Vault root resolved from ${vaultRootSource}: ${vaultRoot}`);
+
+  const isDiffMode = process.argv.includes('--diff');
+  const isBatchMode = process.argv.includes('--batch');
+  const isAutoheal = process.argv.includes('--autoheal') || process.argv.includes('--fix');
+  const jsonFlag = process.argv.find(arg => arg.startsWith('--json='));
+  // Dashboard reads repo-root .validation-report.json. Write it on every run
+  // unless the operator passed --json= (custom path) or --no-json.
+  const jsonOutput = process.argv.includes('--no-json')
+    ? null
+    : (jsonFlag || `--json=${path.join(root, '.validation-report.json')}`);
+  const webhookUrl = process.argv.find(arg => arg.startsWith('--webhook='))?.split('=')[1] || process.env.WEBHOOK_URL;
+  const argTarget = process.argv.slice(2).find(arg => arg !== '--diff' && arg !== '--batch' && !arg.startsWith('--') && !arg.includes('='));
+
+  let targetDirs = [];
+  if (isBatchMode) {
+    const stagingBase = path.join(vaultRoot, stagingDir, 'kb-sync');
+    if (fs.existsSync(stagingBase)) {
+      targetDirs = fs.readdirSync(stagingBase, { withFileTypes: true })
+        .filter(d => d.isDirectory() && /^\d{8}-\d{6}$/.test(d.name))
+        .sort()
+        .reverse()
+        .slice(0, 5)
+        .map(d => path.join(stagingBase, d.name));
+    }
+    if (targetDirs.length === 0) {
+      logWarn('No staging directories found for batch mode');
+      process.exit(0);
+    }
+    logInfo(`Batch mode: validating ${targetDirs.length} staging snapshot(s)`);
+  } else {
+    const targetDir = argTarget
+      ? path.resolve(argTarget)
+      : findLatestStaging(vaultRoot, stagingDir);
+    targetDirs = [targetDir];
+  }
+
+  if (targetDirs.some(d => !d || !fs.existsSync(d))) {
+    if (!isBatchMode) {
+      const targetDir = targetDirs[0];
+      logError(argTarget
+        ? `Target not found: ${targetDir}`
+        : `No staging snapshots found under ${path.join(vaultRoot, stagingDir, 'kb-sync')}. Run: npm run kb:sync:obsidian`);
+    }
+    process.exit(1);
+  }
+
+  const candidateWikiRoots = [
+    path.join(vaultRoot, wikiDir),
+    path.join(root, wikiDir),
+    path.join(vaultRoot, 'obsidian', 'vault', 'wiki'),
+    path.join(root, 'obsidian', 'vault', 'wiki')
+  ].filter((p, i, arr) => arr.indexOf(p) === i);
+  const registry = buildWikiRegistry(candidateWikiRoots);
+  const totalPages = [...registry.values()].reduce((sum, arr) => sum + arr.length, 0);
+  logInfo(`Wiki registry: ${totalPages} page(s), ${registry.size} unique name(s), loaded from ${candidateWikiRoots.filter(r => fs.existsSync(r)).join(', ')}`);
+
+  const batchResults = [];
+  let totalErrors = 0;
+  let totalWarnings = 0;
+  let totalFiles = 0;
+  let aggregatedAutohealSummary = { filesScanned: 0, filesHealed: 0, repairs: [] };
+
+  for (const target of targetDirs) {
+    const isFile = fs.statSync(target).isFile();
+    // For a file target, resolve relative paths against its parent dir.
+    const targetDir = isFile ? path.dirname(target) : target;
+
+    logInfo(`Target: ${target}`);
+
+    if (isAutoheal) {
+      logInfo(`Running autoheal sweeper on ${targetDir}`);
+      const healReport = await sweepStagingVault({
+        vaultRoot,
+        targetDir: targetDir,
+        fix: true,
+        index: registry,
+        allowDirty: true
+      });
+      aggregatedAutohealSummary.filesScanned += healReport.filesScanned;
+      aggregatedAutohealSummary.filesHealed += healReport.filesHealed;
+      if (healReport.repairs) aggregatedAutohealSummary.repairs.push(...healReport.repairs);
+      logInfo(`Autoheal healed ${healReport.filesHealed} of ${healReport.filesScanned} files scanned`);
+    }
+
+    let files;
+    if (isFile) {
+      if (!/\.md$/i.test(target)) {
+        logError(`Target is not a markdown file: ${target}`);
+        continue;
+      }
+      files = [target];
+    } else {
+      const ignorePatterns = loadIgnorePatterns(targetDir);
+      if (ignorePatterns.length > 0) {
+        logInfo(`Loaded ${ignorePatterns.length} ignore pattern(s) from .cicignore/.gitignore`);
+      }
+      files = walkMarkdownFiles(targetDir, ignorePatterns);
+    }
+
+    if (isDiffMode && !isFile) {
+      const changedFiles = getChangedFiles(targetDir);
+      if (changedFiles.size === 0) {
+        logInfo('No changed files detected (--diff mode).');
+        continue;
+      }
+      files = files.filter(f => changedFiles.has(path.relative(targetDir, f).replace(/\\/g, '/')));
+      logInfo(`Diff mode: validating ${files.length} changed file(s)`);
+    }
+
+    if (!files.length) {
+      logWarn('No markdown files found in target.');
+      continue;
+    }
+
+    let dirErrors = 0;
+    let dirWarnings = 0;
+    const catalog = [];
+
+    const domainStats = {};
+    const unresolvedCounts = new Map();
+    const actionItems = [];
+    let graphFrontiersCount = 0;
+    let structuralCount = 0;
+    let hygieneCount = 0;
+
+    for (const file of files) {
+      const { errors, warnings, metadata } = validateFile(file, registry, root, targetDir);
+      catalog.push(metadata);
+      if (!errors.length && !warnings.length) continue;
+      const rel = path.relative(targetDir, file);
+      
+      // Determine domain directory
+      const domainKey = path.dirname(rel).replace(/\\/g, '/');
+      if (!domainStats[domainKey]) {
+        domainStats[domainKey] = { files: 0, graphFrontiers: 0, structural: 0, hygiene: 0, errors: 0 };
+      }
+      domainStats[domainKey].files++;
+
+      console.log(`\n${rel}`);
+      for (const e of errors) {
+        console.log(`  ${COLOR.red}✗ ERROR${COLOR.reset} ${e}`);
+        dirErrors++;
+        totalErrors++;
+        domainStats[domainKey].errors++;
+      }
+      for (const w of warnings) {
+        console.log(`  ${COLOR.yellow}⚠ WARN${COLOR.reset}  ${w}`);
+        dirWarnings++;
+        totalWarnings++;
+
+        if (w.includes('unresolved wiki-link') || w.includes('ambiguous wiki-link') || w.includes('link alias')) {
+          graphFrontiersCount++;
+          domainStats[domainKey].graphFrontiers++;
+          const linkMatch = w.match(/\[\[([^\]]+)\]\]/);
+          if (linkMatch) {
+            const target = linkMatch[1];
+            unresolvedCounts.set(target, (unresolvedCounts.get(target) || 0) + 1);
+          }
+          if (w.includes('ambiguous') && actionItems.length < 15) {
+            actionItems.push({ type: 'ambiguity', file: rel, message: w });
+          }
+        } else if (w.includes('missing top-level') || w.includes('frontmatter:') || w.includes('heading jump')) {
+          structuralCount++;
+          domainStats[domainKey].structural++;
+          if (actionItems.length < 15) {
+            actionItems.push({ type: 'structural', file: rel, message: w });
+          }
+        } else {
+          hygieneCount++;
+          domainStats[domainKey].hygiene++;
+        }
+      }
+    }
+
+    // Write metadata catalog (dir targets only; a single-file target should
+    // not drop a .catalog.json into the file's directory).
+    if (!isFile) {
+      const catalogPath = path.join(targetDir, '.catalog.json');
+      fs.writeFileSync(catalogPath, JSON.stringify({ generated: new Date().toISOString(), files: catalog }, null, 2));
+      logInfo(`Metadata catalog written to ${catalogPath}`);
+    }
+
+    console.log('');
+    logInfo(`Scanned ${files.length} file(s): ${dirErrors} error(s), ${dirWarnings} warning(s).`);
+    totalFiles += files.length;
+
+    const topUnresolved = Array.from(unresolvedCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([target, count]) => ({ target, count }));
+
+    batchResults.push({
+      target: targetDir,
+      files: files.length,
+      errors: dirErrors,
+      warnings: dirWarnings,
+      breakdown: {
+        graphFrontiers: graphFrontiersCount,
+        structural: structuralCount,
+        hygiene: hygieneCount,
+        density: files.length > 0 ? (dirWarnings / files.length).toFixed(2) : '0.00',
+        domains: domainStats,
+        topUnresolved,
+        actionItems
+      }
+    });
+  }
+
+  // Write JSON report if requested
+  if (jsonOutput) {
+    const outputPath = jsonOutput.split('=')[1];
+    let totalGraphFrontiers = 0;
+    let totalStructural = 0;
+    let totalHygiene = 0;
+    const combinedDomains = {};
+    const combinedActionItems = [];
+    const combinedUnresolved = new Map();
+
+    for (const b of batchResults) {
+      if (b.breakdown) {
+        totalGraphFrontiers += b.breakdown.graphFrontiers || 0;
+        totalStructural += b.breakdown.structural || 0;
+        totalHygiene += b.breakdown.hygiene || 0;
+        if (b.breakdown.domains) {
+          for (const [dom, stat] of Object.entries(b.breakdown.domains)) {
+            if (!combinedDomains[dom]) combinedDomains[dom] = { files: 0, graphFrontiers: 0, structural: 0, hygiene: 0, errors: 0 };
+            combinedDomains[dom].files += stat.files;
+            combinedDomains[dom].graphFrontiers += stat.graphFrontiers;
+            combinedDomains[dom].structural += stat.structural;
+            combinedDomains[dom].hygiene += stat.hygiene;
+            combinedDomains[dom].errors += stat.errors;
+          }
+        }
+        if (b.breakdown.topUnresolved) {
+          for (const u of b.breakdown.topUnresolved) {
+            combinedUnresolved.set(u.target, (combinedUnresolved.get(u.target) || 0) + u.count);
+          }
+        }
+        if (b.breakdown.actionItems) {
+          combinedActionItems.push(...b.breakdown.actionItems);
+        }
+      }
+    }
+
+    const topUnresolvedTotal = Array.from(combinedUnresolved.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([target, count]) => ({ target, count }));
+
+    const report = {
+      timestamp: new Date().toISOString(),
+      mode: isBatchMode ? 'batch' : 'single',
+      duration: Date.now() - startTime,
+      summary: {
+        files: totalFiles,
+        errors: totalErrors,
+        warnings: totalWarnings,
+        warningBreakdown: {
+          graphFrontiers: totalGraphFrontiers,
+          structural: totalStructural,
+          hygiene: totalHygiene,
+          warningDensity: totalFiles > 0 ? (totalWarnings / totalFiles).toFixed(2) : '0.00',
+          topUnresolvedLinks: topUnresolvedTotal,
+          domains: combinedDomains,
+          actionItems: combinedActionItems.slice(0, 15)
+        }
+      },
+      autohealSummary: aggregatedAutohealSummary,
+      results: batchResults
+    };
+    fs.writeFileSync(outputPath, JSON.stringify(report, null, 2));
+    logInfo(`JSON report written to ${outputPath}`);
+  }
+
+  if (isBatchMode) {
+    logInfo(`Batch complete: ${batchResults.length} snapshot(s), ${totalFiles} file(s), ${totalErrors} error(s), ${totalWarnings} warning(s)`);
+  }
+
+  const duration = Date.now() - startTime;
+  logInfo(`Duration: ${duration}ms`);
+
+  // Send webhook if configured
+  if (webhookUrl) {
+    const payload = {
+      timestamp: new Date().toISOString(),
+      mode: isBatchMode ? 'batch' : 'single',
+      duration,
+      summary: { files: totalFiles, errors: totalErrors, warnings: totalWarnings },
+      results: batchResults
+    };
+
+    // Check if Slack webhook URL
+    const isSlack = webhookUrl.includes('hooks.slack.com');
+    const webhookPayload = isSlack ? formatSlackMessage(payload.summary, batchResults, duration) : payload;
+
+    sendWebhook(webhookUrl, webhookPayload)
+      .then(() => logInfo(`Webhook sent to ${isSlack ? 'Slack' : 'endpoint'}`))
+      .catch(err => logError(`Webhook failed: ${err.message}`));
+  }
+
+  process.exit(totalErrors > 0 ? 1 : 0);
+}
+
+main();

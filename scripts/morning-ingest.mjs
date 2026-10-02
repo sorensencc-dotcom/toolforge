@@ -3,6 +3,7 @@ import * as fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { collectIcfTelemetry, writePrometheusMetrics } from '../modules/telemetry/icf-ingestion-hook.mjs';
 import { IcfWebSocketServer } from '../modules/telemetry/icf-ws-server.mjs';
+import { appendToLogFile } from './lib/wiki-log-append.mjs';
 
 const REPO_ROOT = process.cwd();
 const VAULT_ROOT = process.env.OBSIDIAN_VAULT_ROOT || path.join(REPO_ROOT, 'obsidian', 'vault');
@@ -40,7 +41,7 @@ async function runMorningIngestion() {
   const logPath = potentialLogPaths.find(p => fs.existsSync(p));
   if (logPath) {
     const logEntry = `\n##### ${telemetry.timestamp} — ICF Ingestion Telemetry\n- **Status:** ${telemetry.overall_status}\n- **Worktrees Monitored:** ${telemetry.active_worktrees_count}\n- **Vault Sync Staging:** ${telemetry.vault_status.staging_active ? 'Active' : 'Idle'} (${telemetry.vault_status.staged_batches} batches)\n`;
-    fs.appendFileSync(logPath, logEntry, 'utf8');
+    appendToLogFile(logPath, logEntry);
   }
 
   // 5. Optional WebSocket stream broadcast

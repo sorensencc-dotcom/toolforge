@@ -1,0 +1,17 @@
+{
+  "receipt_id": "rcpt-1790855104622-done-act-20260926-0902",
+  "action_id": "act-20260926-0902",
+  "source": "mobile-gemini",
+  "intent": "remediate_quarantine_enobufs",
+  "category": "IMPLEMENT",
+  "target_notebook": "CIC-KB",
+  "action_type": "deterministic_fix",
+  "status": "COMPLETED",
+  "summary": "Action Completed: Prune 6 failed buffer-overflow chunks in CIC-KB and reprocess 1,093 unsorted items under KIS-P hard budget",
+  "completion_details": "Prune 6 failed buffer-overflow chunks in CIC-KB and reprocess 1,093 unsorted items under KIS-P hard budget",
+  "issue_url": null,
+  "research_ref": null,
+  "completed_at": "2026-10-01T11:45:04.621Z",
+  "dispatched_at": "2026-10-01T11:45:04.622Z",
+  "dryRun": false
+}

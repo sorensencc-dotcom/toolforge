@@ -116,6 +116,12 @@ test('ci-watchdog-bot evaluateRunAlerts filters superseded failures and flags ac
   assert.equal(result.alerts[0].branch, 'bugfix/y');
 });
 
+test('ci-watchdog-bot resolves the invoking repository root', async () => {
+  const { resolveRepoRoot } = await import('../scripts/ci-watchdog-bot.mjs');
+  const nested = path.join(REPO_ROOT, 'scripts');
+
+  assert.equal(path.normalize(resolveRepoRoot(nested)), path.normalize(REPO_ROOT));
+});
 test('notebook-ingester-bot runs in dry-run mode and writes valid telemetry', () => {
   const scriptPath = path.join(REPO_ROOT, 'scripts', 'notebook-ingester-bot.mjs');
   assert.ok(fs.existsSync(scriptPath), 'notebook-ingester-bot.mjs should exist');
