@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.80.1
+Date: 2026-10-02
+
+### Changes
+- f97ca2c - Merge pull request #72 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- 0d741a5 - fix(toolforge-pdf): register plugin in CLI exec test (fixes #69) (Chris Sorensen)
+- 4ee177f - docs(plan): unified doc sync plan rev 4 (11 tasks, 8 products) (Chris Sorensen)
+- 2322d53 - docs(report): add daily report for 2026-10-02 (Chris Sorensen)
+- 1c38469 - docs(status): record PR 71 mergeability and resolution (Chris Sorensen)
+
 ## Version 2.80.0
 Date: 2026-10-02
 
