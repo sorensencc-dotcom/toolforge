@@ -11,6 +11,27 @@
 
 # Project status
 
+## NotebookLM Knowledge Pack Ingestion Triage & Compaction Hardening (2026-10-01)
+
+### Active goal
+
+Harden `kb-sync` knowledge pack generation and upload pipelines (`scripts/consolidate-pack.mjs` and `scripts/nlm-pack-replace-gate.mjs`) to eliminate NotebookLM ingestion failures (`status: 3`), maintain strict category boundaries, prevent staging directory pollution, and enforce deterministic chunk byte limits ($\le 380\text{ KiB}$) without lossy Markdown/YAML corruption.
+
+### Completed work
+
+- **Ingestion Guard & Live Source Triage**: Investigated NotebookLM `CIC-KB` notebook errors showing 6 failed sources (`repo_knowledge_pack_part_ab` through `part_ag`). Traced root cause to single-file ingestion timeouts on legacy chunks exceeding context thresholds.
+- **NotebookLM Registry Cleanup**: Executed `scripts/cleanup-nlm-duplicates.mjs` across 12 registered notebooks, purging all 6 failed `status: 3` sources from `CIC-KB`, 12 duplicate sources from `CIC - Daily Research`, and 2 duplicate sources from `Research Logs`. Live audit via `nlm source list` verified 100% active sources (`status: 2`).
+- **PR Specification & Codex Adversarial Audit**: Evaluated the proposed "Pre-Pack Token Compression & Staging Isolation Guard" PR specification and implementation. Dispatched to OpenAI Codex (`codex-cli 0.157.1`, `high` reasoning effort), resulting in a unanimous `FAIL` verdict with 3 P0 blockers (silent entrypoint failure, public API breakage, lossy frontmatter/table formatting corruption) and 4 P1 breakages (thematic pack deletion, category isolation leaks, soft byte ceiling bypass, output directory mismatch).
+- **Caveman Review Generation**: Synthesized 11 line-level actionable comments (`L44`, `L48`, `L49`, `L70`, `L73`, `L86`, `L112`, `L121`, `L125`, `L143`, `L145`) ready for PR feedback and author remediation.
+
+### Plan & next actions
+
+1. **Reject Destructive PR v2.0**: Keep canonical `scripts/consolidate-pack.mjs` architecture in place; prevent merge of `consolidate-pack-v2.mjs`.
+2. **Apply Surgical Isolation Guard**: Add `_kb-sync-staging` and build output directories to `IGNORED_DIRS` directly in `scripts/consolidate-pack.mjs` (already verified present at line 185).
+3. **Safe Lossless Whitespace Normalization**: Inject clean whitespace compaction (collapsing $\ge 3$ consecutive newlines to 2 and stripping trailing whitespace) into `serializePackItem()` *after* frontmatter extraction.
+4. **Enforce Paragraph-Aware Budget Splitting**: Ensure `partitionPackItems()` splits any single document $> 380\text{ KiB}$ across paragraph boundaries instead of emitting oversized chunks.
+5. **Stage Legacy Pack Purge**: Coordinate removal of 10 inactive `repo_knowledge_pack_part_*` sources in `CIC-KB` when prompted.
+
 ## TRM Mobile Ingress Closed-Loop Routing, Gatekeeping & Verification (2026-10-01)
 
 ### Active goal
