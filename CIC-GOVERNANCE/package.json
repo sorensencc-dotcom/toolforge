@@ -25,5 +25,8 @@
     "packages/*"
   ],
   "author": "Cast Iron Charlie Governance Team",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@cic/delivery-guard": "0.1.0"
+  }
 }

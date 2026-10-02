@@ -47,7 +47,7 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "@cic/delivery-guard": "*"
+    "@cic/delivery-guard": "0.1.0"
   },
   "devDependencies": {},
   "cic": {
