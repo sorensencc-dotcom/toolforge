@@ -1,0 +1,4 @@
+{
+  "$comment": "Authoritative wiki sync registry. Human notes live in wiki-sync-registry.md. Edit rows here, then run npm run docs:sync -- --dry-run.",
+  "products": []
+}

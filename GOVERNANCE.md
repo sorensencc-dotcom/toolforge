@@ -4,7 +4,7 @@ Naming, versioning, and lifecycle rules for all tools.
 
 ## Governance lifecycle topology
 
-![Toolforge platform architecture and lifecycle topology](wiki/toolforge-architecture-overview.png)
+![Toolforge platform architecture and lifecycle topology](docs/wiki-pages/toolforge-architecture-overview.png)
 
 This topology connects client ingress, gateway controls, execution runtime, registry, and infrastructure responsibilities governed by the lifecycle rules below.
 

@@ -13,6 +13,7 @@ const value = (name, fallback = null) => { const i = args.indexOf(name); return 
 const repoUrl = value('--repo-url', process.env.WIKI_REPO_URL || 'git@github.com:sorensencc-dotcom/toolforge.wiki.git');
 const targetWikiDir = path.resolve(root, value('--target-dir', `.wiki-publish-temp-${Date.now().toString(36)}`));
 const shouldPush = args.includes('--push') || process.env.AUTO_PUSH === 'true' || true;
+const buildOnlyDir = value('--build-only', null);
 const commitMessage = value('--commit-msg', 'docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar');
 
 export function copyRecursive(src, dest) {
@@ -151,7 +152,7 @@ function generateSidebar(wikiDir) {
 }
 
 function generateFooter(wikiDir) {
-  const footerContent = `---\n*Toolforge Platform Documentation Wiki • Synchronized at ${new Date().toISOString()}*`;
+  const footerContent = `---\n*Toolforge Platform Documentation Wiki*`;
   fs.writeFileSync(path.join(wikiDir, '_Footer.md'), footerContent, 'utf8');
 }
 
@@ -169,21 +170,23 @@ function generateHome(wikiDir) {
 async function main() {
   console.log(`=== [TOOLFORGE WIKI PUBLISHER] ===`);
   console.log(`Workspace root: ${root}`);
-  console.log(`Target publish directory: ${targetWikiDir}`);
+  console.log(`Target publish directory: ${buildOnlyDir ? path.resolve(buildOnlyDir) : targetWikiDir}`);
   console.log(`Remote Wiki Repository: ${repoUrl}`);
 
-  // 1. Prepare target clone
-  if (fs.existsSync(targetWikiDir)) {
-    try {
-      fs.rmSync(targetWikiDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 500 });
-    } catch (_) {}
+  // 1. Prepare target clone (skipped in build-only mode)
+  const outDir = buildOnlyDir ? path.resolve(buildOnlyDir) : targetWikiDir;
+  if (!buildOnlyDir) {
+    if (fs.existsSync(outDir)) {
+      try { fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 500 }); } catch (_) {}
+    }
+    console.log(`Cloning remote wiki git repository...`);
+    execSync(`git clone "${repoUrl}" "${outDir}"`, { stdio: 'inherit' });
+  } else {
+    fs.mkdirSync(outDir, { recursive: true });
   }
 
-  console.log(`Cloning remote wiki git repository...`);
-  execSync(`git clone "${repoUrl}" "${targetWikiDir}"`, { stdio: 'inherit' });
-
   // Historical archives are not published to the Wiki and may remain from older syncs.
-  const archivedWikiDocs = path.join(targetWikiDir, 'docs', 'archive');
+  const archivedWikiDocs = path.join(outDir, 'docs', 'archive');
   if (fs.existsSync(archivedWikiDocs)) fs.rmSync(archivedWikiDocs, { recursive: true, force: true });
 
   // 2. Copy root guides
@@ -193,8 +196,8 @@ async function main() {
   for (const rf of rootFiles) {
     const src = path.join(root, rf);
     if (fs.existsSync(src)) {
-      if (rf.toLowerCase().endsWith('.md')) copyMarkdownFile(src, path.join(targetWikiDir, rf));
-      else fs.copyFileSync(src, path.join(targetWikiDir, rf));
+      if (rf.toLowerCase().endsWith('.md')) copyMarkdownFile(src, path.join(outDir, rf));
+      else fs.copyFileSync(src, path.join(outDir, rf));
     }
   }
 
@@ -204,7 +207,7 @@ async function main() {
   for (const map of rootPageMappings) {
     const src = path.join(root, map.src);
     if (fs.existsSync(src)) {
-      const destPath = path.join(targetWikiDir, map.dest);
+      const destPath = path.join(outDir, map.dest);
       fs.mkdirSync(path.dirname(destPath), { recursive: true });
       if (map.dest.toLowerCase().endsWith('.md')) copyMarkdownFile(src, destPath);
       else fs.copyFileSync(src, destPath);
@@ -213,34 +216,33 @@ async function main() {
 
   // 3. Copy docs/ and wiki/ directories
   console.log(`Copying docs/ and wiki/ markdown trees...`);
-  copyRecursive(path.join(root, 'docs'), path.join(targetWikiDir, 'docs'));
-  copyRecursive(path.join(root, 'wiki'), path.join(targetWikiDir, 'wiki'));
+  copyRecursive(path.join(root, 'docs'), path.join(outDir, 'docs'));
   
   // Also copy kb-sync README for direct sub-system reference
   if (fs.existsSync(path.join(root, 'kb-sync', 'README.md'))) {
-    fs.mkdirSync(path.join(targetWikiDir, 'kb-sync'), { recursive: true });
-    fs.copyFileSync(path.join(root, 'kb-sync', 'README.md'), path.join(targetWikiDir, 'kb-sync', 'README.md'));
+    fs.mkdirSync(path.join(outDir, 'kb-sync'), { recursive: true });
+    fs.copyFileSync(path.join(root, 'kb-sync', 'README.md'), path.join(outDir, 'kb-sync', 'README.md'));
   }
 
   // 4. Generate Home, Sidebar, and Footer
   console.log(`Generating Home.md, _Sidebar.md, and _Footer.md...`);
-  generateHome(targetWikiDir);
-  generateSidebar(targetWikiDir);
-  generateFooter(targetWikiDir);
-  normalizeMarkdownTree(targetWikiDir);
-  validateMarkdownImages(targetWikiDir);
+  generateHome(outDir);
+  generateSidebar(outDir);
+  generateFooter(outDir);
+  normalizeMarkdownTree(outDir);
+  validateMarkdownImages(outDir);
 
   // 5. Commit and push
-  if (shouldPush) {
+  if (shouldPush && !buildOnlyDir) {
     console.log(`Checking working tree in target wiki...`);
-    execSync('git add -A', { cwd: targetWikiDir, stdio: 'pipe' });
-    const status = execSync('git status --porcelain', { cwd: targetWikiDir, encoding: 'utf8' }).trim();
+    execSync('git add -A', { cwd: outDir, stdio: 'pipe' });
+    const status = execSync('git status --porcelain', { cwd: outDir, encoding: 'utf8' }).trim();
 
     if (status) {
       console.log(`Committing wiki updates...`);
-      execSync(`git -c core.hooksPath=.git/no-hooks commit -m "${commitMessage}"`, { cwd: targetWikiDir, stdio: 'inherit' });
+      execSync(`git -c core.hooksPath=.git/no-hooks commit -m "${commitMessage}"`, { cwd: outDir, stdio: 'inherit' });
       console.log(`Pushing to ${repoUrl}...`);
-      execSync('git -c core.hooksPath=.git/no-hooks push origin HEAD', { cwd: targetWikiDir, stdio: 'inherit' });
+      execSync('git -c core.hooksPath=.git/no-hooks push origin HEAD', { cwd: outDir, stdio: 'inherit' });
       console.log(`\n🎉 SUCCESS: GitHub Wiki for toolforge is now fully published and live!`);
     } else {
       console.log(`✓ GitHub Wiki working tree is already up to date with remote.`);
@@ -248,9 +250,11 @@ async function main() {
   }
 
   // Cleanup temp dir
-  try {
-    fs.rmSync(targetWikiDir, { recursive: true, force: true });
-  } catch {}
+  if (!buildOnlyDir) {
+    try {
+      fs.rmSync(outDir, { recursive: true, force: true });
+    } catch {}
+  }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
