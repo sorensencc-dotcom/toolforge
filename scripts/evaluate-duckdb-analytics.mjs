@@ -48,6 +48,7 @@ export async function analyzeAgentTrajectory(filePath) {
   let totalCompletionTokens = 0;
   let totalSteps = 0;
   let totalErrors = 0;
+  let malformedLines = 0;
   const latencies = [];
 
   for await (const line of rl) {
@@ -86,7 +87,7 @@ export async function analyzeAgentTrajectory(filePath) {
         }
       }
     } catch {
-      // Ignore malformed individual JSONL lines
+      malformedLines += 1;
     }
   }
 
@@ -112,16 +113,18 @@ export async function analyzeAgentTrajectory(filePath) {
     latencies.length > 0
       ? latencies.reduce((acc, v) => acc + v, 0) / latencies.length
       : 0;
+  const overallP95Latency = calculatePercentile(latencies, 0.95);
 
   return {
     totalSteps,
+    malformedLines,
     totalPromptTokens,
     totalCompletionTokens,
     totalTokens: totalPromptTokens + totalCompletionTokens,
     totalErrors,
     errorRatePct: totalSteps > 0 ? Number(((totalErrors / totalSteps) * 100).toFixed(2)) : 0,
     avgLatencyMs: Number(overallAvgLatency.toFixed(2)),
-    p95LatencyMs: Number(calculatePercentile(latencies, 0.95).toFixed(2)),
+    p95LatencyMs: Number(overallP95Latency.toFixed(2)),
     tools: formattedTools,
   };
 }
@@ -135,6 +138,9 @@ export function formatReportMarkdown(report) {
   let md = `### Agent Telemetry & Analytics Summary\n\n`;
   md += `| Metric | Value |\n| :--- | :--- |\n`;
   md += `| **Total Steps** | ${report.totalSteps} |\n`;
+  if (report.malformedLines > 0) {
+    md += `| **Malformed Lines** | ${report.malformedLines} |\n`;
+  }
   md += `| **Prompt Tokens** | ${report.totalPromptTokens.toLocaleString()} |\n`;
   md += `| **Completion Tokens** | ${report.totalCompletionTokens.toLocaleString()} |\n`;
   md += `| **Total Tokens** | ${report.totalTokens.toLocaleString()} |\n`;

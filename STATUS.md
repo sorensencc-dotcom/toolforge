@@ -9,7 +9,37 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
-# Project status
+## Embedded DuckDB Agent Analytics Engine Evaluation, Spec & Plan (2026-10-03)
+
+### Active goal
+
+Evaluate, specify, and plan the Embedded DuckDB Agent Analytics Engine for Rewrite-MCP trajectory mining, real-time token expenditure calculation, tool execution latency profiling (P50/P95/P99), and planning console integration (`act-04-evaluate-embedded-duckdb-agent-analytics`).
+
+### Completed work
+
+- **Evaluation & Formal RFC (act-04)**:
+  - Authored research RFC [`wiki/research/rfc-evaluate-embedded-duckdb-agent-analytics.md`](wiki/research/rfc-evaluate-embedded-duckdb-agent-analytics.md) covering in-process vectorized OLAP engine evaluation, tiered JSONL/Parquet storage layout, zero-copy Arrow integration, and Windows multi-process concurrency locking discipline.
+  - Implemented trajectory analytics evaluator engine [`scripts/evaluate-duckdb-analytics.mjs`](scripts/evaluate-duckdb-analytics.mjs) with continuous percentile calculations, streaming JSONL ingestion, and malformed line tracking.
+  - Authored verification test suite [`tests/evaluate-duckdb-analytics.test.mjs`](tests/evaluate-duckdb-analytics.test.mjs) (3/3 PASS, 283 ms).
+  - Promoted task to `.harness/tasks/completed/act-04-evaluate-embedded-duckdb-agent-analytics.json`, emitted TRM receipts, and updated transaction ledger.
+- **Build Phase Implementation (Tasks 1–5 Complete)**:
+  - Scaffolding & Types: Authored [`rewrite-mcp/src/analytics/types.ts`](rewrite-mcp/src/analytics/types.ts) and runtime Zod validation in [`rewrite-mcp/src/analytics/schema.ts`](rewrite-mcp/src/analytics/schema.ts).
+  - Engine Connection Manager: Implemented [`rewrite-mcp/src/analytics/DuckDBAnalyticsEngine.ts`](rewrite-mcp/src/analytics/DuckDBAnalyticsEngine.ts) with ephemeral `:memory:` sessions, resource caps (`SET max_memory = '512MB'`), and streaming fallback.
+  - Analytics Query Service: Implemented [`rewrite-mcp/src/analytics/AgentAnalyticsService.ts`](rewrite-mcp/src/analytics/AgentAnalyticsService.ts) exposing `getToolPerformanceMetrics()`, `getTokenExpenditure()`, `getErrorDistribution()`, and `getSessionTrajectory()`.
+  - Partition Compaction Daemon: Implemented [`scripts/compact-agent-analytics.mjs`](scripts/compact-agent-analytics.mjs) for atomic JSONL-to-partition transformation and staging cleanup.
+  - Planning Console Integration: Exposed `/api/analytics/tools`, `/api/analytics/tokens`, `/api/analytics/errors`, and `/api/analytics/trajectory/:sessionId` endpoints in [`rewrite-mcp/src/planning-console/server.ts`](rewrite-mcp/src/planning-console/server.ts).
+  - Planning Console UI: Wired `AgentAnalyticsPanel` with live KPI cards, tool P95 latency table, and error cluster breakdown into [`rewrite-mcp/src/planning-console/PlanningConsoleUI.tsx`](rewrite-mcp/src/planning-console/PlanningConsoleUI.tsx).
+  - Test Suite: Verified complete test coverage across 8 tests (**8/8 PASS**, 466 ms).
+
+### Verification
+
+- Test suite: 8 passed, 0 failed (`npx tsx --test tests/evaluate-duckdb-analytics.test.mjs tests/analytics-types.test.mjs tests/duckdb-engine.test.mjs tests/agent-analytics-service.test.mjs tests/compact-agent-analytics.test.mjs`).
+- Task resolution: Verified completion in `.harness/tasks/completed/` and `trm-drive/inbox/ledger.jsonl`.
+
+### Next action
+
+- Background fleet triage: Continue processing remaining pending items in `.harness/tasks/pending/`.
+
 
 ## TRM Mobile Actions Triage, Agent Job Description Schema, Dashboard Unification & JEV Benchmarks (2026-10-03)
 

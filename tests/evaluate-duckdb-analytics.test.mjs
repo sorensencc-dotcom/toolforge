@@ -24,7 +24,23 @@ test('calculatePercentile computes correct p95 and edge percentiles', () => {
   assert.equal(p50, 55);
 });
 
-test('analyzeAgentTrajectory correctly parses JSONL streams and computes aggregations', async () => {
+test('analyzeAgentTrajectory handles empty file gracefully', async () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'analytics-test-empty-'));
+  const emptyFile = path.join(tmpDir, 'empty.jsonl');
+  fs.writeFileSync(emptyFile, '', 'utf8');
+
+  try {
+    const report = await analyzeAgentTrajectory(emptyFile);
+    assert.equal(report.totalSteps, 0);
+    assert.equal(report.totalTokens, 0);
+    assert.equal(report.totalErrors, 0);
+    assert.equal(report.tools.length, 0);
+  } finally {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+});
+
+test('analyzeAgentTrajectory correctly parses JSONL streams, records malformed lines, and computes aggregations', async () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'analytics-test-'));
   const logFile = path.join(tmpDir, 'test-transcript.jsonl');
 
@@ -38,6 +54,7 @@ test('analyzeAgentTrajectory correctly parses JSONL streams and computes aggrega
       tool_name: 'view_file',
       status: 'SUCCESS',
     }),
+    'INVALID_JSON_LINE_TEST_123',
     JSON.stringify({
       step_index: 2,
       type: 'PLANNER_RESPONSE',
@@ -73,6 +90,7 @@ test('analyzeAgentTrajectory correctly parses JSONL streams and computes aggrega
     const report = await analyzeAgentTrajectory(logFile);
 
     assert.equal(report.totalSteps, 4);
+    assert.equal(report.malformedLines, 1);
     assert.equal(report.totalPromptTokens, 6000);
     assert.equal(report.totalCompletionTokens, 1050);
     assert.equal(report.totalTokens, 7050);
@@ -96,6 +114,7 @@ test('analyzeAgentTrajectory correctly parses JSONL streams and computes aggrega
 
     const markdown = formatReportMarkdown(report);
     assert.ok(markdown.includes('Agent Telemetry & Analytics Summary'));
+    assert.ok(markdown.includes('Malformed Lines'));
     assert.ok(markdown.includes('`run_command`'));
     assert.ok(markdown.includes('`view_file`'));
   } finally {
