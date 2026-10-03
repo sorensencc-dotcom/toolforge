@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.83.0
+Date: 2026-10-03
+
+### Changes
+- d9184e2 - Merge pull request #78 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- cb79440 - feat(fleet): triage mobile ingress actions, implement Viking context compaction, and integrate DuckDB analytics (Chris Sorensen)
+
 ## Version 2.82.0
 Date: 2026-10-03
 
