@@ -54,6 +54,20 @@ test('one failure sets ok false, other products still run, no drift receipt for 
   assert.equal(fs.existsSync(path.join(b.repoPath, '.wiki-sync-receipt.json')), true);
 });
 
+test('cache failure after a push: drift receipt still written, run not ok, wiki status kept', async () => {
+  const a = row('a');
+  const { registryPath, receiptPath } = setup([a]);
+  const publish = async (p) => ({ product: p.name, status: 'SYNCHRONIZED', cache: 'FAILED', cacheError: 'db locked', changed: ['Home.md'], pages: 2, remoteHead: 'b'.repeat(40) });
+  const out = await runDocSync({ registryPath, receiptPath, publish });
+  assert.equal(out.ok, false);
+  const drift = JSON.parse(fs.readFileSync(path.join(a.repoPath, '.wiki-sync-receipt.json'), 'utf8'));
+  assert.equal(drift.sync_status, 'SYNCHRONIZED');
+  assert.equal(drift.remote_wiki_head, 'b'.repeat(40));
+  const run = JSON.parse(fs.readFileSync(receiptPath, 'utf8'));
+  assert.equal(run.ok, false);
+  assert.equal(run.results[0].cache, 'FAILED');
+});
+
 test('--product selects one row even when disabled; unknown name throws', async () => {
   const { registryPath, receiptPath } = setup([row('a'), row('b', { enabled: false })]);
   const seen = [];

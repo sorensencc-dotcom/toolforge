@@ -28,7 +28,8 @@ function countPages(dir) {
 }
 
 export async function publishProduct(product, { dryRun = false, sh = defaultSh, onPublished } = {}) {
-  const result = { product: product.name, status: 'FAILED', changed: [], deleted: [], pages: 0 };
+  // status describes the wiki only; cache describes the kb cache load (LOADED | FAILED | SKIPPED).
+  const result = { product: product.name, status: 'FAILED', cache: 'SKIPPED', changed: [], deleted: [], pages: 0 };
   const temps = [];
   const mkTemp = (tag) => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), `doc-sync-${product.name}-${tag}-`));
@@ -69,7 +70,15 @@ export async function publishProduct(product, { dryRun = false, sh = defaultSh, 
       result.status = 'SYNCHRONIZED';
     }
     result.remoteHead = sh('git rev-parse HEAD', cloneDir);
-    if (!dryRun && onPublished) await onPublished(cloneDir);
+    if (!dryRun && onPublished) {
+      try {
+        await onPublished(cloneDir);
+        result.cache = 'LOADED';
+      } catch (err) {
+        result.cache = 'FAILED';
+        result.cacheError = err.message;
+      }
+    }
     return result;
   } catch (err) {
     return { ...result, status: 'FAILED', error: err.message };

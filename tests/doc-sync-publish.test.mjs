@@ -58,6 +58,25 @@ test('a second run after a real publish is UP_TO_DATE and still calls onPublishe
   assert.equal(git('rev-parse HEAD', bare), headBefore);
 });
 
+test('cache load throwing after a push keeps the wiki status and reports cache FAILED', async () => {
+  const bare = fakeRemote({ 'Home.md': 'old' });
+  const repo = repoWithWiki({ 'Home.md': 'new' });
+  const r = await publishProduct(product(repo, bare), { onPublished: () => { throw new Error('db locked'); } });
+  assert.equal(r.status, 'SYNCHRONIZED');
+  assert.equal(r.cache, 'FAILED');
+  assert.match(r.cacheError, /db locked/);
+  assert.match(r.remoteHead, /^[0-9a-f]{40}$/);
+  assert.deepEqual(remoteFiles(bare), ['Home.md']);
+});
+
+test('cache field is LOADED on success and SKIPPED without onPublished or on dry run', async () => {
+  const bare = fakeRemote({ 'Home.md': 'old' });
+  const repo = repoWithWiki({ 'Home.md': 'new' });
+  assert.equal((await publishProduct(product(repo, bare), { dryRun: true, onPublished: () => {} })).cache, 'SKIPPED');
+  assert.equal((await publishProduct(product(repo, bare), { onPublished: () => {} })).cache, 'LOADED');
+  assert.equal((await publishProduct(product(repo, bare))).cache, 'SKIPPED');
+});
+
 test('a failing build command fails the product and leaves the remote alone', async () => {
   const bare = fakeRemote({ 'Home.md': 'old' });
   const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'build-fail-'));

@@ -99,11 +99,11 @@ async function runSelected({ selected, receiptPath, dryRun, publish, loadCache }
       r = { product: p.name, status: 'FAILED', changed: [], deleted: [], pages: 0, error: `PUBLISH_THREW: ${err.message}` };
     }
     if (!dryRun && (r.status === 'SYNCHRONIZED' || r.status === 'UP_TO_DATE')) writeDriftReceipt(p, r);
-    console.log(`[doc-sync] ${p.name}: ${r.status}${r.changed?.length ? ` (${r.changed.length} changed)` : ''}${r.error ? ` - ${r.error}` : ''}`);
+    console.log(`[doc-sync] ${p.name}: ${r.status}${r.changed?.length ? ` (${r.changed.length} changed)` : ''}${r.error ? ` - ${r.error}` : ''}${r.cache === 'FAILED' ? ` - cache FAILED: ${r.cacheError}` : ''}`);
     results.push(r);
   }
 
-  const ok = results.every((r) => r.status !== 'FAILED');
+  const ok = results.every((r) => r.status !== 'FAILED' && r.cache !== 'FAILED');
   fs.writeFileSync(receiptPath, JSON.stringify({ timestamp: new Date().toISOString(), dryRun, ok, results }, null, 2) + '\n');
   return { ok, results };
 }
