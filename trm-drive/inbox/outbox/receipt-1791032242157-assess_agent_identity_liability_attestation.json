@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791032242155-gopoo",
+  "action_id": "act-03-assess-agent-identity-liability-attestation",
+  "source": "mobile-gemini-gdoc",
+  "intent": "assess_agent_identity_liability_attestation",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-03T125503Z__research__sigil__act-03-assess-agent-identity-liability-attestation",
+  "issue_url": null,
+  "target_notebook": "SIGIL",
+  "dispatched_at": "2026-10-03T12:57:22.157Z",
+  "duration_ms": 48,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-03-assess-agent-identity-liability-attestation.json",
+  "dryRun": false
+}

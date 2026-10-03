@@ -1,0 +1,17 @@
+{
+  "receipt_id": "rcpt-1791033280000-done-act-02-implement-agent-job-description-schema",
+  "action_id": "act-02-implement-agent-job-description-schema",
+  "source": "mobile-gemini-gdoc",
+  "intent": "implement_agent_job_description_schema",
+  "category": "IMPLEMENT",
+  "target_notebook": "TOOLFORGE",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Action Completed: implement_agent_job_description_schema",
+  "completion_details": "Implemented JSON schema in schemas/agent-job-description-schema.json and test suite in tests/agent-job-description-schema.test.mjs",
+  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/75",
+  "research_ref": null,
+  "completed_at": "2026-10-03T13:33:00.000Z",
+  "dispatched_at": "2026-10-03T13:33:00.000Z",
+  "dryRun": false
+}

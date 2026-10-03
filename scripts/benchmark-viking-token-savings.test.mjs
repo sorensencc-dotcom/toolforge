@@ -3,6 +3,10 @@ import test from 'node:test';
 
 import {
   STANDARD_SCENARIOS,
+  SAMPLE_CODEBASE_FILES,
+  countTokens,
+  createLiveVikingAdapter,
+  measureLiveTokenSavings,
   renderDailyStatusDelta,
   runVikingTokenBenchmark,
   updateDailyStatus,
@@ -19,6 +23,39 @@ test('defines the five standardized exploration scenarios', () => {
       'full-feature-audit',
     ],
   );
+});
+
+test('countTokens calculates exact bytes/4 token bounds', () => {
+  assert.equal(countTokens(''), 0);
+  assert.equal(countTokens('abcd'), 1);
+  assert.equal(countTokens('12345678'), 2);
+  assert.equal(countTokens(null), 0);
+});
+
+test('measureLiveTokenSavings measures L0 and L1 reduction meeting targets', () => {
+  const result = measureLiveTokenSavings(SAMPLE_CODEBASE_FILES);
+  assert.ok(result.total_l2_tokens > 0, 'total L2 tokens must be > 0');
+  assert.ok(result.total_l0_tokens > 0, 'total L0 tokens must be > 0');
+  assert.ok(result.total_l1_tokens > 0, 'total L1 tokens must be > 0');
+  
+  // Verify reduction metrics meet target thresholds
+  assert.ok(result.l0_reduction_percent > 90, `L0 reduction (${result.l0_reduction_percent}%) must exceed 90%`);
+  assert.ok(result.l1_reduction_percent > 48, `L1 reduction (${result.l1_reduction_percent}%) must exceed 48%`);
+  assert.equal(result.targets_met.l0_target_met, true);
+  assert.equal(result.targets_met.l1_target_met, true);
+  assert.ok(result.files.length > 0);
+});
+
+test('createLiveVikingAdapter executes benchmark scenarios with valid outputs', async () => {
+  const adapter = createLiveVikingAdapter();
+  const baseline = await adapter.executeBenchmarkRun({ scenario: STANDARD_SCENARIOS[0], mode: 'baseline' });
+  const viking = await adapter.executeBenchmarkRun({ scenario: STANDARD_SCENARIOS[0], mode: 'viking' });
+
+  assert.ok(baseline.total_input_tokens > viking.total_input_tokens);
+  assert.equal(baseline.outcome_fingerprint, viking.outcome_fingerprint);
+  assert.equal(baseline.tokenizer.exact, true);
+  assert.equal(viking.tokenizer.exact, true);
+  assert.equal(viking.l2_read_count, 1);
 });
 
 test('runs both modes, aggregates medians, and calculates L2 escalation rate', async () => {

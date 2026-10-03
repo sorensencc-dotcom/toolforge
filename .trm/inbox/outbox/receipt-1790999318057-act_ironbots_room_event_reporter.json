@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1790999318056-zc625",
+  "action_id": "act-ironbots-room-event-reporter",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_ironbots_room_event_reporter",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-02T235003Z__action__toolforge__act-ironbots-room-event-reporter",
+  "issue_url": null,
+  "target_notebook": "TOOLFORGE",
+  "dispatched_at": "2026-10-03T03:48:38.057Z",
+  "duration_ms": 28,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-ironbots-room-event-reporter.json",
+  "dryRun": false
+}

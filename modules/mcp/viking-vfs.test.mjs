@@ -238,3 +238,135 @@ test('vfs_upsert_document rejects path traversal and absolute paths', async () =
   assert.equal(absRes.error.data.viking_code, 'PATH_TRAVERSAL_REJECTED');
 });
 
+test('MCP server exposes canonical tools and compatibility tool aliases in tools/list', async () => {
+  const f = fixture();
+  const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
+  const response = await server.handle({ method: 'tools/list', params: {} });
+  assert.ok(Array.isArray(response.tools));
+  const toolNames = response.tools.map((t) => t.name);
+
+  // Canonical tools
+  assert.ok(toolNames.includes('vfs_upsert_document'));
+  assert.ok(toolNames.includes('viking_list'));
+  assert.ok(toolNames.includes('viking_stat'));
+  assert.ok(toolNames.includes('viking_read'));
+  assert.ok(toolNames.includes('viking_read_batch'));
+  assert.ok(toolNames.includes('viking_report'));
+  assert.ok(toolNames.includes('resources/list'));
+  assert.ok(toolNames.includes('resources/read'));
+
+  // Compatibility aliases
+  assert.ok(toolNames.includes('viking_ls'));
+  assert.ok(toolNames.includes('viking_overview'));
+  assert.ok(toolNames.includes('viking_read_detail'));
+});
+
+test('tools/call executes compatibility tool aliases correctly for L0, L1, and L2', async () => {
+  const f = fixture();
+  const content = fs.readFileSync(path.join(f.snapshot, 'wiki', 'concepts', 'one.md'), 'utf8');
+  const hash = crypto.createHash('sha256').update(content).digest('hex');
+  const tierIndex = {
+    get(snapshotId, resourceUri, tier) {
+      if (resourceUri !== 'viking://kb-sync/wiki/concepts/one.md') return null;
+      if (tier === 'L0') return { snapshot_id: snapshotId, uri: resourceUri, tier: 'L0', source_hash: hash, tier_hash: hash, artifact: 'wiki/concepts/one.md', tier_available: true, compiled_at: '2026-08-28T00:00:00.000Z' };
+      if (tier === 'L1') return { snapshot_id: snapshotId, uri: resourceUri, tier: 'L1', source_hash: hash, tier_hash: hash, artifact: 'wiki/concepts/one.md', tier_available: true, compiled_at: '2026-08-28T00:00:00.000Z' };
+      return null;
+    },
+  };
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000', tierIndex });
+  const server = createServer(resolver);
+
+  // viking_ls -> maps to viking/list (returns L0 abstract in listing)
+  const lsRes = await server.handle({
+    method: 'tools/call',
+    params: {
+      name: 'viking_ls',
+      arguments: { uri: 'viking://kb-sync/wiki/concepts' },
+    },
+  });
+  assert.ok(!lsRes.error);
+  const lsData = JSON.parse(lsRes.content[0].text);
+  assert.equal(lsData.files[0].name, 'one.md');
+  assert.equal(lsData.files[0].abstract, '# One');
+
+  // viking_overview -> maps to viking/read with default resolution_tier: L1
+  const overviewRes = await server.handle({
+    method: 'tools/call',
+    params: {
+      name: 'viking_overview',
+      arguments: { uri: 'viking://kb-sync/wiki/concepts/one.md' },
+    },
+  });
+  assert.ok(!overviewRes.error);
+  const overviewData = JSON.parse(overviewRes.content[0].text);
+  assert.equal(overviewData.resolution_tier, 'L1');
+  assert.equal(overviewData.content, '# One');
+
+  // viking_read_detail -> maps to viking/read with resolution_tier: L2
+  const detailRes = await server.handle({
+    method: 'tools/call',
+    params: {
+      name: 'viking_read_detail',
+      arguments: { uri: 'viking://kb-sync/sources/one.js' },
+    },
+  });
+  assert.ok(!detailRes.error);
+  const detailData = JSON.parse(detailRes.content[0].text);
+  assert.equal(detailData.resolution_tier, 'L2');
+  assert.equal(detailData.content, 'export const one = 1;');
+});
+
+test('handles direct JSON-RPC method calls for compatibility aliases (viking_ls, viking_overview, viking_read_detail)', async () => {
+  const f = fixture();
+  const resolver = createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' });
+  const server = createServer(resolver);
+
+  const lsRes = await server.handle({ method: 'viking_ls', params: { uri: 'viking://kb-sync/wiki/concepts' } });
+  assert.ok(!lsRes.error);
+  assert.deepEqual(lsRes.files.map((x) => x.name), ['one.md']);
+
+  const detailRes = await server.handle({ method: 'viking_read_detail', params: { uri: 'viking://kb-sync/sources/one.js' } });
+  assert.ok(!detailRes.error);
+  assert.equal(detailRes.resolution_tier, 'L2');
+  assert.equal(detailRes.content, 'export const one = 1;');
+});
+
+test('enforces read-only governance when readOnly is configured', async () => {
+  const f = fixture();
+  const server = createServer(
+    createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }),
+    { repoRoot: f.root, readOnly: true }
+  );
+
+  const toolCallRes = await server.handle({
+    method: 'tools/call',
+    params: {
+      name: 'vfs_upsert_document',
+      arguments: {
+        topic: 'blocked',
+        category: 'research',
+        content: 'should fail',
+      },
+    },
+  });
+  assert.equal(toolCallRes.error.code, JSON_RPC_CODES.READONLY_VIOLATION);
+  assert.equal(toolCallRes.error.data.viking_code, 'READONLY_VIOLATION');
+
+  const directRes = await server.handle({
+    method: 'viking/upsertDocument',
+    params: {
+      topic: 'blocked',
+      category: 'research',
+      content: 'should fail',
+    },
+  });
+  assert.equal(directRes.error.code, JSON_RPC_CODES.READONLY_VIOLATION);
+  assert.equal(directRes.error.data.viking_code, 'READONLY_VIOLATION');
+
+  // Read operations remain completely functional
+  const readRes = await server.handle({ method: 'viking/read', params: { uri: 'viking://kb-sync/sources/one.js', resolution_tier: 'L2' } });
+  assert.ok(!readRes.error);
+  assert.equal(readRes.content, 'export const one = 1;');
+});
+
+

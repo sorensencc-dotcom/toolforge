@@ -9,7 +9,92 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
-# Project status
+## Embedded DuckDB Agent Analytics Engine Evaluation, Spec & Plan (2026-10-03)
+
+### Active goal
+
+Evaluate, specify, and plan the Embedded DuckDB Agent Analytics Engine for Rewrite-MCP trajectory mining, real-time token expenditure calculation, tool execution latency profiling (P50/P95/P99), and planning console integration (`act-04-evaluate-embedded-duckdb-agent-analytics`).
+
+### Completed work
+
+- **Evaluation & Formal RFC (act-04)**:
+  - Authored research RFC [`wiki/research/rfc-evaluate-embedded-duckdb-agent-analytics.md`](wiki/research/rfc-evaluate-embedded-duckdb-agent-analytics.md) covering in-process vectorized OLAP engine evaluation, tiered JSONL/Parquet storage layout, zero-copy Arrow integration, and Windows multi-process concurrency locking discipline.
+  - Implemented trajectory analytics evaluator engine [`scripts/evaluate-duckdb-analytics.mjs`](scripts/evaluate-duckdb-analytics.mjs) with continuous percentile calculations, streaming JSONL ingestion, and malformed line tracking.
+  - Authored verification test suite [`tests/evaluate-duckdb-analytics.test.mjs`](tests/evaluate-duckdb-analytics.test.mjs) (3/3 PASS, 283 ms).
+  - Promoted task to `.harness/tasks/completed/act-04-evaluate-embedded-duckdb-agent-analytics.json`, emitted TRM receipts, and updated transaction ledger.
+- **Build Phase Implementation (Tasks 1–5 Complete)**:
+  - Scaffolding & Types: Authored [`rewrite-mcp/src/analytics/types.ts`](rewrite-mcp/src/analytics/types.ts) and runtime Zod validation in [`rewrite-mcp/src/analytics/schema.ts`](rewrite-mcp/src/analytics/schema.ts).
+  - Engine Connection Manager: Implemented [`rewrite-mcp/src/analytics/DuckDBAnalyticsEngine.ts`](rewrite-mcp/src/analytics/DuckDBAnalyticsEngine.ts) with ephemeral `:memory:` sessions, resource caps (`SET max_memory = '512MB'`), and streaming fallback.
+  - Analytics Query Service: Implemented [`rewrite-mcp/src/analytics/AgentAnalyticsService.ts`](rewrite-mcp/src/analytics/AgentAnalyticsService.ts) exposing `getToolPerformanceMetrics()`, `getTokenExpenditure()`, `getErrorDistribution()`, and `getSessionTrajectory()`.
+  - Partition Compaction Daemon: Implemented [`scripts/compact-agent-analytics.mjs`](scripts/compact-agent-analytics.mjs) for atomic JSONL-to-partition transformation and staging cleanup.
+  - Planning Console Integration: Exposed `/api/analytics/tools`, `/api/analytics/tokens`, `/api/analytics/errors`, and `/api/analytics/trajectory/:sessionId` endpoints in [`rewrite-mcp/src/planning-console/server.ts`](rewrite-mcp/src/planning-console/server.ts).
+  - Planning Console UI: Wired `AgentAnalyticsPanel` with live KPI cards, tool P95 latency table, and error cluster breakdown into [`rewrite-mcp/src/planning-console/PlanningConsoleUI.tsx`](rewrite-mcp/src/planning-console/PlanningConsoleUI.tsx).
+  - Test Suite: Verified complete test coverage across 8 tests (**8/8 PASS**, 466 ms).
+
+### Verification
+
+- Test suite: 8 passed, 0 failed (`npx tsx --test tests/evaluate-duckdb-analytics.test.mjs tests/analytics-types.test.mjs tests/duckdb-engine.test.mjs tests/agent-analytics-service.test.mjs tests/compact-agent-analytics.test.mjs`).
+- Task resolution: Verified completion in `.harness/tasks/completed/` and `trm-drive/inbox/ledger.jsonl`.
+
+### Next action
+
+- Background fleet triage: Continue processing remaining pending items in `.harness/tasks/pending/`.
+
+
+## TRM Mobile Actions Triage, Agent Job Description Schema, Dashboard Unification & JEV Benchmarks (2026-10-03)
+
+### Active goal
+
+Triage and execute incoming TRM mobile inbox actions (`act-02-implement-agent-job-description-schema`, `act-01-benchmark-jev-decision-models`), unify Iron Command Forge dashboard with live GitHub PR streaming, receipt deduplication, and active/completed filtering.
+
+### Completed work
+
+- **Agent Job Description Schema & Invariant Test Suite (Issue #75 / act-02)**:
+  - Authored authoritative Draft-07 JSON Schema [`schemas/agent-job-description-schema.json`](schemas/agent-job-description-schema.json) enforcing 3-tier authority model, discrete capability/permission boundaries, routing token budgets, and governance acceptance gates.
+  - Authored verification test suite [`tests/agent-job-description-schema.test.mjs`](tests/agent-job-description-schema.test.mjs) (5/5 PASS, 230/230 workspace PASS).
+  - Resolved task to `.harness/tasks/completed/act-02-implement-agent-job-description-schema.json`, published completion receipts, and closed GitHub Issue #75.
+- **ICF Dashboard PR Integration, Deduplication & Noise Filtering**:
+  - Implemented `/api/reporting/pull-requests` (with 60s in-memory cache) in `icf/src/server.mjs`.
+  - Implemented outbox receipt normalization and deduplication in `icf/src/server.mjs`, collapsing 43 raw files across `.trm` and `trm-drive` into 17 clean records.
+  - Updated `icf/dashboard/index.html` and `dashboard.html` with "Code Landings & PRs" live panel, direct Issue/PR/RFC badges on receipt cards, and filter toggles (`[Active]` default, `[All]`, `[Completed]`).
+- **JEV Decision Model Benchmark Engine & RFC Verification (Issue #62 / act-01)**:
+  - Implemented zero-shot probabilistic decision model benchmark engine [`scripts/benchmark-jev-decisions.mjs`](scripts/benchmark-jev-decisions.mjs) covering bounded schema enforcement (`verify`, `screen`, `find`, `decide`), calibration metrics (Brier Score, Log-Loss, ECE), latency percentiles, unit economics ($0.042/1M vs $15.00/1M frontier), and fail-soft ambiguity escalation.
+  - Authored verification test suite [`tests/benchmark-jev-decisions.test.mjs`](tests/benchmark-jev-decisions.test.mjs) (10/10 PASS).
+  - Authored RFC research note [`wiki/research/rfc-benchmark-jev-decision-models.md`](wiki/research/rfc-benchmark-jev-decision-models.md) linking empirical metrics to Issue #62.
+  - Moved `.harness/tasks/pending/act-01-benchmark-jev-decision-models.json` to `.harness/tasks/completed/` and emitted completion receipts.
+
+### Verification
+
+- Repository preflight: `PREFLIGHT_PASS` (`pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path C:\dev`).
+- Test suite: 230 passed, 0 failed, 1 skipped (`npm test`).
+- Gateway & API endpoints: HTTP 200 on `http://127.0.0.1:8080/dashboard`, `/api/reporting/mobile-outbox`, and `/api/reporting/pull-requests`.
+
+### Next action
+
+- Continue autonomous background fleet supervision under `\Ironbots\` and triage remaining pending harness tasks.
+
+
+## Deterministic Ticket Scorer Module (@toolforge/ticket-scorer) (2026-10-03)
+
+### Active goal
+
+Implement a zero-network, local-first deterministic Markdown ticket scoring engine and priority tier classification module at `modules/ticket-scorer/` based on structural AST extraction, clause-bounded lookback negation matching, and emergency floor overrides.
+
+### Completed work
+
+- **Design Specification & Rubric Definition**: Authored and committed [`docs/superpowers/specs/2026-10-03-deterministic-ticket-scorer-design.md`](docs/superpowers/specs/2026-10-03-deterministic-ticket-scorer-design.md) defining the 4-dimension scoring rubric: Completeness (max 35), Urgency Indicators (max 30), Domain Scope (max 20), and Actionability (max 15).
+- **Implementation Plan**: Authored and committed [`docs/superpowers/plans/2026-10-03-deterministic-ticket-scorer.md`](docs/superpowers/plans/2026-10-03-deterministic-ticket-scorer.md) decomposing work into 4 bite-sized TDD tasks with explicit interfaces and test contracts.
+- **SDD Execution via Subagents**: Executed all 4 tasks under Subagent-Driven Development with independent implementer subagents and two-stage task review gates:
+  - *Task 1 (Package Scaffolding & Types)*: `package.json`, `tsconfig.json`, `src/types.ts`, `tests/types.test.ts`.
+  - *Task 2 (Clause-Bounded Negation Matcher)*: `src/negation-matcher.ts`, `tests/negation.test.ts` implementing 60-char window lookback, clause boundary isolation (`.`, `!`, `?`, `;`, `\n`), parenthetical collapsing `(...)`, and quotation stripping.
+  - *Task 3 (Deterministic AST Scorer)*: `src/scorer.ts`, `tests/scorer.test.ts` implementing single-pass Unist AST traversal (`unified` + `remark-parse` + `unist-util-visit`), rubric calculation, and P0 floor overrides (`panic`, `regression`, `corrupt`).
+  - *Task 4 (Barrel Entrypoint & Verification)*: `src/index.ts` public exports, clean `tsc` build to `dist/`, 100% passing test suite.
+- **Whole-Branch Review & Fix Wave**: Addressed senior review recommendations: appended `inlineCode` values to `textContent` during AST traversal, added `escapeRegex` for dynamic keyword matching, and added backticked markdown symbol tests.
+- **CI / Delivery Guard Compliance & Pull Request**: Verified 11/11 tests passing (`node:test`). Rebased cleanly onto `origin/main` to satisfy CI `evaluate-automation-policy.mjs` with 100% `allow` status. Opened [PR #76](https://github.com/sorensencc-dotcom/toolforge/pull/76) with all CI checks passing.
+
+### Next action
+
+- Await team review and merge of [PR #76](https://github.com/sorensencc-dotcom/toolforge/pull/76).
 
 ## NotebookLM Knowledge Pack Ingestion Triage & Compaction Hardening (2026-10-01)
 

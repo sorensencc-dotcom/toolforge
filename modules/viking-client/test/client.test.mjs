@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createResolver } from '../../mcp/viking-resolver.mjs';
 import { createServer, processJsonRpcLine } from '../../mcp/viking-vfs-server.mjs';
 import { createStdioTransport, VikingClient, VikingRpcError, VikingTelemetryTracker, formatVikingUri, parseVikingUri } from '../src/index.mjs';
@@ -103,11 +104,12 @@ test('batchRead uses one RPC and normalizes per-item errors', async () => {
 
 test('stdio transport performs initialize and snapshot-backed L2 read', async (t) => {
   const f = fixture({ includeL1: false });
-  const serverPath = path.resolve('../mcp/viking-vfs-server.mjs');
+  const serverPath = fileURLToPath(new URL('../../mcp/viking-vfs-server.mjs', import.meta.url));
+  const repoRoot = fileURLToPath(new URL('../../../', import.meta.url));
   const transport = createStdioTransport({
     command: process.execPath,
     args: [serverPath],
-    cwd: path.resolve('../..'),
+    cwd: repoRoot,
     env: { VIKING_VAULT_ROOT: f.root, VIKING_VAULT_NAME: 'kb-sync', VIKING_SNAPSHOT_ID: f.resolver.snapshotId },
     timeoutMs: 5000,
   });

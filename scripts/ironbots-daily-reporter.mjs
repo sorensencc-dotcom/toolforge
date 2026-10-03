@@ -22,6 +22,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 const STATUS_FEED_DIR = path.resolve(REPO_ROOT, '_status-feed');
 const DAILY_REPORT_PATH = path.resolve(STATUS_FEED_DIR, 'ironbots_daily_report.json');
+const ROOM_EVENT_PATH = path.resolve(STATUS_FEED_DIR, 'ironbots_room_event.json');
 const HISTORY_DIR = path.resolve(STATUS_FEED_DIR, 'ironbots_history');
 const WIKI_REPORT_PATH = path.resolve(REPO_ROOT, 'wiki', 'research', 'ironbots-daily-report.md');
 
@@ -302,6 +303,27 @@ export async function aggregateFleetActivity(options = {}) {
   const dryRun = options.isDryRun ?? options.dryRun ?? isDryRun;
   const elapsedMs = Date.now() - startTime;
 
+  const roomEvent = generateRoomEventPayload({
+    timestamp: nowIso,
+    fleetHealthScore,
+    fleetStatus,
+    botCount: activeBots.length,
+    summaryMetrics: {
+      totalDocsIndexed: results.notebookIngester?.totalFiles || 0,
+      wikiHealthScore: results.kbSentinel?.healthScore || 100,
+      totalResearchGaps: results.trmBot?.totalGaps || 0,
+      competitorDrifts: results.watchlistMiner?.driftsDetected || 0,
+      daemonStatus: results.daemonHealer?.status || 'UNKNOWN',
+      ironledgerStatus: results.ironledgerHealth?.status || 'UNKNOWN',
+      ciFailures: results.ciWatchdog?.failureCount || 0,
+      trmReconciliation: results.trmIngress?.outboxReconciliation?.reconciliationStatus || 'RECONCILED',
+      totalTrackedIngressCards: results.trmIngress?.totalTracked || 0,
+      activeOutboxReceipts: results.trmIngress?.outboxReconciliation?.activeReceiptsCount || 0,
+      archivedOutboxReceipts: results.trmIngress?.outboxReconciliation?.archivedReceiptsCount || 0,
+      outboxDeliveryRate: results.trmIngress?.outboxReconciliation?.deliveryRatePercent || 100
+    }
+  });
+
   const dailyReport = {
     date: dateStr,
     timestamp: nowIso,
@@ -311,6 +333,7 @@ export async function aggregateFleetActivity(options = {}) {
     botCount: activeBots.length,
     activeBots,
     hostHeartbeat,
+    roomEvent,
     summaryMetrics: {
       totalDocsIndexed: results.notebookIngester?.totalFiles || 0,
       wikiHealthScore: results.kbSentinel?.healthScore || 100,
@@ -339,6 +362,7 @@ export async function aggregateFleetActivity(options = {}) {
     await fs.mkdir(HISTORY_DIR, { recursive: true });
 
     await fs.writeFile(DAILY_REPORT_PATH, JSON.stringify(dailyReport, null, 2), 'utf8');
+    await fs.writeFile(ROOM_EVENT_PATH, JSON.stringify(roomEvent, null, 2), 'utf8');
     const historyFile = path.join(HISTORY_DIR, `${dateStr}.json`);
     await fs.writeFile(historyFile, JSON.stringify(dailyReport, null, 2), 'utf8');
 
@@ -356,6 +380,36 @@ export async function aggregateFleetActivity(options = {}) {
   }
 
   return dailyReport;
+}
+
+export function generateRoomEventPayload(dailyReport) {
+  const alerts = [];
+  if (dailyReport?.summaryMetrics?.ciFailures > 0) {
+    alerts.push(`CI Failures: ${dailyReport.summaryMetrics.ciFailures}`);
+  }
+  if (dailyReport?.summaryMetrics?.daemonStatus && !['HEALTHY', 'RECOVERED', 'PASS'].includes(dailyReport.summaryMetrics.daemonStatus)) {
+    alerts.push(`Daemon 8080: ${dailyReport.summaryMetrics.daemonStatus}`);
+  }
+  if (dailyReport?.summaryMetrics?.ironledgerStatus && !['HEALTHY', 'UP', 'PASS'].includes(dailyReport.summaryMetrics.ironledgerStatus)) {
+    alerts.push(`IronLedger: ${dailyReport.summaryMetrics.ironledgerStatus}`);
+  }
+  if (dailyReport?.summaryMetrics?.competitorDrifts > 0) {
+    alerts.push(`Competitor Drifts: ${dailyReport.summaryMetrics.competitorDrifts}`);
+  }
+
+  const alertSummary = alerts.length > 0 ? ` | Alerts: ${alerts.join(', ')}` : ' | All Subsystems Operational';
+
+  return {
+    event_type: 'ironbots.fleet_event',
+    timestamp: dailyReport?.timestamp || new Date().toISOString(),
+    room_id: 'sigil-fleet-observability',
+    fleet_health_score: dailyReport?.fleetHealthScore ?? 100,
+    fleet_status: dailyReport?.fleetStatus || 'HEALTHY',
+    bot_count: dailyReport?.botCount || 0,
+    alerts,
+    formatted_message: `🤖 [IronBots Fleet Report] Score: ${dailyReport?.fleetHealthScore ?? 100}/100 (${dailyReport?.fleetStatus || 'HEALTHY'}) | Bots: ${dailyReport?.botCount || 0}${alertSummary}`,
+    summary_metrics: dailyReport?.summaryMetrics || {}
+  };
 }
 
 function generateMarkdownReport(report) {

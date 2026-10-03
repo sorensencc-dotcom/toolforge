@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791032248350-ickep",
+  "action_id": "act-04-evaluate-embedded-duckdb-agent-analytics",
+  "source": "mobile-gemini-gdoc",
+  "intent": "evaluate_embedded_duckdb_agent_analytics",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_TRIAGE",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-03T125504Z__action__rewrite-mcp__act-04-evaluate-embedded-duckdb-agent-analytics",
+  "issue_url": null,
+  "target_notebook": "REWRITE-MCP",
+  "dispatched_at": "2026-10-03T12:57:28.351Z",
+  "duration_ms": 42,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-04-evaluate-embedded-duckdb-agent-analytics.json",
+  "dryRun": false
+}

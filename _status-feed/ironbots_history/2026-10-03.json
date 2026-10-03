@@ -1,0 +1,658 @@
+{
+  "date": "2026-10-03",
+  "timestamp": "2026-10-03T10:30:05.384Z",
+  "elapsedMs": 5058,
+  "fleetHealthScore": 63,
+  "fleetStatus": "DEGRADED",
+  "botCount": 9,
+  "activeBots": [
+    {
+      "id": "notebook-ingester",
+      "name": "NotebookLM & Knowledge Ingester",
+      "schedule": "Daily 02:00 AM",
+      "telemetry": {
+        "timestamp": "2026-10-03T06:00:21.023Z",
+        "elapsedMs": 16316,
+        "status": "HEALTHY",
+        "totalFiles": 433,
+        "indexedCount": 0,
+        "updatedCount": 11,
+        "skippedCount": 422,
+        "healedQuarantines": 7,
+        "packWarnings": [
+          {
+            "file": ".nlm_pack/pack_master-kb.txt",
+            "sizeBytes": 3444616,
+            "warning": "Pack size 3363.9 KiB exceeds 380 KiB threshold; partition recommended before NLM upload"
+          }
+        ],
+        "databasePath": ".kb_cache/knowledge_fts5.db",
+        "dryRun": false
+      },
+      "status": "HEALTHY",
+      "summary": "433 documents indexed into SQLite FTS5"
+    },
+    {
+      "id": "kb-sentinel",
+      "name": "KB-Sentinel Drift & Autoheal",
+      "schedule": "Daily 03:00 AM",
+      "telemetry": {
+        "timestamp": "2026-10-03T07:00:06.931Z",
+        "elapsedMs": 2847,
+        "healthScore": 92,
+        "status": "PASS",
+        "scanned": 421,
+        "frontmatterMissing": 4,
+        "brokenLinks": 0,
+        "healed": 0,
+        "dryRun": false,
+        "recentIssues": [
+          {
+            "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/moa-bay-mining-concession.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/nicaro-nickel-processing-facility.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          },
+          {
+            "file": "wiki/research/properties/_errors.md",
+            "type": "MISSING_FRONTMATTER",
+            "detail": "No YAML frontmatter found"
+          }
+        ]
+      },
+      "status": "PASS",
+      "summary": "Health Score: 92/100 (421 files scanned)"
+    },
+    {
+      "id": "trm-bot",
+      "name": "TRM Gap Triage & RFC Drafter",
+      "schedule": "Daily 04:00 AM",
+      "telemetry": {
+        "timestamp": "2026-10-03T08:00:08.049Z",
+        "elapsedMs": 7,
+        "totalGaps": 0,
+        "pending": 0,
+        "drafted": 0,
+        "resolved": 0,
+        "triagedCount": 0,
+        "routing": {
+          "tier1Count": 0,
+          "tier2Count": 0,
+          "avgRoutingLatencyMs": 0
+        },
+        "generatedRfcs": [],
+        "dryRun": false
+      },
+      "status": "PASS",
+      "summary": "0 total gaps (0 drafted)"
+    },
+    {
+      "id": "watchlist-miner",
+      "name": "Watchlist & Competitor Drift Miner",
+      "schedule": "Daily 05:00 AM",
+      "telemetry": {
+        "timestamp": "2026-10-03T09:00:11.461Z",
+        "elapsedMs": 1318,
+        "status": "PASS",
+        "totalWatchlists": 3,
+        "targetsEvaluated": 3,
+        "driftsDetected": 0,
+        "driftFindings": [],
+        "dryRun": false
+      },
+      "status": "PASS",
+      "summary": "3 targets evaluated (0 drifts)"
+    },
+    {
+      "id": "daemon-healer",
+      "name": "Daemon-Healer Port 8080 Supervisor",
+      "schedule": "Every 15 Min",
+      "telemetry": {
+        "timestamp": "2026-10-03T10:23:32.239Z",
+        "elapsedMs": 2450,
+        "targetUrl": "http://127.0.0.1:8080/dashboard",
+        "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
+        "status": "HEALTHY",
+        "consecutiveHeals": 0,
+        "thrashCooldownActive": false,
+        "lastCooldownTime": null,
+        "initialProbe": {
+          "ok": true,
+          "statusCode": 200,
+          "uiProbe": {
+            "ok": true,
+            "statusCode": 200,
+            "headers": {
+              "content-type": "text/html; charset=UTF-8",
+              "date": "Sat, 03 Oct 2026 10:23:29 GMT",
+              "connection": "keep-alive",
+              "keep-alive": "timeout=5",
+              "transfer-encoding": "chunked"
+            },
+            "payloadValid": true,
+            "preview": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, in"
+          },
+          "apiProbe": {
+            "ok": true,
+            "statusCode": 200,
+            "headers": {
+              "content-type": "application/json; charset=UTF-8",
+              "access-control-allow-origin": "*",
+              "date": "Sat, 03 Oct 2026 10:23:29 GMT",
+              "connection": "keep-alive",
+              "keep-alive": "timeout=5",
+              "transfer-encoding": "chunked"
+            },
+            "payloadValid": true,
+            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-10-03\",\"timestamp\":\"2026-10-03T10:23:29.800Z\",\"elapsedMs\":2438,\"fleetHealthScor"
+          }
+        },
+        "healed": false,
+        "restartedPid": null,
+        "dryRun": false,
+        "checkOnly": false
+      },
+      "status": "HEALTHY",
+      "summary": "Port 8080 status: HEALTHY (healed: false)"
+    },
+    {
+      "id": "ironledger-sentinel",
+      "name": "IronLedger-Sentinel Workbench & Sync Supervisor",
+      "schedule": "Every 15 Min",
+      "telemetry": {
+        "timestamp": "2026-10-03T10:15:09.973Z",
+        "elapsedMs": 4751,
+        "status": "HEALTHY",
+        "workbench": {
+          "targetUrl": "http://127.0.0.1:8000",
+          "uiOk": true,
+          "healthzOk": true,
+          "readyzOk": true,
+          "version": "0.15.0",
+          "container": {
+            "found": true,
+            "id": "3f05f587153b",
+            "image": "ironledger-ironledger",
+            "status": "Up 15 hours (healthy)",
+            "state": "running",
+            "ports": "0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp",
+            "running": true,
+            "healthy": true
+          }
+        },
+        "database": {
+          "exists": true,
+          "sizeBytes": 21962752,
+          "walExists": false,
+          "walSizeBytes": 0,
+          "status": "VALID",
+          "error": null
+        },
+        "invariants": {
+          "passed": true,
+          "failures": []
+        },
+        "scheduledSyncs": {
+          "status": "HEALTHY",
+          "taskCount": 4,
+          "tasks": [
+            {
+              "name": "IronLedger-Bank-Sync",
+              "state": "Ready"
+            },
+            {
+              "name": "IronLedger-PriceFeed-Sync",
+              "state": "Ready"
+            },
+            {
+              "name": "IronLedger-Receipt-Sync",
+              "state": "Running"
+            },
+            {
+              "name": "IronLedger-Sentinel",
+              "state": "Running"
+            }
+          ],
+          "missingTasks": [],
+          "error": null
+        },
+        "healed": false,
+        "healAction": null,
+        "consecutiveHeals": 0,
+        "thrashCooldownActive": false,
+        "lastCooldownTime": null,
+        "dryRun": false,
+        "checkOnly": false
+      },
+      "status": "HEALTHY",
+      "summary": "Status: HEALTHY (UI/API: OK, Container: Up 15 hours (healthy), Syncs: HEALTHY)"
+    },
+    {
+      "id": "ci-watchdog",
+      "name": "CI-Watchdog Workflow Failure Triage",
+      "schedule": "Daily 06:00 AM",
+      "telemetry": {
+        "timestamp": "2026-10-03T10:00:16.284Z",
+        "elapsedMs": 6658,
+        "status": "FAILURES_DETECTED",
+        "scannedCount": 10,
+        "activeCount": 0,
+        "failureCount": 1,
+        "recentRuns": [
+          {
+            "id": 37093146700,
+            "name": "Governance",
+            "branch": "feat/unified-doc-sync",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37091859118,
+            "name": "Governance",
+            "branch": "feat/unified-doc-sync",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37091801488,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 37063021243,
+            "name": "Documentation",
+            "branch": "topic/willys-overland-breakout",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37063021186,
+            "name": "Secret scan",
+            "branch": "topic/willys-overland-breakout",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37063021184,
+            "name": "Graft & AST Architecture Audit",
+            "branch": "topic/willys-overland-breakout",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37063021153,
+            "name": "Governance",
+            "branch": "topic/willys-overland-breakout",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37063016998,
+            "name": "Governance",
+            "branch": "topic/willys-overland-breakout",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37061209732,
+            "name": "Secret scan",
+            "branch": "topic/willys-overland-breakout",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37061209443,
+            "name": "Governance",
+            "branch": "topic/willys-overland-breakout",
+            "status": "completed",
+            "conclusion": "failure"
+          }
+        ],
+        "alerts": [
+          {
+            "runId": 37091801488,
+            "name": "Governance",
+            "branch": "parkd821-20260908",
+            "sha": "882c872f",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/37091801488",
+            "createdAt": "2026-10-03T03:01:22Z",
+            "errorSummary": [
+              "Delivery guard automation policy\tUNKNOWN STEP\t2026-10-03T03:02:06.7313131Z {\"check\":\"automation-test-policy\",\"source\":\"git-diff\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/ironbots-daily-reporter.mjs\",\"scripts/nlm-pack-replace-gate.mjs\",\"scripts/notebook-ingester-bot.mjs\",\"scripts/preflight.ps1\",\"scripts/storage-pruner.mjs\"],\"regressionTestPaths\":[],\"exemption\":null},\"commitResults\":[{\"commitSha\":\"882c872f648098572707d8c4f2d0e85d0009ec30\",\"enforcement\":\"blocking\",\"exitCode\":1,\"policy\":{\"decision\":\"block\",\"issues\":[\"automation-regression-test-required\"],\"automationPaths\":[\"scripts/ironbots-daily-reporter.mjs\",\"scripts/nlm-pack-replace-gate.mjs\",\"scripts/notebook-ingester-bot.mjs\",\"scripts/preflight.ps1\",\"scripts/storage-pruner.mjs\"],\"regressionTestPaths\":[],\"exemption\":null}}],\"testExecution\":{\"status\":\"skipped\",\"reason\":\"no-eligible-paired-automation-change\",\"commands\":[]}}",
+              "Delivery guard automation policy\tUNKNOWN STEP\t2026-10-03T03:02:06.7406802Z ##[error]Process completed with exit code 1.",
+              "Delivery guard automation policy\tUNKNOWN STEP\t2026-10-03T03:02:06.8836865Z ##[warning]The process '/usr/bin/git' failed with exit code 128"
+            ]
+          }
+        ],
+        "dryRun": false
+      },
+      "status": "FAILURES_DETECTED",
+      "summary": "10 runs scanned (1 failures)"
+    },
+    {
+      "id": "trm-drive-sync",
+      "name": "TRM-Drive-Sync Ingress Watcher",
+      "schedule": "Continuous / On-Demand",
+      "telemetry": {
+        "timestamp": "2026-10-03T03:48:38.054Z",
+        "status": "HEALTHY",
+        "dryRun": false,
+        "triageQueue": 0,
+        "completed": 3,
+        "quarantined": 0,
+        "harnessPending": 8,
+        "totalTracked": 17,
+        "activeInboxes": [
+          "G:\\My Drive\\TRM-Research\\mobile-inbox",
+          "c:\\dev\\trm-drive\\inbox\\triage",
+          "c:\\dev\\.trm\\inbox\\triage"
+        ],
+        "activeOutboxes": [
+          "G:\\My Drive\\TRM-Research\\mobile-outbox",
+          "c:\\dev\\trm-drive\\inbox\\outbox",
+          "c:\\dev\\.trm\\inbox\\outbox"
+        ],
+        "outboxReconciliation": {
+          "timestamp": "2026-10-03T03:48:38.054Z",
+          "reconciliationStatus": "DISCREPANCY",
+          "archivedCardsCount": 26,
+          "activeReceiptsCount": 60,
+          "archivedReceiptsCount": 0,
+          "totalTrackedCount": 17,
+          "reconciledCardsCount": 15,
+          "unreconciledCardIds": [
+            "invalid-2026-10-02T122501Z__cic__willys-five-contradictions-lock.md",
+            "act-ironbots-room-event-reporter"
+          ],
+          "pendingCompletionCount": 8,
+          "completedReceiptsCount": 9,
+          "deliveryRatePercent": 88
+        },
+        "recentCards": [
+          {
+            "id": "act-ironbots-room-event-reporter",
+            "parent_action_id": null,
+            "processed_at": "2026-10-03T03:48:38.040Z",
+            "timestamp": "2026-10-02T235003Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "RESEARCH",
+            "domain": "toolforge",
+            "action_type": "antigravity_triage",
+            "intent": "act_ironbots_room_event_reporter",
+            "target_notebook_name": "toolforge",
+            "status": "STAGED_FOR_RESEARCH",
+            "issue_url": null,
+            "research_ref": null,
+            "duration_ms": 12
+          },
+          {
+            "id": "act-trm-ingest-action-type-fallback",
+            "parent_action_id": null,
+            "processed_at": "2026-10-03T03:48:23.031Z",
+            "timestamp": "2026-10-02T235002Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "RESEARCH",
+            "domain": "kb-sync",
+            "action_type": "antigravity_triage",
+            "intent": "act_trm_ingest_action_type_fallback",
+            "target_notebook_name": "kb-sync",
+            "status": "STAGED_FOR_RESEARCH",
+            "issue_url": null,
+            "research_ref": null,
+            "duration_ms": 18
+          },
+          {
+            "id": "act-sigil-rooms-phase1-review",
+            "parent_action_id": null,
+            "processed_at": "2026-10-03T03:48:11.328Z",
+            "timestamp": "2026-10-02T235001Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "RESEARCH",
+            "domain": "sigil",
+            "action_type": "antigravity_triage",
+            "intent": "act_sigil_rooms_phase1_review",
+            "target_notebook_name": "sigil",
+            "status": "STAGED_FOR_RESEARCH",
+            "issue_url": null,
+            "research_ref": null,
+            "duration_ms": 62
+          },
+          {
+            "id": "act-04-enforce-human-in-the-loop-compliance",
+            "parent_action_id": null,
+            "processed_at": "2026-10-02T13:34:11.977Z",
+            "timestamp": "2026-10-02T122504Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "RESEARCH",
+            "domain": "rewrite-mcp",
+            "action_type": "antigravity_triage",
+            "intent": "enforce_human_in_the_loop_compliance",
+            "target_notebook_name": "rewrite-mcp",
+            "status": "STAGED_FOR_RESEARCH",
+            "issue_url": null,
+            "research_ref": null,
+            "duration_ms": 26
+          },
+          {
+            "id": "act-03-monitor-synthetic-provenance-standards",
+            "parent_action_id": null,
+            "processed_at": "2026-10-02T13:34:11.873Z",
+            "timestamp": "2026-10-02T122503Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "MONITOR",
+            "domain": "cic-kb",
+            "action_type": "antigravity_triage",
+            "intent": "monitor_synthetic_provenance_standards",
+            "target_notebook_name": "CIC-KB",
+            "status": "STAGED_FOR_MONITORING",
+            "issue_url": null,
+            "research_ref": null,
+            "duration_ms": 33
+          },
+          {
+            "id": "act-02-harden-agent-runtime-infrastructure",
+            "parent_action_id": null,
+            "processed_at": "2026-10-02T13:34:11.761Z",
+            "timestamp": "2026-10-02T122502Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "RESEARCH",
+            "domain": "toolforge",
+            "action_type": "antigravity_triage",
+            "intent": "harden_agent_runtime_infrastructure",
+            "target_notebook_name": "toolforge",
+            "status": "STAGED_FOR_RESEARCH",
+            "issue_url": null,
+            "research_ref": null,
+            "duration_ms": 24
+          },
+          {
+            "id": "act-01-evaluate-full-duplex-avatar-runtimes",
+            "parent_action_id": null,
+            "processed_at": "2026-10-02T13:34:11.666Z",
+            "timestamp": "2026-10-02T122501Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "RESEARCH",
+            "domain": "rewrite-mcp",
+            "action_type": "antigravity_triage",
+            "intent": "evaluate_full_duplex_avatar_runtimes",
+            "target_notebook_name": "rewrite-mcp",
+            "status": "STAGED_FOR_RESEARCH",
+            "issue_url": null,
+            "research_ref": null,
+            "duration_ms": 39
+          },
+          {
+            "id": "invalid-2026-10-02T122501Z__cic__willys-five-contradictions-lock.md",
+            "processed_at": "2026-10-02T13:34:11.461Z",
+            "source": "grok",
+            "action_type": "unknown",
+            "intent": "validation_error",
+            "status": "REJECTED",
+            "error": "Invalid or missing action_type: undefined",
+            "duration_ms": 89
+          },
+          {
+            "id": "act-04-frontier-lab-verification-standards-dissent",
+            "processed_at": "2026-09-27T12:57:58.571Z",
+            "timestamp": "2026-09-27T123004Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "MONITOR",
+            "domain": "strategic-intelligence",
+            "action_type": "antigravity_triage",
+            "intent": "frontier_lab_verification_standards_dissent",
+            "target_notebook_name": "TRM Research Backlog",
+            "status": "COMPLETED",
+            "research_ref": "wiki/research/rfc-frontier-lab-verification-standards-dissent.md",
+            "issue_url": null,
+            "duration_ms": 861,
+            "completed_at": "2026-10-01T11:44:23.413Z"
+          },
+          {
+            "id": "act-03-embodied-robotics-actuator-reliability",
+            "processed_at": "2026-09-27T12:57:57.678Z",
+            "timestamp": "2026-09-27T123003Z",
+            "source": "mobile-gemini-gdoc",
+            "category": "RESEARCH",
+            "domain": "cic",
+            "action_type": "antigravity_triage",
+            "intent": "embodied_robotics_actuator_reliability",
+            "target_notebook_name": "CIC Research Backlog",
+            "status": "COMPLETED",
+            "research_ref": "wiki/research/rfc-embodied-robotics-actuator-reliability.md",
+            "issue_url": null,
+            "duration_ms": 839,
+            "completed_at": "2026-10-01T11:44:23.326Z"
+          }
+        ]
+      },
+      "status": "HEALTHY",
+      "summary": "17 cards tracked (DISCREPANCY: 60 active receipts, 9 completed)"
+    },
+    {
+      "id": "storage-pruner",
+      "name": "Storage-Pruner SQLite & Telemetry Compactor",
+      "schedule": "Weekly Sun 03:30 AM",
+      "telemetry": {
+        "timestamp": "2026-10-03T07:31:34.554Z",
+        "dryRun": false,
+        "elapsedMs": 90753,
+        "totalFreedBytes": 39686993,
+        "totalFreedFormatted": "37.85 MB",
+        "databasesScanned": 6,
+        "databaseResults": [
+          {
+            "dbPath": "C:\\dev\\.kb_cache\\knowledge.db",
+            "sizeBefore": 921600,
+            "sizeAfter": 921600,
+            "bytesSaved": 0,
+            "status": "SUCCESS"
+          },
+          {
+            "dbPath": "C:\\dev\\.kb_cache\\knowledge_fts5.db",
+            "sizeBefore": 344252416,
+            "sizeAfter": 305135616,
+            "bytesSaved": 39116800,
+            "status": "SUCCESS"
+          },
+          {
+            "dbPath": "C:\\dev\\icf\\.kb_cache\\knowledge.db",
+            "sizeBefore": 61440,
+            "sizeAfter": 61440,
+            "bytesSaved": 0,
+            "status": "SUCCESS"
+          },
+          {
+            "dbPath": "C:\\dev\\.ijfw\\index\\compute.db",
+            "sizeBefore": 151552,
+            "sizeAfter": 151552,
+            "bytesSaved": 0,
+            "status": "SUCCESS"
+          },
+          {
+            "dbPath": "C:\\dev\\.ijfw\\index\\memory.db",
+            "sizeBefore": 143360,
+            "sizeAfter": 143360,
+            "bytesSaved": 0,
+            "status": "SUCCESS"
+          },
+          {
+            "dbPath": "C:\\dev\\.icf-retros\\weekly\\snapshots.sqlite",
+            "sizeBefore": 688128,
+            "sizeAfter": 688128,
+            "bytesSaved": 0,
+            "status": "SUCCESS"
+          }
+        ],
+        "telemetryCompactedCount": 3,
+        "telemetryResults": [
+          {
+            "file": "icf/dashboard/trm_history/2026-09-23.json",
+            "gzFile": "icf/dashboard/trm_history/2026-09-23.json.gz",
+            "sizeBefore": 234305,
+            "sizeAfter": 44211,
+            "bytesSaved": 190094,
+            "status": "COMPRESSED"
+          },
+          {
+            "file": "icf/dashboard/trm_history/2026-09-24.json",
+            "gzFile": "icf/dashboard/trm_history/2026-09-24.json.gz",
+            "sizeBefore": 234324,
+            "sizeAfter": 44363,
+            "bytesSaved": 189961,
+            "status": "COMPRESSED"
+          },
+          {
+            "file": "icf/dashboard/trm_history/2026-09-25.json",
+            "gzFile": "icf/dashboard/trm_history/2026-09-25.json.gz",
+            "sizeBefore": 234318,
+            "sizeAfter": 44180,
+            "bytesSaved": 190138,
+            "status": "COMPRESSED"
+          }
+        ],
+        "harnessTasksPrunedCount": 0,
+        "harnessResults": [],
+        "status": "HEALTHY"
+      },
+      "status": "HEALTHY",
+      "summary": "Reclaimed 37.85 MB (6 DBs vacuumed)"
+    }
+  ],
+  "hostHeartbeat": {
+    "hostname": "WIN-DTA4V21LKVR",
+    "platform": "win32",
+    "uptimeSeconds": 661777,
+    "uptimeHuman": "183h 49m",
+    "taskScheduler": {
+      "status": "DEGRADED",
+      "taskCount": 0,
+      "tasks": [],
+      "error": "spawnSync powershell.exe ETIMEDOUT"
+    }
+  },
+  "summaryMetrics": {
+    "totalDocsIndexed": 433,
+    "wikiHealthScore": 92,
+    "totalResearchGaps": 0,
+    "competitorDrifts": 0,
+    "daemonStatus": "HEALTHY",
+    "ironledgerStatus": "HEALTHY",
+    "ciFailures": 1,
+    "trmReconciliation": "DISCREPANCY",
+    "totalTrackedIngressCards": 17,
+    "activeOutboxReceipts": 60,
+    "archivedOutboxReceipts": 0,
+    "outboxDeliveryRate": 88
+  },
+  "dryRun": false
+}
