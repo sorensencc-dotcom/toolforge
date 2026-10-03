@@ -29,7 +29,7 @@ async function findMarkdownFiles(dir) {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
       if (entry.isDirectory()) {
-        if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== '_kb-sync-staging') {
+        if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== '_kb-sync-staging' && !entry.name.startsWith('.')) {
           files.push(...await findMarkdownFiles(fullPath));
         }
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
@@ -66,10 +66,12 @@ const ALLOWED_CATEGORIES = new Set([
 const ALLOWED_STATUSES = new Set(['active', 'beta', 'archived', 'draft', 'proposed', 'resolved', 'canonical']);
 
 function extractWikilinks(content) {
+  // Strip code blocks and inline code in single pass to avoid intermediate string allocations
+  const sanitized = content.replace(/```[\s\S]*?```|`[^`\r\n]+`/g, '');
   const links = [];
   const regex = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g;
   let match;
-  while ((match = regex.exec(content)) !== null) {
+  while ((match = regex.exec(sanitized)) !== null) {
     links.push(match[1].trim());
   }
   return links;
@@ -137,7 +139,36 @@ async function runSentinel() {
   console.log(`[KB-Sentinel] Starting KB-Sync drift and autoheal audit... (dry-run: ${isDryRun}, fix: ${shouldFix})`);
 
   const wikiFiles = await findMarkdownFiles(WIKI_ROOT);
-  const existingNames = new Set(wikiFiles.map(f => path.basename(f, '.md')));
+  const rootFiles = [];
+  try {
+    const rootEntries = await fs.readdir(REPO_ROOT, { withFileTypes: true });
+    for (const entry of rootEntries) {
+      if (entry.isFile() && entry.name.endsWith('.md')) {
+        rootFiles.push(entry.name);
+      }
+    }
+  } catch {}
+  
+  // Dynamically collect target names from docs/ and subprojects so cross-doc wikilinks resolve cleanly
+  const extraDocFiles = [];
+  try {
+    const topEntries = await fs.readdir(REPO_ROOT, { withFileTypes: true });
+    for (const ent of topEntries) {
+      if (!ent.isDirectory() || ent.name.startsWith('.') || ent.name === 'node_modules' || ent.name === '_kb-sync-staging') continue;
+      if (ent.name === 'docs') {
+        extraDocFiles.push(...await findMarkdownFiles(path.join(REPO_ROOT, 'docs')));
+      } else if (ent.name !== 'wiki') {
+        extraDocFiles.push(...await findMarkdownFiles(path.join(REPO_ROOT, ent.name, 'docs')));
+        extraDocFiles.push(...await findMarkdownFiles(path.join(REPO_ROOT, ent.name, 'wiki')));
+      }
+    }
+  } catch {}
+
+  const existingNames = new Set([
+    ...wikiFiles.map(f => path.basename(f, '.md')),
+    ...rootFiles.map(f => path.basename(f, '.md')),
+    ...extraDocFiles.map(f => path.basename(f, '.md'))
+  ]);
 
   const stats = {
     totalFilesScanned: wikiFiles.length,
