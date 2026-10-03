@@ -11,6 +11,39 @@
 
 # Project status
 
+## TRM Mobile Actions Triage, Agent Job Description Schema, Dashboard Unification & JEV Benchmarks (2026-10-03)
+
+### Active goal
+
+Triage and execute incoming TRM mobile inbox actions (`act-02-implement-agent-job-description-schema`, `act-01-benchmark-jev-decision-models`), unify Iron Command Forge dashboard with live GitHub PR streaming, receipt deduplication, and active/completed filtering.
+
+### Completed work
+
+- **Agent Job Description Schema & Invariant Test Suite (Issue #75 / act-02)**:
+  - Authored authoritative Draft-07 JSON Schema [`schemas/agent-job-description-schema.json`](schemas/agent-job-description-schema.json) enforcing 3-tier authority model, discrete capability/permission boundaries, routing token budgets, and governance acceptance gates.
+  - Authored verification test suite [`tests/agent-job-description-schema.test.mjs`](tests/agent-job-description-schema.test.mjs) (5/5 PASS, 230/230 workspace PASS).
+  - Resolved task to `.harness/tasks/completed/act-02-implement-agent-job-description-schema.json`, published completion receipts, and closed GitHub Issue #75.
+- **ICF Dashboard PR Integration, Deduplication & Noise Filtering**:
+  - Implemented `/api/reporting/pull-requests` (with 60s in-memory cache) in `icf/src/server.mjs`.
+  - Implemented outbox receipt normalization and deduplication in `icf/src/server.mjs`, collapsing 43 raw files across `.trm` and `trm-drive` into 17 clean records.
+  - Updated `icf/dashboard/index.html` and `dashboard.html` with "Code Landings & PRs" live panel, direct Issue/PR/RFC badges on receipt cards, and filter toggles (`[Active]` default, `[All]`, `[Completed]`).
+- **JEV Decision Model Benchmark Engine & RFC Verification (Issue #62 / act-01)**:
+  - Implemented zero-shot probabilistic decision model benchmark engine [`scripts/benchmark-jev-decisions.mjs`](scripts/benchmark-jev-decisions.mjs) covering bounded schema enforcement (`verify`, `screen`, `find`, `decide`), calibration metrics (Brier Score, Log-Loss, ECE), latency percentiles, unit economics ($0.042/1M vs $15.00/1M frontier), and fail-soft ambiguity escalation.
+  - Authored verification test suite [`tests/benchmark-jev-decisions.test.mjs`](tests/benchmark-jev-decisions.test.mjs) (10/10 PASS).
+  - Authored RFC research note [`wiki/research/rfc-benchmark-jev-decision-models.md`](wiki/research/rfc-benchmark-jev-decision-models.md) linking empirical metrics to Issue #62.
+  - Moved `.harness/tasks/pending/act-01-benchmark-jev-decision-models.json` to `.harness/tasks/completed/` and emitted completion receipts.
+
+### Verification
+
+- Repository preflight: `PREFLIGHT_PASS` (`pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path C:\dev`).
+- Test suite: 230 passed, 0 failed, 1 skipped (`npm test`).
+- Gateway & API endpoints: HTTP 200 on `http://127.0.0.1:8080/dashboard`, `/api/reporting/mobile-outbox`, and `/api/reporting/pull-requests`.
+
+### Next action
+
+- Continue autonomous background fleet supervision under `\Ironbots\` and triage remaining pending harness tasks.
+
+
 ## Deterministic Ticket Scorer Module (@toolforge/ticket-scorer) (2026-10-03)
 
 ### Active goal

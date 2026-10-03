@@ -1,0 +1,243 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://toolforge.rewrite.internal/schemas/v1/agent-job-description.json",
+  "title": "AgentJobDescription",
+  "type": "object",
+  "description": "Formal JSON schema defining Agent Job Descriptions (AJDs), establishing role boundaries, authority tiers, tooling capabilities, model routing, and governance verification contracts.",
+  "required": [
+    "schemaVersion",
+    "roleId",
+    "title",
+    "version",
+    "tier",
+    "domain",
+    "description",
+    "responsibilities",
+    "capabilities",
+    "governance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "$id": { "type": "string" },
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["1.0.0"],
+      "description": "Explicit schema specification version."
+    },
+    "roleId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-_]+$",
+      "description": "Stable unique machine-readable identifier for the agent role."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128,
+      "description": "Human-readable job title for the agent."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?$",
+      "description": "Semantic version of the job description specification."
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "Tier 1 (Decision)",
+        "Tier 2 (Execution)",
+        "Tier 3 (Automation)",
+        "Tier 1",
+        "Tier 2",
+        "Tier 3"
+      ],
+      "description": "Operational authority tier under the 3-tier governance model."
+    },
+    "domain": {
+      "type": "string",
+      "pattern": "^[a-z0-9-_]+$",
+      "description": "Target domain or project scope (e.g. toolforge, cic, research, ironbots)."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "High-level summary of the agent mandate and purpose."
+    },
+    "responsibilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "description": "Discrete responsibilities, deliverables, and operational duties."
+    },
+    "capabilities": {
+      "type": "object",
+      "required": ["skills", "permissions"],
+      "additionalProperties": false,
+      "description": "Execution permissions, whitelisted skills, and MCP bounds.",
+      "properties": {
+        "skills": {
+          "type": "object",
+          "required": ["allowed"],
+          "additionalProperties": false,
+          "properties": {
+            "allowed": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Array of permitted skill identifiers or glob patterns."
+            },
+            "required": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Array of skills required to be loaded at dispatch."
+            }
+          }
+        },
+        "mcpServers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of MCP servers accessible to this role."
+        },
+        "toolGroups": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "allowWriteTools": { "type": "boolean" },
+            "allowSubagentTools": { "type": "boolean" },
+            "allowMcpTools": { "type": "boolean" },
+            "allowBrowserTools": { "type": "boolean" }
+          }
+        },
+        "permissions": {
+          "type": "object",
+          "required": ["filesystem"],
+          "additionalProperties": false,
+          "properties": {
+            "filesystem": {
+              "type": "string",
+              "enum": ["deny", "read-only", "workspace-write", "full-write"],
+              "description": "File system access mode."
+            },
+            "allowedPaths": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Explicit path prefixes or workspace boundaries accessible for edits."
+            },
+            "network": {
+              "type": "object",
+              "required": ["mode"],
+              "additionalProperties": false,
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": ["deny", "allowlisted", "unrestricted"]
+                },
+                "bounds": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "Permitted outbound hostnames or IP CIDRs when mode is allowlisted."
+                }
+              }
+            },
+            "process": {
+              "type": "string",
+              "enum": ["deny", "allow-child", "full"],
+              "description": "Process execution policy."
+            }
+          }
+        }
+      }
+    },
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Model selection and resource budget policy.",
+      "properties": {
+        "preferredModel": {
+          "type": "string",
+          "description": "Primary LLM identifier (e.g. gemini-2.5-pro, claude-3-5-sonnet)."
+        },
+        "allowedModels": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of fallback or alternative models."
+        },
+        "maxCostUsdPerTask": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Maximum USD spending cap per single task invocation."
+        },
+        "maxExecutionTimeSec": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400,
+          "description": "Execution timeout in seconds."
+        },
+        "maxAttempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Maximum retry attempts before escalating to Tier 1."
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["acceptanceCriteria"],
+      "additionalProperties": false,
+      "description": "Verification gates, compliance checks, and drift detection.",
+      "properties": {
+        "acceptanceCriteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 5
+          },
+          "description": "Explicit contractual criteria for successful task completion."
+        },
+        "verificationCommands": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Deterministic shell or test commands executed to verify work."
+        },
+        "driftGuard": {
+          "type": "object",
+          "required": ["enabled"],
+          "additionalProperties": false,
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "metrics": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "maxAllowedDriftPercent": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "author": { "type": "string" },
+        "createdAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z)?$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z)?$"
+        },
+        "trackingIssue": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
