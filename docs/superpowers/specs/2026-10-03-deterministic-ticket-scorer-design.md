@@ -54,6 +54,10 @@ export interface ScorerConfig {
     p2: number; // default: 35
   };
 }
+
+export type ScorerOptions = Partial<Omit<ScorerConfig, 'scoreThresholds'>> & {
+  scoreThresholds?: Partial<ScorerConfig['scoreThresholds']>;
+};
 ```
 
 ---
@@ -68,6 +72,7 @@ export interface ScorerConfig {
 * **Code Fences / Spans**:
   * Code blocks ($> 0$) $\implies +15$
   * Inline code ($> 0$, no code block) $\implies +8$
+* **Score Cap**: Value capped at `Math.min(35, completeness)`.
 
 ### 4.2 Actionability (Max: 15)
 * **Checklists**:
@@ -112,7 +117,7 @@ export interface ScorerConfig {
    * $\ge 35 \implies \mathbf{P2}$
    * $< 35 \implies \mathbf{P3}$
 2. **P0 Floor Override**:
-   * If any keyword in `overrideP0Keywords` (e.g. `panic`, `regression`, `corrupt`) is present in `flags`, tier resolves to `P0` unconditionally.
+   * If any keyword in `overrideP0Keywords` (normalized as `KEYWORD_<NAME>`) is present in `flags`, tier resolves to `P0` unconditionally regardless of total score.
 
 ---
 
