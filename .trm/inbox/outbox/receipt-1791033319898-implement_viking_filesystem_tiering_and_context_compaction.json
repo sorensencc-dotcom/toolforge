@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791033319896-n2lod",
+  "action_id": "act-20261003-viking-context-compaction",
+  "source": "mobile-gemini",
+  "intent": "implement_viking_filesystem_tiering_and_context_compaction",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_TRIAGE",
+  "summary": "Project the Three-Layer Vault onto a virtual disk mount using OpenViking's viking:// URI protocol, implement L0/L1/L2 tiered loading hierarchy, and add automated nightly context compaction.",
+  "issue_url": null,
+  "target_notebook": "Agent Harnesses & Local Execution (Graft, SAM, Herdr)",
+  "dispatched_at": "2026-10-03T13:15:19.898Z",
+  "duration_ms": 103,
+  "error": null,
+  "execution_details": "Staged to .harness/tasks/pending/gemini-code-1791033243057.md",
+  "dryRun": false
+}

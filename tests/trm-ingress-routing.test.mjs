@@ -5,6 +5,8 @@ import {
   resolveTargetRouting,
   inferCategory,
   inferDomain,
+  inferActionType,
+  validatePayload,
   getRoutingDecision,
   parseGDocFilenameMetadata,
   parsePayload,
@@ -151,6 +153,36 @@ test('parseGDocFilenameMetadata extracts parent_action_id for mobile threading',
 
   const gdocParent = parseGDocFilenameMetadata('2026-09-27T123001Z__research__toolforge__act-05__parent-act-01.gdoc');
   assert.equal(gdocParent.parent_action_id, 'act-01');
+});
+
+test('inferActionType and validatePayload provide robust fallback when action_type is missing or unmapped', () => {
+  // Explicit valid types preserved
+  assert.equal(inferActionType({ action_type: 'deterministic_fix' }), 'deterministic_fix');
+  assert.equal(inferActionType({ action_type: 'antigravity_triage' }), 'antigravity_triage');
+
+  // Fallback to deterministic_fix for fix/remediate intents
+  assert.equal(inferActionType({ intent: 'fix_broken_import' }), 'deterministic_fix');
+  assert.equal(inferActionType({ intent: 'remediate_stale_lock' }), 'deterministic_fix');
+  assert.equal(inferActionType({ intent: 'prune_dangling_worktrees' }), 'deterministic_fix');
+
+  // Fallback to antigravity_triage for research/general actions
+  assert.equal(inferActionType({ intent: 'assess_agent_identity' }), 'antigravity_triage');
+  assert.equal(inferActionType({}), 'antigravity_triage');
+
+  // validatePayload normalizes missing action_type instead of throwing
+  const payloadMissingType = {
+    source: 'mobile-gemini-gdoc',
+    intent: 'act_trm_ingest_action_type_fallback'
+  };
+  assert.doesNotThrow(() => validatePayload(payloadMissingType));
+  assert.equal(payloadMissingType.action_type, 'antigravity_triage');
+
+  const payloadDeterministic = {
+    source: 'mobile-gemini-gdoc',
+    intent: 'fix_trm_outbox_leak'
+  };
+  validatePayload(payloadDeterministic);
+  assert.equal(payloadDeterministic.action_type, 'deterministic_fix');
 });
 
 

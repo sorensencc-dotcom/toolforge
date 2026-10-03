@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1790999303059-2bd0a",
+  "action_id": "act-trm-ingest-action-type-fallback",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_trm_ingest_action_type_fallback",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-02T235002Z__action__kb-sync__act-trm-ingest-action-type-fallback",
+  "issue_url": null,
+  "target_notebook": "KB-SYNC",
+  "dispatched_at": "2026-10-03T03:48:23.060Z",
+  "duration_ms": 46,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-trm-ingest-action-type-fallback.json",
+  "dryRun": false
+}

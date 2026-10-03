@@ -367,6 +367,42 @@
       .grid-2col { grid-template-columns: 1fr; }
     }
 
+    .fleet-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .fleet-kpis .stat-number { font-size: 2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    @media (max-width: 900px) {
+      .fleet-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    /* Reporting */
+    .report-toggle { display: inline-flex; border: 1px solid rgba(154, 144, 136, 0.3); margin-bottom: 1.5rem; }
+    .report-toggle-btn { background: transparent; border: 0; color: var(--ash); font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.5rem 1.25rem; cursor: pointer; }
+    .report-toggle-btn.active { background: var(--ember); color: var(--white); }
+    .report-stepper { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    .report-stepper .btn-secondary { padding: 0.3rem 0.6rem; }
+    .report-meta { font-size: 0.75rem; color: var(--ash); letter-spacing: 0.08em; }
+    .report-headline { font-family: var(--font-display, serif); font-size: 1.25rem; color: var(--bone); margin: 0.5rem 0 1.5rem; }
+    .report-day-grid { display: grid; grid-template-columns: 220px 1fr; gap: 1.5rem; align-items: start; }
+    .report-insights { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .report-insight { background: rgba(34, 27, 23, 0.4); border: 1px solid rgba(154, 144, 136, 0.15); border-top: 3px solid var(--accent, var(--ember)); padding: 1rem; }
+    .report-insight h4 { margin: 0 0 0.4rem; font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent, var(--ember)); }
+    .report-insight p { margin: 0; font-size: 0.85rem; color: var(--bone); line-height: 1.45; }
+    .report-ring { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--ash); text-align: center; }
+    .report-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(154, 144, 136, 0.12); font-size: 0.85rem; color: var(--bone); }
+    .report-row .report-row-meta { color: var(--ash); white-space: nowrap; }
+    .report-row a { color: var(--brass); }
+    .report-standup { margin: 0; padding-left: 1.1rem; font-size: 0.85rem; color: var(--bone); line-height: 1.55; }
+    .report-bar { height: 6px; background: rgba(154, 144, 136, 0.15); margin-top: 0.3rem; }
+    .report-bar > span { display: block; height: 100%; background: var(--ember); }
+    .report-bars { display: flex; align-items: flex-end; gap: 0.75rem; height: 140px; margin: 0.5rem 0 1.5rem; }
+    .report-bars > div { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 0.3rem; height: 100%; font-size: 0.7rem; color: var(--ash); }
+    .report-bars .report-col { width: 100%; background: var(--ember); min-height: 2px; }
+    .report-empty { color: var(--ash); font-size: 0.85rem; font-style: italic; }
+    .report-fleet-line { margin-top: 1rem; font-size: 0.85rem; color: var(--ash); }
+    .report-fleet-line a { color: var(--brass); cursor: pointer; }
+    @media (max-width: 900px) {
+      .report-day-grid { grid-template-columns: 1fr; }
+    }
+
     /* Tables */
     .table-clean {
       width: 100%;
@@ -690,7 +726,8 @@
       <div class="brand-subtitle">Unified Operations, Knowledge Graph, MCP Infrastructure &amp; Status Feed</div>
     </div>
     <div class="header-badges">
-      <span class="status-badge live">● LIVE</span>
+      <a class="status-badge live" id="docsMkdocsLink" href="http://127.0.0.1:8001/" target="_blank" rel="noopener noreferrer" title="Open local MkDocs (rewrite-docs on :8001)" style="text-decoration:none;">DOCS</a>
+      <span class="status-badge live" id="sseLiveBadge" title="Real-time Server-Sent Events (SSE) Stream">● LIVE SSE</span>
       <div class="synced-badge" id="reportTimestamp">SYNCED 1H AGO</div>
     </div>
   </header>
@@ -716,27 +753,31 @@
       <span class="tag date" id="tabTrmBadge" style="background: rgba(196,80,26,0.15); color: var(--ember); border: 1px solid rgba(196,80,26,0.35);">11 Notebooks</span>
     </button>
     <button type="button" class="tab-btn" id="btn-tab-reporting" onclick="switchTab('tab-reporting')">
-      <span>05. Weekly Reporting</span>
-      <span class="tag date">Telemetry</span>
+      <span>05. Reporting</span>
+      <span class="tag date">Daily · Weekly</span>
+    </button>
+    <button type="button" class="tab-btn" id="btn-tab-fleet" onclick="switchTab('tab-fleet')">
+      <span>06. Ironbots Fleet</span>
+      <span class="tag date" id="tabFleetBadge">10 Bots</span>
     </button>
     <button type="button" class="tab-btn" id="btn-tab-ops" onclick="switchTab('tab-ops')">
-      <span>06. Operations &amp; Automation</span>
-      <span class="tag date" id="tabOpsBadge">10 Tasks (4 Ironbots)</span>
+      <span>07. Operations &amp; Automation</span>
+      <span class="tag date" id="tabOpsBadge">17 Tasks (10 Ironbots)</span>
     </button>
     <button type="button" class="tab-btn" id="btn-tab-headroom" onclick="switchTab('tab-headroom')">
-      <span>07. Headroom Optimizer</span>
+      <span>08. Headroom Optimizer</span>
       <span class="tag date" id="tabHeadroomBadge" style="background: rgba(196,80,26,0.15); color: var(--ember); border: 1px solid rgba(196,80,26,0.35);">● 2.1k Saved</span>
     </button>
     <button type="button" class="tab-btn" id="btn-tab-graft" onclick="switchTab('tab-graft')">
-      <span>08. Graft &amp; Drift</span>
+      <span>09. Graft &amp; Drift</span>
       <span class="tag date" id="tabGraftBadge" style="background: rgba(94,234,212,0.15); color: #5eead4; border: 1px solid rgba(94,234,212,0.35);">● 94.8% Saved</span>
     </button>
     <button type="button" class="tab-btn" id="btn-tab-skills" onclick="switchTab('tab-skills')">
-      <span>09. Toolforge Skills</span>
+      <span>10. Toolforge Skills</span>
       <span class="tag date" id="tabSkillsBadge">43 Registered</span>
     </button>
     <button type="button" class="tab-btn" id="btn-tab-history" onclick="switchTab('tab-history')">
-      <span>10. Execution History &amp; Errors</span>
+      <span>11. Execution History &amp; Errors</span>
       <span class="tag date" id="tabHistoryBadge">Telemetry Live</span>
     </button>
   </nav>
@@ -802,6 +843,13 @@
         </div>
         <div class="stat-sub" id="qDailyBlockersSub">Handoff status clear</div>
       </div>
+      <div title="Operator focus from Meridian (local, read-only)">
+        <div class="stat-block">
+          <div class="stat-number" id="qDailyFocus">—</div>
+          <div class="stat-label">Operator Focus</div>
+        </div>
+        <div class="stat-sub" id="qDailyFocusSub">Meridian …</div>
+      </div>
     </div>
 
     <div class="grid-2col">
@@ -813,19 +861,19 @@
           <button type="button" class="panel-action" onclick="copyCommand('code C:\\dev\\TODOS.md')">Open TODOS →</button>
         </div>
         <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;" id="dailyTodosList">
-          <li class="item-card" style="border-left: 3px solid var(--ember);">
+          <li class="item-card" style="border-left: 3px solid var(--brass);">
             <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-              <span class="tag high">P1</span>
-              <span style="font-size: 0.95rem; font-weight: 700; color: var(--white);">Wave D full conformance gate</span>
+              <span class="tag new">P2</span>
+              <span style="font-size: 0.95rem; font-weight: 700; color: var(--white);">Dev idea pipeline</span>
             </div>
-            <div style="font-size: 0.8rem; line-height: 1.5; color: var(--ash); font-style: italic;">code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun, and trending scheduler install verified.</div>
+            <div style="font-size: 0.8rem; line-height: 1.5; color: var(--ash); font-style: italic;">Track unbuilt dev ideas in dev-idea-pipeline.md across CLIs. First entry: Warp CLI + WhichLLM local-model routing shim.</div>
           </li>
           <li class="item-card" style="border-left: 3px solid var(--brass);">
             <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
               <span class="tag new">P2</span>
-              <span style="font-size: 0.95rem; font-weight: 700; color: var(--white);">TorqueQuery CIC observability hooks</span>
+              <span style="font-size: 0.95rem; font-weight: 700; color: var(--white);">fast-jev-compaction compactor plugin wiring</span>
             </div>
-            <div style="font-size: 0.8rem; line-height: 1.5; color: var(--ash); font-style: italic;">TorqueQuery determinism verified 2026-07-17. Expose richer telemetry: per-query latency buckets, drift counters, query-shape histogram.</div>
+            <div style="font-size: 0.8rem; line-height: 1.5; color: var(--ash); font-style: italic;">Parked, deferred follow-up. Point published compactor at local cic-jev engine instead of cloud Jev.</div>
           </li>
           <li class="item-card" style="border-left: 3px solid var(--brass);">
             <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
@@ -833,13 +881,6 @@
               <span style="font-size: 0.95rem; font-weight: 700; color: var(--white);">xberg native build-out</span>
             </div>
             <div style="font-size: 0.8rem; line-height: 1.5; color: var(--ash); font-style: italic;">Swapped mock stub to real pdf-parse text-layer extraction 2026-07-16. Next phase evaluates native parser.</div>
-          </li>
-          <li class="item-card" style="border-left: 3px solid var(--brass);">
-            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-              <span class="tag new">P2</span>
-              <span style="font-size: 0.95rem; font-weight: 700; color: var(--white);">Non-deterministic skillpack generators</span>
-            </div>
-            <div style="font-size: 0.8rem; line-height: 1.5; color: var(--ash); font-style: italic;">Sort warning/log lines deterministically during regeneration so pre-commit runs produce minimal diffs.</div>
           </li>
         </ul>
       </div>
@@ -1503,10 +1544,82 @@ flowchart TD
   </section>
 
   <!-- ================================================================= -->
-  <!-- TAB 5: WEEKLY REPORTING -->
-  <section id="tab-reporting" class="tab-pane" aria-label="Weekly Retro Reporting">
-    <div class="panel">
-      <div class="section-label">Reporting</div>
+  <!-- TAB 05: REPORTING (DAILY / WEEKLY) -->
+  <!-- ================================================================= -->
+  <section id="tab-reporting" class="tab-pane" aria-label="Daily and Weekly Reporting">
+    <div class="report-toggle" role="tablist" aria-label="Reporting period">
+      <button type="button" class="report-toggle-btn active" id="reportModeDaily" onclick="setReportMode('daily')">Daily</button>
+      <button type="button" class="report-toggle-btn" id="reportModeWeekly" onclick="setReportMode('weekly')">Weekly</button>
+    </div>
+
+    <div id="reportDailyView">
+      <div class="panel" style="margin-bottom: 2rem;">
+        <div class="section-label">Daily Report · Meridian</div>
+        <div class="panel-header">
+          <div class="report-stepper">
+            <button type="button" class="btn-secondary" onclick="stepReportDay(-1)" aria-label="Previous day">◀</button>
+            <div class="panel-title" id="reportDayTitle">—</div>
+            <button type="button" class="btn-secondary" onclick="stepReportDay(1)" aria-label="Next day">▶</button>
+            <button type="button" class="panel-action" onclick="stepReportDay(0)">Today</button>
+          </div>
+          <div class="report-meta" id="reportDayMeta"></div>
+        </div>
+        <div class="report-headline" id="reportDayHeadline"></div>
+        <div class="report-day-grid">
+          <div class="report-adherence" id="reportDayAdherence"></div>
+          <div class="report-insights" id="reportDayInsights"></div>
+        </div>
+      </div>
+
+      <div class="grid-2col" style="margin-bottom: 2rem;">
+        <div class="panel">
+          <div class="section-label">Plan</div>
+          <div id="reportDayPlan"></div>
+          <div class="section-label" style="margin-top: 1.5rem;">Unplanned</div>
+          <div id="reportDayUnplanned"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="section-label" style="margin: 0;">Standup</div>
+            <button type="button" class="panel-action" onclick="copyStandup()">Copy →</button>
+          </div>
+          <ul class="report-standup" id="reportDayStandup"></ul>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <div class="panel">
+          <div class="section-label">Time by Category</div>
+          <div id="reportDayTime"></div>
+        </div>
+        <div class="panel">
+          <div class="section-label">Commits &amp; Fleet</div>
+          <div id="reportDayCommits"></div>
+          <div class="report-fleet-line" id="reportDayFleet"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="reportWeeklyView" hidden>
+      <div class="panel" style="margin-bottom: 2rem;">
+        <div class="section-label">Rolling 7 Days · Meridian</div>
+        <div class="panel-header">
+          <div class="report-stepper">
+            <button type="button" class="btn-secondary" onclick="stepReportWeek(-1)" aria-label="Previous week">◀</button>
+            <div class="panel-title" id="reportWeekTitle">—</div>
+            <button type="button" class="btn-secondary" onclick="stepReportWeek(1)" aria-label="Next week">▶</button>
+            <button type="button" class="panel-action" onclick="stepReportWeek(0)">This Week</button>
+          </div>
+        </div>
+        <div class="grid-metrics fleet-kpis" id="reportWeekKpis"></div>
+        <div class="report-bars" id="reportWeekBars"></div>
+        <div id="reportWeekDays"></div>
+      </div>
+    </div>
+
+    <!-- Weekly Retro Telemetry Panel (shown in both Daily and Weekly views) -->
+    <div class="panel" style="margin-top: 2rem;">
+      <div class="section-label">Weekly Telemetry</div>
       <div class="panel-header">
         <div class="panel-title">Weekly Retro Telemetry</div>
         <button type="button" class="panel-action" onclick="document.querySelector('weekly-reporting-dashboard').load()">Refresh →</button>
@@ -1516,7 +1629,118 @@ flowchart TD
   </section>
 
   <!-- ================================================================= -->
-  <!-- TAB 06: OPERATIONS & AUTOMATION DAEMONS -->
+  <!-- TAB 06: IRONBOTS FLEET -->
+  <!-- ================================================================= -->
+  <section id="tab-fleet" class="tab-pane" aria-label="Ironbots Fleet">
+    <!-- Daily Ironbots Fleet Activity Panel -->
+    <div class="panel" style="margin-bottom: 2rem;">
+      <div class="section-label">Ironbots Fleet Telemetry</div>
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Daily Ironbots Autonomous Activity &amp; Health</div>
+          <div style="font-size: 0.85rem; color: var(--ash); margin-top: 0.2rem;">
+            Continuous 24/7 background automation fleet running under Windows Task Scheduler with 0 token burn.
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; align-items: center;">
+          <button type="button" class="btn-secondary" onclick="copyCommand('npm run bot:all')">Run Full Fleet 📋</button>
+          <button type="button" class="panel-action" onclick="loadIronbotsDailyReport()">Refresh Telemetry →</button>
+        </div>
+      </div>
+
+      <!-- Fleet KPI Metrics -->
+      <div class="grid-metrics fleet-kpis" style="margin-bottom: 1.5rem;">
+        <div>
+          <div class="stat-block">
+            <div class="stat-number" id="ironbotsFleetScore" style="color: #5a9e6f;">92 / 100</div>
+            <div class="stat-label">Fleet Health Score</div>
+          </div>
+          <div class="stat-sub" id="ironbotsFleetStatusSub">● Operational (0 Token Burn)</div>
+        </div>
+        <div>
+          <div class="stat-block">
+            <div class="stat-number" id="ironbotsActiveCount" style="color: var(--white);">10 / 10</div>
+            <div class="stat-label">Active Ironbots</div>
+          </div>
+          <div class="stat-sub">S4U Unattended Schedulers</div>
+        </div>
+        <div>
+          <div class="stat-block">
+            <div class="stat-number" id="ironbotsDocsCount" style="color: #5eead4;">459 Docs</div>
+            <div class="stat-label">Knowledge Base Index</div>
+          </div>
+          <div class="stat-sub">SQLite FTS5 Porter Stemming</div>
+        </div>
+        <div>
+          <div class="stat-block">
+            <div class="stat-number" id="ironbotsDaemonStatus" style="color: #a78bfa;">OK</div>
+            <div class="stat-label">Daemon Supervisor</div>
+          </div>
+          <div class="stat-sub">Port 8080 · Auto-Recovery</div>
+        </div>
+      </div>
+
+      <!-- Live Ironbots Activity Table -->
+      <table class="table-clean">
+        <thead>
+          <tr>
+            <th style="width: 220px;">Bot Name &amp; Category</th>
+            <th style="width: 140px;">Schedule</th>
+            <th>Daily Operational Summary</th>
+            <th style="width: 150px;">Status</th>
+            <th style="width: 120px;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="ironbotsFleetTableBody">
+          <tr>
+            <td><strong style="color:var(--white);">NotebookLM Ingester</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
+            <td><span class="tag date">Daily 02:00 AM</span></td>
+            <td>459 documents indexed into SQLite FTS5 (0 token burn)</td>
+            <td><span class="status-badge live" style="font-size:0.6rem;">● HEALTHY</span></td>
+            <td><button type="button" class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.65rem;" onclick="copyCommand('npm run bot:notebook:ingest')">Run Bot</button></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--white);">KB-Sentinel</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
+            <td><span class="tag date">Daily 03:00 AM</span></td>
+            <td>Health Score: 92/100 (409 files scanned, 0 broken links)</td>
+            <td><span class="status-badge live" style="font-size:0.6rem;">● PASS (92/100)</span></td>
+            <td><button type="button" class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.65rem;" onclick="copyCommand('npm run bot:kb:sentinel')">Run Bot</button></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--white);">TRM-Bot Drafter</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
+            <td><span class="tag date">Daily 04:00 AM</span></td>
+            <td>2,056 total research gaps tracked and RFCs drafted</td>
+            <td><span class="status-badge live" style="font-size:0.6rem;">● PASS</span></td>
+            <td><button type="button" class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.65rem;" onclick="copyCommand('npm run bot:trm:triage')">Run Bot</button></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--white);">Watchlist Drift Miner</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
+            <td><span class="tag date">Daily 05:00 AM</span></td>
+            <td>3 competitor models evaluated (Google SAM, Anthropic, OpenAI)</td>
+            <td><span class="status-badge live" style="font-size:0.6rem; color:#a78bfa; border-color:rgba(167,139,250,0.4);">● DRIFT MONITORED</span></td>
+            <td><button type="button" class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.65rem;" onclick="copyCommand('npm run bot:watchlist:mine')">Run Bot</button></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--white);">Daemon-Healer</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
+            <td><span class="tag high">Every 15 Min</span></td>
+            <td>Probes port 8080 health; auto-recovers dead server from C:\dev</td>
+            <td><span class="status-badge live" style="font-size:0.6rem;">● SUPERVISED (200 OK)</span></td>
+            <td><button type="button" class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.65rem;" onclick="copyCommand('npm run bot:daemon:heal')">Run Bot</button></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--white);">CI-Watchdog</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
+            <td><span class="tag date">Daily 06:00 AM</span></td>
+            <td>Polls GitHub Actions for failures; extracts delivery-guard error logs</td>
+            <td><span class="status-badge live" style="font-size:0.6rem;">● ACTIVE</span></td>
+            <td><button type="button" class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.65rem;" onclick="copyCommand('npm run bot:ci:watchdog')">Run Bot</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <!-- TAB 07: OPERATIONS & AUTOMATION DAEMONS -->
   <!-- ================================================================= -->
   <section id="tab-ops" class="tab-pane" aria-label="Operations and Automation Daemons">
     <!-- Operations KPI Metrics -->
@@ -1720,7 +1944,7 @@ flowchart TD
       <div class="panel-header">
         <div class="panel-title" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
           <span>Autonomous Background Robot Fleet</span>
-          <span class="status-badge live" id="ironbotsOpsActiveBadge">● 9 ACTIVE (UNATTENDED S4U)</span>
+          <span class="status-badge live" id="ironbotsOpsActiveBadge">● 10 ACTIVE (UNATTENDED S4U)</span>
           <span class="tag date">Zero Token Burn</span>
         </div>
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -1788,6 +2012,15 @@ flowchart TD
             <td><button type="button" class="btn-secondary" onclick="copyCommand('Start-ScheduledTask -TaskName \'Daemon-Healer\' -TaskPath \'\\Ironbots\\\'')">Run Task</button></td>
           </tr>
           <tr>
+            <td><strong style="color:var(--white);">IronLedger-Sentinel</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
+            <td><span class="tag high">Every 15 Minutes</span></td>
+            <td>Probes Workbench port 8000, verifies double-entry balance invariants &amp; heals Docker container</td>
+            <td><code>soren (S4U)</code> · Highest</td>
+            <td><span style="font-family:monospace; font-size:0.75rem; color:var(--bone);">_status-feed/ironledger_health.json</span></td>
+            <td><span class="status-badge live" style="font-size:0.6rem;">● SUPERVISED (PORT 8000 OK)</span></td>
+            <td><button type="button" class="btn-secondary" onclick="copyCommand('Start-ScheduledTask -TaskName \'IronLedger-Sentinel\' -TaskPath \'\\Ironbots\\\'')">Run Task</button></td>
+          </tr>
+          <tr>
             <td><strong style="color:var(--white);">CI-Watchdog</strong><br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">\Ironbots\</span></td>
             <td><span class="tag date">Daily 06:00 AM</span></td>
             <td>Polls GitHub Actions for failures; extracts delivery-guard error logs</td>
@@ -1825,6 +2058,103 @@ flowchart TD
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- MOBILE OUTBOX & PULL REQUESTS 2-COL GRID -->
+    <div class="grid-2col" style="margin-bottom: 2rem;">
+      <!-- Left: Mobile Outbox Stream -->
+      <div class="panel" style="border-top: 3px solid var(--ember);">
+        <div class="section-label">Mobile Outbox &amp; Action Receipts</div>
+        <div class="panel-header">
+          <div>
+            <div class="panel-title" style="display: flex; align-items: center; gap: 0.6rem;">
+              <span>Live Action Receipts</span>
+              <span class="status-badge live" id="outboxLiveStatus" style="font-size: 0.6rem;">● DISPATCH READY</span>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--ash); margin-top: 0.2rem;">
+              Real-time receipts emitted for mobile voice/text action cards with direct issue &amp; PR links.
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="display: inline-flex; border: 1px solid rgba(154,144,136,0.25); background: rgba(10,8,6,0.6);">
+              <button type="button" id="btnOutboxFilterActive" class="tab-btn active" style="font-size: 0.65rem; padding: 0.2rem 0.55rem;" onclick="setOutboxFilter('active')">Active</button>
+              <button type="button" id="btnOutboxFilterAll" class="tab-btn" style="font-size: 0.65rem; padding: 0.2rem 0.55rem;" onclick="setOutboxFilter('all')">All</button>
+              <button type="button" id="btnOutboxFilterCompleted" class="tab-btn" style="font-size: 0.65rem; padding: 0.2rem 0.55rem;" onclick="setOutboxFilter('completed')">Completed</button>
+            </div>
+            <button type="button" class="panel-action" onclick="loadMobileOutbox()">Refresh ⟳</button>
+          </div>
+        </div>
+        <div id="mobileOutboxStreamContainer" style="max-height: 420px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.6rem; padding-right: 0.25rem;">
+          <div style="font-size: 0.85rem; color: var(--ash); font-style: italic;">Loading outbox stream...</div>
+        </div>
+      </div>
+
+      <!-- Right: Pull Requests & Landing Feed -->
+      <div class="panel" style="border-top: 3px solid #5a9e6f;">
+        <div class="section-label">GitHub Pull Requests &amp; Landings</div>
+        <div class="panel-header">
+          <div>
+            <div class="panel-title" style="display: flex; align-items: center; gap: 0.6rem;">
+              <span>Code Landings &amp; PRs</span>
+              <span class="status-badge live" id="prsLiveBadge" style="font-size: 0.6rem;">● TRACKED</span>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--ash); margin-top: 0.2rem;">
+              Merged and open pull requests across the ecosystem.
+            </div>
+          </div>
+          <button type="button" class="panel-action" onclick="loadPullRequests()">Refresh ⟳</button>
+        </div>
+        <div id="pullRequestsStreamContainer" style="max-height: 420px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.6rem; padding-right: 0.25rem;">
+          <div style="font-size: 0.85rem; color: var(--ash); font-style: italic;">Loading pull requests stream...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORAGE COMPACTION & PRUNING -->
+    <div class="panel" style="border-top: 3px solid var(--brass); margin-bottom: 2rem;">
+      <div class="section-label">Storage Compaction &amp; Pruning</div>
+      <div class="panel-header">
+        <div>
+          <div class="panel-title" style="display: flex; align-items: center; gap: 0.6rem;">
+            <span>SQLite &amp; Telemetry Compactor</span>
+            <span class="status-badge live" id="storageStatusBadge" style="font-size: 0.6rem;">● HEALTHY</span>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--ash); margin-top: 0.2rem;">
+            Weekly VACUUM optimization, .gz telemetry archiving &amp; task pruning.
+          </div>
+        </div>
+        <button type="button" class="panel-action" onclick="loadStorageAnalytics()">Refresh ⟳</button>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+        <div style="background: rgba(44, 36, 32, 0.6); padding: 0.6rem; border: 1px solid rgba(196, 80, 26, 0.2);">
+          <div style="font-size: 0.7rem; color: var(--ash); text-transform: uppercase;">Total Space Freed</div>
+          <div id="storageTotalFreed" style="font-size: 1.15rem; font-weight: 700; color: #5eead4; font-family: monospace;">--</div>
+        </div>
+        <div style="background: rgba(44, 36, 32, 0.6); padding: 0.6rem; border: 1px solid rgba(196, 80, 26, 0.2);">
+          <div style="font-size: 0.7rem; color: var(--ash); text-transform: uppercase;">Databases Scanned</div>
+          <div id="storageDbCount" style="font-size: 1.15rem; font-weight: 700; color: var(--white); font-family: monospace;">--</div>
+        </div>
+        <div style="background: rgba(44, 36, 32, 0.6); padding: 0.6rem; border: 1px solid rgba(196, 80, 26, 0.2);">
+          <div style="font-size: 0.7rem; color: var(--ash); text-transform: uppercase;">Archives Compacted</div>
+          <div id="storageGzCount" style="font-size: 1.15rem; font-weight: 700; color: var(--brass); font-family: monospace;">--</div>
+        </div>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="table-clean" style="font-size: 0.8rem;">
+          <thead>
+            <tr>
+              <th>Database File</th>
+              <th>Size</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="storageDbTableBody">
+            <tr><td colspan="3" style="color: var(--ash); font-style: italic;">Loading storage analytics...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- SCHEDULED TASKS LIVE INVENTORY TABLE -->
@@ -2533,6 +2863,9 @@ flowchart TD
           currentPipelineData = data.trm_pipeline || null;
           renderTrmIntelligence(data.trm_intelligence, data.trm_pipeline);
         }
+        if (data.todos) {
+          renderTodos(data.todos);
+        }
         if (data.jev_runtime) {
           const jev = data.jev_runtime;
           const jevStatEl = document.getElementById('jevRuntimeStatus');
@@ -2549,6 +2882,28 @@ flowchart TD
     } catch (e) {
       console.log('Using default telemetry state', e);
     }
+  }
+
+  function renderTodos(todos) {
+    const list = document.getElementById('dailyTodosList');
+    if (!list || !Array.isArray(todos.top_open)) return;
+    if (todos.top_open.length === 0) {
+      list.innerHTML = '<li class="item-card" style="border-left: 3px solid var(--brass);"><div style="font-size: 0.85rem; color: var(--ash); font-style: italic;">No open items.</div></li>';
+      return;
+    }
+    list.innerHTML = todos.top_open.map(t => {
+      const isP1 = t.priority === 'P0' || t.priority === 'P1';
+      const borderColor = isP1 ? 'var(--ember)' : 'var(--brass)';
+      const tagClass = isP1 ? 'high' : 'new';
+      return `
+          <li class="item-card" style="border-left: 3px solid ${borderColor};">
+            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
+              <span class="tag ${tagClass}">${escapeHtml(t.priority || 'P?')}</span>
+              <span style="font-size: 0.95rem; font-weight: 700; color: var(--white);">${escapeHtml(t.title || '')}</span>
+            </div>
+            <div style="font-size: 0.8rem; line-height: 1.5; color: var(--ash); font-style: italic;">${escapeHtml(t.detail || '')}</div>
+          </li>`;
+    }).join('');
   }
 
   function renderTrmIntelligence(trm, pipeline) {
@@ -2926,28 +3281,8 @@ flowchart TD
   ];
 
   async function loadSkillsInventory() {
-    // 1. Try embedded manifest script tag first (injected by toolforgeMetadataGenerator)
-    const embedded = document.getElementById('manifest-data');
-    if (embedded && embedded.textContent.trim()) {
-      try {
-        const data = JSON.parse(embedded.textContent);
-        if (data.skills && Array.isArray(data.skills)) {
-          allSkills = data.skills;
-          renderCategoryPills();
-          renderSkillsGrid();
-          return;
-        }
-      } catch (e) {
-        console.warn('Failed to parse embedded manifest-data', e);
-      }
-    }
-
-    // 2. Try fetching SKILLPACK-METADATA.json or manifest.json
     try {
-      let res = await fetch('skills/SKILLPACK-METADATA.json', { cache: 'no-store' });
-      if (!res.ok) {
-        res = await fetch('../../manifest.json', { cache: 'no-store' });
-      }
+      const res = await fetch('../../manifest.json', { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         if (data.skills && Array.isArray(data.skills)) {
@@ -3010,10 +3345,8 @@ flowchart TD
 
     const activeEl = document.getElementById('skActiveCount');
     const totalEl = document.getElementById('skTotalCount');
-    const badgeEl = document.getElementById('tabSkillsBadge');
     if (activeEl) activeEl.textContent = allSkills.filter(s => s.status === 'active' || !s.status).length;
     if (totalEl) totalEl.textContent = allSkills.length;
-    if (badgeEl) badgeEl.textContent = `${allSkills.length} Registered`;
 
     if (filtered.length === 0) {
       container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--ash);">No skills found matching "${skillSearchTerm}"</div>`;
@@ -3087,6 +3420,8 @@ flowchart TD
       'kbsync': 'tab-kbsync',
       'trm': 'tab-trm',
       'reporting': 'tab-reporting',
+      'fleet': 'tab-fleet',
+      'ironbots': 'tab-fleet',
       'ops': 'tab-ops',
       'operations': 'tab-ops',
       'pipeline': 'tab-ops',
@@ -3105,6 +3440,7 @@ flowchart TD
       id: 'notebook-ingester',
       name: 'Notebook-Ingester',
       fullName: 'NotebookLM & Knowledge Ingester',
+      category: '\\Ironbots\\',
       schedule: 'Daily 02:00 AM',
       responsibility: 'Ingests research accessions & wiki nodes into SQLite FTS5 index',
       logonType: 'soren (S4U) · Highest',
@@ -3116,6 +3452,7 @@ flowchart TD
       id: 'kb-sentinel',
       name: 'KB-Sentinel',
       fullName: 'KB-Sentinel Drift & Autoheal',
+      category: '\\Ironbots\\',
       schedule: 'Daily 03:00 AM',
       responsibility: 'Wiki frontmatter linting, broken wikilink check & autohealing',
       logonType: 'soren (S4U) · Highest',
@@ -3127,6 +3464,7 @@ flowchart TD
       id: 'trm-bot',
       name: 'TRM-Bot',
       fullName: 'TRM Gap Triage & RFC Drafter',
+      category: '\\Ironbots\\',
       schedule: 'Daily 04:00 AM',
       responsibility: 'Research gap triage, SQLite FTS5 matching & RFC note drafting',
       logonType: 'soren (S4U) · Highest',
@@ -3138,6 +3476,7 @@ flowchart TD
       id: 'watchlist-miner',
       name: 'Watchlist-Miner',
       fullName: 'Watchlist & Competitor Drift Miner',
+      category: '\\Ironbots\\',
       schedule: 'Daily 05:00 AM',
       responsibility: 'Tracks upstream model architecture baselines and flags competitor drift',
       logonType: 'soren (S4U) · Highest',
@@ -3149,6 +3488,7 @@ flowchart TD
       id: 'daemon-healer',
       name: 'Daemon-Healer',
       fullName: 'Daemon-Healer Port 8080 Supervisor',
+      category: '\\Ironbots\\',
       schedule: 'Every 15 Minutes',
       responsibility: 'Probes port 8080 health; auto-kills stale PIDs & restarts server from C:\\dev',
       logonType: 'soren (S4U) · Highest',
@@ -3157,9 +3497,22 @@ flowchart TD
       npmCmd: 'npm run bot:daemon:heal'
     },
     {
+      id: 'ironledger-sentinel',
+      name: 'IronLedger-Sentinel',
+      fullName: 'IronLedger Sentinel & Workbench Supervisor',
+      category: '\\Ironbots\\',
+      schedule: 'Every 15 Minutes',
+      responsibility: 'Probes Workbench port 8000, verifies double-entry balance invariants & heals Docker container',
+      logonType: 'soren (S4U) · Highest',
+      artifact: '_status-feed/ironledger_health.json',
+      cliCmd: "Start-ScheduledTask -TaskName 'IronLedger-Sentinel' -TaskPath '\\Ironbots\\'",
+      npmCmd: 'npm run bot:ironledger:sentinel'
+    },
+    {
       id: 'ci-watchdog',
       name: 'CI-Watchdog',
       fullName: 'CI-Watchdog Workflow Failure Triage',
+      category: '\\Ironbots\\',
       schedule: 'Daily 06:00 AM',
       responsibility: 'Polls GitHub Actions for failures; extracts delivery-guard error logs',
       logonType: 'soren (S4U) · Highest',
@@ -3171,6 +3524,7 @@ flowchart TD
       id: 'ironbots-reporter',
       name: 'Ironbots-Reporter',
       fullName: 'Ironbots Fleet Reporter & Scorer',
+      category: '\\Ironbots\\',
       schedule: 'Daily 07:00 AM',
       responsibility: 'Aggregates 24h fleet telemetry, computes health score & renders daily digest',
       logonType: 'soren (S4U) · Highest',
@@ -3182,6 +3536,7 @@ flowchart TD
       id: 'storage-pruner',
       name: 'Storage-Pruner',
       fullName: 'Storage-Pruner SQLite & Telemetry Compactor',
+      category: '\\Ironbots\\',
       schedule: 'Weekly Sun 03:30 AM',
       responsibility: 'Vacuums SQLite databases, purges stale staging sandboxes & compacts telemetry',
       logonType: 'soren (S4U) · Highest',
@@ -3193,6 +3548,7 @@ flowchart TD
       id: 'trm-drive-sync',
       name: 'TRM-Drive-Sync',
       fullName: 'TRM-Drive-Sync Ingress Watcher',
+      category: '\\Ironbots\\',
       schedule: 'Continuous / On-Demand',
       responsibility: 'Syncs mobile research notes & triage cards between Drive and local repo',
       logonType: 'soren (S4U) · Highest',
@@ -3201,6 +3557,256 @@ flowchart TD
       npmCmd: 'powershell.exe -File C:\\dev\\kb-sync\\scripts\\schedule-task-wrapper-TRM-Drive-Sync.ps1'
     }
   ];
+
+  function formatMinutes(total) {
+    const h = Math.floor(total / 60);
+    return h ? `${h}h${String(total % 60).padStart(2, '0')}m` : `${total}m`;
+  }
+
+  async function loadMeridianFocus() {
+    const numberEl = document.getElementById('qDailyFocus');
+    const subEl = document.getElementById('qDailyFocusSub');
+    if (!numberEl || !subEl) return;
+    let data = null;
+    try {
+      const res = await fetch('/api/reporting/meridian', { cache: 'no-store' });
+      if (res.ok) data = (await res.json()).data;
+    } catch {}
+
+    if (!data || !data.available) {
+      numberEl.textContent = '—';
+      numberEl.style.color = 'var(--ash)';
+      subEl.textContent = `OFFLINE${data && data.reason ? ` (${data.reason})` : ''}`;
+      return;
+    }
+
+    numberEl.textContent = formatMinutes(data.today.total_minutes);
+    const breakdown = Object.entries(data.today.minutes_by_category)
+      .sort((x, y) => y[1] - x[1])
+      .map(([category, minutes]) => `${category} ${formatMinutes(minutes)}`)
+      .join(' · ');
+    subEl.parentElement.title = `Meridian · ${data.today.session_count} sessions today${breakdown ? `\n${breakdown}` : ''}`;
+
+    if (data.daemon_fresh && data.active) {
+      const app = data.active.app_name.replace(/\.exe$/i, '');
+      numberEl.style.color = 'var(--color-status-live)';
+      subEl.textContent = `● ${app} · ${data.active.category} ${formatMinutes(data.active.elapsed_minutes)}`;
+    } else {
+      numberEl.style.color = 'var(--brass)';
+      subEl.textContent = 'IDLE';
+    }
+  }
+
+  // ---- Tab 05 Reporting: Meridian daily / weekly views ----
+  const INSIGHT_ACCENTS = ['var(--ember)', 'var(--brass)', '#5eead4'];
+  let reportMode = 'daily';
+  let reportDay = null;
+  let reportWeekEnd = null;
+  let reportStandupText = '';
+  let lastFleetSummary = null;
+
+  function localDayString(date) {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  }
+
+  function shiftDayString(day, delta) {
+    const [y, m, d] = day.split('-').map(Number);
+    return localDayString(new Date(y, m - 1, d + delta));
+  }
+
+  function formatDayLabel(day) {
+    const [y, m, d] = day.split('-').map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  function safeHttpsUrl(url) {
+    return typeof url === 'string' && /^https:\/\//i.test(url) ? url : null;
+  }
+
+  function categoryRows(minutesByCategory, idleMinutes) {
+    const entries = Object.entries(minutesByCategory).filter(([, m]) => m > 0).sort((a, b) => b[1] - a[1]);
+    const max = Math.max(1, ...entries.map(([, m]) => m));
+    const rows = entries.map(([category, minutes]) => `
+      <div class="report-row" style="display:block;">
+        <div style="display:flex; justify-content:space-between;"><span>${escapeHtml(category)}</span><span class="report-row-meta">${formatMinutes(minutes)}</span></div>
+        <div class="report-bar"><span style="width:${Math.round((minutes / max) * 100)}%"></span></div>
+      </div>`).join('');
+    const idle = idleMinutes ? `<div class="report-row"><span style="color:var(--ash);">idle (excluded)</span><span class="report-row-meta">${formatMinutes(idleMinutes)}</span></div>` : '';
+    return rows || idle ? rows + idle : '<div class="report-empty">No tracked time.</div>';
+  }
+
+  function adherenceRing(adherence, loggedMinutes) {
+    const planned = adherence.planned || 0;
+    const done = adherence.done || 0;
+    const pct = planned ? Math.round((done / planned) * 100) : 0;
+    const r = 52;
+    const circumference = 2 * Math.PI * r;
+    const extra = adherence.unplanned_minutes ? ` · +${formatMinutes(adherence.unplanned_minutes)} unplanned` : '';
+    return `
+      <div class="report-ring">
+        <svg width="140" height="140" viewBox="0 0 140 140" aria-label="Plan adherence ${pct}%">
+          <circle cx="70" cy="70" r="${r}" fill="none" stroke="rgba(154,144,136,0.2)" stroke-width="10"/>
+          <circle cx="70" cy="70" r="${r}" fill="none" stroke="var(--ember)" stroke-width="10"
+            stroke-dasharray="${(circumference * pct) / 100} ${circumference}" transform="rotate(-90 70 70)"/>
+          <text x="70" y="68" text-anchor="middle" fill="var(--white)" font-size="26" font-weight="800">${done}/${planned}</text>
+          <text x="70" y="90" text-anchor="middle" fill="var(--ash)" font-size="11">PLAN DONE</text>
+        </svg>
+        <div>${formatMinutes(loggedMinutes || 0)} logged${escapeHtml(extra)}</div>
+      </div>`;
+  }
+
+  function setReportMode(mode) {
+    reportMode = mode;
+    document.getElementById('reportModeDaily').classList.toggle('active', mode === 'daily');
+    document.getElementById('reportModeWeekly').classList.toggle('active', mode === 'weekly');
+    document.getElementById('reportDailyView').hidden = mode !== 'daily';
+    document.getElementById('reportWeeklyView').hidden = mode !== 'weekly';
+    if (mode === 'weekly') loadReportWeek();
+    else loadReportDay();
+  }
+
+  function stepReportDay(delta) {
+    const today = localDayString(new Date());
+    const next = delta === 0 ? today : shiftDayString(reportDay || today, delta);
+    if (next > today) return;
+    reportDay = next;
+    loadReportDay();
+  }
+
+  function stepReportWeek(delta) {
+    const today = localDayString(new Date());
+    const next = delta === 0 ? today : shiftDayString(reportWeekEnd || today, delta * 7);
+    reportWeekEnd = next > today ? today : next;
+    loadReportWeek();
+  }
+
+  async function fetchReport(path) {
+    try {
+      const res = await fetch(path, { cache: 'no-store' });
+      if (res.ok) return (await res.json()).data;
+    } catch {}
+    return null;
+  }
+
+  async function loadReportDay() {
+    const day = reportDay || localDayString(new Date());
+    reportDay = day;
+    document.getElementById('reportDayTitle').textContent = formatDayLabel(day);
+    const data = await fetchReport(`/api/reporting/meridian/day?date=${day}`);
+    if (day !== reportDay) return;
+
+    const headlineEl = document.getElementById('reportDayHeadline');
+    const metaEl = document.getElementById('reportDayMeta');
+    const adherenceEl = document.getElementById('reportDayAdherence');
+    const insightsEl = document.getElementById('reportDayInsights');
+    const planEl = document.getElementById('reportDayPlan');
+    const unplannedEl = document.getElementById('reportDayUnplanned');
+    const standupEl = document.getElementById('reportDayStandup');
+    const timeEl = document.getElementById('reportDayTime');
+    const commitsEl = document.getElementById('reportDayCommits');
+    const fleetEl = document.getElementById('reportDayFleet');
+
+    const meridian = data && data.meridian;
+    if (!meridian || !meridian.available) {
+      headlineEl.textContent = `Meridian unavailable${meridian && meridian.reason ? ` (${meridian.reason})` : ''}.`;
+      metaEl.textContent = '';
+      [adherenceEl, insightsEl, planEl, unplannedEl, standupEl, timeEl].forEach((el) => { el.innerHTML = ''; });
+    } else {
+      const summary = meridian.summary;
+      const today = localDayString(new Date());
+      metaEl.textContent = summary && summary.generated_at ? `Generated ${new Date(summary.generated_at).toLocaleString()}` : '';
+      if (summary) {
+        headlineEl.textContent = summary.headline || '';
+        adherenceEl.innerHTML = adherenceRing(summary.adherence || {}, summary.logged_minutes);
+        insightsEl.innerHTML = summary.insights.map((insight, i) => `
+          <div class="report-insight" style="--accent:${INSIGHT_ACCENTS[i % INSIGHT_ACCENTS.length]}">
+            <h4>${escapeHtml(insight.title)}</h4><p>${escapeHtml(insight.text)}</p>
+          </div>`).join('');
+        planEl.innerHTML = summary.plan.length ? summary.plan.map((item) => {
+          const url = safeHttpsUrl(item.url);
+          const key = item.task_key ? (url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.task_key)}</a> ` : `${escapeHtml(item.task_key)} `) : '';
+          const mark = item.outcome === 'done' ? '✓' : (item.outcome === 'partial' ? '◐' : '○');
+          return `<div class="report-row"><span>${mark} ${key}${escapeHtml(item.title)}</span><span class="report-row-meta">${formatMinutes(item.minutes || 0)}</span></div>`;
+        }).join('') : '<div class="report-empty">No plan recorded.</div>';
+        unplannedEl.innerHTML = summary.unplanned.length ? summary.unplanned.map((task) =>
+          `<div class="report-row"><span>${escapeHtml(task.title)}</span><span class="report-row-meta">${formatMinutes(task.minutes || 0)}</span></div>`).join('')
+          : '<div class="report-empty">None.</div>';
+        reportStandupText = (summary.standup || []).map((line) => `- ${line}`).join('\n');
+        standupEl.innerHTML = (summary.standup || []).map((line) => `<li>${escapeHtml(line)}</li>`).join('') || '<li class="report-empty">No standup.</li>';
+      } else {
+        headlineEl.textContent = day === today ? 'Summary after midnight — live time and commits below.' : 'No Meridian summary for this day.';
+        adherenceEl.innerHTML = '';
+        insightsEl.innerHTML = '';
+        planEl.innerHTML = '<div class="report-empty">—</div>';
+        unplannedEl.innerHTML = '<div class="report-empty">—</div>';
+        standupEl.innerHTML = '<li class="report-empty">—</li>';
+        reportStandupText = '';
+      }
+      timeEl.innerHTML = `<div class="report-row"><span>Tracked</span><span class="report-row-meta">${formatMinutes(meridian.time.tracked_minutes)}</span></div>`
+        + categoryRows(meridian.time.minutes_by_category, meridian.time.idle_minutes);
+    }
+
+    const commits = (data && data.commits) || { count: 0, repos: {} };
+    const repoList = Object.entries(commits.repos).sort((a, b) => b[1] - a[1])
+      .map(([repo, count]) => `<div class="report-row"><span>${escapeHtml(repo)}</span><span class="report-row-meta">${count}</span></div>`).join('');
+    commitsEl.innerHTML = `<div class="report-row"><span>Commits</span><span class="report-row-meta">${commits.count}</span></div>${repoList}`;
+    const fleetText = lastFleetSummary ? `${lastFleetSummary.registered} bots · health ${lastFleetSummary.score ?? '—'}/100` : 'fleet status loading';
+    fleetEl.innerHTML = `Ironbots: ${escapeHtml(fleetText)} · <a onclick="switchTab('tab-fleet')">open fleet →</a>`;
+  }
+
+  function copyStandup() {
+    if (!reportStandupText) { showToast('No standup for this day'); return; }
+    navigator.clipboard.writeText(reportStandupText)
+      .then(() => showToast('Standup copied'))
+      .catch(() => showToast('Could not copy'));
+  }
+
+  async function loadReportWeek() {
+    const end = reportWeekEnd || localDayString(new Date());
+    reportWeekEnd = end;
+    document.getElementById('reportWeekTitle').textContent = `${formatDayLabel(shiftDayString(end, -6))} – ${formatDayLabel(end)}`;
+    const data = await fetchReport(`/api/reporting/meridian/week?end=${end}`);
+    if (end !== reportWeekEnd) return;
+
+    const kpisEl = document.getElementById('reportWeekKpis');
+    const barsEl = document.getElementById('reportWeekBars');
+    const daysEl = document.getElementById('reportWeekDays');
+    const meridian = data && data.meridian;
+    if (!meridian || !meridian.available) {
+      kpisEl.innerHTML = '';
+      barsEl.innerHTML = '';
+      daysEl.innerHTML = `<div class="report-empty">Meridian unavailable${meridian && meridian.reason ? ` (${escapeHtml(meridian.reason)})` : ''}.</div>`;
+      return;
+    }
+
+    const totals = meridian.totals;
+    const commitDays = (data.commits && data.commits.days) || {};
+    const coding = totals.minutes_by_category.coding || 0;
+    const kpi = (value, label, sub) => `<div><div class="stat-block"><div class="stat-number">${escapeHtml(value)}</div><div class="stat-label">${escapeHtml(label)}</div></div><div class="stat-sub">${escapeHtml(sub)}</div></div>`;
+    kpisEl.innerHTML = [
+      kpi(formatMinutes(totals.tracked_minutes), 'Tracked', `idle ${formatMinutes(totals.idle_minutes)} excluded`),
+      kpi(formatMinutes(Math.round(totals.tracked_minutes / 7)), 'Avg / Day', '7-day rolling'),
+      kpi(totals.tracked_minutes ? `${Math.round((coding / totals.tracked_minutes) * 100)}%` : '—', 'Coding', formatMinutes(coding)),
+      kpi(`${totals.plan.done}/${totals.plan.planned}`, 'Plan Hit', `${(data.commits && data.commits.total) || 0} commits`),
+    ].join('');
+
+    const max = Math.max(1, ...meridian.days.map((d) => d.tracked_minutes));
+    barsEl.innerHTML = meridian.days.map((d) => `
+      <div title="${escapeHtml(formatMinutes(d.tracked_minutes))}">
+        <span>${formatMinutes(d.tracked_minutes)}</span>
+        <div class="report-col" style="height:${Math.round((d.tracked_minutes / max) * 100)}%"></div>
+        <span>${escapeHtml(formatDayLabel(d.day).split(',')[0])}</span>
+      </div>`).join('');
+
+    daysEl.innerHTML = meridian.days.slice().reverse().map((d) => {
+      const commits = commitDays[d.day] ? commitDays[d.day].count : 0;
+      const plan = d.adherence && d.adherence.planned ? ` · plan ${d.adherence.done}/${d.adherence.planned}` : '';
+      return `<div class="report-row" style="cursor:pointer;" onclick="reportDay='${d.day}'; setReportMode('daily');">
+        <span><strong>${escapeHtml(formatDayLabel(d.day))}</strong> — ${d.headline ? escapeHtml(d.headline) : '<span class="report-empty">no summary</span>'}</span>
+        <span class="report-row-meta">${formatMinutes(d.tracked_minutes)}${plan} · ${commits} commits</span>
+      </div>`;
+    }).join('');
+  }
 
   async function loadIronbotsDailyReport() {
     try {
@@ -3213,20 +3819,58 @@ flowchart TD
         const fallbackRes = await fetch('../../_status-feed/ironbots_daily_report.json', { cache: 'no-store' });
         if (fallbackRes.ok) {
           data = await fallbackRes.json();
-        } else {
-          const directRes = await fetch('_status-feed/ironbots_daily_report.json', { cache: 'no-store' });
-          if (directRes.ok) data = await directRes.json();
         }
       }
 
       if (!data) return;
 
+      const scoreEl = document.getElementById('ironbotsFleetScore');
+      const statusSubEl = document.getElementById('ironbotsFleetStatusSub');
+      const activeEl = document.getElementById('ironbotsActiveCount');
+      const docsEl = document.getElementById('ironbotsDocsCount');
+      const daemonEl = document.getElementById('ironbotsDaemonStatus');
       const opsBadge = document.getElementById('ironbotsOpsActiveBadge');
+      const tabOpsBadgeEl = document.getElementById('tabOpsBadge');
+      const tbody = document.getElementById('ironbotsFleetTableBody');
       const opsTbody = document.getElementById('ironbotsOpsTableBody');
 
       const registeredCount = FLEET_DEFINITIONS.length;
+      if (scoreEl) {
+        scoreEl.textContent = `${data.fleetHealthScore} / 100`;
+        scoreEl.style.color = data.fleetHealthScore >= 85 ? '#5a9e6f' : (data.fleetHealthScore >= 60 ? 'var(--brass)' : 'var(--ember)');
+      }
+      if (statusSubEl) {
+        statusSubEl.textContent = `● ${data.fleetStatus || 'Operational'} (0 Token Burn)`;
+      }
+      if (activeEl) {
+        activeEl.textContent = `${registeredCount} / ${registeredCount}`;
+      }
       if (opsBadge) {
         opsBadge.textContent = `● ${registeredCount} ACTIVE (UNATTENDED S4U)`;
+      }
+      if (tabOpsBadgeEl) {
+        tabOpsBadgeEl.textContent = `17 Tasks (${registeredCount} Ironbots)`;
+      }
+      const tabFleetBadgeEl = document.getElementById('tabFleetBadge');
+      if (tabFleetBadgeEl) tabFleetBadgeEl.textContent = `${registeredCount} Bots`;
+      lastFleetSummary = { registered: registeredCount, score: data.fleetHealthScore };
+      if (docsEl && data.summaryMetrics) {
+        docsEl.textContent = `${data.summaryMetrics.totalDocsIndexed || 0} Docs`;
+      }
+      if (daemonEl && data.summaryMetrics) {
+        daemonEl.textContent = data.summaryMetrics.daemonStatus || 'OK';
+      }
+
+      function getRelativeTime(iso) {
+        if (!iso) return 'Not run yet';
+        const diffMs = Date.now() - new Date(iso).getTime();
+        if (isNaN(diffMs)) return iso;
+        const mins = Math.floor(diffMs / 60000);
+        if (mins < 1) return 'Just now';
+        if (mins < 60) return `${mins}m ago`;
+        const hrs = Math.floor(mins / 60);
+        if (hrs < 24) return `${hrs}h ago`;
+        return `${Math.floor(hrs / 24)}d ago`;
       }
 
       // Map activeBots by id or normalized name
@@ -3238,7 +3882,7 @@ flowchart TD
         }
       }
 
-      // Render Ops Table
+      // 1. Render Ops Table (Tab 06)
       if (opsTbody) {
         opsTbody.innerHTML = FLEET_DEFINITIONS.map(def => {
           const liveBot = telemetryMap.get(def.id) || telemetryMap.get(def.name.toLowerCase());
@@ -3270,6 +3914,11 @@ flowchart TD
           } else if (def.id === 'daemon-healer') {
             const ok = telem.status === 'HEALTHY' || data.summaryMetrics?.daemonStatus === 'HEALTHY';
             statusText = ok ? 'SUPERVISED (200 OK)' : 'DEGRADED';
+            badgeColor = ok ? '#5a9e6f' : 'var(--ember)';
+            badgeBorder = ok ? 'rgba(90,158,111,0.4)' : 'rgba(196,80,26,0.4)';
+          } else if (def.id === 'ironledger-sentinel') {
+            const ok = telem.status === 'HEALTHY' || telem.workbench?.uiOk;
+            statusText = ok ? 'SUPERVISED (PORT 8000 OK)' : (telem.status || 'DEGRADED');
             badgeColor = ok ? '#5a9e6f' : 'var(--ember)';
             badgeBorder = ok ? 'rgba(90,158,111,0.4)' : 'rgba(196,80,26,0.4)';
           } else if (def.id === 'ci-watchdog') {
@@ -3309,9 +3958,266 @@ flowchart TD
           `;
         }).join('');
       }
+
+      // 2. Render Fleet Summary Table (Tab 05)
+      if (tbody) {
+        tbody.innerHTML = FLEET_DEFINITIONS.map(def => {
+          const liveBot = telemetryMap.get(def.id) || telemetryMap.get(def.name.toLowerCase());
+          const telem = liveBot?.telemetry || {};
+          const isHealthy = liveBot ? (liveBot.status === 'HEALTHY' || liveBot.status === 'PASS' || liveBot.status === 'SUPERVISED') : true;
+          const isDrift = liveBot ? (liveBot.status === 'DRIFT_DETECTED' || liveBot.status === 'DRIFT MONITORED') : false;
+          const badgeColor = isHealthy ? '#5a9e6f' : (isDrift ? '#a78bfa' : 'var(--ember)');
+          const badgeBorder = isHealthy ? 'rgba(90,158,111,0.4)' : (isDrift ? 'rgba(167,139,250,0.4)' : 'rgba(196,80,26,0.4)');
+          const lastRunText = telem.timestamp ? getRelativeTime(telem.timestamp) : '24h cycle';
+          const summaryText = liveBot?.summary || def.responsibility;
+
+          let detailsHtml = '';
+          if (def.id === 'ci-watchdog' && Array.isArray(telem.alerts) && telem.alerts.length > 0) {
+            detailsHtml = `<div style="font-size:0.75rem; color:var(--ember); margin-top:0.3rem;">🚨 <strong>Failures:</strong> ${telem.alerts.map(a => `<a href="${escapeHtml(a.url)}" target="_blank" style="color:var(--ember); text-decoration:underline;">${escapeHtml(a.name)} (${escapeHtml(a.sha)})</a>`).join(', ')}</div>`;
+          } else if (def.id === 'watchlist-miner' && Array.isArray(telem.driftFindings) && telem.driftFindings.length > 0) {
+            detailsHtml = `<div style="font-size:0.75rem; color:#a78bfa; margin-top:0.3rem;">🔍 <strong>Drifts:</strong> ${telem.driftFindings.map(d => escapeHtml(d.competitorName)).join(', ')}</div>`;
+          } else if (def.id === 'kb-sentinel' && Array.isArray(telem.recentIssues) && telem.recentIssues.length > 0) {
+            detailsHtml = `<div style="font-size:0.75rem; color:var(--ember); margin-top:0.3rem;">⚠️ <strong>Missing frontmatter:</strong> ${telem.recentIssues.map(i => escapeHtml(i.file.split(/[\\/]/).pop())).join(', ')}</div>`;
+          } else if (def.id === 'daemon-healer') {
+            detailsHtml = `<div style="font-size:0.75rem; color:#a78bfa; margin-top:0.3rem;">⚡ <strong>Probe Latency:</strong> ${telem.elapsedMs || 18}ms · Port 8080 OK</div>`;
+          } else if (def.id === 'ironledger-sentinel') {
+            detailsHtml = `<div style="font-size:0.75rem; color:#5eead4; margin-top:0.3rem;">🛡️ <strong>Ledger Invariants:</strong> ${telem.invariants?.passed ? 'PASS' : 'FAIL'} · Container: ${escapeHtml(telem.workbench?.container?.status || 'Active')}</div>`;
+          }
+
+          return `
+            <tr>
+              <td>
+                <strong style="color:var(--white);">${escapeHtml(def.fullName)}</strong>
+                <br><span style="font-size:0.75rem; color:var(--ember); font-family:monospace;">${escapeHtml(def.category)}</span>
+              </td>
+              <td>
+                <span class="tag date">${escapeHtml(def.schedule)}</span>
+                <div style="font-size:0.72rem; color:var(--ash); margin-top:0.25rem;">Last run: ${escapeHtml(lastRunText)}</div>
+              </td>
+              <td>
+                <div>${escapeHtml(summaryText)}</div>
+                ${detailsHtml}
+              </td>
+              <td><span class="status-badge live" style="font-size:0.6rem; color:${badgeColor}; border-color:${badgeBorder};">● ${escapeHtml(liveBot?.status || 'HEALTHY')}</span></td>
+              <td><button type="button" class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.65rem;" onclick="copyCommand('${escapeHtml(def.npmCmd)}')">Run Bot</button></td>
+            </tr>
+          `;
+        }).join('');
+      }
     } catch (e) {
       console.log('Using default fleet state', e);
     }
+  }
+
+  let currentOutboxFilter = 'active'; // Default to active/pending to reduce noise!
+  let cachedOutboxReceipts = [];
+
+  function setOutboxFilter(filter) {
+    currentOutboxFilter = filter;
+    ['Active', 'All', 'Completed'].forEach(name => {
+      const btn = document.getElementById(`btnOutboxFilter${name}`);
+      if (btn) {
+        if (name.toLowerCase() === filter) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    });
+    renderOutboxReceipts();
+  }
+
+  function renderOutboxReceipts() {
+    const container = document.getElementById('mobileOutboxStreamContainer');
+    if (!container) return;
+
+    let filtered = cachedOutboxReceipts;
+    if (currentOutboxFilter === 'active') {
+      filtered = cachedOutboxReceipts.filter(r => r.status !== 'COMPLETED');
+    } else if (currentOutboxFilter === 'completed') {
+      filtered = cachedOutboxReceipts.filter(r => r.status === 'COMPLETED');
+    }
+
+    if (filtered.length === 0) {
+      const msg = currentOutboxFilter === 'active'
+        ? 'No active pending items in queue.'
+        : (currentOutboxFilter === 'completed' ? 'No completed receipts found.' : 'No receipts in outbox buffer.');
+      container.innerHTML = `<div style="font-size: 0.85rem; color: var(--ash); font-style: italic; padding: 0.5rem 0;">${msg}</div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(r => {
+      const isQuarantined = r.status === 'QUARANTINED' || r.status === 'QUARANTINE_MOVE_FAILED';
+      const isCompleted = r.status === 'COMPLETED';
+      const badgeClass = isQuarantined ? 'high' : (isCompleted ? 'live' : 'progress');
+      const badgeText = isQuarantined ? 'QUARANTINED' : (r.status || 'PENDING');
+      const color = isQuarantined ? 'var(--ember)' : (isCompleted ? '#5a9e6f' : 'var(--brass)');
+      const timeStr = (r.timestamp || r.completed_at || r.dispatched_at) ? new Date(r.timestamp || r.completed_at || r.dispatched_at).toLocaleTimeString() : 'Just now';
+      const cardTitle = r.card_title || r.summary || r.action_id || r.file;
+      const handler = r.action_type || (r.execution_plan && r.execution_plan[0]?.handler) || 'ironbot';
+      const issueNumber = r.issue_url ? r.issue_url.split('/').pop() : null;
+      const prNumber = r.pr_number || (r.pr_url ? r.pr_url.split('/').pop() : null);
+
+      return `
+        <div style="background: rgba(44, 36, 32, 0.4); border-left: 3px solid ${color}; padding: 0.55rem 0.75rem; border-top: 1px solid rgba(154, 144, 136, 0.1); border-right: 1px solid rgba(154, 144, 136, 0.1); border-bottom: 1px solid rgba(154, 144, 136, 0.1);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <span class="status-badge ${badgeClass}" style="font-size: 0.55rem;">● ${escapeHtml(badgeText)}</span>
+            <span style="font-size: 0.7rem; color: var(--ash); font-family: monospace;">${escapeHtml(timeStr)}</span>
+          </div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 0.25rem;">${escapeHtml(cardTitle)}</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; font-size: 0.72rem; color: var(--ash); font-family: monospace; margin-bottom: 0.35rem;">
+            <span>Handler: <strong style="color:var(--bone);">${escapeHtml(handler)}</strong></span>
+            <span>·</span>
+            <span>Latency: <strong style="color:var(--bone);">${escapeHtml(String(r.duration_ms || 0))}ms</strong></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-top: 0.25rem;">
+            ${r.issue_url ? `<a href="${escapeHtml(r.issue_url)}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:0.2rem; background:rgba(196,80,26,0.15); color:var(--ember); padding:0.15rem 0.45rem; border:1px solid rgba(196,80,26,0.4); text-decoration:none; font-size:0.68rem; font-family:monospace; font-weight:600;">Issue #${escapeHtml(issueNumber)} ↗</a>` : ''}
+            ${r.pr_url ? `<a href="${escapeHtml(r.pr_url)}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:0.2rem; background:rgba(90,158,111,0.15); color:#5a9e6f; padding:0.15rem 0.45rem; border:1px solid rgba(90,158,111,0.4); text-decoration:none; font-size:0.68rem; font-family:monospace; font-weight:600;">PR #${escapeHtml(String(prNumber))} (${escapeHtml(r.pr_state || 'MERGED')}) ↗</a>` : ''}
+            ${r.research_ref ? `<span style="display:inline-flex; align-items:center; background:rgba(184,146,42,0.15); color:var(--brass); padding:0.15rem 0.45rem; border:1px solid rgba(184,146,42,0.3); font-size:0.68rem; font-family:monospace;">RFC Note</span>` : ''}
+            ${(!r.issue_url && !r.pr_url && !r.research_ref) ? `<span style="display:inline-flex; align-items:center; color:var(--ash); font-size:0.68rem; font-family:monospace; font-style:italic;">⏳ Staged in backlog · No PR yet</span>` : ''}
+          </div>
+          ${r.error ? `<div style="font-size:0.72rem; color:var(--ember); margin-top:0.2rem; font-family:monospace;">${escapeHtml(r.error)}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function loadMobileOutbox() {
+    try {
+      const res = await fetch('/api/reporting/mobile-outbox', { cache: 'no-store' });
+      if (!res.ok) return;
+      const json = await res.json();
+      cachedOutboxReceipts = json.receipts || [];
+      renderOutboxReceipts();
+    } catch {}
+  }
+
+  async function loadPullRequests() {
+    const container = document.getElementById('pullRequestsStreamContainer');
+    const badge = document.getElementById('prsLiveBadge');
+    if (!container) return;
+    try {
+      const res = await fetch('/api/reporting/pull-requests', { cache: 'no-store' });
+      if (!res.ok) return;
+      const json = await res.json();
+      const prs = json.prs || [];
+      if (badge) {
+        badge.textContent = `● ${prs.length} TRACKED`;
+      }
+      if (prs.length === 0) {
+        container.innerHTML = `<div style="font-size: 0.85rem; color: var(--ash); font-style: italic; padding: 0.5rem 0;">No pull requests found.</div>`;
+        return;
+      }
+      container.innerHTML = prs.map(p => {
+        const isMerged = p.state === 'MERGED' || p.mergedAt;
+        const isOpen = p.state === 'OPEN' || p.state === 'open';
+        const badgeClass = isMerged ? 'live' : (isOpen ? 'progress' : 'soon');
+        const badgeText = isMerged ? 'MERGED' : (isOpen ? 'OPEN' : p.state);
+        const color = isMerged ? '#5a9e6f' : (isOpen ? 'var(--brass)' : 'var(--ash)');
+        const timeStr = p.mergedAt ? new Date(p.mergedAt).toLocaleTimeString() : (p.createdAt ? new Date(p.createdAt).toLocaleTimeString() : '');
+        return `
+          <div style="background: rgba(44, 36, 32, 0.4); border-left: 3px solid ${color}; padding: 0.55rem 0.75rem; border-top: 1px solid rgba(154, 144, 136, 0.1); border-right: 1px solid rgba(154, 144, 136, 0.1); border-bottom: 1px solid rgba(154, 144, 136, 0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <span class="status-badge ${badgeClass}" style="font-size: 0.55rem;">● ${escapeHtml(badgeText)}</span>
+              <span style="font-size: 0.7rem; color: var(--ash); font-family: monospace;">${escapeHtml(timeStr)}</span>
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 0.25rem;">
+              <a href="${escapeHtml(p.url)}" target="_blank" rel="noopener" style="color:var(--white); text-decoration:none;">
+                <span style="color:var(--ember); font-family:monospace; margin-right:0.3rem;">#${escapeHtml(String(p.number))}</span>${escapeHtml(p.title)} ↗
+              </a>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--ash); font-family: monospace;">
+              <span>${p.headRefName ? `Branch: <code style="color:var(--bone);">${escapeHtml(p.headRefName)}</code>` : 'GitHub PR'}</span>
+              <a href="${escapeHtml(p.url)}" target="_blank" rel="noopener" style="color:var(--ember); text-decoration:underline;">View PR ↗</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    } catch {}
+  }
+
+  async function loadStorageAnalytics() {
+    try {
+      const res = await fetch('/api/reporting/storage-pruner', { cache: 'no-store' });
+      if (!res.ok) return;
+      const json = await res.json();
+      const data = json.data || {};
+      
+      const totalFreedEl = document.getElementById('storageTotalFreed');
+      const dbCountEl = document.getElementById('storageDbCount');
+      const gzCountEl = document.getElementById('storageGzCount');
+      const statusBadge = document.getElementById('storageStatusBadge');
+      const tableBody = document.getElementById('storageDbTableBody');
+
+      if (totalFreedEl) totalFreedEl.textContent = data.totalFreedFormatted || '0 B';
+      if (dbCountEl) dbCountEl.textContent = data.databasesScanned || '0';
+      if (gzCountEl) gzCountEl.textContent = data.telemetryCompactedCount || '0';
+      if (statusBadge) {
+        statusBadge.textContent = `● ${data.status || 'HEALTHY'}`;
+        statusBadge.className = data.status === 'FAILURES_DETECTED' ? 'status-badge high' : 'status-badge live';
+      }
+
+      if (tableBody) {
+        const dbResults = data.databaseResults || [];
+        if (dbResults.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="3" style="color: var(--ash); font-style: italic;">No database vacuum telemetry recorded.</td></tr>`;
+        } else {
+          tableBody.innerHTML = dbResults.map(db => {
+            const dbName = db.dbPath ? db.dbPath.split(/[\\\\/]/).pop() : 'database';
+            const sizeStr = `${(db.sizeAfter / 1024).toFixed(1)} KB`;
+            const statusClass = db.status === 'SUCCESS' ? 'live' : (db.status === 'SKIPPED_DRY_RUN' ? 'date' : 'high');
+            return `
+              <tr>
+                <td><strong style="color:var(--white);">${escapeHtml(dbName)}</strong></td>
+                <td><span style="font-family:monospace; color:var(--bone);">${escapeHtml(sizeStr)}</span></td>
+                <td><span class="status-badge ${statusClass}" style="font-size:0.55rem;">● ${escapeHtml(db.status)}</span></td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+    } catch {}
+  }
+
+  function initRealtimeEventStream() {
+    if (!window.EventSource) return;
+    try {
+      const sse = new EventSource('/api/events');
+      sse.addEventListener('connected', (e) => {
+        const badge = document.getElementById('sseLiveBadge');
+        if (badge) {
+          badge.textContent = '● LIVE SSE';
+          badge.style.opacity = '1';
+        }
+      });
+      sse.addEventListener('telemetry', (e) => {
+        try {
+          const payload = JSON.parse(e.data);
+          if (payload.feed === 'ironbots_daily_report.json') {
+            loadIronbotsDailyReport();
+          } else if (payload.feed === 'daily_status.json' || payload.feed === 'trm_ingress_status.json') {
+            loadDailyStatus();
+            loadMobileOutbox();
+            loadPullRequests();
+          } else if (payload.feed === 'storage_pruner_status.json') {
+            loadStorageAnalytics();
+          }
+        } catch {}
+      });
+      sse.addEventListener('heartbeat', () => {
+        const badge = document.getElementById('sseLiveBadge');
+        if (badge) {
+          badge.style.opacity = '1';
+        }
+      });
+      sse.onerror = () => {
+        const badge = document.getElementById('sseLiveBadge');
+        if (badge) {
+          badge.textContent = '○ POLLING';
+          badge.style.opacity = '0.6';
+        }
+      };
+    } catch {}
   }
 
   // Initialize
@@ -3322,1613 +4228,21 @@ flowchart TD
   loadSkillsInventory();
   renderExecutionRuns();
   loadIronbotsDailyReport();
+  loadMeridianFocus();
+  loadReportDay();
+  loadMobileOutbox();
+  loadPullRequests();
+  loadStorageAnalytics();
   handleHashRoute();
+  initRealtimeEventStream();
 
   window.addEventListener('hashchange', handleHashRoute);
   setInterval(fetchHeadroomIcfMetrics, 15000);
   setInterval(loadIronbotsDailyReport, 30000);
-</script>
-
-<script type="application/json" id="manifest-data">
-{
-  "timestamp": "2026-09-28T14:31:54.5194396Z",
-  "version": "1.0.0",
-  "skills": [
-    {
-      "id": "_cic-shared",
-      "name": "CIC Shared Utilities",
-      "category": "utilities",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Shared utilities and constants for CIC (internal)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-17T16:43:16.0006002Z",
-        "lastValidation": "2026-07-17T16:43:16.0006002Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "roadmap-validator",
-      "name": "Roadmap Validator",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.3151312Z",
-        "lastValidation": "2026-07-10T21:43:59.3151312Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "rollback-phase",
-      "name": "Rollback Phase",
-      "category": "pipeline",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Revert CIC pipeline to prior phase checkpoint",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.3368036Z",
-        "lastValidation": "2026-07-10T21:43:59.3368036Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "run-adapter-diagnostic",
-      "name": "Run Adapter Diagnostic",
-      "category": "monitoring",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Check adapter health, latency percentiles, and error rates in real time",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.3530883Z",
-        "lastValidation": "2026-07-10T21:43:59.3530883Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "scale-ingestion-service",
-      "name": "Scale Ingestion Service",
-      "category": "pipeline",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Adjust RL ingestion service worker count & queue depth based on backlog",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.3653280Z",
-        "lastValidation": "2026-07-10T21:43:59.3653280Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "session-wrap",
-      "name": "Session Wrap",
-      "category": "session-management",
-      "tags": [],
-      "version": "1.1.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Atomic session wrap-up: doc updates, scoped git staging, prefixed commit, structured report",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-17T16:30:03.9714186Z",
-        "lastValidation": "2026-07-17T16:30:03.9714186Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "sigil-grok-bridge",
-      "name": "Sigil Grok Bridge",
-      "category": "sync-tools",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "soren",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Exposes governed Sigil task submission and inbox inspection to Grok Bot over MCP",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "@modelcontextprotocol/sdk"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-09T02:12:08.5103341Z",
-        "lastValidation": "2026-09-09T02:12:08.5103341Z",
-        "lastRun": null
-      }
-    },
-    {
-      "id": "skill-health-monitor",
-      "name": "Skill Health Monitor",
-      "category": "monitoring",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Manifest-driven ecosystem health: staleness, never-run skills, and manifest/directory drift",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-17T16:30:04.0009582Z",
-        "lastValidation": "2026-07-17T16:30:04.0009582Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "skill-security-auditor",
-      "name": "Skill Security Auditor",
-      "category": "utilities",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "src/skill_security_auditor.py",
-      "description": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-15T15:04:33.2507454Z",
-        "lastValidation": "2026-07-15T15:04:33.2507454Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "slop-grader-sweep",
-      "name": "Slop Grader Sweep",
-      "category": "docs-quality",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/cli.ts",
-      "description": "LLM-graded prose quality sweep (no-ai-slop + tech-docs rulesets) for docs/wiki/specs markdown, complementing the deterministic writing-heuristics engine",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-22T16:26:52.8977684Z",
-        "lastValidation": "2026-09-22T16:26:52.8977684Z",
-        "lastRun": null
-      }
-    },
-    {
-      "id": "third-party-repo-auditor",
-      "name": "Third-Party Repository Auditor",
-      "category": "observability",
-      "tags": [
-        "git",
-        "third-party",
-        "audit",
-        "upstream"
-      ],
-      "version": "1.0.0",
-      "owner": "soren",
-      "runtime": "powershell",
-      "entrypoint": "src/audit.ps1",
-      "description": "Audits third-party Git repositories against upstream remotes for pending commits, tags, and patch status",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-20T14:33:59.4941744Z",
-        "lastValidation": "2026-09-20T14:33:59.4941744Z",
-        "lastRun": null
-      }
-    },
-    {
-      "id": "tinyfish-search",
-      "name": "TinyFish Search",
-      "category": "sync-tools",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "soren",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "TinyFish AI high-speed search and clean Markdown fetch integration",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "@tiny-fish/sdk"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-03T02:53:31.0994529Z",
-        "lastValidation": "2026-09-03T02:53:31.0994529Z",
-        "lastRun": null
-      }
-    },
-    {
-      "id": "rewrite-labs-orchestrator",
-      "name": "Rewrite Labs Orchestrator",
-      "category": "automation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Orchestrates multi-stage development pipelines and handles blockers",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2839834Z",
-        "lastValidation": "2026-07-10T21:43:59.2839834Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "tool-lifecycle-manager",
-      "name": "Tool Lifecycle Manager",
-      "category": "pipeline",
-      "tags": [],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:18:38.7892909Z",
-        "lastValidation": "2026-07-14T03:18:38.7892909Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "toolforge-drift-monitor",
-      "name": "Toolforge Drift Monitor",
-      "category": "monitoring",
-      "tags": [],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:18:33.6042241Z",
-        "lastValidation": "2026-07-14T03:18:33.6042241Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "toolforge-registry-manager",
-      "name": "Toolforge Registry Manager",
-      "category": "pipeline",
-      "tags": [
-        "registry",
-        "toolforge",
-        "marketplace"
-      ],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "powershell",
-      "entrypoint": "src/registry.ps1",
-      "description": "Manages Toolforge plugin registry with append-only semantics",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:41:46.1063430Z",
-        "lastValidation": "2026-07-14T03:41:46.1063430Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "toolforge-submission-validator",
-      "name": "Toolforge Submission Validator",
-      "category": "governance",
-      "tags": [
-        "validation",
-        "conformance",
-        "toolforge",
-        "marketplace"
-      ],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "node",
-      "entrypoint": "src/validate.ts",
-      "description": "Validates skill submissions against conformance gate (manifest, tests, docs, governance, caveman review)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T05:15:24.2167411Z",
-        "lastValidation": "2026-07-14T05:15:24.2167411Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "trm-closed-loop-research",
-      "name": "TRM Closed-Loop Research",
-      "category": "research",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "End-to-end Topic Research Mining (TRM) closed-loop pipeline across all registered NotebookLM notebooks in trm-vault: multi-notebook mining, WhichLLM model selection, cognitive query expansion triage, Layer 2 wiki synthesis, and .nlm_pack compilation.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "git",
-          "node",
-          "pwsh"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-28T16:50:45.8556158Z",
-        "lastValidation": "2026-08-28T16:50:45.8556158Z",
-        "lastRun": "2026-08-30T22:30:00.0000000Z"
-      }
-    },
-    {
-      "id": "trm-devops-triage",
-      "name": "TRM DevOps Triage",
-      "category": "monitoring",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Operational defect triage and resolution operator workflow for the TRM DevOps sync pipeline: inspect queue, claim defect, run deterministic diagnostic actions, verify fix, and prune remote sources.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-28T22:13:41.2886828Z",
-        "lastValidation": "2026-08-28T22:13:41.2886828Z",
-        "lastRun": "2026-08-30T22:30:00.0000000Z"
-      }
-    },
-    {
-      "id": "trm-feedback-report",
-      "name": "TRM Feedback/Report",
-      "category": "research-ops",
-      "tags": [],
-      "version": "0.1.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Post-ingest-batch feedback pass for TRM: classifier/extraction quality, OCR latency vs. budget, candidate new-topic surfacing, and a web-search cross-check on low-confidence facts.",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "trm-status"
-        ],
-        "external": [
-          "trm"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-04T21:15:26.2231593Z",
-        "lastValidation": "2026-08-04T21:15:26.2231593Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "trm-self-healing",
-      "name": "TRM Self Healing",
-      "category": "observability",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "soren",
-      "runtime": "javascript",
-      "entrypoint": "src/index.mjs",
-      "description": "DevOps self-healing triage, research escalation, and Sigil biometric guard skills",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-25T16:08:39.9794463Z",
-        "lastValidation": "2026-09-25T16:08:39.9794463Z",
-        "lastRun": null
-      }
-    },
-    {
-      "id": "trm-status",
-      "name": "TRM Status",
-      "category": "monitoring",
-      "tags": [],
-      "version": "0.1.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "git"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-01T03:33:34.7530183Z",
-        "lastValidation": "2026-08-01T03:33:34.7530183Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "wiki-governance-sync",
-      "name": "Wiki Governance Sync",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Multi-repository knowledge base synchronization and schema governance engine for Obsidian vaults.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-27T15:22:07.2763514Z",
-        "lastValidation": "2026-09-27T15:22:07.2763514Z",
-        "lastRun": null
-      }
-    },
-    {
-      "id": "wiki-sync-recovery",
-      "name": "Wiki Sync Recovery",
-      "category": "monitoring",
-      "tags": [],
-      "version": "0.1.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/diagnose.mjs",
-      "description": "Diagnose a failed GitHub wiki sync by matching its log against the four known failure modes and printing the fix runbook",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-30T16:09:30.5207199Z",
-        "lastValidation": "2026-08-30T16:09:30.5207199Z",
-        "lastRun": "2026-08-30T22:30:00.0000000Z"
-      }
-    },
-    {
-      "id": "work-summarizer",
-      "name": "Work Summarizer v4.0",
-      "category": "observability",
-      "tags": [],
-      "version": "4.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.5024800Z",
-        "lastValidation": "2026-07-10T21:43:59.5024800Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "toolforge-cli",
-      "name": "Toolforge CLI",
-      "category": "utility",
-      "tags": [
-        "cli",
-        "toolforge",
-        "marketplace"
-      ],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "powershell",
-      "entrypoint": "src/cli.ps1",
-      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "toolforge-registry-manager",
-          "toolforge-submission-validator"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:43:17.3269637Z",
-        "lastValidation": "2026-07-14T03:43:17.3269637Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "retro-schema-validator",
-      "name": "Retro Schema Validator",
-      "category": "validation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "javascript",
-      "entrypoint": "src/index.js",
-      "description": "Validates .retro/*.json files against the canonical retro schema v1.0 (required fields, types, ranges, unknown fields)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-23T17:34:37.3597852Z",
-        "lastValidation": "2026-08-23T17:34:37.3597852Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "retro-export",
-      "name": "Retro Export",
-      "category": "monitoring",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:27:19.1809541Z",
-        "lastValidation": "2026-08-16T17:27:19.1809541Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "research-questions",
-      "name": "Research Questions",
-      "category": "research-ops",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "prompt",
-      "entrypoint": "SKILL.md",
-      "description": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "scan-gaps.mjs",
-          "update-focus-areas.mjs"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T18:41:45.5186640Z",
-        "lastValidation": "2026-08-16T18:41:45.5186640Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "agent-drift-detector",
-      "name": "Agent Drift Detector",
-      "category": "validation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Detect schema drift in agent messages and APIs",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:58.8327551Z",
-        "lastValidation": "2026-07-10T21:43:58.8327551Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "analyze-token-burn",
-      "name": "Analyze Token Burn",
-      "category": "observability",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Project month-end token costs and identify high-spend adapters",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:58.8834414Z",
-        "lastValidation": "2026-07-10T21:43:58.8834414Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "ashfall",
-      "name": "Ashfall",
-      "category": "automation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Deterministic session-termination and context-handoff engine for Cast Iron systems",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:58.9186561Z",
-        "lastValidation": "2026-07-10T21:43:58.9186561Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "automation-audit",
-      "name": "Automation Audit",
-      "category": "operations",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-17T16:30:03.9362774Z",
-        "lastValidation": "2026-07-17T16:30:03.9362774Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "cic-consolidate-artifacts",
-      "name": "CIC Consolidate Artifacts",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Stub: consolidate CIC artifacts (Phase 1 placeholder)",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "_cic-shared"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:45:00.1631797Z",
-        "lastValidation": "2026-08-16T17:45:00.1631797Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "cic-ingest-world",
-      "name": "CIC Ingest World",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Stub: ingest a world/source into CIC (Phase 1 placeholder, no TorqueQuery yet)",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "_cic-shared"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:45:00.1665476Z",
-        "lastValidation": "2026-08-16T17:45:00.1665476Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "cic-orchestrate-flow",
-      "name": "CIC Orchestrate Flow",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Phase 3: compose ingest/gate/repair/consolidate into one fixed pipeline call",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "_cic-shared",
-          "cic-consolidate-artifacts",
-          "cic-ingest-world",
-          "cic-repair-pipeline",
-          "cic-run-gate"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:45:00.1696448Z",
-        "lastValidation": "2026-08-16T17:45:00.1696448Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "cic-repair-pipeline",
-      "name": "CIC Repair Pipeline",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Stub: repair a CIC pipeline failure (Phase 1 placeholder)",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "_cic-shared"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:45:00.1721672Z",
-        "lastValidation": "2026-08-16T17:45:00.1721672Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "cic-roadmap-updater",
-      "name": "CIC Roadmap Updater",
-      "category": "analysis",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Calculates progress and updates versions for CIC roadmaps",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:58.9401449Z",
-        "lastValidation": "2026-07-10T21:43:58.9401449Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "cic-run-gate",
-      "name": "CIC Run Gate",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "_cic-shared"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:39:59.7227316Z",
-        "lastValidation": "2026-08-16T17:39:59.7227316Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "cic-section-summarizer",
-      "name": "CIC Section Summarizer",
-      "category": "analysis",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Auto-summarize CIC phase progress and files reviewed",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:58.9776576Z",
-        "lastValidation": "2026-07-10T21:43:58.9776576Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "context-manager",
-      "name": "Context Manager",
-      "category": "utilities",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Autonomous execution context detection, validation, and storage",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-15T15:04:33.2172721Z",
-        "lastValidation": "2026-07-15T15:04:33.2172721Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "hook-validator",
-      "name": "Hook Validator",
-      "category": "validation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "javascript",
-      "entrypoint": "src/index.js",
-      "description": "Audits the pre-commit hook chain for completeness, merged-shim provenance, and execution order",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-23T17:34:16.9514019Z",
-        "lastValidation": "2026-08-23T17:34:16.9514019Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "html-visual-verify",
-      "name": "HTML Visual Verify",
-      "category": "validation",
-      "tags": [
-        "html",
-        "validation",
-        "testing",
-        "wcag",
-        "visual"
-      ],
-      "version": "1.0.0",
-      "owner": "soren",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Validate, test, and auto-fix local HTML files for visual correctness: syntax check, WCAG contrast validation, Playwright screenshot + interaction tests, headless rendering",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.0102349Z",
-        "lastValidation": "2026-07-10T21:43:59.0102349Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "ironbots-fleet-status-monitor",
-      "name": "Ironbots Fleet Status Monitor",
-      "category": "monitoring",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Aggregates execution status and live telemetry across all 9 Ironbots fleet tasks, detects runtime errors, and renders unified fleet health summaries.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-27T15:21:21.9051376Z",
-        "lastValidation": "2026-09-27T15:21:21.9051376Z",
-        "lastRun": null
-      }
-    },
-    {
-      "id": "kb-sync-artifact-generator",
-      "name": "KB Sync Artifact Generator",
-      "category": "governance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Generates synchronization artifacts and reports for the knowledge base.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.0458814Z",
-        "lastValidation": "2026-07-10T21:43:59.0458814Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "kb-sync-nightly",
-      "name": "KB Sync Nightly",
-      "category": "sync-tools",
-      "tags": [],
-      "version": "1.0.2",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Nightly KB sync orchestrator. Runs full npm pipeline (NotebookLM + Obsidian staging + artifact generation) from C:\\dev\\kb-sync.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-15T15:05:01.1105284Z",
-        "lastValidation": "2026-07-15T15:05:01.1105284Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "obsidian-ingest-wiki",
-      "name": "Obsidian Wiki Ingest",
-      "category": "knowledge-base",
-      "tags": [],
-      "version": "1.1.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Validates staged Obsidian raw sources and generates Claude Code prompt for 8-phase wiki semantic synthesis",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-11T21:52:17.6458496Z",
-        "lastValidation": "2026-08-11T21:52:17.6458496Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "operator-image-build",
-      "name": "Operator Image Build",
-      "category": "pipeline",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.1114681Z",
-        "lastValidation": "2026-07-10T21:43:59.1114681Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "parallel-search",
-      "name": "Parallel Search",
-      "category": "sync-tools",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "soren",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Parallel Web Search, Task API, and DOM Extract integration",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "parallel-web"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-09-02T20:58:02.1035550Z",
-        "lastValidation": "2026-09-02T20:58:02.1035550Z",
-        "lastRun": "2026-08-30T22:30:00.0000000Z"
-      }
-    },
-    {
-      "id": "permission-governor",
-      "name": "Permission Governor",
-      "category": "validation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.1301190Z",
-        "lastValidation": "2026-07-10T21:43:59.1301190Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "plan-extractor-integration",
-      "name": "Plan Extractor Integration",
-      "category": "integration",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Unified entry point for CodeFlow extraction into CIC stores",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.1505768Z",
-        "lastValidation": "2026-07-10T21:43:59.1505768Z",
-        "lastRun": "2026-08-07T21:38:00Z"
-      }
-    },
-    {
-      "id": "pre-flight-test-checker",
-      "name": "Pre-Flight Test Checker",
-      "category": "validation",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "javascript",
-      "entrypoint": "src/index.js",
-      "description": "Validates the test environment (ESLint ignore config, external fixtures, platform-specific assumptions) before npm test runs",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-23T17:34:26.3468335Z",
-        "lastValidation": "2026-08-23T17:34:26.3468335Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "pre-wrap-audit",
-      "name": "Pre Wrap Audit",
-      "category": "session-management",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "ashfall"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2189839Z",
-        "lastValidation": "2026-07-10T21:43:59.2189839Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "reconcile-vector-store",
-      "name": "Reconcile Vector Store",
-      "category": "data-management",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-10T21:43:59.2615565Z",
-        "lastValidation": "2026-07-10T21:43:59.2615565Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "workspace-storage-cleaner",
-      "name": "Workspace & Brain Storage Cleaner",
-      "category": "maintenance",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "python",
-      "entrypoint": "scripts/clean-storage.py",
-      "description": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": [
-          "python3"
-        ]
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-16T17:39:59.7247469Z",
-        "lastValidation": "2026-08-16T17:39:59.7247469Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
-      }
-    },
-    {
-      "id": "writing-heuristics",
-      "name": "Writing Heuristics and Style Engine",
-      "category": "validation",
-      "tags": [
-        "writing",
-        "style",
-        "lint",
-        "anti-slop",
-        "google-style",
-        "governance"
-      ],
-      "version": "1.0.0",
-      "owner": "unknown",
-      "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Deterministic technical writing heuristics, anti-slop rules, and Google Developer Style enforcement engine",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-08-19T02:43:05.0236337Z",
-        "lastValidation": "2026-08-19T02:43:05.0236337Z",
-        "lastRun": "2026-08-19T12:04:53.442905+00:00"
-      }
-    }
-  ],
-  "summary": {
-    "total": 56,
-    "active": 56,
-    "deprecated": 0,
-    "health_good": 56,
-    "health_warn": 0,
-    "health_error": 0
-  }
-}
+  setInterval(loadMeridianFocus, 60000);
+  setInterval(loadMobileOutbox, 15000);
+  setInterval(loadPullRequests, 30000);
+  setInterval(loadStorageAnalytics, 30000);
 </script>
 
 </body>

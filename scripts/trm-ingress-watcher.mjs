@@ -317,10 +317,21 @@ export function getRoutingDecision(item) {
   };
 }
 
+export function inferActionType(item) {
+  if (item && item.action_type && ['deterministic_fix', 'antigravity_triage'].includes(item.action_type)) {
+    return item.action_type;
+  }
+  const text = `${item?.intent || ''} ${item?.summary || ''} ${item?.category || ''} ${item?.action_type || ''}`.toLowerCase();
+  if (text.startsWith('fix_') || text.startsWith('remediate_') || text.startsWith('prune_') || text.startsWith('quarantine_') || text.startsWith('clean_')) {
+    return 'deterministic_fix';
+  }
+  return 'antigravity_triage';
+}
+
 export function validatePayload(item) {
   if (!item.source) throw new Error('Missing source');
   if (!item.action_type || !['deterministic_fix', 'antigravity_triage'].includes(item.action_type)) {
-    throw new Error(`Invalid or missing action_type: ${item.action_type}`);
+    item.action_type = inferActionType(item);
   }
   if (!item.intent) throw new Error('Missing intent');
   return true;

@@ -1,18 +1,52 @@
 {
-  "timestamp": "2026-10-01T12:42:28.030Z",
+  "timestamp": "2026-10-03T16:38:35.233Z",
   "status": "HEALTHY",
   "dryRun": true,
   "triageQueue": 0,
   "completed": 3,
   "quarantined": 0,
-  "harnessPending": 1,
-  "totalTracked": 9,
+  "harnessPending": 4,
+  "totalTracked": 10,
   "activeInboxes": [
     "G:\\My Drive\\TRM-Research\\mobile-inbox",
     "c:\\dev\\trm-drive\\inbox\\triage",
     "c:\\dev\\.trm\\inbox\\triage"
   ],
+  "activeOutboxes": [
+    "G:\\My Drive\\TRM-Research\\mobile-outbox",
+    "c:\\dev\\trm-drive\\inbox\\outbox",
+    "c:\\dev\\.trm\\inbox\\outbox"
+  ],
+  "outboxReconciliation": {
+    "timestamp": "2026-10-03T16:38:35.232Z",
+    "reconciliationStatus": "RECONCILED",
+    "archivedCardsCount": 31,
+    "activeReceiptsCount": 75,
+    "archivedReceiptsCount": 0,
+    "totalTrackedCount": 10,
+    "reconciledCardsCount": 10,
+    "unreconciledCardIds": [],
+    "pendingCompletionCount": 0,
+    "completedReceiptsCount": 10,
+    "deliveryRatePercent": 100
+  },
   "recentCards": [
+    {
+      "id": "act-04-evaluate-embedded-duckdb-agent-analytics",
+      "processed_at": "2026-10-03T12:57:28.314Z",
+      "timestamp": "2026-10-03T125504Z",
+      "source": "mobile-gemini-gdoc",
+      "category": "EVALUATE",
+      "domain": "rewrite-mcp",
+      "action_type": "antigravity_triage",
+      "intent": "evaluate_embedded_duckdb_agent_analytics",
+      "target_notebook_name": "Rewrite-MCP / Analytics",
+      "status": "COMPLETED",
+      "research_ref": "wiki/research/rfc-evaluate-embedded-duckdb-agent-analytics.md",
+      "issue_url": null,
+      "duration_ms": 945,
+      "completed_at": "2026-10-03T16:15:00.000Z"
+    },
     {
       "id": "act-04-frontier-lab-verification-standards-dissent",
       "processed_at": "2026-09-27T12:57:58.571Z",

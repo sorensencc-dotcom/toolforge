@@ -540,4 +540,47 @@ test('ironledger-sentinel-bot stores post-heal probe in telemetry upon recovery'
   assert.equal(typeof report.workbench.readyzOk, 'boolean');
 });
 
+test('ironbots-daily-reporter generates structured room event payloads for real-time fleet observability', async () => {
+  const { generateRoomEventPayload } = await import('../scripts/ironbots-daily-reporter.mjs');
+  assert.equal(typeof generateRoomEventPayload, 'function');
+
+  const healthyPayload = generateRoomEventPayload({
+    fleetHealthScore: 95,
+    fleetStatus: 'HEALTHY',
+    botCount: 9,
+    summaryMetrics: {
+      ciFailures: 0,
+      daemonStatus: 'HEALTHY',
+      ironledgerStatus: 'HEALTHY',
+      competitorDrifts: 0
+    }
+  });
+
+  assert.equal(healthyPayload.event_type, 'ironbots.fleet_event');
+  assert.equal(healthyPayload.room_id, 'sigil-fleet-observability');
+  assert.equal(healthyPayload.fleet_health_score, 95);
+  assert.equal(healthyPayload.fleet_status, 'HEALTHY');
+  assert.equal(healthyPayload.alerts.length, 0);
+  assert.match(healthyPayload.formatted_message, /All Subsystems Operational/);
+
+  const degradedPayload = generateRoomEventPayload({
+    fleetHealthScore: 65,
+    fleetStatus: 'DEGRADED',
+    botCount: 9,
+    summaryMetrics: {
+      ciFailures: 2,
+      daemonStatus: 'UNHEALTHY',
+      ironledgerStatus: 'DEGRADED',
+      competitorDrifts: 1
+    }
+  });
+
+  assert.equal(degradedPayload.fleet_health_score, 65);
+  assert.equal(degradedPayload.fleet_status, 'DEGRADED');
+  assert.equal(degradedPayload.alerts.length, 4);
+  assert.match(degradedPayload.formatted_message, /CI Failures: 2/);
+  assert.match(degradedPayload.formatted_message, /Daemon 8080: UNHEALTHY/);
+});
+
+
 

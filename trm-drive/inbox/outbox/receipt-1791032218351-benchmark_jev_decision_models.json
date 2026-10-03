@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791032218349-s7300",
+  "action_id": "act-01-benchmark-jev-decision-models",
+  "source": "mobile-gemini-gdoc",
+  "intent": "benchmark_jev_decision_models",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-03T125501Z__action__toolforge__act-01-benchmark-jev-decision-models",
+  "issue_url": null,
+  "target_notebook": "TOOLFORGE",
+  "dispatched_at": "2026-10-03T12:56:58.351Z",
+  "duration_ms": 126,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-01-benchmark-jev-decision-models.json",
+  "dryRun": false
+}

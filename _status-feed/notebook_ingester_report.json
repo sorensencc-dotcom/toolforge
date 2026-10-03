@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-29T02:28:52.635Z",
-  "elapsedMs": 402,
+  "timestamp": "2026-10-03T16:38:32.816Z",
+  "elapsedMs": 798,
   "status": "HEALTHY",
-  "totalFiles": 441,
-  "indexedCount": 441,
+  "totalFiles": 437,
+  "indexedCount": 437,
   "updatedCount": 0,
   "skippedCount": 0,
   "packWarnings": [

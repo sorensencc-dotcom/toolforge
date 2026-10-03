@@ -1,0 +1,12 @@
+{
+  "receipt_id": "rcpt-1791035400000-done-act-trm-ingest-action-type-fallback",
+  "action_id": "act-trm-ingest-action-type-fallback",
+  "status": "COMPLETED",
+  "category": "IMPLEMENT",
+  "domain": "kb-sync",
+  "intent": "act_trm_ingest_action_type_fallback",
+  "source": "mobile-gemini-gdoc",
+  "completed_at": "2026-10-03T16:30:00.000Z",
+  "research_artifact": "wiki/research/rfc-trm-ingest-action-type-fallback.md",
+  "resolution": "Implemented inferActionType fallback in validatePayload to safely normalize missing/unmapped action_type values, added unit tests, and drafted RFC."
+}

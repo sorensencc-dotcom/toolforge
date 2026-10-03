@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-10-01T02:30:05.721Z",
-  "elapsedMs": 3028,
-  "status": "HEALTHY",
+  "timestamp": "2026-10-03T16:45:54.482Z",
+  "elapsedMs": 9244,
+  "status": "ALERT_COOLDOWN",
   "workbench": {
     "targetUrl": "http://127.0.0.1:8000",
-    "uiOk": true,
-    "healthzOk": true,
-    "readyzOk": true,
-    "version": "0.15.0",
+    "uiOk": false,
+    "healthzOk": false,
+    "readyzOk": false,
+    "version": "unknown",
     "container": {
       "found": true,
-      "id": "76bc7a8b5974",
+      "id": "3f05f587153b",
       "image": "ironledger-ironledger",
-      "status": "Up 4 days (healthy)",
+      "status": "Up 22 hours (healthy)",
       "state": "running",
       "ports": "0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp",
       "running": true,
@@ -21,9 +21,9 @@
   },
   "database": {
     "exists": true,
-    "sizeBytes": 18927616,
-    "walExists": false,
-    "walSizeBytes": 0,
+    "sizeBytes": 27009024,
+    "walExists": true,
+    "walSizeBytes": 148352,
     "status": "VALID",
     "error": null
   },
@@ -57,9 +57,9 @@
   },
   "healed": false,
   "healAction": null,
-  "consecutiveHeals": 0,
-  "thrashCooldownActive": false,
-  "lastCooldownTime": null,
+  "consecutiveHeals": 3,
+  "thrashCooldownActive": true,
+  "lastCooldownTime": "2026-10-03T16:45:54.480Z",
   "dryRun": false,
   "checkOnly": false
 }

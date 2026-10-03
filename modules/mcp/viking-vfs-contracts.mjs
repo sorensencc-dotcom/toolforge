@@ -2,6 +2,8 @@ const METHODS = Object.freeze([
   'initialize',
   'resources/list',
   'resources/read',
+  'resources_list',
+  'resources_read',
   'tools/list',
   'tools/call',
   'viking/list',
@@ -9,6 +11,16 @@ const METHODS = Object.freeze([
   'viking/read',
   'viking/readBatch',
   'viking/upsertDocument',
+  'vfs_upsert_document',
+  'viking_ls',
+  'viking_overview',
+  'viking_read_detail',
+  'viking_list',
+  'viking_stat',
+  'viking_read',
+  'viking_read_batch',
+  'viking_report',
+  'viking/report',
 ]);
 const TIERS = Object.freeze(['L0', 'L1', 'L2']);
 const MAX_BATCH_ITEMS = 32;
@@ -64,7 +76,11 @@ function validateParams(method, params) {
     if ('protocolVersion' in params) string(params.protocolVersion, '$.params.protocolVersion');
     return params;
   }
-  if (method === 'resources/list') { noUnknown(params, ['cursor'], '$.params'); if ('cursor' in params) string(params.cursor, '$.params.cursor'); return params; }
+  if (method === 'resources/list' || method === 'resources_list') {
+    noUnknown(params, ['cursor'], '$.params');
+    if ('cursor' in params) string(params.cursor, '$.params.cursor');
+    return params;
+  }
   if (method === 'tools/list') {
     noUnknown(params, ['cursor'], '$.params');
     if ('cursor' in params) string(params.cursor, '$.params.cursor');
@@ -76,7 +92,7 @@ function validateParams(method, params) {
     if ('arguments' in params) object(params.arguments, '$.params.arguments');
     return params;
   }
-  if (method === 'viking/upsertDocument') {
+  if (method === 'viking/upsertDocument' || method === 'vfs_upsert_document') {
     noUnknown(params, ['topic', 'category', 'content', 'file_path'], '$.params');
     string(params.topic, '$.params.topic');
     string(params.category, '$.params.category');
@@ -84,7 +100,7 @@ function validateParams(method, params) {
     if ('file_path' in params) string(params.file_path, '$.params.file_path');
     return params;
   }
-  if (method === 'viking/readBatch') {
+  if (method === 'viking/readBatch' || method === 'viking_read_batch') {
     noUnknown(params, ['items', 'max_total_bytes'], '$.params');
     if (!Array.isArray(params.items) || params.items.length < 1 || params.items.length > MAX_BATCH_ITEMS) fail(`items must contain 1-${MAX_BATCH_ITEMS} entries`, '$.params.items');
     params.items.forEach((item, index) => {
@@ -97,17 +113,27 @@ function validateParams(method, params) {
     return params;
   }
   uri(params.uri, '$.params.uri');
-  if (method === 'resources/read') { noUnknown(params, ['uri'], '$.params'); return params; }
-  if (method === 'viking/list') {
-    noUnknown(params, ['uri', 'offset', 'limit'], '$.params');
+  if (method === 'resources/read' || method === 'resources_read') {
+    noUnknown(params, ['uri'], '$.params');
+    return params;
+  }
+  if (method === 'viking/list' || method === 'viking_list' || method === 'viking_ls') {
+    noUnknown(params, ['uri', 'offset', 'limit', 'mode'], '$.params');
     if ('offset' in params) integer(params.offset, '$.params.offset');
     if ('limit' in params) integer(params.limit, '$.params.limit', { min: 1 });
     if (params.limit > 100) fail('must be <= 100', '$.params.limit');
-  } else if (method === 'viking/read') {
-    noUnknown(params, ['uri', 'resolution_tier'], '$.params');
+  } else if (
+    method === 'viking/read' ||
+    method === 'viking_read' ||
+    method === 'viking_overview' ||
+    method === 'viking_read_detail' ||
+    method === 'viking/report' ||
+    method === 'viking_report'
+  ) {
+    noUnknown(params, ['uri', 'resolution_tier', 'mode', 'model'], '$.params');
     if ('resolution_tier' in params && !TIERS.includes(params.resolution_tier)) fail('must be L0, L1, or L2', '$.params.resolution_tier');
   } else {
-    noUnknown(params, ['uri'], '$.params');
+    noUnknown(params, ['uri', 'mode'], '$.params');
   }
   return params;
 }
@@ -262,11 +288,11 @@ function validateResult(result, method) {
     object(result.serverInfo, '$.result.serverInfo');
     return result;
   }
-  if (method === 'resources/list') {
+  if (method === 'resources/list' || method === 'resources_list') {
     if (!Array.isArray(result.resources)) fail('resources must be an array', '$.result.resources');
     return result;
   }
-  if (method === 'resources/read') {
+  if (method === 'resources/read' || method === 'resources_read') {
     if (!Array.isArray(result.contents)) fail('contents must be an array', '$.result.contents');
     return result;
   }
@@ -278,16 +304,20 @@ function validateResult(result, method) {
     if ('content' in result && !Array.isArray(result.content)) fail('content must be an array', '$.result.content');
     return result;
   }
-  if (method === 'viking/upsertDocument') {
+  if (method === 'viking/upsertDocument' || method === 'vfs_upsert_document') {
     if (typeof result.ok !== 'boolean') fail('ok must be a boolean', '$.result.ok');
     string(result.id, '$.result.id');
     string(result.file_path, '$.result.file_path');
     string(result.sha256, '$.result.sha256');
     return result;
   }
-  if (method === 'viking/readBatch') {
+  if (method === 'viking/readBatch' || method === 'viking_read_batch') {
     string(result.snapshot_id, '$.result.snapshot_id');
     if (!Array.isArray(result.results)) fail('results must be an array', '$.result.results');
+    return result;
+  }
+  if (method === 'viking/report' || method === 'viking_report') {
+    validateReport(result.report, '$.result.report');
     return result;
   }
   string(result.uri, '$.result.uri');
