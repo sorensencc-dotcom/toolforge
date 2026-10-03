@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.80.3
+Date: 2026-10-03
+
+### Changes
+- f27da3b - Merge pull request #74 from sorensencc-dotcom/topic/willys-overland-breakout (Chris Sorensen)
+- 1b223fe - Register Willys-Overland as its own CIC topic. (Chris Sorensen)
+
 ## Version 2.80.2
 Date: 2026-10-02
 
