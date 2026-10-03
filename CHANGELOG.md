@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 2.81.0
+Date: 2026-10-03
+
+### Changes
+- 9853e21 - Merge pull request #76 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- d0ae4f6 - fix(ticket-scorer): include inlineCode values in text extraction and escape regex keywords (Chris Sorensen)
+- 0339706 - feat(ticket-scorer): add public entrypoint and verify full test suite (Chris Sorensen)
+- 513c8a0 - feat(ticket-scorer): implement DeterministicTicketScorer engine and rubric (Chris Sorensen)
+- a5cc9ce - feat(ticket-scorer): add clause-bounded negation matcher and test suite (Chris Sorensen)
+- fd0ffa5 - feat(ticket-scorer): add package scaffolding, tsconfig, and core types (Chris Sorensen)
+- 6fb8f62 - docs(plan): add deterministic ticket scorer implementation plan (Chris Sorensen)
+- 370a5bf - docs(spec): refine scorer options and rubric edge cases (Chris Sorensen)
+- ba46a6f - docs(spec): add deterministic ticket scorer design specification (Chris Sorensen)
+
 ## Version 2.80.3
 Date: 2026-10-03
 
