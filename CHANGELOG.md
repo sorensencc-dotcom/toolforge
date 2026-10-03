@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2.82.0
+Date: 2026-10-03
+
+### Changes
+- 99d1709 - Merge pull request #77 from sorensencc-dotcom/feat/unified-doc-sync (Chris Sorensen)
+- 242153d - fix(doc-sync): drop WhichLLM topology image so the build stops leaking wiki/ (Chris Sorensen)
+- e865268 - fix(doc-sync): report cache load result separately from wiki status (Chris Sorensen)
+- e392966 - fix(doc-sync): refuse old kb-sync cache, accept asset and spaced sidebar links (Chris Sorensen)
+- cec40c3 - fix(doc-sync): build-only mode, static footer, stop publishing C:/dev/wiki (Chris Sorensen)
+- 1a1e2d6 - feat(doc-sync): add docs:sync CLI with drift receipts and per-product cache load (Chris Sorensen)
+- 3015105 - feat(doc-sync): publish one product from a folder or a build, mirror-only (Chris Sorensen)
+- a09f1be - feat(doc-sync): fail on sidebar links to pages outside the product (Chris Sorensen)
+- b7b9bba - feat(doc-sync): add mirror stager that refuses empty sources (Chris Sorensen)
+- 0ec2d8e - feat(doc-sync): add validated wiki sync registry loader (Chris Sorensen)
+
 ## Version 2.81.0
 Date: 2026-10-03
 
