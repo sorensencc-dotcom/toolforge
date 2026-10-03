@@ -176,10 +176,18 @@ export async function runDailyMiningPipeline(options = {}) {
       let attempt = 0;
       const packBaseName = path.basename(packFile);
 
+      // Pre-ingestion guard: reject zero-byte or empty payloads
+      const stats = fs.statSync(packFile);
+      if (!stats.size || stats.size === 0) {
+        logError(`  ✗ Ingestion aborted: Empty content detected for source: ${packBaseName}`);
+        categoryResults.push({ category: catName, status: 'empty_payload_rejected' });
+        continue;
+      }
+
       // Query existing sources in target notebook to find previous versions of this pack
       let existingSources = [];
       try {
-        const out = execSync(`nlm source list "${targetUuid}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+        const out = execSync(`nlm source list "${targetUuid}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: 50 * 1024 * 1024 });
         const parsed = JSON.parse(out);
         existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
       } catch (e) {
@@ -191,7 +199,7 @@ export async function runDailyMiningPipeline(options = {}) {
         logInfo(`  Pruning ${staleSources.length} stale previous version(s) of ${packBaseName} before upload...`);
         for (const stale of staleSources) {
           try {
-            execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+            execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: 50 * 1024 * 1024 });
             logInfo(`  ✓ Pruned prior source: ${stale.id} ("${stale.title || stale.name}")`);
           } catch (delErr) {
             logWarn(`  Failed to delete stale source ${stale.id}: ${delErr.message}`);
@@ -203,7 +211,7 @@ export async function runDailyMiningPipeline(options = {}) {
         attempt++;
         try {
           logInfo(`  Uploading pack to NotebookLM (Attempt ${attempt}/${maxRetries})...`);
-          execSync(`nlm source add "${targetUuid}" --file "${packFile}" --title "${catDef.title} Pack" --wait`, { stdio: 'inherit' });
+          execSync(`nlm source add "${targetUuid}" --file "${packFile}" --title "${catDef.title} Pack" --wait`, { stdio: 'inherit', maxBuffer: 50 * 1024 * 1024 });
           uploadSuccess = true;
           logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
           emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { attempt });

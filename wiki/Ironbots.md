@@ -136,7 +136,7 @@ All background automation bots added to the `\Ironbots\` fleet must strictly com
 - **Schedule**: Daily at 03:00 AM (`\Ironbots\KB-Sentinel`)
 - **Wrapper**: `scripts/schedule-task-wrapper-KB-Sentinel.ps1`
 - **Telemetry**: `_status-feed/kb_sentinel_report.json`
-- **Function**: Scans 400+ wiki entities for frontmatter validity, checks `[[Wikilink]]` integrity, computes health score (0–100), and performs automated frontmatter healing (`--fix`).
+- **Function**: Scans 400+ wiki entities for frontmatter validity, checks wikilink integrity, computes health score (0–100), and performs automated frontmatter healing (`--fix`).
 
 ---
 

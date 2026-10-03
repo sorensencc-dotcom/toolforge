@@ -20,7 +20,7 @@ for (const target of DEV_TARGETS) {
   
   // 1. Check existing sources and prune stale copies of the guide
   try {
-    const raw = execSync(`nlm source list "${target.id}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+    const raw = execSync(`nlm source list "${target.id}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: 50 * 1024 * 1024 });
     const parsed = JSON.parse(raw);
     const sources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
     
@@ -33,7 +33,7 @@ for (const target of DEV_TARGETS) {
       console.log(`  Found ${staleSources.length} existing/stale guide source(s) in ${target.name}. Pruning...`);
       for (const stale of staleSources) {
         try {
-          execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+          execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: 50 * 1024 * 1024 });
           console.log(`  ✓ Deleted stale source: ${stale.id} ("${stale.title || stale.name}")`);
         } catch (delErr) {
           console.warn(`  Failed to delete source ${stale.id}: ${delErr.message}`);
@@ -48,8 +48,12 @@ for (const target of DEV_TARGETS) {
 
   // 2. Upload fresh canonical guide
   try {
+    const stats = fs.statSync(GUIDE_PATH);
+    if (!stats.size || stats.size === 0) {
+      throw new Error(`Ingestion aborted: Empty content detected for source: ${GUIDE_PATH}`);
+    }
     console.log(`  Uploading fresh canonical guide to ${target.name}...`);
-    execSync(`nlm source add "${target.id}" --file "${GUIDE_PATH}"`, { stdio: 'inherit' });
+    execSync(`nlm source add "${target.id}" --file "${GUIDE_PATH}"`, { stdio: 'inherit', maxBuffer: 50 * 1024 * 1024 });
     console.log(`  ✓ Successfully uploaded canonical guide to ${target.name} (${target.id})`);
   } catch (uploadErr) {
     console.error(`  ❌ Failed to upload guide to ${target.name}: ${uploadErr.message}`);

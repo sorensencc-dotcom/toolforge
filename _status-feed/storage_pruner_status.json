@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-29T02:28:54.120Z",
+  "timestamp": "2026-10-03T02:59:52.637Z",
   "dryRun": true,
-  "elapsedMs": 13,
-  "totalFreedBytes": 803831,
-  "totalFreedFormatted": "784.99 KB",
+  "elapsedMs": 17,
+  "totalFreedBytes": 597507,
+  "totalFreedFormatted": "583.50 KB",
   "databasesScanned": 6,
   "databaseResults": [
     {
@@ -15,8 +15,8 @@
     },
     {
       "dbPath": "C:\\dev\\.kb_cache\\knowledge_fts5.db",
-      "sizeBefore": 271388672,
-      "sizeAfter": 271388672,
+      "sizeBefore": 344252416,
+      "sizeAfter": 344252416,
       "bytesSaved": 0,
       "status": "SKIPPED_DRY_RUN"
     },
@@ -49,41 +49,27 @@
       "status": "SKIPPED_DRY_RUN"
     }
   ],
-  "telemetryCompactedCount": 5,
+  "telemetryCompactedCount": 3,
   "telemetryResults": [
     {
-      "file": "_status-feed/trm_history/2026-09-20.json",
-      "sizeBefore": 234307,
-      "sizeAfter": 35146,
-      "bytesSaved": 199161,
+      "file": "icf/dashboard/trm_history/2026-09-23.json",
+      "sizeBefore": 234305,
+      "sizeAfter": 35145,
+      "bytesSaved": 199160,
       "status": "SKIPPED_DRY_RUN"
     },
     {
-      "file": "_status-feed/trm_history/2026-09-21.json",
+      "file": "icf/dashboard/trm_history/2026-09-24.json",
       "sizeBefore": 234324,
       "sizeAfter": 35148,
       "bytesSaved": 199176,
       "status": "SKIPPED_DRY_RUN"
     },
     {
-      "file": "_status-feed/ironbots_history/2026-09-21.json",
-      "sizeBefore": 8420,
-      "sizeAfter": 1263,
-      "bytesSaved": 7157,
-      "status": "SKIPPED_DRY_RUN"
-    },
-    {
-      "file": "icf/dashboard/trm_history/2026-09-20.json",
-      "sizeBefore": 234307,
-      "sizeAfter": 35146,
-      "bytesSaved": 199161,
-      "status": "SKIPPED_DRY_RUN"
-    },
-    {
-      "file": "icf/dashboard/trm_history/2026-09-21.json",
-      "sizeBefore": 234324,
-      "sizeAfter": 35148,
-      "bytesSaved": 199176,
+      "file": "icf/dashboard/trm_history/2026-09-25.json",
+      "sizeBefore": 234318,
+      "sizeAfter": 35147,
+      "bytesSaved": 199171,
       "status": "SKIPPED_DRY_RUN"
     }
   ],

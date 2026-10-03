@@ -6,30 +6,8 @@
       "title": "CIC-KB",
       "url": "https://notebooklm.google.com/notebook/679b8bab-2d87-42cb-a726-6dc54c83acc2",
       "last_pulled_hashes": {},
-      "quarantined": {
-        "source:85592d11-d9e7-498f-adc1-12d24139a076": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-12T18:41:05.128Z",
-          "last_seen_at": "2026-08-12T18:44:22.139Z",
-          "attempts": 2
-        },
-        "source:a8e0f0f0-8240-4670-adf2-2cb7364917bb": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-12T18:41:05.128Z",
-          "last_seen_at": "2026-08-12T18:44:22.139Z",
-          "attempts": 2
-        },
-        "source:b6323c0c-64f6-4817-9ead-7a38efc0f28e": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-12T18:41:05.128Z",
-          "last_seen_at": "2026-08-12T18:44:22.139Z",
-          "attempts": 2
-        }
-      },
-      "last_ingested_at": "2026-08-12T18:45:05.090Z",
+      "quarantined": {},
+      "last_ingested_at": "2026-10-03T11:55:08.992Z",
       "last_mined_at": "2026-08-17T10:04:00.518Z",
       "last_mined_answer_keys": [
         "679b8bab-2d87-42cb-a726-6dc54c83acc2:open-contradictions:21ed10c5fae1f4a442e31947201594c832997c19e6aead2ccedac77b8d9abdd2",
@@ -84,50 +62,7 @@
         "source:d631320a-e8e2-4857-b80e-470e8a16143a": "34b385f24ca8391d2a40bdab5033e8bbe774876c2b3984a985ee4bad8358f0ec",
         "note:e2f8812b-75af-451e-8c2f-d2d4796d2fb6": "b1f26cc2e58485cb65ace9f61624fe55df5671ae61004250cf2412c099477b56"
       },
-      "quarantined": {
-        "source:5034d16a-26d6-46d2-9c3c-f63ada096b72": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-13T01:41:47.106Z",
-          "last_seen_at": "2026-08-13T04:17:58.085Z",
-          "attempts": 5
-        },
-        "source:c43ee8dd-06e3-4bd2-8b75-fae57b761ab2": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-13T01:41:47.106Z",
-          "last_seen_at": "2026-08-13T04:17:58.085Z",
-          "attempts": 5
-        },
-        "source:f709c5a1-88cf-438c-b3b5-216357b7638d": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-13T02:03:21.298Z",
-          "last_seen_at": "2026-08-13T04:17:58.085Z",
-          "attempts": 4
-        },
-        "source:cec88053-ed64-4f33-9c1c-76547191d7e0": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-13T02:03:21.298Z",
-          "last_seen_at": "2026-08-13T04:17:58.085Z",
-          "attempts": 4
-        },
-        "source:1d00d03e-7632-4ce8-a641-520cda6c73be": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-13T02:03:21.298Z",
-          "last_seen_at": "2026-08-13T04:17:58.085Z",
-          "attempts": 4
-        },
-        "source:9709952e-8266-4306-b846-5f4ab3deb733": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "spawnSync nlm ENOBUFS",
-          "first_seen_at": "2026-08-13T02:03:21.298Z",
-          "last_seen_at": "2026-08-13T04:17:58.085Z",
-          "attempts": 4
-        }
-      },
+      "quarantined": {},
       "last_ingested_at": "2026-08-13T05:58:13.505Z",
       "last_mined_at": "2026-08-17T10:10:16.918Z",
       "last_mined_answer_keys": [
@@ -286,15 +221,7 @@
         "source:9763cadc-0f8c-4a7f-adbf-1e4ea38a4f44": "ef86df5c9d0d0f8630470de619175998f1010e1c0368e6c80f43da3877326519",
         "source:1dc21c29-1ebf-4fda-9bbd-2bdcc48f4c8e": "766d2826ab6ac61fd307eaabd2487bc66f7511e0177eb402da907265dba0a3a0"
       },
-      "quarantined": {
-        "source:a8db99d7-b7c7-4456-9f5b-2a23c54f0d5c": {
-          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "reason": "API error (code 5): NOT_FOUND",
-          "first_seen_at": "2026-08-22T00:06:52.183Z",
-          "last_seen_at": "2026-08-22T00:09:33.812Z",
-          "attempts": 2
-        }
-      },
+      "quarantined": {},
       "last_ingested_at": "2026-08-22T00:28:32.071Z",
       "last_mined_at": "2026-08-22T00:30:16.179Z",
       "last_mined_answer_keys": [

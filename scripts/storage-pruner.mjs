@@ -87,6 +87,20 @@ export function vacuumDatabase(dbPath, options = {}) {
   let db = null;
   try {
     db = new Database(dbPath, { timeout: 5000 });
+    const check = db.pragma('integrity_check');
+    const integrityOk = Array.isArray(check) ? (check[0]?.integrity_check === 'ok') : (check === 'ok');
+    if (!integrityOk) {
+      db.close();
+      return {
+        dbPath,
+        sizeBefore,
+        sizeAfter: sizeBefore,
+        bytesSaved: 0,
+        status: 'CORRUPTED',
+        error: `Integrity check failed: ${JSON.stringify(check)}`
+      };
+    }
+
     db.pragma('wal_checkpoint(TRUNCATE)');
     db.exec('VACUUM;');
     db.pragma('optimize');

@@ -59,5 +59,5 @@ When large tool outputs or sensitive payloads are evicted by the compactor:
 
 ## 4. References & linked topics
 - [[Index]]
-- [[trm-research-gaps]]
+- [[TrmResearchGaps|trm-research-gaps]]
 - [[Log]]

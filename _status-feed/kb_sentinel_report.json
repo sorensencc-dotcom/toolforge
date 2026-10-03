@@ -1,113 +1,12 @@
 {
-  "timestamp": "2026-09-29T02:28:50.781Z",
-  "elapsedMs": 437,
-  "healthScore": 86,
+  "timestamp": "2026-10-03T02:59:40.174Z",
+  "elapsedMs": 782,
+  "healthScore": 100,
   "status": "PASS",
-  "scanned": 420,
-  "frontmatterMissing": 6,
-  "brokenLinks": 4,
+  "scanned": 421,
+  "frontmatterMissing": 0,
+  "brokenLinks": 0,
   "healed": 0,
   "dryRun": true,
-  "recentIssues": [
-    {
-      "file": "wiki/.ijfw/memory/project-journal.md",
-      "type": "MISSING_FRONTMATTER",
-      "detail": "No YAML frontmatter found"
-    },
-    {
-      "file": "wiki/.ijfw/sessions/session_2026-09-26_23-17-18.md",
-      "type": "MISSING_FRONTMATTER",
-      "detail": "No YAML frontmatter found"
-    },
-    {
-      "file": "wiki/Ironbots.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'architecture' or status 'active'"
-    },
-    {
-      "file": "wiki/research/adjacent-topics.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'daily' or status 'active'"
-    },
-    {
-      "file": "wiki/research/cesor-farms-flying-cow-gap-02.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'willow-run' or status 'resolved'"
-    },
-    {
-      "file": "wiki/research/cuban-seizures-and-retired-assets-overview.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'cuban-seizures' or status 'active'"
-    },
-    {
-      "file": "wiki/research/fcsc-cuban-telephone.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'cuban-seizures' or status 'active'"
-    },
-    {
-      "file": "wiki/research/fcsc-moa-bay.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'cuban-seizures' or status 'active'"
-    },
-    {
-      "file": "wiki/research/follow-up.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'daily' or status 'active'"
-    },
-    {
-      "file": "wiki/research/ford-socony-vacuum.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'ford-politics' or status 'active'"
-    },
-    {
-      "file": "wiki/research/historical-revocation-verification.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'ford-politics' or status 'active'"
-    },
-    {
-      "file": "wiki/research/ironbots-daily-report.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'reporting' or status 'active'"
-    },
-    {
-      "file": "wiki/research/ironledger-kms-encryption.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'ironledger' or status 'active'"
-    },
-    {
-      "file": "wiki/research/mobile-websocket-heartbeats.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'sigil' or status 'active'"
-    },
-    {
-      "file": "wiki/research/open-contradictions.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'daily' or status 'active'"
-    },
-    {
-      "file": "wiki/research/properties/cuban-telephone-infrastructure-concession.md",
-      "type": "MISSING_FRONTMATTER",
-      "detail": "No YAML frontmatter found"
-    },
-    {
-      "file": "wiki/research/properties/moa-bay-mining-concession.md",
-      "type": "MISSING_FRONTMATTER",
-      "detail": "No YAML frontmatter found"
-    },
-    {
-      "file": "wiki/research/properties/nicaro-nickel-processing-facility.md",
-      "type": "MISSING_FRONTMATTER",
-      "detail": "No YAML frontmatter found"
-    },
-    {
-      "file": "wiki/research/properties/sorensen-cuban-estate-fcsc.md",
-      "type": "INVALID_SCHEMA",
-      "detail": "Invalid category 'cuban-seizures' or status 'resolved'"
-    },
-    {
-      "file": "wiki/research/properties/_errors.md",
-      "type": "MISSING_FRONTMATTER",
-      "detail": "No YAML frontmatter found"
-    }
-  ]
+  "recentIssues": []
 }

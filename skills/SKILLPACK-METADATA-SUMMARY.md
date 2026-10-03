@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-09-28T14:31:54.5194396Z
+**Generated:** 2026-10-02T05:00:11.7793032Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,15 +10,15 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 56 | 100% |
-| Active | 56 | 100% |
+| **Total Skills** | 57 | 100% |
+| Active | 57 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 56 | 100% |
+| ✅ Good | 57 | 100% |
 | ⚠️ Warning | 0 | 0% |
 | ❌ Error | 0 | 0% |
 
@@ -181,19 +181,6 @@
 | Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 1 external |
-### rewrite-labs-orchestrator
-
-| Field | Value |
-|-------|-------|
-| Name | Rewrite Labs Orchestrator |
-| Category | automation |
-| Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 0 internal, 0 external |
 ### tool-lifecycle-manager
 
 | Field | Value |
@@ -207,6 +194,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
+### toolforge-cli
+
+| Field | Value |
+|-------|-------|
+| Name | Toolforge CLI |
+| Category | utility |
+| Version | 0.1.0 |
+| Owner | soren |
+| Runtime | powershell |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 2 internal, 0 external |
 ### toolforge-drift-monitor
 
 | Field | Value |
@@ -311,6 +311,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
+### usagecheck
+
+| Field | Value |
+|-------|-------|
+| Name | Usage Check |
+| Category | utilities |
+| Version | 0.1.0 |
+| Owner | unknown |
+| Runtime | unknown |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### wiki-governance-sync
 
 | Field | Value |
@@ -350,19 +363,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### toolforge-cli
+### rewrite-labs-orchestrator
 
 | Field | Value |
 |-------|-------|
-| Name | Toolforge CLI |
-| Category | utility |
-| Version | 0.1.0 |
-| Owner | soren |
-| Runtime | powershell |
+| Name | Rewrite Labs Orchestrator |
+| Category | automation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 2 internal, 0 external |
+| Dependencies | 0 internal, 0 external |
+### workspace-storage-cleaner
+
+| Field | Value |
+|-------|-------|
+| Name | Workspace & Brain Storage Cleaner |
+| Category | maintenance |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | python |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
+| Dependencies | 0 internal, 1 external |
 ### retro-schema-validator
 
 | Field | Value |
@@ -372,19 +398,6 @@
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | javascript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 0 external |
-### retro-export
-
-| Field | Value |
-|-------|-------|
-| Name | Retro Export |
-| Category | monitoring |
-| Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
@@ -727,19 +740,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### workspace-storage-cleaner
+### retro-export
 
 | Field | Value |
 |-------|-------|
-| Name | Workspace & Brain Storage Cleaner |
-| Category | maintenance |
+| Name | Retro Export |
+| Category | monitoring |
 | Version | 1.0.0 |
-| Owner | unknown |
-| Runtime | python |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 1 external |
+| Dependencies | 0 internal, 0 external |
 ### writing-heuristics
 
 | Field | Value |

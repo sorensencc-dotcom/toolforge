@@ -5,7 +5,7 @@ const results = {};
 for (const [key, id] of Object.entries(NOTEBOOK_TARGETS)) {
   if (!id || id.startsWith('<') || results[id]) continue;
   try {
-    const raw = execSync(`nlm source list "${id}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+    const raw = execSync(`nlm source list "${id}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: 50 * 1024 * 1024 });
     const parsed = JSON.parse(raw);
     const sources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
     results[key] = {

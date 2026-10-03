@@ -1,0 +1,21 @@
+{
+  "id": "act-03-monitor-synthetic-provenance-standards",
+  "parent_action_id": null,
+  "timestamp": "2026-10-02T122503Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "MONITOR",
+  "domain": "cic-kb",
+  "target": "CIC-KB",
+  "action_type": "antigravity_triage",
+  "intent": "monitor_synthetic_provenance_standards",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-02T122503Z__action__cic-kb__act-03-monitor-synthetic-provenance-standards",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-02T13:34:11.846Z",
+  "source_file": "2026-10-02T122503Z__action__cic-kb__act-03-monitor-synthetic-provenance-standards.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-02T122503Z__action__cic-kb__act-03-monitor-synthetic-provenance-standards.md.gdoc",
+    "gdoc_stem": "2026-10-02T122503Z__action__cic-kb__act-03-monitor-synthetic-provenance-standards",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}

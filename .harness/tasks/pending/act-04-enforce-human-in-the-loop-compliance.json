@@ -1,0 +1,21 @@
+{
+  "id": "act-04-enforce-human-in-the-loop-compliance",
+  "parent_action_id": null,
+  "timestamp": "2026-10-02T122504Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "rewrite-mcp",
+  "target": "rewrite-mcp",
+  "action_type": "antigravity_triage",
+  "intent": "enforce_human_in_the_loop_compliance",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-02T122504Z__action__rewrite-mcp__act-04-enforce-human-in-the-loop-compliance",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-02T13:34:11.956Z",
+  "source_file": "2026-10-02T122504Z__action__rewrite-mcp__act-04-enforce-human-in-the-loop-compliance.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-02T122504Z__action__rewrite-mcp__act-04-enforce-human-in-the-loop-compliance.md.gdoc",
+    "gdoc_stem": "2026-10-02T122504Z__action__rewrite-mcp__act-04-enforce-human-in-the-loop-compliance",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}

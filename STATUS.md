@@ -11,6 +11,28 @@
 
 # Project status
 
+## Deterministic Ticket Scorer Module (@toolforge/ticket-scorer) (2026-10-03)
+
+### Active goal
+
+Implement a zero-network, local-first deterministic Markdown ticket scoring engine and priority tier classification module at `modules/ticket-scorer/` based on structural AST extraction, clause-bounded lookback negation matching, and emergency floor overrides.
+
+### Completed work
+
+- **Design Specification & Rubric Definition**: Authored and committed [`docs/superpowers/specs/2026-10-03-deterministic-ticket-scorer-design.md`](docs/superpowers/specs/2026-10-03-deterministic-ticket-scorer-design.md) defining the 4-dimension scoring rubric: Completeness (max 35), Urgency Indicators (max 30), Domain Scope (max 20), and Actionability (max 15).
+- **Implementation Plan**: Authored and committed [`docs/superpowers/plans/2026-10-03-deterministic-ticket-scorer.md`](docs/superpowers/plans/2026-10-03-deterministic-ticket-scorer.md) decomposing work into 4 bite-sized TDD tasks with explicit interfaces and test contracts.
+- **SDD Execution via Subagents**: Executed all 4 tasks under Subagent-Driven Development with independent implementer subagents and two-stage task review gates:
+  - *Task 1 (Package Scaffolding & Types)*: `package.json`, `tsconfig.json`, `src/types.ts`, `tests/types.test.ts`.
+  - *Task 2 (Clause-Bounded Negation Matcher)*: `src/negation-matcher.ts`, `tests/negation.test.ts` implementing 60-char window lookback, clause boundary isolation (`.`, `!`, `?`, `;`, `\n`), parenthetical collapsing `(...)`, and quotation stripping.
+  - *Task 3 (Deterministic AST Scorer)*: `src/scorer.ts`, `tests/scorer.test.ts` implementing single-pass Unist AST traversal (`unified` + `remark-parse` + `unist-util-visit`), rubric calculation, and P0 floor overrides (`panic`, `regression`, `corrupt`).
+  - *Task 4 (Barrel Entrypoint & Verification)*: `src/index.ts` public exports, clean `tsc` build to `dist/`, 100% passing test suite.
+- **Whole-Branch Review & Fix Wave**: Addressed senior review recommendations: appended `inlineCode` values to `textContent` during AST traversal, added `escapeRegex` for dynamic keyword matching, and added backticked markdown symbol tests.
+- **CI / Delivery Guard Compliance & Pull Request**: Verified 11/11 tests passing (`node:test`). Rebased cleanly onto `origin/main` to satisfy CI `evaluate-automation-policy.mjs` with 100% `allow` status. Opened [PR #76](https://github.com/sorensencc-dotcom/toolforge/pull/76) with all CI checks passing.
+
+### Next action
+
+- Await team review and merge of [PR #76](https://github.com/sorensencc-dotcom/toolforge/pull/76).
+
 ## NotebookLM Knowledge Pack Ingestion Triage & Compaction Hardening (2026-10-01)
 
 ### Active goal

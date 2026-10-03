@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-09-28T14:38:10.8924078Z
+**Generated:** 2026-10-02T05:00:13.1688550Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 375 | 10 | 0 | 385 |
-| % Pass | 97.4% | 2.6% | 0% | 100% |
+| **Totals** | 379 | 12 | 1 | 392 |
+| % Pass | 96.7% | 3.1% | 0.3% | 100% |
 
 ---
 
@@ -617,6 +617,18 @@
 | Runtime | ✅ PASS | Found: npm |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### usagecheck — ❌ ERROR
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Runtime  (dry-run not applicable) |
+| Entrypoint | ❌ FAIL | No entrypoint specified |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ⚠️ WARN | Unknown runtime:  |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### wiki-governance-sync — ⚠️ WARN
 
 | Check | Result | Details |
@@ -747,7 +759,7 @@ Skills with warnings but no failures:
 ### ❌ Error Health
 
 Skills with critical failures:
-*(none)*
+- usagecheck
 
 ---
 

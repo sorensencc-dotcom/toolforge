@@ -1,43 +1,5 @@
 # Changelog
 
-## Version 2.80.2
-Date: 2026-10-02
-
-### Changes
-- 88b7a3d - Merge pull request #73 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
-- d1aea97 - fix(cic): pin delivery guard dependency (Chris Sorensen)
-
-## Version 2.80.1
-Date: 2026-10-02
-
-### Changes
-- f97ca2c - Merge pull request #72 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
-- 0d741a5 - fix(toolforge-pdf): register plugin in CLI exec test (fixes #69) (Chris Sorensen)
-- 4ee177f - docs(plan): unified doc sync plan rev 4 (11 tasks, 8 products) (Chris Sorensen)
-- 2322d53 - docs(report): add daily report for 2026-10-02 (Chris Sorensen)
-- 1c38469 - docs(status): record PR 71 mergeability and resolution (Chris Sorensen)
-
-## Version 2.80.0
-Date: 2026-10-02
-
-### Changes
-- cdf4bed - Merge pull request #71 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
-- 6561d61 - Merge branch 'main' of github.com:sorensencc-dotcom/toolforge into parkd821-20260908 (Chris Sorensen)
-- c9fa97c - chore(wiki): update auto-healed property profiles and sync ledger (Chris Sorensen)
-- 576d859 - fix(ci): resolve watchdog repo root from caller (Chris Sorensen)
-- 6a5095c - docs(plan): add knowledge pack compaction and hardening plan and status record (Chris Sorensen)
-- 08f7daa - feat(pack): add lossless whitespace normalization and paragraph-aware partitioning (Chris Sorensen)
-- 9a0e049 - test(pack): add comprehensive consolidation hardening test suite (Chris Sorensen)
-- 7b0a61e - fix(wiki): rotate Log.md instead of growing it unbounded (Chris Sorensen)
-- ddec754 - feat(trm): deterministic decision extraction parser and schema validator (Chris Sorensen)
-- 78e1460 - feat(security): agent sandbox egress gatekeeper and scratchpad guard (Chris Sorensen)
-- 272c0a5 - docs(governance): add ADR template; close spec review gaps (Chris Sorensen)
-- af12d2b - feat(trm): closed-loop mobile ingress and outbox verification (Chris Sorensen)
-- 70f6832 - docs(spec): fix ADR index scope and rename-aware --since (Chris Sorensen)
-- f440996 - docs(status): record auto-committer investigation findings (Chris Sorensen)
-- 3c3e9d3 - docs(spec): move ADR process design to docs/meta/specs (Chris Sorensen)
-- 01e78e2 - docs(spec): add ADR process design (Chris Sorensen)
-
 ## Version 2.79.0
 Date: 2026-10-01
 

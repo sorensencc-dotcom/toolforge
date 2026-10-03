@@ -2,6 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
 import { execSync } from 'node:child_process';
+import { loadCategoriesData, resolveCategoryKey } from '../kb-sync/core/config.mjs';
 
 /**
  * scripts/trm-ingress-watcher.mjs
@@ -26,9 +27,11 @@ const GDRIVE_REJECTED = path.join(GDRIVE_ROOT, '04_archive/rejected');
 
 const LOCAL_INBOX_ROOT = path.resolve(process.env.TRM_DRIVE || path.join(REPO_ROOT, 'trm-drive/inbox'));
 const LOCAL_INBOX_DIR = path.join(LOCAL_INBOX_ROOT, 'triage');
+const LOCAL_PROCESSING_DIR = path.join(LOCAL_INBOX_ROOT, 'processing');
 const LOCAL_OUTBOX_DIR = path.join(LOCAL_INBOX_ROOT, 'outbox');
 const LOCAL_REJECTED_DIR = path.join(LOCAL_INBOX_ROOT, 'rejected');
 const LOCAL_DOT_TRM_INBOX = path.join(REPO_ROOT, '.trm/inbox/triage');
+const LOCAL_DOT_TRM_PROCESSING = path.join(REPO_ROOT, '.trm/inbox/processing');
 const LOCAL_DOT_TRM_OUTBOX = path.join(REPO_ROOT, '.trm/inbox/outbox');
 
 const COMPLETED_DIR = path.join(LOCAL_INBOX_ROOT, 'completed');
@@ -83,9 +86,23 @@ export function getActiveOutboxArchiveDirs() {
 }
 
 // Ensure required directories exist
-for (const dir of [LOCAL_INBOX_DIR, LOCAL_OUTBOX_DIR, LOCAL_REJECTED_DIR, LOCAL_DOT_TRM_INBOX, LOCAL_DOT_TRM_OUTBOX, COMPLETED_DIR, QUARANTINE_DIR, HARNESS_PENDING_DIR, HARNESS_IN_PROGRESS_DIR, HARNESS_COMPLETED_DIR, STATUS_FEED_DIR, LOCAL_OUTBOX_ARCHIVE, LOCAL_DOT_TRM_OUTBOX_ARCHIVE]) {
+for (const dir of [LOCAL_INBOX_DIR, LOCAL_PROCESSING_DIR, LOCAL_OUTBOX_DIR, LOCAL_REJECTED_DIR, LOCAL_DOT_TRM_INBOX, LOCAL_DOT_TRM_PROCESSING, LOCAL_DOT_TRM_OUTBOX, COMPLETED_DIR, QUARANTINE_DIR, HARNESS_PENDING_DIR, HARNESS_IN_PROGRESS_DIR, HARNESS_COMPLETED_DIR, STATUS_FEED_DIR, LOCAL_OUTBOX_ARCHIVE, LOCAL_DOT_TRM_OUTBOX_ARCHIVE]) {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
+  }
+}
+
+export function isFileStableSync(filePath, delayMs = 300) {
+  if (!fs.existsSync(filePath)) return false;
+  try {
+    const size1 = fs.statSync(filePath).size;
+    if (size1 === 0) return false;
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, delayMs);
+    if (!fs.existsSync(filePath)) return false;
+    const size2 = fs.statSync(filePath).size;
+    return size1 === size2 && size2 > 0;
+  } catch {
+    return false;
   }
 }
 
@@ -96,16 +113,23 @@ export function safeMoveFile(src, dest) {
     fs.renameSync(src, dest);
     return true;
   } catch (err) {
-    // Cross-volume or locked move fallback: copy + unlink
+    // Cross-volume or locked move fallback: copy + unlink with retries
     try {
       fs.copyFileSync(src, dest);
-      fs.unlinkSync(src);
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          fs.unlinkSync(src);
+          return true;
+        } catch (unlinkErr) {
+          Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 100);
+        }
+      }
       return true;
     } catch (copyErr) {
       if (src.endsWith('.gdoc')) {
         try {
           fs.writeFileSync(dest, `{"archived_gdoc": "${path.basename(src)}", "archived_at": "${new Date().toISOString()}"}`, 'utf8');
-          fs.unlinkSync(src);
+          try { fs.unlinkSync(src); } catch {}
           return true;
         } catch {}
       }
@@ -115,19 +139,20 @@ export function safeMoveFile(src, dest) {
   }
 }
 
-export function cleanupCompanionFiles(filePath, isFromGDrive) {
+export function cleanupCompanionFiles(dirOrPath, isFromGDrive) {
   try {
-    const dir = path.dirname(filePath);
-    const base = path.basename(filePath);
-    const stem = base.replace(/\.(json|md)$/i, '');
-    const dateMatch = base.match(/^(\d{4}-\d{2}-\d{2}T\d{6}Z)/);
+    const isDir = fs.existsSync(dirOrPath) && fs.statSync(dirOrPath).isDirectory();
+    const dir = isDir ? dirOrPath : path.dirname(dirOrPath);
+    const base = isDir ? '' : path.basename(dirOrPath);
+    const stem = base ? base.replace(/\.(json|md)$/i, '') : '';
+    const dateMatch = base ? base.match(/^(\d{4}-\d{2}-\d{2}T\d{6}Z)/) : null;
     const datePrefix = dateMatch ? dateMatch[1] : null;
 
     if (!fs.existsSync(dir)) return;
     const siblings = fs.readdirSync(dir);
     for (const sib of siblings) {
-      if (sib === base) continue;
-      const isMatch = (sib.startsWith(stem) && sib.endsWith('.gdoc')) ||
+      if (base && sib === base) continue;
+      const isMatch = (stem && sib.startsWith(stem) && sib.endsWith('.gdoc')) ||
                       (datePrefix && sib.startsWith(datePrefix) && sib.endsWith('.gdoc'));
       if (isMatch) {
         const fullSib = path.join(dir, sib);
@@ -142,11 +167,12 @@ export function cleanupCompanionFiles(filePath, isFromGDrive) {
 }
 
 export function parsePayload(raw, ext) {
+  const clean = String(raw || '').replace(/^\uFEFF/, '').trimStart();
   if (ext === '.json') {
-    return JSON.parse(raw);
+    return JSON.parse(clean);
   }
   if (ext === '.md') {
-    const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+    const match = clean.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     if (!match) {
       throw new Error('Markdown action item missing frontmatter block');
     }
@@ -160,7 +186,7 @@ export function parsePayload(raw, ext) {
         frontmatter[key] = val;
       }
     }
-    const body = raw.slice(match[0].length).trim();
+    const body = clean.slice(match[0].length).trim();
     return {
       ...frontmatter,
       context: {
@@ -172,68 +198,120 @@ export function parsePayload(raw, ext) {
   throw new Error(`Unsupported file extension: ${ext}`);
 }
 
-export const TARGET_ROUTING_MAP = {
-  'toolforge': {
-    type: 'github',
-    repo: 'sorensencc-dotcom/toolforge',
-    name: 'toolforge'
-  },
-  'rewrite': {
-    type: 'github',
-    repo: 'sorensencc-dotcom/rewrite-mcp',
-    name: 'rewrite-mcp'
-  },
-  'rewrite-mcp': {
-    type: 'github',
-    repo: 'sorensencc-dotcom/rewrite-mcp',
-    name: 'rewrite-mcp'
-  },
-  'sigil': {
-    type: 'github',
-    repo: 'sorensencc-dotcom/sigil',
-    name: 'sigil'
-  },
-  'cic': {
-    type: 'local_research',
-    backlogDir: 'wiki/research',
-    gdriveGaps: '01_actionable_gaps',
-    name: 'CIC Research Backlog'
-  },
-  'cic-kb': {
-    type: 'local_research',
-    backlogDir: 'wiki/research',
-    gdriveGaps: '01_actionable_gaps',
-    name: 'CIC-KB'
-  },
-  'research': {
-    type: 'local_research',
-    backlogDir: 'wiki/research',
-    gdriveGaps: '01_actionable_gaps',
-    name: 'TRM Research Backlog'
-  },
-  'sandboxes': {
-    type: 'local_research',
-    backlogDir: 'wiki/research',
-    name: 'Sandboxes & Security'
-  },
-  'cross-fleet': {
-    type: 'local_research',
-    backlogDir: 'wiki/research',
-    name: 'Cross-Fleet / Sandboxes'
-  }
+const KNOWN_CODE_REPOS = {
+  'toolforge': 'sorensencc-dotcom/toolforge',
+  'rewrite': 'sorensencc-dotcom/rewrite-mcp',
+  'rewrite-mcp': 'sorensencc-dotcom/rewrite-mcp',
+  'rewrite-labs': 'sorensencc-dotcom/rewrite-mcp',
+  'sigil': 'sorensencc-dotcom/sigil',
+  'ironledger': 'sorensencc-dotcom/ironledger',
+  'agent-harness': 'sorensencc-dotcom/toolforge',
+  'dev-triage': 'sorensencc-dotcom/toolforge',
+  'modules': 'sorensencc-dotcom/toolforge',
 };
+
+export function getCanonicalRoutingMap() {
+  const map = {};
+  let categoriesData;
+  try {
+    categoriesData = loadCategoriesData();
+  } catch (err) {
+    categoriesData = { categories: {} };
+  }
+  const categories = categoriesData?.categories || {};
+
+  for (const [catKey, catDef] of Object.entries(categories)) {
+    const isCode = Boolean(catDef.exclude_from_master_kb || KNOWN_CODE_REPOS[catKey]);
+    const repo = KNOWN_CODE_REPOS[catKey] || null;
+
+    map[catKey] = {
+      type: isCode && repo ? 'github' : (isCode ? 'local_project' : 'local_research'),
+      repo: repo,
+      name: catDef.title || catKey,
+      notebookId: catDef.target,
+      backlogDir: isCode ? undefined : 'wiki/research',
+      gdriveGaps: isCode ? undefined : '01_actionable_gaps',
+      canonicalKey: catKey,
+    };
+  }
+
+  // Ensure code repos are explicitly present even if not category keys
+  for (const [codeKey, repoName] of Object.entries(KNOWN_CODE_REPOS)) {
+    if (!map[codeKey]) {
+      map[codeKey] = {
+        type: 'github',
+        repo: repoName,
+        name: codeKey,
+        canonicalKey: codeKey,
+      };
+    } else {
+      map[codeKey].type = 'github';
+      map[codeKey].repo = repoName;
+    }
+  }
+
+  // Explicit aliases / fallbacks
+  if (!map['cic']) {
+    map['cic'] = {
+      type: 'local_research',
+      name: 'CIC Research Backlog',
+      backlogDir: 'wiki/research',
+      canonicalKey: 'cic'
+    };
+  }
+  if (!map['cic-kb']) {
+    map['cic-kb'] = {
+      type: 'local_research',
+      name: 'CIC-KB Master',
+      notebookId: '679b8bab-2d87-42cb-a726-6dc54c83acc2',
+      backlogDir: 'wiki/research',
+      canonicalKey: 'master-kb'
+    };
+  }
+  if (!map['research']) {
+    map['research'] = {
+      type: 'local_research',
+      name: 'CIC Research Backlog',
+      backlogDir: 'wiki/research',
+      canonicalKey: 'daily'
+    };
+  }
+  if (!map['sandboxes']) {
+    map['sandboxes'] = { type: 'local_research', backlogDir: 'wiki/research', name: 'Sandboxes & Security', canonicalKey: 'sandboxes' };
+  }
+  if (!map['cross-fleet']) {
+    map['cross-fleet'] = { type: 'local_research', backlogDir: 'wiki/research', name: 'Cross-Fleet / Sandboxes', canonicalKey: 'cross-fleet' };
+  }
+  return map;
+}
+
+export const TARGET_ROUTING_MAP = getCanonicalRoutingMap();
 
 export function resolveTargetRouting(targetName) {
   if (!targetName) return null;
-  const key = String(targetName).trim().toLowerCase().replace(/^target-/, '');
-  if (TARGET_ROUTING_MAP[key]) return TARGET_ROUTING_MAP[key];
-  if (key.includes('toolforge')) return TARGET_ROUTING_MAP['toolforge'];
-  if (key.includes('rewrite')) return TARGET_ROUTING_MAP['rewrite'];
-  if (key.includes('sigil')) return TARGET_ROUTING_MAP['sigil'];
-  if (key.includes('cic')) return TARGET_ROUTING_MAP['cic'];
-  if (key.includes('research')) return TARGET_ROUTING_MAP['research'];
-  if (key.includes('sandbox')) return TARGET_ROUTING_MAP['sandboxes'];
-  if (key.includes('/')) return { type: 'github', repo: targetName, name: targetName };
+  const rawKey = String(targetName).trim().toLowerCase().replace(/^target-/, '');
+  if (rawKey.includes('/')) {
+    return { type: 'github', repo: targetName, name: targetName };
+  }
+  
+  const routingMap = getCanonicalRoutingMap();
+
+  if (routingMap[rawKey]) {
+    return routingMap[rawKey];
+  }
+
+  const canonicalKey = resolveCategoryKey(rawKey);
+  if (canonicalKey && routingMap[canonicalKey]) {
+    return routingMap[canonicalKey];
+  }
+
+  // Substring checks across canonical categories
+  for (const [k, v] of Object.entries(routingMap)) {
+    if (rawKey.includes(k) || k.includes(rawKey)) {
+      return v;
+    }
+  }
+
   return null;
 }
 
@@ -248,7 +326,7 @@ export function inferCategory(item) {
   if (text.startsWith('evaluate_') || text.includes('evaluate') || text.includes('audit_agent') || text.includes('assessment')) {
     return 'EVALUATE';
   }
-  if (text.startsWith('research_') || text.includes('research') || text.includes('actuator') || text.includes('willow_run') || text.includes('historical')) {
+  if (text.startsWith('research_') || text.includes('research') || text.includes('actuator') || text.includes('historical')) {
     return 'RESEARCH';
   }
   if (text.startsWith('fix_') || text.includes('remediate') || text.includes('prune') || text.includes('consolidate') || text.includes('pr45') || text.includes('devin') || text.includes('gate') || text.includes('feature') || text.includes('bug') || text.includes('implement')) {
@@ -261,36 +339,57 @@ export function inferCategory(item) {
 }
 
 export function inferDomain(item) {
-  if (item.domain) return item.domain.toLowerCase();
-  if (item.target_notebook_name) {
-    const name = item.target_notebook_name.toLowerCase();
-    if (name.includes('toolforge')) return 'toolforge';
-    if (name.includes('rewrite')) return 'rewrite';
-    if (name.includes('sigil')) return 'sigil';
-    if (name.includes('cic')) return 'cic-kb';
-  }
-  if (item.target_notebook) {
-    const tb = item.target_notebook.toLowerCase();
-    if (tb.includes('toolforge')) return 'toolforge';
-    if (tb.includes('rewrite')) return 'rewrite';
-    if (tb.includes('cic')) return 'cic-kb';
+  if (item.domain) {
+    const raw = String(item.domain).toLowerCase().trim();
+    const resolved = resolveCategoryKey(raw);
+    if (resolved && resolved !== raw) return resolved;
+    return raw;
   }
   if (item.target) {
-    const t = item.target.toLowerCase();
-    if (t.includes('toolforge')) return 'toolforge';
-    if (t.includes('rewrite')) return 'rewrite';
-    if (t.includes('sigil')) return 'sigil';
-    if (t.includes('cic')) return 'cic';
+    const raw = String(item.target).toLowerCase().trim().replace(/^target-/, '');
+    const resolved = resolveCategoryKey(raw);
+    if (resolved && resolved !== raw) return resolved;
+    return raw;
+  }
+  if (item.target_notebook_name) {
+    const raw = String(item.target_notebook_name).toLowerCase().trim();
+    const resolved = resolveCategoryKey(raw);
+    if (resolved && resolved !== raw) return resolved;
+    return raw;
+  }
+  if (item.target_notebook) {
+    const raw = String(item.target_notebook).toLowerCase().trim();
+    const resolved = resolveCategoryKey(raw);
+    if (resolved && resolved !== raw) return resolved;
+    return raw;
   }
 
   const text = `${item.id || ''} ${item.intent || ''} ${item.summary || ''}`.toLowerCase();
-  if (text.includes('toolforge') || text.includes('pr45') || text.includes('devin') || text.includes('push_gate')) return 'toolforge';
+
+  // Known quick domain keywords
+  if (text.includes('robotics') || text.includes('actuator') || text.includes('cic')) return 'cic';
+  if (text.includes('pr45') || text.includes('devin') || text.includes('toolforge')) return 'toolforge';
   if (text.includes('rewrite')) return 'rewrite';
   if (text.includes('sigil')) return 'sigil';
-  if (text.includes('robotics') || text.includes('willow') || text.includes('frontier') || text.includes('cic')) return 'cic';
+  if (text.includes('ironledger') || text.includes('ledger')) return 'ironledger';
+
+  // Dynamic keyword resolution against canonical categories and aliases
+  let categoriesData;
+  try { categoriesData = loadCategoriesData(); } catch (_) {}
+  const categories = categoriesData?.categories || {};
+
+  for (const [key, catDef] of Object.entries(categories)) {
+    if (text.includes(key)) return key;
+    if (Array.isArray(catDef.aliases)) {
+      for (const alias of catDef.aliases) {
+        if (text.includes(alias.toLowerCase())) return key;
+      }
+    }
+  }
+
   if (text.includes('audit_agent') || text.includes('exfiltration') || text.includes('sandboxes')) return 'cross-fleet';
 
-  return 'research';
+  return 'daily';
 }
 
 export function getRoutingDecision(item) {
@@ -304,7 +403,7 @@ export function getRoutingDecision(item) {
     (item.action_type === 'antigravity_triage') &&
     isCodeTarget &&
     !isResearchOrMonitor &&
-    (category === 'IMPLEMENT' || item.target === 'toolforge' || item.target === 'rewrite')
+    (category === 'IMPLEMENT')
   );
 
   return {
@@ -887,15 +986,38 @@ export function processFile(filePath, options = {}) {
   const ext = path.extname(filePath).toLowerCase();
   if (ext !== '.json' && ext !== '.md') return null;
 
+  if (!dryRun && !options.skipStability && !isFileStableSync(filePath, 200)) {
+    console.log(`[TRM-INGRESS] File write in progress or unstable: ${path.basename(filePath)}. Skipping until stable.`);
+    return null;
+  }
+
   const filename = path.basename(filePath);
   const isFromGDrive = filePath.startsWith(path.resolve(GDRIVE_ROOT));
+  const isFromDotTrm = filePath.startsWith(path.resolve(REPO_ROOT, '.trm'));
+  const originalDir = path.dirname(filePath);
+
   console.log(`[TRM-INGRESS] Reading incoming file: ${filename} (Source: ${isFromGDrive ? 'Google Drive' : 'Local'}, Dry-Run: ${dryRun})`);
   const startTime = Date.now();
 
+  let workFilePath = filePath;
+  if (!dryRun) {
+    const processingDir = isFromDotTrm ? LOCAL_DOT_TRM_PROCESSING : LOCAL_PROCESSING_DIR;
+    const stagePath = path.join(processingDir, `${Date.now()}-${filename}`);
+    const moved = safeMoveFile(filePath, stagePath);
+    if (moved) {
+      workFilePath = stagePath;
+    }
+  }
+
   let item;
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
-    if (!raw.trim()) return null;
+    const raw = fs.readFileSync(workFilePath, 'utf8');
+    if (!raw.trim()) {
+      if (!dryRun && workFilePath !== filePath) {
+        try { fs.unlinkSync(workFilePath); } catch {}
+      }
+      return null;
+    }
     item = parsePayload(raw, ext);
     validatePayload(item);
   } catch (err) {
@@ -913,7 +1035,7 @@ export function processFile(filePath, options = {}) {
     const qTarget = isFromGDrive && fs.existsSync(GDRIVE_REJECTED)
       ? path.join(GDRIVE_REJECTED, `${Date.now()}-${filename}`)
       : path.join(LOCAL_REJECTED_DIR, `${Date.now()}-${filename}`);
-    const moved = safeMoveFile(filePath, qTarget);
+    const moved = safeMoveFile(workFilePath, qTarget);
     logToLedger({
       id: `invalid-${filename}`,
       processed_at: new Date().toISOString(),
@@ -950,27 +1072,14 @@ export function processFile(filePath, options = {}) {
       const dest = path.join(COMPLETED_DIR, `${Date.now()}-${filename}`);
       let archived = false;
 
-      try {
-        fs.copyFileSync(filePath, dest);
-      } catch (copyErr) {
-        console.error(`[TRM-INGRESS] Failed to copy to completed archive:`, copyErr.message);
-      }
-      
-      // If from Google Drive, archive to GDrive archive or remove from local inbox
       if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        archived = safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
-      } else if (fs.existsSync(filePath)) {
-        try {
-          fs.unlinkSync(filePath);
-          archived = true;
-        } catch (unlinkErr) {
-          console.error(`[TRM-INGRESS] Failed to unlink source card:`, unlinkErr.message);
-          archived = false;
-        }
+        archived = safeMoveFile(workFilePath, path.join(GDRIVE_ARCHIVE, filename));
+      } else if (fs.existsSync(workFilePath)) {
+        archived = safeMoveFile(workFilePath, dest);
       }
       
       if (archived) {
-        cleanupCompanionFiles(filePath, isFromGDrive);
+        cleanupCompanionFiles(originalDir, isFromGDrive);
         console.log(`[TRM-INGRESS] Successfully executed and archived: ${dest}`);
         logToLedger({
           id: itemId,
@@ -991,7 +1100,7 @@ export function processFile(filePath, options = {}) {
           details: 'Executed deterministic remediation and archived card'
         });
       } else {
-        console.warn(`[TRM-INGRESS] ⚠️ Action executed but failed to archive source card from inbox: ${filePath}`);
+        console.warn(`[TRM-INGRESS] ⚠️ Action executed but failed to archive source card: ${workFilePath}`);
         logToLedger({
           id: itemId,
           processed_at: new Date().toISOString(),
@@ -1003,7 +1112,7 @@ export function processFile(filePath, options = {}) {
           target_notebook_name: item.target_notebook_name,
           summary: item.summary || item.context?.summary || '',
           status: 'ARCHIVE_MOVE_FAILED',
-          error: 'Action executed but card could not be archived/removed from inbox',
+          error: 'Action executed but card could not be archived/removed from processing',
           duration_ms: Date.now() - startTime
         });
       }
@@ -1042,20 +1151,15 @@ export function processFile(filePath, options = {}) {
       fs.writeFileSync(dest, JSON.stringify(item, null, 2), 'utf8');
       
       let archived = false;
+      const archiveDest = path.join(COMPLETED_DIR, `${Date.now()}-${filename}`);
       if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        archived = safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
-      } else if (fs.existsSync(filePath)) {
-        try {
-          fs.unlinkSync(filePath);
-          archived = true;
-        } catch (unlinkErr) {
-          console.error(`[TRM-INGRESS] Failed to unlink source card:`, unlinkErr.message);
-          archived = false;
-        }
+        archived = safeMoveFile(workFilePath, path.join(GDRIVE_ARCHIVE, filename));
+      } else if (fs.existsSync(workFilePath)) {
+        archived = safeMoveFile(workFilePath, archiveDest);
       }
       
       if (archived) {
-        cleanupCompanionFiles(filePath, isFromGDrive);
+        cleanupCompanionFiles(originalDir, isFromGDrive);
         console.log(`[TRM-INGRESS] Staged for ${stageStatus}: ${dest}`);
         logToLedger({
           id: itemId,
@@ -1082,7 +1186,7 @@ export function processFile(filePath, options = {}) {
           details: `Staged to .harness/tasks/pending/${filename}`
         });
       } else {
-        console.warn(`[TRM-INGRESS] ⚠️ Staged to harness but failed to archive source card from inbox: ${filePath}`);
+        console.warn(`[TRM-INGRESS] ⚠️ Staged to harness but failed to archive source card: ${workFilePath}`);
         logToLedger({
           id: itemId,
           processed_at: new Date().toISOString(),
@@ -1098,7 +1202,7 @@ export function processFile(filePath, options = {}) {
           issue_url: issueUrl,
           research_ref: researchRef,
           status: 'STAGED_ARCHIVE_FAILED',
-          error: 'Staged to harness but card could not be archived/removed from inbox',
+          error: 'Staged to harness but card could not be archived/removed from processing',
           duration_ms: Date.now() - startTime
         });
       }
@@ -1106,9 +1210,9 @@ export function processFile(filePath, options = {}) {
   } catch (execErr) {
     console.error(`[TRM-INGRESS] Execution failed for ${itemId}:`, execErr);
     let quarantined = false;
-    if (fs.existsSync(filePath)) {
+    if (fs.existsSync(workFilePath)) {
       const qTarget = path.join(QUARANTINE_DIR, `failed-${Date.now()}-${filename}`);
-      quarantined = safeMoveFile(filePath, qTarget);
+      quarantined = safeMoveFile(workFilePath, qTarget);
     }
     logToLedger({
       id: itemId,

@@ -86,6 +86,7 @@ function runNlm(runner, args, capture = false) {
   const res = spawnSync(runner.exec, fullArgs, {
     encoding: 'utf8',
     windowsHide: true,
+    maxBuffer: 50 * 1024 * 1024,
     stdio: capture ? ['ignore', 'pipe', 'pipe'] : 'inherit'
   });
   if (res.status !== 0 && !capture) {
@@ -105,7 +106,7 @@ async function main() {
   if (!fs.existsSync(packFile)) {
     logWarn(`Pack file ${packFile} does not exist. Running consolidation first...`);
     const consolidateScript = path.join(REPO_ROOT, 'scripts/consolidate-pack.mjs');
-    const consRes = spawnSync('node', [consolidateScript], { stdio: 'inherit', shell: true });
+    const consRes = spawnSync('node', [consolidateScript], { stdio: 'inherit', shell: true, maxBuffer: 50 * 1024 * 1024 });
     if (consRes.status !== 0 || !fs.existsSync(packFile)) {
       logError(`Failed to generate knowledge pack: ${packFile}`);
       process.exit(1);
@@ -113,6 +114,10 @@ async function main() {
   }
 
   const packStats = fs.statSync(packFile);
+  if (!packStats.size || packStats.size === 0) {
+    logError(`Ingestion aborted: Empty content detected for source pack: ${packFile}`);
+    process.exit(1);
+  }
   logInfo(`Knowledge Pack Size: ${(packStats.size / 1024).toFixed(2)} KB`);
 
   const runner = resolveNlmRunner();

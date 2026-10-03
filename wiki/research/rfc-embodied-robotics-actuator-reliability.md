@@ -57,5 +57,5 @@ Deploying multimodal foundation models and autonomous agent loops to physical ac
 
 ## 4. References & linked topics
 - [[Index]]
-- [[trm-research-gaps]]
+- [[TrmResearchGaps|trm-research-gaps]]
 - [[Log]]

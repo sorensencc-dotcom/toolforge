@@ -213,6 +213,35 @@ async function runIngester() {
     }
   }
 
+  // Reconcile notebooklm-registry.json quarantine records
+  let healedQuarantines = 0;
+  const registryPath = path.resolve(REPO_ROOT, 'notebooklm-registry.json');
+  if (fsSync.existsSync(registryPath) && !isDryRun) {
+    try {
+      const regContent = JSON.parse(await fs.readFile(registryPath, 'utf8'));
+      let registryChanged = false;
+      if (Array.isArray(regContent.notebooks)) {
+        for (const nb of regContent.notebooks) {
+          if (nb.quarantined && typeof nb.quarantined === 'object') {
+            for (const [sId, qInfo] of Object.entries(nb.quarantined)) {
+              if (qInfo?.hash === 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' || qInfo?.reason?.includes('ENOBUFS')) {
+                delete nb.quarantined[sId];
+                healedQuarantines++;
+                registryChanged = true;
+                if (isVerbose) console.log(`  [Autoheal] Cleared stale quarantine entry: ${sId} in notebook ${nb.title || nb.notebook_id}`);
+              }
+            }
+          }
+        }
+      }
+      if (registryChanged) {
+        await fs.writeFile(registryPath, JSON.stringify(regContent, null, 2), 'utf8');
+      }
+    } catch (regErr) {
+      if (isVerbose) console.warn(`[Notebook-Ingester] Registry reconciliation notice: ${regErr.message}`);
+    }
+  }
+
   if (db) {
     db.close();
   }
@@ -228,6 +257,7 @@ async function runIngester() {
     indexedCount,
     updatedCount,
     skippedCount,
+    healedQuarantines,
     packWarnings,
     databasePath: path.relative(REPO_ROOT, DB_PATH).replace(/\\/g, '/'),
     dryRun: isDryRun
@@ -241,6 +271,7 @@ async function runIngester() {
   console.log(`  - Newly Indexed: ${indexedCount}`);
   console.log(`  - Updated:       ${updatedCount}`);
   console.log(`  - Unchanged:     ${skippedCount}`);
+  if (healedQuarantines > 0) console.log(`  - Healed Quarantines: ${healedQuarantines}`);
   console.log(`  - Database:      ${path.relative(REPO_ROOT, DB_PATH).replace(/\\/g, '/')}`);
   console.log(`  - Telemetry:     ${path.relative(REPO_ROOT, REPORT_PATH).replace(/\\/g, '/')}`);
 

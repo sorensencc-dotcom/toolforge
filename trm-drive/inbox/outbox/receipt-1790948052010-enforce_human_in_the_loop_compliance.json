@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1790948052008-acs2d",
+  "action_id": "act-04-enforce-human-in-the-loop-compliance",
+  "source": "mobile-gemini-gdoc",
+  "intent": "enforce_human_in_the_loop_compliance",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-02T122504Z__action__rewrite-mcp__act-04-enforce-human-in-the-loop-compliance",
+  "issue_url": null,
+  "target_notebook": "REWRITE-MCP",
+  "dispatched_at": "2026-10-02T13:34:12.010Z",
+  "duration_ms": 57,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-04-enforce-human-in-the-loop-compliance.json",
+  "dryRun": false
+}

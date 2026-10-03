@@ -1,0 +1,12 @@
+{
+  "receipt_id": "rcpt-1790948051491-rej-2026-10-02T122501Z__cic__willys-five-contradictions-lock_md",
+  "action_id": "2026-10-02T122501Z__cic__willys-five-contradictions-lock.md",
+  "source": "grok",
+  "intent": "unknown",
+  "action_type": "unknown",
+  "status": "REJECTED",
+  "summary": "Action rejected due to validation failure: Invalid or missing action_type: undefined",
+  "error": "Invalid or missing action_type: undefined",
+  "dispatched_at": "2026-10-02T13:34:11.492Z",
+  "dryRun": false
+}

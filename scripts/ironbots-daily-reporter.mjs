@@ -42,6 +42,31 @@ const BOT_ARTIFACTS = {
   storagePruner: 'storage_pruner_status.json'
 };
 
+export const EXPECTED_CADENCES_MS = {
+  daemonHealer: 45 * 60 * 1000,
+  ironledgerHealth: 45 * 60 * 1000,
+  trmIngress: 24 * 60 * 60 * 1000,
+  kbSentinel: 30 * 60 * 60 * 1000,
+  trmBot: 30 * 60 * 60 * 1000,
+  watchlistMiner: 30 * 60 * 60 * 1000,
+  notebookIngester: 30 * 60 * 60 * 1000,
+  ciWatchdog: 30 * 60 * 60 * 1000,
+  storagePruner: 8 * 24 * 60 * 60 * 1000
+};
+
+export function evaluateTelemetryFreshness(botKey, telemetry, now = Date.now()) {
+  if (!telemetry || !telemetry.timestamp) return { stale: true, reason: 'MISSING' };
+  const reportTime = new Date(telemetry.timestamp).getTime();
+  if (isNaN(reportTime)) return { stale: true, reason: 'INVALID_TIMESTAMP' };
+  const maxAge = EXPECTED_CADENCES_MS[botKey] || (30 * 60 * 60 * 1000);
+  const ageMs = now - reportTime;
+  if (ageMs > maxAge) {
+    const ageHours = (ageMs / (3600 * 1000)).toFixed(1);
+    return { stale: true, ageMs, reason: `STALE (${ageHours}h old)` };
+  }
+  return { stale: false, ageMs, reason: 'FRESH' };
+}
+
 export const FLEET_SCORING_POLICY = {
   weights: {
     kbSentinelPenaltyFactor: 0.3,
@@ -51,7 +76,8 @@ export const FLEET_SCORING_POLICY = {
     ironledgerUnhealthyPenalty: 25,
     ironledgerDegradedPenalty: 10,
     competitorDriftPenalty: 5,
-    hostDegradedPenalty: 25
+    hostDegradedPenalty: 25,
+    staleTelemetryPenalty: 5
   },
   thresholds: {
     healthyMinScore: 85,

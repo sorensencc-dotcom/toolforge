@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1790948051784-l0tmk",
+  "action_id": "act-02-harden-agent-runtime-infrastructure",
+  "source": "mobile-gemini-gdoc",
+  "intent": "harden_agent_runtime_infrastructure",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-02T122502Z__action__toolforge__act-02-harden-agent-runtime-infrastructure",
+  "issue_url": null,
+  "target_notebook": "TOOLFORGE",
+  "dispatched_at": "2026-10-02T13:34:11.785Z",
+  "duration_ms": 47,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-02-harden-agent-runtime-infrastructure.json",
+  "dryRun": false
+}

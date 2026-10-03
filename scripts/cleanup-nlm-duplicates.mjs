@@ -3,9 +3,11 @@ import fs from 'node:fs';
 
 const reg = JSON.parse(fs.readFileSync('C:/dev/notebooklm-registry.json', 'utf8'));
 
-console.log(`Starting NotebookLM deduplication across ${reg.notebooks.length} notebooks...`);
+const notebooks = Array.isArray(reg.notebooks) ? reg.notebooks : Object.values(reg.notebooks || {});
 
-for (const nb of reg.notebooks) {
+console.log(`Starting NotebookLM deduplication across ${notebooks.length} notebooks...`);
+
+for (const nb of notebooks) {
   console.log(`\n================================================================================`);
   console.log(`Auditing: ${nb.title} (${nb.notebook_id})`);
   console.log(`================================================================================`);
@@ -13,7 +15,8 @@ for (const nb of reg.notebooks) {
   const res = spawnSync('nlm', ['source', 'list', nb.notebook_id, '--json'], {
     encoding: 'utf8',
     windowsHide: true,
-    shell: true
+    shell: true,
+    maxBuffer: 50 * 1024 * 1024
   });
 
   if (res.status !== 0) {
@@ -62,7 +65,8 @@ for (const nb of reg.notebooks) {
     const delRes = spawnSync('nlm', ['source', 'delete', ...toDelete, '-y'], {
       encoding: 'utf8',
       windowsHide: true,
-      shell: true
+      shell: true,
+      maxBuffer: 50 * 1024 * 1024
     });
     console.log(delRes.stdout || delRes.stderr);
   } else {

@@ -59,5 +59,5 @@ Heuristic, free-form LLM parsers frequently suffer from:
 
 ## 4. References & linked topics
 - [[Index]]
-- [[trm-research-gaps]]
+- [[TrmResearchGaps|trm-research-gaps]]
 - [[Log]]

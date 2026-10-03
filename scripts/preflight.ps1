@@ -32,6 +32,7 @@ foreach ($item in $paths) {
 }
 $validators = @(
   @{ Label = 'index validator'; Available = (Test-Path (Join-Path $root 'scripts/validate-codebase-index.ps1')); Command = 'npm run index:validate' },
+  @{ Label = 'kb sentinel'; Available = (Test-Path (Join-Path $root 'scripts/kb-sentinel-bot.mjs')); Command = 'npm run bot:kb:sentinel' },
   @{ Label = 'full pre-flight'; Available = (Test-Path (Join-Path $root 'package.json')); Command = 'npm run pre-flight' },
   @{ Label = 'skill validator'; Available = (Test-Path (Join-Path $root 'utilities/skill-doc-validator.ps1')); Command = 'pwsh -NoProfile -File utilities/skill-doc-validator.ps1 -Path ./skills -Recursive' }
 )

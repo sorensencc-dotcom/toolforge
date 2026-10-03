@@ -1,0 +1,21 @@
+{
+  "id": "act-01-evaluate-full-duplex-avatar-runtimes",
+  "parent_action_id": null,
+  "timestamp": "2026-10-02T122501Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "rewrite-mcp",
+  "target": "rewrite-mcp",
+  "action_type": "antigravity_triage",
+  "intent": "evaluate_full_duplex_avatar_runtimes",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-02T122501Z__research__rewrite-mcp__act-01-evaluate-full-duplex-avatar-runtimes",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-02T13:34:11.642Z",
+  "source_file": "2026-10-02T122501Z__research__rewrite-mcp__act-01-evaluate-full-duplex-avatar-runtimes.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-02T122501Z__research__rewrite-mcp__act-01-evaluate-full-duplex-avatar-runtimes.md.gdoc",
+    "gdoc_stem": "2026-10-02T122501Z__research__rewrite-mcp__act-01-evaluate-full-duplex-avatar-runtimes",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}

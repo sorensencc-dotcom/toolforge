@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-01T02:30:05.721Z",
-  "elapsedMs": 3028,
-  "status": "HEALTHY",
+  "timestamp": "2026-10-03T03:00:17.046Z",
+  "elapsedMs": 12343,
+  "status": "RECOVERED",
   "workbench": {
     "targetUrl": "http://127.0.0.1:8000",
     "uiOk": true,
@@ -10,9 +10,9 @@
     "version": "0.15.0",
     "container": {
       "found": true,
-      "id": "76bc7a8b5974",
+      "id": "3f05f587153b",
       "image": "ironledger-ironledger",
-      "status": "Up 4 days (healthy)",
+      "status": "Up 8 hours (healthy)",
       "state": "running",
       "ports": "0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp",
       "running": true,
@@ -21,7 +21,7 @@
   },
   "database": {
     "exists": true,
-    "sizeBytes": 18927616,
+    "sizeBytes": 21852160,
     "walExists": false,
     "walSizeBytes": 0,
     "status": "VALID",
@@ -55,9 +55,9 @@
     "missingTasks": [],
     "error": null
   },
-  "healed": false,
-  "healAction": null,
-  "consecutiveHeals": 0,
+  "healed": true,
+  "healAction": "docker compose up -d executed",
+  "consecutiveHeals": 1,
   "thrashCooldownActive": false,
   "lastCooldownTime": null,
   "dryRun": false,

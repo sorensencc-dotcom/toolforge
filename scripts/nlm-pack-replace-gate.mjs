@@ -199,45 +199,87 @@ export function splitPack(content, baseName, genId) {
 }
 
 // ---------------------------------------------------------------------------
-// NLM helpers
+// NLM helpers with exponential backoff & jitter
 // ---------------------------------------------------------------------------
 
-function nlmSourceList(notebookId, nlmCli) {
-  const result = spawnSync(nlmCli, ['source', 'list', notebookId, '--json'], {
-    encoding:    'utf8',
-    windowsHide: true,
-    shell:       true,
-  });
-  if (result.status !== 0) {
-    throw new Error(`nlm source list failed: ${result.stderr || result.stdout}`);
+function sleepMs(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+export function withRetry(fn, options = {}) {
+  const maxRetries = options.maxRetries ?? 3;
+  const baseDelayMs = options.baseDelayMs ?? 1000;
+  let lastError;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return fn();
+    } catch (err) {
+      lastError = err;
+      if (attempt < maxRetries) {
+        const jitter = Math.floor(Math.random() * 200);
+        const delay = Math.min(10000, baseDelayMs * Math.pow(2, attempt - 1) + jitter);
+        sleepMs(delay);
+      }
+    }
   }
-  const raw = result.stdout.trim();
-  if (!raw) return [];
-  const parsed = JSON.parse(raw);
-  return Array.isArray(parsed) ? parsed : (parsed.sources ?? []);
+  throw lastError;
+}
+
+function nlmSourceList(notebookId, nlmCli) {
+  return withRetry(() => {
+    const result = spawnSync(nlmCli, ['source', 'list', notebookId, '--json'], {
+      encoding:    'utf8',
+      windowsHide: true,
+      shell:       true,
+      maxBuffer:   50 * 1024 * 1024,
+    });
+    if (result.status !== 0) {
+      throw new Error(`nlm source list failed: ${result.stderr || result.stdout}`);
+    }
+    const raw = result.stdout.trim();
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : (parsed.sources ?? []);
+  }, { maxRetries: 3, baseDelayMs: 1500 });
 }
 
 function nlmSourceAdd(notebookId, filePath, nlmCli) {
-  const result = spawnSync(nlmCli, ['source', 'add', notebookId, '--file', filePath], {
-    encoding:    'utf8',
-    windowsHide: true,
-    shell:       true,
-    timeout:     30_000,
-  });
-  if (result.status !== 0) {
-    throw new Error(`nlm source add failed for ${path.basename(filePath)}: ${result.stderr || result.stdout}`);
+  const stats = fs.statSync(filePath);
+  if (!stats.size || stats.size === 0) {
+    throw new Error(`Ingestion aborted: Empty content detected for source: ${path.basename(filePath)}`);
   }
-  return result.stdout;
+  return withRetry(() => {
+    const result = spawnSync(nlmCli, ['source', 'add', notebookId, '--file', filePath], {
+      encoding:    'utf8',
+      windowsHide: true,
+      shell:       true,
+      maxBuffer:   50 * 1024 * 1024,
+      timeout:     30_000,
+    });
+    if (result.status !== 0) {
+      throw new Error(`nlm source add failed for ${path.basename(filePath)}: ${result.stderr || result.stdout}`);
+    }
+    return result.stdout;
+  }, { maxRetries: 3, baseDelayMs: 2000 });
 }
 
 function nlmSourceDelete(sourceId, nlmCli) {
-  const result = spawnSync(nlmCli, ['source', 'delete', sourceId, '-y'], {
-    encoding:    'utf8',
-    windowsHide: true,
-    shell:       true,
-  });
-  if (result.status !== 0) {
-    logWarn(`  nlm source delete ${sourceId} failed: ${result.stderr || result.stdout}`);
+  try {
+    withRetry(() => {
+      const result = spawnSync(nlmCli, ['source', 'delete', sourceId, '-y'], {
+        encoding:    'utf8',
+        windowsHide: true,
+        shell:       true,
+        maxBuffer:   50 * 1024 * 1024,
+      });
+      if (result.status !== 0) {
+        throw new Error(`nlm source delete failed: ${result.stderr || result.stdout}`);
+      }
+      return result;
+    }, { maxRetries: 2, baseDelayMs: 1000 });
+  } catch (err) {
+    logWarn(`  nlm source delete ${sourceId} failed: ${err.message}`);
   }
 }
 
@@ -534,6 +576,7 @@ function runCapture(cmd) {
     stdio: ['ignore', 'pipe', 'pipe'],
     windowsHide: true,
     shell: true,
+    maxBuffer: 50 * 1024 * 1024,
   });
 }
 

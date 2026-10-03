@@ -1,0 +1,21 @@
+{
+  "id": "act-02-harden-agent-runtime-infrastructure",
+  "parent_action_id": null,
+  "timestamp": "2026-10-02T122502Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "toolforge",
+  "target": "toolforge",
+  "action_type": "antigravity_triage",
+  "intent": "harden_agent_runtime_infrastructure",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-02T122502Z__action__toolforge__act-02-harden-agent-runtime-infrastructure",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-02T13:34:11.741Z",
+  "source_file": "2026-10-02T122502Z__action__toolforge__act-02-harden-agent-runtime-infrastructure.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-02T122502Z__action__toolforge__act-02-harden-agent-runtime-infrastructure.md.gdoc",
+    "gdoc_stem": "2026-10-02T122502Z__action__toolforge__act-02-harden-agent-runtime-infrastructure",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}
