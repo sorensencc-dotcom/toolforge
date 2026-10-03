@@ -4,7 +4,8 @@
 // Emits modular, self-describing packs into .nlm_pack/ partitioned by research category:
 // - .nlm_pack/pack_willow_run.txt      (Target: CIC - Willow Run & Aviation Engineering)
 // - .nlm_pack/pack_ford_politics.txt   (Target: CIC - Ford Executive Dynamics & Politics)
-// - .nlm_pack/pack_post_war.txt        (Target: CIC - Post-War & Willys-Overland)
+// - .nlm_pack/pack_post_war.txt        (Target: CIC - Post-War)
+// - .nlm_pack/pack_willys_overland.txt (Target: CIC - Willys-Overland)
 // - .nlm_pack/pack_cuban_seizures.txt  (Target: CIC - Cuban Seizures & Retired Assets)
 // - .nlm_pack/pack_master_kb.txt       (Target: CIC-KB)
 // ==============================================================================

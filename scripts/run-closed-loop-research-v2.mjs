@@ -521,6 +521,7 @@ async function run() {
 
   const packDefs = [
     { filename: 'pack_willow_run.txt',      category: 'willow-run' },
+    { filename: 'pack_willys_overland.txt', category: 'willys-overland' },
     { filename: 'pack_cuba_claims.txt',     category: 'cuba-claims' },
     { filename: 'pack_miami_estate.txt',    category: 'miami-estate' },
     { filename: 'pack_assembly_line.txt',   category: 'assembly-line' },

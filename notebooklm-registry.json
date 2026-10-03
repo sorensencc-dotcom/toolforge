@@ -320,8 +320,15 @@
     },
     {
       "notebook_id": "9c469910-a900-43a4-877c-a43c9f545b5f",
-      "title": "CIC - Post-War & Willys-Overland",
+      "title": "CIC - Post-War",
       "url": "https://notebooklm.google.com/notebook/9c469910-a900-43a4-877c-a43c9f545b5f",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "fd4ebe29-9440-4f4b-97cf-0184ffbe29a0",
+      "title": "CIC - Willys-Overland",
+      "url": "https://notebooklm.google.com/notebook/fd4ebe29-9440-4f4b-97cf-0184ffbe29a0",
       "last_pulled_hashes": {},
       "quarantined": {}
     },
