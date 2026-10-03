@@ -1,0 +1,22 @@
+{
+  "name": "@toolforge/ticket-scorer",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx --test tests/**/*.test.ts"
+  },
+  "dependencies": {
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@types/unist": "^3.0.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4"
+  }
+}
