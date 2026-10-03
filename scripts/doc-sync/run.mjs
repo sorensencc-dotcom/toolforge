@@ -9,10 +9,13 @@ import { publishProduct } from './publish.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const KB_SYNC = path.join(ROOT, 'kb-sync');
 const KB_DB = path.join(KB_SYNC, '.kb_cache', 'knowledge.db');
+const KB_CACHE_MODULE = path.join(KB_SYNC, 'modules', 'cache', 'sync-cache.mjs');
 
-async function defaultLoadCache(product, publishedDir) {
-  const { syncKnowledgeCache } = await import(pathToFileURL(path.join(KB_SYNC, 'modules', 'cache', 'sync-cache.mjs')).href);
-  syncKnowledgeCache({ repoRoot: publishedDir, scanPaths: ['.'], dbPath: KB_DB, idPrefix: `product:${product.name}/` });
+// An older kb-sync ignores idPrefix and would overwrite C:\dev's own cache rows with product pages.
+export async function loadProductCache(product, publishedDir, { modulePath = KB_CACHE_MODULE, dbPath = KB_DB } = {}) {
+  const mod = await import(pathToFileURL(modulePath).href);
+  if (mod.SUPPORTS_ID_PREFIX !== true) throw new Error(`KB_SYNC_NO_ID_PREFIX: ${modulePath} predates per-product id prefixes; update kb-sync first`);
+  mod.syncKnowledgeCache({ repoRoot: publishedDir, scanPaths: ['.'], dbPath, idPrefix: `product:${product.name}/` });
 }
 
 function localHead(repoPath) {
@@ -57,7 +60,7 @@ function takeLock(lockPath) {
   return () => fs.rmSync(lockPath, { force: true });
 }
 
-export async function runDocSync({ registryPath, receiptPath, only, dryRun = false, publish = publishProduct, loadCache = defaultLoadCache }) {
+export async function runDocSync({ registryPath, receiptPath, only, dryRun = false, publish = publishProduct, loadCache = loadProductCache }) {
   const all = loadRegistry(registryPath);
   let selected;
   if (only) {

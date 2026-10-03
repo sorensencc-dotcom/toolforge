@@ -39,3 +39,20 @@ test('wiki link with a label uses the page part', () => {
   const dir = tree({ 'Real-Page.md': 'r', '_Sidebar.md': '- [[Label|Real-Page]]\n- [[Other|Missing-Page]]' });
   assert.deepEqual(findForeignSidebarLinks(dir), ['Missing-Page']);
 });
+
+test('image and asset links pass when the file exists, fail when it does not', () => {
+  const dir = tree({
+    'Home.md': 'h',
+    'assets/logo.png': 'png',
+    '_Sidebar.md': '![logo](assets/logo.png)\n- [Diagram](arch.svg)\n![gone](missing.png)',
+  });
+  assert.deepEqual(findForeignSidebarLinks(dir), ['arch.svg', 'missing.png']);
+});
+
+test('spaces in a link target resolve to the hyphenated page, like GitHub wikis', () => {
+  const dir = tree({
+    'Page-Name.md': 'p',
+    '_Sidebar.md': '- [[Page Name]]\n- [Text](Page%20Name)\n- [[Label|Page Name]]\n- [[No Such Page]]',
+  });
+  assert.deepEqual(findForeignSidebarLinks(dir), ['No Such Page']);
+});

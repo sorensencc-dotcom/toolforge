@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { runDocSync, parseArgs } from '../scripts/doc-sync/run.mjs';
+import { pathToFileURL } from 'node:url';
+import { runDocSync, parseArgs, loadProductCache } from '../scripts/doc-sync/run.mjs';
 
 function setup(rows) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'run-'));
@@ -83,6 +84,26 @@ test('a second concurrent run is refused by the lock', async () => {
   await assert.rejects(runDocSync({ registryPath, receiptPath, publish: slow, loadCache: () => {} }), /RUN_LOCKED/);
   release();
   assert.equal((await first).ok, true);
+});
+
+function fakeCacheModule(body) {
+  const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'kbmod-')), 'sync-cache.mjs');
+  fs.writeFileSync(file, `export const calls = [];\nexport function syncKnowledgeCache(o) { calls.push(o); }\n${body}`);
+  return file;
+}
+
+test('cache load refuses a kb-sync without idPrefix support and never calls it', async () => {
+  const modulePath = fakeCacheModule('');
+  await assert.rejects(loadProductCache({ name: 'a' }, 'DIR', { modulePath, dbPath: 'DB' }), /KB_SYNC_NO_ID_PREFIX/);
+  const { calls } = await import(pathToFileURL(modulePath).href);
+  assert.equal(calls.length, 0);
+});
+
+test('cache load passes the product prefix when kb-sync supports it', async () => {
+  const modulePath = fakeCacheModule('export const SUPPORTS_ID_PREFIX = true;');
+  await loadProductCache({ name: 'a' }, 'DIR', { modulePath, dbPath: 'DB' });
+  const { calls } = await import(pathToFileURL(modulePath).href);
+  assert.deepEqual(calls, [{ repoRoot: 'DIR', scanPaths: ['.'], dbPath: 'DB', idPrefix: 'product:a/' }]);
 });
 
 test('dry run writes no drift receipt and loads no cache', async () => {
