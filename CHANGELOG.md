@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.83.1
+Date: 2026-10-03
+
+### Changes
+- d38e1d0 - fix(sentinel): strip code spans and scan workspace docs for wikilinks (#79) (Chris Sorensen)
+
 ## Version 2.83.0
 Date: 2026-10-03
 
