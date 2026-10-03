@@ -10,7 +10,7 @@ import {
   type ScorerOptions,
   type TicketScoreResult,
 } from './types.js';
-import { hasAffirmativeMatch } from './negation-matcher.js';
+import { hasAffirmativeMatch, escapeRegex } from './negation-matcher.js';
 
 interface ListItemNode extends Parent {
   type: 'listItem';
@@ -19,6 +19,11 @@ interface ListItemNode extends Parent {
 
 interface TextNode extends Node {
   type: 'text';
+  value: string;
+}
+
+interface InlineCodeNode extends Node {
+  type: 'inlineCode';
   value: string;
 }
 
@@ -74,6 +79,7 @@ export class DeterministicTicketScorer {
         codeBlockCount++;
       } else if (node.type === 'inlineCode') {
         inlineCodeCount++;
+        textContent += ' ' + (node as InlineCodeNode).value;
       } else if (node.type === 'text') {
         textContent += ' ' + (node as TextNode).value;
       }
@@ -130,7 +136,7 @@ export class DeterministicTicketScorer {
     let domainScore = 0;
     let matchedDomains = 0;
     for (const domain of this.config.knownDomains) {
-      const regex = new RegExp(`\\b${domain}\\b`, 'i');
+      const regex = new RegExp(`\\b${escapeRegex(domain)}\\b`, 'i');
       if (regex.test(normalizedText)) {
         domainScore += 10;
         matchedDomains++;

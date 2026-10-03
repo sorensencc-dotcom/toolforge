@@ -79,3 +79,21 @@ test('DeterministicTicketScorer respects custom constructor options', () => {
   assert.ok(result.flags.includes('KEYWORD_OUTAGE'));
   assert.equal(result.tier, 'P0');
 });
+
+test('DeterministicTicketScorer matches and scores keywords and domains wrapped in backticks (inlineCode)', () => {
+  const scorer = new DeterministicTicketScorer();
+  const ticket = `
+## Urgent Issue
+We observed a \`panic\` when executing the \`sync\` worker under load.
+
+- [ ] Investigate stack trace
+- [ ] Add unit test
+- [ ] Deploy fix
+`;
+  const result = scorer.score(ticket);
+
+  assert.ok(result.flags.includes('KEYWORD_PANIC'));
+  assert.ok(result.flags.includes('DOMAIN_SYNC'));
+  assert.equal(result.tier, 'P0');
+});
+

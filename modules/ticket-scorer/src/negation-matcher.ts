@@ -25,6 +25,10 @@ export function normalizeClause(rawClause: string): string {
     .trim();
 }
 
+export function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 /**
  * Checks if a keyword occurs affirmatively in a text body.
  * - Rejects occurrences prefixed with 'non-' or preceded by negation adverbs in the SAME clause.
@@ -32,7 +36,8 @@ export function normalizeClause(rawClause: string): string {
  * - Handles parenthetical asides and quote marks between negation and target.
  */
 export function hasAffirmativeMatch(text: string, keyword: string): boolean {
-  const pattern = new RegExp(`(\\b(?:non-?)?)(${keyword})\\b`, 'gi');
+  const escapedKeyword = escapeRegex(keyword);
+  const pattern = new RegExp(`(\\b(?:non-?)?)(${escapedKeyword})\\b`, 'gi');
   let match: RegExpExecArray | null;
 
   while ((match = pattern.exec(text)) !== null) {
