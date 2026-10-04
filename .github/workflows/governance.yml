@@ -48,3 +48,20 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: >
           node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA" --run-tests
+
+  roadmap-location:
+    name: Roadmap location policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Block ROADMAP.md outside allowed roots
+        shell: bash
+        run: |
+          violations=$(git ls-files | grep -iE 'roadmap\.md$' | grep -vE '^(docs/meta|cic-ingestion|rewrite-docs|rewrite-mcp|kb-sync)/' || true)
+          if [ -n "$violations" ]; then
+            echo "ROADMAP.md blocked outside docs/meta, cic-ingestion, rewrite-docs, rewrite-mcp, kb-sync:"
+            echo "$violations"
+            exit 1
+          fi

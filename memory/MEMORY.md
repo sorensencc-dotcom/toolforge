@@ -11,6 +11,7 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 ## Current Work
 
+- **Governance hardening (2026-10-01..04)**: `2512fed` hardened the governance-matrix checkout, `272c0a5` added the ADR template and closed spec review gaps, PR #70 merged as `b37b9fdd`; 2026-10-04 added `roadmap-location` job to `.github/workflows/governance.yml` (CI backstop for the local hook).
 - **Retro freshness enforcement (2026-09-27)**: Added `.context/retros/2026-09-27-1.json` for the 2026-09-14..2026-09-27 window and wired `.github/workflows/retro-full-audit.yml` to fail when the newest dated retro is older than 7 days.
 - **Ironbots / ICF / Ponytail sync (2026-09-27)**: `STATUS.md` now carries Ironbots autonomous fleet work, ICF standalone migration, and Node 24 ponytail refactors; keep these synchronized in memory during session-end updates.
 
@@ -59,7 +60,7 @@ Persistent memory system for long-term context across sessions. Individual memor
   - *Problem*: Hardcoded static dummy API tokens in test files triggered GitGuardian secret detection.
   - *Fix & Pattern*: Construct mock authorization headers and tokens dynamically (via string concatenation or runtime buffers) in test suites to prevent static pattern analyzers from flagging test fixtures.
 - **Health Warning Marker Collision in Backlog Aggregator**:
-  - *Problem*: `toolforgeSkillHealthCheck.ps1` skipped updating existing `<!-- todo-group: toolforge-health-warning:<Check> -->` lines when new skills triggered the same check, leaving stale date stamps and obsolete skill lists open in `TODOS.md`.
+  - *Problem*: `toolforgeSkillHealthCheck.ps1` skipped updating existing `<!-- todo-group: toolforge-health-warning:<Check> -->` lines when new skills triggered the same check, leaving stale date stamps and obsolete skill lists open in the backlog (`TODOS.md` is gitignored, local-only; tracked copy: `AGENTS.md` "Active Multi-Agent Tasks").
   - *Fix & Pattern*: Ensure health check passes auto-resolve cleared warnings and manifest additions keep skill registries in sync.
 
 ## Preferences & Feedback
