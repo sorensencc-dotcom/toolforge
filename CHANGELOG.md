@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.83.4
+Date: 2026-10-04
+
+### Changes
+- 0c4fb76 - chore(doc-sync): ignore wiki sync receipt (#82) (Chris Sorensen)
+
 ## Version 2.83.3
 Date: 2026-10-04
 
