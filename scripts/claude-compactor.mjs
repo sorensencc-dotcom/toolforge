@@ -121,23 +121,8 @@ export async function compactTranscript(messages, options = {}) {
         if (keepScore >= keepThreshold) {
           processedResults.push(res);
         } else {
-          droppedTools++;
-
-          // Build tombstone note preserving tool_use pairing without bloating context
-          const headPreview =
-            typeof rawContent === 'string' && truncateHeadChars > 0
-              ? `${rawContent.slice(0, truncateHeadChars)}...\n`
-              : '';
-          const tombstoneText = `${headPreview}[output omitted (${rawContent.length} chars); spilled to disk]`;
-
-          const tombstonedResult =
-            typeof res === 'object' && res !== null
-              ? { ...res, text: tombstoneText }
-              : { tool_use_id: toolUseId, text: tombstoneText };
-
-          processedResults.push(tombstonedResult);
-
-          // Spill dropped full trace to disk
+          // Attempt spill if spillDir is configured
+          let spillFailed = false;
           if (spillDir) {
             try {
               await fs.mkdir(spillDir, { recursive: true });
@@ -150,8 +135,29 @@ export async function compactTranscript(messages, options = {}) {
               );
               spilledCount++;
             } catch (err) {
-              console.error(`[Compactor] Warning: failed to spill dropped tool trace: ${err.message}`);
+              console.error(`[Compactor] Warning: failed to spill dropped tool trace, retaining original trace: ${err.message}`);
+              spillFailed = true;
             }
+          }
+
+          if (spillFailed) {
+            // Retain original trace on spill failure to avoid permanent audit data loss
+            processedResults.push(res);
+          } else {
+            droppedTools++;
+            // Build tombstone note preserving tool_use pairing without bloating context
+            const headPreview =
+              typeof rawContent === 'string' && truncateHeadChars > 0
+                ? `${rawContent.slice(0, truncateHeadChars)}...\n`
+                : '';
+            const tombstoneText = `${headPreview}[output omitted (${rawContent.length} chars); spilled to disk]`;
+
+            const tombstonedResult =
+              typeof res === 'object' && res !== null
+                ? { ...res, text: tombstoneText }
+                : { tool_use_id: toolUseId, text: tombstoneText };
+
+            processedResults.push(tombstonedResult);
           }
         }
       }

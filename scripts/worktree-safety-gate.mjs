@@ -76,15 +76,18 @@ export async function evaluateCommandSafety(command, options = {}) {
     }
   }
 
-  // Fast-path 2: Obvious pure read commands -> immediate ALLOW
-  for (const pattern of STATIC_SAFE_READ_PATTERNS) {
-    if (pattern.test(trimmed)) {
-      return {
-        verdict: 'ALLOWED',
-        classification: 'SAFE_READ',
-        confidence: 1.0,
-        reason: 'Matched static safe-read pattern',
-      };
+  // Fast-path 2: Obvious pure read commands without chaining/redirection -> immediate ALLOW
+  const hasChainingOrRedirection = /[;&|]|\r?\n/.test(trimmed);
+  if (!hasChainingOrRedirection) {
+    for (const pattern of STATIC_SAFE_READ_PATTERNS) {
+      if (pattern.test(trimmed)) {
+        return {
+          verdict: 'ALLOWED',
+          classification: 'SAFE_READ',
+          confidence: 1.0,
+          reason: 'Matched static safe-read pattern',
+        };
+      }
     }
   }
 
@@ -115,15 +118,15 @@ export async function evaluateCommandSafety(command, options = {}) {
       const choice = answer?.choice || answer?.value || 'DANGEROUS_UNSANDBOXED';
       const confidence = typeof answer?.confidence === 'number' ? answer.confidence : 0.85;
 
-      if (choice === 'DANGEROUS_UNSANDBOXED' || confidence < confidenceThreshold) {
+      const VALID_ALLOWABLE_CLASSES = new Set(['SAFE_READ', 'LOCAL_MUTATION']);
+      if (!VALID_ALLOWABLE_CLASSES.has(choice) || confidence < confidenceThreshold) {
         return {
           verdict: 'BLOCKED',
           classification: choice,
           confidence,
-          reason:
-            choice === 'DANGEROUS_UNSANDBOXED'
-              ? 'Classified as DANGEROUS_UNSANDBOXED by Jev safety gate'
-              : `Confidence (${confidence.toFixed(2)}) below required threshold (${confidenceThreshold.toFixed(2)})`,
+          reason: !VALID_ALLOWABLE_CLASSES.has(choice)
+            ? `Classified as non-allowable safety class: ${choice}`
+            : `Confidence (${confidence.toFixed(2)}) below required threshold (${confidenceThreshold.toFixed(2)})`,
         };
       }
 

@@ -223,36 +223,48 @@ export function pruneHarnessTasks(options = {}) {
     for (const file of files) {
       if (!file.endsWith('.json')) continue;
       const fullPath = path.join(completedDir, file);
-      const stats = fs.statSync(fullPath);
+      try {
+        const stats = fs.statSync(fullPath);
 
-      if (stats.mtimeMs < cutoffTime) {
-        if (dryRun) {
+        if (stats.mtimeMs < cutoffTime) {
+          if (dryRun) {
+            pruned.push({
+              task: file,
+              size: stats.size,
+              mtime: stats.mtime.toISOString(),
+              status: 'SKIPPED_DRY_RUN'
+            });
+            continue;
+          }
+
+          if (!fs.existsSync(archiveDir)) {
+            fs.mkdirSync(archiveDir, { recursive: true });
+          }
+
+          const dest = path.join(archiveDir, file);
+          fs.renameSync(fullPath, dest);
           pruned.push({
             task: file,
             size: stats.size,
             mtime: stats.mtime.toISOString(),
-            status: 'SKIPPED_DRY_RUN'
+            status: 'ARCHIVED'
           });
-          continue;
         }
-
-        if (!fs.existsSync(archiveDir)) {
-          fs.mkdirSync(archiveDir, { recursive: true });
-        }
-
-        const dest = path.join(archiveDir, file);
-        fs.renameSync(fullPath, dest);
+      } catch (fileErr) {
+        console.error(`[Storage-Pruner] Warning: failed to archive completed harness task ${file}: ${fileErr.message}`);
         pruned.push({
           task: file,
-          size: stats.size,
-          mtime: stats.mtime.toISOString(),
-          status: 'ARCHIVED'
+          status: 'ARCHIVE_FAILED',
+          error: fileErr.message
         });
       }
     }
-  } catch {}
+  } catch (dirErr) {
+    console.error(`[Storage-Pruner] Error scanning completed harness tasks: ${dirErr.message}`);
+  }
 
-  return { pruned, totalPruned: pruned.length };
+  const successfullyPruned = pruned.filter(p => p.status === 'ARCHIVED' || p.status === 'SKIPPED_DRY_RUN');
+  return { pruned, totalPruned: successfullyPruned.length };
 }
 
 /**
