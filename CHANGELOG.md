@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.84.0
+Date: 2026-10-04
+
+### Changes
+- bb8d827 - feat(doc-sync): registry rows and toolforge wiki link fixes (#81) (Chris Sorensen)
+
 ## Version 2.83.4
 Date: 2026-10-04
 
