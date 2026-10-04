@@ -124,28 +124,13 @@ function generateSidebar(wikiDir) {
 - [[Ollama Provider Setup|OLLAMA_PROVIDER_SETUP]]
 - [[Rollback Runbook|ROLLBACK_RUNBOOK]]
 
-#### Model Evaluation & WhichLLM
-- [[WhichLLM Model Selection Evaluator|whichllm-model-selection-evaluator]]
+#### Research
 - [[Research Gaps Registry|trm-research-gaps]]
-
-#### Skill Library
-- [[Parallel Search Integration|parallel-search]]
-- [[TinyFish Search Integration|tinyfish-search]]
-- [[Tool Index|INDEX]]
-- [[Tool Creation Guide|TOOL_CREATION_GUIDE]]
-- [[Operator Guide|OPERATOR_GUIDE]]
-
-#### TRM & Operational DevOps
-- [[TRM DevOps Triage Pipeline|trm-devops-triage-pipeline]]
-- [[Competitor Watchlist Drift Engine|competitor-watchlist-drift-engine]]
-- [[Historical Revocation Verification|historical-revocation-verification]]
-- [[Mobile WebSocket Heartbeats|mobile-websocket-heartbeats]]
 
 #### Architecture & Subsystems
 - [[Knowledge Base Sync (kb-sync)|kb-sync-readme]]
 - [[KB Sync DAG Structure|KB_SYNC_DAG]]
 - [[Documentation Catalog|DOCS_INDEX]]
-- [[Audit Log|Log]]
 `;
 
   fs.writeFileSync(path.join(wikiDir, '_Sidebar.md'), sidebar, 'utf8');
@@ -160,7 +145,11 @@ function generateHome(wikiDir) {
   const readmePath = path.join(root, 'README.md');
   let homeContent = '';
   if (fs.existsSync(readmePath)) {
-    homeContent = fs.readFileSync(readmePath, 'utf8');
+    // The build publishes no wiki/ folder, so README lines linking into it would 404.
+    homeContent = fs.readFileSync(readmePath, 'utf8')
+      .split(/\r?\n/)
+      .filter((line) => !/\]\(wiki\//.test(line))
+      .join('\n');
   } else {
     homeContent = `# Toolforge Platform Wiki\n\nWelcome to the official Toolforge Platform Wiki.`;
   }

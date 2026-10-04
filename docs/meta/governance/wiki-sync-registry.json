@@ -1,4 +1,12 @@
 {
   "$comment": "Authoritative wiki sync registry. Human notes live in wiki-sync-registry.md. Edit rows here, then run npm run docs:sync -- --dry-run.",
-  "products": []
+  "products": [
+    { "name": "toolforge", "repoPath": "C:\\dev", "remote": "git@github.com:sorensencc-dotcom/toolforge.wiki.git", "buildCommand": "node scripts/sync-github-wiki.mjs --build-only \"{out}\"", "enabled": false },
+    { "name": "sigil", "repoPath": "C:\\dev\\sigil-repo", "remote": "https://github.com/sorensencc-dotcom/sigil.wiki.git", "preValidate": "node sigil/scripts/verify-wiki-diagrams.mjs && node sigil/scripts/audit-wiki.mjs", "buildCommand": "node sigil/scripts/sync-wiki.mjs --wiki-dir \"{out}\"", "enabled": false },
+    { "name": "kb-sync", "repoPath": "C:\\dev\\kb-sync", "remote": "https://github.com/sorensencc-dotcom/kb-sync.wiki.git", "preValidate": "npm run wiki:validate-contract", "buildCommand": "node scripts/sync-github-wiki.mjs --build-only \"{out}\"", "ingest": false, "enabled": false },
+    { "name": "trm", "repoPath": "C:\\dev\\trm", "remote": "https://github.com/sorensencc-dotcom/TRM.wiki.git", "sourceDir": "wiki", "preValidate": "node scripts/validate-diagram-triplets.mjs", "enabled": false },
+    { "name": "icf", "repoPath": "C:\\dev\\icf", "remote": "https://github.com/sorensencc-dotcom/icf.wiki.git", "sourceDir": "wiki", "enabled": false },
+    { "name": "helix", "repoPath": "C:\\dev\\helix", "remote": "https://github.com/sorensencc-dotcom/helix.wiki.git", "sourceDir": "wiki", "enabled": false },
+    { "name": "toolforge-marketplace", "repoPath": "C:\\dev\\toolforge-marketplace", "remote": "https://github.com/sorensencc-dotcom/toolforge-marketplace.wiki.git", "sourceDir": "wiki", "enabled": false }
+  ]
 }
