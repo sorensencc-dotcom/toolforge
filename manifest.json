@@ -1636,16 +1636,82 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Detect, diagnose, and report documentation drift in the Toolforge unified wiki and documentation build pipeline.",
+      "timestamps": {
+        "created": "2026-10-04T18:35:00.000Z",
+        "lastValidation": "2026-10-04T18:35:00.000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "doc-sync",
+        "wiki",
+        "drift",
+        "docs",
+        "verification"
+      ],
+      "status": "active",
+      "name": "doc-sync-drift-audit",
+      "runtime": "node",
+      "id": "doc-sync-drift-audit",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "sync-tools",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Validate CI governance matrix workflows against physical repository states, unmasking hidden errors and auditing cross-repo contracts.",
+      "timestamps": {
+        "created": "2026-10-04T18:35:00.000Z",
+        "lastValidation": "2026-10-04T18:35:00.000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "governance",
+        "ci",
+        "matrix",
+        "validation",
+        "multi-repo"
+      ],
+      "status": "active",
+      "name": "governance-matrix-validator",
+      "runtime": "node",
+      "id": "governance-matrix-validator",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "governance",
+      "health": {
+        "canonical": true,
+        "runtime": "untested",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
     }
   ],
   "summary": {
-    "total": 54,
+    "total": 56,
     "health_error": 0,
     "deprecated": 0,
-    "active": 54,
-    "health_good": 52,
+    "active": 56,
+    "health_good": 54,
     "health_warn": 0
   },
-  "timestamp": "2026-09-27T20:02:50.836Z",
+  "timestamp": "2026-10-04T18:35:00.000Z",
   "version": "1.2.0"
 }
