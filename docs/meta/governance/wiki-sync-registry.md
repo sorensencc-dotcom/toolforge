@@ -4,6 +4,7 @@
 **Owner:** TODO (docs / platform)  
 **Last inventory pass:** 2026-09-27 (ET)  
 **Companion:** `docs/meta/governance/wiki-style-and-structure.md` §10 (Sync contract)
+**Machine-readable source:** [wiki-sync-registry.json](wiki-sync-registry.json). The orchestrator reads only the JSON. This table is human notes and must name the same products.
 
 This file is the per-product answer to §10's "MUST document which side is canonical." Until a row here is marked **active** (not draft) and an owner claims it, treat dual edits as drift and prefer the side named in **Canonical path / remote**.
 
@@ -19,8 +20,8 @@ This file is the per-product answer to §10's "MUST document which side is canon
 
 | Product | Brand | Canonical path / remote | Mirror path(s) | Sync tool / owner | Last verified | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| toolforge | `product-toolforge` | **Repo-first authoring SoT:** `C:\dev\toolforge` root (`Home.md`, root wiki pages, `wiki/**` mappings) → publishes to `git@github.com:sorensencc-dotcom/toolforge.wiki.git` | In-repo: root `Home.md` / `_Sidebar.md` / `_Footer.md`, `wiki/**`, `tools/wiki-browser-qa/wiki-page-rules.mjs` (`ROOT_WIKI_FILES`, `ROOT_WIKI_PAGE_MAPPINGS`). **Not** a twin: `C:\dev\wiki\**` | `npm run wiki:sync` / `wiki:publish` → `scripts/sync-github-wiki.mjs`. QA: `npm run wiki:qa`. Owner: TODO (platform) | 2026-09-26 | No local `toolforge-wiki/` clone found; publish uses a temp clone. Dual trees (`toolforge`, marketplace / nlm-pack-gate forks, root `C:\dev\wiki`) **MUST NOT** all be SoT — only the path this script pushes. |
-| sigil | `sigil` (product; not CIC-by-default — CIC diagrams only for explicitly CIC-facing Sigil surfaces) | **Repo-first:** `C:\dev\sigil\docs\wiki\` → `https://github.com/sorensencc-dotcom/sigil.wiki.git` (local clone `C:\dev\sigil-wiki`) | `C:\dev\sigil-wiki` (GitHub wiki clone: `Home.md`, `_Sidebar.md`, `_Footer.md`). In-repo `docs/wiki` uses `README.md` (sync renames to `Home.md`) | `npm run wiki:sync` → `sigil/scripts/sync-wiki.mjs` (from `C:\dev\sigil`). Related: `wiki:audit`, `wiki:verify-diagrams`. Owner: TODO (sigil) | 2026-09-26 | Clone holds full curated chrome; in-repo tree is the authoring subset the sync script copies. |
+| toolforge | `product-toolforge` | **Repo-first authoring SoT:** `C:\dev` root (origin `toolforge.git`) (`Home.md`, root wiki pages, `wiki/**` mappings) → publishes to `git@github.com:sorensencc-dotcom/toolforge.wiki.git` | In-repo: root `Home.md` / `_Sidebar.md` / `_Footer.md`, `wiki/**`, `tools/wiki-browser-qa/wiki-page-rules.mjs` (`ROOT_WIKI_FILES`, `ROOT_WIKI_PAGE_MAPPINGS`). **Not** a twin: `C:\dev\wiki\**` | `npm run wiki:sync` / `wiki:publish` → `scripts/sync-github-wiki.mjs`. QA: `npm run wiki:qa`. Owner: TODO (platform) | 2026-09-26 | No local `toolforge-wiki/` clone found; publish uses a temp clone. Dual trees (`toolforge`, marketplace / nlm-pack-gate forks, root `C:\dev\wiki`) **MUST NOT** all be SoT — only the path this script pushes. |
+| sigil | `sigil` (product; not CIC-by-default — CIC diagrams only for explicitly CIC-facing Sigil surfaces) | **Repo-first:** `C:\dev\sigil-repo\docs\wiki\` → `https://github.com/sorensencc-dotcom/sigil.wiki.git` (local clone `C:\dev\sigil-wiki`) | `C:\dev\sigil-wiki` (GitHub wiki clone: `Home.md`, `_Sidebar.md`, `_Footer.md`). In-repo `docs/wiki` uses `README.md` (sync renames to `Home.md`) | `npm run wiki:sync` → `sigil/scripts/sync-wiki.mjs` (from `C:\dev\sigil-repo`). Related: `wiki:audit`, `wiki:verify-diagrams`. Owner: TODO (sigil) | 2026-09-26 | Clone holds full curated chrome; in-repo tree is the authoring subset the sync script copies. |
 | trm | `cic` | **Repo-first:** `C:\dev\trm\wiki\` → `https://github.com/sorensencc-dotcom/TRM.wiki.git` (local clone `C:\dev\trm-wiki`) | `C:\dev\trm-wiki` (clone mirror of published wiki). In-repo `wiki/` is authoring SoT per `scripts/sync-remote-wiki.mjs` | `npm run wiki:publish` → `scripts/sync-remote-wiki.mjs`; `npm run wiki:validate` → `scripts/validate-diagram-triplets.mjs`. Owner: TODO (trm) | 2026-09-26 | Script copies `wiki/` over a fresh clone of `TRM.wiki.git` then pushes. Prefer editing `C:\dev\trm\wiki`, not only the clone, unless deliberately clone-first for a one-off. |
 | charlie-deep-research | `cic` (design SoT) | **No curated product wiki.** Visual SoT remains `C:\dev\charlie-deep-research\cic_design_system.md` (see wiki-style §3). | `wiki/entities/**` only (entity stubs / synthesized pages) — **not** a curated Home/`_Sidebar` surface | No product wiki sync script found. Fleet entity synthesis may touch `wiki/entities`. Owner: TODO if a Charlie wiki is ever stood up | 2026-09-26 | Do not treat entity stubs as a twin of Toolforge or TRM wikis. |
 | rewrite-docs | `rewrite-docs` / `rewrite-labs` (Rewrite Labs product — hard-forbid CIC Industrial chrome) | **No product GitHub wiki / Home/`_Sidebar` found** under `C:\dev\rewrite-docs` | None for wiki sync | None found — TODO owner if a rewrite wiki is published later | 2026-09-26 | Cross-links fine; do not invent a sync path here. |
@@ -43,11 +44,8 @@ This file is the per-product answer to §10's "MUST document which side is canon
 
 | Tool | Path | Role |
 | --- | --- | --- |
-| Toolforge wiki publish | `C:\dev\toolforge\scripts\sync-github-wiki.mjs` | Repo → `toolforge.wiki.git` |
-| Toolforge page map | `C:\dev\toolforge\tools\wiki-browser-qa\wiki-page-rules.mjs` | `ROOT_WIKI_FILES` / `ROOT_WIKI_PAGE_MAPPINGS` |
-| Sigil wiki sync | `C:\dev\sigil\sigil\scripts\sync-wiki.mjs` | `docs/wiki` → `sigil-wiki` / `.wiki.git` |
-| TRM wiki sync | `C:\dev\trm\scripts\sync-remote-wiki.mjs` | `trm/wiki` → `TRM.wiki.git` |
-| Fleet wiki reconciler | `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts` | Cross-repo fleet publish / report |
+| Doc sync orchestrator | `C:\dev\scripts\doc-sync\run.mjs` (`npm run docs:sync`) | The only process that pushes to a product wiki |
+| Toolforge page map | `C:\dev\tools\wiki-browser-qa\wiki-page-rules.mjs` | `ROOT_WIKI_FILES` / `ROOT_WIKI_PAGE_MAPPINGS` |
 | Wiki validate hooks | `C:\dev\kb-sync\scripts\wiki-validate-precommit.sh`, `wiki-validate-prepush.sh` | Pre-commit / pre-push contract checks |
 
 ---
