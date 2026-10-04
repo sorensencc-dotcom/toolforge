@@ -11,6 +11,8 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 ## Current Work
 
+- **Retro freshness + session sync (2026-10-04)**: Filed canonical `.context/retros/2026-10-04-1.json` (2026-09-28..2026-10-04, 104 commits on `origin/main`, v2.76.0 to v2.84.0) before `retro-full-audit.yml` hit its 7-day limit. `.context/retros/` is gitignored (`.gitignore:128`); local retros 2026-10-01 to 2026-10-03 were never committed and use the legacy schema, so commit new ones with `git add -f` after `validate.ps1` passes. `scripts/check-retro-needed.ps1` now warns when the newest retro is 7+ days old.
+- **Shipped 2026-09-28..2026-10-04**: unified doc-sync (PR #77, registry rows #81, WhichLLM image leak fix), Ironbots fleet and Meridian telemetry, TRM closed-loop mobile ingress, agent sandbox egress gatekeeper, `DeterministicTicketScorer` engine (`ticket-scorer`), DuckDB agent-analytics engine, kb-sentinel wikilink regression tests (#80).
 - **Retro freshness enforcement (2026-09-27)**: Added `.context/retros/2026-09-27-1.json` for the 2026-09-14..2026-09-27 window and wired `.github/workflows/retro-full-audit.yml` to fail when the newest dated retro is older than 7 days.
 - **Ironbots / ICF / Ponytail sync (2026-09-27)**: `STATUS.md` now carries Ironbots autonomous fleet work, ICF standalone migration, and Node 24 ponytail refactors; keep these synchronized in memory during session-end updates.
 

@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-04",
+  "window": "7d",
+  "since": "2026-09-28T00:00:00Z",
+  "until": "2026-10-05T00:00:00Z",
+  "base_branch": "origin/main",
+  "prior_retro_baseline": ".context/retros/2026-09-27-1.json",
+  "metrics": {
+    "commits": 104,
+    "commits_no_merge": 94,
+    "contributors": 3,
+    "automation_commits": 18,
+    "insertions_raw": 1363506,
+    "deletions_raw": 539269,
+    "net_loc_raw": 824237,
+    "insertions_filtered": 58132,
+    "deletions_filtered": 16163,
+    "net_loc_filtered": 41969,
+    "filter_note": "Raw excludes lockfiles only. Filtered also excludes wiki/, _status-feed/, audit/, skills/SKILLPACK-*, .ijfw/, and .trm/ generated paths. Non-merge commits on origin/main only.",
+    "test_loc_insertions": 6368,
+    "test_ratio_pct": 10.95,
+    "active_days": 7,
+    "sessions": 1,
+    "deep_sessions": 1,
+    "medium_sessions": 0,
+    "micro_sessions": 0,
+    "peak_hour": 3,
+    "late_night_commits_22_to_04": 32,
+    "release_commits": 9,
+    "version_range": ["v2.76.0", "v2.84.0"],
+    "feat_pct": 24.5,
+    "fix_pct": 17.0,
+    "docs_pct": 30.9,
+    "chore_pct": 21.3,
+    "test_pct": 4.3,
+    "team_streak_days": 7,
+    "personal_streak_days": 7,
+    "backlog_open_todos": 4,
+    "backlog_closed_this_period": 0,
+    "backlog_p0_p1": 0,
+    "regression_test_commits": 4,
+    "focus_area": "Doc-sync, Ironbots fleet, TRM closed-loop ingress, Sigil rooms"
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 86, "role": "human" },
+    "toolforge-release-bot": { "commits": 17, "role": "automation" },
+    "github-actions[bot]": { "commits": 1, "role": "automation" }
+  },
+  "note": "Filed to close the stale-retro gap flagged by the 2026-10-04 weekly session audit. Metrics are commit-derived from origin/main. sessions is a single-window placeholder, not a measured count; active_days is capped at the 7-day window (UTC date bucketing showed 8). Percentages use non-merge commits (94); 4 commits are untyped.",
+  "session_focus": {
+    "summary": "Unified doc-sync shipped (registry rows, wiki link fixes), Ironbots fleet and Meridian telemetry landed, TRM closed-loop mobile ingress and agent sandbox egress gatekeeper added. Release train v2.76.0 to v2.84.0.",
+    "commits_this_session_range": "2026-09-28..2026-10-04",
+    "incidents": [
+      "Newest committed retro was 7 days old on 2026-10-04; retro-full-audit would fail on the next scheduled run.",
+      "Retros 2026-10-01 through 2026-10-03 existed locally but were gitignored (.gitignore:128), so CI never saw them."
+    ],
+    "process_learnings": [
+      "Local retro files under .context/retros/ are ignored; committing one needs git add -f.",
+      "check-retro-needed.ps1 only gated same-day retros; it now also reports multi-day staleness."
+    ]
+  }
+}

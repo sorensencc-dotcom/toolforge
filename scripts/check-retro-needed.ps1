@@ -10,16 +10,34 @@ recorded metrics.commits. If the count is unchanged, exits 1 (SKIP) so a
 session doesn't burn a retro write on zero new work. If counts differ, or no
 same-day retro exists yet, exits 0 (PROCEED).
 
+Also warns when the newest dated retro in the directory is at least
+-MaxAgeDays old (default 7, matching retro-full-audit.yml), so a multi-day gap
+is visible even when no same-day retro exists.
+
 .PARAMETER RetroDir
 Directory containing dated retro JSON files. Defaults to .context/retros.
 #>
 
 param(
   [string]$RetroDir = ".context/retros",
-  [string]$Date = (Get-Date -Format "yyyy-MM-dd")
+  [string]$Date = (Get-Date -Format "yyyy-MM-dd"),
+  [int]$MaxAgeDays = 7
 )
 
 $today = $Date
+
+$newest = Get-ChildItem -Path $RetroDir -Filter "*.json" -ErrorAction SilentlyContinue |
+  Where-Object { $_.Name -match '^\d{4}-\d{2}-\d{2}-\d+\.json$' } |
+  Sort-Object { [DateTime]::ParseExact($_.BaseName.Substring(0, 10), 'yyyy-MM-dd', $null) } |
+  Select-Object -Last 1
+
+if ($newest) {
+  $newestDate = [DateTime]::ParseExact($newest.BaseName.Substring(0, 10), 'yyyy-MM-dd', $null)
+  $ageDays = ([DateTime]::ParseExact($today, 'yyyy-MM-dd', $null) - $newestDate).Days
+  if ($ageDays -ge $MaxAgeDays) {
+    Write-Host "WARN: newest retro $($newest.Name) is $ageDays days old (limit $MaxAgeDays); retro-full-audit fails past $MaxAgeDays."
+  }
+}
 
 $todayFiles = Get-ChildItem -Path $RetroDir -Filter "$today-*.json" -ErrorAction SilentlyContinue |
   Where-Object { $_.Name -match "^$today-(\d+)\.json$" } |
