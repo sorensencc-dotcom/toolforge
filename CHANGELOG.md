@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.84.1
+Date: 2026-10-04
+
+### Changes
+- 808242c - chore(retro): file 2026-10-04 retro, warn on stale newest retro (#84) (Chris Sorensen)
+
 ## Version 2.84.0
 Date: 2026-10-04
 
