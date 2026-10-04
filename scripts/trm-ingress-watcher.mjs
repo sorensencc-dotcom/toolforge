@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
-import { execSync } from 'node:child_process';
+import { execSync, execFileSync } from 'node:child_process';
 
 /**
  * scripts/trm-ingress-watcher.mjs
@@ -380,9 +380,10 @@ export function createGitHubIssue(item, explicitRepo = null) {
     fs.writeFileSync(tmpPath, body, 'utf8');
 
     console.log(`[TRM-INGRESS] Creating GitHub Issue via gh CLI in repo ${repo}...`);
-    const output = execSync(`gh issue create --repo "${repo}" --title "${title.replace(/"/g, '\\"')}" --body-file "${tmpPath}"`, {
+    const output = execFileSync('gh', ['issue', 'create', '--repo', repo, '--title', title, '--body-file', tmpPath], {
       cwd: REPO_ROOT,
-      encoding: 'utf8'
+      encoding: 'utf8',
+      shell: false
     });
 
     try { fs.unlinkSync(tmpPath); } catch {}
@@ -1399,6 +1400,7 @@ export function processGDocStub(filePath, inboxDir, options = {}) {
     : path.join(COMPLETED_DIR, filename);
 
   const moved = safeMoveFile(filePath, dest);
+  const finalStatus = moved ? stageStatus : 'ARCHIVE_MOVE_FAILED';
 
   logToLedger({
     id: item.id,
@@ -1411,20 +1413,24 @@ export function processGDocStub(filePath, inboxDir, options = {}) {
     action_type: item.action_type,
     intent: item.intent,
     target_notebook_name: routing.targetDisplayName,
-    status: stageStatus,
+    status: finalStatus,
     issue_url: issueUrl,
     research_ref: researchRef,
     duration_ms: Date.now() - startTime
   });
 
-  dispatchMobileReceipt(item, {
-    status: stageStatus,
-    issue_url: issueUrl,
-    duration_ms: Date.now() - startTime,
-    details: `Staged standalone .gdoc to .harness/tasks/pending/${item.id}.json`
-  }, { dryRun });
+  if (moved) {
+    dispatchMobileReceipt(item, {
+      status: finalStatus,
+      issue_url: issueUrl,
+      duration_ms: Date.now() - startTime,
+      details: `Staged standalone .gdoc to .harness/tasks/pending/${item.id}.json`
+    }, { dryRun });
+  } else {
+    console.error(`[TRM-INGRESS] Failed to archive standalone .gdoc stub ${filename} to ${dest}`);
+  }
 
-  return { id: item.id, status: stageStatus, moved };
+  return { id: item.id, status: finalStatus, moved };
 }
 
 export function sweepInbox(options = {}) {

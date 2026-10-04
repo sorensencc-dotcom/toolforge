@@ -31,6 +31,49 @@ test('kb-sentinel-bot runs in dry-run mode and writes valid telemetry', () => {
   assert.ok(report.scanned > 0);
 });
 
+test('kb-sentinel-bot extractWikilinks strips code blocks and inline code spans while preserving real links', async () => {
+  const { extractWikilinks } = await import('../scripts/kb-sentinel-bot.mjs');
+
+  const sampleMarkdown = `# Overview
+This document references [[CanonicalArchitecture]] and [[SystemOverview|Overview Page]].
+
+Here is an inline code example: \`[[NotALinkInline]]\` which should be ignored.
+
+\`\`\`powershell
+# Code block with wikilink syntax that should NOT be parsed
+$target = "[[NotALinkFenced]]"
+\`\`\`
+
+Here is a final reference to [[GovernanceModel]].
+`;
+
+  const links = extractWikilinks(sampleMarkdown);
+  assert.deepEqual(links, ['CanonicalArchitecture', 'SystemOverview', 'GovernanceModel']);
+});
+
+test('kb-sentinel-bot parseFrontmatter and synthesizeFrontmatter handle YAML headers correctly', async () => {
+  const { parseFrontmatter, synthesizeFrontmatter } = await import('../scripts/kb-sentinel-bot.mjs');
+
+  const rawDoc = `---
+title: "Sample Doc"
+category: "wiki"
+status: "active"
+---
+
+# Content Body`;
+
+  const parsed = parseFrontmatter(rawDoc);
+  assert.ok(parsed, 'Frontmatter should be parsed');
+  assert.equal(parsed.fields.title, 'Sample Doc');
+  assert.equal(parsed.fields.category, 'wiki');
+  assert.equal(parsed.fields.status, 'active');
+
+  const synthesized = synthesizeFrontmatter('C:\\dev\\wiki\\new-service-guide.md', '# Heading\nBody text');
+  assert.match(synthesized, /title: "New Service Guide"/);
+  assert.match(synthesized, /category: "wiki"/);
+  assert.match(synthesized, /status: "active"/);
+});
+
 test('trm-bot-runner runs in dry-run mode and writes valid telemetry', () => {
   const scriptPath = path.join(REPO_ROOT, 'scripts', 'trm-bot-runner.mjs');
   assert.ok(fs.existsSync(scriptPath), 'trm-bot-runner.mjs should exist');
@@ -580,6 +623,62 @@ test('ironbots-daily-reporter generates structured room event payloads for real-
   assert.equal(degradedPayload.alerts.length, 4);
   assert.match(degradedPayload.formatted_message, /CI Failures: 2/);
   assert.match(degradedPayload.formatted_message, /Daemon 8080: UNHEALTHY/);
+});
+
+test('worktree-safety-gate blocks chained commands with safe-read prefixes and fails closed on unknown labels', async () => {
+  const { evaluateCommandSafety } = await import('../scripts/worktree-safety-gate.mjs');
+
+  // Chained command with safe prefix must NOT be allowed by fast path
+  const chainedResult = await evaluateCommandSafety('git status && rm -rf /', {
+    fetchImpl: async () => ({
+      ok: true,
+      json: async () => ({ answers: { safety_class: { choice: 'DANGEROUS_UNSANDBOXED', confidence: 0.99 } } })
+    })
+  });
+  assert.equal(chainedResult.verdict, 'BLOCKED');
+
+  // Unknown safety class label must fail closed
+  const unknownResult = await evaluateCommandSafety('custom-tool --inspect', {
+    fetchImpl: async () => ({
+      ok: true,
+      json: async () => ({ answers: { safety_class: { choice: 'SUPER_SAFE_CUSTOM', confidence: 0.99 } } })
+    })
+  });
+  assert.equal(unknownResult.verdict, 'BLOCKED');
+});
+
+test('claude-compactor preserves original tool trace when disk spill fails', async () => {
+  const { compactTranscript } = await import('../scripts/claude-compactor.mjs');
+
+  const messages = [
+    {
+      role: 'assistant',
+      content: [{ type: 'text', text: 'Thinking' }],
+      toolResults: [
+        { tool_use_id: 'tool_1', text: 'Important output that must not be lost' }
+      ]
+    }
+  ];
+
+  // Pass an invalid / read-only invalid path for spillDir to trigger spill failure
+  const invalidSpillDir = 'C:\\dev\\tests\\nonexistent_parent\0_invalid';
+  const result = await compactTranscript(messages, {
+    spillDir: invalidSpillDir,
+    fetchImpl: async () => ({
+      ok: true,
+      json: async () => ({ answers: { keep_score: { value: 0.1 } } })
+    })
+  });
+
+  // Since spill failed, original tool result is preserved rather than dropped
+  assert.equal(result.messages[0].toolResults[0].text, 'Important output that must not be lost');
+});
+
+test('storage-pruner handles task archive move failures without swallowing remaining tasks', async () => {
+  const { pruneHarnessTasks } = await import('../scripts/storage-pruner.mjs');
+  const result = pruneHarnessTasks({ dryRun: true });
+  assert.ok(Array.isArray(result.pruned));
+  assert.equal(typeof result.totalPruned, 'number');
 });
 
 

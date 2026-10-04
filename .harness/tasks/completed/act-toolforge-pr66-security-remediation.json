@@ -1,0 +1,25 @@
+{
+  "id": "act-toolforge-pr66-security-remediation",
+  "parent_action_id": null,
+  "timestamp": "2026-10-03T235501Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "toolforge",
+  "target": "toolforge",
+  "action_type": "antigravity_triage",
+  "intent": "act_toolforge_pr66_security_remediation",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-03T235501Z__action__toolforge__act-toolforge-pr66-security-remediation",
+  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/pull/66",
+  "research_ref": "wiki/research/rfc-toolforge-pr66-security-remediation.md",
+  "test_file": "tests/ironbots.test.mjs",
+  "staged_at": "2026-10-04T12:28:31.458Z",
+  "completed_at": "2026-10-04T15:18:00.000Z",
+  "status": "COMPLETED",
+  "source_file": "2026-10-03T235501Z__action__toolforge__act-toolforge-pr66-security-remediation.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-03T235501Z__action__toolforge__act-toolforge-pr66-security-remediation.md.gdoc",
+    "gdoc_stem": "2026-10-03T235501Z__action__toolforge__act-toolforge-pr66-security-remediation",
+    "note": "Ingested from standalone Google Drive .gdoc pointer.",
+    "resolution": "Remediated 4 security review findings from PR #66: parameterized gh issue creation with execFileSync, enforced chained command evaluation and fail-closed validation in worktree-safety-gate, preserved original tool traces on spill failure in claude-compactor, and added per-file error resilience in storage-pruner."
+  }
+}
