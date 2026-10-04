@@ -143,3 +143,4 @@ graft/
 # ICF runtime telemetry (rewritten by scripts/morning-ingest.mjs; live machine state)
 .icf-telemetry-latest.json
 .icf-telemetry.prom
+.wiki-sync-receipt.json
