@@ -1,6 +1,6 @@
 # Slop Grader Sweep Report
 
-**Generated**: 2026-09-27T14:10:20.517Z
+**Generated**: 2026-10-04T14:14:29.500Z
 
 **Status**: DEGRADED (docs/DOCS_INDEX.md: Error: OpenRouter API error (400): {"error":{"message":"Model google/gemma-4-31b-it does not exist","code":400}})
 
