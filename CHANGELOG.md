@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.83.3
+Date: 2026-10-04
+
+### Changes
+- f9a0480 - test(vfs): add hybrid rrf and viking vfs benchmark suite (#83) (Chris Sorensen)
+
 ## Version 2.83.2
 Date: 2026-10-04
 
