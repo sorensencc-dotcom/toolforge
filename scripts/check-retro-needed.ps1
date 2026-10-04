@@ -51,8 +51,15 @@ if (-not $todayFiles -or $todayFiles.Count -eq 0) {
 $lastFile = $todayFiles[-1]
 $data = Get-Content $lastFile.FullName -Raw | ConvertFrom-Json
 
-$since = $data.since
-$until = $data.until
+# ConvertFrom-Json parses ISO strings into local DateTime values. Re-emit them
+# as explicit UTC so git does not read the window in local time.
+function ConvertTo-GitUtc($value) {
+  if ($value -is [DateTime]) { return $value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") + "Z" }
+  return [string]$value
+}
+
+$since = ConvertTo-GitUtc $data.since
+$until = ConvertTo-GitUtc $data.until
 $branch = $data.base_branch
 $priorCommits = $data.metrics.commits
 
