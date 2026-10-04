@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.83.2
+Date: 2026-10-04
+
+### Changes
+- 7766b9d - test(sentinel): add regression tests for kb-sentinel-bot wikilink stripping and frontmatter (#80) (Chris Sorensen)
+- bae4d15 - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+
 ## Version 2.83.1
 Date: 2026-10-03
 
