@@ -277,7 +277,17 @@ async function runSentinel() {
   return report;
 }
 
-runSentinel().catch(err => {
-  console.error(`[KB-Sentinel FATAL] ${err.stack || err.message}`);
-  process.exit(1);
-});
+export {
+  extractWikilinks,
+  parseFrontmatter,
+  synthesizeFrontmatter,
+  runSentinel
+};
+
+const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+if (isDirectRun) {
+  runSentinel().catch(err => {
+    console.error(`[KB-Sentinel FATAL] ${err.stack || err.message}`);
+    process.exit(1);
+  });
+}

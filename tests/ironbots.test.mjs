@@ -31,6 +31,49 @@ test('kb-sentinel-bot runs in dry-run mode and writes valid telemetry', () => {
   assert.ok(report.scanned > 0);
 });
 
+test('kb-sentinel-bot extractWikilinks strips code blocks and inline code spans while preserving real links', async () => {
+  const { extractWikilinks } = await import('../scripts/kb-sentinel-bot.mjs');
+
+  const sampleMarkdown = `# Overview
+This document references [[CanonicalArchitecture]] and [[SystemOverview|Overview Page]].
+
+Here is an inline code example: \`[[NotALinkInline]]\` which should be ignored.
+
+\`\`\`powershell
+# Code block with wikilink syntax that should NOT be parsed
+$target = "[[NotALinkFenced]]"
+\`\`\`
+
+Here is a final reference to [[GovernanceModel]].
+`;
+
+  const links = extractWikilinks(sampleMarkdown);
+  assert.deepEqual(links, ['CanonicalArchitecture', 'SystemOverview', 'GovernanceModel']);
+});
+
+test('kb-sentinel-bot parseFrontmatter and synthesizeFrontmatter handle YAML headers correctly', async () => {
+  const { parseFrontmatter, synthesizeFrontmatter } = await import('../scripts/kb-sentinel-bot.mjs');
+
+  const rawDoc = `---
+title: "Sample Doc"
+category: "wiki"
+status: "active"
+---
+
+# Content Body`;
+
+  const parsed = parseFrontmatter(rawDoc);
+  assert.ok(parsed, 'Frontmatter should be parsed');
+  assert.equal(parsed.fields.title, 'Sample Doc');
+  assert.equal(parsed.fields.category, 'wiki');
+  assert.equal(parsed.fields.status, 'active');
+
+  const synthesized = synthesizeFrontmatter('C:\\dev\\wiki\\new-service-guide.md', '# Heading\nBody text');
+  assert.match(synthesized, /title: "New Service Guide"/);
+  assert.match(synthesized, /category: "wiki"/);
+  assert.match(synthesized, /status: "active"/);
+});
+
 test('trm-bot-runner runs in dry-run mode and writes valid telemetry', () => {
   const scriptPath = path.join(REPO_ROOT, 'scripts', 'trm-bot-runner.mjs');
   assert.ok(fs.existsSync(scriptPath), 'trm-bot-runner.mjs should exist');
