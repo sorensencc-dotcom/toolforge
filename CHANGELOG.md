@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.84.2
+Date: 2026-10-04
+
+### Changes
+- 51a4331 - fix(retro): read the retro window as UTC in check-retro-needed (#85) (Chris Sorensen)
+
 ## Version 2.84.1
 Date: 2026-10-04
 
