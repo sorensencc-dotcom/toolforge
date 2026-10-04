@@ -1,0 +1,22 @@
+{
+  "action_id": "act-toolforge-pr66-security-remediation",
+  "receipt_id": "rcpt-1791116912430-done-act-toolforge-pr66-security-remediation",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_toolforge_pr66_security_remediation",
+  "category": "IMPLEMENT",
+  "target_notebook": "TOOLFORGE",
+  "domain": "toolforge",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Action Completed: act_toolforge_pr66_security_remediation",
+  "completion_details": "Remediated 4 security review findings from PR #66: parameterized gh issue creation with execFileSync, enforced chained command evaluation and fail-closed validation in worktree-safety-gate, preserved tool traces on spill failure in claude-compactor, and added per-file error resilience in storage-pruner.",
+  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/pull/66",
+  "pr_url": "https://github.com/sorensencc-dotcom/toolforge/pull/66",
+  "pr_number": 66,
+  "pr_title": "feat(jev, trm, ironbots): typed decision primitives, mobile harness triage, generator determinism & observability",
+  "pr_state": "MERGED",
+  "research_ref": "wiki/research/rfc-toolforge-pr66-security-remediation.md",
+  "completed_at": "2026-10-04T15:18:00.000Z",
+  "dispatched_at": "2026-10-04T12:28:32.430Z",
+  "dryRun": false
+}

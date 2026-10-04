@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791116913850-sx1tb",
+  "action_id": "act-kbsync-nlm-enobufs-chunking",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_kbsync_nlm_enobufs_chunking",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-03T235502Z__action__kb-sync__act-kbsync-nlm-enobufs-chunking",
+  "issue_url": null,
+  "target_notebook": "KB-SYNC",
+  "dispatched_at": "2026-10-04T12:28:33.937Z",
+  "duration_ms": 469,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-kbsync-nlm-enobufs-chunking.json",
+  "dryRun": false
+}

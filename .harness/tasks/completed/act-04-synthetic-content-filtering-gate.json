@@ -1,0 +1,24 @@
+{
+  "id": "act-04-synthetic-content-filtering-gate",
+  "parent_action_id": null,
+  "timestamp": "2026-10-04T121604Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "IMPLEMENT",
+  "domain": "cic-kb",
+  "target": "CIC-KB",
+  "action_type": "antigravity_triage",
+  "intent": "synthetic_content_filtering_gate",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-04T121604Z__action__cic-kb__act-04-synthetic-content-filtering-gate",
+  "issue_url": null,
+  "research_ref": "wiki/research/rfc-synthetic-content-filtering-gate.md",
+  "staged_at": "2026-10-04T12:28:35.798Z",
+  "source_file": "2026-10-04T121604Z__action__cic-kb__act-04-synthetic-content-filtering-gate.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-04T121604Z__action__cic-kb__act-04-synthetic-content-filtering-gate.md.gdoc",
+    "gdoc_stem": "2026-10-04T121604Z__action__cic-kb__act-04-synthetic-content-filtering-gate",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  },
+  "status": "COMPLETED",
+  "completed_at": "2026-10-04T19:15:00.000Z",
+  "resolution": "Implemented deterministic SyntheticContentFilteringGate engine (scripts/synthetic-content-filter.mjs), test suite with 7/7 passing tests (tests/synthetic-content-filter.test.mjs), and RFC research document (wiki/research/rfc-synthetic-content-filtering-gate.md)."
+}

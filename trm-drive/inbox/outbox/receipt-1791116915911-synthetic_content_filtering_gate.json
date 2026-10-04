@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791116915905-4870y",
+  "action_id": "act-04-synthetic-content-filtering-gate",
+  "source": "mobile-gemini-gdoc",
+  "intent": "synthetic_content_filtering_gate",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_TRIAGE",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-04T121604Z__action__cic-kb__act-04-synthetic-content-filtering-gate",
+  "issue_url": null,
+  "target_notebook": "CIC-KB",
+  "dispatched_at": "2026-10-04T12:28:35.911Z",
+  "duration_ms": 119,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-04-synthetic-content-filtering-gate.json",
+  "dryRun": false
+}

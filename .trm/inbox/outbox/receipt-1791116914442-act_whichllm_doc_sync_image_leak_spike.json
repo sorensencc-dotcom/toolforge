@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791116914439-rwhrl",
+  "action_id": "act-whichllm-doc-sync-image-leak-spike",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_whichllm_doc_sync_image_leak_spike",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-03T235503Z__action__rewrite-mcp__act-whichllm-doc-sync-image-leak-spike",
+  "issue_url": null,
+  "target_notebook": "REWRITE-MCP",
+  "dispatched_at": "2026-10-04T12:28:34.441Z",
+  "duration_ms": 249,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-whichllm-doc-sync-image-leak-spike.json",
+  "dryRun": false
+}
