@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.84.3
+Date: 2026-10-05
+
+### Changes
+- 2bb17df - fix: wiki sync pushes only when asked (#86) (Chris Sorensen)
+
 ## Version 2.84.2
 Date: 2026-10-04
 
