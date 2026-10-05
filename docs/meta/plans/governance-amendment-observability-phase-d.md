@@ -7,6 +7,8 @@ phase_affected: 4, 5
 retroactive_validation: Phase 27 Wave E
 ---
 
+> **Status note (2026-10-05):** file paths below are the 2026-07-11 locations. Charters now live in `docs/meta/phases/`, governance rules in `docs/meta/governance/`, and this plan set in `docs/meta/plans/`. `5-ijfw-plan-observability-contract.md` is not in this repo.
+
 # Governance Amendment: Observability Planning Moved to Phase D
 
 ## Change Summary
@@ -23,7 +25,7 @@ retroactive_validation: Phase 27 Wave E
 
 ### Deliverable 1: Observability Spec Template (Phase 4 Charter)
 
-**File:** `C:\dev\docs\meta\phase-4-governance-charter.md` (Section 4.4)
+**File:** `C:\dev\docs\meta\phases\phase-4-governance-charter.md` (Section 4.4)
 
 **Template includes:**
 - Metrics Contract (definition, aggregation, threshold)
@@ -36,7 +38,7 @@ retroactive_validation: Phase 27 Wave E
 
 ### Deliverable 2: Phase D Dispatch Checklist (Phase 4 Charter)
 
-**File:** `C:\dev\docs\meta\phase-4-governance-charter.md` (New section after 4.5)
+**File:** `C:\dev\docs\meta\phases\phase-4-governance-charter.md` (New section after 4.5)
 
 **Checklist items:**
 - [ ] Observability spec template completed
@@ -64,7 +66,7 @@ retroactive_validation: Phase 27 Wave E
 
 ### Deliverable 4: Governance Integration
 
-**Update:** `C:\dev\docs\meta\global-operating-rules-cic-rewrite-labs.md`
+**Update:** `C:\dev\docs\meta\governance\global-operating-rules-cic-rewrite-labs.md`
 
 **Amendment:**
 - Phase D entry gate now includes observability spec lock

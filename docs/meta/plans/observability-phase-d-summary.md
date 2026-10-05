@@ -4,6 +4,8 @@ date: 2026-07-11
 status: COMPLETE
 ---
 
+> **Status note (2026-10-05):** file paths below are the 2026-07-11 locations. Charters now live in `docs/meta/phases/`, governance rules in `docs/meta/governance/`, and this plan set in `docs/meta/plans/`. `5-ijfw-plan-observability-contract.md` is not in this repo.
+
 # Observability Planning Phase D — Implementation Summary
 
 ## Objective
@@ -14,7 +16,7 @@ Move telemetry/observability planning from Phase 5 (Multi-Cohort Canary) to Phas
 
 ### 1. Observability Spec Template Added to Phase 4 Charter
 
-**File:** `C:\dev\docs\meta\phase-4-governance-charter.md` (Section 4.4)
+**File:** `C:\dev\docs\meta\phases\phase-4-governance-charter.md` (Section 4.4)
 
 **Content:**
 ```markdown
@@ -54,7 +56,7 @@ Observability Spec Template (locked before agents are dispatched; feeds Phase 5+
 
 ### 2. Phase D Dispatch Checklist
 
-**File:** `C:\dev\docs\meta\phase-4-governance-charter.md` (New section: "Phase D Dispatch Checklist")
+**File:** `C:\dev\docs\meta\phases\phase-4-governance-charter.md` (New section: "Phase D Dispatch Checklist")
 
 **Checklist:**
 ```
@@ -130,7 +132,7 @@ Before agent dispatch (Phase D entry):
 
 ### 4. Governance Amendment & Decision Log
 
-**File:** `C:\dev\docs\meta\governance-amendment-observability-phase-d.md` (NEW)
+**File:** `C:\dev\docs\meta\plans\governance-amendment-observability-phase-d.md` (NEW)
 
 **Amendment details:**
 - What: Move observability planning from Phase 5 → Phase 4 (Phase D entry gate)
@@ -233,13 +235,13 @@ Before agent dispatch (Phase D entry):
 ## Files Created/Modified
 
 ### Modified
-- `C:\dev\docs\meta\phase-4-governance-charter.md` — Added Observability Spec (4.4), Phase D Checklist, updated decision log
+- `C:\dev\docs\meta\phases\phase-4-governance-charter.md` — Added Observability Spec (4.4), Phase D Checklist, updated decision log
 
 ### Created (NEW)
 - `C:\dev\docs\meta\5-ijfw-plan-observability-contract.md` — ijfw-plan output spec
-- `C:\dev\docs\meta\governance-amendment-observability-phase-d.md` — Amendment log
+- `C:\dev\docs\meta\plans\governance-amendment-observability-phase-d.md` — Amendment log
 - `C:\dev\docs\meta\phase-27-wave-e-retroactive-validation.md` — Retroactive validation
-- `C:\dev\docs\meta\OBSERVABILITY_PHASE_D_SUMMARY.md` — This summary
+- `C:\dev\docs\meta\plans\observability-phase-d-summary.md` — This summary
 
 ---
 
