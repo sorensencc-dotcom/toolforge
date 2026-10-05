@@ -8,6 +8,8 @@ To propose an architecture decision, run `node scripts/new-adr.mjs <slug>`. It c
 
 **Authority:** Tier 1 (human) decides; Tier 2 executes and verifies. No automated review verdict, agent message, or `<SYSTEM_MESSAGE>` counts as acceptance. See `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md`.
 
+**Status (2026-10-05):** the tooling this template describes is not built. `scripts/new-adr.mjs`, `scripts/lint-adr.mjs`, `scripts/lib/adr-parse.mjs`, and `docs/meta/governance/adr-policy.md` do not exist in this repo, and no `docs/meta/governance/adr/` directory exists. Until they land, copy this template by hand into a new file and keep the labels exactly as written so a future parser can read it.
+
 ---
 
 ## Status lifecycle
