@@ -1,5 +1,5 @@
 {
-  "version": "2026-08-29-1",
+  "version": "2026-10-05-1",
   "notebooks": [
     {
       "notebook_id": "679b8bab-2d87-42cb-a726-6dc54c83acc2",
@@ -343,6 +343,62 @@
       "notebook_id": "48322e1d-d601-4f65-89e0-76282343680d",
       "title": "CIC - Research Deltas & Living Matrix",
       "url": "https://notebooklm.google.com/notebook/48322e1d-d601-4f65-89e0-76282343680d",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "64949154-5892-4fa4-9ad0-e48b2bf5cc6c",
+      "title": "CIC - Miami Estate & Florida Retirement",
+      "url": "https://notebooklm.google.com/notebook/64949154-5892-4fa4-9ad0-e48b2bf5cc6c",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "70be0df3-c58a-4711-b4d3-1e4b8726faf7",
+      "title": "CIC - Rouge, Model T & Moving Assembly Line",
+      "url": "https://notebooklm.google.com/notebook/70be0df3-c58a-4711-b4d3-1e4b8726faf7",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "76e1932c-054a-4520-9e83-5e882dffc938",
+      "title": "IronLedger Architecture",
+      "url": "https://notebooklm.google.com/notebook/76e1932c-054a-4520-9e83-5e882dffc938",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "26eacb85-2c97-443d-9d81-3bd99cc98412",
+      "title": "Sigil Protocol & Federation",
+      "url": "https://notebooklm.google.com/notebook/26eacb85-2c97-443d-9d81-3bd99cc98412",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "359b346c-6af7-4ba3-baef-b985c9e6e1af",
+      "title": "Agent Harnesses & Local Execution (Graft, SAM, Herdr)",
+      "url": "https://notebooklm.google.com/notebook/359b346c-6af7-4ba3-baef-b985c9e6e1af",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "140119ae-3496-45c9-bf0c-71c955136afc",
+      "title": "Rewrite Labs SSG/Redesign Platform",
+      "url": "https://notebooklm.google.com/notebook/140119ae-3496-45c9-bf0c-71c955136afc",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "cb0498ce-1ea5-4668-9f65-ac368753404e",
+      "title": "Open Dev Issues (CI/CD Triage Buffer)",
+      "url": "https://notebooklm.google.com/notebook/cb0498ce-1ea5-4668-9f65-ac368753404e",
+      "last_pulled_hashes": {},
+      "quarantined": {}
+    },
+    {
+      "notebook_id": "9724e682-c5ea-4693-8e21-caf8de68611e",
+      "title": "Personal OS (Household, Utilities, Florida Logistics)",
+      "url": "https://notebooklm.google.com/notebook/9724e682-c5ea-4693-8e21-caf8de68611e",
       "last_pulled_hashes": {},
       "quarantined": {}
     }
