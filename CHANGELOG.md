@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.85.0
+Date: 2026-10-05
+
+### Changes
+- 9ebd669 - feat(registry): add 8 knowledge-plane notebooks to notebooklm-registry (#89) (Chris Sorensen)
+- d7602b0 - docs(meta): refresh top-level notes against current code (#88) (Chris Sorensen)
+
 ## Version 2.84.4
 Date: 2026-10-05
 
