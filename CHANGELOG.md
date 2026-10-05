@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.84.4
+Date: 2026-10-05
+
+### Changes
+- 82d8afc - fix(hooks): stop pre-push from publishing the wiki (#87) (Chris Sorensen)
+
 ## Version 2.84.3
 Date: 2026-10-05
 
