@@ -1,106 +1,62 @@
-# Context Index Policy
+# Context index policy
 
-**Version:** 1.0  
-**Status:** Active  
-**Owner:** Governance  
-**Last Updated:** 2026-07-18
+**Version:** 1.1
+**Status:** Active
+**Owner:** Governance
+**Last reviewed against code:** 2026-10-05
 
 ## Purpose
 
-Prevent agent context bloat by maintaining `agent-scan.ignore` — a canonical exclusion list for files kept in git but irrelevant to agent scans.
+Keep agent context small. `agent-scan.ignore` lists files that stay in Git but add noise to agent scans.
 
-## Problem
-
-171,000+ files in repo (with node_modules/generated content). Agent discovery-time increases linearly. Lockfiles alone: 184 files, 15.68 MB.
-
-## Solution
-
-Two-file model:
+## Two-file model
 
 | File | Purpose |
 |------|---------|
-| `.gitignore` | Exclude from version control (committed) |
-| `agent-scan.ignore` | Exclude from agent context load (committed) |
+| `.gitignore` | Excludes files from version control. |
+| `agent-scan.ignore` | Excludes files from agent context loads. Files stay tracked in Git. |
 
-## agent-scan.ignore Structure
+`agent-scan.ignore` is a plain list of paths and globs with `#` comments. It does not stop tools that ignore it. The Everything `es` CLI indexes every file on disk, so add `!` exclusions to `es` queries instead.
 
-Categories:
+## Current categories
 
-```
-# Generated directories (safe to ignore)
-node_modules/, dist/, build/, .next/, coverage/
+Read `agent-scan.ignore` for the authoritative list. At the 2026-10-05 review it groups entries as:
 
-# Auto-regenerated reports (noisy, always stale)
-audit/COWORK-*.md, dashboard.html, skills/SKILLPACK-*.md
+| Category | Examples |
+|----------|----------|
+| Generated directories | `node_modules/`, `.claude/worktrees/`, `.venv/`, `_kb-sync-staging/`, `dist/`, `build/`, `coverage/` |
+| Auto-regenerated reports | `audit/COWORK-*.md`, `dashboard.html`, `skills/SKILLPACK-*.md` |
+| Archives and backups | `*.bak`, `*.backup`, `archive/` |
+| Temporary and session data | `.context/retros/`, `.session-*`, `*.tmp` |
+| Vendor lock files | `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`, `Gemfile.lock` |
+| Large generated data | `*.db`, `*.sqlite`, `*.log` |
+| Tool cruft | `.DS_Store`, `Thumbs.db`, `*.swp`, `*.swo`, `*~` |
 
-# Dependency locks (large, redundant)
-package-lock.json, yarn.lock, pnpm-lock.yaml
+## Lock file caveat
 
-# Session/temporary data
-.context/retros/, *.tmp, *.log
-```
+`.gitignore` also lists `package-lock.json`, `yarn.lock`, and `pnpm-lock.yaml`, yet 33 of them are tracked (about 4.4 MB at the 2026-10-05 review), because they were committed before the ignore rule or force-added. Ignoring them in agent scans works; the `.gitignore` rule does not untrack them. Run `git ls-files | grep -E '(package-lock\.json|yarn\.lock|pnpm-lock\.yaml)$'` to list them.
 
-Current stats (2026-07-18):
-- **Lockfiles excluded:** 184 files, 15.68 MB
-- **Discovery-time baseline:** 1,170 .md files in docs/ (pre-filter)
-- **Expected post-exclusion:** ~1,050 files (11% reduction from lockfiles alone)
+## Refresh cycle
 
-## Refresh Cycle
+**Trigger:** each phase charter that adds generated directories or a new package.
 
-**Trigger:** Per-phase charter
+To refresh:
 
-**Process:**
+1. Find generated directories that `agent-scan.ignore` does not cover (nested `node_modules/`, new `dist/` outputs).
+2. Find entries whose paths no longer exist, and remove them.
+3. Commit the change with the phase work.
 
-1. Phase charter opened → Tier 1 adds gate: `[ ] Validate agent-scan.ignore`
-2. Executor validates before dispatch:
-   ```bash
-   # Check for orphaned exclusions (paths no longer exist)
-   # Check for new dirs not yet excluded (node_modules nesting)
-   ```
-3. Update if stale:
-   - New generated dirs found → add to agent-scan.ignore
-   - Obsolete exclusions → remove (keep git clean)
-4. Commit before phase execution
-
-## Enforcement
-
-**Pre-execution validation:**
-
-```powershell
-# Pseudocode: validate agent-scan.ignore rules match repo state
-foreach ($exclusion in agent-scan.ignore) {
-  $paths = Get-ChildItem -Recurse -Path $exclusion
-  if ($paths.Count -gt 1000) {
-    Flag("$exclusion has $($paths.Count) items — review for split")
-  }
-}
-```
-
-**Caveman review:**
-
-- Flag any new generated dirs not in agent-scan.ignore
-- Flag stale exclusions (paths no longer exist)
-- Approve refresh before phase ships
+No script automates this check. An earlier version of this policy contained PowerShell pseudocode for it; that pseudocode never shipped.
 
 ## Rules
 
-1. **Do not hardcode paths** — Use glob patterns (e.g., `**/node_modules/` not `/home/user/...`)
-2. **Document why** — Every exclusion has a comment (generated, temporary, third-party, noisy)
-3. **Measure impact** — Before/after discovery-time baseline
-4. **Never delete .gitignore entries** — Move to agent-scan.ignore if needed
+1. Use glob patterns, not machine-specific paths. Write `**/node_modules/`, not an absolute path.
+2. Group every entry under a comment that says why it is excluded (generated, temporary, vendored, noisy).
+3. Never delete `.gitignore` entries to make room. Move the entry to `agent-scan.ignore` when the file must stay tracked.
+4. Measure before claiming savings. Earlier versions of this policy projected an 11% discovery-time cut and 8-15 KB per week; no measurement backs those figures, so this version drops them.
 
 ## Related
 
-- `agent-scan.ignore` — Actual exclusion list
-- `.gitignore` — Git-level exclusions (lockfiles added Wave A)
-- `/docs/meta/skill-operator-guide.md` — Context consolidation (companion effort)
-
-## Token Savings (Projected)
-
-| Metric | Baseline | Post-Wave-A | Post-Wave-B |
-|--------|----------|------------|-----------|
-| Files in scan | 1,170 | 1,050 (~11%) | TBD |
-| Lockfiles | 184 files, 15.68 MB | Excluded | — |
-| Agent load time | ~12s (est.) | ~10.5s (est.) | TBD (post-duplication) |
-| Weekly impact (20 sessions) | — | ~8–15 KB/week | TBD |
-
+- `agent-scan.ignore`: the exclusion list.
+- `docs/meta/skill-operator-guide.md`: context consolidation for skill docs.
+- `scripts/intercept-grep.js`: blocks broad workspace greps that bypass the indexes.

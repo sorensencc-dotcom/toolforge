@@ -2,7 +2,18 @@
 
 **Date:** 2026-07-19  
 **Author:** Claude  
-**Status:** Approved by user
+**Status:** Approved by user. Implemented with changes; see "Implementation status".
+
+## Implementation status (reviewed against code 2026-10-05)
+
+This design is the original proposal. The shipped system differs in four ways:
+
+- **Runtime:** local PowerShell agents under Windows Task Scheduler, not cloud agents from `/schedule`. Daily: `scripts/daily-report-agent.ps1`, installed by `scripts/setup-daily-report-schedule.ps1`. Weekly: `scripts/weekly-report-agent.ps1`, installed by `scripts/setup-weekly-report-schedule.ps1` (Sunday 18:00, not 06:00). The "PC-independent" goal is not met: both agents need the machine awake.
+- **Session wrap JSON:** `exportSessionWrapJSON` exists in `skills/session-wrap/src/index.ts`. The retro JSON export lives in `skills/retro-export/`.
+- **Cowork data:** `daily-report-agent.ps1` reads cowork logs when the configured path exists and skips them when it does not.
+- **Output:** `docs/reports/daily/` holds 56 reports through 2026-10-04. `docs/reports/weekly/` holds seven (2026-W29 to 2026-W37; W31 and W32 missing) and has no report after 2026-W37 (committed 2026-09-13). Check the weekly task before trusting weekly rollups.
+
+Treat the sections below as design intent, not a description of current behavior.
 
 ## Overview
 

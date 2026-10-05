@@ -1,5 +1,7 @@
 # docs/meta Restructure Implementation Plan
 
+> **Status:** Executed. Reviewed against code 2026-10-05. The type-based folders exist and hold the moved files; paths in this plan are the pre-move paths, so many no longer resolve. Kept as a record. Checkboxes were not back-filled.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Reorganize `C:\dev\docs\meta\` from 60+ flat files into type-based subfolders (`governance/`, `phases/`, `plans/`, `specs/`, `reviews/`, `archive/`) with consistent kebab-case naming, fix every cross-repo reference to a moved file, and add a durable naming/placement policy doc.

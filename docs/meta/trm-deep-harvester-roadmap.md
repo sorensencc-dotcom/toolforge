@@ -4,6 +4,7 @@
 so the thinking survives without re-deriving it next time it comes up.
 **Depends on:** `docs/superpowers/specs/2026-07-23-trm-research-questions-design.md`
 (produces the `focus-areas.json` files this agent would consume).
+**Reviewed against code 2026-10-05:** still unscheduled; no harvester skill exists in `skills/`. The dependency exists: `skills/research-questions` writes `research-questions.json` and recomputes `focus-areas.json` (via `update-focus-areas.mjs`) inside each TRM topic folder, not in this repo.
 
 ## Purpose
 
