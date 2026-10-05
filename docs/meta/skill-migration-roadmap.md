@@ -1,9 +1,20 @@
 # Skill Migration Roadmap
 
 **Version:** 1.0  
-**Status:** Planning  
+**Status:** Line-count targets met; roadmap not formally closed. Reviewed against code 2026-10-05.  
 **Owner:** Governance  
 **Target:** Complete by end of Phase 9
+
+## Review 2026-10-05
+
+Line counts measured over the 58 `skills/` directories that hold a README or SKILL.md (66 entries total in `skills/`):
+
+- `README.md` under 100 lines: 57 of 58.
+- `SKILL.md` under 150 lines: 58 of 58.
+- All 12 skills named in Tiers 1 and 2 (except the four `cic-*` skills, which were not re-measured) exist, with READMEs of 17-62 lines and SKILL.md files of 43-84 lines.
+- `utilities/skill-doc-validator.ps1` exists. This review did not run it, so full compliance (duplicate sections, USAGE.md for workflows over 3 steps) is unconfirmed.
+
+The "35 skills" in this roadmap predates the current count. Run the validator per skill before declaring the migration done. Target dates below (2026-07-21 to 2026-08-11) have passed.
 
 ## Purpose
 

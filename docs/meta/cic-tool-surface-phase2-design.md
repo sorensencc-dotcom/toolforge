@@ -1,11 +1,13 @@
 # CIC Tool Surface — Phase 2 Design
 
 Date: 2026-07-16
-Status: Approved (design), pending implementation plan
+Status: Implemented (2026-07-16). Reviewed against code 2026-10-05.
+
+Implementation: `skills/_cic-shared/src/{findRepoRoot,artifactPaths,lineagePaths,reportPaths,writeLineageEntry}.ts`, retrofitted into `skills/cic-run-gate` and `skills/cic-ingest-world`. `artifactPaths` now defaults to `findRepoRoot(__dirname)`, so the cwd-anchoring gap described under "Verified starting state" is fixed. That section records the pre-fix state. Paths below without a `skills/` prefix are relative to `skills/`.
 
 ## Context
 
-Phase 1 (`docs/meta/cic-tool-surface-phase1-design.md`) shipped four Toolforge
+Phase 1 (`docs/meta/specs/cic-tool-surface-phase1-design.md`) shipped four Toolforge
 skills (`cic-ingest-world`, `cic-run-gate`, `cic-repair-pipeline`,
 `cic-consolidate-artifacts`) writing to per-tool `cic/artifacts/<kind>/<id>/`
 paths. Workspace layout beyond that was explicitly deferred.
