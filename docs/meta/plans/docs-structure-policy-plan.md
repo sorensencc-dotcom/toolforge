@@ -10,7 +10,7 @@
 
 **Tech Stack:** `git mv`, `git grep` (tracked-files-only search, avoids the untracked/foreign-repo clutter under `docs/archive/`), `sed` for in-place reference rewrites.
 
-**Reference doc:** `C:\dev\docs\meta\docs-structure-policy-design.md` — read it before starting; this plan implements it, with two corrections found during planning (see Task 4 and Task 6 notes — evidence included, don't re-litigate).
+**Reference doc:** `C:\dev\docsmetaspecsdocs-structure-policy-design.md` — read it before starting; this plan implements it, with two corrections found during planning (see Task 4 and Task 6 notes — evidence included, don't re-litigate).
 
 ## Global Constraints
 
@@ -123,7 +123,7 @@ Expected: every line prints `OK: ... clear`. (The other 4 files in this batch di
 ```markdown
 # Governance
 
-Durable rules, policies, and gates that govern how work gets done across phases — not a single deliverable's spec. See `docs/meta/docs-structure-policy-design.md` for the placement rule.
+Durable rules, policies, and gates that govern how work gets done across phases — not a single deliverable's spec. See `docs/meta/specs/docs-structure-policy-design.md` for the placement rule.
 
 - `global-operating-rules-cic-rewrite-labs.md` — core governance framework (tiers, principles, conformance gate)
 - `global-rules-amendment-v1.4.md` — amendment to global rules
@@ -253,7 +253,7 @@ Expected: no output.
 ```markdown
 # Phases
 
-Charters, completion reports, and state docs — "what we're doing and why, scoped/approved" for a specific phase. See `docs/meta/docs-structure-policy-design.md` for the placement rule.
+Charters, completion reports, and state docs — "what we're doing and why, scoped/approved" for a specific phase. See `docs/meta/specs/docs-structure-policy-design.md` for the placement rule.
 
 `phase-8-toolforge-marketplace/` is a phase-specific deliverable set (manifest schema, registry service, CLI, validator docs), kept as its own subdir here rather than flattened.
 
@@ -360,7 +360,7 @@ Expected: no output.
 ```markdown
 # Specs
 
-Design and integration specs — "how it's built, technically." Not a charter (see `phases/`), not a task breakdown (see `plans/`). See `docs/meta/docs-structure-policy-design.md` for the placement rule.
+Design and integration specs — "how it's built, technically." Not a charter (see `phases/`), not a task breakdown (see `plans/`). See `docs/meta/specs/docs-structure-policy-design.md` for the placement rule.
 
 - `toolforge-phase-2b-step1-design.md`, `toolforge-phase-2b-step2-design.md` — Toolforge Phase 2b step designs
 - `cic-tool-surface-phase1-design.md` — CIC tool surface Phase 1 design
@@ -492,7 +492,7 @@ Expected: each file shows a count ≥ 1.
 ```markdown
 # Plans
 
-Ordered task breakdowns — "the ordered task list to build it." Not a charter (see `phases/`), not a technical spec (see `specs/`). See `docs/meta/docs-structure-policy-design.md` for the placement rule.
+Ordered task breakdowns — "the ordered task list to build it." Not a charter (see `phases/`), not a technical spec (see `specs/`). See `docs/meta/specs/docs-structure-policy-design.md` for the placement rule.
 
 - `ijfw-plan-integration-spec.md`, `ijfw-verify-parallelism-checks.md`, `ijfw-plan-phase-4-governance.md`, `ijfw-plan-observability-contract.md`, `ijfw-plan-phase-5-multicanary.md` — IJFW plan family (formerly numbered `2-`/`3-`/`4-`/`5-` prefixed)
 - `parallelism-matrix-governance-rule.md` — parallelism matrix governance rule
@@ -659,7 +659,7 @@ git commit -m "docs: archive orphaned parallelism-matrix draft and superseded go
 ```markdown
 # docs/meta Documentation Policy
 
-Canonical naming and placement rules for `docs/meta/`. If this file and `docs/meta/docs-structure-policy-design.md` ever disagree, this file wins — the design doc is historical context, this is the living rule.
+Canonical naming and placement rules for `docs/meta/`. If this file and `docs/meta/specs/docs-structure-policy-design.md` ever disagree, this file wins — the design doc is historical context, this is the living rule.
 
 ## Naming Convention
 
@@ -792,7 +792,7 @@ Use the Edit tool for line 14 only — exact string match on the "currently read
 
 ```bash
 cd C:\dev
-git grep -n "docs/meta/[A-Za-z0-9_-]*\.md" -- . ':!docs/archive' ':!docs/meta/governance' ':!docs/meta/phases' ':!docs/meta/specs' ':!docs/meta/plans' ':!docs/meta/reviews' ':!docs/meta/archive' ':!docs/meta/audit' ':!docs/meta/docs-structure-policy-design.md' ':!docs/meta/docs-structure-policy-plan.md' ':!docs/meta/README.md'
+git grep -n "docs/meta/[A-Za-z0-9_-]*\.md" -- . ':!docs/archive' ':!docs/meta/governance' ':!docs/meta/phases' ':!docs/meta/specs' ':!docs/meta/plans' ':!docs/meta/reviews' ':!docs/meta/archive' ':!docs/meta/audit' ':!docs/meta/specs/docs-structure-policy-design.md' ':!docs/meta/plans/docs-structure-policy-plan.md' ':!docs/meta/README.md'
 ```
 
 This searches for any `docs/meta/<file>.md` reference that is NOT inside one of the new subfolders and NOT one of the two reorg docs / new root README (which legitimately reference `docs/meta/` as a bare directory name in prose). Expected: no output. Any hit is a missed reference fix from an earlier task — go back and fix it in that task's category, then re-run this check.

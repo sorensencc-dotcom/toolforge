@@ -1,6 +1,6 @@
 # Governance
 
-Durable rules, policies, and gates that govern how work gets done across phases — not a single deliverable's spec. See `docs/meta/docs-structure-policy-design.md` for the placement rule.
+Durable rules, policies, and gates that govern how work gets done across phases — not a single deliverable's spec. See `docs/meta/specs/docs-structure-policy-design.md` for the placement rule.
 
 - `global-operating-rules-cic-rewrite-labs.md` — core governance framework (tiers, principles, conformance gate)
 - `global-rules-amendment-v1.4.md` — amendment to global rules

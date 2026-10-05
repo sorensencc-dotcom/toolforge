@@ -1,6 +1,6 @@
 # Plans
 
-Ordered task breakdowns — "the ordered task list to build it." Not a charter (see `phases/`), not a technical spec (see `specs/`). See `docs/meta/docs-structure-policy-design.md` for the placement rule.
+Ordered task breakdowns — "the ordered task list to build it." Not a charter (see `phases/`), not a technical spec (see `specs/`). See `docs/meta/specs/docs-structure-policy-design.md` for the placement rule.
 
 - `ijfw-plan-integration-spec.md`, `ijfw-verify-parallelism-checks.md`, `ijfw-plan-phase-4-governance.md`, `ijfw-plan-observability-contract.md`, `ijfw-plan-phase-5-multicanary.md` — IJFW plan family (formerly numbered `2-`/`3-`/`4-`/`5-` prefixed)
 - `parallelism-matrix-governance-rule.md` — parallelism matrix governance rule

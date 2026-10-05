@@ -12,6 +12,7 @@ placement rules before adding a new file here.
 - [`audit/`](audit/README.md) — audit docs (pre-existing, unchanged by this reorg)
 - [`archive/`](archive/README.md) — superseded/orphaned docs, kept for history
 
-`docs-structure-policy-design.md` and `docs-structure-policy-plan.md` (this reorg's own design
-and implementation plan) stay at the `docs/meta/` root — they document the reorg itself, not a
-phase/spec/plan for the product.
+Design docs live in [`specs/`](specs/README.md) and implementation plans in
+[`plans/`](plans/README.md), including the reorg's own
+[design](specs/docs-structure-policy-design.md) and
+[plan](plans/docs-structure-policy-plan.md).
