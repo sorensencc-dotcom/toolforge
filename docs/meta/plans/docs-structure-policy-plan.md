@@ -10,7 +10,7 @@
 
 **Tech Stack:** `git mv`, `git grep` (tracked-files-only search, avoids the untracked/foreign-repo clutter under `docs/archive/`), `sed` for in-place reference rewrites.
 
-**Reference doc:** `C:\dev\docsmetaspecsdocs-structure-policy-design.md` — read it before starting; this plan implements it, with two corrections found during planning (see Task 4 and Task 6 notes — evidence included, don't re-litigate).
+**Reference doc:** `C:\dev\docs\meta\specs\docs-structure-policy-design.md` — read it before starting; this plan implements it, with two corrections found during planning (see Task 4 and Task 6 notes — evidence included, don't re-litigate).
 
 ## Global Constraints
 

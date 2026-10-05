@@ -22,7 +22,7 @@ dependencies.
 
 ## Global Constraints
 
-- Spec of record: `C:\dev\docsmetaspecs	c-tool-surface-phase2-design.md`. If
+- Spec of record: `C:\dev\docs\meta\specs\cic-tool-surface-phase2-design.md`. If
   any task here conflicts with it, the spec wins — flag the conflict instead
   of silently picking one.
 - `findRepoRoot` bound: 20 levels or filesystem root, whichever comes first.
