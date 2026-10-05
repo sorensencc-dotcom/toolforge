@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-10-04T16:59:30.999Z",
+  "timestamp": "2026-10-05T15:57:23.670Z",
   "status": "HEALTHY",
-  "dryRun": true,
+  "dryRun": false,
   "triageQueue": 0,
   "completed": 3,
   "quarantined": 0,
-  "harnessPending": 7,
+  "harnessPending": 1,
   "totalTracked": 10,
   "activeInboxes": [
     "G:\\My Drive\\TRM-Research\\mobile-inbox",
@@ -18,11 +18,11 @@
     "c:\\dev\\.trm\\inbox\\outbox"
   ],
   "outboxReconciliation": {
-    "timestamp": "2026-10-04T16:59:30.999Z",
+    "timestamp": "2026-10-05T15:57:23.670Z",
     "reconciliationStatus": "RECONCILED",
-    "archivedCardsCount": 38,
-    "activeReceiptsCount": 96,
-    "archivedReceiptsCount": 12,
+    "archivedCardsCount": 39,
+    "activeReceiptsCount": 114,
+    "archivedReceiptsCount": 14,
     "totalTrackedCount": 10,
     "reconciledCardsCount": 10,
     "unreconciledCardIds": [],
