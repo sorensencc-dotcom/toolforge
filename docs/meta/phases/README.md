@@ -1,6 +1,6 @@
 # Phases
 
-Charters, completion reports, and state docs — "what we're doing and why, scoped/approved" for a specific phase. See `docs/meta/docs-structure-policy-design.md` for the placement rule.
+Charters, completion reports, and state docs — "what we're doing and why, scoped/approved" for a specific phase. See `docs/meta/specs/docs-structure-policy-design.md` for the placement rule.
 
 `docs/meta/phase-8-toolforge-marketplace/` (a sibling of this folder, not a child of it) holds a phase-specific deliverable set (manifest schema, registry service, CLI, validator docs) — kept where it already was rather than moved, since it's already correctly structured.
 

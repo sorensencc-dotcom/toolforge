@@ -1,6 +1,6 @@
 # docs/meta Documentation Policy
 
-Canonical naming and placement rules for `docs/meta/`. If this file and `docs/meta/docs-structure-policy-design.md` ever disagree, this file wins — the design doc is historical context, this is the living rule.
+Canonical naming and placement rules for `docs/meta/`. If this file and `docs/meta/specs/docs-structure-policy-design.md` ever disagree, this file wins — the design doc is historical context, this is the living rule.
 
 ## Naming Convention
 
