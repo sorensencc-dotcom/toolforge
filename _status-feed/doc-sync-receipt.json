@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-10-04T23:10:31.367Z",
+  "dryRun": false,
+  "ok": true,
+  "results": [
+    {
+      "product": "helix",
+      "status": "UP_TO_DATE",
+      "cache": "LOADED",
+      "changed": [],
+      "deleted": [],
+      "pages": 4,
+      "remoteHead": "b83151a6bbda7ffdab88aa86b5a0b1ce84caf765"
+    }
+  ]
+}

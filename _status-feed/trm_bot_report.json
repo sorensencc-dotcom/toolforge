@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-10-03T16:38:24.897Z",
-  "elapsedMs": 13,
+  "timestamp": "2026-10-05T12:45:22.590Z",
+  "elapsedMs": 6,
   "totalGaps": 0,
   "pending": 0,
   "drafted": 0,
@@ -12,5 +12,5 @@
     "avgRoutingLatencyMs": 0
   },
   "generatedRfcs": [],
-  "dryRun": true
+  "dryRun": false
 }

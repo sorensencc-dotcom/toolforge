@@ -1,101 +1,101 @@
 {
-  "timestamp": "2026-10-03T16:38:31.487Z",
-  "elapsedMs": 2974,
+  "timestamp": "2026-10-05T12:45:31.966Z",
+  "elapsedMs": 3717,
   "status": "FAILURES_DETECTED",
   "scannedCount": 10,
   "activeCount": 0,
   "failureCount": 1,
   "recentRuns": [
     {
-      "id": 37137391405,
-      "name": "Governance",
-      "branch": "feat/unified-doc-sync",
+      "id": 37310827544,
+      "name": "Secret scan",
+      "branch": "docs/meta-refresh",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 37137344283,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
+      "id": 37310827517,
+      "name": "Documentation",
+      "branch": "docs/meta-refresh",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 37136938426,
+      "id": 37310827394,
       "name": "Governance",
-      "branch": "parkd821-20260908",
+      "branch": "docs/meta-refresh",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 37136417175,
+      "id": 37310819918,
       "name": "Governance",
-      "branch": "parkd821-20260908",
+      "branch": "docs/meta-refresh",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 37126490060,
-      "name": "Governance",
-      "branch": "parkd821-20260908",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 37126435604,
-      "name": "Graft & AST Architecture Audit",
+      "id": 37297242250,
+      "name": "Secret scan",
       "branch": "main",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 37126435598,
+      "id": 37297242249,
       "name": "CI governance gate matrix",
       "branch": "main",
       "status": "completed",
       "conclusion": "failure"
     },
     {
-      "id": 37126435591,
-      "name": "Documentation",
+      "id": 37297242220,
+      "name": "Graft & AST Architecture Audit",
       "branch": "main",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 37126435590,
+      "id": 37297242219,
       "name": "Toolforge Release",
       "branch": "main",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 37126435585,
-      "name": "Secret scan",
+      "id": 37297242176,
+      "name": "Governance",
       "branch": "main",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37297093433,
+      "name": "Graft & AST Architecture Audit",
+      "branch": "fix/prepush-no-wiki-publish",
       "status": "completed",
       "conclusion": "success"
     }
   ],
   "alerts": [
     {
-      "runId": 37126435598,
+      "runId": 37297242249,
       "name": "CI governance gate matrix",
       "branch": "main",
-      "sha": "9853e21f",
-      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/37126435598",
-      "createdAt": "2026-10-03T13:30:47Z",
+      "sha": "82d8afca",
+      "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/37297242249",
+      "createdAt": "2026-10-05T10:32:34Z",
       "errorSummary": [
-        "sigil governance\tUNKNOWN STEP\t2026-10-03T13:31:02.8757900Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
-        "sigil governance\tUNKNOWN STEP\t2026-10-03T13:31:02.8821700Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
-        "sigil governance\tUNKNOWN STEP\t2026-10-03T13:31:02.9244143Z   ✔ tracks errors separately from successes (0.396575ms)",
-        "sigil governance\tUNKNOWN STEP\t2026-10-03T13:31:02.9285102Z   ✔ counts pass and fail checks (0.387558ms)",
-        "sigil governance\tUNKNOWN STEP\t2026-10-03T13:31:02.9498264Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
-        "sigil governance\tUNKNOWN STEP\t2026-10-03T13:31:02.9617907Z   ✔ throws RegistryError when harvesterId is already registered (1.043438ms)",
-        "sigil governance\tUNKNOWN STEP\t2026-10-03T13:31:02.9622061Z   ✔ throws RegistryError for invalid harvesterId characters (0.31437ms)",
-        "sigil governance\tUNKNOWN STEP\t2026-10-03T13:31:02.9623953Z   ✔ throws RegistryError for non-absolute apiEndpoint (0.216196ms)"
+        "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.6600309Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
+        "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.6665066Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
+        "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7164243Z   ✔ tracks errors separately from successes (0.392497ms)",
+        "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7296286Z   ✔ counts pass and fail checks (0.384201ms)",
+        "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7892832Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
+        "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7914058Z   ✔ throws RegistryError when harvesterId is already registered (5.566767ms)",
+        "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7915288Z   ✔ throws RegistryError for invalid harvesterId characters (0.521479ms)",
+        "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7916662Z   ✔ throws RegistryError for non-absolute apiEndpoint (0.979909ms)"
       ]
     }
   ],
-  "dryRun": true
+  "dryRun": false
 }

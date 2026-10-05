@@ -1,7 +1,7 @@
 {
-  "date": "2026-10-05",
-  "timestamp": "2026-10-05T12:45:32.151Z",
-  "elapsedMs": 2603,
+  "date": "2026-10-04",
+  "timestamp": "2026-10-04T16:59:39.851Z",
+  "elapsedMs": 2077,
   "fleetHealthScore": 90,
   "fleetStatus": "HEALTHY",
   "botCount": 9,
@@ -11,45 +11,45 @@
       "name": "NotebookLM & Knowledge Ingester",
       "schedule": "Daily 02:00 AM",
       "telemetry": {
-        "timestamp": "2026-10-05T12:45:21.422Z",
-        "elapsedMs": 7804,
+        "timestamp": "2026-10-04T16:59:28.885Z",
+        "elapsedMs": 527,
         "status": "HEALTHY",
-        "totalFiles": 439,
-        "indexedCount": 11,
-        "updatedCount": 15,
-        "skippedCount": 413,
+        "totalFiles": 434,
+        "indexedCount": 434,
+        "updatedCount": 0,
+        "skippedCount": 0,
         "packWarnings": [],
         "databasePath": ".kb_cache/knowledge_fts5.db",
-        "dryRun": false
+        "dryRun": true
       },
       "status": "HEALTHY",
-      "summary": "439 documents indexed into SQLite FTS5"
+      "summary": "434 documents indexed into SQLite FTS5"
     },
     {
       "id": "kb-sentinel",
       "name": "KB-Sentinel Drift & Autoheal",
       "schedule": "Daily 03:00 AM",
       "telemetry": {
-        "timestamp": "2026-10-05T12:45:22.467Z",
-        "elapsedMs": 912,
+        "timestamp": "2026-10-04T16:59:18.473Z",
+        "elapsedMs": 1229,
         "healthScore": 100,
         "status": "PASS",
-        "scanned": 430,
+        "scanned": 425,
         "frontmatterMissing": 0,
         "brokenLinks": 0,
         "healed": 0,
-        "dryRun": false,
+        "dryRun": true,
         "recentIssues": []
       },
       "status": "PASS",
-      "summary": "Health Score: 100/100 (430 files scanned)"
+      "summary": "Health Score: 100/100 (425 files scanned)"
     },
     {
       "id": "trm-bot",
       "name": "TRM Gap Triage & RFC Drafter",
       "schedule": "Daily 04:00 AM",
       "telemetry": {
-        "timestamp": "2026-10-05T12:45:22.590Z",
+        "timestamp": "2026-10-04T16:59:18.950Z",
         "elapsedMs": 6,
         "totalGaps": 0,
         "pending": 0,
@@ -62,7 +62,7 @@
           "avgRoutingLatencyMs": 0
         },
         "generatedRfcs": [],
-        "dryRun": false
+        "dryRun": true
       },
       "status": "PASS",
       "summary": "0 total gaps (0 drafted)"
@@ -72,25 +72,25 @@
       "name": "Watchlist & Competitor Drift Miner",
       "schedule": "Daily 05:00 AM",
       "telemetry": {
-        "timestamp": "2026-10-05T12:45:24.314Z",
-        "elapsedMs": 1589,
+        "timestamp": "2026-10-04T16:59:29.098Z",
+        "elapsedMs": 4,
         "status": "PASS",
         "totalWatchlists": 3,
-        "targetsEvaluated": 3,
+        "targetsEvaluated": 2,
         "driftsDetected": 0,
         "driftFindings": [],
-        "dryRun": false
+        "dryRun": true
       },
       "status": "PASS",
-      "summary": "3 targets evaluated (0 drifts)"
+      "summary": "2 targets evaluated (0 drifts)"
     },
     {
       "id": "daemon-healer",
       "name": "Daemon-Healer Port 8080 Supervisor",
       "schedule": "Every 15 Min",
       "telemetry": {
-        "timestamp": "2026-10-05T12:45:24.462Z",
-        "elapsedMs": 28,
+        "timestamp": "2026-10-04T16:59:34.127Z",
+        "elapsedMs": 3236,
         "targetUrl": "http://127.0.0.1:8080/dashboard",
         "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
         "status": "HEALTHY",
@@ -105,7 +105,7 @@
             "statusCode": 200,
             "headers": {
               "content-type": "text/html; charset=UTF-8",
-              "date": "Mon, 05 Oct 2026 12:45:24 GMT",
+              "date": "Sun, 04 Oct 2026 16:59:34 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
@@ -119,13 +119,13 @@
             "headers": {
               "content-type": "application/json; charset=UTF-8",
               "access-control-allow-origin": "*",
-              "date": "Mon, 05 Oct 2026 12:45:24 GMT",
+              "date": "Sun, 04 Oct 2026 16:59:34 GMT",
               "connection": "keep-alive",
               "keep-alive": "timeout=5",
               "transfer-encoding": "chunked"
             },
             "payloadValid": true,
-            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-10-05\",\"timestamp\":\"2026-10-05T12:45:24.451Z\",\"elapsedMs\":10,\"fleetHealthScore\""
+            "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-10-04\",\"timestamp\":\"2026-10-04T16:59:34.117Z\",\"elapsedMs\":10,\"fleetHealthScore\""
           }
         },
         "healed": false,
@@ -141,8 +141,8 @@
       "name": "IronLedger-Sentinel Workbench & Sync Supervisor",
       "schedule": "Every 15 Min",
       "telemetry": {
-        "timestamp": "2026-10-05T12:45:28.071Z",
-        "elapsedMs": 3422,
+        "timestamp": "2026-10-04T16:59:34.154Z",
+        "elapsedMs": 2990,
         "status": "HEALTHY",
         "workbench": {
           "targetUrl": "http://127.0.0.1:8000",
@@ -154,7 +154,7 @@
             "found": true,
             "id": "3f05f587153b",
             "image": "ironledger-ironledger",
-            "status": "Up 2 days (healthy)",
+            "status": "Up 46 hours (healthy)",
             "state": "running",
             "ports": "0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp",
             "running": true,
@@ -163,7 +163,7 @@
         },
         "database": {
           "exists": true,
-          "sizeBytes": 27336704,
+          "sizeBytes": 27189248,
           "walExists": false,
           "walSizeBytes": 0,
           "status": "VALID",
@@ -191,7 +191,7 @@
             },
             {
               "name": "IronLedger-Sentinel",
-              "state": "Running"
+              "state": "Ready"
             }
           ],
           "missingTasks": [],
@@ -199,119 +199,119 @@
         },
         "healed": false,
         "healAction": null,
-        "consecutiveHeals": 0,
-        "thrashCooldownActive": false,
-        "lastCooldownTime": null,
-        "dryRun": false,
-        "checkOnly": false
+        "consecutiveHeals": 3,
+        "thrashCooldownActive": true,
+        "lastCooldownTime": "2026-10-03T16:45:54.480Z",
+        "dryRun": true,
+        "checkOnly": true
       },
       "status": "HEALTHY",
-      "summary": "Status: HEALTHY (UI/API: OK, Container: Up 2 days (healthy), Syncs: HEALTHY)"
+      "summary": "Status: HEALTHY (UI/API: OK, Container: Up 46 hours (healthy), Syncs: HEALTHY)"
     },
     {
       "id": "ci-watchdog",
       "name": "CI-Watchdog Workflow Failure Triage",
       "schedule": "Daily 06:00 AM",
       "telemetry": {
-        "timestamp": "2026-10-05T12:45:31.966Z",
-        "elapsedMs": 3717,
+        "timestamp": "2026-10-04T16:59:28.071Z",
+        "elapsedMs": 5413,
         "status": "FAILURES_DETECTED",
         "scannedCount": 10,
-        "activeCount": 0,
+        "activeCount": 2,
         "failureCount": 1,
         "recentRuns": [
           {
-            "id": 37310827544,
-            "name": "Secret scan",
-            "branch": "docs/meta-refresh",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 37310827517,
-            "name": "Documentation",
-            "branch": "docs/meta-refresh",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 37310827394,
+            "id": 37218785081,
             "name": "Governance",
-            "branch": "docs/meta-refresh",
-            "status": "completed",
-            "conclusion": "success"
+            "branch": "chore/doc-sync-ignore-receipt",
+            "status": "in_progress",
+            "conclusion": ""
           },
           {
-            "id": 37310819918,
+            "id": 37218765398,
             "name": "Governance",
-            "branch": "docs/meta-refresh",
-            "status": "completed",
-            "conclusion": "success"
+            "branch": "parkd821-20260908",
+            "status": "in_progress",
+            "conclusion": ""
           },
           {
-            "id": 37297242250,
-            "name": "Secret scan",
-            "branch": "main",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 37297242249,
-            "name": "CI governance gate matrix",
-            "branch": "main",
-            "status": "completed",
-            "conclusion": "failure"
-          },
-          {
-            "id": 37297242220,
-            "name": "Graft & AST Architecture Audit",
-            "branch": "main",
-            "status": "completed",
-            "conclusion": "success"
-          },
-          {
-            "id": 37297242219,
+            "id": 37218696100,
             "name": "Toolforge Release",
             "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 37297242176,
+            "id": 37218696096,
+            "name": "Graft & AST Architecture Audit",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37218696080,
+            "name": "Secret scan",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37218696061,
+            "name": "CI governance gate matrix",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 37218696056,
+            "name": "Documentation",
+            "branch": "main",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37218696054,
             "name": "Governance",
             "branch": "main",
             "status": "completed",
             "conclusion": "success"
           },
           {
-            "id": 37297093433,
-            "name": "Graft & AST Architecture Audit",
-            "branch": "fix/prepush-no-wiki-publish",
+            "id": 37218335936,
+            "name": "Documentation",
+            "branch": "feat/unified-doc-sync",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 37218335926,
+            "name": "Secret scan",
+            "branch": "feat/unified-doc-sync",
             "status": "completed",
             "conclusion": "success"
           }
         ],
         "alerts": [
           {
-            "runId": 37297242249,
+            "runId": 37218696061,
             "name": "CI governance gate matrix",
             "branch": "main",
-            "sha": "82d8afca",
-            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/37297242249",
-            "createdAt": "2026-10-05T10:32:34Z",
+            "sha": "7766b9d0",
+            "url": "https://github.com/sorensencc-dotcom/toolforge/actions/runs/37218696061",
+            "createdAt": "2026-10-04T16:57:44Z",
             "errorSummary": [
-              "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.6600309Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
-              "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.6665066Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
-              "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7164243Z   ✔ tracks errors separately from successes (0.392497ms)",
-              "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7296286Z   ✔ counts pass and fail checks (0.384201ms)",
-              "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7892832Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
-              "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7914058Z   ✔ throws RegistryError when harvesterId is already registered (5.566767ms)",
-              "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7915288Z   ✔ throws RegistryError for invalid harvesterId characters (0.521479ms)",
-              "sigil governance\tUNKNOWN STEP\t2026-10-05T10:32:47.7916662Z   ✔ throws RegistryError for non-absolute apiEndpoint (0.979909ms)"
+              "sigil governance\tRun governance smoke test\t2026-10-04T16:58:00.7640687Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
+              "sigil governance\tRun governance smoke test\t2026-10-04T16:58:00.7732208Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
+              "sigil governance\tRun governance smoke test\t2026-10-04T16:58:00.8045844Z   ✔ tracks errors separately from successes (0.608193ms)",
+              "sigil governance\tRun governance smoke test\t2026-10-04T16:58:00.8095264Z   ✔ counts pass and fail checks (0.40421ms)",
+              "sigil governance\tRun governance smoke test\t2026-10-04T16:58:00.8349635Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@cic/delivery-guard' imported from /home/runner/work/toolforge/toolforge/workspace/CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/src/adapter/openrouter-provider.js",
+              "sigil governance\tRun governance smoke test\t2026-10-04T16:58:00.8539057Z   ✔ throws RegistryError when harvesterId is already registered (0.625937ms)",
+              "sigil governance\tRun governance smoke test\t2026-10-04T16:58:00.8540436Z   ✔ throws RegistryError for invalid harvesterId characters (0.229592ms)",
+              "sigil governance\tRun governance smoke test\t2026-10-04T16:58:00.8541717Z   ✔ throws RegistryError for non-absolute apiEndpoint (0.316134ms)"
             ]
           }
         ],
-        "dryRun": false
+        "dryRun": true
       },
       "status": "FAILURES_DETECTED",
       "summary": "10 runs scanned (1 failures)"
@@ -526,11 +526,11 @@
       "name": "Storage-Pruner SQLite & Telemetry Compactor",
       "schedule": "Weekly Sun 03:30 AM",
       "telemetry": {
-        "timestamp": "2026-10-04T19:07:07.762Z",
-        "dryRun": false,
-        "elapsedMs": 7248,
-        "totalFreedBytes": 779802,
-        "totalFreedFormatted": "761.53 KB",
+        "timestamp": "2026-10-04T16:59:31.130Z",
+        "dryRun": true,
+        "elapsedMs": 22,
+        "totalFreedBytes": 817688,
+        "totalFreedFormatted": "798.52 KB",
         "databasesScanned": 6,
         "databaseResults": [
           {
@@ -538,85 +538,80 @@
             "sizeBefore": 921600,
             "sizeAfter": 921600,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\.kb_cache\\knowledge_fts5.db",
             "sizeBefore": 305135616,
-            "sizeAfter": 305152000,
+            "sizeAfter": 305135616,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\icf\\.kb_cache\\knowledge.db",
             "sizeBefore": 61440,
             "sizeAfter": 61440,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\.ijfw\\index\\compute.db",
             "sizeBefore": 151552,
             "sizeAfter": 151552,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\.ijfw\\index\\memory.db",
             "sizeBefore": 143360,
             "sizeAfter": 143360,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "dbPath": "C:\\dev\\.icf-retros\\weekly\\snapshots.sqlite",
             "sizeBefore": 688128,
             "sizeAfter": 688128,
             "bytesSaved": 0,
-            "status": "SUCCESS"
+            "status": "SKIPPED_DRY_RUN"
           }
         ],
         "telemetryCompactedCount": 5,
         "telemetryResults": [
           {
             "file": "_status-feed/trm_history/2026-09-26.json",
-            "gzFile": "_status-feed/trm_history/2026-09-26.json.gz",
             "sizeBefore": 234308,
-            "sizeAfter": 44169,
-            "bytesSaved": 190139,
-            "status": "COMPRESSED"
+            "sizeAfter": 35146,
+            "bytesSaved": 199162,
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "file": "_status-feed/trm_history/2026-09-27.json",
-            "gzFile": "_status-feed/trm_history/2026-09-27.json.gz",
             "sizeBefore": 240109,
-            "sizeAfter": 45408,
-            "bytesSaved": 194701,
-            "status": "COMPRESSED"
+            "sizeAfter": 36016,
+            "bytesSaved": 204093,
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "file": "_status-feed/ironbots_history/2026-09-26.json",
-            "gzFile": "_status-feed/ironbots_history/2026-09-26.json.gz",
             "sizeBefore": 13150,
-            "sizeAfter": 3028,
-            "bytesSaved": 10122,
-            "status": "COMPRESSED"
+            "sizeAfter": 1972,
+            "bytesSaved": 11178,
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "file": "icf/dashboard/trm_history/2026-09-26.json",
-            "gzFile": "icf/dashboard/trm_history/2026-09-26.json.gz",
             "sizeBefore": 234308,
-            "sizeAfter": 44169,
-            "bytesSaved": 190139,
-            "status": "COMPRESSED"
+            "sizeAfter": 35146,
+            "bytesSaved": 199162,
+            "status": "SKIPPED_DRY_RUN"
           },
           {
             "file": "icf/dashboard/trm_history/2026-09-27.json",
-            "gzFile": "icf/dashboard/trm_history/2026-09-27.json.gz",
             "sizeBefore": 240109,
-            "sizeAfter": 45408,
-            "bytesSaved": 194701,
-            "status": "COMPRESSED"
+            "sizeAfter": 36016,
+            "bytesSaved": 204093,
+            "status": "SKIPPED_DRY_RUN"
           }
         ],
         "harnessTasksPrunedCount": 0,
@@ -624,14 +619,14 @@
         "status": "HEALTHY"
       },
       "status": "HEALTHY",
-      "summary": "Reclaimed 761.53 KB (6 DBs vacuumed)"
+      "summary": "Estimated reclaimable: 798.52 KB (6 DBs scanned, dry-run)"
     }
   ],
   "hostHeartbeat": {
     "hostname": "WIN-DTA4V21LKVR",
     "platform": "win32",
-    "uptimeSeconds": 842702,
-    "uptimeHuman": "234h 5m",
+    "uptimeSeconds": 771550,
+    "uptimeHuman": "214h 19m",
     "taskScheduler": {
       "status": "HEALTHY",
       "taskCount": 10,
@@ -650,7 +645,7 @@
         },
         {
           "name": "IronLedger-Sentinel",
-          "state": "Running"
+          "state": "Ready"
         },
         {
           "name": "KB-Sentinel",
@@ -683,7 +678,7 @@
   },
   "roomEvent": {
     "event_type": "ironbots.fleet_event",
-    "timestamp": "2026-10-05T12:45:32.151Z",
+    "timestamp": "2026-10-04T16:59:39.851Z",
     "room_id": "sigil-fleet-observability",
     "fleet_health_score": 90,
     "fleet_status": "HEALTHY",
@@ -693,7 +688,7 @@
     ],
     "formatted_message": "🤖 [IronBots Fleet Report] Score: 90/100 (HEALTHY) | Bots: 9 | Alerts: CI Failures: 1",
     "summary_metrics": {
-      "totalDocsIndexed": 439,
+      "totalDocsIndexed": 434,
       "wikiHealthScore": 100,
       "totalResearchGaps": 0,
       "competitorDrifts": 0,
@@ -708,7 +703,7 @@
     }
   },
   "summaryMetrics": {
-    "totalDocsIndexed": 439,
+    "totalDocsIndexed": 434,
     "wikiHealthScore": 100,
     "totalResearchGaps": 0,
     "competitorDrifts": 0,
