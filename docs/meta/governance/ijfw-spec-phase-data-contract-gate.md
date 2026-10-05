@@ -255,6 +255,6 @@ Contracts superseded or unused after 3 phases move to:
 ## Related Documents
 
 - [Data Contract Specification Template](data-contract-spec.md)
-- [Phase 27 Wave E Data Contract](../PHASE27_WAVE_E_DATA_CONTRACT.md) (example)
+- [Phase 27 Wave E Data Contract](../phases/phase-27-wave-e-data-contract.md) (example)
 - [CIC Global Operating Rules v1.3](global-operating-rules-cic-rewrite-labs.md)
-- [ijfw-spec-phase Skill](ijfw-spec-phase.md)
+- ijfw-spec-phase skill (shipped with the IJFW plugin; not stored in this repo)

@@ -5,6 +5,8 @@
 **Scope:** CIC + Rewrite Labs global governance  
 **Amendment to:** CIC Global Operating Rules v1.3  
 
+> **Status note (2026-10-05):** the approved text below stands as the record. Three files it names are not at the listed paths: `docs/contracts/phase-27-wave-e-six-rules-framework.md` (a copy is at `_status-feed/claude-memory/phase-27-wave-e-six-rules-framework.md`), `docs/meta/UI_SPEC_ARCHITECTURE_CHECKLIST.md` (not in this repo), and `PHASE27_WAVE_E_DATA_CONTRACT.md` (now [`phases/phase-27-wave-e-data-contract.md`](../phases/phase-27-wave-e-data-contract.md)).
+
 ---
 
 ## Executive Summary
@@ -288,11 +290,11 @@ Failure Modes:
 ## Related Documents
 
 - [Data Contract Specification Template](data-contract-spec.md)
-- [Phase 27 Wave E Data Contract](../contracts/phase-27-wave-e-six-rules-framework.md)
+- [Phase 27 Wave E Data Contract](../phases/phase-27-wave-e-data-contract.md)
 - [ijfw-spec-phase Data Contract Gate](ijfw-spec-phase-data-contract-gate.md)
-- [Architecture Spec Checklist](../meta/UI_SPEC_ARCHITECTURE_CHECKLIST.md)
+- Architecture Spec Checklist (`UI_SPEC_ARCHITECTURE_CHECKLIST.md`; not in this repo as of 2026-10-05)
 - [CIC Global Operating Rules v1.3](global-operating-rules-cic-rewrite-labs.md)
-- [Phase 27 Wave E Six Rules Framework](../memory/phase-27-wave-e-six-rules-framework.md)
+- Phase 27 Wave E Six Rules Framework (copy at `_status-feed/claude-memory/phase-27-wave-e-six-rules-framework.md`)
 
 ---
 
