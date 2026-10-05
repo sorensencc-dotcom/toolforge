@@ -4,6 +4,8 @@
 - **Owner**: Chris Sorensen
 - **Date**: 2026-09-22
 
+> **Status note (2026-10-05):** built as `skills/slop-grader-sweep/`, in TypeScript, not the layout below. The adapter is `src/slop-grader-runner.ts` (not `src/run-slop-grader.mjs`), with `src/cli.ts`, `run-sweep.ts`, and `run-changed.ts` as entry points. Tests are `tests/slop-grader-runner.test.ts` plus the other `*.test.ts` files, and `scripts/install-hook.mjs` and `tests/install-hook.test.mjs` match the spec. Read the file tree below as the original plan.
+
 ## Context
 
 AGENTS.md already mandates a 12-point Technical Writing Heuristics & Style
