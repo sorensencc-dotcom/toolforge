@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.85.1
+Date: 2026-10-05
+
+### Changes
+- ba3df1c - docs(report): restore weekly Markdown reports (W38-W40) + Sunday task (#90) (Chris Sorensen)
+
 ## Version 2.85.0
 Date: 2026-10-05
 
