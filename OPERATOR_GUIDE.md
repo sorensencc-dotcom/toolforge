@@ -61,7 +61,7 @@ Long-running background services registered as Windows services or tasks.
 # or Task Scheduler Library
 ```
 
-**Status**: Check `Get-ScheduledTask -TaskName "Toolforge*"`
+**Status**: The three sync daemons are one-line stubs with no registered task (see `docs/daemons/`).
 
 **Logs**: `C:\dev\logs\toolforge-*.log` (if configured)
 
@@ -73,10 +73,12 @@ One-off setup and configuration scripts.
 
 **How to run**:
 ```powershell
-.\utilities\setup-task-scheduler.ps1 -Install
+.\utilities\setup-task-scheduler.ps1 -SlackWebhook <url>
 ```
 
-**Idempotent**: Safe to run multiple times
+Registers one task, `Daily Roadmap Sync`. There is no `-Install` switch.
+
+**Idempotent**: Safe to run multiple times (the task is re-registered with `-Force`)
 
 ## Manifest System
 
@@ -188,24 +190,24 @@ Get-Content C:\dev\logs\toolforge-manifest-sync.log
 See `sync-tools/ROADMAP-SYNC-SETUP.md` and `utilities/setup-task-scheduler.ps1`
 
 ```powershell
-# Register tasks for daily 09:00 UTC
-.\utilities\setup-task-scheduler.ps1 -Install
+# Register the daily 09:00 (machine-local time) roadmap sync task
+.\utilities\setup-task-scheduler.ps1 -SlackWebhook <url>
 
 # Verify
-Get-ScheduledTask -TaskName "Toolforge*" | Select-Object TaskName, State
+Get-ScheduledTask -TaskName "Daily Roadmap Sync" | Select-Object TaskName, State
 ```
 
 ### Monitor daemon execution
 
 ```powershell
-# Check task status
-Get-ScheduledTaskInfo -TaskName "toolforge-manifest-sync"
+# Check task status (the only registered task is "Daily Roadmap Sync"; the daemon tasks are not registered)
+Get-ScheduledTaskInfo -TaskName "Daily Roadmap Sync"
 
 # View history
-Get-ScheduledTask -TaskName "toolforge-manifest-sync" | Get-ScheduledTaskInfo
+Get-ScheduledTask -TaskName "Daily Roadmap Sync" | Get-ScheduledTaskInfo
 
 # Run manually (for testing)
-Start-ScheduledTask -TaskName "toolforge-manifest-sync"
+Start-ScheduledTask -TaskName "Daily Roadmap Sync"
 ```
 
 ### Troubleshoot tool failures
@@ -259,7 +261,7 @@ Add custom metadata to manifest.json:
   "owner": "soren",
   "tags": ["tag1", "tag2"],
   "dependencies": ["Node.js 20+", "PowerShell 7+"],
-  "schedule": "Daily 09:00 UTC",
+  "schedule": "Daily 09:00",
   "lastRun": "2026-06-28T09:15:00Z",
   "nextRun": "2026-06-29T09:00:00Z"
 }

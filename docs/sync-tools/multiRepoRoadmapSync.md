@@ -69,10 +69,9 @@ sync, automation, multi-repo
 
 ## Schedule
 
-- **Frequency**: Daily 09:00 UTC
-- **Last Run**: 2026-06-28 09:15:00Z
-- **Next Run**: 2026-06-29 09:00:00Z
-- **Registration**: Windows Task Scheduler (via setupTaskScheduler)
+- **Frequency**: Daily 09:00 machine-local time
+- **Last Run / Next Run**: not recorded here. The 2026-06-28 values this page once showed were examples.
+- **Registration**: Windows Task Scheduler (via setupTaskScheduler; the registrar currently points at a wrong script path)
 
 ## Error Handling
 
