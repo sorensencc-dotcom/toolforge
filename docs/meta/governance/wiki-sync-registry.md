@@ -1,8 +1,8 @@
 # Wiki Sync Registry
 
-**Status:** draft. Target state is a single writer (`npm run docs:sync`). As of 2026-10-06 every row in the JSON is `enabled: false`, so cutover has not happened (see "Single writer")
+**Status:** draft. Target state is a single writer (`npm run docs:sync`). As of 2026-10-06 every row in the JSON is `enabled: false`, so cutover has not happened (see "Single writer")  
 **Owner:** TODO (docs / platform)  
-**Last inventory pass:** 2026-09-27 (ET). Single-writer section verified 2026-10-06
+**Last inventory pass:** 2026-09-27 (ET). Single-writer section verified 2026-10-06  
 **Companion:** `docs/meta/governance/wiki-style-and-structure.md` §10 (Sync contract)
 **Machine-readable source:** [wiki-sync-registry.json](wiki-sync-registry.json). The orchestrator reads only the JSON. This table is human notes and must name the same products.
 
@@ -28,7 +28,8 @@ Legacy writers to turn off (plan Task 10):
 | --- | --- | --- |
 | Toolforge direct publish | `C:\dev\package.json` `wiki:publish` / `wiki:sync` -> `scripts/sync-github-wiki.mjs` | Live. Stays as the `--build-only` build step for the `toolforge` row; the npm aliases get repointed to `docs:sync`. The toolforge pre-push no longer publishes (PR #87). |
 | kb-sync direct publish | `C:\dev\kb-sync\package.json` `wiki:publish` / `wiki:sync` -> kb-sync's own `scripts/sync-github-wiki.mjs` | Live. The script stays as the `--build-only` build step for the `kb-sync` row; both aliases get repointed to `docs:sync`. |
-| Fleet reconciler | `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts`, `fleet:wiki:reconcile` | Live. To be deleted. |
+| Fleet reconciler (kb-sync) | `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts` | On disk, can be run by hand, nothing calls it: kb-sync has no `fleet:wiki:reconcile` script (only `test:fleet-reconciler`) and no scheduled task or workflow invokes it. To be deleted. |
+| Fleet reconciler (toolforge copy) | `C:\dev\modules\wiki\fleet-wiki-reconciler.ts` | Dormant. Clones a wiki remote and runs `git push origin HEAD` (line 425), but no script, workflow, or npm script in this repo calls it. To be deleted with the kb-sync copy. |
 | kb-sync pre-push publish | `C:\dev\kb-sync\scripts\wiki-validate-prepush.sh` (runs `sync-github-wiki.mjs`) | Live. Publish block to be removed; validation stays. |
 | kb-sync CI publish | `C:\dev\kb-sync\.github\workflows\wiki-drift-and-publish.yml` | Live. Publish step to be removed. |
 | NotebookLM nightly Stage 3 | `C:\dev\kb-sync\scripts\notebooklm\kb-sync-nightly.ps1` | Live. Stage to be deleted. |
