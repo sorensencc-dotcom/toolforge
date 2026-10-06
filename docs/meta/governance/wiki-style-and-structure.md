@@ -222,7 +222,7 @@ Generated entity pages MUST NOT flood curated sidebar groups. Promote selectivel
 - **Ink and chrome only:** forge black (`#1A1410`) and near-black companions (`#2C2420`, and similar) are for **ink, borders, labels, and chrome only** — NEVER as node fills or as the wiki diagram board/background.
 - **Accents:** brass (`#B8922A`) strokes/outlines and ember (`#C4501A`) for accent stages, emphasis nodes, and dashed feedback loops only — not as the default node fill.
 - **Forbid dark-on-dark:** MUST NOT ship forge-filled / near-black nodes with dark text, or a near-black board with low-contrast labels, on CIC wiki diagrams. That failure mode (dark forge node fills on GitHub wiki) is a publish blocker.
-- **Visual exemplar:** Chris's parchment/cream board reference (light/off-white node fills, black ink, ember/orange only on accent stages and dashed feedback) is the visual exemplar for CIC wiki diagrams. A coded twin that already follows the paper/ink/ember pattern is `C:\dev\sigil\docs\wiki\architecture.html` (`--color-paper: #f2ece2`, `--color-ink: #2c2420`, `--color-accent: #c4501a`) — use it as a layout/contrast reference even when the page brand is `sigil`; CIC pages still pull hexes from `cic_design_system.md` wiki-diagram mode.
+- **Visual exemplar:** Chris's parchment/cream board reference (light/off-white node fills, black ink, ember/orange only on accent stages and dashed feedback) is the visual exemplar for CIC wiki diagrams. A coded twin that already follows the paper/ink/ember pattern is `C:\dev\sigil-repo\docs\wiki\architecture.html` (`--color-paper: #f2ece2`, `--color-ink: #2c2420`, `--color-accent: #c4501a`) — use it as a layout/contrast reference even when the page brand is `sigil`; CIC pages still pull hexes from `cic_design_system.md` wiki-diagram mode.
 - Mermaid `classDef` fills/strokes/text colors, when used for CIC wiki pages, MUST use SoT **wiki-diagram** tokens only (copy from SoT; do not invent). Default `classDef` fills MUST be parchment/paper — not `#1A1410` / `#2C2420`.
 - Prefer: rendered PNG (or HTML→PNG) as the visible artifact, with Mermaid source under a `<details>` block for editing — matching `trm-wiki` / `sigil-wiki` practice.
 - Alt text MUST describe the diagram; captions SHOULD name the design system and note parchment readability when relevant.
@@ -353,10 +353,10 @@ Generated dumps under `C:\dev\wiki` and `entities/` MUST be skipped by curated v
 | --- | --- |
 | Wiki structure (Home / Sidebar / Footer / topics / diagram pairs) | `C:\dev\trm-wiki\` (external repo — absolute path correct) |
 | Visual SoT + enforcement | `C:\dev\charlie-deep-research\cic_design_system.md` and `docs\CIC_DESIGN_SYSTEM_ENFORCEMENT.md` (external repo) |
-| CIC wiki diagram readability (parchment board, light nodes, ink + ember accents) | Visual exemplar: Chris's parchment/cream board reference (light/off-white fills, black ink, ember only on accent/feedback). Coded twin: `C:\dev\sigil\docs\wiki\architecture.html` paper/ink/ember CSS vars — contrast pattern only; CIC hex SoT remains `cic_design_system.md` wiki-diagram mode |
+| CIC wiki diagram readability (parchment board, light nodes, ink + ember accents) | Visual exemplar: Chris's parchment/cream board reference (light/off-white fills, black ink, ember only on accent/feedback). Coded twin: `C:\dev\sigil-repo\docs\wiki\architecture.html` paper/ink/ember CSS vars — contrast pattern only; CIC hex SoT remains `cic_design_system.md` wiki-diagram mode |
 | Product platform Home / nav tone | `Home.md` (this repo, Toolforge — repo-relative) |
 | CIC research Home tone | `C:\dev\trm-wiki\Home.md` (external repo) |
-| Sigil product Home / nav tone | `C:\dev\sigil\docs\wiki\README.md` (canonical) / `C:\dev\sigil-wiki\Home.md` (published twin) — brand `sigil`, not CIC-by-default |
+| Sigil product Home / nav tone | `C:\dev\sigil-repo\docs\wiki\README.md` (canonical) / `C:\dev\sigil-wiki\Home.md` (published twin) — brand `sigil`, not CIC-by-default |
 
 ---
 

@@ -82,7 +82,7 @@ Phase 6 completed transactional rollback execution for failed promotions:
 
 ### 7.3 Integration with Phase 6 RollbackExecutor
 
-Phase 7 extends Phase 6's RollbackExecutor (src/rollback/executor.ts, Phase 6) to handle real config + feature_flag targets:
+Phase 7 extends Phase 6's RollbackOrchestrator (skills/rollback-phase/src/rollbackOrchestrator.ts; the original draft named a `RollbackExecutor` in `src/rollback/executor.ts`, which was never created) to handle real config + feature_flag targets:
 
 **Executor Responsibilities:**
 - Call ConfigRollback for each config target in rollback plan
