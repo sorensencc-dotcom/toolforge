@@ -13,6 +13,8 @@ tags:
 **Last Updated:** 2026-07-17
 **Session:** Phase 3.B Cowork Gateway Integration + Phase 3.C Charter Complete (see addendum below for 2026-07-17 update)
 
+> **Status note (2026-10-05):** this is a 2026-07-17 snapshot, not current state. The toolforge `skills/` directory now holds 58 skills (this doc says 13), `scripts/skill-health-monitor.sh` is not in the repo, and the validation report is at `skills/SKILLPACK-VALIDATION.md` in the toolforge repo (not `toolforge/skills/...`). Test counts and phase status below are as of the date above.
+
 ---
 
 ## Addendum 2026-07-17 — TorqueQuery Ownership Resolved
