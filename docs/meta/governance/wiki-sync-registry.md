@@ -1,8 +1,8 @@
 # Wiki Sync Registry
 
-**Status:** draft  
+**Status:** draft. Target state is a single writer (`npm run docs:sync`). As of 2026-10-06 every row in the JSON is `enabled: false`, so cutover has not happened (see "Single writer")
 **Owner:** TODO (docs / platform)  
-**Last inventory pass:** 2026-09-27 (ET)  
+**Last inventory pass:** 2026-09-27 (ET). Single-writer section verified 2026-10-06
 **Companion:** `docs/meta/governance/wiki-style-and-structure.md` §10 (Sync contract)
 **Machine-readable source:** [wiki-sync-registry.json](wiki-sync-registry.json). The orchestrator reads only the JSON. This table is human notes and must name the same products.
 
@@ -14,7 +14,28 @@ This file is the per-product answer to §10's "MUST document which side is canon
 - Ambiguous dual edits **MUST** be treated as drift. Validate **SHOULD** fail or warn until one side wins.
 - `C:\dev\wiki\**` **MUST NOT** be treated as a sync twin of any product wiki. It is a **generated quarantine / dump** (synthesized nodes, research mirrors, non-curated copies). Promotion into a curated wiki is a deliberate copy + page-status change + sidebar link — never an automated twin sync.
 - Authors **MUST NOT** invent a second sync script in this registry. Cite only tools that exist on disk; otherwise leave **sync tool / owner** as TODO.
-- Fleet tooling under `C:\dev\kb-sync` (notably `modules/wiki/fleet-wiki-reconciler.ts` and `scripts/wiki-validate-pre*.sh`) **MAY** publish or validate across repos; it does **not** override a product's canonical side named below.
+- Fleet tooling under `C:\dev\kb-sync` (`modules/wiki/fleet-wiki-reconciler.ts`) is a legacy writer being turned off (see "Single writer"). Its `scripts/wiki-validate-pre*.sh` hooks stay as validators. Neither overrides the canonical side named below.
+
+## Single writer
+
+Target: one process publishes product wikis, `npm run docs:sync` (`scripts/doc-sync/run.mjs`), driven by [wiki-sync-registry.json](wiki-sync-registry.json). Plan: `docs/superpowers/plans/2026-10-01-unified-doc-sync.md`. Preview with `npm run docs:sync -- --dry-run`; select one product with `--product=<name>`.
+
+**State on 2026-10-06:** the orchestrator and its tests exist. All 7 JSON rows (`toolforge`, `sigil`, `kb-sync`, `trm`, `icf`, `helix`, `toolforge-marketplace`) are `"enabled": false`, so `docs:sync` publishes nothing by default. The legacy writers below are still live on disk. Retirement is plan Task 10, which runs only after the Task 9 preview passes. Do not read this section as "cutover done."
+
+Legacy writers to turn off (plan Task 10):
+
+| Writer | Path | Status |
+| --- | --- | --- |
+| Toolforge direct publish | `C:\dev\package.json` `wiki:publish` / `wiki:sync` -> `scripts/sync-github-wiki.mjs` | Live. Stays as the `--build-only` build step for `toolforge` and `kb-sync` rows; the npm aliases get repointed to `docs:sync`. The toolforge pre-push no longer publishes (PR #87). |
+| Fleet reconciler | `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts`, `fleet:wiki:reconcile` | Live. To be deleted. |
+| kb-sync pre-push publish | `C:\dev\kb-sync\scripts\wiki-validate-prepush.sh` (runs `sync-github-wiki.mjs`) | Live. Publish block to be removed; validation stays. |
+| kb-sync CI publish | `C:\dev\kb-sync\.github\workflows\wiki-drift-and-publish.yml` | Live. Publish step to be removed. |
+| NotebookLM nightly Stage 3 | `C:\dev\kb-sync\scripts\notebooklm\kb-sync-nightly.ps1` | Live. Stage to be deleted. |
+| sigil CI publish | `C:\dev\sigil-repo\.github\workflows\wiki-sync.yml` | Live. To be deleted. `npm run wiki:sync` stays as the `--wiki-dir` build step for the `sigil` row. |
+| TRM publish | `C:\dev\trm\scripts\sync-remote-wiki.mjs`, `wiki:publish` | Live. Script to be deleted; `wiki:publish` repointed to `docs:sync --product=trm`. |
+
+Until a product's row is enabled, its legacy writer in the "Sync tool / owner" column below is still the real publisher. After cutover, JSON wins and that column is history.
+
 
 ## Registry
 
@@ -44,7 +65,7 @@ This file is the per-product answer to §10's "MUST document which side is canon
 
 | Tool | Path | Role |
 | --- | --- | --- |
-| Doc sync orchestrator | `C:\dev\scripts\doc-sync\run.mjs` (`npm run docs:sync`) | The only process that pushes to a product wiki |
+| Doc sync orchestrator | `C:\dev\scripts\doc-sync\run.mjs` (`npm run docs:sync`) | Target single writer to product wikis. Rows disabled until cutover (see "Single writer") |
 | Toolforge page map | `C:\dev\tools\wiki-browser-qa\wiki-page-rules.mjs` | `ROOT_WIKI_FILES` / `ROOT_WIKI_PAGE_MAPPINGS` |
 | Wiki validate hooks | `C:\dev\kb-sync\scripts\wiki-validate-precommit.sh`, `wiki-validate-prepush.sh` | Pre-commit / pre-push contract checks |
 
