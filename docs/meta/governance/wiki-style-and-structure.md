@@ -375,6 +375,8 @@ Curated wikis are not the site people read for the cross-product knowledge base.
 
 A known product with no index page on that site is a failed build, and that index has to be re-reviewed when the product repo moves past `last_reviewed`. The list `docs/meta/required-product-indexes.yml` in rewrite-docs names each product, its index path, its GitHub repo, and `last_reviewed` (YYYY-MM-DD). `scripts/check_required_product_indexes.py` is an MkDocs hook, so `mkdocs build --strict` fails when any listed page is missing on disk or missing from `mkdocs.yml` nav. It also fails when the default branch of that repo has a commit after the end of the `last_reviewed` day in America/New_York. Bumping the date is the attestation. The script does not judge whether the page prose was actually rewritten. The rewrite-docs docs workflow runs that same script.
 
+**Status:** `docs/meta/required-product-indexes.yml` and `scripts/check_required_product_indexes.py` are not on rewrite-docs `origin/main` yet. They are waiting to merge from the rewrite-docs `docs/trm-product-writeup` branch.
+
 Stub index pages name the product, link the verified GitHub repo, and point at the local writeup tree. They do not inline the product markdown tree.
 
 This check is separate from W1-W13. Those wiki rules are still spec-only until a wiki validator exists. Toolforge `.github/workflows/documentation.yml` builds this repo's own MkDocs site. It is not the rewrite-docs product-index gate.

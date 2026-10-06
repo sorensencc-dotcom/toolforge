@@ -25,6 +25,7 @@ Phase 6 completed transactional rollback execution for failed promotions:
 - **Phase 6 E2E Harness:** 26 tests PASS (state_store, database, cache rollback) ✅
 - **Phase 6 Charter:** Scope locked; Tier 1 approved CONDITIONAL (2026-07-11) ✅
 - **Phases 2–6 Tests:** 120/120 PASS (ingestion → enrichment → governance → rollout → rollback) ✅
+  - Note: the 26 and 120 test counts are planning targets that were never checked, and the snapshot-capture test (`phase7-snapshot-capture-precondition.test.ts`) was never written.
 
 **Caveat:** Config and feature_flag targets are **mocked** in Phase 6 harness, not production-tested.
 - RollbackTargetDetector includes config/feature_flag types in detection
