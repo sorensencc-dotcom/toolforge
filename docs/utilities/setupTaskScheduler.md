@@ -7,7 +7,7 @@
 
 ## Purpose
 
-Windows Task Scheduler registration utility for Toolforge daemons and sync-tools. Automates creation, deletion, and testing of scheduled tasks for background execution.
+Registers one Windows scheduled task, `Daily Roadmap Sync`, that runs the multi-repo roadmap sync once a day.
 
 ## Tags
 
@@ -15,112 +15,69 @@ setup, scheduling, windows
 
 ## Inputs
 
-- **Parameters**:
-  - `-Install`: Register all Toolforge tasks (daemons + sync-tools)
-  - `-Remove`: Unregister all Toolforge tasks
-  - `-Test`: Test all registered tasks (run once)
+Script: [`utilities/setup-task-scheduler.ps1`](../../utilities/setup-task-scheduler.ps1). Parameters:
+
+- `-SlackWebhook <url>`: warns if left at the placeholder. The value is only checked; it is not stored in the task.
+- `-TaskName <name>`: default `Daily Roadmap Sync`.
+- `-Schedule <cron>`: default `0 9 * * *`. The script does not read it; the trigger is hardcoded to daily at 09:00.
+
+There is no `-Install`, `-Remove`, or `-Test` parameter. Passing one fails with a parameter-binding error.
 
 ## Outputs
 
-- **Task Scheduler**: Registered/unregistered Windows scheduled tasks
-  - Tasks: `Toolforge-Daily-09UTC`, `Toolforge-Manifest-15min`, `Toolforge-Docs-OnDemand`, `Toolforge-Index-OnDemand`
-- **Console**: Status messages (tasks registered, errors)
-- **Event Log**: Task execution history (System log)
+- One scheduled task (`Daily Roadmap Sync`), registered with `-Force`, so a re-run replaces it.
+- Console messages on success; `Failed to register task` and exit code 1 on failure.
 
 ## Behavior
 
-### Install Mode
-1. Check Administrator privileges (required)
-2. Define Toolforge tasks:
-   - Manifest sync (every 15 minutes)
-   - Docs sync (on-demand)
-   - Index sync (on-demand)
-   - Multi-repo roadmap sync (daily 09:00 UTC)
-3. Create scheduled tasks with:
-   - Trigger (time-based or on-demand)
-   - Action (PowerShell script + arguments)
-   - Settings (run with highest privilege, repeat on failure, etc.)
-4. Register tasks in Task Scheduler
-5. Report success/failure for each task
+1. Warn if the Slack webhook is the placeholder.
+2. Build a daily trigger at 09:00 in machine-local time. The script comments and console text say UTC; the trigger carries no timezone.
+3. Build an action that runs `node.exe C:\dev\tools\multiRepoRoadmapSync.cjs` with working directory `C:\dev`.
+4. Register the task. Settings: start on battery, start when available after a missed run, run only with network.
 
-### Remove Mode
-1. Check Administrator privileges
-2. Unregister all Toolforge tasks
-3. Verify removal
-4. Report results
+The script has no Administrator check and registers the task for the current user. Run it elevated if registration is denied.
 
-### Test Mode
-1. Run each registered task once
-2. Capture output and exit codes
-3. Report pass/fail status
+**Known bug:** `$ScriptPath` (line 16) points at `C:\dev\tools\multiRepoRoadmapSync.cjs`, which does not exist. The script is `sync-tools/multiRepoRoadmapSync.cjs`. The task registers but fails when it runs.
 
 ## Dependencies
 
 - PowerShell 7+
-- Administrator privileges (required)
-- Windows Task Scheduler (built-in)
+- Node.js on `PATH` (`node.exe`)
 
 ## Entrypoint
 
-- **File**: `setup-task-scheduler.ps1`
-- **Runtime**: PowerShell 7+ (as Administrator)
+- **File**: `utilities/setup-task-scheduler.ps1`
+- **Runtime**: PowerShell 7+
 
 ## Configuration
 
-Hardcoded task definitions inside script:
-- Task names (e.g., `Toolforge-Daily-09UTC`)
-- Triggers (Daily at 09:00 UTC, Every 15 minutes)
-- Actions (PowerShell + script paths)
-- Run level (Highest)
-
-## Error Handling
-
-- Exit code 0: Success
-- Exit code 1+: Failure (permission denied, task already exists, etc.)
-- Errors reported with context (task name, specific error)
-- Partial success: logs which tasks succeeded/failed
+Task name and webhook come from parameters. The script path, working directory, trigger time, and settings are hardcoded.
 
 ## Examples
 
 ```powershell
-# Register all Toolforge tasks (run as Administrator)
-& "C:\dev\toolforge\utilities\setup-task-scheduler\setup-task-scheduler.ps1" -Install
+# Register the task
+.\utilities\setup-task-scheduler.ps1 -SlackWebhook https://hooks.slack.com/services/XXX
 
-# Unregister all Toolforge tasks
-& "C:\dev\toolforge\utilities\setup-task-scheduler\setup-task-scheduler.ps1" -Remove
+# Check it
+Get-ScheduledTask -TaskName "Daily Roadmap Sync" | Get-ScheduledTaskInfo
 
-# Test all tasks (run once)
-& "C:\dev\toolforge\utilities\setup-task-scheduler\setup-task-scheduler.ps1" -Test
+# Run it now
+Start-ScheduledTask -TaskName "Daily Roadmap Sync"
 
-# View registered tasks
-Get-ScheduledTask -TaskName "Toolforge*" | Select TaskName, State, NextRunTime
-
-# View task execution history
-Get-ScheduledTaskInfo -TaskName "Toolforge-Daily-09UTC"
-
-# Manually run a task
-Start-ScheduledTask -TaskName "Toolforge-Daily-09UTC"
+# Remove it (no script option)
+Unregister-ScheduledTask -TaskName "Daily Roadmap Sync" -Confirm:$false
 ```
 
-## Registered Tasks
+## Registered tasks
 
-| Task Name | Schedule | Entrypoint | Purpose |
-|-----------|----------|-----------|---------|
-| Toolforge-Manifest-15min | Every 15 min | toolforge-manifest-sync.ps1 | Update manifest.json |
-| Toolforge-Docs-OnDemand | On-demand | toolforge-docs-sync.ps1 | Regenerate tool docs |
-| Toolforge-Index-OnDemand | On-demand | toolforge-index-sync.ps1 | Update tool index |
-| Toolforge-Daily-09UTC | Daily 09:00 UTC | run-tool.ps1 -Run multiRepoRoadmapSync | Sync roadmaps |
+| Task name | Schedule | Action | Purpose |
+|-----------|----------|--------|---------|
+| Daily Roadmap Sync | Daily 09:00 local | `node.exe C:\dev\tools\multiRepoRoadmapSync.cjs` (path wrong, see above) | Sync roadmaps |
 
-## Notes
-
-- Requires Administrator privileges to register/remove tasks
-- Tasks run with highest privilege level
-- Test mode useful for validation before deployment
-- Event log contains execution history
+The `Toolforge-Daily-09UTC`, `Toolforge-Manifest-15min`, `Toolforge-Docs-OnDemand`, and `Toolforge-Index-OnDemand` tasks that earlier versions of this page listed are not registered by any script in the repo.
 
 ## See Also
 
-- [utilities/README.md](../../utilities/README.md) — Utilities category guide
 - [OPERATOR_GUIDE.md](../../OPERATOR_GUIDE.md) — How to use Task Scheduler
-- [daemons/](../../daemons/) — Daemon implementations
-- [sync-tools/](../../sync-tools/) — Sync-tools directory
+- `docs/daemons/` — Daemon design notes (stubs; excluded from the docs build)
