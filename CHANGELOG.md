@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.85.3
+Date: 2026-10-06
+
+### Changes
+- 9683fb9 - fix(scheduler): point Daily Roadmap Sync at sync-tools/multiRepoRoadmapSync.cjs (#102) (Chris Sorensen)
+- ead011d - docs: align daemon notes, scheduler docs, and operator guide with the repo (#100) (Chris Sorensen)
+- dd889a1 - docs: correct DOCS_INDEX.md and add single-writer section to wiki-sync-registry (#99) (Chris Sorensen)
+- 958349d - fix(usagecheck): satisfy canonical skill validator and security audit (#101) (Chris Sorensen)
+- 15301df - docs(daemons): mark toolforge sync daemon notes as stub design (#98) (Chris Sorensen)
+
 ## Version 2.85.2
 Date: 2026-10-06
 
