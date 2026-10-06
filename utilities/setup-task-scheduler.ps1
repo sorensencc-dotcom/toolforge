@@ -13,7 +13,7 @@ if (-not $SlackWebhook -or $SlackWebhook -eq "https://hooks.slack.com/services/P
 }
 
 # Define task details
-$ScriptPath = "C:\dev\tools\multiRepoRoadmapSync.cjs"
+$ScriptPath = "C:\dev\sync-tools\multiRepoRoadmapSync.cjs"
 $WorkingDir = "C:\dev"
 
 # Convert cron to Task Scheduler schedule
