@@ -9,6 +9,23 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Docs refresh outside docs/meta, open list (2026-10-06)
+
+### Completed work
+
+- #97-#103 merged (weekly-report fix, daemon notes, `DOCS_INDEX.md`, scheduler docs, `usagecheck`, `$ScriptPath` fix, root `DOCS_INDEX.md` deleted).
+- #104 drops the `$ScriptPath` known-bug note. #105 fixes stale claims in `documentation-policy.md`, `wiki-style-and-structure.md`, and the phase 7 charter. Both open, awaiting review.
+
+### Blockers
+
+- None.
+
+### Next action
+
+1. Remaining stale docs, 5 left: the two Toolforge notes, the two Charlie READMEs, `KB_SYNC_DAG.md`, and the Ecosystem Architecture Guide.
+2. Step 4: 139 files naming no repo.
+3. Other open: 10-04 retro with no output; `weekly-report-agent.ps1` defects (no `$LASTEXITCODE` check, 7-day window skips run day, backfilled token/files/tests figures look wrong); registry cutover (plan Task 9 preview, then Task 10 retires the legacy wiki writers listed in `wiki-sync-registry.md`).
+
 ## Embedded DuckDB Agent Analytics Engine Evaluation, Spec & Plan (2026-10-03)
 
 ### Active goal
