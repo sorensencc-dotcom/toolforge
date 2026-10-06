@@ -1,6 +1,8 @@
 import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const PATTERNS = [
+export const PATTERNS = [
   { name: 'connection-string-credential', re: /:\/\/[^\s'"/]+:[^\s'"/@]+@[^\s'"/]+/g },
   { name: 'generic-password-assignment', re: /\b(password|passwd|pwd)\s*[:=]\s*['"][^'"\s]{4,}['"]/gi },
   { name: 'generic-api-key-assignment', re: /\b(api[_-]?key|secret|token)\s*[:=]\s*['"][^'"\s]{8,}['"]/gi },
@@ -8,7 +10,7 @@ const PATTERNS = [
   { name: 'private-key-block', re: /-----BEGIN [A-Z ]*PRIVATE KEY-----/g },
 ];
 
-const ALLOWLIST = [
+export const ALLOWLIST = [
   // Disposable local/CI-only Postgres service credential used by the Wave D
   // CI workflow (.github/workflows/toolforge-wave-d.yml) — not a real secret,
   // scoped to a localhost-only container that never leaves the CI runner.
@@ -29,6 +31,19 @@ const ALLOWLIST = [
   /apiKey:\s*['"](?:test-key|local-key|or-key)['"]/,
 ];
 
+export function checkContent(content, filename = 'staged') {
+  const hits = [];
+  if (!content) return hits;
+  for (const { name, re } of PATTERNS) {
+    const matches = content.match(re) || [];
+    for (const m of matches) {
+      if (ALLOWLIST.some((a) => a.test(m))) continue;
+      hits.push(`${filename}: ${name} -> ${m.slice(0, 60)}`);
+    }
+  }
+  return hits;
+}
+
 function stagedFiles() {
   return execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=ACM'], { encoding: 'utf8' })
     .split('\n')
@@ -44,24 +59,25 @@ function stagedContent(file) {
   }
 }
 
-let hits = [];
-for (const file of stagedFiles()) {
-  const content = stagedContent(file);
-  if (!content) continue;
-  for (const { name, re } of PATTERNS) {
-    const matches = content.match(re) || [];
-    for (const m of matches) {
-      if (ALLOWLIST.some((a) => a.test(m))) continue;
-      hits.push(`${file}: ${name} -> ${m.slice(0, 60)}`);
-    }
+export function runScan() {
+  let hits = [];
+  for (const file of stagedFiles()) {
+    const content = stagedContent(file);
+    if (!content) continue;
+    hits.push(...checkContent(content, file));
+  }
+
+  if (hits.length) {
+    console.error('\nsecret-scan: possible credential(s) in staged changes:\n');
+    for (const h of hits) console.error('  ' + h);
+    console.error('\nIf this is a false positive (fixture data, disposable local/CI-only credential),');
+    console.error('rename the string so it does not look like a real secret, or add it to ALLOWLIST');
+    console.error('in scripts/secret-scan.mjs with a comment explaining why.\n');
+    process.exit(1);
   }
 }
 
-if (hits.length) {
-  console.error('\nsecret-scan: possible credential(s) in staged changes:\n');
-  for (const h of hits) console.error('  ' + h);
-  console.error('\nIf this is a false positive (fixture data, disposable local/CI-only credential),');
-  console.error('rename the string so it does not look like a real secret, or add it to ALLOWLIST');
-  console.error('in scripts/secret-scan.mjs with a comment explaining why.\n');
-  process.exit(1);
+const isCLI = process.argv[1] && (path.resolve(process.argv[1]) === fileURLToPath(import.meta.url) || process.argv[1].endsWith('secret-scan.mjs'));
+if (isCLI) {
+  runScan();
 }
