@@ -46,9 +46,9 @@ Roadmaps follow standard placement rules (spec/plan/charter → docs/meta/ folde
 - Project-local roadmaps allowed in project roots only (cic-ingestion/, kb-sync/, etc.)
 - No roadmaps in .claude/worktrees/, nested clones, or sync folders
 - Multiple versions of same roadmap: fresher date wins (tie-breaker)
-- Enforced by pre-commit hook + weekly cleanup scan
+- Enforced by the Gate 2 pre-commit check (`Test-RoadmapLocations` in `setup-git-hooks.ps1`). Orphaned roadmaps are removed on demand with `utilities/roadmap-orphan-cleanup.ps1`; no scheduled scan runs it.
 
-See: docs/meta/roadmap-consolidation-design.md for full governance.
+See: [pre-commit-hook-roadmap-check.md](../pre-commit-hook-roadmap-check.md) for the hook behavior.
 
 ## Third-Party Attribution & Provenance Policy
 
