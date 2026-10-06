@@ -42,6 +42,7 @@
     "wiki:sync": "node scripts/sync-github-wiki.mjs",
     "wiki:qa": "node tools/wiki-browser-qa/runner.mjs",
     "wiki:qa:neo": "node tools/wiki-browser-qa/runner.mjs --backend=neo",
+    "test:floor": "node tests/deterministicVerificationFloor.test.mjs",
     "docs:validate": "node scripts/validate-docs-publishing.mjs",
     "test:watch": "node --test --watch src/**/*.test.js",
     "preflight": "pwsh -NoProfile -File scripts/preflight.ps1",
