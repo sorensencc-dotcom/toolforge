@@ -44,7 +44,8 @@
         "679b8bab-2d87-42cb-a726-6dc54c83acc2:under-sourced:5fd424d664a33a2ef428b5561b22df3b6e3a5c56ddd5840fab3e83152855c869",
         "679b8bab-2d87-42cb-a726-6dc54c83acc2:adjacent-topics:29c89e355e65c1ca08ec82c73734f15acbc2038e0058b8e4782edc4b690b6c52",
         "679b8bab-2d87-42cb-a726-6dc54c83acc2:follow-up:cb49c7c2173719903bbe17b7c35c5e2481c259a8b7482c1ff01e8f74b747eb8a"
-      ]
+      ],
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "1b4861a3-931f-4632-8fc1-343a8dd37df8",
@@ -139,7 +140,8 @@
         "1b4861a3-931f-4632-8fc1-343a8dd37df8:under-sourced:94584a7a9894b212c6c525732e73a61e76a3f9b17ec58d845b5ce0fed2c52e28",
         "1b4861a3-931f-4632-8fc1-343a8dd37df8:adjacent-topics:79eba8a80af592b08a192b3cd580c52ce242ffdb321df3ce1c0ac4807e352834",
         "1b4861a3-931f-4632-8fc1-343a8dd37df8:follow-up:4d3c3482d2b521bf88b87cdb5b8802b9d6ba4b92edd1c73bef2605d7a04dcb84"
-      ]
+      ],
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "ef78168d-b7b9-4952-8e0f-fcb353a21181",
@@ -186,7 +188,8 @@
         "ef78168d-b7b9-4952-8e0f-fcb353a21181:under-sourced:49f7c913628b91c693942e32a41542af41c2b23d027b08dd8d25f7c83d9b4740",
         "ef78168d-b7b9-4952-8e0f-fcb353a21181:adjacent-topics:663dc0003168a8dc9d3c675e20de2b0b80136cfc3e6924236f38a25286581235",
         "ef78168d-b7b9-4952-8e0f-fcb353a21181:follow-up:853b9c6724508be94ab6bce237e96b6ac596124e3b5056c688eb1ba61b9b555b"
-      ]
+      ],
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "b8bc161d-495f-42f9-a7d1-ed8692141f6b",
@@ -209,7 +212,8 @@
         "b8bc161d-495f-42f9-a7d1-ed8692141f6b:under-sourced:73a2d5fb16c965b1d702c58573584b6303c499422aa6c096d2060f6a0d0ce369",
         "b8bc161d-495f-42f9-a7d1-ed8692141f6b:adjacent-topics:5ad24b2d7d7cddd418a143091c06f1ba00ebff1dfccbb820d63ae6f43cb123e8",
         "b8bc161d-495f-42f9-a7d1-ed8692141f6b:follow-up:56cfbd9745c1258a048617ac1b53cb7819eeb5cd8d5089c659f551010113d9af"
-      ]
+      ],
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a",
@@ -234,7 +238,8 @@
         "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a:under-sourced:a47e415705c028ce9650e521c000aae33748752894747f9f0c9da061051ead46",
         "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a:adjacent-topics:b3f28945f1e4fd3f286b0438b96bbf65823d8d71da4018cd5f86546795797f12",
         "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a:follow-up:1c93e6587b83dc39a3b4a2befbb7b1abd139137899e9a25e3d95640316380caa"
-      ]
+      ],
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "0c8dc979-319f-4e6d-8136-22275932c236",
@@ -261,7 +266,8 @@
         "0c8dc979-319f-4e6d-8136-22275932c236:under-sourced:3a21afec44078f1782e1018665582b070b23dc918690d88c9762ee04a94636ed",
         "0c8dc979-319f-4e6d-8136-22275932c236:adjacent-topics:e0088487de0f74af393cf1056660c12c4056b7981042945487a9e4c96a7f6f36",
         "0c8dc979-319f-4e6d-8136-22275932c236:follow-up:804787017fe8a5d7f133c0f6269063ff7ceaf5ff9cb2ea175863ba7ad8d9bf55"
-      ]
+      ],
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d",
@@ -302,105 +308,120 @@
         "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d:under-sourced:f0b0d89476c6e684091da9abbb193f3a341c30b323b7217633597445f3cef3b4",
         "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d:adjacent-topics:e2510fbd56f9b30c7f14210ee8f1ae3a666cd3db8a587ff5430fd35c2360a9c2",
         "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d:follow-up:50da93c3bf8a12bfbf694e271fe21315720830b4d6a851e2db898363dfbd0f90"
-      ]
+      ],
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "c8360946-dbee-4a2c-b622-7f89b05695b0",
       "title": "CIC - Cuban Seizures & Retired Assets",
       "url": "https://notebooklm.google.com/notebook/c8360946-dbee-4a2c-b622-7f89b05695b0",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "6fd7c40b-df90-444b-9c7a-a64682925856",
       "title": "CIC - Willow Run & Aviation Engineering",
       "url": "https://notebooklm.google.com/notebook/6fd7c40b-df90-444b-9c7a-a64682925856",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "9c469910-a900-43a4-877c-a43c9f545b5f",
       "title": "CIC - Post-War",
       "url": "https://notebooklm.google.com/notebook/9c469910-a900-43a4-877c-a43c9f545b5f",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "fd4ebe29-9440-4f4b-97cf-0184ffbe29a0",
       "title": "CIC - Willys-Overland",
       "url": "https://notebooklm.google.com/notebook/fd4ebe29-9440-4f4b-97cf-0184ffbe29a0",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "0caf6707-f8f2-4d2a-acd2-020acead55ba",
       "title": "CIC - Ford Executive Dynamics & Politics",
       "url": "https://notebooklm.google.com/notebook/0caf6707-f8f2-4d2a-acd2-020acead55ba",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "48322e1d-d601-4f65-89e0-76282343680d",
       "title": "CIC - Research Deltas & Living Matrix",
       "url": "https://notebooklm.google.com/notebook/48322e1d-d601-4f65-89e0-76282343680d",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "64949154-5892-4fa4-9ad0-e48b2bf5cc6c",
       "title": "CIC - Miami Estate & Florida Retirement",
       "url": "https://notebooklm.google.com/notebook/64949154-5892-4fa4-9ad0-e48b2bf5cc6c",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "70be0df3-c58a-4711-b4d3-1e4b8726faf7",
       "title": "CIC - Rouge, Model T & Moving Assembly Line",
       "url": "https://notebooklm.google.com/notebook/70be0df3-c58a-4711-b4d3-1e4b8726faf7",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "research_narrative"
     },
     {
       "notebook_id": "76e1932c-054a-4520-9e83-5e882dffc938",
       "title": "IronLedger Architecture",
       "url": "https://notebooklm.google.com/notebook/76e1932c-054a-4520-9e83-5e882dffc938",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "26eacb85-2c97-443d-9d81-3bd99cc98412",
       "title": "Sigil Protocol & Federation",
       "url": "https://notebooklm.google.com/notebook/26eacb85-2c97-443d-9d81-3bd99cc98412",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "359b346c-6af7-4ba3-baef-b985c9e6e1af",
       "title": "Agent Harnesses & Local Execution (Graft, SAM, Herdr)",
       "url": "https://notebooklm.google.com/notebook/359b346c-6af7-4ba3-baef-b985c9e6e1af",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "140119ae-3496-45c9-bf0c-71c955136afc",
       "title": "Rewrite Labs SSG/Redesign Platform",
       "url": "https://notebooklm.google.com/notebook/140119ae-3496-45c9-bf0c-71c955136afc",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "operational_client"
     },
     {
       "notebook_id": "cb0498ce-1ea5-4668-9f65-ac368753404e",
       "title": "Open Dev Issues (CI/CD Triage Buffer)",
       "url": "https://notebooklm.google.com/notebook/cb0498ce-1ea5-4668-9f65-ac368753404e",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "9724e682-c5ea-4693-8e21-caf8de68611e",
       "title": "Personal OS (Household, Utilities, Florida Logistics)",
       "url": "https://notebooklm.google.com/notebook/9724e682-c5ea-4693-8e21-caf8de68611e",
       "last_pulled_hashes": {},
-      "quarantined": {}
+      "quarantined": {},
+      "synthesis_profile": "operational_client"
     }
   ]
 }

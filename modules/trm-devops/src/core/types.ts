@@ -1,5 +1,18 @@
 export type DefectStatus = 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'MUTED';
 export type BlastRadiusRating = 'P0' | 'P1' | 'P2' | 'P3' | 'P4';
+export type SynthesisProfile = 'operational_systems' | 'operational_client' | 'research_narrative';
+
+export interface NotebookRouteConfig {
+  id: string;
+  name: string;
+  synthesis_profile: SynthesisProfile;
+  url?: string;
+  description?: string;
+}
+
+export interface NotebookRoutingManifest {
+  notebooks: NotebookRouteConfig[];
+}
 
 export interface FailingWorkflow {
   name: string;

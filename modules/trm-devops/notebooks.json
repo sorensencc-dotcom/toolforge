@@ -1,0 +1,130 @@
+{
+  "notebooks": [
+    {
+      "id": "nb_cic_core",
+      "name": "Cast Iron Charlie Core",
+      "notebook_id": "679b8bab-2d87-42cb-a726-6dc54c83acc2",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_daily",
+      "name": "CIC - Daily Research",
+      "notebook_id": "1b4861a3-931f-4632-8fc1-343a8dd37df8",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_willow_run_videos",
+      "name": "Willow Run Videos",
+      "notebook_id": "ef78168d-b7b9-4952-8e0f-fcb353a21181",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_research_logs",
+      "name": "Cast Iron Charlie - Research Logs",
+      "notebook_id": "b8bc161d-495f-42f9-a7d1-ed8692141f6b",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_sorensen_archive",
+      "name": "The Sorensen Photographic Archive: Industrial Giants at Willow Run",
+      "notebook_id": "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_facebook",
+      "name": "CastIronCharlie-Facebook",
+      "notebook_id": "0c8dc979-319f-4e6d-8136-22275932c236",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_reddit",
+      "name": "CIC-Reddit",
+      "notebook_id": "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_cuban",
+      "name": "CIC - Cuban Seizures & Retired Assets",
+      "notebook_id": "c8360946-dbee-4a2c-b622-7f89b05695b0",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_willow_run",
+      "name": "CIC - Willow Run & Aviation Engineering",
+      "notebook_id": "6fd7c40b-df90-444b-9c7a-a64682925856",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_postwar",
+      "name": "CIC - Post-War",
+      "notebook_id": "9c469910-a900-43a4-877c-a43c9f545b5f",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_willys",
+      "name": "CIC - Willys-Overland",
+      "notebook_id": "fd4ebe29-9440-4f4b-97cf-0184ffbe29a0",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_ford_exec",
+      "name": "CIC - Ford Executive Dynamics & Politics",
+      "notebook_id": "0caf6707-f8f2-4d2a-acd2-020acead55ba",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_deltas",
+      "name": "CIC - Research Deltas & Living Matrix",
+      "notebook_id": "48322e1d-d601-4f65-89e0-76282343680d",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_miami",
+      "name": "CIC - Miami Estate & Florida Retirement",
+      "notebook_id": "64949154-5892-4fa4-9ad0-e48b2bf5cc6c",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_cic_rouge",
+      "name": "CIC - Rouge, Model T & Moving Assembly Line",
+      "notebook_id": "70be0df3-c58a-4711-b4d3-1e4b8726faf7",
+      "synthesis_profile": "research_narrative"
+    },
+    {
+      "id": "nb_ironledger",
+      "name": "IronLedger Engine",
+      "notebook_id": "76e1932c-054a-4520-9e83-5e882dffc938",
+      "synthesis_profile": "operational_systems"
+    },
+    {
+      "id": "nb_sigil",
+      "name": "Sigil Protocol & Federation",
+      "notebook_id": "26eacb85-2c97-443d-9d81-3bd99cc98412",
+      "synthesis_profile": "operational_systems"
+    },
+    {
+      "id": "nb_toolforge",
+      "name": "Toolforge & Agravity",
+      "notebook_id": "359b346c-6af7-4ba3-baef-b985c9e6e1af",
+      "synthesis_profile": "operational_systems"
+    },
+    {
+      "id": "nb_rewritelabs",
+      "name": "Rewrite Labs Production",
+      "notebook_id": "140119ae-3496-45c9-bf0c-71c955136afc",
+      "synthesis_profile": "operational_client"
+    },
+    {
+      "id": "nb_dev_issues",
+      "name": "Open Dev Issues (CI/CD Triage Buffer)",
+      "notebook_id": "cb0498ce-1ea5-4668-9f65-ac368753404e",
+      "synthesis_profile": "operational_systems"
+    },
+    {
+      "id": "nb_personal_os",
+      "name": "Personal OS (Household, Utilities, Florida Logistics)",
+      "notebook_id": "9724e682-c5ea-4693-8e21-caf8de68611e",
+      "synthesis_profile": "operational_client"
+    }
+  ]
+}
