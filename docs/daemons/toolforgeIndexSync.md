@@ -2,10 +2,18 @@
 
 **Category**: daemons  
 **Version**: 0.1.0  
-**Status**: active  
+**Status**: stub (design only, 2026-10-06 review)  
 **Owner**: soren  
 
-## Purpose
+## Current state (verified 2026-10-06)
+
+[`daemons/toolforge-index-sync.ps1`](../../daemons/toolforge-index-sync.ps1) is a one-line stub. It prints `Syncing INDEX.md...` and does nothing else. The sections below describe the intended design, not shipped behavior. Nothing here is implemented:
+
+- No scheduled task named `Toolforge-Index-OnDemand` is registered by any script in this repo. [`utilities/setup-task-scheduler.ps1`](../../utilities/setup-task-scheduler.ps1) registers only `Daily Roadmap Sync`.
+- `manifest.json` has no entry for this daemon.
+- `daemons/README.md` does not exist, so the "Daemon guidelines" link under See Also is dead.
+
+## Purpose (intended)
 
 Background daemon that updates the tool index (INDEX.md). Reads manifest.json and generates a human-readable index of all available tools organized by category.
 
@@ -48,7 +56,7 @@ daemon, metadata
 
 ## Entrypoint
 
-- **File**: `toolforge-index-sync.ps1`
+- **File**: `daemons/toolforge-index-sync.ps1` (stub)
 - **Runtime**: PowerShell 7+
 
 ## Schedule
@@ -94,7 +102,7 @@ Description...
 
 ```powershell
 # Run manually
-& "C:\dev\toolforge\daemons\toolforge-index-sync\toolforge-index-sync.ps1"
+& "C:\dev\toolforge\daemons\toolforge-index-sync.ps1"
 
 # View generated index
 Get-Content C:\dev\toolforge\INDEX.md
@@ -112,7 +120,7 @@ Select-String "^##" C:\dev\toolforge\INDEX.md
 
 ## See Also
 
-- [daemons/README.md](../../daemons/README.md) — Daemon guidelines
+- daemons/README.md — does not exist (dead link removed)
 - [INDEX.md](../../INDEX.md) — Generated index (human-readable)
 - [manifest.json](../../manifest.json) — Source data (machine-readable)
 - [run-tool.ps1](../../run-tool.ps1) — Tool runner (references INDEX)
