@@ -5,6 +5,8 @@ owner: Tier 2 (Implementation)
 status: READY FOR EXECUTION
 ---
 
+> **Status note (2026-10-05):** these deliverable specs are the July 2026 plan, still marked ready for execution. The marketplace was built in the separate `toolforge-marketplace` repo (JavaScript: `src/cli/`, `src/validators/`, `src/services/`), not at the `docs/toolforge/` paths listed here, and `SUCCESS.md` is unsigned. See `docs/meta/governance/toolforge-marketplace-spec-v1.0.md`. Read paths below as the original plan.
+
 # Deliverable 4 — Submission Validator
 
 ## Objective
