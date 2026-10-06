@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process'; // noqa: SEC-AUDITOR execFileSync (no shell) runs only `which`/`where` and the one command the user sets in usagecheck.config.json
 
 /**
  * usagecheck — cross-CLI usage/rate-limit reporter.
