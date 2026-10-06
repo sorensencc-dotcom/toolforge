@@ -18,7 +18,7 @@ This file is the per-product answer to §10's "MUST document which side is canon
 
 ## Single writer
 
-Target: one process publishes product wikis, `npm run docs:sync` (`scripts/doc-sync/run.mjs`), driven by [wiki-sync-registry.json](wiki-sync-registry.json). Plan: `docs/superpowers/plans/2026-10-01-unified-doc-sync.md`. Preview with `npm run docs:sync -- --dry-run`; select one product with `--product=<name>`.
+Target: one process publishes product wikis, `npm run docs:sync` (`scripts/doc-sync/run.mjs`), driven by [wiki-sync-registry.json](wiki-sync-registry.json). Plan: `docs/superpowers/plans/2026-10-01-unified-doc-sync.md`. Preview one product with `npm run docs:sync -- --product=<name> --dry-run`. A bare `--dry-run` throws `NO_PRODUCTS_SELECTED` while every row is disabled. **`--product=<name>` skips the `enabled` check, so running it without `--dry-run` really publishes to that product's wiki remote.**
 
 **State on 2026-10-06:** the orchestrator and its tests exist. All 7 JSON rows (`toolforge`, `sigil`, `kb-sync`, `trm`, `icf`, `helix`, `toolforge-marketplace`) are `"enabled": false`, so `docs:sync` publishes nothing by default. The legacy writers below are still live on disk. Retirement is plan Task 10, which runs only after the Task 9 preview passes. Do not read this section as "cutover done."
 
@@ -26,7 +26,8 @@ Legacy writers to turn off (plan Task 10):
 
 | Writer | Path | Status |
 | --- | --- | --- |
-| Toolforge direct publish | `C:\dev\package.json` `wiki:publish` / `wiki:sync` -> `scripts/sync-github-wiki.mjs` | Live. Stays as the `--build-only` build step for `toolforge` and `kb-sync` rows; the npm aliases get repointed to `docs:sync`. The toolforge pre-push no longer publishes (PR #87). |
+| Toolforge direct publish | `C:\dev\package.json` `wiki:publish` / `wiki:sync` -> `scripts/sync-github-wiki.mjs` | Live. Stays as the `--build-only` build step for the `toolforge` row; the npm aliases get repointed to `docs:sync`. The toolforge pre-push no longer publishes (PR #87). |
+| kb-sync direct publish | `C:\dev\kb-sync\package.json` `wiki:publish` / `wiki:sync` -> kb-sync's own `scripts/sync-github-wiki.mjs` | Live. The script stays as the `--build-only` build step for the `kb-sync` row; both aliases get repointed to `docs:sync`. |
 | Fleet reconciler | `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts`, `fleet:wiki:reconcile` | Live. To be deleted. |
 | kb-sync pre-push publish | `C:\dev\kb-sync\scripts\wiki-validate-prepush.sh` (runs `sync-github-wiki.mjs`) | Live. Publish block to be removed; validation stays. |
 | kb-sync CI publish | `C:\dev\kb-sync\.github\workflows\wiki-drift-and-publish.yml` | Live. Publish step to be removed. |
@@ -52,6 +53,7 @@ Until a product's row is enabled, its legacy writer in the "Sync tool / owner" c
 | helix | `helix` | `https://github.com/sorensencc-dotcom/helix.wiki.git` (local clone `C:\dev\helix-wiki`) | 2 curated pages (`Home`, `README`) + `_Sidebar.md` / `_Footer.md` | None found. Owner: TODO | 2026-09-27 | Local chat-engine product per Chris; orchestrates ICF/WhichLLM/Sigil as authorities but is its own brand, not CIC or product-toolforge chrome. Live at `http://127.0.0.1:8877/`. Frontmatter + minimal `_Sidebar`/`_Footer` added, pushed. |
 | rewrite-mcp | `rewrite-docs` (see rewrite-docs row above — same brand bucket, different repo) | `https://github.com/sorensencc-dotcom/rewrite-mcp.wiki.git` (local clone `C:\dev\rewrite-mcp-wiki`) | 301 pages total; ~19 promoted via `_Sidebar.md`. Remainder is per-source-file fleet dump, same shape as cic-ingestion | Fleet: same reconciler as cic-ingestion (footer stamp "Automated Fleet Wiki Sync"). Owner: TODO | 2026-09-27 | Checked promoted pages for CIC-palette diagram contamination (hard-forbidden for this brand) — **clean**, no forge-hex hits. Heavy textual "CIC" cross-references throughout (allowed as links, not chrome). Same generated-dump `status` mislabel gap as cic-ingestion. Frontmatter added to the 19 promoted pages, pushed. |
 | cic-jev | `cic` (per repo name; content not yet written) | `https://github.com/sorensencc-dotcom/cic-jev.wiki.git` (local clone `C:\dev\cic-jev-wiki`) | 1 page (`Home` = unedited GitHub default "Welcome to the cic-jev wiki!") | None — wiki not yet populated | 2026-09-27 | Left as-is per Chris — stub, not a governance violation until real content lands. |
+| kb-sync | TODO | TODO (canonical side not checked) | TODO | JSON row only: `buildCommand` runs kb-sync's own `scripts/sync-github-wiki.mjs --build-only`; `preValidate` is `npm run wiki:validate-contract`. Owner: TODO | 2026-10-06 | Row exists in `wiki-sync-registry.json` (`enabled: false`) but had no row here until now. Remote: `https://github.com/sorensencc-dotcom/kb-sync.wiki.git`. |
 | *(quarantine)* | `internal-obsidian` / `kb-sync` | **N/A — not canonical for any product** | `C:\dev\wiki\**`, kb-sync `wiki/entities/**`, Obsidian vault wiki mirrors, `_kb-sync-staging` | Fleet: `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts`; validate hooks: `C:\dev\kb-sync\scripts\wiki-validate-precommit.sh`, `wiki-validate-prepush.sh`. Owner: kb-sync / fleet (ops), not product wiki SoT | 2026-09-26 | Generated quarantine. Receipts and provenance matter more than brand paint. **MUST NOT** be used as the curated twin of toolforge / sigil / trm. |
 
 ## How to use this registry

@@ -1,10 +1,10 @@
 # Toolforge Documentation Index
 
-Hand-written index of the first five Toolforge tool docs. Last edited 2026-06-28; checked against the repo 2026-10-06.
+Hand-written index of the first five Toolforge tool docs. Last edited 2026-10-06; checked against the repo the same day.
 
 > **Not auto-generated.** The `toolforgeDocsSync` daemon that would regenerate this file is a one-line stub (`daemons/toolforge-docs-sync.ps1` prints a message and exits). This page does not list every tool.
 >
-> **Machine-readable catalog:** [manifest.json](https://github.com/sorensencc-dotcom/toolforge/blob/main/manifest.json) (v1.2.0, generated 2026-09-27) lists 54 skills. Human-readable list: [INDEX](INDEX). Use those, not this page, to find a tool.
+> **Machine-readable catalog:** [manifest.json](https://github.com/sorensencc-dotcom/toolforge/blob/main/manifest.json) (v1.2.0, generated 2026-09-27) lists 54 skills. This is a different file from the one `run-tool.ps1` uses (`toolforge/manifest.json`). Human-readable list: [INDEX](INDEX). Use those, not this page, to find a tool.
 
 ---
 
@@ -12,13 +12,13 @@ Hand-written index of the first five Toolforge tool docs. Last edited 2026-06-28
 
 Multi-repository scanning, drift detection, and synchronization tools.
 
-### [multiRepoRoadmapSync](sync-tools/multiRepoRoadmapSync.md)
+### multiRepoRoadmapSync
 
 Unified drift detector + roadmap updater for sorensencc-dotcom repos.
 
 - **Version**: 0.1.0
 - **Status**: active
-- **Schedule**: Daily 09:00 UTC, but only after the scheduled task is registered. The registrar `utilities/setup-task-scheduler.ps1` points at `C:\dev\tools\multiRepoRoadmapSync.cjs`, which does not exist; the script lives at `sync-tools/multiRepoRoadmapSync.cjs`. Fix that path before relying on the schedule.
+- **Schedule**: Daily 09:00 machine-local time (the task trigger carries no timezone), but only after the scheduled task is registered. The registrar `utilities/setup-task-scheduler.ps1` points at `C:\dev\tools\multiRepoRoadmapSync.cjs`, which does not exist; the script lives at `sync-tools/multiRepoRoadmapSync.cjs`. Fix that path before relying on the schedule.
 - **Dependencies**: Node.js 20+, PowerShell 7+
 - **Tool tags**: sync, automation, multi-repo
 
@@ -33,35 +33,35 @@ Quick start:
 
 Background services and long-running processes.
 
-### [toolforgeManifestSync](daemons/toolforgeManifestSync.md)
+### toolforgeManifestSync
 
 Background daemon that syncs toolforge manifest index.
 
 - **Version**: 0.1.0
-- **Status**: stub. `daemons/toolforge-manifest-sync.ps1` only prints a message; no scheduled task is registered
+- **Status**: beta (stub). `daemons/toolforge-manifest-sync.ps1` only prints a message; no scheduled task is registered
 - **Schedule**: none (design said every 15 minutes; nothing registers it)
 - **Dependencies**: PowerShell 7+
 - **Tool tags**: daemon, metadata
 
 Automatically discovers new tools and updates manifest.json.
 
-### [toolforgeDocsSync](daemons/toolforgeDocsSync.md)
+### toolforgeDocsSync
 
 Background daemon that regenerates tool documentation.
 
 - **Version**: 0.1.0
-- **Status**: stub. `daemons/toolforge-docs-sync.ps1` only prints a message; no scheduled task is registered
+- **Status**: beta (stub). `daemons/toolforge-docs-sync.ps1` only prints a message; no scheduled task is registered
 - **Dependencies**: PowerShell 7+
 - **Tool tags**: daemon, documentation
 
 Extracts tool metadata and generates markdown docs in `C:\dev\toolforge\docs\<category>\`.
 
-### [toolforgeIndexSync](daemons/toolforgeIndexSync.md)
+### toolforgeIndexSync
 
 Background daemon that updates tool index (INDEX.md).
 
 - **Version**: 0.1.0
-- **Status**: stub. `daemons/toolforge-index-sync.ps1` only prints a message; no scheduled task is registered
+- **Status**: beta (stub). `daemons/toolforge-index-sync.ps1` only prints a message; no scheduled task is registered
 - **Dependencies**: PowerShell 7+
 - **Tool tags**: daemon, metadata
 
@@ -73,7 +73,7 @@ Generates human-readable tool index from manifest.json.
 
 Setup, installation, and helper scripts.
 
-### [setupTaskScheduler](utilities/setupTaskScheduler.md)
+### setupTaskScheduler
 
 Windows Task Scheduler registration. Today the script registers one task, `Daily Roadmap Sync`.
 
@@ -123,13 +123,13 @@ Each tool documentation file includes:
 
 | Tool | Category | Type | Schedule |
 |------|----------|------|----------|
-| multiRepoRoadmapSync | sync-tools | Multi-repo scanner | Daily 09:00 UTC |
-| toolforgeManifestSync | daemons | Stub | none |
-| toolforgeDocsSync | daemons | Stub | none |
-| toolforgeIndexSync | daemons | Stub | none |
+| multiRepoRoadmapSync | sync-tools | Multi-repo scanner | Daily 09:00 local |
+| toolforgeManifestSync | daemons | Beta (stub) | none |
+| toolforgeDocsSync | daemons | Beta (stub) | none |
+| toolforgeIndexSync | daemons | Beta (stub) | none |
 | setupTaskScheduler | utilities | Setup tool | N/A (one-time) |
 
-**Total**: 5 documented entries across 3 categories (2 working, 3 stubs). The full catalog is `manifest.json`.
+**Total**: 5 documented entries across 3 categories (2 working, 3 stubs, shown as `beta`). The full catalog is the repo-root `manifest.json`.
 
 ---
 
@@ -149,6 +149,7 @@ To see all available tools:
 
 ```powershell
 .\run-tool.ps1 -Refresh   # scan first; -List alone reports "No tools or skills found"
+# run-tool.ps1 reads and writes toolforge\manifest.json (next to the script), not the repo-root manifest.json
 .\run-tool.ps1 -List
 .\run-tool.ps1 -Inspect toolName
 ```
@@ -157,7 +158,7 @@ To see all available tools:
 
 ## Contributing New Tools
 
-Docs are not generated automatically (`toolforgeDocsSync` is a stub). Write them by hand:
+Docs are not generated automatically (`toolforgeDocsSync` is a beta stub). Write them by hand:
 
 1. Create tool in correct category directory
 2. Add metadata to manifest.json
