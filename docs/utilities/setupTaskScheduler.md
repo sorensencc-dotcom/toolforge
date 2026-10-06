@@ -32,12 +32,10 @@ There is no `-Install`, `-Remove`, or `-Test` parameter. Passing one fails with 
 
 1. Warn if the Slack webhook is the placeholder.
 2. Build a daily trigger at 09:00 in machine-local time. The script comments and console text say UTC; the trigger carries no timezone.
-3. Build an action that runs `node.exe C:\dev\tools\multiRepoRoadmapSync.cjs` with working directory `C:\dev`.
+3. Build an action that runs `node.exe C:\dev\sync-tools\multiRepoRoadmapSync.cjs` with working directory `C:\dev`.
 4. Register the task. Settings: start on battery, start when available after a missed run, run only with network.
 
 The script has no Administrator check and registers the task for the current user. Run it elevated if registration is denied.
-
-**Known bug:** `$ScriptPath` (line 16) points at `C:\dev\tools\multiRepoRoadmapSync.cjs`, which does not exist. The script is `sync-tools/multiRepoRoadmapSync.cjs`. The task registers but fails when it runs.
 
 ## Dependencies
 
@@ -73,7 +71,7 @@ Unregister-ScheduledTask -TaskName "Daily Roadmap Sync" -Confirm:$false
 
 | Task name | Schedule | Action | Purpose |
 |-----------|----------|--------|---------|
-| Daily Roadmap Sync | Daily 09:00 local | `node.exe C:\dev\tools\multiRepoRoadmapSync.cjs` (path wrong, see above) | Sync roadmaps |
+| Daily Roadmap Sync | Daily 09:00 local | `node.exe C:\dev\sync-tools\multiRepoRoadmapSync.cjs` | Sync roadmaps |
 
 The `Toolforge-Daily-09UTC`, `Toolforge-Manifest-15min`, `Toolforge-Docs-OnDemand`, and `Toolforge-Index-OnDemand` tasks that earlier versions of this page listed are not registered by any script in the repo.
 
