@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.85.2
+Date: 2026-10-06
+
+### Changes
+- d782c1e - fix(report): commit only the weekly report path (#97) (Chris Sorensen)
+- ddf1caf - docs(meta/phase-8): note marketplace deliverables were built in a separate repo (#96) (Chris Sorensen)
+- 75d664d - docs(meta/phases): add status notes to ashfall state and phase ABC audit charter (#95) (Chris Sorensen)
+- bf1d4a9 - docs(meta/plans): fix moved-path references, add status notes (#94) (Chris Sorensen)
+- 7e6ab26 - docs(meta/specs): note slop-grader spec layout differs from the build (#93) (Chris Sorensen)
+- f1df701 - docs(meta/governance): fix dead links and add status notes (#92) (Chris Sorensen)
+- 3df77e8 - docs(meta): move phase2 and docs-structure files into specs/ and plans/ (#91) (Chris Sorensen)
+
 ## Version 2.85.1
 Date: 2026-10-05
 
