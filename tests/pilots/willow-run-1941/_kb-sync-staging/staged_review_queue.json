@@ -95,7 +95,7 @@
       "taskId": "TASK-CIC-WR-001",
       "model": "qwen2.5:32b-instruct-q4_K_M (bounded)",
       "reviewer": "csorensen-operator",
-      "materializedAt": "2026-08-24T01:57:34.193819+00:00"
+      "materializedAt": "2026-10-07T13:17:28.623213+00:00"
     },
     "audit": {
       "verdict": "contradiction_detected",
@@ -104,30 +104,40 @@
         "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-batch-assembly-lines-194106] claiming 1941-06 (Willow Run Plant, Washtenaw County, MI).",
         "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-102] claiming 1941-04 (Dearborn, MI).",
         "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-103] claiming 1941-03 (Dearborn, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-production_volume_discrepancy-105] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-106] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-108] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
         "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-parameter_specification-101] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
         "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-production_volume_discrepancy-102] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
         "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-103] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
         "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-production_volume_discrepancy-104] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
-        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-production_volume_discrepancy-105] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
-        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-106] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-105] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-production_volume_discrepancy-106] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
         "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-107] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
-        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-108] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
-        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-109] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI)."
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-108] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-109] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-vendor_identification-110] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI).",
+        "Temporal Discrepancy: Candidate claims 1941-01 (Hotel del Coronado, San Diego, CA), conflicting with canonical [fact-cic-wr-gap-contract_revision-111] claiming 1941-04 (Willow Run Plant, Washtenaw County, MI)."
       ],
       "conflictingFactKeys": [
         "fact-cic-wr-batch-toolmaker-allocation-194105",
         "fact-cic-wr-batch-assembly-lines-194106",
         "fact-cic-wr-gap-vendor_identification-102",
         "fact-cic-wr-gap-contract_revision-103",
+        "fact-cic-wr-gap-production_volume_discrepancy-105",
+        "fact-cic-wr-gap-vendor_identification-106",
+        "fact-cic-wr-gap-vendor_identification-108",
         "fact-cic-wr-gap-parameter_specification-101",
         "fact-cic-wr-gap-production_volume_discrepancy-102",
         "fact-cic-wr-gap-vendor_identification-103",
         "fact-cic-wr-gap-production_volume_discrepancy-104",
-        "fact-cic-wr-gap-production_volume_discrepancy-105",
-        "fact-cic-wr-gap-vendor_identification-106",
+        "fact-cic-wr-gap-vendor_identification-105",
+        "fact-cic-wr-gap-production_volume_discrepancy-106",
         "fact-cic-wr-gap-contract_revision-107",
-        "fact-cic-wr-gap-vendor_identification-108",
-        "fact-cic-wr-gap-contract_revision-109"
+        "fact-cic-wr-gap-contract_revision-108",
+        "fact-cic-wr-gap-contract_revision-109",
+        "fact-cic-wr-gap-vendor_identification-110",
+        "fact-cic-wr-gap-contract_revision-111"
       ]
     },
     "status": "needs-review"

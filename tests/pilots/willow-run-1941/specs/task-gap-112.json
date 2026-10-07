@@ -1,7 +1,7 @@
 {
   "specVersion": "research.task.v1",
-  "taskId": "TASK-CIC-GAP-109",
-  "idempotencyKey": "cic-wr-gap-contract-109",
+  "taskId": "TASK-CIC-GAP-112",
+  "idempotencyKey": "cic-wr-gap-contract-112",
   "sourceTargets": [
     {
       "sourceId": "src-wpb-report-1942",
@@ -18,7 +18,7 @@
   "outputContract": "candidate.fact.v1",
   "approvalRequired": true,
   "provenanceGap": {
-    "triggeredByFactKey": "fact-cic-wr-gap-production_volume_discrepancy-104",
+    "triggeredByFactKey": "fact-cic-wr-wpb-origin-194103",
     "gapType": "contract_revision"
   }
 }
