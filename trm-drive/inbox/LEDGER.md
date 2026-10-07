@@ -1,9 +1,13 @@
 # TRM Action Card Tracking Ledger
 
-*Updated: 2026-10-05T15:57:23.634Z | Total Tracked: 10*
+*Updated: 2026-10-07T20:13:49.032Z | Total Tracked: 14*
 
 | Processed At | Card ID | Source | Category / Action Type | Intent | Target | Status | Tracking / Issue |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 2026-10-07T16:53:54.067Z | `act-04-model-hardware-standard-mhs-spike` | mobile-gemini-gdoc | `RESEARCH` / `antigravity_triage` | `model_hardware_standard_mhs_spike` | rewrite-mcp | ✅ COMPLETED | — |
+| 2026-10-07T16:53:53.809Z | `act-03-multi-model-cost-routing-gateway` | mobile-gemini-gdoc | `IMPLEMENT` / `antigravity_triage` | `multi_model_cost_routing_gateway` | rewrite-mcp | ✅ COMPLETED | — |
+| 2026-10-07T16:53:50.289Z | `act-02-benchmark-mistral-large-4-chonk` | mobile-gemini-gdoc | `RESEARCH` / `antigravity_triage` | `benchmark_mistral_large_4_chonk` | toolforge | ✅ COMPLETED | — |
+| 2026-10-07T16:53:50.074Z | `act-01-lean-proof-verification-harness` | mobile-gemini-gdoc | `RESEARCH` / `antigravity_triage` | `lean_proof_verification_harness` | toolforge | ✅ COMPLETED | — |
 | 2026-10-03T12:57:28.314Z | `act-04-evaluate-embedded-duckdb-agent-analytics` | mobile-gemini-gdoc | `EVALUATE` / `antigravity_triage` | `evaluate_embedded_duckdb_agent_analytics` | Rewrite-MCP / Analytics | ✅ COMPLETED | [rfc-evaluate-embedded-duckdb-agent-analytics.md](wiki/research/rfc-evaluate-embedded-duckdb-agent-analytics.md) |
 | 2026-09-27T12:57:58.571Z | `act-04-frontier-lab-verification-standards-dissent` | mobile-gemini-gdoc | `MONITOR` / `antigravity_triage` | `frontier_lab_verification_standards_dissent` | TRM Research Backlog | ✅ COMPLETED | [rfc-frontier-lab-verification-standards-dissent.md](wiki/research/rfc-frontier-lab-verification-standards-dissent.md) |
 | 2026-09-27T12:57:57.678Z | `act-03-embodied-robotics-actuator-reliability` | mobile-gemini-gdoc | `RESEARCH` / `antigravity_triage` | `embodied_robotics_actuator_reliability` | CIC Research Backlog | ✅ COMPLETED | [rfc-embodied-robotics-actuator-reliability.md](wiki/research/rfc-embodied-robotics-actuator-reliability.md) |

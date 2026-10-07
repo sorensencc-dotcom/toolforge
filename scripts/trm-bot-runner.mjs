@@ -154,6 +154,14 @@ export async function runTrmBot(options = {}) {
   const generatedRfcs = [];
   let tier1Count = 0;
   let tier2Count = 0;
+  const tierDistribution = {
+    tier_0_local: 0,
+    tier_0_5_freellmapi: 0,
+    tier_1_muscle: 0,
+    tier_2_frontier: 0,
+  };
+  let totalCostUsd = 0;
+  let totalSavingsUsd = 0;
   let totalRoutingMs = 0;
 
   await fs.mkdir(WIKI_RESEARCH_DIR, { recursive: true });
@@ -167,13 +175,20 @@ export async function runTrmBot(options = {}) {
     // Route gap through WhichLLM to establish model resolution tier
     const routeInfo = await routeTask(`${gap.title}: ${gap.details}`);
     totalRoutingMs += routeInfo.latencyMs || 0;
+    const tierId = routeInfo.tierId || (routeInfo.tier.includes('Tier 1') ? 'tier_2_frontier' : 'tier_0_local');
+    if (tierDistribution[tierId] !== undefined) {
+      tierDistribution[tierId]++;
+    }
+    totalCostUsd += routeInfo.estimatedCostUsd || 0;
+    totalSavingsUsd += routeInfo.estimatedSavingsUsd || 0;
+
     if (routeInfo.tier.includes('Tier 1')) {
       tier1Count++;
     } else {
       tier2Count++;
     }
 
-    console.log(`  -> Processing [${gap.gapId}] -> ${filename} [Route: ${routeInfo.tier} -> ${routeInfo.targetModel}]`);
+    console.log(`  -> Processing [${gap.gapId}] -> ${filename} [Route: ${routeInfo.tier} (${tierId}) -> ${routeInfo.targetModel}]`);
 
     if (!dryRun) {
       const content = generateRfcContent(gap, routeInfo);
@@ -183,8 +198,11 @@ export async function runTrmBot(options = {}) {
         file: rfcRelPath,
         filename,
         assignedTier: routeInfo.tier,
+        tierId,
         targetModel: routeInfo.targetModel,
-        confidence: routeInfo.confidence
+        confidence: routeInfo.confidence,
+        estimatedCostUsd: routeInfo.estimatedCostUsd || 0,
+        estimatedSavingsUsd: routeInfo.estimatedSavingsUsd || 0
       });
     } else {
       generatedRfcs.push({
@@ -192,8 +210,11 @@ export async function runTrmBot(options = {}) {
         file: rfcRelPath,
         filename,
         assignedTier: routeInfo.tier,
+        tierId,
         targetModel: routeInfo.targetModel,
         confidence: routeInfo.confidence,
+        estimatedCostUsd: routeInfo.estimatedCostUsd || 0,
+        estimatedSavingsUsd: routeInfo.estimatedSavingsUsd || 0,
         dryRun: true
       });
     }
@@ -218,8 +239,8 @@ export async function runTrmBot(options = {}) {
 
     const now = new Date();
     const dateStr = now.toISOString().replace('T', ' ').slice(0, 16);
-    const logEntry = `\n## [${dateStr}] trm-bot-gap-triage\n\n- Provider: \`trm-bot-runner\` (\`v1.0.0\`)\n- Gaps Triaged: ${generatedRfcs.length}\n- Created RFC Decision Notes:\n` +
-      generatedRfcs.map(r => `  - \`${r.file}\` (${r.gapId} -> ${r.assignedTier})`).join('\n') + '\n';
+    const logEntry = `\n## [${dateStr}] trm-bot-gap-triage\n\n- Provider: \`trm-bot-runner\` (\`v2.0.0\`)\n- Gaps Triaged: ${generatedRfcs.length}\n- Net Savings vs Frontier Baseline: $${totalSavingsUsd.toFixed(4)}\n- Created RFC Decision Notes:\n` +
+      generatedRfcs.map(r => `  - \`${r.file}\` (${r.gapId} -> ${r.assignedTier} / ${r.tierId})`).join('\n') + '\n';
 
     try {
       await appendToWikiLogAsync(REPO_ROOT, logEntry);
@@ -240,9 +261,15 @@ export async function runTrmBot(options = {}) {
     drafted: draftedGaps.length,
     resolved: resolvedGaps.length,
     triagedCount: generatedRfcs.length,
+    costMetrics: {
+      totalCostUsd: parseFloat(totalCostUsd.toFixed(4)),
+      totalSavingsUsd: parseFloat(totalSavingsUsd.toFixed(4)),
+      frontierBaselineModel: 'anthropic/claude-3-5-sonnet',
+    },
     routing: {
       tier1Count,
       tier2Count,
+      tierDistribution,
       avgRoutingLatencyMs
     },
     generatedRfcs,

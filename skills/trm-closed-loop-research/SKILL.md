@@ -21,10 +21,10 @@ This skill executes the end-to-end Topic Research Mining (TRM) research loop: mi
 flowchart TD
     A["notebooklm-registry.json (12 Notebooks)"] --> B["1. Live Mining Sweep (schedule-task-wrapper-TRM-Notebooklm-Mine.ps1)"]
     B --> C["C:/Users/soren/trm-vault/trm/research-gaps/*.md"]
-    C --> D["2. Consolidated Snapshot & WhichLLM Sweep (run-closed-loop-research-v2.mjs)"]
-    D --> E["3. Cognitive Gap Triage (query-expander.mjs & trm-triage.mjs)"]
+    C --> D["2. Multi-Model Cost Router & MHS Sweep (run-closed-loop-research-v2.mjs)"]
+    D --> E["3. Cognitive Gap Triage (query-expander.mjs & trm-bot-runner.mjs)"]
     E --> F["wiki/research/rfc-gap-*.md Decision Notes"]
-    D --> G["4. Layer 2 Wiki Synthesis (open-contradictions, under-sourced, etc.)"]
+    D --> G["4. Layer 2 Wiki Synthesis (Tier 1 Mistral/DeepSeek or Tier 2 Frontier)"]
     D --> H["5. Thematic Knowledge Packs (.nlm_pack/pack_*.txt)"]
     F & G --> I["6. Wiki & Git Push (npm run wiki:publish)"]
 ```
@@ -61,12 +61,12 @@ Run the live closed-loop synthesis orchestrator from the `C:\dev` repository roo
 $env:TRM_SKIP_MINE='1'; node scripts/run-closed-loop-research-v2.mjs
 ```
 *Actions performed:*
-1. **Step 0 — WhichLLM Benchmark Sweep**: Reads hardware-aware model benchmark matrix (`_integration/model_selection.json`).
+1. **Step 0 — Cost-Routing Gateway & MHS Sweep**: Reads host hardware profile (`ModelHardwareStandard`) and benchmark matrix (`_integration/model_selection.json`) to assign Tier 0 ($0 Ollama/FreeLLM), Tier 1 (Muscle Cloud), and Tier 2 (Frontier).
 2. **Step 1 — Gaps Ingestion**: Writes consolidated snapshot to `trm-research-gaps.md`.
 3. **Step 2 — NotebookLM Grounding**: Uploads gaps snapshot to the target daily notebook.
 4. **Step 3 — Topic Derivation**: Extracts the 4 core research dimensions (`open-contradictions`, `under-sourced`, `adjacent-topics`, `follow-up`).
-5. **Step 4 — Layer 2 Wiki Synthesis**: Synthesizes structured markdown pages in `wiki/research/`.
-6. **Step 5 — Audit Log**: Appends run telemetry and SHA-256 hash chains to `wiki/Log.md`.
+5. **Step 4 — Layer 2 Wiki Synthesis**: Synthesizes structured markdown pages in `wiki/research/` via routed Muscle/Frontier inference.
+6. **Step 5 — Audit Log**: Appends run telemetry, net cost savings, and SHA-256 hash chains to `wiki/Log.md`.
 7. **Step 6 — Knowledge Packs**: Rebuilds thematic `.nlm_pack/pack_*.txt` files.
 
 ---

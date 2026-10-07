@@ -1,19 +1,17 @@
 {
-  "receipt_id": "rcpt-20261007-act-04-model-hardware-standard-mhs-spike",
+  "receipt_id": "rcpt-1791404029000-done-act-04-model-hardware-standard-mhs-spike",
   "action_id": "act-04-model-hardware-standard-mhs-spike",
-  "status": "COMPLETED",
-  "domain": "rewrite-mcp",
+  "source": "mobile-gemini-gdoc",
+  "intent": "model_hardware_standard_mhs_spike",
   "category": "RESEARCH",
-  "completed_at": "2026-10-07T19:15:00Z",
-  "deliverables": [
-    "services/torquequery-mcp/src/model-hardware-standard.ts",
-    "services/torquequery-mcp/src/model-hardware-standard.test.ts",
-    "services/torquequery-mcp/src/index.ts"
-  ],
-  "test_results": {
-    "passed": 5,
-    "total": 5,
-    "pass_rate": 1.0
-  },
-  "summary": "Model Hardware Standard (MHS) spike implemented with automated 4-tier classification (MHS-1 to MHS-4), live hardware profiling (RAM, CPU, GPU, VRAM), model memory/throughput heuristics, and MCP tool endpoints get_hardware_profile and evaluate_model_hardware_fit."
+  "target_notebook": "rewrite-mcp",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Action Completed: model_hardware_standard_mhs_spike",
+  "completion_details": "Mobile action item submitted via Google Docs: 2026-10-07T124904Z__research__rewrite-mcp__act-04-model-hardware-standard-mhs-spike",
+  "issue_url": null,
+  "research_ref": null,
+  "completed_at": "2026-10-07T20:13:49.000Z",
+  "dispatched_at": "2026-10-07T20:13:49.000Z",
+  "dryRun": false
 }
