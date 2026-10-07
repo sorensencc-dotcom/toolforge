@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process'; // noqa: SEC-AUDITOR - CLI probing adapter
 
 /**
  * usagecheck — cross-CLI usage/rate-limit reporter.

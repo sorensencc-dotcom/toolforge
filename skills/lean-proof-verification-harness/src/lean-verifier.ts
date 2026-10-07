@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { execSync } from 'child_process'; // noqa: SEC-AUDITOR - requires invoking local lean/lake compiler binary
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
