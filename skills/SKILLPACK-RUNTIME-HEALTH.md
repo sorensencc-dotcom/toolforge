@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-09-28T14:38:10.8924078Z
+**Generated:** 2026-10-07T20:03:03.5866726Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,8 +10,8 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 375 | 10 | 0 | 385 |
-| % Pass | 97.4% | 2.6% | 0% | 100% |
+| **Totals** | 405 | 15 | 0 | 420 |
+| % Pass | 96.4% | 3.6% | 0% | 100% |
 
 ---
 
@@ -58,6 +58,18 @@
 | Check | Result | Details |
 |-------|--------|---------|
 | AuditLog | ✅ PASS | Runtime history exists |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### benchmark-mistral-large-chonk — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
@@ -161,6 +173,30 @@
 | Runtime | ✅ PASS | Found: npm |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### doc-sync-drift-audit — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### governance-matrix-validator — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### hook-validator — ✅ GOOD
 
 | Check | Result | Details |
@@ -214,6 +250,18 @@
 | Check | Result | Details |
 |-------|--------|---------|
 | AuditLog | ✅ PASS | Runtime history exists |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/index.ts |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### lean-proof-verification-harness — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Entrypoint | ✅ PASS | Valid: src/index.ts |
@@ -617,6 +665,18 @@
 | Runtime | ✅ PASS | Found: npm |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### usagecheck — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/index.js |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### wiki-governance-sync — ⚠️ WARN
 
 | Check | Result | Details |
@@ -736,12 +796,17 @@ Skills passing all checks:
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
+- benchmark-mistral-large-chonk
+- doc-sync-drift-audit
+- governance-matrix-validator
 - ironbots-fleet-status-monitor
+- lean-proof-verification-harness
 - sigil-grok-bridge
 - slop-grader-sweep
 - third-party-repo-auditor
 - tinyfish-search
 - trm-self-healing
+- usagecheck
 - wiki-governance-sync
 
 ### ❌ Error Health

@@ -1,0 +1,19 @@
+{
+  "receipt_id": "rcpt-20261007-act-04-model-hardware-standard-mhs-spike",
+  "action_id": "act-04-model-hardware-standard-mhs-spike",
+  "status": "COMPLETED",
+  "domain": "rewrite-mcp",
+  "category": "RESEARCH",
+  "completed_at": "2026-10-07T19:15:00Z",
+  "deliverables": [
+    "services/torquequery-mcp/src/model-hardware-standard.ts",
+    "services/torquequery-mcp/src/model-hardware-standard.test.ts",
+    "services/torquequery-mcp/src/index.ts"
+  ],
+  "test_results": {
+    "passed": 5,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "summary": "Model Hardware Standard (MHS) spike implemented with automated 4-tier classification (MHS-1 to MHS-4), live hardware profiling (RAM, CPU, GPU, VRAM), model memory/throughput heuristics, and MCP tool endpoints get_hardware_profile and evaluate_model_hardware_fit."
+}

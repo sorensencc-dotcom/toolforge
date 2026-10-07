@@ -55,6 +55,39 @@
       }
     },
     {
+      "version": "1.0.0",
+      "description": "Benchmark and evaluation harness for Mistral Large on heavy codebase, large-context (chonk), and multi-file refactoring workloads",
+      "timestamps": {
+        "created": "2026-10-07T15:09:00Z",
+        "lastValidation": "2026-10-07T15:09:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "benchmarking",
+        "mistral-large",
+        "chonk-context",
+        "observability",
+        "cost-routing"
+      ],
+      "status": "active",
+      "name": "Benchmark Mistral Large Chonk",
+      "runtime": "typescript",
+      "id": "benchmark-mistral-large-chonk",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "testing",
+      "health": {
+        "canonical": true,
+        "runtime": "pass",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
       "version": "1.0.2",
       "description": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
       "timestamps": {
@@ -735,6 +768,38 @@
         "canonical": true,
         "runtime": "untested",
         "distributed": false,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
+      "description": "Formal theorem proving, tactic validation, and invariant verification harness for Lean 4 and agent logic specs",
+      "timestamps": {
+        "created": "2026-10-07T14:27:00Z",
+        "lastValidation": "2026-10-07T14:27:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "formal-methods",
+        "lean4",
+        "verification",
+        "theorem-proving"
+      ],
+      "status": "active",
+      "name": "Lean Proof Verification Harness",
+      "runtime": "typescript",
+      "id": "lean-proof-verification-harness",
+      "entrypoint": "src/index.ts",
+      "owner": "soren",
+      "category": "validation",
+      "health": {
+        "canonical": true,
+        "runtime": "pass",
+        "distributed": true,
         "overall": "good"
       },
       "dependencies": {

@@ -1,0 +1,81 @@
+{
+  "id": "benchmark-mistral-large-chonk",
+  "name": "Benchmark Mistral Large Chonk",
+  "version": "1.0.0",
+  "description": "Evaluates Mistral Large 123B on large context buffers, multi-file AST refactoring, formal invariant synthesis, and cost arbitrage",
+  "author": "soren",
+  "license": "MIT",
+  "category": "testing",
+  "entrypoint": "src/index.ts",
+  "runtime": "typescript",
+  "tags": ["benchmarking", "mistral-large", "chonk-context", "observability", "cost-routing"],
+
+  "metadata": {
+    "runtime": "typescript",
+    "entrypoint": "src/index.ts",
+    "timeout": 60000,
+    "retryPolicy": "exponential",
+    "maxRetries": 3,
+    "tags": ["benchmarking", "mistral-large", "chonk-context", "observability", "cost-routing"],
+    "keywords": ["mistral", "chonk", "123b", "benchmark", "context", "cost-arbitrage"]
+  },
+
+  "inputs": {
+    "required": [],
+    "optional": [
+      {
+        "name": "contextSizeTokens",
+        "type": "number",
+        "description": "Context length buffer to benchmark (e.g., 32768, 65536, 128000)",
+        "default": 32768
+      },
+      {
+        "name": "testTypes",
+        "type": "array",
+        "description": "Specific benchmark categories to execute (needle_retrieval, multi_file_refactor, formal_invariants)",
+        "default": ["needle_retrieval", "multi_file_refactor", "formal_invariants"]
+      },
+      {
+        "name": "mockMode",
+        "type": "boolean",
+        "description": "Run against simulated synthetic provider responses instead of live API",
+        "default": true
+      }
+    ]
+  },
+
+  "outputs": {
+    "success": {
+      "type": "object",
+      "description": "Benchmark evaluation report and cost arbitrage metrics",
+      "schema": {
+        "properties": {
+          "status": { "type": "string", "enum": ["COMPLETED", "FAILED"] },
+          "overallScore": { "type": "number" },
+          "testsRun": { "type": "number" },
+          "testsPassed": { "type": "number" },
+          "costMetrics": {
+            "type": "object",
+            "properties": {
+              "mistralLargeCostUsd": { "type": "number" },
+              "frontierBaselineCostUsd": { "type": "number" },
+              "savingsUsd": { "type": "number" },
+              "savingsPercent": { "type": "number" }
+            }
+          },
+          "suiteResults": { "type": "array" }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "description": "Benchmark execution failure report",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "error": { "type": "string" }
+        }
+      }
+    }
+  }
+}

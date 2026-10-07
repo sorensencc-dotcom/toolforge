@@ -1,0 +1,79 @@
+{
+  "id": "lean-proof-verification-harness",
+  "name": "Lean Proof Verification Harness",
+  "version": "1.0.0",
+  "description": "Formal theorem proving, tactic validation, and invariant verification harness for Lean 4 and agent logic specs",
+  "author": "soren",
+  "license": "MIT",
+  "category": "validation",
+  "entrypoint": "src/index.ts",
+  "runtime": "typescript",
+  "tags": ["formal-methods", "lean4", "verification", "theorem-proving"],
+
+  "metadata": {
+    "runtime": "typescript",
+    "entrypoint": "src/index.ts",
+    "timeout": 30000,
+    "retryPolicy": "exponential",
+    "maxRetries": 3,
+    "tags": ["formal-methods", "lean4", "verification", "theorem-proving"],
+    "keywords": ["lean", "proof", "verification", "formal-methods", "tactics", "invariants"]
+  },
+
+  "inputs": {
+    "required": [
+      {
+        "name": "source",
+        "type": "string",
+        "description": "Lean 4 source code text, file path, or formal invariant spec"
+      }
+    ],
+    "optional": [
+      {
+        "name": "strict",
+        "type": "boolean",
+        "description": "Reject unproven sorry/admit placeholders and uninstantiated axioms",
+        "default": true
+      },
+      {
+        "name": "targetTheorem",
+        "type": "string",
+        "description": "Optional specific theorem or lemma identifier to verify"
+      },
+      {
+        "name": "routingTier",
+        "type": "string",
+        "description": "Routing tier for automated tactic synthesis (defaults to tier_2_frontier)",
+        "default": "tier_2_frontier"
+      }
+    ]
+  },
+
+  "outputs": {
+    "success": {
+      "type": "object",
+      "description": "Lean formal verification report",
+      "schema": {
+        "properties": {
+          "status": { "type": "string", "enum": ["VERIFIED", "OPEN_OBLIGATIONS", "FAILED"] },
+          "theoremsFound": { "type": "number" },
+          "theoremsVerified": { "type": "number" },
+          "sorryCount": { "type": "number" },
+          "axiomsUsed": { "type": "array", "items": { "type": "string" } },
+          "diagnostics": { "type": "array" }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "description": "Verification failure report",
+      "schema": {
+        "properties": {
+          "status": { "type": "string" },
+          "error": { "type": "string" },
+          "diagnostics": { "type": "array" }
+        }
+      }
+    }
+  }
+}

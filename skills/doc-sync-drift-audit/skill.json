@@ -1,0 +1,19 @@
+{
+  "id": "doc-sync-drift-audit",
+  "name": "doc-sync-drift-audit",
+  "version": "0.1.0",
+  "description": "Detect, diagnose, and report documentation drift in the Toolforge unified wiki and documentation build pipeline.",
+  "author": "soren",
+  "license": "MIT",
+  "category": "sync-tools",
+  "entrypoint": "src/index.ts",
+  "runtime": "typescript",
+  "tags": ["doc-sync", "wiki", "drift", "docs", "verification"],
+
+  "metadata": {
+    "runtime": "typescript",
+    "entrypoint": "src/index.ts",
+    "timeout": 30000,
+    "tags": ["doc-sync", "wiki", "drift", "docs", "verification"]
+  }
+}

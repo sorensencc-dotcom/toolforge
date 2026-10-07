@@ -1,0 +1,22 @@
+{
+  "id": "act-04-model-hardware-standard-mhs-spike",
+  "parent_action_id": null,
+  "timestamp": "2026-10-07T124904Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "rewrite-mcp",
+  "target": "rewrite-mcp",
+  "action_type": "antigravity_triage",
+  "intent": "model_hardware_standard_mhs_spike",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-07T124904Z__research__rewrite-mcp__act-04-model-hardware-standard-mhs-spike",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-07T16:53:54.022Z",
+  "completed_at": "2026-10-07T19:14:30.000Z",
+  "source_file": "2026-10-07T124904Z__research__rewrite-mcp__act-04-model-hardware-standard-mhs-spike.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-07T124904Z__research__rewrite-mcp__act-04-model-hardware-standard-mhs-spike.md.gdoc",
+    "gdoc_stem": "2026-10-07T124904Z__research__rewrite-mcp__act-04-model-hardware-standard-mhs-spike",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}
