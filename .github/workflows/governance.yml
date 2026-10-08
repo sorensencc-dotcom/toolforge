@@ -65,3 +65,22 @@ jobs:
             echo "$violations"
             exit 1
           fi
+
+  graft-freshness:
+    name: Graft context graph freshness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Graft CLI
+        run: npm install -g @nanonets/graft@latest
+
+      - name: Verify Graft Graph Freshness
+        run: graft check
+

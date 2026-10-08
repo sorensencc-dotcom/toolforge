@@ -118,6 +118,30 @@ signals:
     ratio: 0.997
     count: 954
 ---
+---
+ijfw_version: 1.3.2
+ijfw_schema: 1
+type: software
+primary_type: software
+secondary_types: []
+confidence: 0.907
+detected_at: 2026-07-24T05:04:20.927Z
+signals:
+  - kind: manifest
+    weight: 0.9
+    manifests: [package.json, package.json, package.json, package.json, package.json, package.json]
+  - kind: dir_design
+    weight: 0.4
+    name: assets
+  - kind: dir_design
+    weight: 0.4
+    name: design
+  - kind: file_extension_ratio
+    weight: 0.7
+    domain: software
+    ratio: 0.997
+    count: 954
+---
 # AGENTS.md
 
 This file follows the open AGENTS.md spec (https://agents.md/) and is the
@@ -138,6 +162,9 @@ yours -- IJFW will never touch it.
 
 <!-- IJFW-MEMORY-START -->
 Project memory at .ijfw/memory/. Call `ijfw_memory_prelude` for full context.
+
+Last handoff: <!-- TOOLFORGE-VAULT-POINTER-START -->
+# Persistent System Memory Pointer
 <!-- IJFW-MEMORY-END -->
 
 <!-- IJFW-ROUTING-START -->
