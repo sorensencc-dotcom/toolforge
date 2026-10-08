@@ -2,6 +2,39 @@
   "skills": [
     {
       "version": "1.0.0",
+      "description": "Aggregates active pull requests, recent landings, git worktrees, open backlog items, mobile ingress receipts, and daemon health into a structured report",
+      "timestamps": {
+        "created": "2026-10-08T18:55:00.0000000Z",
+        "lastValidation": "2026-10-08T18:55:00.0000000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "overview",
+        "status",
+        "dashboard",
+        "worktrees",
+        "pull-requests"
+      ],
+      "status": "active",
+      "name": "active-work-overview",
+      "runtime": "node",
+      "id": "active-work-overview",
+      "entrypoint": "skills/active-work-overview/src/overview.mjs",
+      "owner": "soren",
+      "category": "observability",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
       "description": "Project month-end token costs and identify high-spend adapters",
       "timestamps": {
         "created": "2026-07-08T18:45:49.9964781Z",
