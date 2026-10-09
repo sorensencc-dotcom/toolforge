@@ -15,7 +15,9 @@
 - Scoped Sigil discovery to root *.test.mjs, sigil/**/*.test.mjs, and tests/**/*.test.mjs. Kept dependency audit and the existing JCS validation. Added a 60-second process timeout around the test runner.
 - Added two executable fixture regressions: run all three owned test locations without copied governance suites, and fail when an owned Sigil test fails. Both reproduced the discovery defect before the workflow fix.
 - Validation: complete delivery-guard suite passed 96/96 with no skips; git diff --check passed.
-- Delivery: isolated main-based branch codex/fix-matrix-37297242249; next verify the pushed Governance job and manually dispatched five-repository matrix, then submit the scoped PR to main.
+- Delivery: commit 1fb2dec pushed on isolated main-based branch codex/fix-matrix-37297242249; [PR #108](https://github.com/sorensencc-dotcom/toolforge/pull/108) is open against main.
+- Remote evidence: [matrix run 37873116744](https://github.com/sorensencc-dotcom/toolforge/actions/runs/37873116744) passed all five repositories. Sigil executed 1610 tests: 1436 passed, 174 skipped, 0 failed, and 0 cancelled. Both push and PR Governance checks, secret scan, and AST audit passed. Devin reported a pass but skipped full review because its trial expired.
+- Session retrospective: .context/retros/2026-10-08-2.json. Next action: review and merge PR #108; main is not changed by this repair yet.
 
 ## Docs refresh outside docs/meta, open list (2026-10-06)
 
