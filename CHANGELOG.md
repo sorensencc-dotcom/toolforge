@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.85.6
+Date: 2026-10-09
+
+### Changes
+- bd41406 - fix: require production database credentials and fail UI image builds (#109) (Chris Sorensen)
+
 ## Version 2.85.5
 Date: 2026-10-09
 
