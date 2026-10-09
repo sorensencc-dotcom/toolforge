@@ -1,0 +1,19 @@
+{
+  "action_id": "act-01-scoped-filesystem-permission-harness",
+  "receipt_id": "rcpt-1791116915120-done-act-01-scoped-filesystem-permission-harness",
+  "source": "mobile-gemini-gdoc",
+  "intent": "scoped_filesystem_permission_harness",
+  "category": "RESEARCH",
+  "target_notebook": "TOOLFORGE",
+  "domain": "toolforge",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Action Completed: scoped_filesystem_permission_harness",
+  "completion_details": "Implemented Scoped Filesystem Permission Harness (scripts/scoped-filesystem-permission-harness.mjs), unit test suite with 6/6 passing tests (tests/scoped-filesystem-permission-harness.test.mjs), and RFC research document (wiki/research/rfc-scoped-filesystem-permission-harness.md).",
+  "issue_url": null,
+  "pr_url": null,
+  "research_ref": "wiki/research/rfc-scoped-filesystem-permission-harness.md",
+  "completed_at": "2026-10-04T19:25:00.000Z",
+  "dispatched_at": "2026-10-04T12:28:34.986Z",
+  "dryRun": false
+}

@@ -1,18 +1,12 @@
 {
-  "timestamp": "2026-10-03T16:38:32.816Z",
-  "elapsedMs": 798,
+  "timestamp": "2026-10-05T12:45:21.422Z",
+  "elapsedMs": 7804,
   "status": "HEALTHY",
-  "totalFiles": 437,
-  "indexedCount": 437,
-  "updatedCount": 0,
-  "skippedCount": 0,
-  "packWarnings": [
-    {
-      "file": ".nlm_pack/pack_master-kb.txt",
-      "sizeBytes": 3444616,
-      "warning": "Pack size 3363.9 KiB exceeds 380 KiB threshold; partition recommended before NLM upload"
-    }
-  ],
+  "totalFiles": 439,
+  "indexedCount": 11,
+  "updatedCount": 15,
+  "skippedCount": 413,
+  "packWarnings": [],
   "databasePath": ".kb_cache/knowledge_fts5.db",
-  "dryRun": true
+  "dryRun": false
 }

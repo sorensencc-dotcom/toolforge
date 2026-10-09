@@ -1,0 +1,21 @@
+{
+  "id": "act-01-lean-proof-verification-harness",
+  "parent_action_id": null,
+  "timestamp": "2026-10-07T124901Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "toolforge",
+  "target": "toolforge",
+  "action_type": "antigravity_triage",
+  "intent": "lean_proof_verification_harness",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-07T124901Z__action__toolforge__act-01-lean-proof-verification-harness",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-07T16:53:50.005Z",
+  "source_file": "2026-10-07T124901Z__action__toolforge__act-01-lean-proof-verification-harness.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-07T124901Z__action__toolforge__act-01-lean-proof-verification-harness.md.gdoc",
+    "gdoc_stem": "2026-10-07T124901Z__action__toolforge__act-01-lean-proof-verification-harness",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}

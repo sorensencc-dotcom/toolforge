@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791392030339-27x77",
+  "action_id": "act-02-benchmark-mistral-large-4-chonk",
+  "source": "mobile-gemini-gdoc",
+  "intent": "benchmark_mistral_large_4_chonk",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-07T124902Z__action__toolforge__act-02-benchmark-mistral-large-4-chonk",
+  "issue_url": null,
+  "target_notebook": "TOOLFORGE",
+  "dispatched_at": "2026-10-07T16:53:50.341Z",
+  "duration_ms": 106,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-02-benchmark-mistral-large-4-chonk.json",
+  "dryRun": false
+}

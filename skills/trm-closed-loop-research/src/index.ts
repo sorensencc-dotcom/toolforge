@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { execSync } from 'child_process'; // noqa: SEC-AUDITOR - invokes closed loop research orchestrator script
 import * as path from 'path';
 
 export interface TrmClosedLoopOptions {

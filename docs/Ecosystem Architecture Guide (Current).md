@@ -46,6 +46,16 @@ The knowledge plane is strictly partitioned into three independent domains to el
 | `rewrite-labs` | `140119ae-3496-45c9-bf0c-71c955136afc` | **Rewrite Labs** — SSG / redesign platform and public documentation engine. |
 | `dev-triage` | `cb0498ce-1ea5-4668-9f65-ac368753404e` | **Open Dev Issues** — CI/CD defect queue and operational telemetry buffer. |
 | `personal-os` | `9724e682-c5ea-4693-8e21-caf8de68611e` | **Personal OS** — Household operations, utility accounts, and Florida logistics. |
+| `kb-governance` | `b42534be-a208-437e-828e-dad645631c66` | **KB - Governance** — System charters, authority tiers, and ADRs. |
+| `kb-modules` | `096b5b92-55d0-44b2-b074-3b3fef0a0d12` | **KB - Modules** — Core libraries, component specs, and interfaces. |
+| `kb-skills` | `3ac216cc-3379-4c9f-8393-ab28a248cecc` | **KB - Skills** — Tool routing, MCP skills, and /why protocols. |
+| `kb-operations` | `1ab8f1a2-f066-4246-8489-75f223d5f9d2` | **KB - Operations** — Runbooks, telemetry monitors, and fleet management. |
+| `kb-meta` | `30f80cc0-80f7-421a-a79b-c510d98aaf94` | **KB - Meta** — Taxonomy schemas, sync states, and metadata specs. |
+| `kb-targets` | `0cab9d12-0f0e-4cc0-9009-69ec809fce4a` | **KB - Targets** — Roadmaps, sprint review goals, and strategic milestones. |
+| `kb-superpowers` | `95867d03-1175-4516-9b38-d95592b1a321` | **KB - Superpowers** — High-leverage operational automations and tools. |
+| `grok-bot` | `52332bef-552c-427a-afb5-8cc48e6f0079` | **Grok Bot Automation** — Grok mobile drops and ingress telemetry buffer. |
+| `ai-news` | `bec5a197-8256-4eba-af78-c4881cc28fdd` | **AI News and Tools** — Model releases, AI newsletters, and agent patterns. |
+| `toolforge-eco` | `39a71593-eb5b-4605-a4a4-f212ae010da2` | **Toolforge Ecosystem** — Toolforge scripts, CLI utilities, and feature ideas. |
 
 ---
 

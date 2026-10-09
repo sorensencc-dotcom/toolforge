@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: toolforge-api
+  labels:
+    app.kubernetes.io/name: toolforge-api
+    app.kubernetes.io/part-of: toolforge
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: toolforge-api

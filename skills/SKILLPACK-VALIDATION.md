@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-09-28T14:31:52.1575908Z
+**Generated**: 2026-10-07T20:03:00.6514899Z
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
-| Canonical | 0 | 3 | 0 | ✅ |
-| Distributed | 0 | 9 | 0 | ✅ |
-| Manifest | 0 | 102 | 0 | ✅ |
-| Cowork | 0 | 56 | 0 | ✅ |
+| Canonical | 0 | 4 | 0 | ✅ |
+| Distributed | 0 | 14 | 0 | ✅ |
+| Manifest | 0 | 111 | 0 | ✅ |
+| Cowork | 0 | 61 | 0 | ✅ |
 | Dependencies | 0 | 20 | 1 | ✅ |
-| Runtime | 0 | 0 | 56 | ✅ |
+| Runtime | 0 | 0 | 61 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 190
+**Total Warnings**: 210
 
 **Overall Status**: ✅ PASS
 
@@ -32,6 +32,7 @@
 | analyze-token-burn | Analyze Token Burn | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | ashfall | Ashfall | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | automation-audit | Automation Audit | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| benchmark-mistral-large-chonk | Benchmark Mistral Large Chonk | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | cic-consolidate-artifacts | CIC Consolidate Artifacts | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-ingest-world | CIC Ingest World | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-orchestrate-flow | CIC Orchestrate Flow | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -40,11 +41,14 @@
 | cic-run-gate | CIC Run Gate | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-section-summarizer | CIC Section Summarizer | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | context-manager | Context Manager | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| doc-sync-drift-audit | doc-sync-drift-audit | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| governance-matrix-validator | governance-matrix-validator | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | hook-validator | Hook Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | html-visual-verify | HTML Visual Verify | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | ironbots-fleet-status-monitor | Ironbots Fleet Status Monitor | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
 | kb-sync-artifact-generator | KB Sync Artifact Generator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | kb-sync-nightly | KB Sync Nightly | 1.0.2 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| lean-proof-verification-harness | Lean Proof Verification Harness | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | obsidian-ingest-wiki | Obsidian Wiki Ingest | 1.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | parallel-search | Parallel Search | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
@@ -78,6 +82,7 @@
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-self-healing | TRM Self Healing | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
+| usagecheck | Usage Check | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | wiki-governance-sync | Wiki Governance Sync | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
 | wiki-sync-recovery | Wiki Sync Recovery | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -88,6 +93,7 @@
 
 ## Canonical Validation
 
+⚠️ **benchmark-mistral-large-chonk**: Invalid category: testing
 ⚠️ **research-questions**: Unknown runtime: prompt
 ⚠️ **slop-grader-sweep**: Invalid category: docs-quality
 ⚠️ **toolforge-cli**: Invalid category: utility
@@ -95,14 +101,19 @@
 ## Distributed Validation
 
 ⚠️ **_cic-shared**: Entrypoint missing in distributed
+⚠️ **benchmark-mistral-large-chonk**: Directory missing in distributed
 ⚠️ **context-manager**: Category mismatch: canonical 'utilities', distributed 'utility'
+⚠️ **doc-sync-drift-audit**: SKILL.json missing in distributed
+⚠️ **governance-matrix-validator**: SKILL.json missing in distributed
 ⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
 ⚠️ **kb-sync-nightly**: Version mismatch: canonical 1.0.2, distributed 1.0.0
+⚠️ **lean-proof-verification-harness**: Directory missing in distributed
 ⚠️ **obsidian-ingest-wiki**: Version mismatch: canonical 1.1.0, distributed 1.0.0
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
+⚠️ **usagecheck**: Tags mismatch: canonical 'usage, rate-limit, claude-code, codex, grok, cross-cli', distributed ''
 
 ## Manifest Validation
 
@@ -116,6 +127,9 @@
 ⚠️ **automation-audit**: Description mismatch: canonical 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers, stale reports)', manifest 'Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers)'
 ⚠️ **automation-audit**: Path mismatch: expected 'skills/automation-audit', got ''
 ⚠️ **automation-audit**: Tags mismatch: canonical '', manifest 'automation, devops-audit, log-rotation, backup-retention'
+⚠️ **benchmark-mistral-large-chonk**: Description mismatch: canonical 'Evaluates Mistral Large 123B on large context buffers, multi-file AST refactoring, formal invariant synthesis, and cost arbitrage', manifest 'Benchmark and evaluation harness for Mistral Large on heavy codebase, large-context (chonk), and multi-file refactoring workloads'
+⚠️ **benchmark-mistral-large-chonk**: Invalid category in manifest: testing
+⚠️ **benchmark-mistral-large-chonk**: Path mismatch: expected 'skills/benchmark-mistral-large-chonk', got ''
 ⚠️ **cic-consolidate-artifacts**: Path mismatch: expected 'skills/cic-consolidate-artifacts', got ''
 ⚠️ **cic-consolidate-artifacts**: Tags mismatch: canonical '', manifest 'cic, governance, phase1'
 ⚠️ **cic-ingest-world**: Path mismatch: expected 'skills/cic-ingest-world', got ''
@@ -132,6 +146,10 @@
 ⚠️ **cic-section-summarizer**: Tags mismatch: canonical '', manifest 'analysis, roadmap, progress'
 ⚠️ **context-manager**: Path mismatch: expected 'skills/context-manager', got ''
 ⚠️ **context-manager**: Tags mismatch: canonical '', manifest 'session, autonomous, governance'
+⚠️ **doc-sync-drift-audit**: Path mismatch: expected 'skills/doc-sync-drift-audit', got ''
+⚠️ **doc-sync-drift-audit**: Runtime mismatch: canonical typescript, manifest node
+⚠️ **governance-matrix-validator**: Path mismatch: expected 'skills/governance-matrix-validator', got ''
+⚠️ **governance-matrix-validator**: Runtime mismatch: canonical typescript, manifest node
 ⚠️ **hook-validator**: Path mismatch: expected 'skills/hook-validator', got ''
 ⚠️ **hook-validator**: Tags mismatch: canonical '', manifest 'git-hooks, pre-commit, governance, installer-race'
 ⚠️ **html-visual-verify**: Path mismatch: expected 'skills/html-visual-verify', got ''
@@ -141,6 +159,7 @@
 ⚠️ **kb-sync-nightly**: Path mismatch: expected 'skills/kb-sync-nightly', got ''
 ⚠️ **kb-sync-nightly**: Runtime mismatch: canonical typescript, manifest bash
 ⚠️ **kb-sync-nightly**: Tags mismatch: canonical '', manifest ''
+⚠️ **lean-proof-verification-harness**: Path mismatch: expected 'skills/lean-proof-verification-harness', got ''
 ⚠️ **obsidian-ingest-wiki**: Path mismatch: expected 'skills/obsidian-ingest-wiki', got ''
 ⚠️ **obsidian-ingest-wiki**: Tags mismatch: canonical '', manifest 'obsidian, wiki, synthesis, lvm-pattern'
 ⚠️ **operator-image-build**: Path mismatch: expected 'skills/operator-image-build', got ''
@@ -201,6 +220,7 @@
 ⚠️ **trm-self-healing**: Tags mismatch: canonical '', manifest 'trm, self-healing, sigil, triage'
 ⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
 ⚠️ **trm-status**: Path mismatch: expected 'skills/trm-status', got ''
+⚠️ **usagecheck**: Path mismatch: expected 'skills/usagecheck', got ''
 ⚠️ **wiki-sync-recovery**: Path mismatch: expected 'skills/wiki-sync-recovery', got ''
 ⚠️ **wiki-sync-recovery**: Tags mismatch: canonical '', manifest 'wiki-sync-recovery, wiki, sync, recovery'
 ⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
@@ -216,6 +236,7 @@
 ⚠️ **analyze-token-burn**: Not registered (installer will register on next run)
 ⚠️ **ashfall**: Not registered (installer will register on next run)
 ⚠️ **automation-audit**: Not registered (installer will register on next run)
+⚠️ **benchmark-mistral-large-chonk**: Not registered (installer will register on next run)
 ⚠️ **cic-consolidate-artifacts**: Not registered (installer will register on next run)
 ⚠️ **cic-ingest-world**: Not registered (installer will register on next run)
 ⚠️ **cic-orchestrate-flow**: Not registered (installer will register on next run)
@@ -224,11 +245,14 @@
 ⚠️ **cic-run-gate**: Not registered (installer will register on next run)
 ⚠️ **cic-section-summarizer**: Not registered (installer will register on next run)
 ⚠️ **context-manager**: Not registered (installer will register on next run)
+⚠️ **doc-sync-drift-audit**: Not registered (installer will register on next run)
+⚠️ **governance-matrix-validator**: Not registered (installer will register on next run)
 ⚠️ **hook-validator**: Not registered (installer will register on next run)
 ⚠️ **html-visual-verify**: Not registered (installer will register on next run)
 ⚠️ **ironbots-fleet-status-monitor**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-artifact-generator**: Not registered (installer will register on next run)
 ⚠️ **kb-sync-nightly**: Not registered (installer will register on next run)
+⚠️ **lean-proof-verification-harness**: Not registered (installer will register on next run)
 ⚠️ **obsidian-ingest-wiki**: Not registered (installer will register on next run)
 ⚠️ **operator-image-build**: Not registered (installer will register on next run)
 ⚠️ **parallel-search**: Not registered (installer will register on next run)
@@ -262,6 +286,7 @@
 ⚠️ **trm-feedback-report**: Not registered (installer will register on next run)
 ⚠️ **trm-self-healing**: Not registered (installer will register on next run)
 ⚠️ **trm-status**: Not registered (installer will register on next run)
+⚠️ **usagecheck**: Not registered (installer will register on next run)
 ⚠️ **wiki-governance-sync**: Not registered (installer will register on next run)
 ⚠️ **wiki-sync-recovery**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
@@ -298,6 +323,7 @@
 ℹ️ **analyze-token-burn**: Skill inactive (status: )
 ℹ️ **ashfall**: Skill inactive (status: )
 ℹ️ **automation-audit**: Skill inactive (status: )
+ℹ️ **benchmark-mistral-large-chonk**: Skill inactive (status: )
 ℹ️ **cic-consolidate-artifacts**: Skill inactive (status: )
 ℹ️ **cic-ingest-world**: Skill inactive (status: )
 ℹ️ **cic-orchestrate-flow**: Skill inactive (status: )
@@ -306,11 +332,14 @@
 ℹ️ **cic-run-gate**: Skill inactive (status: )
 ℹ️ **cic-section-summarizer**: Skill inactive (status: )
 ℹ️ **context-manager**: Skill inactive (status: )
+ℹ️ **doc-sync-drift-audit**: Skill inactive (status: )
+ℹ️ **governance-matrix-validator**: Skill inactive (status: )
 ℹ️ **hook-validator**: Discoverable
 ℹ️ **html-visual-verify**: Discoverable
 ℹ️ **ironbots-fleet-status-monitor**: Skill inactive (status: )
 ℹ️ **kb-sync-artifact-generator**: Skill inactive (status: )
 ℹ️ **kb-sync-nightly**: Skill inactive (status: )
+ℹ️ **lean-proof-verification-harness**: Skill inactive (status: )
 ℹ️ **obsidian-ingest-wiki**: Skill inactive (status: )
 ℹ️ **operator-image-build**: Skill inactive (status: )
 ℹ️ **parallel-search**: Discoverable
@@ -344,6 +373,7 @@
 ℹ️ **trm-feedback-report**: Skill inactive (status: )
 ℹ️ **trm-self-healing**: Discoverable
 ℹ️ **trm-status**: Discoverable
+ℹ️ **usagecheck**: Skill inactive (status: )
 ℹ️ **wiki-governance-sync**: Skill inactive (status: )
 ℹ️ **wiki-sync-recovery**: Skill inactive (status: )
 ℹ️ **work-summarizer**: Skill inactive (status: )

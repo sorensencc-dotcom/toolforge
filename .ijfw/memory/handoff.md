@@ -63,3 +63,32 @@ Known Issues (not ours)
 - kb-sync pre-commit flagged `wiki/entities/sync-github-wiki.mjs.md` needs a sibling doc update.
 - Parallel Search and TinyFish skill writeups sit in the `C:\dev\wiki` quarantine.
 - Session ran several hours; retro not run for 2026-10-02 or 2026-10-03.
+
+Update 2026-10-04 (session ~2.6h, stopped per session-length rule)
+==================================================================
+Done
+- Task 8 shipped. toolforge PR #81 and kb-sync PR #31 both MERGED. Delivery-guard fix: `tests/doc-sync-toolforge-build.test.mjs` pairs with the `sync-github-wiki.mjs` change in the same commit.
+- Registry has 7 rows, all `enabled:false`. rewrite-mcp row dropped on purpose (generated dump, live wiki untouched; same as cic-ingestion). The markdown registry still lists a rewrite-mcp row; Task 11 restructures that table.
+- Live `C:\dev\kb-sync` (`feat/notebook-cluster-question-manifests`) contains origin/main and has `SUPPORTS_ID_PREFIX`.
+- `.wiki-sync-receipt.json` ignore is already on every repo's default branch. Nothing to do for Task 9 Step 5.
+- Seed branches already exist and are pushed, each one commit off default branch: icf `docs/icf-wiki-seed` (`c1b6073`), toolforge-marketplace `docs/marketplace-wiki-seed` (`20c3d8c`, 21 files, byte-identical to a fresh clone of live wiki `5c15009` minus wiki/, docs/, kb-sync/, trm-gap), helix `docs/helix-wiki-seed` (`ce31a5d`, Home, README, helix-architecture.html/.svg).
+
+Decisions (Chris)
+- helix-phase-8-authority-lock.md stays OFF the public wiki (names internal hosts). Also off: superpowers/, the draft, the 3 contract requests. icf-v1/sigil-v1/contracts README are "candidate" docs; not seeded.
+- Leave `C:\dev` on `parkd821-20260908`. No stash, reset, or switch. No fast-forward yet. TRM dry run and any live `docs:sync` wait for that.
+- Never commit on checked-out feature branches; seed from default branch in a new worktree under `C:\dev\.worktrees\`.
+
+Open / needs Chris
+1. helix seed gaps (found, not fixed): the seed omits live `_Sidebar.md` and `_Footer.md`, so the first mirror run deletes them. Home.md also links `contracts/README` and `superpowers/*`, which are excluded, so those become dead links. Fix = add `_Sidebar.md` and `_Footer.md` to the seed and trim those Home.md lines. Needs go-ahead: it edits content beyond a straight copy.
+2. toolforge-marketplace seed is the Toolforge Platform wiki's top-level pages ("Toolforge Platform" Home, whichllm topology image, OLLAMA guides), not marketplace-specific content. The registry's "23 curated pages" note was wrong. Chris reviews the deletion list (wiki/ 372, docs/ 183, kb-sync/ 2, trm-gap-triage-architecture.*) before anything live.
+3. Seed PRs for icf, marketplace, helix are not opened.
+4. `C:\dev` fast-forward onto merged main, then Task 9 Step 1 (trm dry run). Step 0 questions: what removed 8 `.trm/inbox/outbox/receipt-*` files in the `C:\dev` working tree.
+5. icf default branch is `origin/codex/weekly-retro-reporting`, not main. Confirm before merging seed there.
+6. Still unrun for 2026-10-02 and 2026-10-04: retro.
+
+Update 2026-10-04 (later)
+-------------------------
+- helix seed fixed + pushed: `docs/helix-wiki-seed` `a430d74` (added `_Sidebar.md`/`_Footer.md`, removed 5 dead Home.md links). No PR yet. Leftover: `wiki/README.md` has 5 repo-relative `docs/superpowers|contracts` links (already dead live); trim only if Chris asks.
+- marketplace seed `docs/marketplace-wiki-seed` (`20c3d8c`): Chris says do NOT open a PR. Seed is the Toolforge Platform wiki, so the deletion list is not ready. Needs a real marketplace page set first.
+- icf seed already merged as #3 onto `codex/weekly-retro-reporting` (default). Item 5 above is closed.
+- `C:\dev` stays parked on `parkd821-20260908`; trm dry run and live docs:sync wait.

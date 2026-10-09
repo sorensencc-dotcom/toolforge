@@ -1,14 +1,25 @@
 {
-  "timestamp": "2026-10-03T16:38:24.897Z",
-  "elapsedMs": 13,
+  "timestamp": "2026-10-07T20:14:52.917Z",
+  "elapsedMs": 4,
   "totalGaps": 0,
   "pending": 0,
   "drafted": 0,
   "resolved": 0,
   "triagedCount": 0,
+  "costMetrics": {
+    "totalCostUsd": 0,
+    "totalSavingsUsd": 0,
+    "frontierBaselineModel": "anthropic/claude-3-5-sonnet"
+  },
   "routing": {
     "tier1Count": 0,
     "tier2Count": 0,
+    "tierDistribution": {
+      "tier_0_local": 0,
+      "tier_0_5_freellmapi": 0,
+      "tier_1_muscle": 0,
+      "tier_2_frontier": 0
+    },
     "avgRoutingLatencyMs": 0
   },
   "generatedRfcs": [],

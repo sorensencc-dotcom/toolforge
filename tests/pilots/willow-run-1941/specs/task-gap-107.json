@@ -1,24 +1,24 @@
 {
   "specVersion": "research.task.v1",
   "taskId": "TASK-CIC-GAP-107",
-  "idempotencyKey": "cic-wr-gap-contract-107",
+  "idempotencyKey": "cic-wr-gap-volume-107",
   "sourceTargets": [
     {
-      "sourceId": "src-wpb-report-1942",
-      "sourceRevision": "sha256:3881dc5969d508c37512170fbd7683c3e5f821e786cb7faec961598c6946161f",
+      "sourceId": "src-army-air-force-contract-1941-06",
+      "sourceRevision": "sha256:685d9cc103f5491746e7f72c333d0b78221dcbe5b298fb6603cf0265bc08072a",
       "span": {
-        "start": 750,
-        "end": 904
+        "start": 560,
+        "end": 701
       }
     }
   ],
-  "exactQuestion": "What official War Department contract number governed the Willow Run tooling schedule submissions?",
-  "subject": "War Department / Ford Motor Company Contract",
+  "exactQuestion": "What target monthly production volume was mandated by AAF Materiel Command for Willow Run?",
+  "subject": "Army Air Force Materiel Command Volume Target",
   "evidenceType": "fact",
   "outputContract": "candidate.fact.v1",
   "approvalRequired": true,
   "provenanceGap": {
-    "triggeredByFactKey": "fact-cic-wr-gap-production_volume_discrepancy-102",
-    "gapType": "contract_revision"
+    "triggeredByFactKey": "fact-cic-wr-gap-parameter_specification-101",
+    "gapType": "production_volume_discrepancy"
   }
 }

@@ -185,10 +185,18 @@ export async function runDailyMiningPipeline(options = {}) {
       } catch (e) {
         logWarn(`  Could not query existing sources for notebook ${targetUuid}: ${e.message}`);
       }
+      // Filter existing sources for previous versions of this pack or legacy monolithic packs
+      const packStem = packBaseName.replace(/\.txt$/, '').toLowerCase();
+      const staleSources = existingSources.filter(s => {
+        const name = (s.title || s.name || '').toLowerCase();
+        return name.includes(packStem) ||
+               name.includes('repo_knowledge_pack') ||
+               (packStem.startsWith('pack_master_kb') && (name.includes('pack_master_kb') || name.includes('cic-kb pack')));
+      });
 
       // Pre-upload deduplication sweep: prune prior instances of this pack before uploading
       if (staleSources.length > 0) {
-        logInfo(`  Pruning ${staleSources.length} stale previous version(s) of ${packBaseName} before upload...`);
+        logInfo(`  Pruning ${staleSources.length} stale previous version(s) before upload...`);
         for (const stale of staleSources) {
           try {
             execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });

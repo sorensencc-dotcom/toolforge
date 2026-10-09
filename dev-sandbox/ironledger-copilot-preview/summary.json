@@ -1,0 +1,94 @@
+{
+  "source_sha256": "f9a7f11b62f5f784d372033f1f06225f588f528a74163946f49aced18527e860",
+  "export_rows": 5992,
+  "snapshot_transactions": 1012,
+  "match_counts": {
+    "unmatched_in_coverage": 2119,
+    "pending_export": 28,
+    "outside_account_coverage": 3239,
+    "exact_date_merchant": 215,
+    "date_window_merchant": 237,
+    "ambiguous_targets": 3,
+    "amount_date_only_review": 19,
+    "duplicate_export_review": 132
+  },
+  "category_actions": {
+    "match_review_first": 5540,
+    "transfer_income_review": 79,
+    "preserve_compatible_detail": 315,
+    "broad_category_manual_review": 22,
+    "category_conflict_review": 21,
+    "budget_exclusion_review": 9,
+    "needs_subcategory_review": 6
+  },
+  "provisional_account_map": {
+    "American Express Gold Card": [
+      "Liabilities:CreditCard:AmexGold",
+      1
+    ],
+    "Blue from American Express": [
+      "Liabilities:CreditCard:AmexBlue",
+      1
+    ],
+    "Bonvoy Amex Card": [
+      "Liabilities:CreditCard:AmexBonvoy",
+      1
+    ],
+    "Delta SkyMiles\u00ae Gold Card": [
+      "Liabilities:CreditCard:AmexDeltaSkyMiles",
+      1
+    ],
+    "Hilton Honors Aspire Card": [
+      "Liabilities:CreditCard:AmexHiltonAspire",
+      1
+    ],
+    "Marriott Bonvoy\u00ae Boundless Credit Card": [
+      "Liabilities:CreditCard:ChaseMarriott",
+      -1
+    ],
+    "One Deposit Checking": [
+      "Assets:Citizens:Checking",
+      -1
+    ],
+    "Southwest Rapid Rewards\u00ae Priority Credit Card": [
+      "Liabilities:CreditCard:ChaseRapidRewards",
+      -1
+    ],
+    "Ultimate Rewards\u00ae": [
+      "Liabilities:CreditCard:ChaseFreedom",
+      -1
+    ],
+    "World of Hyatt Credit Card": [
+      "Liabilities:CreditCard:ChaseWorldOfHyatt",
+      -1
+    ],
+    "Apple Card": [
+      "Liabilities:CreditCard:AppleCard",
+      1
+    ],
+    "Apple\u00a0Card": [
+      "Liabilities:CreditCard:AppleCard",
+      1
+    ],
+    "Apple Cash": [
+      "Assets:Apple:Cash",
+      -1
+    ],
+    "Apple\u00a0Cash": [
+      "Assets:Apple:Cash",
+      -1
+    ],
+    "Savings": [
+      "Assets:Apple:Savings",
+      -1
+    ]
+  },
+  "unmapped_accounts": [],
+  "assumptions": [
+    "No currency in export: USD compared only to USD 2-decimal imported legs",
+    "Account mappings and per-account signs are provisional, based on names/date-amount overlap",
+    "Merchant token overlap is preview evidence, not identity proof",
+    "Excluded is budget metadata, not permission to discard income/transfers",
+    "No live writes or new financial transactions"
+  ]
+}

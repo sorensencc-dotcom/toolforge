@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 # Canonical pre-commit shim installed by both repository hook installers.
+if [ -f "tests/verify-ledger.test.mjs" ] && [ -f "scripts/verify-ledger.mjs" ]; then
+  node --test tests/verify-ledger.test.mjs || { echo "[Pre-Commit Blocked] IronLedger seam tests failed."; exit 1; }
+  node scripts/verify-ledger.mjs --all || { echo "[Pre-Commit Blocked] IronLedger invariant harness failed."; exit 1; }
+fi
+
 if [ -f "CIC-GOVERNANCE/scripts/governance-validate-precommit.sh" ]; then
   bash CIC-GOVERNANCE/scripts/governance-validate-precommit.sh || exit 1
 elif [ -f "scripts/governance-validate-precommit.sh" ]; then

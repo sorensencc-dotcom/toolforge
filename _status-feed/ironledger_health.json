@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-10-03T16:45:54.482Z",
-  "elapsedMs": 9244,
-  "status": "ALERT_COOLDOWN",
+  "timestamp": "2026-10-05T12:45:47.868Z",
+  "elapsedMs": 42680,
+  "status": "RECOVERED",
   "workbench": {
     "targetUrl": "http://127.0.0.1:8000",
-    "uiOk": false,
-    "healthzOk": false,
-    "readyzOk": false,
-    "version": "unknown",
+    "uiOk": true,
+    "healthzOk": true,
+    "readyzOk": true,
+    "version": "0.15.0",
     "container": {
       "found": true,
       "id": "3f05f587153b",
       "image": "ironledger-ironledger",
-      "status": "Up 22 hours (healthy)",
+      "status": "Up 2 days (healthy)",
       "state": "running",
       "ports": "0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp",
       "running": true,
@@ -21,9 +21,9 @@
   },
   "database": {
     "exists": true,
-    "sizeBytes": 27009024,
-    "walExists": true,
-    "walSizeBytes": 148352,
+    "sizeBytes": 27336704,
+    "walExists": false,
+    "walSizeBytes": 0,
     "status": "VALID",
     "error": null
   },
@@ -32,34 +32,21 @@
     "failures": []
   },
   "scheduledSyncs": {
-    "status": "HEALTHY",
-    "taskCount": 4,
-    "tasks": [
-      {
-        "name": "IronLedger-Bank-Sync",
-        "state": "Ready"
-      },
-      {
-        "name": "IronLedger-PriceFeed-Sync",
-        "state": "Ready"
-      },
-      {
-        "name": "IronLedger-Receipt-Sync",
-        "state": "Ready"
-      },
-      {
-        "name": "IronLedger-Sentinel",
-        "state": "Running"
-      }
+    "status": "DEGRADED",
+    "taskCount": 0,
+    "tasks": [],
+    "missingTasks": [
+      "IronLedger-Bank-Sync",
+      "IronLedger-PriceFeed-Sync",
+      "IronLedger-Receipt-Sync"
     ],
-    "missingTasks": [],
-    "error": null
+    "error": "spawnSync powershell.exe ETIMEDOUT"
   },
-  "healed": false,
-  "healAction": null,
-  "consecutiveHeals": 3,
-  "thrashCooldownActive": true,
-  "lastCooldownTime": "2026-10-03T16:45:54.480Z",
+  "healed": true,
+  "healAction": "docker compose up -d executed",
+  "consecutiveHeals": 1,
+  "thrashCooldownActive": false,
+  "lastCooldownTime": null,
   "dryRun": false,
   "checkOnly": false
 }

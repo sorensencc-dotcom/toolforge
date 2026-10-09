@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: toolforge-api-config
+  labels:
+    app.kubernetes.io/name: toolforge-api
+    app.kubernetes.io/part-of: toolforge
+data:
+  NODE_ENV: "production"
+  PORT: "3000"

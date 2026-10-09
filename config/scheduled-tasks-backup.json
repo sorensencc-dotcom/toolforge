@@ -1,0 +1,308 @@
+[
+  {
+    "TaskName": "CIC-Daily-Status",
+    "TaskPath": "\\CIC\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\soren\\OneDrive\\Documents\\Claude\\Projects\\CIC\\scripts\\Run-DailyStatus.ps1\" -OutHtml \"C:\\Users\\soren\\OneDrive\\Documents\\Claude\\Projects\\CIC\\CIC_Daily_Status.html\"",
+    "WorkingDir": null,
+    "LogonType": 2,
+    "TimeLimit": "PT72H"
+  },
+  {
+    "TaskName": "CIC-ImageBuild-Daily",
+    "TaskPath": "\\CIC\\",
+    "Execute": "pwsh",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\tasks\\operator-image-build-task.ps1\"",
+    "WorkingDir": null,
+    "LogonType": 2,
+    "TimeLimit": "PT1H"
+  },
+  {
+    "TaskName": "CIC-Mirror-ClaudeMemory",
+    "TaskPath": "\\CIC\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\soren\\OneDrive\\Documents\\Claude\\Projects\\CIC\\scripts\\Mirror-ClaudeMemory.ps1\"",
+    "WorkingDir": null,
+    "LogonType": 2,
+    "TimeLimit": "PT72H"
+  },
+  {
+    "TaskName": "CIC-Nightly-Notebook-Mining",
+    "TaskPath": "\\CIC\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\scripts\\run-daily-notebook-mining.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "CIC-Vault-Sync-rl",
+    "TaskPath": "\\CIC\\",
+    "Execute": "powershell.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\sync-vault.ps1\" -System rl -Verbose",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 2,
+    "TimeLimit": "PT72H"
+  },
+  {
+    "TaskName": "CIC-WhichLLM-Weekly-Sweep",
+    "TaskPath": "\\CIC\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\CIC-GOVERNANCE\\scripts\\Run-WhichLLM-WeeklySweep.ps1\"",
+    "WorkingDir": null,
+    "LogonType": 2,
+    "TimeLimit": "PT72H"
+  },
+  {
+    "TaskName": "Dashboard-Canary-Monitor",
+    "TaskPath": "\\Claude\\",
+    "Execute": "powershell.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\tools\\dashboard-canary.ps1\"",
+    "WorkingDir": null,
+    "LogonType": 2,
+    "TimeLimit": "PT72H"
+  },
+  {
+    "TaskName": "HelixDaemon",
+    "TaskPath": "\\Helix\\",
+    "Execute": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "Arguments": "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\helix\\scripts\\start-helix-daemon.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 2,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "IronBot-TaskMonitor",
+    "TaskPath": "\\IronBot\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\kb-sync\\scripts\\ironbot\\ironbot-task-monitor.ps1\"",
+    "WorkingDir": "C:\\dev\\kb-sync",
+    "LogonType": 3,
+    "TimeLimit": "PT72H"
+  },
+  {
+    "TaskName": "CI-Watchdog",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\ci-watchdog-bot.mjs 1>> 'C:\\dev\\logs\\ci-watchdog-bot.stdout.log' 2>> 'C:\\dev\\logs\\ci-watchdog-bot.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "Daemon-Healer",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\daemon-healer-bot.mjs 1>> 'C:\\dev\\logs\\daemon-healer-bot.stdout.log' 2>> 'C:\\dev\\logs\\daemon-healer-bot.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "Ironbots-Reporter",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\ironbots-daily-reporter.mjs 1>> 'C:\\dev\\logs\\ironbots-reporter.stdout.log' 2>> 'C:\\dev\\logs\\ironbots-reporter.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "IronLedger-Sentinel",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\ironledger-sentinel-bot.mjs 1>> 'C:\\dev\\logs\\ironledger-sentinel-bot.stdout.log' 2>> 'C:\\dev\\logs\\ironledger-sentinel-bot.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT10M"
+  },
+  {
+    "TaskName": "KB-Sentinel",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\kb-sentinel-bot.mjs 1>> 'C:\\dev\\logs\\kb-sentinel-bot.stdout.log' 2>> 'C:\\dev\\logs\\kb-sentinel-bot.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "Notebook-Ingester",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\notebook-ingester-bot.mjs 1>> 'C:\\dev\\logs\\notebook-ingester-bot.stdout.log' 2>> 'C:\\dev\\logs\\notebook-ingester-bot.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "Storage-Pruner",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\storage-pruner.mjs 1>> 'C:\\dev\\logs\\storage-pruner.stdout.log' 2>> 'C:\\dev\\logs\\storage-pruner.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "TRM-Bot",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\trm-bot-runner.mjs 1>> 'C:\\dev\\logs\\trm-bot-runner.stdout.log' 2>> 'C:\\dev\\logs\\trm-bot-runner.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "TRM-Drive-Sync",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\kb-sync\\scripts\\schedule-task-wrapper-TRM-Drive-Sync.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "Watchlist-Miner",
+    "TaskPath": "\\Ironbots\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'node.exe' C:\\dev\\scripts\\watchlist-miner-bot.mjs 1>> 'C:\\dev\\logs\\watchlist-miner-bot.stdout.log' 2>> 'C:\\dev\\logs\\watchlist-miner-bot.stderr.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "KB-Sync-Dashboard-Server",
+    "TaskPath": "\\KB-SYNC\\",
+    "Execute": "powershell.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\kb-sync\\scripts\\ensure-dashboard-server.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 2,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "KB-Sync-Master-Pipeline",
+    "TaskPath": "\\KB-SYNC\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\kb-sync\\scripts\\schedule-task-wrapper-KB-Sync-Master.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "KB-Sync-TRM-Triage",
+    "TaskPath": "\\KB-SYNC\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\kb-sync\\scripts\\schedule-task-wrapper-TRM-Triage.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "RewriteLabsDailyBackup",
+    "TaskPath": "\\RewriteLabs\\",
+    "Execute": "powershell.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -File \"C:\\Users\\soren\\rewritelabs.io\\backup\\backup.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "SigilMeshDaemon",
+    "TaskPath": "\\Sigil\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -WindowStyle Hidden -File \"C:\\dev\\scripts\\run-sigil-daemon.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 2,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "Daily-Roadmap-Sync",
+    "TaskPath": "\\toolforge\\",
+    "Execute": "node.exe",
+    "Arguments": "C:\\dev\\sync-tools\\multiRepoRoadmapSync.cjs",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "Toolforge-CI-Nightly",
+    "TaskPath": "\\toolforge\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -File \"C:\\dev\\ci-pipeline.ps1\" -Verbose",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "toolforge-daily-report-agent",
+    "TaskPath": "\\toolforge\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\scripts\\daily-report-agent.ps1\" -RepoRoot \"C:\\dev\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "Toolforge-Drift-Detector",
+    "TaskPath": "\\toolforge\\",
+    "Execute": "powershell.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"& 'C:\\dev\\utilities\\toolforgeDriftDetector.ps1' -AutoFix; exit 0\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "toolforge-retro-audit-agent",
+    "TaskPath": "\\toolforge\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\scripts\\retro-audit-agent.ps1\" -RepoRoot \"C:\\dev\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "toolforge-weekly-report-agent",
+    "TaskPath": "\\toolforge\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\dev\\scripts\\run-weekly-retro.ps1\" -RepoRoot \"C:\\dev\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "CIC-TRM-ClosedLoop-Nightly-Miner",
+    "TaskPath": "\\TRM\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"node scripts/run-sibling-check-v2.mjs --mode=check; node scripts/consolidate-pack.mjs --category=willow-run *>> 'C:\\dev\\logs\\trm-miner-scheduled.log'\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 3,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "toolforge-trm-sync-treatment",
+    "TaskPath": "\\TRM\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\scripts\\trm-sync-treatment-agent.ps1\"",
+    "WorkingDir": "C:\\dev",
+    "LogonType": 2,
+    "TimeLimit": "PT1H"
+  },
+  {
+    "TaskName": "TRM-Notebooklm-Chat-Archive",
+    "TaskPath": "\\TRM\\",
+    "Execute": "pwsh.exe",
+    "Arguments": "-NonInteractive -NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\trm\\schedule-task-wrapper-TRM-Notebooklm-Chat-Archive.ps1\"",
+    "WorkingDir": "C:\\dev\\trm",
+    "LogonType": 2,
+    "TimeLimit": "PT2H"
+  },
+  {
+    "TaskName": "TRM-Notebooklm-Mine",
+    "TaskPath": "\\TRM\\",
+    "Execute": "powershell.exe",
+    "Arguments": "-NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\trm\\schedule-task-wrapper-TRM-Notebooklm-Mine.ps1\"",
+    "WorkingDir": null,
+    "LogonType": 2,
+    "TimeLimit": "PT72H"
+  }
+]

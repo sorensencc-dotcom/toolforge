@@ -59,63 +59,16 @@ $date = Get-Date -Format 'yyyy-MM-dd'
 $logFile = Join-Path $LogDir "retro-$stamp.log"
 $runFile = Join-Path $OutputDir "retro-$date.json"
 $latestFile = Join-Path $OutputDir 'latest-weekly-retro.json'
-$rawFile = Join-Path $OutputDir "retro-$date.raw.json"
-$publisher = 'C:\dev\icf\scripts\publish-weekly-retro-artifact.mjs'
+$compiler = Join-Path $RepoRoot 'scripts\compile-weekly-retro.mjs'
 
 Push-Location $RepoRoot
 try {
-    $output = @(& $RunnerExe @RunnerArgs 2>&1)
-    $exitCode = if ($null -eq $LASTEXITCODE) { 0 } else { $LASTEXITCODE }
-    $output | Tee-Object -FilePath $logFile | Out-Host
-    if ($exitCode -ne 0) { throw "Retro runner failed with exit code $exitCode. See $logFile" }
-
-    $rawJson = ($output | ForEach-Object { [string]$_ }) -join "`n"
-    $jsonPayload = Get-JsonPayload -Text $rawJson
-    try {
-        $retro = $jsonPayload | ConvertFrom-Json -ErrorAction Stop
-    } catch {
-        # /retro may intentionally skip duplicate work and point to the last
-        # valid snapshot instead of emitting JSON. Reuse that snapshot safely.
-        if ($rawJson -match '(?i)(\.context[\\/]retros[\\/][^\s`"''<>]+\.json)') {
-            $existingPath = Join-Path $RepoRoot ($Matches[1] -replace '/', '\\')
-            if (Test-Path -LiteralPath $existingPath -PathType Leaf) {
-                try { $retro = Get-Content -Raw -LiteralPath $existingPath | ConvertFrom-Json -ErrorAction Stop }
-                catch { throw "Referenced retro snapshot is invalid: $existingPath. See $logFile" }
-            } else {
-                throw "Retro runner referenced missing snapshot: $existingPath. See $logFile"
-            }
-        } else {
-            $retroCandidates = Get-ChildItem -LiteralPath (Join-Path $RepoRoot '.context\retros') -Filter '*.json' -File -ErrorAction SilentlyContinue |
-                Sort-Object LastWriteTime -Descending
-            foreach ($candidate in $retroCandidates) {
-                try {
-                    $candidateRetro = Get-Content -Raw -LiteralPath $candidate.FullName | ConvertFrom-Json -ErrorAction Stop
-                    if ($null -ne $candidateRetro.metrics) { $retro = $candidateRetro; break }
-                } catch { continue }
-            }
-            if ($null -eq $retro) {
-                throw "Retro runner did not emit JSON and no valid snapshot was found. See $logFile"
-            }
-        }
+    Write-Output "[$stamp] Compiling deterministic weekly retro for $date..." | Tee-Object -FilePath $logFile
+    & node $compiler --date $date | Tee-Object -FilePath $logFile -Append
+    if ($LASTEXITCODE -ne 0) {
+        throw "Weekly retro compilation failed with exit code $LASTEXITCODE. See $logFile"
     }
-    if ($null -eq $retro.metrics) { throw 'Retro JSON is missing required top-level property: metrics' }
-    if ($null -eq $retro.metrics.loc_per_session_hour -and $retro.metrics.sessions -gt 0 -and $retro.metrics.avg_session_minutes -gt 0) {
-        $retro.metrics | Add-Member -NotePropertyName loc_per_session_hour -NotePropertyValue ([math]::Round($retro.metrics.logical_sloc_added / ($retro.metrics.sessions * $retro.metrics.avg_session_minutes / 60), 2))
-    }
-
-    Write-AtomicJsonArtifact -Path $rawFile -Value $retro
-    $publishArgs = @($publisher, '--report', $rawFile, '--run', $runFile, '--latest', $latestFile)
-    if ($ProjectionPath) {
-        if (-not (Test-Path -LiteralPath $ProjectionPath -PathType Leaf)) {
-            throw "Projection sidecar not found: $ProjectionPath"
-        }
-        $publishArgs += @('--projection', $ProjectionPath)
-    }
-    & node @publishArgs
-    if ($LASTEXITCODE -ne 0) { throw "ICF artifact publication failed with exit code $LASTEXITCODE. See $logFile" }
-    Write-Output "Weekly retro published: $runFile"
-    Write-Output "Latest weekly retro updated: $latestFile"
+    Write-Output "Weekly retro successfully compiled and published." | Tee-Object -FilePath $logFile -Append
 } finally {
-    if (Test-Path -LiteralPath $rawFile) { Remove-Item -LiteralPath $rawFile -Force }
     Pop-Location
 }

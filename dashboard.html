@@ -774,7 +774,7 @@
     </button>
     <button type="button" class="tab-btn" id="btn-tab-skills" onclick="switchTab('tab-skills')">
       <span>10. Toolforge Skills</span>
-      <span class="tag date" id="tabSkillsBadge">43 Registered</span>
+      <span class="tag date" id="tabSkillsBadge">56 Registered</span>
     </button>
     <button type="button" class="tab-btn" id="btn-tab-history" onclick="switchTab('tab-history')">
       <span>11. Execution History &amp; Errors</span>
@@ -2543,21 +2543,21 @@ flowchart TD
     <div class="grid-metrics">
       <div>
         <div class="stat-block">
-          <div class="stat-number" id="skTotalCount">43</div>
+          <div class="stat-number" id="skTotalCount">56</div>
           <div class="stat-label">Total Skills</div>
         </div>
         <div class="stat-sub">Manifest v1.0.0</div>
       </div>
       <div>
         <div class="stat-block">
-          <div class="stat-number" id="skActiveCount" style="color: #5a9e6f;">43</div>
+          <div class="stat-number" id="skActiveCount" style="color: #5a9e6f;">56</div>
           <div class="stat-label">Active Skills</div>
         </div>
         <div class="stat-sub">100% Operational</div>
       </div>
       <div>
         <div class="stat-block">
-          <div class="stat-number" id="skCategoriesCount" style="color: var(--brass);">12</div>
+          <div class="stat-number" id="skCategoriesCount" style="color: var(--brass);">18</div>
           <div class="stat-label">Skill Categories</div>
         </div>
         <div class="stat-sub">Distributed Across Toolforge</div>
@@ -2848,39 +2848,54 @@ flowchart TD
   }
 
   async function loadDailyStatus() {
-    try {
-      const res = await fetch('daily_status.json', { cache: 'no-store' });
-      if (res.ok) {
-        const data = await res.json();
-        const tsStr = data.timestamp || data.generated_at;
-        if (tsStr) {
-          const ts = new Date(tsStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          const repEl = document.getElementById('reportTimestamp');
-          if (repEl) repEl.textContent = `SYNCED AT ${ts}`;
+    const candidateUrls = [
+      'daily_status.json',
+      '/daily_status.json',
+      '_status-feed/daily_status.json',
+      '/_status-feed/daily_status.json',
+      '/modules/wiki/daily_status.json',
+      '../../_status-feed/daily_status.json',
+      '../_status-feed/daily_status.json'
+    ];
+
+    let data = null;
+    for (const url of candidateUrls) {
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (res.ok) {
+          data = await res.json();
+          break;
         }
-        if (data.trm_intelligence) {
-          currentTrmData = data.trm_intelligence;
-          currentPipelineData = data.trm_pipeline || null;
-          renderTrmIntelligence(data.trm_intelligence, data.trm_pipeline);
+      } catch {}
+    }
+
+    if (data) {
+      const tsStr = data.timestamp || data.generated_at;
+      if (tsStr) {
+        const ts = new Date(tsStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const repEl = document.getElementById('reportTimestamp');
+        if (repEl) repEl.textContent = `SYNCED AT ${ts}`;
+      }
+      if (data.trm_intelligence) {
+        currentTrmData = data.trm_intelligence;
+        currentPipelineData = data.trm_pipeline || null;
+        renderTrmIntelligence(data.trm_intelligence, data.trm_pipeline);
+      }
+      if (data.todos) {
+        renderTodos(data.todos);
+      }
+      if (data.jev_runtime) {
+        const jev = data.jev_runtime;
+        const jevStatEl = document.getElementById('jevRuntimeStatus');
+        const jevRedEl = document.getElementById('jevCompactionReduction');
+        if (jevStatEl) {
+          const p50 = jev.p50_latency_ms ? `${jev.p50_latency_ms}ms` : 'sub-100ms';
+          jevStatEl.innerHTML = `<span class="status-badge live">● ${p50} p50 (${jev.resident_weights || 'Ollama'})</span>`;
         }
-        if (data.todos) {
-          renderTodos(data.todos);
-        }
-        if (data.jev_runtime) {
-          const jev = data.jev_runtime;
-          const jevStatEl = document.getElementById('jevRuntimeStatus');
-          const jevRedEl = document.getElementById('jevCompactionReduction');
-          if (jevStatEl) {
-            const p50 = jev.p50_latency_ms ? `${jev.p50_latency_ms}ms` : 'sub-100ms';
-            jevStatEl.innerHTML = `<span class="status-badge live">● ${p50} p50 (${jev.resident_weights || 'Ollama'})</span>`;
-          }
-          if (jevRedEl && jev.token_reduction_pct !== undefined) {
-            jevRedEl.textContent = `${jev.token_reduction_pct}% reduction`;
-          }
+        if (jevRedEl && jev.token_reduction_pct !== undefined) {
+          jevRedEl.textContent = `${jev.token_reduction_pct}% reduction`;
         }
       }
-    } catch (e) {
-      console.log('Using default telemetry state', e);
     }
   }
 
@@ -2906,7 +2921,7 @@ flowchart TD
     }).join('');
   }
 
-  function renderTrmIntelligence(trm, pipeline) {
+  function renderTrmIntelligence(trm, pipeline, activeDate) {
     if (!trm) return;
 
     // 1. KPIs
@@ -2940,21 +2955,30 @@ flowchart TD
     // 2. History Dates Selector
     if (trm.history_dates && trm.history_dates.length > 0) {
       currentTrmHistoryDates = trm.history_dates;
+    }
+    if (currentTrmHistoryDates && currentTrmHistoryDates.length > 0) {
       const historySelect = document.getElementById('trmHistoryDateSelector');
       if (historySelect) {
-        historySelect.innerHTML = trm.history_dates.map((d, i) => `
-          <option value="${d}" ${i === 0 ? 'selected' : ''}>${d} ${i === 0 ? '(Latest Snapshot)' : ''}</option>
+        const selectedDate = activeDate || historySelect.value || currentTrmHistoryDates[0];
+        historySelect.innerHTML = currentTrmHistoryDates.map((d, i) => `
+          <option value="${d}" ${d === selectedDate ? 'selected' : ''}>${d} ${i === 0 ? '(Latest Snapshot)' : ''}</option>
         `).join('');
+        historySelect.value = selectedDate;
       }
     }
 
-    // 3. Notebook Selector Population (if not populated)
-    if (trm.notebooks && trm.notebooks.length > 0) {
+    // 3. Notebook Selector Population
+    const notebookList = trm.notebooks || (trm.notebook_findings ? Object.entries(trm.notebook_findings).map(([id, f]) => ({ id, title: f.title || id })) : []);
+    if (notebookList.length > 0) {
       const nbSelect = document.getElementById('trmNotebookSelector');
       if (nbSelect) {
-        nbSelect.innerHTML = trm.notebooks.map(nb => `
+        if (!selectedTrmNotebookId || !notebookList.some(nb => nb.id === selectedTrmNotebookId)) {
+          selectedTrmNotebookId = notebookList[0].id;
+        }
+        nbSelect.innerHTML = notebookList.map(nb => `
           <option value="${nb.id}" ${nb.id === selectedTrmNotebookId ? 'selected' : ''}>${escapeHtml(nb.title || nb.id)} (${nb.id.substring(0, 8)}...)</option>
         `).join('');
+        nbSelect.value = selectedTrmNotebookId;
       }
     }
 
@@ -3039,12 +3063,72 @@ flowchart TD
     const titleEl = document.getElementById('trmSelectedNotebookTitle');
     const metaEl = document.getElementById('trmNotebookMeta');
 
-    const findings = (currentTrmData && currentTrmData.notebook_findings && currentTrmData.notebook_findings[notebookId]) || null;
+    let findings = (currentTrmData && currentTrmData.notebook_findings && currentTrmData.notebook_findings[notebookId]) || null;
 
-    if (findings) {
+    // Fallback: If findings object not pre-computed or empty, extract from questions_answered
+    if ((!findings || (!findings.contradictions?.length && !findings.undersourced?.length && !findings.adjacent?.length && !findings.followup?.length)) &&
+        currentTrmData && Array.isArray(currentTrmData.questions_answered)) {
+      const matchingQuestions = currentTrmData.questions_answered.filter(q => {
+        if (q.key && q.key.startsWith(notebookId + ':')) return true;
+        if (currentTrmData.notebooks) {
+          const matchNb = currentTrmData.notebooks.find(n => n.id === notebookId);
+          if (matchNb && matchNb.title && q.notebook === matchNb.title) return true;
+        }
+        return false;
+      });
+
+      if (matchingQuestions.length > 0) {
+        let nbTitle = notebookId;
+        if (currentTrmData.notebooks) {
+          const matchNb = currentTrmData.notebooks.find(n => n.id === notebookId);
+          if (matchNb && matchNb.title) nbTitle = matchNb.title;
+        }
+
+        const contradictions = [];
+        const undersourced = [];
+        const adjacent = [];
+        const followup = [];
+
+        matchingQuestions.forEach(q => {
+          const key = q.key || '';
+          const questionText = (q.question || '').toLowerCase();
+          const item = {
+            title: q.question || 'Vector Finding',
+            desc: q.excerpt || q.desc || q.text || '',
+            date: q.date || '',
+            key: q.key || ''
+          };
+
+          if (key.includes(':open-contradictions:') || questionText.includes('contradiction') || questionText.includes('open question')) {
+            contradictions.push(item);
+          } else if (key.includes(':under-sourced:') || questionText.includes('single-source') || questionText.includes('under-corroborated')) {
+            undersourced.push(item);
+          } else if (key.includes(':adjacent-topics:') || questionText.includes('adjacent')) {
+            adjacent.push(item);
+          } else if (key.includes(':follow-up:') || questionText.includes('follow-up') || questionText.includes('strengthen')) {
+            followup.push(item);
+          } else {
+            contradictions.push(item);
+          }
+        });
+
+        findings = {
+          title: nbTitle,
+          id: notebookId,
+          total_questions: matchingQuestions.length,
+          contradictions,
+          undersourced,
+          adjacent,
+          followup
+        };
+      }
+    }
+
+    if (findings && (findings.contradictions?.length || findings.undersourced?.length || findings.adjacent?.length || findings.followup?.length || findings.total_questions > 0)) {
       if (titleEl) titleEl.textContent = `Findings for ${findings.title || notebookId}`;
+      const vectorCount = findings.total_questions || ((findings.contradictions ? findings.contradictions.length : 0) + (findings.undersourced ? findings.undersourced.length : 0) + (findings.adjacent ? findings.adjacent.length : 0) + (findings.followup ? findings.followup.length : 0));
       if (metaEl) {
-        metaEl.innerHTML = `ID: <code>${notebookId}</code> · Extraction Status: <span style="color:#5a9e6f;">COMPLETE (${findings.total_questions || 0} Vectors Mined)</span>`;
+        metaEl.innerHTML = `ID: <code>${notebookId}</code> · Extraction Status: <span style="color:#5a9e6f;">COMPLETE (${vectorCount} Vectors Mined)</span>`;
       }
 
       renderSynthesisQuadrant('trmSynthContradictions', findings.contradictions);
@@ -3096,28 +3180,41 @@ flowchart TD
   }
 
   async function loadTrmHistory(dateStr) {
-    if (!dateStr || dateStr === 'today') {
-      loadDailyStatus();
+    if (!dateStr || dateStr === 'today' || (currentTrmHistoryDates[0] && dateStr === currentTrmHistoryDates[0])) {
+      await loadDailyStatus();
+      if (currentTrmHistoryDates[0]) {
+        const historySelect = document.getElementById('trmHistoryDateSelector');
+        if (historySelect) historySelect.value = currentTrmHistoryDates[0];
+      }
       showToast('Loaded latest TRM snapshot');
       return;
     }
 
-    try {
-      let res = await fetch(`trm_history/${dateStr}.json`, { cache: 'no-store' });
-      if (!res.ok) {
-        res = await fetch(`../../_status-feed/trm_history/${dateStr}.json`, { cache: 'no-store' });
-      }
-      if (res.ok) {
-        const histData = await res.json();
-        currentTrmData = histData;
-        renderTrmIntelligence(histData, currentPipelineData);
-        showToast(`Loaded TRM snapshot: ${dateStr}`);
-      } else {
-        showToast(`Snapshot not found: ${dateStr}`);
-      }
-    } catch (err) {
-      showToast(`Failed to load snapshot ${dateStr}`);
+    const candidateUrls = [
+      `/api/reporting/trm/history?date=${dateStr}`,
+      `trm_history/${dateStr}.json`,
+      `/trm_history/${dateStr}.json`,
+      `_status-feed/trm_history/${dateStr}.json`,
+      `/_status-feed/trm_history/${dateStr}.json`,
+      `/modules/wiki/trm_history/${dateStr}.json`,
+      `../../_status-feed/trm_history/${dateStr}.json`,
+      `../_status-feed/trm_history/${dateStr}.json`
+    ];
+
+    for (const url of candidateUrls) {
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (res.ok) {
+          const histData = await res.json();
+          const trmData = histData.trm_intelligence || histData;
+          currentTrmData = trmData;
+          renderTrmIntelligence(trmData, currentPipelineData, dateStr);
+          showToast(`Loaded TRM snapshot: ${dateStr}`);
+          return;
+        }
+      } catch {}
     }
+    showToast(`Snapshot not found: ${dateStr}`);
   }
 
   function stepTrmHistory(delta) {
@@ -3129,7 +3226,7 @@ flowchart TD
     let idx = currentTrmHistoryDates.indexOf(currentVal);
     if (idx === -1) idx = 0;
 
-    let targetIdx = idx - delta; // reverse chronological: prev day is index + 1
+    let targetIdx = idx - delta; // reverse chronological: delta=-1 (prev day) moves to idx+1, delta=1 (next day) moves to idx-1
     if (targetIdx < 0) targetIdx = 0;
     if (targetIdx >= currentTrmHistoryDates.length) targetIdx = currentTrmHistoryDates.length - 1;
 
@@ -3257,45 +3354,704 @@ flowchart TD
   let currentExecutionFilter = 'all';
 
   const DEFAULT_SKILLS = [
-    { name: 'analyze-token-burn', category: 'observability', runtime: 'node', version: '1.0.0', owner: 'soren', status: 'active', entrypoint: 'src/index.ts', desc: 'Project month-end token costs and identify high-spend adapters', health: 'good' },
-    { name: 'ashfall', category: 'automation', runtime: 'node', version: '1.0.0', owner: 'soren', status: 'active', entrypoint: 'src/index.ts', desc: 'Deterministic session-termination and context-handoff engine for Cast Iron systems', health: 'good' },
-    { name: 'kb-sync-nightly', category: 'governance', runtime: 'bash', version: '1.0.2', owner: 'soren', status: 'active', entrypoint: 'scripts/run.sh', desc: 'Knowledge base sync with integrated cross-reference layer between docs and wiki', health: 'good' },
-    { name: 'cic-ingest-world', category: 'ingestion', runtime: 'python', version: '1.2.0', owner: 'soren', status: 'active', entrypoint: 'main.py', desc: 'Multi-modal harvesting and ingestion pipeline for external research and data', health: 'good' },
-    { name: 'cic-orchestrate-flow', category: 'workflow', runtime: 'node', version: '2.0.0', owner: 'soren', status: 'active', entrypoint: 'src/flow.ts', desc: 'DAG orchestrator for multi-agent workflows and pipeline dispatch', health: 'good' },
-    { name: 'run-adapter-diagnostic', category: 'diagnostics', runtime: 'node', version: '1.0.0', owner: 'soren', status: 'active', entrypoint: 'src/index.ts', desc: 'Runs diagnostic probes across MCP adapters, verifying connectivity and latency', health: 'good' },
-    { name: 'permission-governor', category: 'governance', runtime: 'node', version: '1.0.0', owner: 'soren', status: 'active', entrypoint: 'src/index.ts', desc: 'Validates file access permissions and tool execution policies against governance rules', health: 'good' },
-    { name: 'reconcile-vector-store', category: 'intelligence', runtime: 'node', version: '1.0.0', owner: 'soren', status: 'active', entrypoint: 'src/index.ts', desc: 'Audits and synchronizes local sqlite/vector indices with upstream document graphs', health: 'good' },
-    { name: 'tinyfish-search', category: 'search', runtime: 'python', version: '1.1.0', owner: 'soren', status: 'active', entrypoint: 'search.py', desc: 'Fast local code and document search engine with fuzzy symbol indexing', health: 'good' },
-    { name: 'writing-heuristics', category: 'documentation', runtime: 'markdown', version: '1.0.0', owner: 'soren', status: 'active', entrypoint: 'SKILL.md', desc: 'Enforces deterministic style and writing heuristics across all project specs', health: 'good' },
-    { name: 'workspace-storage-cleaner', category: 'automation', runtime: 'node', version: '1.0.1', owner: 'soren', status: 'active', entrypoint: 'src/clean.ts', desc: 'Purges stale test artifacts, logs, and temporary sandbox directories', health: 'good' },
-    { name: 'sigil-grok-bridge', category: 'communication', runtime: 'node', version: '1.0.0', owner: 'soren', status: 'active', entrypoint: 'src/bridge.ts', desc: 'Keyless Model Context Protocol bridge for cross-agent task dispatch over Sigil', health: 'good' }
-  ];
-
-  const SAMPLE_EXECUTION_RUNS = [
-    { timestamp: '2026-09-12 17:40:12', tool: 'kb-sync-nightly', duration: '142 ms', status: 'success', version: '1.0.2', info: 'Sync completed: 0 stale docs' },
-    { timestamp: '2026-09-12 17:35:04', tool: 'headroom-proxy', duration: '18 ms', status: 'success', version: '2.1.0', info: 'Prompt compression: 69.6% cache hit' },
-    { timestamp: '2026-09-12 17:20:19', tool: 'graft-graph-indexer', duration: '312 ms', status: 'success', version: '1.4.0', info: 'AST nodes verified: 94.8% token savings' },
-    { timestamp: '2026-09-12 16:55:40', tool: 'permission-governor', duration: '64 ms', status: 'success', version: '1.0.0', info: 'Governance gate: PREFLIGHT_PASS' },
-    { timestamp: '2026-09-12 16:10:11', tool: 'analyze-token-burn', duration: '198 ms', status: 'success', version: '1.0.0', info: 'Burn rate projected: within target tier' },
-    { timestamp: '2026-09-12 15:42:08', tool: 'run-adapter-diagnostic', duration: '280 ms', status: 'success', version: '1.0.0', info: '11 MCP adapters responding' }
-  ];
+  {
+    "name": "analyze-token-burn",
+    "id": "analyze-token-burn",
+    "category": "observability",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Project month-end token costs and identify high-spend adapters",
+    "health": "good"
+  },
+  {
+    "name": "ashfall",
+    "id": "ashfall",
+    "category": "automation",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Deterministic session-termination and context-handoff engine for Cast Iron systems",
+    "health": "good"
+  },
+  {
+    "name": "kb-sync-nightly",
+    "id": "kb-sync-nightly",
+    "category": "sync-tools",
+    "runtime": "bash",
+    "version": "1.0.2",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/run.sh",
+    "desc": "Knowledge base sync with integrated cross-reference layer. Syncs CIC docs to wiki/ and builds cross-refs with docs/.",
+    "health": "good"
+  },
+  {
+    "name": "Operator Image Build",
+    "id": "operator-image-build",
+    "category": "pipeline",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Deterministic Docker image build, tag, push, and verification for harness-v3 and onnx-sidecar. Sealed layer hashes, registry validation, node-local air-gapped import support.",
+    "health": "good"
+  },
+  {
+    "name": "pre-wrap-audit",
+    "id": "pre-wrap-audit",
+    "category": "session-management",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Session wrap audit â€” 12-point blind-spot assessment before termination",
+    "health": "good"
+  },
+  {
+    "name": "reconcile-vector-store",
+    "id": "reconcile-vector-store",
+    "category": "data-management",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Verify Qdrant vector store is in sync with extraction state (PostgreSQL)",
+    "health": "good"
+  },
+  {
+    "name": "Roadmap Validator",
+    "id": "roadmap-validator",
+    "category": "governance",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Validates Toolforge ROADMAP.md files for sync markers, format, and content integrity",
+    "health": "good"
+  },
+  {
+    "name": "rollback-phase",
+    "id": "rollback-phase",
+    "category": "pipeline",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Revert CIC pipeline to prior phase checkpoint",
+    "health": "good"
+  },
+  {
+    "name": "run-adapter-diagnostic",
+    "id": "run-adapter-diagnostic",
+    "category": "monitoring",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Check adapter health, latency percentiles, and error rates in real time",
+    "health": "good"
+  },
+  {
+    "name": "scale-ingestion-service",
+    "id": "scale-ingestion-service",
+    "category": "pipeline",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Adjust RL ingestion service worker count & queue depth based on backlog",
+    "health": "good"
+  },
+  {
+    "name": "Tool Lifecycle Manager",
+    "id": "tool-lifecycle-manager",
+    "category": "pipeline",
+    "runtime": "typescript",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Manages skill lifecycle: registration, distribution, validation, deprecation",
+    "health": "good"
+  },
+  {
+    "name": "Toolforge Drift Monitor",
+    "id": "toolforge-drift-monitor",
+    "category": "monitoring",
+    "runtime": "typescript",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Detects drift between canonical, distributed, manifest, and Cowork systems",
+    "health": "good"
+  },
+  {
+    "name": "Work Summarizer v4.0",
+    "id": "work-summarizer",
+    "category": "observability",
+    "runtime": "node",
+    "version": "4.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Daily/weekly dev work summaries with pluggable reasoning providers (Claude, Ollama). Repo scans, transcript analysis, subsystem/cross-repo impact inference, operator-grade synthesis. Fallback to deterministic mode if LLM unavailable.",
+    "health": "good"
+  },
+  {
+    "name": "Context Manager",
+    "id": "context-manager",
+    "category": "utilities",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Autonomous execution context detection, validation, and storage",
+    "health": "good"
+  },
+  {
+    "name": "Permission Governor",
+    "id": "permission-governor",
+    "category": "validation",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Auto-approval of whitelisted operations, cache and bottleneck analysis",
+    "health": "good"
+  },
+  {
+    "name": "Plan Extractor Integration",
+    "id": "plan-extractor-integration",
+    "category": "integration",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Unified entry point for CodeFlow extraction into CIC stores",
+    "health": "good"
+  },
+  {
+    "name": "CIC Section Summarizer",
+    "id": "cic-section-summarizer",
+    "category": "analysis",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Auto-summarize CIC phase progress and files reviewed",
+    "health": "good"
+  },
+  {
+    "name": "Agent Drift Detector",
+    "id": "agent-drift-detector",
+    "category": "validation",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Detect schema drift in agent messages and APIs",
+    "health": "good"
+  },
+  {
+    "name": "Rewrite Labs Orchestrator",
+    "id": "rewrite-labs-orchestrator",
+    "category": "automation",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Orchestrates multi-stage development pipelines and handles blockers",
+    "health": "good"
+  },
+  {
+    "name": "CIC Roadmap Updater",
+    "id": "cic-roadmap-updater",
+    "category": "analysis",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Calculates progress and updates versions for CIC roadmaps",
+    "health": "good"
+  },
+  {
+    "name": "KB Sync Artifact Generator",
+    "id": "kb-sync-artifact-generator",
+    "category": "governance",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Generates synchronization artifacts and reports for the knowledge base.",
+    "health": "good"
+  },
+  {
+    "name": "HTML Visual Verify",
+    "id": "html-visual-verify",
+    "category": "validation",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Validate, test, and auto-fix local HTML files for visual correctness: syntax check, WCAG contrast validation, Playwright screenshot + interaction tests, headless rendering",
+    "health": "good"
+  },
+  {
+    "name": "skill-security-auditor",
+    "id": "skill-security-auditor",
+    "category": "utilities",
+    "runtime": "python",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/skill_security_auditor.py",
+    "desc": "Static analysis security scanner for custom agent skills, daemons, and script assets.",
+    "health": "good"
+  },
+  {
+    "name": "Session Wrap",
+    "id": "session-wrap",
+    "category": "session-management",
+    "runtime": "node",
+    "version": "1.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Atomic session wrap-up: doc updates, scoped git staging, prefixed commit, structured report",
+    "health": "good"
+  },
+  {
+    "name": "Skill Health Monitor",
+    "id": "skill-health-monitor",
+    "category": "monitoring",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Manifest-driven ecosystem health: staleness, never-run skills, and manifest/directory drift",
+    "health": "good"
+  },
+  {
+    "name": "Automation Audit",
+    "id": "automation-audit",
+    "category": "operations",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Repository-wide scan for manual tasks that should be automated (log rotation, backup retention, manual-step markers)",
+    "health": "good"
+  },
+  {
+    "name": "Obsidian Wiki Ingest",
+    "id": "obsidian-ingest-wiki",
+    "category": "knowledge-base",
+    "runtime": "node",
+    "version": "1.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Validates staged Obsidian raw sources and generates Claude Code prompt for 8-phase wiki semantic synthesis",
+    "health": "good"
+  },
+  {
+    "name": "Toolforge CLI",
+    "id": "toolforge-cli",
+    "category": "utility",
+    "runtime": "powershell",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/cli.ps1",
+    "desc": "CLI for Toolforge Marketplace: list, install, submit plugins",
+    "health": "good"
+  },
+  {
+    "name": "Toolforge Registry Manager",
+    "id": "toolforge-registry-manager",
+    "category": "pipeline",
+    "runtime": "powershell",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/registry.ps1",
+    "desc": "Manages Toolforge plugin registry with append-only semantics",
+    "health": "good"
+  },
+  {
+    "name": "Toolforge Submission Validator",
+    "id": "toolforge-submission-validator",
+    "category": "governance",
+    "runtime": "node",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/validate.ts",
+    "desc": "Validates skill submissions against conformance gate (manifest, tests, docs, governance, caveman review)",
+    "health": "good"
+  },
+  {
+    "name": "cic-ingest-world",
+    "id": "cic-ingest-world",
+    "category": "governance",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Stub: ingest a world/source into CIC (Phase 1 placeholder, no TorqueQuery yet)",
+    "health": "good"
+  },
+  {
+    "name": "cic-run-gate",
+    "id": "cic-run-gate",
+    "category": "governance",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Run a CIC governance gate (GATE-01 only in Phase 1) and return a structured pass/fail result",
+    "health": "good"
+  },
+  {
+    "name": "cic-consolidate-artifacts",
+    "id": "cic-consolidate-artifacts",
+    "category": "governance",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Stub: consolidate CIC artifacts (Phase 1 placeholder)",
+    "health": "good"
+  },
+  {
+    "name": "cic-repair-pipeline",
+    "id": "cic-repair-pipeline",
+    "category": "governance",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Stub: repair a CIC pipeline failure (Phase 1 placeholder)",
+    "health": "good"
+  },
+  {
+    "name": "cic-orchestrate-flow",
+    "id": "cic-orchestrate-flow",
+    "category": "governance",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Phase 3: compose ingest/gate/repair/consolidate into one fixed pipeline call",
+    "health": "good"
+  },
+  {
+    "name": "TRM Feedback/Report",
+    "id": "trm-feedback-report",
+    "category": "research-ops",
+    "runtime": "typescript",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Post-ingest feedback and quality report for TRM batches.",
+    "health": "good"
+  },
+  {
+    "name": "TRM Status",
+    "id": "trm-status",
+    "category": "monitoring",
+    "runtime": "typescript",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Instant status table across TRM research topics.",
+    "health": "good"
+  },
+  {
+    "name": "CIC Shared Utilities",
+    "id": "_cic-shared",
+    "category": "utilities",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Shared utilities and constants for CIC (internal)",
+    "health": "good"
+  },
+  {
+    "name": "writing-heuristics",
+    "id": "writing-heuristics",
+    "category": "validation",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Deterministic technical writing heuristics, anti-slop rules, and Google Developer Style enforcement engine",
+    "health": "good"
+  },
+  {
+    "name": "Research Questions",
+    "id": "research-questions",
+    "category": "research-ops",
+    "runtime": "prompt",
+    "version": "1.0.0",
+    "owner": "Soren (Cast Iron Forge)",
+    "status": "active",
+    "entrypoint": "SKILL.md",
+    "desc": "Generate and resolve TRM research questions from a curator-approved batch: scan-gaps, per-question web search + confidence judgment, then recompute focus areas.",
+    "health": "good"
+  },
+  {
+    "name": "Retro Export",
+    "id": "retro-export",
+    "category": "monitoring",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "Soren (Cast Iron Forge)",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+    "health": "good"
+  },
+  {
+    "name": "Workspace & Brain Storage Cleaner",
+    "id": "workspace-storage-cleaner",
+    "category": "maintenance",
+    "runtime": "python",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "scripts/clean-storage.py",
+    "desc": "Audits, detects, and safely purges stale artifacts, orphaned nested git clones in brain sessions, oversized execution logs, and stray temporary files across Antigravity Brain and development workspaces.",
+    "health": "good"
+  },
+  {
+    "name": "Hook Validator",
+    "id": "hook-validator",
+    "category": "validation",
+    "runtime": "javascript",
+    "version": "1.0.0",
+    "owner": "Soren (Cast Iron Forge)",
+    "status": "active",
+    "entrypoint": "src/index.js",
+    "desc": "Audits the pre-commit hook chain for completeness, merged-shim provenance, and execution order",
+    "health": "good"
+  },
+  {
+    "name": "Pre-Flight Test Checker",
+    "id": "pre-flight-test-checker",
+    "category": "validation",
+    "runtime": "javascript",
+    "version": "1.0.0",
+    "owner": "Soren (Cast Iron Forge)",
+    "status": "active",
+    "entrypoint": "src/index.js",
+    "desc": "Validates the test environment (ESLint ignore config, external fixtures, platform-specific assumptions) before npm test runs",
+    "health": "good"
+  },
+  {
+    "name": "Retro Schema Validator",
+    "id": "retro-schema-validator",
+    "category": "validation",
+    "runtime": "javascript",
+    "version": "1.0.0",
+    "owner": "Soren (Cast Iron Forge)",
+    "status": "active",
+    "entrypoint": "src/index.js",
+    "desc": "Validates .retro/*.json files against the canonical retro schema v1.0 (required fields, types, ranges, unknown fields)",
+    "health": "good"
+  },
+  {
+    "name": "parallel-search",
+    "id": "parallel-search",
+    "category": "sync-tools",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "skills/parallel-search/dist/index.js",
+    "desc": "Parallel Web Search, Task API, and DOM Extract integration",
+    "health": "good"
+  },
+  {
+    "name": "tinyfish-search",
+    "id": "tinyfish-search",
+    "category": "sync-tools",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "TinyFish AI high-speed search and clean Markdown fetch integration",
+    "health": "good"
+  },
+  {
+    "name": "trm-closed-loop-research",
+    "id": "trm-closed-loop-research",
+    "category": "research",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "End-to-end Topic Research Mining (TRM) closed-loop pipeline across all registered NotebookLM notebooks in trm-vault: multi-notebook mining, WhichLLM model selection, cognitive query expansion triage, Layer 2 wiki synthesis, and .nlm_pack compilation.",
+    "health": "good"
+  },
+  {
+    "name": "trm-devops-triage",
+    "id": "trm-devops-triage",
+    "category": "monitoring",
+    "runtime": "typescript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Operational defect triage and resolution operator workflow for the TRM DevOps sync pipeline: inspect queue, claim defect, run deterministic diagnostic actions, verify fix, and prune remote sources.",
+    "health": "good"
+  },
+  {
+    "name": "wiki-sync-recovery",
+    "id": "wiki-sync-recovery",
+    "category": "monitoring",
+    "runtime": "node",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/diagnose.mjs",
+    "desc": "Diagnose a failed GitHub wiki sync by matching its log against the four known failure modes and printing the fix runbook",
+    "health": "good"
+  },
+  {
+    "name": "sigil-grok-bridge",
+    "id": "sigil-grok-bridge",
+    "category": "sync-tools",
+    "runtime": "node",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Exposes governed Sigil task submission and inbox inspection to Grok Bot over MCP",
+    "health": "good"
+  },
+  {
+    "name": "third-party-repo-auditor",
+    "id": "third-party-repo-auditor",
+    "category": "observability",
+    "runtime": "powershell",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/audit.ps1",
+    "desc": "Audits third-party Git repositories against upstream remotes for pending commits, tags, and patch status",
+    "health": "good"
+  },
+  {
+    "name": "trm-self-healing",
+    "id": "trm-self-healing",
+    "category": "observability",
+    "runtime": "javascript",
+    "version": "1.0.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.mjs",
+    "desc": "DevOps self-healing triage, research escalation, and Sigil biometric guard skills",
+    "health": "good"
+  },
+  {
+    "name": "usagecheck",
+    "id": "usagecheck",
+    "category": "utilities",
+    "runtime": "javascript",
+    "version": "0.1.0",
+    "owner": "Soren (Cast Iron Forge)",
+    "status": "active",
+    "entrypoint": "src/index.js",
+    "desc": "Detects which coding CLI (Claude Code, Codex, or Grok) is running and reports that agent's usage/rate-limit data through its own mechanism",
+    "health": "good"
+  },
+  {
+    "name": "doc-sync-drift-audit",
+    "id": "doc-sync-drift-audit",
+    "category": "sync-tools",
+    "runtime": "node",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Detect, diagnose, and report documentation drift in the Toolforge unified wiki and documentation build pipeline.",
+    "health": "good"
+  },
+  {
+    "name": "governance-matrix-validator",
+    "id": "governance-matrix-validator",
+    "category": "governance",
+    "runtime": "node",
+    "version": "0.1.0",
+    "owner": "soren",
+    "status": "active",
+    "entrypoint": "src/index.ts",
+    "desc": "Validate CI governance matrix workflows against physical repository states, unmasking hidden errors and auditing cross-repo contracts.",
+    "health": "good"
+  }
+];
 
   async function loadSkillsInventory() {
-    try {
-      const res = await fetch('../../manifest.json', { cache: 'no-store' });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.skills && Array.isArray(data.skills)) {
-          allSkills = data.skills;
-        } else {
-          allSkills = DEFAULT_SKILLS;
+    let loaded = false;
+    const paths = ['./manifest.json', 'manifest.json', '/manifest.json', '../../manifest.json'];
+    for (const p of paths) {
+      try {
+        const res = await fetch(p, { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.skills && Array.isArray(data.skills) && data.skills.length > 0) {
+            allSkills = data.skills;
+            loaded = true;
+            break;
+          }
         }
-      } else {
-        allSkills = DEFAULT_SKILLS;
-      }
-    } catch {
+      } catch {}
+    }
+    if (!loaded) {
       allSkills = DEFAULT_SKILLS;
     }
+    const categoriesCount = new Set(allSkills.map(s => s.category || 'general')).size;
+    const catEl = document.getElementById('skCategoriesCount');
+    if (catEl) catEl.textContent = categoriesCount;
+    const tabBadge = document.getElementById('tabSkillsBadge');
+    if (tabBadge) tabBadge.textContent = `${allSkills.length} Registered`;
     renderCategoryPills();
     renderSkillsGrid();
   }

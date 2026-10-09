@@ -1,0 +1,26 @@
+{
+  "event_type": "ironbots.fleet_event",
+  "timestamp": "2026-10-05T12:45:32.151Z",
+  "room_id": "sigil-fleet-observability",
+  "fleet_health_score": 90,
+  "fleet_status": "HEALTHY",
+  "bot_count": 9,
+  "alerts": [
+    "CI Failures: 1"
+  ],
+  "formatted_message": "🤖 [IronBots Fleet Report] Score: 90/100 (HEALTHY) | Bots: 9 | Alerts: CI Failures: 1",
+  "summary_metrics": {
+    "totalDocsIndexed": 439,
+    "wikiHealthScore": 100,
+    "totalResearchGaps": 0,
+    "competitorDrifts": 0,
+    "daemonStatus": "HEALTHY",
+    "ironledgerStatus": "HEALTHY",
+    "ciFailures": 1,
+    "trmReconciliation": "RECONCILED",
+    "totalTrackedIngressCards": 10,
+    "activeOutboxReceipts": 96,
+    "archivedOutboxReceipts": 12,
+    "outboxDeliveryRate": 100
+  }
+}

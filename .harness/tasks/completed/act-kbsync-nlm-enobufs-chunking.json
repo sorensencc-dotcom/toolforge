@@ -1,0 +1,24 @@
+{
+  "id": "act-kbsync-nlm-enobufs-chunking",
+  "parent_action_id": null,
+  "timestamp": "2026-10-03T235502Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "kb-sync",
+  "target": "kb-sync",
+  "action_type": "antigravity_triage",
+  "intent": "act_kbsync_nlm_enobufs_chunking",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-03T235502Z__action__kb-sync__act-kbsync-nlm-enobufs-chunking",
+  "issue_url": null,
+  "research_ref": "wiki/research/rfc-kbsync-nlm-enobufs-chunking.md",
+  "staged_at": "2026-10-04T12:28:33.527Z",
+  "source_file": "2026-10-03T235502Z__action__kb-sync__act-kbsync-nlm-enobufs-chunking.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-03T235502Z__action__kb-sync__act-kbsync-nlm-enobufs-chunking.md.gdoc",
+    "gdoc_stem": "2026-10-03T235502Z__action__kb-sync__act-kbsync-nlm-enobufs-chunking",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  },
+  "status": "COMPLETED",
+  "completed_at": "2026-10-04T19:20:00.000Z",
+  "resolution": "Implemented dynamic NLM pack chunker & ENOBUFS buffer overflow guard (kb-sync/core/nlm-chunker.mjs), integrated into consolidate-pack.mjs, added test suite with 12/12 passing tests (kb-sync/tests/nlm-enobufs-chunking.test.mjs), and cataloged RFC (wiki/research/rfc-kbsync-nlm-enobufs-chunking.md)."
+}

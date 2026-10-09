@@ -1,0 +1,37 @@
+{
+  "id": "active-work-overview",
+  "name": "Active Work Overview",
+  "version": "1.0.0",
+  "description": "Aggregates active pull requests, recent landings, git worktrees, open backlog items, mobile ingress receipts, and daemon health into a structured report.",
+  "category": "observability",
+  "runtime": "node",
+  "entrypoint": "src/overview.mjs",
+  "keywords": ["overview", "status", "dashboard", "worktrees", "pull-requests", "todos", "receipts", "health"],
+  "commands": {
+    "run": "node src/overview.mjs",
+    "json": "node src/overview.mjs --json",
+    "test": "node --test tests/overview.test.mjs"
+  },
+  "inputs": {
+    "workspaceRoot": "string (default: C:\\dev)",
+    "json": "boolean (default: false)"
+  },
+  "outputs": {
+    "markdown": "string",
+    "data": "object"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "integrations": {
+    "cowork": {
+      "registered": false,
+      "pluginType": "skill",
+      "icon": "layout-dashboard",
+      "registrationPath": "cowork://toolforge/skills/active-work-overview",
+      "status": "pending_registration"
+    }
+  },
+  "tooltip": "Provides a unified, instant overview of all in-flight PRs, git worktrees, backlog items, mobile receipts, and daemon health."
+}

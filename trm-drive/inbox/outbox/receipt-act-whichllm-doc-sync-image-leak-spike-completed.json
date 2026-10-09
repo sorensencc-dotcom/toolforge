@@ -1,0 +1,22 @@
+{
+  "action_id": "act-whichllm-doc-sync-image-leak-spike",
+  "receipt_id": "rcpt-1791116914442-done-act-whichllm-doc-sync-image-leak-spike",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_whichllm_doc_sync_image_leak_spike",
+  "category": "RESEARCH",
+  "target_notebook": "REWRITE-MCP",
+  "domain": "rewrite-mcp",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Action Completed: act_whichllm_doc_sync_image_leak_spike",
+  "completion_details": "Removed WhichLLM topology image leakage into wiki/ in OLLAMA_DEPLOYMENT_GUIDE.md and OLLAMA_PROVIDER_SETUP.md (commit 242153d2), merged via PR #77 and PR #81.",
+  "issue_url": null,
+  "pr_url": "https://github.com/sorensencc-dotcom/toolforge/pull/77",
+  "pr_number": 77,
+  "pr_title": "Feat/unified doc sync",
+  "pr_state": "MERGED",
+  "research_ref": null,
+  "completed_at": "2026-10-03T16:33:19.000Z",
+  "dispatched_at": "2026-10-04T12:28:34.212Z",
+  "dryRun": false
+}

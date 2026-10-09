@@ -48,3 +48,46 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: >
           node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA" --run-tests
+
+  roadmap-location:
+    name: Roadmap location policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Block ROADMAP.md outside allowed roots
+        shell: bash
+        run: |
+          violations=$(git ls-files | grep -iE 'roadmap\.md$' | grep -vE '^(docs/meta|cic-ingestion|rewrite-docs|rewrite-mcp|kb-sync)/' || true)
+          if [ -n "$violations" ]; then
+            echo "ROADMAP.md blocked outside docs/meta, cic-ingestion, rewrite-docs, rewrite-mcp, kb-sync:"
+            echo "$violations"
+            exit 1
+          fi
+
+  graft-freshness:
+    name: Graft context graph freshness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Graft CLI
+        run: npm install -g @nanonets/graft@0.21.1
+
+      - name: Test clean-checkout graph lifecycle
+        run: |
+          GRAFT_CLI_JS="$(npm root -g)/@nanonets/graft/dist/cli.js" timeout 60s node --test --test-timeout=30000 CIC-GOVERNANCE/packages/delivery-guard/tests/graft-freshness.test.js
+
+      # graft/ is an ignored local cache, so a clean checkout must build it first.
+      - name: Build deterministic Graft graph
+        run: graft build
+
+      - name: Verify Graft Graph Freshness
+        run: graft check

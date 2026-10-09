@@ -1,114 +1,173 @@
+#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-    Registers a Windows Scheduled Task for the TRM Closed-Loop Orchestrator.
+Windows Scheduled Task wrapper for TRM Closed-Loop Nightly Miner & Autoheal pipeline under \Ironbots\ category.
+
 .DESCRIPTION
-    Configures an idempotent Windows Scheduled Task to run the TRM Closed-Loop
-    Mining and NotebookLM synchronization pipeline nightly.
-    Uses S4U (Service-for-User) authentication so it runs unattended ("whether user is
-    logged on or not") WITHOUT requiring or storing a Windows password.
-.VERSION
-    2.1.0
-.DATE
-    2026-09-02
+Configures an unattended, idempotent Windows Scheduled Task to run the TRM Closed-Loop
+Mining, wiki autohealing, and knowledge pack consolidation nightly.
+Runs via S4U (Service-for-User) authentication ("whether user is logged on or not")
+without requiring login, password prompts, or interactive session waiting.
+
+Category / Folder: \Ironbots\
 #>
 
 [CmdletBinding()]
 param(
-    [string]$Time = "02:00",
-    [string]$TaskName = "CIC-TRM-ClosedLoop-Nightly-Miner",
-    [switch]$RunNow
+    [ValidateSet('Register', 'Unregister', 'Status', 'Test')]
+    [string]$Action = 'Register',
+
+    [string]$RepoRoot = $(if ($PSScriptRoot) { Split-Path -Parent $PSScriptRoot } else { 'C:\dev' }),
+    [string]$NodePath = 'node.exe',
+    [string]$LogDirectory = $(Join-Path $(if ($PSScriptRoot) { Split-Path -Parent $PSScriptRoot } else { 'C:\dev' }) 'logs'),
+    [ValidatePattern('^([01]\d|2[0-3]):[0-5]\d$')]
+    [string]$ScheduleTime = '02:00',
+    [string]$TaskName = 'TRM-Miner',
+    [string]$TaskPath = '\Ironbots\',
+    [switch]$Unattended,
+    [switch]$RunNow,
+    [switch]$DryRun,
+    [switch]$Force
 )
 
-$ErrorActionPreference = "Stop"
-$root = "C:\dev"
-$logDir = "$root\logs"
-$logFile = "$logDir\trm-miner-scheduled.log"
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
 
-Write-Host "`n=== [TRM CLOSED-LOOP UNATTENDED SCHEDULER SETUP] ===" -ForegroundColor Cyan
+$stdoutLog = Join-Path $LogDirectory 'trm-miner.stdout.log'
+$stderrLog = Join-Path $LogDirectory 'trm-miner.stderr.log'
 
-# 1. Ensure log directory exists
-if (-not (Test-Path $logDir)) {
-    New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+function Ensure-TaskFolder {
+    param([string]$Path)
+    $cleanPath = $Path.Trim('\')
+    if ([string]::IsNullOrWhiteSpace($cleanPath)) { return }
+    try {
+        $service = New-Object -ComObject("Schedule.Service")
+        $service.Connect()
+        $root = $service.GetFolder("\")
+        try {
+            $root.GetFolder($cleanPath) | Out-Null
+        } catch {
+            $root.CreateFolder($cleanPath) | Out-Null
+        }
+    } catch {
+        Write-Verbose "Task folder registration note for $($Path): $($_.Exception.Message)"
+    }
 }
 
-# 2. Verify runtime dependencies
-Write-Host "1. Verifying environment prerequisites..." -ForegroundColor Yellow
-
-$pwshCmd = Get-Command pwsh -ErrorAction SilentlyContinue
-if (-not $pwshCmd) {
-    Write-Error "PowerShell 7 (pwsh) was not found in PATH."
-    exit 1
-}
-Write-Host "  ✔ pwsh found: $($pwshCmd.Source)" -ForegroundColor Green
-
-$nodeCmd = Get-Command node -ErrorAction SilentlyContinue
-if (-not $nodeCmd) {
-    Write-Error "Node.js was not found in PATH."
-    exit 1
-}
-Write-Host "  ✔ node found: $($nodeCmd.Source)" -ForegroundColor Green
-
-# 3. Build task action, trigger, and S4U principal (runs without password when not logged on)
-Write-Host "`n2. Registering Unattended Scheduled Task '$TaskName' for $Time daily..." -ForegroundColor Yellow
-
-$existing = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
-if ($existing) {
-    Write-Host "  Removing existing scheduled task..." -ForegroundColor DarkGray
-    Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
+function Get-PipelineCommand {
+    $autohealFlag = if ($DryRun) { '--dry-run' } else { '--fix' }
+    $pipeline = "node scripts/run-sibling-check-v2.mjs --mode=check; node kb-sync/modules/wiki/autoheal-sweeper.mjs --vault-root=kb-sync/obsidian/vault $autohealFlag; node scripts/consolidate-pack.mjs --category=willow-run"
+    return "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"$pipeline 1>> '$stdoutLog' 2>> '$stderrLog'`""
 }
 
-$taskCmd = "pwsh.exe"
-$taskArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"node scripts/run-sibling-check-v2.mjs --mode=check; node scripts/consolidate-pack.mjs --category=willow-run *>> '$logFile'`""
+switch ($Action) {
+    'Register' {
+        New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
+        Ensure-TaskFolder -Path $TaskPath
 
-$action = New-ScheduledTaskAction `
-    -Execute $taskCmd `
-    -Argument $taskArgs `
-    -WorkingDirectory $root
+        $cmdArgs = Get-PipelineCommand
+        $taskAction = New-ScheduledTaskAction -Execute 'pwsh.exe' -Argument $cmdArgs -WorkingDirectory $RepoRoot
 
-$trigger = New-ScheduledTaskTrigger -Daily -At ([datetime]::ParseExact($Time, "HH:mm", $null))
+        $trigger = New-ScheduledTaskTrigger -Daily -At ([datetime]::ParseExact($ScheduleTime, 'HH:mm', $null))
 
-$settings = New-ScheduledTaskSettingsSet `
-    -AllowStartIfOnBatteries `
-    -DontStopIfGoingOnBatteries `
-    -StartWhenAvailable `
-    -RunOnlyIfNetworkAvailable `
-    -MultipleInstances IgnoreNew `
-    -ExecutionTimeLimit (New-TimeSpan -Hours 2)
+        $settings = New-ScheduledTaskSettingsSet `
+            -AllowStartIfOnBatteries `
+            -DontStopIfGoingOnBatteries `
+            -ExecutionTimeLimit (New-TimeSpan -Hours 2) `
+            -MultipleInstances IgnoreNew `
+            -StartWhenAvailable `
+            -Priority 7
 
-# S4U Principal allows task to execute when user is not logged on without storing credentials
-$username = $env:USERNAME
-$principal = New-ScheduledTaskPrincipal -UserId $username -LogonType S4U -RunLevel Highest
+        $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-try {
-    Register-ScheduledTask `
-        -TaskName $TaskName `
-        -Action $action `
-        -Trigger $trigger `
-        -Settings $settings `
-        -Principal $principal `
-        -Description "Nightly Topic Research Mining (TRM) Closed-Loop Orchestrator and NotebookLM Synchronization (Unattended S4U)." `
-        -Force | Out-Null
-    Write-Host "  ✔ Scheduled task '$TaskName' registered successfully with S4U (Unattended, No Password)." -ForegroundColor Green
-} catch {
-    Write-Warning "S4U registration failed (requires Administrator elevation). Falling back to interactive principal."
-    Register-ScheduledTask `
-        -TaskName $TaskName `
-        -Action $action `
-        -Trigger $trigger `
-        -Settings $settings `
-        -Description "Nightly Topic Research Mining (TRM) Closed-Loop Orchestrator and NotebookLM Synchronization (Interactive)." `
-        -Force | Out-Null
-    Write-Host "  ✔ Scheduled task '$TaskName' registered in Interactive mode (runs when logged on)." -ForegroundColor Yellow
-    Write-Host "  💡 To upgrade to unattended execution, run PowerShell as Administrator and execute this script." -ForegroundColor DarkGray
+        if ($isAdmin -or $Unattended) {
+            try {
+                $principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U -RunLevel Highest
+                Register-ScheduledTask `
+                    -TaskName $TaskName `
+                    -TaskPath $TaskPath `
+                    -Action $taskAction `
+                    -Trigger $trigger `
+                    -Settings $settings `
+                    -Principal $principal `
+                    -Description 'Ironbots: Unattended TRM Closed-Loop Mining, Autoheal Sweeper & Knowledge Pack Consolidation.' `
+                    -Force:$Force | Out-Null
+                Write-Host "[OK] Registered unattended task '$TaskPath$TaskName' at $ScheduleTime daily (S4U: runs whether logged in or not, no login, no waiting)." -ForegroundColor Green
+            } catch {
+                Write-Warning "Unattended S4U registration failed (requires Admin elevation). Registering in standard user mode."
+                Register-ScheduledTask `
+                    -TaskName $TaskName `
+                    -TaskPath $TaskPath `
+                    -Action $taskAction `
+                    -Trigger $trigger `
+                    -Settings $settings `
+                    -Description 'Ironbots: TRM Closed-Loop Mining, Autoheal Sweeper & Knowledge Pack Consolidation.' `
+                    -Force:$Force | Out-Null
+                Write-Host "[OK] Registered task '$TaskPath$TaskName' at $ScheduleTime daily." -ForegroundColor Yellow
+                Write-Host "💡 To run when not logged in, execute from an Administrator PowerShell prompt." -ForegroundColor Cyan
+            }
+        } else {
+            Register-ScheduledTask `
+                -TaskName $TaskName `
+                -TaskPath $TaskPath `
+                -Action $taskAction `
+                -Trigger $trigger `
+                -Settings $settings `
+                -Description 'Ironbots: TRM Closed-Loop Mining, Autoheal Sweeper & Knowledge Pack Consolidation.' `
+                -Force:$Force | Out-Null
+            Write-Host "[OK] Registered task '$TaskPath$TaskName' at $ScheduleTime daily." -ForegroundColor Green
+            Write-Host "💡 To run when not logged in, execute from an Administrator PowerShell prompt." -ForegroundColor Cyan
+        }
+
+        if ($RunNow) {
+            Write-Host "[INFO] Triggering immediate task run..." -ForegroundColor Cyan
+            Start-ScheduledTask -TaskName $TaskName -TaskPath $TaskPath
+            Write-Host "[OK] Task '$TaskPath$TaskName' triggered. Logs stream to $stdoutLog." -ForegroundColor Green
+        }
+    }
+
+    'Unregister' {
+        Unregister-ScheduledTask -TaskName $TaskName -TaskPath $TaskPath -Confirm:$false -ErrorAction SilentlyContinue
+        Write-Host "[OK] Scheduled task '$TaskPath$TaskName' unregistered." -ForegroundColor Yellow
+    }
+
+    'Status' {
+        $task = Get-ScheduledTask -TaskName $TaskName -TaskPath $TaskPath -ErrorAction SilentlyContinue
+        if ($null -eq $task) {
+            Write-Host "[INFO] Scheduled task '$TaskPath$TaskName' is not currently registered." -ForegroundColor Cyan
+            break
+        }
+
+        $info = $task | Get-ScheduledTaskInfo
+        Write-Host "Category:     $TaskPath" -ForegroundColor Green
+        Write-Host "Task Name:    $TaskName" -ForegroundColor Green
+        Write-Host "State:        $($task.State)" -ForegroundColor Green
+        Write-Host "Logon Type:   $($task.Principal.LogonType)" -ForegroundColor Green
+        Write-Host "Last Run:     $($info.LastRunTime)" -ForegroundColor Cyan
+        Write-Host "Next Run:     $($info.NextRunTime)" -ForegroundColor Cyan
+        Write-Host "Action:       $($task.Actions.Execute) $($task.Actions.Arguments)" -ForegroundColor Gray
+        Write-Host "Working Dir:  $($task.Actions.WorkingDirectory)" -ForegroundColor Gray
+    }
+
+    'Test' {
+        New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
+        Write-Host "[TEST] Running pipeline in test mode (DryRun: $DryRun)..." -ForegroundColor Cyan
+        
+        $autohealFlag = if ($DryRun) { '--dry-run' } else { '--fix' }
+        Set-Location -LiteralPath $RepoRoot
+
+        Write-Host "[1/3] Running sibling check..." -ForegroundColor Yellow
+        & $NodePath scripts/run-sibling-check-v2.mjs --mode=check
+        if ($LASTEXITCODE -ne 0) { throw "Sibling check failed with exit code $LASTEXITCODE" }
+
+        Write-Host "[2/3] Running autoheal sweeper ($autohealFlag)..." -ForegroundColor Yellow
+        & $NodePath kb-sync/modules/wiki/autoheal-sweeper.mjs --vault-root=kb-sync/obsidian/vault $autohealFlag
+        if ($LASTEXITCODE -ne 0) { throw "Autoheal sweeper failed with exit code $LASTEXITCODE" }
+
+        Write-Host "[3/3] Running pack consolidation..." -ForegroundColor Yellow
+        & $NodePath scripts/consolidate-pack.mjs --category=willow-run
+        if ($LASTEXITCODE -ne 0) { throw "Pack consolidation failed with exit code $LASTEXITCODE" }
+
+        Write-Host "[OK] Test run completed successfully." -ForegroundColor Green
+    }
 }
-
-# 4. Optional Immediate Run
-if ($RunNow) {
-    Write-Host "`n3. Triggering immediate task run..." -ForegroundColor Cyan
-    Start-ScheduledTask -TaskName $TaskName
-    Write-Host "  Task triggered. Check $logFile for output." -ForegroundColor Green
-}
-
-Write-Host "`n================================================================================"
-Write-Host "Setup complete. Task scheduled at $Time daily." -ForegroundColor Green
-Write-Host "===============================================================================`n"

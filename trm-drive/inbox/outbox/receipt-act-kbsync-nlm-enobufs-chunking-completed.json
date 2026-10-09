@@ -1,0 +1,19 @@
+{
+  "action_id": "act-kbsync-nlm-enobufs-chunking",
+  "receipt_id": "rcpt-1791116913937-done-act-kbsync-nlm-enobufs-chunking",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_kbsync_nlm_enobufs_chunking",
+  "category": "RESEARCH",
+  "target_notebook": "CIC-KB",
+  "domain": "kb-sync",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Action Completed: act_kbsync_nlm_enobufs_chunking",
+  "completion_details": "Implemented dynamic NLM pack chunker & ENOBUFS buffer overflow guard (kb-sync/core/nlm-chunker.mjs), integrated into consolidate-pack.mjs, added test suite with 12/12 passing tests (kb-sync/tests/nlm-enobufs-chunking.test.mjs), and cataloged RFC (wiki/research/rfc-kbsync-nlm-enobufs-chunking.md).",
+  "issue_url": null,
+  "pr_url": null,
+  "research_ref": "wiki/research/rfc-kbsync-nlm-enobufs-chunking.md",
+  "completed_at": "2026-10-04T19:20:00.000Z",
+  "dispatched_at": "2026-10-04T12:28:33.527Z",
+  "dryRun": false
+}

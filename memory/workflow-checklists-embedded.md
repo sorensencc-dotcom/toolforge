@@ -7,7 +7,7 @@ metadata:
 
 # Embedded Workflow Checklists
 
-Activated 2026-07-12. Last verified in force: 2026-09-20 (all checklist items re-read against current Global Operating Rules and governance workflows; no drift). Re-verify at each memory audit. Run checklist BEFORE critical action.
+Activated 2026-07-12. Last verified in force: 2026-10-04 (referents re-checked: rules doc at `docs/meta/governance/global-operating-rules-cic-rewrite-labs.md`, `.context/retros/validate-changed.ps1`, roadmap-location check in `.git/hooks/pre-commit.ps1`, `.eslintignore` all present; DRIFT found and fixed same day: installed `.git/hooks/pre-commit` was an IronLedger-only shim that ran neither `secret-scan-hook.sh` nor `pre-commit.ps1`; canonical shim `CIC-GOVERNANCE/scripts/pre-commit-shim.sh` now includes IronLedger and was reinstalled). Re-verify at each memory audit. Run checklist BEFORE critical action.
 
 ## Pre-Artifact Checklist (Before Publishing)
 

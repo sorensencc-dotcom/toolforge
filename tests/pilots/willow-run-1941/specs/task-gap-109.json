@@ -18,7 +18,7 @@
   "outputContract": "candidate.fact.v1",
   "approvalRequired": true,
   "provenanceGap": {
-    "triggeredByFactKey": "fact-cic-wr-gap-production_volume_discrepancy-105",
+    "triggeredByFactKey": "fact-cic-wr-gap-production_volume_discrepancy-104",
     "gapType": "contract_revision"
   }
 }

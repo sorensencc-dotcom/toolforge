@@ -1,0 +1,19 @@
+{
+  "id": "governance-matrix-validator",
+  "name": "governance-matrix-validator",
+  "version": "0.1.0",
+  "description": "Validate CI governance matrix workflows against physical repository states, unmasking hidden errors and auditing cross-repo contracts.",
+  "author": "soren",
+  "license": "MIT",
+  "category": "governance",
+  "entrypoint": "src/index.ts",
+  "runtime": "typescript",
+  "tags": ["governance", "ci", "matrix", "validation", "multi-repo"],
+
+  "metadata": {
+    "runtime": "typescript",
+    "entrypoint": "src/index.ts",
+    "timeout": 30000,
+    "tags": ["governance", "ci", "matrix", "validation", "multi-repo"]
+  }
+}

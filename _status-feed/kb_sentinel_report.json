@@ -1,23 +1,12 @@
 {
-  "timestamp": "2026-10-03T16:38:24.752Z",
-  "elapsedMs": 809,
-  "healthScore": 91,
+  "timestamp": "2026-10-05T12:45:22.467Z",
+  "elapsedMs": 912,
+  "healthScore": 100,
   "status": "PASS",
-  "scanned": 425,
-  "frontmatterMissing": 2,
-  "brokenLinks": 11,
+  "scanned": 430,
+  "frontmatterMissing": 0,
+  "brokenLinks": 0,
   "healed": 0,
-  "dryRun": true,
-  "recentIssues": [
-    {
-      "file": "wiki/.ijfw/memory/project-journal.md",
-      "type": "MISSING_FRONTMATTER",
-      "detail": "No YAML frontmatter found"
-    },
-    {
-      "file": "wiki/.ijfw/sessions/session_2026-09-26_23-17-18.md",
-      "type": "MISSING_FRONTMATTER",
-      "detail": "No YAML frontmatter found"
-    }
-  ]
+  "dryRun": false,
+  "recentIssues": []
 }

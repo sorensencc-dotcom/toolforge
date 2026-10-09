@@ -153,10 +153,12 @@ export async function runUpgradeSweepEvaluator(configPath = './configs/global.ya
   // 2. Candidate Models Sweep Definitions
   const candidateModels = [
     { name: "claude-3-5-sonnet-20241022", type: "frontier", size_b: null },
+    { name: "mistralai/mistral-large-2407", type: "muscle_cloud", size_b: 123 },
+    { name: "deepseek/deepseek-coder", type: "muscle_cloud", size_b: 67 },
     { name: "qwen2.5:72b-instruct-q4_k_m", type: "local", size_b: 72 },
     { name: "qwen2.5:32b-instruct-q8_0", type: "local", size_b: 32 },
-    { name: "llama3.1:70b-instruct-q2_k", type: "local", size_b: 70 },
-    { name: "llama3:8b-instruct-fp16", type: "local", size_b: 8 }
+    { name: "llama3.1:8b", type: "local", size_b: 8 },
+    { name: "qwen2.5:7b", type: "local", size_b: 7.6 }
   ];
 
   logStep(2, "Running Automated Berkeley Function Calling Benchmark (BFCL) Scenarios");
@@ -169,17 +171,26 @@ export async function runUpgradeSweepEvaluator(configPath = './configs/global.ya
     // Fit status
     let fitStatus = "fits_easily";
     if (candidate.type === "local") {
-      const estimatedVramRequiredGB = (candidate.size_b * 0.7) + 4; // Basic rough formula for GGUF VRAM footprint
+      const estimatedVramRequiredGB = (candidate.size_b * 0.7) + 4;
       if (estimatedVramRequiredGB > hardware.vram_gb) {
         fitStatus = "out_of_vram_degraded";
       } else if (estimatedVramRequiredGB > hardware.vram_gb - 4) {
         fitStatus = "tight_vram_warning";
       }
+    } else if (candidate.type === "muscle_cloud") {
+      fitStatus = "cloud_hosted_muscle";
     }
+
+    const tierLabel = candidate.type === "frontier"
+      ? "Tier 1 (Judgment)"
+      : candidate.type === "muscle_cloud"
+        ? "Tier 1 (Muscle Cloud)"
+        : "Tier 2 (Local Muscle)";
 
     rankedCandidates.push({
       model_name: candidate.name,
-      tier: candidate.type === "frontier" ? "Tier 1 (Judgment)" : "Tier 2 (Muscle)",
+      tier: tierLabel,
+      tierId: candidate.type === "frontier" ? "tier_2_frontier" : candidate.type === "muscle_cloud" ? "tier_1_muscle" : "tier_0_local",
       vram_fit_status: fitStatus,
       benchmark_matrix: {
         bfcl_composite_score: bfclResult.composite_bfcl_score,
@@ -194,30 +205,46 @@ export async function runUpgradeSweepEvaluator(configPath = './configs/global.ya
 
   // 3. Selection Recommendations
   logStep(3, "Synthesizing Hardware-Aware Model Selection Recommendations");
-  const recommendedLocal = rankedCandidates.find(c => c.tier === "Tier 2 (Muscle)" && c.vram_fit_status !== "out_of_vram_degraded") 
-    || rankedCandidates.find(c => c.tier === "Tier 2 (Muscle)");
+  const recommendedLocal = rankedCandidates.find(c => c.tier.includes("Local Muscle") && c.vram_fit_status !== "out_of_vram_degraded") 
+    || rankedCandidates.find(c => c.tier.includes("Local Muscle"));
 
-  const recommendedFrontier = rankedCandidates.find(c => c.tier === "Tier 1 (Judgment)");
+  const recommendedMuscle = rankedCandidates.find(c => c.tier.includes("Muscle Cloud")) || { model_name: "mistralai/mistral-large-2407" };
+  const recommendedFrontier = rankedCandidates.find(c => c.tier.includes("Judgment"));
+
+  // Calculate MHS tier
+  let mhsClass = "MHS-1_ULTRA_LITE";
+  if (hardware.vram_gb >= 48 || hardware.ram_gb >= 128) {
+    mhsClass = "MHS-4_CLUSTER";
+  } else if (hardware.vram_gb >= 16 || hardware.ram_gb >= 32) {
+    mhsClass = "MHS-3_POWER";
+  } else if (hardware.vram_gb >= 6 || hardware.ram_gb >= 12) {
+    mhsClass = "MHS-2_STANDARD";
+  }
 
   const upgradeSweepReport = {
     evaluated_at: new Date().toISOString(),
-    hardware_profile: hardware,
+    hardware_profile: {
+      ...hardware,
+      mhs_class: mhsClass
+    },
     test_suite_coverage: {
       total_bfcl_scenarios: BFCL_TEST_SUITE.length,
       scenarios_run: BFCL_TEST_SUITE.map(s => ({ id: s.id, name: s.name }))
     },
     recommendations: {
-      frontier_judgment_anchor: recommendedFrontier ? recommendedFrontier.model_name : null,
-      local_muscle_anchor: recommendedLocal ? recommendedLocal.model_name : null,
-      local_fit_reasoning: recommendedLocal.vram_fit_status === "tight_vram_warning" 
+      frontier_judgment_anchor: recommendedFrontier ? recommendedFrontier.model_name : "claude-3-5-sonnet-20241022",
+      cloud_muscle_anchor: recommendedMuscle.model_name,
+      local_muscle_anchor: recommendedLocal ? recommendedLocal.model_name : "llama3.1:8b",
+      mhs_level: mhsClass,
+      local_fit_reasoning: recommendedLocal && recommendedLocal.vram_fit_status === "tight_vram_warning" 
         ? "Warning: Recommended model fits but VRAM buffer is tight (< 4GB remaining). Avoid concurrency leaks." 
         : "Model fits cleanly in VRAM with comfortable overhead. Maximum tokens/sec unlocked."
     },
     ranked_candidates: rankedCandidates,
     lineage: {
       contract_type: "extractor-upgrade-sweep",
-      schema_version: "2.4.0",
-      provenance_flags: ["bfcl_v2_automated", "hardware_aware_compaction"]
+      schema_version: "3.0.0",
+      provenance_flags: ["bfcl_v2_automated", "hardware_aware_compaction", "model_hardware_standard_v1"]
     }
   };
 

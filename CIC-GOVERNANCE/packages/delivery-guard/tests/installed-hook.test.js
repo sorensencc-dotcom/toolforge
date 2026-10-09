@@ -51,10 +51,12 @@ function resolveShell() {
 
 function runHook(tempRepo) {
   const shell = resolveShell();
+  // A nested `node --test` inherits NODE_TEST_CONTEXT and reports child-style (exit 0).
+  const { NODE_TEST_CONTEXT: _ignored, ...env } = process.env;
   return spawnSync(shell, ['.git/hooks/pre-commit'], {
     cwd: tempRepo,
     encoding: 'utf8',
-    env: process.env,
+    env,
   });
 }
 
@@ -180,6 +182,50 @@ test('executes installed hook artifact and runs pre-commit.ps1 sidecar when pres
 
     assert.equal(result.status, 0, `Hook execution failed: ${result.stderr}\n${result.stdout}`);
     assert.match(result.stdout, /SIDECAR_PRECOMMIT_SUCCESS/);
+  } finally {
+    cleanupTempDir(tempRepo);
+  }
+});
+
+test('executes installed hook artifact and blocks when IronLedger seam tests fail', () => {
+  const tempRepo = createTempGitRepo();
+  try {
+    installGitHook(tempRepo);
+    fs.mkdirSync(path.join(tempRepo, 'tests'), { recursive: true });
+    fs.mkdirSync(path.join(tempRepo, 'scripts'), { recursive: true });
+    fs.writeFileSync(
+      path.join(tempRepo, 'tests', 'verify-ledger.test.mjs'),
+      'process.exit(1);\n',
+      'utf8',
+    );
+    fs.writeFileSync(path.join(tempRepo, 'scripts', 'verify-ledger.mjs'), 'process.exit(0);\n', 'utf8');
+
+    const result = runHook(tempRepo);
+
+    assert.notEqual(result.status, 0, 'Failing IronLedger seam tests must block commit');
+    assert.match(result.stdout, /IronLedger seam tests failed/);
+  } finally {
+    cleanupTempDir(tempRepo);
+  }
+});
+
+test('executes installed hook artifact and blocks when IronLedger invariant harness fails', () => {
+  const tempRepo = createTempGitRepo();
+  try {
+    installGitHook(tempRepo);
+    fs.mkdirSync(path.join(tempRepo, 'tests'), { recursive: true });
+    fs.mkdirSync(path.join(tempRepo, 'scripts'), { recursive: true });
+    fs.writeFileSync(
+      path.join(tempRepo, 'tests', 'verify-ledger.test.mjs'),
+      "import test from 'node:test';\ntest('seam', () => {});\n",
+      'utf8',
+    );
+    fs.writeFileSync(path.join(tempRepo, 'scripts', 'verify-ledger.mjs'), 'process.exit(1);\n', 'utf8');
+
+    const result = runHook(tempRepo);
+
+    assert.notEqual(result.status, 0, 'Failing IronLedger harness must block commit');
+    assert.match(result.stdout, /IronLedger invariant harness failed/);
   } finally {
     cleanupTempDir(tempRepo);
   }

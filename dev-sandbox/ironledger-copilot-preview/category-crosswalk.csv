@@ -1,0 +1,31 @@
+﻿copilot_category,export_rows,matched_rows,proposed_broad_target,allowed_existing_families,observed_ironledger_accounts
+,1992,79,review,,"{"""": 10, ""Assets:Citizens:Checking"": 3, ""Assets:Fidelity:Checking"": 2, ""Expenses:ChildSupport"": 4, ""Expenses:CreditCardPayment"": 51, ""Expenses:LoanPayment"": 1, ""Expenses:LoanPayment:School"": 1, ""Expenses:Unassigned"": 4, ""Income:Salary"": 3}"
+Bank Fees,99,5,Expenses:Fees,Expenses:Fees | Expenses:CreditCard:AnnualFee,"{""Expenses:CreditCard:AnnualFee"": 4, ""Expenses:Fees"": 1}"
+Beauty,47,12,Expenses:Health:Beauty,Expenses:Health:Beauty | Expenses:PersonalCare,"{""Expenses:Health:Beauty"": 12}"
+Business Subscription,3,3,Expenses:Business:Subscriptions,Expenses:Business:Subscriptions,"{""Expenses:Business:Subscriptions:AISubscriptions"": 1, ""Expenses:Subscriptions"": 2}"
+Car,171,40,Expenses:Auto,Expenses:Auto,"{""Expenses:Auto"": 30, ""Expenses:Auto:Tolls"": 10}"
+Clothing,51,11,review,,"{"""": 8, ""Expenses:Shopping"": 3}"
+Credit Card Payment,16,0,review,,{}
+Entertainment,18,1,Expenses:Entertainment,Expenses:Entertainment,"{""Expenses:Entertainment"": 1}"
+Foreign Transaction Fee,8,0,Expenses:Fees,Expenses:Fees,{}
+Groceries,702,54,Expenses:Groceries,Expenses:Groceries,"{""Expenses:Alcohol"": 3, ""Expenses:Auto"": 2, ""Expenses:Groceries"": 43, ""Expenses:Shopping"": 5, ""Expenses:Subscriptions"": 1}"
+Gym,25,4,Expenses:Fitness,Expenses:Fitness,"{""Expenses:Fitness"": 4}"
+Healthcare,58,10,Expenses:Health,Expenses:Health,"{""Expenses:Health"": 10}"
+Home,22,4,review,Expenses:Housing | Expenses:Household,"{""Expenses:Household"": 4}"
+Insurance,57,7,Expenses:Insurance,Expenses:Insurance,"{""Expenses:Insurance"": 7}"
+Interest Charges,139,17,Expenses:InterestCharges,Expenses:InterestCharges,"{""Expenses:InterestCharges"": 17}"
+Loan,1,0,review,,{}
+Loan payments,39,3,review,,"{""Expenses:LoanPayment"": 2, ""Expenses:Unassigned"": 1}"
+Moving Expenses,2,0,review,,{}
+Other,226,9,review,,"{"""": 7, ""Expenses:Unassigned"": 2}"
+Parking,9,1,Expenses:Auto,Expenses:Auto,"{""Expenses:Auto"": 1}"
+Personal Care,15,7,Expenses:PersonalCare,Expenses:PersonalCare | Expenses:Health:Beauty,"{""Expenses:Health:Beauty"": 2, ""Expenses:PersonalCare"": 5}"
+Pets,111,16,Expenses:Pets,Expenses:Pets,"{""Expenses:Pets"": 7, ""Expenses:Pets:Boarding"": 9}"
+Rent,16,3,Expenses:Housing,Expenses:Housing,"{""Expenses:CreditCardPayment"": 1, ""Expenses:Housing"": 1, ""Expenses:Insurance"": 1}"
+Restaurants,602,53,Expenses:Dining,Expenses:Dining,"{""Expenses:Business"": 1, ""Expenses:Dining"": 46, ""Expenses:Health:Beauty"": 1, ""Expenses:Household"": 1, ""Expenses:Shopping"": 3, ""Expenses:Travel"": 1}"
+Shops,1138,53,Expenses:Shopping,Expenses:Shopping | Expenses:Household,"{""Expenses:Business:Subscriptions:AISubscriptions"": 2, ""Expenses:Household"": 1, ""Expenses:Shopping"": 48, ""Expenses:Subscriptions"": 2}"
+Storage,25,8,Expenses:Housing:Storage,Expenses:Housing:Storage,"{""Expenses:Housing:Storage"": 8}"
+Subscriptions,108,7,Expenses:Subscriptions,Expenses:Subscriptions | Expenses:Business:Subscriptions,"{""Expenses:Subscriptions"": 5, ""Expenses:Subscriptions:Streaming"": 2}"
+Travel & Vacation,209,28,Expenses:Travel,Expenses:Travel,"{""Expenses:Dining"": 2, ""Expenses:Travel"": 20, ""Expenses:Travel:Airfare"": 5, ""Expenses:Travel:CarRental"": 1}"
+Utilities,65,10,review,Expenses:Phone | Expenses:Housing:Utilites | Expenses:Business:Internet,"{"""": 6, ""Expenses:Business:Internet"": 1, ""Expenses:Household"": 1, ""Expenses:Housing:Utilites:Electric"": 1, ""Expenses:Phone"": 1}"
+Work Expenses,18,7,review,,"{"""": 2, ""Expenses:Business:Subscriptions:AISubscriptions"": 4, ""Expenses:Subscriptions"": 1}"

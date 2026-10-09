@@ -1,0 +1,16 @@
+{
+  "receipt_id": "rcpt-1791116915651-14aqz",
+  "action_id": "act-02-ambient-hardware-agent-bridge",
+  "source": "mobile-gemini-gdoc",
+  "intent": "ambient_hardware_agent_bridge",
+  "action_type": "antigravity_triage",
+  "status": "STAGED_FOR_RESEARCH",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-04T121602Z__research__rewrite-mcp__act-02-ambient-hardware-agent-bridge",
+  "issue_url": null,
+  "target_notebook": "REWRITE-MCP",
+  "dispatched_at": "2026-10-04T12:28:35.660Z",
+  "duration_ms": 237,
+  "error": null,
+  "execution_details": "Staged standalone .gdoc to .harness/tasks/pending/act-02-ambient-hardware-agent-bridge.json",
+  "dryRun": false
+}

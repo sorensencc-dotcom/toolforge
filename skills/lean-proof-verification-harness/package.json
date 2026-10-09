@@ -1,0 +1,20 @@
+{
+  "name": "lean-proof-verification-harness",
+  "version": "1.0.0",
+  "description": "Formal theorem proving, tactic validation, and invariant verification harness for Lean 4",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "invoke": "node -r ts-node/register src/index.ts"
+  },
+  "keywords": [
+    "lean4",
+    "verification",
+    "formal-methods",
+    "theorem-proving"
+  ],
+  "author": "soren",
+  "license": "MIT"
+}
