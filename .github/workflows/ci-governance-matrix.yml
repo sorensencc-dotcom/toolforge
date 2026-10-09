@@ -35,7 +35,8 @@ jobs:
             smoke: npm run gov:smoke
           - repository: sigil
             validate: npm run audit:jcs
-            smoke: npm test
+            # Keep root and tests/ coverage while excluding copied Toolforge suites.
+            smoke: npm run audit:deps && timeout 60s node --test --test-timeout=30000 '*.test.mjs' 'sigil/**/*.test.mjs' 'tests/**/*.test.mjs'
 
     steps:
       - name: Checkout matrix repository
