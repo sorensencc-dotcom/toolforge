@@ -49,6 +49,9 @@ jobs:
         run: >
           node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --base "$BASE_SHA" --head "$GITHUB_SHA" --run-tests
 
+      - name: Test production container regressions
+        run: timeout 60s node --test --test-timeout=30000 CIC-GOVERNANCE/packages/delivery-guard/tests/production-container.test.js
+
   roadmap-location:
     name: Roadmap location policy
     runs-on: ubuntu-latest

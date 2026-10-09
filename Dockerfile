@@ -13,13 +13,13 @@ COPY package*.json ./
 ENV NPM_CONFIG_LEGACY_PEER_DEPS=true
 
 # Install all dependencies (keeping optional for platform-native bundlers like Vite/Rolldown)
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+RUN if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi
 
 # Copy source code
 COPY . .
 
 # Build UI if present (Vite compiles React frontend into src/ui/dist)
-RUN npm run ui:build --if-present || true
+RUN npm run ui:build --if-present
 
 # Prune dev dependencies so node_modules contains only production modules
 RUN npm prune --omit=dev

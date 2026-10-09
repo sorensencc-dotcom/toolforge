@@ -9,6 +9,23 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## PR 109 deployment repair (2026-10-08)
+
+- Goal: inspect confirmed deployment defects in PR 109 and add regression coverage; this is not an exhaustive review of its 327 changed files.
+- Production Compose now requires a nonempty POSTGRES_PASSWORD instead of accepting a committed fallback. No live credentials were changed.
+- Docker context retains SQL migrations. UI compiler failures now fail the image build. Dependency installation uses npm ci when a lockfile exists and npm install when the clean checkout has none.
+- Added six behavioral regression cases for missing, empty, and supplied credentials, migration inclusion, UI build failure propagation, and installation with and without a lockfile, plus a CI-wiring regression. Confirmed failures before fixes.
+- Validation: complete delivery-guard suite passed 109/109 tests with the pinned Graft CLI, zero skips or failures. Docker image built successfully; a disposable network-disabled container verified both SQL migrations and non-root UID 1001. git diff --check passed.
+- Security boundary: GitGuardian incident 37925717 refers to an earlier commit. Removing the current fallback does not erase history or resolve the external incident. If that password was used, operator rotation remains necessary.
+- Delivered: ba8f3eb pushed to the existing parkd821-20260908 branch. Governance run 37874880838 passed all five jobs. GitHub reports merge conflicts; resolving the broader branch divergence is outside this deployment repair.
+- Follow-up: Compose uses its standard required-variable error instead of custom text that GitGuardian classified as a password. All six focused regression cases still pass. Historical secret detections may remain until operator resolution; no detector exemptions or history rewrites were applied.
+- CI follow-up: the policy wrapper skipped tests when only deployment files changed. Governance now executes the bounded production-container test file unconditionally; its wiring regression failed before this step was added.
+- Delivered through a4f51c7: Governance run 37875370192 passed all five jobs, including all seven production-container regressions.
+- Rechecked 2026-10-09: PR head remains a4f51c7; seven focused regressions pass again. Only GitGuardian fails. Its check scans 39 historical commits and reports four occurrences across three incidents, not a new runtime defect.
+- Security triage: incident 37925717 covers the removed historical password. Incidents 38035613 and 38035644 cover required environment interpolation, not literal credentials; verified their referenced committed lines. Resolve classifications in GitGuardian rather than weakening credential validation or adding detector exemptions.
+- Blockers: operator must verify rotation if the historical password was used and resolve security incidents. GitHub also reports merge conflicts. No credential rotation, incident dismissal, history rewrite, merge, or production deployment performed.
+- Next action: obtain operator authorization for security incident triage. No additional code fix or test change is justified by the current failed check.
+
 ## Governance run 37729327112 repair (2026-10-08)
 
 - Goal: repair the failed skill documentation, automation regression-test, and Graft graph jobs.
