@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.85.5
+Date: 2026-10-09
+
+### Changes
+- e9cc348 - Feat/notebooklm cluster parity audit (#107) (Chris Sorensen)
+
 ## Version 2.85.4
 Date: 2026-10-09
 
