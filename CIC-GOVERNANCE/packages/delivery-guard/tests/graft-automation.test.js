@@ -34,6 +34,7 @@ test('Graft CI builds the ignored graph before checking it with a pinned CLI', (
   assert.ok(job, 'Graft job must exist');
   assert.match(job, /node-version: '22'/);
   assert.match(job, /npm install -g @nanonets\/graft@0\.21\.1/);
+  assert.match(job, /graft-freshness\.test\.js/);
   assert.match(job, /run: graft build\s+[\s\S]*run: graft check/);
   assert.doesNotMatch(job, /continue-on-error|\|\| true|--deep/);
 });
@@ -60,4 +61,13 @@ test('deep wrapper dry run masks cloud credentials and never invokes Graft', () 
 test('deep wrapper propagates a failed Graft build exit code', () => {
   const result = runWrapper('-Tier tier0', { graftExit: 23 });
   assert.equal(result.status, 23, result.stderr || result.error?.message);
+});
+
+test('automatic routing selects local Ollama without interpolating the dollar amount', () => {
+  const result = runWrapper('-Tier auto -DryRun');
+  assert.equal(result.status, 0, result.stderr || result.error?.message);
+  assert.match(result.stdout, /Offline Substrate \$0\.00/);
+  assert.match(result.stdout, /Rate: \$0\.00\/1M tokens/);
+  assert.match(result.stdout, /--base-url http:\/\/127\.0\.0\.1:11434\/v1/);
+  assert.doesNotMatch(result.stdout, /GRAFT_ARGS:/);
 });

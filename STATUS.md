@@ -19,6 +19,8 @@
 - Validation: delivery-guard suite 98/98 passed; recursive skill documentation validation passed; clean graph build parsed 929/929 files; a later source edit correctly failed freshness with STALE; git diff --check passed.
 - Delivered: bb1b6a5 pushed to parkd821-20260908. Replacement Governance run [37865009603](https://github.com/sorensencc-dotcom/toolforge/actions/runs/37865009603) passed all five jobs, including the configured regression suite. Final graph freshness passed. The historical failed run remains tied to its original commit.
 - Session retrospective: .context/retros/2026-10-08-1.json records the bounded repair window and its verified results. No open repair blockers.
+- Follow-up regression coverage: both repaired skills pass the real documentation validator and fail when their guide link is removed; automatic local routing exercises both literal dollar amounts; the real pinned Graft CLI rejects missing and stale graphs and accepts fresh and rebuilt graphs. The graph lifecycle test runs in the Graft CI job after CLI installation, with a 60-second process timeout.
+- Follow-up validation: delivery-guard suite 102/102 passed locally with the pinned Graft CLI; no skips or failures. Workflow-wiring regression failed before the new CI step was added, then passed. git diff --check passed.
 
 ## Embedded DuckDB Agent Analytics Engine Evaluation, Spec & Plan (2026-10-03)
 
