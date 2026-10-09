@@ -2,10 +2,18 @@
 
 **Category**: daemons  
 **Version**: 0.1.0  
-**Status**: active  
+**Status**: beta (stub; design only, 2026-10-06 review)  
 **Owner**: soren  
 
-## Purpose
+## Current state (verified 2026-10-06)
+
+[`daemons/toolforge-index-sync.ps1`](../../daemons/toolforge-index-sync.ps1) is a one-line stub. It prints `\Syncing INDEX.md...\`, backslashes included, and does nothing else. `toolforge-install.ps1:157-167` wrote the stub with escaped quotes. The sections below describe the intended design, not shipped behavior. Nothing here is implemented:
+
+- No scheduled task named `Toolforge-Index-OnDemand` is registered by any script in this repo. [`utilities/setup-task-scheduler.ps1`](../../utilities/setup-task-scheduler.ps1) registers only `Daily Roadmap Sync`.
+- `manifest.json` has no entry for this daemon.
+- `daemons/README.md` does not exist. The See Also bullet below names the missing file in plain text.
+
+## Purpose (intended)
 
 Background daemon that updates the tool index (INDEX.md). Reads manifest.json and generates a human-readable index of all available tools organized by category.
 
@@ -48,10 +56,10 @@ daemon, metadata
 
 ## Entrypoint
 
-- **File**: `toolforge-index-sync.ps1`
+- **File**: `daemons/toolforge-index-sync.ps1` (stub)
 - **Runtime**: PowerShell 7+
 
-## Schedule
+## Schedule (intended)
 
 - **Frequency**: Background daemon (triggered after manifest changes)
 - **Task Name**: `Toolforge-Index-OnDemand`
@@ -83,18 +91,18 @@ Description...
 **Total**: X active tools
 ```
 
-## Error Handling
+## Error Handling (intended)
 
 - Exit code 0: Success
 - Exit code 1+: Failure (logs details)
 - Skips malformed manifest entries
 - Preserves previous INDEX.md if generation fails
 
-## Examples
+## Examples (intended)
 
 ```powershell
 # Run manually
-& "C:\dev\toolforge\daemons\toolforge-index-sync\toolforge-index-sync.ps1"
+& "C:\dev\toolforge\daemons\toolforge-index-sync.ps1"
 
 # View generated index
 Get-Content C:\dev\toolforge\INDEX.md
@@ -112,7 +120,7 @@ Select-String "^##" C:\dev\toolforge\INDEX.md
 
 ## See Also
 
-- [daemons/README.md](../../daemons/README.md) — Daemon guidelines
+- daemons/README.md — does not exist (dead link removed)
 - [INDEX.md](../../INDEX.md) — Generated index (human-readable)
 - [manifest.json](../../manifest.json) — Source data (machine-readable)
 - [run-tool.ps1](../../run-tool.ps1) — Tool runner (references INDEX)

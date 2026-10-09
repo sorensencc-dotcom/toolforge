@@ -6,9 +6,8 @@
   "author": "Soren (Cast Iron Forge)",
   "license": "MIT",
   "category": "utilities",
-  "entrypoint": "src/index.js",
   "runtime": "javascript",
-  "tags": ["usage", "rate-limit", "claude-code", "codex", "grok", "cross-cli"],
+  "entrypoint": "src/index.js",
 
   "metadata": {
     "runtime": "javascript",

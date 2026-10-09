@@ -349,7 +349,7 @@ function Commit-WeeklyReport {
     try {
         # Stage and commit
         & git -C $repoRoot add $reportPath 2>&1 | Out-Null
-        & git -C $repoRoot commit -m "docs(report): add weekly report for $reportWeek" 2>&1 | Out-Null
+        & git -C $repoRoot commit -m "docs(report): add weekly report for $reportWeek" -- $reportPath 2>&1 | Out-Null
         Write-Host "Report committed: $reportPath"
         return $true
     } catch {

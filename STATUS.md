@@ -22,6 +22,33 @@
 - Follow-up regression coverage: both repaired skills pass the real documentation validator and fail when their guide link is removed; automatic local routing exercises both literal dollar amounts; the real pinned Graft CLI rejects missing and stale graphs and accepts fresh and rebuilt graphs. The graph lifecycle test runs in the Graft CI job after CLI installation, with a 60-second process timeout.
 - Follow-up validation: delivery-guard suite 102/102 passed locally with the pinned Graft CLI; no skips or failures. Workflow-wiring regression failed before the new CI step was added, then passed. git diff --check passed.
 
+## Governance matrix run 37297242249 repair (2026-10-08)
+
+- Goal: repair the Sigil smoke-test row, which discovered copied Toolforge governance tests and failed on foreign files, dependencies, and Git history.
+- Scoped Sigil discovery to root *.test.mjs, sigil/**/*.test.mjs, and tests/**/*.test.mjs. Kept dependency audit and the existing JCS validation. Added a 60-second process timeout around the test runner.
+- Added two executable fixture regressions: run all three owned test locations without copied governance suites, and fail when an owned Sigil test fails. Both reproduced the discovery defect before the workflow fix.
+- Validation: complete delivery-guard suite passed 96/96 with no skips; git diff --check passed.
+- Delivery: commit 1fb2dec pushed on isolated main-based branch codex/fix-matrix-37297242249; [PR #108](https://github.com/sorensencc-dotcom/toolforge/pull/108) is open against main.
+- Remote evidence: [matrix run 37873116744](https://github.com/sorensencc-dotcom/toolforge/actions/runs/37873116744) passed all five repositories. Sigil executed 1610 tests: 1436 passed, 174 skipped, 0 failed, and 0 cancelled. Both push and PR Governance checks, secret scan, and AST audit passed. Devin reported a pass but skipped full review because its trial expired.
+- Session retrospective: .context/retros/2026-10-08-2.json. Next action: review and merge PR #108; main is not changed by this repair yet.
+
+## Docs refresh outside docs/meta, open list (2026-10-06)
+
+### Completed work
+
+- #97-#103 merged (weekly-report fix, daemon notes, `DOCS_INDEX.md`, scheduler docs, `usagecheck`, `$ScriptPath` fix, root `DOCS_INDEX.md` deleted).
+- #104 drops the `$ScriptPath` known-bug note. #105 fixes stale claims in `documentation-policy.md`, `wiki-style-and-structure.md`, and the phase 7 charter. Both open, awaiting review.
+
+### Blockers
+
+- None.
+
+### Next action
+
+1. Remaining stale docs, 5 left: the two Toolforge notes, the two Charlie READMEs, `KB_SYNC_DAG.md`, and the Ecosystem Architecture Guide.
+2. Step 4: 139 files naming no repo.
+3. Other open: 10-04 retro with no output; `weekly-report-agent.ps1` defects (no `$LASTEXITCODE` check, 7-day window skips run day, backfilled token/files/tests figures look wrong); registry cutover (plan Task 9 preview, then Task 10 retires the legacy wiki writers listed in `wiki-sync-registry.md`).
+
 ## Embedded DuckDB Agent Analytics Engine Evaluation, Spec & Plan (2026-10-03)
 
 ### Active goal

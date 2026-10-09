@@ -9,6 +9,8 @@ phase: "Phase 8 Wave D (Parallel submission pipeline)"
 conformance_check: "PENDING"
 ---
 
+> **Status note (2026-10-05):** this spec is the 2026-07-13 draft and its file layout is not what was built. The implementation lives in the separate `toolforge-marketplace` repo, not here. The CLI is JavaScript (`src/cli/index.js`), not PowerShell `src/cli.ps1`, and the validator is `src/validators/manifest.js` plus `semver.js`, not TypeScript `src/validate.ts`. `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` is still `status: TEMPLATE FOR EXECUTION` and unsigned. Read the layout sections below as the original plan.
+
 # Toolforge Marketplace v1.0 — Charter & Specification
 
 **Executive Summary:**  

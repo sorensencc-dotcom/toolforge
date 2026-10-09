@@ -1,8 +1,8 @@
 # Wiki Sync Registry
 
-**Status:** draft  
+**Status:** draft. Target state is a single writer (`npm run docs:sync`). As of 2026-10-06 every row in the JSON is `enabled: false`, so cutover has not happened (see "Single writer")  
 **Owner:** TODO (docs / platform)  
-**Last inventory pass:** 2026-09-27 (ET)  
+**Last inventory pass:** 2026-09-27 (ET). Single-writer section verified 2026-10-06  
 **Companion:** `docs/meta/governance/wiki-style-and-structure.md` §10 (Sync contract)
 **Machine-readable source:** [wiki-sync-registry.json](wiki-sync-registry.json). The orchestrator reads only the JSON. This table is human notes and must name the same products.
 
@@ -14,7 +14,30 @@ This file is the per-product answer to §10's "MUST document which side is canon
 - Ambiguous dual edits **MUST** be treated as drift. Validate **SHOULD** fail or warn until one side wins.
 - `C:\dev\wiki\**` **MUST NOT** be treated as a sync twin of any product wiki. It is a **generated quarantine / dump** (synthesized nodes, research mirrors, non-curated copies). Promotion into a curated wiki is a deliberate copy + page-status change + sidebar link — never an automated twin sync.
 - Authors **MUST NOT** invent a second sync script in this registry. Cite only tools that exist on disk; otherwise leave **sync tool / owner** as TODO.
-- Fleet tooling under `C:\dev\kb-sync` (notably `modules/wiki/fleet-wiki-reconciler.ts` and `scripts/wiki-validate-pre*.sh`) **MAY** publish or validate across repos; it does **not** override a product's canonical side named below.
+- Fleet tooling under `C:\dev\kb-sync` (`modules/wiki/fleet-wiki-reconciler.ts`) is a legacy writer being turned off (see "Single writer"). Its `scripts/wiki-validate-pre*.sh` hooks stay as validators. Neither overrides the canonical side named below.
+
+## Single writer
+
+Target: one process publishes product wikis, `npm run docs:sync` (`scripts/doc-sync/run.mjs`), driven by [wiki-sync-registry.json](wiki-sync-registry.json). Plan: `docs/superpowers/plans/2026-10-01-unified-doc-sync.md`. Preview one product with `npm run docs:sync -- --product=<name> --dry-run`. A bare `--dry-run` throws `NO_PRODUCTS_SELECTED` while every row is disabled. **`--product=<name>` skips the `enabled` check, so running it without `--dry-run` really publishes to that product's wiki remote.**
+
+**State on 2026-10-06:** the orchestrator and its tests exist. All 7 JSON rows (`toolforge`, `sigil`, `kb-sync`, `trm`, `icf`, `helix`, `toolforge-marketplace`) are `"enabled": false`, so `docs:sync` publishes nothing by default. The legacy writers below are still live on disk. Retirement is plan Task 10, which runs only after the Task 9 preview passes. Do not read this section as "cutover done."
+
+Legacy writers to turn off (plan Task 10):
+
+| Writer | Path | Status |
+| --- | --- | --- |
+| Toolforge direct publish | `C:\dev\package.json` `wiki:publish` / `wiki:sync` -> `scripts/sync-github-wiki.mjs` | Live. Stays as the `--build-only` build step for the `toolforge` row; the npm aliases get repointed to `docs:sync`. The toolforge pre-push no longer publishes (PR #87). |
+| kb-sync direct publish | `C:\dev\kb-sync\package.json` `wiki:publish` / `wiki:sync` -> kb-sync's own `scripts/sync-github-wiki.mjs` | Live. The script stays as the `--build-only` build step for the `kb-sync` row; both aliases get repointed to `docs:sync`. |
+| Fleet reconciler (kb-sync) | `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts` | On disk, can be run by hand, nothing calls it: kb-sync has no `fleet:wiki:reconcile` script (only `test:fleet-reconciler`) and no scheduled task or workflow invokes it. To be deleted. |
+| Fleet reconciler (toolforge copy) | `C:\dev\modules\wiki\fleet-wiki-reconciler.ts` | Dormant. Clones a wiki remote and runs `git push origin HEAD` (line 425), but no script, workflow, or npm script in this repo calls it. To be deleted with the kb-sync copy. |
+| kb-sync pre-push publish | `C:\dev\kb-sync\scripts\wiki-validate-prepush.sh` (runs `sync-github-wiki.mjs`) | Live. Publish block to be removed; validation stays. |
+| kb-sync CI publish | `C:\dev\kb-sync\.github\workflows\wiki-drift-and-publish.yml` | Live. Publish step to be removed. |
+| NotebookLM nightly Stage 3 | `C:\dev\kb-sync\scripts\notebooklm\kb-sync-nightly.ps1` | Live. Stage to be deleted. |
+| sigil CI publish | `C:\dev\sigil-repo\.github\workflows\wiki-sync.yml` | Live. To be deleted. `npm run wiki:sync` stays as the `--wiki-dir` build step for the `sigil` row. |
+| TRM publish | `C:\dev\trm\scripts\sync-remote-wiki.mjs`, `wiki:publish` | Live. Script to be deleted; `wiki:publish` repointed to `docs:sync --product=trm`. |
+
+Until a product's row is enabled, its legacy writer in the "Sync tool / owner" column below is still the real publisher. After cutover, JSON wins and that column is history.
+
 
 ## Registry
 
@@ -31,6 +54,7 @@ This file is the per-product answer to §10's "MUST document which side is canon
 | helix | `helix` | `https://github.com/sorensencc-dotcom/helix.wiki.git` (local clone `C:\dev\helix-wiki`) | 2 curated pages (`Home`, `README`) + `_Sidebar.md` / `_Footer.md` | None found. Owner: TODO | 2026-09-27 | Local chat-engine product per Chris; orchestrates ICF/WhichLLM/Sigil as authorities but is its own brand, not CIC or product-toolforge chrome. Live at `http://127.0.0.1:8877/`. Frontmatter + minimal `_Sidebar`/`_Footer` added, pushed. |
 | rewrite-mcp | `rewrite-docs` (see rewrite-docs row above — same brand bucket, different repo) | `https://github.com/sorensencc-dotcom/rewrite-mcp.wiki.git` (local clone `C:\dev\rewrite-mcp-wiki`) | 301 pages total; ~19 promoted via `_Sidebar.md`. Remainder is per-source-file fleet dump, same shape as cic-ingestion | Fleet: same reconciler as cic-ingestion (footer stamp "Automated Fleet Wiki Sync"). Owner: TODO | 2026-09-27 | Checked promoted pages for CIC-palette diagram contamination (hard-forbidden for this brand) — **clean**, no forge-hex hits. Heavy textual "CIC" cross-references throughout (allowed as links, not chrome). Same generated-dump `status` mislabel gap as cic-ingestion. Frontmatter added to the 19 promoted pages, pushed. |
 | cic-jev | `cic` (per repo name; content not yet written) | `https://github.com/sorensencc-dotcom/cic-jev.wiki.git` (local clone `C:\dev\cic-jev-wiki`) | 1 page (`Home` = unedited GitHub default "Welcome to the cic-jev wiki!") | None — wiki not yet populated | 2026-09-27 | Left as-is per Chris — stub, not a governance violation until real content lands. |
+| kb-sync | TODO | TODO (canonical side not checked) | TODO | JSON row only: `buildCommand` runs kb-sync's own `scripts/sync-github-wiki.mjs --build-only`; `preValidate` is `npm run wiki:validate-contract`. Owner: TODO | 2026-10-06 | Row exists in `wiki-sync-registry.json` (`enabled: false`) but had no row here until now. Remote: `https://github.com/sorensencc-dotcom/kb-sync.wiki.git`. |
 | *(quarantine)* | `internal-obsidian` / `kb-sync` | **N/A — not canonical for any product** | `C:\dev\wiki\**`, kb-sync `wiki/entities/**`, Obsidian vault wiki mirrors, `_kb-sync-staging` | Fleet: `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts`; validate hooks: `C:\dev\kb-sync\scripts\wiki-validate-precommit.sh`, `wiki-validate-prepush.sh`. Owner: kb-sync / fleet (ops), not product wiki SoT | 2026-09-26 | Generated quarantine. Receipts and provenance matter more than brand paint. **MUST NOT** be used as the curated twin of toolforge / sigil / trm. |
 
 ## How to use this registry
@@ -44,7 +68,7 @@ This file is the per-product answer to §10's "MUST document which side is canon
 
 | Tool | Path | Role |
 | --- | --- | --- |
-| Doc sync orchestrator | `C:\dev\scripts\doc-sync\run.mjs` (`npm run docs:sync`) | The only process that pushes to a product wiki |
+| Doc sync orchestrator | `C:\dev\scripts\doc-sync\run.mjs` (`npm run docs:sync`) | Target single writer to product wikis. Rows disabled until cutover (see "Single writer") |
 | Toolforge page map | `C:\dev\tools\wiki-browser-qa\wiki-page-rules.mjs` | `ROOT_WIKI_FILES` / `ROOT_WIKI_PAGE_MAPPINGS` |
 | Wiki validate hooks | `C:\dev\kb-sync\scripts\wiki-validate-precommit.sh`, `wiki-validate-prepush.sh` | Pre-commit / pre-push contract checks |
 

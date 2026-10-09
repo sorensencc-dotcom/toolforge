@@ -183,6 +183,17 @@ $TaskDefinitions = @(
         ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"C:\dev\scripts\run-weekly-retro.ps1`" -RepoRoot `"C:\dev`""
     },
     @{
+        TaskName = "toolforge-weekly-report-md-agent"
+        Category = "\toolforge\"
+        OldPath = "\"
+        Description = "Toolforge: Weekly Markdown report aggregation into docs/reports/weekly."
+        TriggerType = "Weekly"
+        TriggerDay = "Sunday"
+        TriggerTime = "18:30"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\weekly-report-agent.ps1`" -RepoRoot `"$RepoRoot`""
+    },
+    @{
         TaskName = "Toolforge-CI-Nightly"
         Category = "\toolforge\"
         OldPath = "\"

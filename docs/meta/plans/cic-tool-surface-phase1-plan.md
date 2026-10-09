@@ -34,7 +34,7 @@ stdlib only (`unittest`, `json`, `subprocess` on the Node side via
 - `skill.json` for every new skill sets `integrations.cowork.registered: false`,
   `status: "pending_registration"` — these are not marketplace-submitted in
   Phase 1.
-- Spec of record: `C:\dev\docs\meta\cic-tool-surface-phase1-design.md`. If any
+- Spec of record: `C:\dev\docs\meta\specs\cic-tool-surface-phase1-design.md`. If any
   task here conflicts with it, the spec wins — flag the conflict instead of
   silently picking one.
 
@@ -386,7 +386,7 @@ Expected: PASS, 2 tests.
 
 Phase 1 stub. Returns a fabricated ingest result — no real ingestion runs.
 Real backend deferred until TorqueQuery (`rewrite-docs/services/torquequery/`)
-is committed and stable. See `C:\dev\docs\meta\cic-tool-surface-phase1-design.md`.
+is committed and stable. See `C:\dev\docs\meta\specs\cic-tool-surface-phase1-design.md`.
 
 Paths in output (`artifactsPath`) are relative to repo root
 (`<repo-root>/cic/artifacts/...`), not POSIX-absolute `/cic/...` as in the
@@ -997,7 +997,7 @@ data loss.
 Paths (`artifactsPath`, `reportPath`) are relative to repo root
 (`<repo-root>/cic/artifacts/gates/<runId>/...`), matching the Windows-path
 deviation documented in `_cic-shared`'s task and
-`C:\dev\docs\meta\cic-tool-surface-phase1-design.md`.
+`C:\dev\docs\meta\specs\cic-tool-surface-phase1-design.md`.
 
 ## Input
 `{ gateId: string; scope?: string; profile?: string }`

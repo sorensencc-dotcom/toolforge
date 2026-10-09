@@ -1,5 +1,7 @@
 # CIC Tool Surface Phase 2 Implementation Plan
 
+> **Status:** Executed (2026-07-16). Reviewed against code 2026-10-05: `findRepoRoot`, `lineagePaths`, `reportPaths`, and `writeLineageEntry` exist in `skills/_cic-shared/src/`. Kept as a record; checkboxes below were not back-filled.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Extend `_cic-shared` with repo-root-anchored path resolution and
@@ -20,7 +22,7 @@ dependencies.
 
 ## Global Constraints
 
-- Spec of record: `C:\dev\docs\meta\cic-tool-surface-phase2-design.md`. If
+- Spec of record: `C:\dev\docs\meta\specs\cic-tool-surface-phase2-design.md`. If
   any task here conflicts with it, the spec wins — flag the conflict instead
   of silently picking one.
 - `findRepoRoot` bound: 20 levels or filesystem root, whichever comes first.

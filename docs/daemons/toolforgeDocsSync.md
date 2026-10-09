@@ -2,10 +2,18 @@
 
 **Category**: daemons  
 **Version**: 0.1.0  
-**Status**: active  
+**Status**: beta (stub; design only, 2026-10-06 review)  
 **Owner**: soren  
 
-## Purpose
+## Current state (verified 2026-10-06)
+
+[`daemons/toolforge-docs-sync.ps1`](../../daemons/toolforge-docs-sync.ps1) is a one-line stub. It prints `\Syncing DOCS_INDEX...\`, backslashes included, and does nothing else. `toolforge-install.ps1:157-167` wrote the stub with escaped quotes. The sections below describe the intended design, not shipped behavior. Nothing here is implemented:
+
+- No scheduled task named `Toolforge-Docs-OnDemand` is registered by any script in this repo. [`utilities/setup-task-scheduler.ps1`](../../utilities/setup-task-scheduler.ps1) registers only `Daily Roadmap Sync`.
+- `manifest.json` has no entry for this daemon.
+- `daemons/README.md` does not exist. The See Also bullet below names the missing file in plain text.
+
+## Purpose (intended)
 
 Background daemon that regenerates tool documentation. Scans tool source files, extracts metadata, and generates markdown docs in `C:\dev\toolforge\docs\<category>\`.
 
@@ -54,15 +62,15 @@ Reads from:
 
 ## Entrypoint
 
-- **File**: `toolforge-docs-sync.ps1`
+- **File**: `daemons/toolforge-docs-sync.ps1` (stub)
 - **Runtime**: PowerShell 7+
 
-## Schedule
+## Schedule (intended)
 
 - **Frequency**: Background daemon (on-demand via Task Scheduler or manual trigger)
 - **Task Name**: `Toolforge-Docs-OnDemand`
 
-## Error Handling
+## Error Handling (intended)
 
 - Exit code 0: Success
 - Exit code 1+: Failure (logs error details)
@@ -88,11 +96,11 @@ C:\dev\toolforge\docs\
 └── (other categories)
 ```
 
-## Examples
+## Examples (intended)
 
 ```powershell
 # Run manually
-& "C:\dev\toolforge\daemons\toolforge-docs-sync\toolforge-docs-sync.ps1"
+& "C:\dev\toolforge\daemons\toolforge-docs-sync.ps1"
 
 # Trigger via Task Scheduler
 Start-ScheduledTask -TaskName "Toolforge-Docs-OnDemand"
@@ -110,6 +118,6 @@ Get-Content C:\dev\toolforge\docs\DOCS_INDEX.md
 
 ## See Also
 
-- [daemons/README.md](../../daemons/README.md) — Daemon guidelines
+- daemons/README.md — does not exist (dead link removed)
 - [DOCS_INDEX.md](../../docs/DOCS_INDEX.md) — Generated index
 - [TOOL_CREATION_GUIDE.md](../../TOOL_CREATION_GUIDE.md) — Tool creation (includes doc requirements)

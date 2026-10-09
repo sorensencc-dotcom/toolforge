@@ -92,6 +92,8 @@ After the first real request against a new prefix:
 
 Current models and first-party rates (per MTok, input / output):
 
+> Reviewed 2026-10-05: IDs and prices below were not re-verified. Newer releases exist (`claude-opus-5-5`, `claude-sonnet-5-5`). Check the model docs before copying a price or cache-minimum into code.
+
 | Model | ID | Input | Output |
 |---|---|---|---|
 | Opus 5 | `claude-opus-5` | $5.00 | $25.00 |

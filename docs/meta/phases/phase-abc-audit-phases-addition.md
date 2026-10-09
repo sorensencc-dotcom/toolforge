@@ -6,6 +6,8 @@ date: 2026-07-11
 
 # Phase ABC Extension: Audit Phases
 
+> **Status note (2026-10-05):** two artifacts this charter calls for were never created: `docs/meta/audit-waiver-template.md` and `docs/meta/audit/baseline-conformance-report.md`. `docs/meta/audit/` holds only a README. Read those items as planned, not delivered.
+
 **Context:** Phase ABC established repository governance framework (file-lifecycle, ownership, naming). Audit Phases embed governance enforcement into charter decision cycle as permanent fixture.
 
 ---

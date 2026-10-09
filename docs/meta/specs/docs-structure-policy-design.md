@@ -1,6 +1,6 @@
 # docs/meta Restructure + Documentation Policy — Design
 
-**Status:** Approved design, pending implementation plan.
+**Status:** Implemented. Reviewed against code 2026-10-05: `governance/`, `phases/`, `plans/`, `specs/`, `reviews/`, and `archive/` exist under `docs/meta/` with a README each, and the files named below as sources (for example `toolforge-phase-2b-charter.md`) now sit in those folders. File names in this document are the pre-move names. The live rules are in `docs/meta/governance/documentation-policy.md`.
 **Date:** 2026-07-16
 
 ## Problem

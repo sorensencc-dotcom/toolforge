@@ -2,10 +2,19 @@
 
 **Category**: daemons  
 **Version**: 0.1.0  
-**Status**: active  
+**Status**: beta (stub; design only, 2026-10-06 review)  
 **Owner**: soren  
 
-## Purpose
+## Current state (verified 2026-10-06)
+
+[`daemons/toolforge-manifest-sync.ps1`](../../daemons/toolforge-manifest-sync.ps1) is a one-line stub. It prints `\Syncing manifest...\`, backslashes included, and does nothing else. `toolforge-install.ps1:157-167` wrote the stub with escaped quotes. The sections below describe the intended design, not shipped behavior. Nothing here is implemented:
+
+- No scheduled task named `Toolforge-Manifest-15min` is registered by any script in this repo. [`utilities/setup-task-scheduler.ps1`](../../utilities/setup-task-scheduler.ps1) registers only `Daily Roadmap Sync`.
+- `manifest.json` has no entry for this daemon.
+- `daemons/README.md` does not exist. The See Also bullet below names the missing file in plain text.
+- `OPERATOR_GUIDE.md` calls the task `toolforge-manifest-sync`; this note calls it `Toolforge-Manifest-15min`. Neither is registered, so both are design names.
+
+## Purpose (intended)
 
 Background daemon that syncs the toolforge manifest index. Rescans all tool directories, detects changes, and updates manifest.json with latest metadata.
 
@@ -45,27 +54,27 @@ None (runs on schedule via Task Scheduler). Reads from:
 
 ## Entrypoint
 
-- **File**: `toolforge-manifest-sync.ps1`
+- **File**: `daemons/toolforge-manifest-sync.ps1` (stub)
 - **Runtime**: PowerShell 7+
 
-## Schedule
+## Schedule (intended)
 
 - **Frequency**: Every 15 minutes
 - **Registration**: Windows Task Scheduler
 - **Task Name**: `Toolforge-Manifest-15min`
 
-## Error Handling
+## Error Handling (intended)
 
 - Exit code 0: Success
 - Exit code 1+: Failure (logged to event log)
 - Errors trigger retry on next interval
 - Manifest backup created before updates
 
-## Examples
+## Examples (intended)
 
 ```powershell
 # Run manually
-& "C:\dev\toolforge\daemons\toolforge-manifest-sync\toolforge-manifest-sync.ps1"
+& "C:\dev\toolforge\daemons\toolforge-manifest-sync.ps1"
 
 # Check last run
 Get-ScheduledTaskInfo -TaskName "Toolforge-Manifest-15min"
@@ -79,10 +88,10 @@ Get-Content C:\dev\toolforge\manifest.json | ConvertFrom-Json | Select -ExpandPr
 - Daemon runs silently (no user interaction)
 - Detects new tools automatically
 - Preserves custom manifest fields (schedule, owner, tags, etc.)
-- Used by `run-tool.ps1` to discover available tools
+- `run-tool.ps1` does not depend on this daemon. `run-tool.ps1 -Refresh` rescans and rewrites `toolforge\manifest.json` itself; that is the only manifest refresh that works today
 
 ## See Also
 
-- [daemons/README.md](../../daemons/README.md) — Daemon guidelines
+- daemons/README.md — does not exist (dead link removed)
 - [manifest.json](../../manifest.json) — Tool registry
-- [run-tool.ps1](../../run-tool.ps1) — Tool runner (uses manifest)
+- [run-tool.ps1](../../run-tool.ps1) — Tool runner (`-Refresh` rewrites the manifest itself)

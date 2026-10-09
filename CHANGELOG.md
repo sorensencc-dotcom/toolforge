@@ -1,5 +1,74 @@
 # Changelog
 
+## Version 2.85.4
+Date: 2026-10-09
+
+### Changes
+- cae9c90 - test(ci): isolate Sigil matrix suites from copied governance tests (#108) (Chris Sorensen)
+- 2a45dde - docs(status): record 10-06 docs refresh open list (#106) (Chris Sorensen)
+- f6c2ffc - docs(governance): fix stale claims in documentation-policy, wiki guide, phase 7 charter (#105) (Chris Sorensen)
+- d2f6eb2 - docs(utilities): drop stale $ScriptPath known-bug note, fix sync-tools path (#104) (Chris Sorensen)
+- e1f3ac1 - chore(docs): delete root DOCS_INDEX.md (#103) (Chris Sorensen)
+
+## Version 2.85.3
+Date: 2026-10-06
+
+### Changes
+- 9683fb9 - fix(scheduler): point Daily Roadmap Sync at sync-tools/multiRepoRoadmapSync.cjs (#102) (Chris Sorensen)
+- ead011d - docs: align daemon notes, scheduler docs, and operator guide with the repo (#100) (Chris Sorensen)
+- dd889a1 - docs: correct DOCS_INDEX.md and add single-writer section to wiki-sync-registry (#99) (Chris Sorensen)
+- 958349d - fix(usagecheck): satisfy canonical skill validator and security audit (#101) (Chris Sorensen)
+- 15301df - docs(daemons): mark toolforge sync daemon notes as stub design (#98) (Chris Sorensen)
+
+## Version 2.85.2
+Date: 2026-10-06
+
+### Changes
+- d782c1e - fix(report): commit only the weekly report path (#97) (Chris Sorensen)
+- ddf1caf - docs(meta/phase-8): note marketplace deliverables were built in a separate repo (#96) (Chris Sorensen)
+- 75d664d - docs(meta/phases): add status notes to ashfall state and phase ABC audit charter (#95) (Chris Sorensen)
+- bf1d4a9 - docs(meta/plans): fix moved-path references, add status notes (#94) (Chris Sorensen)
+- 7e6ab26 - docs(meta/specs): note slop-grader spec layout differs from the build (#93) (Chris Sorensen)
+- f1df701 - docs(meta/governance): fix dead links and add status notes (#92) (Chris Sorensen)
+- 3df77e8 - docs(meta): move phase2 and docs-structure files into specs/ and plans/ (#91) (Chris Sorensen)
+
+## Version 2.85.1
+Date: 2026-10-05
+
+### Changes
+- ba3df1c - docs(report): restore weekly Markdown reports (W38-W40) + Sunday task (#90) (Chris Sorensen)
+
+## Version 2.85.0
+Date: 2026-10-05
+
+### Changes
+- 9ebd669 - feat(registry): add 8 knowledge-plane notebooks to notebooklm-registry (#89) (Chris Sorensen)
+- d7602b0 - docs(meta): refresh top-level notes against current code (#88) (Chris Sorensen)
+
+## Version 2.84.4
+Date: 2026-10-05
+
+### Changes
+- 82d8afc - fix(hooks): stop pre-push from publishing the wiki (#87) (Chris Sorensen)
+
+## Version 2.84.3
+Date: 2026-10-05
+
+### Changes
+- 2bb17df - fix: wiki sync pushes only when asked (#86) (Chris Sorensen)
+
+## Version 2.84.2
+Date: 2026-10-04
+
+### Changes
+- 51a4331 - fix(retro): read the retro window as UTC in check-retro-needed (#85) (Chris Sorensen)
+
+## Version 2.84.1
+Date: 2026-10-04
+
+### Changes
+- 808242c - chore(retro): file 2026-10-04 retro, warn on stale newest retro (#84) (Chris Sorensen)
+
 ## Version 2.84.0
 Date: 2026-10-04
 

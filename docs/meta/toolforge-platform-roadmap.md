@@ -2,8 +2,14 @@
 
 Evolution of the Toolforge platform: from foundation to marketplace with integrated topic research.
 
-**Current Version**: 2.12.0 (2026-07-19)  
-**Last Updated**: 2026-07-19
+**Current Version**: 2.84.3 (2026-10-05, from `CHANGELOG.md`)  
+**Last Updated**: 2026-10-05 (header and status note only; phase bodies below are the 2026-07-19 snapshot)
+
+> **Status note (reviewed against code 2026-10-05).** The phase bodies, percentages, and target dates below were written 2026-07-19 at v2.12.0 and have not been re-verified. What the repo shows today:
+>
+> - **Phase 4 code is in this repo.** `src/api` (Express server and routes), `src/ui` (React/Vite), `src/load-tests/marketplace-load.js`, and `src/stress-tests` exist. `package.json` is named `toolforge-marketplace`, and a separate `toolforge-marketplace` repo also exists with Wave D load-test and trending-scheduler docs.
+> - **Phase 8 Wave D has no recorded sign-off.** `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` is still `status: TEMPLATE FOR EXECUTION` with 0 checked boxes (target date 2026-07-26 passed). Treat Phase 4 as not shipped until that file is completed and signed by Tier 1.
+> - **Phase 3 (TRM) lives mostly in the separate TRM repo.** The percentages below do not describe it.
 
 ---
 
