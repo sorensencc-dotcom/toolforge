@@ -144,4 +144,5 @@ schemas
 *.md
 *.ps1
 *.sql
+!src/db/migrations/*.sql
 *.prom

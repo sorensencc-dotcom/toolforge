@@ -29,6 +29,12 @@ export const ALLOWLIST = [
   // never be real credentials (too short, no provider prefix).
   // Files: CIC-GOVERNANCE/packages/cic-whichllm-integration-pack/tests/unit/openrouter-provider.test.js
   /apiKey:\s*['"](?:test-key|local-key|or-key)['"]/,
+
+  // Docker Compose environment variable template interpolation
+  /:\/\/\$\{POSTGRES_USER:-postgres\}:\$\{POSTGRES_PASSWORD:-postgres\}@postgres:5432$/,
+
+  // Kubernetes secret template example
+  /:\/\/postgres:postgres@toolforge-db:5432$/,
 ];
 
 export function checkContent(content, filename = 'staged') {

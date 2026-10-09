@@ -35,23 +35,6 @@
     "mhs_level": "MHS-3_POWER",
     "local_fit_reasoning": "Model fits cleanly in VRAM with comfortable overhead. Maximum tokens/sec unlocked."
   },
-  "provider": "ollama",
-  "validated_local_model": {
-    "model": "llama3.1:8b",
-    "validation": "bfcl_v2_automated",
-    "validated": true
-  },
-  "routing_state": "local-only",
-  "cloud_routing_enabled": false,
-  "policy_version": "toolforge-local-routing-v1",
-  "steward": "toolforge-runtime-owner",
-  "echo_mismatch_policy": {
-    "action": "fail-closed",
-    "receipt": "provider_echo_mismatch",
-    "trm_event": "trm_provider_validation_failed",
-    "retry": false,
-    "fallback": false
-  },
   "ranked_candidates": [
     {
       "model_name": "claude-3-5-sonnet-20241022",
