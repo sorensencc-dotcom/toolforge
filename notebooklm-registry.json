@@ -29,7 +29,7 @@
           "attempts": 2
         }
       },
-      "last_ingested_at": "2026-08-12T18:45:05.090Z",
+      "last_ingested_at": "2026-08-12T18:45:05.09Z",
       "last_mined_at": "2026-08-17T10:04:00.518Z",
       "last_mined_answer_keys": [
         "679b8bab-2d87-42cb-a726-6dc54c83acc2:open-contradictions:21ed10c5fae1f4a442e31947201594c832997c19e6aead2ccedac77b8d9abdd2",
@@ -259,7 +259,7 @@
         "note:4f4cff2d-db96-4a71-af58-0dbd1bf113a4": "d877d0625694bd34ad07be72a27a014d8c4a2abeef9f113fac0d55bfc6d0a840"
       },
       "quarantined": {},
-      "last_ingested_at": "2026-08-20T22:47:08.300Z",
+      "last_ingested_at": "2026-08-20T22:47:08.3Z",
       "last_mined_at": "2026-08-20T22:51:03.631Z",
       "last_mined_answer_keys": [
         "0c8dc979-319f-4e6d-8136-22275932c236:open-contradictions:2cb2a164a9406b7ffa229dddc7154c9ed1361e94233916c82dbff0f69c3ddc61",
@@ -422,6 +422,126 @@
       "last_pulled_hashes": {},
       "quarantined": {},
       "synthesis_profile": "operational_client"
+    },
+    {
+      "notebook_id": "b42534be-a208-437e-828e-dad645631c66",
+      "title": "KB - Governance",
+      "url": "https://notebooklm.google.com/notebook/b42534be-a208-437e-828e-dad645631c66",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "096b5b92-55d0-44b2-b074-3b3fef0a0d12",
+      "title": "KB - Modules",
+      "url": "https://notebooklm.google.com/notebook/096b5b92-55d0-44b2-b074-3b3fef0a0d12",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "3ac216cc-3379-4c9f-8393-ab28a248cecc",
+      "title": "KB - Skills",
+      "url": "https://notebooklm.google.com/notebook/3ac216cc-3379-4c9f-8393-ab28a248cecc",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "1ab8f1a2-f066-4246-8489-75f223d5f9d2",
+      "title": "KB - Operations",
+      "url": "https://notebooklm.google.com/notebook/1ab8f1a2-f066-4246-8489-75f223d5f9d2",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "30f80cc0-80f7-421a-a79b-c510d98aaf94",
+      "title": "KB - Meta",
+      "url": "https://notebooklm.google.com/notebook/30f80cc0-80f7-421a-a79b-c510d98aaf94",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "0cab9d12-0f0e-4cc0-9009-69ec809fce4a",
+      "title": "KB - Targets",
+      "url": "https://notebooklm.google.com/notebook/0cab9d12-0f0e-4cc0-9009-69ec809fce4a",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "95867d03-1175-4516-9b38-d95592b1a321",
+      "title": "KB - Superpowers",
+      "url": "https://notebooklm.google.com/notebook/95867d03-1175-4516-9b38-d95592b1a321",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "52332bef-552c-427a-afb5-8cc48e6f0079",
+      "title": "Grok Bot Automation",
+      "url": "https://notebooklm.google.com/notebook/52332bef-552c-427a-afb5-8cc48e6f0079",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "bec5a197-8256-4eba-af78-c4881cc28fdd",
+      "title": "AI News and Tools",
+      "url": "https://notebooklm.google.com/notebook/bec5a197-8256-4eba-af78-c4881cc28fdd",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
+    },
+    {
+      "notebook_id": "39a71593-eb5b-4605-a4a4-f212ae010da2",
+      "title": "Toolforge Ecosystem",
+      "url": "https://notebooklm.google.com/notebook/39a71593-eb5b-4605-a4a4-f212ae010da2",
+      "category": "operational",
+      "last_pulled_hashes": {},
+      "quarantined": {},
+      "last_ingested_at": null,
+      "last_mined_at": null,
+      "last_mined_answer_keys": [],
+      "research_queue": {}
     }
   ]
 }
