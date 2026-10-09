@@ -9,6 +9,14 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Governance matrix run 37297242249 repair (2026-10-08)
+
+- Goal: repair the Sigil smoke-test row, which discovered copied Toolforge governance tests and failed on foreign files, dependencies, and Git history.
+- Scoped Sigil discovery to root *.test.mjs, sigil/**/*.test.mjs, and tests/**/*.test.mjs. Kept dependency audit and the existing JCS validation. Added a 60-second process timeout around the test runner.
+- Added two executable fixture regressions: run all three owned test locations without copied governance suites, and fail when an owned Sigil test fails. Both reproduced the discovery defect before the workflow fix.
+- Validation: complete delivery-guard suite passed 96/96 with no skips; git diff --check passed.
+- Delivery: isolated main-based branch codex/fix-matrix-37297242249; next verify the pushed Governance job and manually dispatched five-repository matrix, then submit the scoped PR to main.
+
 ## Docs refresh outside docs/meta, open list (2026-10-06)
 
 ### Completed work
