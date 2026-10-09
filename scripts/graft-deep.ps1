@@ -104,7 +104,7 @@ if ($selectedTier -eq "auto") {
         Write-Host "[Gateway Routing] OPENROUTER_API_KEY detected -> Selecting Tier 1 (Paid Muscle Cloud)" -ForegroundColor Green
     } elseif ($ollamaStatus.Available) {
         $selectedTier = "tier0"
-        Write-Host "[Gateway Routing] Local Ollama detected -> Selecting Tier 0 (Offline Substrate $0.00)" -ForegroundColor Green
+        Write-Host "[Gateway Routing] Local Ollama detected -> Selecting Tier 0 (Offline Substrate `$0.00)" -ForegroundColor Green
     } elseif ($env:ANTHROPIC_API_KEY) {
         $selectedTier = "tier2"
         Write-Host "[Gateway Routing] ANTHROPIC_API_KEY detected -> Selecting Tier 2 (Frontier Native)" -ForegroundColor Green
@@ -136,7 +136,7 @@ switch ($selectedTier) {
         }
         # Tier 0 defaults to graceful partial fallback to ensure exit 0 on minor schema drop
         $enableAllowPartial = $true
-        Write-Host "[Tier 0: Local Ollama] Model: $selectedModel | Rate: $0.00/1M tokens" -ForegroundColor Cyan
+        Write-Host "[Tier 0: Local Ollama] Model: $selectedModel | Rate: `$0.00/1M tokens" -ForegroundColor Cyan
     }
 
     { $_ -in "tier1", "muscle" } {

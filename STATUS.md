@@ -9,6 +9,16 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Governance run 37729327112 repair (2026-10-08)
+
+- Goal: repair the failed skill documentation, automation regression-test, and Graft graph jobs.
+- Added Skill Operator Guide links to the benchmark and Lean harness skills.
+- Graft CI uses Node 22 and CLI 0.21.1, builds the ignored deterministic graph, and then checks freshness.
+- Added four regression tests in the configured delivery-guard suite. They cover clean-checkout workflow ordering, local routing arguments, credential masking, and failure propagation.
+- Fixed strict-mode interpolation of literal dollar amounts in the local deep-routing wrapper.
+- Validation: delivery-guard suite 98/98 passed; recursive skill documentation validation passed; clean graph build parsed 929/929 files; a later source edit correctly failed freshness with STALE; git diff --check passed.
+- Next: rebuild the changed graph, push the scoped repair to parkd821-20260908, and verify the new Governance run. The historical failed run remains tied to its original commit.
+
 ## Embedded DuckDB Agent Analytics Engine Evaluation, Spec & Plan (2026-10-03)
 
 ### Active goal

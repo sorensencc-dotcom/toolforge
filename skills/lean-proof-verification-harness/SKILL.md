@@ -8,6 +8,8 @@ compatibility: node >= 18, typescript >= 5.0, optional lean4 toolchain
 
 Executes formal verification on Lean 4 source files, theorem declarations, and state invariant proofs.
 
+See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md) for shared operating requirements.
+
 ## Inputs & Outputs
 
 ### Input Schema

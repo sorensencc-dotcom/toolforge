@@ -76,11 +76,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install Graft CLI
-        run: npm install -g @nanonets/graft@latest
+        run: npm install -g @nanonets/graft@0.21.1
+
+      # graft/ is an ignored local cache, so a clean checkout must build it first.
+      - name: Build deterministic Graft graph
+        run: graft build
 
       - name: Verify Graft Graph Freshness
         run: graft check
-

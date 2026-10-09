@@ -8,6 +8,8 @@ compatibility: node >= 18, typescript >= 5.0
 
 Evaluates Mistral Large (Tier 1 Muscle Cloud) across heavy codebase tasks, large-context ("chonk") token ingestion, multi-file refactoring, and cost-efficiency trade-offs against Frontier baselines.
 
+See [Skill Operator Guide](../../docs/meta/skill-operator-guide.md) for shared operating requirements.
+
 ## Inputs & Outputs
 
 ### Input Schema
