@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.85.4
+Date: 2026-10-09
+
+### Changes
+- cae9c90 - test(ci): isolate Sigil matrix suites from copied governance tests (#108) (Chris Sorensen)
+- 2a45dde - docs(status): record 10-06 docs refresh open list (#106) (Chris Sorensen)
+- f6c2ffc - docs(governance): fix stale claims in documentation-policy, wiki guide, phase 7 charter (#105) (Chris Sorensen)
+- d2f6eb2 - docs(utilities): drop stale $ScriptPath known-bug note, fix sync-tools path (#104) (Chris Sorensen)
+- e1f3ac1 - chore(docs): delete root DOCS_INDEX.md (#103) (Chris Sorensen)
+
 ## Version 2.85.3
 Date: 2026-10-06
 
