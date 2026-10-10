@@ -1,0 +1,17 @@
+{
+  "receipt_id": "rcpt-1791657607433-done-act-kbsync-trm-ingest-gdoc-auth-hardening",
+  "action_id": "act-kbsync-trm-ingest-gdoc-auth-hardening",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_kbsync_trm_ingest_gdoc_auth_hardening",
+  "category": "RESEARCH",
+  "target_notebook": "kb-sync",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Action Completed: Mobile action item submitted via Google Docs: 2026-10-09T233001Z__action__kb-sync__act-kbsync-trm-ingest-gdoc-auth-hardening",
+  "completion_details": "Mobile action item submitted via Google Docs: 2026-10-09T233001Z__action__kb-sync__act-kbsync-trm-ingest-gdoc-auth-hardening",
+  "issue_url": null,
+  "research_ref": null,
+  "completed_at": "2026-10-10T18:40:07.432Z",
+  "dispatched_at": "2026-10-10T18:40:07.433Z",
+  "dryRun": false
+}

@@ -1,0 +1,17 @@
+{
+  "receipt_id": "rcpt-1791657607601-done-act-kbsync-trm-wal-compaction-concurrency-spike",
+  "action_id": "act-kbsync-trm-wal-compaction-concurrency-spike",
+  "source": "mobile-gemini-gdoc",
+  "intent": "act_kbsync_trm_wal_compaction_concurrency_spike",
+  "category": "RESEARCH",
+  "target_notebook": "kb-sync",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Action Completed: Mobile action item submitted via Google Docs: 2026-10-09T233003Z__action__kb-sync__act-kbsync-trm-wal-compaction-concurrency-spike",
+  "completion_details": "Mobile action item submitted via Google Docs: 2026-10-09T233003Z__action__kb-sync__act-kbsync-trm-wal-compaction-concurrency-spike",
+  "issue_url": null,
+  "research_ref": null,
+  "completed_at": "2026-10-10T18:40:07.601Z",
+  "dispatched_at": "2026-10-10T18:40:07.601Z",
+  "dryRun": false
+}

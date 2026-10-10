@@ -1,0 +1,24 @@
+{
+  "id": "act-kbsync-trm-wal-compaction-concurrency-spike",
+  "parent_action_id": null,
+  "timestamp": "2026-10-09T233003Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "kb-sync",
+  "target": "kb-sync",
+  "action_type": "antigravity_triage",
+  "intent": "act_kbsync_trm_wal_compaction_concurrency_spike",
+  "priority": "P2",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-09T233003Z__action__kb-sync__act-kbsync-trm-wal-compaction-concurrency-spike",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-10T18:15:22.842Z",
+  "completed_at": "2026-10-10T18:40:00.000Z",
+  "status": "COMPLETED",
+  "source_file": "2026-10-09T233003Z__action__kb-sync__act-kbsync-trm-wal-compaction-concurrency-spike.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-09T233003Z__action__kb-sync__act-kbsync-trm-wal-compaction-concurrency-spike.md.gdoc",
+    "gdoc_stem": "2026-10-09T233003Z__action__kb-sync__act-kbsync-trm-wal-compaction-concurrency-spike",
+    "resolution": "Enabled SQLite WAL mode (synchronous NORMAL, busy_timeout 5000ms), implemented walCheckpoint and compactDatabase helpers in modules/cache/db-schema.mjs, and profiled concurrent read/write spikes in tests/wal-concurrency-spike.test.mjs (12 workers, 1000 ops, 165ms, 0 errors, 0 lock timeouts, 0B final WAL)."
+  }
+}
