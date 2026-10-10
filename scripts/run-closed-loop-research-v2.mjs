@@ -39,6 +39,7 @@ const TRM_VAULT     = process.env.TRM_VAULT       ?? 'C:\\Users\\soren\\trm-vaul
 const GAPS_OUT_DIR  = path.join(TRM_VAULT, 'trm', 'research-gaps');
 const BFCL_DRY_RUN  = process.env.BFCL_DRY_RUN  === '1'; // skip live notebooklm push
 const SKIP_MINE     = process.env.TRM_SKIP_MINE  === '1'; // skip Step 1 re-mine (use existing vault file)
+const USE_VANE_FALLBACK = process.env.USE_VANE_FALLBACK === '1';
 
 import { NOTEBOOK_TARGETS, resolveNotebookId } from '../kb-sync/core/targets.mjs';
 import { deduplicateMinedGaps, loadGapAliases } from './gap-normalizer.mjs';
@@ -46,8 +47,9 @@ import { parseGapItems } from '../kb-sync/modules/trm/gap-triage-engine.mjs';
 import { verifyTopicGaps } from '../modules/wiki/why-verifier.mjs';
 import { expandSearchQuery } from '../kb-sync/modules/trm/query-expander.mjs';
 import { getDatabase, DEFAULT_DB_PATH } from '../kb-sync/modules/cache/db-schema.mjs';
+import { VaneTRMFallbackAdapter } from '../modules/wiki/vane-trm-fallback-adapter.mjs';
 
-export { NOTEBOOK_TARGETS, resolveNotebookId };
+export { NOTEBOOK_TARGETS, resolveNotebookId, USE_VANE_FALLBACK, VaneTRMFallbackAdapter };
 
 export function extractFrontmatterCategory(content) {
   if (!content) return 'daily';
@@ -415,6 +417,42 @@ async function run() {
     }
   }
 
+  const findings = [];
+  if (USE_VANE_FALLBACK) {
+    const adapter = new VaneTRMFallbackAdapter({
+      stagingRoot: path.join(repoRoot, '_kb-sync-staging'),
+      baseUrl: process.env.VANE_BASE_URL || undefined
+    });
+    const batchRunId = process.env.BATCH_RUN_ID;
+    for (const gap of dynamicQueries) {
+      logInfo(`  • [VANE-FALLBACK] Resolving gap query: "${gap.fts5Query}"...`);
+      try {
+        const batchId = batchRunId || `batch-${todayStr}-${Date.now().toString().slice(-4)}`;
+        const vaneRes = await adapter.resolveGapWithVane(gap.fts5Query, {
+          batchId,
+          approved: true
+        });
+        if (vaneRes.ok) {
+          logInfo(`  ✓ [VANE-FALLBACK] Resolved with ${vaneRes.mappings?.length ?? 0} sources.`);
+          findings.push({
+            topic: gap.topic,
+            query: gap.fts5Query,
+            source: vaneRes.source,
+            answer: vaneRes.answer,
+            batch_id: vaneRes.batch_id,
+            mappings: vaneRes.mappings,
+            manifest: vaneRes.manifest,
+            payload: vaneRes.payload
+          });
+        } else {
+          logWarn(`  ⚠ [VANE-FALLBACK] Fallback circuit-break: ${vaneRes.error}. Continuing pipeline.`);
+        }
+      } catch (err) {
+        logWarn(`  ⚠ [VANE-FALLBACK] Error resolving gap query: ${err.message}. Continuing pipeline.`);
+      }
+    }
+  }
+
   const rawResearchPath = path.join(stagingDir, 'raw_research_conformance.json');
   fs.writeFileSync(rawResearchPath, JSON.stringify({
     timestamp:             nowIso,
@@ -423,7 +461,7 @@ async function run() {
     synthesizer_model:     localModel,
     model_selection_hash:  hashChain,
     vault_source:          primaryGapsFile.replace(/\\/g, '/'),
-    findings:              [],
+    findings,
     _note:                 'Stage 2 Dynamic Query Expansion generated via query-expander.mjs.',
   }, null, 2), 'utf8');
   logInfo(`✓ Dynamic query expansion staged in: ${rawResearchPath}`);

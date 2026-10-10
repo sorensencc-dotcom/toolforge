@@ -31,7 +31,7 @@ export const ALLOWLIST = [
   /apiKey:\s*['"](?:test-key|local-key|or-key)['"]/,
 
   // Docker Compose environment variable template interpolation
-  /:\/\/\$\{POSTGRES_USER:-postgres\}:\$\{POSTGRES_PASSWORD:-postgres\}@postgres:5432$/,
+  /:\/\/\$\{POSTGRES_USER:-postgres\}:\$\{POSTGRES_PASSWORD:(?:-postgres|\?)\}@postgres:5432$/,
 
   // Kubernetes secret template example
   /:\/\/postgres:postgres@toolforge-db:5432$/,

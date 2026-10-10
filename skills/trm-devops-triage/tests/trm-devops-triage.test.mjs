@@ -128,4 +128,45 @@ describe('trm-devops-triage Skill Pack Test Suite', () => {
       assert.ok(!isNaN(Date.parse(approval.timestamp)));
     });
   });
+
+  describe('Manifest v1.2.0 & Pipeline Integrity', () => {
+    it('manifest registers all 6 skills with valid entrypoints', async () => {
+      const fs = await import('node:fs/promises');
+      const manifestPath = new URL('../manifest.json', import.meta.url);
+      const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+
+      assert.equal(manifest.version, '1.2.0');
+      assert.equal(manifest.skills.length, 6);
+
+      const skillIds = manifest.skills.map(s => s.id);
+      assert.ok(skillIds.includes('last30days-skill'));
+      assert.ok(skillIds.includes('langextract'));
+      assert.ok(skillIds.includes('trm-sigil-guard'));
+      assert.ok(skillIds.includes('no-ai-slop'));
+    });
+
+    it('trend-intelligence-sweep pipeline binds clean inputs without schema mismatch', async () => {
+      const fs = await import('node:fs/promises');
+      const pipelinePath = new URL('../pipelines/trend-intelligence-sweep.json', import.meta.url);
+      const task = JSON.parse(await fs.readFile(pipelinePath, 'utf8'));
+
+      assert.equal(task.taskId, 'task_trend_intelligence_sweep');
+      const stages = task.pipeline.stages;
+      assert.equal(stages.length, 4);
+
+      // Verify ordering: Discovery -> Slop Sanitization -> Grounded Extraction -> Sigil Guard
+      assert.equal(stages[0].skill, 'last30days-skill');
+      assert.equal(stages[1].skill, 'no-ai-slop');
+      assert.equal(stages[2].skill, 'langextract');
+      assert.equal(stages[3].skill, 'trm-sigil-guard');
+
+      // Verify stage 4 uses candidatePatch (not candidatePayload)
+      assert.ok(stages[3].inputs.candidatePatch);
+      assert.equal(stages[3].inputs.candidatePayload, undefined);
+
+      // Verify threshold condition exists
+      assert.ok(stages[3].condition.includes('groundingRate >= 0.80'));
+    });
+  });
 });
+

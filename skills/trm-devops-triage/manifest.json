@@ -1,8 +1,8 @@
 {
   "$schema": "./toolforge-manifest-schema.json",
   "name": "trm-devops-triage",
-  "version": "1.1.0",
-  "description": "Topic Research Mining DevOps self-healing triage, Sigil safety guard, and No-AI-Slop pre-push verification pipeline.",
+  "version": "1.2.0",
+  "description": "Topic Research Mining DevOps self-healing triage, Sigil safety guard, No-AI-Slop linter, and grounded trend intelligence (last30days + langextract).",
   "skills": [
     {
       "id": "trm-tinyfish-triage",
@@ -12,7 +12,9 @@
       "runtime": "node",
       "inputs": {
         "type": "object",
-        "required": ["logExtract"],
+        "required": [
+          "logExtract"
+        ],
         "properties": {
           "logExtract": {
             "type": "string",
@@ -22,11 +24,18 @@
       },
       "outputs": {
         "type": "object",
-        "required": ["status", "remediation", "confidence"],
+        "required": [
+          "status",
+          "remediation",
+          "confidence"
+        ],
         "properties": {
           "status": {
             "type": "string",
-            "enum": ["resolved", "escalated"],
+            "enum": [
+              "resolved",
+              "escalated"
+            ],
             "description": "Indicates if a deterministic match was found ('resolved') or if it needs escalation to Tier-2 ('escalated')."
           },
           "remediation": {
@@ -63,7 +72,9 @@
       "runtime": "node",
       "inputs": {
         "type": "object",
-        "required": ["logExtract"],
+        "required": [
+          "logExtract"
+        ],
         "properties": {
           "logExtract": {
             "type": "string",
@@ -77,11 +88,18 @@
       },
       "outputs": {
         "type": "object",
-        "required": ["status", "synthesizedRemediation", "citations"],
+        "required": [
+          "status",
+          "synthesizedRemediation",
+          "citations"
+        ],
         "properties": {
           "status": {
             "type": "string",
-            "enum": ["resolved", "failed"]
+            "enum": [
+              "resolved",
+              "failed"
+            ]
           },
           "synthesizedRemediation": {
             "type": "string",
@@ -89,7 +107,9 @@
           },
           "citations": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "List of source-backed Basis citation URLs and issue references verifying the proposed fix."
           }
         }
@@ -115,7 +135,10 @@
       "runtime": "node",
       "inputs": {
         "type": "object",
-        "required": ["candidatePatch", "targetFile"],
+        "required": [
+          "candidatePatch",
+          "targetFile"
+        ],
         "properties": {
           "candidatePatch": {
             "type": "string",
@@ -129,7 +152,11 @@
       },
       "outputs": {
         "type": "object",
-        "required": ["approved", "signature", "timestamp"],
+        "required": [
+          "approved",
+          "signature",
+          "timestamp"
+        ],
         "properties": {
           "approved": {
             "type": "boolean",
@@ -174,7 +201,9 @@
       "runtime": "node",
       "inputs": {
         "type": "object",
-        "required": ["content"],
+        "required": [
+          "content"
+        ],
         "properties": {
           "content": {
             "type": "string",
@@ -188,7 +217,11 @@
       },
       "outputs": {
         "type": "object",
-        "required": ["clean", "violationsFound", "sanitizedContent"],
+        "required": [
+          "clean",
+          "violationsFound",
+          "sanitizedContent"
+        ],
         "properties": {
           "clean": {
             "type": "boolean",
@@ -196,7 +229,9 @@
           },
           "violationsFound": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "List of specific AI slop phrases, preambles, or forbidden buzzwords identified."
           },
           "sanitizedContent": {
@@ -210,6 +245,213 @@
         "filesystem": "read-only"
       },
       "environment": {}
+    },
+    {
+      "id": "last30days-skill",
+      "name": "Last30Days Multi-Platform Trend Discovery",
+      "description": "Multi-platform trend discovery and research skill that sweeps developer channels, community discussions, and trend clusters in parallel. Scores findings by community engagement metrics and synthesizes grounded discovery briefs.",
+      "entrypoint": "./scripts/last30days-skill.py",
+      "runtime": "python",
+      "inputs": {
+        "type": "object",
+        "required": [
+          "topic"
+        ],
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "Target subject, person, company, technology, or comparison query (e.g. \"AI coding agents\")."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "research",
+              "discover",
+              "hiring-signals",
+              "competitors"
+            ],
+            "description": "Execution mode: standard research brief, trending discovery sweep, hiring signals audit, or competitive matrix."
+          },
+          "emit": {
+            "type": "string",
+            "enum": [
+              "markdown",
+              "json"
+            ],
+            "description": "Desired output format profile."
+          }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": [
+          "topic",
+          "summary",
+          "scoredSignals",
+          "sourcesChecked"
+        ],
+        "properties": {
+          "topic": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Synthesized brief ranked by engagement and community consensus."
+          },
+          "scoredSignals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "platform",
+                "title",
+                "metric",
+                "url"
+              ],
+              "properties": {
+                "platform": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "metric": {
+                  "type": "string",
+                  "description": "Engagement metrics, views, citations, or star counts."
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "sourcesChecked": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "permissions": {
+        "network": [
+          "api.last30days.ai",
+          "api.trendsearch.ai"
+        ],
+        "filesystem": "read-only"
+      },
+      "environment": {
+        "LAST30DAYS_API_KEY": {
+          "required": false,
+          "secure": true
+        }
+      }
+    },
+    {
+      "id": "langextract",
+      "name": "LangExtract Grounded Entity Extractor",
+      "description": "Extracts structured information from unstructured text documents using LLMs with exact character-span source grounding and interactive HTML visualization generation. Automatically filters out ungrounded extractions.",
+      "entrypoint": "./scripts/langextract-extractor.py",
+      "runtime": "python",
+      "inputs": {
+        "type": "object",
+        "required": [
+          "text",
+          "extractionInstructions"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Raw unstructured source text, research brief, or document body to extract from."
+          },
+          "extractionInstructions": {
+            "type": "string",
+            "description": "Target attributes and extraction guidelines (e.g. entities, relations, dates, metrics)."
+          },
+          "outputSchema": {
+            "type": "object",
+            "description": "Optional JSON schema constraints to enforce on extracted attributes."
+          },
+          "generateVisualizer": {
+            "type": "boolean",
+            "description": "If true, compiles self-contained interactive HTML visualization."
+          },
+          "visualizationOutputDirectory": {
+            "type": "string",
+            "description": "Optional destination directory for rendered visualizer HTML files."
+          }
+        }
+      },
+      "outputs": {
+        "type": "object",
+        "required": [
+          "groundedExtractions",
+          "totalExtracted",
+          "groundingRate"
+        ],
+        "properties": {
+          "groundedExtractions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "entityType",
+                "extractionText",
+                "charInterval"
+              ],
+              "properties": {
+                "entityType": {
+                  "type": "string"
+                },
+                "extractionText": {
+                  "type": "string"
+                },
+                "charInterval": {
+                  "type": "object",
+                  "required": [
+                    "start",
+                    "end"
+                  ],
+                  "properties": {
+                    "start": {
+                      "type": "integer"
+                    },
+                    "end": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "attributes": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "totalExtracted": {
+            "type": "integer"
+          },
+          "groundingRate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "visualizationPath": {
+            "type": "string"
+          }
+        }
+      },
+      "permissions": {
+        "network": [
+          "api.langextract.ai"
+        ],
+        "filesystem": "read-write"
+      },
+      "environment": {
+        "LANGEXTRACT_API_KEY": {
+          "required": true,
+          "secure": true
+        }
+      }
     }
   ]
 }

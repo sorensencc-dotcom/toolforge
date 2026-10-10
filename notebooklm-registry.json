@@ -29,7 +29,7 @@
           "attempts": 2
         }
       },
-      "last_ingested_at": "2026-08-12T18:45:05.09Z",
+      "last_ingested_at": "2026-08-12T18:45:05.090Z",
       "last_mined_at": "2026-08-17T10:04:00.518Z",
       "last_mined_answer_keys": [
         "679b8bab-2d87-42cb-a726-6dc54c83acc2:open-contradictions:21ed10c5fae1f4a442e31947201594c832997c19e6aead2ccedac77b8d9abdd2",
@@ -45,7 +45,8 @@
         "679b8bab-2d87-42cb-a726-6dc54c83acc2:adjacent-topics:29c89e355e65c1ca08ec82c73734f15acbc2038e0058b8e4782edc4b690b6c52",
         "679b8bab-2d87-42cb-a726-6dc54c83acc2:follow-up:cb49c7c2173719903bbe17b7c35c5e2481c259a8b7482c1ff01e8f74b747eb8a"
       ],
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "1b4861a3-931f-4632-8fc1-343a8dd37df8",
@@ -141,7 +142,8 @@
         "1b4861a3-931f-4632-8fc1-343a8dd37df8:adjacent-topics:79eba8a80af592b08a192b3cd580c52ce242ffdb321df3ce1c0ac4807e352834",
         "1b4861a3-931f-4632-8fc1-343a8dd37df8:follow-up:4d3c3482d2b521bf88b87cdb5b8802b9d6ba4b92edd1c73bef2605d7a04dcb84"
       ],
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "ef78168d-b7b9-4952-8e0f-fcb353a21181",
@@ -189,7 +191,8 @@
         "ef78168d-b7b9-4952-8e0f-fcb353a21181:adjacent-topics:663dc0003168a8dc9d3c675e20de2b0b80136cfc3e6924236f38a25286581235",
         "ef78168d-b7b9-4952-8e0f-fcb353a21181:follow-up:853b9c6724508be94ab6bce237e96b6ac596124e3b5056c688eb1ba61b9b555b"
       ],
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "b8bc161d-495f-42f9-a7d1-ed8692141f6b",
@@ -213,7 +216,8 @@
         "b8bc161d-495f-42f9-a7d1-ed8692141f6b:adjacent-topics:5ad24b2d7d7cddd418a143091c06f1ba00ebff1dfccbb820d63ae6f43cb123e8",
         "b8bc161d-495f-42f9-a7d1-ed8692141f6b:follow-up:56cfbd9745c1258a048617ac1b53cb7819eeb5cd8d5089c659f551010113d9af"
       ],
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a",
@@ -239,7 +243,8 @@
         "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a:adjacent-topics:b3f28945f1e4fd3f286b0438b96bbf65823d8d71da4018cd5f86546795797f12",
         "fd0e0e4e-6890-4fb9-89bf-b9e568295e7a:follow-up:1c93e6587b83dc39a3b4a2befbb7b1abd139137899e9a25e3d95640316380caa"
       ],
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "0c8dc979-319f-4e6d-8136-22275932c236",
@@ -259,7 +264,7 @@
         "note:4f4cff2d-db96-4a71-af58-0dbd1bf113a4": "d877d0625694bd34ad07be72a27a014d8c4a2abeef9f113fac0d55bfc6d0a840"
       },
       "quarantined": {},
-      "last_ingested_at": "2026-08-20T22:47:08.3Z",
+      "last_ingested_at": "2026-08-20T22:47:08.300Z",
       "last_mined_at": "2026-08-20T22:51:03.631Z",
       "last_mined_answer_keys": [
         "0c8dc979-319f-4e6d-8136-22275932c236:open-contradictions:2cb2a164a9406b7ffa229dddc7154c9ed1361e94233916c82dbff0f69c3ddc61",
@@ -267,7 +272,8 @@
         "0c8dc979-319f-4e6d-8136-22275932c236:adjacent-topics:e0088487de0f74af393cf1056660c12c4056b7981042945487a9e4c96a7f6f36",
         "0c8dc979-319f-4e6d-8136-22275932c236:follow-up:804787017fe8a5d7f133c0f6269063ff7ceaf5ff9cb2ea175863ba7ad8d9bf55"
       ],
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d",
@@ -309,7 +315,8 @@
         "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d:adjacent-topics:e2510fbd56f9b30c7f14210ee8f1ae3a666cd3db8a587ff5430fd35c2360a9c2",
         "039e2c13-75b3-4bf2-b58d-9bbce8f73a4d:follow-up:50da93c3bf8a12bfbf694e271fe21315720830b4d6a851e2db898363dfbd0f90"
       ],
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "c8360946-dbee-4a2c-b622-7f89b05695b0",
@@ -317,7 +324,8 @@
       "url": "https://notebooklm.google.com/notebook/c8360946-dbee-4a2c-b622-7f89b05695b0",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "6fd7c40b-df90-444b-9c7a-a64682925856",
@@ -325,7 +333,8 @@
       "url": "https://notebooklm.google.com/notebook/6fd7c40b-df90-444b-9c7a-a64682925856",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "9c469910-a900-43a4-877c-a43c9f545b5f",
@@ -333,7 +342,8 @@
       "url": "https://notebooklm.google.com/notebook/9c469910-a900-43a4-877c-a43c9f545b5f",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "fd4ebe29-9440-4f4b-97cf-0184ffbe29a0",
@@ -341,7 +351,8 @@
       "url": "https://notebooklm.google.com/notebook/fd4ebe29-9440-4f4b-97cf-0184ffbe29a0",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "0caf6707-f8f2-4d2a-acd2-020acead55ba",
@@ -349,7 +360,8 @@
       "url": "https://notebooklm.google.com/notebook/0caf6707-f8f2-4d2a-acd2-020acead55ba",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "48322e1d-d601-4f65-89e0-76282343680d",
@@ -357,7 +369,8 @@
       "url": "https://notebooklm.google.com/notebook/48322e1d-d601-4f65-89e0-76282343680d",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "64949154-5892-4fa4-9ad0-e48b2bf5cc6c",
@@ -365,7 +378,8 @@
       "url": "https://notebooklm.google.com/notebook/64949154-5892-4fa4-9ad0-e48b2bf5cc6c",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "70be0df3-c58a-4711-b4d3-1e4b8726faf7",
@@ -373,7 +387,8 @@
       "url": "https://notebooklm.google.com/notebook/70be0df3-c58a-4711-b4d3-1e4b8726faf7",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "research_narrative"
+      "synthesis_profile": "research_narrative",
+      "category": "operational"
     },
     {
       "notebook_id": "76e1932c-054a-4520-9e83-5e882dffc938",
@@ -381,7 +396,8 @@
       "url": "https://notebooklm.google.com/notebook/76e1932c-054a-4520-9e83-5e882dffc938",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "operational_systems"
+      "synthesis_profile": "operational_systems",
+      "category": "operational"
     },
     {
       "notebook_id": "26eacb85-2c97-443d-9d81-3bd99cc98412",
@@ -389,7 +405,8 @@
       "url": "https://notebooklm.google.com/notebook/26eacb85-2c97-443d-9d81-3bd99cc98412",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "operational_systems"
+      "synthesis_profile": "operational_systems",
+      "category": "operational"
     },
     {
       "notebook_id": "359b346c-6af7-4ba3-baef-b985c9e6e1af",
@@ -397,7 +414,8 @@
       "url": "https://notebooklm.google.com/notebook/359b346c-6af7-4ba3-baef-b985c9e6e1af",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "operational_systems"
+      "synthesis_profile": "operational_systems",
+      "category": "operational"
     },
     {
       "notebook_id": "140119ae-3496-45c9-bf0c-71c955136afc",
@@ -405,7 +423,8 @@
       "url": "https://notebooklm.google.com/notebook/140119ae-3496-45c9-bf0c-71c955136afc",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "operational_client"
+      "synthesis_profile": "operational_client",
+      "category": "operational"
     },
     {
       "notebook_id": "cb0498ce-1ea5-4668-9f65-ac368753404e",
@@ -413,7 +432,8 @@
       "url": "https://notebooklm.google.com/notebook/cb0498ce-1ea5-4668-9f65-ac368753404e",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "operational_systems"
+      "synthesis_profile": "operational_systems",
+      "category": "operational"
     },
     {
       "notebook_id": "9724e682-c5ea-4693-8e21-caf8de68611e",
@@ -421,7 +441,8 @@
       "url": "https://notebooklm.google.com/notebook/9724e682-c5ea-4693-8e21-caf8de68611e",
       "last_pulled_hashes": {},
       "quarantined": {},
-      "synthesis_profile": "operational_client"
+      "synthesis_profile": "operational_client",
+      "category": "operational"
     },
     {
       "notebook_id": "b42534be-a208-437e-828e-dad645631c66",
@@ -433,7 +454,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "096b5b92-55d0-44b2-b074-3b3fef0a0d12",
@@ -445,7 +467,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "3ac216cc-3379-4c9f-8393-ab28a248cecc",
@@ -457,7 +480,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "1ab8f1a2-f066-4246-8489-75f223d5f9d2",
@@ -469,7 +493,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "30f80cc0-80f7-421a-a79b-c510d98aaf94",
@@ -481,7 +506,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "0cab9d12-0f0e-4cc0-9009-69ec809fce4a",
@@ -493,7 +519,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "95867d03-1175-4516-9b38-d95592b1a321",
@@ -505,7 +532,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_systems"
     },
     {
       "notebook_id": "52332bef-552c-427a-afb5-8cc48e6f0079",
@@ -517,7 +545,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_client"
     },
     {
       "notebook_id": "bec5a197-8256-4eba-af78-c4881cc28fdd",
@@ -529,7 +558,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_client"
     },
     {
       "notebook_id": "39a71593-eb5b-4605-a4a4-f212ae010da2",
@@ -541,7 +571,8 @@
       "last_ingested_at": null,
       "last_mined_at": null,
       "last_mined_answer_keys": [],
-      "research_queue": {}
+      "research_queue": {},
+      "synthesis_profile": "operational_systems"
     }
   ]
 }

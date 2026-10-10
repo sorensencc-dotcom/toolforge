@@ -81,3 +81,10 @@ test('Docker dependency installation works with and without a root lockfile', (t
   const withLock = run();
   assert.equal(withLock.status, 0, withLock.stderr);
 });
+
+test('Kubernetes secret template does not contain hardcoded credentials', () => {
+  const secretYaml = fs.readFileSync(path.join(repositoryRoot, 'k8s/secret.yaml'), 'utf8');
+  assert.equal(secretYaml.includes('postgres:postgres'), false, 'must not contain default credentials');
+  assert.match(secretYaml, /DATABASE_URL:\s*""/, 'DATABASE_URL should be an empty deployment placeholder');
+});
+
