@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.86.0
+Date: 2026-10-10
+
+### Changes
+- 739415c - feat(pr110): integrate vane research, notebooklm registry expansion, and governance hardening (#110) (#110) (Chris Sorensen)
+
 ## Version 2.85.6
 Date: 2026-10-09
 
