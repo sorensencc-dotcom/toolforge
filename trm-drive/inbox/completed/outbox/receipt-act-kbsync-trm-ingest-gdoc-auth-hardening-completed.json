@@ -1,0 +1,11 @@
+{
+  "receipt_id": "rcpt-1791657600000-done-act-kbsync-trm-ingest-gdoc-auth-hardening",
+  "action_id": "act-kbsync-trm-ingest-gdoc-auth-hardening",
+  "status": "COMPLETED",
+  "category": "RESEARCH",
+  "domain": "kb-sync",
+  "intent": "act_kbsync_trm_ingest_gdoc_auth_hardening",
+  "source": "mobile-gemini-gdoc",
+  "completed_at": "2026-10-10T18:40:00.000Z",
+  "resolution": "Triaged and closed: immediate 401 failure solved via filename metadata fallback in scripts/trm-ingress-watcher.mjs and tests/trm-ingress-routing.test.mjs (17/17 tests passing)."
+}
