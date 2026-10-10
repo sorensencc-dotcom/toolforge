@@ -1,0 +1,22 @@
+{
+  "name": "vane-research",
+  "id": "vane-research",
+  "version": "1.0.0",
+  "description": "Air-gapped web search and cited QA using local Vane (SearXNG + Ollama).",
+  "category": "research",
+  "capability": "research.web/read",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "status": "active",
+  "owner": "soren",
+  "permissions": {
+    "required": [
+      "network:loopback"
+    ],
+    "optional": []
+  },
+  "dependencies": {
+    "external": [],
+    "internal": []
+  }
+}

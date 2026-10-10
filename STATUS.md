@@ -9,6 +9,33 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Toolforge Vane Research Skill & TRM Stage 3 Fallback Integration (2026-10-08)
+
+### Active goal
+
+Package the local loopback Vane search skill into Toolforge (`skills/vane-research/`) and wire its fallback adapter into TRM Stage 3 (`scripts/run-closed-loop-research-v2.mjs`) with loopback security gates, cross-process GPU locks, FSM circuit breaking, and governed `TRMSourceResolver` settlement.
+
+### Completed work
+
+- **Infrastructure & Hardened Boundaries (`modules/wiki/vane-infra.mjs`)**:
+  - `validateLoopbackUrl`: Strictly enforces `127.0.0.1`, `localhost`, and `::1` loopbacks, throwing `SECURITY_BOUNDARY_VIOLATION` on external/wildcard hosts.
+  - `GPULock`: Cross-process mutual exclusion file lock (`.vane-gpu-worker.lock`) using atomic `fs.openSync(..., 'wx')` with automatic stale eviction (>65s) to serialize host GPU resource consumption.
+  - `CircuitBreaker`: FSM managing `CLOSED` -> `OPEN` -> `HALF_OPEN` -> `CLOSED` transitions with transport vs. contract fault isolation.
+- **Toolforge Skill Packaging (`skills/vane-research/`)**:
+  - Authored manifest [`skills/vane-research/skill.json`](skills/vane-research/skill.json) (`category: research.web`, `capability: research.web/read`) and registered in root [`manifest.json`](manifest.json).
+  - Authored compliant [`skills/vane-research/SKILL.md`](skills/vane-research/SKILL.md) (<150 lines), TypeScript contracts [`skills/vane-research/src/vane-research-skill.ts`](skills/vane-research/src/vane-research-skill.ts), and runner [`skills/vane-research/src/index.mjs`](skills/vane-research/src/index.mjs) querying live Vane API (`/api/providers`, `/api/search`).
+- **TRM Stage 3 Fallback Adapter (`modules/wiki/vane-trm-fallback-adapter.mjs`)**:
+  - Implemented `VaneTRMFallbackAdapter` mapping Vane search results into `research.result.v1` schemas with character spans.
+  - Enforced strict approval gate (`approved === true`), rejecting unapproved calls and materializing approved stubs via `TRMSourceResolver` (100% PASS via `validateTrmPayloadSemantics`).
+- **Stage 3 Seam Integration (`scripts/run-closed-loop-research-v2.mjs`)**:
+  - Integrated `USE_VANE_FALLBACK=1` toggle into Stage 3 query expansion loop, capturing resolved findings into `raw_research_conformance.json` while failing soft to preserve the orchestrator.
+
+### Verification
+
+- Unit & integration test suites: **23/23 PASS** across `tests/vane-infra.test.mjs`, `skills/vane-research/tests/vane-skill.test.mjs`, `tests/vane-trm-adapter.test.mjs`, and `tests/trm-vane-seam.test.mjs`.
+
+---
+
 ## PR 109 deployment repair (2026-10-08)
 
 - Goal: inspect confirmed deployment defects in PR 109 and add regression coverage; this is not an exhaustive review of its 327 changed files.

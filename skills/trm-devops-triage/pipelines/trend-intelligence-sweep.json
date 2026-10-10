@@ -1,0 +1,89 @@
+{
+  "taskId": "task_trend_intelligence_sweep",
+  "companyId": "org-rewrite-labs",
+  "agentId": "charlie-researcher-01",
+  "goalAncestry": [
+    "OKR-2026-Q4: AI Frontier Architecture & Tooling",
+    "Initiative: Continuous Market & Social Trend Mining",
+    "Task: Discover, Extract & Ground 30-Day Agent Ecosystem Innovations"
+  ],
+  "budgetConstraints": {
+    "maxTokens": 60000,
+    "maxSpendUsd": 0.25,
+    "tokenDeferralEnabled": true
+  },
+  "pipeline": {
+    "name": "trend-discovery-and-grounding",
+    "description": "Orchestrates multi-platform trend discovery, prose slop elimination, verbatim entity extraction with an 80% grounding tolerance gate, and JCS-signed biometric write authorization.",
+    "stages": [
+      {
+        "stageId": "stage_1_trend_discovery",
+        "name": "Multi-Platform Trend Sweep",
+        "skill": "last30days-skill",
+        "timeoutSeconds": 60,
+        "retryPolicy": {
+          "maxRetries": 2,
+          "backoff": "exponential",
+          "initialIntervalMs": 1000
+        },
+        "inputs": {
+          "topic": "AI coding agents, harness engineering, token reduction",
+          "mode": "research",
+          "emit": "markdown"
+        },
+        "outputBinding": "discoveryResult"
+      },
+      {
+        "stageId": "stage_2_slop_sanitization",
+        "name": "Technical Prose Sanitization",
+        "skill": "no-ai-slop",
+        "timeoutSeconds": 15,
+        "inputs": {
+          "content": "{{stages.stage_1_trend_discovery.outputs.summary}}",
+          "autoFix": true
+        },
+        "outputBinding": "cleanProse"
+      },
+      {
+        "stageId": "stage_3_grounded_extraction",
+        "name": "Character-Span Grounded Entity Extraction",
+        "skill": "langextract",
+        "timeoutSeconds": 60,
+        "retryPolicy": {
+          "maxRetries": 2,
+          "backoff": "exponential",
+          "initialIntervalMs": 1500
+        },
+        "inputs": {
+          "text": "{{stages.stage_2_slop_sanitization.outputs.sanitizedContent}}",
+          "extractionInstructions": "Extract open-source tools, performance benchmarks, token savings percentages, and architecture patterns. Require verbatim char_interval grounding.",
+          "outputSchema": {
+            "tools": "array",
+            "benchmarks": "array",
+            "metrics": "object",
+            "architectures": "array"
+          },
+          "generateVisualizer": true,
+          "visualizationOutputDirectory": "reports/trends/visualizations"
+        },
+        "outputBinding": "groundedExtractionResult"
+      },
+      {
+        "stageId": "stage_4_sigil_biometric_gate",
+        "name": "Workspace Artifact Write Gate",
+        "skill": "trm-sigil-guard",
+        "timeoutSeconds": 60,
+        "condition": "{{stages.stage_3_grounded_extraction.outputs.groundingRate >= 0.80}}",
+        "onConditionFailed": {
+          "action": "fail",
+          "reason": "Extraction rejected: grounding rate below 0.80 threshold."
+        },
+        "inputs": {
+          "targetFile": "reports/trends/agentic-landscape-brief.json",
+          "candidatePatch": "{{{ 'metadata': { 'topic': stages.stage_1_trend_discovery.inputs.topic, 'generatedAt': $isoTimestamp, 'sourcesChecked': stages.stage_1_trend_discovery.outputs.sourcesChecked, 'groundingRate': stages.stage_3_grounded_extraction.outputs.groundingRate, 'totalExtracted': stages.stage_3_grounded_extraction.outputs.totalExtracted }, 'summary': stages.stage_2_slop_sanitization.outputs.sanitizedContent, 'scoredSignals': stages.stage_1_trend_discovery.outputs.scoredSignals, 'groundedEntities': stages.stage_3_grounded_extraction.outputs.groundedExtractions, 'visualizationPath': stages.stage_3_grounded_extraction.outputs.visualizationPath } | json }}}"
+        },
+        "outputBinding": "sigilGateApproval"
+      }
+    ]
+  }
+}

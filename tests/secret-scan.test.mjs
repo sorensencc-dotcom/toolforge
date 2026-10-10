@@ -20,3 +20,11 @@ test('secret-scan allows safe templates without credentials', () => {
   const hits = checkContent('DATABASE_URL=${DATABASE_URL}');
   assert.equal(hits.length, 0);
 });
+
+test('secret-scan allows docker-compose password templates with fallback and required syntax', () => {
+  const fallbackUrl = 'DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/toolforge';
+  const requiredUrl = 'DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?}@postgres:5432/toolforge';
+  assert.equal(checkContent(fallbackUrl).length, 0, 'fallback template should be allowed');
+  assert.equal(checkContent(requiredUrl).length, 0, 'required variable template should be allowed');
+});
+

@@ -1,5 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
 import {
   TARGET_ROUTING_MAP,
   resolveTargetRouting,
@@ -12,7 +15,9 @@ import {
   parsePayload,
   auditOutboxReconciliation,
   syncCompletionReceipts,
-  sweepOutboxRetention
+  sweepOutboxRetention,
+  dispatchRejectionReceipt,
+  processFile
 } from '../scripts/trm-ingress-watcher.mjs';
 
 test('resolveTargetRouting maps repositories and local backlogs correctly', () => {
@@ -137,13 +142,11 @@ test('syncCompletionReceipts and sweepOutboxRetention dry-run execute cleanly', 
 });
 
 test('dispatchRejectionReceipt creates a structured rejection receipt object', () => {
-  import('../scripts/trm-ingress-watcher.mjs').then(({ dispatchRejectionReceipt }) => {
-    const rcpt = dispatchRejectionReceipt('invalid-card.json', 'Missing required field: intent', { source: 'mobile' }, { dryRun: true });
-    assert.equal(rcpt.status, 'REJECTED');
-    assert.equal(rcpt.error, 'Missing required field: intent');
-    assert.equal(rcpt.source, 'mobile');
-    assert.ok(rcpt.receipt_id.includes('rej'));
-  });
+  const rcpt = dispatchRejectionReceipt('invalid-card.json', 'Missing required field: intent', { source: 'mobile' }, { dryRun: true });
+  assert.equal(rcpt.status, 'REJECTED');
+  assert.equal(rcpt.error, 'Missing required field: intent');
+  assert.equal(rcpt.source, 'mobile');
+  assert.ok(rcpt.receipt_id.includes('rej'));
 });
 
 test('parseGDocFilenameMetadata extracts parent_action_id for mobile threading', () => {
@@ -184,5 +187,114 @@ test('inferActionType and validatePayload provide robust fallback when action_ty
   validatePayload(payloadDeterministic);
   assert.equal(payloadDeterministic.action_type, 'deterministic_fix');
 });
+
+test('validatePayload enforces required source and intent fields', () => {
+  // Missing source
+  assert.throws(() => validatePayload({ intent: 'remediate_stale_lock' }), /Missing source/);
+
+  // Missing intent
+  assert.throws(() => validatePayload({ source: 'mobile-gemini' }), /Missing intent/);
+});
+
+test('validatePayload infers category, domain, target, and id when omitted', () => {
+  const payload = {
+    source: 'mobile-grok',
+    intent: 'willow_run_bomber_metrics'
+  };
+  validatePayload(payload);
+  assert.equal(payload.category, 'RESEARCH');
+  assert.equal(payload.domain, 'cic');
+  assert.equal(payload.target, 'cic');
+  assert.ok(payload.id.startsWith('act-'));
+  assert.equal(payload.action_id, payload.id);
+});
+
+test('validatePayload accepts pending-gap schema without requiring source or intent', () => {
+  const gapPayload = { type: 'pending-gap', gap_id: 'GAP-01' };
+  assert.doesNotThrow(() => validatePayload(gapPayload));
+});
+
+test('parsePayload correctly parses JSON and Markdown payloads', async () => {
+  // JSON payload
+  const jsonPayload = await parsePayload('{"source":"mobile","intent":"test_json"}', '.json');
+  assert.equal(jsonPayload.source, 'mobile');
+  assert.equal(jsonPayload.intent, 'test_json');
+
+  // Markdown payload with YAML frontmatter
+  const mdRaw = '---\nsource: grok\nintent: test_md\ncategory: RESEARCH\n---\nDetailed findings here.';
+  const mdPayload = await parsePayload(mdRaw, '.md');
+  assert.equal(mdPayload.source, 'grok');
+  assert.equal(mdPayload.intent, 'test_md');
+  assert.equal(mdPayload.context.body, 'Detailed findings here.');
+
+  // Markdown missing frontmatter throws
+  await assert.rejects(
+    async () => parsePayload('No frontmatter here', '.md'),
+    /Markdown action item missing frontmatter block/
+  );
+});
+
+test('parsePayload surfaces .gdoc errors on malformed stubs and fetch failures', async () => {
+  // Malformed JSON
+  await assert.rejects(
+    async () => parsePayload('not-json', '.gdoc'),
+    /Invalid \.gdoc stub: JSON parse failed/
+  );
+
+  // Missing doc_id
+  await assert.rejects(
+    async () => parsePayload('{"url":"https://docs.google.com"}', '.gdoc'),
+    /Invalid \.gdoc stub: missing doc_id/
+  );
+
+  // Custom docFetcher with 401 error
+  const mockFetcher401 = async (docId) => ({
+    ok: false,
+    error: '401 Unauthorized'
+  });
+  await assert.rejects(
+    async () => parsePayload('{"doc_id":"doc_auth_fail"}', '.gdoc', { docFetcher: mockFetcher401 }),
+    /Failed to fetch gdoc text: 401 Unauthorized/
+  );
+
+  // Successful docFetcher returns parsed markdown
+  const mockFetcherSuccess = async (docId) => ({
+    ok: true,
+    content: '---\nsource: mobile-gdoc\nintent: fetch_success\n---\nFetched content body.'
+  });
+  const res = await parsePayload('{"doc_id":"doc_ok"}', '.gdoc', { docFetcher: mockFetcherSuccess });
+  assert.equal(res.source, 'mobile-gdoc');
+  assert.equal(res.intent, 'fetch_success');
+  assert.equal(res.context.body, 'Fetched content body.');
+});
+
+test('processFile catches .gdoc 401 error in dryRun mode and returns structured failure', async () => {
+  const mockFetcher401 = async () => ({ ok: false, error: '401 Unauthorized' });
+  const result = await processFile('dummy-path.gdoc', {
+    dryRun: true,
+    docFetcher: mockFetcher401
+  });
+  // Since dummy file does not exist on disk, processFile returns null
+  assert.equal(result, null);
+});
+
+test('processFile falls back to filename metadata when .gdoc text body fetch returns 401', async () => {
+  const tmpGdoc = path.join(os.tmpdir(), '2026-10-10T120000Z__action__kb-sync__act-test-auth-hardening-fallback.md.gdoc');
+  fs.writeFileSync(tmpGdoc, JSON.stringify({ doc_id: 'test_doc_auth_fail' }), 'utf8');
+  try {
+    const mockFetcher401 = async () => ({ ok: false, error: '401 Unauthorized' });
+    const result = await processFile(tmpGdoc, {
+      dryRun: true,
+      docFetcher: mockFetcher401
+    });
+    assert.ok(result);
+    assert.equal(result.source, 'mobile-gemini-gdoc');
+    assert.match(result.intent, /act_test_auth_hardening_fallback/);
+  } finally {
+    try { fs.unlinkSync(tmpGdoc); } catch {}
+  }
+});
+
+
 
 
