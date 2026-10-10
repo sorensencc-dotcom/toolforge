@@ -214,6 +214,32 @@ test('validatePayload accepts pending-gap schema without requiring source or int
   assert.doesNotThrow(() => validatePayload(gapPayload));
 });
 
+test('validatePayload normalizes grok/grocery source and infers intent from title or topic', () => {
+  const grokDrop = {
+    source: 'grok',
+    skill: 'drive-it',
+    topic: 'cic',
+    title: 'Willys five-contradictions lock — Jeep Day, Canaday, March 1946 pickup',
+    status: 'drop'
+  };
+  validatePayload(grokDrop);
+  assert.equal(grokDrop.source, 'mobile-grok');
+  assert.equal(grokDrop.action_type, 'antigravity_triage');
+  assert.equal(grokDrop.category, 'RESEARCH');
+  assert.equal(grokDrop.domain, 'cic');
+  assert.match(grokDrop.intent, /^willys_five_contradictions_lock/);
+
+  // Autocorrected "grocery" source
+  const groceryDrop = {
+    source: 'grocery',
+    topic: 'cic',
+    title: 'Ferguson BFRC Search Plan'
+  };
+  validatePayload(groceryDrop);
+  assert.equal(groceryDrop.source, 'mobile-grok');
+  assert.equal(groceryDrop.intent, 'ferguson_bfrc_search_plan');
+});
+
 test('parsePayload correctly parses JSON and Markdown payloads', async () => {
   // JSON payload
   const jsonPayload = await parsePayload('{"source":"mobile","intent":"test_json"}', '.json');
