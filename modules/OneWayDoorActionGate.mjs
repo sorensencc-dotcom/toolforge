@@ -152,7 +152,7 @@ export function formatGatingPrompt(gateInfo) {
     ` Impact/Diff:    ${diffSummary}`,
     '-----------------------------------------------------------------',
     ' This action is irreversible. Autonomous execution is paused.',
-    ` To approve, provide token: ${gateId}`,
+    ` To approve, provide confirmation token for gate: ${gateId}`,
     '================================================================='
   ].join('\n');
 }
@@ -226,7 +226,7 @@ export class OneWayDoorInterceptor {
       if (targetPath) {
         const sanitized = targetPath.replace(/\\/g, '/');
         const normalized = path.posix ? path.posix.normalize(sanitized) : path.normalize(sanitized).replace(/\\/g, '/');
-        if (normalized.startsWith('../') || normalized.includes('/../') || path.isAbsolute(targetPath) || targetPath.startsWith('/') || /^[a-zA-Z]:/.test(targetPath)) {
+        if (normalized === '..' || normalized.startsWith('../') || normalized.includes('/../') || path.isAbsolute(targetPath) || targetPath.startsWith('/') || /^[a-zA-Z]:/.test(targetPath)) {
           return {
             status: 'BLOCKED_BY_GATE',
             reversibility: REVERSIBILITY.BOUNDED,

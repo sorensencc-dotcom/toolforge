@@ -192,6 +192,7 @@ test('CLI - formatGatingPrompt renders structured risk prompt', () => {
   assert.ok(formatted.includes('CRITICAL'));
   assert.ok(formatted.includes('gate-abc-123'));
   assert.ok(formatted.includes('Deletes persistent database file'));
+  assert.ok(formatted.includes('confirmation token for gate'));
 });
 
 test('Interceptor - hard stops unconfirmed external network transmissions', async () => {
