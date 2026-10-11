@@ -53,6 +53,12 @@ test('inferDomain correctly resolves domain from target notebook name or text', 
   assert.equal(inferDomain({ intent: 'embodied_robotics_actuator_reliability' }), 'cic');
   assert.equal(inferDomain({ intent: 'triage_pr45_devin_review' }), 'toolforge');
   assert.equal(inferDomain({ domain: 'custom-domain' }), 'custom-domain');
+  assert.equal(inferDomain({ topic: 'cic' }), 'cic');
+  assert.equal(inferDomain({ topic: 'cic-kb' }), 'cic');
+  assert.equal(inferDomain({ topic: 'whichllm-routing' }), 'whichllm');
+  assert.equal(inferDomain({ topic: 'toolforge-plugin' }), 'toolforge');
+  assert.equal(inferDomain({ topic: 'rewrite-mcp' }), 'rewrite');
+  assert.equal(inferDomain({ topic: 'sigil-rooms' }), 'sigil');
 });
 
 test('getRoutingDecision gatekeeps GitHub issue creation strictly to implementation tasks', () => {
