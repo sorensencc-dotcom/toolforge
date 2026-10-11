@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.87.0
+Date: 2026-10-11
+
+### Changes
+- 854df45 - feat(pilot): reconcile toolforge read-only pilot with security hardenings (dcd5a970) (#112) (Chris Sorensen)
+
 ## Version 2.86.1
 Date: 2026-10-10
 
