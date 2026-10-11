@@ -14,7 +14,8 @@ tracking_issue: null
 citations:
   - "kb-sync/core/nlm-chunker.mjs"
   - "kb-sync/scripts/consolidate-pack.mjs"
-  - "kb-sync/tests/nlm-enobufs-chunking.test.mjs"
+  - "kb-sync/tests/fact-extraction-pack.test.mjs"
+  - "kb-sync/tests/nlm-pack-replace-gate.test.mjs"
 ---
 
 # RFC: Dynamic NLM pack chunking and ENOBUFS buffer overflow protection
@@ -77,7 +78,7 @@ To eliminate `ENOBUFS` failures permanently, `kb-sync` requires a dynamic shardi
 The dynamic chunking engine is implemented in [`kb-sync/core/nlm-chunker.mjs`](file:///C:/dev/kb-sync/core/nlm-chunker.mjs) and integrated into [`kb-sync/scripts/consolidate-pack.mjs`](file:///C:/dev/kb-sync/scripts/consolidate-pack.mjs).
 
 ### 3.1 Verification results
-Running [`kb-sync/tests/nlm-enobufs-chunking.test.mjs`](file:///C:/dev/kb-sync/tests/nlm-enobufs-chunking.test.mjs) validates:
+Running [`kb-sync/tests/fact-extraction-pack.test.mjs`](file:///C:/dev/kb-sync/tests/fact-extraction-pack.test.mjs) and [`kb-sync/tests/nlm-pack-replace-gate.test.mjs`](file:///C:/dev/kb-sync/tests/nlm-pack-replace-gate.test.mjs) validates:
 1. **Single-file preservation**: Small categories below $380\text{ KiB}$ retain their canonical filename (`pack_willow_run.txt`).
 2. **Multi-part sharding**: Oversized categories ($> 800\text{ KiB}$) partition into sequential shards (`pack_master_kb_part1.txt`, `pack_master_kb_part2.txt`), with every shard measuring $\le 380\text{ KiB}$.
 3. **Fact registry truncation safety**: High-volume fact registries cap at $38\text{ KiB}$ without corrupted lines or broken entries.
@@ -93,5 +94,5 @@ Running [`kb-sync/tests/nlm-enobufs-chunking.test.mjs`](file:///C:/dev/kb-sync/t
    ```
 2. To execute regression tests across pack sharding and replace gates, run:
    ```bash
-   node --test kb-sync/tests/nlm-enobufs-chunking.test.mjs kb-sync/tests/nlm-pack-replace-gate.test.mjs
+   node --test kb-sync/tests/fact-extraction-pack.test.mjs kb-sync/tests/nlm-pack-replace-gate.test.mjs
    ```

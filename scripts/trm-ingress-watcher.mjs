@@ -370,6 +370,14 @@ export function inferDomain(item) {
     return 'research';
   }
   if (item.domain) return item.domain.toLowerCase();
+  if (item.topic) {
+    const tp = item.topic.toLowerCase();
+    if (tp === 'cic' || tp === 'cic-kb') return 'cic';
+    if (tp.includes('whichllm')) return 'whichllm';
+    if (tp.includes('toolforge')) return 'toolforge';
+    if (tp.includes('rewrite')) return 'rewrite';
+    if (tp.includes('sigil')) return 'sigil';
+  }
   if (item.target_notebook_name) {
     const name = item.target_notebook_name.toLowerCase();
     if (name.includes('toolforge')) return 'toolforge';
@@ -440,6 +448,28 @@ export function validatePayload(item) {
   if (item.type === 'pending-gap') {
     return true;
   }
+
+  // Normalize source for Grok and mobile variations (including autocorrected "grocery")
+  if (item.source) {
+    const src = String(item.source).toLowerCase();
+    if (src === 'grok' || src === 'grocery' || src.includes('grok')) {
+      item.source = 'mobile-grok';
+    }
+  } else if (item.skill === 'drive-it' || item.status === 'drop') {
+    item.source = 'mobile-grok';
+  }
+
+  // Infer intent from title, stem, or topic if missing
+  if (!item.intent) {
+    if (item.title) {
+      item.intent = item.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+    } else if (item.topic) {
+      item.intent = item.topic.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+    } else if (item.id) {
+      item.intent = String(item.id).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+    }
+  }
+
   item.id = item.id || item.action_id || (item.intent ? `act-${Date.now()}` : null);
   item.action_id = item.action_id || item.id;
   item.category = item.category || inferCategory(item);
@@ -644,14 +674,17 @@ export function auditOutboxReconciliation() {
     }
   }
 
-  const isReconciled = unreconciledCardIds.length === 0 && ledgerRows.length > 0;
-  const reconciliationStatus = isReconciled ? 'RECONCILED' : (ledgerRows.length === 0 ? 'NO_DATA' : 'DISCREPANCY');
+  const rejectedReceiptFiles = activeReceiptFiles.filter(f => f.includes('-rejected') || f.includes('.rejected.'));
+  const isReconciled = unreconciledCardIds.length === 0 && rejectedReceiptFiles.length === 0 && ledgerRows.length > 0;
+  const reconciliationStatus = isReconciled ? 'RECONCILED' : (ledgerRows.length === 0 ? 'NO_DATA' : (rejectedReceiptFiles.length > 0 ? 'REJECTED_CARDS_PRESENT' : 'DISCREPANCY'));
 
   return {
     timestamp: new Date().toISOString(),
     reconciliationStatus,
     archivedCardsCount,
     activeReceiptsCount: activeReceiptFiles.length,
+    rejectedReceiptsCount: rejectedReceiptFiles.length,
+    rejectedReceiptFiles,
     archivedReceiptsCount: archivedReceiptFiles.length,
     totalTrackedCount: ledgerRows.length,
     reconciledCardsCount,
