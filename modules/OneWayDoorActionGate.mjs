@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import path from 'node:path';
 
 /**
  * Action Reversibility Taxonomy:
@@ -223,7 +224,16 @@ export class OneWayDoorInterceptor {
     if (reversibility === REVERSIBILITY.BOUNDED) {
       const targetPath = params.path || params.filePath || params.file || '';
       if (targetPath) {
-        const normalized = targetPath.replace(/\\/g, '/');
+        const normalized = path.normalize(targetPath).replace(/\\/g, '/');
+        if (normalized.startsWith('../') || normalized.includes('/../') || path.isAbsolute(targetPath)) {
+          return {
+            status: 'BLOCKED_BY_GATE',
+            reversibility: REVERSIBILITY.BOUNDED,
+            breach: 'BOUNDARY_EXCEEDED',
+            gateId,
+            reason: `Action target breaches bounded scratchpad limits (${targetPath})`
+          };
+        }
         const isBounded = this.allowedBoundedPrefixes.some(prefix =>
           normalized.startsWith(prefix) || normalized.includes(`/${prefix}`)
         );

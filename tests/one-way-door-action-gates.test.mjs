@@ -222,4 +222,15 @@ test('Interceptor - computeGateId is invariant to object key ordering permutatio
   assert.equal(id1, id2);
 });
 
+test('Interceptor - blocks directory traversal attempts escaping bounded scratchpad', async () => {
+  const interceptor = new OneWayDoorInterceptor();
+  const escapeAttempt = await interceptor.intercept({
+    toolName: 'write_scratch',
+    params: { path: 'scratch/../../src/core.js', content: 'malicious' }
+  });
+  assert.equal(escapeAttempt.status, 'BLOCKED_BY_GATE');
+  assert.equal(escapeAttempt.breach, 'BOUNDARY_EXCEEDED');
+  assert.ok(escapeAttempt.reason.includes('breaches bounded') || escapeAttempt.reason.includes('traversal'));
+});
+
 
