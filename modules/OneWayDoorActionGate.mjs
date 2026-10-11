@@ -156,6 +156,16 @@ export function formatGatingPrompt(gateInfo) {
   ].join('\n');
 }
 
+export function canonicalizeValue(val) {
+  if (val === null || typeof val !== 'object') return val;
+  if (Array.isArray(val)) return val.map(canonicalizeValue);
+  const sorted = {};
+  for (const k of Object.keys(val).sort()) {
+    sorted[k] = canonicalizeValue(val[k]);
+  }
+  return sorted;
+}
+
 /**
  * One-Way Door Action Gate Interceptor Middleware
  */
@@ -165,13 +175,19 @@ export class OneWayDoorInterceptor {
     this.allowedBoundedPrefixes = options.allowedBoundedPrefixes || ['scratch/', 'tmp/', 'temp/', '.tmp/'];
   }
 
+
   /**
    * Compute deterministic gate ID for an action call
    */
   computeGateId(toolName, params) {
-    const raw = JSON.stringify({ toolName, params });
+    const canonical = {
+      toolName,
+      params: canonicalizeValue(params)
+    };
+    const raw = JSON.stringify(canonical);
     return `gate-${crypto.createHash('sha256').update(raw).digest('hex').slice(0, 16)}`;
   }
+
 
   /**
    * Intercept a tool call and evaluate reversibility, bounds, confirmation, and plan drift

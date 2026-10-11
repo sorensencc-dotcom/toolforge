@@ -215,3 +215,11 @@ test('verifyConfirmationToken - safely rejects null, empty, or mismatched length
   assert.equal(verifyConfirmationToken(12345, 'gate-123'), false);
 });
 
+test('Interceptor - computeGateId is invariant to object key ordering permutations', () => {
+  const interceptor = new OneWayDoorInterceptor();
+  const id1 = interceptor.computeGateId('delete_file', { path: 'a.txt', recursive: true, force: false });
+  const id2 = interceptor.computeGateId('delete_file', { force: false, path: 'a.txt', recursive: true });
+  assert.equal(id1, id2);
+});
+
+
