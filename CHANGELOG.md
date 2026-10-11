@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.88.2
+Date: 2026-10-11
+
+### Changes
+- 514514e - ci: clear matrix checkout warnings (#122) (Chris Sorensen)
+
 ## Version 2.88.1
 Date: 2026-10-11
 
