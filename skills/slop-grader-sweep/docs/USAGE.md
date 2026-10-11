@@ -53,6 +53,16 @@ needs this manual step.
 
 ## Troubleshooting
 
+### Reviewed subprocess boundaries
+
+Source import-line SEC-AUDITOR exceptions cover fixed read-only Git diff arguments
+and installed grader entrypoint invoked through current Node, both shell:false.
+Filenames/cwd remain literal data. Tests pin argv/options and hostile filenames;
+no shell command construction or package-download fallback. Grader can contact
+its configured provider and inherit existing environment as before; this is not
+read-only pilot confinement or network isolation. These tests do not authorize
+live grading, provider spending, or production sweeps.
+
 - **No findings ever appear**: check `OPENROUTER_API_KEY` is set and
   `resolveApiKey('openrouter')` (see `credential-resolver.ts`) resolves
   it — a missing key silently skips grading on both paths by design.

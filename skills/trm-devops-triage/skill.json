@@ -12,8 +12,8 @@
   "entrypoint": "src/index.ts",
   "keywords": ["trm", "devops", "triage", "ci-cd", "queue", "operator-workflow"],
   "commands": {
-    "invoke": "npx trm-devops status",
-    "usage": "npx trm-devops [sync|prune|status] [options]"
+    "invoke": "node modules/trm-devops/dist/cli/index.js status",
+    "usage": "node modules/trm-devops/dist/cli/index.js [sync|prune|status] [options]"
   },
   "inputs": {
     "queuePath": "string (optional) — defaults to dev/triage/queue.md",

@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node scripts/assert-test-count.mjs",
+    "test": "node --test scripts/assert-test-count.test.mjs && node scripts/assert-test-count.mjs",
+    "test:launcher": "node --test scripts/assert-test-count.test.mjs",
     "test:smoke": "tsx --test src/index.smoke.test.ts",
     "typecheck": "tsc -p tsconfig.json"
   },

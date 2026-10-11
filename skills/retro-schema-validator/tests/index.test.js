@@ -104,3 +104,13 @@ test('validateFiles', async (t) => {
     assert.strictEqual(output.verdict, 'YELLOW');
   });
 });
+
+test('non-object JSON roots return a root violation', () => {
+  for (const data of [null, [], 'text', 42, true, false]) {
+    const result = validateFile(writeRetro(data));
+    assert.strictEqual(result.ok, false);
+    assert.strictEqual(result.violations.length, 1);
+    assert.strictEqual(result.violations[0].field, 'root');
+    assert.strictEqual(result.violations[0].level, 'error');
+  }
+});

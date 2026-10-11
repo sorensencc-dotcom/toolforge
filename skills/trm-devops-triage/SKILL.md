@@ -29,7 +29,7 @@ This skill guides the operator through the 4-step triage lifecycle for resolving
 ```
 ┌────────────────────┐     ┌───────────────────────┐     ┌────────────────────────┐     ┌─────────────────────┐
 │ 1. Inspect queue   │ ──> │ 2. Claim & run steps  │ ──> │ 3. Annotate notes      │ ──> │ 4. Resolve & prune  │
-│ dev/triage/queue.md│     │ gh / pwsh / npm test  │     │ status: IN_PROGRESS    │     │ npx trm-devops prune│
+│ dev/triage/queue.md│     │ gh / pwsh / npm test  │     │ status: IN_PROGRESS    │     │ node modules/trm-devops/dist/cli/index.js prune│
 └────────────────────┘     └───────────────────────┘     └────────────────────────┘     └─────────────────────┘
 ```
 
@@ -88,10 +88,10 @@ Once the fix is verified green in CI:
 2. Run the pruning cycle to archive locally and purge the remote buffer in NotebookLM:
    ```bash
    # Dry-run validation
-   npx trm-devops prune --dry-run
+   node modules/trm-devops/dist/cli/index.js prune --dry-run
 
    # Execute prune and archive
-   npx trm-devops prune
+   node modules/trm-devops/dist/cli/index.js prune
    ```
 
 Pruning automatically performs the following actions:
@@ -108,13 +108,13 @@ Pruning automatically performs the following actions:
 
 ```bash
 # Ingest and sync latest defects into queue.md
-npx trm-devops sync
+node modules/trm-devops/dist/cli/index.js sync
 
 # Inspect active queue status and count summary
-npx trm-devops status
+node modules/trm-devops/dist/cli/index.js status
 
 # Prune all RESOLVED items
-npx trm-devops prune
+node modules/trm-devops/dist/cli/index.js prune
 ```
 
 ### MCP tools

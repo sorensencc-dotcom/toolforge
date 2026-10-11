@@ -1,5 +1,5 @@
 // skills/slop-grader-sweep/src/file-list.ts
-import { execFileSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process'; // noqa: SEC-AUDITOR -- fixed read-only git diff argv, literal cwd, shell:false; see docs/USAGE.md.
 import { globSync } from 'glob';
 
 const TRACKED_ROOTS = ['docs', 'wiki'];
@@ -15,7 +15,7 @@ export function resolveChangedFiles(cwd: string = process.cwd()): string[] {
   const output = execFileSync(
     'git',
     ['diff', '--name-only', '--diff-filter=ACM', '--cached'],
-    { cwd, encoding: 'utf8' }
+    { cwd, encoding: 'utf8', shell: false }
   ) as unknown as string;
 
   return output
