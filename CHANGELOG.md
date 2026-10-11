@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.89.0
+Date: 2026-10-11
+
+### Changes
+- bfe91e4 - feat(trm-devops-triage): run real last30days engine in trend sweep stage (Claude)
+
 ## Version 2.88.2
 Date: 2026-10-11
 
