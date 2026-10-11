@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.88.0
+Date: 2026-10-11
+
+### Changes
+- 09eb3d1 - feat(gates): implement one-way vs. two-way door action classifier & execution gates (closes #115) (#117) (Chris Sorensen)
+
 ## Version 2.87.1
 Date: 2026-10-11
 
