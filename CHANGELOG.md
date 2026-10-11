@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.88.1
+Date: 2026-10-11
+
+### Changes
+- b23bce7 - fix: restore ratified local-only Ollama routing (#118) (Chris Sorensen)
+- 525df2f - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+
 ## Version 2.88.0
 Date: 2026-10-11
 
