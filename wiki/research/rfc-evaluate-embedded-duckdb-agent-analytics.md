@@ -3,7 +3,7 @@ title: "RFC: Evaluate Embedded DuckDB for Agent Analytics and Trajectory Mining"
 category: "research"
 topic: "rfc-evaluate-embedded-duckdb-agent-analytics"
 gap_id: "act-04-evaluate-embedded-duckdb-agent-analytics"
-status: "draft"
+status: "active"
 created_at: "2026-10-03T16:15:00.000Z"
 assigned_tier: "Tier 1 (Judgment)"
 routed_model: "gemini-3.7-flash"
@@ -15,6 +15,7 @@ citations:
   - "rewrite-mcp/package.json"
   - "modules/telemetry/git-activity.mjs"
   - "scripts/evaluate-duckdb-analytics.mjs"
+  - "tests/evaluate-duckdb-analytics.test.mjs"
 ---
 
 # RFC: Evaluate embedded DuckDB for agent analytics and trajectory mining
