@@ -2,6 +2,26 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
 import { execSync, execFileSync } from 'node:child_process';
+import { extractMobileIntent } from './local-small-model-bridge.mjs';
+
+const ALLOWED_TRIAGE_PRIORITIES = ['P1', 'P2', 'P3'];
+
+export function applySmallModelTriage(item, triaged) {
+  if (!triaged) return item;
+  if (!item.intent || item.intent === 'triage_mobile_request') {
+    item.intent = triaged.intent || item.intent || 'triage_mobile_request';
+  }
+  item.action_type = item.action_type || triaged.action_type;
+  if (!item.priority) {
+    item.priority = ALLOWED_TRIAGE_PRIORITIES.includes(triaged.priority) ? triaged.priority : 'P2';
+  }
+  item.execution_plan = item.execution_plan || triaged.execution_plan;
+  item.context = {
+    ...(item.context || {}),
+    ...(triaged.context || {})
+  };
+  return item;
+}
 
 /**
  * scripts/trm-ingress-watcher.mjs
@@ -50,6 +70,7 @@ const isOnce = args.includes('--once') || isDryRun;
 const isStatus = args.includes('--status');
 const isSyncReceipts = args.includes('--sync-receipts');
 const isSweepOutbox = args.includes('--sweep-outbox');
+const isLiveOllama = args.includes('--live-ollama');
 
 // Discover all active inbox directories
 export function getActiveInboxDirs() {
@@ -459,12 +480,14 @@ export function validatePayload(item) {
     item.source = 'mobile-grok';
   }
 
-  // Infer intent from title, stem, or topic if missing
+  // Infer intent from title, stem, topic, or summary if missing
   if (!item.intent) {
     if (item.title) {
       item.intent = item.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
     } else if (item.topic) {
       item.intent = item.topic.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+    } else if (item.summary) {
+      item.intent = item.summary.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
     } else if (item.id) {
       item.intent = String(item.id).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
     }
@@ -1083,6 +1106,26 @@ export async function processFile(filePath, options = {}) {
       item.type = item.type || 'pending-gap';
     }
     validatePayload(item);
+
+    // Default small-model triage: Enrich unmapped/mobile cards using local Ollama model bridge
+    const isSyntheticFallback = item.context?.provider === 'deterministic_fallback' || (typeof item.summary === 'string' && item.summary.startsWith('Mobile action item'));
+    if (options.useSmallModel !== false && (!item.execution_plan || !item.intent || item.intent === 'triage_mobile_request' || !item.summary || isSyntheticFallback)) {
+      try {
+        let triageInput = item.title || item.summary || item.intent || filename;
+        if (item.context?.gdoc_stem) {
+          triageInput = item.context.gdoc_stem.replace(/^\d{4}-\d{2}-\d{2}T\d+Z__action__[^_]+__/i, '').replace(/[-_]/g, ' ');
+        } else if (typeof triageInput === 'string' && triageInput.startsWith('Mobile action item')) {
+          triageInput = triageInput.replace(/^Mobile action item submitted via Google Docs(?:\s*\(.*?\))?:\s*/i, '').replace(/[-_]/g, ' ');
+        }
+
+        const triaged = await extractMobileIntent(triageInput, item, {
+          dryRun: (dryRun && !options.enableLiveOllamaInDryRun && !isLiveOllama)
+        });
+        if (triaged) applySmallModelTriage(item, triaged);
+      } catch (triageErr) {
+        console.warn(`[TRM-INGRESS] Small-model triage notice: ${triageErr.message} (preserved deterministic validation)`);
+      }
+    }
   } catch (err) {
     console.error(`[ERROR] Ingress unparseable receipt: Validation failed for ${filename}: ${err.stack}`);
     if (dryRun) {
@@ -1125,6 +1168,9 @@ export async function processFile(filePath, options = {}) {
       source: item.source,
       action_type: item.action_type,
       intent: item.intent,
+      priority: item.priority,
+      execution_plan: item.execution_plan,
+      context: item.context,
       status: 'INSPECTED_DRY_RUN'
     };
   }

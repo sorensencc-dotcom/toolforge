@@ -1,0 +1,27 @@
+{
+  "id": "trm-triage",
+  "name": "TRM Triage",
+  "version": "1.0.0",
+  "description": "Autonomous task card triage engine applying YAGNI evaluation, reversibility classification, and GitHub Issue promotion payloads.",
+  "category": "automation",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "keywords": ["trm", "triage", "yagni", "backlog", "cards", "ollama"],
+  "commands": {
+    "run": "node skills/trm-triage/src/index.mjs",
+    "test": "node --test tests/trm-triage-skill.test.mjs"
+  },
+  "inputs": {
+    "rootDir": "string (default: .)",
+    "dryRun": "boolean (default: false)"
+  },
+  "outputs": {
+    "totalCards": "number",
+    "triagedCards": "array"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "tooltip": "Triages staged mobile action cards and evaluates implementation vs research routing."
+}
