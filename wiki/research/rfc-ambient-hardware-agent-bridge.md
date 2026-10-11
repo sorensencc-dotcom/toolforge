@@ -3,7 +3,7 @@ title: "RFC: Ambient Hardware Agent Bridge Architecture and Protocol for Autonom
 category: "research"
 topic: "rfc-ambient-hardware-agent-bridge"
 gap_id: "act-02-ambient-hardware-agent-bridge"
-status: "draft"
+status: "active"
 created_at: "2026-10-04T15:35:00.000Z"
 assigned_tier: "Tier 1 (Judgment)"
 routed_model: "gemini-3.7-flash"
