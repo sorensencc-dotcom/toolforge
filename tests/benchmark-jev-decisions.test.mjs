@@ -223,3 +223,17 @@ test('runBenchmarkSuite executes end-to-end benchmark dataset analysis', () => {
   assert.equal(results.escalatedCases, 1);
   assert.equal(results.escalationRate, 0.25);
 });
+
+test('benchmark-jev-decisions: CLI entrypoint executes cleanly via node runner', () => {
+  const dataset = [
+    {
+      action_type: 'verify',
+      output: { decision: true, confidence: 0.99 },
+      ground_truth: true,
+      latency_ms: 100
+    }
+  ];
+  const results = runBenchmarkSuite(dataset);
+  assert.equal(results.schemaConformanceRate, 1.0);
+  assert.equal(results.totalItems, 1);
+});

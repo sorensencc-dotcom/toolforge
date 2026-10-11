@@ -8,6 +8,7 @@
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export const JEV_COST_PER_MILLION = 0.042; // $0.042 / 1M tokens
 export const FRONTIER_LLM_COST_PER_MILLION = 15.0; // $15.00 / 1M tokens (e.g. Claude 3.5 Opus / Sonnet blended)
@@ -272,7 +273,7 @@ export function runBenchmarkSuite(evalDataset) {
   };
 }
 
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   console.log('Jev Decision Model Benchmark Harness — Initializing standard evaluation...');
   // Simple demonstration run
   const demoDataset = [
