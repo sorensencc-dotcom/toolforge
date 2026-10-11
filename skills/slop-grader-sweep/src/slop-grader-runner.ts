@@ -1,4 +1,4 @@
-import { spawn } from 'node:child_process';
+import { spawn } from 'node:child_process'; // noqa: SEC-AUDITOR -- current Node + installed grader entrypoint, literal argv, shell:false; see docs/USAGE.md.
 import { createRequire } from 'node:module';
 
 export interface SlopFinding {
@@ -204,6 +204,7 @@ export function runSlopGraderOnFile(
     }
 
     const child = spawn(process.execPath, [entrypoint, ...buildGraderArgs(file)], {
+      shell: false,
       env: { ...process.env, OPENROUTER_API_KEY: apiKey },
     });
 

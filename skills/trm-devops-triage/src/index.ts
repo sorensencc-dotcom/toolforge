@@ -1,4 +1,5 @@
-import { execSync } from 'child_process'; // noqa: SEC-AUDITOR (CLI wrapper for npx trm-devops)
+import { execFileSync } from 'node:child_process'; // noqa: SEC-AUDITOR -- current Node + fixed local built CLI, literal arguments, shell:false; see docs/USAGE.md.
+import { existsSync } from 'node:fs';
 import * as path from 'path';
 
 export interface TrmDevOpsTriageOptions {
@@ -9,7 +10,10 @@ export interface TrmDevOpsTriageOptions {
 }
 
 export function runTriageCommand(command: 'sync' | 'prune' | 'status', options: TrmDevOpsTriageOptions = {}): void {
+  if (!['sync', 'prune', 'status'].includes(command)) throw new Error('Unsupported triage command');
   const repoRoot = path.resolve(__dirname, '..', '..', '..');
+  const cli = path.join(repoRoot, 'modules', 'trm-devops', 'dist', 'cli', 'index.js');
+  if (!existsSync(cli)) throw new Error('TRM DevOps CLI build unavailable; build modules/trm-devops explicitly before invocation');
   const args: string[] = [command];
 
   if (options.queuePath) args.push('--queue', options.queuePath);
@@ -17,9 +21,10 @@ export function runTriageCommand(command: 'sync' | 'prune' | 'status', options: 
   if (options.bufferPath) args.push('--buffer', options.bufferPath);
   if (options.dryRun) args.push('--dry-run');
 
-  execSync(`npx trm-devops ${args.join(' ')}`, {
+  execFileSync(process.execPath, [cli, ...args], {
     cwd: repoRoot,
     stdio: 'inherit',
+    shell: false,
   });
 }
 

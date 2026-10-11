@@ -176,8 +176,21 @@ describe('runSlopGraderOnFile', () => {
     expect(command).toBe(process.execPath);
     expect(args[0]).toMatch(/slop-grader\.mjs$/);
     expect(args.slice(1)).toEqual(buildGraderArgs('docs/a.md'));
-    expect(options.shell).toBeUndefined();
+    expect(options.shell).toBe(false);
     expect(options.env.OPENROUTER_API_KEY).toBe('sk-test');
+  });
+
+  it('keeps hostile filename characters in one literal positional argument', async () => {
+    const child = fakeChild();
+    vi.mocked(spawn).mockReturnValue(child as never);
+    const file = "docs/space & quote'$HOME`;literal.md";
+    const promise = runSlopGraderOnFile(file, 'test-key');
+    settle(child, CLEAN_JSON);
+    await expect(promise).resolves.toEqual({ ok: true, findings: [] });
+    const [executable, args, options] = vi.mocked(spawn).mock.calls[0];
+    expect(executable).toBe(process.execPath);
+    expect(args?.at(-1)).toBe(file);
+    expect(options?.shell).toBe(false);
   });
 
   it('resolves ok:false on non-zero exit', async () => {

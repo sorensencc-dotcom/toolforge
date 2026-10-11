@@ -1,0 +1,53 @@
+{
+  "contractVersion": 1,
+  "reviewStatus": "task-3-round-2-exit-cleanup-and-spawn-boundary-reviewed",
+  "note": "Trusted deployment anchor; excluded from its own digest. Detects installed drift, not an attacker able to replace this anchor. Task 3 round 2 source review moves native exit capture after owned-process wait in finally, before disposal, including stdin failure; runner imports, CLI admission, arguments, and permissions unchanged.",
+  "files": {
+    "manifest.json": "5eacb59f4016caa71399e3122d3751f2d591505432245fc8c190cb3afa993db4",
+    "package.json": "3d9f7ea916a9dadbe85218907d8194bacd9edeb66e917d8b89f3e6bd16b01792",
+    "skills/toolforge-cli/SKILL.json": "b44cc880074bb3c65eba7422bd3d119a3c9389cdb4387d88813689afdcd65bc6",
+    "skills/toolforge-cli/src/invocation-contracts.mjs": "dd7e5e77c0580166d6d7d1f97abb8a22d55319bf7ad202ef90b552c0344fb3c5",
+    "skills/toolforge-cli/src/invoke-skill.mjs": "8f0b00e2216bfa955e19ea5e95db7f89c14fd79d345133af5eac1a27648b4398",
+    "skills/toolforge-cli/src/invocation-worker.mjs": "928737d2bd5840e65224bc51187a9767e7cfef19f681448e0f4957552c91ed93",
+    "skills/roadmap-validator/src/index.ts": "9c0477e5e335f55eeafc0485f7aa26ccd0285f19956341a79116c273108264b1",
+    "skills/roadmap-validator/skill.json": "b03dab5cec0f3581db0ab6e7dead77d9071d6d32db2434b92598d810720e77fd",
+    "skills/roadmap-validator/package.json": "35524f02adb9ebe3a52a19426d3f43a23e12cfe6de0571b51451c14b3c0edf77",
+    "skills/agent-drift-detector/src/index.ts": "3a2affeb68a6c58871c2977990584d234cf04967650460b1face04ad3cad021e",
+    "skills/agent-drift-detector/skill.json": "9ff30f1d519b771d908e3d0702180e606feb5d28d652977595db30b31a1b6791",
+    "skills/agent-drift-detector/package.json": "2443f6f8c88a17078b7ec2ccf71adf04b3ca5065d7d04f63ad8ff88e0b52f904",
+    "skills/agent-drift-detector/SKILL.md": "99112ea3bcb6e23b0d4a9a86e4753dd15ef209a9c39fa9eb971adc64f1b4a1a4",
+    "skills/retro-schema-validator/src/index.js": "6c9b23fb9dcaec07bafafbde355ab3e98dcaa91c4ed76aae8f302cd4d23ac2b3",
+    "skills/retro-schema-validator/skill.json": "b9b3b74c67e95a760851524203004c0aec6507e0ffd5a224ee67b932213686dc"
+  },
+  "shared": [
+    "manifest.json",
+    "package.json",
+    "skills/toolforge-cli/SKILL.json",
+    "skills/toolforge-cli/src/invocation-contracts.mjs",
+    "skills/toolforge-cli/src/invoke-skill.mjs",
+    "skills/toolforge-cli/src/invocation-worker.mjs"
+  ],
+  "absent": ["skills/package.json", "skills/toolforge-cli/package.json", "skills/toolforge-cli/src/package.json"],
+  "builtins": {
+    "skills/toolforge-cli/src/invoke-skill.mjs": ["node:child_process", "node:fs/promises", "node:path", "node:perf_hooks"],
+    "skills/toolforge-cli/src/invocation-worker.mjs": ["node:fs/promises", "node:path", "node:crypto", "node:url", "node:console"],
+    "skills/toolforge-cli/src/invocation-contracts.mjs": ["node:fs/promises", "node:fs", "node:path", "node:crypto"],
+    "skills/roadmap-validator/src/index.ts": ["fs", "path"],
+    "skills/agent-drift-detector/src/index.ts": [],
+    "skills/retro-schema-validator/src/index.js": ["node:fs", "node:path", "node:url"]
+  },
+  "skills": {
+    "roadmap-validator": {
+      "files": ["skills/roadmap-validator/src/index.ts", "skills/roadmap-validator/skill.json", "skills/roadmap-validator/package.json"],
+      "absent": ["skills/roadmap-validator/src/package.json"]
+    },
+    "agent-drift-detector": {
+      "files": ["skills/agent-drift-detector/src/index.ts", "skills/agent-drift-detector/skill.json", "skills/agent-drift-detector/package.json", "skills/agent-drift-detector/SKILL.md"],
+      "absent": ["skills/agent-drift-detector/src/package.json"]
+    },
+    "retro-schema-validator": {
+      "files": ["skills/retro-schema-validator/src/index.js", "skills/retro-schema-validator/skill.json"],
+      "absent": ["skills/retro-schema-validator/package.json", "skills/retro-schema-validator/src/package.json"]
+    }
+  }
+}

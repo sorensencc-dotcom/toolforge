@@ -37,6 +37,13 @@ describe('resolveChangedFiles', () => {
 
     expect(resolveChangedFiles('/repo')).toEqual([]);
   });
+
+  it('uses fixed git arguments and treats caller cwd as literal data without a shell', () => {
+    vi.mocked(execFileSync).mockReturnValue('docs/a.md\n' as unknown as Buffer);
+    const cwd = "/repo/space & quote'$HOME`;literal";
+    resolveChangedFiles(cwd);
+    expect(execFileSync).toHaveBeenCalledWith('git', ['diff', '--name-only', '--diff-filter=ACM', '--cached'], { cwd, encoding: 'utf8', shell: false });
+  });
 });
 
 describe('resolveSweepFiles', () => {

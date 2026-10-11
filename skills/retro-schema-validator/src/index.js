@@ -99,6 +99,10 @@ export function validateFile(filePath) {
     return { file: filePath, ok: false, violations: [{ file: filePath, field: 'json', level: 'error', message: `Invalid JSON: ${e.message}` }] };
   }
 
+  if (typeOf(data) !== 'object') {
+    return { file: filePath, ok: false, violations: [{ file: filePath, field: 'root', level: 'error', message: `Document root must be object, got ${typeOf(data)}` }] };
+  }
+
   validateNode(data, SCHEMA, '', filePath, violations);
 
   return { file: filePath, ok: !violations.some((v) => v.level === 'error'), violations };
