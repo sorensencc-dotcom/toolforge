@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.90.0
+Date: 2026-10-11
+
+### Changes
+- 1a9e471 - feat(trm): add card triage from main (#126) (Chris Sorensen)
+
 ## Version 2.89.0
 Date: 2026-10-11
 
