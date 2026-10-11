@@ -109,7 +109,7 @@ export function classifyActionReversibility({ toolName = '', params = {} } = {})
 /**
  * Generate a cryptographically signed confirmation token for an action gate
  */
-export function generateConfirmationToken(gateId, secretKey = 'default-toolforge-gate-secret') {
+export function generateConfirmationToken(gateId, secretKey = process.env.TOOLFORGE_GATE_SECRET || 'default-toolforge-gate-secret') {
   const hmac = crypto.createHmac('sha256', secretKey);
   hmac.update(`GATE_CONFIRMATION:${gateId}`);
   return `CONFIRMED:${gateId}:${hmac.digest('hex').slice(0, 32)}`;
@@ -118,7 +118,7 @@ export function generateConfirmationToken(gateId, secretKey = 'default-toolforge
 /**
  * Verify validity of a confirmation token against a specific gateId
  */
-export function verifyConfirmationToken(token, gateId, secretKey = 'default-toolforge-gate-secret') {
+export function verifyConfirmationToken(token, gateId, secretKey = process.env.TOOLFORGE_GATE_SECRET || 'default-toolforge-gate-secret') {
   if (!token || typeof token !== 'string') return false;
   const expected = generateConfirmationToken(gateId, secretKey);
   const bufA = Buffer.from(token, 'utf8');
@@ -159,6 +159,7 @@ export function formatGatingPrompt(gateInfo) {
 
 export function canonicalizeValue(val) {
   if (val === null || typeof val !== 'object') return val;
+  if (val instanceof Date) return val.toISOString();
   if (Array.isArray(val)) return val.map(canonicalizeValue);
   const sorted = {};
   for (const k of Object.keys(val).sort()) {
@@ -172,7 +173,7 @@ export function canonicalizeValue(val) {
  */
 export class OneWayDoorInterceptor {
   constructor(options = {}) {
-    this.secretKey = options.secretKey || 'default-toolforge-gate-secret';
+    this.secretKey = options.secretKey || process.env.TOOLFORGE_GATE_SECRET || 'default-toolforge-gate-secret';
     this.allowedBoundedPrefixes = options.allowedBoundedPrefixes || ['scratch/', 'tmp/', 'temp/', '.tmp/'];
   }
 
@@ -222,11 +223,20 @@ export class OneWayDoorInterceptor {
 
     // 3. Bounded Actions (Scoped Sandboxes)
     if (reversibility === REVERSIBILITY.BOUNDED) {
-      const targetPath = params.path || params.filePath || params.file || '';
+      const targetPath = params.path || params.filePath || params.file || params.destination || params.dest || params.outputPath || params.target || '';
       if (targetPath) {
         const sanitized = targetPath.replace(/\\/g, '/');
         const normalized = path.posix ? path.posix.normalize(sanitized) : path.normalize(sanitized).replace(/\\/g, '/');
-        if (normalized === '..' || normalized.startsWith('../') || normalized.includes('/../') || path.isAbsolute(targetPath) || targetPath.startsWith('/') || /^[a-zA-Z]:/.test(targetPath)) {
+        if (
+          normalized === '..' ||
+          normalized.startsWith('../') ||
+          normalized.includes('/../') ||
+          normalized.startsWith('/') ||
+          sanitized.startsWith('/') ||
+          path.isAbsolute(targetPath) ||
+          targetPath.startsWith('/') ||
+          /^[a-zA-Z]:/.test(targetPath)
+        ) {
           return {
             status: 'BLOCKED_BY_GATE',
             reversibility: REVERSIBILITY.BOUNDED,
@@ -235,9 +245,7 @@ export class OneWayDoorInterceptor {
             reason: `Action target breaches bounded scratchpad limits (${targetPath})`
           };
         }
-        const isBounded = this.allowedBoundedPrefixes.some(prefix =>
-          normalized.startsWith(prefix) || normalized.includes(`/${prefix}`)
-        );
+        const isBounded = this.allowedBoundedPrefixes.some(prefix => normalized.startsWith(prefix));
         if (!isBounded) {
           return {
             status: 'BLOCKED_BY_GATE',

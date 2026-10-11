@@ -8,7 +8,8 @@ import {
   generateConfirmationToken,
   verifyConfirmationToken,
   OneWayDoorInterceptor,
-  formatGatingPrompt
+  formatGatingPrompt,
+  canonicalizeValue
 } from '../modules/OneWayDoorActionGate.mjs';
 
 test('Taxonomy - defines canonical REVERSIBILITY enum', () => {
@@ -262,6 +263,70 @@ test('Interceptor - blocks absolute path attempts escaping bounded scratchpad', 
   assert.equal(winAbs.status, 'BLOCKED_BY_GATE');
   assert.equal(winAbs.breach, 'BOUNDARY_EXCEEDED');
 });
+
+test('Interceptor - blocks root directory escape via Windows separators \\tmp\\evil.sh', async () => {
+  const interceptor = new OneWayDoorInterceptor();
+  const escapeAttempt = await interceptor.intercept({
+    toolName: 'write_scratch',
+    params: { path: '\\tmp\\evil.sh', content: 'malicious' }
+  });
+  assert.equal(escapeAttempt.status, 'BLOCKED_BY_GATE');
+  assert.equal(escapeAttempt.breach, 'BOUNDARY_EXCEEDED');
+});
+
+test('Interceptor - blocks nested scratch directory escape src/scratch/backdoor.js', async () => {
+  const interceptor = new OneWayDoorInterceptor();
+  const escapeAttempt = await interceptor.intercept({
+    toolName: 'write_scratch',
+    params: { path: 'src/scratch/backdoor.js', content: 'malicious' }
+  });
+  assert.equal(escapeAttempt.status, 'BLOCKED_BY_GATE');
+  assert.equal(escapeAttempt.breach, 'BOUNDARY_EXCEEDED');
+});
+
+test('Interceptor - properly evaluates alternative path parameter keys like destination', async () => {
+  const interceptor = new OneWayDoorInterceptor();
+
+  const valid = await interceptor.intercept({
+    toolName: 'write_scratch',
+    params: { destination: 'scratch/valid.txt', content: 'safe content' }
+  });
+  assert.equal(valid.status, 'ALLOWED');
+  assert.equal(valid.reversibility, REVERSIBILITY.BOUNDED);
+
+  const invalid = await interceptor.intercept({
+    toolName: 'write_scratch',
+    params: { destination: 'src/scratch/backdoor.js', content: 'malicious' }
+  });
+  assert.equal(invalid.status, 'BLOCKED_BY_GATE');
+  assert.equal(invalid.breach, 'BOUNDARY_EXCEEDED');
+});
+
+test('canonicalizeValue - correctly normalizes Date objects to ISO string', () => {
+  const date = new Date('2026-10-11T12:00:00.000Z');
+  assert.equal(canonicalizeValue(date), '2026-10-11T12:00:00.000Z');
+  const payload = { b: 2, a: date };
+  const canonical = canonicalizeValue(payload);
+  assert.deepEqual(canonical, { a: '2026-10-11T12:00:00.000Z', b: 2 });
+});
+
+test('OneWayDoorInterceptor - respects TOOLFORGE_GATE_SECRET environment variable', () => {
+  const originalSecret = process.env.TOOLFORGE_GATE_SECRET;
+  try {
+    process.env.TOOLFORGE_GATE_SECRET = 'env-override-secret';
+    const interceptor = new OneWayDoorInterceptor();
+    assert.equal(interceptor.secretKey, 'env-override-secret');
+    const token = generateConfirmationToken('gate-test-env');
+    assert.ok(verifyConfirmationToken(token, 'gate-test-env'));
+  } finally {
+    if (originalSecret !== undefined) {
+      process.env.TOOLFORGE_GATE_SECRET = originalSecret;
+    } else {
+      delete process.env.TOOLFORGE_GATE_SECRET;
+    }
+  }
+});
+
 
 
 
