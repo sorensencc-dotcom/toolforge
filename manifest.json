@@ -2,6 +2,40 @@
   "skills": [
     {
       "version": "1.0.0",
+      "description": "Autonomous task card triage engine applying YAGNI evaluation, reversibility classification, and GitHub Issue promotion payloads",
+      "timestamps": {
+        "created": "2026-10-11T09:40:00.0000000Z",
+        "lastValidation": "2026-10-11T09:40:00.0000000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "trm",
+        "triage",
+        "yagni",
+        "backlog",
+        "cards",
+        "ollama"
+      ],
+      "status": "active",
+      "name": "trm-triage",
+      "runtime": "node",
+      "id": "trm-triage",
+      "entrypoint": "src/index.mjs",
+      "owner": "soren",
+      "category": "automation",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
       "description": "Aggregates active pull requests, recent landings, git worktrees, open backlog items, mobile ingress receipts, and daemon health into a structured report",
       "timestamps": {
         "created": "2026-10-08T18:55:00.0000000Z",

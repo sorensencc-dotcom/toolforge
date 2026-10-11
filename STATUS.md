@@ -9,6 +9,30 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## TRM card triage on a clean branch (2026-10-11)
+
+### Active goal
+
+Land mobile card triage from `origin/main` without reopening pull request 116.
+
+### Completed work
+
+- Added `modules/triage/card-triage-engine.mjs`, `skills/trm-triage/`, and ingress wiring on `feat/trm-card-triage`.
+- Classifier returns `IRREVERSIBLE` for publish, truncate, destroy, delete, drop, and push, and `BOUNDED` for scratch, `tmp`, and `.tmp` paths.
+- `detectCompletedTask` refuses card ids that leave the completed-tasks directory and matches a prior completion by intent.
+- `applySmallModelTriage` keeps an operator intent and priority, and rejects model priorities outside `P1`, `P2`, and `P3`.
+
+### Verification
+
+- `node --test tests/card-triage-engine.test.mjs tests/trm-triage-skill.test.mjs`
+- `node --test tests/trm-ingress-routing.test.mjs` for the new triage cases
+
+### Next action
+
+Open a pull request from `feat/trm-card-triage` when you want this reviewed. Pull request 116 stays closed.
+
+---
+
 ## Toolforge Vane Research Skill & TRM Stage 3 Fallback Integration (2026-10-08)
 
 ### Active goal
