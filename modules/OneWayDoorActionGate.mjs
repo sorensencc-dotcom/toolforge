@@ -224,8 +224,9 @@ export class OneWayDoorInterceptor {
     if (reversibility === REVERSIBILITY.BOUNDED) {
       const targetPath = params.path || params.filePath || params.file || '';
       if (targetPath) {
-        const normalized = path.normalize(targetPath).replace(/\\/g, '/');
-        if (normalized.startsWith('../') || normalized.includes('/../') || path.isAbsolute(targetPath)) {
+        const sanitized = targetPath.replace(/\\/g, '/');
+        const normalized = path.posix ? path.posix.normalize(sanitized) : path.normalize(sanitized).replace(/\\/g, '/');
+        if (normalized.startsWith('../') || normalized.includes('/../') || path.isAbsolute(targetPath) || targetPath.startsWith('/') || /^[a-zA-Z]:/.test(targetPath)) {
           return {
             status: 'BLOCKED_BY_GATE',
             reversibility: REVERSIBILITY.BOUNDED,

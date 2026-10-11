@@ -233,4 +233,34 @@ test('Interceptor - blocks directory traversal attempts escaping bounded scratch
   assert.ok(escapeAttempt.reason.includes('breaches bounded') || escapeAttempt.reason.includes('traversal'));
 });
 
+test('Interceptor - blocks Windows-style directory traversal escaping bounded scratchpad', async () => {
+  const interceptor = new OneWayDoorInterceptor();
+  const escapeAttempt = await interceptor.intercept({
+    toolName: 'write_scratch',
+    params: { path: 'scratch\\..\\..\\src\\core.js', content: 'malicious' }
+  });
+  assert.equal(escapeAttempt.status, 'BLOCKED_BY_GATE');
+  assert.equal(escapeAttempt.breach, 'BOUNDARY_EXCEEDED');
+  assert.ok(escapeAttempt.reason.includes('breaches bounded'));
+});
+
+test('Interceptor - blocks absolute path attempts escaping bounded scratchpad', async () => {
+  const interceptor = new OneWayDoorInterceptor();
+
+  const posixAbs = await interceptor.intercept({
+    toolName: 'write_scratch',
+    params: { path: '/etc/passwd', content: 'root' }
+  });
+  assert.equal(posixAbs.status, 'BLOCKED_BY_GATE');
+  assert.equal(posixAbs.breach, 'BOUNDARY_EXCEEDED');
+
+  const winAbs = await interceptor.intercept({
+    toolName: 'write_scratch',
+    params: { path: 'C:\\evil.js', content: 'malicious' }
+  });
+  assert.equal(winAbs.status, 'BLOCKED_BY_GATE');
+  assert.equal(winAbs.breach, 'BOUNDARY_EXCEEDED');
+});
+
+
 
