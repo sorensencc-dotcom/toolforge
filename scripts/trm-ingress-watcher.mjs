@@ -2,6 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
 import { execSync, execFileSync } from 'node:child_process';
+import { extractMobileIntent } from './local-small-model-bridge.mjs';
 
 /**
  * scripts/trm-ingress-watcher.mjs
@@ -459,12 +460,14 @@ export function validatePayload(item) {
     item.source = 'mobile-grok';
   }
 
-  // Infer intent from title, stem, or topic if missing
+  // Infer intent from title, stem, topic, or summary if missing
   if (!item.intent) {
     if (item.title) {
       item.intent = item.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
     } else if (item.topic) {
       item.intent = item.topic.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+    } else if (item.summary) {
+      item.intent = item.summary.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
     } else if (item.id) {
       item.intent = String(item.id).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
     }
@@ -1083,6 +1086,28 @@ export async function processFile(filePath, options = {}) {
       item.type = item.type || 'pending-gap';
     }
     validatePayload(item);
+
+    // Default small-model triage: Enrich unmapped/mobile cards using local Ollama model bridge
+    if (options.useSmallModel !== false && (!item.execution_plan || !item.intent || item.intent === 'triage_mobile_request' || !item.summary)) {
+      try {
+        const triageInput = item.summary || item.title || item.intent || filename;
+        const triaged = await extractMobileIntent(triageInput, item, { dryRun: dryRun && !options.enableLiveOllamaInDryRun });
+        if (triaged) {
+          if (!item.intent || item.intent === 'triage_mobile_request') {
+            item.intent = triaged.intent || item.intent;
+          }
+          item.action_type = item.action_type || triaged.action_type;
+          item.priority = item.priority || triaged.priority || 'P2';
+          item.execution_plan = item.execution_plan || triaged.execution_plan;
+          item.context = {
+            ...(item.context || {}),
+            ...(triaged.context || {})
+          };
+        }
+      } catch (triageErr) {
+        console.warn(`[TRM-INGRESS] Small-model triage notice: ${triageErr.message} (preserved deterministic validation)`);
+      }
+    }
   } catch (err) {
     console.error(`[ERROR] Ingress unparseable receipt: Validation failed for ${filename}: ${err.stack}`);
     if (dryRun) {
@@ -1125,6 +1150,9 @@ export async function processFile(filePath, options = {}) {
       source: item.source,
       action_type: item.action_type,
       intent: item.intent,
+      priority: item.priority,
+      execution_plan: item.execution_plan,
+      context: item.context,
       status: 'INSPECTED_DRY_RUN'
     };
   }
