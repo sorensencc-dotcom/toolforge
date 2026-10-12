@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.90.1
+Date: 2026-10-12
+
+### Changes
+- 6401aad - fix(trm): repair the triage diagram heading (#127) (Chris Sorensen)
+
 ## Version 2.90.0
 Date: 2026-10-11
 
