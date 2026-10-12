@@ -8,7 +8,7 @@
     "start": "node src/mcp-server.mjs",
     "sync": "node src/sync.mjs",
     "test": "node --test --test-timeout=10000 tests/sync.test.mjs tests/mcp.test.mjs tests/package.test.mjs tests/rehearsal.test.mjs tests/config.test.mjs",
-    "test:live": "node --test --test-timeout=55000 tests/schema.test.mjs",
+    "test:live": "node --test --test-concurrency=1 --test-timeout=100000 tests/schema.test.mjs tests/migration-recovery.test.mjs",
     "test:uat": "node --test --test-timeout=150000 tests/uat.test.mjs"
   },
   "dependencies": {
