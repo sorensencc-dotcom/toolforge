@@ -27,7 +27,7 @@ Register GitDiagram triage and Gitingest digestion in the KB-Skills plane as `re
 
 ### Next action
 
-Review the kb-sync contract branch. The wiki source page is `wiki/sync-tools/repo-triage-and-digest.md`. Publish with `npm run wiki:publish`.
+A push that changes `wiki/` or the publish scripts runs `scripts/publish-repo-wiki-pages.mjs`. That script copies repo `wiki/` pages onto a temp clone of `toolforge.wiki.git`. Author pages in the repo. The `toolforge-wiki` directory beside this repo is the published checkout.
 
 ---
 

@@ -39,6 +39,7 @@
     "test:trm": "npx tsx --test tests/validate-chunks.test.ts",
     "test:watchlist": "node test-watchlist-run.mjs",
     "wiki:publish": "node scripts/sync-github-wiki.mjs",
+    "wiki:publish:pages": "node scripts/publish-repo-wiki-pages.mjs",
     "wiki:sync": "node scripts/sync-github-wiki.mjs",
     "wiki:qa": "node tools/wiki-browser-qa/runner.mjs",
     "wiki:qa:neo": "node tools/wiki-browser-qa/runner.mjs --backend=neo",
