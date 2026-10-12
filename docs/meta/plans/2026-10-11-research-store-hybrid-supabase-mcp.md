@@ -47,6 +47,11 @@ regressions, and 55 slop-grader tests pass. Slop build and TypeScript checks,
 both focused security audits, and scoped whitespace checks pass. The two extra
 slop tests preserve current-main hostile-input coverage. No credentials, local
 Supabase link state, live-service reruns, or production operations transferred.
+Commit b5d877f8 pushed to codex/research-store-delivery and remote hash verified.
+Normal security gates pass and wiki gate skips unchanged inputs. Repository
+documentation validation passes. Governance CI passes all five jobs on run
+38255482501, including Graft freshness and skill docs compliance. Scoped checks
+do not establish repository-wide rollout readiness.
 
 ## Review failures and regression gates
 
@@ -100,7 +105,7 @@ Production CLI preparation completed under explicit operator login/init/link req
 - [x] Reproduce four review failures and verify fixes with local/SQL regressions.
 - [x] Drive actual sync CLI and MCP stdio with synthetic Git/Drive exports and SDK-compatible fake embedding/HTTP services; verify failures, repeat ingest, metadata edits, shrinking content, authorization, pagination, and child shutdown.
 - [x] Verify test-database RLS/views/RPC, chunk/claim integrity, idempotency, and rollback using 30 SQL assertions and negative control.
-- [ ] Reproduce installation and scoped suites in clean delivery checkout; record exact dependency versions, docs validation, whitespace checks, and review outcome.
+- [x] Reproduce installation and scoped suites in clean delivery checkout; record exact dependency versions, docs validation, whitespace checks, and review outcome.
 - [ ] Resolve seven root baseline failures and rerun repository suite; do not treat focused skill pass as root pass.
 - [x] On provisioned dev/UAT project, verify persistent migration history and intended public-schema/PostgREST exposure. Existing table/type collisions must fail closed; never reset shared schema.
 - [ ] Exercise actual signed CIC, RewriteLabs, and admin JWTs through Supabase HTTP API and all three MCP tools; verify missing/expired/forged tokens and foreign UUID denial. SQL role simulation and fake issuer do not satisfy this gate.
