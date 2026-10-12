@@ -331,6 +331,34 @@ Production CLI preparation completed under explicit operator login/init/link req
 - [ ] Calibrate retrieval threshold against representative approved inputs and fresh independent validation. Local default 0.7 recall is 5/6 on current synthetic split; NVIDIA default recall was 0/3 in its separate rehearsal. Threshold/model contract changes require explicit approval; real-source evaluation requires source/egress authorization. Rejected candidate must not be adopted or retuned using the held-out set.
 - [ ] Add explicit scoped suite commands to approved delivery/CI path, obtain production target/configuration approval, and verify a reversible migration/delivery procedure before rollout. Scoped live recovery and signed-expiry rehearsals pass; real embedding availability verified, default retrieval calibration remains open, and production target/configuration approval remains separate.
 
+### Representative retrieval acceptance contract
+
+Do not run this gate until the operator approves the exact corpus location,
+source handling, and embedding egress/backend. The synthetic split above is
+spent and may only remain a regression fixture for plumbing.
+
+Before scoring, freeze a manifest containing source snapshot identifiers,
+query text, expected document/chunk, project, status bucket, and whether each
+query is positive, confusing negative, or unrelated negative. Use a tuning set
+only to propose a threshold. Use a fresh validation set once, after the
+proposal is frozen; never retune on validation results.
+
+Minimum representative validation set: at least six approved source documents
+across CIC and RewriteLabs, 24 positive paraphrase queries, 12 confusing
+negative queries from adjacent but wrong topics, and 12 unrelated negatives.
+Include both status-filtered and project-filtered cases. Duplicate or
+near-duplicate source passages must be labeled before scoring rather than
+resolved after a miss.
+
+Pass criteria for threshold adoption: every query uses the real sync CLI, MCP
+stdio path, signed Supabase reader, and pinned embedding identity; validation
+positive top-result recall is at least 90% overall with no project below 80%;
+zero cross-project, wrong-project, or unauthorized results appear; zero
+negative queries exceed the candidate threshold; cleanup independently
+rediscovers and deletes run-owned fixtures. Report all similarities, margins,
+false accepts, and misses. Any default threshold/model contract change still
+requires explicit approval after this evidence.
+
 ## Execution rulings
 
 - Ruling: implement candidate and synthetic rehearsal now; retain production gates. User explicitly authorized fake whole-stack implementation/testing; cost if mistaken is insufficient real-service evidence, which remains pending above.

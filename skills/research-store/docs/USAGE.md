@@ -100,6 +100,8 @@ Current result: candidate 0.46 has tuning recall 3/3, zero false acceptance; hel
 
 Calibration command explicitly activates calibration mode; manual `RESEARCH_UAT_CALIBRATION` flag is optional. Metrics consider run-owned fixture results only, filtered from shared API top 50; unrelated authorized documents may outrank them. All three fixtures must remain present, but global populated-corpus ranking is not measured. Cleanup rediscovers publications by unique run paths independently of earlier lookup success and fails closed if absence cannot be verified.
 
+Representative calibration requires a preapproved corpus and egress/backend. Freeze the source manifest, expected query labels, tuning set, and validation set before scoring. Use tuning only to propose a threshold, then run fresh validation once. Minimum validation set: six approved documents across CIC and RewriteLabs, 24 positive paraphrases, 12 confusing negatives, and 12 unrelated negatives, including status and project filters. Adoption requires the real sync CLI, MCP stdio, signed Supabase reader, pinned embedding identity, at least 90% positive top-result recall overall, no project below 80%, zero unauthorized or wrong-project results, zero negatives above threshold, and independent fixture cleanup. Any default threshold or model change still needs explicit approval.
+
 ## Provenance
 
 Supabase JS (Supabase), MCP TypeScript SDK (Model Context Protocol contributors), and js-yaml (Nodeca) are external dependencies linked in README. Ollama supplies local inference. Toolforge supplies WhichLLM routing, native embedding adapters, parsing, validation, SQL boundaries, client wiring, and tests; it does not implement upstream services. OpenAI SDK/key no longer required.
