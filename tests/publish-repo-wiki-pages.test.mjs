@@ -3,10 +3,13 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import {
   applyRepoPages,
   assertPublishClone,
   changedWikiPaths,
+  cleanGitEnv,
+  runGit,
   wikiPagesFromRepo
 } from '../scripts/publish-repo-wiki-pages.mjs';
 
@@ -43,6 +46,34 @@ test('applyRepoPages writes the repo page into a temp clone and refuses the publ
   assert.doesNotThrow(() => assertPublishClone(path.join(os.tmpdir(), 'toolforge-wiki-publish-abc')));
   assert.throws(() => assertPublishClone(path.join(root, 'toolforge-wiki')), /REFUSING_WIKI_CLONE/);
   assert.throws(() => assertPublishClone(path.join('C:/dev', 'toolforge-wiki', 'nested')), /REFUSING_WIKI_CLONE/);
+});
+
+test('wiki git commands ignore the hook GIT_DIR', () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'wiki-git-env-'));
+  const decoy = path.join(base, 'decoy');
+  const real = path.join(base, 'real');
+  for (const dir of [decoy, real]) {
+    fs.mkdirSync(dir);
+    execFileSync('git', ['init', '-b', 'master'], { cwd: dir, env: cleanGitEnv() });
+    execFileSync('git', ['config', 'user.email', 'wiki-publish@example.com'], { cwd: dir, env: cleanGitEnv() });
+    execFileSync('git', ['config', 'user.name', 'Wiki Publish Test'], { cwd: dir, env: cleanGitEnv() });
+  }
+  fs.writeFileSync(path.join(decoy, 'page.md'), 'decoy\n');
+  fs.writeFileSync(path.join(real, 'page.md'), 'real\n');
+  execFileSync('git', ['add', '--', 'page.md'], { cwd: decoy, env: cleanGitEnv() });
+  execFileSync('git', ['commit', '-m', 'decoy'], { cwd: decoy, env: cleanGitEnv() });
+  const hooked = {
+    ...process.env,
+    GIT_DIR: path.join(decoy, '.git'),
+    GIT_WORK_TREE: decoy
+  };
+  runGit(['add', '--', 'page.md'], real, hooked);
+  runGit(['commit', '-m', 'real'], real, hooked);
+  const realLog = execFileSync('git', ['log', '-1', '--format=%s'], { cwd: real, encoding: 'utf8', env: cleanGitEnv() });
+  const decoyLog = execFileSync('git', ['log', '-1', '--format=%s'], { cwd: decoy, encoding: 'utf8', env: cleanGitEnv() });
+  assert.match(realLog, /real/);
+  assert.match(decoyLog, /decoy/);
+  assert.equal(cleanGitEnv(hooked).GIT_DIR, undefined);
 });
 
 test('published pages hide repo frontmatter in an HTML comment', () => {

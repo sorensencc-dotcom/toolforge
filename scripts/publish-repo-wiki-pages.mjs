@@ -53,8 +53,20 @@ export function applyRepoPages(cloneDir, pages, readFile = (file) => fs.readFile
   return written;
 }
 
+export function cleanGitEnv(base = process.env) {
+  const env = { ...base };
+  for (const key of Object.keys(env)) {
+    if (key.startsWith('GIT_')) delete env[key];
+  }
+  return env;
+}
+
+export function runGit(args, cwd, baseEnv = process.env) {
+  return execFileSync(GIT, args, { cwd, encoding: 'utf8', env: cleanGitEnv(baseEnv) }).trim();
+}
+
 function git(args, cwd) {
-  return execFileSync(GIT, args, { cwd, encoding: 'utf8' }).trim();
+  return runGit(args, cwd);
 }
 
 function changedFilesAgainstUpstream() {
@@ -72,7 +84,10 @@ function publish(pages) {
   const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), 'toolforge-wiki-publish-'));
   try {
     assertPublishClone(cloneDir);
-    execFileSync(GIT, ['-c', 'core.autocrlf=false', 'clone', '--depth', '1', WIKI_REMOTE, cloneDir], { stdio: 'inherit' });
+    execFileSync(GIT, ['-c', 'core.autocrlf=false', 'clone', '--depth', '1', WIKI_REMOTE, cloneDir], {
+      stdio: 'inherit',
+      env: cleanGitEnv()
+    });
     git(['config', 'core.autocrlf', 'false'], cloneDir);
     const repoPages = pages.map((page) => ({ ...page, src: path.join(root, page.src) }));
     applyRepoPages(cloneDir, repoPages);
