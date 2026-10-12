@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.92.1
+Date: 2026-10-12
+
+### Changes
+- ab1c1df - fix(wiki): publish repo pages on ship (#130) (Chris Sorensen)
+
 ## Version 2.92.0
 Date: 2026-10-12
 
