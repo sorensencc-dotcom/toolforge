@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.91.0
+Date: 2026-10-12
+
+### Changes
+- b936265 - feat(skills): add GitDiagram and Gitingest intake (#128) (Chris Sorensen)
+
 ## Version 2.90.1
 Date: 2026-10-12
 
