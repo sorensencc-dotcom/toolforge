@@ -2,13 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { createClient } from '@supabase/supabase-js';
 import { createEmbeddingProvider } from '../src/config.mjs';
-import { parseResearchMarkdown } from '../src/sync.mjs';
-import { replaceDocument } from '../src/store.mjs';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 
 const project = 'bhezixgmkhpndmezgsxk';
 const root = fileURLToPath(new URL('../../../', import.meta.url));
@@ -29,13 +31,10 @@ const queries = [
 ];
 const inputs = [...corpus, corpus[0], ...queries];
 
-test('approved real 1536-dimensional embedding availability and synthetic retrieval quality', { timeout: 150000 }, async () => {
-  assert.equal(process.env.RESEARCH_UAT_EMBEDDING_APPROVED, '1', 'explicit synthetic egress/cost approval required');
-  assert.ok(process.env.OPENAI_API_KEY?.trim(), 'approved OpenAI credential unavailable');
+test('Toolforge local multimodel embeddings and synthetic retrieval quality', { timeout: 150000 }, async () => {
+  assert.equal(process.env.RESEARCH_UAT_EMBEDDING_APPROVED, '1', 'explicit synthetic dev/UAT rehearsal required');
   const inputBytes = inputs.reduce((sum, input) => sum + Buffer.byteLength(input), 0);
   assert.ok(inputBytes <= 4096, 'single-request synthetic fixture budget exceeded');
-  // shortcut: $0.02 per million input tokens checked 2026-10-12; recheck after provider repricing.
-  assert.ok(inputBytes * 0.02 / 1_000_000 <= 0.10, 'approved $0.10 cap exceeded');
   assert.equal((await readFile(new URL('supabase/.temp/project-ref', new URL('../../../', import.meta.url)), 'utf8')).trim(), project);
   let stdout;
   try {
@@ -52,6 +51,8 @@ test('approved real 1536-dimensional embedding availability and synthetic retrie
     global: { fetch: (input, init) => fetch(input, { ...init, signal: AbortSignal.timeout(10000) }) } };
   const service = createClient(url, writer, options);
   const ids = [];
+  const exports = await mkdtemp(join(tmpdir(), 'research-local-quality-'));
+  let mcp;
   let userId;
   try {
     const email = `research-quality-${randomUUID()}@example.com`;
@@ -59,33 +60,64 @@ test('approved real 1536-dimensional embedding availability and synthetic retrie
     userId = check(await service.auth.admin.createUser({ email, password, email_confirm: true,
       app_metadata: { project: 'CIC' } }), 'create quality identity').user.id;
     const reader = createClient(url, anon, options);
-    check(await reader.auth.signInWithPassword({ email, password }), 'quality signed login');
-    const embed = createEmbeddingProvider({ OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-      OPENAI_BASE_URL: 'https://api.openai.com/v1' });
+    const session = check(await reader.auth.signInWithPassword({ email, password }), 'quality signed login').session;
+    const embed = createEmbeddingProvider(process.env);
     let vectors;
     try { vectors = await embed(inputs); }
-    catch { throw new Error('Real embedding provider unavailable (details suppressed)'); }
-    console.log('Real text-embedding-3-small returned seven validated 1536-dimensional vectors in one request.');
+    catch { throw new Error('Selected Toolforge embedding lane unavailable (details suppressed)'); }
+    console.log(`Toolforge embedding identity ${embed.identity}: seven validated 1536-dimensional vectors.`);
     const namespace = `uat124-quality/${randomUUID()}`;
+    await mkdir(join(exports, namespace), { recursive: true });
     for (let index = 0; index < 4; index++) {
       const scope = index === 3 ? 'RewriteLabs' : 'CIC';
-      const source = parseResearchMarkdown(`---\nproject: ${scope}\nstatus: VERIFIED\ntitle: Synthetic quality ${index}\n---\n${inputs[index]}`,
-        `${namespace}/${index}.md`, null);
-      ids.push(await replaceDocument(service, source.document, source.chunks, async () => [vectors[index]]));
+      await writeFile(join(exports, namespace, `${index}.md`),
+        `---\nproject: ${scope}\nstatus: VERIFIED\ntitle: Synthetic quality ${index}\n---\n${inputs[index]}`);
     }
+    const embeddingEnv = { EMBEDDING_PROVIDER: process.env.EMBEDDING_PROVIDER || 'ollama',
+      EMBEDDING_MODEL: process.env.EMBEDDING_MODEL,
+      ...(process.env.OLLAMA_BASE_URL ? { OLLAMA_BASE_URL: process.env.OLLAMA_BASE_URL } : {}),
+      ...(process.env.FREELLM_BASE_URL ? { FREELLM_BASE_URL: process.env.FREELLM_BASE_URL } : {}),
+      ...(process.env.FREELLM_API_KEY ? { FREELLM_API_KEY: process.env.FREELLM_API_KEY } : {}) };
+    const paths = inputs.slice(0, 4).map((_, index) => `${namespace}/${index}.md`);
+    // Capture partial CLI publications too, so a failed run still cleans its namespace.
+    try {
+      const synced = await run(process.execPath, [fileURLToPath(new URL('../src/sync.mjs', import.meta.url))],
+        { env: { SystemRoot: process.env.SystemRoot, ...embeddingEnv, SUPABASE_URL: url,
+          SUPABASE_SERVICE_ROLE_KEY: writer, RESEARCH_ROOT: exports }, timeout: 65000 });
+      assert.equal(JSON.parse(synced.stderr).processed, 4);
+    } finally {
+      const documents = check(await service.from('documents').select('id,git_path,metadata').in('git_path', paths), 'quality CLI publications');
+      for (const path of paths) {
+        const document = documents.find(item => item.git_path === path);
+        if (document) ids.push(document.id);
+      }
+      assert.ok(documents.every(item => item.metadata.embedding_identity === embed.identity), 'CLI model identity drift');
+    }
+    assert.equal(ids.length, 4);
+    mcp = new Client({ name: 'local-quality', version: '1.0.0' });
+    await mcp.connect(new StdioClientTransport({ command: process.execPath,
+      args: [fileURLToPath(new URL('../src/mcp-server.mjs', import.meta.url))],
+      env: { SystemRoot: process.env.SystemRoot, ...embeddingEnv, SUPABASE_URL: url,
+        SUPABASE_ANON_KEY: anon, SUPABASE_READER_JWT: session.access_token }, stderr: 'pipe' }));
     let defaultRecall = 0;
     for (let index = 0; index < queries.length; index++) {
-      const matches = check(await reader.rpc('match_research_items', {
-        query_embedding: vectors[index + 4], match_threshold: 0, match_count: 50,
+      const matches = check(await reader.rpc('match_research_items_for_embedding', {
+        query_embedding: vectors[index + 4], p_embedding_identity: embed.identity, match_threshold: 0, match_count: 50,
       }), 'real-vector retrieval');
       assert.ok(matches.every(item => item.project === 'CIC'), 'foreign project leaked into real-vector retrieval');
       const fixtures = matches.filter(item => ids.includes(item.document_id));
       assert.equal(fixtures.length, 3, 'all authorized quality fixtures must be searchable');
       assert.equal(fixtures[0].document_id, ids[index], `semantic query ${index + 1} ranked wrong fixture`);
       assert.ok(fixtures[0].similarity - fixtures[1].similarity >= 0.05, `semantic query ${index + 1} lacks separation`);
+      const wired = await mcp.callTool({ name: 'match_research_items',
+        arguments: { query: queries[index], match_threshold: 0, match_count: 50 } }, undefined, { timeout: 65000 });
+      assert.notEqual(wired.isError, true, 'real local MCP search failed');
+      const wiredMatches = JSON.parse(wired.content[0].text);
+      assert.equal(wiredMatches.filter(item => ids.includes(item.document_id))[0]?.document_id, ids[index]);
+      assert.ok(wiredMatches.every(item => item.project === 'CIC'));
       console.log(`Synthetic semantic query ${index + 1}: correct top result, similarity ${fixtures[0].similarity.toFixed(4)}, margin ${(fixtures[0].similarity - fixtures[1].similarity).toFixed(4)}.`);
-      const defaults = check(await reader.rpc('match_research_items', {
-        query_embedding: vectors[index + 4],
+      const defaults = check(await reader.rpc('match_research_items_for_embedding', {
+        query_embedding: vectors[index + 4], p_embedding_identity: embed.identity,
       }), 'default-threshold retrieval');
       assert.ok(defaults.every(item => item.project === 'CIC' && item.similarity > 0.7), 'default retrieval contract drift');
       if (defaults.some(item => item.document_id === ids[index])) defaultRecall++;
@@ -93,6 +125,8 @@ test('approved real 1536-dimensional embedding availability and synthetic retrie
     console.log(`Default 0.7 threshold recall on synthetic paraphrases: ${defaultRecall}/${queries.length}; diagnostic, not a production-quality approval.`);
   } finally {
     const failures = [];
+    if (mcp) await mcp.close();
+    await rm(exports, { recursive: true, force: true });
     if (ids.length) {
       try {
         check(await service.from('documents').delete().in('id', ids), 'quality fixture cleanup');

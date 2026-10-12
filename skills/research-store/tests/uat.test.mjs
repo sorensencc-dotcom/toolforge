@@ -119,8 +119,8 @@ test('persistent dev/UAT real Auth, REST, sync CLI, and MCP acceptance', { timeo
       assert.ok((await reader.rpc('replace_research_document', { p_document: {}, p_items: [] })).error);
       assert.ok((await reader.from('documents').insert({ project: 'CIC', git_path: 'forbidden.md', title: 'Forbidden', source_type: 'archive' })).error);
       if (name === 'untrusted') continue;
-      const readerEnv = { SystemRoot: env.SystemRoot, OPENAI_API_KEY: env.OPENAI_API_KEY,
-        OPENAI_BASE_URL: env.OPENAI_BASE_URL, SUPABASE_URL: url, SUPABASE_ANON_KEY: anon, SUPABASE_READER_JWT: token };
+      const readerEnv = { SystemRoot: env.SystemRoot, EMBEDDING_MODEL: env.EMBEDDING_MODEL,
+        OLLAMA_BASE_URL: env.OLLAMA_BASE_URL, SUPABASE_URL: url, SUPABASE_ANON_KEY: anon, SUPABASE_READER_JWT: token };
       const transport = new StdioClientTransport({ command: process.execPath,
         args: [fileURLToPath(new URL('../src/mcp-server.mjs', import.meta.url))], env: readerEnv, stderr: 'pipe' });
       const client = new Client({ name: 'dev-uat', version: '1.0.0' });

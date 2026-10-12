@@ -47,7 +47,9 @@ export function createResearchServer({ supabase, embed }) {
       let result;
       if (tool.name === 'match_research_items') {
         const [embedding] = validateEmbeddings(await embed([args.query]), 1);
-        const response = await supabase.rpc('match_research_items', {
+        if (!embed.identity) throw new Error('Embedding identity required');
+        const response = await supabase.rpc('match_research_items_for_embedding', {
+          p_embedding_identity: embed.identity,
           query_embedding: embedding, match_project: args.project ?? null, match_status: args.status ?? null,
           match_threshold: args.match_threshold ?? 0.7, match_count: args.match_count ?? 10,
         });

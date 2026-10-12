@@ -18,9 +18,16 @@ test('initial deployed migration matches transaction-tested schema', async () =>
 test('package declares all runtime dependencies including js-yaml', async () => {
   const pkg = await json(new URL('package.json', skill));
   assert.equal(pkg.type, 'module');
-  for (const name of ['@modelcontextprotocol/sdk', '@supabase/supabase-js', 'openai', 'js-yaml']) {
+  for (const name of ['@modelcontextprotocol/sdk', '@supabase/supabase-js', 'js-yaml']) {
     assert.ok(pkg.dependencies[name], `missing declared dependency: ${name}`);
   }
+  assert.equal(pkg.dependencies.openai, undefined, 'local routing must not require OpenAI SDK');
+});
+
+test('local embedding enhancement matches additive deployed migration', async () => {
+  const schema = (await readFile(new URL('sql/002-local-embeddings.sql', skill), 'utf8')).replace(/\r\n/g, '\n').trim();
+  const migration = (await readFile(new URL('../../supabase/migrations/20261012000124_research_store_local_embeddings.sql', skill), 'utf8')).replace(/\r\n/g, '\n').trim();
+  assert.equal(migration, `SET search_path = public, extensions;\n${schema}\nNOTIFY pgrst, 'reload schema';`);
 });
 
 test('manifest registers exactly one research-store executable', async () => {

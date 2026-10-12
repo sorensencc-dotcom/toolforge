@@ -1,6 +1,5 @@
-import OpenAI from 'openai';
 import { createClient } from '@supabase/supabase-js';
-import { validateEmbeddings } from './store.mjs';
+import { createLocalEmbeddingProvider } from '../../../src/providers/index.js';
 
 function required(env, name) {
   if (!env[name]?.trim()) throw new Error(`${name} required`);
@@ -8,17 +7,10 @@ function required(env, name) {
 }
 
 export function createEmbeddingProvider(env) {
-  if ((env.EMBEDDING_MODEL && env.EMBEDDING_MODEL !== 'text-embedding-3-small') ||
-      (env.EMBEDDING_DIMENSION && env.EMBEDDING_DIMENSION !== '1536') ||
-      (env.EMBEDDING_PROVIDER && env.EMBEDDING_PROVIDER !== 'openai')) throw new Error('Unsupported embedding configuration');
-  const client = new OpenAI({ apiKey: required(env, 'OPENAI_API_KEY'), baseURL: env.OPENAI_BASE_URL, maxRetries: 0, timeout: 10000 });
-  return async texts => {
-    const response = await client.embeddings.create({ model: 'text-embedding-3-small', dimensions: 1536, input: texts });
-    const data = response.data;
-    if (!Array.isArray(data) || data.length !== texts.length || new Set(data.map(row => row.index)).size !== texts.length ||
-        data.some(row => !Number.isInteger(row.index) || row.index < 0 || row.index >= texts.length)) throw new Error('Invalid embedding response');
-    return validateEmbeddings([...data].sort((a, b) => a.index - b.index).map(row => row.embedding), texts.length);
-  };
+  if (env.EMBEDDING_DIMENSION && env.EMBEDDING_DIMENSION !== '1536') throw new Error('Unsupported embedding configuration');
+  return createLocalEmbeddingProvider({ provider: env.EMBEDDING_PROVIDER ?? 'ollama', model: required(env, 'EMBEDDING_MODEL'),
+    baseUrl: env.EMBEDDING_PROVIDER === 'freellm' ? env.FREELLM_BASE_URL : env.OLLAMA_BASE_URL,
+    apiKey: env.FREELLM_API_KEY });
 }
 
 export function createReaderClient(env) {

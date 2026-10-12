@@ -9,6 +9,7 @@ const loadSync = () => import('../src/sync.mjs');
 const loadStore = () => import('../src/store.mjs');
 const id = '11111111-1111-4111-8111-111111111111';
 const vector = () => Array(1536).fill(0.1);
+const identified = fn => Object.assign(fn, { identity: 'fixture:model:1536' });
 const document = { project: 'CIC', git_path: 'note.md', title: 'Note', content_hash: 'old' };
 
 test('LF and CRLF frontmatter preserve Drive provenance and paragraph chunks', async () => {
@@ -75,7 +76,7 @@ test('metadata and complete current chunks publish in one replacement RPC', asyn
   const calls = [];
   const supabase = { rpc: async (...args) => { calls.push(args); return { data: id, error: null }; } };
   const changed = { ...document, title: 'Updated title' };
-  assert.equal(await replaceDocument(supabase, changed, ['Remaining'], async () => [vector()]), id);
+  assert.equal(await replaceDocument(supabase, changed, ['Remaining'], identified(async () => [vector()])), id);
   assert.equal(calls.length, 1);
   assert.equal(calls[0][0], 'replace_research_document');
   assert.equal(calls[0][1].p_document.title, 'Updated title');
@@ -84,6 +85,16 @@ test('metadata and complete current chunks publish in one replacement RPC', asyn
   assert.equal(calls[0][1].p_items[0].chunk_index, 0);
   assert.equal(calls[0][1].p_items[0].content, 'Remaining');
   assert.deepEqual(calls[0][1].p_items[0].embedding, vector());
+  assert.equal(calls[0][1].p_items[0].metadata.embedding_identity, 'fixture:model:1536');
+  assert.equal(calls[0][1].p_document.metadata.embedding_identity, 'fixture:model:1536');
+});
+
+test('unidentified vectors cannot be published or spoofed through source metadata', async () => {
+  const { replaceDocument } = await loadStore();
+  let writes = 0;
+  await assert.rejects(replaceDocument({ rpc: async () => { writes++; } },
+    { ...document, metadata: { embedding_identity: 'spoofed' } }, ['Body'], async () => [vector()]), /identity/);
+  assert.equal(writes, 0);
 });
 
 test('empty replacement clears chunks without embedding', async () => {
@@ -97,7 +108,7 @@ test('empty replacement clears chunks without embedding', async () => {
 
 test('database rejection propagates as failed ingestion', async () => {
   const { replaceDocument } = await loadStore();
-  await assert.rejects(replaceDocument({ rpc: async () => ({ data: null, error: { message: 'write rejected' } }) }, document, ['Body'], async () => [vector()]));
+  await assert.rejects(replaceDocument({ rpc: async () => ({ data: null, error: { message: 'write rejected' } }) }, document, ['Body'], identified(async () => [vector()])), /replacement/);
 });
 
 test('dry run makes no network calls and counts malformed files as failures', async () => {
@@ -125,17 +136,17 @@ test('embedding batches cap at sixteen and publish only after all batches succee
   const batches = [];
   let writes = 0;
   const rpc = async () => { writes++; return { data: id, error: null }; };
-  await replaceDocument({ rpc }, document, chunks, async texts => {
+  await replaceDocument({ rpc }, document, chunks, identified(async texts => {
     batches.push(texts.length);
     return texts.map(() => vector());
-  });
+  }));
   assert.deepEqual(batches, [16, 1]);
   assert.equal(writes, 1);
   writes = 0;
-  await assert.rejects(replaceDocument({ rpc }, document, chunks, async texts => {
+  await assert.rejects(replaceDocument({ rpc }, document, chunks, identified(async texts => {
     if (texts.length === 1) throw new Error('Second batch failed');
     return texts.map(() => vector());
-  }));
+  })));
   assert.equal(writes, 0);
 });
 

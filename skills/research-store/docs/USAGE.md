@@ -3,14 +3,14 @@
 ## Setup
 
 1. Use verified Toolforge checkout on Node >=24. Install skill-local dependencies with `npm --prefix skills/research-store install --ignore-scripts`.
-2. Inspect destination database schema and migration history before applying `sql/001-research-store.sql`. Runtime clients use public schema; apply with explicit `search_path = public, extensions` and confirm public schema USAGE for authenticated/service_role. Tests override search_path to isolated temporary schema. Existing table/type names cause migration failure; do not reset shared schemas.
+2. Inspect destination database schema and migration history before applying `sql/001-research-store.sql` then additive `sql/002-local-embeddings.sql`. Runtime clients use public schema; apply with explicit `search_path = public, extensions` and confirm public schema USAGE for authenticated/service_role. Tests override search_path to isolated temporary schema. Existing table/type names cause baseline migration failure; do not reset shared schemas or reapply baseline to installed public tables.
 3. Provision writer service-role credential for sync only. For MCP, provision publishable/anon key and signed authenticated user JWT with trusted top-level project claim or `app_metadata.project`. `app_metadata.research_admin=true` grants cross-project reads only when trusted issuer supplies it. User-editable metadata does not grant project or admin access.
 4. Set explicit source directory; Git and Drive exports remain authoritative. Run dry-run first, then live sync only after approving embedding egress and destination.
 5. Register stdio MCP server in operator's client using absolute `src/mcp-server.mjs` path and reader credentials. Never include writer credential in MCP configuration.
 
 ## Dev/UAT lifecycle
 
-Project `bhezixgmkhpndmezgsxk` is persistent dev/UAT and staging. Migration `20261011000124_research_store.sql` installed research schema there on 2026-10-11; real Auth/REST, sync CLI, and MCP acceptance passed using synthetic inputs. Rollback SQL regressions remain separate from persistent deployment.
+Project `bhezixgmkhpndmezgsxk` is persistent dev/UAT and staging. Baseline migration `20261011000124_research_store.sql` and additive model-isolation migration `20261012000124_research_store_local_embeddings.sql` are installed. Real Auth/REST, sync CLI, and MCP acceptance use synthetic inputs. Rollback SQL regressions remain separate from persistent deployment.
 
 Refresh source snapshots on demand before enhancements, acceptance runs, or rollout rehearsals. Optional weekly refresh needs no daily mirror or scheduler. Apply required schema migrations with application changes, independently of content-refresh cadence. Record application revision, migration revision, source snapshot, embedding configuration, and test date.
 
@@ -27,13 +27,18 @@ Before promotion, reconcile dev/UAT with approved production migration/configura
 | SUPABASE_SERVICE_ROLE_KEY | Sync | Writer credential; never fallback for readers |
 | SUPABASE_ANON_KEY | MCP | Publishable/anon client key |
 | SUPABASE_READER_JWT | MCP | Signed authenticated token, with expiration and trusted project claim |
-| OPENAI_API_KEY | Both, live mode | Required for embedding text |
-| OPENAI_BASE_URL | Both | Optional explicitly selected endpoint; fake run uses loopback only |
-| EMBEDDING_MODEL | Both | Only text-embedding-3-small supported |
+| EMBEDDING_MODEL | Both | Explicit embedding model; verified local qwen3-embedding:4b |
 | EMBEDDING_DIMENSION | Both | Only 1536 supported |
-| EMBEDDING_PROVIDER | Both | Only openai supported |
+| EMBEDDING_PROVIDER | Both | ollama (default) or explicit freellm |
+| OLLAMA_BASE_URL | Both | Loopback only; default http://127.0.0.1:11434 |
+| FREELLM_BASE_URL | Both | Loopback only; default http://127.0.0.1:3001/v1 |
+| FREELLM_API_KEY | Both, freellm only | Existing Docker router credential; never an OpenAI key |
 
-Cloud embedding sends source paragraphs and search queries to configured provider. No retries or automatic provider fallback. Expired reader JWT requires operator replacement and restart. Supabase verifies signatures; local JWT parsing only rejects wrong-role/expired configurations.
+Toolforge shared provider uses WhichLLM's explicit embedding purpose, separate from generation models. Existing local-only model-selection policy must validate; do not hand-edit generated selection evidence. Install embedding model explicitly (`ollama pull qwen3-embedding:4b`) and set `EMBEDDING_MODEL=qwen3-embedding:4b` for both sync and MCP. Ollama digest is pinned before/after requests; model or dimensions changing fails closed. No API key needed for Ollama. No redirects, retries, automatic provider fallback, or remote Ollama models.
+
+FreeLLM lane requires authenticated `/v1/embeddings`, exact model echo, 1536 dimensions, and explicit immutable/versioned embedding model ID. Chat-only routes do not qualify. Docker loopback does not prove downstream inference stays local: inspect configured backend and obtain egress/cost approval before external routing. Current Docker API requires authentication; real FreeLLM embedding acceptance remains unverified. Adapter wire/error checks pass against synthetic fixture.
+
+Every indexed chunk records provider/model identity; search filters identical identity before ranking and limiting. Older OpenAI or unidentified vectors remain stored but are excluded from current model search. Switching model requires explicit reindex from authoritative exports with approval; never copy old vectors or spoof metadata. Legacy RPC remains for compatibility; MCP uses new invoker RPC. Expired reader JWT requires replacement/restart; Supabase verifies signatures.
 
 ## Source example
 
@@ -73,7 +78,7 @@ timeout 180s npm --prefix skills/research-store run test:live
 timeout 210s npm --prefix skills/research-store run test:uat
 ```
 
-Local rehearsal generates synthetic Git/Drive exports, deterministic fake embeddings, ephemeral fake signed JWTs, and loopback HTTP services. It drives production sync CLI and MCP stdio via actual Supabase/OpenAI/MCP SDKs. It tests repeat indexing, metadata-only edits, shrinking chunks, provider/write failures, search, fetch with/without claims, pagination, denied foreign UUID, and unknown tool.
+Local rehearsal generates synthetic Git/Drive exports, deterministic fake embeddings, ephemeral fake signed JWTs, and loopback HTTP services. It drives production sync CLI and MCP stdio via actual Supabase/MCP SDKs and native embedding HTTP adapter. It tests repeat indexing, metadata-only edits, shrinking chunks, provider/write failures, search, fetch with/without claims, pagination, denied foreign UUID, and unknown tool.
 
 Live SQL harness checks linked project is `bhezixgmkhpndmezgsxk` before issuing queries. It creates isolated test schema inside a rollback transaction, runs 33 database assertions plus completion/cleanup checks, and uses a SECURITY DEFINER negative control to reproduce original leakage. Failed-control transaction also aborts. This harness does not apply persistent migrations or upload sources.
 
@@ -83,10 +88,10 @@ Real API acceptance covers trusted Auth metadata, hostile user metadata, project
 
 With explicit temporary dev/UAT Auth-change approval, set `RESEARCH_UAT_AUTH_EXPIRY_APPROVED=1` and run `timeout 480s npm --prefix skills/research-store run test:jwt-expiry`. It changes only declared jwt_expiry, mints a signed 60-second token, restores/verifies original setting immediately, proves actual API expiry denial, and deletes its dedicated identity. Current live evidence passes; ordinary UAT never changes Auth settings.
 
-With explicit synthetic egress/cost approval and securely provisioned `OPENAI_API_KEY`, set `RESEARCH_UAT_EMBEDDING_APPROVED=1` and run `timeout 180s npm --prefix skills/research-store run test:embedding-quality`. It sends seven fixed synthetic strings in one direct OpenAI request, capped at 4096 input bytes, using text-embedding-3-small and 1536 dimensions with no retries. Three semantic queries must rank intended authorized fixtures first at explicit threshold 0 with 0.05 similarity separation; matching foreign fixture must remain invisible. It separately reports recall at default threshold 0.7, removes run-owned documents/chunks/users, and verifies cleanup. Recheck provider pricing before reruns after repricing. Current real run passes ranking/isolation/cleanup, but default recall is 0/3 on synthetic paraphrases; threshold calibration remains rollout gate, not a production-quality PASS. No real-source input is accepted by this harness.
+For approved synthetic rehearsal, set `EMBEDDING_MODEL=qwen3-embedding:4b`, `EMBEDDING_PROVIDER=ollama`, and `RESEARCH_UAT_EMBEDDING_APPROVED=1`; run `timeout 180s npm --prefix skills/research-store run test:embedding-quality`. Seven fixed strings total at most 4096 bytes; actual sync CLI embeds four synthetic documents and actual MCP embeds three queries through same pinned lane. Real Supabase ranking must return intended authorized fixtures first at threshold 0 with 0.05 separation; matching foreign fixture stays invisible. It reports default-threshold recall, deletes run-owned documents/chunks/users/exports, and verifies cleanup. Local run: 3/3 rankings, default 0.7 recall 2/3. Representative-input calibration remains rollout gate. No real-source input accepted. Any FreeLLM external rerun requires separate backend/cost approval.
 
 Fake HTTP authorization alone is simulation; `test:uat` supplies separate real Supabase issuance/PostgREST evidence. Production gate still requires approved real embedding availability/quality, production credentials, and explicit rollout approval. SQL fixture rollback is cleanup of disposable test state, not production migration rollback procedure.
 
 ## Provenance
 
-Supabase JS (Supabase), OpenAI Node SDK (OpenAI), MCP TypeScript SDK (Model Context Protocol contributors), and js-yaml (Nodeca) are external dependencies linked in README. Toolforge supplies native parsing, validation, SQL boundaries, client wiring, and rehearsal tests; it does not implement upstream services.
+Supabase JS (Supabase), MCP TypeScript SDK (Model Context Protocol contributors), and js-yaml (Nodeca) are external dependencies linked in README. Ollama supplies local inference. Toolforge supplies WhichLLM routing, native embedding adapters, parsing, validation, SQL boundaries, client wiring, and tests; it does not implement upstream services. OpenAI SDK/key no longer required.

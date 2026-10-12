@@ -73,7 +73,7 @@ test('synthetic rollout drives real sync CLI and MCP stdio through HTTP adapters
     assert.equal(matches.length, 1);
     assert.ok(matches.every(row => row.project === 'CIC'));
     assert.equal((await call('match_research_items', { query: 'First.', match_threshold: 1 })).length, 0);
-    assert.deepEqual(fake.state.requests.filter(request => request.path.endsWith('match_research_items'))[0].input.query_embedding, syntheticEmbedding('First.'));
+    assert.deepEqual(fake.state.requests.filter(request => request.path.endsWith('match_research_items_for_embedding'))[0].input.query_embedding, syntheticEmbedding('First.'));
     const fetched = await call('fetch_document', { document_id: first.id, include_claims: true });
     assert.equal(fetched.document.title, 'Shorter');
     assert.equal(fetched.research_items.length, 1);
@@ -91,7 +91,7 @@ test('synthetic rollout drives real sync CLI and MCP stdio through HTTP adapters
     const reads = fake.state.requests.filter(request => request.path.startsWith('/rest/v1/') && !request.path.endsWith('replace_research_document'));
     assert.ok(reads.length >= 7);
     assert.ok(reads.every(request => request.authorization === `Bearer ${reader}`));
-    assert.ok(fake.state.requests.filter(request => request.path === '/v1/embeddings').every(request => request.input.model === 'text-embedding-3-small' && request.input.dimensions === 1536));
+    assert.ok(fake.state.requests.filter(request => request.path === '/api/embed').every(request => request.input.model === 'synthetic-embedding' && request.input.dimensions === 1536));
     assert.equal(stderr, '');
   } finally {
     await client?.close();

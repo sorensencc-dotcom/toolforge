@@ -11,7 +11,7 @@
   "owner": "soren",
   "permissions": { "required": ["network:outbound"], "optional": [] },
   "dependencies": {
-    "external": ["@modelcontextprotocol/sdk", "@supabase/supabase-js", "openai", "js-yaml"],
+    "external": ["@modelcontextprotocol/sdk", "@supabase/supabase-js", "js-yaml"],
     "internal": []
   }
 }

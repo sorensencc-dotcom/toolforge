@@ -17,8 +17,8 @@ test('reader client requires authenticated unexpired JWT, never writer fallback'
 });
 
 test('unsupported embedding configuration rejects before client/network setup', () => {
-  for (const config of [{ EMBEDDING_DIMENSION: '384' }, { EMBEDDING_MODEL: 'other' }, { EMBEDDING_PROVIDER: 'local' }]) {
-    assert.throws(() => createEmbeddingProvider(config), /Unsupported embedding configuration/);
+  for (const config of [{ EMBEDDING_DIMENSION: '384' }, { EMBEDDING_MODEL: 'freellm/auto' }, { EMBEDDING_PROVIDER: 'openai', EMBEDDING_MODEL: 'm' }]) {
+    assert.throws(() => createEmbeddingProvider(config), /Unsupported.*embedding configuration/);
   }
 });
 
@@ -42,16 +42,16 @@ test('fake search contract ranks discriminating vectors and honors strict thresh
   const vector = (first, second) => [first, second, ...Array(1534).fill(0)];
   try {
     fake.state.items = [
-      { id: 'low', project: 'CIC', embedding: vector(0.6, 0.8) },
-      { id: 'exact', project: 'CIC', embedding: vector(1, 0) },
-      { id: 'near', project: 'CIC', embedding: vector(0.8, 0.6) },
+      { id: 'low', project: 'CIC', embedding: vector(0.6, 0.8), metadata: { embedding_identity: 'fixture' } },
+      { id: 'exact', project: 'CIC', embedding: vector(1, 0), metadata: { embedding_identity: 'fixture' } },
+      { id: 'near', project: 'CIC', embedding: vector(0.8, 0.6), metadata: { embedding_identity: 'fixture' } },
     ];
     const reader = createReaderClient({ ...fake.env, SUPABASE_READER_JWT: fake.sign('CIC') });
-    const params = { query_embedding: vector(1, 0), match_count: 3, match_threshold: 0.7 };
-    const result = await reader.rpc('match_research_items', params);
+    const params = { query_embedding: vector(1, 0), match_count: 3, match_threshold: 0.7, p_embedding_identity: 'fixture' };
+    const result = await reader.rpc('match_research_items_for_embedding', params);
     assert.equal(result.error, null);
     assert.deepEqual(result.data.map(row => row.id), ['exact', 'near']);
     assert.ok(Math.abs(result.data[1].similarity - 0.8) < 1e-6);
-    assert.deepEqual((await reader.rpc('match_research_items', { ...params, match_threshold: 1 })).data, []);
+    assert.deepEqual((await reader.rpc('match_research_items_for_embedding', { ...params, match_threshold: 1 })).data, []);
   } finally { await fake.close(); }
 });

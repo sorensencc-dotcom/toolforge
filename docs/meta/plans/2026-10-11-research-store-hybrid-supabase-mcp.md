@@ -6,11 +6,63 @@
 
 **Architecture:** Package integration under `skills/research-store/`. Treat Git and exported Drive Markdown as authoritative sources; Supabase holds derived documents, chunks, and claims. Use service-role credentials only for indexing and authenticated user JWTs for MCP reads.
 
-**Tech stack:** Node.js >=24.0.0, ESM, Node test runner, PostgreSQL 15+ with pgvector, Supabase JS client, MCP JS SDK, OpenAI SDK, and js-yaml.
+**Tech stack:** Node.js >=24.0.0, ESM, Node test runner, PostgreSQL 15+ with pgvector, Supabase JS client, MCP JS SDK, js-yaml, and Toolforge WhichLLM local embedding adapters.
 
 **Spec:** [Issue #124 and attached artifacts](https://github.com/sorensencc-dotcom/toolforge/issues/124). Read all six artifact comments before execution. This draft proposes corrections to those artifacts; it is not an approved charter.
 
-## Current rehearsal status (2026-10-11)
+## Current local multimodel status (2026-10-12)
+
+Operator selected existing Toolforge local multimodel framework plus explicit
+FreeLLM Docker routing. This section supersedes earlier OpenAI checkpoints and
+implementation contracts below. OpenAI SDK/key no longer required. Shared
+provider calls WhichLLM embedding purpose; generation routing and generated
+model_selection.json remain unchanged. Installed qwen3-embedding:4b explicitly;
+native Ollama API supports existing 1536 dimensions. Verified digest:
+df5bd2e3c74cd8d069d21dc038f1b359fcdc9458fce1c99bd43c9eb1518ff907.
+Existing llama3.1:8b generation model rejected embedding calls; dedicated model
+resolves that failure. No generation model replacement or fabricated evaluator output.
+
+Provider pins digest before/after requests; validates model echo, vector count,
+finite/nonzero values, dimensions, loopback endpoint; rejects redirects, remote
+Ollama models, automatic retries/fallback. Identity is recorded on document and
+chunks. Additive SECURITY INVOKER RPC filters matching identity before ranking
+and limiting, preserving RLS and anonymous denial. Older/unidentified vectors
+remain stored but are excluded; explicit authorized reindex required to switch.
+Historical baseline migration untouched. Isolated mixed-model negative control
+fails as intended; enhancement reruns twice with cleanup verified. Dev/UAT
+dry-run listed only 20261012000124; additive migration installed there only.
+
+| Evidence | Latest result |
+| --- | --- |
+| Root suite | 236 pass, zero fail, one optional external PDF fixture skipped |
+| Research-store scoped suite | 30/30 pass, zero skips |
+| WhichLLM regression suite | 6/6 pass, existing generation behavior preserved |
+| Existing Ollama provider suite | 17/17 pass after test-only Vitest option-order correction; unchanged origin/main harness initially failed before executing tests |
+| Real dev/UAT SQL/recovery | 3/3 pass; 33 baseline assertions, SECURITY DEFINER and mixed-model negative controls, rerun and schema cleanup |
+| Real Auth/REST/sync/MCP UAT | Pass after additive migration; only two reserved synthetic baseline documents retained |
+| Real local embedding quality | Pass through actual sync CLI, MCP stdio, signed Supabase reads and local Ollama |
+| Signed expiry | Prior 1/1 real API pass, original Auth 3600 restored; local provider work does not change Auth |
+
+Actual quality test uses seven fixed synthetic strings, sync CLI indexes four
+synthetic documents, MCP queries three paraphrases through same pinned model.
+Correct top rankings 3/3 at threshold 0; similarities 0.5706/0.7031/0.7358;
+margins 0.0581/0.2982/0.2655. Matching foreign project invisible. Run-owned
+documents/chunks/user/exports deleted with absence checks. Default 0.7 recall
+is 2/3, still not representative-input calibration approval. No OpenAI calls.
+Current dependencies: MCP SDK 1.32.1, Supabase JS 2.117.3, js-yaml 4.3.2;
+OpenAI SDK removed with clean install, zero skill dependency audit vulnerabilities.
+
+FreeLLM Docker at 127.0.0.1:3001 runs but `/v1/models` returns 401. Real
+embedding availability not verified. Adapter requires existing router credential,
+explicit immutable/versioned model, compatible `/v1/embeddings`, exact echo,
+1536 dimensions. Synthetic authentication/wire/error/no-fallback tests pass.
+Need approved credential location and embedding-capable backend before claiming
+live FreeLLM acceptance. Docker locality does not prove downstream privacy or
+cost; external backend requires separate approval. No container/credential
+changes, production migration/activation, real-source uploads, or scheduler.
+Refresh on demand; optional weekly, no daily mirror.
+
+## Historical rehearsal checkpoints
 
 Operator authorized candidate implementation and synthetic whole-stack rehearsal for future rollout. Real parser, embedding/Supabase adapters, sync CLI, MCP handlers, registration, and operator docs now exist. Production rollout remains pending. Historical checkpoints below describe earlier red baselines; this section defines current status.
 
