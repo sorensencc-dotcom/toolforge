@@ -27,7 +27,7 @@ Register GitDiagram triage and Gitingest digestion in the KB-Skills plane as `re
 
 ### Next action
 
-Open the pull request from `feat/repo-triage-and-digest`.
+Review https://github.com/sorensencc-dotcom/toolforge/pull/128. Commit `c9c03e06` is on `feat/repo-triage-and-digest`.
 
 ---
 
