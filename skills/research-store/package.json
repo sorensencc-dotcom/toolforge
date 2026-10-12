@@ -7,11 +7,12 @@
   "scripts": {
     "start": "node src/mcp-server.mjs",
     "sync": "node src/sync.mjs",
-    "test": "node --test --test-timeout=10000 tests/sync.test.mjs tests/mcp.test.mjs tests/package.test.mjs tests/rehearsal.test.mjs tests/config.test.mjs",
+    "test": "node --test --test-timeout=10000 tests/sync.test.mjs tests/mcp.test.mjs tests/package.test.mjs tests/rehearsal.test.mjs tests/config.test.mjs tests/calibration.test.mjs",
     "test:live": "node --test --test-concurrency=1 --test-timeout=100000 tests/schema.test.mjs tests/migration-recovery.test.mjs tests/model-isolation.test.mjs",
     "test:uat": "node --test --test-timeout=150000 tests/uat.test.mjs",
     "test:jwt-expiry": "node --test --test-timeout=420000 tests/jwt-expiry.test.mjs",
-    "test:embedding-quality": "node --test --test-timeout=150000 tests/embedding-quality.test.mjs"
+    "test:embedding-quality": "node --test --test-timeout=150000 tests/embedding-quality.test.mjs",
+    "test:calibration": "node --test --test-timeout=240000 tests/calibration-live.test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

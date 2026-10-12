@@ -11,6 +11,8 @@ import { createClient } from '@supabase/supabase-js';
 import { createEmbeddingProvider } from '../src/config.mjs';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { calibrationQueries, measure, selectThreshold } from './calibration.test.mjs';
+import { cleanupQualityPublications } from './helpers/quality-cleanup.mjs';
 
 const project = 'bhezixgmkhpndmezgsxk';
 const root = fileURLToPath(new URL('../../../', import.meta.url));
@@ -24,15 +26,20 @@ const corpus = [
   'A signed reader JWT grants access only to its trusted project. Expired tokens are denied by the API. Writer credentials never serve as reader fallback.',
   'A failed database enhancement rolls back its transaction. Reapply the baseline migration in an isolated schema, verify acceptance, and remove all synthetic fixture schemas.',
 ];
-const queries = [
+const calibration = process.env.RESEARCH_UAT_CALIBRATION === '1';
+const queries = calibration ? calibrationQueries.map(row => row.query) : [
   'What happens to indexed content when vector generation fails?',
   'Can an outdated login token read another project?',
   'How should a broken schema upgrade recover?',
 ];
 const inputs = [...corpus, corpus[0], ...queries];
 
-test('Toolforge local multimodel embeddings and synthetic retrieval quality', { timeout: 150000 }, async () => {
+test('Toolforge local multimodel embeddings and synthetic retrieval quality', { timeout: 240000 }, async () => {
   assert.equal(process.env.RESEARCH_UAT_EMBEDDING_APPROVED, '1', 'explicit synthetic dev/UAT rehearsal required');
+  if (calibration) {
+    assert.equal(process.env.EMBEDDING_PROVIDER || 'ollama', 'ollama', 'calibration must not consume external egress approval');
+    assert.equal(process.env.EMBEDDING_MODEL, 'qwen3-embedding:4b', 'calibration pins approved local model');
+  }
   const inputBytes = inputs.reduce((sum, input) => sum + Buffer.byteLength(input), 0);
   assert.ok(inputBytes <= 4096, 'single-request synthetic fixture budget exceeded');
   assert.equal((await readFile(new URL('supabase/.temp/project-ref', new URL('../../../', import.meta.url)), 'utf8')).trim(), project);
@@ -54,6 +61,7 @@ test('Toolforge local multimodel embeddings and synthetic retrieval quality', { 
   const exports = await mkdtemp(join(tmpdir(), 'research-local-quality-'));
   let mcp;
   let userId;
+  const paths = [];
   try {
     const email = `research-quality-${randomUUID()}@example.com`;
     const password = randomUUID() + randomUUID();
@@ -65,7 +73,10 @@ test('Toolforge local multimodel embeddings and synthetic retrieval quality', { 
     let vectors;
     try { vectors = await embed(inputs); }
     catch { throw new Error('Selected Toolforge embedding lane unavailable (details suppressed)'); }
-    console.log(`Toolforge embedding identity ${embed.identity}: seven validated 1536-dimensional vectors.`);
+    if (calibration) assert.equal(embed.identity,
+      'ollama:qwen3-embedding:4b@df5bd2e3c74cd8d069d21dc038f1b359fcdc9458fce1c99bd43c9eb1518ff907:1536',
+      'calibration model digest drift');
+    console.log(`Toolforge embedding identity ${embed.identity}: ${vectors.length} validated 1536-dimensional vectors.`);
     const namespace = `uat124-quality/${randomUUID()}`;
     await mkdir(join(exports, namespace), { recursive: true });
     for (let index = 0; index < 4; index++) {
@@ -78,7 +89,7 @@ test('Toolforge local multimodel embeddings and synthetic retrieval quality', { 
       ...(process.env.OLLAMA_BASE_URL ? { OLLAMA_BASE_URL: process.env.OLLAMA_BASE_URL } : {}),
       ...(process.env.FREELLM_BASE_URL ? { FREELLM_BASE_URL: process.env.FREELLM_BASE_URL } : {}),
       ...(process.env.FREELLM_API_KEY ? { FREELLM_API_KEY: process.env.FREELLM_API_KEY } : {}) };
-    const paths = inputs.slice(0, 4).map((_, index) => `${namespace}/${index}.md`);
+    paths.push(...inputs.slice(0, 4).map((_, index) => `${namespace}/${index}.md`));
     // Capture partial CLI publications too, so a failed run still cleans its namespace.
     try {
       const synced = await run(process.execPath, [fileURLToPath(new URL('../src/sync.mjs', import.meta.url))],
@@ -100,6 +111,7 @@ test('Toolforge local multimodel embeddings and synthetic retrieval quality', { 
       env: { SystemRoot: process.env.SystemRoot, ...embeddingEnv, SUPABASE_URL: url,
         SUPABASE_ANON_KEY: anon, SUPABASE_READER_JWT: session.access_token }, stderr: 'pipe' }));
     let defaultRecall = 0;
+    const rows = [];
     for (let index = 0; index < queries.length; index++) {
       const matches = check(await reader.rpc('match_research_items_for_embedding', {
         query_embedding: vectors[index + 4], p_embedding_identity: embed.identity, match_threshold: 0, match_count: 50,
@@ -107,31 +119,63 @@ test('Toolforge local multimodel embeddings and synthetic retrieval quality', { 
       assert.ok(matches.every(item => item.project === 'CIC'), 'foreign project leaked into real-vector retrieval');
       const fixtures = matches.filter(item => ids.includes(item.document_id));
       assert.equal(fixtures.length, 3, 'all authorized quality fixtures must be searchable');
-      assert.equal(fixtures[0].document_id, ids[index], `semantic query ${index + 1} ranked wrong fixture`);
-      assert.ok(fixtures[0].similarity - fixtures[1].similarity >= 0.05, `semantic query ${index + 1} lacks separation`);
+      if (!calibration) {
+        assert.equal(fixtures[0].document_id, ids[index], `semantic query ${index + 1} ranked wrong fixture`);
+        assert.ok(fixtures[0].similarity - fixtures[1].similarity >= 0.05, `semantic query ${index + 1} lacks separation`);
+      }
+      if (calibration) rows.push({ ...calibrationQueries[index], top: ids.indexOf(fixtures[0].document_id), score: fixtures[0].similarity });
       const wired = await mcp.callTool({ name: 'match_research_items',
         arguments: { query: queries[index], match_threshold: 0, match_count: 50 } }, undefined, { timeout: 65000 });
       assert.notEqual(wired.isError, true, 'real local MCP search failed');
       const wiredMatches = JSON.parse(wired.content[0].text);
-      assert.equal(wiredMatches.filter(item => ids.includes(item.document_id))[0]?.document_id, ids[index]);
+      assert.equal(wiredMatches.filter(item => ids.includes(item.document_id))[0]?.document_id, fixtures[0].document_id);
       assert.ok(wiredMatches.every(item => item.project === 'CIC'));
-      console.log(`Synthetic semantic query ${index + 1}: correct top result, similarity ${fixtures[0].similarity.toFixed(4)}, margin ${(fixtures[0].similarity - fixtures[1].similarity).toFixed(4)}.`);
+      console.log(`Synthetic query ${index + 1}: top fixture ${ids.indexOf(fixtures[0].document_id)}, similarity ${fixtures[0].similarity.toFixed(4)}, margin ${(fixtures[0].similarity - fixtures[1].similarity).toFixed(4)}.`);
       const defaults = check(await reader.rpc('match_research_items_for_embedding', {
         query_embedding: vectors[index + 4], p_embedding_identity: embed.identity,
       }), 'default-threshold retrieval');
       assert.ok(defaults.every(item => item.project === 'CIC' && item.similarity > 0.7), 'default retrieval contract drift');
-      if (defaults.some(item => item.document_id === ids[index])) defaultRecall++;
+      const target = calibration ? calibrationQueries[index].target : index;
+      if (target !== null && defaults.some(item => item.document_id === ids[target])) defaultRecall++;
     }
-    console.log(`Default 0.7 threshold recall on synthetic paraphrases: ${defaultRecall}/${queries.length}; diagnostic, not a production-quality approval.`);
+    console.log(`Default 0.7 threshold recall on synthetic paraphrases: ${defaultRecall}/${calibration ? 6 : queries.length}; diagnostic, not a production-quality approval.`);
+    if (calibration) {
+      const tuning = rows.filter(row => row.split === 'tuning');
+      const heldout = rows.filter(row => row.split === 'heldout');
+      const selected = selectThreshold(tuning);
+      const validation = selected === undefined ? null : measure(heldout, selected);
+      const accepted = validation !== null && validation.correct === validation.positives && validation.falsePositives === 0;
+      console.log(JSON.stringify({ calibration: { scope: 'run-owned fixture results only', selected: selected ?? null,
+        accepted,
+        tuningDefault: measure(tuning, 0.7), heldoutDefault: measure(heldout, 0.7),
+        tuningSelected: selected === undefined ? null : measure(tuning, selected),
+        heldoutSelected: validation } }));
+      console.log(`Calibration candidate ${accepted ? 'accepted for synthetic fixtures only' : 'rejected; deployment quality gate remains open'}. Harness success is not quality approval.`);
+      if (selected !== undefined) {
+        for (let index = 0; index < rows.length; index++) {
+          const wired = await mcp.callTool({ name: 'match_research_items', arguments: {
+            query: queries[index], match_threshold: selected, match_count: 50,
+          } }, undefined, { timeout: 65000 });
+          assert.notEqual(wired.isError, true);
+          const matches = JSON.parse(wired.content[0].text);
+          assert.ok(matches.every(item => item.project === 'CIC' && item.similarity > selected));
+          const fixtures = matches.filter(item => ids.includes(item.document_id));
+          assert.equal(fixtures.length > 0, rows[index].score > selected, 'selected-threshold MCP contract drift');
+          if (fixtures.length) assert.equal(ids.indexOf(fixtures[0].document_id), rows[index].top);
+        }
+        console.log('Selected threshold verified through real MCP/API for all fixed queries.');
+      }
+    }
   } finally {
     const failures = [];
-    if (mcp) await mcp.close();
-    await rm(exports, { recursive: true, force: true });
-    if (ids.length) {
+    if (mcp) {
+      try { await mcp.close(); } catch { failures.push('quality MCP shutdown failed'); }
+    }
+    try { await rm(exports, { recursive: true, force: true }); }
+    catch { failures.push('quality local export cleanup failed'); }
+    if (paths.length) {
       try {
-        check(await service.from('documents').delete().in('id', ids), 'quality fixture cleanup');
-        assert.equal(check(await service.from('documents').select('id').in('id', ids), 'quality document cleanup proof').length, 0);
-        assert.equal(check(await service.from('research_items').select('id').in('document_id', ids), 'quality chunk cleanup proof').length, 0);
+        await cleanupQualityPublications(service, paths, ids);
       } catch { failures.push('quality document/chunk cleanup unverified'); }
     }
     if (userId) {

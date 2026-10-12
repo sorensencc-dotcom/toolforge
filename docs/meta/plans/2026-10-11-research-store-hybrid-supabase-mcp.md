@@ -12,6 +12,53 @@
 
 ## Current local multimodel status (2026-10-12)
 
+### Local synthetic threshold calibration (2026-10-12)
+
+Operator selected issue #124 calibration, not chat-model replacement. Reused
+existing CLI/MCP/Supabase quality harness with fixed queries declared before
+embedding: tuning and held-out splits each contain three positives and three
+unrelated negatives. Corpus remains three synthetic workflow paragraphs plus
+foreign-project duplicate. Verified local qwen3-embedding:4b digest is asserted;
+16 initial vectors validate 1536 dimensions. No FreeLLM or external embedding
+requests, real sources, Auth changes, or migrations.
+
+Selection rule: lowest threshold on fixed 0.00..1.00 grid (step 0.01) with all
+tuning positives ranked first and accepted, and no tuning negative accepted.
+Acceptance uses SQL's strict similarity > threshold. Held-out data never tunes
+selection. This measures top-result recall and unrelated-query false acceptance,
+not precision of every returned chunk or production representativeness. Metrics
+filter run-owned fixtures from the shared API result (limit 50); other authorized
+documents may rank above them. Presence of all three fixtures is asserted, but
+these results do not establish global top-result behavior on a populated corpus.
+
+| Split / threshold | Positive top-result recall | Negative false acceptance |
+| --- | --- | --- |
+| Tuning / default 0.7 | 2/3 | 0/3 |
+| Held-out / default 0.7 | 3/3 | 0/3 |
+| Tuning / selected 0.46 | 3/3 | 0/3 |
+| Held-out / selected 0.46 | 3/3 | 1/3 |
+
+**Candidate rejected.** Held-out connection-pool sizing query returns rollback
+paragraph at 0.4991. Do not retune on held-out scores or silently adopt 0.50.
+All 12 selected-threshold queries agree with real MCP/API; signed project
+isolation and run-owned document/chunk/user/export cleanup verified.
+Harness success proves execution/contracts/cleanup, not a green quality gate.
+
+Ruling: complete bounded synthetic assessment but leave representative quality
+gate open; retain 0.7 default and generated chat selection unchanged, not select
+it using held-out results. Cost of
+this conservative ruling: one tuning positive remains suppressed. Next decision
+requires approved representative inputs and a fresh independent validation set
+before any threshold adoption; real-source use requires source/egress approval.
+
+Final verification: focused suite 33/33; root 236 pass, zero failures, one
+optional external-PDF skip; live calibration 4/4 execution checks with rejected
+quality outcome; docs publishing validation and scoped whitespace pass. One
+credential-lookup timeout occurred before fixture creation; fresh rerun passed.
+Fresh review corrections: portable explicit calibration launcher, fixture-only
+metric labeling, independent path-based publication cleanup with fail-closed
+regression. Audit whitespace failures are unrelated and preserved unstaged.
+
 Operator selected existing Toolforge local multimodel framework plus explicit
 FreeLLM Docker routing. This section supersedes earlier OpenAI checkpoints and
 implementation contracts below. OpenAI SDK/key no longer required. Shared
@@ -280,7 +327,8 @@ Production CLI preparation completed under explicit operator login/init/link req
 - [x] Exercise actual signed CIC, RewriteLabs, and admin JWTs through Supabase HTTP API and all three MCP tools; verify missing/forged tokens and foreign UUID denial. Signed CIC, RewriteLabs, admin, hostile-metadata users, and genuinely signed expired-token denial pass; original Auth configuration and run-owned cleanup verified.
 - [x] Run controlled writer ingestion through real Supabase client/API using synthetic exports. Verify metadata edits, shrinking/empty body, claim review state, and failed-write snapshot preservation.
 - [x] Approve and verify real embedding provider/model/dimension with synthetic input and explicit egress approval. Actual text-embedding-3-small/1536 availability, 3/3 rankings at explicit threshold 0, project isolation, and cleanup pass within $0.10 cap; default recall separately measured.
-- [ ] Calibrate retrieval threshold against representative approved inputs. Current default 0.7 suppresses all three tested semantic paraphrases (0/3 recall); correct ranks and margins at threshold 0 do not establish useful default retrieval. Threshold/model contract changes require explicit approval; real-source evaluation requires source/egress authorization.
+- [x] Complete bounded local synthetic calibration with fixed tuning/held-out positives and negatives; candidate 0.46 rejected on held-out false acceptance (1/3), default retained. CLI/MCP/API contracts and cleanup verified; harness execution success is not quality approval.
+- [ ] Calibrate retrieval threshold against representative approved inputs and fresh independent validation. Local default 0.7 recall is 5/6 on current synthetic split; NVIDIA default recall was 0/3 in its separate rehearsal. Threshold/model contract changes require explicit approval; real-source evaluation requires source/egress authorization. Rejected candidate must not be adopted or retuned using the held-out set.
 - [ ] Add explicit scoped suite commands to approved delivery/CI path, obtain production target/configuration approval, and verify a reversible migration/delivery procedure before rollout. Scoped live recovery and signed-expiry rehearsals pass; real embedding availability verified, default retrieval calibration remains open, and production target/configuration approval remains separate.
 
 ## Execution rulings
