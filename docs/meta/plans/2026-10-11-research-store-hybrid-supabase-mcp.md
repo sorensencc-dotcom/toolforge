@@ -54,13 +54,26 @@ OpenAI SDK removed with clean install, zero skill dependency audit vulnerabiliti
 
 FreeLLM Docker at 127.0.0.1:3001 runs but `/v1/models` returns 401. Real
 embedding availability not verified. Adapter requires existing router credential,
-explicit immutable/versioned model, compatible `/v1/embeddings`, exact echo,
+explicit immutable/versioned family, compatible `/v1/embeddings`, exact echo,
 1536 dimensions. Synthetic authentication/wire/error/no-fallback tests pass.
+Read-only installed source confirms endpoint exists, echoes family rather than
+provider-specific model, and may fail over providers within same family.
+Toolforge itself makes one request without retry or cross-model fallback.
+Use approved catalog family as EMBEDDING_MODEL; verify member model identity,
+backend privacy/cost before activation. No router configuration changed.
 Need approved credential location and embedding-capable backend before claiming
 live FreeLLM acceptance. Docker locality does not prove downstream privacy or
 cost; external backend requires separate approval. No container/credential
 changes, production migration/activation, real-source uploads, or scheduler.
 Refresh on demand; optional weekly, no daily mirror.
+
+Delivery: commit 1eaeb2a4 pushed to existing draft PR #134 through normal
+commit/push hooks; remote branch hash matches. Focused security audit reports
+zero critical/high/info findings. All remote checks for 1eaeb2a4 pass, including
+build/cache, AST/sibling audit, strict docs, secret scan, GitGuardian and both
+Governance runs. Recheck any subsequent documentation commit independently.
+Devin status is green but actual
+review skipped due expired trial/no credits. Dirty audits remain unstaged.
 
 ## Historical rehearsal checkpoints
 
