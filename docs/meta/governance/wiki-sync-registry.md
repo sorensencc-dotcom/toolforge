@@ -26,7 +26,7 @@ Legacy writers to turn off (plan Task 10):
 
 | Writer | Path | Status |
 | --- | --- | --- |
-| Toolforge direct publish | `C:\dev\package.json` `wiki:publish` / `wiki:sync` -> `scripts/sync-github-wiki.mjs` | Live. Stays as the `--build-only` build step for the `toolforge` row; the npm aliases get repointed to `docs:sync`. The toolforge pre-push no longer publishes (PR #87). |
+| Toolforge direct publish | `C:\dev\package.json` `wiki:publish` / `wiki:sync` -> `scripts/sync-github-wiki.mjs` | Live. Stays as the `--build-only` build step for the `toolforge` row; the npm aliases get repointed to `docs:sync`. Full wiki publish stays off the pre-push hook (PR #87). A push that changes `wiki/`, the page map, or the publish scripts runs `scripts/publish-repo-wiki-pages.mjs`, which copies those `wiki/` markdown pages onto a temp clone. Author pages in the repo. |
 | kb-sync direct publish | `C:\dev\kb-sync\package.json` `wiki:publish` / `wiki:sync` -> kb-sync's own `scripts/sync-github-wiki.mjs` | Live. The script stays as the `--build-only` build step for the `kb-sync` row; both aliases get repointed to `docs:sync`. |
 | Fleet reconciler (kb-sync) | `C:\dev\kb-sync\modules\wiki\fleet-wiki-reconciler.ts` | On disk, can be run by hand, nothing calls it: kb-sync has no `fleet:wiki:reconcile` script (only `test:fleet-reconciler`) and no scheduled task or workflow invokes it. To be deleted. |
 | Fleet reconciler (toolforge copy) | `C:\dev\modules\wiki\fleet-wiki-reconciler.ts` | Dormant. Clones a wiki remote and runs `git push origin HEAD` (line 425), but no script, workflow, or npm script in this repo calls it. To be deleted with the kb-sync copy. |

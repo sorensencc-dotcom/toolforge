@@ -281,6 +281,10 @@ if [ `$FAIL -ne 0 ]; then
 fi
 
 echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceeding with push."
+if ! node "`$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed; then
+  echo -e "\033[31m[Hook Fail]\033[0m Repo wiki publish failed. Push blocked."
+  exit 1
+fi
 exit 0
 "@
 

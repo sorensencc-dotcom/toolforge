@@ -1,0 +1,57 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {
+  applyRepoPages,
+  assertPublishClone,
+  changedWikiPaths,
+  wikiPagesFromRepo
+} from '../scripts/publish-repo-wiki-pages.mjs';
+
+test('wiki page list keeps repo wiki markdown mappings', () => {
+  const pages = wikiPagesFromRepo([
+    { src: 'wiki/sync-tools/repo-triage-and-digest.md', dest: 'repo-triage-and-digest.md' },
+    { src: 'docs/KB_SYNC_DAG.md', dest: 'KB_SYNC_DAG.md' },
+    { src: 'wiki/sync-tools/diagram.png', dest: 'diagram.png' }
+  ]);
+  assert.deepEqual(pages, [
+    { src: 'wiki/sync-tools/repo-triage-and-digest.md', dest: 'repo-triage-and-digest.md' }
+  ]);
+});
+
+test('ship diff notices repo wiki files and ignores the published clone', () => {
+  assert.deepEqual(changedWikiPaths([
+    'wiki/sync-tools/repo-triage-and-digest.md',
+    'skills/repo-triage-and-digest/src/pipeline.mjs',
+    ['C:/dev', 'toolforge-wiki', 'repo-triage-and-digest.md'].join('/')
+  ]), ['wiki/sync-tools/repo-triage-and-digest.md']);
+});
+
+test('applyRepoPages writes the repo page into a temp clone and refuses the published clone', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'wiki-publish-'));
+  const clone = path.join(root, 'clone');
+  fs.mkdirSync(clone);
+  fs.writeFileSync(path.join(clone, '_Sidebar.md'), '#### Skill Library\n- [[TinyFish Search Integration|tinyfish-search]]\n');
+  const src = path.join(root, 'page.md');
+  fs.writeFileSync(src, '# From the repo\n');
+  const written = applyRepoPages(clone, [{ src, dest: 'repo-triage-and-digest.md' }], (file) => fs.readFileSync(file));
+  assert.equal(fs.readFileSync(path.join(clone, 'repo-triage-and-digest.md'), 'utf8'), '# From the repo\n');
+  assert.match(fs.readFileSync(path.join(clone, '_Sidebar.md'), 'utf8'), /repo-triage-and-digest/);
+  assert.ok(written.includes('repo-triage-and-digest.md'));
+  assert.doesNotThrow(() => assertPublishClone(path.join(os.tmpdir(), 'toolforge-wiki-publish-abc')));
+  assert.throws(() => assertPublishClone(path.join(root, 'toolforge-wiki')), /REFUSING_WIKI_CLONE/);
+  assert.throws(() => assertPublishClone(path.join('C:/dev', 'toolforge-wiki', 'nested')), /REFUSING_WIKI_CLONE/);
+});
+
+test('published pages hide repo frontmatter in an HTML comment', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'wiki-publish-'));
+  const clone = path.join(root, 'clone');
+  fs.mkdirSync(clone);
+  const src = path.join(root, 'page.md');
+  fs.writeFileSync(src, '---\ntitle: "Repo Triage and Digest"\n---\n\n# From the repo\n');
+  applyRepoPages(clone, [{ src, dest: 'repo-triage-and-digest.md' }]);
+  const text = fs.readFileSync(path.join(clone, 'repo-triage-and-digest.md'), 'utf8');
+  assert.match(text, /^<!--\n---\ntitle: "Repo Triage and Digest"\n---\n-->\n\n# From the repo\n/);
+});
