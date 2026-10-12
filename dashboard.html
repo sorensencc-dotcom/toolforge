@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700;800&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="_ds/cast-iron-charlie-design-system-019de132-e506-71df-a7ae-fb03115c075e/colors_and_type.css">
+  <!-- ARCHITECTURAL NOTICE: CANONICAL DASHBOARD IS AT icf/dashboard/index.html -->
+  <!-- DO NOT COPY THIS ROOT FILE OVER icf/dashboard/index.html (SEE AGENTS.md GOVERNANCE) -->
   <style>
     /* ============================================================
        Cast Iron Charlie Design System — Colors & Typography Tokens
@@ -718,6 +720,13 @@
 </head>
 <body>
 
+  <!-- ARCHITECTURAL NOTICE: CANONICAL DASHBOARD IS AT icf/dashboard/index.html -->
+  <!-- DO NOT COPY THIS ROOT FILE OVER icf/dashboard/index.html (SEE AGENTS.md GOVERNANCE) -->
+  <div style="background: #8B3A1A; color: #fff; padding: 0.75rem 1.5rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; z-index: 9999; border-bottom: 2px solid #C4501A;">
+    <span>⚠️ ARCHIVE NOTICE: Canonical production dashboard lives at <code>icf/dashboard/index.html</code> (served on port 8080).</span>
+    <a href="http://127.0.0.1:8080/" style="color: #faf6f0; font-weight: 700; text-decoration: underline;">Open Canonical ICF Dashboard →</a>
+  </div>
+
 <div class="container">
   <!-- HEADER -->
   <header>
@@ -1348,7 +1357,7 @@
 
       <!-- Standalone SVG Diagram in Cathryn Lavery Standard Warm/Forge Palette -->
       <div style="overflow-x: auto; padding: 1rem 0; text-align: center;">
-        <svg viewBox="0 0 1200 680" width="100%" height="auto" style="max-width: 1200px; font-family: 'Barlow Condensed', sans-serif; background: #1a1410; border: 1px solid rgba(196, 80, 26, 0.25); border-radius: 4px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 1200 680" width="100%" height="680" style="max-width: 1200px; height: auto; font-family: 'Barlow Condensed', sans-serif; background: #1a1410; border: 1px solid rgba(196, 80, 26, 0.25); border-radius: 4px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stop-color="#2c2420" stop-opacity="0.95"/>
@@ -1374,7 +1383,7 @@
           <!-- STAGE 1: INGESTION -->
           <g transform="translate(40, 80)">
             <rect x="0" y="0" width="200" height="230" rx="4" fill="url(#cardGrad)" stroke="#C4501A" stroke-width="1.5" filter="url(#cardShadow)"/>
-            <rect x="0" y="0" width="200" height="34" fill="#C4501A" rx="4 4 0 0"/>
+            <rect x="0" y="0" width="200" height="34" fill="#C4501A" rx="4"/>
             <text x="100" y="22" font-size="13" font-weight="700" letter-spacing="1.5" text-anchor="middle" fill="#faf6f0">01. MULTIMODAL INGEST</text>
             <text x="15" y="60" font-size="13" font-weight="700" fill="#faf6f0">Primary Sources</text>
             <text x="15" y="78" font-size="11" fill="#9a9088">• PDFs, Transcripts, Audios</text>
@@ -1393,7 +1402,7 @@
           <!-- STAGE 2: DEEP QUESTION MINING -->
           <g transform="translate(280, 80)">
             <rect x="0" y="0" width="210" height="230" rx="4" fill="url(#cardGrad)" stroke="#B8922A" stroke-width="1.5" filter="url(#cardShadow)"/>
-            <rect x="0" y="0" width="210" height="34" fill="#B8922A" rx="4 4 0 0"/>
+            <rect x="0" y="0" width="210" height="34" fill="#B8922A" rx="4"/>
             <text x="105" y="22" font-size="13" font-weight="700" letter-spacing="1.5" text-anchor="middle" fill="#0a0806">02. QUESTION MINING</text>
             <text x="15" y="58" font-size="12" font-weight="700" fill="#faf6f0">4 Canonical Query Vectors</text>
             <text x="15" y="76" font-size="11" fill="#e8e0d4">1. Unresolved Contradictions</text>
@@ -1413,7 +1422,7 @@
           <!-- STAGE 3: TRIAGE & COGNITIVE CACHE -->
           <g transform="translate(530, 80)">
             <rect x="0" y="0" width="210" height="230" rx="4" fill="url(#cardGrad)" stroke="#7a9fbf" stroke-width="1.5" filter="url(#cardShadow)"/>
-            <rect x="0" y="0" width="210" height="34" fill="#7a9fbf" rx="4 4 0 0"/>
+            <rect x="0" y="0" width="210" height="34" fill="#7a9fbf" rx="4"/>
             <text x="105" y="22" font-size="13" font-weight="700" letter-spacing="1.5" text-anchor="middle" fill="#0a0806">03. COGNITIVE TRIAGE</text>
             <text x="15" y="58" font-size="12" font-weight="700" fill="#faf6f0">Gaps Matrix Registry</text>
             <text x="15" y="76" font-family="monospace" font-size="11" fill="#7a9fbf">trm-research-gaps.md</text>
@@ -1433,7 +1442,7 @@
           <!-- STAGE 4: VAULT FACT EXTRACTION & CORROBORATION -->
           <g transform="translate(780, 80)">
             <rect x="0" y="0" width="200" height="230" rx="4" fill="url(#cardGrad)" stroke="#5a9e6f" stroke-width="1.5" filter="url(#cardShadow)"/>
-            <rect x="0" y="0" width="200" height="34" fill="#5a9e6f" rx="4 4 0 0"/>
+            <rect x="0" y="0" width="200" height="34" fill="#5a9e6f" rx="4"/>
             <text x="100" y="22" font-size="13" font-weight="700" letter-spacing="1.5" text-anchor="middle" fill="#0a0806">04. CORROBORATION</text>
             <text x="15" y="58" font-size="12" font-weight="700" fill="#faf6f0">Topic Fact Vault</text>
             <text x="15" y="76" font-family="monospace" font-size="11" fill="#5a9e6f">trm-vault/topics/*</text>
@@ -1452,7 +1461,7 @@
           <!-- STAGE 5: IRON COMMAND FORGE TELEMETRY -->
           <g transform="translate(1020, 80)">
             <rect x="0" y="0" width="140" height="230" rx="4" fill="url(#cardGrad)" stroke="#C4501A" stroke-width="2" filter="url(#cardShadow)"/>
-            <rect x="0" y="0" width="140" height="34" fill="#C4501A" rx="4 4 0 0"/>
+            <rect x="0" y="0" width="140" height="34" fill="#C4501A" rx="4"/>
             <text x="70" y="22" font-size="12" font-weight="700" letter-spacing="1" text-anchor="middle" fill="#faf6f0">05. COMMAND FORGE</text>
             <text x="12" y="60" font-size="11" font-weight="700" fill="#faf6f0">Daily Telemetry</text>
             <text x="12" y="78" font-family="monospace" font-size="9" fill="#B8922A">daily_status.json</text>
@@ -1473,7 +1482,7 @@
           <!-- BOTTOM CALLOUT BOX: Granular Decomposition Contract -->
           <g transform="translate(40, 390)">
             <rect x="0" y="0" width="1120" height="260" rx="4" fill="#120e0b" stroke="rgba(196,80,26,0.3)" stroke-width="1"/>
-            <rect x="0" y="0" width="1120" height="32" fill="#1f1814" rx="4 4 0 0"/>
+            <rect x="0" y="0" width="1120" height="32" fill="#1f1814" rx="4"/>
             <text x="20" y="21" font-family="'Playfair Display', Georgia, serif" font-size="14" font-weight="700" fill="#faf6f0">GRANULAR SYNTHESIS &amp; RECONCILIATION CONTRACT</text>
             <g transform="translate(30, 50)">
               <text x="0" y="20" font-size="13" font-weight="700" fill="#C4501A">1. Item-Level SHA-256 Hashing</text>

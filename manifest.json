@@ -1919,11 +1919,11 @@
     }
   ],
   "summary": {
-    "total": 57,
+    "total": 58,
     "health_error": 0,
     "deprecated": 0,
-    "active": 56,
-    "health_good": 54,
+    "active": 57,
+    "health_good": 55,
     "health_warn": 1
   },
   "timestamp": "2026-10-04T18:35:00.000Z",
