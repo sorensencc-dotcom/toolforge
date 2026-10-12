@@ -17,13 +17,13 @@ Operator authorized candidate implementation and synthetic whole-stack rehearsal
 | Evidence | Latest result | Scope |
 | --- | --- | --- |
 | `timeout 60s npm --prefix skills/research-store test` | 28/28 pass, zero skips | Unit contracts, migration/schema equality, and actual CLI/MCP stdio through loopback fake HTTP services |
-| `timeout 60s npm --prefix skills/research-store run test:live` | All 33 SQL assertions pass, plus completion/cleanup checks | PostgreSQL 17.11 role/RLS and atomic-write behavior on dev/UAT |
+| `timeout 180s npm --prefix skills/research-store run test:live` | 2/2 pass | PostgreSQL 17.11 role/RLS and atomic-write behavior on dev/UAT, SECURITY DEFINER negative control, and synthetic enhancement recovery rehearsal |
 | `timeout 180s npm --prefix skills/research-store run test:uat` | Real API acceptance passes | Signed Supabase Auth users, REST, sync CLI, all three MCP tools, and cleanup; synthetic embeddings |
 | Dev/UAT migration | Applied 20261011000124; subsequent dry-run reports up to date | Persistent public research schema, extension, grants, RLS, and RPCs |
 | SECURITY DEFINER negative control | Expected cross-project-search failure reproduced | Live isolation test detects original defect |
-| Root `timeout 60s npm test` | 157 pass, 7 fail, zero skips | Repository baseline remains red; skill suite does not establish repository-wide readiness |
+| Root `timeout 90s npm test` | 232 pass, 1 skipped, zero fail | Historical dependency/setup failures are not active in current origin/main after fresh `npm install --ignore-scripts --legacy-peer-deps` |
 
-Live SQL fixtures and isolated test schema roll back. Persistent dev/UAT migration remains installed, with two reserved synthetic baseline documents. Real API tests use actual signed Supabase users and delete run-owned users/claims afterward. Embeddings remain deterministic loopback fixtures. No paid embedding calls, real research uploads, commits, pushes, or production operations occurred. A genuinely signed expired-token API test and enhancement-migration recovery rehearsal remain pending.
+Live SQL fixtures and isolated test schemas roll back. Persistent dev/UAT migration remains installed, with two reserved synthetic baseline documents. Real API tests use actual signed Supabase users and delete run-owned users/claims afterward. Embeddings remain deterministic loopback fixtures. No paid embedding calls, real research uploads, commits, pushes, or production operations occurred. A genuinely signed expired-token API test remains pending because no safe signing material is available in the sandbox and lowering shared dev/UAT Auth token lifetime would be a project configuration mutation requiring separate approval.
 
 Installed versions for rehearsal: Node 24.18.0; MCP SDK 1.32.1; Supabase JS 2.117.3; OpenAI SDK 4.104.0; js-yaml 4.3.2. Record/rescope any dependency change before rollout reproduction.
 
@@ -52,6 +52,24 @@ Normal security gates pass and wiki gate skips unchanged inputs. Repository
 documentation validation passes. Governance CI passes all five jobs on run
 38255482501, including Graft freshness and skill docs compliance. Scoped checks
 do not establish repository-wide rollout readiness.
+
+Dev/UAT continuation (2026-10-12): latest `origin/main` at 2b7d9480 was checked
+out in isolated sandbox `C:\dev\dev-sandbox\research-store-124-dev-uat`; dirty
+canonical checkout and existing worktrees were not modified. Repository preflight
+passed for the sandbox branch. Fresh root install needed
+`npm install --ignore-scripts --legacy-peer-deps` because current `vite@8` and
+`@vitejs/plugin-react@4` peer ranges conflict under strict npm resolution. After
+that setup, root `timeout 90s npm test` passed 232 tests with one optional
+external PDF fixture skipped. `timeout 60s npm --prefix skills/research-store
+test` passed 28/28. Sandbox Supabase CLI link was refreshed to dev/UAT
+`bhezixgmkhpndmezgsxk`. Serial live SQL `test:live` now runs both the original
+33 SQL assertions and a transaction-scoped enhancement recovery rehearsal:
+synthetic failed DDL rolls back, benign enhancement applies, fixture schemas are
+dropped, and the baseline migration reruns in a second isolated schema. Real
+dev/UAT `test:uat` passed again through Auth, REST, sync CLI, MCP tools, cleanup,
+and retained only the two synthetic baseline documents. Real embedding
+provider/quality remains unrun pending separate egress/cost approval; production
+remains untouched.
 
 ## Review failures and regression gates
 
@@ -92,9 +110,9 @@ Operator selected project `bhezixgmkhpndmezgsxk` as persistent dev/UAT and stagi
 - [x] Inspect dev/UAT schema and migration history; verify project ref before every remote write. Fail closed on collisions or unexpected existing state.
 - [x] Apply versioned persistent migrations to dev/UAT; verify public-schema/PostgREST exposure, grants, and RLS without resetting shared schema.
 - [x] Provision dedicated signed CIC, RewriteLabs, and admin test users using trusted authorization claims; verify user-editable metadata cannot grant project/admin access.
-- [ ] Run sync CLI and all three MCP tools through real Supabase APIs with synthetic exports. Verify isolation, missing/expired/forged JWT denial, repeat ingest, metadata changes, shrinking/empty content, claim invalidation, and failure atomicity.
+- [ ] Run sync CLI and all three MCP tools through real Supabase APIs with synthetic exports. Verify isolation, missing/forged JWT denial, repeat ingest, metadata changes, shrinking/empty content, claim invalidation, and failure atomicity. Genuinely signed expired-token denial still needs safe signing material or explicit approval to mutate dev/UAT Auth token lifetime temporarily.
 - [ ] Verify approved real embedding provider with synthetic input; distinguish deterministic fixture correctness from provider availability and retrieval quality.
-- [ ] Rehearse an enhancement migration and recovery, then rerun scoped, live SQL, and real API checks. Record evidence and remaining root-suite failures before production promotion.
+- [x] Rehearse an enhancement migration and recovery, then rerun scoped, live SQL, and real API checks. Record evidence and remaining root-suite failures before production promotion.
 
 Real API acceptance proves isolation, anonymous/forged-token denial, repeat ingest, metadata edits, shrinking/empty content, claim invalidation, failure atomicity, and all tools. Local startup tests reject missing/expired JWTs. Do not equate a tampered expiration payload with a genuinely signed expired token; that remaining API subcase keeps the combined JWT gate open.
 
@@ -106,12 +124,12 @@ Production CLI preparation completed under explicit operator login/init/link req
 - [x] Drive actual sync CLI and MCP stdio with synthetic Git/Drive exports and SDK-compatible fake embedding/HTTP services; verify failures, repeat ingest, metadata edits, shrinking content, authorization, pagination, and child shutdown.
 - [x] Verify test-database RLS/views/RPC, chunk/claim integrity, idempotency, and rollback using 30 SQL assertions and negative control.
 - [x] Reproduce installation and scoped suites in clean delivery checkout; record exact dependency versions, docs validation, whitespace checks, and review outcome.
-- [ ] Resolve seven root baseline failures and rerun repository suite; do not treat focused skill pass as root pass.
+- [x] Resolve seven root baseline failures and rerun repository suite; do not treat focused skill pass as root pass. Current origin/main root suite passes after fresh dependency install with legacy peer resolution; the historical failures are not active.
 - [x] On provisioned dev/UAT project, verify persistent migration history and intended public-schema/PostgREST exposure. Existing table/type collisions must fail closed; never reset shared schema.
-- [ ] Exercise actual signed CIC, RewriteLabs, and admin JWTs through Supabase HTTP API and all three MCP tools; verify missing/expired/forged tokens and foreign UUID denial. SQL role simulation and fake issuer do not satisfy this gate.
+- [ ] Exercise actual signed CIC, RewriteLabs, and admin JWTs through Supabase HTTP API and all three MCP tools; verify missing/forged tokens and foreign UUID denial. Signed CIC, RewriteLabs, admin, and hostile-metadata users pass; genuinely signed expired-token denial remains pending. SQL role simulation and fake issuer do not satisfy that subcase.
 - [x] Run controlled writer ingestion through real Supabase client/API using synthetic exports. Verify metadata edits, shrinking/empty body, claim review state, and failed-write snapshot preservation.
 - [ ] Approve and verify real embedding provider/model/dimension with synthetic input and explicit egress approval; fake provider cannot establish external availability or retrieval quality.
-- [ ] Add explicit scoped suite commands to approved delivery/CI path, obtain production target/configuration approval, and verify a reversible migration/delivery procedure before rollout. Candidate status remains until gates pass.
+- [ ] Add explicit scoped suite commands to approved delivery/CI path, obtain production target/configuration approval, and verify a reversible migration/delivery procedure before rollout. Scoped live recovery rehearsal now passes; production target/configuration approval remains separate. Candidate status remains until signed-expired-token and real-embedding gates pass.
 
 ## Execution rulings
 
