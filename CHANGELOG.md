@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.92.0
+Date: 2026-10-12
+
+### Changes
+- 4f1e0e3 - feat(skills): bound the kb-sync triage digest (#129) (Chris Sorensen)
+
 ## Version 2.91.0
 Date: 2026-10-12
 
