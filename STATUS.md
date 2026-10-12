@@ -15,34 +15,6 @@
 
 - Clean delivery (2026-10-12): operator authorized codex/research-store-delivery based on verified origin/main ae190062, isolated at C:\dev\dev-sandbox\research-store-delivery. Commit b5d877f8 pushed and remote hash verified. Transfers only issue 124 implementation, YAML-auditor correction, and slop subprocess hardening. Retains main's existing reviewed import exemptions and hostile-input tests. Original branch and generated audit changes preserved; inherited wiki changes excluded. Fresh installs reproduce recorded dependencies; 28 research-store, three auditor, and 55 slop tests pass, as do build, TypeScript, docs validation, focused audits, and scoped whitespace checks. Normal security gate passes; wiki gate skips unchanged pages. Governance CI run 38255482501 passes all five jobs, including Graft graph freshness and skill docs compliance. No live-service reruns, credential/link-state transfer, or production changes; remaining rollout gates stay open.
 - Dev/UAT continuation (2026-10-12): latest origin/main 2b7d9480 checked out in isolated sandbox C:\dev\dev-sandbox\research-store-124-dev-uat on codex/research-store-124-dev-uat; dirty canonical checkout and existing worktrees preserved. Repository preflight passed. Fresh root install needed `npm install --ignore-scripts --legacy-peer-deps` because current vite/plugin-react peers conflict under strict npm resolution. Root `timeout 90s npm test` passed 232 tests with one optional external PDF fixture skipped, so the historical seven root failures are not active. Focused `timeout 60s npm --prefix skills/research-store test` passed 28/28. Sandbox Supabase link refreshed to dev/UAT bhezixgmkhpndmezgsxk. Serial `timeout 180s npm --prefix skills/research-store run test:live` passed the SECURITY DEFINER negative control, 33 SQL assertions, and new transaction-scoped enhancement recovery rehearsal with synthetic schema cleanup and rerun migration proof. `timeout 210s npm --prefix skills/research-store run test:uat` passed real Auth/REST/sync/MCP acceptance and cleaned run-owned users/claims/local fixtures. Real embedding provider/quality not run; needs separate egress/cost approval. Genuinely signed expired-token denial remains blocked on safe signing material or explicit approval to temporarily mutate dev/UAT Auth token lifetime. Production untouched.
-- Prior branch verification: 28 research-store tests, three auditor tests, and 53 slop-grader tests pass; build, TypeScript check, and security audit pass. Original push failed on missing wiki publisher. Current main includes publisher; clean delivery does not modify wiki pages or publish scripts. Production and live UAT unchanged.
-- Operator authorized synthetic whole-stack implementation/testing and requested plan changes for failures. Parser, embedding/Supabase clients, sync CLI, MCP handlers, candidate registration, and operator docs now exist in isolated branch.
-- Latest verification: 28/28 local tests pass with zero skips; live Supabase harness passes 33 SQL assertions plus completion/cleanup checks and SECURITY DEFINER negative control. Persistent dev/UAT migration 20261011000124 applied; subsequent dry-run reports migration history up to date. Production untouched.
-- Fresh review identified BOM project misrouting, claim-evidence retargeting, validation/read race, and fake similarity false positives. All four reproduced and fixed with red-to-green coverage. Interrupted claim fix resumed after approval-service usage limit cleared.
-- Root baseline: 157/164 pass, 7 fail. Failures: src/api/providers.test.js, src/api/server.test.js, toolforge-pdf/ingest.test.js (root dependencies absent); src/governance.test.js:28 (instruction assertion); src/providers/model-selection.test.js:6,:16,:21 (MODEL_SELECTION_REJECTED). These remain rollout gates.
-- Plan now records current evidence, failure-to-regression matrix, scoped execution rulings, and separate clean-delivery, root-suite, real JWT/PostgREST, real writer/API, embedding, CI, and production gates.
-- Docs/whitespace validation: canonical skill documentation validator and git diff --check pass.
-- Production CLI preparation: operator explicitly requested Supabase login/init/link to vbyfacretnyeptlilrfm. Browser login completed and separate skills/research-store/environments/production workdir initialized/linked. Repository-root workdir still links to test project bhezixgmkhpndmezgsxk. Only CLI binding prepared; runtime endpoint credentials, production migrations, and activation remain pending.
-- Dev/UAT decision: retain bhezixgmkhpndmezgsxk as persistent development/UAT/staging; complete real-service implementation and acceptance there before production. Refresh content on demand, optionally weekly, never as a required daily mirror. Keep schema changes coupled to application revision, not refresh cadence. No scheduler created.
-- Plan/operator guidance now separate synthetic baseline, dedicated identities, run-owned cleanup, real JWT/API acceptance, enhancement/recovery rehearsal, and code/migration promotion from staging content. Production remains separately gated.
-- Real dev/UAT Auth/REST acceptance passes through sync CLI and all three MCP tools. Dedicated signed CIC/RewriteLabs/admin/hostile-metadata users verify project/admin isolation and reader-write denial. Synthetic baseline verifies repeat ingest, metadata/shrink/empty updates, claim invalidation, failed-write rollback, and provider-failure preservation. Run-owned users/claims cleaned up; two synthetic baseline documents retained. Added on-demand test:uat, no scheduler.
-- Standard Auth metadata gap reproduced red, then corrected policies to accept trusted app_metadata.project while rejecting user_metadata access claims. Initial migration matches transaction-tested schema under packaging assertion.
-- Delivery: operator requested scoped commit on codex/research-store-plan. Rebuilt local Graft wiring graph after confirming absent worktree index caused unrelated home-index fallback; graph check now passes and research-store symbols resolve. Graph remains ignored local cache; deep semantic summaries not built.
-- Next action: obtain explicit approval for real embedding egress/quality and either provide safe JWT signing material or approve temporary dev/UAT Auth-token-lifetime mutation for the genuinely signed expired-token API subcase. No real-source upload or production deployment performed.
-
-- Goal: prepare reviewable implementation plan for hybrid research store and MCP retrieval.
-- Completed: verified live issue artifacts, Toolforge origin, repository instructions, and related skill/MCP patterns; saved docs/meta/plans/2026-10-11-research-store-hybrid-supabase-mcp.md.
-- Proposed decisions: authenticated JWT reads, fixed 1536-dimensional embeddings, and Drive-export Markdown ingestion. Require human plan review before implementation.
-- Verification: repository preflight passed on codex/research-store-plan; plan self-review maps six findings to four tasks with explicit regression and live acceptance gates.
-- Blockers: execution approval, disposable database/Supabase provisioning, and confirmation of proposed auth/Drive/dimension scope.
-- Tests added: 21 test cases across skills/research-store/tests/{schema,sync,mcp,package}.test.mjs. Cover access isolation, chunk replacement/rollback, embedding dimensions, frontmatter validation, dry-run side effects, CLI failure status, reader credential startup, and dependency registration.
-- Test evidence: all four files pass node --check. Bounded Node 24.18.0 suite discovered 21 tests; all 21 fail because source modules, package metadata, and database fixture do not yet exist. No assertions against implemented runtime behavior or live database executed.
-- Next action: implement approved contracts and disposable database fixture, then verify red-to-green behavior and live Supabase authorization separately.
-- Evidence boundary: tests-only addition authorized by operator; implementation, migrations, source uploads, and deployment remain pending.
-- Supabase setup: operator authorized login, init, and link. CLI 2.120.0 authenticated successfully; isolated checkout initialized and linked to project bhezixgmkhpndmezgsxk. No migrations applied or database tests run; project disposability and existing data remain unverified.
-- Live database checkpoint: operator confirmed bhezixgmkhpndmezgsxk is test database and authorized further tests. Added proposed corrected SQL schema and linked-CLI transaction harness; 29 live SQL assertions pass on PostgreSQL 17.11. Negative control using SECURITY DEFINER fails specifically on cross-project search, and corrected SECURITY INVOKER version passes afterward.
-- Verified: table/view/RPC project isolation, anonymous and reader-write denial, trusted versus user-editable admin metadata, dimension rejection, relational project integrity, repeat-run counts/IDs, stale-chunk removal, claim detachment, empty replacements, and atomic rollback of failed writes. All schema/extension/fixture changes rolled back; final public research-table count remains 0 and pgvector remains absent.
-- Current suite: 19 Node tests, 1 live SQL harness passes and 18 fail on absent JavaScript/package files. Three placeholder database tests were replaced by one runnable harness containing 29 SQL assertions plus completion/cleanup checks. Tests are not all green; JWT/PostgREST, MCP stdio, sync execution, and embedding-provider wiring remain unverified. No persistent migration or production operation performed.
 
 ## KB-Skills repo triage and digest (2026-10-11)
 
@@ -66,27 +38,51 @@ A push that changes `wiki/` or the publish scripts runs `scripts/publish-repo-wi
 
 ---
 
-## TRM card triage on a clean branch (2026-10-11)
+## TRM Mobile Ingress Triage & Backlog UI (2026-10-11)
 
 ### Active goal
 
-Land mobile card triage from `origin/main` without reopening pull request 116.
+Eliminate the triage black hole by providing autonomous intent triage with YAGNI evaluation, reversibility gates, interactive ICF dashboard visibility, and 1-click GitHub Issue promotion.
 
 ### Completed work
 
-- Added `modules/triage/card-triage-engine.mjs`, `skills/trm-triage/`, and ingress wiring on `feat/trm-card-triage`.
-- Classifier returns `IRREVERSIBLE` for publish, truncate, destroy, delete, drop, and push, and `BOUNDED` for scratch, `tmp`, and `.tmp` paths.
-- `detectCompletedTask` refuses card ids that leave the completed-tasks directory and matches a prior completion by intent.
-- `applySmallModelTriage` keeps an operator intent and priority, and rejects model priorities outside `P1`, `P2`, and `P3`.
-
-### Verification
-
-- `node --test tests/card-triage-engine.test.mjs tests/trm-triage-skill.test.mjs`
-- `node --test tests/trm-ingress-routing.test.mjs` for the new triage cases
+- **Card Triage Engine (`modules/triage/card-triage-engine.mjs`)**: Implemented deterministic task completion checking (`detectCompletedTask`), speculative feature filtering (`evaluateYagni`), action reversibility classification (`classifyReversibility`), and standardized GitHub issue drafting (`draftIssuePayload`). Verified with unit tests.
+- **Backend API Endpoints (`icf/src/server.mjs`)**: Added `/api/reporting/trm-backlog` (discovers cards across `.harness/tasks/pending` and `.harness/tasks/archive`), `/api/reporting/trm-backlog/triage-card` (dynamic status and priority updates), and `/api/reporting/trm-backlog/promote` (issue creation via `gh issue create` or stub fallback).
+- **Interactive Dashboard UI (`dashboard.html`)**: Added Tab 01 "Action Card Backlog" quick summary widget with live stage counts; Tab 04 "TRM Action Backlog & Lifecycle Triage" interactive panel with filters, inline status/priority dropdowns, and modal dialog (`#promoteModal`) for 1-click GitHub Issue promotion.
+- **Toolforge Skill Packaging (`skills/trm-triage/`)**: Created standalone `skills/trm-triage/` with runner `src/index.mjs`, `skill.json`, and documentation conforming to Skill Operator Guide line budgets (<100 lines for README.md, <150 lines for SKILL.md). Registered in root `manifest.json`.
+- **Ingress Watcher Hardening (`scripts/trm-ingress-watcher.mjs`)**: Fixed `.gdoc` synthetic fallback bypass, stripped prompt noise, and prevented priority overwrites.
 
 ### Next action
 
-Open a pull request from `feat/trm-card-triage` when you want this reviewed. Pull request 116 stays closed.
+Operate the dashboard backlog surface and run periodic triage passes via `node skills/trm-triage/src/index.mjs`.
+
+---
+
+## Stateless MCP spec revision 8 (2026-10-11)
+
+### Active goal
+
+Keep the empty-inventory edge checks, the TypeScript wire table, and the `send_mutation` example open. The Python ledger rows, the retry cap, the TTL comparison, and the cancel path are recorded. The spec status is `Ledger rows recorded, revision 8`.
+
+### Completed work
+
+- Revision 6 scopes the empty-inventory edge. `GET /mcp` is HTTP 405 with `Allow: POST` and an empty body. A handshake-era `POST /mcp` is HTTP 400 and JSON-RPC `-32022` with `data.supported` and `data.requested`. While the inventory has rows, a legacy `initialize` POST still reaches the process.
+- The task row and the stored result are one record, updated in one commit. `tasks/get` and an idempotent retry read that record. A pre-commit retry that still returns `IN_PROGRESS` and the same task id is not a second execution.
+- A retryable `FAILED` row may re-enter `IN_PROGRESS` at most 3 times. The next retry stores `COMPLETED` with `data.reason` `idempotency_retry_exhausted`. `COMPLETED` retention, including stored errors, starts at 24 hours. A body-less crashed `IN_PROGRESS` row expires at 15 minutes. A stored `resultType: "task"` does not. Revision 7 exercised the cap with `flaky_note`.
+- Callers resend `-32602` only for `idempotency_in_progress`, after `data.retryAfterSeconds`. The sample sends 5. A loopback daemon shares one idempotency namespace by design.
+- `docs/meta/specs/examples/stateless-mcp-python.py` now contains the middleware. Default mode is loopback `127.0.0.1:8765` with `local:kb-sync`. `auth` mode is `127.0.0.1:8767` with `StubVerifier`.
+- Ledger run on mcp 2.3.0, 2026-10-11: two `start_job` calls returned task `f52a9590-965a-459f-84ab-427a486a6edb` with `executions` 1; the post-completion retry was `resultType` `complete`; the fingerprint mismatch was HTTP 400 `-32602`; the in-progress hold was HTTP 400 with `retryAfterSeconds` 5 and the finished call had `executions` 1; bearer `subject-a` read the task and bearer `subject-b` got `handle_owner_mismatch`. Both ports were closed afterward.
+- The future CI job name is `rewrite-mcp-mcp-package`. It is not in `.github/workflows/`. Gate 3.1 is not done. The TypeScript section 8 table is still unrun.
+
+### Completed work (revision 7 and 8)
+
+- Revision 7, in the sample: `finish_job` rejects another subject's task with `handle_owner_mismatch`. An unknown `taskId` is rejected before insert. `flaky_note` ran 4 times (first call plus 3 re-entries), then two retries returned `idempotency_retry_exhausted`. `boom_note` does not reach `_fail`: mcp 2.3.0 returns HTTP 200 `isError: true`, and the ledger stores that as `COMPLETED`.
+- Revision 8 TTL run, mcp 2.3.0, `IN_PROGRESS_TTL_SECONDS` left at 900. Rows were seeded with `started_at`. The run did not wait 900 seconds. A fresh body-less row stayed `IN_PROGRESS` and returned `idempotency_in_progress`. A body-less row 901 seconds old ran `flaky_note` once and ended `FAILED` with `retries` 1. A stored `resultType: "task"` of the same age was returned unchanged.
+- Revision 8 cancel run: closing the socket of an in-flight `hold_note` released the row. The repeat ran once (`executions` 1, `retries` 1) and ended `COMPLETED`. Port 8765 was closed afterward.
+
+### Next action
+
+Run the section 8 wire table against `@modelcontextprotocol/server` `createMcpHandler` before gate 3 starts. Add `rewrite-mcp-mcp-package` only as part of the rewrite-mcp package change. The gate 5 edge rows stay outside the SDK process. `send_mutation` is still an unexecuted example.
 
 ---
 

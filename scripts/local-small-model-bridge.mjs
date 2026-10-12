@@ -42,7 +42,7 @@ export function validateLoopbackUrl(endpoint, baseUrl) {
  */
 export async function queryOllama(endpoint, payload, options = {}) {
   const baseUrl = options.baseUrl || DEFAULT_OLLAMA_BASE_URL;
-  const timeoutMs = options.timeoutMs || 8000;
+  const timeoutMs = options.timeoutMs || 30000;
   const url = validateLoopbackUrl(endpoint, baseUrl);
 
   return new Promise((resolve, reject) => {

@@ -6,6 +6,7 @@ import { TRMSourceResolver } from '../modules/wiki/trm-source-resolver.mjs';
 import { generateMentalModels } from '../modules/wiki/mental-model-generator.mjs';
 import { verifyTopicGaps, formatWhyEvidenceBlock } from '../modules/wiki/why-verifier.mjs';
 import { appendToWikiLog } from './lib/wiki-log-append.mjs';
+import { replaceGate } from './nlm-pack-replace-gate.mjs';
 
 const COLOR = { red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', cyan: '\x1b[36m', reset: '\x1b[0m' };
 const TAG = '[TRM-CLOSED-LOOP]';
@@ -20,7 +21,8 @@ const sha256 = (val) => `sha256:${crypto.createHash('sha256').update(val, 'utf8'
 export async function runClosedLoopResearch(options = {}) {
   const repoRoot = path.resolve(options.repoRoot || '.');
   const dryRun = options.dryRun ?? true;
-  const notebookId = options.notebookId || process.env.NOTEBOOK_ID || 'mock-notebook-id-1234';
+  // Core Software default: Agent Harness (359b346c-6af7-4ba3-baef-b985c9e6e1af)
+  const notebookId = options.notebookId || process.env.NOTEBOOK_ID || '359b346c-6af7-4ba3-baef-b985c9e6e1af';
   const nlmCli = options.nlmCli || process.env.NOTEBOOKLM_BIN || 'notebooklm';
 
   logInfo('Initializing Topic Research Mining (TRM) Closed-Loop Orchestrator (v2)...');
@@ -194,12 +196,15 @@ generated_at: ${new Date().toISOString()}
   fs.writeFileSync(packPath, consolidatedPack, 'utf8');
   logInfo(`✓ Knowledge pack rebuilt (${(fs.statSync(packPath).size / 1024).toFixed(2)} KB)`);
 
-  const uploadPackCmd = `${nlmCli} source upload --notebook-id="${notebookId}" --file="${packPath}"`;
-  if (!dryRun) {
-    execSync(uploadPackCmd, { stdio: 'inherit' });
-  } else {
-    logInfo(`[DRY-RUN] Command: ${uploadPackCmd}`);
-  }
+  logInfo(`Routing knowledge pack through replaceGate (Target Notebook: ${notebookId})...`);
+  await replaceGate({
+    packFile: packPath,
+    targetNbId: notebookId,
+    category: options.category || 'repo-knowledge-pack',
+    nlmCli,
+    dryRun,
+    repoRoot
+  });
 
   logInfo('\n================================================================================');
   logInfo('🎉 SUCCESS: Closed-Loop Topic Research Mining complete! Workspace & Mental Models in sync.');

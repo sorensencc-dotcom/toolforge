@@ -17,7 +17,7 @@ Persistent memory system for long-term context across sessions. Individual memor
 - **Retro freshness enforcement (2026-09-27)**: Added `.context/retros/2026-09-27-1.json` for the 2026-09-14..2026-09-27 window and wired `.github/workflows/retro-full-audit.yml` to fail when the newest dated retro is older than 7 days.
 - **Ironbots / ICF / Ponytail sync (2026-09-27)**: `STATUS.md` now carries Ironbots autonomous fleet work, ICF standalone migration, and Node 24 ponytail refactors; keep these synchronized in memory during session-end updates.
 
-- **Session audit reconciliation (2026-09-20)**: Fast-forwarded `main` to `736f738` (`v2.66.3`); canonical retro validation passes 36/36, but no new retro exists after `2026-08-16-1.json`. The daily workflow validates and reports existing files only. Next session must capture and commit a bounded canonical retro.
+- **Session audit reconciliation (2026-09-20)**: Fast-forwarded `main` to `736f738` (`v2.66.3`); canonical retro validation passes 36/36, (correction 2026-10-11: retros `2026-09-14-1.json` through `2026-10-11-1.json` exist; the earlier "none after `2026-08-16-1.json`" claim was wrong). The daily workflow validates and reports existing files only. Next session must capture and commit a bounded canonical retro.
 - **Test-ratio remediation tracking (2026-09-20)**: The 0.07% test LOC ratio in `2026-08-16-1.json` is a commit-diff metric, not repo-wide test health. Treat it as an action signal: record test-file changes and assertion-only coverage separately in the next retro instead of inferring coverage from insertion ratio.
 - **Test-ratio investigation (2026-09-20)**: `scripts/investigate-retro-test-ratio.ps1` shows the 2026-08-09..16 window had 566 test LOC insertions across 9 changed test files and 3 commits with test changes, while the repository had 44 test files. The recorded 0.07% ratio is therefore not evidence of absent testing; it reflects the retro's LOC denominator or classification and needs metric recalculation before trend use.
 
@@ -67,12 +67,12 @@ Persistent memory system for long-term context across sessions. Individual memor
 
 ## Preferences & Feedback
 
-- **Load-Bearing Memory**: `memory/MEMORY.md` must be maintained across sessions as primary project memory (`CLAUDE.md:10`).
-  - *Why*: session start loads this file for context; a stale index means every session re-derives project state from scratch and re-litigates settled decisions.
-  - *How to apply*: update `## Current Work` and `## Learnings` at session end when scope changes; treat absence of a recent edit spanning active work as a defect (same failure mode as a stale CHANGELOG).
+- **Load-Bearing Memory**: `memory/MEMORY.md` must be maintained across sessions as primary project memory.
+  - **Why**: session start loads this file for context; a stale index means every session re-derives project state from scratch and re-litigates settled decisions.
+  - **How to apply**: update `## Current Work` and `## Learnings` at session end when scope changes; treat absence of a recent edit spanning active work as a defect (same failure mode as a stale CHANGELOG).
 - **LOC Metrics Hygiene**: Always exclude lockfiles (`package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`) from line-of-code metric trends to prevent dependency bump distortion.
-  - *Why*: a single `npm install` can add 10k+ lockfile lines, swamping authored-code signal — one 12.7k-LOC resync once ate half a week's headline metric.
-  - *How to apply*: run `scripts/loc-filtered.ps1` (excludes lockfiles and `chore(sync):`-tagged commits, reports their churn on a separate line) instead of raw `git diff --shortstat` for any retro or trend number.
+  - **Why**: a single `npm install` can add 10k+ lockfile lines, swamping authored-code signal — one 12.7k-LOC resync once ate half a week's headline metric.
+  - **How to apply**: run `scripts/loc-filtered.ps1` (excludes lockfiles and `chore(sync):`-tagged commits, reports their churn on a separate line) instead of raw `git diff --shortstat` for any retro or trend number.
 
 ## Archive
 

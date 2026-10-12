@@ -204,7 +204,7 @@ Local exemptions must use audit-trail directives: `<!-- heuristics-disable <rule
 ## Graft — repo context graph
 
 This repo is indexed in `graft/`: small linked markdown nodes that explain each
-system and carry exact file:line spans, kept in sync with the code through git.
+system and carry exact file:line spans, built locally with `graft build` (`graft/` is gitignored, not committed).
 
 For ANY task here — understanding how something works, finding where code lives,
 or scoping a change — get context from the graph before grepping or opening
@@ -275,6 +275,15 @@ All other locations are forbidden:
 - Sync artifacts / node_modules / backups
 
 Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on every commit — verified 2026-08-09 and 2026-08-30 by running `pre-commit.ps1` directly (force-staged a `roadmap.md` under `.claude/worktrees/`, `Test-RoadmapLocations` wrote "ROADMAP.md creation blocked outside allowed locations" and the hook exited 1). Until 2026-10-04 the installed `.git/hooks/pre-commit` shim did not call `pre-commit.ps1` (an IronLedger-only shim had overwritten it), so Gate 2 did not run on real commits; the canonical shim `CIC-GOVERNANCE/scripts/pre-commit-shim.sh` now chains IronLedger, secret-scan, and `pre-commit.ps1`, and an end-to-end block via `.git/hooks/pre-commit` was verified 2026-10-04. The hook lives in `.git/hooks/`, which Git does not track: a fresh clone has only the `*.sample` files until the hooks are installed locally, so this gate cannot be confirmed from the committed tree alone — inspect `.git/hooks/pre-commit.ps1` in a configured checkout, or run it against a staged test file, to corroborate. Hook is gitignore-scoped: `.claude/worktrees/` files must be `git add -f`'d to even reach the gate, since the dir itself is gitignored. A CI job (`governance.yml` `roadmap-location`) now scans tracked files for roadmap-location violations; separately, `.github/workflows/retro-full-audit.yml` does run on a `schedule:` trigger (added 2026-08-03 as `cron: '30 7 * * 5'` Fridays; changed to daily `cron: '30 7 * * *'` on 2026-08-26 — verify current value at `.github/workflows/retro-full-audit.yml:5` directly, since history rewrites can orphan cited commit hashes) but doesn't check roadmap placement; `docs/meta/roadmap-consolidation-design.md` does not exist in this checkout. CI enforcement of roadmap location: `governance.yml` job `roadmap-location` (added 2026-10-04) fails on tracked ROADMAP.md outside allowed roots.
+
+## ICF Dashboard Canonical Surface Governance
+
+The canonical production dashboard is strictly located at `icf/dashboard/index.html` (served on port 8080 by `icf/src/server.mjs`).
+
+**Immutable Rules:**
+1. **Never copy root `dashboard.html` over `icf/dashboard/index.html`**: Root `dashboard.html` is a legacy single-file snapshot. Copying it clobbers the active Warm Parchment / Dark Forge dual-theme design system, `.command-header`, `.tab-strip`, and action execution engine.
+2. **Edits to dashboard UI belong in `icf/dashboard/index.html`**: All operational UI modifications, new telemetry cards, and action dispatch controls must be made directly to `icf/dashboard/index.html`.
+3. **CI / Test Invariant**: Automated test `tests/dashboard-trm-backlog-ui.test.mjs` verifies that `icf/dashboard/index.html` maintains all required UI elements and preserves the Warm Parchment theme switcher.
 
 ## gstack
 
@@ -429,7 +438,7 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 
 **Compliance Enforced By:**
 
-- CI governance check: validates line limits + detects duplicate sections
+- CI governance check: PLANNED — no job in `.github/workflows/` validates line limits or duplicate sections as of 2026-10-11
 - Caveman review: flags narrative in Input/Output schemas, Troubleshooting outside USAGE.md
 - Toolforge submission validator: PLANNED (Phase 8 Wave D deliverable) — NOT wired into CI as of 2026-09-06. No `.github/workflows/` job invokes it, and `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains `TEMPLATE FOR EXECUTION` (unsigned). Not an active gate until Wave D is signed.
 
@@ -542,10 +551,10 @@ When the correct project directory is unclear, especially for a new project, do 
 ### Active Multi-Agent Tasks
 | Status | Priority | Task Description |
 | :---: | :---: | :--- |
-| ⏳ `[ ]` | **P1** | **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`. |
+| ⏳ `[ ]` | **P1** | **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `_status-feed/claude-memory/wave-d-full-gate-requirement.md`. |
 | ⏳ `[ ]` | **P2** | **[P2] Non-deterministic skillpack generators** (created 2026-09-02) — `SKILLPACK-VALIDATION.md` (~6 lines), `SKILLPACK-DEPENDENCY-GRAPH.md` (~65 lines), and `audit/COWORK-*.md` (~100 lines each) reorder their warning/log lines on every regen, so each pre-commit run that touches `skills/` or `utilities/` produces churn. Separate defect from the timestamp-clobber + LF-flip bug fixed 2026-09-02 in `toolforgeMetadataGenerator.ps1` / `toolforgeSkillValidator.ps1` (commits `bc5f02ac`, `935bdc5b`). Fix: stable sort (by skill id / finding key) before emit in `toolforgeDependencyGraph.ps1`, the validator's finding list, and the Cowork sync-report writer. Deferred — cosmetic churn, no data loss. |
 | ⏳ `[ ]` | **P2** | **[P2] TorqueQuery CIC observability hooks** (deferred, low priority) — TorqueQuery determinism verified 2026-07-17. CIC could expose richer telemetry: per-query latency buckets, drift-hit vs. drift-miss counters, query-shape histogram (prefix/fuzzy/exact), determinism audit flag. Adapter-side only, no TorqueQuery core changes. Defer until CIC dashboard audit surfaces real observability gap. See discussion 2026-07-18. |
-| ⏳ `[ ]` | **P2** | **[P2] xberg native build-out** (low priority) — `toolforge-pdf` plugin ran on a mock stub (`xberg-mock.exe`) that returned placeholder text regardless of input; swapped to real `pdf-parse` text-layer extraction 2026-07-16. Still open: OCR fallback for scanned/image PDFs (needs page-rasterization — `canvas`/native build tooling on Windows or a WASM-only path), and whether to compile a standalone cross-language binary if reused outside Node. Deferred until real need surfaces (e.g. scanned document in the CIC ingestion pipeline, or commercial research-business reuse outside this repo). See `memory/decision-xberg-real-extraction-2026-07-16.md`. |
+| ⏳ `[ ]` | **P2** | **[P2] xberg native build-out** (low priority) — `toolforge-pdf` plugin ran on a mock stub (`xberg-mock.exe`) that returned placeholder text regardless of input; swapped to real `pdf-parse` text-layer extraction 2026-07-16. Still open: OCR fallback for scanned/image PDFs (needs page-rasterization — `canvas`/native build tooling on Windows or a WASM-only path), and whether to compile a standalone cross-language binary if reused outside Node. Deferred until real need surfaces (e.g. scanned document in the CIC ingestion pipeline, or commercial research-business reuse outside this repo). See `_status-feed/claude-memory/decision-xberg-real-extraction-2026-07-16.md`. |
 | ✅ `[x]` | **P1** | **[P1] Skill Health Check Failures (wiki-sync-recovery)** (created 2026-08-30, resolved 2026-08-30) — Automatically logged by toolforgeSkillHealthCheck.ps1. Fixed and verified 100% PASS across all checks in SKILLPACK-RUNTIME-HEALTH.md. |
 | ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-23, resolved 2026-08-23) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). |
 | ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-24, resolved 2026-08-24) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). |
