@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.93.0
+Date: 2026-10-12
+
+### Changes
+- 055cacb - feat(fleet): integrate stateless MCP specs, TRM backlog dashboard, and NLM routing guards (#133) (Chris Sorensen)
+
 ## Version 2.92.3
 Date: 2026-10-12
 
