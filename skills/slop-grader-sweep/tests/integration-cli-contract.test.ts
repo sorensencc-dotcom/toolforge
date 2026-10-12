@@ -9,6 +9,7 @@
 import { describe, it, expect } from 'vitest';
 import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { buildGraderArgs, resolveGraderEntrypoint } from '../src/slop-grader-runner';
 
 const ENTRYPOINT = resolveGraderEntrypoint();
@@ -21,6 +22,20 @@ function runGrader(args: string[]) {
 }
 
 describe('real slop-grader CLI contract', () => {
+  it('treats option-looking and shell-like filenames as data in the real argument parser', () => {
+    for (const file of ['--help', '--provider=foreign.md', 'docs/$(echo injected);&.md', 'docs/a b.md']) {
+      const result = spawnSync(process.execPath, [
+        '--input-type=module', '-e',
+        'const { parseCliArgs } = await import(process.argv[1]); console.log(JSON.stringify(parseCliArgs(process.argv.slice(2))));',
+        pathToFileURL(ENTRYPOINT).href, ...buildGraderArgs(file),
+      ], { encoding: 'utf8', shell: false, windowsHide: true, timeout: 5000 });
+      expect(result.status).toBe(0);
+      const parsed = JSON.parse(result.stdout);
+      expect(parsed.file).toBe(file);
+      expect(parsed.help).toBe(false);
+      expect(parsed.provider).toBe('openrouter');
+    }
+  });
   it('accepts the wrapper rulesets as repeated -r flags', () => {
     const args = buildGraderArgs('unused.md').filter((arg) => arg !== '--json' && arg !== 'unused.md');
 

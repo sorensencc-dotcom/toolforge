@@ -63,6 +63,14 @@ its configured provider and inherit existing environment as before; this is not
 read-only pilot confinement or network isolation. These tests do not authorize
 live grading, provider spending, or production sweeps.
 
+Operator authorized further review/remediation on 2026-10-12. Git uses NUL
+delimiters to preserve spaces, Unicode, quotes, and line breaks. Grader argv
+places `--` before the filename to prevent option injection. Both subprocesses
+set `windowsHide: true`; timeout and failure handling remain active. Offline
+regressions exercise real staged Git paths and the installed grader's parser.
+Executable resolution trusts configured Git PATH, current Node, and installed
+grader dependency. General auditor rules remain active outside reviewed imports.
+
 - **No findings ever appear**: check `OPENROUTER_API_KEY` is set and
   `resolveApiKey('openrouter')` (see `credential-resolver.ts`) resolves
   it — a missing key silently skips grading on both paths by design.

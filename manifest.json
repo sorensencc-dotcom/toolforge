@@ -1,6 +1,20 @@
 {
   "skills": [
     {
+      "name": "research-store",
+      "id": "research-store",
+      "version": "0.1.0",
+      "description": "One-way research indexing and project-scoped MCP retrieval",
+      "runtime": "node",
+      "entrypoint": "skills/research-store/src/mcp-server.mjs",
+      "owner": "soren",
+      "category": "research",
+      "capability": "research.store/read",
+      "status": "candidate",
+      "health": { "canonical": true, "runtime": "unverified", "distributed": false, "overall": "warn" },
+      "dependencies": { "external": ["@modelcontextprotocol/sdk", "@supabase/supabase-js", "openai", "js-yaml"], "internal": [] }
+    },
+    {
       "version": "1.0.0",
       "description": "Two-stage GitHub intake: GitDiagram links for structure, then a size-capped Gitingest digest for model context.",
       "timestamps": {
@@ -1905,12 +1919,12 @@
     }
   ],
   "summary": {
-    "total": 56,
+    "total": 57,
     "health_error": 0,
     "deprecated": 0,
     "active": 56,
     "health_good": 54,
-    "health_warn": 0
+    "health_warn": 1
   },
   "timestamp": "2026-10-04T18:35:00.000Z",
   "version": "1.2.0"

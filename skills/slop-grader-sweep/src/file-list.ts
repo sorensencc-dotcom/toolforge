@@ -14,13 +14,12 @@ function isUnderTrackedRoot(file: string): boolean {
 export function resolveChangedFiles(cwd: string = process.cwd()): string[] {
   const output = execFileSync(
     'git',
-    ['diff', '--name-only', '--diff-filter=ACM', '--cached'],
-    { cwd, encoding: 'utf8', shell: false }
+    ['diff', '--name-only', '--diff-filter=ACM', '--cached', '-z'],
+    { cwd, encoding: 'utf8', shell: false, windowsHide: true }
   ) as unknown as string;
 
   return output
-    .split('\n')
-    .map((line) => line.trim())
+    .split('\0')
     .filter(Boolean)
     .filter((file) => file.endsWith('.md'))
     .filter(isUnderTrackedRoot);

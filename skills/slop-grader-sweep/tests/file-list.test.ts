@@ -20,7 +20,7 @@ describe('resolveChangedFiles', () => {
 
   it('filters staged files to markdown under docs/wiki/specs', () => {
     vi.mocked(execFileSync).mockReturnValue(
-      'docs/meta/specs/foo.md\nwiki/research/bar.md\nsrc/index.ts\nREADME.md\ndocs/meta/specs/nested/dir/baz.md\n' as unknown as Buffer
+      'docs/meta/specs/foo.md\0wiki/research/bar.md\0src/index.ts\0README.md\0docs/meta/specs/nested/dir/baz.md\0' as unknown as Buffer
     );
 
     const result = resolveChangedFiles('/repo');
@@ -39,10 +39,22 @@ describe('resolveChangedFiles', () => {
   });
 
   it('uses fixed git arguments and treats caller cwd as literal data without a shell', () => {
-    vi.mocked(execFileSync).mockReturnValue('docs/a.md\n' as unknown as Buffer);
+    vi.mocked(execFileSync).mockReturnValue('docs/a.md\0' as unknown as Buffer);
     const cwd = "/repo/space & quote'$HOME`;literal";
     resolveChangedFiles(cwd);
-    expect(execFileSync).toHaveBeenCalledWith('git', ['diff', '--name-only', '--diff-filter=ACM', '--cached'], { cwd, encoding: 'utf8', shell: false });
+    expect(execFileSync).toHaveBeenCalledWith('git', ['diff', '--name-only', '--diff-filter=ACM', '--cached', '-z'], { cwd, encoding: 'utf8', shell: false, windowsHide: true });
+  });
+
+  it('preserves hostile and quoted filenames with fixed Git argv and no shell', () => {
+    const files = ['docs/a b.md', 'wiki/caf\u00e9.md', 'docs/$(echo injected);&.md', 'docs/"quoted".md', 'docs/line\nbreak.md'];
+    vi.mocked(execFileSync).mockReturnValue(`${files.join('\0')}\0` as unknown as Buffer);
+
+    expect(resolveChangedFiles('/repo')).toEqual(files);
+    expect(execFileSync).toHaveBeenCalledWith(
+      'git',
+      ['diff', '--name-only', '--diff-filter=ACM', '--cached', '-z'],
+      { cwd: '/repo', encoding: 'utf8', shell: false, windowsHide: true }
+    );
   });
 });
 

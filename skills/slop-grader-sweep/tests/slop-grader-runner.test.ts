@@ -55,6 +55,7 @@ describe('buildGraderArgs', () => {
       '--model',
       DEFAULT_MODEL,
       '--json',
+      '--',
       'docs/a.md',
     ]);
   });
@@ -177,6 +178,7 @@ describe('runSlopGraderOnFile', () => {
     expect(args[0]).toMatch(/slop-grader\.mjs$/);
     expect(args.slice(1)).toEqual(buildGraderArgs('docs/a.md'));
     expect(options.shell).toBe(false);
+    expect(options.windowsHide).toBe(true);
     expect(options.env.OPENROUTER_API_KEY).toBe('sk-test');
   });
 
@@ -191,6 +193,20 @@ describe('runSlopGraderOnFile', () => {
     expect(executable).toBe(process.execPath);
     expect(args?.at(-1)).toBe(file);
     expect(options?.shell).toBe(false);
+  });
+
+  it('passes shell metacharacters as a single positional file after the option boundary', async () => {
+    const file = '--help;$(echo injected)&.md';
+    const child = fakeChild();
+    vi.mocked(spawn).mockReturnValue(child as never);
+    const promise = runSlopGraderOnFile(file, 'sk-test');
+    settle(child, CLEAN_JSON);
+    await promise;
+
+    const [command, args, options] = vi.mocked(spawn).mock.calls[0] as [string, string[], any];
+    expect(command).toBe(process.execPath);
+    expect(args.slice(-2)).toEqual(['--', file]);
+    expect(options.shell).toBe(false);
   });
 
   it('resolves ok:false on non-zero exit', async () => {

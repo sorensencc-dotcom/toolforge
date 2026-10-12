@@ -9,6 +9,40 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Issue 124 implementation planning (2026-10-11)
+
+### Current candidate rehearsal (supersedes earlier checkpoints below)
+
+- Clean delivery (2026-10-12): operator authorized codex/research-store-delivery based on verified origin/main ae190062, isolated at C:\dev\dev-sandbox\research-store-delivery. Transfers only issue 124 implementation, YAML-auditor correction, and slop subprocess hardening. Retains main's existing reviewed import exemptions and hostile-input tests. Original branch and generated audit changes preserved; inherited wiki changes excluded. Fresh installs reproduce recorded dependencies; 28 research-store, three auditor, and 55 slop tests pass, as do build, TypeScript, focused audits, and scoped whitespace checks. No live-service reruns, credential/link-state transfer, or production changes. Commit and normal push next.
+- Prior branch verification: 28 research-store tests, three auditor tests, and 53 slop-grader tests pass; build, TypeScript check, and security audit pass. Original push failed on missing wiki publisher. Current main includes publisher; clean delivery does not modify wiki pages or publish scripts. Production and live UAT unchanged.
+- Operator authorized synthetic whole-stack implementation/testing and requested plan changes for failures. Parser, embedding/Supabase clients, sync CLI, MCP handlers, candidate registration, and operator docs now exist in isolated branch.
+- Latest verification: 28/28 local tests pass with zero skips; live Supabase harness passes 33 SQL assertions plus completion/cleanup checks and SECURITY DEFINER negative control. Persistent dev/UAT migration 20261011000124 applied; subsequent dry-run reports migration history up to date. Production untouched.
+- Fresh review identified BOM project misrouting, claim-evidence retargeting, validation/read race, and fake similarity false positives. All four reproduced and fixed with red-to-green coverage. Interrupted claim fix resumed after approval-service usage limit cleared.
+- Root baseline: 157/164 pass, 7 fail. Failures: src/api/providers.test.js, src/api/server.test.js, toolforge-pdf/ingest.test.js (root dependencies absent); src/governance.test.js:28 (instruction assertion); src/providers/model-selection.test.js:6,:16,:21 (MODEL_SELECTION_REJECTED). These remain rollout gates.
+- Plan now records current evidence, failure-to-regression matrix, scoped execution rulings, and separate clean-delivery, root-suite, real JWT/PostgREST, real writer/API, embedding, CI, and production gates.
+- Docs/whitespace validation: canonical skill documentation validator and git diff --check pass.
+- Production CLI preparation: operator explicitly requested Supabase login/init/link to vbyfacretnyeptlilrfm. Browser login completed and separate skills/research-store/environments/production workdir initialized/linked. Repository-root workdir still links to test project bhezixgmkhpndmezgsxk. Only CLI binding prepared; runtime endpoint credentials, production migrations, and activation remain pending.
+- Dev/UAT decision: retain bhezixgmkhpndmezgsxk as persistent development/UAT/staging; complete real-service implementation and acceptance there before production. Refresh content on demand, optionally weekly, never as a required daily mirror. Keep schema changes coupled to application revision, not refresh cadence. No scheduler created.
+- Plan/operator guidance now separate synthetic baseline, dedicated identities, run-owned cleanup, real JWT/API acceptance, enhancement/recovery rehearsal, and code/migration promotion from staging content. Production remains separately gated.
+- Real dev/UAT Auth/REST acceptance passes through sync CLI and all three MCP tools. Dedicated signed CIC/RewriteLabs/admin/hostile-metadata users verify project/admin isolation and reader-write denial. Synthetic baseline verifies repeat ingest, metadata/shrink/empty updates, claim invalidation, failed-write rollback, and provider-failure preservation. Run-owned users/claims cleaned up; two synthetic baseline documents retained. Added on-demand test:uat, no scheduler.
+- Standard Auth metadata gap reproduced red, then corrected policies to accept trusted app_metadata.project while rejecting user_metadata access claims. Initial migration matches transaction-tested schema under packaging assertion.
+- Delivery: operator requested scoped commit on codex/research-store-plan. Rebuilt local Graft wiring graph after confirming absent worktree index caused unrelated home-index fallback; graph check now passes and research-store symbols resolve. Graph remains ignored local cache; deep semantic summaries not built.
+- Next action: approved real embedding egress/quality, genuinely signed expired-token API subcase, enhancement-migration recovery rehearsal, clean delivery, and remaining root-suite gates. No real-source upload or production deployment performed.
+
+- Goal: prepare reviewable implementation plan for hybrid research store and MCP retrieval.
+- Completed: verified live issue artifacts, Toolforge origin, repository instructions, and related skill/MCP patterns; saved docs/meta/plans/2026-10-11-research-store-hybrid-supabase-mcp.md.
+- Proposed decisions: authenticated JWT reads, fixed 1536-dimensional embeddings, and Drive-export Markdown ingestion. Require human plan review before implementation.
+- Verification: repository preflight passed on codex/research-store-plan; plan self-review maps six findings to four tasks with explicit regression and live acceptance gates.
+- Blockers: execution approval, disposable database/Supabase provisioning, and confirmation of proposed auth/Drive/dimension scope.
+- Tests added: 21 test cases across skills/research-store/tests/{schema,sync,mcp,package}.test.mjs. Cover access isolation, chunk replacement/rollback, embedding dimensions, frontmatter validation, dry-run side effects, CLI failure status, reader credential startup, and dependency registration.
+- Test evidence: all four files pass node --check. Bounded Node 24.18.0 suite discovered 21 tests; all 21 fail because source modules, package metadata, and database fixture do not yet exist. No assertions against implemented runtime behavior or live database executed.
+- Next action: implement approved contracts and disposable database fixture, then verify red-to-green behavior and live Supabase authorization separately.
+- Evidence boundary: tests-only addition authorized by operator; implementation, migrations, source uploads, and deployment remain pending.
+- Supabase setup: operator authorized login, init, and link. CLI 2.120.0 authenticated successfully; isolated checkout initialized and linked to project bhezixgmkhpndmezgsxk. No migrations applied or database tests run; project disposability and existing data remain unverified.
+- Live database checkpoint: operator confirmed bhezixgmkhpndmezgsxk is test database and authorized further tests. Added proposed corrected SQL schema and linked-CLI transaction harness; 29 live SQL assertions pass on PostgreSQL 17.11. Negative control using SECURITY DEFINER fails specifically on cross-project search, and corrected SECURITY INVOKER version passes afterward.
+- Verified: table/view/RPC project isolation, anonymous and reader-write denial, trusted versus user-editable admin metadata, dimension rejection, relational project integrity, repeat-run counts/IDs, stale-chunk removal, claim detachment, empty replacements, and atomic rollback of failed writes. All schema/extension/fixture changes rolled back; final public research-table count remains 0 and pgvector remains absent.
+- Current suite: 19 Node tests, 1 live SQL harness passes and 18 fail on absent JavaScript/package files. Three placeholder database tests were replaced by one runnable harness containing 29 SQL assertions plus completion/cleanup checks. Tests are not all green; JWT/PostgREST, MCP stdio, sync execution, and embedding-provider wiring remain unverified. No persistent migration or production operation performed.
+
 ## KB-Skills repo triage and digest (2026-10-11)
 
 ### Active goal

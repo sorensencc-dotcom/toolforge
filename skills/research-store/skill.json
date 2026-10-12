@@ -1,0 +1,17 @@
+{
+  "name": "research-store",
+  "id": "research-store",
+  "version": "0.1.0",
+  "description": "One-way research indexing and project-scoped MCP retrieval.",
+  "category": "research",
+  "capability": "research.store/read",
+  "runtime": "node",
+  "entrypoint": "src/mcp-server.mjs",
+  "status": "candidate",
+  "owner": "soren",
+  "permissions": { "required": ["network:outbound"], "optional": [] },
+  "dependencies": {
+    "external": ["@modelcontextprotocol/sdk", "@supabase/supabase-js", "openai", "js-yaml"],
+    "internal": []
+  }
+}

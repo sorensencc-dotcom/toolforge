@@ -658,7 +658,15 @@ def scan_file_code(filepath: Path, report: AuditReport):
             continue
 
         for pat in patterns:
-            if re.search(pat["regex"], line):
+            pattern_line = line
+            if ext in {".js", ".ts", ".mjs", ".cjs"} and pat["regex"].startswith(r"\byaml\."):
+                # Remove only explicit JSON-schema calls; scan remaining calls normally.
+                pattern_line = re.sub(
+                    r"\byaml\.load\s*\([^,()\n]+,\s*\{\s*schema\s*:\s*yaml\.JSON_SCHEMA\s*\}\s*\)",
+                    "",
+                    line,
+                )
+            if re.search(pat["regex"], pattern_line):
                 report.findings.append(
                     Finding(
                         severity=pat["severity"],

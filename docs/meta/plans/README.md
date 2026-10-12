@@ -1,5 +1,7 @@
 # Plans
 
+- [Hybrid research store implementation plan](2026-10-11-research-store-hybrid-supabase-mcp.md) - Issue #124 draft, database isolation, atomic indexing, and authenticated MCP retrieval.
+
 Ordered task breakdowns — "the ordered task list to build it." Not a charter (see `phases/`), not a technical spec (see `specs/`). See `docs/meta/specs/docs-structure-policy-design.md` for the placement rule.
 
 - `ijfw-plan-integration-spec.md`, `ijfw-verify-parallelism-checks.md`, `ijfw-plan-phase-4-governance.md`, `ijfw-plan-observability-contract.md`, `ijfw-plan-phase-5-multicanary.md` — IJFW plan family (formerly numbered `2-`/`3-`/`4-`/`5-` prefixed)
