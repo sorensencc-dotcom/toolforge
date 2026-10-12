@@ -22,8 +22,10 @@ Operator authorized candidate implementation and synthetic whole-stack rehearsal
 | Dev/UAT migration | Applied 20261011000124; subsequent dry-run reports up to date | Persistent public research schema, extension, grants, RLS, and RPCs |
 | SECURITY DEFINER negative control | Expected cross-project-search failure reproduced | Live isolation test detects original defect |
 | Root `timeout 90s npm test` | 232 pass, 1 skipped, zero fail | Historical dependency/setup failures are not active in current origin/main after fresh `npm install --ignore-scripts --legacy-peer-deps` |
+| `timeout 480s npm --prefix skills/research-store run test:jwt-expiry` | 1/1 pass | Actual signed 60-second JWT accepted before expiry and denied afterward; original 3600-second Auth lifetime restored and verified |
+| `timeout 180s npm --prefix skills/research-store run test:embedding-quality` | 1/1 pass; default recall gap found | Seven actual 1536-dimensional vectors, 3/3 correct rankings at threshold 0, default 0.7 recall 0/3, RLS and fixture cleanup verified |
 
-Live SQL fixtures and isolated test schemas roll back. Persistent dev/UAT migration remains installed, with two reserved synthetic baseline documents. Real API tests use actual signed Supabase users and delete run-owned users/claims afterward. Embeddings remain deterministic loopback fixtures. No paid embedding calls, real research uploads, commits, pushes, or production operations occurred. A genuinely signed expired-token API test remains pending because no safe signing material is available in the sandbox and lowering shared dev/UAT Auth token lifetime would be a project configuration mutation requiring separate approval.
+Live SQL fixtures and isolated test schemas roll back. Persistent dev/UAT migration remains installed, with two reserved synthetic baseline documents. Real API tests use actual signed Supabase users and delete run-owned users/claims afterward. Standard UAT uses deterministic loopback embeddings; separate approved quality harness now verifies actual OpenAI vectors. No real research uploads or production operations occurred. Genuinely signed expired-token API denial passes under explicit operator approval for a temporary dev/UAT Auth expiry change; the original setting was restored before waiting for token expiration. Default-threshold retrieval quality remains an open rollout risk.
 
 Installed versions for rehearsal: Node 24.18.0; MCP SDK 1.32.1; Supabase JS 2.117.3; OpenAI SDK 4.104.0; js-yaml 4.3.2. Record/rescope any dependency change before rollout reproduction.
 
@@ -68,8 +70,56 @@ synthetic failed DDL rolls back, benign enhancement applies, fixture schemas are
 dropped, and the baseline migration reruns in a second isolated schema. Real
 dev/UAT `test:uat` passed again through Auth, REST, sync CLI, MCP tools, cleanup,
 and retained only the two synthetic baseline documents. Real embedding
-provider/quality remains unrun pending separate egress/cost approval; production
-remains untouched.
+provider/quality was unrun pending separate egress/cost approval at that checkpoint;
+the final-gate continuation below records subsequent approval and credential blocker.
+Production remains untouched.
+
+Final-gate continuation (2026-10-12): PR #132 merged. Fresh isolated checkout
+`C:\dev\dev-sandbox\research-store-124-final-gates` starts at latest
+`origin/main` 395a06a5; repository preflight passes and existing worktrees/audit
+files remain preserved. Fresh root and skill dependency installs completed.
+Root suite reproduced one active stale documentation assertion at
+`src/governance.test.js:32`: it claimed a live line-limit/duplicate-section CI
+gate while current AGENTS marks that gate planned. Updated the test to match
+the current documented boundary without changing governance. Root rerun passes
+232 tests, zero failures, one optional external vault fixture skipped. Focused
+suite passes 28/28. Live SQL/recovery passes 2/2, including 33 assertions and
+the SECURITY DEFINER negative control; real API/sync/MCP UAT passes afterward.
+
+Operator approved temporary dev/UAT Auth change and synthetic real embedding
+egress capped at $0.10. Dedicated `test:jwt-expiry` fails closed without
+`RESEARCH_UAT_AUTH_EXPIRY_APPROVED=1`, previews exactly one declared config
+change, temporarily sets jwt_expiry to 60, and obtains an actual signed CIC
+token. Positive control retrieves authorized data through real REST. The test
+then restores original jwt_expiry=3600, verifies no unrelated remote config
+changed, waits for the untouched signed token to expire, and verifies HTTP 401
+with PGRST303 and an expiry message. Test passes; synthetic identity deletion
+and temporary config cleanup verified. A repeated run exposed delayed remote
+config visibility; added bounded convergence polling and reran successfully.
+Failure recovery also restored the original setting and deleted its identity.
+No shared Auth change remains active.
+
+Dedicated `test:embedding-quality` requires
+`RESEARCH_UAT_EMBEDDING_APPROVED=1` and an approved OpenAI credential. Planned
+workload is one direct OpenAI request with seven synthetic strings totaling at
+most 4096 bytes, text-embedding-3-small, 1536 dimensions, no retries. At
+[$0.02 per million input tokens](https://developers.openai.com/api/docs/models/text-embedding-3-small),
+verified 2026-10-12, conservative input-token cost bound is $0.00008192.
+Initial invocation failed before network because no OpenAI key was available.
+Operator then supplied a credential, consumed through masked in-memory input
+without file storage or command-line exposure. Two successful provider requests
+returned seven validated vectors each. Conservative combined cost bound is
+$0.00016384, below approved $0.10; actual billing was not independently queried.
+Final real Supabase retrieval ranks the correct synthetic fixture first for
+3/3 queries at explicit match_threshold=0. Similarities: 0.4014, 0.5539, 0.5840;
+separation margins: 0.1533, 0.3213, 0.3254. Identical foreign-project fixture
+remains invisible. Run-owned documents/chunks/identities deleted and absence
+verified after both runs. Default RPC threshold 0.7 returns none of these
+three paraphrases: default recall 0/3. Harness passes ranking/isolation checks
+and reports default recall diagnostically; this is not a production-quality
+PASS. Preserve issue's specified default until threshold/calibration decision
+is approved with representative inputs. No credentials committed, real sources
+uploaded, production changes, or refresh scheduler introduced.
 
 ## Review failures and regression gates
 
@@ -110,11 +160,11 @@ Operator selected project `bhezixgmkhpndmezgsxk` as persistent dev/UAT and stagi
 - [x] Inspect dev/UAT schema and migration history; verify project ref before every remote write. Fail closed on collisions or unexpected existing state.
 - [x] Apply versioned persistent migrations to dev/UAT; verify public-schema/PostgREST exposure, grants, and RLS without resetting shared schema.
 - [x] Provision dedicated signed CIC, RewriteLabs, and admin test users using trusted authorization claims; verify user-editable metadata cannot grant project/admin access.
-- [ ] Run sync CLI and all three MCP tools through real Supabase APIs with synthetic exports. Verify isolation, missing/forged JWT denial, repeat ingest, metadata changes, shrinking/empty content, claim invalidation, and failure atomicity. Genuinely signed expired-token denial still needs safe signing material or explicit approval to mutate dev/UAT Auth token lifetime temporarily.
-- [ ] Verify approved real embedding provider with synthetic input; distinguish deterministic fixture correctness from provider availability and retrieval quality.
+- [x] Run sync CLI and all three MCP tools through real Supabase APIs with synthetic exports. Verify isolation, missing/forged JWT denial, repeat ingest, metadata changes, shrinking/empty content, claim invalidation, and failure atomicity. Separate signed-expiry API test now passes with original Auth settings restored.
+- [x] Verify approved real embedding provider with synthetic input; distinguish deterministic fixture correctness from provider availability and retrieval quality. Actual provider/vector/ranking/isolation/cleanup checks pass; default 0.7 threshold recall is 0/3 on tested paraphrases and requires calibration before rollout.
 - [x] Rehearse an enhancement migration and recovery, then rerun scoped, live SQL, and real API checks. Record evidence and remaining root-suite failures before production promotion.
 
-Real API acceptance proves isolation, anonymous/forged-token denial, repeat ingest, metadata edits, shrinking/empty content, claim invalidation, failure atomicity, and all tools. Local startup tests reject missing/expired JWTs. Do not equate a tampered expiration payload with a genuinely signed expired token; that remaining API subcase keeps the combined JWT gate open.
+Real API acceptance proves isolation, anonymous/forged-token denial, repeat ingest, metadata edits, shrinking/empty content, claim invalidation, failure atomicity, and all tools. Separate signed-expiry test proves the same actual issuer-signed token succeeds before expiry and receives explicit expiry denial afterward. Local startup tests separately reject missing/expired JWTs; tampered-token denial alone is not signed-expiry evidence.
 
 ## Remaining rollout gates
 
@@ -126,10 +176,11 @@ Production CLI preparation completed under explicit operator login/init/link req
 - [x] Reproduce installation and scoped suites in clean delivery checkout; record exact dependency versions, docs validation, whitespace checks, and review outcome.
 - [x] Resolve seven root baseline failures and rerun repository suite; do not treat focused skill pass as root pass. Current origin/main root suite passes after fresh dependency install with legacy peer resolution; the historical failures are not active.
 - [x] On provisioned dev/UAT project, verify persistent migration history and intended public-schema/PostgREST exposure. Existing table/type collisions must fail closed; never reset shared schema.
-- [ ] Exercise actual signed CIC, RewriteLabs, and admin JWTs through Supabase HTTP API and all three MCP tools; verify missing/forged tokens and foreign UUID denial. Signed CIC, RewriteLabs, admin, and hostile-metadata users pass; genuinely signed expired-token denial remains pending. SQL role simulation and fake issuer do not satisfy that subcase.
+- [x] Exercise actual signed CIC, RewriteLabs, and admin JWTs through Supabase HTTP API and all three MCP tools; verify missing/forged tokens and foreign UUID denial. Signed CIC, RewriteLabs, admin, hostile-metadata users, and genuinely signed expired-token denial pass; original Auth configuration and run-owned cleanup verified.
 - [x] Run controlled writer ingestion through real Supabase client/API using synthetic exports. Verify metadata edits, shrinking/empty body, claim review state, and failed-write snapshot preservation.
-- [ ] Approve and verify real embedding provider/model/dimension with synthetic input and explicit egress approval; fake provider cannot establish external availability or retrieval quality.
-- [ ] Add explicit scoped suite commands to approved delivery/CI path, obtain production target/configuration approval, and verify a reversible migration/delivery procedure before rollout. Scoped live recovery rehearsal now passes; production target/configuration approval remains separate. Candidate status remains until signed-expired-token and real-embedding gates pass.
+- [x] Approve and verify real embedding provider/model/dimension with synthetic input and explicit egress approval. Actual text-embedding-3-small/1536 availability, 3/3 rankings at explicit threshold 0, project isolation, and cleanup pass within $0.10 cap; default recall separately measured.
+- [ ] Calibrate retrieval threshold against representative approved inputs. Current default 0.7 suppresses all three tested semantic paraphrases (0/3 recall); correct ranks and margins at threshold 0 do not establish useful default retrieval. Threshold/model contract changes require explicit approval; real-source evaluation requires source/egress authorization.
+- [ ] Add explicit scoped suite commands to approved delivery/CI path, obtain production target/configuration approval, and verify a reversible migration/delivery procedure before rollout. Scoped live recovery and signed-expiry rehearsals pass; real embedding availability verified, default retrieval calibration remains open, and production target/configuration approval remains separate.
 
 ## Execution rulings
 

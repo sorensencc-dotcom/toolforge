@@ -69,8 +69,8 @@ Any failed file increments failed count and yields exit 1 while remaining files 
 
 ```bash
 timeout 60s npm --prefix skills/research-store test
-timeout 60s npm --prefix skills/research-store run test:live
-timeout 180s npm --prefix skills/research-store run test:uat
+timeout 180s npm --prefix skills/research-store run test:live
+timeout 210s npm --prefix skills/research-store run test:uat
 ```
 
 Local rehearsal generates synthetic Git/Drive exports, deterministic fake embeddings, ephemeral fake signed JWTs, and loopback HTTP services. It drives production sync CLI and MCP stdio via actual Supabase/OpenAI/MCP SDKs. It tests repeat indexing, metadata-only edits, shrinking chunks, provider/write failures, search, fetch with/without claims, pagination, denied foreign UUID, and unknown tool.
@@ -79,9 +79,13 @@ Live SQL harness checks linked project is `bhezixgmkhpndmezgsxk` before issuing 
 
 On-demand `test:uat` pins the same project, obtains credentials in memory through authenticated Supabase CLI, creates preconfirmed signed test users without email delivery, and drives real REST, sync CLI, and MCP stdio. It retains only synthetic `uat124/cic.md` and `uat124/rewrite.md` baseline documents; it cleans run-owned claims, users, and local exports. Never put real sources at these reserved test paths. Progress reports distinguish stages; abort after 60 seconds without output. CLI login, deployed schema, Node dependencies, and network access are required. Writer keys never enter MCP subprocesses.
 
-Real API acceptance covers trusted Auth metadata, hostile user metadata, project/admin isolation, anonymous/forged-token denial, reader-write denial, idempotency, metadata edits, shrinking/empty bodies, claim invalidation, failed-write rollback, provider-failure preservation, and all three tools. Embeddings remain deterministic loopback fixtures; provider availability/quality and a genuinely signed expired token remain unverified.
+Real API acceptance covers trusted Auth metadata, hostile user metadata, project/admin isolation, anonymous/forged-token denial, reader-write denial, idempotency, metadata edits, shrinking/empty bodies, claim invalidation, failed-write rollback, provider-failure preservation, and all three tools. Separate signed-expiry API test passes. Standard UAT uses deterministic loopback embeddings; separate approved real-provider harness supplies actual vector/ranking evidence.
 
-Fake HTTP authorization alone is simulation; `test:uat` supplies separate real Supabase issuance/PostgREST evidence. Production gate still requires clean delivery/root-suite acceptance, approved real embedding egress/quality, migration recovery rehearsal, production credentials, and explicit rollout approval. SQL fixture rollback is cleanup of disposable test state, not production migration rollback procedure.
+With explicit temporary dev/UAT Auth-change approval, set `RESEARCH_UAT_AUTH_EXPIRY_APPROVED=1` and run `timeout 480s npm --prefix skills/research-store run test:jwt-expiry`. It changes only declared jwt_expiry, mints a signed 60-second token, restores/verifies original setting immediately, proves actual API expiry denial, and deletes its dedicated identity. Current live evidence passes; ordinary UAT never changes Auth settings.
+
+With explicit synthetic egress/cost approval and securely provisioned `OPENAI_API_KEY`, set `RESEARCH_UAT_EMBEDDING_APPROVED=1` and run `timeout 180s npm --prefix skills/research-store run test:embedding-quality`. It sends seven fixed synthetic strings in one direct OpenAI request, capped at 4096 input bytes, using text-embedding-3-small and 1536 dimensions with no retries. Three semantic queries must rank intended authorized fixtures first at explicit threshold 0 with 0.05 similarity separation; matching foreign fixture must remain invisible. It separately reports recall at default threshold 0.7, removes run-owned documents/chunks/users, and verifies cleanup. Recheck provider pricing before reruns after repricing. Current real run passes ranking/isolation/cleanup, but default recall is 0/3 on synthetic paraphrases; threshold calibration remains rollout gate, not a production-quality PASS. No real-source input is accepted by this harness.
+
+Fake HTTP authorization alone is simulation; `test:uat` supplies separate real Supabase issuance/PostgREST evidence. Production gate still requires approved real embedding availability/quality, production credentials, and explicit rollout approval. SQL fixture rollback is cleanup of disposable test state, not production migration rollback procedure.
 
 ## Provenance
 
