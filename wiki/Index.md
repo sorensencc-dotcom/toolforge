@@ -194,5 +194,6 @@ status: "active"
 - [[kb-sync/wiki/WatchCompetitors.Mjs]]
 - [[parallel-search]]
 - [[tinyfish-search]]
+- [[repo-triage-and-digest]]
 - [[Ironbots]]
 - [[research/trm-mobile-ingress-pipeline]]

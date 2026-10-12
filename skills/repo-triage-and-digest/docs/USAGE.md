@@ -17,6 +17,20 @@ Start the stdio server with `node skills/repo-triage-and-digest/src/index.mjs --
 
 Pass `authToken` only to the process that clones. This skill does not clone and does not attach the token to the Gitingest URL. A remote private digest still needs the operator's own Gitingest session.
 
+## kb-sync TRM contract
+
+To triage `https://github.com/sorensencc-dotcom/kb-sync` without cloning it into the prompt, call `triage_and_digest` with `targetModules` of `modules/trm/*` and `core/*`, `excludePatterns` of `tests/*,docs/*,*.lock,*.png,*.html`, and `maxFileSizeKb` of 50.
+
+Remote mode returns `content: null` plus these URLs:
+
+- `https://gitdiagram.com/sorensencc-dotcom/kb-sync`
+- `https://gitdiagram.com/sorensencc-dotcom/kb-sync/videos`
+- `https://gitingest.com/sorensencc-dotcom/kb-sync?include=modules%2Ftrm%2F*%2Ccore%2F*&exclude=tests%2F*%2Cdocs%2F*%2C*.lock%2C*.png%2C*.html&max_size=50`
+
+Pass `localRoot` when the checkout is already on disk. The digest keeps `modules/trm/query-expander.mjs`, `modules/trm/ast-grounding.mjs`, `modules/trm/gap-triage-engine.mjs`, and the `core/*` files under the size cap. It does not read `node_modules`, `.git`, `dist`, `vendor`, or `coverage`.
+
+`python tools/agent-dispatch/run.py` dispatches a route contract (`recommended_route`, `allowed_routes`, `max_cost_usd`). It does not execute `triage_and_digest`. The placeholder command `tools/agent-dispatch/[removed]` is not a file in this repo. Live Sigil checks run only when you pass both `--identity` and `--registry`.
+
 ## Sample layout
 
-A fixture with `src/api`, `src/core`, `tests`, `docs`, `package-lock.json`, and `data/dataset.bin` keeps the two `src` files and prunes the other four when `targetModules` is `src/*`.
+A fixture with `src/api`, `src/core`, `tests`, `docs`, `package-lock.json`, `data/dataset.bin`, and `src/payload.bin` keeps the two source files when `targetModules` is `src/*`. It prunes tests, docs, the lockfile, the binary under `src`, the oversized file, and the `data` directory.
