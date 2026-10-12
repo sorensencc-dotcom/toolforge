@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.92.3
+Date: 2026-10-12
+
+### Changes
+- 30b1073e - test: rehearse research store dev uat recovery (#132) (Chris Sorensen)
+
 ## Version 2.92.2
 Date: 2026-10-12
 
