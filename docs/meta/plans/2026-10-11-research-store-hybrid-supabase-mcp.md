@@ -52,8 +52,8 @@ is 2/3, still not representative-input calibration approval. No OpenAI calls.
 Current dependencies: MCP SDK 1.32.1, Supabase JS 2.117.3, js-yaml 4.3.2;
 OpenAI SDK removed with clean install, zero skill dependency audit vulnerabilities.
 
-FreeLLM Docker at 127.0.0.1:3001 runs but `/v1/models` returns 401. Real
-embedding availability not verified. Adapter requires existing router credential,
+FreeLLM Docker at 127.0.0.1:3001 now has authenticated live acceptance for
+explicit llama-nemotron-embed-vl-1b-v2 family. Adapter requires router credential,
 explicit immutable/versioned family, compatible `/v1/embeddings`, exact echo,
 1536 dimensions. Synthetic authentication/wire/error/no-fallback tests pass.
 Read-only installed source confirms endpoint exists, echoes family rather than
@@ -61,11 +61,47 @@ provider-specific model, and may fail over providers within same family.
 Toolforge itself makes one request without retry or cross-model fallback.
 Use approved catalog family as EMBEDDING_MODEL; verify member model identity,
 backend privacy/cost before activation. No router configuration changed.
-Need approved credential location and embedding-capable backend before claiming
-live FreeLLM acceptance. Docker locality does not prove downstream privacy or
-cost; external backend requires separate approval. No container/credential
+Docker locality does not prove downstream privacy or cost; external backend
+requires separate approval for each scope. No container/credential
 changes, production migration/activation, real-source uploads, or scheduler.
 Refresh on demand; optional weekly, no daily mirror.
+
+### Bounded FreeLLM acceptance (2026-10-12)
+
+Operator separately approved FreeLLM to NVIDIA rehearsal: maximum eight requests,
+8 KB fixed synthetic text, 1536 dimensions, existing free developer allowance,
+no default/model changes, real sources, or production operations. Supplied router
+credential was consumed through masked in-memory input and child environment,
+removed afterward; no credential files or command-line values. Authenticated
+models read succeeds; invalid-input embedding probe returns 400 before inference.
+Dashboard login is separate from inference credential; Edge authenticated session
+exposed embedding catalog without password transfer or credential changes.
+
+Catalog default remains gemini-embedding-001 with no backend key. Tested family
+has NVIDIA enabled; OpenRouter fallback has no key before and after rehearsal.
+Installed adapter uses https://integrate.api.nvidia.com/v1/embeddings, not paid
+custom endpoint. [NVIDIA developer pricing](https://docs.api.nvidia.com/nim/docs/run-anywhere)
+documents free API prototyping; account billing was not independently queried.
+[Support matrix](https://docs.nvidia.com/nim/nemo-retriever/embedding/latest/support-matrix.html)
+supports dynamic VL embeddings; nemotron-3-embed-1b cannot reduce its native 2048
+dimensions. No paid fallback or router configuration change authorized/performed.
+
+Existing test:embedding-quality passes through shared WhichLLM provider, actual
+sync CLI indexing, MCP stdio queries, signed dev/UAT Supabase reads. VL family
+returns valid 1536-dimensional vectors and exact family echo. All three intended
+rankings pass at threshold 0: similarities 0.3321/0.4059/0.3886; margins
+0.1335/0.2777/0.1913. Foreign project invisible. Run-owned documents/chunks/user
+and local exports removed; absence verified. Dashboard usage moved from zero
+to exactly eight requests and 320 reported tokens in this family; other families
+remain zero. Budget follows one seven-string batch, four document requests,
+three MCP query requests, each fixed payload appearing twice at most, below
+8 KB in total. No extra availability request or retry made.
+
+Default threshold 0.7 recall is 0/3. FreeLLM availability/wired-path gate passes,
+but representative retrieval calibration remains open; prior local recall 2/3
+is better on this tiny fixture, not a general model benchmark. Ollama stays
+default, FreeLLM remains explicit optional lane. Production and real sources
+untouched; no inference authorization beyond this bounded rehearsal implied.
 
 Delivery: commit 1eaeb2a4 pushed to existing draft PR #134 through normal
 commit/push hooks; remote branch hash matches. Focused security audit reports
