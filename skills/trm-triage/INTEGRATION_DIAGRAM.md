@@ -1,4 +1,4 @@
-# TRM Triage ΓÇö Integration Diagram
+# TRM Triage — Integration Diagram
 
 **Status: IMPLEMENTED**
 
