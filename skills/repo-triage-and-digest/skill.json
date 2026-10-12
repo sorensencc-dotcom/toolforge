@@ -1,0 +1,32 @@
+{
+  "id": "repo-triage-and-digest",
+  "name": "Repo Triage and Digest",
+  "version": "1.0.0",
+  "description": "Two-stage GitHub intake: GitDiagram links for structure, then a size-capped Gitingest digest for model context.",
+  "category": "automation",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "keywords": ["kb-skills", "gitdiagram", "gitingest", "mcp", "repository"],
+  "commands": {
+    "run": "node skills/repo-triage-and-digest/src/index.mjs --url https://github.com/sorensencc-dotcom/toolforge",
+    "mcp": "node skills/repo-triage-and-digest/src/index.mjs --mcp",
+    "test": "node --test --test-timeout=15000 tests/repo-triage-and-digest.test.mjs"
+  },
+  "inputs": {
+    "repositoryUrl": "string, GitHub owner/repo URL",
+    "includePatterns": "string, comma-separated globs",
+    "excludePatterns": "string, comma-separated globs",
+    "maxFileSizeKb": "number, default 50",
+    "localRoot": "string, optional directory to digest offline",
+    "authToken": "string, optional, memory only, never returned"
+  },
+  "outputs": {
+    "visualArchitecture": "GitDiagram and explainer URLs",
+    "ingestionDigest": "summary, tree, pruned paths, and file text when localRoot is set"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "tooltip": "Triage a GitHub repository with GitDiagram, then extract a capped digest for any model."
+}
