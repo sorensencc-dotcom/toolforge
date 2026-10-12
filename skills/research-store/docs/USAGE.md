@@ -1,0 +1,88 @@
+# Research store operation
+
+## Setup
+
+1. Use verified Toolforge checkout on Node >=24. Install skill-local dependencies with `npm --prefix skills/research-store install --ignore-scripts`.
+2. Inspect destination database schema and migration history before applying `sql/001-research-store.sql`. Runtime clients use public schema; apply with explicit `search_path = public, extensions` and confirm public schema USAGE for authenticated/service_role. Tests override search_path to isolated temporary schema. Existing table/type names cause migration failure; do not reset shared schemas.
+3. Provision writer service-role credential for sync only. For MCP, provision publishable/anon key and signed authenticated user JWT with trusted top-level project claim or `app_metadata.project`. `app_metadata.research_admin=true` grants cross-project reads only when trusted issuer supplies it. User-editable metadata does not grant project or admin access.
+4. Set explicit source directory; Git and Drive exports remain authoritative. Run dry-run first, then live sync only after approving embedding egress and destination.
+5. Register stdio MCP server in operator's client using absolute `src/mcp-server.mjs` path and reader credentials. Never include writer credential in MCP configuration.
+
+## Dev/UAT lifecycle
+
+Project `bhezixgmkhpndmezgsxk` is persistent dev/UAT and staging. Migration `20261011000124_research_store.sql` installed research schema there on 2026-10-11; real Auth/REST, sync CLI, and MCP acceptance passed using synthetic inputs. Rollback SQL regressions remain separate from persistent deployment.
+
+Refresh source snapshots on demand before enhancements, acceptance runs, or rollout rehearsals. Optional weekly refresh needs no daily mirror or scheduler. Apply required schema migrations with application changes, independently of content-refresh cadence. Record application revision, migration revision, source snapshot, embedding configuration, and test date.
+
+Use synthetic sources and dedicated test identities by default. Real research imports need source/egress approval. Preserve a baseline; isolate failure-test fixtures and clean up only run-owned data. Never copy production credentials or users into dev/UAT.
+
+Before promotion, reconcile dev/UAT with approved production migration/configuration baseline and rerun real API acceptance. Promote reviewed code and migrations, not staging data. Production project `vbyfacretnyeptlilrfm` has separate CLI workdir `skills/research-store/environments/production`; CLI linking alone does not configure runtime credentials or authorize deployment.
+
+## Environment
+
+| Variable | Consumer | Contract |
+| --- | --- | --- |
+| RESEARCH_ROOT | Sync | Explicit local Markdown export directory |
+| SUPABASE_URL | Both | Approved project URL |
+| SUPABASE_SERVICE_ROLE_KEY | Sync | Writer credential; never fallback for readers |
+| SUPABASE_ANON_KEY | MCP | Publishable/anon client key |
+| SUPABASE_READER_JWT | MCP | Signed authenticated token, with expiration and trusted project claim |
+| OPENAI_API_KEY | Both, live mode | Required for embedding text |
+| OPENAI_BASE_URL | Both | Optional explicitly selected endpoint; fake run uses loopback only |
+| EMBEDDING_MODEL | Both | Only text-embedding-3-small supported |
+| EMBEDDING_DIMENSION | Both | Only 1536 supported |
+| EMBEDDING_PROVIDER | Both | Only openai supported |
+
+Cloud embedding sends source paragraphs and search queries to configured provider. No retries or automatic provider fallback. Expired reader JWT requires operator replacement and restart. Supabase verifies signatures; local JWT parsing only rejects wrong-role/expired configurations.
+
+## Source example
+
+```yaml
+---
+project: RewriteLabs
+title: Synthetic Drive export
+source_system: drive
+drive_file_id: synthetic-export
+source_uri: https://drive.google.com/file/d/synthetic-export
+status: VERIFIED
+confidence: 0.75
+tags: [synthetic]
+---
+```
+
+Supply body as Markdown paragraphs after frontmatter. Direct Drive downloads, claim extraction, and source-file deletion propagation are outside this integration. Relative exported path plus project supplies index identity; keep one consistent export root per indexed namespace.
+
+## Indexing
+
+```bash
+node skills/research-store/src/sync.mjs --dry-run --project RewriteLabs
+node skills/research-store/src/sync.mjs --project RewriteLabs
+```
+
+Dry run parses every selected file without cloud credentials or network calls. YAML must be a mapping with supported project/status, numeric confidence 0..1, string tags, and mapping metadata. Maximum paragraph length is 8000 characters; embedding batches contain at most 16 paragraphs. Split oversized source paragraphs explicitly.
+
+Indexing embeds complete current document before atomic replacement. Unchanged body does not prevent metadata updates. Existing chunk indexes retain IDs. When indexed content changes or disappears, linked claims retain statement/document, clear research_item_id, and move to NEEDS_REVIEW; content cannot silently retarget evidence. Empty body removes prior chunks. Missing files leave existing indexed documents intact. Symlinks are skipped; checked file handles detect path replacement and concurrent content changes before embedding. Use operator-controlled export roots.
+
+Any failed file increments failed count and yields exit 1 while remaining files continue. Embedding/write failure preserves previous committed document/chunk snapshot. Error output contains counts or public setup errors, never raw provider response or source body. To isolate failing input, dry-run smaller export batches.
+
+## Rehearsal and evidence
+
+```bash
+timeout 60s npm --prefix skills/research-store test
+timeout 60s npm --prefix skills/research-store run test:live
+timeout 180s npm --prefix skills/research-store run test:uat
+```
+
+Local rehearsal generates synthetic Git/Drive exports, deterministic fake embeddings, ephemeral fake signed JWTs, and loopback HTTP services. It drives production sync CLI and MCP stdio via actual Supabase/OpenAI/MCP SDKs. It tests repeat indexing, metadata-only edits, shrinking chunks, provider/write failures, search, fetch with/without claims, pagination, denied foreign UUID, and unknown tool.
+
+Live SQL harness checks linked project is `bhezixgmkhpndmezgsxk` before issuing queries. It creates isolated test schema inside a rollback transaction, runs 33 database assertions plus completion/cleanup checks, and uses a SECURITY DEFINER negative control to reproduce original leakage. Failed-control transaction also aborts. This harness does not apply persistent migrations or upload sources.
+
+On-demand `test:uat` pins the same project, obtains credentials in memory through authenticated Supabase CLI, creates preconfirmed signed test users without email delivery, and drives real REST, sync CLI, and MCP stdio. It retains only synthetic `uat124/cic.md` and `uat124/rewrite.md` baseline documents; it cleans run-owned claims, users, and local exports. Never put real sources at these reserved test paths. Progress reports distinguish stages; abort after 60 seconds without output. CLI login, deployed schema, Node dependencies, and network access are required. Writer keys never enter MCP subprocesses.
+
+Real API acceptance covers trusted Auth metadata, hostile user metadata, project/admin isolation, anonymous/forged-token denial, reader-write denial, idempotency, metadata edits, shrinking/empty bodies, claim invalidation, failed-write rollback, provider-failure preservation, and all three tools. Embeddings remain deterministic loopback fixtures; provider availability/quality and a genuinely signed expired token remain unverified.
+
+Fake HTTP authorization alone is simulation; `test:uat` supplies separate real Supabase issuance/PostgREST evidence. Production gate still requires clean delivery/root-suite acceptance, approved real embedding egress/quality, migration recovery rehearsal, production credentials, and explicit rollout approval. SQL fixture rollback is cleanup of disposable test state, not production migration rollback procedure.
+
+## Provenance
+
+Supabase JS (Supabase), OpenAI Node SDK (OpenAI), MCP TypeScript SDK (Model Context Protocol contributors), and js-yaml (Nodeca) are external dependencies linked in README. Toolforge supplies native parsing, validation, SQL boundaries, client wiring, and rehearsal tests; it does not implement upstream services.

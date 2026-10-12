@@ -92,7 +92,7 @@ export function buildGraderArgs(file: string, rulesets: string[] = RULESETS): st
   for (const ruleset of rulesets) {
     args.push('-r', ruleset);
   }
-  args.push('--provider', 'openrouter', '--model', DEFAULT_MODEL, '--json', file);
+  args.push('--provider', 'openrouter', '--model', DEFAULT_MODEL, '--json', '--', file);
   return args;
 }
 
@@ -205,6 +205,7 @@ export function runSlopGraderOnFile(
 
     const child = spawn(process.execPath, [entrypoint, ...buildGraderArgs(file)], {
       shell: false,
+      windowsHide: true,
       env: { ...process.env, OPENROUTER_API_KEY: apiKey },
     });
 

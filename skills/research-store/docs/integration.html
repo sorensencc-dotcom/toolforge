@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Research store integration</title>
+<style>
+body{margin:0;background:#f2ece2;color:#2c2420}svg{display:block;width:960px;height:550px}
+text{fill:#2c2420;font-family:"Barlow Condensed",Arial,sans-serif;font-size:18px}
+.title{font:32px "Playfair Display",Georgia,serif}.muted{fill:#5c5349;font-size:15px}
+.badge{font:13px "Geist Mono",monospace;fill:#c4501a}.box{fill:none;stroke:#5c5349;stroke-width:1.5}
+.flow{fill:none;stroke:#c4501a;stroke-width:2;marker-end:url(#arrow)}
+</style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 550" role="img" aria-labelledby="title desc">
+<title id="title">Research store integration</title>
+<desc id="desc">One-way Markdown ingestion into Supabase; read-only MCP accesses project-scoped data through signed JWTs and RLS. Writer and reader credentials stay separate.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10" fill="#c4501a"/></marker></defs>
+<text x="40" y="60" class="title">Research store integration</text>
+<text x="40" y="89" class="muted">One-way indexing. Separate writer and reader authority.</text>
+<rect x="40" y="150" width="225" height="95" rx="4" class="box"/>
+<text x="58" y="183">Git + Drive exports</text><text x="58" y="212" class="muted">Authoritative Markdown</text>
+<rect x="355" y="150" width="225" height="95" rx="4" class="box"/>
+<text x="373" y="183">Sync CLI</text><text x="373" y="212" class="muted">Validate, embed, replace</text>
+<rect x="685" y="150" width="235" height="245" rx="4" class="box"/>
+<text x="703" y="183">Supabase</text><text x="703" y="216" class="muted">Documents, chunks, claims</text>
+<text x="703" y="247" class="muted">Atomic replacement RPC</text><text x="703" y="278" class="muted">Project-scoped RLS</text>
+<text x="703" y="349" class="badge">DEV/UAT FIRST</text><text x="703" y="374" class="muted">Production promotion gated</text>
+<path d="M265 195 H355" class="flow"/><path d="M580 195 H685" class="flow"/>
+<text x="588" y="139" class="badge">WRITER KEY</text>
+<rect x="40" y="300" width="225" height="95" rx="4" class="box"/>
+<text x="58" y="333">Authenticated client</text><text x="58" y="362" class="muted">Signed reader JWT</text>
+<rect x="355" y="300" width="225" height="95" rx="4" class="box"/>
+<text x="373" y="333">Read-only MCP stdio</text><text x="373" y="362" class="muted">Search, fetch, list</text>
+<path d="M265 345 H355" class="flow"/><path d="M580 345 H685" class="flow"/>
+<text x="588" y="292" class="badge">READER JWT</text>
+<path d="M467 245 V280 H315 V468 H355" class="flow"/>
+<path d="M467 395 V435" class="flow"/>
+<rect x="355" y="435" width="225" height="65" rx="4" class="box"/>
+<text x="373" y="461">Embedding provider</text><text x="373" y="485" class="muted">1536 dimensions</text>
+<text x="40" y="530" class="muted">UAT retains synthetic baseline. Test users and run-owned claims clean up after acceptance.</text>
+</svg>
+</html>
