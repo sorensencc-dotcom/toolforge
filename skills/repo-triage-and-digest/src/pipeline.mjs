@@ -6,6 +6,7 @@ export const DEFAULT_EXCLUDE = 'tests/*,docs/*,node_modules/*,vendor/*,dist/*,*.
 export const DEFAULT_MAX_FILE_SIZE_KB = 50;
 
 const GITHUB_REPO = /^https:\/\/github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/;
+const SKIP_DIRECTORIES = new Set(['node_modules', '.git', 'dist', 'vendor', 'coverage']);
 
 export function normalizeGithubUrl(input) {
   let url = String(input || '').trim();
@@ -29,6 +30,32 @@ export function splitPatterns(value) {
   if (!value) return [];
   const items = Array.isArray(value) ? value : String(value).split(',');
   return items.map((item) => String(item).trim()).filter(Boolean);
+}
+
+function patternsAreAnchored(patterns) {
+  return patterns.length > 0 && patterns.every((pattern) => {
+    const pat = pattern.replaceAll('\\', '/');
+    return pat.includes('/') && !pat.startsWith('*');
+  });
+}
+
+function directoryCanMatchInclude(relativeDir, patterns) {
+  const rel = relativeDir.replaceAll('\\', '/');
+  return patterns.some((pattern) => {
+    const pat = pattern.replaceAll('\\', '/');
+    const prefix = pat.endsWith('/*') ? pat.slice(0, -2) : pat.slice(0, pat.lastIndexOf('/'));
+    return rel === prefix || prefix.startsWith(`${rel}/`) || rel.startsWith(`${prefix}/`);
+  });
+}
+
+function excludeWantsDirectory(relativeDir, exclude) {
+  const rel = relativeDir.replaceAll('\\', '/');
+  return exclude.some((pattern) => {
+    const pat = pattern.replaceAll('\\', '/');
+    if (!pat.endsWith('/*')) return false;
+    const prefix = pat.slice(0, -2);
+    return rel === prefix || rel.startsWith(`${prefix}/`) || rel.endsWith(`/${prefix}`) || rel.includes(`/${prefix}/`);
+  });
 }
 
 function matchPattern(relativePath, pattern) {
@@ -104,6 +131,14 @@ export function digestLocalTree(rootDir, options = {}) {
       const absolute = path.join(directory, entry.name);
       const relative = path.relative(root, absolute).replaceAll('\\', '/');
       if (entry.isDirectory()) {
+        if (SKIP_DIRECTORIES.has(entry.name)) {
+          pruned.push({ path: relative, reason: 'skipped directory' });
+          continue;
+        }
+        if (patternsAreAnchored(include) && !excludeWantsDirectory(relative, exclude) && !directoryCanMatchInclude(relative, include)) {
+          pruned.push({ path: relative, reason: 'outside include' });
+          continue;
+        }
         walk(absolute);
         continue;
       }

@@ -111,7 +111,29 @@ function normalizeMarkdownTree(wikiDir) {
   walk(wikiDir);
 }
 
+const SKILL_LIBRARY_LINKS = [
+  '- [[Parallel Search Integration|parallel-search]]',
+  '- [[TinyFish Search Integration|tinyfish-search]]',
+  '- [[Repo Triage and Digest|repo-triage-and-digest]]'
+];
+
+export function ensureSkillLibrary(sidebar) {
+  let next = sidebar;
+  if (!next.includes('#### Skill Library')) {
+    next = `${next.trimEnd()}\n\n#### Skill Library\n${SKILL_LIBRARY_LINKS.join('\n')}\n`;
+  }
+  for (const link of SKILL_LIBRARY_LINKS) {
+    if (!next.includes(link)) next = next.replace('#### Skill Library\n', `#### Skill Library\n${link}\n`);
+  }
+  return next.endsWith('\n') ? next : `${next}\n`;
+}
+
 function generateSidebar(wikiDir) {
+  const sidebarPath = path.join(wikiDir, '_Sidebar.md');
+  if (fs.existsSync(sidebarPath)) {
+    fs.writeFileSync(sidebarPath, ensureSkillLibrary(fs.readFileSync(sidebarPath, 'utf8')), 'utf8');
+    return;
+  }
   const sidebar = `### Toolforge Platform
 - [[Home]]
 - [[Quickstart|QUICKSTART]]
@@ -130,13 +152,16 @@ function generateSidebar(wikiDir) {
 #### Research
 - [[Research Gaps Registry|trm-research-gaps]]
 
+#### Skill Library
+${SKILL_LIBRARY_LINKS.join('\n')}
+
 #### Architecture & Subsystems
 - [[Knowledge Base Sync (kb-sync)|kb-sync-readme]]
 - [[KB Sync DAG Structure|KB_SYNC_DAG]]
 - [[Documentation Catalog|DOCS_INDEX]]
 `;
 
-  fs.writeFileSync(path.join(wikiDir, '_Sidebar.md'), sidebar, 'utf8');
+  fs.writeFileSync(sidebarPath, sidebar, 'utf8');
 }
 
 function generateFooter(wikiDir) {
