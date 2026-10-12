@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.92.2
+Date: 2026-10-12
+
+### Changes
+- e33b8d3c - Codex/research store delivery (#131) (Chris Sorensen)
+
 ## Version 2.92.1
 Date: 2026-10-12
 
