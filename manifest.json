@@ -2,6 +2,39 @@
   "skills": [
     {
       "version": "1.0.0",
+      "description": "Two-stage GitHub intake: GitDiagram links for structure, then a size-capped Gitingest digest for model context.",
+      "timestamps": {
+        "created": "2026-10-11T23:40:00.0000000Z",
+        "lastValidation": "2026-10-11T23:40:00.0000000Z",
+        "lastRun": null
+      },
+      "tags": [
+        "kb-skills",
+        "gitdiagram",
+        "gitingest",
+        "mcp",
+        "repository"
+      ],
+      "status": "active",
+      "name": "repo-triage-and-digest",
+      "runtime": "node",
+      "id": "repo-triage-and-digest",
+      "entrypoint": "src/index.mjs",
+      "owner": "soren",
+      "category": "automation",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": true,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "1.0.0",
       "description": "Autonomous task card triage engine applying YAGNI evaluation, reversibility classification, and GitHub Issue promotion payloads",
       "timestamps": {
         "created": "2026-10-11T09:40:00.0000000Z",

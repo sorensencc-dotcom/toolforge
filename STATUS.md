@@ -9,6 +9,28 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## KB-Skills repo triage and digest (2026-10-11)
+
+### Active goal
+
+Register GitDiagram triage and Gitingest digestion in the KB-Skills plane as `repo-triage-and-digest`.
+
+### Completed work
+
+- `skills/repo-triage-and-digest` builds `gitdiagram.com` and `gitingest.com` links, digests a local tree with include, exclude, and a 50 kB cap, and speaks MCP stdio.
+- Auth tokens are not written and are not returned.
+- `tests/repo-triage-and-digest.test.mjs` covers the service-catalog sample: 2 files kept, tests, docs, lockfile, binary, and oversized file pruned.
+
+### Verification
+
+- `node --test --test-timeout=15000 tests/repo-triage-and-digest.test.mjs` — 4 passed.
+
+### Next action
+
+Review https://github.com/sorensencc-dotcom/toolforge/pull/128. Commit `c9c03e06` is on `feat/repo-triage-and-digest`.
+
+---
+
 ## TRM card triage on a clean branch (2026-10-11)
 
 ### Active goal
