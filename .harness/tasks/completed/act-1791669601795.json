@@ -1,0 +1,7 @@
+{
+  "id": "act-1791669601795",
+  "status": "COMPLETED",
+  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/124",
+  "resolution": "Implemented Supabase research store hybrid schema and match_research_items RPC in skills/research-store (GitHub Issue #124 closed).",
+  "completed_at": "2026-10-13T03:58:30Z"
+}

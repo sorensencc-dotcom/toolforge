@@ -1,0 +1,6 @@
+{
+  "id": "act-1791669602076-mcp-tool-definition",
+  "status": "COMPLETED",
+  "resolution": "Defined and implemented match_research_items MCP tool in skills/research-store/src/mcp-server.mjs.",
+  "completed_at": "2026-10-13T03:58:30Z"
+}
