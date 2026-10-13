@@ -14,6 +14,8 @@ Generated/sync internals and links are excluded. Google pointers require real ex
 
 `test:files:uat` is separately approved live verification with run-owned originals and actual Storage/catalog repeat-run checks. No bulk source upload is part of that test. Original-file catalog migration is additive and retains existing search contracts. TUS implementation uses [tus-js-client](https://github.com/tus/tus-js-client) and follows [Supabase resumable uploads](https://supabase.com/docs/guides/storage/uploads/resumable-uploads).
 
+Git provenance uses only `git rev-parse` and `git ls-tree` through `execFile` argument arrays, with no shell interpolation and a 30-second timeout. Explicit security-auditor annotation covers this read-only subprocess import, not arbitrary command execution.
+
 ## Setup
 
 1. Use verified Toolforge checkout on Node >=24. Install skill-local dependencies with `npm --prefix skills/research-store install --ignore-scripts`.

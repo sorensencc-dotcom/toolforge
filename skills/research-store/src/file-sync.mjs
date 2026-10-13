@@ -2,7 +2,7 @@ import { readdir, lstat, realpath, open, mkdir, readFile, writeFile, rm, mkdtemp
 import { createReadStream } from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { execFile } from 'node:child_process';
+import { execFile } from 'node:child_process'; // noqa: SEC-AUDITOR -- fixed read-only git executable/argument arrays, no shell, 30-second timeout.
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
