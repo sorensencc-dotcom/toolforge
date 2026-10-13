@@ -13,6 +13,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 import { routeTask } from './whichllm-router.mjs';
 import { appendToWikiLogAsync } from './lib/wiki-log-append.mjs';
 
@@ -247,6 +248,16 @@ export async function runTrmBot(options = {}) {
       console.log(`[TRM-Bot] Appended ${generatedRfcs.length} RFC entries to wiki/Log.md`);
     } catch (err) {
       console.warn(`[TRM-Bot] Could not update wiki/Log.md: ${err.message}`);
+    }
+
+    try {
+      const reconcileScript = path.resolve(REPO_ROOT, 'scripts', 'reconcile-trm-gaps.mjs');
+      if (existsSync(reconcileScript) && !dryRun) {
+        execFileSync('node', [reconcileScript], { cwd: REPO_ROOT, stdio: 'inherit' });
+        console.log('[TRM-Bot] Successfully reconciled TRM gaps and notebook findings.');
+      }
+    } catch (err) {
+      console.warn(`[TRM-Bot] Reconciliation warning: ${err.message}`);
     }
   }
 
