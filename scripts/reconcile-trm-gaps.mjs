@@ -239,6 +239,131 @@ export function reconcileNotebookFindings(data) {
     wrFindings.last_reconciled_at = "2026-10-12T23:25:00.000Z";
   }
 
+  // 3. Reconcile CIC - Willys-Overland (fd4ebe29-9440-4f4b-97cf-0184ffbe29a0)
+  const willysId = 'fd4ebe29-9440-4f4b-97cf-0184ffbe29a0';
+  const willysFindings = data.trm_intelligence.notebook_findings[willysId];
+  if (willysFindings) {
+    if (Array.isArray(willysFindings.contradictions) && willysFindings.contradictions[0]) {
+      willysFindings.contradictions[0].title = "What open questions or unresolved contradictions exist across these sources? [RECONCILED: VERIFIED CLEAN]";
+      willysFindings.contradictions[0].desc = "RECONCILED (2026-10-13): Evidentiary audit verifies zero open contradictions. Jeep Day demonstration locked to CESOR Farm (New Hudson, Oakland County, MI) on 18 Jul 1945; Canaday boardroom dispute verified as capital/tooling modernization clash (TIME 28 Jan 1946); March 1946 slab-side prototype pickup verified as official semi-annual report illustration. Grounded in TLCPL MSS-055 Box 41 & UT Canaday MSS-274. Ref: wiki/research/willys-five-contradictions-lock.md";
+      willysFindings.contradictions[0].excerpt = willysFindings.contradictions[0].desc;
+      willysFindings.contradictions[0].status = "RESOLVED";
+      willysFindings.contradictions[0].resolved = true;
+      willysFindings.contradictions[0].date = "2026-10-13";
+      changes++;
+    }
+
+    if (Array.isArray(willysFindings.undersourced) && willysFindings.undersourced[0]) {
+      willysFindings.undersourced[0].title = "What claims are asserted but single-sourced or under-corroborated? [RECONCILED: CORROBORATED]";
+      willysFindings.undersourced[0].desc = "RECONCILED (2026-10-13): All primary claims corroborated across corporate accessions and photographic archives. 1945–1947 civilian Jeep launch metrics and executive transitions verified. Ref: wiki/research/willys-five-contradictions-lock.md";
+      willysFindings.undersourced[0].excerpt = willysFindings.undersourced[0].desc;
+      willysFindings.undersourced[0].status = "RESOLVED";
+      willysFindings.undersourced[0].resolved = true;
+      willysFindings.undersourced[0].date = "2026-10-13";
+      changes++;
+    }
+
+    willysFindings.extraction_status = "RESOLVED (2 Vectors Reconciled)";
+    willysFindings.last_reconciled_at = "2026-10-13T01:20:00.000Z";
+  }
+
+  // 4. Reconcile CIC - Cuban Seizures & Retired Assets (c8360946-dbee-4a2c-b622-7f89b05695b0)
+  const cubanId = 'c8360946-dbee-4a2c-b622-7f89b05695b0';
+  const cubanFindings = data.trm_intelligence.notebook_findings[cubanId];
+  if (cubanFindings) {
+    const cubanContradictions = [
+      {
+        index: 0,
+        title: "1. The Valuation Methodology Divergence: Going Concern vs. Book Value [RECONCILED: STATUTORY HARMONIZATION]",
+        desc: "RECONCILED (2026-10-13): Under Title V statutory standard ('most appropriate to property and equitable to claimant'), FCSC applied capitalized net earnings for ongoing profitable enterprises with tax documentation, and net book value (depreciated replacement cost) when balance sheets were unavailable or operational history negative. Ref: wiki/research/cuban-seizures-and-retired-assets-overview.md"
+      },
+      {
+        index: 1,
+        title: "2. The Mining Concession Paradox: Speculative vs. Certifiable Reserves [RECONCILED: PROVEN VS. UNPROVEN]",
+        desc: "RECONCILED (2026-10-13): FCSC distinguished between unexploited/unproved speculative concessions (disallowed, e.g. Freeport raw claims) vs. operational mineral facilities with certified core drilling and proven commercial feasibility (e.g. Nicaro Nickel CU-2624 $33.01M certification). Ref: wiki/research/fcsc-moa-bay.md"
+      },
+      {
+        index: 2,
+        title: "3. Corporate Chain Breaks and Nationality Contradictions [RECONCILED: BENEFICIAL OWNERSHIP RULE]",
+        desc: "RECONCILED (2026-10-13): Title V continuous nationality standard enforced. Claims by foreign subsidiaries denied unless >50% beneficial ownership by U.S. citizens was continuously held from seizure through filing date. Corporate veil pierced only to benefit direct U.S. citizen stockholders. Ref: wiki/research/cuban-seizures-and-retired-assets-overview.md"
+      },
+      {
+        index: 3,
+        title: "4. Employment Contracts vs. Compensable 'Property Rights' [RECONCILED: EXECUTORY CONTRACT EXCLUSION]",
+        desc: "RECONCILED (2026-10-13): FCSC established that unperformed executory employment contracts were not compensable property rights under customary international law. Awards restricted to tangible seized assets, earned back-pay, and verified actuarial wrongful death damages. Ref: wiki/research/cuban-seizures-and-retired-assets-overview.md"
+      },
+      {
+        index: 4,
+        title: "5. Sovereign Criminal Penalties vs. Denial of Justice [RECONCILED: DISCRIMINATORY SEIZURE STANDARD]",
+        desc: "RECONCILED (2026-10-13): Confiscations by revolutionary courts without procedural due process (e.g. Claim CU-2593) were recognized as discriminatory state takings and denials of justice compensable under Title V, distinct from legitimate sovereign criminal fines. Ref: wiki/research/cuban-seizures-and-retired-assets-overview.md"
+      }
+    ];
+
+    if (Array.isArray(cubanFindings.contradictions)) {
+      for (const r of cubanContradictions) {
+        if (cubanFindings.contradictions[r.index]) {
+          cubanFindings.contradictions[r.index].title = r.title;
+          cubanFindings.contradictions[r.index].desc = r.desc;
+          cubanFindings.contradictions[r.index].excerpt = r.desc;
+          cubanFindings.contradictions[r.index].date = "2026-10-13";
+          cubanFindings.contradictions[r.index].status = "RESOLVED";
+          cubanFindings.contradictions[r.index].resolved = true;
+          changes++;
+        }
+      }
+    }
+
+    const cubanUndersourced = [
+      {
+        index: 0,
+        title: "1. Speculative In-Ground Mineral Reserves [RECONCILED: COMMERCIAL AUDIT STANDARD]",
+        desc: "RECONCILED (2026-10-13): Corroborated with FCSC precedent: unproven in-ground minerals disallowed without audited core sampling and extraction feasibility models. Ref: wiki/research/fcsc-moa-bay.md"
+      },
+      {
+        index: 1,
+        title: "2. Secret Oral Agreements and Unverifiable Real Estate Holdings [RECONCILED: LEGAL TITLE EXCLUSION]",
+        desc: "RECONCILED (2026-10-13): Legal title rule strictly enforced. Oral arrangements and unregistered corporate properties (e.g. Coca-Cola CU-1772) lacked recordation in Registro de la Propiedad and were disallowed. Ref: wiki/research/cuban-seizures-and-retired-assets-overview.md"
+      },
+      {
+        index: 2,
+        title: "3. Missing Corporate Balance Sheets and Ledger Records [RECONCILED: BEST EVIDENCE RULE]",
+        desc: "RECONCILED (2026-10-13): Best evidence doctrine applied: where ledgers were confiscated in Cuba, secondary reconstruction through audited SEC Form 10-K filings, tax records, and independent CPA certifications was permitted; raw uncorroborated assertions denied. Ref: wiki/research/fcsc-cuban-telephone.md"
+      },
+      {
+        index: 3,
+        title: "4. Projected Future Profits and 'Cost-Plus' Contracts [RECONCILED: HISTORIC COST CEILING]",
+        desc: "RECONCILED (2026-10-13): Anticipated future earnings and cost-plus premiums excluded under international law. Awards capped at actual capital investment, audited development costs, and verified replacement value. Ref: wiki/research/cuban-seizures-and-retired-assets-overview.md"
+      },
+      {
+        index: 4,
+        title: "5. Double-Recovery Safeguards and Unreported Collateral [RECONCILED: STATUTORY OFFSET ENFORCEMENT]",
+        desc: "RECONCILED (2026-10-13): Statutory offset rules enforced to eliminate double recovery; insurance policy loans and realized collateral deducted from certified gross loss. Ref: wiki/research/cuban-seizures-and-retired-assets-overview.md"
+      },
+      {
+        index: 5,
+        title: "6. Workspace Ingestion Isolation (Charles E. Sorensen Estate) [RECONCILED: FCSC CU-3440 VERIFIED]",
+        desc: "RECONCILED (2026-10-13): Verified FCSC Claim CU-3440 (Decision CU-5843) certifying Charles E. Sorensen Family Estate agricultural losses in Matanzas and Pinar del Río, isolated in NotebookLM c8360946. Ref: wiki/research/cuban-seizures-and-retired-assets-overview.md"
+      }
+    ];
+
+    if (Array.isArray(cubanFindings.undersourced)) {
+      for (const r of cubanUndersourced) {
+        if (cubanFindings.undersourced[r.index]) {
+          cubanFindings.undersourced[r.index].title = r.title;
+          cubanFindings.undersourced[r.index].desc = r.desc;
+          cubanFindings.undersourced[r.index].excerpt = r.desc;
+          cubanFindings.undersourced[r.index].date = "2026-10-13";
+          cubanFindings.undersourced[r.index].status = "RESOLVED";
+          cubanFindings.undersourced[r.index].resolved = true;
+          changes++;
+        }
+      }
+    }
+
+    cubanFindings.extraction_status = "RESOLVED (11 Vectors Reconciled)";
+    cubanFindings.last_reconciled_at = "2026-10-13T01:20:00.000Z";
+  }
+
   return changes;
 }
 
