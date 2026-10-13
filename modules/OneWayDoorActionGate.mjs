@@ -175,6 +175,7 @@ export class OneWayDoorInterceptor {
   constructor(options = {}) {
     this.secretKey = options.secretKey || process.env.TOOLFORGE_GATE_SECRET || 'default-toolforge-gate-secret';
     this.allowedBoundedPrefixes = options.allowedBoundedPrefixes || ['scratch/', 'tmp/', 'temp/', '.tmp/'];
+    this.flightRecorder = options.flightRecorder || null;
   }
 
 
@@ -194,7 +195,22 @@ export class OneWayDoorInterceptor {
   /**
    * Intercept a tool call and evaluate reversibility, bounds, confirmation, and plan drift
    */
-  async intercept({ toolName, params = {}, confirmationToken = null, planContext = null } = {}) {
+  async intercept(args = {}) {
+    const result = await this._evaluate(args);
+    if (this.flightRecorder) {
+      this.flightRecorder.recordGateDecision({
+        gateId: result.gateId || this.computeGateId(args.toolName, args.params),
+        toolName: args.toolName,
+        decision: result.status,
+        reversibility: result.reversibility,
+        reason: result.reason || result.error,
+        token: args.confirmationToken
+      });
+    }
+    return result;
+  }
+
+  async _evaluate({ toolName, params = {}, confirmationToken = null, planContext = null } = {}) {
     const reversibility = classifyActionReversibility({ toolName, params });
     const gateId = this.computeGateId(toolName, params);
 
