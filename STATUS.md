@@ -9,6 +9,14 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Data-first DEV/UAT import (2026-10-13)
+
+- Operator-approved scope: import C:\dev\docs, C:\dev\trm-drive, and C:\Users\soren\trm-vault; integrate Git updates. Search work parked; production untouched.
+- Implemented separate original-file CLI, SHA-256 content-addressed private Storage, source/path catalog, raw text preservation, accurate Git revision/state, credential-pattern quarantine, immutable staging, byte budgets, and repeat-safe retain-missing behavior. Optional foreground watcher not started.
+- Applied only migration 20261013000124 to DEV/UAT bhezixgmkhpndmezgsxk; recorded migration history. Private research-originals-uat bucket provisioned with 50,000,000-byte file limit. Existing search tables/contracts unchanged.
+- Verification: 44/44 serial offline tests; live synthetic original upload/download, repeat safety, anonymous denial, retain-missing, and run-owned catalog/object cleanup pass. Initial cleanup download assertion encountered cached bytes; corrected verification uses authoritative object listing. No real source upload or embeddings.
+- Next: confirm project storage quota and approved bulk byte budget, authorize content reads/hydration of source roots, resolve Google-pointer export, opaque-container review, and oversized originals. Inventory totals 8,162 files / 5,403,511,421 logical bytes; current exclusions mean all-file ingestion is not complete. Seven-document search evidence stays historical.
+
 ## Issue 124 implementation planning (2026-10-11)
 
 ### Current candidate rehearsal (supersedes earlier checkpoints below)

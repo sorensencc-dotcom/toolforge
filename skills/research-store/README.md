@@ -2,6 +2,8 @@
 
 Index Git research and exported Drive Markdown in Supabase; retrieve authorized chunks through MCP. Candidate integration for issue #124.
 
+Data-first DEV/UAT import stores original files in private Storage and a service-only catalog without embeddings. `files:sync` supports dry runs and optional refresh/watch; see [original-file operation](docs/USAGE.md#original-file-import-devuat-only).
+
 From repository root:
 
 ```bash
