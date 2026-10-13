@@ -52,7 +52,10 @@ jobs:
           repository: sorensencc-dotcom/toolforge
           token: ${{ secrets.GH_PAT || secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           path: toolforge-source
-          sparse-checkout: CIC-GOVERNANCE
+          sparse-checkout: |
+            CIC-GOVERNANCE
+            .github/workflows
+            setup-git-hooks.ps1
           sparse-checkout-cone-mode: true
 
       - name: Link CIC-GOVERNANCE
@@ -61,6 +64,10 @@ jobs:
           cp -a toolforge-source/CIC-GOVERNANCE/. workspace/CIC-GOVERNANCE/
           mkdir -p CIC-GOVERNANCE
           cp -a toolforge-source/CIC-GOVERNANCE/. CIC-GOVERNANCE/
+
+          mkdir -p workspace/.github/workflows
+          cp -a toolforge-source/.github/workflows/. workspace/.github/workflows/ || true
+          cp -a toolforge-source/setup-git-hooks.ps1 workspace/ || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
