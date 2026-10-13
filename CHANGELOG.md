@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.94.0
+Date: 2026-10-13
+
+### Changes
+- 33f060da - feat: complete research-store dev/UAT gates with local multimodel embeddings (#134) (Chris Sorensen)
+
 ## Version 2.93.1
 Date: 2026-10-13
 
