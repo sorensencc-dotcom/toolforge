@@ -9,6 +9,26 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Stateless MCP gate 1 clients (2026-10-13)
+
+### Active goal
+
+Gate 5 is on the rewrite-mcp HTTP entry. Owned servers no longer answer `initialize`. Leave the section 4 harness unrun.
+
+### Completed work
+
+- `tools/wiki-browser-qa/neo-adapter.mjs` posts `tools/list` and `tools/call` at `2026-07-28`. It does not store a session id. The URL is still `http://127.0.0.1:9010/mcp` unless `WIKI_QA_NEO_MCP_URL` or `options.url` is set.
+- `rewrite-docs/src/cic/graph/adapters/McpClientRunner.ts` writes one stdio `tools/call` at `2026-07-28` to the server named in the cwd `.mcp.json`. That edit is uncommitted in rewrite-docs.
+- Spec status on disk is revision 18, uncommitted. Upstream checkouts and other-branch worktrees are outside gate 1. Client edits are commit `ea10757c` on `parkd821-20260908`, unpushed. The empty-inventory edge is rewrite-mcp commit `6fa0c24` on `fix/mcp-server-package`, unpushed. `node scripts/rewrite-mcp-mcp-package.mjs` printed `ALL PASS`. Owned servers no longer answer `initialize`. SDK servers still do. The section 4 harness still sends `initialize` and was not rerun. Host configs were not edited. Ports 8765 and 8766 were not bound. Gate 3 was not rerun.
+- `node --test --test-timeout=15000 modules/viking-client/test/client.test.mjs` passed 6 tests, including a stdio `viking/read` after `connect()`.
+- Checks on 2026-10-13: viking node tests 25 passed; IronLedger pytest 5 passed on temp databases; kb-sync CLI-03 passed; TRM vfs harness 12 passed against `trm/.kb_cache/test_knowledge.db`; rewrite-mcp idea-inbox suite 8 passed and smoke test 12 passed. The helm client script exited 0. `helm:costs`, `helm:routing`, and `helm:budget` returned JSON-RPC `-32603` Permission required, which is the existing server permission path.
+
+### Next action
+
+Leave the section 4 harness unrun. It still sends `initialize`. Leave SDK servers on the SDK until those packages move: research-store, trm-devops, and portfolio. Leave host configs on stdio. BrowserOS on port 9010 and the truecode, gitnexus, graphify, and graft peers still reject a `2026-07-28` client. Do not retarget hosts. Do not add a second subject to ports 8765 or 8766. Do not open the live financial database. Do not start the kb-sync daemon without `KB_CACHE_DB`. `C:\dev` and rewrite-mcp stay unpushed unless asked. The spec, STATUS, and the server `initialize` removals are uncommitted.
+
+---
+
 ## Issue 124 implementation planning (2026-10-11)
 
 ### Current candidate rehearsal (supersedes earlier checkpoints below)
