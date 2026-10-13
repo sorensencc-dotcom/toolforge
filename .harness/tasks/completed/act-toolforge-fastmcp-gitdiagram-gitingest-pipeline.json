@@ -1,0 +1,6 @@
+{
+  "id": "act-toolforge-fastmcp-gitdiagram-gitingest-pipeline",
+  "status": "COMPLETED",
+  "resolution": "Implemented GitDiagram and Gitingest intake pipeline in skills/repo-triage-and-digest (PR #128).",
+  "completed_at": "2026-10-12T18:00:00Z"
+}

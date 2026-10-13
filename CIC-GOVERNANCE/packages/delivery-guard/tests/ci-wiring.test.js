@@ -28,7 +28,7 @@ test('governance matrix checkouts fail closed and use scoped dependency fallback
 
   assert.doesNotMatch(workflow, /continue-on-error:\s*true/);
   assert.match(workflow, /repository: sorensencc-dotcom\/toolforge/);
-  assert.match(workflow, /sparse-checkout: CIC-GOVERNANCE/);
+  assert.match(workflow, /sparse-checkout:[\s|]*CIC-GOVERNANCE/);
   assert.match(workflow, /install_flags: --no-audit --legacy-peer-deps/);
   assert.match(workflow, /npm install --ignore-scripts \$\{\{ matrix\.install_flags \}\}/);
   assert.match(workflow, /cp -a toolforge-source\/CIC-GOVERNANCE\/\. workspace\/CIC-GOVERNANCE\//);
