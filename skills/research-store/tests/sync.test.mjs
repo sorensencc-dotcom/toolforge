@@ -27,6 +27,60 @@ test('LF and CRLF frontmatter preserve Drive provenance and paragraph chunks', a
   }
 });
 
+test('Markdown sections attach current heading ancestry without publishing empty headings or rules', async () => {
+  const { parseResearchMarkdown } = await loadSync();
+  const raw = '# Guide\n\n## Recovery\n\nWrite the new pointer atomically.\n\nRetain the previous generation.\n\n---\n\n## Access\n\nDeny foreign project reads.';
+  const parsed = parseResearchMarkdown(raw, 'guide.md', null);
+  assert.deepEqual(parsed.chunks, [
+    '# Guide\n## Recovery\n\nWrite the new pointer atomically.',
+    '# Guide\n## Recovery\n\nRetain the previous generation.',
+    '# Guide\n## Access\n\nDeny foreign project reads.',
+  ]);
+  assert.equal(parsed.document.metadata.chunking_version, 'markdown-context-v1');
+  assert.deepEqual(parseResearchMarkdown('# Heading only\n\n---', 'empty-heading.md', null).chunks, []);
+});
+
+test('Markdown code fences and table blocks remain intact with section context', async () => {
+  const { parseResearchMarkdown } = await loadSync();
+  const code = '````js\nconst first = 1;\n\n# not a heading\n```\n\nconst second = 2;\n````';
+  const table = '| Field | Rule |\n| --- | --- |\n| project | signed claim |';
+  const parsed = parseResearchMarkdown(`Guide\n=====\n\n## Example\n\n${code}\n\n${table}`, 'code.md', null);
+  assert.deepEqual(parsed.chunks, [`Guide\n=====\n## Example\n\n${code}`, `Guide\n=====\n## Example\n\n${table}`]);
+});
+
+test('heading context counts toward embedding input limit without truncating source', async () => {
+  const { parseResearchMarkdown } = await loadSync();
+  assert.throws(() => parseResearchMarkdown(`# Heading\n\n${'x'.repeat(7999)}`, 'oversize.md', null));
+  const raw = '---\nmetadata:\n  chunking_version: spoofed\n---\n# Heading\n\nAnswer.';
+  assert.equal(parseResearchMarkdown(raw, 'version.md', null).document.metadata.chunking_version, 'markdown-context-v1');
+});
+
+test('real sync path embeds answer-bearing contextual blocks and publishes their unchanged content', async () => {
+  const { syncResearch } = await loadSync();
+  const root = await mkdtemp(join(tmpdir(), 'research-context-test-'));
+  const raw = '---\nproject: RewriteLabs\nstatus: UNKNOWN\nsource_system: drive\ndrive_file_id: context-export\n---\n# Harvester\n\n## Secret detection\n\nAbort ingestion if credentials appear.\n\n---';
+  const expected = '# Harvester\n## Secret detection\n\nAbort ingestion if credentials appear.';
+  const inputs = [];
+  const publications = [];
+  try {
+    await writeFile(join(root, 'source.md'), raw);
+    const result = await syncResearch({ root }, {
+      embed: identified(async texts => { inputs.push(...texts); return texts.map(() => vector()); }),
+      supabase: { rpc: async (name, payload) => { publications.push({ name, payload }); return { data: id, error: null }; } },
+    });
+    assert.deepEqual(result, { processed: 1, skipped: 0, failed: 0 });
+    assert.deepEqual(inputs, [expected]);
+    assert.equal(publications.length, 1);
+    assert.equal(publications[0].name, 'replace_research_document');
+    assert.equal(publications[0].payload.p_items[0].content, expected);
+    assert.equal(publications[0].payload.p_items[0].project, 'RewriteLabs');
+    assert.equal(publications[0].payload.p_items[0].status, 'UNKNOWN');
+    assert.equal(publications[0].payload.p_document.drive_file_id, 'context-export');
+    assert.equal(publications[0].payload.p_document.metadata.chunking_version, 'markdown-context-v1');
+    assert.equal(await readFile(join(root, 'source.md'), 'utf8'), raw);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
 test('malformed frontmatter, unsupported project/status, and invalid confidence reject', async () => {
   const { parseResearchMarkdown } = await loadSync();
   for (const yaml of [

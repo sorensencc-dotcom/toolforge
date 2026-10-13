@@ -57,7 +57,7 @@ tags: [synthetic]
 ---
 ```
 
-Supply body as Markdown paragraphs after frontmatter. Direct Drive downloads, claim extraction, and source-file deletion propagation are outside this integration. Relative exported path plus project supplies index identity; keep one consistent export root per indexed namespace.
+Supply body as Markdown after frontmatter. Direct Drive downloads, claim extraction, and source-file deletion propagation are outside this integration. Relative exported path plus project supplies index identity; keep one consistent export root per indexed namespace.
 
 ## Indexing
 
@@ -66,7 +66,9 @@ node skills/research-store/src/sync.mjs --dry-run --project RewriteLabs
 node skills/research-store/src/sync.mjs --project RewriteLabs
 ```
 
-Dry run parses every selected file without cloud credentials or network calls. YAML must be a mapping with supported project/status, numeric confidence 0..1, string tags, and mapping metadata. Maximum paragraph length is 8000 characters; embedding batches contain at most 16 paragraphs. Split oversized source paragraphs explicitly.
+Dry run parses every selected file without cloud credentials or network calls. YAML must be a mapping with supported project/status, numeric confidence 0..1, string tags, and mapping metadata. Marked preserves top-level Markdown blocks, including lists, tables, and fenced code with internal blank lines. Each answer-bearing block carries current heading ancestry; headings and horizontal rules do not become standalone chunks. Maximum block length including heading context is 8000 characters; embedding batches contain at most 16 chunks. Split oversized source blocks explicitly.
+
+Chunk metadata records `chunking_version: markdown-context-v1`; source body hash remains unchanged by chunk formatting. Reindex approved authoritative exports to replace old paragraph chunks. Replacement uses existing atomic indexing and invalidates linked claims when indexed text changes; headings added to evidence can therefore require claim review even when source bytes are unchanged. No automatic reindex or migration occurs.
 
 Indexing embeds complete current document before atomic replacement. Unchanged body does not prevent metadata updates. Existing chunk indexes retain IDs. When indexed content changes or disappears, linked claims retain statement/document, clear research_item_id, and move to NEEDS_REVIEW; content cannot silently retarget evidence. Empty body removes prior chunks. Missing files leave existing indexed documents intact. Symlinks are skipped; checked file handles detect path replacement and concurrent content changes before embedding. Use operator-controlled export roots.
 
@@ -104,4 +106,4 @@ Representative calibration requires a preapproved corpus and egress/backend. Fre
 
 ## Provenance
 
-Supabase JS (Supabase), MCP TypeScript SDK (Model Context Protocol contributors), and js-yaml (Nodeca) are external dependencies linked in README. Ollama supplies local inference. Toolforge supplies WhichLLM routing, native embedding adapters, parsing, validation, SQL boundaries, client wiring, and tests; it does not implement upstream services. OpenAI SDK/key no longer required.
+Supabase JS (Supabase), MCP TypeScript SDK (Model Context Protocol contributors), js-yaml (Nodeca), and Marked (Marked contributors) are external dependencies linked in README. Ollama supplies local inference. Toolforge supplies WhichLLM routing, native embedding adapters, parsing, validation, SQL boundaries, client wiring, and tests; it does not implement upstream services. OpenAI SDK/key no longer required.

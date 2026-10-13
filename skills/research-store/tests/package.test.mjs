@@ -15,10 +15,10 @@ test('initial deployed migration matches transaction-tested schema', async () =>
   assert.equal(migration, `SET search_path = public, extensions;\nGRANT USAGE ON SCHEMA public, extensions TO authenticated, service_role;\n${schema}\nNOTIFY pgrst, 'reload schema';`);
 });
 
-test('package declares all runtime dependencies including js-yaml', async () => {
+test('package declares runtime dependencies including YAML and Markdown parsers', async () => {
   const pkg = await json(new URL('package.json', skill));
   assert.equal(pkg.type, 'module');
-  for (const name of ['@modelcontextprotocol/sdk', '@supabase/supabase-js', 'js-yaml']) {
+  for (const name of ['@modelcontextprotocol/sdk', '@supabase/supabase-js', 'js-yaml', 'marked']) {
     assert.ok(pkg.dependencies[name], `missing declared dependency: ${name}`);
   }
   assert.equal(pkg.dependencies.openai, undefined, 'local routing must not require OpenAI SDK');
