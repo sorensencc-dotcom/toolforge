@@ -20,6 +20,15 @@ test('icf/dashboard/index.html contains TRM action backlog UI elements and promo
   assert.ok(dashboardHtml.includes('function openPromoteModal'), 'Missing openPromoteModal function');
   assert.ok(dashboardHtml.includes('function submitPromoteModal'), 'Missing submitPromoteModal function');
 
+  // Verify Tab 04 gaps matrix controls exist
+  assert.ok(dashboardHtml.includes('id="trmGapsSearchInput"'), 'Missing trmGapsSearchInput');
+  assert.ok(dashboardHtml.includes('id="btnGapFilterAll"'), 'Missing btnGapFilterAll');
+  assert.ok(dashboardHtml.includes('id="btnGapFilterOpen"'), 'Missing btnGapFilterOpen');
+  assert.ok(dashboardHtml.includes('id="btnGapFilterTriaged"'), 'Missing btnGapFilterTriaged');
+  assert.ok(dashboardHtml.includes('id="btnGapFilterResolved"'), 'Missing btnGapFilterResolved');
+  assert.ok(dashboardHtml.includes('function filterTrmGaps'), 'Missing filterTrmGaps function');
+  assert.ok(dashboardHtml.includes('function renderTrmGapsTable'), 'Missing renderTrmGapsTable function');
+
   // REGRESSION GUARD: Ensure modern Cathryn Lavery layout and theme switcher are never overwritten
   assert.ok(dashboardHtml.includes('data-theme="parchment"') || dashboardHtml.includes("applyTheme('parchment')"), 'Missing Warm Parchment theme support');
   assert.ok(dashboardHtml.includes('class="command-header"'), 'Missing modern command-header layout');

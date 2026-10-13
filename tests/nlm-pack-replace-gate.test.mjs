@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import path from 'node:path';
 import {
   isPackFamilyTitle,
   filterPackFamilySources,
@@ -121,3 +122,65 @@ test('purgePackFamilyBeforeUpload throws ROUTING_GUARD_VIOLATION for software pa
     /ROUTING_GUARD_VIOLATION/
   );
 });
+
+test('Agent Harness: pack_agent_harness and repo_knowledge_pack are recognized as the same pack family', () => {
+  // When uploading pack_agent_harness.txt, repo_knowledge_pack parts are recognized as same family
+  assert.equal(isPackFamilyTitle('repo_knowledge_pack.txt', 'pack_agent_harness.txt'), true);
+  assert.equal(isPackFamilyTitle('repo_knowledge_pack_part_aa.txt', 'pack_agent_harness.txt'), true);
+  assert.equal(isPackFamilyTitle('repo_knowledge_pack_part_as.txt', 'pack_agent_harness.txt'), true);
+
+  // When uploading repo_knowledge_pack.txt, pack_agent_harness.txt is recognized as same family
+  assert.equal(isPackFamilyTitle('pack_agent_harness.txt', 'repo_knowledge_pack.txt'), true);
+  assert.equal(isPackFamilyTitle('pack_agent_harness.txt', 'repo_knowledge_pack_part_aa.txt'), true);
+
+  // Non-pack sources are still rejected
+  assert.equal(isPackFamilyTitle('Ecosystem Architecture Guide (Current).md', 'pack_agent_harness.txt'), false);
+  assert.equal(isPackFamilyTitle('Evaluating OpenResearch for Autoresearchers', 'repo_knowledge_pack.txt'), false);
+});
+
+test('Agent Harness: filterPackFamilySources matches both pack_agent_harness and repo_knowledge_pack parts', () => {
+  const sources = [
+    { id: 'src-harness', title: 'pack_agent_harness.txt' },
+    { id: 'src-part-aa', title: 'repo_knowledge_pack_part_aa.txt' },
+    { id: 'src-part-ab', title: 'repo_knowledge_pack_part_ab.txt' },
+    { id: 'src-doc', title: 'Ecosystem Architecture Guide (Current).md' },
+  ];
+
+  const matchedHarness = filterPackFamilySources(sources, 'pack_agent_harness.txt');
+  assert.equal(matchedHarness.length, 3);
+  assert.deepEqual(matchedHarness.map(s => s.id), ['src-harness', 'src-part-aa', 'src-part-ab']);
+
+  const matchedRepo = filterPackFamilySources(sources, 'repo_knowledge_pack.txt');
+  assert.equal(matchedRepo.length, 3);
+  assert.deepEqual(matchedRepo.map(s => s.id), ['src-harness', 'src-part-aa', 'src-part-ab']);
+});
+
+test('Agent Harness: replaceGate in dryRun identifies both pack_agent_harness and repo_knowledge_pack for purging', async () => {
+  const agentHarnessId = '359b346c-6af7-4ba3-baef-b985c9e6e1af';
+  const result = await replaceGate({
+    packFile: path.resolve('tests', 'nlm-pack-replace-gate.test.mjs'),
+    targetNbId: agentHarnessId,
+    category: 'agent-harness',
+    dryRun: true,
+  });
+  assert.ok(result);
+  assert.ok(result.genId);
+});
+
+test('Non-pack documents are preserved and never identified as pack families', () => {
+  assert.equal(isPackFamilyTitle('Interview transcript - User research.docx', 'pack_agent_harness.txt'), false);
+  assert.equal(isPackFamilyTitle('Architecture RFC 2026.md', 'pack_agent_harness.txt'), false);
+  assert.equal(isPackFamilyTitle('API Reference - v2.pdf', 'repo_knowledge_pack.txt'), false);
+  assert.equal(isPackFamilyTitle('Sprint Review Meeting Notes', 'pack_agent_harness.txt'), false);
+});
+
+test('All 19 parts (part_aa..as) match the unified agent harness pack family', () => {
+  const parts = ['aa', 'ab', 'ac', 'ad', 'ae', 'af', 'ag', 'ah', 'ai', 'aj', 'ak', 'al', 'am', 'an', 'ao', 'ap', 'aq', 'ar', 'as'];
+  for (const p of parts) {
+    const filename = `repo_knowledge_pack_part_${p}.txt`;
+    assert.equal(isPackFamilyTitle(filename, 'pack_agent_harness.txt'), true, `${filename} should match pack_agent_harness.txt`);
+    assert.equal(isPackFamilyTitle('pack_agent_harness.txt', filename), true, `pack_agent_harness.txt should match ${filename}`);
+  }
+});
+
+

@@ -426,8 +426,22 @@ export async function replaceGate(opts) {
 
     // ── Step 2: Read prior generation source IDs ─────────────────────────────
     const prevGen    = readGenerationFile(repoRoot);
-    const priorData  = prevGen[`${category}:${targetNbId}`];
-    const priorIds   = new Set(priorData?.sourceIds ?? []);
+    const priorIds   = new Set();
+
+    const categoryAliases = new Set([category]);
+    if (/^(agent-harness|repo[_-]?knowledge[_-]?pack|repo-pack)$/i.test(category) || targetNbId === '359b346c-6af7-4ba3-baef-b985c9e6e1af') {
+      categoryAliases.add('agent-harness');
+      categoryAliases.add('repo-knowledge-pack');
+      categoryAliases.add('repo_knowledge_pack');
+      categoryAliases.add('repo-pack');
+    }
+
+    for (const cat of categoryAliases) {
+      const priorData = prevGen[`${cat}:${targetNbId}`];
+      if (priorData?.sourceIds) {
+        for (const id of priorData.sourceIds) priorIds.add(id);
+      }
+    }
     logInfo(`Prior generation source IDs for "${category}": ${priorIds.size}`);
 
     if (dryRun) {
@@ -442,6 +456,12 @@ export async function replaceGate(opts) {
     const preUploadSources = nlmSourceList(targetNbId, nlmCli);
     const preUploadIds     = new Set(preUploadSources.map((s) => s.id));
     logInfo(`Notebook currently has ${preUploadIds.size} source(s).`);
+
+    // Supplement priorIds with any live matching pack family sources currently in the notebook
+    const liveMatches = filterPackFamilySources(preUploadSources, baseName);
+    for (const s of liveMatches) {
+      if (s?.id) priorIds.add(s.id);
+    }
 
     // ── Step 4: Upload chunks with pacing ────────────────────────────────────
     logStep(`Uploading ${chunks.length} chunk(s) with ${INTER_CHUNK_DELAY_MS / 1000}s pacing…`);
@@ -487,6 +507,13 @@ export async function replaceGate(opts) {
       sourceIds:  uploadedIds,
       partNames:  chunks.map((c) => c.partName),
     };
+    if (/^(agent-harness|repo[_-]?knowledge[_-]?pack|repo-pack)$/i.test(category) || targetNbId === '359b346c-6af7-4ba3-baef-b985c9e6e1af') {
+      for (const cat of ['agent-harness', 'repo-knowledge-pack', 'repo_knowledge_pack', 'repo-pack']) {
+        if (cat !== category && genData[`${cat}:${targetNbId}`]) {
+          delete genData[`${cat}:${targetNbId}`];
+        }
+      }
+    }
     genData.active_generation = genId;
     genData.sha256 = `sha256:${crypto.createHash('sha256').update(content).digest('hex')}`;
     writeGenerationFile(repoRoot, genData);
@@ -550,6 +577,10 @@ export function isPackFamilyTitle(title, incomingPackBaseName) {
     const base = path.basename(incomingPackBaseName).toLowerCase();
     const baseNoExt = base.replace(/\.[^.]+$/, '');
     if (t === base || t === baseNoExt || t.startsWith(baseNoExt)) return true;
+    // Treat pack_agent_harness and repo_knowledge_pack as the same pack family
+    const isAgentHarnessFamily = (s) =>
+      /^(repo[_-]?knowledge[_-]?pack|pack_agent_harness)/i.test(s);
+    if (isAgentHarnessFamily(base) && isAgentHarnessFamily(t)) return true;
   }
   return PACK_FAMILY_TITLE_RE.some((re) => re.test(t));
 }

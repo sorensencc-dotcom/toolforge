@@ -1,0 +1,43 @@
+{
+  "id": "act-1791669602226-package-json",
+  "source": "mobile-grok",
+  "action_type": "antigravity_triage",
+  "intent": "consolidate_pack",
+  "category": "RESEARCH",
+  "domain": "trm",
+  "target": "research",
+  "summary": "Package.json manifest for minimal research-store-mcp server",
+  "context": {
+    "package_json": {
+      "name": "research-store-mcp",
+      "version": "0.1.0",
+      "type": "module",
+      "description": "Minimal MCP server exposing Supabase research store (CIC / RewriteLabs)",
+      "bin": {
+        "research-store-mcp": "./mcp-server.js"
+      },
+      "scripts": {
+        "start": "node mcp-server.js"
+      },
+      "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.0.0",
+        "@supabase/supabase-js": "^2.45.0",
+        "openai": "^4.60.0"
+      }
+    },
+    "provider": "ollama:qwen2.5:7b",
+    "raw_input": "Package.json manifest for minimal research-store-mcp server"
+  },
+  "action_id": "act-1791669602226-package-json",
+  "priority": "P3",
+  "execution_plan": [
+    {
+      "step": 1,
+      "handler": "ironbot",
+      "action": "review_manifest",
+      "command": "grep -r 'research-store-mcp' package.json"
+    }
+  ],
+  "target_notebook_name": "TRM Research Backlog",
+  "issue_url": null
+}

@@ -79,6 +79,32 @@ Operate the dashboard backlog surface and run periodic triage passes via `node s
 
 ---
 
+## Stateless MCP IronLedger ledger subject (2026-10-12)
+
+### Active goal
+
+Record one IronLedger loopback ledger row whose owner is `local:ironledger`. Leave host configs, the kb-sync ledger, and the section 4 harness untouched.
+
+### Completed work
+
+- `src/ironledger/mcp/idempotency.py` keeps an in-memory row keyed `idempotency:v1:{owner}:{client_request_id}`. The owner on this socket is `local:ironledger`. `mark_request` is the only mutation. It does not open a database. `projection_status`, `search`, and `balances` stay reads.
+- Pytest, 2026-10-12, `tests/test_mcp_idempotency.py` plus `tests/test_mcp_loopback_copy.py` plus `tests/test_cli_mcp.py`: 14 passed.
+- HTTP probe on mcp 2.3.0 at `127.0.0.1:8766`, temp copy only. Two `mark_request` calls, id `6f1e2c0a-7b34-4d5e-9a10-2c8b7d6e5f41`, label `alpha`. Both HTTP 200, `executions` 1, `structuredContent.owner` `local:ironledger`. Evil Origin HTTP 403. `projection_status` HTTP 200, `status` `missing`. Repo-root `ironledger.db` stayed 27508736 bytes, mtime_ns `1791403217590981100`. Process exit 0. Port 8766 refused connections afterward.
+- IronLedger commit `cbb5d29` stores this row.
+
+### Completed work (kb-sync, same day)
+
+- `kb-sync/scripts/mcp-idempotency.mjs` wraps `handler.fetch`. The owner on that socket is `local:kb-sync`. `mark_request` is the only mutation.
+- `node --test tests/mcp-idempotency.test.mjs` reported 7 passed.
+- HTTP probe on `127.0.0.1:8765` with `KB_CACHE_DB` set to a temp file. Two `mark_request` calls, id `6f1e2c0a-7b34-4d5e-9a10-2c8b7d6e5f42`, label `alpha`. Both HTTP 200, `executions` 1, `structuredContent.owner` `local:kb-sync`. Evil Origin HTTP 403. `query_context_cache` HTTP 200, body `[]`. Live `.kb_cache/knowledge.db` stayed 60305408 bytes, mtimeMs `1791771646296.527`. Process exit 0. Port 8765 refused connections afterward.
+- kb-sync commit `935b22cc` stores this row. Spec status is revision 12.
+
+### Next action
+
+Put real mutations on the ledger. `vfs_upsert_document` still runs without a client request id. Then verify one writer per database under two concurrent hosts, and the authenticated handle owner check. Do not point Claude, Cursor, or Codex at either daemon. Do not open the live financial database or vacuum the live kb-sync cache. Do not run the section 4 harness.
+
+---
+
 ## Stateless MCP spec revision 8 (2026-10-11)
 
 ### Active goal

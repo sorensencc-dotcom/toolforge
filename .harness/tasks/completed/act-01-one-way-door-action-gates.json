@@ -1,0 +1,7 @@
+{
+  "id": "act-01-one-way-door-action-gates",
+  "status": "COMPLETED",
+  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/115",
+  "resolution": "Implemented action classifier and one-way door approval gates in Toolforge (GitHub Issue #115 closed).",
+  "completed_at": "2026-10-11T14:09:29Z"
+}
