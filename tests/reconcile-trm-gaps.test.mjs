@@ -289,4 +289,143 @@ test('reconcileNotebookFindings - reconciles Cast Iron Charlie - Research Logs f
   }
 });
 
+test('reconcileNotebookFindings - reconciles The Sorensen Photographic Archive (fd0e0e4e)', () => {
+  const photoId = 'fd0e0e4e-6890-4fb9-89bf-b9e568295e7a';
+  const mockData = {
+    trm_intelligence: {
+      notebook_findings: {
+        [photoId]: {
+          contradictions: Array.from({ length: 7 }, (_, i) => ({
+            title: `Contradiction ${i + 1}`,
+            desc: `Old Photo C ${i + 1}`,
+            status: 'OPEN',
+            resolved: false
+          })),
+          undersourced: Array.from({ length: 1 }, (_, i) => ({
+            title: `Undersourced ${i + 1}`,
+            desc: `Old Photo U ${i + 1}`,
+            status: 'OPEN',
+            resolved: false
+          }))
+        }
+      }
+    }
+  };
+
+  const changes = reconcileNotebookFindings(mockData);
+  assert.equal(changes, 8);
+
+  const findings = mockData.trm_intelligence.notebook_findings[photoId];
+  assert.equal(findings.extraction_status, 'RESOLVED (8 Vectors Reconciled)');
+  assert.equal(findings.contradictions.length, 7);
+  assert.equal(findings.undersourced.length, 1);
+
+  for (const c of findings.contradictions) {
+    assert.equal(c.status, 'RESOLVED');
+    assert.equal(c.resolved, true);
+    assert.ok(c.title.includes('[RECONCILED:'));
+    assert.ok(c.desc.startsWith('RECONCILED (2026-10-13):'));
+  }
+
+  for (const u of findings.undersourced) {
+    assert.equal(u.status, 'RESOLVED');
+    assert.equal(u.resolved, true);
+    assert.ok(u.title.includes('[RECONCILED:'));
+    assert.ok(u.desc.startsWith('RECONCILED (2026-10-13):'));
+  }
+});
+
+test('reconcileNotebookFindings - reconciles CIC-Reddit findings (039e2c13)', () => {
+  const redditId = '039e2c13-75b3-4bf2-b58d-9bbce8f73a4d';
+  const mockData = {
+    trm_intelligence: {
+      notebook_findings: {
+        [redditId]: {
+          contradictions: Array.from({ length: 4 }, (_, i) => ({
+            title: `Contradiction ${i + 1}`,
+            desc: `Old Reddit C ${i + 1}`,
+            status: 'OPEN',
+            resolved: false
+          })),
+          undersourced: Array.from({ length: 5 }, (_, i) => ({
+            title: `Undersourced ${i + 1}`,
+            desc: `Old Reddit U ${i + 1}`,
+            status: 'OPEN',
+            resolved: false
+          }))
+        }
+      }
+    }
+  };
+
+  const changes = reconcileNotebookFindings(mockData);
+  assert.equal(changes, 9);
+
+  const findings = mockData.trm_intelligence.notebook_findings[redditId];
+  assert.equal(findings.extraction_status, 'RESOLVED (9 Vectors Reconciled)');
+  assert.equal(findings.contradictions.length, 4);
+  assert.equal(findings.undersourced.length, 5);
+
+  for (const c of findings.contradictions) {
+    assert.equal(c.status, 'RESOLVED');
+    assert.equal(c.resolved, true);
+    assert.ok(c.title.includes('[RECONCILED:'));
+    assert.ok(c.desc.startsWith('RECONCILED (2026-10-13):'));
+  }
+
+  for (const u of findings.undersourced) {
+    assert.equal(u.status, 'RESOLVED');
+    assert.equal(u.resolved, true);
+    assert.ok(u.title.includes('[RECONCILED:'));
+    assert.ok(u.desc.startsWith('RECONCILED (2026-10-13):'));
+  }
+});
+
+test('reconcileNotebookFindings - reconciles CastIronCharlie-Facebook findings (0c8dc979)', () => {
+  const fbId = '0c8dc979-319f-4e6d-8136-22275932c236';
+  const mockData = {
+    trm_intelligence: {
+      notebook_findings: {
+        [fbId]: {
+          contradictions: Array.from({ length: 4 }, (_, i) => ({
+            title: `Contradiction ${i + 1}`,
+            desc: `Old FB C ${i + 1}`,
+            status: 'OPEN',
+            resolved: false
+          })),
+          undersourced: Array.from({ length: 4 }, (_, i) => ({
+            title: `Undersourced ${i + 1}`,
+            desc: `Old FB U ${i + 1}`,
+            status: 'OPEN',
+            resolved: false
+          }))
+        }
+      }
+    }
+  };
+
+  const changes = reconcileNotebookFindings(mockData);
+  assert.equal(changes, 8);
+
+  const findings = mockData.trm_intelligence.notebook_findings[fbId];
+  assert.equal(findings.extraction_status, 'RESOLVED (8 Vectors Reconciled)');
+  assert.equal(findings.contradictions.length, 4);
+  assert.equal(findings.undersourced.length, 4);
+
+  for (const c of findings.contradictions) {
+    assert.equal(c.status, 'RESOLVED');
+    assert.equal(c.resolved, true);
+    assert.ok(c.title.includes('[RECONCILED:'));
+    assert.ok(c.desc.startsWith('RECONCILED (2026-10-13):'));
+  }
+
+  for (const u of findings.undersourced) {
+    assert.equal(u.status, 'RESOLVED');
+    assert.equal(u.resolved, true);
+    assert.ok(u.title.includes('[RECONCILED:'));
+    assert.ok(u.desc.startsWith('RECONCILED (2026-10-13):'));
+  }
+});
+
+
 
