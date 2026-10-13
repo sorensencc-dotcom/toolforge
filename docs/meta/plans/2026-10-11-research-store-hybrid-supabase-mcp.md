@@ -6,11 +6,159 @@
 
 **Architecture:** Package integration under `skills/research-store/`. Treat Git and exported Drive Markdown as authoritative sources; Supabase holds derived documents, chunks, and claims. Use service-role credentials only for indexing and authenticated user JWTs for MCP reads.
 
-**Tech stack:** Node.js >=24.0.0, ESM, Node test runner, PostgreSQL 15+ with pgvector, Supabase JS client, MCP JS SDK, OpenAI SDK, and js-yaml.
+**Tech stack:** Node.js >=24.0.0, ESM, Node test runner, PostgreSQL 15+ with pgvector, Supabase JS client, MCP JS SDK, js-yaml, and Toolforge WhichLLM local embedding adapters.
 
 **Spec:** [Issue #124 and attached artifacts](https://github.com/sorensencc-dotcom/toolforge/issues/124). Read all six artifact comments before execution. This draft proposes corrections to those artifacts; it is not an approved charter.
 
-## Current rehearsal status (2026-10-11)
+## Current local multimodel status (2026-10-12)
+
+### Local synthetic threshold calibration (2026-10-12)
+
+Operator selected issue #124 calibration, not chat-model replacement. Reused
+existing CLI/MCP/Supabase quality harness with fixed queries declared before
+embedding: tuning and held-out splits each contain three positives and three
+unrelated negatives. Corpus remains three synthetic workflow paragraphs plus
+foreign-project duplicate. Verified local qwen3-embedding:4b digest is asserted;
+16 initial vectors validate 1536 dimensions. No FreeLLM or external embedding
+requests, real sources, Auth changes, or migrations.
+
+Selection rule: lowest threshold on fixed 0.00..1.00 grid (step 0.01) with all
+tuning positives ranked first and accepted, and no tuning negative accepted.
+Acceptance uses SQL's strict similarity > threshold. Held-out data never tunes
+selection. This measures top-result recall and unrelated-query false acceptance,
+not precision of every returned chunk or production representativeness. Metrics
+filter run-owned fixtures from the shared API result (limit 50); other authorized
+documents may rank above them. Presence of all three fixtures is asserted, but
+these results do not establish global top-result behavior on a populated corpus.
+
+| Split / threshold | Positive top-result recall | Negative false acceptance |
+| --- | --- | --- |
+| Tuning / default 0.7 | 2/3 | 0/3 |
+| Held-out / default 0.7 | 3/3 | 0/3 |
+| Tuning / selected 0.46 | 3/3 | 0/3 |
+| Held-out / selected 0.46 | 3/3 | 1/3 |
+
+**Candidate rejected.** Held-out connection-pool sizing query returns rollback
+paragraph at 0.4991. Do not retune on held-out scores or silently adopt 0.50.
+All 12 selected-threshold queries agree with real MCP/API; signed project
+isolation and run-owned document/chunk/user/export cleanup verified.
+Harness success proves execution/contracts/cleanup, not a green quality gate.
+
+Ruling: complete bounded synthetic assessment but leave representative quality
+gate open; retain 0.7 default and generated chat selection unchanged, not select
+it using held-out results. Cost of
+this conservative ruling: one tuning positive remains suppressed. Next decision
+requires approved representative inputs and a fresh independent validation set
+before any threshold adoption; real-source use requires source/egress approval.
+
+Final verification: focused suite 33/33; root 236 pass, zero failures, one
+optional external-PDF skip; live calibration 4/4 execution checks with rejected
+quality outcome; docs publishing validation and scoped whitespace pass. One
+credential-lookup timeout occurred before fixture creation; fresh rerun passed.
+Fresh review corrections: portable explicit calibration launcher, fixture-only
+metric labeling, independent path-based publication cleanup with fail-closed
+regression. Audit whitespace failures are unrelated and preserved unstaged.
+
+Operator selected existing Toolforge local multimodel framework plus explicit
+FreeLLM Docker routing. This section supersedes earlier OpenAI checkpoints and
+implementation contracts below. OpenAI SDK/key no longer required. Shared
+provider calls WhichLLM embedding purpose; generation routing and generated
+model_selection.json remain unchanged. Installed qwen3-embedding:4b explicitly;
+native Ollama API supports existing 1536 dimensions. Verified digest:
+df5bd2e3c74cd8d069d21dc038f1b359fcdc9458fce1c99bd43c9eb1518ff907.
+Existing llama3.1:8b generation model rejected embedding calls; dedicated model
+resolves that failure. No generation model replacement or fabricated evaluator output.
+
+Provider pins digest before/after requests; validates model echo, vector count,
+finite/nonzero values, dimensions, loopback endpoint; rejects redirects, remote
+Ollama models, automatic retries/fallback. Identity is recorded on document and
+chunks. Additive SECURITY INVOKER RPC filters matching identity before ranking
+and limiting, preserving RLS and anonymous denial. Older/unidentified vectors
+remain stored but are excluded; explicit authorized reindex required to switch.
+Historical baseline migration untouched. Isolated mixed-model negative control
+fails as intended; enhancement reruns twice with cleanup verified. Dev/UAT
+dry-run listed only 20261012000124; additive migration installed there only.
+
+| Evidence | Latest result |
+| --- | --- |
+| Root suite | 236 pass, zero fail, one optional external PDF fixture skipped |
+| Research-store scoped suite | 30/30 pass, zero skips |
+| WhichLLM regression suite | 6/6 pass, existing generation behavior preserved |
+| Existing Ollama provider suite | 17/17 pass after test-only Vitest option-order correction; unchanged origin/main harness initially failed before executing tests |
+| Real dev/UAT SQL/recovery | 3/3 pass; 33 baseline assertions, SECURITY DEFINER and mixed-model negative controls, rerun and schema cleanup |
+| Real Auth/REST/sync/MCP UAT | Pass after additive migration; only two reserved synthetic baseline documents retained |
+| Real local embedding quality | Pass through actual sync CLI, MCP stdio, signed Supabase reads and local Ollama |
+| Signed expiry | Prior 1/1 real API pass, original Auth 3600 restored; local provider work does not change Auth |
+
+Actual quality test uses seven fixed synthetic strings, sync CLI indexes four
+synthetic documents, MCP queries three paraphrases through same pinned model.
+Correct top rankings 3/3 at threshold 0; similarities 0.5706/0.7031/0.7358;
+margins 0.0581/0.2982/0.2655. Matching foreign project invisible. Run-owned
+documents/chunks/user/exports deleted with absence checks. Default 0.7 recall
+is 2/3, still not representative-input calibration approval. No OpenAI calls.
+Current dependencies: MCP SDK 1.32.1, Supabase JS 2.117.3, js-yaml 4.3.2;
+OpenAI SDK removed with clean install, zero skill dependency audit vulnerabilities.
+
+FreeLLM Docker at 127.0.0.1:3001 now has authenticated live acceptance for
+explicit llama-nemotron-embed-vl-1b-v2 family. Adapter requires router credential,
+explicit immutable/versioned family, compatible `/v1/embeddings`, exact echo,
+1536 dimensions. Synthetic authentication/wire/error/no-fallback tests pass.
+Read-only installed source confirms endpoint exists, echoes family rather than
+provider-specific model, and may fail over providers within same family.
+Toolforge itself makes one request without retry or cross-model fallback.
+Use approved catalog family as EMBEDDING_MODEL; verify member model identity,
+backend privacy/cost before activation. No router configuration changed.
+Docker locality does not prove downstream privacy or cost; external backend
+requires separate approval for each scope. No container/credential
+changes, production migration/activation, real-source uploads, or scheduler.
+Refresh on demand; optional weekly, no daily mirror.
+
+### Bounded FreeLLM acceptance (2026-10-12)
+
+Operator separately approved FreeLLM to NVIDIA rehearsal: maximum eight requests,
+8 KB fixed synthetic text, 1536 dimensions, existing free developer allowance,
+no default/model changes, real sources, or production operations. Supplied router
+credential was consumed through masked in-memory input and child environment,
+removed afterward; no credential files or command-line values. Authenticated
+models read succeeds; invalid-input embedding probe returns 400 before inference.
+Dashboard login is separate from inference credential; Edge authenticated session
+exposed embedding catalog without password transfer or credential changes.
+
+Catalog default remains gemini-embedding-001 with no backend key. Tested family
+has NVIDIA enabled; OpenRouter fallback has no key before and after rehearsal.
+Installed adapter uses https://integrate.api.nvidia.com/v1/embeddings, not paid
+custom endpoint. [NVIDIA developer pricing](https://docs.api.nvidia.com/nim/docs/run-anywhere)
+documents free API prototyping; account billing was not independently queried.
+[Support matrix](https://docs.nvidia.com/nim/nemo-retriever/embedding/latest/support-matrix.html)
+supports dynamic VL embeddings; nemotron-3-embed-1b cannot reduce its native 2048
+dimensions. No paid fallback or router configuration change authorized/performed.
+
+Existing test:embedding-quality passes through shared WhichLLM provider, actual
+sync CLI indexing, MCP stdio queries, signed dev/UAT Supabase reads. VL family
+returns valid 1536-dimensional vectors and exact family echo. All three intended
+rankings pass at threshold 0: similarities 0.3321/0.4059/0.3886; margins
+0.1335/0.2777/0.1913. Foreign project invisible. Run-owned documents/chunks/user
+and local exports removed; absence verified. Dashboard usage moved from zero
+to exactly eight requests and 320 reported tokens in this family; other families
+remain zero. Budget follows one seven-string batch, four document requests,
+three MCP query requests, each fixed payload appearing twice at most, below
+8 KB in total. No extra availability request or retry made.
+
+Default threshold 0.7 recall is 0/3. FreeLLM availability/wired-path gate passes,
+but representative retrieval calibration remains open; prior local recall 2/3
+is better on this tiny fixture, not a general model benchmark. Ollama stays
+default, FreeLLM remains explicit optional lane. Production and real sources
+untouched; no inference authorization beyond this bounded rehearsal implied.
+
+Delivery: commit 1eaeb2a4 pushed to existing draft PR #134 through normal
+commit/push hooks; remote branch hash matches. Focused security audit reports
+zero critical/high/info findings. All remote checks for 1eaeb2a4 pass, including
+build/cache, AST/sibling audit, strict docs, secret scan, GitGuardian and both
+Governance runs. Recheck any subsequent documentation commit independently.
+Devin status is green but actual
+review skipped due expired trial/no credits. Dirty audits remain unstaged.
+
+## Historical rehearsal checkpoints
 
 Operator authorized candidate implementation and synthetic whole-stack rehearsal for future rollout. Real parser, embedding/Supabase adapters, sync CLI, MCP handlers, registration, and operator docs now exist. Production rollout remains pending. Historical checkpoints below describe earlier red baselines; this section defines current status.
 
@@ -22,8 +170,10 @@ Operator authorized candidate implementation and synthetic whole-stack rehearsal
 | Dev/UAT migration | Applied 20261011000124; subsequent dry-run reports up to date | Persistent public research schema, extension, grants, RLS, and RPCs |
 | SECURITY DEFINER negative control | Expected cross-project-search failure reproduced | Live isolation test detects original defect |
 | Root `timeout 90s npm test` | 232 pass, 1 skipped, zero fail | Historical dependency/setup failures are not active in current origin/main after fresh `npm install --ignore-scripts --legacy-peer-deps` |
+| `timeout 480s npm --prefix skills/research-store run test:jwt-expiry` | 1/1 pass | Actual signed 60-second JWT accepted before expiry and denied afterward; original 3600-second Auth lifetime restored and verified |
+| `timeout 180s npm --prefix skills/research-store run test:embedding-quality` | 1/1 pass; default recall gap found | Seven actual 1536-dimensional vectors, 3/3 correct rankings at threshold 0, default 0.7 recall 0/3, RLS and fixture cleanup verified |
 
-Live SQL fixtures and isolated test schemas roll back. Persistent dev/UAT migration remains installed, with two reserved synthetic baseline documents. Real API tests use actual signed Supabase users and delete run-owned users/claims afterward. Embeddings remain deterministic loopback fixtures. No paid embedding calls, real research uploads, commits, pushes, or production operations occurred. A genuinely signed expired-token API test remains pending because no safe signing material is available in the sandbox and lowering shared dev/UAT Auth token lifetime would be a project configuration mutation requiring separate approval.
+Live SQL fixtures and isolated test schemas roll back. Persistent dev/UAT migration remains installed, with two reserved synthetic baseline documents. Real API tests use actual signed Supabase users and delete run-owned users/claims afterward. Standard UAT uses deterministic loopback embeddings; separate approved quality harness now verifies actual OpenAI vectors. No real research uploads or production operations occurred. Genuinely signed expired-token API denial passes under explicit operator approval for a temporary dev/UAT Auth expiry change; the original setting was restored before waiting for token expiration. Default-threshold retrieval quality remains an open rollout risk.
 
 Installed versions for rehearsal: Node 24.18.0; MCP SDK 1.32.1; Supabase JS 2.117.3; OpenAI SDK 4.104.0; js-yaml 4.3.2. Record/rescope any dependency change before rollout reproduction.
 
@@ -68,8 +218,56 @@ synthetic failed DDL rolls back, benign enhancement applies, fixture schemas are
 dropped, and the baseline migration reruns in a second isolated schema. Real
 dev/UAT `test:uat` passed again through Auth, REST, sync CLI, MCP tools, cleanup,
 and retained only the two synthetic baseline documents. Real embedding
-provider/quality remains unrun pending separate egress/cost approval; production
-remains untouched.
+provider/quality was unrun pending separate egress/cost approval at that checkpoint;
+the final-gate continuation below records subsequent approval and credential blocker.
+Production remains untouched.
+
+Final-gate continuation (2026-10-12): PR #132 merged. Fresh isolated checkout
+`C:\dev\dev-sandbox\research-store-124-final-gates` starts at latest
+`origin/main` 395a06a5; repository preflight passes and existing worktrees/audit
+files remain preserved. Fresh root and skill dependency installs completed.
+Root suite reproduced one active stale documentation assertion at
+`src/governance.test.js:32`: it claimed a live line-limit/duplicate-section CI
+gate while current AGENTS marks that gate planned. Updated the test to match
+the current documented boundary without changing governance. Root rerun passes
+232 tests, zero failures, one optional external vault fixture skipped. Focused
+suite passes 28/28. Live SQL/recovery passes 2/2, including 33 assertions and
+the SECURITY DEFINER negative control; real API/sync/MCP UAT passes afterward.
+
+Operator approved temporary dev/UAT Auth change and synthetic real embedding
+egress capped at $0.10. Dedicated `test:jwt-expiry` fails closed without
+`RESEARCH_UAT_AUTH_EXPIRY_APPROVED=1`, previews exactly one declared config
+change, temporarily sets jwt_expiry to 60, and obtains an actual signed CIC
+token. Positive control retrieves authorized data through real REST. The test
+then restores original jwt_expiry=3600, verifies no unrelated remote config
+changed, waits for the untouched signed token to expire, and verifies HTTP 401
+with PGRST303 and an expiry message. Test passes; synthetic identity deletion
+and temporary config cleanup verified. A repeated run exposed delayed remote
+config visibility; added bounded convergence polling and reran successfully.
+Failure recovery also restored the original setting and deleted its identity.
+No shared Auth change remains active.
+
+Dedicated `test:embedding-quality` requires
+`RESEARCH_UAT_EMBEDDING_APPROVED=1` and an approved OpenAI credential. Planned
+workload is one direct OpenAI request with seven synthetic strings totaling at
+most 4096 bytes, text-embedding-3-small, 1536 dimensions, no retries. At
+[$0.02 per million input tokens](https://developers.openai.com/api/docs/models/text-embedding-3-small),
+verified 2026-10-12, conservative input-token cost bound is $0.00008192.
+Initial invocation failed before network because no OpenAI key was available.
+Operator then supplied a credential, consumed through masked in-memory input
+without file storage or command-line exposure. Two successful provider requests
+returned seven validated vectors each. Conservative combined cost bound is
+$0.00016384, below approved $0.10; actual billing was not independently queried.
+Final real Supabase retrieval ranks the correct synthetic fixture first for
+3/3 queries at explicit match_threshold=0. Similarities: 0.4014, 0.5539, 0.5840;
+separation margins: 0.1533, 0.3213, 0.3254. Identical foreign-project fixture
+remains invisible. Run-owned documents/chunks/identities deleted and absence
+verified after both runs. Default RPC threshold 0.7 returns none of these
+three paraphrases: default recall 0/3. Harness passes ranking/isolation checks
+and reports default recall diagnostically; this is not a production-quality
+PASS. Preserve issue's specified default until threshold/calibration decision
+is approved with representative inputs. No credentials committed, real sources
+uploaded, production changes, or refresh scheduler introduced.
 
 ## Review failures and regression gates
 
@@ -110,11 +308,11 @@ Operator selected project `bhezixgmkhpndmezgsxk` as persistent dev/UAT and stagi
 - [x] Inspect dev/UAT schema and migration history; verify project ref before every remote write. Fail closed on collisions or unexpected existing state.
 - [x] Apply versioned persistent migrations to dev/UAT; verify public-schema/PostgREST exposure, grants, and RLS without resetting shared schema.
 - [x] Provision dedicated signed CIC, RewriteLabs, and admin test users using trusted authorization claims; verify user-editable metadata cannot grant project/admin access.
-- [ ] Run sync CLI and all three MCP tools through real Supabase APIs with synthetic exports. Verify isolation, missing/forged JWT denial, repeat ingest, metadata changes, shrinking/empty content, claim invalidation, and failure atomicity. Genuinely signed expired-token denial still needs safe signing material or explicit approval to mutate dev/UAT Auth token lifetime temporarily.
-- [ ] Verify approved real embedding provider with synthetic input; distinguish deterministic fixture correctness from provider availability and retrieval quality.
+- [x] Run sync CLI and all three MCP tools through real Supabase APIs with synthetic exports. Verify isolation, missing/forged JWT denial, repeat ingest, metadata changes, shrinking/empty content, claim invalidation, and failure atomicity. Separate signed-expiry API test now passes with original Auth settings restored.
+- [x] Verify approved real embedding provider with synthetic input; distinguish deterministic fixture correctness from provider availability and retrieval quality. Actual provider/vector/ranking/isolation/cleanup checks pass; default 0.7 threshold recall is 0/3 on tested paraphrases and requires calibration before rollout.
 - [x] Rehearse an enhancement migration and recovery, then rerun scoped, live SQL, and real API checks. Record evidence and remaining root-suite failures before production promotion.
 
-Real API acceptance proves isolation, anonymous/forged-token denial, repeat ingest, metadata edits, shrinking/empty content, claim invalidation, failure atomicity, and all tools. Local startup tests reject missing/expired JWTs. Do not equate a tampered expiration payload with a genuinely signed expired token; that remaining API subcase keeps the combined JWT gate open.
+Real API acceptance proves isolation, anonymous/forged-token denial, repeat ingest, metadata edits, shrinking/empty content, claim invalidation, failure atomicity, and all tools. Separate signed-expiry test proves the same actual issuer-signed token succeeds before expiry and receives explicit expiry denial afterward. Local startup tests separately reject missing/expired JWTs; tampered-token denial alone is not signed-expiry evidence.
 
 ## Remaining rollout gates
 
@@ -126,10 +324,40 @@ Production CLI preparation completed under explicit operator login/init/link req
 - [x] Reproduce installation and scoped suites in clean delivery checkout; record exact dependency versions, docs validation, whitespace checks, and review outcome.
 - [x] Resolve seven root baseline failures and rerun repository suite; do not treat focused skill pass as root pass. Current origin/main root suite passes after fresh dependency install with legacy peer resolution; the historical failures are not active.
 - [x] On provisioned dev/UAT project, verify persistent migration history and intended public-schema/PostgREST exposure. Existing table/type collisions must fail closed; never reset shared schema.
-- [ ] Exercise actual signed CIC, RewriteLabs, and admin JWTs through Supabase HTTP API and all three MCP tools; verify missing/forged tokens and foreign UUID denial. Signed CIC, RewriteLabs, admin, and hostile-metadata users pass; genuinely signed expired-token denial remains pending. SQL role simulation and fake issuer do not satisfy that subcase.
+- [x] Exercise actual signed CIC, RewriteLabs, and admin JWTs through Supabase HTTP API and all three MCP tools; verify missing/forged tokens and foreign UUID denial. Signed CIC, RewriteLabs, admin, hostile-metadata users, and genuinely signed expired-token denial pass; original Auth configuration and run-owned cleanup verified.
 - [x] Run controlled writer ingestion through real Supabase client/API using synthetic exports. Verify metadata edits, shrinking/empty body, claim review state, and failed-write snapshot preservation.
-- [ ] Approve and verify real embedding provider/model/dimension with synthetic input and explicit egress approval; fake provider cannot establish external availability or retrieval quality.
-- [ ] Add explicit scoped suite commands to approved delivery/CI path, obtain production target/configuration approval, and verify a reversible migration/delivery procedure before rollout. Scoped live recovery rehearsal now passes; production target/configuration approval remains separate. Candidate status remains until signed-expired-token and real-embedding gates pass.
+- [x] Approve and verify real embedding provider/model/dimension with synthetic input and explicit egress approval. Actual text-embedding-3-small/1536 availability, 3/3 rankings at explicit threshold 0, project isolation, and cleanup pass within $0.10 cap; default recall separately measured.
+- [x] Complete bounded local synthetic calibration with fixed tuning/held-out positives and negatives; candidate 0.46 rejected on held-out false acceptance (1/3), default retained. CLI/MCP/API contracts and cleanup verified; harness execution success is not quality approval.
+- [ ] Calibrate retrieval threshold against representative approved inputs and fresh independent validation. Local default 0.7 recall is 5/6 on current synthetic split; NVIDIA default recall was 0/3 in its separate rehearsal. Threshold/model contract changes require explicit approval; real-source evaluation requires source/egress authorization. Rejected candidate must not be adopted or retuned using the held-out set.
+- [ ] Add explicit scoped suite commands to approved delivery/CI path, obtain production target/configuration approval, and verify a reversible migration/delivery procedure before rollout. Scoped live recovery and signed-expiry rehearsals pass; real embedding availability verified, default retrieval calibration remains open, and production target/configuration approval remains separate.
+
+### Representative retrieval acceptance contract
+
+Do not run this gate until the operator approves the exact corpus location,
+source handling, and embedding egress/backend. The synthetic split above is
+spent and may only remain a regression fixture for plumbing.
+
+Before scoring, freeze a manifest containing source snapshot identifiers,
+query text, expected document/chunk, project, status bucket, and whether each
+query is positive, confusing negative, or unrelated negative. Use a tuning set
+only to propose a threshold. Use a fresh validation set once, after the
+proposal is frozen; never retune on validation results.
+
+Minimum representative validation set: at least six approved source documents
+across CIC and RewriteLabs, 24 positive paraphrase queries, 12 confusing
+negative queries from adjacent but wrong topics, and 12 unrelated negatives.
+Include both status-filtered and project-filtered cases. Duplicate or
+near-duplicate source passages must be labeled before scoring rather than
+resolved after a miss.
+
+Pass criteria for threshold adoption: every query uses the real sync CLI, MCP
+stdio path, signed Supabase reader, and pinned embedding identity; validation
+positive top-result recall is at least 90% overall with no project below 80%;
+zero cross-project, wrong-project, or unauthorized results appear; zero
+negative queries exceed the candidate threshold; cleanup independently
+rediscovers and deletes run-owned fixtures. Report all similarities, margins,
+false accepts, and misses. Any default threshold/model contract change still
+requires explicit approval after this evidence.
 
 ## Execution rulings
 

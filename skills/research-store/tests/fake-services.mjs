@@ -10,7 +10,9 @@ export function syntheticEmbedding(text) {
 export async function startFakeServices() {
   const secret = randomBytes(32);
   const writer = randomBytes(24).toString('hex');
-  const state = { documents: new Map(), items: [], claims: [], requests: [], embeddingFailure: false, writeFailure: false };
+  const embeddingKey = randomBytes(24).toString('hex');
+  const state = { documents: new Map(), items: [], claims: [], requests: [], embeddingFailure: false, writeFailure: false,
+    embeddingDigest: 'a'.repeat(64), embeddingDimensions: 1536, embeddingEcho: null, embeddingRedirect: false };
   const sign = (project, expired = false) => {
     const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
     const body = Buffer.from(JSON.stringify({ role: 'authenticated', project, exp: Math.floor(Date.now() / 1000) + (expired ? -1 : 300) })).toString('base64url');
@@ -24,13 +26,18 @@ export async function startFakeServices() {
       for await (const part of request) parts.push(part);
       const input = parts.length ? JSON.parse(Buffer.concat(parts).toString()) : null;
       state.requests.push({ path: url.pathname, authorization: request.headers.authorization, input, query: url.search });
-      if (url.pathname === '/v1/embeddings') {
+      if (url.pathname === '/api/tags') return send(200, { models: [{ name: 'synthetic-embedding', digest: state.embeddingDigest }] });
+      if (url.pathname === '/api/embed' || url.pathname === '/v1/embeddings') {
+        if (state.embeddingRedirect) { response.writeHead(302, { location: 'https://api.openai.com/v1/embeddings' }); return response.end(); }
+        if (url.pathname === '/v1/embeddings' && request.headers.authorization !== `Bearer ${embeddingKey}`) return send(401, { error: 'Router credential required' });
         if (state.embeddingFailure) return send(503, { error: { message: 'Synthetic embedding failure' } });
+        const vectors = input.input.map(text => syntheticEmbedding(text).slice(0, state.embeddingDimensions));
+        if (url.pathname === '/api/embed') return send(200, { model: state.embeddingEcho ?? input.model, embeddings: vectors });
         return send(200, { object: 'list', data: input.input.map((text, index) => {
-          const values = syntheticEmbedding(text);
+          const values = syntheticEmbedding(text).slice(0, state.embeddingDimensions);
           const embedding = input.encoding_format === 'base64' ? Buffer.from(new Float32Array(values).buffer).toString('base64') : values;
           return { object: 'embedding', index, embedding };
-        }).reverse(), model: input.model, usage: { prompt_tokens: 1, total_tokens: 1 } });
+        }).reverse(), model: state.embeddingEcho ?? input.model, usage: { prompt_tokens: 1, total_tokens: 1 } });
       }
       const bearer = request.headers.authorization?.replace(/^Bearer /, '');
       if (url.pathname === '/rest/v1/rpc/replace_research_document') {
@@ -51,12 +58,14 @@ export async function startFakeServices() {
       const claims = JSON.parse(Buffer.from(body, 'base64url'));
       if (claims.exp <= Date.now() / 1000) return send(401, { message: 'Expired reader token' });
       let rows;
-      if (url.pathname === '/rest/v1/rpc/match_research_items') {
+      if (url.pathname === '/rest/v1/rpc/match_research_items' || url.pathname === '/rest/v1/rpc/match_research_items_for_embedding') {
         const query = input.query_embedding;
         if (!Array.isArray(query) || query.length !== 1536 || !query.every(Number.isFinite) || !query.some(value => value !== 0)) return send(400, { message: 'Invalid query vector' });
         const cosine = vector => vector.reduce((sum, value, index) => sum + value * query[index], 0) /
           Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0) * query.reduce((sum, value) => sum + value * value, 0));
-        rows = state.items.filter(row => row.project === claims.project && (!input.match_project || row.project === input.match_project) && (!input.match_status || row.status === input.match_status))
+        rows = state.items.filter(row => row.project === claims.project &&
+          (url.pathname.endsWith('/match_research_items') || (input.p_embedding_identity && row.metadata?.embedding_identity === input.p_embedding_identity)) &&
+          (!input.match_project || row.project === input.match_project) && (!input.match_status || row.status === input.match_status))
           .map(row => ({ ...row, similarity: cosine(row.embedding) }))
           .filter(row => row.similarity > input.match_threshold)
           .sort((a, b) => b.similarity - a.similarity || a.id.localeCompare(b.id)).slice(0, input.match_count);
@@ -81,6 +90,8 @@ export async function startFakeServices() {
   return { state, sign, env: {
     SUPABASE_URL: `http://127.0.0.1:${server.address().port}`,
     SUPABASE_ANON_KEY: randomBytes(24).toString('hex'), SUPABASE_SERVICE_ROLE_KEY: writer,
-    OPENAI_API_KEY: randomBytes(24).toString('hex'), OPENAI_BASE_URL: `http://127.0.0.1:${server.address().port}/v1`,
+    EMBEDDING_MODEL: 'synthetic-embedding', EMBEDDING_PROVIDER: 'ollama',
+    OLLAMA_BASE_URL: `http://127.0.0.1:${server.address().port}`,
+    FREELLM_API_KEY: embeddingKey, FREELLM_BASE_URL: `http://127.0.0.1:${server.address().port}/v1`,
   }, close: () => new Promise(resolve => { server.closeAllConnections(); server.close(resolve); }) };
 }

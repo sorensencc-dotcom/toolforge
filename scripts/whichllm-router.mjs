@@ -90,6 +90,18 @@ export async function routeTask(taskDescription, options = {}) {
   const startTime = Date.now();
   const { forceTier, taskType, fetchImpl = globalThis.fetch, modelAnchors } = options;
 
+  if (taskType === 'embedding') {
+    const tierId = forceTier ?? 'tier_0_local';
+    const targetModel = modelAnchors?.embedding;
+    if (!['tier_0_local', 'tier_0_5_freellmapi'].includes(tierId) || typeof targetModel !== 'string' ||
+        !targetModel.trim() || /(?:^|[/:])(?:auto|cloud)$/i.test(targetModel)) {
+      throw new Error('Embedding routing requires an explicitly pinned local or FreeLLM model');
+    }
+    return { tier: 'Tier 2 (Muscle)', tierId, targetModel, confidence: 1,
+      reason: 'Explicit embedding model and lane; no retry or cross-model fallback',
+      estimatedCostUsd: 0, estimatedSavingsUsd: 0, latencyMs: Date.now() - startTime };
+  }
+
   const anchors = modelAnchors || (await loadModelAnchors());
 
   if (!taskDescription || typeof taskDescription !== 'string' || !taskDescription.trim()) {
