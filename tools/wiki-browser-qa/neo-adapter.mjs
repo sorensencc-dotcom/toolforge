@@ -3,7 +3,8 @@ import { readFile } from 'node:fs/promises';
 import { mergeEvidence, normalizeBrowserObservation, pageEvidenceExpression } from './browser-adapter.mjs';
 
 const DEFAULT_NEO_MCP_URL = 'http://127.0.0.1:9010/mcp';
-const NEO_PROTOCOL_VERSION = '2025-06-18';
+const PROTOCOL_VERSION = '2026-07-28';
+const CLIENT_INFO = { name: 'wiki-browser-qa', version: '1.0.0' };
 const TRANSIENT_KINDS = new Set(['timeout', 'navigation-failure', 'network-failure']);
 
 function neoError(kind, message, details = {}) {
@@ -291,91 +292,85 @@ function parseMcpBody(contentType, body, id) {
   }
 }
 
+function requestMeta(params) {
+  return {
+    ...(params ?? {}),
+    _meta: {
+      ...(params?._meta ?? {}),
+      'io.modelcontextprotocol/protocolVersion': PROTOCOL_VERSION,
+      'io.modelcontextprotocol/clientInfo': CLIENT_INFO,
+      'io.modelcontextprotocol/clientCapabilities': params?._meta?.['io.modelcontextprotocol/clientCapabilities'] ?? {},
+    },
+  };
+}
+
+function mcpName(method, params) {
+  if (method === 'tools/call' || method === 'prompts/get') return params?.name;
+  if (method === 'resources/read') return params?.uri;
+  return undefined;
+}
+
 function createHttpTransport({ url, fetchImpl, defaultTimeoutMs }) {
-  let sessionId = null;
-  let serverInfo = null;
-  let handshake = null;
   let nextId = 1;
 
-  function headers() {
-    const base = { 'content-type': 'application/json', accept: 'application/json, text/event-stream' };
-    if (sessionId) base['mcp-session-id'] = sessionId;
+  function headers(method, name) {
+    const base = {
+      'content-type': 'application/json',
+      accept: 'application/json, text/event-stream',
+      'mcp-protocol-version': PROTOCOL_VERSION,
+      'mcp-method': method,
+    };
+    if (name !== undefined) base['mcp-name'] = name;
     return base;
   }
 
   async function rpc(method, params, timeoutMs) {
     const id = nextId++;
+    const bodyParams = requestMeta(params);
     let response;
     try {
       response = await fetchImpl(url, {
         method: 'POST',
-        headers: headers(),
-        body: JSON.stringify({ jsonrpc: '2.0', id, method, params }),
+        headers: headers(method, mcpName(method, bodyParams)),
+        body: JSON.stringify({ jsonrpc: '2.0', id, method, params: bodyParams }),
         signal: AbortSignal.timeout(timeoutMs ?? defaultTimeoutMs),
       });
     } catch (error) {
       const kind = error?.name === 'TimeoutError' ? 'timeout' : 'setup-failure';
       throw neoError(kind, `BrowserOS neo MCP endpoint unreachable at ${url}: ${error?.message ?? error}`, { cause: error });
     }
-    const sid = response.headers.get('mcp-session-id');
-    if (sid) sessionId = sid;
     const bodyText = await response.text();
+    let message = null;
+    if (bodyText) {
+      try {
+        message = parseMcpBody(response.headers.get('content-type'), bodyText, id);
+      } catch (error) {
+        if (response.ok) throw error;
+      }
+    }
+    if (message?.error) {
+      throw neoError('browser-failure', `BrowserOS neo MCP error ${message.error.code ?? ''}: ${message.error.message ?? 'unknown'}`.trim(), { data: message.error });
+    }
     if (!response.ok) {
       throw neoError('setup-failure', `BrowserOS neo MCP endpoint returned HTTP ${response.status} at ${url}`);
     }
-    const message = parseMcpBody(response.headers.get('content-type'), bodyText, id);
-    if (message.error) {
-      throw neoError('browser-failure', `BrowserOS neo MCP error ${message.error.code ?? ''}: ${message.error.message ?? 'unknown'}`.trim(), { data: message.error });
+    if (!message) {
+      throw neoError('malformed-output', 'BrowserOS neo MCP response was not JSON');
     }
     return message.result;
   }
 
-  async function notify(method, params) {
-    try {
-      await fetchImpl(url, {
-        method: 'POST',
-        headers: headers(),
-        body: JSON.stringify({ jsonrpc: '2.0', method, params }),
-        signal: AbortSignal.timeout(defaultTimeoutMs),
-      });
-    } catch { /* notifications are best-effort */ }
-  }
-
-  function ensureHandshake(timeoutMs) {
-    handshake ??= (async () => {
-      const result = await rpc('initialize', {
-        protocolVersion: NEO_PROTOCOL_VERSION,
-        capabilities: {},
-        clientInfo: { name: 'wiki-browser-qa', version: '1.0.0' },
-      }, timeoutMs);
-      serverInfo = result?.serverInfo ?? null;
-      await notify('notifications/initialized', {});
-      return result;
-    })().catch((error) => {
-      handshake = null;
-      throw error;
-    });
-    return handshake;
-  }
-
   return {
     async listTools(timeoutMs) {
-      await ensureHandshake(timeoutMs);
       return rpc('tools/list', {}, timeoutMs);
     },
     async callTool(name, args, timeoutMs) {
-      await ensureHandshake(timeoutMs);
       return rpc('tools/call', { name, arguments: args }, timeoutMs);
     },
     serverInfo() {
-      return serverInfo;
+      return null;
     },
-    async close() {
-      if (!sessionId) return;
-      try {
-        await fetchImpl(url, { method: 'DELETE', headers: { 'mcp-session-id': sessionId }, signal: AbortSignal.timeout(defaultTimeoutMs) });
-      } catch { /* best-effort session teardown */ }
-    },
+    async close() {},
   };
 }
 

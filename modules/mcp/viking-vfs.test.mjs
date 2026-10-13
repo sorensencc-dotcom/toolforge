@@ -98,9 +98,7 @@ test('rejects non-timestamped snapshot identities', () => {
 test('supports standard MCP resource listing without a URI', async () => {
   const f = fixture();
   const server = createServer(createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }));
-  const init = await server.handle({ method: 'initialize', params: {} });
   const listing = await server.handle({ method: 'resources/list', params: {} });
-  assert.equal(init.capabilities.resources.listChanged, false);
   assert.ok(Array.isArray(listing.resources));
 });
 
@@ -158,8 +156,8 @@ test('validates wire requests and returns parse and parameter errors without thr
   assert.equal(parseError.error.code, JSON_RPC_CODES.PARSE_ERROR);
   const paramsError = await processJsonRpcLine(JSON.stringify({ jsonrpc: '2.0', id: 7, method: 'resources/list', params: { offset: 0 } }), server);
   assert.equal(paramsError.error.code, JSON_RPC_CODES.INVALID_PARAMS);
-  const initialized = await processJsonRpcLine(JSON.stringify({ jsonrpc: '2.0', id: 8, method: 'initialize', params: {} }), server);
-  assert.equal(initialized.result.protocolVersion, '2025-06-18');
+  const listed = await processJsonRpcLine(JSON.stringify({ jsonrpc: '2.0', id: 8, method: 'tools/list', params: {} }), server);
+  assert.ok(Array.isArray(listed.result.tools));
 });
 
 test('lists vfs_upsert_document tool and handles tools/call write-through', async () => {
@@ -168,9 +166,6 @@ test('lists vfs_upsert_document tool and handles tools/call write-through', asyn
     createResolver({ vaultRoot: f.root, vaultName: 'kb-sync', snapshotId: '20260828-000000' }),
     { repoRoot: f.root }
   );
-
-  const initRes = await server.handle({ method: 'initialize', params: {} });
-  assert.ok(initRes.capabilities.tools);
 
   const listRes = await server.handle({ method: 'tools/list', params: {} });
   assert.ok(Array.isArray(listRes.tools));
