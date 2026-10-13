@@ -362,7 +362,9 @@ async function main() {
   console.log('[TRM-Reconcile] Reconciliation complete.');
 }
 
-main().catch(err => {
-  console.error('[TRM-Reconcile FATAL]', err);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    console.error('[TRM-Reconcile FATAL]', err);
+    process.exit(1);
+  });
+}
