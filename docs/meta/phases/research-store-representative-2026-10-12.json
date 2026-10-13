@@ -1,0 +1,4470 @@
+{
+  "manifestHash": "44663ede256d3bc7e8234a69d30655d0a7013af69f9becd2477bf26c29fbd74c",
+  "startedAt": "2026-10-13T03:37:36.149Z",
+  "namespace": "uat124-representative/07f8c7a5-5e52-4a57-99ba-e7c8977e918c",
+  "projectRef": "bhezixgmkhpndmezgsxk",
+  "embeddingIdentity": "ollama:qwen3-embedding:4b@df5bd2e3c74cd8d069d21dc038f1b359fcdc9458fce1c99bd43c9eb1518ff907:1536",
+  "externalEmbeddingRequests": 0,
+  "rows": [
+    {
+      "id": "tuning-1",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What does the notebook source content command return?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "`{content}` only",
+      "score": 0.790153327538573,
+      "margin": 0.008505241130872032,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": true,
+      "topContentSha256": "983304a9105a5a0abf5147caac53e60a404bb568dadafbfa70dc6ecf28d4a289",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-2",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What initiates the notebook pipelines?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        13
+      ],
+      "evidenceAnchor": "Two complementary pipelines",
+      "score": 0.764296412468223,
+      "margin": 0.016533522998116945,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "b0d7a10c02862b041d2c863f13a7f23ea03476378612e5335bb3eca897b43abd",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-7",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What remains the single source of truth for artifacts?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "single source of truth",
+      "score": 0.657145895277774,
+      "margin": 0.015113948974217029,
+      "topDocument": "117f6b4e-20bc-4546-8806-3ccf294acd40",
+      "topCorrect": true,
+      "topContentSha256": "106ef3a9f57e32fad439babd86d4aeb9cc30f093878b516211dc8c11d24cbe1c",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-8",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What helper locates the repository root?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "findRepoRoot(startDir)",
+      "score": 0.6582885377069,
+      "margin": 0.03402255409364896,
+      "topDocument": "117f6b4e-20bc-4546-8806-3ccf294acd40",
+      "topCorrect": false,
+      "topContentSha256": "55e2fa41bbeae0648022fdb3699f8fa8010dfacae17443301bd45334f8ec55bc",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-13",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What kinds of dated sources belong in the highest documentary tier?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "Direct, dated, authored",
+      "score": 0.712757186683927,
+      "margin": 0.15982382332576495,
+      "topDocument": "5f400d7a-9462-42fd-a498-1ea420b94842",
+      "topCorrect": true,
+      "topContentSha256": "809cd33bcd8f8fe8e525f8ebee2bba639b586e83f74143668357c269e4351b7a",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-14",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Why catalog available material before prioritizing research?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        6,
+        25
+      ],
+      "evidenceAnchor": "data availability",
+      "score": 0.649330851316019,
+      "margin": 0.0025047086045180134,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "f9a9f8961b9994a3eae13afafbdb97fe6c74ae6c7251c64869a36ff9c95200c2",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-19",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What format names a graph generation directory?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        23
+      ],
+      "evidenceAnchor": "YYYYMMDD_HHMMSS",
+      "score": 0.621764920844872,
+      "margin": 0.04189218392912997,
+      "topDocument": "9f048ca0-c1e8-456d-9dc6-6765aeb66e2b",
+      "topCorrect": false,
+      "topContentSha256": "11233e7967ec39a1992b5101b8f5679531ec9757f75d3a691d4793358efda7f0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-20",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What files receive SHA-256 signatures during graph publication?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        24
+      ],
+      "evidenceAnchor": "containing SHA-256",
+      "score": 0.704629856072228,
+      "margin": 0.015265042581661947,
+      "topDocument": "9f048ca0-c1e8-456d-9dc6-6765aeb66e2b",
+      "topCorrect": false,
+      "topContentSha256": "11233e7967ec39a1992b5101b8f5679531ec9757f75d3a691d4793358efda7f0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-25",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Where does the served cross-product knowledge base live?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        113
+      ],
+      "evidenceAnchor": "MkDocs build",
+      "score": 0.64791459515769,
+      "margin": 0.014878169527580032,
+      "topDocument": "9f048ca0-c1e8-456d-9dc6-6765aeb66e2b",
+      "topCorrect": false,
+      "topContentSha256": "11233e7967ec39a1992b5101b8f5679531ec9757f75d3a691d4793358efda7f0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-26",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Can brand styles mix inside a single diagram?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "never mixed",
+      "score": 0.760224479671122,
+      "margin": 0.0293935683499591,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "4067b87ddfa7ae39150569ca46d26e5db69bd03320be115035b7568b0d1989b9",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-31",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which authority tier executes approved work?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "executes within approved scope",
+      "score": 0.705501605198999,
+      "margin": 0.09160335622341598,
+      "topDocument": "dd47a060-b915-4f35-ac04-172482425c54",
+      "topCorrect": true,
+      "topContentSha256": "30b0ff2ccc1065c4f0d93ff436ed0a573f652ad2ed1fcd1882a7c9dcb8fa776e",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-32",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What must happen when a charter has too much existing overlap?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        4,
+        12
+      ],
+      "evidenceAnchor": "Tier 1 decides",
+      "score": 0.541182121810653,
+      "margin": 0.016942754745340904,
+      "topDocument": "dd47a060-b915-4f35-ac04-172482425c54",
+      "topCorrect": false,
+      "topContentSha256": "5d2e9f4eb6d100e85ff5c907c0aafe2da47c07933c5a59e801c580199a7eede3",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-37",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Why pack customer code before redesigning their site?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        4
+      ],
+      "evidenceAnchor": "feed them into the Redesign phase",
+      "score": 0.613252372698296,
+      "margin": 0.037717024704331026,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "90147b9b2408bf347a296e9408c96ea45079954b5908fc42ca7a528828580e5d",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-38",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What makes repeated repository ingestion predictable?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "Deterministic ordering",
+      "score": 0.778023762754815,
+      "margin": 0.008217790670623004,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "e390fb818887a487bbdb2a72bcaad1774dd61754878e11dcb8e2853b21a8878d",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-67",
+      "split": "tuning",
+      "kind": "confusing-negative",
+      "query": "What certificate renews the notebook ingestion client?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.566413361472816,
+      "margin": 0.012895117858647942,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "b0d7a10c02862b041d2c863f13a7f23ea03476378612e5335bb3eca897b43abd",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-68",
+      "split": "tuning",
+      "kind": "unrelated-negative",
+      "query": "How many strings does a cello have?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.447101066034842,
+      "margin": 0.045669720436465,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "6e184fb414f5c14e20bb3e34e120a19fcfa03f7b3ddcdafd5f3e6b27868fbf15",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-69",
+      "split": "tuning",
+      "kind": "confusing-negative",
+      "query": "What payroll system pays repository redesign contributors?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.632705231133246,
+      "margin": 0.0003672340727739476,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "90c9cb4be442b48d9885e86458a7d6587921fc205332095488fee957ca3b84d1",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-70",
+      "split": "tuning",
+      "kind": "unrelated-negative",
+      "query": "How does a tidal bore form?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.42614627324663,
+      "margin": 0,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-3",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which source listing should ingestion trust when notebook counts disagree?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "trusts",
+      "score": 0.736984622969987,
+      "margin": 0.012940641181775958,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": true,
+      "topContentSha256": "9e09a61a9782c6dd7ec6e18b50ebedb1140c03b22f7e068cca0b74b257a129c5",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-4",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How do identically named notebook sources avoid overwriting one another?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        5,
+        84
+      ],
+      "evidenceAnchor": "basename-collision",
+      "score": 0.752756937845687,
+      "margin": 0.02401786202424394,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "b0d7a10c02862b041d2c863f13a7f23ea03476378612e5335bb3eca897b43abd",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-5",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Why does unattended notebook ingestion invoke a command rather than chat tools?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        8,
+        78,
+        86
+      ],
+      "evidenceAnchor": "cannot",
+      "score": 0.68896706108482,
+      "margin": 0.007206622651792949,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "8a57f9c589721b13bbdc7bc18f50e5dd28ed549040e8153d8310e3c3e96cc11e",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-6",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which note payload field carries the text returned by the notebook command?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "no `preview`",
+      "score": 0.766350748937513,
+      "margin": 0.028859727268435997,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "2d02d981bc64dfc3ea06305ff2c422e57ab9e91d6a766f72122d7369368cc58b",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-9",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Are lineage and report directories additional copies of artifact contents?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "thin cross-reference",
+      "score": 0.668882688151111,
+      "margin": 0.0009437802854929123,
+      "topDocument": "117f6b4e-20bc-4546-8806-3ccf294acd40",
+      "topCorrect": true,
+      "topContentSha256": "106ef3a9f57e32fad439babd86d4aeb9cc30f093878b516211dc8c11d24cbe1c",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-10",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does artifact resolution stay stable when a tool starts in a different directory?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "Fix `artifactPaths",
+      "score": 0.658402902364288,
+      "margin": 0.007862807504808056,
+      "topDocument": "117f6b4e-20bc-4546-8806-3ccf294acd40",
+      "topCorrect": false,
+      "topContentSha256": "f77281ccf849802754091b01224d153288f8f4883184a110de36ad18b3761197",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-11",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Why are agent and configuration directories deferred in phase two?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "not created",
+      "score": 0.737774350113481,
+      "margin": 0.12671810675809103,
+      "topDocument": "117f6b4e-20bc-4546-8806-3ccf294acd40",
+      "topCorrect": false,
+      "topContentSha256": "805dfbc3e606a2a0752cdfc49b919094165d5493f8a1c67141194ed2416133cc",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-12",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which two tools populate the new cross-reference indexes?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "Only `cic-run-gate",
+      "score": 0.641380691322732,
+      "margin": 0.05182386429424002,
+      "topDocument": "5f400d7a-9462-42fd-a498-1ea420b94842",
+      "topCorrect": false,
+      "topContentSha256": "7b8aa1071d621dd24b098b97e35eb30e80ee6821b9438d0f59a51c829c5779e0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-15",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What linking confidence does the strategy assign to primary documentary evidence?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        11
+      ],
+      "evidenceAnchor": "0.85+",
+      "score": 0.629768017253206,
+      "margin": 0.010620892556056916,
+      "topDocument": "5f400d7a-9462-42fd-a498-1ea420b94842",
+      "topCorrect": true,
+      "topContentSha256": "16809ebf97d62c251ce86ed0d7fcd9c3299a091ebbc0593c7916321124d4c205",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-16",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does the strategy handle secondary research sources with incomplete dates?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "0.70-0.85",
+      "score": 0.568384734605443,
+      "margin": 0.016478679166202048,
+      "topDocument": "5f400d7a-9462-42fd-a498-1ea420b94842",
+      "topCorrect": false,
+      "topContentSha256": "ae50453526fccef147c6a4a70cd54d4dccaac23a8caa472b04ecf8536cdfe01d",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-17",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What confidence range sends exploratory material for human review?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        21
+      ],
+      "evidenceAnchor": "0.50-0.70",
+      "score": 0.680470537858886,
+      "margin": 0.015642554726222002,
+      "topDocument": "5f400d7a-9462-42fd-a498-1ea420b94842",
+      "topCorrect": true,
+      "topContentSha256": "17776ae4b4606bb492bab7bd63a51866ed1a45caf729d27358f167a449410cbd",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-18",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How many photographs form the initial Willow Run inventory?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        5,
+        10,
+        38,
+        43,
+        76
+      ],
+      "evidenceAnchor": "43 JPGs",
+      "score": 0.726571819518562,
+      "margin": 0.08393816429018697,
+      "topDocument": "5f400d7a-9462-42fd-a498-1ea420b94842",
+      "topCorrect": true,
+      "topContentSha256": "67d53925d3295ff74547036e1d4e81ee643eb222e9f4f7cc813a66ae2b227f43",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-21",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does a new graph generation become active without an incomplete pointer?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        24
+      ],
+      "evidenceAnchor": "Atomic Pointer Swap",
+      "score": 0.561228901753965,
+      "margin": 0.02136975825000098,
+      "topDocument": "9f048ca0-c1e8-456d-9dc6-6765aeb66e2b",
+      "topCorrect": false,
+      "topContentSha256": "11233e7967ec39a1992b5101b8f5679531ec9757f75d3a691d4793358efda7f0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-22",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does the graph health-check command modify files?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "Zero disk writes",
+      "score": 0.613003158717056,
+      "margin": 0.06611979823663106,
+      "topDocument": "9f048ca0-c1e8-456d-9dc6-6765aeb66e2b",
+      "topCorrect": true,
+      "topContentSha256": "42c970f80ddf65a982ca90664f1db81022e93c6ffeda30a55f5f829c4c385021",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-23",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does explicit graph recovery build a fresh generation after adopting a valid one?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "exits immediately",
+      "score": 0.664985836754439,
+      "margin": 0.029371582049872003,
+      "topDocument": "9f048ca0-c1e8-456d-9dc6-6765aeb66e2b",
+      "topCorrect": false,
+      "topContentSha256": "11233e7967ec39a1992b5101b8f5679531ec9757f75d3a691d4793358efda7f0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-24",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which generations must survive retention even if the active one is older?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        26
+      ],
+      "evidenceAnchor": "Always Retain",
+      "score": 0.621217020532453,
+      "margin": 0.08519235421868498,
+      "topDocument": "9f048ca0-c1e8-456d-9dc6-6765aeb66e2b",
+      "topCorrect": true,
+      "topContentSha256": "036a76bea14c5a450469ded8f42af201034eabae6c4b65da835bd77fbabfde53",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-27",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Can Rewrite Labs product documentation use Charlie forge styling?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        10,
+        16,
+        21,
+        62,
+        66,
+        68,
+        72,
+        74,
+        85,
+        89,
+        93,
+        94,
+        98
+      ],
+      "evidenceAnchor": "MUST NOT",
+      "score": 0.815024556799768,
+      "margin": 0.08945268599593004,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "bfedc765d7ddb55bdb86473871c04da12c405ea7b974553e08fbbf7d2072aae0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-28",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Where should authors obtain authoritative Charlie diagram color values?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        21
+      ],
+      "evidenceAnchor": "MUST NOT invent a second palette",
+      "score": 0.730872731880835,
+      "margin": 0.012736406109475018,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "5cbb56e1b3c967e8eec8b376a560c195868c50811a7e321e7462751748967191",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-29",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does the shared knowledge-base documentation currently have a GitHub Pages URL?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        113
+      ],
+      "evidenceAnchor": "Pages is not set up",
+      "score": 0.756972751057082,
+      "margin": 0.07243403381230995,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": true,
+      "topContentSha256": "b102fd5d317d696cab7f83653dbc05ebb7d1c148e968253a35538d7a698de965",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-30",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which brand supplies the palette when a wiki page bridges two brands?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "Primary brand owns",
+      "score": 0.774220403167674,
+      "margin": 0.02503183789334107,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "103e769c16e918a3fe6bea50d98cebc308072be411148ff502f5cbefd5d6d652",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-33",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Who alone can amend governance and finalize governance artifacts?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "Chris only",
+      "score": 0.73708159361023,
+      "margin": 0.024115079478835955,
+      "topDocument": "5f400d7a-9462-42fd-a498-1ea420b94842",
+      "topCorrect": false,
+      "topContentSha256": "3b45f4aa7efe516a496663ad5428c60d9b63cf285147406fec936b20b810c7cb",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-34",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Can scheduled automation make judgment calls or publish externally?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "No judgment calls",
+      "score": 0.73413361550192,
+      "margin": 0.06751175166369905,
+      "topDocument": "dd47a060-b915-4f35-ac04-172482425c54",
+      "topCorrect": false,
+      "topContentSha256": "3bcce63a02b3420448cc3901996c2b83aabfe81a00b7cb19dce32375994b4bce",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-35",
+      "split": "validation",
+      "kind": "positive",
+      "query": "When does unused project memory reach its archive deadline?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        6
+      ],
+      "evidenceAnchor": "60-day TTL",
+      "score": 0.627009511952172,
+      "margin": 0.027011598114777047,
+      "topDocument": "dd47a060-b915-4f35-ac04-172482425c54",
+      "topCorrect": true,
+      "topContentSha256": "6db35a4f38e9596d09fd102ec255ef4211651f533179f6316a576bee17332b1d",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-36",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What role does the creative layer play after receiving an analytical brief?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        3
+      ],
+      "evidenceAnchor": "returns artifacts",
+      "score": 0.642214404876718,
+      "margin": 0.08032490515972102,
+      "topDocument": "dd47a060-b915-4f35-ac04-172482425c54",
+      "topCorrect": true,
+      "topContentSha256": "2cb53302e3f8ee230e46ee821bafe7e7df8c5beb0843361786041a1459560708",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-39",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What happens when repository packing detects embedded credentials?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        23,
+        49,
+        70
+      ],
+      "evidenceAnchor": "SecretDetectedError",
+      "score": 0.680538177490254,
+      "margin": 0.013012448229678064,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "5b041c60f0a9a53eb6779a1677a20c00f1badf1c7023488fc8992c7411340dbd",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-40",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which packing options produce compressed JSON with per-file cost information?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        10,
+        20
+      ],
+      "evidenceAnchor": "--token-count",
+      "score": 0.652595742763414,
+      "margin": 0.012902251158348088,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "e4e3e266f773ae605df87c73fb59a7dc00cd2a3fcce158bd1bf5f347d096711c",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-41",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does repository structure contribute to website redesign discovery?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "Combine HTML/CSS",
+      "score": 0.698638093796251,
+      "margin": 0.04529789400742901,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "7592a3b49ffbea46b20fce85b846a11c8a8a569ab73b09be79c5e4505b90dc49",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-42",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What information does the repository ingestion module pass into discovery?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        6,
+        12,
+        46,
+        47,
+        66,
+        70,
+        74,
+        87
+      ],
+      "evidenceAnchor": "RepositoryIngestion",
+      "score": 0.833030899510049,
+      "margin": 0.03373926486596801,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": true,
+      "topContentSha256": "aafecbc2c688ded330e7132f447fe13074968ca866684bf529d18761b6a3a788",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-43",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What SQL index migration guarantees p99 search latency under two hundred milliseconds?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.648101764691105,
+      "margin": 0.022010120132802014,
+      "topDocument": "5f400d7a-9462-42fd-a498-1ea420b94842",
+      "topCorrect": false,
+      "topContentSha256": "eb137d6df18015a6b407d10211ef07b6f11bd8c5c210f66783dab0277cd0bdbd",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-44",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which encryption key rotation schedule protects raw notebook source exports?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.693469277279732,
+      "margin": 0.009592461744267977,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "b0d7a10c02862b041d2c863f13a7f23ea03476378612e5335bb3eca897b43abd",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-45",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What exact GPU memory limit guarantees the local embedding model fits?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.599841535044201,
+      "margin": 0.03686207528162799,
+      "topDocument": "dd47a060-b915-4f35-ac04-172482425c54",
+      "topCorrect": false,
+      "topContentSha256": "60f7d406e1ac9254d479e4fadeec60ffe112c975f8533b76eb9addf1b23dfe5b",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-46",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How should a signed token refresh automatically after its expiration?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.513357956787762,
+      "margin": 0.01380250293083296,
+      "topDocument": "dd47a060-b915-4f35-ac04-172482425c54",
+      "topCorrect": false,
+      "topContentSha256": "dcb751ab522f5edfb621ea084b628a4260430de52df513482ed1e8935a584f50",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-47",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which Docker image tag deploys the current research vector database?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.670566717667537,
+      "margin": 0.06256773762212797,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "ff7088993a5bc2a0bb0b36588a14cf066b77c6879364fb167ff754ad78179d94",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-48",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What monthly retention price applies to cloud source snapshots?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.548809978294992,
+      "margin": 0.03549895616163801,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "16e7de730f2189ef7bc30698da27770ef9d7480c5905d0a054a8c027be2e4f5b",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-49",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How does repository ingestion repair customer secrets automatically?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.730727654261842,
+      "margin": 0.00010400542350108566,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "5b041c60f0a9a53eb6779a1677a20c00f1badf1c7023488fc8992c7411340dbd",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-50",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which subscription tier includes unlimited compressed repository imports?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.631124875817385,
+      "margin": 0.018381343423421015,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "90c9cb4be442b48d9885e86458a7d6587921fc205332095488fee957ca3b84d1",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-51",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What compression algorithm encrypts the harvester repository archive?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.681545815652154,
+      "margin": 0.031244275826127987,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "90c9cb4be442b48d9885e86458a7d6587921fc205332095488fee957ca3b84d1",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-52",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How does the redesign engine generate a customer invoice?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.606548630801167,
+      "margin": 0.03499848299958108,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "90147b9b2408bf347a296e9408c96ea45079954b5908fc42ca7a528828580e5d",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-53",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What legal indemnity covers third-party source license violations?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.511410765999132,
+      "margin": 0.011133574747257069,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "80be648cd28b3e5439ad16e8683b19bffc20a6a77b8f77d86da506b1c7efb1d2",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-54",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which geographic region hosts production website crawler sessions?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.637981547888394,
+      "margin": 0.06437778061084198,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "7592a3b49ffbea46b20fce85b846a11c8a8a569ab73b09be79c5e4505b90dc49",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-55",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How long should sourdough dough ferment before baking?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.40255987758631,
+      "margin": 0.0011225889350640061,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "ab5df625bc76dbd4e163bed2dd888df828f90159bb93556525c31821b6541d46",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-56",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What is the orbital period of Neptune?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.422150088638147,
+      "margin": 0.04833109478811004,
+      "topDocument": "dd47a060-b915-4f35-ac04-172482425c54",
+      "topCorrect": false,
+      "topContentSha256": "83c2a0d7f0f0a021cdf743812ce96cf7b8f4c49d721396738f51db3b25ce671e",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-57",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How do I replace brake pads on a bicycle?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.495385645169903,
+      "margin": 0.018662189763569037,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "6e184fb414f5c14e20bb3e34e120a19fcfa03f7b3ddcdafd5f3e6b27868fbf15",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-58",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "Which plant thrives in salty coastal soil?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.418482610061402,
+      "margin": 0.01985346904387203,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "b56e4fea86ba2b68c0f5cb02ff805103584554cba356ffb583c52dbacbf5a264",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-59",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What are the rules for scoring a volleyball match?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.449050361370871,
+      "margin": 0.00823373012672901,
+      "topDocument": "ba84823d-07a4-4d1c-80fe-4805b3b03f45",
+      "topCorrect": false,
+      "topContentSha256": "4023e36cfbae8b903c6a526e4d05f0309d588f71f7690cb85f087624545239b9",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-60",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How can a violin bridge be adjusted?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.511902567886825,
+      "margin": 0.038667947406898995,
+      "topDocument": "90e0cb13-d0c6-4535-b5b3-e7a50b0b200e",
+      "topCorrect": false,
+      "topContentSha256": "dc322b329b9066f5d7f76bf24e182f6e31a304711c1cde44539a81ffda16382b",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-61",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What determines the ideal pressure for a scuba cylinder?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.489842803496984,
+      "margin": 0.023088629280147988,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "d12a84bb99da053254eacf300bd5a9267d182b3621db8e22d55effcc96c77dda",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-62",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How do I calculate a chess knight tour?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.545043316509506,
+      "margin": 0.05855343255607298,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "0c382c311079dc6ade18d9fca936bb57199275374d63e0e51131e198025bdf2c",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-63",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "When should a peach tree be pruned?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.293219655752184,
+      "margin": 0.0020513134804909794,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "7056d45b906150ee6b9212217774cb12c91b75fd65fb1ea130acd8ff3606fb11",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-64",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What causes a lunar eclipse?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.378958930459757,
+      "margin": 0.025357992283100983,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "0c382c311079dc6ade18d9fca936bb57199275374d63e0e51131e198025bdf2c",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-65",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How can wool fabric shrink during washing?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.424531995122766,
+      "margin": 0,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-66",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What is a good recipe for mushroom soup?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.374227106755472,
+      "margin": 0,
+      "topDocument": "e56bd8ac-84c4-4144-9f7e-d03930feeb40",
+      "topCorrect": false,
+      "topContentSha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b",
+      "populatedAuthorizedTop50": 50
+    }
+  ],
+  "isolationChecks": [
+    {
+      "project": "CIC",
+      "forbiddenProjectFilter": "passed",
+      "unknownSourcesExcludedByVerifiedFilter": "passed"
+    },
+    {
+      "project": "RewriteLabs",
+      "forbiddenProjectFilter": "passed",
+      "unknownSourcesExcludedByVerifiedFilter": "passed"
+    }
+  ],
+  "cleanup": {
+    "verified": true,
+    "failures": []
+  },
+  "error": null,
+  "selected": null,
+  "tuningDefault": {
+    "correct": 3,
+    "positives": 14,
+    "recall": 0.21428571428571427,
+    "falseAccepts": 0,
+    "projects": {
+      "CIC": {
+        "correct": 3,
+        "positives": 12,
+        "recall": 0.25
+      },
+      "RewriteLabs": {
+        "correct": 0,
+        "positives": 2,
+        "recall": 0
+      }
+    }
+  },
+  "tuningSelected": null,
+  "validationDefault": {
+    "correct": 4,
+    "positives": 28,
+    "recall": 0.14285714285714285,
+    "falseAccepts": 1,
+    "projects": {
+      "CIC": {
+        "correct": 3,
+        "positives": 24,
+        "recall": 0.125
+      },
+      "RewriteLabs": {
+        "correct": 1,
+        "positives": 4,
+        "recall": 0.25
+      }
+    }
+  },
+  "validationSelected": {
+    "correct": 4,
+    "positives": 28,
+    "recall": 0.14285714285714285,
+    "falseAccepts": 1,
+    "projects": {
+      "CIC": {
+        "correct": 3,
+        "positives": 24,
+        "recall": 0.125
+      },
+      "RewriteLabs": {
+        "correct": 1,
+        "positives": 4,
+        "recall": 0.25
+      }
+    }
+  },
+  "accepted": false,
+  "completedAt": "2026-10-13T03:47:12.898Z",
+  "corpus": [
+    {
+      "id": "notebooklm-cic",
+      "sourcePath": "docs/superpowers/specs/2026-08-12-notebooklm-cic-ingest-mining-design.md",
+      "snapshotPath": "snapshots/notebooklm-cic.md",
+      "sha256": "a2b6a574d45cb84d8d0538974091a55ab0178577994cd124e2fe08f292e5df39",
+      "bytes": 30777,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "UNKNOWN; source claims do not verify evidence",
+      "sourceScope": "CIC",
+      "sourceRepository": "toolforge",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "15324d1742cc94e7f21ce23a3863ce4cc32aed34832bad957215f5238a6a4c9c"
+        },
+        {
+          "index": 1,
+          "sha256": "af2833c958f016cd40887f42e38618488e8c96e3bb004bcf2e0c8bff123d92c6"
+        },
+        {
+          "index": 2,
+          "sha256": "73c37d53b5b0359d15c6081fa662c9aa7ee090edf2573fd5ff64a7de5381f0a5"
+        },
+        {
+          "index": 3,
+          "sha256": "17b5a9330b3627acfc647a74cd60b7478dff511f7572e0db9099f46bfbbfdba1"
+        },
+        {
+          "index": 4,
+          "sha256": "0f8474fd09ba83bb73d4b8ae455ceb38727e7a80b5aa1e5eeb874a58254a425f"
+        },
+        {
+          "index": 5,
+          "sha256": "9e09a61a9782c6dd7ec6e18b50ebedb1140c03b22f7e068cca0b74b257a129c5"
+        },
+        {
+          "index": 6,
+          "sha256": "4f106d438dc9faa754d2d345b002986af649dfaec5e8126265f436f048951c04"
+        },
+        {
+          "index": 7,
+          "sha256": "dc322b329b9066f5d7f76bf24e182f6e31a304711c1cde44539a81ffda16382b"
+        },
+        {
+          "index": 8,
+          "sha256": "890e445489c680fd5aaf2711e867ed810d6932e6c3a10019013df42d447d1340"
+        },
+        {
+          "index": 9,
+          "sha256": "b8e953b13349b2cf150a62fef710b9d09c66bff34282b075b1a112dc67ae4104"
+        },
+        {
+          "index": 10,
+          "sha256": "983304a9105a5a0abf5147caac53e60a404bb568dadafbfa70dc6ecf28d4a289"
+        },
+        {
+          "index": 11,
+          "sha256": "fc4a6137247d2f443a4637c88d39d960fa40d0c8754831777a10cfaca7167915"
+        },
+        {
+          "index": 12,
+          "sha256": "860d7130d265ec62ec63a8e00be8a8736f506c1450c87c545bba8db8ff2b4acd"
+        },
+        {
+          "index": 13,
+          "sha256": "ce6977758edfa4561a7204e3f8f1f97b26440fbdd0ae227ac973b94dce3d0acc"
+        },
+        {
+          "index": 14,
+          "sha256": "c6c5be0f940189e2db86a5f137a3f7379715c97e744d9fac76629cd8945b3bd0"
+        },
+        {
+          "index": 15,
+          "sha256": "f6cbae9f4728e577659376c46d934112f466f2ce2349366e1854075ad164786b"
+        },
+        {
+          "index": 16,
+          "sha256": "87e5a5db08f29b70dedde4165c3618567397577c5c2a4916e74b43fbdaa65809"
+        },
+        {
+          "index": 17,
+          "sha256": "b0d7a10c02862b041d2c863f13a7f23ea03476378612e5335bb3eca897b43abd"
+        },
+        {
+          "index": 18,
+          "sha256": "b7b7441c402db99986534337aac850d330d2ca510e1365a1c9e6f3e63178c819"
+        },
+        {
+          "index": 19,
+          "sha256": "bbdf01ea449a8e92d7bda33d62c42348ba1ef1441df01d4d15f93c6d69a5616d"
+        },
+        {
+          "index": 20,
+          "sha256": "ba65cb952dc923bdcab4b1bc69bd7fed5252d0f4f747ec2052471b8b227a1db8"
+        },
+        {
+          "index": 21,
+          "sha256": "a8330ca2dc5a5814d428b486b9d33e97019de43ed99a5d81978074f6a3bc212b"
+        },
+        {
+          "index": 22,
+          "sha256": "edfcd4dda4dddea9965e2a6420bc77a31a399662ca42beccebd82eab357bfe7b"
+        },
+        {
+          "index": 23,
+          "sha256": "7bd29e5d93a8c8d83652e018a2f8314459112fe7d3dff586cc705ef6356da8f7"
+        },
+        {
+          "index": 24,
+          "sha256": "8a57f9c589721b13bbdc7bc18f50e5dd28ed549040e8153d8310e3c3e96cc11e"
+        },
+        {
+          "index": 25,
+          "sha256": "e6b3f7d37bc94839246bcd17c60d64ce3efb777d16c372b86e9e6d8eef95834f"
+        },
+        {
+          "index": 26,
+          "sha256": "fcb59d32f56cb83e1b40ef0f66d5381a531b36ab1332193002bde6d1fd4f26ba"
+        },
+        {
+          "index": 27,
+          "sha256": "16e7de730f2189ef7bc30698da27770ef9d7480c5905d0a054a8c027be2e4f5b"
+        },
+        {
+          "index": 28,
+          "sha256": "792d94a78dc43773838c4bd0b664ceda65ccdb3109886c326c24842f650da491"
+        },
+        {
+          "index": 29,
+          "sha256": "9719a92facfbec07a7d1f1caf017e7e117761ef090ee8f85d734a2116a0c8e6c"
+        },
+        {
+          "index": 30,
+          "sha256": "21c385e508d14e3b46cfc7bbfcffb1c15958f2589a4d4caa871556a45baef776"
+        },
+        {
+          "index": 31,
+          "sha256": "91f7d89fe86a7b989b635a7d3b7004f7472415efe0c18079834d4648b6d84e92"
+        },
+        {
+          "index": 32,
+          "sha256": "abbf24ff8df442ff5de7503cab05175d3269eaaad95abee95133d29a52f2f77a"
+        },
+        {
+          "index": 33,
+          "sha256": "2d02d981bc64dfc3ea06305ff2c422e57ab9e91d6a766f72122d7369368cc58b"
+        },
+        {
+          "index": 34,
+          "sha256": "2b4c217e31f16ffe1baa336d632305af918309d6d3a7978584227dd92e07383b"
+        },
+        {
+          "index": 35,
+          "sha256": "97e2d5387118213fde8da701e8653a85fb35b5784b48d4af0f4f9b7485395118"
+        },
+        {
+          "index": 36,
+          "sha256": "0c68a55b5ff17657078a52bd12fa73a1b6130e823d348cbea3bc2b09092a7b20"
+        },
+        {
+          "index": 37,
+          "sha256": "1c686b095aafc6a25b48868c08283166754e321bfc7ffdc2346eb41265efa6f4"
+        },
+        {
+          "index": 38,
+          "sha256": "778ea2867565e13cd0b58dc7acb756a287092d3920ad2f461908d79c266b20c6"
+        },
+        {
+          "index": 39,
+          "sha256": "9ed3b2a24ca607242ca18aaca6a7351167b01c1bc65d6b50970c375de90e8509"
+        },
+        {
+          "index": 40,
+          "sha256": "44ec72e42acb081f0b4898bd180e15b95a7f0545737e8a0c365e0ac0a9ab0df7"
+        },
+        {
+          "index": 41,
+          "sha256": "9827fa14accc865720d8c524a0ed34140aefafd89ba0d915c97dde5e0f296d72"
+        },
+        {
+          "index": 42,
+          "sha256": "9be10d42f267c6f864184a8c85d7a116368375fbe94f595fbc4d2c93f71edb9c"
+        },
+        {
+          "index": 43,
+          "sha256": "f2226d0ebab52cb6b9541f1c3d1418093de3bfb1f8084ce5ba2c2649043e4c06"
+        },
+        {
+          "index": 44,
+          "sha256": "41025290df5f145fdd22fde3bc2bf592247848310a2ad8933e34fa91f0be353c"
+        },
+        {
+          "index": 45,
+          "sha256": "32b77150303ca2f53d66e939e96a8d93ec7d7144d58c55a748445e0063d1a6f3"
+        },
+        {
+          "index": 46,
+          "sha256": "a713ff0068a680b4142aa2b91f8b66432c89947cbbd0ea6550282f4306758c1b"
+        },
+        {
+          "index": 47,
+          "sha256": "12fdb23456d02b9c4ea67c14556a6051f1ef7c53aca0c3db8d07348d5d6e52f6"
+        },
+        {
+          "index": 48,
+          "sha256": "989808a7a33baef016880a65b45ef2b62d3c84389f59b50d4a7e3392720a5023"
+        },
+        {
+          "index": 49,
+          "sha256": "b79e033a3557207f4dffb06163109d2996f2b88ea0bca6a3938964541c4327be"
+        },
+        {
+          "index": 50,
+          "sha256": "7766164d97b5e3cc4763c3c95f9d1e8db668ebcef16b46b0dc5241df6b6f5477"
+        },
+        {
+          "index": 51,
+          "sha256": "99bc131d7973869eb926288da13a9750fa19ed6663b1b25ae7c004e5a9d1670f"
+        },
+        {
+          "index": 52,
+          "sha256": "316fa8277f60331274262a049d9d0c79f4d7d498d718da9f3de8a439657e4564"
+        },
+        {
+          "index": 53,
+          "sha256": "6ae6ad389b7d782da54dff382d36cc18cb0bc932dc2a85fbd0ac79ce4bd3465b"
+        },
+        {
+          "index": 54,
+          "sha256": "2e9cd5d3eed1bd02984a06c033b88a628c0926e418f07bfa799bf2ad22a3a0b0"
+        },
+        {
+          "index": 55,
+          "sha256": "f02d6bc5df1c021ec253f41942ed2e0921a1649d40ec5e5912f3cefc51b3a0c0"
+        },
+        {
+          "index": 56,
+          "sha256": "5b00980520dd42a0a5b2158c4739e242cd0982271cca1fab9a1552494954ff36"
+        },
+        {
+          "index": 57,
+          "sha256": "3d64696cf033f4b7fc54a969cff637acedcc89025b2db882c972577a618ccbb9"
+        },
+        {
+          "index": 58,
+          "sha256": "750ce5c6e5db51d15bd24bf381db0be9b3255ab195fc84b2ffad7a0b1359feb8"
+        },
+        {
+          "index": 59,
+          "sha256": "7d8193dddaa4250471e9aa6a5e9977b73de7964fbd6d144c9a55b865083f0a87"
+        },
+        {
+          "index": 60,
+          "sha256": "513dacefe7868eefc12630629d8a4f94bb0c052c7ac22fad571989aef5a99044"
+        },
+        {
+          "index": 61,
+          "sha256": "0410e379a614dc1c4c4e2417becbf8cb762495be59a3ea0aaff15c67f9d54bd1"
+        },
+        {
+          "index": 62,
+          "sha256": "6e4a43e2cb7f7c17bece83afcdaf8f90d4dd78e061de6a32bf4acffbb51937c2"
+        },
+        {
+          "index": 63,
+          "sha256": "c11ccad484e398f280b5bd9b5f77dcf542b1b1cc8eb48ab728199ac7b969d832"
+        },
+        {
+          "index": 64,
+          "sha256": "04e2bc33acf770e666182a63d0f1649e519fec64523adb9b3f8e6f6bfe5d400a"
+        },
+        {
+          "index": 65,
+          "sha256": "0ad4bd58c6d1a66275c45a1718c0e8650afe3a18404fd12b59ab87dd8c85ccc0"
+        },
+        {
+          "index": 66,
+          "sha256": "a30c9873719e7168733794b6fb67be04685e68bfbd80b94439d7902710d1ef4f"
+        },
+        {
+          "index": 67,
+          "sha256": "de84cc0258dc9ff332dcdf4406cec8e1c674de441e00a3f9d862d4f15bfcf4c3"
+        },
+        {
+          "index": 68,
+          "sha256": "106c005e8adf76c9e7d8b00e285373a882e5e993cc95aea735eccc4ef4c60a02"
+        },
+        {
+          "index": 69,
+          "sha256": "ebb790b22bbee8274536bfda3de585d3dbc9bf138352784a3fbbc55a52e2b022"
+        },
+        {
+          "index": 70,
+          "sha256": "2d14ef33a651eb9ccc80ed94a8f4784f3f4b3bb975c87c6733c33c5a3ae0ee98"
+        },
+        {
+          "index": 71,
+          "sha256": "b56e4fea86ba2b68c0f5cb02ff805103584554cba356ffb583c52dbacbf5a264"
+        },
+        {
+          "index": 72,
+          "sha256": "0aa8de6349eec32835bce0ab1069191c4140388d13da8524dbc7d87fea0591a9"
+        },
+        {
+          "index": 73,
+          "sha256": "434656fba39fea72201beaf2f5474d60295f4010376396228e037945ea679e3c"
+        },
+        {
+          "index": 74,
+          "sha256": "fa6ae65421da65aa4a2bee57815f2b8a2b2d22d26abcf6e90f01ddaef5e64d72"
+        },
+        {
+          "index": 75,
+          "sha256": "a726bdb59679955c4f386b0cd4d10a0455e671d92d945392ec543772f7c20369"
+        },
+        {
+          "index": 76,
+          "sha256": "3104d47a716d258a192a420cb0c9c476ff77347b1d9be707d86e10b2d5d6ef86"
+        },
+        {
+          "index": 77,
+          "sha256": "1d2395db74e1369c908244f126496eebe678823cdcd55375ea2ae5d4bf55bcfe"
+        },
+        {
+          "index": 78,
+          "sha256": "1e5ec6deeee7fe2a7a51bc5d0cc41f6e88ae2c625ae5b429806905377aa5f519"
+        },
+        {
+          "index": 79,
+          "sha256": "1f42c69ebaff8b8f744868652e50f8836a242df3c1966066ef392efca66d7e87"
+        },
+        {
+          "index": 80,
+          "sha256": "c7b0a7888d41ac5f5f10f8a50d528f4428fd5572b3d6e1f4e0f360e2a23b8de5"
+        },
+        {
+          "index": 81,
+          "sha256": "e8aae76757d33c442ceaaed633517844b526dc726852c81eed8f5f145853d50c"
+        },
+        {
+          "index": 82,
+          "sha256": "db73a5d369c45196e9f130d1fb0301ff04c8f074a3193c36098b1ed5197360c2"
+        },
+        {
+          "index": 83,
+          "sha256": "c2d0945fe6af6c638414847a2a79605a511593504a89479b3561fb11b8a54a04"
+        },
+        {
+          "index": 84,
+          "sha256": "e3b7c876559089b7d6d7b45c81b1207b312148c77d99c282761a5afe5fb11a99"
+        },
+        {
+          "index": 85,
+          "sha256": "12c1ac2b4ee8e20359be5144a8bc1a682eadcd0fc7085af026e566715c25c5b8"
+        },
+        {
+          "index": 86,
+          "sha256": "5cf3a69f87c0682e0e17f7b9c492310a8d7df2b94fff56046647089a39be9ab9"
+        }
+      ]
+    },
+    {
+      "id": "cic-tool-surface",
+      "sourcePath": "docs/meta/specs/cic-tool-surface-phase2-design.md",
+      "snapshotPath": "snapshots/cic-tool-surface.md",
+      "sha256": "480078423a37a0716b537e26c8bb910d5037ec9df0595a7438d93e046cdaa166",
+      "bytes": 8255,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "UNKNOWN; source claims do not verify evidence",
+      "sourceScope": "CIC",
+      "sourceRepository": "toolforge",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "ef198162cef71c2725a9da60769cf508d5775200d2930ed1e856336e1b6ff1fc"
+        },
+        {
+          "index": 1,
+          "sha256": "848657fd947b4b6e527f1beb7875a0c57430a53483a4c94616e5bb3fe8e39871"
+        },
+        {
+          "index": 2,
+          "sha256": "f77281ccf849802754091b01224d153288f8f4883184a110de36ad18b3761197"
+        },
+        {
+          "index": 3,
+          "sha256": "37861e2e14013ad7c69dfa0ecab17370a0a0e6cf9631382cdc23dff2fa1ba904"
+        },
+        {
+          "index": 4,
+          "sha256": "23bbee95f5fda35470ca591fddbab2bedaf7ddf3099dd39c08e688927d5037e7"
+        },
+        {
+          "index": 5,
+          "sha256": "805dfbc3e606a2a0752cdfc49b919094165d5493f8a1c67141194ed2416133cc"
+        },
+        {
+          "index": 6,
+          "sha256": "add847e601ad9f1a91ca58a6d482ce6ad5d949344b3e3ad1a745c767a100a404"
+        },
+        {
+          "index": 7,
+          "sha256": "c2d60fe96b82eae4f48706173a09eca59db3df188b9258e600763e5707b7f2a4"
+        },
+        {
+          "index": 8,
+          "sha256": "a69ccdf682630a3a88d62385b6c2895d5410b7f36ee52d046c9e8403a33b8eaa"
+        },
+        {
+          "index": 9,
+          "sha256": "106ef3a9f57e32fad439babd86d4aeb9cc30f093878b516211dc8c11d24cbe1c"
+        },
+        {
+          "index": 10,
+          "sha256": "68c897fe1018604c75167dd3008b4698b0ad4aa42981a20c85944b67cb561df9"
+        },
+        {
+          "index": 11,
+          "sha256": "e7a947602d5ef27b3121628d018b7be0ee62bf7259b1d9118140fc119e1db4e3"
+        },
+        {
+          "index": 12,
+          "sha256": "ffdcea3b88a700f067c710cd96092ddd3cb2b3c97f3d316611e8f2e946e6eb79"
+        },
+        {
+          "index": 13,
+          "sha256": "6c1a158c1fd863f4fc1c6caa7e74f4f854bca0f845c8855f0c89ae1bec99e120"
+        },
+        {
+          "index": 14,
+          "sha256": "55e2fa41bbeae0648022fdb3699f8fa8010dfacae17443301bd45334f8ec55bc"
+        },
+        {
+          "index": 15,
+          "sha256": "f8872c4a74019e31befb1e7d533773a1d9e5077974843d3cf80d0929b0ee5a43"
+        },
+        {
+          "index": 16,
+          "sha256": "aebddb580843b45b000416dab558db5f3f07f14efef9a267dad48bcaacdb590c"
+        },
+        {
+          "index": 17,
+          "sha256": "dfb36b25cb8550fbd887d4b681beb9cbf15cec30087c14854d23a39312809142"
+        },
+        {
+          "index": 18,
+          "sha256": "a6e785d151c5557dd116f1b1a34d5d75d83b2b5cd1e872e4daa160fe006ad632"
+        },
+        {
+          "index": 19,
+          "sha256": "aae1dac71e298bc7e9f9543b57e9cc77d0f93a07da75546f044fbc03ef09ca60"
+        },
+        {
+          "index": 20,
+          "sha256": "455a8509fc52f80141ed06b342df8cedde2b2542de11be72ac5402b3bc874a8d"
+        },
+        {
+          "index": 21,
+          "sha256": "2ed412f06096f84615a09e729aab41dd7959986a7d2ff9c1a883f8d587652ce9"
+        },
+        {
+          "index": 22,
+          "sha256": "58c0e45301d545001fac1290622aee22f0ffc836417bdc09cc85682dc46971cb"
+        },
+        {
+          "index": 23,
+          "sha256": "4bab703eda21479940f7dbf47f5f327f0ae2bb5993f2abf7ab90d71494433dd2"
+        },
+        {
+          "index": 24,
+          "sha256": "940c1722571f7f5ca8d80d9c9bff71142265d067bfab16eb92efff0a6fb61e9c"
+        },
+        {
+          "index": 25,
+          "sha256": "e3fc4a423efce28e92cc71a4b987591ad2c6bcb49fe8edf57a3905679cf7f74c"
+        }
+      ]
+    },
+    {
+      "id": "trm-data-strategy",
+      "sourcePath": "docs/meta/governance/trm-data-pipeline-training-strategy.md",
+      "snapshotPath": "snapshots/trm-data-strategy.md",
+      "sha256": "d5a448d2e58e9477b3ac9c8e5cd590612a0505b09326e0be73c7f4a461dad02c",
+      "bytes": 11790,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "UNKNOWN; source claims do not verify evidence",
+      "sourceScope": "CIC",
+      "sourceRepository": "toolforge",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "80296d57abfcac88d84ad7ecde639cab84476f762d1bd46b19b231307ab69c97"
+        },
+        {
+          "index": 1,
+          "sha256": "2ef5cedb866399f2e69462f039476b725387a816ce575a64fe7005ec49071b21"
+        },
+        {
+          "index": 2,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 3,
+          "sha256": "5f50cea00d32f6771186d8cb8d258781fe69bde86fa6a4bdf82df35cf09112c7"
+        },
+        {
+          "index": 4,
+          "sha256": "25bcff2e095a5f5276a6934350eea0518e1f4bf94bd64cabf87e2bee934917eb"
+        },
+        {
+          "index": 5,
+          "sha256": "67d53925d3295ff74547036e1d4e81ee643eb222e9f4f7cc813a66ae2b227f43"
+        },
+        {
+          "index": 6,
+          "sha256": "c87718acbb59cdb42378ae29bc01764eff2428762a8c582df03a6c4038ee9292"
+        },
+        {
+          "index": 7,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 8,
+          "sha256": "a00e2c2d5cbdb3eefec8914abcc18fea29e501f773026c823220ec4a80471f49"
+        },
+        {
+          "index": 9,
+          "sha256": "809cd33bcd8f8fe8e525f8ebee2bba639b586e83f74143668357c269e4351b7a"
+        },
+        {
+          "index": 10,
+          "sha256": "4d65ce3e5ad65797c3bf053c082ebdc8b1ff84f0db6a1047e1b1b8b974f34611"
+        },
+        {
+          "index": 11,
+          "sha256": "16809ebf97d62c251ce86ed0d7fcd9c3299a091ebbc0593c7916321124d4c205"
+        },
+        {
+          "index": 12,
+          "sha256": "61779b0f6005b732019d7da4b5ad149bf75b6c6010ef463083300006d1519e52"
+        },
+        {
+          "index": 13,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 14,
+          "sha256": "6f5db74619d1ba1070b9557ff5c5eb95710bac4d8d8c22973ffc7223f18ea38f"
+        },
+        {
+          "index": 15,
+          "sha256": "8ca46df4be60d0b52edf7ea3d95b56e2ab9a6434f5ab39fa55b5dfb8e0205349"
+        },
+        {
+          "index": 16,
+          "sha256": "5dd94c790b9e16f039b22898bcd7d851c15e81235bc1c2985388a0ed3ff32f05"
+        },
+        {
+          "index": 17,
+          "sha256": "8dd0056dc7f8647ef31c62aeb8f58b4543f873c1b8d7a026ee20dc4ea4b78815"
+        },
+        {
+          "index": 18,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 19,
+          "sha256": "f93c9146727c30569cd7b3e1fe3b4613fdcd024ae094e0091933263dc7e5fa4c"
+        },
+        {
+          "index": 20,
+          "sha256": "af70f0fc8db0f6d06ed9bf9b396c012627e584f82d6d30dccbe2a0fcd8bacbab"
+        },
+        {
+          "index": 21,
+          "sha256": "17776ae4b4606bb492bab7bd63a51866ed1a45caf729d27358f167a449410cbd"
+        },
+        {
+          "index": 22,
+          "sha256": "6c03e928b43e64a08a507a8b008e24b967bd8c6ffa25bcab575659388b1daead"
+        },
+        {
+          "index": 23,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 24,
+          "sha256": "e093d630314e6f6d5653a9bfc29de01015e3b1876543a8a08b5e4d6925e14576"
+        },
+        {
+          "index": 25,
+          "sha256": "1b6eb9945b8a46aeb022ce94da04e8a1d5da8b85ffa459f036f2f52397e89cab"
+        },
+        {
+          "index": 26,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 27,
+          "sha256": "15ea6154a4eb7a95ee13e899556d75ba7953717094bf11980d5bdf7988d0343c"
+        },
+        {
+          "index": 28,
+          "sha256": "9bb1f71aee191579976f372bbd2031785cdaae2b6576e185a598d18dfc9cce3f"
+        },
+        {
+          "index": 29,
+          "sha256": "567fa96a6af8d35bb5b8281d6bd9354007c15aaa11e02d539ab9a81119a937ac"
+        },
+        {
+          "index": 30,
+          "sha256": "267d134305049dc4d46bd75064a959dc9563524ee6692b168b65f43a4d83ec0f"
+        },
+        {
+          "index": 31,
+          "sha256": "cd262a2ca714b113f1814b82c0c4fdc3a4d728e099de7c0944630deaa8dc20f6"
+        },
+        {
+          "index": 32,
+          "sha256": "87ac2f4cddfe5f0d179901dc59d8b8c8769f44867c317c74b8ecd067c89acf7d"
+        },
+        {
+          "index": 33,
+          "sha256": "6599f6e5aea1257dc8fa47f4a75f1553edeef10be33a34ab72a33ee4d4acd9f9"
+        },
+        {
+          "index": 34,
+          "sha256": "53ee1d75774653f311ce62462995d6ce3a32bd6a9b5f6192a2172616d08412f1"
+        },
+        {
+          "index": 35,
+          "sha256": "42035f2cc4818d7d7586bcf9239654e5108c30f37168c583a491be0f7d0fc8de"
+        },
+        {
+          "index": 36,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 37,
+          "sha256": "6b50a4e3c1f4a032c9a48e05b05f2f9403513e4a698fb6fc1acaf032e9f80db9"
+        },
+        {
+          "index": 38,
+          "sha256": "832684e26a94a0613946687a2133666911ded00913c3ebefea61559fa1d7d52f"
+        },
+        {
+          "index": 39,
+          "sha256": "437120dbe0df53f6e2381f99853194544c7569be5663e38af8a9cbbbec9c9c67"
+        },
+        {
+          "index": 40,
+          "sha256": "cea106081d16990a8d8c306b392b54b0f701ad86e3bcd350652ca33e57ea9ca0"
+        },
+        {
+          "index": 41,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 42,
+          "sha256": "931c7d7896aef94b6d89f5dd23d927b3169771f3d31789be1e4eefe6b99eaa4f"
+        },
+        {
+          "index": 43,
+          "sha256": "d4d45f2e8d2b114782f051ce84462e7fdbd0572293112197dc1a3e0d4fab07fc"
+        },
+        {
+          "index": 44,
+          "sha256": "02d7b828f22e48033c64d781d2ef5f9aab0e9e6ceb01907ab4966c7392e12e45"
+        },
+        {
+          "index": 45,
+          "sha256": "76681efc7e6f8cc9a065d9b5f343aab7841f7313ce0faf3b489a4e0d5a65301d"
+        },
+        {
+          "index": 46,
+          "sha256": "88df3c236d680743bbcafd09cd393cc1b200aae7044b6af0f045c45edcfa8ccc"
+        },
+        {
+          "index": 47,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 48,
+          "sha256": "9dd37431cfc94fc5cceb1372e396382199730304bccb4fa918854a7087d48ca5"
+        },
+        {
+          "index": 49,
+          "sha256": "9e4271089b52a059b791b8c36a745153744c8cde4ee79ba0b7030854e9511805"
+        },
+        {
+          "index": 50,
+          "sha256": "326dca6cd6bdc1b5ab05f05ef456644486273ca358689b43d864fa087684c001"
+        },
+        {
+          "index": 51,
+          "sha256": "53728f8cd6f72e27440d9a698733ea9c911dc16d4276e30501e1c1b7a38d119f"
+        },
+        {
+          "index": 52,
+          "sha256": "7b8aa1071d621dd24b098b97e35eb30e80ee6821b9438d0f59a51c829c5779e0"
+        },
+        {
+          "index": 53,
+          "sha256": "3a74c6b5f7f69f9e09915dcd9193c50c33390158128472510104b1b48de7d898"
+        },
+        {
+          "index": 54,
+          "sha256": "2ebe65d8a3c8fcb044a54f2c2cddbd775f81663512e3e390e6a6419c1f0ee6fc"
+        },
+        {
+          "index": 55,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 56,
+          "sha256": "56a8dd9a58d99636559d92b1cb28bb4a9b6c27920e9101e8affc209ae33eb661"
+        },
+        {
+          "index": 57,
+          "sha256": "46ae67f73556d2be14227126b62315c4daaa471f73fa2ab0dee52f5414522c5a"
+        },
+        {
+          "index": 58,
+          "sha256": "d47800beb879d842db9059de3f4c713cf6e5bfe82785fcdfe599ecbc2a87120c"
+        },
+        {
+          "index": 59,
+          "sha256": "f9a0d32bd8362b1d209d11c25a05c78e8169ec6c850e28a7f20853c24cf4e635"
+        },
+        {
+          "index": 60,
+          "sha256": "d4423be6642fc584c9d71033079acb570455dc42472f22b11188f7f775c3707f"
+        },
+        {
+          "index": 61,
+          "sha256": "fc179c2cd54e7ebc56809578f928e057aad307721bb8d1c2e888b5bc50abcea1"
+        },
+        {
+          "index": 62,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 63,
+          "sha256": "eb137d6df18015a6b407d10211ef07b6f11bd8c5c210f66783dab0277cd0bdbd"
+        },
+        {
+          "index": 64,
+          "sha256": "affa090a9057eb176337272b657f1a3bb89fe02a738472d5ee998dda3abc0a25"
+        },
+        {
+          "index": 65,
+          "sha256": "2f3add2bb67162e86a48ff6e59efc39d4519760926b7c35e893515faf3d8eb90"
+        },
+        {
+          "index": 66,
+          "sha256": "84f62d54996e305fad11f38bc5064b88f40c6f2d6f209fca5b02c21d64e03c3f"
+        },
+        {
+          "index": 67,
+          "sha256": "ae50453526fccef147c6a4a70cd54d4dccaac23a8caa472b04ecf8536cdfe01d"
+        },
+        {
+          "index": 68,
+          "sha256": "c3c7174b51dcf5af8922ba021690190fe0078cb0db1e3a43bda5ed8f00954479"
+        },
+        {
+          "index": 69,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 70,
+          "sha256": "3b45f4aa7efe516a496663ad5428c60d9b63cf285147406fec936b20b810c7cb"
+        },
+        {
+          "index": 71,
+          "sha256": "6b3e8a4a226eefd6bff49ee402a07a911f793dbe0f3eb7aabd00ab4839b8af0d"
+        },
+        {
+          "index": 72,
+          "sha256": "c1d459915783e3bad1f63779a5788207bbfebd6660281eb925b212e515952a42"
+        },
+        {
+          "index": 73,
+          "sha256": "aca68ec20bafa174ec9ab7fd599cf4caef5e4908afbe734fb2c3d4bd003de701"
+        },
+        {
+          "index": 74,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 75,
+          "sha256": "c53c53a9988bd78484fd7027f353afbf4110254567416200a3958f7a9e2c00a0"
+        },
+        {
+          "index": 76,
+          "sha256": "4b9106884c46c7f1d57abf0c88671b4840f4dda505c878de9e63339480c04968"
+        },
+        {
+          "index": 77,
+          "sha256": "746ccbc1260c841313e727b8167ebe894026018cbeffb3ae48ca9942bdaa7159"
+        },
+        {
+          "index": 78,
+          "sha256": "1a69cd0c422ff0ae00aaf9d8e2e06c3d4bc4731d11658e898dbb310a98dcea1b"
+        },
+        {
+          "index": 79,
+          "sha256": "d11cfdc8cb22d7af3787b441a5a2f869e457a37b7b055f52b0cc60b79a3214e1"
+        },
+        {
+          "index": 80,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 81,
+          "sha256": "dba3fd8544e88c2816ddc489f92bc2b169be5d8b67534d8bb5d6760af70043cb"
+        },
+        {
+          "index": 82,
+          "sha256": "38c14df47638e80d7b13483aa4fae2cedbfc5028f52e95e75ab5d4fbdde6f89f"
+        },
+        {
+          "index": 83,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 84,
+          "sha256": "cda0a16d5a15747c68b26d676e5bed3b83317a0f611e7e737dd7a6628aa04980"
+        },
+        {
+          "index": 85,
+          "sha256": "112631358ed9b7247a558453a28f489c27e9b0f56d67ce17ea3a5c063a060004"
+        }
+      ]
+    },
+    {
+      "id": "kb-sync-dag",
+      "sourcePath": "docs/meta/specs/2026-08-08-kb-sync-dag-design.md",
+      "snapshotPath": "snapshots/kb-sync-dag.md",
+      "sha256": "0e2f05b646142cc705b305716617ba528b7e96c41c61f7027e6d7354b8c2c753",
+      "bytes": 11709,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "UNKNOWN; source claims do not verify evidence",
+      "sourceScope": "CIC",
+      "sourceRepository": "toolforge",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "11233e7967ec39a1992b5101b8f5679531ec9757f75d3a691d4793358efda7f0"
+        },
+        {
+          "index": 1,
+          "sha256": "210ea887f148bf59824dee64aa097cfad2b01a854e6a33c00b582a25357d25d9"
+        },
+        {
+          "index": 2,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 3,
+          "sha256": "22852b615151bc321d46a7514ea9c90e49ffb0bbade310b7ab590423ba81ffb0"
+        },
+        {
+          "index": 4,
+          "sha256": "e739464745cb4d54f83f55356935158a6a6ff1668648b9f5b9996bcba479aa68"
+        },
+        {
+          "index": 5,
+          "sha256": "6203c6ccb54fb0d125b2b5db7d4844df687b88defd98970912f5d8c44a85df5d"
+        },
+        {
+          "index": 6,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 7,
+          "sha256": "2464cec7149c8347c2ebab60c2595155e3ea78951d6dd54c4af361b5f29bfe08"
+        },
+        {
+          "index": 8,
+          "sha256": "5b422e9dce4d5d5a041be0829fb5c0ffac2d6ecbd7b6bdedccba9aa9a36ff2a3"
+        },
+        {
+          "index": 9,
+          "sha256": "33ef7fa8649d24c6d3613ff1f77a52ce6c8509fcaee280815f97fb9984c7d43b"
+        },
+        {
+          "index": 10,
+          "sha256": "42c970f80ddf65a982ca90664f1db81022e93c6ffeda30a55f5f829c4c385021"
+        },
+        {
+          "index": 11,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 12,
+          "sha256": "a9719f0a41ef16ea1d3483e328344e3f663374e87ec2b727d4469af679214339"
+        },
+        {
+          "index": 13,
+          "sha256": "46cad4b73c852417cd76638165b3e3243fd10b3fb6e5b096dc7e507a9c415e9a"
+        },
+        {
+          "index": 14,
+          "sha256": "9e1b57d7d7609525f4c7681c34f980810586903167f78a85d6671f8e10352f99"
+        },
+        {
+          "index": 15,
+          "sha256": "dacee24e9d6af1610307cbade8be607601ef16e46538b18ae20e72a32706a706"
+        },
+        {
+          "index": 16,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 17,
+          "sha256": "035fb37228895884e70a431c257e9d402e2c86f7a61b40d40eef532e7e90005f"
+        },
+        {
+          "index": 18,
+          "sha256": "7773190b1b1204dfa8858bb6abe5f443d504cdd45118dcac0a8c1a56d0e31ae9"
+        },
+        {
+          "index": 19,
+          "sha256": "de7a368e4a0d075761af904bba0ff95d33cc1d1e3513219627a8d80a29e288b5"
+        },
+        {
+          "index": 20,
+          "sha256": "d4fb989b495fe59b6457af81aef3978f11dabed1cfc825e2e2424540cf121836"
+        },
+        {
+          "index": 21,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 22,
+          "sha256": "4aaee168934c5d465150ea86c48ee1f5dcad57de302183a5297c57212f0dd77b"
+        },
+        {
+          "index": 23,
+          "sha256": "23dc43db73317d9fa1389333ce84864f679e3c9da1a8767488043ef048e2ef36"
+        },
+        {
+          "index": 24,
+          "sha256": "f7a49f2f849e445a5815742275643f07f079fd935bacb5152276effac58b5895"
+        },
+        {
+          "index": 25,
+          "sha256": "e2b4a0983f19a2232cbdf3197660ba5115f3cc3e8771de1e3be733c2d5affe0c"
+        },
+        {
+          "index": 26,
+          "sha256": "036a76bea14c5a450469ded8f42af201034eabae6c4b65da835bd77fbabfde53"
+        },
+        {
+          "index": 27,
+          "sha256": "5f7a5fa3050c98a971c1ce787929d16873b24cb60fa089cee828051cd301e9f1"
+        },
+        {
+          "index": 28,
+          "sha256": "c995b55b89bb6de1bb680e473bb106c851b8120cb865c25fa50f66d27a25ff0f"
+        },
+        {
+          "index": 29,
+          "sha256": "cf1988b3afd67f0b26fcaedad7a7882ea8530599ca658939907b1536e9425503"
+        },
+        {
+          "index": 30,
+          "sha256": "832ba6c9cd60379c41c566599a30cac1d2ca81bd30126fc3cd49a1475f60ea3f"
+        },
+        {
+          "index": 31,
+          "sha256": "d6116f5b0b70d4b2ca5083888e70f622391bf0b3056947e6b80c8a6bc7938c4a"
+        },
+        {
+          "index": 32,
+          "sha256": "5b0f1f07948b2fef8ffe89474ae4e55e0b905c65756a97afa89a80a7efed9b9e"
+        },
+        {
+          "index": 33,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 34,
+          "sha256": "7b7bebce840b7cc8f8eace72d273e798f5dc74d3592e420f0b88add819f8afd6"
+        },
+        {
+          "index": 35,
+          "sha256": "7556a0b9ab22174135a32574c316e36d737af69191e570d00d7419ee5572b235"
+        },
+        {
+          "index": 36,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 37,
+          "sha256": "a2a5c638c92a5a62713e4791161dc4481a330ec366bf899564370f235ef20496"
+        },
+        {
+          "index": 38,
+          "sha256": "b96a8585822775adda6fcea349547e32f705b59f4dd024d9cba937cdfc1ecd80"
+        }
+      ]
+    },
+    {
+      "id": "wiki-style",
+      "sourcePath": "docs/meta/governance/wiki-style-and-structure.md",
+      "snapshotPath": "snapshots/wiki-style.md",
+      "sha256": "821837634d8aeb41cf0f0ef0b129d8c9627334161253e85b85b93b2dd669df43",
+      "bytes": 27678,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC test namespace for shared governance; not exclusive source ownership",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "UNKNOWN; source claims do not verify evidence",
+      "sourceScope": "shared",
+      "sourceRepository": "toolforge",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "e98304bde67812b9b0fc5c50c9b15fdeecf61be9990b803734e5b1e62428f793"
+        },
+        {
+          "index": 1,
+          "sha256": "03fd3a65291e25a564e635cc2249bfcf29ebbf16b66ecabf23ea6d73098c6cb9"
+        },
+        {
+          "index": 2,
+          "sha256": "4f1ae10209b3e71cd4dce6270c5598bad9a4572360f2384311fe0e35c879c65b"
+        },
+        {
+          "index": 3,
+          "sha256": "eb35770765c0f71c60f1f9f55359819c47591d79bdd67368e0d23af45aa97a2a"
+        },
+        {
+          "index": 4,
+          "sha256": "0b145c4229d0866ec393d13b9625174d347177293adaa9e0180a3204691f4ea4"
+        },
+        {
+          "index": 5,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 6,
+          "sha256": "4023e36cfbae8b903c6a526e4d05f0309d588f71f7690cb85f087624545239b9"
+        },
+        {
+          "index": 7,
+          "sha256": "f9a9f8961b9994a3eae13afafbdb97fe6c74ae6c7251c64869a36ff9c95200c2"
+        },
+        {
+          "index": 8,
+          "sha256": "c07d7e3ed735c21490656f247c8c6cac564a7ece966e55c15e396802c69cdc6c"
+        },
+        {
+          "index": 9,
+          "sha256": "db9b2264f1ce47d308434e900babffd4596fe7e1a1b53ef8331ee7a3de007b89"
+        },
+        {
+          "index": 10,
+          "sha256": "9178f91dcc53daed7e179f1bf75deee7b62abbca40d1097d475055debdfe9704"
+        },
+        {
+          "index": 11,
+          "sha256": "877159d4eb8af7bd4c184b2169f3da10ba2976a8e77b1ccfed8acbd98ed4cc3a"
+        },
+        {
+          "index": 12,
+          "sha256": "bc01ced1cd6c490aa715b2f67cc9df31cb61dc05c82f7e3031faf25bb494346b"
+        },
+        {
+          "index": 13,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 14,
+          "sha256": "a0d31cd988c4be4013d84d9727db712808f0f3e75d46659a846cc075108679d5"
+        },
+        {
+          "index": 15,
+          "sha256": "103e769c16e918a3fe6bea50d98cebc308072be411148ff502f5cbefd5d6d652"
+        },
+        {
+          "index": 16,
+          "sha256": "5f3d4b4fc7a9c9359ed558f8e424e4839a36faef6d9161caecbe052f8893475f"
+        },
+        {
+          "index": 17,
+          "sha256": "9c8013aa546e93c60c7c0c7e281905a82c5417b9b783c8024213a04edd52da04"
+        },
+        {
+          "index": 18,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 19,
+          "sha256": "6147c9b1ef256a9376ea9e7557b3194f9062e86fd23124df6718d32bc32b4d11"
+        },
+        {
+          "index": 20,
+          "sha256": "42cc1835d5c680017ae6765b1267ab6aea5e4d8ee91e02b6499b03fbd5ca2f68"
+        },
+        {
+          "index": 21,
+          "sha256": "d6712c273e930324dc79e13f81f5ca804911e85c65479c2044a928f3501c6764"
+        },
+        {
+          "index": 22,
+          "sha256": "068457b95980ea26a4b7a491650d732100c9f783af95d9fd7f07ca35bd0a0871"
+        },
+        {
+          "index": 23,
+          "sha256": "677501d703afacdca00dc0fa2085ddc066fa2a21df1b14bc40930f8433df0ae4"
+        },
+        {
+          "index": 24,
+          "sha256": "3e95510a371dbc909ed17e868b4547f1c379951220d6e923f43b95a6afdd9f84"
+        },
+        {
+          "index": 25,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 26,
+          "sha256": "47ab38bd3755d9bfe228c2f71b249539229b8b1c7f297ac04f55ed731dcdb54f"
+        },
+        {
+          "index": 27,
+          "sha256": "d953b7866ad186d75da5ff131775b820038eba1e7a03ba95f0b065eb84a87c45"
+        },
+        {
+          "index": 28,
+          "sha256": "cf1ac9bf0e7ca3587bc22753fb694feb1b4779f1353659a5e272d220849908be"
+        },
+        {
+          "index": 29,
+          "sha256": "5cfb85a4010a6920692f827e5f066b9ca0406d9e8e4832356020443730f8026b"
+        },
+        {
+          "index": 30,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 31,
+          "sha256": "dfa09293be6e97ff475846ca07c5473ef4718e03be61ee07c3e0a8d5722f8ee7"
+        },
+        {
+          "index": 32,
+          "sha256": "b16db8686ac879abac6fc506d65c8e3b600e76660a4dd81a71645aff7fc91402"
+        },
+        {
+          "index": 33,
+          "sha256": "b2a9ec313767a92d759813110ccde666db71986c35d457de9df50d59c5be9704"
+        },
+        {
+          "index": 34,
+          "sha256": "5faa32339aae0c96d64a253d30e70d15ae34e965bc947217dda0ecbd9fc6d638"
+        },
+        {
+          "index": 35,
+          "sha256": "6b6098fb7db8d4e88c02d4c780ddcae8ecc8a4192eaee567a3030d1f92c70283"
+        },
+        {
+          "index": 36,
+          "sha256": "0b60e77df9b0472bfa7f959b8045cd00331e6abaa06bcf99796aa93c49c8e858"
+        },
+        {
+          "index": 37,
+          "sha256": "416bf97a4462f98377bb6374966087e104592f76fcdb92ed9f2e6b7e0a579713"
+        },
+        {
+          "index": 38,
+          "sha256": "292c6d9136a3bf57762e0e4cbf2b1e8a86a76c4f71f8b74aa8978887ebc73323"
+        },
+        {
+          "index": 39,
+          "sha256": "d6cf18d47a20f1f704f8bfba230347d53283e6efe0ed8bd592d7d310e83c9bd6"
+        },
+        {
+          "index": 40,
+          "sha256": "8ff0cd37a36f8b9205df3256f02d3ed7829d653676c0be5943145291b8b49dd6"
+        },
+        {
+          "index": 41,
+          "sha256": "5f6bcc612f13760bf74e2e8e4144f48a3c3488beeda53b4dd31f36be5d105b87"
+        },
+        {
+          "index": 42,
+          "sha256": "ecf331ceed992f228f23dde164eaa0c3f8fb95cf56829118624f2413512498c8"
+        },
+        {
+          "index": 43,
+          "sha256": "241536a438d7eaf797cb6de3e238d95073537deed9a0435729f68af422efcee9"
+        },
+        {
+          "index": 44,
+          "sha256": "a7e56472b11bd3c838bc8199601f5a5527112a003c69fbf95b012bc13573a193"
+        },
+        {
+          "index": 45,
+          "sha256": "03d65fb6a3fc32e270e401f6932a5215faf68071a01678ffbf6c654a53b0e987"
+        },
+        {
+          "index": 46,
+          "sha256": "b10e154178dbf47fabc937d9ac0712580f8374412aad9975e376c2666e190037"
+        },
+        {
+          "index": 47,
+          "sha256": "ab5df625bc76dbd4e163bed2dd888df828f90159bb93556525c31821b6541d46"
+        },
+        {
+          "index": 48,
+          "sha256": "f86dacdbf296df3286206d42650be2e5b328f30e87c2e2a91894bbe6e5e1ef78"
+        },
+        {
+          "index": 49,
+          "sha256": "7368c9d9b1e213d734557dec33e070cfcab946db55f4c02b6deec8c2618966f8"
+        },
+        {
+          "index": 50,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 51,
+          "sha256": "ed3c20ba21690353f612df193577cee2bf077c346d315eac0baa3641e317600c"
+        },
+        {
+          "index": 52,
+          "sha256": "a2145eeb6f12a2ee6ab1832c7983b8718a6711c42de9696c45a835d22bbf0ef2"
+        },
+        {
+          "index": 53,
+          "sha256": "68ce2c606f01d432bb3ef4539120aa38436889773ea08df08a4baa5aa9f85e7d"
+        },
+        {
+          "index": 54,
+          "sha256": "fc796825af58ba2ea09a40aa12b77f252a77444f72ebca1033ea4d40d560a7de"
+        },
+        {
+          "index": 55,
+          "sha256": "6dd310d60386843e4498a14531d4de44ea8fc2f347e6f102e939dfb70f5ff36f"
+        },
+        {
+          "index": 56,
+          "sha256": "860bb0c862c4b750b15262f962786ca15e2095999953f0bd9fea5b1be1624172"
+        },
+        {
+          "index": 57,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 58,
+          "sha256": "cbe06c9cdd161dc71af8deb7bfbc053090cb74116dea8444152fc9d557230e26"
+        },
+        {
+          "index": 59,
+          "sha256": "c8faf1cf9307fb06359a3c6a6e125cb2ac24b04fbdc40a930372d0b60f07f5ed"
+        },
+        {
+          "index": 60,
+          "sha256": "0fc3088f29398b71052c806895f139b8f558d4f02d096e4055e6e86d00ba07e9"
+        },
+        {
+          "index": 61,
+          "sha256": "497ecd36152ca1118f8ae5a45866f07c556313aafb63bf786162dad58fbd551e"
+        },
+        {
+          "index": 62,
+          "sha256": "bbe575b9e3579a1d6d3e11afad4b7304a891c0a78d04618e880b7f7fdb714ee7"
+        },
+        {
+          "index": 63,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 64,
+          "sha256": "4067b87ddfa7ae39150569ca46d26e5db69bd03320be115035b7568b0d1989b9"
+        },
+        {
+          "index": 65,
+          "sha256": "6e184fb414f5c14e20bb3e34e120a19fcfa03f7b3ddcdafd5f3e6b27868fbf15"
+        },
+        {
+          "index": 66,
+          "sha256": "421ae037ef7b8732725db27cbcf3c5c17e415e8690c86173a77831f4c4798a43"
+        },
+        {
+          "index": 67,
+          "sha256": "ff7088993a5bc2a0bb0b36588a14cf066b77c6879364fb167ff754ad78179d94"
+        },
+        {
+          "index": 68,
+          "sha256": "67ebcd238f4c8c49a3b65a1fbc55b3cd79b87ba2d2124b51448babbad6631bfe"
+        },
+        {
+          "index": 69,
+          "sha256": "b2bac67a5704320a7521a4dcb65a76269d5fcafc3125aa3553cebb04d75d2b34"
+        },
+        {
+          "index": 70,
+          "sha256": "873c97908d47ab4c1f2196cc0c710fdf6fe5c3ab3940c9702d4bd94b5ca00391"
+        },
+        {
+          "index": 71,
+          "sha256": "1c62ecf6fa8d520443ebf49335dceca0077faebafd280a473f33a760609cf313"
+        },
+        {
+          "index": 72,
+          "sha256": "8e3c69398e1c39b4fa9c0e82d9461f04f9a265fcd8cb9c163f2cf88aa83a17e3"
+        },
+        {
+          "index": 73,
+          "sha256": "bfedc765d7ddb55bdb86473871c04da12c405ea7b974553e08fbbf7d2072aae0"
+        },
+        {
+          "index": 74,
+          "sha256": "5cbb56e1b3c967e8eec8b376a560c195868c50811a7e321e7462751748967191"
+        },
+        {
+          "index": 75,
+          "sha256": "0911597aac94ab57577014c3f2ecaad4bd42d0360d06ebc3b51f7f7250ad01f4"
+        },
+        {
+          "index": 76,
+          "sha256": "6b6abd82f62b16d4f8b8478d4cc9ec46f1facc036bc2fc05a989a8db31a60730"
+        },
+        {
+          "index": 77,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 78,
+          "sha256": "0479b16f433fe3eda788c206eda7011040716f6c704e4d26343b0b38b9256671"
+        },
+        {
+          "index": 79,
+          "sha256": "42b19b03295b0da9f4ff66cacafecce938162629611073ddcdc6789713f3d19e"
+        },
+        {
+          "index": 80,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 81,
+          "sha256": "94716ad41eee2743e27ef460cf86f850eeeba0ed89d638de5a320a72235113ee"
+        },
+        {
+          "index": 82,
+          "sha256": "cfcdf92b7c4ba4c689c03f0c142ed9dc6fbbd159f1f1422efc52da0ea2d4715e"
+        },
+        {
+          "index": 83,
+          "sha256": "eb95f37bbc924d45c1dbbf993cbc2bd7b3200911d1f93e0146d27e8e7478a23c"
+        },
+        {
+          "index": 84,
+          "sha256": "ae4599ec72e032d398698f476e97552c92d70f0c857207b130e7788729313c4f"
+        },
+        {
+          "index": 85,
+          "sha256": "29a439198a5b2e0ea46cdf010ea8614a399d4162c3bbdd2025bd71848ad2a495"
+        },
+        {
+          "index": 86,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 87,
+          "sha256": "986ac103bc7fde06d8f7f2377a01f6a6bb9ac651d137d5fb55d71d3d07dffdab"
+        },
+        {
+          "index": 88,
+          "sha256": "610748e6267adca27121df526e59e8512daab79550cfa728523c0ed619120d20"
+        },
+        {
+          "index": 89,
+          "sha256": "c8f9dae093e38cd3fa4e84ad3ca92bb32622692d9a6ade48d44fab8312c4d02f"
+        },
+        {
+          "index": 90,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 91,
+          "sha256": "21a18ab6adf650a6b55576ad82c9d7164294bc9ff3935a8e0215f1227a73d5df"
+        },
+        {
+          "index": 92,
+          "sha256": "97925fa34e30da9f716fe08ef001d9799fac7ca3ed8a4d8dfe1c4770d28262fe"
+        },
+        {
+          "index": 93,
+          "sha256": "ef642786e6d73ccf90bd2995405dfc5b7ed0f787a8138a0a7a7442d282d646b1"
+        },
+        {
+          "index": 94,
+          "sha256": "be2b4e0e9ecb468791e1ec31e2bb704debc4eb07474533aebd0f6a3407b37ade"
+        },
+        {
+          "index": 95,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 96,
+          "sha256": "aa89be3b323ed1340efaa84b5c5b521ded72784d4f547277eb249c858053548b"
+        },
+        {
+          "index": 97,
+          "sha256": "d27732d4d5d3ec5d8bb081d934a6145024d671b329893d6b2efff7ad0fe9c960"
+        },
+        {
+          "index": 98,
+          "sha256": "4b48ced62cea3175315749b9c5f5a5f28578e1134f06bcbf8eef59899fb3f385"
+        },
+        {
+          "index": 99,
+          "sha256": "f2ffcd86446e3b401c141b5046a497a391d0ce45afca321bcad78a39977d18c6"
+        },
+        {
+          "index": 100,
+          "sha256": "76e2de7fe8633726cd2bf58a177042340b67e503063803c4713a97c237bba66e"
+        },
+        {
+          "index": 101,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 102,
+          "sha256": "f33c36703513b292bc4cdff05d4657eae41a08dd616b036d835a095bfe021a06"
+        },
+        {
+          "index": 103,
+          "sha256": "33c7fd28169aade67ebbfa6edc15eb8615d155e29442c2a0f1f97c07395e4269"
+        },
+        {
+          "index": 104,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 105,
+          "sha256": "fc2632e53d16fddc8fbca9af173a9b8f1d2524fd23f00128727df4b539d788fa"
+        },
+        {
+          "index": 106,
+          "sha256": "4da91f3e3b156ab334185f0b3a388bc222e1c6a928096bfc211907cee509a10f"
+        },
+        {
+          "index": 107,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 108,
+          "sha256": "dc0bedcb0bec7f855e60efe747ca8b5c35682fe690241023e995b66d7487a595"
+        },
+        {
+          "index": 109,
+          "sha256": "2c74705292879ec055da556d8a7375d8e835d4ce90790af2817daf85c0ec85fa"
+        },
+        {
+          "index": 110,
+          "sha256": "afe6726431d267d8d2d0de081c83e0242b172150d6e824020bb72b2fef388e02"
+        },
+        {
+          "index": 111,
+          "sha256": "4c3fcfeba4a382010edddd19bf8e7ae4b3823038c1bf474ef84e59db95ce9d0e"
+        },
+        {
+          "index": 112,
+          "sha256": "b4b2b573d2203115179c8cf2caa9905bda10a5477b127f89aa05b677bd099e14"
+        },
+        {
+          "index": 113,
+          "sha256": "b102fd5d317d696cab7f83653dbc05ebb7d1c148e968253a35538d7a698de965"
+        },
+        {
+          "index": 114,
+          "sha256": "e21222fbc41dab71b3a4ef0351612322e001c9166a70c7aee41b5c05e86e1d36"
+        },
+        {
+          "index": 115,
+          "sha256": "50863ba62b9e98947c7589b209500e864001f9eff6aa6658bf380d370276771a"
+        },
+        {
+          "index": 116,
+          "sha256": "5cd8ae826f2b434340ab6e41ea976721fe86d27028c17d8ca9e969190e75b196"
+        },
+        {
+          "index": 117,
+          "sha256": "a729b2fd7579258f54106f6a8ff12a9c819addc7d1eb66769e04308a3c84f61a"
+        }
+      ]
+    },
+    {
+      "id": "global-rules",
+      "sourcePath": "docs/meta/governance/global-operating-rules-cic-rewrite-labs.md",
+      "snapshotPath": "snapshots/global-rules.md",
+      "sha256": "7db2281103c35bd43f0cbc9c6cdadd7aaed6ddc6520d275563488853f0b68fb8",
+      "bytes": 8843,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC test namespace for shared governance; not exclusive source ownership",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "UNKNOWN; source claims do not verify evidence",
+      "sourceScope": "shared",
+      "sourceRepository": "toolforge",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "af346b7ff3796bee1de8794716c2a16d1a38ca65b7d394e582d53916b4edb17e"
+        },
+        {
+          "index": 1,
+          "sha256": "6bf0efac1479c9e5fc721d8cd2e03c31cf3083312ebff5af96dd37c686c0ebc8"
+        },
+        {
+          "index": 2,
+          "sha256": "a37277085413fbd9164820d2a5e25efa248cdc1101cade5935ea531f7a20cdc6"
+        },
+        {
+          "index": 3,
+          "sha256": "2cb53302e3f8ee230e46ee821bafe7e7df8c5beb0843361786041a1459560708"
+        },
+        {
+          "index": 4,
+          "sha256": "8b112f33a449564506000ebd682018ff5d0287f4e66cce2f3c70d01a0b8d5473"
+        },
+        {
+          "index": 5,
+          "sha256": "30b0ff2ccc1065c4f0d93ff436ed0a573f652ad2ed1fcd1882a7c9dcb8fa776e"
+        },
+        {
+          "index": 6,
+          "sha256": "6db35a4f38e9596d09fd102ec255ef4211651f533179f6316a576bee17332b1d"
+        },
+        {
+          "index": 7,
+          "sha256": "09b798427f383ac83ada59e1d77248cd96d745604448b9827821ce8213147617"
+        },
+        {
+          "index": 8,
+          "sha256": "dcb751ab522f5edfb621ea084b628a4260430de52df513482ed1e8935a584f50"
+        },
+        {
+          "index": 9,
+          "sha256": "4db6a607773b504f71fb096bb71b4bd7049234cc5a0a3bf42a33888dacb549df"
+        },
+        {
+          "index": 10,
+          "sha256": "bdd102f5da7340a2253d4b191807826a04b959773994d17a6a256f32b8e0e242"
+        },
+        {
+          "index": 11,
+          "sha256": "ec633e54a59d2f23c486c0bb62187c0487b81031f1a67d4a29ce9301797d9074"
+        },
+        {
+          "index": 12,
+          "sha256": "f7dcdc22860e91b1840c7b55d424bf16fe0fb7585d6362f9170c438677e97cad"
+        },
+        {
+          "index": 13,
+          "sha256": "5d2e9f4eb6d100e85ff5c907c0aafe2da47c07933c5a59e801c580199a7eede3"
+        },
+        {
+          "index": 14,
+          "sha256": "35d420ccc40a0b5fe09b36392d275e982a8ebfbb7dd4ca28cc7003dd2c8325e5"
+        },
+        {
+          "index": 15,
+          "sha256": "5ebbf4a240adde27ff81611ae2444fc74c55eaa205f17a30da9f08cd383fd6a1"
+        },
+        {
+          "index": 16,
+          "sha256": "4aec7282b51b47778f80f436102697570a695ecd9ff4b1b943074c1ee293569d"
+        },
+        {
+          "index": 17,
+          "sha256": "a34ea9010b814e52dc828908a407d5c198bf7d347609c4a20785abcb79a8cf70"
+        },
+        {
+          "index": 18,
+          "sha256": "05eaab9dc65d1c820788a480495cba4d407474064147f7f7f4f48e6a71ae74b2"
+        },
+        {
+          "index": 19,
+          "sha256": "60f7d406e1ac9254d479e4fadeec60ffe112c975f8533b76eb9addf1b23dfe5b"
+        },
+        {
+          "index": 20,
+          "sha256": "3bcce63a02b3420448cc3901996c2b83aabfe81a00b7cb19dce32375994b4bce"
+        },
+        {
+          "index": 21,
+          "sha256": "83c2a0d7f0f0a021cdf743812ce96cf7b8f4c49d721396738f51db3b25ce671e"
+        },
+        {
+          "index": 22,
+          "sha256": "80aa253071c3488a15646bb67918af5cfcf1b4afef64f2579f7c132466afafe4"
+        },
+        {
+          "index": 23,
+          "sha256": "119a5a0087a9ae28fe2aafc7422d37cf99b63545ed942d61eba54eabfdab2951"
+        },
+        {
+          "index": 24,
+          "sha256": "667b4b13ae042d40befc0ecf3ceabb62e7ea2e9fdef6e5a714a666e1d74f39a7"
+        },
+        {
+          "index": 25,
+          "sha256": "09e0e4b742c4e9bd2a4552a81946dccad5f442a345522bdfc908d028504a733f"
+        },
+        {
+          "index": 26,
+          "sha256": "029acb8d38c6ea403af845091fc72b0b662a82d575f13f0ff7fbb7b238d7ccdc"
+        }
+      ]
+    },
+    {
+      "id": "harvester",
+      "sourcePath": "docs/rewrite-labs-repomix-harvester-integration.md",
+      "snapshotPath": "snapshots/harvester.md",
+      "sha256": "7cd34e8925785244b43475e08423b1a41534659eb4ffc5e47850f95e0263fbcf",
+      "bytes": 18654,
+      "project": "RewriteLabs",
+      "sourceApproval": "approved-in-conversation",
+      "statusBucket": "UNKNOWN",
+      "sourceScope": "RewriteLabs",
+      "projectAssignment": "RewriteLabs",
+      "sourceRepository": "rewrite-mcp",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "90c9cb4be442b48d9885e86458a7d6587921fc205332095488fee957ca3b84d1"
+        },
+        {
+          "index": 1,
+          "sha256": "b6015d33b25d4abec982f9f1df072f66831bbcf1eb89f4aa2cf4d97e9adc8fe3"
+        },
+        {
+          "index": 2,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 3,
+          "sha256": "5f50cea00d32f6771186d8cb8d258781fe69bde86fa6a4bdf82df35cf09112c7"
+        },
+        {
+          "index": 4,
+          "sha256": "ac50655738541a14ccf6c6010209d5339f2888894711c7a78d4a31c79dc6be2a"
+        },
+        {
+          "index": 5,
+          "sha256": "e4e3e266f773ae605df87c73fb59a7dc00cd2a3fcce158bd1bf5f347d096711c"
+        },
+        {
+          "index": 6,
+          "sha256": "6c70310db3bdf1895518b0dfbd7018c0594debe63d566d4c2679fca8d2214165"
+        },
+        {
+          "index": 7,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 8,
+          "sha256": "062a87ea3c38b858cb08d5e22d9841de953954bdea65aa8ad22e1e6d4977c5c8"
+        },
+        {
+          "index": 9,
+          "sha256": "e0a1eb1f7fe722455552ac47e2a22abe63b0d2fcda5de67cde0cb39442f55ef9"
+        },
+        {
+          "index": 10,
+          "sha256": "4eb75843f5422a4c20d9489cb1b7ea4d70b5809e0a2c1e86ba234293d76feb71"
+        },
+        {
+          "index": 11,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 12,
+          "sha256": "4d8fad8b8935aee1a879296d0a250fcd0ad1bf1a5a1629d9e3f2530b20699f53"
+        },
+        {
+          "index": 13,
+          "sha256": "365cb7b78c32d8322f3cab4e26028465c570edd53b8031dcbf69097f636aac14"
+        },
+        {
+          "index": 14,
+          "sha256": "463ba0d0d6b981ef14af9cf0a4206a648ca5bac45361b8c5005cf15c921dd737"
+        },
+        {
+          "index": 15,
+          "sha256": "346811343888f5a5fa936b41e22428f28d25dfcc09165d483983efe5d23963c3"
+        },
+        {
+          "index": 16,
+          "sha256": "48629291b73b0b68e40f9fe188ab6e5bf2fb55b1085001527d5c57ccfc17f5d0"
+        },
+        {
+          "index": 17,
+          "sha256": "3e17fe59d2a92262d3bb1cbd7d329232586d7c09a670c1283baf9e3ba9cdcf5d"
+        },
+        {
+          "index": 18,
+          "sha256": "b3dbde10cdb12d226bce1998ecac4779ab7b4e1a1ddcc87308717e72d50b2e25"
+        },
+        {
+          "index": 19,
+          "sha256": "f75838c70b53a8655d1268a7ef255aeb88f143cc69c1267aabfed6a73a4d288d"
+        },
+        {
+          "index": 20,
+          "sha256": "c158dca27e4388973b82cf2ccc9cbe69b70a9647d41e8a54fcf3e312b8200202"
+        },
+        {
+          "index": 21,
+          "sha256": "c7b79b5ec66f6e62d7ab6f6292f40a83ee1dabbd7a4c6ac3a46e59cf574f96de"
+        },
+        {
+          "index": 22,
+          "sha256": "ef28120989a22921f69aef79ea4422c0e0f422b86adc88814ec3d0619582f551"
+        },
+        {
+          "index": 23,
+          "sha256": "2034a31d29056f0ac6c0107dcaabfdaa9b2e1da27182a17be1472c85fa51608b"
+        },
+        {
+          "index": 24,
+          "sha256": "c9c9199c2dbe2550b42d32c84e4f9e2d1655172b33d6919d0264c01d0bc17259"
+        },
+        {
+          "index": 25,
+          "sha256": "589ab38e554f965d2bb79212109ab6252d11621acc1e5f2b992d2cb7990f1bc7"
+        },
+        {
+          "index": 26,
+          "sha256": "9dfa98f5337c21299ef55bab1811c872b4cc343c97efb5d4fc332bcdd9f10d42"
+        },
+        {
+          "index": 27,
+          "sha256": "bf6e50a3363e2b3f80801b7e99084846ab31766ab6c1d21302633c70f24e173a"
+        },
+        {
+          "index": 28,
+          "sha256": "804cde9e39a9bc26f8216e5b0fb914bf88370563203fddf5e83e83445fb3755e"
+        },
+        {
+          "index": 29,
+          "sha256": "92527ccd8f12cef146203d221297c205ed3315748d84bd05cc9a9b05c8eb07dc"
+        },
+        {
+          "index": 30,
+          "sha256": "0338b7ffbb2e3b41834026c29cd0e23231f2cb6a9e13410ebe15e3e6b39bee7b"
+        },
+        {
+          "index": 31,
+          "sha256": "3b1f888c04a6fa57638c82319ca1764afebff1960771111ca1eaa5fabfc23d41"
+        },
+        {
+          "index": 32,
+          "sha256": "58d7712e21f007cb809f9ce81fc74c6a2fa7fddc118a21f86d57fe01606ec16c"
+        },
+        {
+          "index": 33,
+          "sha256": "422dec7d196a61596fa3fa5999027a263cb8195765ceb28eacb43c547b2e5e63"
+        },
+        {
+          "index": 34,
+          "sha256": "3bd51611e1c6841c4266eed5abb28da849aba625d1de1ff8888498e0b5c91fe3"
+        },
+        {
+          "index": 35,
+          "sha256": "7d3590a24b0ace7d6fbd80b4346ca21d74aa55a0087cf59c2d5249ab88dd58d4"
+        },
+        {
+          "index": 36,
+          "sha256": "a3df49c761cabc4ff22ca325dbb0790a5fdc50ce85851d603c7fb984cd769cdb"
+        },
+        {
+          "index": 37,
+          "sha256": "be2b9b83f6deb117106eae6525a753517063a063625272b38f6ea06ba440c578"
+        },
+        {
+          "index": 38,
+          "sha256": "0952cc10da33864441eaa990ef450810030b118da155e589c3cac31400606908"
+        },
+        {
+          "index": 39,
+          "sha256": "a2b5789de68866c9b2b8fa6aabff6815124c6c904466d54a6a426562598f464c"
+        },
+        {
+          "index": 40,
+          "sha256": "d0a5c2eba42dabaa74b9cf519e140bbd2a400e57df18977fadd9e7d6ef5c0fcc"
+        },
+        {
+          "index": 41,
+          "sha256": "217c67cd771c820e237e60ae7c74ab07d07d795f55dd7ff5769a5e8a390f1873"
+        },
+        {
+          "index": 42,
+          "sha256": "ee38d95f4df9816abcfe97c069dc45c728dc04d6062bdacbdbb3c363a69ef5f1"
+        },
+        {
+          "index": 43,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 44,
+          "sha256": "80be648cd28b3e5439ad16e8683b19bffc20a6a77b8f77d86da506b1c7efb1d2"
+        },
+        {
+          "index": 45,
+          "sha256": "5a09c56262e1ac0fcf59f9166ef48083964f5a8ac6307a945c04710113608ef8"
+        },
+        {
+          "index": 46,
+          "sha256": "aafecbc2c688ded330e7132f447fe13074968ca866684bf529d18761b6a3a788"
+        },
+        {
+          "index": 47,
+          "sha256": "83b6aef13d6f690f03d30d8bf2a38ff84ecb726c7551829ef5360e8a91dc36d8"
+        },
+        {
+          "index": 48,
+          "sha256": "3a0f2143e751e036fead68760d3da85034ae282ad1d31504ebd655e34845a325"
+        },
+        {
+          "index": 49,
+          "sha256": "4b1dc7d5d7f95f1290dd632369296effa7594c02d10795ab16e1f9eeb42e0840"
+        },
+        {
+          "index": 50,
+          "sha256": "7592a3b49ffbea46b20fce85b846a11c8a8a569ab73b09be79c5e4505b90dc49"
+        },
+        {
+          "index": 51,
+          "sha256": "46ca1bdf00b04fd5546847306ddb8f83a1beeaaf4b8b792b9a31f791c4854e61"
+        },
+        {
+          "index": 52,
+          "sha256": "0c382c311079dc6ade18d9fca936bb57199275374d63e0e51131e198025bdf2c"
+        },
+        {
+          "index": 53,
+          "sha256": "236f331af1b1d2cb0a957cf28580c4113937e21147c666ccdea9b332412595a6"
+        },
+        {
+          "index": 54,
+          "sha256": "90147b9b2408bf347a296e9408c96ea45079954b5908fc42ca7a528828580e5d"
+        },
+        {
+          "index": 55,
+          "sha256": "a621af99c2dcb717089e3268c36d4e879d1870a3adb5a33bb56f947f19b7c237"
+        },
+        {
+          "index": 56,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 57,
+          "sha256": "7b7415c92b9b5e258c3c450b29e73fb249afd14dd2922f0fc6c54dc150686954"
+        },
+        {
+          "index": 58,
+          "sha256": "45bca583f26a9445a42f21a8b789cb7bc2d40d3cf99c9764d3542d1a643969b8"
+        },
+        {
+          "index": 59,
+          "sha256": "45a298e9f76cd3f8374a8a991371b3a0dd5e310fb6ed3c015568ee22bb715311"
+        },
+        {
+          "index": 60,
+          "sha256": "74e6b01311e3901799d21d65e89a709bf4cf280c4e18611d7913030425a14237"
+        },
+        {
+          "index": 61,
+          "sha256": "3d54abf422ccaf60a027be3cbae8472078670a1073181ce986e705d1be984d85"
+        },
+        {
+          "index": 62,
+          "sha256": "9873323d5af46f1873ba22f347cadbb5f248a171d1646c445746d9e0bcc4b5cd"
+        },
+        {
+          "index": 63,
+          "sha256": "400a35d983e04b003545da0c6bca063f62fe424e6a516828560518a20f1fab3b"
+        },
+        {
+          "index": 64,
+          "sha256": "6983404943cc01af07aecee736b20ddeee977b77eaeb7c18f47a7dc5855c59c0"
+        },
+        {
+          "index": 65,
+          "sha256": "0eec86a151c663c7bc4f35f2bec87a3eae921d9c98dd37d5a5fa5cc5b6ab1a24"
+        },
+        {
+          "index": 66,
+          "sha256": "da079036fd2d47c70bbf49b8f684c758529bb4d2bb3821c8ebb04a45076e250b"
+        },
+        {
+          "index": 67,
+          "sha256": "e390fb818887a487bbdb2a72bcaad1774dd61754878e11dcb8e2853b21a8878d"
+        },
+        {
+          "index": 68,
+          "sha256": "be297783916e1397b1a4a7cc1bcac1594d996750deaa9846df3542945a364936"
+        },
+        {
+          "index": 69,
+          "sha256": "f45eeccbb77661002e8630ae2bd68dfef0bf9684554fd869523f4bf9d1893532"
+        },
+        {
+          "index": 70,
+          "sha256": "abbaad49c6008c6278c37ea16ba0085f3b422281fd0c6e775dc3d129682ba333"
+        },
+        {
+          "index": 71,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 72,
+          "sha256": "7056d45b906150ee6b9212217774cb12c91b75fd65fb1ea130acd8ff3606fb11"
+        },
+        {
+          "index": 73,
+          "sha256": "cdb9cac9372f0866d5fd72c0e1bcb5746f9e6c737c4662818378750fc9680d79"
+        },
+        {
+          "index": 74,
+          "sha256": "18effc6f83785ecdb6d9333952a9e36e99bcfc9a37354d1d9a4df3cf8cfe292c"
+        },
+        {
+          "index": 75,
+          "sha256": "e8a3b25ea1b572977106f54ff3913b3bcbbd256b6552575e13aad67a788c40a9"
+        },
+        {
+          "index": 76,
+          "sha256": "bddc54c5d7e459a692145cea4524b47bb477c4ff5256fc0f48c29e2f21826929"
+        },
+        {
+          "index": 77,
+          "sha256": "e73cabed1ec4ccfd0bd238026cf151edd45c2d80fe3ffee556f57a2106f4f14e"
+        },
+        {
+          "index": 78,
+          "sha256": "5b041c60f0a9a53eb6779a1677a20c00f1badf1c7023488fc8992c7411340dbd"
+        },
+        {
+          "index": 79,
+          "sha256": "413e97c48caf2558111824438423812c1b5bb0bd811580c6171696b90a69eb05"
+        },
+        {
+          "index": 80,
+          "sha256": "c444624279882b51596985fc3284995bac76495b9fa82865f35b4a5bb6039236"
+        },
+        {
+          "index": 81,
+          "sha256": "3546adeb84f09b793cf31fd0eb649dfa52abccc534ce6b33ce2c4ba954eba898"
+        },
+        {
+          "index": 82,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 83,
+          "sha256": "d12a84bb99da053254eacf300bd5a9267d182b3621db8e22d55effcc96c77dda"
+        },
+        {
+          "index": 84,
+          "sha256": "6287fc8699d9839bf136643754568bc6bb549de6f0e629a1f9bca18b3da3dbee"
+        },
+        {
+          "index": 85,
+          "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+        },
+        {
+          "index": 86,
+          "sha256": "c3cb902cb2304b5e1bf2005198286096754a40c3e43e0c48ecad4a29c4856e9a"
+        },
+        {
+          "index": 87,
+          "sha256": "f1b6a4ac70a7a7464f1b1a6f9d957396d6f8462c798111bbe93a98c00685aef2"
+        },
+        {
+          "index": 88,
+          "sha256": "ce484b18cb477c54aacadbf5d5e22a92cbdea7845a753f6a087d77160f8b726c"
+        },
+        {
+          "index": 89,
+          "sha256": "ff26567855bd8d734aab39e2556cae41c65399ce34b0f0c5dd6ca5fadac5fe0f"
+        },
+        {
+          "index": 90,
+          "sha256": "1d805d4e95ecfc9d08638eef7fc8308c10272b3a088d4ec853560e2017e9c59f"
+        },
+        {
+          "index": 91,
+          "sha256": "c64ca3c300af117ab272b923019ad281009a686746541e24d3850ff6abbba703"
+        },
+        {
+          "index": 92,
+          "sha256": "600b10bb334ad6eb9d677f9166e49262ef189d5b7417071ac10dabddb3041a60"
+        }
+      ],
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "statusAssignment": "UNKNOWN; source claims do not verify evidence"
+    }
+  ],
+  "queryLabels": [
+    {
+      "id": "tuning-1",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What does the notebook source content command return?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "`{content}` only"
+    },
+    {
+      "id": "tuning-2",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What initiates the notebook pipelines?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        13
+      ],
+      "evidenceAnchor": "Two complementary pipelines"
+    },
+    {
+      "id": "validation-3",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which source listing should ingestion trust when notebook counts disagree?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "trusts"
+    },
+    {
+      "id": "validation-4",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How do identically named notebook sources avoid overwriting one another?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        5,
+        84
+      ],
+      "evidenceAnchor": "basename-collision"
+    },
+    {
+      "id": "validation-5",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Why does unattended notebook ingestion invoke a command rather than chat tools?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        8,
+        78,
+        86
+      ],
+      "evidenceAnchor": "cannot"
+    },
+    {
+      "id": "validation-6",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which note payload field carries the text returned by the notebook command?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "no `preview`"
+    },
+    {
+      "id": "tuning-7",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What remains the single source of truth for artifacts?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "single source of truth"
+    },
+    {
+      "id": "tuning-8",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What helper locates the repository root?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "findRepoRoot(startDir)"
+    },
+    {
+      "id": "validation-9",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Are lineage and report directories additional copies of artifact contents?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "thin cross-reference"
+    },
+    {
+      "id": "validation-10",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does artifact resolution stay stable when a tool starts in a different directory?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "Fix `artifactPaths"
+    },
+    {
+      "id": "validation-11",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Why are agent and configuration directories deferred in phase two?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "not created"
+    },
+    {
+      "id": "validation-12",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which two tools populate the new cross-reference indexes?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "Only `cic-run-gate"
+    },
+    {
+      "id": "tuning-13",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What kinds of dated sources belong in the highest documentary tier?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "Direct, dated, authored"
+    },
+    {
+      "id": "tuning-14",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Why catalog available material before prioritizing research?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        6,
+        25
+      ],
+      "evidenceAnchor": "data availability"
+    },
+    {
+      "id": "validation-15",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What linking confidence does the strategy assign to primary documentary evidence?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        11
+      ],
+      "evidenceAnchor": "0.85+"
+    },
+    {
+      "id": "validation-16",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does the strategy handle secondary research sources with incomplete dates?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "0.70-0.85"
+    },
+    {
+      "id": "validation-17",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What confidence range sends exploratory material for human review?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        21
+      ],
+      "evidenceAnchor": "0.50-0.70"
+    },
+    {
+      "id": "validation-18",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How many photographs form the initial Willow Run inventory?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        5,
+        10,
+        38,
+        43,
+        76
+      ],
+      "evidenceAnchor": "43 JPGs"
+    },
+    {
+      "id": "tuning-19",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What format names a graph generation directory?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        23
+      ],
+      "evidenceAnchor": "YYYYMMDD_HHMMSS"
+    },
+    {
+      "id": "tuning-20",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What files receive SHA-256 signatures during graph publication?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        24
+      ],
+      "evidenceAnchor": "containing SHA-256"
+    },
+    {
+      "id": "validation-21",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does a new graph generation become active without an incomplete pointer?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        24
+      ],
+      "evidenceAnchor": "Atomic Pointer Swap"
+    },
+    {
+      "id": "validation-22",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does the graph health-check command modify files?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "Zero disk writes"
+    },
+    {
+      "id": "validation-23",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does explicit graph recovery build a fresh generation after adopting a valid one?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "exits immediately"
+    },
+    {
+      "id": "validation-24",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which generations must survive retention even if the active one is older?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        26
+      ],
+      "evidenceAnchor": "Always Retain"
+    },
+    {
+      "id": "tuning-25",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Where does the served cross-product knowledge base live?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        113
+      ],
+      "evidenceAnchor": "MkDocs build"
+    },
+    {
+      "id": "tuning-26",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Can brand styles mix inside a single diagram?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "never mixed"
+    },
+    {
+      "id": "validation-27",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Can Rewrite Labs product documentation use Charlie forge styling?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        10,
+        16,
+        21,
+        62,
+        66,
+        68,
+        72,
+        74,
+        85,
+        89,
+        93,
+        94,
+        98
+      ],
+      "evidenceAnchor": "MUST NOT"
+    },
+    {
+      "id": "validation-28",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Where should authors obtain authoritative Charlie diagram color values?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        21
+      ],
+      "evidenceAnchor": "MUST NOT invent a second palette"
+    },
+    {
+      "id": "validation-29",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does the shared knowledge-base documentation currently have a GitHub Pages URL?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        113
+      ],
+      "evidenceAnchor": "Pages is not set up"
+    },
+    {
+      "id": "validation-30",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which brand supplies the palette when a wiki page bridges two brands?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "Primary brand owns"
+    },
+    {
+      "id": "tuning-31",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which authority tier executes approved work?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "executes within approved scope"
+    },
+    {
+      "id": "tuning-32",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What must happen when a charter has too much existing overlap?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        4,
+        12
+      ],
+      "evidenceAnchor": "Tier 1 decides"
+    },
+    {
+      "id": "validation-33",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Who alone can amend governance and finalize governance artifacts?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "Chris only"
+    },
+    {
+      "id": "validation-34",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Can scheduled automation make judgment calls or publish externally?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "No judgment calls"
+    },
+    {
+      "id": "validation-35",
+      "split": "validation",
+      "kind": "positive",
+      "query": "When does unused project memory reach its archive deadline?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        6
+      ],
+      "evidenceAnchor": "60-day TTL"
+    },
+    {
+      "id": "validation-36",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What role does the creative layer play after receiving an analytical brief?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        3
+      ],
+      "evidenceAnchor": "returns artifacts"
+    },
+    {
+      "id": "tuning-37",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Why pack customer code before redesigning their site?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        4
+      ],
+      "evidenceAnchor": "feed them into the Redesign phase"
+    },
+    {
+      "id": "tuning-38",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What makes repeated repository ingestion predictable?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        5
+      ],
+      "evidenceAnchor": "Deterministic ordering"
+    },
+    {
+      "id": "validation-39",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What happens when repository packing detects embedded credentials?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        23,
+        49,
+        70
+      ],
+      "evidenceAnchor": "SecretDetectedError"
+    },
+    {
+      "id": "validation-40",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which packing options produce compressed JSON with per-file cost information?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        10,
+        20
+      ],
+      "evidenceAnchor": "--token-count"
+    },
+    {
+      "id": "validation-41",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does repository structure contribute to website redesign discovery?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "Combine HTML/CSS"
+    },
+    {
+      "id": "validation-42",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What information does the repository ingestion module pass into discovery?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        6,
+        12,
+        46,
+        47,
+        66,
+        70,
+        74,
+        87
+      ],
+      "evidenceAnchor": "RepositoryIngestion"
+    },
+    {
+      "id": "validation-43",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What SQL index migration guarantees p99 search latency under two hundred milliseconds?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-44",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which encryption key rotation schedule protects raw notebook source exports?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-45",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What exact GPU memory limit guarantees the local embedding model fits?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-46",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How should a signed token refresh automatically after its expiration?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-47",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which Docker image tag deploys the current research vector database?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-48",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What monthly retention price applies to cloud source snapshots?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-49",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How does repository ingestion repair customer secrets automatically?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-50",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which subscription tier includes unlimited compressed repository imports?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-51",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What compression algorithm encrypts the harvester repository archive?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-52",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How does the redesign engine generate a customer invoice?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-53",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What legal indemnity covers third-party source license violations?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-54",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which geographic region hosts production website crawler sessions?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-55",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How long should sourdough dough ferment before baking?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-56",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What is the orbital period of Neptune?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-57",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How do I replace brake pads on a bicycle?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-58",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "Which plant thrives in salty coastal soil?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-59",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What are the rules for scoring a volleyball match?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-60",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How can a violin bridge be adjusted?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-61",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What determines the ideal pressure for a scuba cylinder?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-62",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How do I calculate a chess knight tour?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-63",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "When should a peach tree be pruned?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-64",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What causes a lunar eclipse?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-65",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How can wool fabric shrink during washing?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-66",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What is a good recipe for mushroom soup?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "tuning-67",
+      "split": "tuning",
+      "kind": "confusing-negative",
+      "query": "What certificate renews the notebook ingestion client?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "tuning-68",
+      "split": "tuning",
+      "kind": "unrelated-negative",
+      "query": "How many strings does a cello have?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "tuning-69",
+      "split": "tuning",
+      "kind": "confusing-negative",
+      "query": "What payroll system pays repository redesign contributors?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "tuning-70",
+      "split": "tuning",
+      "kind": "unrelated-negative",
+      "query": "How does a tidal bore form?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    }
+  ],
+  "duplicateLabels": {
+    "exactPairCount": 1036,
+    "exactGroups": [
+      {
+        "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b",
+        "occurrences": [
+          {
+            "document": "trm-data-strategy",
+            "chunk": 2
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 7
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 13
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 18
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 23
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 26
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 36
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 41
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 47
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 55
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 62
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 69
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 74
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 80
+          },
+          {
+            "document": "trm-data-strategy",
+            "chunk": 83
+          },
+          {
+            "document": "kb-sync-dag",
+            "chunk": 2
+          },
+          {
+            "document": "kb-sync-dag",
+            "chunk": 6
+          },
+          {
+            "document": "kb-sync-dag",
+            "chunk": 11
+          },
+          {
+            "document": "kb-sync-dag",
+            "chunk": 16
+          },
+          {
+            "document": "kb-sync-dag",
+            "chunk": 21
+          },
+          {
+            "document": "kb-sync-dag",
+            "chunk": 33
+          },
+          {
+            "document": "kb-sync-dag",
+            "chunk": 36
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 5
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 13
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 18
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 25
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 30
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 50
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 57
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 63
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 77
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 80
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 86
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 90
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 95
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 101
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 104
+          },
+          {
+            "document": "wiki-style",
+            "chunk": 107
+          },
+          {
+            "document": "harvester",
+            "chunk": 2
+          },
+          {
+            "document": "harvester",
+            "chunk": 7
+          },
+          {
+            "document": "harvester",
+            "chunk": 11
+          },
+          {
+            "document": "harvester",
+            "chunk": 43
+          },
+          {
+            "document": "harvester",
+            "chunk": 56
+          },
+          {
+            "document": "harvester",
+            "chunk": 71
+          },
+          {
+            "document": "harvester",
+            "chunk": 82
+          },
+          {
+            "document": "harvester",
+            "chunk": 85
+          }
+        ]
+      },
+      {
+        "sha256": "5f50cea00d32f6771186d8cb8d258781fe69bde86fa6a4bdf82df35cf09112c7",
+        "occurrences": [
+          {
+            "document": "trm-data-strategy",
+            "chunk": 3
+          },
+          {
+            "document": "harvester",
+            "chunk": 3
+          }
+        ]
+      }
+    ],
+    "nearDuplicates": [],
+    "nearDuplicateRule": "document token-set Jaccard >=0.8"
+  },
+  "acceptance": {
+    "recall": 0.9,
+    "projectRecall": 0.8,
+    "falseAccepts": 0,
+    "unauthorized": 0,
+    "thresholdGrid": 0.01,
+    "scope": "global authenticated project ranking; no fixture-only reranking"
+  },
+  "limitations": [
+    "Labels enumerate preselected anchor-bearing passages, not every defensible answer passage.",
+    "RewriteLabs coverage consists of one approved source and four validation positives.",
+    "Sources cover infrastructure and governance, not primary historical research.",
+    "All evidence statuses are UNKNOWN; VERIFIED filter exclusion is tested but multi-status ranking is not.",
+    "Validation consumed once; no threshold proposal from validation scores."
+  ]
+}
