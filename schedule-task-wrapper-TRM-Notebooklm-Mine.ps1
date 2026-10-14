@@ -22,6 +22,19 @@ if (-not (Test-Path $registryPath)) {
 $registry = Get-Content $registryPath -Raw | ConvertFrom-Json
 $exitCode = 0
 
+# Build freshness preflight check
+$trmRoot = 'C:\dev\trm'
+$trmDist = Join-Path $trmRoot 'dist\cli\index.js'
+$trmSrc = Join-Path $trmRoot 'src\cli\commands\mineNotebooklm.ts'
+if ((Test-Path $trmSrc) -and (Test-Path $trmDist)) {
+    $srcTime = (Get-Item $trmSrc).LastWriteTime
+    $distTime = (Get-Item $trmDist).LastWriteTime
+    if ($srcTime -gt $distTime) {
+        "Source newer than dist. Rebuilding C:\dev\trm CLI..." | Tee-Object -FilePath $logFile -Append
+        npm --prefix $trmRoot run build 2>&1 | Tee-Object -FilePath $logFile -Append
+    }
+}
+
 foreach ($notebook in $registry.notebooks) {
     "=== mining $($notebook.title) ($($notebook.notebook_id)) ===" | Tee-Object -FilePath $logFile -Append
     try {
