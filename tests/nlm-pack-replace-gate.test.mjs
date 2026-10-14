@@ -200,5 +200,3 @@ test('Agent Harness: case-insensitive and whitespace-trimmed pack family matchin
   assert.equal(isPackFamilyTitle('Repo_Knowledge_Pack_Part_Az.txt', 'pack_agent_harness.txt'), true);
 });
 
-
-

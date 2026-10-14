@@ -104,6 +104,7 @@ describe("OllamaProvider", () => {
 
     it(
       "throws error on timeout",
+      { timeout: 5000 },
       async () => {
         // Simulate timeout by rejecting with AbortError
         global.fetch = async (url, opts) => {
@@ -120,7 +121,6 @@ describe("OllamaProvider", () => {
           timeoutProvider.generate("llama2", "test"),
         ).rejects.toThrow(/timed out after/);
       },
-      { timeout: 5000 },
     );
 
     it("throws error if choices array is missing", async () => {

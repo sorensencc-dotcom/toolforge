@@ -21,4 +21,5 @@ export function resetProvider() {
 }
 
 export { OllamaProvider };
+export { createLocalEmbeddingProvider } from './embeddings.js';
 export default getProvider;

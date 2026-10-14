@@ -25,11 +25,11 @@ test('CI governance workflow runs on pushes and pull requests', () => {
   assert.match(workflow, /\/\.context\/retros\/validate(-changed)?\.ps1/);
 });
 
-test('governance documentation identifies CI as authoritative', () => {
+test('governance documentation distinguishes installed hooks from planned CI checks', () => {
   const claude = read('CLAUDE.md');
 
   assert.match(claude, /Local pre-commit hook \(`\.git\/hooks\/pre-commit\.ps1`, Gate 2\) blocks violations/);
-  assert.match(claude, /CI governance check: validates line limits \+ detects duplicate sections/);
+  assert.match(claude, /CI governance check: PLANNED.*no job.*validates line limits or duplicate sections/);
 });
 
 test('hook installer derives runtime paths from checkout', () => {

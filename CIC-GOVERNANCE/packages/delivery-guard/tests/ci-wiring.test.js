@@ -23,6 +23,13 @@ test('governance CI invokes the automation policy wrapper in blocking mode', () 
   assert.match(workflow, /--run-tests/);
   assert.doesNotMatch(workflow, /evaluate-automation-policy\.mjs[^\n]*--advisory/);
 });
+test('governance workflow limits push execution to main and runs on pull requests', () => {
+  const workflow = fs.readFileSync(workflowPath, 'utf8');
+
+  assert.match(workflow, /push:\s*\r?\n\s+branches:\s*\[main\]/);
+  assert.match(workflow, /pull_request:/);
+});
+
 test('governance matrix checkouts fail closed and use scoped dependency fallback', () => {
   const workflow = fs.readFileSync(governanceMatrixPath, 'utf8');
 

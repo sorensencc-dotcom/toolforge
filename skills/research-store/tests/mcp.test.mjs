@@ -54,12 +54,13 @@ test('semantic search uses reader client, issue defaults, and supplied filters',
   const row = { id: 'result', project: 'CIC', content: 'Visible result' };
   const client = await clientFor(t, {
     supabase: { rpc: async (...args) => { calls.push(args); return { data: [row], error: null }; } },
-    embed: async texts => { assert.deepEqual(texts, ['question']); return [embedding]; },
+    embed: Object.assign(async texts => { assert.deepEqual(texts, ['question']); return [embedding]; }, { identity: 'fixture:model:1536' }),
   });
   const response = await client.callTool({ name: 'match_research_items', arguments: { query: 'question' } });
   assert.notEqual(response.isError, true);
   assert.deepEqual(JSON.parse(response.content[0].text), [row]);
-  assert.deepEqual(calls[0], ['match_research_items', {
+  assert.deepEqual(calls[0], ['match_research_items_for_embedding', {
+    p_embedding_identity: 'fixture:model:1536',
     query_embedding: embedding, match_project: null, match_status: null, match_threshold: 0.7, match_count: 10,
   }]);
   await client.callTool({ name: 'match_research_items', arguments: { query: 'question', project: 'CIC', status: 'VERIFIED', match_count: 50, match_threshold: 0 } });

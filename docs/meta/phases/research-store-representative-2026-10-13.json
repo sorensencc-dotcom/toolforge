@@ -1,0 +1,3499 @@
+{
+  "manifestHash": "33dd9f24bc37ecb2bcb8cd1c385c33620480b36d42f82748fa9095d8424579ae",
+  "startedAt": "2026-10-13T04:28:54.872Z",
+  "namespace": "uat124-representative/17f0899a-e8c5-4ae9-9c64-7bd1f5705b87",
+  "projectRef": "bhezixgmkhpndmezgsxk",
+  "embeddingIdentity": "ollama:qwen3-embedding:4b@df5bd2e3c74cd8d069d21dc038f1b359fcdc9458fce1c99bd43c9eb1518ff907:1536",
+  "externalEmbeddingRequests": 0,
+  "rows": [
+    {
+      "id": "tuning-1",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Where do single-topic and multi-topic mined research gaps go?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        55
+      ],
+      "evidenceAnchor": "trm/research-gaps/",
+      "score": 0.670266350861332,
+      "margin": 0.0035656300681840003,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "eff0a96c61ed6285128dd45ea2dbe68d06e0ae47a471ccad49ccba9e46bab0e1",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-2",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "How often does the design schedule reverse mining?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        60
+      ],
+      "evidenceAnchor": "Weekly cadence for mining",
+      "score": 0.660630244744279,
+      "margin": 0.06632777915771204,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": true,
+      "topContentSha256": "548342ebc78f16137afca4141cad41742a84e18d9c6982426eb8db4638797da0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-7",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What extra argument lets artifact path tests supply their own checkout root?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        5,
+        8,
+        9
+      ],
+      "evidenceAnchor": "repoRoot",
+      "score": 0.721219403816427,
+      "margin": 0.09046646712502704,
+      "topDocument": "d14c6225-826c-4529-a707-9fbd074c3454",
+      "topCorrect": true,
+      "topContentSha256": "a6a10d2207d4bf5f6daf384544c53b97a898f5a9badb13949f478e23a83d453d",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-8",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What exercise checks that index writers persist the requested JSON?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "write-then-read-back",
+      "score": 0.589507734794824,
+      "margin": 0.046456221179404955,
+      "topDocument": "d14c6225-826c-4529-a707-9fbd074c3454",
+      "topCorrect": false,
+      "topContentSha256": "d34d35546523a7849dd25adc50cb34c5d0b72bf5028d4cb065ecb6796d01ca3d",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-13",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which three checks precede admitting a batch?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        50
+      ],
+      "evidenceAnchor": "Batch metadata complete",
+      "score": 0.620466004111293,
+      "margin": 0.08862503611261707,
+      "topDocument": "602f475f-3f01-45b4-b500-3316fa08ace6",
+      "topCorrect": true,
+      "topContentSha256": "60c88d3388e5f8c4d08bc004812d5fe0a1ef55a277ee03d04fc3b6859508244e",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-14",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What does the publish stage update and send for governance review?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        43
+      ],
+      "evidenceAnchor": "Update master index",
+      "score": 0.59431260177309,
+      "margin": 0.011847345467469017,
+      "topDocument": "602f475f-3f01-45b4-b500-3316fa08ace6",
+      "topCorrect": false,
+      "topContentSha256": "36bdde4cf5b595b1c13c204e0e4416ef596818b0999fe54e46a34b5d34004893",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-19",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which lock must garbage collection acquire?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        17
+      ],
+      "evidenceAnchor": ".nlm_pack/gc.lock",
+      "score": 0.586541434893954,
+      "margin": 0.18519557369518908,
+      "topDocument": "c80a42f8-9ca1-4ba3-a441-e2ce14f21f2d",
+      "topCorrect": true,
+      "topContentSha256": "979a0da5a8aaeccc062c319761b8fe4c04dc78850530a625a73f42906f281474",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-20",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What schema version does the graph design specify?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        19,
+        20,
+        21,
+        22
+      ],
+      "evidenceAnchor": "version",
+      "score": 0.675279615769456,
+      "margin": 0.028017316055916064,
+      "topDocument": "c80a42f8-9ca1-4ba3-a441-e2ce14f21f2d",
+      "topCorrect": false,
+      "topContentSha256": "7d44f897ed8f81d6c84bafd1cfdda62b3f84ee7d3b5d7f84f51fc91b990e8472",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-25",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What is the maximum length required for a repository About description?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        49
+      ],
+      "evidenceAnchor": "350 chars",
+      "score": 0.616978642117571,
+      "margin": 0.04225915212370901,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": true,
+      "topContentSha256": "ef3fcc3a08eb4587e836ea9850b5df5f8120c6d1ca8c7ce31ad44dfe04834374",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-26",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What does a last_reviewed date bump attest, and does the hook judge prose?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        61
+      ],
+      "evidenceAnchor": "Bumping the date is the attestation",
+      "score": 0.553095827720051,
+      "margin": 0.019393092734959927,
+      "topDocument": "4d40b954-0dcf-4104-8a48-23fc4706c37a",
+      "topCorrect": false,
+      "topContentSha256": "26e4ab5f8f70c8d446a28c6203c5b7864708efd89d7e59ae7bca480af263943a",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-31",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "How should an unclassified artifact be categorized pending review?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "default Operational",
+      "score": 0.589141280618193,
+      "margin": 0.06826322705457599,
+      "topDocument": "4d40b954-0dcf-4104-8a48-23fc4706c37a",
+      "topCorrect": true,
+      "topContentSha256": "3a9aecba02414639f29420e65b97bc8168ad457595a26b6e86c7fc88f3e5eef3",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-32",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What reasoning mode applies when none is selected?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "Draft (default",
+      "score": 0.587460412837203,
+      "margin": 0.12468442357962894,
+      "topDocument": "4d40b954-0dcf-4104-8a48-23fc4706c37a",
+      "topCorrect": true,
+      "topContentSha256": "f7487030957b607507342cadce2c2136bf87d5144d021deca858b354ea70a9b7",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-37",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which three percentages allocate the repository token budget?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        25
+      ],
+      "evidenceAnchor": "analysis: 30%",
+      "score": 0.694256923387976,
+      "margin": 0.015868285275711935,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "45aa31019c64ded5b82a50541afe12b51a8379fdfb34e227db2b79b8fae7b749",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "tuning-38",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which CodeBurn event identifies ingestion metrics?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        17
+      ],
+      "evidenceAnchor": "event: 'HARVESTER_INGESTION'",
+      "score": 0.693627145945047,
+      "margin": 0.057612326342368014,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": true,
+      "topContentSha256": "8b859b3c8553ccb2d9d9d53dd0eecce33480c86020c2442c40381c407ed05d9f",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "tuning-67",
+      "split": "tuning",
+      "kind": "confusing-negative",
+      "query": "Which paid support plan covers notebook registry reconciliation?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.663526138980307,
+      "margin": 0.038717175700212936,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "5ac2a367c5ee3e88cb5a6edf0f68b487c18c76cf76766367f1df7a61a00461d0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-68",
+      "split": "tuning",
+      "kind": "unrelated-negative",
+      "query": "How does a pipe organ produce sound?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.307747405327013,
+      "margin": 0.021835053325003018,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "33cfe6c69526c7657c7d51de57fc503fd5df06cf3cb25f93f29952534bfacbd6",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "tuning-69",
+      "split": "tuning",
+      "kind": "confusing-negative",
+      "query": "What S3 bucket stores CodeBurn customer invoices?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.517838165180066,
+      "margin": 0.032966450774544964,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "4ec9a0a849ad8763ea2fe5f9697d6166c18726b5cd5167ed70b474c74206f548",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "tuning-70",
+      "split": "tuning",
+      "kind": "unrelated-negative",
+      "query": "How do you measure a mountain elevation?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.260908658071428,
+      "margin": 0.008505443927166012,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "4ec9a0a849ad8763ea2fe5f9697d6166c18726b5cd5167ed70b474c74206f548",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-3",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How can triage failures be recognized when its process returns success?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        38
+      ],
+      "evidenceAnchor": "failedCount",
+      "score": 0.524400069952187,
+      "margin": 0.012884042213097024,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "376df7921a75cadd3abeec27a1b2cef49152bec48cc3853b65d028c711ace69a",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-4",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which existing boundary handles treatment writes and its per-topic cursor?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        39
+      ],
+      "evidenceAnchor": ".sync-treatment.lock",
+      "score": 0.565609333471548,
+      "margin": 0.011601762138629956,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "a05542ba8acd728cb172d70d35dfd0cb1ed3c16a5b165f219962a551dbc78cc5",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-5",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What durable evidence permits reconciliation when a registry write misses a successful ingest?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        46
+      ],
+      "evidenceAnchor": ".nlm-ingest-reports/",
+      "score": 0.686543091903475,
+      "margin": 0.004941780314678956,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "b5dc2e4da3c3f1bb8d2a5c2a52c3fb195231046157ff662c0e79e4ce21f8e24f",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-6",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does a changed mined answer replace its earlier historical row?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        53
+      ],
+      "evidenceAnchor": "new row appended rather than replacing",
+      "score": 0.643062448957928,
+      "margin": 0.050586873525006015,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": true,
+      "topContentSha256": "9158fc05e3edd3805291371283b938ba3241200a32019834737746dbe81d0099",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-9",
+      "split": "validation",
+      "kind": "positive",
+      "query": "At what traversal bound does repository discovery fail rather than return a partial path?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        8
+      ],
+      "evidenceAnchor": "Bounded to 20 levels",
+      "score": 0.553809220081492,
+      "margin": 0.014478611693116039,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "c2f2ba9f5139294948d34b78766fc61992e41627f88fc1d38e2b6cb8979fa473",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-10",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does the tree place index JSON entries relative to artifact directories?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        6
+      ],
+      "evidenceAnchor": "lineage/<kind>/<id>.json",
+      "score": 0.658878170720052,
+      "margin": 0.025728434522507948,
+      "topDocument": "d14c6225-826c-4529-a707-9fbd074c3454",
+      "topCorrect": true,
+      "topContentSha256": "c19fa625c51ce911afd49e50322e8068d72a2c6779e68b155e470b5de84e8bde",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-11",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which fields does the gate report index carry?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "gateId, status, reportPath",
+      "score": 0.58287218468307,
+      "margin": 0.06871326480747997,
+      "topDocument": "d14c6225-826c-4529-a707-9fbd074c3454",
+      "topCorrect": false,
+      "topContentSha256": "71007ed9e328a7ca0e2518f2754ff91e15c9350f2970ffec1440ef355dca00e5",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-12",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does writing an ingest lineage index remove lineageRef from its existing result contract?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        14
+      ],
+      "evidenceAnchor": "index write is additive",
+      "score": 0.765218912000839,
+      "margin": 0.04421328651572398,
+      "topDocument": "d14c6225-826c-4529-a707-9fbd074c3454",
+      "topCorrect": false,
+      "topContentSha256": "d34d35546523a7849dd25adc50cb34c5d0b72bf5028d4cb065ecb6796d01ca3d",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-15",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How is coverage calculated from documents, photographs, and artifacts?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        22
+      ],
+      "evidenceAnchor": "coverage_score =",
+      "score": 0.558550815323142,
+      "margin": 0.057535688375947025,
+      "topDocument": "602f475f-3f01-45b4-b500-3316fa08ace6",
+      "topCorrect": true,
+      "topContentSha256": "e4b87dbf57a82b00bbe5f65457b331e7fe3637cf7254390c29ad009affbc3d27",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-16",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which coefficients combine the three priority metrics?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        19,
+        23,
+        24,
+        25
+      ],
+      "evidenceAnchor": "0.5",
+      "score": 0.575246011531933,
+      "margin": 0.003009200903261955,
+      "topDocument": "602f475f-3f01-45b4-b500-3316fa08ace6",
+      "topCorrect": true,
+      "topContentSha256": "ed592655a99411ce67fb9c664de8439bc4391fd017022d7cf2f408dd8d1436e8",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-17",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What file does Phase B produce after OCR and fact linking?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        39
+      ],
+      "evidenceAnchor": "trm-crosslinks.json",
+      "score": 0.614623298875693,
+      "margin": 0.050280937602688036,
+      "topDocument": "602f475f-3f01-45b4-b500-3316fa08ace6",
+      "topCorrect": true,
+      "topContentSha256": "90765c14012c8baba33f71b457edeafc28d8dc2ee6ebd826b561976725c9e075",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-18",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What two outputs record Phase C priority recommendations?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        41
+      ],
+      "evidenceAnchor": "ingest-decisions.json + priority-roadmap.md",
+      "score": 0.594020833446999,
+      "margin": 0.07002521248331495,
+      "topDocument": "602f475f-3f01-45b4-b500-3316fa08ace6",
+      "topCorrect": false,
+      "topContentSha256": "36bdde4cf5b595b1c13c204e0e4416ef596818b0999fe54e46a34b5d34004893",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-21",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which keys are mandatory at the top of the DAG object?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        19
+      ],
+      "evidenceAnchor": "Top-Level Required Keys",
+      "score": 0.640478086614131,
+      "margin": 0.04475568521680795,
+      "topDocument": "c80a42f8-9ca1-4ba3-a441-e2ce14f21f2d",
+      "topCorrect": false,
+      "topContentSha256": "13f50940f80b43502525d03c904732afb25dd1ebb7be4996642952984bef21e1",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-22",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which metadata fields count sources, nodes, edges, and cycles?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        19
+      ],
+      "evidenceAnchor": "Metadata Required Keys",
+      "score": 0.587179882251214,
+      "margin": 0.002490742901070986,
+      "topDocument": "c80a42f8-9ca1-4ba3-a441-e2ce14f21f2d",
+      "topCorrect": false,
+      "topContentSha256": "b9ab5744c16a51dfc5b87417b0a0038c2ba444b76b871c8e881bd4d47e64d6fa",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-23",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which node kinds and status values does the DAG permit?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        12,
+        19,
+        20
+      ],
+      "evidenceAnchor": "node_type",
+      "score": 0.587972655062973,
+      "margin": 0.002969234053723069,
+      "topDocument": "c80a42f8-9ca1-4ba3-a441-e2ce14f21f2d",
+      "topCorrect": false,
+      "topContentSha256": "3017a33ec83c83c7cda31543cdeb07bbd20f26638d3e815ac5e0e64bc4a44856",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-24",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which edge relations does the schema allow?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        19,
+        20,
+        22
+      ],
+      "evidenceAnchor": "relation",
+      "score": 0.590162453103848,
+      "margin": 0.008002377877934008,
+      "topDocument": "c80a42f8-9ca1-4ba3-a441-e2ce14f21f2d",
+      "topCorrect": true,
+      "topContentSha256": "5b87b88db1be9975c4e67a8e2d7ef6222a1d7eff0ea0d022f8d77e17c0891b71",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-27",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which curated lifecycle states make an orphan page a validation failure?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        41
+      ],
+      "evidenceAnchor": "Orphan curated pages",
+      "score": 0.704921570960395,
+      "margin": 0.10563906740457596,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": true,
+      "topContentSha256": "1a6a9234811e2969d620fc4c0e3fe27d30a91912495ba884b4753128dceee2a9",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-28",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How should sidebar cleanup preserve archived history?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        41
+      ],
+      "evidenceAnchor": "remove sidebar entries instead",
+      "score": 0.594440147610051,
+      "margin": 0.019507734794767084,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": true,
+      "topContentSha256": "1a6a9234811e2969d620fc4c0e3fe27d30a91912495ba884b4753128dceee2a9",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-29",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What must deprecated wiki pages link to?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        41
+      ],
+      "evidenceAnchor": "Deprecated pages MUST link forward",
+      "score": 0.718169778032173,
+      "margin": 0.06336669923794391,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": true,
+      "topContentSha256": "1a6a9234811e2969d620fc4c0e3fe27d30a91912495ba884b4753128dceee2a9",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-30",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Were the W1-W13 validators implemented in the guideline snapshot?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        53
+      ],
+      "evidenceAnchor": "All IDs are spec-only",
+      "score": 0.699338311075335,
+      "margin": 0.0512000021063459,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": true,
+      "topContentSha256": "4a265c947deeef80b18a517e275451b15235f0dd1ab4b112714ce53f6ee36471",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-33",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does pending confirmation status change after one day and three days?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        19
+      ],
+      "evidenceAnchor": "STALE-PENDING",
+      "score": 0.442417894352741,
+      "margin": 0.005881340048136008,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "7453350e26309aa69daf4e59d2be5fff6397fa26d785f1f4fc8ef7077a50733e",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-34",
+      "split": "validation",
+      "kind": "positive",
+      "query": "In which months does the quarterly drift audit start?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        0,
+        22
+      ],
+      "evidenceAnchor": "Jan/Apr/Jul/Oct",
+      "score": 0.670608618674105,
+      "margin": 0.19383369916045406,
+      "topDocument": "4d40b954-0dcf-4104-8a48-23fc4706c37a",
+      "topCorrect": true,
+      "topContentSha256": "18b8e1ae46d23507e29a377868996b8563b5dc5ba62f315bf78bfc26e076f525",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-35",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What happens when quarterly governance review misses its first-two-weeks deadline?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        23
+      ],
+      "evidenceAnchor": "REVIEW-OVERDUE",
+      "score": 0.584081669826922,
+      "margin": 0.028152442629844954,
+      "topDocument": "4d40b954-0dcf-4104-8a48-23fc4706c37a",
+      "topCorrect": true,
+      "topContentSha256": "4eb17973c02a015734cd44330fd9bd33e37b620f23acddc9968599358e565fc3",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-36",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which version increments distinguish minor from structural governance edits?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        23
+      ],
+      "evidenceAnchor": "decimal bump",
+      "score": 0.668841958629421,
+      "margin": 0.0005187396588319793,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "341f92ef7839f01be79183781f6485f75fa56bb6054c1e32f2291ef83e76de62",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-39",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which inputs determine the redesign model selection?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        18
+      ],
+      "evidenceAnchor": "historicalCost:",
+      "score": 0.660935287831477,
+      "margin": 0.19418024340275702,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": true,
+      "topContentSha256": "aba43db24802ae6289adcda1748073d142af3b6155660dc659b1dd160295c5fd",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-40",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How should malformed Secretlint output and an unknown framework be treated?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        19
+      ],
+      "evidenceAnchor": "Malformed Secretlint data",
+      "score": 0.57571719450663,
+      "margin": 0.00434348485653091,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "665fcb5f4ab6eff4196002d55477daaa39e318fa5332c9b0631a163557a1cac4",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-41",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How many benchmark repositories must ingestion handle without error?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        24
+      ],
+      "evidenceAnchor": "18/20 SMB",
+      "score": 0.749956503544564,
+      "margin": 0.10270801455189005,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": true,
+      "topContentSha256": "4ec9a0a849ad8763ea2fe5f9697d6166c18726b5cd5167ed70b474c74206f548",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-42",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What measured before-and-after token totals appear in the telemetry completion report?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        27
+      ],
+      "evidenceAnchor": "137,150",
+      "score": 0.632340443920586,
+      "margin": 0.024483556107461002,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": true,
+      "topContentSha256": "e64187d2334812feb67c4cd67249a02bb4dbbf2eda52271d105d69ca98400ca3",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-43",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which antivirus version scans the notebook mining report?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.576516174547178,
+      "margin": 0.008917652837735934,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "5ac2a367c5ee3e88cb5a6edf0f68b487c18c76cf76766367f1df7a61a00461d0",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-44",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What OAuth scopes permit the intake manifest to update a calendar?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.567472619787731,
+      "margin": 0.05759624464831503,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "1c1dca021fbfa6763dc6464f18c8527053f84703414d5c8c679cbcdbf16d9d90",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-45",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which filesystem ACL group owns CIC index pointers?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.552628876348749,
+      "margin": 0.0034134357329079767,
+      "topDocument": "4d40b954-0dcf-4104-8a48-23fc4706c37a",
+      "topCorrect": false,
+      "topContentSha256": "a81d7a7466b94ad34a3f73c467af384d27b5e9a2ee7d78622621ebcc0a7ef4bb",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-46",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What OCR vendor API rate limit governs TRM batch processing?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.678670548996523,
+      "margin": 0.08115004424021699,
+      "topDocument": "602f475f-3f01-45b4-b500-3316fa08ace6",
+      "topCorrect": false,
+      "topContentSha256": "90765c14012c8baba33f71b457edeafc28d8dc2ee6ebd826b561976725c9e075",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-47",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which TLS certificate authority signs the graph generation pointer?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.530578598700374,
+      "margin": 0.022004531176155084,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "6e42e7aa582792736c97a0ff3538d3a26e9bb8662ce33f6a32d316f2f228ca22",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-48",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How does the wiki validator perform automatic semantic translation?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.661528226957024,
+      "margin": 0.05527937658283899,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "33cfe6c69526c7657c7d51de57fc503fd5df06cf3cb25f93f29952534bfacbd6",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-49",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which database column stores customer VAT rates in Harvester?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.462324114899457,
+      "margin": 0.0018362903663990404,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "8b3974d4d0c51ea8be29e3ad1f7d752d4e08ebe1079a0980be3b7acdf726a21a",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-50",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What license seat limit applies to CodeBurn token telemetry?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.648122552372954,
+      "margin": 0.09305903266128301,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "8b859b3c8553ccb2d9d9d53dd0eecce33480c86020c2442c40381c407ed05d9f",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-51",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which Kubernetes autoscaler scales repository compression workers?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.542295053826182,
+      "margin": 0.0010428153016600605,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "e757178311094c20492214b4ebfaa89b6a96275a1bb91ebb9977836858bfd641",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-52",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What webhook signing secret authenticates the discovery endpoint?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.540657687713029,
+      "margin": 0.013756784852133053,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "4ec9a0a849ad8763ea2fe5f9697d6166c18726b5cd5167ed70b474c74206f548",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-53",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which email provider delivers repository budget alerts?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.547299302307597,
+      "margin": 0.010855208112987014,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "4ec9a0a849ad8763ea2fe5f9697d6166c18726b5cd5167ed70b474c74206f548",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-54",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How does the redesign router guarantee a refund for compression failures?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.497389823509479,
+      "margin": 0.019337226727066004,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "665fcb5f4ab6eff4196002d55477daaa39e318fa5332c9b0631a163557a1cac4",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-55",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How are pottery glazes fired in an electric kiln?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.373009451326971,
+      "margin": 0.014804772066812022,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "3b6642150754f9199b9e96d63335df187555f9a54d9acde741056de7f0bb5447",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-56",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "Why do ocean waves break near shore?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.363625033333902,
+      "margin": 0.06873905064243702,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "33cfe6c69526c7657c7d51de57fc503fd5df06cf3cb25f93f29952534bfacbd6",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-57",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What distinguishes a sonnet from a villanelle?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.340834218015039,
+      "margin": 0.013346607430584967,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "33cfe6c69526c7657c7d51de57fc503fd5df06cf3cb25f93f29952534bfacbd6",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-58",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How do you tune a concert harp?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.377699104252124,
+      "margin": 0.027696554663019013,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "33cfe6c69526c7657c7d51de57fc503fd5df06cf3cb25f93f29952534bfacbd6",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-59",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What is the escape velocity of Mars?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.348071969015139,
+      "margin": 0.005981133319226006,
+      "topDocument": "5ed041aa-4ac5-4c3a-aab3-04f8c4a11801",
+      "topCorrect": false,
+      "topContentSha256": "1c1dca021fbfa6763dc6464f18c8527053f84703414d5c8c679cbcdbf16d9d90",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-60",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How is a tennis tie-break scored?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.384806250167452,
+      "margin": 0.062127018920765,
+      "topDocument": "db96114c-c377-4b60-85c6-39f7f756fe05",
+      "topCorrect": false,
+      "topContentSha256": "33cfe6c69526c7657c7d51de57fc503fd5df06cf3cb25f93f29952534bfacbd6",
+      "populatedAuthorizedTop50": 50
+    },
+    {
+      "id": "validation-61",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What makes an optical prism split light?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.331467657947723,
+      "margin": 0.01600403021097596,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "665fcb5f4ab6eff4196002d55477daaa39e318fa5332c9b0631a163557a1cac4",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-62",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How do you repair a leaking kitchen tap?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.314516263383094,
+      "margin": 0.008837711097201995,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "6708372c8b559bcebd95ef70d02de88774c237eea40e5b1c3044acddf3d6494e",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-63",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What is the difference between basalt and granite?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.245816059285881,
+      "margin": 0.01616563470874599,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "665fcb5f4ab6eff4196002d55477daaa39e318fa5332c9b0631a163557a1cac4",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-64",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How does a mechanical watch escapement work?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.320915077597492,
+      "margin": 0.02274115897187301,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "665fcb5f4ab6eff4196002d55477daaa39e318fa5332c9b0631a163557a1cac4",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-65",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What ingredients thicken a traditional custard?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.243337054846149,
+      "margin": 0.00986839112947202,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "4ec9a0a849ad8763ea2fe5f9697d6166c18726b5cd5167ed70b474c74206f548",
+      "populatedAuthorizedTop50": 31
+    },
+    {
+      "id": "validation-66",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "Why does sea ice float on liquid water?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": [],
+      "score": 0.273702479966108,
+      "margin": 0.011246111695364047,
+      "topDocument": "066d980e-d895-44d1-bad0-cdbf52bf2c99",
+      "topCorrect": false,
+      "topContentSha256": "4ec9a0a849ad8763ea2fe5f9697d6166c18726b5cd5167ed70b474c74206f548",
+      "populatedAuthorizedTop50": 31
+    }
+  ],
+  "isolationChecks": [
+    {
+      "project": "CIC",
+      "forbiddenProjectFilter": "passed",
+      "unknownSourcesExcludedByVerifiedFilter": "passed"
+    },
+    {
+      "project": "RewriteLabs",
+      "forbiddenProjectFilter": "passed",
+      "unknownSourcesExcludedByVerifiedFilter": "passed"
+    }
+  ],
+  "cleanup": {
+    "verified": true,
+    "failures": []
+  },
+  "error": null,
+  "selected": null,
+  "tuningDefault": {
+    "correct": 1,
+    "positives": 14,
+    "recall": 0.07142857142857142,
+    "falseAccepts": 0,
+    "projects": {
+      "CIC": {
+        "correct": 1,
+        "positives": 12,
+        "recall": 0.08333333333333333
+      },
+      "RewriteLabs": {
+        "correct": 0,
+        "positives": 2,
+        "recall": 0
+      }
+    }
+  },
+  "tuningSelected": null,
+  "validationDefault": {
+    "correct": 3,
+    "positives": 28,
+    "recall": 0.10714285714285714,
+    "falseAccepts": 0,
+    "projects": {
+      "CIC": {
+        "correct": 2,
+        "positives": 24,
+        "recall": 0.08333333333333333
+      },
+      "RewriteLabs": {
+        "correct": 1,
+        "positives": 4,
+        "recall": 0.25
+      }
+    }
+  },
+  "validationSelected": {
+    "correct": 3,
+    "positives": 28,
+    "recall": 0.10714285714285714,
+    "falseAccepts": 0,
+    "projects": {
+      "CIC": {
+        "correct": 2,
+        "positives": 24,
+        "recall": 0.08333333333333333
+      },
+      "RewriteLabs": {
+        "correct": 1,
+        "positives": 4,
+        "recall": 0.25
+      }
+    }
+  },
+  "accepted": false,
+  "completedAt": "2026-10-13T04:39:54.684Z",
+  "chunkingVersion": "markdown-context-v1",
+  "previousExperiment": "44663ede256d3bc7e8234a69d30655d0a7013af69f9becd2477bf26c29fbd74c",
+  "corpus": [
+    {
+      "id": "notebooklm-cic",
+      "sourcePath": "docs/superpowers/specs/2026-08-12-notebooklm-cic-ingest-mining-design.md",
+      "snapshotPath": "snapshots/notebooklm-cic.md",
+      "sha256": "a2b6a574d45cb84d8d0538974091a55ab0178577994cd124e2fe08f292e5df39",
+      "bytes": 30777,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "pending-evidence-labeling",
+      "sourceScope": "CIC",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "800924357b3ccbce999621c46ccf4d27b79acc2d4da38e4d4e559bea261e541f"
+        },
+        {
+          "index": 1,
+          "sha256": "6102f4f41af794a3b0f233ed5efe18cde10f7e619e7bb30c2140e7e5833ff972"
+        },
+        {
+          "index": 2,
+          "sha256": "cd6d22a3b0e974bf5bb3655aba4ef957b97149daf5f445ceb67a45307361fc69"
+        },
+        {
+          "index": 3,
+          "sha256": "24e85712c78b2d719320719477e83b559d42ebdda64141b114101e6edb8d2ca3"
+        },
+        {
+          "index": 4,
+          "sha256": "d93ba387e8f38e037c3a2c4e7a366f6022247788af3c3413150e14d7c4e50d26"
+        },
+        {
+          "index": 5,
+          "sha256": "9f52f0bb644a87e298720b65606dcc7072f20074be1e086a705d3a0e89479019"
+        },
+        {
+          "index": 6,
+          "sha256": "0c8c3111bd564569b96abfb537aedc229bb048029dc6411a74cd87b670118807"
+        },
+        {
+          "index": 7,
+          "sha256": "f9c3f5d028eb94929ec0dd3fb77355133594165e66a1023e3c476aa5cf1bc4ad"
+        },
+        {
+          "index": 8,
+          "sha256": "dd4a3b3d95a4ba1f3c7cc495a65440d5e97ed54a987ba3d9410315612b190f53"
+        },
+        {
+          "index": 9,
+          "sha256": "2f72c60e27cad99e61a27eaecc453c4c0b0bfa0a53a4fb183276af524ca6f99e"
+        },
+        {
+          "index": 10,
+          "sha256": "618392519eb5dc0dbe9033c21298fa155d907b21df2f3ad43fb51e5951e8a3aa"
+        },
+        {
+          "index": 11,
+          "sha256": "eff0a96c61ed6285128dd45ea2dbe68d06e0ae47a471ccad49ccba9e46bab0e1"
+        },
+        {
+          "index": 12,
+          "sha256": "5ac2a367c5ee3e88cb5a6edf0f68b487c18c76cf76766367f1df7a61a00461d0"
+        },
+        {
+          "index": 13,
+          "sha256": "4cff4ca5b343a23a27bed93ae8c4d0f10afa96845f6a9c0c5dd6e2fbe928c8a1"
+        },
+        {
+          "index": 14,
+          "sha256": "ec98627fbee3e17aa5a83cf02be8d8def691c0ec1e67e96d80c7b7c34b491b20"
+        },
+        {
+          "index": 15,
+          "sha256": "88001db60adbec992dfc102e45fd90474beb9103c19fe845f2c14e77bc248c77"
+        },
+        {
+          "index": 16,
+          "sha256": "6a453a1587931d2c30b0eb9fc1d414b2249f947a9f3143615f055da6e3a0f972"
+        },
+        {
+          "index": 17,
+          "sha256": "082aaf8410438d24713c555cf45a0ee58a8f0c36df7de057fe8afbc71e016481"
+        },
+        {
+          "index": 18,
+          "sha256": "9597597ff1c3e582e8db6d86463b8f015b39707c185534d5b6e71df5d30050db"
+        },
+        {
+          "index": 19,
+          "sha256": "41f8c590a32f303e1fc3d533d0b80d30d79760683e1562f2ec32a44a942a09ea"
+        },
+        {
+          "index": 20,
+          "sha256": "8469a9a95e6ac93fda0b3c6fdbc1530079dcaf8774a13124e04d695fa1561e67"
+        },
+        {
+          "index": 21,
+          "sha256": "83d30506a59e7b5676e1c7f18048bfd51a2c4323f4e6688f79373ac7214d1e11"
+        },
+        {
+          "index": 22,
+          "sha256": "6505b720c074c6ff6e1f502837cefe6551eae96dd6d187eb5538b6efe2dd6024"
+        },
+        {
+          "index": 23,
+          "sha256": "b98d51e72f5551eee29486fe7152657f2302e1cb4b4ee12af01d974bfc26fb70"
+        },
+        {
+          "index": 24,
+          "sha256": "ee95a35f2f21c3e864b92c3afb204206ab88ba0a9c387460002fd43552f62ca0"
+        },
+        {
+          "index": 25,
+          "sha256": "383ecde3677ae2d407f1604e27c17cedd21142f71404c33694f2dc6f7e645f11"
+        },
+        {
+          "index": 26,
+          "sha256": "f9d1040ac73fc9d175c043f418f1f2ff8062ddf9e9fb7048d804e1ac23801c24"
+        },
+        {
+          "index": 27,
+          "sha256": "2e0f5c218c178a23390c91f94f6dc75fe7466fe331a9a745c486084c6e867bc2"
+        },
+        {
+          "index": 28,
+          "sha256": "45acfcf1e3e89f11eef0453a8a11a91d87b5111415acc155ecb7c9c94fcd9ed2"
+        },
+        {
+          "index": 29,
+          "sha256": "724dbacd7c6ba5f3496442f6733e8f790137708a962fd6e049005db3adf54fdc"
+        },
+        {
+          "index": 30,
+          "sha256": "c5e70b4e1825f9ee477348338c9ea522de5635d789482e12e32a2359198c10cc"
+        },
+        {
+          "index": 31,
+          "sha256": "417c7072f279f451373ff5a3714090268162b10b41803c6a604f60b6f8becde6"
+        },
+        {
+          "index": 32,
+          "sha256": "9b153f5959b8751e0c2825f8c6f315221706fae98612fa938febbb44ea5368ec"
+        },
+        {
+          "index": 33,
+          "sha256": "42893152aa7b13d1fa171a9cdf34f46beba031135299c3acfbd048b3f7692963"
+        },
+        {
+          "index": 34,
+          "sha256": "2a4fcd28f1b112f2efac53f679112aceb5dfee079ace2beaf96453024aa8eb45"
+        },
+        {
+          "index": 35,
+          "sha256": "c42def13d67a18027d0b16b96f6502759c8a3fbd6e3b0333cbe9f63ab6950ff4"
+        },
+        {
+          "index": 36,
+          "sha256": "3af3b311a4b4d249c47b39f9864bcefbe8ff1adacb351a3fe3429852e9ab5586"
+        },
+        {
+          "index": 37,
+          "sha256": "8d1dcb2f779e42b25ea46535b03efe510e9d0b5426c7ac9b9a9f37690eb9e718"
+        },
+        {
+          "index": 38,
+          "sha256": "efa55b57ab0b842e092eee891e8998b1c008ea444839f88ca63ea9d813046f05"
+        },
+        {
+          "index": 39,
+          "sha256": "86e4ff389c0992597fd58804184da0716b3266411bc3f95239a951570b2e4763"
+        },
+        {
+          "index": 40,
+          "sha256": "d99181b858f648a3cb5623f6930d4a3411934881f2a12dde06534020b849aa2b"
+        },
+        {
+          "index": 41,
+          "sha256": "cc2c9a8ddfa2c7ae1d154cd2b0264eb44d6372c386e24028c9eb1be27348bc99"
+        },
+        {
+          "index": 42,
+          "sha256": "a05542ba8acd728cb172d70d35dfd0cb1ed3c16a5b165f219962a551dbc78cc5"
+        },
+        {
+          "index": 43,
+          "sha256": "60da091c1e873a4d6d89628d6f2024f7d7bb8bbdecba8c1439c801e4e434cd3b"
+        },
+        {
+          "index": 44,
+          "sha256": "b5dc2e4da3c3f1bb8d2a5c2a52c3fb195231046157ff662c0e79e4ce21f8e24f"
+        },
+        {
+          "index": 45,
+          "sha256": "03b361d1a0f1d5959329e3f05e0aa4ec3942f259e13fb810c32ce366d96b303a"
+        },
+        {
+          "index": 46,
+          "sha256": "b124df8067c2cceec559819fb6ed27a370bac7142a641736a7967e30b1bd97c9"
+        },
+        {
+          "index": 47,
+          "sha256": "f133133e99e0f47d03e78d872192bf5c51341f30e6782ed92c6db16270916e48"
+        },
+        {
+          "index": 48,
+          "sha256": "c19943f3f14201389e77c9edad652af6282efb71294c75ab14237874c0333362"
+        },
+        {
+          "index": 49,
+          "sha256": "a4f9065810d6dd7dea58d358032b47b87f41cfae054c2933d1419e3ab8d27665"
+        },
+        {
+          "index": 50,
+          "sha256": "834bc61bda6e8ae19812899c553258e3cd0c0f5a1aadcecb0fa5f4ca7bf72ddd"
+        },
+        {
+          "index": 51,
+          "sha256": "42b8f9ffd8a956ec31cbb35ae246ffbfd4b19d50719752030eec59d8e9979253"
+        },
+        {
+          "index": 52,
+          "sha256": "9a9746d547f84a1020bfd048af482d72786b6fbf4f47fe806d7b7626add192d4"
+        },
+        {
+          "index": 53,
+          "sha256": "9158fc05e3edd3805291371283b938ba3241200a32019834737746dbe81d0099"
+        },
+        {
+          "index": 54,
+          "sha256": "25e6d6d5ccfc64c689b65f7547c810110766c45f5ef8388056d3fd10ad7e023f"
+        },
+        {
+          "index": 55,
+          "sha256": "a632b7db2cc057b41ec7e932d5598639ab44c6d06f2b2c8d0424dcc3c3febdaf"
+        },
+        {
+          "index": 56,
+          "sha256": "343951bdf2e59489eb751b554aea71a8ae604b2b61650f05101f562b717e659f"
+        },
+        {
+          "index": 57,
+          "sha256": "becede00fd6054aa84e4c1ace20656c2e14edbed0a48298d916ba6f8e76f8a39"
+        },
+        {
+          "index": 58,
+          "sha256": "e9ba0483214ab32987a784300bf22b53850f26f061114955e39ab24acab98fdf"
+        },
+        {
+          "index": 59,
+          "sha256": "1c1dca021fbfa6763dc6464f18c8527053f84703414d5c8c679cbcdbf16d9d90"
+        },
+        {
+          "index": 60,
+          "sha256": "548342ebc78f16137afca4141cad41742a84e18d9c6982426eb8db4638797da0"
+        },
+        {
+          "index": 61,
+          "sha256": "60163def5b73538750e730bf228d4a70a8efceb1ae67effbbb709e235fd1e432"
+        },
+        {
+          "index": 62,
+          "sha256": "283bf696a99ac451ffd9847d1327104dd6db4d9133c015c6ffa67ad4bfb01bff"
+        },
+        {
+          "index": 63,
+          "sha256": "376df7921a75cadd3abeec27a1b2cef49152bec48cc3853b65d028c711ace69a"
+        },
+        {
+          "index": 64,
+          "sha256": "07c780cc00186c8b08e12dede82c014fcc5295b8a32c68d199de264cef265207"
+        },
+        {
+          "index": 65,
+          "sha256": "c2f2ba9f5139294948d34b78766fc61992e41627f88fc1d38e2b6cb8979fa473"
+        }
+      ],
+      "bodyHash": "8ee5bb19ea28f06f140ab8902362c082f25d5d03a147defa29a473f1da72d540",
+      "sourceRepository": "toolforge"
+    },
+    {
+      "id": "cic-tool-surface",
+      "sourcePath": "docs/meta/specs/cic-tool-surface-phase2-design.md",
+      "snapshotPath": "snapshots/cic-tool-surface.md",
+      "sha256": "480078423a37a0716b537e26c8bb910d5037ec9df0595a7438d93e046cdaa166",
+      "bytes": 8255,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "pending-evidence-labeling",
+      "sourceScope": "CIC",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "0d2409d1bf830ef1b0db37061283301651da19c9b34eae7d7102ba9ecacb07d8"
+        },
+        {
+          "index": 1,
+          "sha256": "fdf2571e9f4af6cafac2917e25de5128e4f8ce322785dd070ae04ce79eeb90af"
+        },
+        {
+          "index": 2,
+          "sha256": "a6e5663486add900ae4ff2daa58b829bb1e9b22661e989653a0cc5a8c5afb68d"
+        },
+        {
+          "index": 3,
+          "sha256": "616acbbeb60d1ee7174807dffc936066ff13cab26c4403fb952df064e150b3a0"
+        },
+        {
+          "index": 4,
+          "sha256": "a126daaa03ab27be6c386ed0b80cce57c7145316450a99b01d6ba2c3bed9accd"
+        },
+        {
+          "index": 5,
+          "sha256": "82421a28fecc4b6b7c33fb93b38b673a795bad6dd9b2f0fe464d4e212be7e403"
+        },
+        {
+          "index": 6,
+          "sha256": "c19fa625c51ce911afd49e50322e8068d72a2c6779e68b155e470b5de84e8bde"
+        },
+        {
+          "index": 7,
+          "sha256": "e0bfd7873c030c53dc1608ee53e3d4fa19032c98fb60f9935d1a222dc306cb56"
+        },
+        {
+          "index": 8,
+          "sha256": "aeda01dfab1383793dd93828d0e16f54cff43456e29bc37b16b6ee86ac8841ae"
+        },
+        {
+          "index": 9,
+          "sha256": "a6a10d2207d4bf5f6daf384544c53b97a898f5a9badb13949f478e23a83d453d"
+        },
+        {
+          "index": 10,
+          "sha256": "6375e51b87eeee094c1bf370ab32e580024b2545370a0cac17c80e8d612cdc12"
+        },
+        {
+          "index": 11,
+          "sha256": "71007ed9e328a7ca0e2518f2754ff91e15c9350f2970ffec1440ef355dca00e5"
+        },
+        {
+          "index": 12,
+          "sha256": "d34d35546523a7849dd25adc50cb34c5d0b72bf5028d4cb065ecb6796d01ca3d"
+        },
+        {
+          "index": 13,
+          "sha256": "a63e8cc09a1dcbfc975998895dee0efbe4b90aa680c2cd9b3e7b37d3543c4a05"
+        },
+        {
+          "index": 14,
+          "sha256": "251a047633b6635b67c8e541f76c81690421c451c2206483240c4bd979857541"
+        },
+        {
+          "index": 15,
+          "sha256": "95f289e39b46f89bf9fb4020874df0a6671f0248efb1beb4b7b5d83513f6c549"
+        },
+        {
+          "index": 16,
+          "sha256": "5654bbe7185907d5b67efee279ce155607a8916c98b9883c4fb23a1446891033"
+        },
+        {
+          "index": 17,
+          "sha256": "f2a1e9bfface465923310d9324854196ae359b67ff4a1c52654abd546113d3a3"
+        }
+      ],
+      "bodyHash": "1c020179a8e6d9d18fa90ae03c8915711eeade8d13b0a993eaaec39cee155d60",
+      "sourceRepository": "toolforge"
+    },
+    {
+      "id": "trm-data-strategy",
+      "sourcePath": "docs/meta/governance/trm-data-pipeline-training-strategy.md",
+      "snapshotPath": "snapshots/trm-data-strategy.md",
+      "sha256": "d5a448d2e58e9477b3ac9c8e5cd590612a0505b09326e0be73c7f4a461dad02c",
+      "bytes": 11790,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "pending-evidence-labeling",
+      "sourceScope": "CIC",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "f813abb91a96c7b23d2dc791dbbe5954e88d23d1f028fe7c67c7ca1dc92bb577"
+        },
+        {
+          "index": 1,
+          "sha256": "3b21fd14d33bb81e6a2bb349d76a11a18a2cfe637cada8ea63b78d84122049d2"
+        },
+        {
+          "index": 2,
+          "sha256": "b52a3ff4a2a6b1191828b40ccb98ff2091d44ff4f76be322f19178bdd65ff856"
+        },
+        {
+          "index": 3,
+          "sha256": "8dc4c901364d48ef4cf2a7f6f6c0eca5a7ad96fa385672dc12fb07ca38f13893"
+        },
+        {
+          "index": 4,
+          "sha256": "22ea2d8e1a40dbedc84e247431523a5c077ee59ec7f695fb71b018615de3e617"
+        },
+        {
+          "index": 5,
+          "sha256": "0619023d93950926b4a2bc2bfd038af7ab65e1c1d68721e184ba7b99007aa955"
+        },
+        {
+          "index": 6,
+          "sha256": "5e48fbd74e15ed24ecfc95a180cd01f2cddcdc4172ce5e34e6b7c5d4edb8a268"
+        },
+        {
+          "index": 7,
+          "sha256": "970b26deab144e2a6ea0881a9b35324a03e33c0ea62bef26d847453d6f9ab549"
+        },
+        {
+          "index": 8,
+          "sha256": "2fc7dfc88faf8a035c9ba55b6b19a2bf529363aaa8768bec693c326c92ea23ab"
+        },
+        {
+          "index": 9,
+          "sha256": "3a83803cc215065f6ac0866f28490d48e1f6fe652fe02de41aab59096f6b9d3a"
+        },
+        {
+          "index": 10,
+          "sha256": "7256efe98a958882c4f494571772db2896c29eb79705b2bf28ef071189074384"
+        },
+        {
+          "index": 11,
+          "sha256": "c1a2d191bcf094ed1ec0d2bd89bbba76f42078cebaf44e52177a794ebc2cbbc3"
+        },
+        {
+          "index": 12,
+          "sha256": "2c60660151a9c2e412cdce1a3f831911f12e565cb8028af067c53520dc1be421"
+        },
+        {
+          "index": 13,
+          "sha256": "11be0acce8680345dbd5228bfed132bc5f664acdea1cb3fa4e4d71b082c28c41"
+        },
+        {
+          "index": 14,
+          "sha256": "02d88bcba5bb5f59fbefecb4194ee89b2003f0c5d9f91cfb725c993b7f086091"
+        },
+        {
+          "index": 15,
+          "sha256": "6e83fce8c95f5ffcd3f0c6fda58cbd2eb2261a1d8944f076dacae5fac2562474"
+        },
+        {
+          "index": 16,
+          "sha256": "1f49f12e345b50e5f0e9699eab5b292d86e93022b41145a421f09b945b82adba"
+        },
+        {
+          "index": 17,
+          "sha256": "7fc94697d488d0d63ec7968c3c940c102bb00e71a4ed550a3f29f734935395d3"
+        },
+        {
+          "index": 18,
+          "sha256": "7a704c1f5ee6405496197b699b8dc20a954d4938d1ec6fdc6118bd6465bb6e96"
+        },
+        {
+          "index": 19,
+          "sha256": "702f3751c0ef87f85fc5fa5084411a25cc95b14ab384a7394f529762ae5cc886"
+        },
+        {
+          "index": 20,
+          "sha256": "b33245292383a1d49f5073d773693a515a2f4cb501bba849bce07177773df5d9"
+        },
+        {
+          "index": 21,
+          "sha256": "aa8368cca4775d606f93b9c0c5f44f19c311f732d52c2a2003255df826dc13af"
+        },
+        {
+          "index": 22,
+          "sha256": "e4b87dbf57a82b00bbe5f65457b331e7fe3637cf7254390c29ad009affbc3d27"
+        },
+        {
+          "index": 23,
+          "sha256": "a34ff18896323754d81bb2283679789b675c7498f24c020fcd4e4eee21f01329"
+        },
+        {
+          "index": 24,
+          "sha256": "ed592655a99411ce67fb9c664de8439bc4391fd017022d7cf2f408dd8d1436e8"
+        },
+        {
+          "index": 25,
+          "sha256": "f8149600bd1a03da62aa8281ccf8f3058105bb03dfd0c88fc4bf47cbc29a3837"
+        },
+        {
+          "index": 26,
+          "sha256": "cf257aabb7df742bcf68a54fe4e649897c164ddca90dafab7a43db75fa37fee6"
+        },
+        {
+          "index": 27,
+          "sha256": "95393126f801d70e37d8d764b00133371fbf0822726721f3fbef743f3f97d880"
+        },
+        {
+          "index": 28,
+          "sha256": "446a56ee2b419c6e1b4a1510eba76a32c170476ed024e6fe972df4d1c0cbd375"
+        },
+        {
+          "index": 29,
+          "sha256": "02b7d65a6dd6630e16aca78f2f91c9dbd0b0ff981b80677e039853863e302892"
+        },
+        {
+          "index": 30,
+          "sha256": "67aaa998fe042fb99ec035a3f610ca20efa8601bf593faf96b388c8b10b90ae4"
+        },
+        {
+          "index": 31,
+          "sha256": "d032af3c2e2b3d5df0a47e4870534d55f4c77b5e8e0eed9cd2b37ff84c4a0769"
+        },
+        {
+          "index": 32,
+          "sha256": "15e375d4bf71051349176a3ee744d13da66b9a29ceac23b318b9a39fd025a5ed"
+        },
+        {
+          "index": 33,
+          "sha256": "fb48ea595851cfcabade2374f54fe08c180c354bf762d29e790c451556923073"
+        },
+        {
+          "index": 34,
+          "sha256": "2da971ef234af5304b65d2ce22ea70a7fccbdcc0e8daa6d9c5b1df034fa199ad"
+        },
+        {
+          "index": 35,
+          "sha256": "152a4b466dbc4ef075806fcfd9e834ca16206882f3df761f72b60e6816a20ec3"
+        },
+        {
+          "index": 36,
+          "sha256": "11f4faab4f8794e72a7e9f2561121482b258f3a51621971807785a88b6b821b9"
+        },
+        {
+          "index": 37,
+          "sha256": "ae14d55ebfe231346f258a8179a827bf6f3a35646c77cf2a6fbc815aae16aee4"
+        },
+        {
+          "index": 38,
+          "sha256": "17f955af10c9237b9e337f7c42684fa3642ca822c9285844a285463a52d648a4"
+        },
+        {
+          "index": 39,
+          "sha256": "90765c14012c8baba33f71b457edeafc28d8dc2ee6ebd826b561976725c9e075"
+        },
+        {
+          "index": 40,
+          "sha256": "6e5b2639290e1119590416b6211c313ebac593d043b4a78b95c79e787280dd0e"
+        },
+        {
+          "index": 41,
+          "sha256": "d98c453a040a915e7d5f7f2e57890161c5d30047a8a0bde85749333e08bdf2f6"
+        },
+        {
+          "index": 42,
+          "sha256": "13b1038de5f9c693932069df31e84f33d2dc2a45e47a19844cfd9397708397a4"
+        },
+        {
+          "index": 43,
+          "sha256": "5e053ab7831ba0f9f3898e704ffa0869add9caff4c3d29659c7c5d58e2768257"
+        },
+        {
+          "index": 44,
+          "sha256": "fe65d3d873f5e60993ec0ef49a48eb4b03a2d70fc54746a3dd375bbc2f792962"
+        },
+        {
+          "index": 45,
+          "sha256": "6728621c7cf643e44afd5338a8b1958b4d9df78436984e7cc3d3173782a5af23"
+        },
+        {
+          "index": 46,
+          "sha256": "bf68f05bcd313e8b74a4f56540a58d88ffc99c83d189de93368838d61d1de0ad"
+        },
+        {
+          "index": 47,
+          "sha256": "2485aa579b15923ea5067cdc823307ac5a2ad3375415a764804d669fc7f61135"
+        },
+        {
+          "index": 48,
+          "sha256": "696f9128774f06555bdcd88574bcc0c5133cd5d3f5f4219b306bc08da76badc9"
+        },
+        {
+          "index": 49,
+          "sha256": "54aae67fe4b6b11fd0dc1323018250ea555cf46056466ccfbe0458ceb04b5c4a"
+        },
+        {
+          "index": 50,
+          "sha256": "60c88d3388e5f8c4d08bc004812d5fe0a1ef55a277ee03d04fc3b6859508244e"
+        },
+        {
+          "index": 51,
+          "sha256": "36bdde4cf5b595b1c13c204e0e4416ef596818b0999fe54e46a34b5d34004893"
+        },
+        {
+          "index": 52,
+          "sha256": "325db4db10711a2d8a92c625f80e245ca9cf20128146e6ae9cf3b1ec26d96b01"
+        },
+        {
+          "index": 53,
+          "sha256": "fa473d2d59f104aebed8b1aefa7ff29aab6dfd65899749164acaeda56e74f7d1"
+        },
+        {
+          "index": 54,
+          "sha256": "744ad58b1d65fa29085ed4db34b3198c252a13a2ebd84ef838305d516730004c"
+        },
+        {
+          "index": 55,
+          "sha256": "e912283d5b80f5cf58d89b669c2b75ddf230c911e5ce10372938cc728ed9c41e"
+        },
+        {
+          "index": 56,
+          "sha256": "4c4e8aa39408d2569dd792aa1b819cea8fd4836682b5781cd22eb2d41a9bcaaa"
+        },
+        {
+          "index": 57,
+          "sha256": "3c3a0594675aba6ec8dbb170b368ab44d8b7cfba81eb32a86a86dde467002b5e"
+        },
+        {
+          "index": 58,
+          "sha256": "271f372530dc67b79d0e9aeb63e1dab1b58303d38542f9a3c21b0b19cfae848f"
+        },
+        {
+          "index": 59,
+          "sha256": "ad2bf41b83361a36b7f12a020773a10e099936c66a343d62d5106303cc1c1f7a"
+        }
+      ],
+      "bodyHash": "7c4d92ad186ae90ddc190b6e438cf4de919992d8c99d8fe60b524410839d89f9",
+      "sourceRepository": "toolforge"
+    },
+    {
+      "id": "kb-sync-dag",
+      "sourcePath": "docs/meta/specs/2026-08-08-kb-sync-dag-design.md",
+      "snapshotPath": "snapshots/kb-sync-dag.md",
+      "sha256": "0e2f05b646142cc705b305716617ba528b7e96c41c61f7027e6d7354b8c2c753",
+      "bytes": 11709,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "pending-evidence-labeling",
+      "sourceScope": "CIC",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "794109d3ac09b4b508588666becaba0206092d92eb8b165aa9a17402c66c15ae"
+        },
+        {
+          "index": 1,
+          "sha256": "8347b53b9e71118f496acde0c7bb059f32e99bb1ef4f99a65861795ad20f7d83"
+        },
+        {
+          "index": 2,
+          "sha256": "f8c53a3895f8e652fc17271abfb4530fabe1b48ebdc696df99758e9ac48983b3"
+        },
+        {
+          "index": 3,
+          "sha256": "c80c0a866c74c1e662c31f09fa858063132bc2489ff4d4ffcb490cd37f5c0a08"
+        },
+        {
+          "index": 4,
+          "sha256": "c08e7288731af9cafc56ea961ed6990b5d772a4d807f9fcc4de6ec8ce8a179d1"
+        },
+        {
+          "index": 5,
+          "sha256": "34523c76a52e26ceab478b2adcb6ea6154cb5516c5e57702b211beb5cf3bbbd6"
+        },
+        {
+          "index": 6,
+          "sha256": "080afac2146713762339c0d1ce48a60d75b01bae22be03385feb0b26e7be6a8d"
+        },
+        {
+          "index": 7,
+          "sha256": "acccb54d6508b676a807855217e73f602422bcbdfb4a48210489103b195c8e8b"
+        },
+        {
+          "index": 8,
+          "sha256": "efbb699d6d757892db98aee95815b7e658f59034bbe916c110c169503dca55aa"
+        },
+        {
+          "index": 9,
+          "sha256": "7db68ba4fa53ac8066b757daee6e2dd3d2e87880ef9b37987b95a102db89b2fe"
+        },
+        {
+          "index": 10,
+          "sha256": "b9ab5744c16a51dfc5b87417b0a0038c2ba444b76b871c8e881bd4d47e64d6fa"
+        },
+        {
+          "index": 11,
+          "sha256": "ccac3121c606a087553fbfaf08afb65db7fb1598ef42c1cce216bba6f256a6e2"
+        },
+        {
+          "index": 12,
+          "sha256": "cf226d0817a093f554b4fc3969611dee74f70244405ff37a37a4b737dd27bfb2"
+        },
+        {
+          "index": 13,
+          "sha256": "1a93a771b20b4aa48aae69859a962ef4fb3fecdca86f5c5288da4e22d24de89e"
+        },
+        {
+          "index": 14,
+          "sha256": "13f5641c8f3f856363cae30cee007e305bf084a929385d086309047940ea47a5"
+        },
+        {
+          "index": 15,
+          "sha256": "0b7967b80507db52c1c1ff5ab1b5e745108bd4a8c15f68fb28b92e6a848a03ee"
+        },
+        {
+          "index": 16,
+          "sha256": "759ef011bb78291b5b238c54007a3d334f93f5037a3db70cf4cf886ca7ccc146"
+        },
+        {
+          "index": 17,
+          "sha256": "979a0da5a8aaeccc062c319761b8fe4c04dc78850530a625a73f42906f281474"
+        },
+        {
+          "index": 18,
+          "sha256": "7d44f897ed8f81d6c84bafd1cfdda62b3f84ee7d3b5d7f84f51fc91b990e8472"
+        },
+        {
+          "index": 19,
+          "sha256": "2c55c95011651d00e3602c00f7a4a88b19a647713141748be4988c4320a4118a"
+        },
+        {
+          "index": 20,
+          "sha256": "8b0df2b7d1e979a80646770eebfd95c945e8d9ae5924b657ea803661e00fd683"
+        },
+        {
+          "index": 21,
+          "sha256": "13f50940f80b43502525d03c904732afb25dd1ebb7be4996642952984bef21e1"
+        },
+        {
+          "index": 22,
+          "sha256": "5b87b88db1be9975c4e67a8e2d7ef6222a1d7eff0ea0d022f8d77e17c0891b71"
+        },
+        {
+          "index": 23,
+          "sha256": "3017a33ec83c83c7cda31543cdeb07bbd20f26638d3e815ac5e0e64bc4a44856"
+        },
+        {
+          "index": 24,
+          "sha256": "b68046735a26a6491965a9653f3cf84d9a54b43cd20b81bee86060a8363627e4"
+        }
+      ],
+      "bodyHash": "2f69fa749e20c8d301cb193583031a794ef105b368bae4ffc382fd38283707b0",
+      "sourceRepository": "toolforge"
+    },
+    {
+      "id": "wiki-style",
+      "sourcePath": "docs/meta/governance/wiki-style-and-structure.md",
+      "snapshotPath": "snapshots/wiki-style.md",
+      "sha256": "821837634d8aeb41cf0f0ef0b129d8c9627334161253e85b85b93b2dd669df43",
+      "bytes": 27678,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC test namespace for shared governance; not exclusive source ownership",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "pending-evidence-labeling",
+      "sourceScope": "shared",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "88dc69b542724c9ddec7bf95cca8f60877619997714a60e34bf41616efbfa58d"
+        },
+        {
+          "index": 1,
+          "sha256": "33cfe6c69526c7657c7d51de57fc503fd5df06cf3cb25f93f29952534bfacbd6"
+        },
+        {
+          "index": 2,
+          "sha256": "bc1ded387416a31999fcc663216f3b949576954538c97e55b4b27ed34a00358b"
+        },
+        {
+          "index": 3,
+          "sha256": "e16e011db7e9296bad162f498cf38b3aedf2d326676e0bd18bba2d871aa0e050"
+        },
+        {
+          "index": 4,
+          "sha256": "0f3d0b2365ea5ff698e40a52bd6b6f8c7f1d775bf43812d260665a0f732a4e84"
+        },
+        {
+          "index": 5,
+          "sha256": "3bde08d9f2913218312519869764df0a9905031a022dece6cc51eb6a38c39cc3"
+        },
+        {
+          "index": 6,
+          "sha256": "8cdabe4f44e345cdfedfb6fe0a6b221908c0267ded05d9f887255db1b57bdc19"
+        },
+        {
+          "index": 7,
+          "sha256": "0cbdca04577005f508a7a89fe8a90be128ee45ef2ce1a3dc88d54903eddedb9b"
+        },
+        {
+          "index": 8,
+          "sha256": "6deb06d950b8f28dc2afadf1d3bae759cbd0b40acf1be4c33fe8d60b39139134"
+        },
+        {
+          "index": 9,
+          "sha256": "ec707706a63abd6b9c37d67309231568ab71178c74b4b8fc51a71b9783689a33"
+        },
+        {
+          "index": 10,
+          "sha256": "b7ea419a144a6b7e7113b7cd233913cf35bc3ef0f5cbb854baa71b20acf0358e"
+        },
+        {
+          "index": 11,
+          "sha256": "3b6642150754f9199b9e96d63335df187555f9a54d9acde741056de7f0bb5447"
+        },
+        {
+          "index": 12,
+          "sha256": "26f6b6000c0a19ad25b3970c7414bc989024e422d067c24837c52bc9e03a9b42"
+        },
+        {
+          "index": 13,
+          "sha256": "7453350e26309aa69daf4e59d2be5fff6397fa26d785f1f4fc8ef7077a50733e"
+        },
+        {
+          "index": 14,
+          "sha256": "95cf4f066370e4fa3caec4f430bf701ada9df350876f070d6b0e28dd93f31ab7"
+        },
+        {
+          "index": 15,
+          "sha256": "bb05124b7b8993129862cf092b7f9c3112fe3f3e44cff5287d126dc1db98271b"
+        },
+        {
+          "index": 16,
+          "sha256": "f3c6518e4754de077479bd528f2ea536541cee6b4098c4092029b645e3476112"
+        },
+        {
+          "index": 17,
+          "sha256": "87efb539cf104ac1470459b702472af2591749d8ccfc84a3b374568212e674a7"
+        },
+        {
+          "index": 18,
+          "sha256": "bff32ae6fc6f6b9e6a7d592f373a51efc1e5560f31ab9c30442934506a6cb649"
+        },
+        {
+          "index": 19,
+          "sha256": "ee601422afb02106be47dce867b5d3a91139517547eb367a910f3d085159230c"
+        },
+        {
+          "index": 20,
+          "sha256": "f48c28ca69b86c32c1eba46f58f5a46fd79c9e394c493b14338d81a06acec491"
+        },
+        {
+          "index": 21,
+          "sha256": "eb0171427f213b99d6ab15cb3e65441f84599696372142caa98ee3b616b2f211"
+        },
+        {
+          "index": 22,
+          "sha256": "9ae7e95aea316a8af2892c30b85f7db5cf6e04e547daf9af03704b0b7030428c"
+        },
+        {
+          "index": 23,
+          "sha256": "e43741c2dbd1d93f1b2eb706182e2f4f0a5fabcb10d2078f1008d7e4efe7bd12"
+        },
+        {
+          "index": 24,
+          "sha256": "b587900c09b6763571194383c611dbf765631ae0df7df4cf756869b7101d8594"
+        },
+        {
+          "index": 25,
+          "sha256": "878b908f927747c6d75cfb0ca846b80c486f7810c56a10e86ef6f24592ad68ac"
+        },
+        {
+          "index": 26,
+          "sha256": "7bbd04b0a9ae26d9d22178b7f10553036878f814ce7483d56bf96e236c254f79"
+        },
+        {
+          "index": 27,
+          "sha256": "8ddad803ca96cfb47d0f574e5893551fefba80448def3e9e5ae4d380a610f155"
+        },
+        {
+          "index": 28,
+          "sha256": "18e980dfdb7594b1862676cf36195bf8a7b8e0ee438993a55ddd1d75cf3c8cfe"
+        },
+        {
+          "index": 29,
+          "sha256": "ec2f1e261209f02e1e5deddddf8195438a98cbbca9dfe1235d5d1d3ca11affe1"
+        },
+        {
+          "index": 30,
+          "sha256": "2f7c0c686ec23889f874d8f113efe26a8fe137214074d89aa4a509c9c22ce222"
+        },
+        {
+          "index": 31,
+          "sha256": "366d2354d98a1ebbec4fc47a8dee2f5228ab1c4fc4293e44225eff953b5f9c9a"
+        },
+        {
+          "index": 32,
+          "sha256": "965e3170b5fda125b3b690aa506a4da082cb89b566860100e747b382a1c8a6d8"
+        },
+        {
+          "index": 33,
+          "sha256": "4135e6f3637f73acc893c264eed8e6f67f643ee6cbcf260a480a8bd27b8d6f6d"
+        },
+        {
+          "index": 34,
+          "sha256": "3cdee57d2db42f0f72790aba2033030ac0f1ab57caaf363878cb61bbebfc848b"
+        },
+        {
+          "index": 35,
+          "sha256": "bc91add49290c5a156032d0108aa550c0913d7aa1179aa9d2dc5a8aa923a36db"
+        },
+        {
+          "index": 36,
+          "sha256": "d6480d1bcd3d9c17583397a5ed818a89a8814e2447cdc8fc82f20e3ddfa0fdd7"
+        },
+        {
+          "index": 37,
+          "sha256": "8afd4b584eb0d396715ae779b21984e7f87a0885d5007254bb6f4636252d6d05"
+        },
+        {
+          "index": 38,
+          "sha256": "6e42e7aa582792736c97a0ff3538d3a26e9bb8662ce33f6a32d316f2f228ca22"
+        },
+        {
+          "index": 39,
+          "sha256": "610504dc9babbed9926da491f7a14b2e80959e8d3979cb27aaf0f59e20d10bfd"
+        },
+        {
+          "index": 40,
+          "sha256": "9656ff4029b6a1f5a03e360d45aa4bcb72a3fbc02f5c689691dac4c41316d3d6"
+        },
+        {
+          "index": 41,
+          "sha256": "1a6a9234811e2969d620fc4c0e3fe27d30a91912495ba884b4753128dceee2a9"
+        },
+        {
+          "index": 42,
+          "sha256": "eb9fa5149f40f85914f0f8350b158ccfdf9515372b15e84a15b323439188f6a2"
+        },
+        {
+          "index": 43,
+          "sha256": "e428639351c0bec8ee50986323b6d879e774c871ce4fa77eab0f15226cacf5ed"
+        },
+        {
+          "index": 44,
+          "sha256": "2e212d556610443ae4babbc8b6b31636d3de8982be4992c0014108a09a58680c"
+        },
+        {
+          "index": 45,
+          "sha256": "b2c99eeb9e0e2a6cdbbd9f3fa3ee36ee1009d840f07e8ea89852e03301b33c88"
+        },
+        {
+          "index": 46,
+          "sha256": "401f5de0497a8420d8692e177fe659adb7675c4f8462b439a2ebf4c1d4f22e2a"
+        },
+        {
+          "index": 47,
+          "sha256": "601116edf76cfa06ad7dbc8a441ba557b02bca324c723090f51612dfc5980daa"
+        },
+        {
+          "index": 48,
+          "sha256": "ecf7ed31fd6682e64f3a526051d4e9428a3e992039b0371e999e051528af7ff5"
+        },
+        {
+          "index": 49,
+          "sha256": "ef3fcc3a08eb4587e836ea9850b5df5f8120c6d1ca8c7ce31ad44dfe04834374"
+        },
+        {
+          "index": 50,
+          "sha256": "6fb2eaa1f4159b70163d1029bbb4846d9a00e65547d9c594ffd9da4216a54ec8"
+        },
+        {
+          "index": 51,
+          "sha256": "e793fcd1061ade6d2cf3ef06df6a48b8f1ab1fcd361fd627ac558c5969db7709"
+        },
+        {
+          "index": 52,
+          "sha256": "12c211b3288cb6926011092a88114c1086aeeb260a7202c243abb1a5a538046e"
+        },
+        {
+          "index": 53,
+          "sha256": "4a265c947deeef80b18a517e275451b15235f0dd1ab4b112714ce53f6ee36471"
+        },
+        {
+          "index": 54,
+          "sha256": "5b20ac5ad6ccbce00de0cf7be29762162925c3c691506c4e6948db908e634b63"
+        },
+        {
+          "index": 55,
+          "sha256": "8545c21e4c4d89c9947468b949a01e174cff3868cf76c5ada546d407f2bb0ce9"
+        },
+        {
+          "index": 56,
+          "sha256": "1e99ae57535f5cc726c376ffbb08a3694fd683b4e3312fe968238ec9c41749b8"
+        },
+        {
+          "index": 57,
+          "sha256": "7267fc818d1b77e11cde5659a1afaed67fd6d562ad5e5c1f7e17e7bad0c7d3dd"
+        },
+        {
+          "index": 58,
+          "sha256": "6b893600e8b53e45d6b36cae8acf295a9bba9728b0767a4fbbac679e4aee8348"
+        },
+        {
+          "index": 59,
+          "sha256": "341f92ef7839f01be79183781f6485f75fa56bb6054c1e32f2291ef83e76de62"
+        },
+        {
+          "index": 60,
+          "sha256": "12db4318fae14a783503930bb57e8beb3d4ee83beb2e893c06a8ca58d14170ca"
+        },
+        {
+          "index": 61,
+          "sha256": "ac87edc53170abf0cd36cacf45c621c9e6966c954697ae8775d2ee9f97d0d218"
+        },
+        {
+          "index": 62,
+          "sha256": "a9c655d172a12195deeb7622dd960420e059925cdbde21f762d668e2b961ab2d"
+        },
+        {
+          "index": 63,
+          "sha256": "578174b55ec0eb02b093d4a011635d57a8bb9fcc96f0cce63191dc45f9f0f926"
+        },
+        {
+          "index": 64,
+          "sha256": "32988b2e9aa3d34982d14982003b49e743ce0e1e81a4bfed3c7ebfe74760570e"
+        }
+      ],
+      "bodyHash": "5576b4710c1a4721c12fb0933c695f5ff433f89d711922baf4cb4740f3f231b2",
+      "sourceRepository": "toolforge"
+    },
+    {
+      "id": "global-rules",
+      "sourcePath": "docs/meta/governance/global-operating-rules-cic-rewrite-labs.md",
+      "snapshotPath": "snapshots/global-rules.md",
+      "sha256": "7db2281103c35bd43f0cbc9c6cdadd7aaed6ddc6520d275563488853f0b68fb8",
+      "bytes": 8843,
+      "project": "CIC",
+      "sourceApproval": "approved-in-conversation",
+      "ingestionStatus": "indexed-for-test-then-cleaned",
+      "projectAssignment": "CIC test namespace for shared governance; not exclusive source ownership",
+      "statusBucket": "UNKNOWN",
+      "statusAssignment": "pending-evidence-labeling",
+      "sourceScope": "shared",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "02d1f635333813469c745675535005dd4e7a0aaac574abc52d16d8fb28e66810"
+        },
+        {
+          "index": 1,
+          "sha256": "a81d7a7466b94ad34a3f73c467af384d27b5e9a2ee7d78622621ebcc0a7ef4bb"
+        },
+        {
+          "index": 2,
+          "sha256": "d77cb718a583d27c483b6daea24e08bbe86629f339b17b11f851535309f4bd18"
+        },
+        {
+          "index": 3,
+          "sha256": "415785d0bb475a6af56f3d9644a773a053652559e26ea7f647aab63b38ed9dc6"
+        },
+        {
+          "index": 4,
+          "sha256": "9afd356e433ee0c7531822601186450368e2f5b02478265da7a88a249951cc32"
+        },
+        {
+          "index": 5,
+          "sha256": "9a867a9d3ab68b86ddadc615391f1620ac96d122eedb13462b638fafbaab1167"
+        },
+        {
+          "index": 6,
+          "sha256": "6bb6f995153d8d271ffa5a2c09cb0f84dfb75f9c0eb9d75b3a42e18331948d70"
+        },
+        {
+          "index": 7,
+          "sha256": "be4bddd5b659b9c5e14824cdee9ffd13496190624fb4c7f849ed27cb22d75096"
+        },
+        {
+          "index": 8,
+          "sha256": "e898fa61e413968b96159a0e92ae50ad0a759d12338e177e7c2b3130565594d7"
+        },
+        {
+          "index": 9,
+          "sha256": "3a9aecba02414639f29420e65b97bc8168ad457595a26b6e86c7fc88f3e5eef3"
+        },
+        {
+          "index": 10,
+          "sha256": "f7487030957b607507342cadce2c2136bf87d5144d021deca858b354ea70a9b7"
+        },
+        {
+          "index": 11,
+          "sha256": "520a8501e4b3877659223626a5c2c8eb8d2104ac4522597a4be545d7c53b0e14"
+        },
+        {
+          "index": 12,
+          "sha256": "5fb5438b7db048772c2e0f1afb8c912dca03dcfa270840b731636471430d1f73"
+        },
+        {
+          "index": 13,
+          "sha256": "0f93f71358e031ec3ce580dd4d8bcfa0e1e9cf74e45e5029e4078f1975b3766d"
+        },
+        {
+          "index": 14,
+          "sha256": "dccefcedaa9babc3b23d31479b393ffa5758cca29b8eebb3f84f9367231606b5"
+        },
+        {
+          "index": 15,
+          "sha256": "f455fc1b362acebf73d69839f9e37e3b9a34da717908f1ae2d4b806199d49bfa"
+        },
+        {
+          "index": 16,
+          "sha256": "40436d6f983f41cdb3ca43bd5bf3080e5f408008e85aa4fb3486ee4e17e43433"
+        },
+        {
+          "index": 17,
+          "sha256": "3a7de4539a8b37668c2a4564eb51f01e033e5720f42c92e2c81faf60445b3a60"
+        },
+        {
+          "index": 18,
+          "sha256": "ce6441f99ddcea91a57fe2eb41995e24372894d09f5b1e986412c7e65072ec5c"
+        },
+        {
+          "index": 19,
+          "sha256": "c83cff7a5abfcaaf126a8a8ec269232a79a02f5b1145316d6d40bd6c82d8f97d"
+        },
+        {
+          "index": 20,
+          "sha256": "1d6cbb251ae44fc6711d64778f1339249e22ec049c3786069795e8898246c9df"
+        },
+        {
+          "index": 21,
+          "sha256": "a25ba2447ab1fa49c94f1960ac71d9d4708bd4336cda8fb9a45276b02b6c38a8"
+        },
+        {
+          "index": 22,
+          "sha256": "18b8e1ae46d23507e29a377868996b8563b5dc5ba62f315bf78bfc26e076f525"
+        },
+        {
+          "index": 23,
+          "sha256": "4eb17973c02a015734cd44330fd9bd33e37b620f23acddc9968599358e565fc3"
+        },
+        {
+          "index": 24,
+          "sha256": "736498969f6ece9315a855794b3ad6239ceb87a8aa13ce7ebf096015f326636b"
+        },
+        {
+          "index": 25,
+          "sha256": "26e4ab5f8f70c8d446a28c6203c5b7864708efd89d7e59ae7bca480af263943a"
+        }
+      ],
+      "bodyHash": "7dc709a2c8cf62521eecd6d1e0026d0b7df2eb2f589bdefc3de9d8b9fd0abece",
+      "sourceRepository": "toolforge"
+    },
+    {
+      "id": "harvester",
+      "sourcePath": "docs/rewrite-labs-repomix-harvester-integration.md",
+      "snapshotPath": "snapshots/harvester.md",
+      "sha256": "7cd34e8925785244b43475e08423b1a41534659eb4ffc5e47850f95e0263fbcf",
+      "bytes": 18654,
+      "project": "RewriteLabs",
+      "sourceApproval": "approved-in-conversation",
+      "statusBucket": "UNKNOWN",
+      "sourceScope": "RewriteLabs",
+      "projectAssignment": "RewriteLabs",
+      "chunks": [
+        {
+          "index": 0,
+          "sha256": "6708372c8b559bcebd95ef70d02de88774c237eea40e5b1c3044acddf3d6494e"
+        },
+        {
+          "index": 1,
+          "sha256": "6cad901ac3b7765ff321b6ed9e4836b9064b7724286321d88b7e1115e81dae5c"
+        },
+        {
+          "index": 2,
+          "sha256": "665fcb5f4ab6eff4196002d55477daaa39e318fa5332c9b0631a163557a1cac4"
+        },
+        {
+          "index": 3,
+          "sha256": "8b3974d4d0c51ea8be29e3ad1f7d752d4e08ebe1079a0980be3b7acdf726a21a"
+        },
+        {
+          "index": 4,
+          "sha256": "5cd19cc1a2e42e8c46c4d7518a8a1cff4eee3a9adfd61e9e4b4b5402939f7d6f"
+        },
+        {
+          "index": 5,
+          "sha256": "73778e38c02b1759c0fcd10b9706b27b5ec7ea7c35a0ec2014d00da68bab1491"
+        },
+        {
+          "index": 6,
+          "sha256": "21a88f2171eb065d5c1d4ebc6e07d57bd6cb835c0082ebf2506a805574ff7989"
+        },
+        {
+          "index": 7,
+          "sha256": "f9f4c24d46179f79fa1db6e6370044b77054b750f1368a61c943f0ea7c455fa9"
+        },
+        {
+          "index": 8,
+          "sha256": "5343d4fc294dd32363fc1229619c16db7fa9cb69c6e64546c4516c8879f21ed9"
+        },
+        {
+          "index": 9,
+          "sha256": "28d11d12552de49f534df3c6c989e2649ba8bcc7ef9126e049aeb35e27a83394"
+        },
+        {
+          "index": 10,
+          "sha256": "df031bdda161f7317ed009a02f4a7eeb22a6aa071808fef6ed3f332daa6e5205"
+        },
+        {
+          "index": 11,
+          "sha256": "7be19aa5c6620bd2cdab11de89158b98fe3cf803bedf7997e5308ad07d60f2ff"
+        },
+        {
+          "index": 12,
+          "sha256": "47732d42b55d2b07bd18f401eb2935702f43e2dbcad235750022a124f07d6c26"
+        },
+        {
+          "index": 13,
+          "sha256": "45aa31019c64ded5b82a50541afe12b51a8379fdfb34e227db2b79b8fae7b749"
+        },
+        {
+          "index": 14,
+          "sha256": "e01117ae68051be13baff34ac5a2879d865f5810df82062c96a820b26a97770c"
+        },
+        {
+          "index": 15,
+          "sha256": "eff62fd0e0c514110d69b50100d9ed87102e0ca3562fa2cf7ad1c24364b8f252"
+        },
+        {
+          "index": 16,
+          "sha256": "48974546de359f2cd58363a5228cc1a5516413329b47eef54a134e7dd4346f30"
+        },
+        {
+          "index": 17,
+          "sha256": "8b859b3c8553ccb2d9d9d53dd0eecce33480c86020c2442c40381c407ed05d9f"
+        },
+        {
+          "index": 18,
+          "sha256": "aba43db24802ae6289adcda1748073d142af3b6155660dc659b1dd160295c5fd"
+        },
+        {
+          "index": 19,
+          "sha256": "db086f3059242d1f4e881ac4b84c25d45c6828af4b9f2366cfd744ab732ada9f"
+        },
+        {
+          "index": 20,
+          "sha256": "b825391d93e4f100fba1664a074f9127453cdfc3fb31e75f1a80689576abf596"
+        },
+        {
+          "index": 21,
+          "sha256": "f8c5dc657a0cfa96a6cc495d9211e2b908c8aa8a564ff4f7579184f4f5decf71"
+        },
+        {
+          "index": 22,
+          "sha256": "609fd672b0763acbe14035d24f14896dfe6aa0830858929e95b960b2d213613f"
+        },
+        {
+          "index": 23,
+          "sha256": "d67e7a0c1e02b5211efb130a4587646b5e035e26acee91e5de4ab91575a497bf"
+        },
+        {
+          "index": 24,
+          "sha256": "4ec9a0a849ad8763ea2fe5f9697d6166c18726b5cd5167ed70b474c74206f548"
+        },
+        {
+          "index": 25,
+          "sha256": "59a0ef03e4d90f9cd6fdb6eeca688067ef8c825ce03d5db0fab433708cd051fb"
+        },
+        {
+          "index": 26,
+          "sha256": "8dbc597e7e4182e4f1552eb236471736787b1514ccce08e791dcd17c81f290c0"
+        },
+        {
+          "index": 27,
+          "sha256": "e64187d2334812feb67c4cd67249a02bb4dbbf2eda52271d105d69ca98400ca3"
+        },
+        {
+          "index": 28,
+          "sha256": "208955e43c865a2407bc261040e57ee9cbdffc2c3426ac7f9473a6c3b56c38f1"
+        },
+        {
+          "index": 29,
+          "sha256": "e757178311094c20492214b4ebfaa89b6a96275a1bb91ebb9977836858bfd641"
+        },
+        {
+          "index": 30,
+          "sha256": "ac8223561becdf651eccd14e66bd69dd6cda01f0195bb3c0c760fbc444adde15"
+        }
+      ],
+      "bodyHash": "53e20aedf8a8811f009d5c2ddc641fb3aa02042547ba267b1c8e99ed91c80019",
+      "sourceRepository": "rewrite-mcp",
+      "ingestionStatus": "indexed-for-test-then-cleaned"
+    }
+  ],
+  "queryLabels": [
+    {
+      "id": "tuning-1",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Where do single-topic and multi-topic mined research gaps go?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        55
+      ],
+      "evidenceAnchor": "trm/research-gaps/"
+    },
+    {
+      "id": "tuning-2",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "How often does the design schedule reverse mining?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        60
+      ],
+      "evidenceAnchor": "Weekly cadence for mining"
+    },
+    {
+      "id": "validation-3",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How can triage failures be recognized when its process returns success?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        38
+      ],
+      "evidenceAnchor": "failedCount"
+    },
+    {
+      "id": "validation-4",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which existing boundary handles treatment writes and its per-topic cursor?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        39
+      ],
+      "evidenceAnchor": ".sync-treatment.lock"
+    },
+    {
+      "id": "validation-5",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What durable evidence permits reconciliation when a registry write misses a successful ingest?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        46
+      ],
+      "evidenceAnchor": ".nlm-ingest-reports/"
+    },
+    {
+      "id": "validation-6",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does a changed mined answer replace its earlier historical row?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "notebooklm-cic",
+      "expectedChunks": [
+        53
+      ],
+      "evidenceAnchor": "new row appended rather than replacing"
+    },
+    {
+      "id": "tuning-7",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What extra argument lets artifact path tests supply their own checkout root?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        5,
+        8,
+        9
+      ],
+      "evidenceAnchor": "repoRoot"
+    },
+    {
+      "id": "tuning-8",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What exercise checks that index writers persist the requested JSON?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "write-then-read-back"
+    },
+    {
+      "id": "validation-9",
+      "split": "validation",
+      "kind": "positive",
+      "query": "At what traversal bound does repository discovery fail rather than return a partial path?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        8
+      ],
+      "evidenceAnchor": "Bounded to 20 levels"
+    },
+    {
+      "id": "validation-10",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does the tree place index JSON entries relative to artifact directories?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        6
+      ],
+      "evidenceAnchor": "lineage/<kind>/<id>.json"
+    },
+    {
+      "id": "validation-11",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which fields does the gate report index carry?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        16
+      ],
+      "evidenceAnchor": "gateId, status, reportPath"
+    },
+    {
+      "id": "validation-12",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Does writing an ingest lineage index remove lineageRef from its existing result contract?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "cic-tool-surface",
+      "expectedChunks": [
+        14
+      ],
+      "evidenceAnchor": "index write is additive"
+    },
+    {
+      "id": "tuning-13",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which three checks precede admitting a batch?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        50
+      ],
+      "evidenceAnchor": "Batch metadata complete"
+    },
+    {
+      "id": "tuning-14",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What does the publish stage update and send for governance review?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        43
+      ],
+      "evidenceAnchor": "Update master index"
+    },
+    {
+      "id": "validation-15",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How is coverage calculated from documents, photographs, and artifacts?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        22
+      ],
+      "evidenceAnchor": "coverage_score ="
+    },
+    {
+      "id": "validation-16",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which coefficients combine the three priority metrics?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        19,
+        23,
+        24,
+        25
+      ],
+      "evidenceAnchor": "0.5"
+    },
+    {
+      "id": "validation-17",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What file does Phase B produce after OCR and fact linking?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        39
+      ],
+      "evidenceAnchor": "trm-crosslinks.json"
+    },
+    {
+      "id": "validation-18",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What two outputs record Phase C priority recommendations?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "trm-data-strategy",
+      "expectedChunks": [
+        41
+      ],
+      "evidenceAnchor": "ingest-decisions.json + priority-roadmap.md"
+    },
+    {
+      "id": "tuning-19",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which lock must garbage collection acquire?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        17
+      ],
+      "evidenceAnchor": ".nlm_pack/gc.lock"
+    },
+    {
+      "id": "tuning-20",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What schema version does the graph design specify?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        19,
+        20,
+        21,
+        22
+      ],
+      "evidenceAnchor": "version"
+    },
+    {
+      "id": "validation-21",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which keys are mandatory at the top of the DAG object?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        19
+      ],
+      "evidenceAnchor": "Top-Level Required Keys"
+    },
+    {
+      "id": "validation-22",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which metadata fields count sources, nodes, edges, and cycles?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        19
+      ],
+      "evidenceAnchor": "Metadata Required Keys"
+    },
+    {
+      "id": "validation-23",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which node kinds and status values does the DAG permit?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        12,
+        19,
+        20
+      ],
+      "evidenceAnchor": "node_type"
+    },
+    {
+      "id": "validation-24",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which edge relations does the schema allow?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "kb-sync-dag",
+      "expectedChunks": [
+        19,
+        20,
+        22
+      ],
+      "evidenceAnchor": "relation"
+    },
+    {
+      "id": "tuning-25",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What is the maximum length required for a repository About description?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        49
+      ],
+      "evidenceAnchor": "350 chars"
+    },
+    {
+      "id": "tuning-26",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What does a last_reviewed date bump attest, and does the hook judge prose?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        61
+      ],
+      "evidenceAnchor": "Bumping the date is the attestation"
+    },
+    {
+      "id": "validation-27",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which curated lifecycle states make an orphan page a validation failure?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        41
+      ],
+      "evidenceAnchor": "Orphan curated pages"
+    },
+    {
+      "id": "validation-28",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How should sidebar cleanup preserve archived history?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        41
+      ],
+      "evidenceAnchor": "remove sidebar entries instead"
+    },
+    {
+      "id": "validation-29",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What must deprecated wiki pages link to?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        41
+      ],
+      "evidenceAnchor": "Deprecated pages MUST link forward"
+    },
+    {
+      "id": "validation-30",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Were the W1-W13 validators implemented in the guideline snapshot?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "wiki-style",
+      "expectedChunks": [
+        53
+      ],
+      "evidenceAnchor": "All IDs are spec-only"
+    },
+    {
+      "id": "tuning-31",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "How should an unclassified artifact be categorized pending review?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        9
+      ],
+      "evidenceAnchor": "default Operational"
+    },
+    {
+      "id": "tuning-32",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "What reasoning mode applies when none is selected?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        10
+      ],
+      "evidenceAnchor": "Draft (default"
+    },
+    {
+      "id": "validation-33",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How does pending confirmation status change after one day and three days?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        19
+      ],
+      "evidenceAnchor": "STALE-PENDING"
+    },
+    {
+      "id": "validation-34",
+      "split": "validation",
+      "kind": "positive",
+      "query": "In which months does the quarterly drift audit start?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        0,
+        22
+      ],
+      "evidenceAnchor": "Jan/Apr/Jul/Oct"
+    },
+    {
+      "id": "validation-35",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What happens when quarterly governance review misses its first-two-weeks deadline?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        23
+      ],
+      "evidenceAnchor": "REVIEW-OVERDUE"
+    },
+    {
+      "id": "validation-36",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which version increments distinguish minor from structural governance edits?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": "global-rules",
+      "expectedChunks": [
+        23
+      ],
+      "evidenceAnchor": "decimal bump"
+    },
+    {
+      "id": "tuning-37",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which three percentages allocate the repository token budget?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        25
+      ],
+      "evidenceAnchor": "analysis: 30%"
+    },
+    {
+      "id": "tuning-38",
+      "split": "tuning",
+      "kind": "positive",
+      "query": "Which CodeBurn event identifies ingestion metrics?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        17
+      ],
+      "evidenceAnchor": "event: 'HARVESTER_INGESTION'"
+    },
+    {
+      "id": "validation-39",
+      "split": "validation",
+      "kind": "positive",
+      "query": "Which inputs determine the redesign model selection?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        18
+      ],
+      "evidenceAnchor": "historicalCost:"
+    },
+    {
+      "id": "validation-40",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How should malformed Secretlint output and an unknown framework be treated?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        19
+      ],
+      "evidenceAnchor": "Malformed Secretlint data"
+    },
+    {
+      "id": "validation-41",
+      "split": "validation",
+      "kind": "positive",
+      "query": "How many benchmark repositories must ingestion handle without error?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        24
+      ],
+      "evidenceAnchor": "18/20 SMB"
+    },
+    {
+      "id": "validation-42",
+      "split": "validation",
+      "kind": "positive",
+      "query": "What measured before-and-after token totals appear in the telemetry completion report?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": "harvester",
+      "expectedChunks": [
+        27
+      ],
+      "evidenceAnchor": "137,150"
+    },
+    {
+      "id": "validation-43",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which antivirus version scans the notebook mining report?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-44",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What OAuth scopes permit the intake manifest to update a calendar?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-45",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which filesystem ACL group owns CIC index pointers?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-46",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What OCR vendor API rate limit governs TRM batch processing?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-47",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which TLS certificate authority signs the graph generation pointer?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-48",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How does the wiki validator perform automatic semantic translation?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-49",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which database column stores customer VAT rates in Harvester?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-50",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What license seat limit applies to CodeBurn token telemetry?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-51",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which Kubernetes autoscaler scales repository compression workers?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-52",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "What webhook signing secret authenticates the discovery endpoint?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-53",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "Which email provider delivers repository budget alerts?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-54",
+      "split": "validation",
+      "kind": "confusing-negative",
+      "query": "How does the redesign router guarantee a refund for compression failures?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-55",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How are pottery glazes fired in an electric kiln?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-56",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "Why do ocean waves break near shore?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-57",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What distinguishes a sonnet from a villanelle?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-58",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How do you tune a concert harp?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-59",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What is the escape velocity of Mars?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-60",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How is a tennis tie-break scored?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-61",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What makes an optical prism split light?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-62",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How do you repair a leaking kitchen tap?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-63",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What is the difference between basalt and granite?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-64",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "How does a mechanical watch escapement work?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-65",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "What ingredients thicken a traditional custard?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "validation-66",
+      "split": "validation",
+      "kind": "unrelated-negative",
+      "query": "Why does sea ice float on liquid water?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "tuning-67",
+      "split": "tuning",
+      "kind": "confusing-negative",
+      "query": "Which paid support plan covers notebook registry reconciliation?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "tuning-68",
+      "split": "tuning",
+      "kind": "unrelated-negative",
+      "query": "How does a pipe organ produce sound?",
+      "project": "CIC",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "tuning-69",
+      "split": "tuning",
+      "kind": "confusing-negative",
+      "query": "What S3 bucket stores CodeBurn customer invoices?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    },
+    {
+      "id": "tuning-70",
+      "split": "tuning",
+      "kind": "unrelated-negative",
+      "query": "How do you measure a mountain elevation?",
+      "project": "RewriteLabs",
+      "status": "UNKNOWN",
+      "expectedDocument": null,
+      "expectedChunks": []
+    }
+  ],
+  "labelPolicy": {
+    "statusRationale": "Source status claims are not evidence verification; every test export uses UNKNOWN.",
+    "author": "same operator agent; fresh questions, not independent annotator",
+    "rule": "Answer-bearing anchors exclude heading ancestry; labels are not exhaustive acceptable-answer judgments."
+  },
+  "acceptance": {
+    "recall": 0.9,
+    "projectRecall": 0.8,
+    "falseAccepts": 0,
+    "unauthorized": 0,
+    "thresholdGrid": 0.01,
+    "scope": "global authenticated project ranking; no fixture-only reranking"
+  },
+  "limitations": [
+    "Fresh same-agent labels, not independent annotation or exhaustive answer-quality judgment.",
+    "Sources are unchanged; different queries prevent scored-query replay but do not supply a new corpus.",
+    "RewriteLabs coverage is one approved source with four validation positives.",
+    "All run-owned evidence uses UNKNOWN; status exclusion is tested, not cross-status ranking.",
+    "Validation consumed once; no tuning from validation scores.",
+    "Different query sets prevent a causal before-and-after quality comparison."
+  ]
+}

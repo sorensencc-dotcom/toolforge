@@ -30,6 +30,7 @@ export function resetProvider(): void {
 }
 
 export { OllamaProvider };
+export { createLocalEmbeddingProvider } from './embeddings.js';
 export type { LocalProviderLike };
 
 export default getProvider;

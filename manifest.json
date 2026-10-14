@@ -12,7 +12,7 @@
       "capability": "research.store/read",
       "status": "candidate",
       "health": { "canonical": true, "runtime": "unverified", "distributed": false, "overall": "warn" },
-      "dependencies": { "external": ["@modelcontextprotocol/sdk", "@supabase/supabase-js", "openai", "js-yaml"], "internal": [] }
+      "dependencies": { "external": ["@modelcontextprotocol/sdk", "@supabase/supabase-js", "js-yaml"], "internal": [] }
     },
     {
       "version": "1.0.0",

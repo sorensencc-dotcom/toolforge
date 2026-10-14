@@ -11,6 +11,18 @@ const TEST_ANCHORS = {
   local: 'qwen2.5:7b',
 };
 
+test('embedding routes only select explicitly pinned local or FreeLLM lanes', async () => {
+  for (const forceTier of ['tier_0_local', 'tier_0_5_freellmapi']) {
+    const result = await routeTask('embed research', { taskType: 'embedding', forceTier,
+      modelAnchors: { ...TEST_ANCHORS, embedding: 'embedding-fixture' } });
+    assert.equal(result.tierId, forceTier);
+    assert.equal(result.targetModel, 'embedding-fixture');
+    assert.equal(result.estimatedCostUsd, 0);
+  }
+  await assert.rejects(routeTask('embed research', { taskType: 'embedding', forceTier: 'tier_2_frontier', modelAnchors: TEST_ANCHORS }));
+  await assert.rejects(routeTask('embed research', { taskType: 'embedding', modelAnchors: TEST_ANCHORS }));
+});
+
 test('Fast-path routes simple tasks to Tier 2 Muscle', async () => {
   const result = await routeTask('format json output in utils.js', { modelAnchors: TEST_ANCHORS });
   assert.equal(result.tier, 'Tier 2 (Muscle)');

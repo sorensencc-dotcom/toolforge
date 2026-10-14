@@ -3,14 +3,14 @@
 ## Setup
 
 1. Use verified Toolforge checkout on Node >=24. Install skill-local dependencies with `npm --prefix skills/research-store install --ignore-scripts`.
-2. Inspect destination database schema and migration history before applying `sql/001-research-store.sql`. Runtime clients use public schema; apply with explicit `search_path = public, extensions` and confirm public schema USAGE for authenticated/service_role. Tests override search_path to isolated temporary schema. Existing table/type names cause migration failure; do not reset shared schemas.
+2. Inspect destination database schema and migration history before applying `sql/001-research-store.sql` then additive `sql/002-local-embeddings.sql`. Runtime clients use public schema; apply with explicit `search_path = public, extensions` and confirm public schema USAGE for authenticated/service_role. Tests override search_path to isolated temporary schema. Existing table/type names cause baseline migration failure; do not reset shared schemas or reapply baseline to installed public tables.
 3. Provision writer service-role credential for sync only. For MCP, provision publishable/anon key and signed authenticated user JWT with trusted top-level project claim or `app_metadata.project`. `app_metadata.research_admin=true` grants cross-project reads only when trusted issuer supplies it. User-editable metadata does not grant project or admin access.
 4. Set explicit source directory; Git and Drive exports remain authoritative. Run dry-run first, then live sync only after approving embedding egress and destination.
 5. Register stdio MCP server in operator's client using absolute `src/mcp-server.mjs` path and reader credentials. Never include writer credential in MCP configuration.
 
 ## Dev/UAT lifecycle
 
-Project `bhezixgmkhpndmezgsxk` is persistent dev/UAT and staging. Migration `20261011000124_research_store.sql` installed research schema there on 2026-10-11; real Auth/REST, sync CLI, and MCP acceptance passed using synthetic inputs. Rollback SQL regressions remain separate from persistent deployment.
+Project `bhezixgmkhpndmezgsxk` is persistent dev/UAT and staging. Baseline migration `20261011000124_research_store.sql` and additive model-isolation migration `20261012000124_research_store_local_embeddings.sql` are installed. Real Auth/REST, sync CLI, and MCP acceptance use synthetic inputs. Rollback SQL regressions remain separate from persistent deployment.
 
 Refresh source snapshots on demand before enhancements, acceptance runs, or rollout rehearsals. Optional weekly refresh needs no daily mirror or scheduler. Apply required schema migrations with application changes, independently of content-refresh cadence. Record application revision, migration revision, source snapshot, embedding configuration, and test date.
 
@@ -27,13 +27,20 @@ Before promotion, reconcile dev/UAT with approved production migration/configura
 | SUPABASE_SERVICE_ROLE_KEY | Sync | Writer credential; never fallback for readers |
 | SUPABASE_ANON_KEY | MCP | Publishable/anon client key |
 | SUPABASE_READER_JWT | MCP | Signed authenticated token, with expiration and trusted project claim |
-| OPENAI_API_KEY | Both, live mode | Required for embedding text |
-| OPENAI_BASE_URL | Both | Optional explicitly selected endpoint; fake run uses loopback only |
-| EMBEDDING_MODEL | Both | Only text-embedding-3-small supported |
+| EMBEDDING_MODEL | Both | Explicit embedding model; verified local qwen3-embedding:4b |
 | EMBEDDING_DIMENSION | Both | Only 1536 supported |
-| EMBEDDING_PROVIDER | Both | Only openai supported |
+| EMBEDDING_PROVIDER | Both | ollama (default) or explicit freellm |
+| OLLAMA_BASE_URL | Both | Loopback only; default http://127.0.0.1:11434 |
+| FREELLM_BASE_URL | Both | Loopback only; default http://127.0.0.1:3001/v1 |
+| FREELLM_API_KEY | Both, freellm only | Existing Docker router credential; never an OpenAI key |
 
-Cloud embedding sends source paragraphs and search queries to configured provider. No retries or automatic provider fallback. Expired reader JWT requires operator replacement and restart. Supabase verifies signatures; local JWT parsing only rejects wrong-role/expired configurations.
+Toolforge shared provider uses WhichLLM's explicit embedding purpose, separate from generation models. Existing local-only model-selection policy must validate; do not hand-edit generated selection evidence. Install embedding model explicitly (`ollama pull qwen3-embedding:4b`) and set `EMBEDDING_MODEL=qwen3-embedding:4b` for both sync and MCP. Ollama digest is pinned before/after requests; model or dimensions changing fails closed. No API key needed for Ollama. No redirects, retries, automatic provider fallback, or remote Ollama models.
+
+FreeLLM lane requires authenticated `/v1/embeddings`, exact model echo, 1536 dimensions, and explicit immutable/versioned embedding family ID. Installed Docker source confirms endpoint exists and echoes family, not provider-specific model ID. Set `EMBEDDING_MODEL` to approved catalog family; provider aliases with different family echo fail closed. Router can fail over providers within that family; Toolforge makes one request, never retries or selects a different model. Verify family membership/backends before activation. Chat-only routes do not qualify. Docker loopback does not prove downstream inference stays local: inspect configured backend and obtain egress/cost approval before external routing. Separate approved synthetic acceptance passed for llama-nemotron-embed-vl-1b-v2 through NVIDIA at 1536 dimensions; default 0.7 recall was 0/3. This is an optional lane, not default activation or real-source approval. Adapter wire/error checks also pass against synthetic fixture.
+
+For that approved lane only, use `EMBEDDING_PROVIDER=freellm`, `EMBEDDING_MODEL=llama-nemotron-embed-vl-1b-v2`, loopback `FREELLM_BASE_URL`, and securely provisioned `FREELLM_API_KEY`. Do not use `auto` or change Docker default. Rehearsal made eight fixed synthetic requests (320 tokens reported), verified CLI/MCP ranking and foreign-project denial, then deleted run-owned fixtures/user. Fresh egress/cost approval needed for other runs or data. Free developer endpoint terms are documented by [NVIDIA](https://docs.api.nvidia.com/nim/docs/run-anywhere); account billing was not independently checked. Keep paid fallback unavailable. Do not substitute nemotron-3-embed-1b: it supports only 2048 dimensions, per [NVIDIA support matrix](https://docs.nvidia.com/nim/nemo-retriever/embedding/latest/support-matrix.html).
+
+Every indexed chunk records provider/model identity; search filters identical identity before ranking and limiting. Older OpenAI or unidentified vectors remain stored but are excluded from current model search. Switching model requires explicit reindex from authoritative exports with approval; never copy old vectors or spoof metadata. Legacy RPC remains for compatibility; MCP uses new invoker RPC. Expired reader JWT requires replacement/restart; Supabase verifies signatures.
 
 ## Source example
 
@@ -50,7 +57,7 @@ tags: [synthetic]
 ---
 ```
 
-Supply body as Markdown paragraphs after frontmatter. Direct Drive downloads, claim extraction, and source-file deletion propagation are outside this integration. Relative exported path plus project supplies index identity; keep one consistent export root per indexed namespace.
+Supply body as Markdown after frontmatter. Direct Drive downloads, claim extraction, and source-file deletion propagation are outside this integration. Relative exported path plus project supplies index identity; keep one consistent export root per indexed namespace.
 
 ## Indexing
 
@@ -59,7 +66,9 @@ node skills/research-store/src/sync.mjs --dry-run --project RewriteLabs
 node skills/research-store/src/sync.mjs --project RewriteLabs
 ```
 
-Dry run parses every selected file without cloud credentials or network calls. YAML must be a mapping with supported project/status, numeric confidence 0..1, string tags, and mapping metadata. Maximum paragraph length is 8000 characters; embedding batches contain at most 16 paragraphs. Split oversized source paragraphs explicitly.
+Dry run parses every selected file without cloud credentials or network calls. YAML must be a mapping with supported project/status, numeric confidence 0..1, string tags, and mapping metadata. Marked preserves top-level Markdown blocks, including lists, tables, and fenced code with internal blank lines. Each answer-bearing block carries current heading ancestry; headings and horizontal rules do not become standalone chunks. Maximum block length including heading context is 8000 characters; embedding batches contain at most 16 chunks. Split oversized source blocks explicitly.
+
+Chunk metadata records `chunking_version: markdown-context-v1`; source body hash remains unchanged by chunk formatting. Reindex approved authoritative exports to replace old paragraph chunks. Replacement uses existing atomic indexing and invalidates linked claims when indexed text changes; headings added to evidence can therefore require claim review even when source bytes are unchanged. No automatic reindex or migration occurs.
 
 Indexing embeds complete current document before atomic replacement. Unchanged body does not prevent metadata updates. Existing chunk indexes retain IDs. When indexed content changes or disappears, linked claims retain statement/document, clear research_item_id, and move to NEEDS_REVIEW; content cannot silently retarget evidence. Empty body removes prior chunks. Missing files leave existing indexed documents intact. Symlinks are skipped; checked file handles detect path replacement and concurrent content changes before embedding. Use operator-controlled export roots.
 
@@ -69,20 +78,32 @@ Any failed file increments failed count and yields exit 1 while remaining files 
 
 ```bash
 timeout 60s npm --prefix skills/research-store test
-timeout 60s npm --prefix skills/research-store run test:live
-timeout 180s npm --prefix skills/research-store run test:uat
+timeout 180s npm --prefix skills/research-store run test:live
+timeout 210s npm --prefix skills/research-store run test:uat
 ```
 
-Local rehearsal generates synthetic Git/Drive exports, deterministic fake embeddings, ephemeral fake signed JWTs, and loopback HTTP services. It drives production sync CLI and MCP stdio via actual Supabase/OpenAI/MCP SDKs. It tests repeat indexing, metadata-only edits, shrinking chunks, provider/write failures, search, fetch with/without claims, pagination, denied foreign UUID, and unknown tool.
+Local rehearsal generates synthetic Git/Drive exports, deterministic fake embeddings, ephemeral fake signed JWTs, and loopback HTTP services. It drives production sync CLI and MCP stdio via actual Supabase/MCP SDKs and native embedding HTTP adapter. It tests repeat indexing, metadata-only edits, shrinking chunks, provider/write failures, search, fetch with/without claims, pagination, denied foreign UUID, and unknown tool.
 
 Live SQL harness checks linked project is `bhezixgmkhpndmezgsxk` before issuing queries. It creates isolated test schema inside a rollback transaction, runs 33 database assertions plus completion/cleanup checks, and uses a SECURITY DEFINER negative control to reproduce original leakage. Failed-control transaction also aborts. This harness does not apply persistent migrations or upload sources.
 
 On-demand `test:uat` pins the same project, obtains credentials in memory through authenticated Supabase CLI, creates preconfirmed signed test users without email delivery, and drives real REST, sync CLI, and MCP stdio. It retains only synthetic `uat124/cic.md` and `uat124/rewrite.md` baseline documents; it cleans run-owned claims, users, and local exports. Never put real sources at these reserved test paths. Progress reports distinguish stages; abort after 60 seconds without output. CLI login, deployed schema, Node dependencies, and network access are required. Writer keys never enter MCP subprocesses.
 
-Real API acceptance covers trusted Auth metadata, hostile user metadata, project/admin isolation, anonymous/forged-token denial, reader-write denial, idempotency, metadata edits, shrinking/empty bodies, claim invalidation, failed-write rollback, provider-failure preservation, and all three tools. Embeddings remain deterministic loopback fixtures; provider availability/quality and a genuinely signed expired token remain unverified.
+Real API acceptance covers trusted Auth metadata, hostile user metadata, project/admin isolation, anonymous/forged-token denial, reader-write denial, idempotency, metadata edits, shrinking/empty bodies, claim invalidation, failed-write rollback, provider-failure preservation, and all three tools. Separate signed-expiry API test passes. Standard UAT uses deterministic loopback embeddings; separate approved real-provider harness supplies actual vector/ranking evidence.
 
-Fake HTTP authorization alone is simulation; `test:uat` supplies separate real Supabase issuance/PostgREST evidence. Production gate still requires clean delivery/root-suite acceptance, approved real embedding egress/quality, migration recovery rehearsal, production credentials, and explicit rollout approval. SQL fixture rollback is cleanup of disposable test state, not production migration rollback procedure.
+With explicit temporary dev/UAT Auth-change approval, set `RESEARCH_UAT_AUTH_EXPIRY_APPROVED=1` and run `timeout 480s npm --prefix skills/research-store run test:jwt-expiry`. It changes only declared jwt_expiry, mints a signed 60-second token, restores/verifies original setting immediately, proves actual API expiry denial, and deletes its dedicated identity. Current live evidence passes; ordinary UAT never changes Auth settings.
+
+For approved synthetic rehearsal, set `EMBEDDING_MODEL=qwen3-embedding:4b`, `EMBEDDING_PROVIDER=ollama`, and `RESEARCH_UAT_EMBEDDING_APPROVED=1`; run `timeout 180s npm --prefix skills/research-store run test:embedding-quality`. Seven fixed strings total at most 4096 bytes; actual sync CLI embeds four synthetic documents and actual MCP embeds three queries through same pinned lane. Real Supabase ranking must return intended authorized fixtures first at threshold 0 with 0.05 separation; matching foreign fixture stays invisible. It reports default-threshold recall, deletes run-owned documents/chunks/users/exports, and verifies cleanup. Local run: 3/3 rankings, default 0.7 recall 2/3. Representative-input calibration remains rollout gate. No real-source input accepted. Any FreeLLM external rerun requires separate backend/cost approval.
+
+Fake HTTP authorization alone is simulation; `test:uat` supplies separate real Supabase issuance/PostgREST evidence. Production gate still requires approved real embedding availability/quality, production credentials, and explicit rollout approval. SQL fixture rollback is cleanup of disposable test state, not production migration rollback procedure.
+
+For approved local synthetic calibration, set the same Ollama variables plus `RESEARCH_UAT_CALIBRATION=1`; run `timeout 250s npm --prefix skills/research-store run test:calibration`. This mode rejects external providers and asserts verified qwen3-embedding:4b digest. Fixed tuning/held-out splits each contain three positives and three unrelated negatives; one 16-input batch, actual CLI indexing, and MCP queries use local embeddings only. Lowest 0.01-grid threshold with perfect tuning top-result recall and no negative acceptance is evaluated once against held-out data. It reports `accepted` separately from harness success and verifies selected-threshold MCP behavior and run-owned cleanup. Execution success does not approve deployment quality. No real inputs accepted.
+
+Current result: candidate 0.46 has tuning recall 3/3, zero false acceptance; held-out recall 3/3, false acceptance 1/3. Candidate rejected; default 0.7 unchanged (tuning 2/3, held-out 3/3, zero negatives accepted). Do not tune again on held-out scores. This measures top-result behavior on a tiny synthetic corpus, not all-result precision or representative production quality. Representative inputs, fresh validation, and explicit threshold-contract approval remain rollout requirements.
+
+Calibration command explicitly activates calibration mode; manual `RESEARCH_UAT_CALIBRATION` flag is optional. Metrics consider run-owned fixture results only, filtered from shared API top 50; unrelated authorized documents may outrank them. All three fixtures must remain present, but global populated-corpus ranking is not measured. Cleanup rediscovers publications by unique run paths independently of earlier lookup success and fails closed if absence cannot be verified.
+
+Representative calibration requires a preapproved corpus and egress/backend. Freeze the source manifest, expected query labels, tuning set, and validation set before scoring. Use tuning only to propose a threshold, then run fresh validation once. Minimum validation set: six approved documents across CIC and RewriteLabs, 24 positive paraphrases, 12 confusing negatives, and 12 unrelated negatives, including status and project filters. Adoption requires the real sync CLI, MCP stdio, signed Supabase reader, pinned embedding identity, at least 90% positive top-result recall overall, no project below 80%, zero unauthorized or wrong-project results, zero negatives above threshold, and independent fixture cleanup. Any default threshold or model change still needs explicit approval.
 
 ## Provenance
 
-Supabase JS (Supabase), OpenAI Node SDK (OpenAI), MCP TypeScript SDK (Model Context Protocol contributors), and js-yaml (Nodeca) are external dependencies linked in README. Toolforge supplies native parsing, validation, SQL boundaries, client wiring, and rehearsal tests; it does not implement upstream services.
+Supabase JS (Supabase), MCP TypeScript SDK (Model Context Protocol contributors), js-yaml (Nodeca), and Marked (Marked contributors) are external dependencies linked in README. Ollama supplies local inference. Toolforge supplies WhichLLM routing, native embedding adapters, parsing, validation, SQL boundaries, client wiring, and tests; it does not implement upstream services. OpenAI SDK/key no longer required.

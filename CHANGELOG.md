@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 2.94.0
+Date: 2026-10-13
+
+### Changes
+- 33f060da - feat: complete research-store dev/UAT gates with local multimodel embeddings (#134) (Chris Sorensen)
+
+## Version 2.93.1
+Date: 2026-10-13
+
+### Changes
+- eb87619b - Parkd821 20260908 (#139) (Chris Sorensen)
+- 336ec4e3 - Fix CI governance matrix workflow to populate the workspace with root workflow and hook files required by governance tests (Chris Sorensen)
+
 ## Version 2.93.0
 Date: 2026-10-12
 

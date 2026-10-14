@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import yaml from 'js-yaml';
 import { PROJECTS, STATUSES, replaceDocument } from './store.mjs';
 import { createWriterClient, createEmbeddingProvider } from './config.mjs';
+import { chunkResearchMarkdown, CHUNKING_VERSION } from './chunk-markdown.mjs';
 
 export function parseResearchMarkdown(raw, relativePath, projectFilter) {
   if (typeof raw !== 'string' || typeof relativePath !== 'string' || !relativePath ||
@@ -32,14 +33,13 @@ export function parseResearchMarkdown(raw, relativePath, projectFilter) {
   if (fm.tags != null && (!Array.isArray(fm.tags) || fm.tags.some(tag => typeof tag !== 'string'))) throw new Error('Invalid tags');
   if (projectFilter && project !== projectFilter) return null;
   content = content.trim();
-  const chunks = content.split(/\n\s*\n/).map(value => value.trim()).filter(Boolean);
-  if (chunks.some(chunk => chunk.length > 8000)) throw new Error('Paragraph exceeds 8000 characters; split source paragraph');
+  const chunks = chunkResearchMarkdown(content);
   return { document: {
     project, title: fm.title ?? path.posix.basename(relativePath, path.posix.extname(relativePath)),
     source_uri: fm.source_uri ?? null, source_type: fm.source_type ?? (project === 'RewriteLabs' ? 'trend_brief' : 'archive'),
     source_system: fm.source_system ?? (fm.drive_file_id ? 'drive' : 'git'), git_path: relativePath,
     drive_file_id: fm.drive_file_id ?? null, content_hash: createHash('sha256').update(content).digest('hex'),
-    metadata: { ...fm.metadata, tags: fm.tags ?? [], status, confidence: fm.confidence ?? null },
+    metadata: { ...fm.metadata, tags: fm.tags ?? [], status, confidence: fm.confidence ?? null, chunking_version: CHUNKING_VERSION },
   }, chunks };
 }
 
