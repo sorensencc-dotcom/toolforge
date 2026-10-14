@@ -104,6 +104,10 @@ Run-Task "STAGE 3" "TRM-Bot" {
     node "$RepoRoot\scripts\trm-bot-runner.mjs"
 }
 
+Run-Task "STAGE 3" "TRM-Reconcile" {
+    node "$RepoRoot\scripts\reconcile-trm-gaps.mjs"
+}
+
 Run-Task "STAGE 3" "Watchlist-Miner" {
     node "$RepoRoot\scripts\watchlist-miner-bot.mjs"
 }

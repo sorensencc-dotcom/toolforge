@@ -42,7 +42,6 @@ export class VikingClient {
 
   async connect() {
     if (this.#connected) return;
-    await this.#request('initialize', { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: '@toolforge/viking-client', version: '0.1.0' } });
     this.#connected = true;
   }
 

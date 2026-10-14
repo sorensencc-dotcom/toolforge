@@ -183,4 +183,20 @@ test('All 19 parts (part_aa..as) match the unified agent harness pack family', (
   }
 });
 
+test('Agent Harness: reverse purge matching - uploading repo parts matches pack_agent_harness for purging', () => {
+  const sources = [
+    { id: 'harness-src', title: 'pack_agent_harness.txt' },
+    { id: 'part-aa-src', title: 'repo_knowledge_pack_part_aa.txt' },
+    { id: 'notes-src', title: 'Daily Digest - Unrelated Notes' },
+  ];
+  const matched = filterPackFamilySources(sources, 'repo_knowledge_pack_part_as.txt');
+  assert.equal(matched.length, 2);
+  assert.deepEqual(matched.map(s => s.id), ['harness-src', 'part-aa-src']);
+});
+
+test('Agent Harness: case-insensitive and whitespace-trimmed pack family matching', () => {
+  assert.equal(isPackFamilyTitle('PACK_AGENT_HARNESS.TXT', 'repo_knowledge_pack.txt'), true);
+  assert.equal(isPackFamilyTitle('  repo_knowledge_pack_part_aa.txt  ', 'pack_agent_harness.txt'), true);
+  assert.equal(isPackFamilyTitle('Repo_Knowledge_Pack_Part_Az.txt', 'pack_agent_harness.txt'), true);
+});
 
