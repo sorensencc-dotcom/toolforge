@@ -1,7 +1,7 @@
 {
   "id": "act-kbsync-chat-injection-staleness-entropy-fail",
   "status": "COMPLETED",
-  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/137",
-  "resolution": "Fixed chat injection staleness and entropy failure handling (GitHub Issue #137 closed).",
-  "completed_at": "2026-10-13T01:40:36Z"
+  "issue_url": "https://github.com/sorensencc-dotcom/toolforge/issues/140",
+  "resolution": "Eliminated static question boilerplate in trm/config/mining-questions.json, implemented query loop pacing and circuit breakers in mineNotebooklm.ts, added config lint tests and live sandbox harness in kb-sync (GitHub Issue #140 closed).",
+  "completed_at": "2026-10-14T16:07:16Z"
 }
