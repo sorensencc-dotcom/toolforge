@@ -25,6 +25,10 @@ Gate 5 is on the rewrite-mcp HTTP entry. Owned servers no longer answer `initial
 
 ### Next action
 
+Current verification (2026-10-14) supersedes the peer outage and SDK migration claims from the prior session: BrowserOS at `127.0.0.1:9010/mcp` now returns HTTP 200 discovery advertising `2026-07-28`, lists 22 tools, executes a read-only `run` probe, and rejects unsupported `1900-01-01` with HTTP 400 / `-32022`; no MCP session header appeared. `truecode`, `gitnexus`, and `graphify` remain absent from PATH and from rewrite-docs local bin entries; their `.mcp.json` registrations still name `serve --stdio`. Installed global graft `0.21.1` still returns `-32601` for `server/discover` and lists six tools even with unsupported version metadata; this does not establish compatibility or pin npx resolution. Requested intended peer installation/source identities before provisioning. Current research-store and trm-devops source files import SDK server/stdio again and are clean in Git; portfolio retains the direct JSON-RPC implementation. Preserve current files and revalidate migrations before host retarget. Host configs remain unchanged; no installs, commits, pushes, gate 3, section 4 harness, or live database access in this continuation.
+
+Previous checkpoint:
+
 Leave the section 4 harness unrun. It still sends `initialize`. Leave SDK servers on the SDK until those packages move: research-store, trm-devops, and portfolio. Leave host configs on stdio. BrowserOS on port 9010 and the truecode, gitnexus, graphify, and graft peers still reject a `2026-07-28` client. Do not retarget hosts. Do not add a second subject to ports 8765 or 8766. Do not open the live financial database. Do not start the kb-sync daemon without `KB_CACHE_DB`. `C:\dev` and rewrite-mcp stay unpushed unless asked. The spec, STATUS, and the server `initialize` removals are uncommitted.
 
 ---
@@ -1061,3 +1065,25 @@ Run provider-enabled Ollama integration after a local Ollama service and validat
 | ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: Runtime** (created 2026-08-19) (resolved 2026-08-30) — 1 skill(s): research-questions. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Runtime --> |
 | ✅ `[x]` | **P2** | **kb-sync drift remediation** (resolved 2026-09-02) — Knowledge base drift remediated (`kb:drift` status: `NO_DRIFT`, 0 stale pages, `scripts/install-git-hooks.mjs` entity doc synchronized). |
 <!-- /MANAGED-REGION: AGENT-TODOS -->
+
+---
+
+## ICF promote lock and Toolforge test roots (2026-10-15)
+
+### Active goal
+
+None open. icf work is merged.
+
+### Completed work
+
+- icf PR #6 and PR #8 are merged into `codex/weekly-retro-reporting` (the icf default branch; there is no `main`). Tip is `368481f`. That includes the promote re-promotion lock, commit-prefix mapping, card-detail sections, the hermetic Toolforge test root (`9a51bfb`), and the temp-inbox triage test (`603f42b`). Full icf suite: 71 of 71 pass serially in `C:\dev\icf`.
+- toolforge#142 closed as not planned. toolforge#143 tracks full card hydration, the Drive 401, and the `.gdoc` backfill.
+
+### Findings
+
+- `skills/toolforge-cli/src/invocation-reviewed.json` pins sha256 of root `manifest.json` and `package.json`. Both drifted on main (manifest changed in #134), so managed invoke reports `SOURCE_DRIFT` on `C:\dev` right now. Updating the pin is a separate reviewed Toolforge change. icf tests avoid it with pinned fixtures in `icf/test/fixtures/toolforge-pinned/`; they must be refreshed whenever the pin changes.
+
+### Open items
+
+- `trm-drive/inbox/ledger.jsonl` row 1 revert to `COMPLETED` is uncommitted.
+- `git stash@{0}` in `C:\dev\icf` holds pre-update edits to `daily_status.json`, `preview-enhanced.html`, and the pilot spec. Backups of five replaced untracked Toolforge files are in `%TEMP%\icf-local-backup-1792081802\`.
