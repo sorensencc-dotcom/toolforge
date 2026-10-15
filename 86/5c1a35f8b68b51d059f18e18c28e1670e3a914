@@ -1,0 +1,28 @@
+skills/slop-grader-sweep/src/file-list.ts
+  s_9d0f16c720771f::t_0ad984ad82f4b0 2
+skills/parallel-search/scripts/assert-test-count.mjs
+  s_9d0f16c720771f::t_0ad984ad82f4b0 1
+skills/slop-grader-sweep/src/slop-grader-runner.ts
+  s_9d0f16c720771f::t_0ad984ad82f4b0 1
+skills/trm-devops-triage/src/index.ts
+  s_9d0f16c720771f::t_0ad984ad82f4b0 1,12-18,28
+  s_9d0f16c720771f::t_dc0c236f5002b9 11
+skills/trm-closed-loop-research/src/index.ts
+  s_9d0f16c720771f::t_0ad984ad82f4b0 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "865c1a35f8b68b51d059f18e18c28e1670e3a914",
+  "prompts": {},
+  "sessions": {
+    "s_9d0f16c720771f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "632d9ea0-4e4e-4a5e-afde-71280fb8ac94",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
