@@ -1,0 +1,29 @@
+TODOS.md
+  s_0ef148c23bdbc7::t_7d4a1eb32447ff 39-46,182-185
+audit/SKILL-RUN-LOG.md
+  s_c4e2e0ad144627::t_728473b6d8cd79 387-396
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "2ca95e4927f91da7081e9344acdf5e02b6135f0b",
+  "prompts": {},
+  "sessions": {
+    "s_0ef148c23bdbc7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "94167709-ebc1-4e2a-8520-a94716ca7d33",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
