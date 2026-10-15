@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process"; // noqa: SEC-AUDITOR fixed argv; files come from a repo glob; shell:true is only for npx.cmd on Windows
 import { globSync } from "node:fs";
 
 // Default suite: every src/**/*.test.ts EXCEPT the live smoke test, which hits

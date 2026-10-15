@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { execSync } from 'child_process'; // noqa: SEC-AUDITOR command is a fixed script path built from __dirname; no user input
 import * as path from 'path';
 
 export interface TrmClosedLoopOptions {

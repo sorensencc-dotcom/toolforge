@@ -1,5 +1,5 @@
 // skills/slop-grader-sweep/src/file-list.ts
-import { execFileSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process'; // noqa: SEC-AUDITOR fixed git argv, no shell
 import { globSync } from 'glob';
 
 const TRACKED_ROOTS = ['docs', 'wiki'];

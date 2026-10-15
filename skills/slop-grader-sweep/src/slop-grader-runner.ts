@@ -1,4 +1,4 @@
-import { spawn } from 'node:child_process';
+import { spawn } from 'node:child_process'; // noqa: SEC-AUDITOR argv array, no shell; entrypoint resolved from the installed grader package
 import { createRequire } from 'node:module';
 
 export interface SlopFinding {
