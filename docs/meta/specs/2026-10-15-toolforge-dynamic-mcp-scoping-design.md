@@ -695,7 +695,7 @@ Run with `timeout 60 node --test test/scoping-hook.test.ts`. 16 of 16 passed on 
 
 | Phase | Deliverable | Gate |
 | :---: | --- | --- |
-| 1 | Contracts and hook (sections 5 and 6) in `toolforge` | The 16 tests pass under `timeout 60`. Decisions D1 and D2 recorded. |
+| 1 | Contracts and hook (sections 5 and 6) in `toolforge` at `modules/mcp-scoping/` (`.mjs`, branch `feat/mcp-scoping`, commit `6ab43057`) | The 16 tests pass under `timeout 60` (`npm run test:mcp-scoping`). Decisions D1 and D2 recorded in section 12. **Done 2026-10-15; not yet merged.** |
 | 2 | Partition `rewrite-mcp` and `toolforge` catalogs into the four domain bundles. Build the replay harness. | Measured tokens per bundle within section 4.2 budgets. Section 1 kill criterion evaluated on arms A, B, and C. |
 | 3 | `sigil-rooms-mcp` auto-mount on room join | Depends on D3. Multi-agent room integration test. |
 | 4 | Production rollout with OpenTelemetry | Cache-adjusted input cost per turn lower than arms A and B on the replay corpus. The numeric threshold is set from Phase 2 data. A shared scope store (D1) is in place. |
