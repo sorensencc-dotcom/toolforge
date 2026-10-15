@@ -15,11 +15,13 @@ A host that registers every MCP tool at bootstrap pays the schema cost on every 
 
 This spec is a hypothesis with a kill criterion, not a settled saving:
 
-* **Illustrative baseline.** 20 detailed tool definitions at roughly 4,500 tokens (about 225 per tool). The figure is not sourced. Phase 2 replaces it with a measurement from the real `rewrite-mcp` and `toolforge` catalogs.
-* **Illustrative target.** Cold-turn schema tokens fall from about 4,500 to about 700 (L0 at 250 plus one L1 bundle at 450), roughly 84% fewer uncached schema tokens.
+* **Measured baseline (Phase 2, 2026-10-15).** The in-repo MCP catalogs total 17 tools and 1,981 schema tokens, about 117 per tool (heuristic counter, characters ÷ 3.8): `viking-vfs` 11 tools and 1,240 tokens, `research-store` 3 and 342, `trm-devops` 3 and 399. Only 4 of the 17 tools are on `main` (570 tokens); the rest are on unmerged branches. The earlier illustrative figure of 4,500 tokens (225 per tool) was about twice the measured per-tool cost. Reproduce with `node modules/mcp-scoping/measure-catalog.mjs`.
+* **Target.** A scoped span carries about 700 tokens (L0 at 250 plus one L1 bundle at 450), so scoping saves about 1,280 uncached schema tokens per turn against the measured 1,981. That saving does not justify the design on token cost alone (section 8).
 * **Kill criterion.** The design is dropped if, on the Phase 2 replay corpus, cache-adjusted input cost per turn is not lower than both baselines in section 8: static registration and stable-superset with deferred schemas.
 
 Scoping also has a security purpose that does not depend on the token saving: an agent can call only tools mounted for its span, and mounting mutating tools requires step-up approval.
+
+**Tier 1 decision, 2026-10-15 (recorded after the Phase 2 measurement):** the primary rationale for this design is the security gate, meaning role gating, fail-closed step-up, span-scoped authority, and the write-ahead log. Token savings are a secondary benefit that applies only to hosts with large catalogs, such as external connectors. Do not cite token savings to justify rollout inside this repo. The kill criterion below still governs any token-saving claim.
 
 ## 2. Design decisions
 
@@ -649,6 +651,16 @@ Worked example, assuming `r = 0.1` and `w = 1.25` (5-minute cache write). **Veri
 | 5,000 | 17.3 turns |
 | 20,000 | 62.6 turns |
 
+Those rows use the illustrative `T_static = 4,500`. With the measured `T_static = 1,981` (section 1) and `T_scoped = 700`, the same formula gives:
+
+| History `H` at mount | Break-even `N*` (measured) |
+| ---: | ---: |
+| 0 (span start) | 6.3 turns |
+| 5,000 | 51.2 turns |
+| 20,000 | 185.9 turns |
+
+On the in-repo catalogs a mid-span mount does not pay back in any realistic span. Only span-start mounting is defensible on cost, and even that breaks even after about 6 turns.
+
 Consequences:
 
 * A span-start mount pays for itself in about two turns. A mid-span mount into a long history rarely does. The hook therefore auto-mounts the role bundle at `startSpan`, and model-driven mounts are reserved for bundles the role did not need at the start (step-up bundles in particular).
@@ -696,7 +708,7 @@ Run with `timeout 60 node --test test/scoping-hook.test.ts`. 16 of 16 passed on 
 | Phase | Deliverable | Gate |
 | :---: | --- | --- |
 | 1 | Contracts and hook (sections 5 and 6) in `toolforge` at `modules/mcp-scoping/` (`.mjs`, branch `feat/mcp-scoping`, commit `6ab43057`) | The 16 tests pass under `timeout 60` (`npm run test:mcp-scoping`). Decisions D1 and D2 recorded in section 12. **Done 2026-10-15; not yet merged.** |
-| 2 | Partition `rewrite-mcp` and `toolforge` catalogs into the four domain bundles. Build the replay harness. | Measured tokens per bundle within section 4.2 budgets. Section 1 kill criterion evaluated on arms A, B, and C. |
+| 2 | Partition `rewrite-mcp` and `toolforge` catalogs into the four domain bundles. Build the replay harness. | Measured tokens per bundle within section 4.2 budgets. Section 1 kill criterion evaluated on arms A, B, and C. **Measurement step done 2026-10-15** (`modules/mcp-scoping/measure-catalog.mjs`, commit `6d83f7a2`, not yet merged): 1,981 tokens across 17 tools, so the token rationale is weak for in-repo catalogs (section 1). Partitioning and the A/B/C replay are deferred until a host with a large catalog needs them. |
 | 3 | `sigil-rooms-mcp` auto-mount on room join | Depends on D3. Multi-agent room integration test. |
 | 4 | Production rollout with OpenTelemetry | Cache-adjusted input cost per turn lower than arms A and B on the replay corpus. The numeric threshold is set from Phase 2 data. A shared scope store (D1) is in place. |
 
