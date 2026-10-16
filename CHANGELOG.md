@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.95.1
+Date: 2026-10-16
+
+### Changes
+- e2267d40 - fix(trm): persist structured card fields to ledger and suppress gdoc stub issue creation (closes #143) (#148) (Chris Sorensen)
+- 467671de - docs(status): record dynamic MCP tool scoping Phase 1 merge (#146) (Chris Sorensen)
+
 ## Version 2.95.0
 Date: 2026-10-16
 
