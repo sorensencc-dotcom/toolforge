@@ -1,0 +1,23 @@
+CIC-GOVERNANCE/packages/delivery-guard/src/ci.js
+  s_45bddb49f83c59::t_a34111dfd09eb1 64-67,73-74
+CIC-GOVERNANCE/packages/delivery-guard/tests/ci.test.js
+  s_45bddb49f83c59::t_c67b970b8a0d61 90,93,100-101
+CIC-GOVERNANCE/packages/delivery-guard/tests/production-container.test.js
+  s_45bddb49f83c59::t_fb7c6fbc8f0cec 31,67,77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a80b3db4365e3142b5456359752556bb97d48838",
+  "prompts": {},
+  "sessions": {
+    "s_45bddb49f83c59": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "588abe99-cc40-463e-afdb-05d0681cc5b4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
