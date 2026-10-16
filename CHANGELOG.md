@@ -1,5 +1,30 @@
 # Changelog
 
+## Version 2.95.2
+Date: 2026-10-16
+
+### Changes
+- 30d6feab - fix(delivery-guard): stream test failure output and extend container regression timeouts (#149) (Chris Sorensen)
+
+## Version 2.95.1
+Date: 2026-10-16
+
+### Changes
+- e2267d40 - fix(trm): persist structured card fields to ledger and suppress gdoc stub issue creation (closes #143) (#148) (Chris Sorensen)
+- 467671de - docs(status): record dynamic MCP tool scoping Phase 1 merge (#146) (Chris Sorensen)
+
+## Version 2.95.0
+Date: 2026-10-16
+
+### Changes
+- 750fa23e - feat(mcp-scoping): span-scoped dynamic MCP tool scoping hook (Phase 1) + design spec (#145) (Chris Sorensen)
+
+## Version 2.94.1
+Date: 2026-10-14
+
+### Changes
+- bc616bff - Parkd821 20260908 (#141) (Chris Sorensen)
+
 ## Version 2.94.0
 Date: 2026-10-13
 
