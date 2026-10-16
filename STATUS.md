@@ -9,6 +9,26 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Dynamic MCP tool scoping (2026-10-15)
+
+### Active goal
+
+Phase 1 of the dynamic MCP tool scoping hook is on main. Phases 2 and 3 are deferred pending the A/B/C replay and the D2/D3 decisions.
+
+### Completed work
+
+- Spec `docs/meta/specs/2026-10-15-toolforge-dynamic-mcp-scoping-design.md` rewritten from the v1.0 review and Tier 1 approved by Chris Sorensen. D1 is deferred to Phase 4. D2 and D3 are deferred to Phase 3.
+- `modules/mcp-scoping/` (span-scoped scoping hook, `contracts.mjs`, `measure-catalog.mjs`) merged in PR #145 as `750fa23e`. `npm run test:mcp-scoping` passes 16 of 16.
+- Phase 2 measurement: 1,981 schema tokens across 17 in-repo tools (about 117 per tool); only 4 tools are on main. Token savings alone do not justify the hook. The spec records the security gate (role gating, fail-closed step-up, WAL) as the primary rationale.
+- PR #144 (child_process annotations) was closed as superseded. Equivalent annotations, with `execFileSync` and `shell:false` in `trm-devops-triage`, already landed on main. The `assertShellSafe` test follow-up no longer applies.
+- Commits `3f88d38e` and `e680d1fc` on `parkd821-20260908` are unpushed duplicates of the spec commits now on main. Drop them when that branch is next reconciled.
+
+### Next action
+
+Confirm the unconfirmed tool names `torque_resolve_span`, `fetch_fact_claim`, and `query_fts5` before wiring the hook to a live catalog. Run the Phase 2 partition and A/B/C replay when a replay corpus exists.
+
+---
+
 ## Stateless MCP gate 1 clients (2026-10-13)
 
 ### Active goal
