@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.95.3
+Date: 2026-10-16
+
+### Changes
+- 0a688f98 - Parkd821 20260908 (#150) (Chris Sorensen)
+
 ## Version 2.95.2
 Date: 2026-10-16
 
