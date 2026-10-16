@@ -21,7 +21,7 @@ Phase 1 of the dynamic MCP tool scoping hook is on main. Phases 2 and 3 are defe
 - `modules/mcp-scoping/` (span-scoped scoping hook, `contracts.mjs`, `measure-catalog.mjs`) merged in PR #145 as `750fa23e`. `npm run test:mcp-scoping` passes 16 of 16.
 - Phase 2 measurement: 1,981 schema tokens across 17 in-repo tools (about 117 per tool); only 4 tools are on main. Token savings alone do not justify the hook. The spec records the security gate (role gating, fail-closed step-up, WAL) as the primary rationale.
 - PR #144 (child_process annotations) was closed as superseded. Equivalent annotations, with `execFileSync` and `shell:false` in `trm-devops-triage`, already landed on main. The `assertShellSafe` test follow-up no longer applies.
-- Commits `3f88d38e` and `e680d1fc` on `parkd821-20260908` are unpushed duplicates of the spec commits now on main. Drop them when that branch is next reconciled.
+- Spec commits `0dfa1414`, `3f88d38e`, and `e680d1fc` are also on `origin/parkd821-20260908` (pushed), duplicating the spec commits on main. Leave them; no history rewrite needed.
 
 ### Next action
 
