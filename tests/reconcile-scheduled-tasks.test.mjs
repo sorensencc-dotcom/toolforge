@@ -27,3 +27,17 @@ test('retro and Markdown report tasks do not share a start time', () => {
   const time = (name) => taskBlock(name).match(/TriggerTime = "([^"]+)"/)[1];
   assert.notEqual(time('toolforge-weekly-report-agent'), time('toolforge-weekly-report-md-agent'));
 });
+
+test('KB-Sync decoupled operations and research tasks are registered', () => {
+  const ops = taskBlock('KB-Sync-Ops');
+  assert.match(ops, /schedule-task-wrapper-KB-Sync-Ops\.ps1/);
+  assert.match(ops, /TriggerTime = "18:45"/);
+
+  const research = taskBlock('KB-Sync-Research');
+  assert.match(research, /schedule-task-wrapper-KB-Sync-Research\.ps1/);
+  assert.match(research, /TriggerTime = "22:45"/);
+
+  const catchup = taskBlock('KB-Sync-Catchup');
+  assert.match(catchup, /schedule-task-wrapper-KB-Sync-Catchup\.ps1/);
+  assert.match(catchup, /TriggerTime = "06:00"/);
+});

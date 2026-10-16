@@ -310,6 +310,51 @@ $TaskDefinitions = @(
 
     # --- \KB-SYNC\ Tasks ---
     @{
+        TaskName = "KB-Sync-Ops"
+        Category = "\KB-SYNC\"
+        Description = "KB-Sync: Operations cluster sync (Clusters C, D, E)."
+        TriggerType = "Daily"
+        TriggerTime = "18:45"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-KB-Sync-Ops.ps1`""
+    },
+    @{
+        TaskName = "KB-Sync-Ops-Audit"
+        Category = "\KB-SYNC\"
+        Description = "KB-Sync: Operations audit evaluating dev and operational state."
+        TriggerType = "Daily"
+        TriggerTime = "19:45"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-KB-Sync-Ops-Audit.ps1`""
+    },
+    @{
+        TaskName = "KB-Sync-Research"
+        Category = "\KB-SYNC\"
+        Description = "KB-Sync: Research cluster sync (Clusters A, B)."
+        TriggerType = "Daily"
+        TriggerTime = "22:45"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-KB-Sync-Research.ps1`""
+    },
+    @{
+        TaskName = "KB-Sync-Catchup"
+        Category = "\KB-SYNC\"
+        Description = "KB-Sync: Morning delta catchup pass on quarantined/dropped notebooks."
+        TriggerType = "Daily"
+        TriggerTime = "06:00"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-KB-Sync-Catchup.ps1`""
+    },
+    @{
+        TaskName = "KB-Sync-Research-Audit"
+        Category = "\KB-SYNC\"
+        Description = "KB-Sync: Research audit evaluating research state before morning ingestion."
+        TriggerType = "Daily"
+        TriggerTime = "06:45"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-KB-Sync-Research-Audit.ps1`""
+    },
+    @{
         TaskName = "KB-Sync-Master-Pipeline"
         Category = "\KB-SYNC\"
         Description = "KB-Sync: Master synchronization pipeline."
@@ -447,9 +492,9 @@ foreach ($t in $allTasks) {
 $auditReport | Format-Table -AutoSize
 
 if ($AuditOnly -or (-not $Apply)) {
-    $needsCat = $auditReport | Where-Object { -not $_.CategoryMatch -and -not $_.Obsolete }
-    $needsS4U = $auditReport | Where-Object { -not $_.Unattended -and -not $_.Obsolete }
-    $obsoletes = $auditReport | Where-Object { $_.Obsolete }
+    $needsCat = @($auditReport | Where-Object { -not $_.CategoryMatch -and -not $_.Obsolete })
+    $needsS4U = @($auditReport | Where-Object { -not $_.Unattended -and -not $_.Obsolete })
+    $obsoletes = @($auditReport | Where-Object { $_.Obsolete })
 
     Write-Host "--- Summary ---" -ForegroundColor Cyan
     Write-Host "Tasks needing category relocation: $($needsCat.Count)" -ForegroundColor $(if ($needsCat.Count -gt 0) { "Yellow" } else { "Green" })
