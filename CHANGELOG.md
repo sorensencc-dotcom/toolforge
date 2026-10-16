@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.95.5
+Date: 2026-10-16
+
+### Changes
+- c35d60a3 - Optimize sequential Array.find lookups in TRM Pipeline tests (#153) (Chris Sorensen)
+
 ## Version 2.95.4
 Date: 2026-10-16
 
