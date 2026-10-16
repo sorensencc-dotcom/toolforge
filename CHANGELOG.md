@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.95.2
+Date: 2026-10-16
+
+### Changes
+- 30d6feab - fix(delivery-guard): stream test failure output and extend container regression timeouts (#149) (Chris Sorensen)
+
 ## Version 2.95.1
 Date: 2026-10-16
 
