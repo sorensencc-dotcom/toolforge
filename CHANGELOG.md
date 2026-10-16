@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.95.0
+Date: 2026-10-16
+
+### Changes
+- 750fa23e - feat(mcp-scoping): span-scoped dynamic MCP tool scoping hook (Phase 1) + design spec (#145) (Chris Sorensen)
+
 ## Version 2.94.1
 Date: 2026-10-14
 
