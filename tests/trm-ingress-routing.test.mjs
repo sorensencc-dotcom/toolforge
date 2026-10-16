@@ -464,6 +464,9 @@ test('logToLedger persists archived_path, context, execution_plan, deliverables,
   assert.equal(found.direction, 'Follow engineering standards');
 });
 
-
-
-
+test('parseGDocFilenameMetadata provides humanTitle and clean title casing', () => {
+  const meta = parseGDocFilenameMetadata('2026-10-12T124003Z__action__rewrite-mcp__act-03-evaluate-incident-reporting-guardrails.md.gdoc');
+  assert.equal(meta.title, 'Evaluate Incident Reporting Guardrails');
+  assert.equal(meta.intent, 'evaluate_incident_reporting_guardrails');
+  assert.match(meta.summary, /Mobile action item: Evaluate Incident Reporting Guardrails/);
+});

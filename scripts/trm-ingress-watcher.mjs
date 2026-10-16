@@ -1330,6 +1330,18 @@ export async function processFile(filePath, options = {}) {
         }
       }
 
+      // Deduplicate: archive older versions of the same card in pending
+      if (fs.existsSync(HARNESS_PENDING_DIR)) {
+        for (const existingFile of fs.readdirSync(HARNESS_PENDING_DIR)) {
+          if (existingFile !== filename && (existingFile.includes(`__${itemId}.`) || existingFile.startsWith(`${itemId}.`))) {
+            const oldPath = path.join(HARNESS_PENDING_DIR, existingFile);
+            const archiveTarget = path.join(REPO_ROOT, '.harness/tasks/archive', existingFile);
+            safeMoveFile(oldPath, archiveTarget);
+            console.log(`[TRM-INGRESS] Deduplicated and archived older pending card: ${existingFile}`);
+          }
+        }
+      }
+
       item.archived_path = archivedPath || dest;
       fs.writeFileSync(dest, JSON.stringify(item, null, 2), 'utf8');
       
@@ -1526,6 +1538,11 @@ export function parseGDocFilenameMetadata(filename) {
   }
 
   const cleanIntent = intent.replace(/^act-\d+-/, '').replace(/-/g, '_');
+  const humanTitle = cleanIntent
+    .replace(/^act_/i, '')
+    .split('_')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 
   const baseItem = {
     id,
@@ -1536,13 +1553,15 @@ export function parseGDocFilenameMetadata(filename) {
     domain,
     target: domain,
     parent_action_id,
+    title: humanTitle,
     intent: cleanIntent,
     summary: parent_action_id 
-      ? `Mobile action item submitted via Google Docs (follow-up to ${parent_action_id}): ${stem}`
-      : `Mobile action item submitted via Google Docs: ${stem}`,
+      ? `Mobile action item (${humanTitle}, follow-up to ${parent_action_id})`
+      : `Mobile action item: ${humanTitle}`,
     context: {
       gdoc_filename: filename,
       gdoc_stem: stem,
+      real_title: humanTitle,
       note: 'Ingested from standalone Google Drive .gdoc pointer.'
     }
   };
