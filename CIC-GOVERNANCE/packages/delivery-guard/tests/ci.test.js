@@ -87,14 +87,16 @@ test('executes every configured focused test command and records results', () =>
   assert.deepEqual(result.commands.map(({ status }) => status), ['passed', 'passed']);
 });
 
-test('blocks CI when a configured focused test command fails', () => {
+test('blocks CI when a configured focused test command fails and preserves output', () => {
   const result = runConfiguredTestCommands(adapter, {
     run() {
-      return { status: 7, signal: null };
+      return { status: 7, signal: null, stdout: 'sample failure stdout', stderr: 'sample failure stderr' };
     },
   });
 
   assert.equal(result.exitCode, 1);
   assert.equal(result.commands[0].exitCode, 7);
   assert.equal(result.commands[0].status, 'failed');
+  assert.equal(result.commands[0].stdout, 'sample failure stdout');
+  assert.equal(result.commands[0].stderr, 'sample failure stderr');
 });

@@ -61,11 +61,17 @@ export function runConfiguredTestCommands(adapter, options = {}) {
       encoding: 'utf8',
     });
     const passed = execution.status === 0 && execution.signal === null;
+    if (!passed) {
+      if (execution?.stdout) process.stderr.write(`[test-command stdout]:\n${execution.stdout}\n`);
+      if (execution?.stderr) process.stderr.write(`[test-command stderr]:\n${execution.stderr}\n`);
+    }
     return {
       command,
       status: passed ? 'passed' : 'failed',
       exitCode: execution.status,
       signal: execution.signal,
+      stdout: execution.stdout,
+      stderr: execution.stderr,
     };
   });
 
