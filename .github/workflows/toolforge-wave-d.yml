@@ -53,10 +53,10 @@ jobs:
 
       - name: Wait for Postgres to be ready
         run: |
-          node -e '
-          const net = require("net");
+          node --input-type=module -e '
+          import net from "net";
           function check(retries = 20) {
-            const socket = net.createConnection(5432, "localhost");
+            const socket = net.createConnection(5432, "127.0.0.1");
             socket.on("connect", () => { socket.end(); process.exit(0); });
             socket.on("error", () => {
               if (retries <= 0) process.exit(1);
@@ -84,3 +84,4 @@ jobs:
         with:
           name: wave-d-artifacts
           path: wave-d-artifacts/**
+          if-no-files-found: ignore
