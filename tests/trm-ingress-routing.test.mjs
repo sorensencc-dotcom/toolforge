@@ -18,7 +18,9 @@ import {
   sweepOutboxRetention,
   dispatchRejectionReceipt,
   processFile,
-  applySmallModelTriage
+  applySmallModelTriage,
+  commitTypeForCard,
+  logToLedger
 } from '../scripts/trm-ingress-watcher.mjs';
 
 test('resolveTargetRouting maps repositories and local backlogs correctly', () => {
@@ -405,6 +407,61 @@ test('processFile enriches fallback .gdoc cards via small-model triage with clea
   } finally {
     try { fs.unlinkSync(tmpGdoc); } catch {}
   }
+});
+
+test('commitTypeForCard maps action types and categories to conventional commit prefixes', () => {
+  assert.equal(commitTypeForCard({ action_type: 'deterministic_fix' }), 'fix');
+  assert.equal(commitTypeForCard({ category: 'RESEARCH' }), 'chore');
+  assert.equal(commitTypeForCard({ category: 'EVALUATE' }), 'chore');
+  assert.equal(commitTypeForCard({ category: 'IMPLEMENT' }), 'feat');
+  assert.equal(commitTypeForCard({}), 'feat');
+});
+
+test('getRoutingDecision routes .gdoc fetch failure to RESEARCH and suppresses GitHub issue creation', () => {
+  const gdocFailureDecision = getRoutingDecision({
+    id: 'act-gdoc-fail',
+    action_type: 'antigravity_triage',
+    category: 'IMPLEMENT',
+    domain: 'toolforge',
+    target: 'toolforge',
+    intent: 'act_gdoc_fail',
+    context: {
+      gdoc_filename: 'mock.gdoc',
+      gdoc_stem: 'mock',
+      note: 'Ingested from .gdoc pointer via filename metadata (body text fetch failed: 401 Unauthorized)',
+      body_fetch_failed: true
+    }
+  });
+
+  assert.equal(gdocFailureDecision.isGDocFetchFailure, true);
+  assert.equal(gdocFailureDecision.category, 'RESEARCH');
+  assert.equal(gdocFailureDecision.shouldCreateGitHubIssue, false);
+});
+
+test('logToLedger persists archived_path, context, execution_plan, deliverables, and direction', () => {
+  const testId = `test-persist-${Date.now()}`;
+  logToLedger({
+    id: testId,
+    processed_at: new Date().toISOString(),
+    status: 'COMPLETED',
+    archived_path: 'C:/dev/trm-drive/inbox/completed/mock.json',
+    context: { test: true },
+    execution_plan: [{ step: 1, action: 'verify' }],
+    deliverables: 'All deliverables present',
+    direction: 'Follow engineering standards'
+  });
+
+  const ledgerPath = path.resolve('C:/dev/trm-drive/inbox/ledger.jsonl');
+  const content = fs.readFileSync(ledgerPath, 'utf8');
+  const rows = content.trim().split('\n').map(l => JSON.parse(l));
+  const found = rows.find(r => r.id === testId);
+
+  assert.ok(found, 'Row must exist in ledger');
+  assert.equal(found.archived_path, 'C:/dev/trm-drive/inbox/completed/mock.json');
+  assert.deepEqual(found.context, { test: true });
+  assert.deepEqual(found.execution_plan, [{ step: 1, action: 'verify' }]);
+  assert.equal(found.deliverables, 'All deliverables present');
+  assert.equal(found.direction, 'Follow engineering standards');
 });
 
 
