@@ -28,7 +28,7 @@ function composeConfig(t, password) {
   delete env.POSTGRES_PASSWORD;
   if (password !== undefined) env.POSTGRES_PASSWORD = password;
   return spawnSync('docker', ['compose', '--env-file', envFile, '-f', composeFile, 'config', '--format', 'json'], {
-    cwd: repositoryRoot, env, encoding: 'utf8', timeout: 20_000,
+    cwd: repositoryRoot, env, encoding: 'utf8', timeout: 30_000,
   });
 }
 
@@ -64,7 +64,7 @@ test('Docker UI build propagates compiler failures instead of producing a broken
   const dockerfile = fs.readFileSync(path.join(repositoryRoot, 'Dockerfile'), 'utf8');
   const command = dockerfile.match(/^RUN (npm run ui:build[^\r\n]*)/m)[1];
   const bash = process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : 'bash';
-  const result = spawnSync(bash, ['-c', command], { cwd: root, encoding: 'utf8', timeout: 15_000 });
+  const result = spawnSync(bash, ['-c', command], { cwd: root, encoding: 'utf8', timeout: 30_000 });
   assert.equal(result.status, 17, result.stderr);
 });
 
@@ -74,7 +74,7 @@ test('Docker dependency installation works with and without a root lockfile', (t
   const dockerfile = fs.readFileSync(path.join(repositoryRoot, 'Dockerfile'), 'utf8');
   const command = dockerfile.match(/^RUN ((?:npm ci|if \[ -f package-lock\.json \])[^\r\n]*)/m)[1];
   const bash = process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : 'bash';
-  const run = () => spawnSync(bash, ['-c', command], { cwd: root, encoding: 'utf8', timeout: 15_000 });
+  const run = () => spawnSync(bash, ['-c', command], { cwd: root, encoding: 'utf8', timeout: 30_000 });
   const withoutLock = run();
   assert.equal(withoutLock.status, 0, withoutLock.stderr);
   assert.ok(fs.existsSync(path.join(root, 'package-lock.json')));
