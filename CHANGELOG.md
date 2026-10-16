@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.95.4
+Date: 2026-10-16
+
+### Changes
+- 4b85ba2e - Fix ERESOLVE during npm install by updating @vitejs/plugin-react peer dependencies (#151) (Chris Sorensen)
+
 ## Version 2.95.3
 Date: 2026-10-16
 
