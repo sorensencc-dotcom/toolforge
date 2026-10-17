@@ -1,0 +1,21 @@
+docs/meta/governance/retro-policy.md
+  s_13f2bc9cd762c9::t_4c52f107b1b208 61,63-64
+.context/retros/INBOX-SPEC.md
+  s_13f2bc9cd762c9::t_92c799c221654e 18,22-23,34-35,37,39-40,42,142
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "effcbef6db35edacf1dbd01dbe173ff501aa05c5",
+  "prompts": {},
+  "sessions": {
+    "s_13f2bc9cd762c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca16ec9a-66a2-47ef-8058-abfc8c1f1a41",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
