@@ -12,7 +12,7 @@
     background-color: #f5f5f5;
     color: #2d3142;
     font-family: 'Geist', sans-serif;
-    padding: 40px;
+    padding: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,20 +21,20 @@
   .diagram-container {
     background-color: #f5f5f5;
     border: 2px solid #4f5d75;
-    padding: 36px;
+    padding: 32px;
     width: 960px;
     box-shadow: 6px 6px 0px #4f5d75;
   }
   .header {
     border-bottom: 2px solid #bf4520;
     padding-bottom: 16px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
   }
   .title-group h1 {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Instrument Serif', Georgia, serif;
     font-size: 32px;
     font-weight: 700;
     color: #2d3142;
@@ -42,10 +42,11 @@
   }
   .title-group p {
     font-family: 'Geist', sans-serif;
-    font-size: 16px;
+    font-size: 13px;
     color: #4f5d75;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
     margin-top: 4px;
   }
   .badge {
@@ -53,9 +54,11 @@
     color: #f5f5f5;
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
+    font-weight: 600;
     padding: 6px 12px;
     border-radius: 2px;
     letter-spacing: 0.5px;
+    white-space: nowrap;
   }
   svg {
     width: 100%;
@@ -74,7 +77,7 @@
   .node-title {
     font-family: 'Geist', sans-serif;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 17px;
     fill: #2d3142;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -82,14 +85,14 @@
   .node-title-accent {
     font-family: 'Geist', sans-serif;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 17px;
     fill: #bf4520;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
   .node-desc {
     font-family: 'Geist Mono', monospace;
-    font-size: 12px;
+    font-size: 11.5px;
     fill: #4f5d75;
   }
   .connector-solid {
@@ -101,7 +104,7 @@
     fill: #2d3142;
   }
   .footer-note {
-    margin-top: 24px;
+    margin-top: 20px;
     padding-top: 12px;
     border-top: 1px dashed #4f5d75;
     display: flex;
@@ -111,8 +114,8 @@
     color: #4f5d75;
   }
   .diagram-caption {
-    margin-top: 16px;
-    font-size: 16px;
+    margin-top: 14px;
+    font-size: 14px;
     color: #4f5d75;
   }
 </style>
@@ -125,63 +128,72 @@
       <h1>Toolforge Platform Architecture Overview</h1>
       <p>Cathryn Lavery Diagram Standard • Governed MCP-Grade Execution Runtime</p>
     </div>
-    <div class="badge">SPECIFICATION v2.4.0</div>
+    <div class="badge">SPECIFICATION v2.95.9</div>
   </div>
 
-  <svg viewBox="0 0 880 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Toolforge platform architecture from client ingress through gateway, execution runtime, tool registry, and infrastructure">
+  <svg viewBox="0 0 880 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Toolforge platform architecture from multi-agent ingress through governance gateway, sandboxed execution runtime, marketplace registry, continuous subsystems, and telemetry storage">
     <defs>
       <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
         <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead" />
       </marker>
     </defs>
 
-    <!-- Layer 1: Clients -->
-    <g transform="translate(140, 10)">
-      <rect class="node-rect" width="600" height="75" rx="2"/>
-      <text x="20" y="30" class="node-title">1. Clients & Ingress</text>
-      <text x="20" y="54" class="node-desc">AI Agents • IDE Integrations • REST API • MCP stdio & HTTP</text>
+    <!-- Layer 1: Clients & Multi-Agent Ingress -->
+    <g transform="translate(70, 10)">
+      <rect class="node-rect" width="740" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">1. Clients & Multi-Agent Ingress</text>
+      <text x="20" y="54" class="node-desc">AI Agents (AGY, Claude, Grok) • IDE Extensions • REST API • MCP stdio & HTTP • Sigil Mesh</text>
     </g>
 
-    <path d="M 440 85 L 440 120" class="connector-solid" marker-end="url(#arrow)"/>
+    <path d="M 440 85 L 440 115" class="connector-solid" marker-end="url(#arrow)"/>
 
-    <!-- Layer 2: Gateway Layer -->
-    <g transform="translate(140, 120)">
-      <rect class="node-rect" width="600" height="75" rx="2"/>
-      <text x="20" y="30" class="node-title">2. Gateway Layer</text>
-      <text x="20" y="54" class="node-desc">Authentication (API Keys, JWT) • Capability RBAC • Rate Limiter</text>
+    <!-- Layer 2: Gateway & Policy Governance -->
+    <g transform="translate(70, 115)">
+      <rect class="node-rect" width="740" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">2. Gateway & Policy Governance</text>
+      <text x="20" y="54" class="node-desc">Capability RBAC • TorqueQuery Zero-Cost Routing • Token Burn & Egress Guards • Rate Limiter</text>
     </g>
 
-    <path d="M 440 195 L 440 230" class="connector-solid" marker-end="url(#arrow)"/>
+    <path d="M 440 190 L 440 220" class="connector-solid" marker-end="url(#arrow)"/>
 
-    <!-- Layer 3: Execution Runtime (Highlighted Accent) -->
-    <g transform="translate(140, 230)">
-      <rect class="node-accent" width="600" height="90" rx="2"/>
-      <text x="20" y="30" class="node-title-accent">3. Execution Runtime (Core Engine)</text>
-      <text x="20" y="54" class="node-desc">• Input Validation (JSON Schema) • Sandbox (Docker / Subprocess Isolation)</text>
+    <!-- Layer 3: Execution Runtime & Sandbox Engine (Highlighted Accent) -->
+    <g transform="translate(70, 220)">
+      <rect class="node-accent" width="740" height="90" rx="2"/>
+      <text x="20" y="30" class="node-title-accent">3. Execution Runtime & Sandbox Engine</text>
+      <text x="20" y="54" class="node-desc">• Input Validation (JSON Schema) • Subprocess & Docker Isolation</text>
       <text x="20" y="72" class="node-desc">• Deterministic Retry & Timeout Manager • Structured ToolResult Emitter</text>
     </g>
 
-    <path d="M 440 320 L 440 355" class="connector-solid" marker-end="url(#arrow)"/>
+    <path d="M 440 310 L 440 340" class="connector-solid" marker-end="url(#arrow)"/>
 
-    <!-- Layer 4: Tool Registry -->
-    <g transform="translate(140, 355)">
-      <rect class="node-rect" width="600" height="75" rx="2"/>
-      <text x="20" y="30" class="node-title">4. Tool Registry</text>
-      <text x="20" y="54" class="node-desc">Semantic Registry • Categories • Semver Versioning • Full-Text Search</text>
+    <!-- Layer 4: Toolforge Marketplace & Skill Packs -->
+    <g transform="translate(70, 340)">
+      <rect class="node-rect" width="740" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">4. Toolforge Marketplace & Skill Packs</text>
+      <text x="20" y="54" class="node-desc">Semantic Registry • Skill Pack Lifecycle (CLI list/install/submit/sync-docs) • Submission Validator</text>
     </g>
 
-    <path d="M 440 430 L 440 465" class="connector-solid" marker-end="url(#arrow)"/>
+    <path d="M 440 415 L 440 445" class="connector-solid" marker-end="url(#arrow)"/>
 
-    <!-- Layer 5: Infrastructure -->
-    <g transform="translate(140, 465)">
-      <rect class="node-rect" width="600" height="75" rx="2"/>
-      <text x="20" y="30" class="node-title">5. Infrastructure & Telemetry</text>
-      <text x="20" y="54" class="node-desc">PostgreSQL (Audit Logs) • Redis (Rate Limits & Caching) • Prometheus (/metrics)</text>
+    <!-- Layer 5: Continuous Subsystems & Automation -->
+    <g transform="translate(70, 445)">
+      <rect class="node-rect" width="740" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">5. Continuous Subsystems & Automation</text>
+      <text x="20" y="54" class="node-desc">TRM Closed-Loop Research • KB Sync DAG & Obsidian Vault • Cathryn Lavery Diagram Sync</text>
+    </g>
+
+    <path d="M 440 520 L 440 550" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Layer 6: Persistence, Cache & Telemetry -->
+    <g transform="translate(70, 550)">
+      <rect class="node-rect" width="740" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">6. Persistence, Cache & Telemetry</text>
+      <text x="20" y="54" class="node-desc">PostgreSQL (Lineage & Audit Logs) • Redis (State & Rate Limits) • Prometheus (/metrics) • IronLedger Sync</text>
     </g>
 
   </svg>
 
-  <p class="diagram-caption">Toolforge execution flow: client ingress passes through gateway and execution controls before registry and infrastructure services.</p>
+  <p class="diagram-caption">Toolforge execution flow: multi-agent ingress passes through governance gateway and sandboxed execution before marketplace registry, continuous subsystems, and telemetry storage.</p>
 
   <div class="footer-note">
     <span>SYSTEM: TOOLFORGE GOVERNED EXECUTION RUNTIME</span>

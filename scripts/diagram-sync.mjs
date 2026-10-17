@@ -121,19 +121,29 @@ export function syncDiagramsInFile(filePath, { dryRun = false, renderPng = true 
   return { modified, diagramsFound: diagrams.length };
 }
 
+let cachedTrackedFiles = null;
+let lastTrackedFetch = 0;
+
+function getTrackedFiles() {
+  const now = Date.now();
+  if (cachedTrackedFiles && (now - lastTrackedFetch < 5000)) {
+    return cachedTrackedFiles;
+  }
+  if (!fs.existsSync(path.join(ROOT, '.git'))) return null;
+  try {
+    const stdout = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+    cachedTrackedFiles = new Set(stdout.split('\n').map((l) => path.resolve(ROOT, l.trim())).filter(Boolean));
+    lastTrackedFetch = now;
+    return cachedTrackedFiles;
+  } catch {
+    return null;
+  }
+}
+
 export function verifyDiagramParity(targetPath = ROOT) {
   const errors = [];
   const checked = [];
-
-  let trackedFiles = null;
-  if (fs.existsSync(path.join(ROOT, '.git'))) {
-    try {
-      const stdout = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
-      trackedFiles = new Set(stdout.split('\n').map((l) => path.resolve(ROOT, l.trim())).filter(Boolean));
-    } catch {
-      // ignore git command failure
-    }
-  }
+  const trackedFiles = getTrackedFiles();
 
   const checkHtmlFile = (htmlPath) => {
     try {
