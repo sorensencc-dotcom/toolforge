@@ -20,7 +20,8 @@ const ROOT = path.resolve(here, '..');
 export const IGNORED_DIRS = new Set([
   'node_modules', '.git', 'archive', '.claude', '.gemini', '.trm',
   'trm-drive', '_kb-sync-staging', '.ijfw', 'weekly-report-wt', '.worktrees',
-  'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness'
+  'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness',
+  '.pytest_cache', '__pycache__', '.venv', 'venv', 'IronLedger'
 ]);
 
 const DEFAULT_CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
@@ -124,6 +125,16 @@ export function verifyDiagramParity(targetPath = ROOT) {
   const errors = [];
   const checked = [];
 
+  let trackedFiles = null;
+  if (fs.existsSync(path.join(ROOT, '.git'))) {
+    try {
+      const stdout = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+      trackedFiles = new Set(stdout.split('\n').map((l) => path.resolve(ROOT, l.trim())).filter(Boolean));
+    } catch {
+      // ignore git command failure
+    }
+  }
+
   const checkHtmlFile = (htmlPath) => {
     try {
       const content = fs.readFileSync(htmlPath, 'utf8');
@@ -133,6 +144,11 @@ export function verifyDiagramParity(targetPath = ROOT) {
       const pngPath = htmlPath.replace(/\.html$/i, '.png');
       if (!fs.existsSync(pngPath)) {
         errors.push(`MISSING_PNG: ${path.relative(ROOT, pngPath)} is missing for ${path.relative(ROOT, htmlPath)}`);
+        return;
+      }
+
+      if (trackedFiles && trackedFiles.has(path.resolve(htmlPath)) && !trackedFiles.has(path.resolve(pngPath))) {
+        errors.push(`UNTRACKED_PNG: ${path.relative(ROOT, pngPath)} is untracked in git for tracked spec ${path.relative(ROOT, htmlPath)}`);
         return;
       }
 

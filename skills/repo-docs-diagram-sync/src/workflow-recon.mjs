@@ -12,7 +12,8 @@ export const WORKFLOW_TYPES = {
 const IGNORED_DIRS = new Set([
   'node_modules', '.git', 'archive', '.claude', '.gemini', '.trm',
   'trm-drive', '_kb-sync-staging', '.ijfw', 'weekly-report-wt', '.worktrees',
-  'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness'
+  'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness',
+  '.pytest_cache', '__pycache__', '.venv', 'venv', 'IronLedger'
 ]);
 
 /**
@@ -128,11 +129,18 @@ export function discoverWorkflows(repoDir) {
  */
 export function auditWorkflowDocumentation(repoDir, workflows) {
   const docFiles = findMarkdownDocuments(repoDir);
-  const docContents = docFiles.map((f) => ({
-    path: f,
-    content: fs.readFileSync(f, 'utf8').toLowerCase(),
-    mtime: fs.statSync(f).mtimeMs,
-  }));
+  const docContents = [];
+  for (const f of docFiles) {
+    try {
+      docContents.push({
+        path: f,
+        content: fs.readFileSync(f, 'utf8').toLowerCase(),
+        mtime: fs.statSync(f).mtimeMs,
+      });
+    } catch {
+      // ignore unreadable files
+    }
+  }
 
   return workflows.map((wf) => {
     const searchTerms = [

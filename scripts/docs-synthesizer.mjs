@@ -15,7 +15,8 @@ const ROOT = path.resolve(here, '..');
 const IGNORED_DIRS = new Set([
   'node_modules', '.git', 'archive', '.claude', '.gemini', '.trm',
   'trm-drive', '_kb-sync-staging', '.ijfw', 'weekly-report-wt', '.worktrees',
-  'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness'
+  'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness',
+  '.pytest_cache', '__pycache__', '.venv', 'venv', 'IronLedger'
 ]);
 
 export function findMarkdownFiles(dir) {

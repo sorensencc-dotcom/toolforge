@@ -55,8 +55,9 @@ export async function runRecon(targetPath, { generate = false, dryRun = false } 
   let generatedCount = 0;
   if (generate && !dryRun) {
     const outputDir = path.join(targetPath, 'docs', 'workflows');
+    const targets = [...undocumented, ...stale];
     console.log(`\nGenerating documentation and Cathryn Lavery diagrams in ${path.relative(ROOT, outputDir)}...`);
-    for (const w of undocumented) {
+    for (const w of targets) {
       materializeWorkflowDocumentation(w, { outputDir, renderPng: true });
       generatedCount++;
     }
