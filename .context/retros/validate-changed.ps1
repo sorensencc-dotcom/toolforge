@@ -17,7 +17,8 @@ if ($base -and $base -notmatch '^0+$') {
   $changed = @(git -C $repoRoot diff-tree --no-commit-id --name-only -r $head -- '.context/retros/*.json')
 }
 
-$changed = @($changed | Where-Object { $_ -and $_ -notmatch 'retro\.schema\.json$' })
+# A git pathspec * also matches /, so the diff above lists retro inbox entries too.
+$changed = @($changed | Where-Object { $_ -match '^\.context/retros/\d{4}-\d{2}-\d{2}-\d+\.json$' })
 if ($changed.Count -eq 0) {
   Write-Host 'No retro JSON files changed; changed-file gate passes.' -ForegroundColor Green
   exit 0
