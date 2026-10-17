@@ -1481,6 +1481,21 @@ async function main() {
       });
     }
 
+    // Reconcile CIC - Ford Executive Dynamics & Politics contradictions and undersourced assertions
+    const fordContradictionPattern = /^- \[(?:\/| |x)\]\s+(\[GAP-\d+\]\s+\*\*CIC - Ford Executive Dynamics & Politics \(open-contradictions[^*]+\*\*:[^\n]*?)$/gm;
+    content = content.replace(fordContradictionPattern, (match, body) => {
+      const cleanBody = body.replace(/\s*\((?:Drafted|Resolved):.*?\)\s*$/, '');
+      updatedCount++;
+      return `- [x] ${cleanBody} (Resolved: [RFC](wiki/research/cic-ford-executive-dynamics-unresolved-contradictions.md))`;
+    });
+
+    const fordUndersourcedPattern = /^- \[(?:\/| |x)\]\s+(\[GAP-\d+\]\s+\*\*CIC - Ford Executive Dynamics & Politics \(under-sourced[^*]+\*\*:[^\n]*?)$/gm;
+    content = content.replace(fordUndersourcedPattern, (match, body) => {
+      const cleanBody = body.replace(/\s*\((?:Drafted|Resolved):.*?\)\s*$/, '');
+      updatedCount++;
+      return `- [x] ${cleanBody} (Resolved: [RFC](wiki/research/cic-ford-executive-dynamics-undersourced-assertions.md))`;
+    });
+
     if (updatedCount > 0) {
       await fs.writeFile(gapsFilePath, content, 'utf8');
       console.log(`[TRM-Reconcile] -> Reconciled ${updatedCount} entries in ${path.basename(gapsFilePath)}`);

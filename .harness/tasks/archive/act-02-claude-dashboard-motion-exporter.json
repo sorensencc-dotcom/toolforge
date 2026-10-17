@@ -1,0 +1,21 @@
+{
+  "id": "act-02-claude-dashboard-motion-exporter",
+  "parent_action_id": null,
+  "timestamp": "2026-10-09T125502Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "toolforge",
+  "target": "toolforge",
+  "action_type": "antigravity_triage",
+  "intent": "claude_dashboard_motion_exporter",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-09T15:59:31.465Z",
+  "source_file": "2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter.md.gdoc",
+    "gdoc_stem": "2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}

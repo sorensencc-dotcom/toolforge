@@ -1,0 +1,17 @@
+{
+  "receipt_id": "rcpt-1792212698160-done-act-kbsync-ingestion-lock-sweeper-windows-guard",
+  "action_id": "act-kbsync-ingestion-lock-sweeper-windows-guard",
+  "source": "mobile-gemini-gdoc",
+  "intent": "kbsync_ingestion_lock_sweeper_windows_guard",
+  "category": "IMPLEMENT",
+  "domain": "kb-sync",
+  "target_notebook": "kb-sync",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Implemented automated stale lock sweeper (scripts/reconciler/stale-lock-sweeper.mjs), Windows path normalizer, pre-flight hook in trm-ingest-drive.mjs, and verified via test suite (6/6 tests PASS).",
+  "completion_details": "Implemented automated stale lock sweeper (scripts/reconciler/stale-lock-sweeper.mjs), Windows path normalizer, pre-flight hook in trm-ingest-drive.mjs, and verified via test suite (6/6 tests PASS).",
+  "test_verification": "tests/stale-lock-sweeper.test.mjs",
+  "completed_at": "2026-10-17T04:51:38.159Z",
+  "dispatched_at": "2026-10-17T04:51:38.159Z",
+  "dryRun": false
+}

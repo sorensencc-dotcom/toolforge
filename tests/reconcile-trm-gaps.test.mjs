@@ -742,6 +742,29 @@ test('reconcileNotebookFindings - reconciles 6 single-item notebooks (64949154, 
   }
 });
 
+test('markdown registry reconciles Ford Executive Dynamics contradictions and undersourced gaps to [x]', () => {
+  const sampleMarkdown = [
+    "- [/] [GAP-50] **CIC - Ford Executive Dynamics & Politics (open-contradictions - 1.)**: 1. Origins (Drafted: [RFC](wiki/research/rfc-gap-50.md))",
+    "- [/] [GAP-110] **CIC - Ford Executive Dynamics & Politics (under-sourced - 1.)**: 1. Origins (Drafted: [RFC](wiki/research/rfc-gap-110.md))"
+  ].join('\n');
+
+  const fordContradictionPattern = /^- \[(?:\/| |x)\]\s+(\[GAP-\d+\]\s+\*\*CIC - Ford Executive Dynamics & Politics \(open-contradictions[^*]+\*\*:[^\n]*?)$/gm;
+  let reconciled = sampleMarkdown.replace(fordContradictionPattern, (match, body) => {
+    const cleanBody = body.replace(/\s*\((?:Drafted|Resolved):.*?\)\s*$/, '');
+    return `- [x] ${cleanBody} (Resolved: [RFC](wiki/research/cic-ford-executive-dynamics-unresolved-contradictions.md))`;
+  });
+
+  const fordUndersourcedPattern = /^- \[(?:\/| |x)\]\s+(\[GAP-\d+\]\s+\*\*CIC - Ford Executive Dynamics & Politics \(under-sourced[^*]+\*\*:[^\n]*?)$/gm;
+  reconciled = reconciled.replace(fordUndersourcedPattern, (match, body) => {
+    const cleanBody = body.replace(/\s*\((?:Drafted|Resolved):.*?\)\s*$/, '');
+    return `- [x] ${cleanBody} (Resolved: [RFC](wiki/research/cic-ford-executive-dynamics-undersourced-assertions.md))`;
+  });
+
+  assert.ok(reconciled.includes("- [x] [GAP-50] **CIC - Ford Executive Dynamics & Politics (open-contradictions - 1.)**: 1. Origins (Resolved: [RFC](wiki/research/cic-ford-executive-dynamics-unresolved-contradictions.md))"));
+  assert.ok(reconciled.includes("- [x] [GAP-110] **CIC - Ford Executive Dynamics & Politics (under-sourced - 1.)**: 1. Origins (Resolved: [RFC](wiki/research/cic-ford-executive-dynamics-undersourced-assertions.md))"));
+  assert.ok(!reconciled.includes("(Drafted:"));
+});
+
 
 
 

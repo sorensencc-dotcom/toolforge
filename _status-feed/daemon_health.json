@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-10-13T04:08:53.643Z",
-  "elapsedMs": 5116,
+  "timestamp": "2026-10-16T22:40:48.487Z",
+  "elapsedMs": 3304,
   "targetUrl": "http://127.0.0.1:8080/dashboard",
   "targetApiUrl": "http://127.0.0.1:8080/api/reporting/ironbots",
   "status": "HEALTHY",
@@ -15,7 +15,7 @@
       "statusCode": 200,
       "headers": {
         "content-type": "text/html; charset=UTF-8",
-        "date": "Tue, 13 Oct 2026 04:08:49 GMT",
+        "date": "Fri, 16 Oct 2026 22:40:48 GMT",
         "connection": "keep-alive",
         "keep-alive": "timeout=5",
         "transfer-encoding": "chunked"
@@ -29,17 +29,60 @@
       "headers": {
         "content-type": "application/json; charset=UTF-8",
         "access-control-allow-origin": "*",
-        "date": "Tue, 13 Oct 2026 04:08:49 GMT",
+        "date": "Fri, 16 Oct 2026 22:40:48 GMT",
         "connection": "keep-alive",
         "keep-alive": "timeout=5",
         "transfer-encoding": "chunked"
       },
       "payloadValid": true,
-      "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-10-13\",\"timestamp\":\"2026-10-13T04:08:49.440Z\",\"elapsedMs\":4174,\"fleetHealthScor"
+      "preview": "{\"status\":\"SUCCESS\",\"data\":{\"date\":\"2026-10-16\",\"timestamp\":\"2026-10-16T22:40:48.472Z\",\"elapsedMs\":9,\"fleetHealthScore\":"
     }
   },
   "healed": false,
   "restartedPid": null,
+  "sigilRelayUrl": "http://127.0.0.1:8791",
+  "sigilRoomsUrl": "http://127.0.0.1:5173/",
+  "sigilRelayPort": 8791,
+  "sigilRelayPortSource": ".sigil/config.json",
+  "sigilStatus": "HEALTHY",
+  "sigilConsecutiveHeals": 0,
+  "sigilThrashCooldownActive": false,
+  "sigilLastCooldownTime": null,
+  "sigilInitialProbe": {
+    "relay": {
+      "ok": true,
+      "statusCode": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "x-sigil-request-id": "cb52d942-ef2f-48a1-b2f3-5da55fbb96f0",
+        "date": "Fri, 16 Oct 2026 22:40:48 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked"
+      },
+      "payloadValid": true,
+      "preview": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, in"
+    },
+    "rooms": {
+      "ok": true,
+      "statusCode": 200,
+      "headers": {
+        "content-security-policy": "default-src 'self'; connect-src 'self' http://127.0.0.1:8791 ws://127.0.0.1:8792; img-src 'self' data:; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'",
+        "x-content-type-options": "nosniff",
+        "content-type": "text/html; charset=utf-8",
+        "referrer-policy": "same-origin",
+        "date": "Fri, 16 Oct 2026 22:40:48 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked"
+      },
+      "payloadValid": true,
+      "preview": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-w"
+    }
+  },
+  "sigilHealed": false,
+  "sigilRelayRestarted": false,
+  "sigilRoomsRestarted": false,
   "dryRun": false,
   "checkOnly": false
 }

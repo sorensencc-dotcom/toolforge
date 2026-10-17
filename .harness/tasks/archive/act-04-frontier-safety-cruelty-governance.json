@@ -1,0 +1,21 @@
+{
+  "id": "act-04-frontier-safety-cruelty-governance",
+  "parent_action_id": null,
+  "timestamp": "2026-10-09T125504Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "cic-kb",
+  "target": "CIC-KB",
+  "action_type": "antigravity_triage",
+  "intent": "frontier_safety_cruelty_governance",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-09T15:59:31.741Z",
+  "source_file": "2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance.md.gdoc",
+    "gdoc_stem": "2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}

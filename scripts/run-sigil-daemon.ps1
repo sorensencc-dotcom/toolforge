@@ -36,7 +36,9 @@ function Start-LoggedNode {
     -PassThru -NoNewWindow
 }
 
-$env:SIGIL_DATABASE_URL = "postgresql://sigil:sigil_password@127.0.0.1:55432/sigil"
+if (-not $env:SIGIL_DATABASE_URL) {
+  $env:SIGIL_DATABASE_URL = "postgresql://sigil:sigil_password@localhost:55432/sigil"
+}
 
 $procs = @()
 
@@ -50,7 +52,8 @@ if (Test-PortListen $RelayPort) {
     "--port", "$RelayPort",
     "--federation-mode", "queue",
     "--domain", "local",
-    "--federation-identity", ".sigil/grokbot.identity.json"
+    "--federation-identity", ".sigil/grokbot.identity.json",
+    "--reconcile-kind", "ep_grokbot=agent"
   )
   $procs += $relayProc
   $ready = $false
@@ -110,7 +113,29 @@ if ($existingListener) {
   $procs += $inboxProc
 }
 
-Write-Output ('[{0}] Sigil mesh up: relay={1} stream={2} connector=http://127.0.0.1:{3} grokbot-inbox-log={4}' -f (Get-Date -Format o), $RelayUrl, $StreamUrl, $ConnectorPort, $GrokbotInboxLog)
+$RoomsWebPort = 5173
+$RoomsDir = Join-Path $SigilDir "packages\sigil-rooms-web"
+$RoomsDist = Join-Path $RoomsDir "dist\index.html"
+$RoomsWebLog = Join-Path $LogDir "rooms-web.log"
+
+if (Test-Path $RoomsDist) {
+  if (Test-PortListen $RoomsWebPort) {
+    Write-Output "[$(Get-Date -Format o)] Sigil rooms web already listening on $RoomsWebPort — reusing."
+  } else {
+    Write-Output "[$(Get-Date -Format o)] Starting Sigil rooms web on $RoomsWebPort..."
+    $roomsProc = Start-Process -FilePath 'node' `
+      -ArgumentList @("bin/sigil-rooms-web.mjs", "--port", "$RoomsWebPort", "--relay-url", $RelayUrl) `
+      -WorkingDirectory $RoomsDir `
+      -RedirectStandardOutput $RoomsWebLog `
+      -RedirectStandardError ($RoomsWebLog + '.err') `
+      -PassThru -NoNewWindow
+    $procs += $roomsProc
+  }
+} else {
+  Write-Warning "Sigil rooms web dist not found at $RoomsDist. Run 'npm install && npm run build' in $RoomsDir."
+}
+
+Write-Output ('[{0}] Sigil mesh up: relay={1} stream={2} connector=http://127.0.0.1:{3} rooms=http://127.0.0.1:{4} grokbot-inbox-log={5}' -f (Get-Date -Format o), $RelayUrl, $StreamUrl, $ConnectorPort, $RoomsWebPort, $GrokbotInboxLog)
 
 try {
   while ($true) {
