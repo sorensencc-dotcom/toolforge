@@ -1,0 +1,18 @@
+CHANGELOG.md
+  h_5c172e9b435f5a 3-9
+STATUS.md
+  h_5c172e9b435f5a 12-18
+VERSION.md
+  h_5c172e9b435f5a 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6739fb53b88d8f9634fb0bbec1fabb4cec1b13ad",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
