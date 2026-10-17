@@ -1,0 +1,21 @@
+scripts/check-retro-needed.ps1
+  s_27a9513441c216::t_c16088f69a8465 66-68,72-79,83
+scripts/test-check-retro-needed.ps1
+  s_27a9513441c216::t_13d172e383e16f 1-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3cad90ad47dcc93ac71a6561739509dbaa8d43b0",
+  "prompts": {},
+  "sessions": {
+    "s_27a9513441c216": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d0d069-d844-4a5e-88d1-9a619445b2d4",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
