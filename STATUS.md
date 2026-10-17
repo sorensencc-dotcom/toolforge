@@ -9,6 +9,13 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## PR 152 Wave D readiness repair (2026-10-16)
+
+- Replaced the placeholder with executable regressions that run the workflow's inline Node command against controlled TCP events and timers: immediate success, retry then success, and failure after 20 retries. The tests enforce IPv4 port 5432 and socket closure on success.
+- Negative controls reject the original workflow, a return to localhost resolution, and an incorrect successful exit after exhaustion. Delivery-guard suite: 117 passed, 1 optional Graft CLI lifecycle test skipped.
+- The failing remote delivery guard checks every commit. Prepared a replacement commit on current main pairing the workflow change and regressions; retained the ESM invocation, IPv4 address, and missing-artifact handling from the PR. No policy changes or exemptions.
+- Next action: obtain explicit operator approval for a force-with-lease update of PR 152's existing branch, then verify current remote checks. Full PostgreSQL/migration/E2E/load acceptance remains separate from these workflow regressions.
+
 ## Dynamic MCP tool scoping (2026-10-15)
 
 ### Active goal
