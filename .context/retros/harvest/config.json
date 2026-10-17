@@ -1,0 +1,12 @@
+{
+  "repos": [
+    { "repo": "toolforge", "path": "C:/dev" },
+    { "repo": "sigil", "path": "C:/dev/sigil-repo" },
+    { "repo": "kb-sync", "path": "C:/dev/kb-sync" },
+    { "repo": "cic-ingestion", "path": "C:/dev/cic-ingestion" }
+  ],
+  "severity": "low",
+  "categoryTags": {
+    "testing": "TEST"
+  }
+}

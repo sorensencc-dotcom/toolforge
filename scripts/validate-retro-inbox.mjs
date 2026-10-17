@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const SCHEMA_FILE = fileURLToPath(new URL('../docs/meta/governance/schemas/retro-inbox-v1.schema.json', import.meta.url));
 const INBOX_SEGMENTS = ['.context', 'retros', 'inbox'];
-const INBOX_DIR = INBOX_SEGMENTS.join('/');
+export const INBOX_DIR = INBOX_SEGMENTS.join('/');
 const ENTRY_FILE_NAME = /^(\d{4}-\d{2}-\d{2})-[a-z0-9]+(?:-[a-z0-9]+)*\.json$/;
 
 function deepFreeze(value) {
