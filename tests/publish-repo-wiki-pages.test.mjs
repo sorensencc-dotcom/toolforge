@@ -9,6 +9,7 @@ import {
   assertPublishClone,
   changedWikiPaths,
   cleanGitEnv,
+  removeCloneDir,
   runGit,
   wikiPagesFromRepo
 } from '../scripts/publish-repo-wiki-pages.mjs';
@@ -85,4 +86,9 @@ test('published pages hide repo frontmatter in an HTML comment', () => {
   applyRepoPages(clone, [{ src, dest: 'repo-triage-and-digest.md' }]);
   const text = fs.readFileSync(path.join(clone, 'repo-triage-and-digest.md'), 'utf8');
   assert.match(text, /^<!--\n---\ntitle: "Repo Triage and Digest"\n---\n-->\n\n# From the repo\n/);
+});
+
+test('a failed temp clone removal warns instead of throwing', () => {
+  const eperm = Object.assign(new Error('EPERM'), { code: 'EPERM' });
+  assert.doesNotThrow(() => removeCloneDir('C:\tmp\clone', () => { throw eperm; }));
 });
