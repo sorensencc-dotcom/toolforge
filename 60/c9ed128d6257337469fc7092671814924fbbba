@@ -1,0 +1,42 @@
+.diagram-manifest.json
+  h_5c172e9b435f5a 1-66
+.githooks/commit-msg
+  h_5c172e9b435f5a 1-24
+.githooks/post-merge
+  h_5c172e9b435f5a 1-2
+.githooks/post-merge.ps1
+  h_5c172e9b435f5a 1-17
+.githooks/pre-commit
+  h_5c172e9b435f5a 1-30
+.githooks/pre-commit.ps1
+  h_5c172e9b435f5a 1-127
+.githooks/pre-push
+  h_5c172e9b435f5a 1-58
+.github/workflows/documentation.yml
+  h_5c172e9b435f5a 8-13,20-25,56-57,60-63
+scripts/diagram-sync.mjs
+  h_5c172e9b435f5a 6,28-71,149-157,176-207,212-217,236-237,240-259,273-276
+scripts/publish-repo-wiki-pages.mjs
+  h_5c172e9b435f5a 11,13-14,31-32,38-54,101-105,144,150-161
+setup-git-hooks.ps1
+  h_5c172e9b435f5a 32-33,50,285-292,294-295,303,341-350,366-368,444-451
+skills/repo-docs-diagram-sync/docs/USAGE.md
+  h_5c172e9b435f5a 1-55
+skills/repo-docs-diagram-sync/src/diagram-engine.mjs
+  h_5c172e9b435f5a 40-46,49,55-67
+tests/publish-repo-wiki-pages.test.mjs
+  h_5c172e9b435f5a 11,13-14,98-112
+tests/sync-docs-gate.test.mjs
+  h_5c172e9b435f5a 73-77,84-107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "60c9ed128d6257337469fc7092671814924fbbba",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
