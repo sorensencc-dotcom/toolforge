@@ -1,0 +1,71 @@
+.github/workflows/documentation.yml
+  s_f80176bea0d668::t_d3728b9e06aaae 42-43
+scripts/docs-synthesizer.mjs
+  s_f80176bea0d668::t_769e659fdbb231 1-193
+scripts/sync-docs-and-diagrams.ps1
+  s_f80176bea0d668::t_d15d5f902c7461 1-99
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_f80176bea0d668::t_8fbce7497ff57e 3,13,18,32-37,216-227,235-242,391-396,403-408,451-453,555-560,564-566,649-651,654-656,690,699,722-723,741,743,766,791-792,794,816,818,833
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_f80176bea0d668::t_d039d486ea1cf5 3,13-14,21-22,41-53,223,227-228,231-232,234-236,240-241,244,247-248,353-365,379-391,431,435-439,442-443,470,474-488,494-495,558,665,669-671,673,678,682-683,766,847-859,873-885
+skills/SKILLPACK-METADATA.json
+  s_f80176bea0d668::t_09b68525c3d4d7 2,32-58,422-424,428-431,434-438,443,447-449,453-456,459-461,464,474-476,714-740,775-801,884-896,899-902,912-914,977-979,984-985,988-1015,1021,1025-1027,1161,1163,1402-1406,1408-1410,1423-1424,1429-1431,1433-1437,1443,1456-1457,1624,1626,1798-1826,1854-1886,1923-1924,1926-1927
+skills/SKILLPACK-VALIDATION.md
+  s_f80176bea0d668::t_90e107bff5c4b0 3,12-16,20,31,36,52,61-62,64,89,91,117,126-128,188-189,192-193,235-237,239-240,252,282-283,285,310,312,331-333,348,378-379,381,406,408
+skills/repo-docs-diagram-sync/src/doc-generator.mjs
+  s_9790afb09688c4::t_55b60e0c49156e 1-84
+skills/repo-docs-diagram-sync/src/workflow-recon.mjs
+  s_f80176bea0d668::t_6d0b5026e9905b 1-246
+skills/toolforge-cli/src/cli.ps1
+  s_f80176bea0d668::t_cfcd81e37ff31c 11-13,16-41,284-315,366-383,389-392,395,401,406-410,412,449-456
+tests/diagram-sync.test.mjs
+  s_e8c5d5cef80b42::t_4a140b52f15d0d 1-155
+tests/docs-synthesizer.test.mjs
+  s_27a9513441c216::t_aa8e49a80ece34 1-122
+tests/sync-docs-pipeline-e2e.test.mjs
+  s_f80176bea0d668::t_6baa34ffcf5b21 1-271
+tests/workflow-recon.test.mjs
+  s_9790afb09688c4::t_cf2a4d9d89aeec 1-113
+toolforge.cmd
+  s_e8c5d5cef80b42::t_4677ed11f890f1 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c8462298f9256054258d4d848533e8b2720b7d7d",
+  "prompts": {},
+  "sessions": {
+    "s_27a9513441c216": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d0d069-d844-4a5e-88d1-9a619445b2d4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9790afb09688c4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a14a29-2b66-76c3-b2b3-0f120e161d97",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e8c5d5cef80b42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "002e2a65-c944-428c-8fd9-d5393e7b3986",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f80176bea0d668": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ad571f98e7758305b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
