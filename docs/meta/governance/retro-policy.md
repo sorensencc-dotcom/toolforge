@@ -18,6 +18,7 @@ This policy names the only places that hold retros and retro findings, who may w
 |---|---|---|---|
 | Retro | `<repo>/.context/retros/<YYYY-MM-DD>-<N>.json` | Retro schema v1.x | The `/retro` skill |
 | Retro finding | `<repo>/.context/retros/inbox/<agent>/<YYYY-MM-DD>-<slug>.json` | `retro-inbox/1` | The agent that `<agent>` names |
+| Harvest ledger | `<repo>/.context/retros/harvest/ledger.jsonl` | One JSON line per harvested finding, per the retro inbox spec | The retro harvester |
 
 No other location holds retros or retro findings. The ICF weekly report in `C:\dev\.icf-retros\weekly\` is generated output, and only the weekly retro scripts, such as `scripts/compile-weekly-retro.mjs`, write it.
 
@@ -36,7 +37,7 @@ Session wraps and memory notes are not retros. When a wrap or a memory note ment
 
 ## Who may write
 
-- Each agent writes only in its own directory, `.context/retros/inbox/<agent>/`. A person writes as `human`, and a CI job writes as `ci`.
+- Each agent writes only in its own directory, `.context/retros/inbox/<agent>/`. A person writes as `human`. A CI job and the retro harvester write as `ci`.
 - Write a new file for each session. Never edit or delete another agent's entry.
 - Before you commit an entry, run `node scripts/validate-retro-inbox.mjs`. When it reports a duplicate id, drop your copy of the finding.
 
@@ -58,7 +59,7 @@ No tool applies this rule yet. The planned consolidator and TODOS.md writer must
 
 ## Prerequisites before agents write entries
 
-Agents write no inbox entries until Tier 1 approves this policy. The two technical blockers are fixed on `feat/retro-governance`:
+Agents write no inbox entries until Tier 1 approves this policy. The retro harvester follows the same rule, so run it only with `--dry-run` until then. The two technical blockers are fixed on `feat/retro-governance`:
 
 1. `.context/retros/validate-changed.ps1` validates only dated retros, so inbox entries no longer fail the `retro-schema` job. `.context/retros/test-v1.0.ps1` covers this.
 2. `.gitignore` re-includes `.context/retros/inbox/`, so a plain `git add` tracks new entries.

@@ -4,8 +4,9 @@ Schema: `retro-inbox/1`
 Status: draft, governed by the [retro policy](../../docs/meta/governance/retro-policy.md), which awaits Tier 1 approval
 Schema file: [retro-inbox-v1.schema.json](../../docs/meta/governance/schemas/retro-inbox-v1.schema.json)
 Validator: [validate-retro-inbox.mjs](../../scripts/validate-retro-inbox.mjs)
+Harvester: [harvest-retro-inbox.mjs](../../scripts/harvest-retro-inbox.mjs)
 
-The retro inbox is the one place where agents record retro findings. Each finding carries a deterministic id, so tools can de-duplicate it and later turn it into a TODOS.md item and an ICF action. Harvesting, consolidation, the TODOS.md writer, and ICF ingestion do not exist yet.
+The retro inbox is the one place where agents record retro findings. Each finding carries a deterministic id, so tools can de-duplicate it and later turn it into a TODOS.md item and an ICF action. The harvester files the recommendations in dated retros as inbox entries. Consolidation, the TODOS.md writer, and ICF ingestion do not exist yet.
 
 ## Location
 
@@ -95,7 +96,7 @@ For `toolforge`, `MCP`, and `graft MCP server times out on cold start`, the id i
 | `copilot` | Copilot |
 | `antigravity` | Antigravity |
 | `human` | A person writing by hand |
-| `ci` | A CI job |
+| `ci` | A CI job or the retro harvester |
 
 ### Tags
 
@@ -122,6 +123,48 @@ The ICF category is one of the four `LAUNCH_CATEGORY_IDS` in `icf/reporting/src/
 | `high` | A real gap that breaks a workflow or gate now | `P1` | After Tier 1 approval |
 | `medium` | A defect with a workaround | `P2` | Automatic |
 | `low` | Minor friction or a cosmetic issue | `P2` | Automatic |
+
+## Harvesting
+
+The harvester files the recommendations in dated retros as inbox entries. Run it from the repository root:
+
+`node scripts/harvest-retro-inbox.mjs [--dry-run] [--config <file>]`
+
+- `--dry-run` prints the entries that the run would write and writes nothing.
+- `--config` names another config file. The default is [the harvest config](harvest/config.json).
+
+The command exits 0 when the run completes, even with warnings. It exits 1 when the inbox fails validation or a planned entry fails `validateEntry`, and 2 on a usage or config error. When the inbox fails validation, the run writes nothing.
+
+### Sources
+
+The config `repos` list names each repository to read, with the `repo` value for its findings and the absolute `path` of its checkout. The run reads the repositories in config order, and only the dated retros at `<path>/.context/retros/<YYYY-MM-DD>-<N>.json`, by date and then number. It warns about a missing checkout or an unreadable retro, skips it, and continues. A checkout without `.context/retros` gets a note instead of a warning.
+
+Only the `recommendations` field holds findings. `/retro` writes one `{ "category": ..., "text": ... }` object there for each "3 Things to Improve" item. The run reads no other field:
+
+- `session_focus.process_learnings` mixes shipped work, status notes, and lessons already applied, such as `6 releases shipped (v2.18.0 -> v2.21.2) via toolforge-release-bot`.
+- `session_focus.incidents` records what happened, often with the fix from the same session.
+- Session wraps and memory notes are not retros, so the run never reads them.
+
+### Mapping
+
+| Finding field | Value |
+|---|---|
+| `id` | `computeFindingId` over `repo`, `tag`, and `summary` |
+| `tag` | The `categoryTags` value for the lowercased category, or else the registered tag that has the category's name, such as `TOOLING` for `tooling` |
+| `severity` | The config `severity` |
+| `summary` | The text on one line, cut at a word boundary and ended with `…` when it exceeds 200 characters |
+| `evidence` | The retro path and a JSON pointer, such as `.context/retros/2026-10-16-1.json#/recommendations/1` |
+| `suggestion` | The text |
+
+A recommendation without a tag stays unharvested, and the run names its category in a warning. To harvest it, map the category in `categoryTags`, and the next run files it.
+
+Each retro with new findings yields one entry at `.context/retros/inbox/ci/<YYYY-MM-DD>-<repo>-retro-<N>.json`. The date and `<N>` come from the retro file name, `agent` is `ci`, and `session` is the retro path. When a later run files more findings from the same retro, the new entry name ends in `-part-2`, then `-part-3`.
+
+### Ledger
+
+The run appends one JSON line per filed finding to `.context/retros/harvest/ledger.jsonl`, with `id`, `repo`, `source`, `entry`, and `harvestedAt`. `source` is the evidence pointer, and `harvestedAt` is the time of the run.
+
+The run skips a recommendation when its id appears in the inbox or the ledger, or when the ledger lists its `repo` and `source`. A second run therefore writes nothing, and a remapped category never files a harvested recommendation again. Never edit or delete ledger lines. A deleted line lets the run file its recommendation again once its entry leaves the inbox.
 
 ## From finding to action
 
@@ -160,3 +203,4 @@ The schema file lives in `docs/meta/governance/schemas/` because `.context/retro
 ### retro-inbox/1 (2026-10-17)
 
 - Initial draft.
+- Add the harvester, which files retro recommendations as `ci` entries.
