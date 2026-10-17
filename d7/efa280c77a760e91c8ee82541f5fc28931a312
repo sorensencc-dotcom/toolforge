@@ -1,0 +1,35 @@
+build-kb-sync-diagrams.mjs
+  s_07f4a2660cd3c8::t_b2be1d0cece631 13,17-22,38-39,41,44,100,103,106,113,125-134,137,140-148,151,154-162,165,168-176
+diagram-tools.mjs
+  s_07f4a2660cd3c8::t_8b0b1e8bc85d72 26,30-35,51-52,54,57,113,116,119,126
+docs/meta/governance/wiki-style-and-structure.md
+  s_07f4a2660cd3c8::t_7066a270af77fe 221-223,225-226
+docs/meta/mcp-governance-architecture.html
+  s_07f4a2660cd3c8::t_8c33cfd5e9a6b8 6,11,15,20,32,35,40,44,49,52,57,60,72,81,84,94-96,100,105,108,112,115-119,123-125,128-130,137-139,142-144,151-153,156-158,165-167,170-172,179-181,184-186
+docs/meta/specs/diagrams/stateless-mcp-request.html
+  s_07f4a2660cd3c8::t_7d18e44a3c8f69 7,9-10,15-17,19-21,23-25,27-29,31-32,35,39-40,42-51,53-54,56-57,59-60,62
+docs/meta/specs/diagrams/stateless-mcp-tasks.html
+  s_07f4a2660cd3c8::t_26790bfadee5eb 7,9-10,15-17,19-28,30-32,34-35,37-38,40-41,43-46
+docs/superpowers/specs/assets/agent-memory-sync-topology.html
+  s_07f4a2660cd3c8::t_5af7e1c8198c43 1
+docs/superpowers/specs/assets/agent-onboarding-flow.html
+  s_07f4a2660cd3c8::t_ed316796e9477e 1
+docs/wiki-pages/toolforge-architecture-overview.html
+  s_07f4a2660cd3c8::t_f106facb782c9f 8,12-14,22-23,26,29,37,40,44,46,52-53,65-66,70-71,75,78,83,86,93,96,101,106,111,116,188
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d7efa280c77a760e91c8ee82541f5fc28931a312",
+  "prompts": {},
+  "sessions": {
+    "s_07f4a2660cd3c8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c1906f8e-dd36-497c-acb7-aaf0a2a7eddd",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
