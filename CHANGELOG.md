@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.95.6
+Date: 2026-10-17
+
+### Changes
+- 6faef016 - test: pair Wave D readiness fix with executable regressions (#152) (Chris Sorensen)
+
 ## Version 2.95.5
 Date: 2026-10-16
 
