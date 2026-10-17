@@ -1,0 +1,18 @@
+.github/workflows/documentation.yml
+  h_5c172e9b435f5a 44-45
+scripts/publish-repo-wiki-pages.mjs
+  h_5c172e9b435f5a 33-34,92,95-112,114
+tests/publish-repo-wiki-pages.test.mjs
+  h_5c172e9b435f5a 52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e4178e5c13e941535cd7ceb06063f40ca13e95a9",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
