@@ -1,0 +1,18 @@
+CIC-GOVERNANCE/packages/delivery-guard/src/policy.js
+  h_5c172e9b435f5a 3
+CIC-GOVERNANCE/packages/delivery-guard/tests/policy.test.js
+  h_5c172e9b435f5a 132-151
+setup-git-hooks.ps1
+  h_5c172e9b435f5a 173
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "97d7c66b92cf7d35fdaf45d9142b8808db8e5056",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
