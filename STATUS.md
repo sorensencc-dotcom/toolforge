@@ -9,6 +9,13 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Retro freshness repair (2026-10-17)
+
+- Scheduled audit `39029775523` validated all 39 records, then failed because the newest committed retro was dated 2026-10-08. The schedule validates evidence; it does not create retros.
+- Captured `.context/retros/2026-10-17-1.json` from frozen `origin/main` `1dfd20a44f32cb26f4b54384f27b11b69cd1f943`, covering 2026-10-10 00:00 through 2026-10-17 00:00 America/New_York: 55 commits. Explicitly mark unavailable session/backlog telemetry and the incomparable one-hour prior baseline. Preserve the seven-day freshness gate.
+- Recurrence handling uses the existing session-end `scripts/check-retro-needed.ps1` and `/retro` process: capture evidence, validate it, and force-add the ignored dated JSON in the scoped commit. No new schedule or policy change.
+- Next action: review and merge the freshness PR after its branch audit passes, then verify a new audit of main. PR #152 has already merged; its post-merge Wave D run `38990252937` passed.
+
 ## PR 152 Wave D readiness repair (2026-10-16)
 
 - Replaced the placeholder with executable regressions that run the workflow's inline Node command against controlled TCP events and timers: immediate success, retry then success, and failure after 20 retries. The tests enforce IPv4 port 5432 and socket closure on success.

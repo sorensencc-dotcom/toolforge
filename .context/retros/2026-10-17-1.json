@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-17",
+  "window": "7d",
+  "since": "2026-10-10T00:00:00-04:00",
+  "until": "2026-10-17T00:00:00-04:00",
+  "base_branch": "origin/main",
+  "prior_retro_baseline": ".context/retros/2026-10-08-1.json",
+  "metrics": {
+    "commits": 55,
+    "commits_no_merge": 55,
+    "contributors": 4,
+    "automation_commits": 28,
+    "insertions_raw": 56920,
+    "deletions_raw": 27061,
+    "net_loc_raw": 29859,
+    "insertions_filtered": 56920,
+    "deletions_filtered": 27061,
+    "net_loc_filtered": 29859,
+    "filter_note": "Numstat sums non-merge commits once; merge commits count toward activity only. Exclude lockfile basenames package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, Cargo.lock, poetry.lock; chore(sync): commits; and generated paths docs/generated/**, dist/**, build/**, coverage/**, *.generated.*. Test paths match *.test/spec.{js,ts,mjs,jsx,tsx,ps1} or tests/test directory entries; exclude dist/build/node_modules/fixtures/mocks/external-vaults. Ratio is test insertions / filtered net LOC, not coverage.",
+    "test_loc_insertions": 7261,
+    "test_ratio_pct": 24.32,
+    "feat_pct": 18.18,
+    "fix_pct": 9.09,
+    "docs_pct": 1.82,
+    "chore_pct": 49.09,
+    "test_pct": 3.64,
+    "active_days": 7,
+    "sessions": 0,
+    "deep_sessions": 0,
+    "peak_hour": 9,
+    "late_night_commits_22_to_04": 14,
+    "team_streak_days": 7,
+    "personal_streak_days": 7,
+    "backlog_open_todos": 0,
+    "backlog_closed_this_period": 0,
+    "version_range": [
+      "v2.86.0",
+      "v2.95.6"
+    ],
+    "release_commits": 26,
+    "focus_area": "Research-store retrieval, MCP scoping, TRM ingestion, and CI delivery validation"
+  },
+  "authors": {
+    "toolforge-release-bot": {
+      "commits": 26,
+      "role": "automation",
+      "insertions": 185,
+      "deletions": 26
+    },
+    "Chris Sorensen": {
+      "commits": 27,
+      "role": "human",
+      "insertions": 56588,
+      "deletions": 26982
+    },
+    "Claude": {
+      "commits": 1,
+      "role": "automation",
+      "insertions": 146,
+      "deletions": 52
+    },
+    "github-actions[bot]": {
+      "commits": 1,
+      "role": "automation",
+      "insertions": 1,
+      "deletions": 1
+    }
+  },
+  "note": "Evidence captured 2026-10-17 from frozen origin/main 1dfd20a44f32cb26f4b54384f27b11b69cd1f943; seven complete America/New_York days, [since, until), selected by committer timestamp. All activity clocks use fixed UTC-04:00 (no DST change in this window). Sessions and deep_sessions are unavailable: required integer fields use 0 as unmeasured sentinels, not observed absence. TODOS.md is absent from tracked main; backlog counters likewise use 0 as unavailable sentinels. No Claude session telemetry, private files, provider calls, or production state queried. Streaks are bounded to this window and end on its latest active date. Commit-type percentages use non-merge commits; 10 nonconventional subjects remain unclassified, so listed percentages need not sum to 100. Version range uses first and last release tags pointing at window commits in committer-time order. Prior baseline is a one-hour session, so raw productivity/LOC comparisons are not comparable; this record does not claim trend improvement or retrieval-quality acceptance. The audit schedule validates records but does not capture them: run the existing session-end check-retro-needed.ps1 and /retro process, validate, and force-add the ignored dated JSON during scoped delivery. This retro does not change freshness policy or add an automation.",
+  "session_focus": {
+    "summary": "Repository history records research-store retrieval work, dynamic MCP scoping, TRM ingestion repairs, dependency fixes, and Wave D delivery-guard remediation. The post-merge Wave D run 38990252937 passed; daily retro run 39029775523 failed because its latest committed retro was nine days old. This record captures evidence without treating workflow success as production or retrieval-quality approval.",
+    "commits_this_session_range": "committer timestamps 2026-10-10T00:00:00-04:00 <= t < 2026-10-17T00:00:00-04:00 on 1dfd20a44f32cb26f4b54384f27b11b69cd1f943",
+    "incidents": [
+      "Per-commit delivery guard rejected a workflow change whose tests were added in a later commit; approved replacement paired executable tests with the workflow.",
+      "Latest committed retro dated 2026-10-08 caused the scheduled 2026-10-17 freshness gate to fail despite all 39 existing records validating."
+    ],
+    "process_learnings": [
+      "Pair automation changes with executable regressions in the same commit; compare failing run SHA with current head.",
+      "Capture and commit a real dated retro through the existing session-end process; validation-only schedules do not create one.",
+      "Keep unmeasured session/backlog fields and incompatible baseline windows explicit; do not infer quality approval from CI."
+    ]
+  }
+}
