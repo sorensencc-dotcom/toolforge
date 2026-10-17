@@ -241,11 +241,16 @@ try {
     if ($oldSha) { $env:GITHUB_SHA = $oldSha }
   }
 
-  # Test 8: Inbox entries commit with a plain git add, and new dated retros still need git add -f.
-  Write-Host "Test 8: Retro inbox is trackable" -ForegroundColor Yellow
+  # Test 8: Inbox entries and harvest files commit with a plain git add, and new dated retros still need git add -f.
+  Write-Host "Test 8: Retro inbox and harvest files are trackable" -ForegroundColor Yellow
   $repoRoot = (Resolve-Path (Join-Path $scriptDir "../..")).Path
   git -C $repoRoot check-ignore --no-index -q ".context/retros/inbox/claude/2026-10-17-retro-gate-scans-inbox.json"
   Assert-Test "Inbox entries are not ignored" ($LASTEXITCODE -eq 1) "check-ignore exit code $LASTEXITCODE"
+  $harvestExits = foreach ($harvestFile in ".context/retros/harvest/config.json", ".context/retros/harvest/ledger.jsonl") {
+    git -C $repoRoot check-ignore --no-index -q $harvestFile
+    $LASTEXITCODE
+  }
+  Assert-Test "Harvest config and ledger are not ignored" (($harvestExits -join ',') -eq '1,1') "check-ignore exit codes $($harvestExits -join ',')"
   git -C $repoRoot check-ignore --no-index -q ".context/retros/2026-10-18-1.json"
   Assert-Test "New dated retros stay ignored" ($LASTEXITCODE -eq 0) "check-ignore exit code $LASTEXITCODE"
 
