@@ -23,16 +23,16 @@ export function wrapHtml({ title, subtitle, badge, width = 1100, height = 480, s
   <meta charset="UTF-8">
   <title>\</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Geist+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:   #f2ece2;
-      --color-ink:     #2c2420;
-      --color-muted:   #5c5349;
-      --color-accent:  #c4501a;
-      --font-sans:     'Barlow Condensed', system-ui, sans-serif;
-      --font-serif:    'Playfair Display', serif;
+      --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #bf4520;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
       --font-mono:     'Geist Mono', ui-monospace, monospace;
     }
     body {
@@ -48,13 +48,13 @@ export function wrapHtml({ title, subtitle, badge, width = 1100, height = 480, s
     .frame {
       max-width: \px;
       width: 100%;
-      background: #f2ece2;
-      border: 2px solid #5c5349;
+      background: #f5f5f5;
+      border: 2px solid #4f5d75;
       padding: 32px;
-      box-shadow: 6px 6px 0px #5c5349;
+      box-shadow: 6px 6px 0px #4f5d75;
     }
     .header {
-      border-bottom: 2px solid #c4501a;
+      border-bottom: 2px solid #bf4520;
       padding-bottom: 16px;
       margin-bottom: 24px;
       display: flex;
@@ -110,20 +110,20 @@ export function wrapHtml({ title, subtitle, badge, width = 1100, height = 480, s
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 \ \">
       <defs>
         <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0 1 L 10 5 L 0 9 z" fill="#2c2420"/>
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#2d3142"/>
         </marker>
         <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0 1 L 10 5 L 0 9 z" fill="#c4501a"/>
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#bf4520"/>
         </marker>
         <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
-          <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#2c2420" flood-opacity="0.08"/>
+          <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#2d3142" flood-opacity="0.08"/>
         </filter>
       </defs>
       \
     </svg>
     <div class="footer-note">
       <span>SYSTEM: ARCHITECTURE SPECIFICATION</span>
-      <span>PALETTE: CATHRYN LAVERY WARM PAPER (#F2ECE2 / #C4501A)</span>
+      <span>PALETTE: CATHRYN LAVERY DIAGRAM-DESIGN SKIN (#f5f5f5 / #bf4520)</span>
     </div>
   </div>
 </body>

@@ -4,62 +4,62 @@
   <meta charset="utf-8" />
   <title>Stateless MCP request path</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Geist+Mono:wght@400;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <style>
-    html, body { margin: 0; background: #f2ece2; }
-    body { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; color: #2c2420; }
+    html, body { margin: 0; background: #f5f5f5; }
+    body { font-family: "Geist", "Arial Narrow", sans-serif; color: #2d3142; }
   </style>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
-  <rect width="1200" height="760" fill="#f2ece2"/>
-  <text x="48" y="64" fill="#2c2420" font-family="Playfair Display, Palatino, serif" font-size="36">Stateless MCP request path</text>
-  <text x="48" y="96" fill="#5c5349" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">Protocol 2026-07-28 · one POST · body is the source of truth</text>
+  <rect width="1200" height="760" fill="#f5f5f5"/>
+  <text x="48" y="64" fill="#2d3142" font-family="Instrument Serif, Palatino, serif" font-size="36">Stateless MCP request path</text>
+  <text x="48" y="96" fill="#4f5d75" font-family="Geist, Arial Narrow, sans-serif" font-size="18">Protocol 2026-07-28 · one POST · body is the source of truth</text>
 
-  <rect x="48" y="140" width="250" height="72" rx="6" fill="#fffaf4" stroke="#2c2420" stroke-width="1.5"/>
-  <text x="173" y="170" text-anchor="middle" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="20" font-weight="600">Agent host</text>
-  <text x="173" y="194" text-anchor="middle" fill="#5c5349" font-family="Geist Mono, Consolas, monospace" font-size="13">Claude · Cursor · Codex</text>
+  <rect x="48" y="140" width="250" height="72" rx="6" fill="#fafafa" stroke="#2d3142" stroke-width="1.5"/>
+  <text x="173" y="170" text-anchor="middle" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="20" font-weight="600">Agent host</text>
+  <text x="173" y="194" text-anchor="middle" fill="#4f5d75" font-family="Geist Mono, Consolas, monospace" font-size="13">Claude · Cursor · Codex</text>
 
-  <rect x="475" y="140" width="250" height="72" rx="6" fill="#fffaf4" stroke="#2c2420" stroke-width="1.5"/>
-  <text x="600" y="170" text-anchor="middle" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="20" font-weight="600">Ingress</text>
-  <text x="600" y="194" text-anchor="middle" fill="#5c5349" font-family="Geist Mono, Consolas, monospace" font-size="13">round-robin · no session pin</text>
+  <rect x="475" y="140" width="250" height="72" rx="6" fill="#fafafa" stroke="#2d3142" stroke-width="1.5"/>
+  <text x="600" y="170" text-anchor="middle" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="20" font-weight="600">Ingress</text>
+  <text x="600" y="194" text-anchor="middle" fill="#4f5d75" font-family="Geist Mono, Consolas, monospace" font-size="13">round-robin · no session pin</text>
 
-  <rect x="902" y="140" width="250" height="72" rx="6" fill="#fffaf4" stroke="#c4501a" stroke-width="2"/>
-  <text x="1027" y="170" text-anchor="middle" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="20" font-weight="600">Any worker</text>
-  <text x="1027" y="194" text-anchor="middle" fill="#5c5349" font-family="Geist Mono, Consolas, monospace" font-size="13">POST /mcp</text>
+  <rect x="902" y="140" width="250" height="72" rx="6" fill="#fafafa" stroke="#bf4520" stroke-width="2"/>
+  <text x="1027" y="170" text-anchor="middle" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="20" font-weight="600">Any worker</text>
+  <text x="1027" y="194" text-anchor="middle" fill="#4f5d75" font-family="Geist Mono, Consolas, monospace" font-size="13">POST /mcp</text>
 
-  <path d="M298 176 H475" stroke="#c4501a" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M725 176 H902" stroke="#c4501a" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M298 176 H475" stroke="#bf4520" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M725 176 H902" stroke="#bf4520" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 8 5 L 0 9" fill="none" stroke="#c4501a" stroke-width="1.4"/>
+      <path d="M 0 1 L 8 5 L 0 9" fill="none" stroke="#bf4520" stroke-width="1.4"/>
     </marker>
   </defs>
 
-  <text x="48" y="268" fill="#c4501a" font-family="Geist Mono, Consolas, monospace" font-size="14">01  POST</text>
-  <text x="120" y="268" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="22">Headers mirror the body. They do not replace it.</text>
+  <text x="48" y="268" fill="#bf4520" font-family="Geist Mono, Consolas, monospace" font-size="14">01  POST</text>
+  <text x="120" y="268" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="22">Headers mirror the body. They do not replace it.</text>
 
-  <rect x="48" y="292" width="1104" height="168" rx="6" fill="#fffaf4" stroke="#2c2420" stroke-width="1"/>
-  <text x="72" y="328" fill="#5c5349" font-family="Geist Mono, Consolas, monospace" font-size="16">Accept: application/json, text/event-stream</text>
-  <text x="72" y="356" fill="#5c5349" font-family="Geist Mono, Consolas, monospace" font-size="16">MCP-Protocol-Version: 2026-07-28</text>
-  <text x="72" y="384" fill="#5c5349" font-family="Geist Mono, Consolas, monospace" font-size="16">Mcp-Method: tools/call</text>
-  <text x="72" y="412" fill="#5c5349" font-family="Geist Mono, Consolas, monospace" font-size="16">Mcp-Name: search_kb</text>
-  <text x="640" y="328" fill="#2c2420" font-family="Geist Mono, Consolas, monospace" font-size="16">method, params.name</text>
-  <text x="640" y="356" fill="#2c2420" font-family="Geist Mono, Consolas, monospace" font-size="16">_meta protocolVersion</text>
-  <text x="640" y="384" fill="#2c2420" font-family="Geist Mono, Consolas, monospace" font-size="16">_meta clientInfo</text>
-  <text x="640" y="412" fill="#2c2420" font-family="Geist Mono, Consolas, monospace" font-size="16">_meta clientCapabilities</text>
-  <text x="640" y="440" fill="#c4501a" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">mismatch → 400 / -32020 HeaderMismatch</text>
+  <rect x="48" y="292" width="1104" height="168" rx="6" fill="#fafafa" stroke="#2d3142" stroke-width="1"/>
+  <text x="72" y="328" fill="#4f5d75" font-family="Geist Mono, Consolas, monospace" font-size="16">Accept: application/json, text/event-stream</text>
+  <text x="72" y="356" fill="#4f5d75" font-family="Geist Mono, Consolas, monospace" font-size="16">MCP-Protocol-Version: 2026-07-28</text>
+  <text x="72" y="384" fill="#4f5d75" font-family="Geist Mono, Consolas, monospace" font-size="16">Mcp-Method: tools/call</text>
+  <text x="72" y="412" fill="#4f5d75" font-family="Geist Mono, Consolas, monospace" font-size="16">Mcp-Name: search_kb</text>
+  <text x="640" y="328" fill="#2d3142" font-family="Geist Mono, Consolas, monospace" font-size="16">method, params.name</text>
+  <text x="640" y="356" fill="#2d3142" font-family="Geist Mono, Consolas, monospace" font-size="16">_meta protocolVersion</text>
+  <text x="640" y="384" fill="#2d3142" font-family="Geist Mono, Consolas, monospace" font-size="16">_meta clientInfo</text>
+  <text x="640" y="412" fill="#2d3142" font-family="Geist Mono, Consolas, monospace" font-size="16">_meta clientCapabilities</text>
+  <text x="640" y="440" fill="#bf4520" font-family="Geist, Arial Narrow, sans-serif" font-size="18">mismatch → 400 / -32020 HeaderMismatch</text>
 
-  <text x="48" y="508" fill="#c4501a" font-family="Geist Mono, Consolas, monospace" font-size="14">02  CHECK</text>
-  <text x="150" y="508" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="22">Origin, when present, must be on the allowlist. A missing Origin is a CLI client.</text>
+  <text x="48" y="508" fill="#bf4520" font-family="Geist Mono, Consolas, monospace" font-size="14">02  CHECK</text>
+  <text x="150" y="508" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="22">Origin, when present, must be on the allowlist. A missing Origin is a CLI client.</text>
 
-  <text x="48" y="560" fill="#c4501a" font-family="Geist Mono, Consolas, monospace" font-size="14">03  REPLY</text>
-  <text x="150" y="560" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="22">JSON object, or a request-scoped SSE stream that ends with the JSON-RPC response.</text>
+  <text x="48" y="560" fill="#bf4520" font-family="Geist Mono, Consolas, monospace" font-size="14">03  REPLY</text>
+  <text x="150" y="560" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="22">JSON object, or a request-scoped SSE stream that ends with the JSON-RPC response.</text>
 
-  <text x="48" y="612" fill="#c4501a" font-family="Geist Mono, Consolas, monospace" font-size="14">04  IGNORE</text>
-  <text x="160" y="612" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="22">Mcp-Session-Id and Last-Event-ID. GET and DELETE return 405.</text>
+  <text x="48" y="612" fill="#bf4520" font-family="Geist Mono, Consolas, monospace" font-size="14">04  IGNORE</text>
+  <text x="160" y="612" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="22">Mcp-Session-Id and Last-Event-ID. GET and DELETE return 405.</text>
 
-  <text x="48" y="700" fill="#5c5349" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="16">Sigil addresses authenticate task contracts. They are not HTTP Origin values.</text>
+  <text x="48" y="700" fill="#4f5d75" font-family="Geist, Arial Narrow, sans-serif" font-size="16">Sigil addresses authenticate task contracts. They are not HTTP Origin values.</text>
 </svg>
 </body>
 </html>

@@ -5,13 +5,13 @@
 <title>Toolforge Platform Architecture Overview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Geist+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background-color: #f2ece2;
-    color: #2c2420;
-    font-family: 'Barlow Condensed', sans-serif;
+    background-color: #f5f5f5;
+    color: #2d3142;
+    font-family: 'Geist', sans-serif;
     padding: 40px;
     display: flex;
     justify-content: center;
@@ -19,14 +19,14 @@
     min-height: 100vh;
   }
   .diagram-container {
-    background-color: #f2ece2;
-    border: 2px solid #5c5349;
+    background-color: #f5f5f5;
+    border: 2px solid #4f5d75;
     padding: 36px;
     width: 960px;
-    box-shadow: 6px 6px 0px #5c5349;
+    box-shadow: 6px 6px 0px #4f5d75;
   }
   .header {
-    border-bottom: 2px solid #c4501a;
+    border-bottom: 2px solid #bf4520;
     padding-bottom: 16px;
     margin-bottom: 28px;
     display: flex;
@@ -34,23 +34,23 @@
     align-items: flex-end;
   }
   .title-group h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Instrument Serif', serif;
     font-size: 32px;
     font-weight: 700;
-    color: #2c2420;
+    color: #2d3142;
     letter-spacing: -0.5px;
   }
   .title-group p {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Geist', sans-serif;
     font-size: 16px;
-    color: #5c5349;
+    color: #4f5d75;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-top: 4px;
   }
   .badge {
-    background-color: #2c2420;
-    color: #f2ece2;
+    background-color: #2d3142;
+    color: #f5f5f5;
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
     padding: 6px 12px;
@@ -62,58 +62,58 @@
     height: auto;
   }
   .node-rect {
-    fill: #f2ece2;
-    stroke: #2c2420;
+    fill: #f5f5f5;
+    stroke: #2d3142;
     stroke-width: 2;
   }
   .node-accent {
-    fill: #f2ece2;
-    stroke: #c4501a;
+    fill: #f5f5f5;
+    stroke: #bf4520;
     stroke-width: 2;
   }
   .node-title {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Geist', sans-serif;
     font-weight: 700;
     font-size: 18px;
-    fill: #2c2420;
+    fill: #2d3142;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
   .node-title-accent {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Geist', sans-serif;
     font-weight: 700;
     font-size: 18px;
-    fill: #c4501a;
+    fill: #bf4520;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
   .node-desc {
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
-    fill: #5c5349;
+    fill: #4f5d75;
   }
   .connector-solid {
-    stroke: #2c2420;
+    stroke: #2d3142;
     stroke-width: 2;
     fill: none;
   }
   .arrowhead {
-    fill: #2c2420;
+    fill: #2d3142;
   }
   .footer-note {
     margin-top: 24px;
     padding-top: 12px;
-    border-top: 1px dashed #5c5349;
+    border-top: 1px dashed #4f5d75;
     display: flex;
     justify-content: space-between;
     font-family: 'Geist Mono', monospace;
     font-size: 11px;
-    color: #5c5349;
+    color: #4f5d75;
   }
   .diagram-caption {
     margin-top: 16px;
     font-size: 16px;
-    color: #5c5349;
+    color: #4f5d75;
   }
 </style>
 </head>
@@ -185,7 +185,7 @@
 
   <div class="footer-note">
     <span>SYSTEM: TOOLFORGE GOVERNED EXECUTION RUNTIME</span>
-    <span>PALETTE: CATHRYN LAVERY WARM PAPER (#F2ECE2)</span>
+    <span>PALETTE: CATHRYN LAVERY DIAGRAM-DESIGN SKIN (#f5f5f5)</span>
   </div>
 </div>
 
