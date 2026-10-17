@@ -1,0 +1,32 @@
+tests/harvest-retro-inbox.test.mjs
+  s_13f2bc9cd762c9::t_8376da6cd8d32c 238-248
+  s_13f2bc9cd762c9::t_452dffc1bb5558 158,163,167
+  s_13f2bc9cd762c9::t_0a6db2587e0a3c 265-266,272,275-276
+  s_13f2bc9cd762c9::t_1ceee890dc04fc 1-157,159-162,164-166,168-237,249-264,267-271,273-274,277-350
+.context/retros/harvest/config.json
+  s_13f2bc9cd762c9::t_4b455c127d9bbc 1-12
+scripts/validate-retro-inbox.mjs
+  s_13f2bc9cd762c9::t_de3073d09953a7 10
+scripts/harvest-retro-inbox.mjs
+  s_13f2bc9cd762c9::t_8962f939203d47 219-220,222
+  s_13f2bc9cd762c9::t_4ddaf82f465746 169-170
+  s_13f2bc9cd762c9::t_ecead36b0d4942 197
+  s_13f2bc9cd762c9::t_2d23c9b74d8dac 242,244,248,250-251,256,258,260-261
+  s_13f2bc9cd762c9::t_0405df047c0eb0 1-168,171-196,198-218,221,223-241,243,245-247,249,252-255,257,259,262-304
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9ddc27c5887c2567ba364d7739947e7b5d531ebf",
+  "prompts": {},
+  "sessions": {
+    "s_13f2bc9cd762c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca16ec9a-66a2-47ef-8058-abfc8c1f1a41",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
