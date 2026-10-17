@@ -1,0 +1,44 @@
+_status-feed/scheduled_tasks_roster.json
+  h_5c172e9b435f5a 1-426
+docs/reports/SCHEDULED-TASKS-ROSTER.md
+  h_5c172e9b435f5a 1-177
+scripts/generate-scheduled-tasks-roster.mjs
+  h_5c172e9b435f5a 1-539
+scripts/ironbots-daily-reporter.mjs
+  h_5c172e9b435f5a 374-378
+scripts/reconcile-scheduled-tasks.ps1
+  h_5c172e9b435f5a 568-573
+scripts/schedule-task-wrapper-CI-Watchdog.ps1
+  h_5c172e9b435f5a 73-75
+scripts/schedule-task-wrapper-Daemon-Healer.ps1
+  h_5c172e9b435f5a 72-74
+scripts/schedule-task-wrapper-IronLedger-Sentinel.ps1
+  h_5c172e9b435f5a 72-74
+scripts/schedule-task-wrapper-Ironbots-Reporter.ps1
+  h_5c172e9b435f5a 74-76
+scripts/schedule-task-wrapper-KB-Sentinel.ps1
+  h_5c172e9b435f5a 74-75,77
+scripts/schedule-task-wrapper-Notebook-Ingester.ps1
+  h_5c172e9b435f5a 72-73,75
+scripts/schedule-task-wrapper-TRM-Bot.ps1
+  h_5c172e9b435f5a 74-76
+scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1
+  h_5c172e9b435f5a 76-77,79
+scripts/schedule-task-wrapper-Watchlist-Miner.ps1
+  h_5c172e9b435f5a 73-75
+tests/scheduled-tasks-roster.test.mjs
+  h_5c172e9b435f5a 1-38
+wiki/research/SCHEDULED-TASKS-ROSTER.md
+  h_5c172e9b435f5a 1-177
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "609c246bb7d9a255d3df7df2edf01fcacaea0b1b",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
