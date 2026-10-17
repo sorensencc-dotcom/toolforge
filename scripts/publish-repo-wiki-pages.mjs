@@ -30,7 +30,8 @@ export function assertPublishClone(dir) {
   const lower = resolved.toLowerCase();
   const insidePublished = lower === PUBLISHED_CLONE
     || lower.startsWith(`${PUBLISHED_CLONE}${path.sep}`);
-  if (path.basename(resolved).toLowerCase() === 'toolforge-wiki' || insidePublished) {
+  const hasWikiSegment = resolved.split(/[/\\]/).some((p) => p.toLowerCase() === 'toolforge-wiki');
+  if (hasWikiSegment || insidePublished) {
     throw new Error('REFUSING_WIKI_CLONE: publish into a temp clone. The repo wiki/ tree is the source.');
   }
 }
@@ -88,14 +89,29 @@ function git(args, cwd) {
 }
 
 function changedFilesAgainstUpstream() {
-  let range = 'origin/main...HEAD';
+  const tryRanges = [];
   try {
     const upstream = git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'], root);
-    if (upstream) range = `${upstream}...HEAD`;
-  } catch {
-    range = 'origin/main...HEAD';
+    if (upstream) tryRanges.push(`${upstream}...HEAD`);
+  } catch {}
+
+  if (process.env.GITHUB_BASE_REF) {
+    tryRanges.push(`origin/${process.env.GITHUB_BASE_REF}...HEAD`);
   }
-  return git(['diff', '--name-only', range], root).split(/\r?\n/).filter(Boolean);
+  tryRanges.push('origin/main...HEAD');
+  tryRanges.push('HEAD~1...HEAD');
+  tryRanges.push('HEAD~1..HEAD');
+  tryRanges.push('HEAD');
+
+  for (const range of tryRanges) {
+    try {
+      const diffOut = git(['diff', '--name-only', range], root);
+      return diffOut.split(/\r?\n/).filter(Boolean);
+    } catch {
+      // try next fallback range
+    }
+  }
+  return [];
 }
 
 export function publish(pages, { dryRun = false } = {}) {

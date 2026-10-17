@@ -49,7 +49,7 @@ test('applyRepoPages writes the repo page into a temp clone and refuses the publ
   assert.ok(written.includes('repo-triage-and-digest.md'));
   assert.doesNotThrow(() => assertPublishClone(path.join(os.tmpdir(), 'toolforge-wiki-publish-abc')));
   assert.throws(() => assertPublishClone(path.join(root, 'toolforge-wiki')), /REFUSING_WIKI_CLONE/);
-  assert.throws(() => assertPublishClone(path.join('C:/dev', 'toolforge-wiki', 'nested')), /REFUSING_WIKI_CLONE/);
+  assert.throws(() => assertPublishClone(path.join(os.tmpdir(), 'toolforge-wiki', 'nested')), /REFUSING_WIKI_CLONE/);
 });
 
 test('wiki git commands ignore the hook GIT_DIR', () => {
