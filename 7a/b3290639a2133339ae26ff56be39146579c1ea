@@ -1,0 +1,19 @@
+.context/retros/validate-changed.ps1
+  s_e8c5d5cef80b42::t_c3aef9e16a9a09 20-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7ab3290639a2133339ae26ff56be39146579c1ea",
+  "prompts": {},
+  "sessions": {
+    "s_e8c5d5cef80b42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "002e2a65-c944-428c-8fd9-d5393e7b3986",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
