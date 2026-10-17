@@ -129,3 +129,23 @@ test('rejects an exemption from an untrusted authority', () => {
     'automation-exemption-authority-not-trusted',
   ]);
 });
+
+test('counts a test-prefixed script as paired coverage', () => {
+  const result = evaluateAutomationTestPolicy([
+    { path: 'scripts/check-retro-needed.ps1', status: 'modified' },
+    { path: 'scripts/test-check-retro-needed.ps1', status: 'added' },
+  ], adapter);
+
+  assert.equal(result.decision, 'allow');
+  assert.deepEqual(result.regressionTestPaths, ['scripts/test-check-retro-needed.ps1']);
+});
+
+test('does not count a test-prefixed document as paired coverage', () => {
+  const result = evaluateAutomationTestPolicy([
+    { path: 'scripts/check-retro-needed.ps1', status: 'modified' },
+    { path: 'scripts/test-notes.md', status: 'added' },
+  ], adapter);
+
+  assert.equal(result.decision, 'block');
+  assert.deepEqual(result.regressionTestPaths, []);
+});

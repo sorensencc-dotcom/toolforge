@@ -1,6 +1,6 @@
 import { classifyDiff } from './classifier.js';
 
-const REGRESSION_TEST_PATH = /(?:^|\/)(?:tests?|__tests__)(?:\/|$)|\.(?:test|spec)\.[cm]?[jt]sx?$/;
+const REGRESSION_TEST_PATH = /(?:^|\/)(?:tests?|__tests__)(?:\/|$)|\.(?:test|spec)\.[cm]?[jt]sx?$|(?:^|\/)test-[^/]+\.(?:[cm]?[jt]sx?|ps1)$/;
 const TEST_DESTINATION_STATUSES = new Set([
   'added',
   'copied',
