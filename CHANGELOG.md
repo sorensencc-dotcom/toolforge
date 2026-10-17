@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.95.11
+Date: 2026-10-17
+
+### Changes
+- 846b6c4d - fix(hooks): track git hooks and harden diagram parity with content hashes (#159) (Chris Sorensen)
+
 ## Version 2.95.10
 Date: 2026-10-17
 
