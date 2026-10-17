@@ -141,7 +141,7 @@ No tool performs this mapping yet. It fixes the contract for the planned consoli
 
 ## Validation
 
-Run `node scripts/validate-retro-inbox.mjs [inbox-dir]` from the repository root. The default directory is `.context/retros/inbox`. The command exits 0 when the inbox is valid, 1 when any rule fails, and 2 on a usage error. It checks these rules:
+Run `node scripts/validate-retro-inbox.mjs [inbox-dir]` from the repository root. The default directory is `.context/retros/inbox`. The command exits 0 when the inbox is valid, 1 when any rule fails, and 2 on a usage error. When the inbox directory does not exist, the command says so and exits 0, so the planned CI job passes before any agent files an entry. It checks these rules:
 
 - Every file matches the schema, and every enum value is registered.
 - Every `id` equals the computed id.

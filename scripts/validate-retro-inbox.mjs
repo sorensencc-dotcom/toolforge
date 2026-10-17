@@ -208,8 +208,11 @@ export function validateInbox(dir) {
   if (!INBOX_SEGMENTS.every((segment, index) => tail[index] === segment)) {
     return { ok: false, errors: [`${dir}: inbox must be a ${INBOX_DIR} directory`], entries: [] };
   }
-  if (!fs.statSync(root, { throwIfNoEntry: false })?.isDirectory()) {
-    return { ok: false, errors: [`${dir}: inbox directory not found`], entries: [] };
+  const stat = fs.statSync(root, { throwIfNoEntry: false });
+  // A checkout where no agent has filed an entry yet has no inbox directory.
+  if (!stat) return { ok: true, errors: [], entries: [], missing: true };
+  if (!stat.isDirectory()) {
+    return { ok: false, errors: [`${dir}: inbox must be a directory`], entries: [] };
   }
   const errors = [];
   const entries = [];
@@ -244,7 +247,11 @@ function main(args) {
     return 2;
   }
   const dir = args[0] ?? INBOX_DIR;
-  const { ok, errors, entries } = validateInbox(dir);
+  const { ok, errors, entries, missing } = validateInbox(dir);
+  if (missing) {
+    console.log(`retro inbox absent: ${dir} does not exist, so there is nothing to validate`);
+    return 0;
+  }
   if (!ok) {
     console.error(`retro inbox invalid: ${count(errors.length, 'error')} in ${dir}`);
     for (const error of errors) console.error(`  ${error}`);

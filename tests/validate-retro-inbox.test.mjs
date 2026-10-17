@@ -51,8 +51,8 @@ function assertSingleError({ ok, errors }, prefix) {
   assert.ok(errors[0].startsWith(prefix), errors[0]);
 }
 
-function runCli(args) {
-  return spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8', timeout: 30000 });
+function runCli(args, options = {}) {
+  return spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8', timeout: 30000, ...options });
 }
 
 test('computeFindingId follows the spec algorithm', () => {
@@ -177,10 +177,19 @@ test('validateInbox accepts an empty inbox', () => {
   withInbox({}, (inbox) => assert.deepEqual(validateInbox(inbox), { ok: true, errors: [], entries: [] }));
 });
 
-test('validateInbox requires an existing .context/retros/inbox directory', () => {
+test('validateInbox requires a .context/retros/inbox directory', () => {
   withInbox({}, (inbox) => {
     assert.equal(validateInbox(dirname(inbox)).ok, false);
-    assert.equal(validateInbox(join(inbox, 'missing', '.context', 'retros', 'inbox')).ok, false);
+    rmSync(inbox, { recursive: true });
+    writeFileSync(inbox, '');
+    assertSingleError(validateInbox(inbox), `${inbox}: `);
+  });
+});
+
+test('validateInbox passes a missing inbox directory', () => {
+  withInbox({}, (inbox) => {
+    rmSync(inbox, { recursive: true });
+    assert.deepEqual(validateInbox(inbox), { ok: true, errors: [], entries: [], missing: true });
   });
 });
 
@@ -228,6 +237,17 @@ test('CLI exits 1 and lists each error with its file', () => {
     assert.equal(status, 1);
     assert.match(stderr, /\.context\/retros\/inbox\/claude\/2026-10-17-graft-cold-start\.json: path: /);
   });
+});
+
+test('CLI exits 0 and says so when the default inbox directory is absent', () => {
+  const repo = mkdtempSync(join(tmpdir(), 'retro-inbox-'));
+  try {
+    const { status, stdout } = runCli([], { cwd: repo });
+    assert.equal(status, 0);
+    assert.match(stdout, /retro inbox absent: \.context\/retros\/inbox does not exist/);
+  } finally {
+    rmSync(repo, { recursive: true, force: true });
+  }
 });
 
 test('CLI exits 2 on an unknown option', () => {
