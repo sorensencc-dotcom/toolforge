@@ -1,0 +1,24 @@
+#!/bin/bash
+
+MSG_FILE="$1"
+LAST_COMMIT_TS=$(git log -1 --format=%ct 2>/dev/null)
+
+if [ -z "$LAST_COMMIT_TS" ]; then
+  exit 0
+fi
+
+NOW_TS=$(date +%s)
+GAP=$(( NOW_TS - LAST_COMMIT_TS ))
+
+if [ "$GAP" -le 3600 ]; then
+  exit 0
+fi
+
+if grep -qi '^next:' "$MSG_FILE"; then
+  exit 0
+fi
+
+GAP_MIN=$(( GAP / 60 ))
+echo -e "\033[33m[Hook]\033[0m Gap since last commit: ${GAP_MIN}m (>1hr). No 'next: X' line found in this commit message."
+echo -e "\033[33m[Hook]\033[0m Multi-drop session continuity: consider adding one. See memory/session_continuity_gap.md. Not blocking."
+exit 0

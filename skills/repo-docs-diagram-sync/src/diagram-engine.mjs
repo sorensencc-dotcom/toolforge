@@ -37,19 +37,34 @@ export function scanMarkdownForMermaid(markdown) {
   return results;
 }
 
+export const LAVERY_WARM_PALETTE = {
+  paper: '#f2ece2',
+  ink: '#2c2420',
+  muted: '#5c5349',
+  accent: '#c4501a',
+};
+
 /**
  * Inspects HTML content to check if it adheres to the Cathryn Lavery standard.
+ * Accepts both upstream diagram-design v2.6.110 tokens and canonical warm tokens.
  * @param {string} html
  * @returns {{ isLavery: boolean, missingTokens: string[] }}
  */
 export function inspectHtmlSkin(html) {
   const missing = [];
-  if (!html.includes('#f5f5f5')) missing.push('#f5f5f5');
-  if (!html.includes('#2d3142')) missing.push('#2d3142');
-  if (!html.includes('#4f5d75')) missing.push('#4f5d75');
-  if (!html.includes('#bf4520')) missing.push('#bf4520');
-  if (!/Instrument[\s+]Serif/i.test(html)) missing.push('Instrument Serif');
-  if (!/Geist/i.test(html)) missing.push('Geist');
+  const hasPaper = html.includes('#f5f5f5') || html.includes('#f2ece2');
+  const hasInk = html.includes('#2d3142') || html.includes('#2c2420');
+  const hasMuted = html.includes('#4f5d75') || html.includes('#5c5349');
+  const hasAccent = html.includes('#bf4520') || html.includes('#c4501a');
+  const hasSerif = /Instrument[\s+]Serif/i.test(html) || /Playfair[\s+]Display/i.test(html);
+  const hasSans = /Geist/i.test(html) || /Barlow/i.test(html);
+
+  if (!hasPaper) missing.push('#f5f5f5');
+  if (!hasInk) missing.push('#2d3142');
+  if (!hasMuted) missing.push('#4f5d75');
+  if (!hasAccent) missing.push('#bf4520');
+  if (!hasSerif) missing.push('Instrument Serif');
+  if (!hasSans) missing.push('Geist');
 
   return {
     isLavery: missing.length === 0,

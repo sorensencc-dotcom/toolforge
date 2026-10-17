@@ -8,7 +8,10 @@ import {
   applyRepoPages,
   assertPublishClone,
   changedWikiPaths,
+  checkDirtyWiki,
   cleanGitEnv,
+  getCurrentBranch,
+  publish,
   removeCloneDir,
   runGit,
   wikiPagesFromRepo
@@ -91,4 +94,19 @@ test('published pages hide repo frontmatter in an HTML comment', () => {
 test('a failed temp clone removal warns instead of throwing', () => {
   const eperm = Object.assign(new Error('EPERM'), { code: 'EPERM' });
   assert.doesNotThrow(() => removeCloneDir('C:\tmp\clone', () => { throw eperm; }));
+});
+
+test('publish: dry-run mode executes without cloning or remote network calls', () => {
+  const pages = [{ src: 'wiki/sync-tools/repo-triage-and-digest.md', dest: 'repo-triage-and-digest.md' }];
+  assert.doesNotThrow(() => publish(pages, { dryRun: true }));
+});
+
+test('getCurrentBranch: extracts a valid git branch name', () => {
+  const branch = getCurrentBranch();
+  assert.ok(typeof branch === 'string' && branch.length > 0);
+});
+
+test('checkDirtyWiki: returns array of uncommitted wiki changes', () => {
+  const dirty = checkDirtyWiki();
+  assert.ok(Array.isArray(dirty));
 });

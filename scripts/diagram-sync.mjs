@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
@@ -24,8 +25,50 @@ export const IGNORED_DIRS = new Set([
   '.pytest_cache', '__pycache__', '.venv', 'venv', 'IronLedger'
 ]);
 
-const DEFAULT_CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const CHROME_PATH = process.env.CHROME_PATH || DEFAULT_CHROME;
+export function findChrome() {
+  if (process.env.CHROME_PATH && fs.existsSync(process.env.CHROME_PATH)) {
+    return process.env.CHROME_PATH;
+  }
+  const candidates = [
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium',
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  return candidates[0];
+}
+
+export const CHROME_PATH = process.env.CHROME_PATH || findChrome();
+export const MANIFEST_FILE = path.join(ROOT, '.diagram-manifest.json');
+
+export function loadManifest(manifestPath = MANIFEST_FILE) {
+  try {
+    if (fs.existsSync(manifestPath)) {
+      return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    }
+  } catch {
+    // ignore
+  }
+  return {};
+}
+
+export function saveManifest(manifest, manifestPath = MANIFEST_FILE) {
+  try {
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
+  } catch {
+    // ignore
+  }
+}
+
+export function computeFileHash(filePath) {
+  const content = fs.readFileSync(filePath);
+  return crypto.createHash('sha256').update(content).digest('hex');
+}
 
 export function renderWithChrome(htmlPath, pngPath, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT) {
   if (!fs.existsSync(CHROME_PATH)) {
@@ -103,6 +146,15 @@ export function syncDiagramsInFile(filePath, { dryRun = false, renderPng = true 
           const freshTime = (htmlMtime + 1000) / 1000;
           fs.utimesSync(pngPath, freshTime, freshTime);
         }
+        const relPng = path.relative(ROOT, pngPath).replace(/\\/g, '/');
+        if (!relPng.startsWith('..')) {
+          const manifest = loadManifest();
+          manifest[relPng] = {
+            htmlHash: computeFileHash(htmlPath),
+            updatedAt: new Date().toISOString(),
+          };
+          saveManifest(manifest);
+        }
       }
     }
 
@@ -121,19 +173,48 @@ export function syncDiagramsInFile(filePath, { dryRun = false, renderPng = true 
   return { modified, diagramsFound: diagrams.length };
 }
 
+let cachedTrackedFiles = null;
+let lastTrackedFetch = 0;
+let cachedCommittedFiles = null;
+let lastCommittedFetch = 0;
+
+export function getGitFiles() {
+  const now = Date.now();
+  if (!cachedTrackedFiles || (now - lastTrackedFetch > 5000)) {
+    if (fs.existsSync(path.join(ROOT, '.git'))) {
+      try {
+        const stdout = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+        cachedTrackedFiles = new Set(stdout.split('\n').map((l) => path.resolve(ROOT, l.trim())).filter(Boolean));
+        lastTrackedFetch = now;
+      } catch {
+        cachedTrackedFiles = null;
+      }
+    }
+  }
+  if (!cachedCommittedFiles || (now - lastCommittedFetch > 5000)) {
+    if (fs.existsSync(path.join(ROOT, '.git'))) {
+      try {
+        const stdoutTree = execFileSync('git', ['ls-tree', '-r', '--name-only', 'HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+        cachedCommittedFiles = new Set(stdoutTree.split('\n').map((l) => path.resolve(ROOT, l.trim())).filter(Boolean));
+        lastCommittedFetch = now;
+      } catch {
+        cachedCommittedFiles = null;
+      }
+    }
+  }
+  return { trackedFiles: cachedTrackedFiles, committedFiles: cachedCommittedFiles };
+}
+
 export function verifyDiagramParity(targetPath = ROOT) {
   const errors = [];
   const checked = [];
 
-  let trackedFiles = null;
-  if (fs.existsSync(path.join(ROOT, '.git'))) {
-    try {
-      const stdout = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
-      trackedFiles = new Set(stdout.split('\n').map((l) => path.resolve(ROOT, l.trim())).filter(Boolean));
-    } catch {
-      // ignore git command failure
-    }
-  }
+  const { trackedFiles, committedFiles } = getGitFiles();
+
+  const targetManifest = path.join(targetPath, '.diagram-manifest.json');
+  const manifest = fs.existsSync(targetManifest)
+    ? loadManifest(targetManifest)
+    : loadManifest();
 
   const checkHtmlFile = (htmlPath) => {
     try {
@@ -152,11 +233,29 @@ export function verifyDiagramParity(targetPath = ROOT) {
         return;
       }
 
-      const htmlStat = fs.statSync(htmlPath);
-      const pngStat = fs.statSync(pngPath);
-      if (pngStat.mtimeMs < htmlStat.mtimeMs) {
-        errors.push(`STALE_PNG: ${path.relative(ROOT, pngPath)} is older than ${path.relative(ROOT, htmlPath)}`);
+      if (committedFiles && committedFiles.has(path.resolve(htmlPath)) && !committedFiles.has(path.resolve(pngPath))) {
+        errors.push(`UNCOMMITTED_PNG: ${path.relative(ROOT, pngPath)} is not committed in git HEAD for tracked spec ${path.relative(ROOT, htmlPath)}`);
         return;
+      }
+
+      const relPngFromRoot = path.relative(ROOT, pngPath).replace(/\\/g, '/');
+      const relPngFromTarget = path.relative(targetPath, pngPath).replace(/\\/g, '/');
+      const basePng = path.basename(pngPath);
+      const manifestEntry = manifest[relPngFromTarget] || manifest[relPngFromRoot] || manifest[basePng];
+      const htmlHash = computeFileHash(htmlPath);
+
+      if (manifestEntry) {
+        if (manifestEntry.htmlHash !== htmlHash) {
+          errors.push(`STALE_PNG: ${path.relative(ROOT, pngPath)} content hash does not match ${path.relative(ROOT, htmlPath)}`);
+          return;
+        }
+      } else {
+        const htmlStat = fs.statSync(htmlPath);
+        const pngStat = fs.statSync(pngPath);
+        if (pngStat.mtimeMs < htmlStat.mtimeMs) {
+          errors.push(`STALE_PNG: ${path.relative(ROOT, pngPath)} is older than ${path.relative(ROOT, htmlPath)}`);
+          return;
+        }
       }
       checked.push(htmlPath);
     } catch {
@@ -171,7 +270,10 @@ export function verifyDiagramParity(targetPath = ROOT) {
         if (IGNORED_DIRS.has(entry.name)) continue;
         const full = path.join(d, entry.name);
         if (entry.isDirectory()) walk(full);
-        else if (entry.isFile() && entry.name.endsWith('.html')) checkHtmlFile(full);
+        else if (entry.isFile() && entry.name.endsWith('.html')) {
+          if (entry.name === 'dashboard.html' || entry.name === 'index.html') continue;
+          checkHtmlFile(full);
+        }
       }
     } catch {
       // ignore

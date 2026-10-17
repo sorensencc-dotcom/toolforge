@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Prevent pushes if security audit fails
+echo -e "\033[36m[Hook]\033[0m Executing pre-push static analysis audit..."
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+AUDITOR="$REPO_ROOT/skills/skill-security-auditor/src/skill_security_auditor.py"
+FAIL=0
+
+# Scope to skill dirs actually touched vs upstream, not all 40+ skills on
+# every push. Falls back to a full scan when there's no upstream to diff
+# against (new branch) or the diff can't be determined.
+UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+if [ -n "$UPSTREAM" ]; then
+  CHANGED_FILES=$(git diff --name-only "$UPSTREAM"...HEAD)
+else
+  CHANGED_FILES=""
+fi
+
+if [ -z "$CHANGED_FILES" ]; then
+  for d in "$REPO_ROOT"/skills/*/; do
+    [ -d "$d" ] || continue
+    python "$AUDITOR" "$d" || FAIL=1
+  done
+  if [ -d "$REPO_ROOT/utilities" ]; then
+    python "$AUDITOR" "$REPO_ROOT/utilities" || FAIL=1
+  fi
+else
+  CHANGED_SKILL_DIRS=$(echo "$CHANGED_FILES" | grep -o '^skills/[^/]*' | sort -u)
+  for skill in $CHANGED_SKILL_DIRS; do
+    d="$REPO_ROOT/$skill"
+    [ -d "$d" ] || continue
+    python "$AUDITOR" "$d" || FAIL=1
+  done
+  if echo "$CHANGED_FILES" | grep -q '^utilities/'; then
+    python "$AUDITOR" "$REPO_ROOT/utilities" || FAIL=1
+  fi
+fi
+
+if [ $FAIL -ne 0 ]; then
+  echo -e "\033[31m[Hook Fail]\033[0m Security vulnerabilities detected. Push blocked."
+  exit 1
+fi
+
+echo -e "\033[36m[Hook]\033[0m Executing diagram visual parity and documentation sync gate..."
+node "$REPO_ROOT/scripts/diagram-sync.mjs" --verify-parity || FAIL=1
+
+if [ $FAIL -ne 0 ]; then
+  echo -e "\033[31m[Hook Fail]\033[0m Diagram visual parity failed. Push blocked."
+  exit 1
+fi
+
+echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceeding with push."
+if ! node "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed --dry-run; then
+  echo -e "\033[31m[Hook Fail]\033[0m Repo wiki dry-run check failed. Push blocked."
+  exit 1
+fi
+exit 0
