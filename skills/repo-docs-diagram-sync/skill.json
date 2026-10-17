@@ -1,0 +1,37 @@
+{
+  "id": "repo-docs-diagram-sync",
+  "name": "Repo Docs and Diagram Sync",
+  "version": "1.0.0",
+  "description": "On-demand deterministic diagram engine and documentation synthesizer enforcing Cathryn Lavery visual design specs and Google Developer Style heuristics.",
+  "category": "automation",
+  "runtime": "node",
+  "entrypoint": "src/diagram-engine.mjs",
+  "keywords": [
+    "diagrams",
+    "mermaid",
+    "cathrynlavery",
+    "documentation",
+    "heuristics",
+    "wiki-sync"
+  ],
+  "commands": {
+    "sync": "node scripts/diagram-sync.mjs --fix",
+    "audit": "node scripts/docs-synthesizer.mjs --audit",
+    "test": "node --test tests/diagram-sync.test.mjs tests/docs-synthesizer.test.mjs tests/sync-docs-gate.test.mjs"
+  },
+  "inputs": {
+    "targetPath": "string, optional directory or file path to scan",
+    "dryRun": "boolean, optional validation without mutation",
+    "fix": "boolean, optional auto-generation of HTML and PNG assets"
+  },
+  "outputs": {
+    "diagrams": "Rendered Cathryn Lavery HTML+SVG and PNG visual assets",
+    "markdown": "Collapsible Mermaid details blocks with PNG embeds",
+    "auditReport": "List of writing-heuristics violations and wiki sync status"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "tooltip": "Convert Mermaid diagrams to Cathryn Lavery visuals and enforce Google Developer Style across docs."
+}

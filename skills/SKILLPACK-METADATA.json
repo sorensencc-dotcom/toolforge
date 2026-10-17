@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-07T20:03:03.0833694Z",
+  "timestamp": "2026-10-17T19:50:10.8967636Z",
   "version": "1.0.0",
   "skills": [
     {
@@ -27,6 +27,33 @@
         "created": "2026-07-17T16:43:16.0006002Z",
         "lastValidation": "2026-07-17T16:43:16.0006002Z",
         "lastRun": "2026-08-07T21:38:00Z"
+      }
+    },
+    {
+      "id": "retro-export",
+      "name": "Retro Export",
+      "category": "monitoring",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "Soren (Cast Iron Forge)",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-08-16T17:27:19.1809541Z",
+        "lastValidation": "2026-08-16T17:27:19.1809541Z",
+        "lastRun": "2026-08-26T12:46:48.8494896Z"
       }
     },
     {
@@ -392,6 +419,37 @@
       }
     },
     {
+      "id": "research-store",
+      "name": "research-store",
+      "category": "research",
+      "tags": [],
+      "version": "0.1.0",
+      "owner": "soren",
+      "runtime": "node",
+      "entrypoint": "src/mcp-server.mjs",
+      "description": "One-way research indexing and project-scoped MCP retrieval.",
+      "status": "candidate",
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "@modelcontextprotocol/sdk",
+          "@supabase/supabase-js",
+          "js-yaml"
+        ]
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-10-14T15:05:41.2776522Z",
+        "lastValidation": "2026-10-14T15:05:41.2776522Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "tool-lifecycle-manager",
       "name": "Tool Lifecycle Manager",
       "category": "pipeline",
@@ -416,40 +474,6 @@
         "created": "2026-07-14T03:18:38.7892909Z",
         "lastValidation": "2026-07-14T03:18:38.7892909Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
-      }
-    },
-    {
-      "id": "toolforge-cli",
-      "name": "Toolforge CLI",
-      "category": "utility",
-      "tags": [
-        "cli",
-        "toolforge",
-        "marketplace"
-      ],
-      "version": "0.1.0",
-      "owner": "soren",
-      "runtime": "powershell",
-      "entrypoint": "src/cli.ps1",
-      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
-      "status": "active",
-      "dependencies": {
-        "internal": [
-          "toolforge-registry-manager",
-          "toolforge-submission-validator"
-        ],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "functional",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-07-14T03:43:17.3269637Z",
-        "lastValidation": "2026-07-14T03:43:17.3269637Z",
-        "lastRun": "2026-08-07T21:38:00Z"
       }
     },
     {
@@ -688,6 +712,33 @@
       }
     },
     {
+      "id": "trm-triage",
+      "name": "TRM Triage",
+      "category": "automation",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.mjs",
+      "description": "Autonomous task card triage engine applying YAGNI evaluation, reversibility classification, and GitHub Issue promotion payloads.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-10-11T14:43:26.8083831Z",
+        "lastValidation": "2026-10-11T14:43:26.8083831Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "usagecheck",
       "name": "Usage Check",
       "category": "utilities",
@@ -718,6 +769,33 @@
       "timestamps": {
         "created": "2026-09-29T02:00:32.5113955Z",
         "lastValidation": "2026-09-29T02:00:32.5113955Z",
+        "lastRun": null
+      }
+    },
+    {
+      "id": "vane-research",
+      "name": "vane-research",
+      "category": "research",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "soren",
+      "runtime": "node",
+      "entrypoint": "src/index.mjs",
+      "description": "Air-gapped web search and cited QA using local Vane (SearXNG + Ollama).",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-10-09T02:45:58.7534322Z",
+        "lastValidation": "2026-10-09T02:45:58.7534322Z",
         "lastRun": null
       }
     },
@@ -803,18 +881,25 @@
       }
     },
     {
-      "id": "retro-export",
-      "name": "Retro Export",
-      "category": "monitoring",
-      "tags": [],
-      "version": "1.0.0",
-      "owner": "Soren (Cast Iron Forge)",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Thin wrapper that exports gstack /retro metrics as JSON schema v1.0 for downstream tooling (dashboards, reporting agents) to consume.",
+      "id": "toolforge-cli",
+      "name": "Toolforge CLI",
+      "category": "utility",
+      "tags": [
+        "cli",
+        "toolforge",
+        "marketplace"
+      ],
+      "version": "0.1.0",
+      "owner": "soren",
+      "runtime": "powershell",
+      "entrypoint": "src/cli.ps1",
+      "description": "CLI for Toolforge Marketplace: list, install, submit plugins",
       "status": "active",
       "dependencies": {
-        "internal": [],
+        "internal": [
+          "toolforge-registry-manager",
+          "toolforge-submission-validator"
+        ],
         "external": []
       },
       "health": {
@@ -824,9 +909,9 @@
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-08-16T17:27:19.1809541Z",
-        "lastValidation": "2026-08-16T17:27:19.1809541Z",
-        "lastRun": "2026-08-26T12:46:48.8494896Z"
+        "created": "2026-07-14T03:43:17.3269637Z",
+        "lastValidation": "2026-07-14T03:43:17.3269637Z",
+        "lastRun": "2026-08-07T21:38:00Z"
       }
     },
     {
@@ -889,32 +974,57 @@
       }
     },
     {
-      "id": "pre-wrap-audit",
-      "name": "Pre Wrap Audit",
-      "category": "session-management",
+      "id": "repo-docs-diagram-sync",
+      "name": "Repo Docs and Diagram Sync",
+      "category": "automation",
       "tags": [],
       "version": "1.0.0",
       "owner": "unknown",
       "runtime": "node",
-      "entrypoint": "src/index.ts",
-      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
+      "entrypoint": "src/diagram-engine.mjs",
+      "description": "On-demand deterministic diagram engine and documentation synthesizer enforcing Cathryn Lavery visual design specs and Google Developer Style heuristics.",
       "status": "active",
       "dependencies": {
-        "internal": [
-          "ashfall"
-        ],
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": false,
+        "runtime": "untested",
+        "overall": "warn"
+      },
+      "timestamps": {
+        "created": "2026-10-17T18:41:27.5899415Z",
+        "lastValidation": "2026-10-17T18:41:27.5899415Z",
+        "lastRun": null
+      }
+    },
+    {
+      "id": "active-work-overview",
+      "name": "Active Work Overview",
+      "category": "observability",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/overview.mjs",
+      "description": "Aggregates active pull requests, recent landings, git worktrees, open backlog items, mobile ingress receipts, and daemon health into a structured report.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
         "external": []
       },
       "health": {
         "canonical": true,
         "distributed": true,
-        "runtime": "functional",
+        "runtime": "untested",
         "overall": "good"
       },
       "timestamps": {
-        "created": "2026-07-10T21:43:59.2189839Z",
-        "lastValidation": "2026-07-10T21:43:59.2189839Z",
-        "lastRun": "2026-07-09T03:06:00.9661548Z"
+        "created": "2026-10-08T18:56:51.6085513Z",
+        "lastValidation": "2026-10-08T18:56:51.6085513Z",
+        "lastRun": null
       }
     },
     {
@@ -1048,9 +1158,9 @@
       },
       "health": {
         "canonical": true,
-        "distributed": false,
+        "distributed": true,
         "runtime": "untested",
-        "overall": "warn"
+        "overall": "good"
       },
       "timestamps": {
         "created": "2026-10-07T19:08:22.7291104Z",
@@ -1289,6 +1399,33 @@
       }
     },
     {
+      "id": "repo-triage-and-digest",
+      "name": "Repo Triage and Digest",
+      "category": "automation",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.mjs",
+      "description": "Two-stage GitHub intake: GitDiagram links for structure, then a size-capped Gitingest digest for model context.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-10-12T16:09:09.0426626Z",
+        "lastValidation": "2026-10-12T16:09:09.0426626Z",
+        "lastRun": null
+      }
+    },
+    {
       "id": "doc-sync-drift-audit",
       "name": "doc-sync-drift-audit",
       "category": "sync-tools",
@@ -1318,39 +1455,6 @@
       "timestamps": {
         "created": "2026-10-07T20:00:25.1353911Z",
         "lastValidation": "2026-10-07T20:00:25.1353911Z",
-        "lastRun": null
-      }
-    },
-    {
-      "id": "governance-matrix-validator",
-      "name": "governance-matrix-validator",
-      "category": "governance",
-      "tags": [
-        "governance",
-        "ci",
-        "matrix",
-        "validation",
-        "multi-repo"
-      ],
-      "version": "0.1.0",
-      "owner": "unknown",
-      "runtime": "typescript",
-      "entrypoint": "src/index.ts",
-      "description": "Validate CI governance matrix workflows against physical repository states, unmasking hidden errors and auditing cross-repo contracts.",
-      "status": "active",
-      "dependencies": {
-        "internal": [],
-        "external": []
-      },
-      "health": {
-        "canonical": true,
-        "distributed": true,
-        "runtime": "untested",
-        "overall": "good"
-      },
-      "timestamps": {
-        "created": "2026-10-07T20:00:36.5954989Z",
-        "lastValidation": "2026-10-07T20:00:36.5954989Z",
         "lastRun": null
       }
     },
@@ -1517,9 +1621,9 @@
       },
       "health": {
         "canonical": true,
-        "distributed": false,
+        "distributed": true,
         "runtime": "untested",
-        "overall": "warn"
+        "overall": "good"
       },
       "timestamps": {
         "created": "2026-10-07T18:21:11.1915462Z",
@@ -1692,6 +1796,35 @@
       }
     },
     {
+      "id": "pre-wrap-audit",
+      "name": "Pre Wrap Audit",
+      "category": "session-management",
+      "tags": [],
+      "version": "1.0.0",
+      "owner": "unknown",
+      "runtime": "node",
+      "entrypoint": "src/index.ts",
+      "description": "Session wrap audit — 12-point blind-spot assessment before termination",
+      "status": "active",
+      "dependencies": {
+        "internal": [
+          "ashfall"
+        ],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "functional",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-07-10T21:43:59.2189839Z",
+        "lastValidation": "2026-07-10T21:43:59.2189839Z",
+        "lastRun": "2026-07-09T03:06:00.9661548Z"
+      }
+    },
+    {
       "id": "reconcile-vector-store",
       "name": "Reconcile Vector Store",
       "category": "data-management",
@@ -1716,6 +1849,39 @@
         "created": "2026-07-10T21:43:59.2615565Z",
         "lastValidation": "2026-07-10T21:43:59.2615565Z",
         "lastRun": "2026-07-09T03:06:00.9661548Z"
+      }
+    },
+    {
+      "id": "governance-matrix-validator",
+      "name": "governance-matrix-validator",
+      "category": "governance",
+      "tags": [
+        "governance",
+        "ci",
+        "matrix",
+        "validation",
+        "multi-repo"
+      ],
+      "version": "0.1.0",
+      "owner": "unknown",
+      "runtime": "typescript",
+      "entrypoint": "src/index.ts",
+      "description": "Validate CI governance matrix workflows against physical repository states, unmasking hidden errors and auditing cross-repo contracts.",
+      "status": "active",
+      "dependencies": {
+        "internal": [],
+        "external": []
+      },
+      "health": {
+        "canonical": true,
+        "distributed": true,
+        "runtime": "untested",
+        "overall": "good"
+      },
+      "timestamps": {
+        "created": "2026-10-07T20:00:36.5954989Z",
+        "lastValidation": "2026-10-07T20:00:36.5954989Z",
+        "lastRun": null
       }
     },
     {
@@ -1754,11 +1920,11 @@
     }
   ],
   "summary": {
-    "total": 61,
-    "active": 61,
+    "total": 67,
+    "active": 67,
     "deprecated": 0,
-    "health_good": 59,
-    "health_warn": 2,
+    "health_good": 66,
+    "health_warn": 1,
     "health_error": 0
   }
 }

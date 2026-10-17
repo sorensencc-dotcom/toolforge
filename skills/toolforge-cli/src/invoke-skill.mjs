@@ -210,3 +210,16 @@ if (process.argv[1] && path.resolve(process.argv[1]) === import.meta.filename) {
   process.stdout.write(`${JSON.stringify(envelope)}\n`);
   process.exitCode = envelope.state !== 'completed' ? 2 : envelope.outcome === 'pass' ? 0 : 1;
 }
+
+export function executeSyncDocs({ dryRun = false, fix = false, path: targetPath = '' } = {}) {
+  const scriptPath = path.resolve('scripts/sync-docs-and-diagrams.ps1');
+  const args = [];
+  if (targetPath) args.push(`-Path ${targetPath}`);
+  if (dryRun) args.push('-DryRun');
+  if (fix) args.push('-Fix');
+  return {
+    command: 'sync-docs',
+    scriptPath,
+    args,
+  };
+}
