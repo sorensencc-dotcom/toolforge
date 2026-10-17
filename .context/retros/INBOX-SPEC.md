@@ -15,10 +15,12 @@ Write one JSON file per agent session:
 
 - `<agent>` is a registered agent and equals the entry's `agent`.
 - `<YYYY-MM-DD>` equals the entry's `date`.
-- `<slug>` is lowercase kebab-case, such as `retro-gate-scans-inbox`.
+- `<slug>` is lowercase kebab-case, such as `graft-mcp-cold-start-timeout`.
 - The inbox holds entry files only. Agent directories have no subdirectories.
 
 ## Entry format
+The example below is illustrative. Its evidence is invented and no such entry exists.
+
 
 ```json
 {
@@ -29,15 +31,15 @@ Write one JSON file per agent session:
   "session": "feat/retro-governance",
   "findings": [
     {
-      "id": "RF-707f88a76982",
-      "tag": "GATE",
+      "id": "RF-67037cac182c",
+      "tag": "MCP",
       "severity": "high",
-      "summary": "retro-schema CI job validates inbox entries as v1.0 retros",
+      "summary": "graft MCP server times out on cold start",
       "evidence": [
-        ".context/retros/validate-changed.ps1:15 diffs the pathspec .context/retros/*.json, which also matches .context/retros/inbox/<agent>/<file>.json",
-        ".context/retros/validate-v1.0.ps1:49 requires date, window, since, until, base_branch, metrics, authors, and session_focus"
+        "logs/graft-mcp.log:212 request timed out after 30000 ms on first query after start",
+        "run 2026-10-17T14:02Z: second query returned in 180 ms"
       ],
-      "suggestion": "Exclude .context/retros/inbox/ in validate-changed.ps1 before any agent commits an inbox entry."
+      "suggestion": "Warm the graft index at server start before it accepts queries."
     }
   ]
 }
@@ -137,7 +139,7 @@ No tool performs this mapping yet. It fixes the contract for the planned consoli
 | `categoryId` | The tag's ICF category |
 | `wording` | The `suggestion` |
 | `displayLabel` | The `summary` |
-| `provenanceLinks` | The entry path, such as `.context/retros/inbox/claude/2026-10-17-retro-gate-scans-inbox.json` |
+| `provenanceLinks` | The entry path, such as `.context/retros/inbox/claude/2026-10-17-graft-mcp-cold-start-timeout.json` |
 
 ## Validation
 

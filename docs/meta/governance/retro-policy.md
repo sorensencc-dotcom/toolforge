@@ -58,11 +58,10 @@ No tool applies this rule yet. The planned consolidator and TODOS.md writer must
 
 ## Prerequisites before agents write entries
 
-Agents write no inbox entries until all three items below hold.
+Agents write no inbox entries until Tier 1 approves this policy. The two technical blockers are fixed on `feat/retro-governance`:
 
-1. Tier 1 approves this policy.
-2. `.context/retros/validate-changed.ps1` skips `.context/retros/inbox/`. Its pathspec `.context/retros/*.json` also matches nested inbox entries, so the governance `retro-schema` job validates each entry as a v1.0 retro and fails. A scratch commit of a valid entry failed it on 2026-10-17 with `Missing required top-level field: window`.
-3. `.gitignore` re-includes `.context/retros/inbox/`. Line 128 ignores all of `.context/retros/`, so a plain `git add` skips new entries.
+1. `.context/retros/validate-changed.ps1` validates only dated retros, so inbox entries no longer fail the `retro-schema` job. `.context/retros/test-v1.0.ps1` covers this.
+2. `.gitignore` re-includes `.context/retros/inbox/`, so a plain `git add` tracks new entries.
 
 ## Enforcement plan
 
