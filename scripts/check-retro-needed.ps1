@@ -63,14 +63,22 @@ $until = ConvertTo-GitUtc $data.until
 $branch = $data.base_branch
 $priorCommits = $data.metrics.commits
 
-$currentCommits = (git log $branch --since="$since" --until="$until" --oneline 2>$null | Measure-Object -Line).Lines
+$gitArgs = @($branch, "--since=$since")
+if ($until) { $gitArgs += "--until=$until" }
+$currentCommits = (git log @gitArgs --oneline 2>$null | Measure-Object -Line).Lines
 
 if ($null -eq $currentCommits) { $currentCommits = 0 }
 
-if ($currentCommits -eq $priorCommits) {
-  Write-Host "SKIP: no new commits since $($lastFile.Name) (still $priorCommits/window on $branch)."
+$delta = $currentCommits - $priorCommits
+
+if ($delta -lt 0) {
+  Write-Host "WARN: window on $branch holds $currentCommits commits but $($lastFile.Name) recorded $priorCommits; baseline was counted differently or history was rewritten."
+}
+
+if ($delta -le 0) {
+  Write-Host "SKIP: no new commits since $($lastFile.Name) ($currentCommits now vs $priorCommits recorded on $branch)."
   exit 1
 }
 
-Write-Host "PROCEED: $currentCommits commits/window vs $priorCommits at $($lastFile.Name) ($($currentCommits - $priorCommits) new)."
+Write-Host "PROCEED: $currentCommits commits/window vs $priorCommits at $($lastFile.Name) ($delta new)."
 exit 0
