@@ -1,0 +1,32 @@
+docs/meta/governance/retro-policy.md
+  s_e8c5d5cef80b42::t_ec9dba309d88bc 52
+  s_e8c5d5cef80b42::t_6b021fef1be927 1-51,53-80
+docs/meta/governance/README.md
+  s_e8c5d5cef80b42::t_417ef14adfc736 21
+AGENTS.md
+  s_f80176bea0d668::t_2b947da3d15834 336-339
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e0110a078e834c821b07d860eae84f1d43d54874",
+  "prompts": {},
+  "sessions": {
+    "s_e8c5d5cef80b42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "002e2a65-c944-428c-8fd9-d5393e7b3986",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f80176bea0d668": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ad571f98e7758305b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
