@@ -1,0 +1,23 @@
+_status-feed/daemon_health.json
+  s_cf48dae32d5dd9::t_cc5077c7a5af9a 2-3,18,32,38,43-85
+scripts/daemon-healer-bot.mjs
+  s_cf48dae32d5dd9::t_e35d8dcc7d684f 15,27-49,57,67-68,71,78-79,83,119-139,142-147,152,157,185-224,242-245,252-255,261-285,290,296-311,313,330,337,343,352,356-456,479-494,502,506,510
+tests/ironbots.test.mjs
+  s_cf48dae32d5dd9::t_d39fff79e81ce8 240-270
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "01c20ef1fc9ac024870abbd3c5b9075ddff9cf71",
+  "prompts": {},
+  "sessions": {
+    "s_cf48dae32d5dd9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b2d6e6eb-486c-43c6-b0b9-03b0bd947fd1",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

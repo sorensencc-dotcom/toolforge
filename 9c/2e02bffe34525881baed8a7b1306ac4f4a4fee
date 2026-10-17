@@ -1,0 +1,29 @@
+scripts/clean-and-fix-trm-backlog.mjs
+  s_fa11606c187761::t_fc7dab5c56ffcc 1-197
+trm-drive/inbox/ledger.jsonl
+  s_a8c54205434b64::t_60da976a2fbfee 1,23,39-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9c2e02bffe34525881baed8a7b1306ac4f4a4fee",
+  "prompts": {},
+  "sessions": {
+    "s_a8c54205434b64": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b2a36691-8258-4ddb-9f0d-48310f3f8876",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fa11606c187761": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a14674-d160-7dd2-98f1-0646f6f76765",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
