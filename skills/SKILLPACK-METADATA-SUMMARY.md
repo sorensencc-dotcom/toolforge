@@ -1,6 +1,6 @@
 # Skillpack Metadata Summary
 
-**Generated:** 2026-10-07T20:03:03.0833694Z
+**Generated:** 2026-10-17T19:50:10.8967636Z
 
 **Phase:** 1.5 — Metadata Schema Implementation
 
@@ -10,16 +10,16 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| **Total Skills** | 61 | 100% |
-| Active | 61 | 100% |
+| **Total Skills** | 67 | 100% |
+| Active | 67 | 100% |
 | Deprecated | 0 | 0% |
 
 ### Overall Health
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Good | 59 | 96.7% |
-| ⚠️ Warning | 2 | 3.3% |
+| ✅ Good | 66 | 98.5% |
+| ⚠️ Warning | 1 | 1.5% |
 | ❌ Error | 0 | 0% |
 
 ---
@@ -37,6 +37,19 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 0 internal, 0 external |
+### retro-export
+
+| Field | Value |
+|-------|-------|
+| Name | Retro Export |
+| Category | monitoring |
+| Version | 1.0.0 |
+| Owner | Soren (Cast Iron Forge) |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
 ### retro-schema-validator
 
@@ -207,6 +220,19 @@
 | Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 1 external |
+### research-store
+
+| Field | Value |
+|-------|-------|
+| Name | research-store |
+| Category | research |
+| Version | 0.1.0 |
+| Owner | soren |
+| Runtime | node |
+| Status | candidate |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 3 external |
 ### tool-lifecycle-manager
 
 | Field | Value |
@@ -220,19 +246,6 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### toolforge-cli
-
-| Field | Value |
-|-------|-------|
-| Name | Toolforge CLI |
-| Category | utility |
-| Version | 0.1.0 |
-| Owner | soren |
-| Runtime | powershell |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | 2026-08-07T21:38:00Z |
-| Dependencies | 2 internal, 0 external |
 ### toolforge-drift-monitor
 
 | Field | Value |
@@ -337,6 +350,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 1 external |
+### trm-triage
+
+| Field | Value |
+|-------|-------|
+| Name | TRM Triage |
+| Category | automation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### usagecheck
 
 | Field | Value |
@@ -346,6 +372,19 @@
 | Version | 0.1.0 |
 | Owner | unknown |
 | Runtime | javascript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### vane-research
+
+| Field | Value |
+|-------|-------|
+| Name | vane-research |
+| Category | research |
+| Version | 1.0.0 |
+| Owner | soren |
+| Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | Never |
@@ -389,19 +428,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
 | Dependencies | 0 internal, 0 external |
-### retro-export
+### toolforge-cli
 
 | Field | Value |
 |-------|-------|
-| Name | Retro Export |
-| Category | monitoring |
-| Version | 1.0.0 |
-| Owner | Soren (Cast Iron Forge) |
-| Runtime | typescript |
+| Name | Toolforge CLI |
+| Category | utility |
+| Version | 0.1.0 |
+| Owner | soren |
+| Runtime | powershell |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-08-26T12:46:48.8494896Z |
-| Dependencies | 0 internal, 0 external |
+| Last Run | 2026-08-07T21:38:00Z |
+| Dependencies | 2 internal, 0 external |
 ### workspace-storage-cleaner
 
 | Field | Value |
@@ -428,19 +467,32 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 2 external |
-### pre-wrap-audit
+### repo-docs-diagram-sync
 
 | Field | Value |
 |-------|-------|
-| Name | Pre Wrap Audit |
-| Category | session-management |
+| Name | Repo Docs and Diagram Sync |
+| Category | automation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ⚠️ WARN |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
+### active-work-overview
+
+| Field | Value |
+|-------|-------|
+| Name | Active Work Overview |
+| Category | observability |
 | Version | 1.0.0 |
 | Owner | unknown |
 | Runtime | node |
 | Status | active |
 | Health | ✅ GOOD |
-| Last Run | 2026-07-09T03:06:00.9661548Z |
-| Dependencies | 1 internal, 0 external |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### agent-drift-detector
 
 | Field | Value |
@@ -503,7 +555,7 @@
 | Owner | unknown |
 | Runtime | typescript |
 | Status | active |
-| Health | ⚠️ WARN |
+| Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### cic-consolidate-artifacts
@@ -610,25 +662,25 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-07T21:38:00Z |
 | Dependencies | 0 internal, 0 external |
+### repo-triage-and-digest
+
+| Field | Value |
+|-------|-------|
+| Name | Repo Triage and Digest |
+| Category | automation |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
+| Dependencies | 0 internal, 0 external |
 ### doc-sync-drift-audit
 
 | Field | Value |
 |-------|-------|
 | Name | doc-sync-drift-audit |
 | Category | sync-tools |
-| Version | 0.1.0 |
-| Owner | unknown |
-| Runtime | typescript |
-| Status | active |
-| Health | ✅ GOOD |
-| Last Run | Never |
-| Dependencies | 0 internal, 0 external |
-### governance-matrix-validator
-
-| Field | Value |
-|-------|-------|
-| Name | governance-matrix-validator |
-| Category | governance |
 | Version | 0.1.0 |
 | Owner | unknown |
 | Runtime | typescript |
@@ -711,7 +763,7 @@
 | Owner | unknown |
 | Runtime | typescript |
 | Status | active |
-| Health | ⚠️ WARN |
+| Health | ✅ GOOD |
 | Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### obsidian-ingest-wiki
@@ -792,6 +844,19 @@
 | Health | ✅ GOOD |
 | Last Run | 2026-08-26T12:46:48.8494896Z |
 | Dependencies | 0 internal, 0 external |
+### pre-wrap-audit
+
+| Field | Value |
+|-------|-------|
+| Name | Pre Wrap Audit |
+| Category | session-management |
+| Version | 1.0.0 |
+| Owner | unknown |
+| Runtime | node |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 1 internal, 0 external |
 ### reconcile-vector-store
 
 | Field | Value |
@@ -804,6 +869,19 @@
 | Status | active |
 | Health | ✅ GOOD |
 | Last Run | 2026-07-09T03:06:00.9661548Z |
+| Dependencies | 0 internal, 0 external |
+### governance-matrix-validator
+
+| Field | Value |
+|-------|-------|
+| Name | governance-matrix-validator |
+| Category | governance |
+| Version | 0.1.0 |
+| Owner | unknown |
+| Runtime | typescript |
+| Status | active |
+| Health | ✅ GOOD |
+| Last Run | Never |
 | Dependencies | 0 internal, 0 external |
 ### writing-heuristics
 

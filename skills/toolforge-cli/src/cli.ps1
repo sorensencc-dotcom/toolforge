@@ -8,8 +8,36 @@ param(
     [string]$Format,
     [switch]$Force,
     [switch]$DryRun,
-    [switch]$Help
+    [switch]$Help,
+    [switch]$Generate,
+    [switch]$Fix
 )
+
+if ($Path -match '^--?path=(.*)$') { $Path = $Matches[1] }
+if ($Path -match '^[a-zA-Z]$' -and $args.Length -gt 0 -and $args[0] -match '^[\\/]') {
+    $Path = "$Path`:" + $args[0]
+}
+for ($i = 0; $i -lt $args.Length; $i++) {
+    $a = $args[$i]
+    if ($a -match '^--?path=(.+)$') {
+        $val = $Matches[1]
+        if ($val -match '^[a-zA-Z]$' -and ($i + 1 -lt $args.Length) -and $args[$i + 1] -match '^[\\/]') {
+            $val = "$val`:" + $args[$i + 1]
+            $i++
+        }
+        $Path = $val
+    }
+    elseif ($a -match '^--?path$') {
+        if ($i + 1 -lt $args.Length) {
+            $Path = $args[$i + 1]
+            $i++
+        }
+    }
+    if ($a -match '^--?dry-run') { $DryRun = $true }
+    if ($a -match '^--?fix') { $Fix = $true }
+    if ($a -match '^--?generate') { $Generate = $true }
+    if ($a -match '^--?help') { $Help = $true }
+}
 
 $registryPath = "c:\dev\docs\toolforge\registry.json"
 $registryManagerPath = "c:\dev\skills\toolforge-registry-manager\src\registry.ps1"
@@ -253,6 +281,38 @@ function Invoke-ToolforgeSubmit {
     return $true
 }
 
+function Invoke-ToolforgeSyncDocs {
+    param(
+        [string]$TargetPath = "",
+        [switch]$GenerateWorkflows,
+        [switch]$FixMode,
+        [switch]$DryRunMode
+    )
+
+    $syncScript = "c:\dev\scripts\sync-docs-and-diagrams.ps1"
+    if (-not (Test-Path $syncScript)) {
+        Write-Error "Sync pipeline not found at $syncScript"
+        return
+    }
+
+    $callArgs = @()
+    if ($TargetPath) {
+        $callArgs += "-Path"
+        $callArgs += $TargetPath
+    }
+    if ($GenerateWorkflows) {
+        $callArgs += "-GenerateWorkflows"
+    }
+    if ($FixMode) {
+        $callArgs += "-Fix"
+    }
+    if ($DryRunMode) {
+        $callArgs += "-DryRun"
+    }
+
+    & pwsh -NoProfile -File $syncScript @callArgs
+}
+
 # Help text
 $helpText = @{
     list = @"
@@ -304,28 +364,52 @@ Examples:
   toolforge submit ./skills/my-skill
   toolforge submit ./skills/my-skill --dry-run
 "@
+    "sync-docs" = @"
+toolforge - Toolforge Marketplace CLI
+
+toolforge sync-docs [OPTIONS]
+
+Synchronize documentation and Cathryn Lavery diagrams across repository workflows.
+
+Options:
+  --path <path>         Target path or directory to scan (defaults to repository root)
+  --generate            Automatically author documentation and diagrams for undocumented workflows
+  --fix                 Automatically render PNG assets and embed diagrams
+  --dry-run             Validate without modifying files or rendering diagrams
+  --help                Show this help text
+
+Examples:
+  toolforge sync-docs --path=icf --generate --fix
+  toolforge sync-docs --dry-run
+"@
     default = @"
 toolforge - Toolforge Marketplace CLI
 
 Commands:
-  list      List plugins in marketplace
-  install   Install a plugin
-  submit    Submit a skill for publication
+  list        List plugins in marketplace
+  install     Install a plugin
+  submit      Submit a skill for publication
+  sync-docs   Synchronize documentation and Cathryn Lavery diagrams
 
 Options:
-  --help    Show help text
+  --help      Show help text
 
 Examples:
   toolforge list --help
   toolforge install --help
   toolforge submit --help
+  toolforge sync-docs --help
 "@
 }
 
 # Main dispatcher
-if ($Help -or -not $Command) {
+if ($Help) {
     Write-Host $helpText["default"]
-    exit $(if ($Command) { 0 } else { 1 })
+    exit 0
+}
+if (-not $Command) {
+    Write-Host $helpText["default"]
+    exit 1
 }
 
 switch ($Command.ToLower()) {
@@ -361,6 +445,14 @@ switch ($Command.ToLower()) {
         }
         $success = Invoke-ToolforgeSubmit -SkillPath $Path -DryRunMode:$DryRun
         exit $(if ($success) { 0 } else { 1 })
+    }
+    "sync-docs" {
+        if ($Help) {
+            Write-Host $helpText["default"]
+            exit 0
+        }
+        Invoke-ToolforgeSyncDocs -TargetPath $Path -GenerateWorkflows:$Generate -FixMode:$Fix -DryRunMode:$DryRun
+        exit $LASTEXITCODE
     }
     default {
         Write-Error "Unknown command: $Command"

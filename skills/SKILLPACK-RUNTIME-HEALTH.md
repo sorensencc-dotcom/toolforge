@@ -1,6 +1,6 @@
 # Toolforge Skill Runtime Health Report
 
-**Generated:** 2026-10-07T20:03:03.5866726Z
+**Generated:** 2026-10-17T19:50:11.5301683Z
 
 **Phase:** 1.6 — Runtime Health Check Implementation
 
@@ -10,12 +10,24 @@
 
 | Check Type | Passed | Warned | Failed | Total |
 |------------|--------|--------|--------|-------|
-| **Totals** | 405 | 15 | 0 | 420 |
-| % Pass | 96.4% | 3.6% | 0% | 100% |
+| **Totals** | 440 | 22 | 0 | 462 |
+| % Pass | 95.2% | 4.8% | 0% | 100% |
 
 ---
 
 ## Skills Health Status
+
+### active-work-overview — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/overview.mjs |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
 
 ### agent-drift-detector — ✅ GOOD
 
@@ -365,6 +377,30 @@
 | Runtime | ✅ PASS | Found: npm |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### repo-docs-diagram-sync — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/diagram-engine.mjs |
+| Manifest | ⚠️ WARN | No entry in manifest |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### repo-triage-and-digest — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/index.mjs |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### research-questions — ✅ GOOD
 
 | Check | Result | Details |
@@ -375,6 +411,18 @@
 | Entrypoint | ✅ PASS | Valid: SKILL.md |
 | Manifest | ✅ PASS | Consistent |
 | Runtime | ✅ PASS | Prompt-only skill; no executable required |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### research-store — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/mcp-server.mjs |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
 ### retro-export — ✅ GOOD
@@ -665,6 +713,18 @@
 | Runtime | ✅ PASS | Found: npm |
 | SkillMD | ✅ PASS | Frontmatter valid |
 
+### trm-triage — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/index.mjs |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
 ### usagecheck — ⚠️ WARN
 
 | Check | Result | Details |
@@ -673,6 +733,18 @@
 | Dependencies | ✅ PASS | No dependencies |
 | DryRun | ✅ PASS | Syntax valid |
 | Entrypoint | ✅ PASS | Valid: src/index.js |
+| Manifest | ✅ PASS | Consistent |
+| Runtime | ✅ PASS | Found: npm |
+| SkillMD | ✅ PASS | Frontmatter valid |
+
+### vane-research — ⚠️ WARN
+
+| Check | Result | Details |
+|-------|--------|---------|
+| AuditLog | ⚠️ WARN | No runtime history in audit log |
+| Dependencies | ✅ PASS | No dependencies |
+| DryRun | ✅ PASS | Syntax valid |
+| Entrypoint | ✅ PASS | Valid: src/index.mjs |
 | Manifest | ✅ PASS | Consistent |
 | Runtime | ✅ PASS | Found: npm |
 | SkillMD | ✅ PASS | Frontmatter valid |
@@ -796,17 +868,23 @@ Skills passing all checks:
 ### ⚠️ Warning Health
 
 Skills with warnings but no failures:
+- active-work-overview
 - benchmark-mistral-large-chonk
 - doc-sync-drift-audit
 - governance-matrix-validator
 - ironbots-fleet-status-monitor
 - lean-proof-verification-harness
+- repo-docs-diagram-sync
+- repo-triage-and-digest
+- research-store
 - sigil-grok-bridge
 - slop-grader-sweep
 - third-party-repo-auditor
 - tinyfish-search
 - trm-self-healing
+- trm-triage
 - usagecheck
+- vane-research
 - wiki-governance-sync
 
 ### ❌ Error Health
