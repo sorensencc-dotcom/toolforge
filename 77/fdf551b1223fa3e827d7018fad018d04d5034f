@@ -1,0 +1,29 @@
+scripts/publish-repo-wiki-pages.mjs
+  s_27a9513441c216::t_0190cd9a225050 106-116
+tests/publish-repo-wiki-pages.test.mjs
+  s_834a96433b2920::t_74d2921bc3d374 12,90-94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "77fdf551b1223fa3e827d7018fad018d04d5034f",
+  "prompts": {},
+  "sessions": {
+    "s_27a9513441c216": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d0d069-d844-4a5e-88d1-9a619445b2d4",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_834a96433b2920": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0fb73b57-22bb-47e1-8b81-629159c188d5",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
