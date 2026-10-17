@@ -170,7 +170,7 @@ else {
 # alongside it. Cheap signal, not a strict per-file pairing check -- if
 # ANY test file rides along in the same commit we stay quiet.
 `$codeExtPattern = '\.(ps1|psm1|py|js|ts|tsx|jsx|mjs|cjs)`$'
-`$testPathPattern = '(^|[\\/])(tests?|__tests__|spec)[\\/]|\.(test|spec)\.[a-z]+`$'
+`$testPathPattern = '(^|[\\/])(tests?|__tests__|spec)[\\/]|(^|[\\/])test-[^\\/]+`$|\.(test|spec)\.[a-z]+`$'
 
 `$codeFiles = `$staged | Where-Object { `$_ -match `$codeExtPattern -and `$_ -notmatch `$testPathPattern }
 `$testFiles = `$staged | Where-Object { `$_ -match `$testPathPattern }

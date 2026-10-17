@@ -69,7 +69,9 @@ switch ($Action) {
         Ensure-TaskFolder -Path $TaskPath
 
         $cmdArgs = "-NoProfile -ExecutionPolicy Bypass -Command `"& '$NodePath' $(Get-NodeArguments) 1>> '$stdoutLog' 2>> '$stderrLog'`""
-        $taskAction = New-ScheduledTaskAction -Execute 'pwsh.exe' -Argument $cmdArgs -WorkingDirectory $RepoRoot
+        $PwshPath = (Get-Command pwsh.exe -ErrorAction SilentlyContinue)?.Source
+        if (-not $PwshPath) { $PwshPath = 'C:\Program Files\PowerShell\7\pwsh.exe' }
+        $taskAction = New-ScheduledTaskAction -Execute $PwshPath -Argument $cmdArgs -WorkingDirectory $RepoRoot
 
         # Trigger repeating every X minutes
         $trigger = New-ScheduledTaskTrigger -Once -At "00:00" -RepetitionInterval (New-TimeSpan -Minutes $IntervalMinutes) -RepetitionDuration (New-TimeSpan -Days 3650)

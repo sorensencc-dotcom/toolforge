@@ -103,7 +103,17 @@ function publish(pages) {
     git(['-c', 'core.hooksPath=.git/no-hooks', 'push', 'origin', 'HEAD'], cloneDir);
     console.log(`Published ${dirty.split(/\r?\n/).filter(Boolean).join(', ')}`);
   } finally {
-    fs.rmSync(cloneDir, { recursive: true, force: true });
+    removeCloneDir(cloneDir);
+  }
+}
+
+// Windows can hold handles on the clone's .git files (EPERM) after a publish
+// that already succeeded; leaking a temp dir must not fail the caller.
+export function removeCloneDir(dir, rm = fs.rmSync) {
+  try {
+    rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+  } catch (error) {
+    console.warn(`Could not remove temporary wiki clone ${dir}: ${error.code ?? error.message}`);
   }
 }
 
