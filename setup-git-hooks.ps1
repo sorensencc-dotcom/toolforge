@@ -29,7 +29,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $Repo = [System.IO.Path]::GetFullPath($Repo)
-$hooksDir = "$Repo\.git\hooks"
+$hooksDir = Join-Path $Repo '.githooks'
+$gitHooksDir = "$Repo\.git\hooks"
 $logDir = Join-Path $Repo 'logs\hooks'
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 
@@ -46,6 +47,7 @@ function Install-Hooks {
     }
 
     New-Item -ItemType Directory -Path $hooksDir -Force | Out-Null
+    New-Item -ItemType Directory -Path $gitHooksDir -Force | Out-Null
 
     # Pre-commit: retro validation + roadmap check + validator (fast)
     # pwsh refuses to run extensionless script files even via -File, so the
@@ -280,9 +282,17 @@ if [ `$FAIL -ne 0 ]; then
   exit 1
 fi
 
+echo -e "\033[36m[Hook]\033[0m Executing diagram visual parity and documentation sync gate..."
+node "`$REPO_ROOT/scripts/diagram-sync.mjs" --verify-parity || FAIL=1
+
+if [ `$FAIL -ne 0 ]; then
+  echo -e "\033[31m[Hook Fail]\033[0m Diagram visual parity failed. Push blocked."
+  exit 1
+fi
+
 echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceeding with push."
-if ! node "`$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed; then
-  echo -e "\033[31m[Hook Fail]\033[0m Repo wiki publish failed. Push blocked."
+if ! node "`$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed --dry-run; then
+  echo -e "\033[31m[Hook Fail]\033[0m Repo wiki dry-run check failed. Push blocked."
   exit 1
 fi
 exit 0
@@ -290,7 +300,7 @@ exit 0
 
     $prePushHook | Out-File -FilePath "$hooksDir\pre-push" -Encoding utf8NoBOM -Force
     if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\pre-push" 2>$null }
-    Write-HookLog "+ Pre-push hook installed (security auditor)" INFO
+    Write-HookLog "+ Pre-push hook installed (security auditor + diagram parity)" INFO
 
     # Commit-msg: session continuity nudge (advisory, never blocks)
     # If the gap since the last commit exceeds 1 hour (multi-drop session),
@@ -328,7 +338,16 @@ exit 0
     if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\commit-msg" 2>$null }
     Write-HookLog "+ Commit-msg hook installed (session continuity nudge)" INFO
 
-    Write-Host "+ Git hooks installed in $Repo"
+    # Sync to .git/hooks as fallback
+    if (Test-Path "$Repo\.git") {
+        Copy-Item -Path "$hooksDir\*" -Destination $gitHooksDir -Force -ErrorAction SilentlyContinue
+    }
+
+    # Configure tracked core.hooksPath
+    & git config core.hooksPath .githooks
+    Write-HookLog "+ Configured git core.hooksPath to .githooks" INFO
+
+    Write-Host "+ Git hooks installed in $Repo (core.hooksPath -> .githooks)"
 }
 
 function Uninstall-Hooks {
@@ -344,7 +363,9 @@ function Uninstall-Hooks {
     Remove-Item -Path $prePushPath -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $commitMsgPath -Force -ErrorAction SilentlyContinue
 
-    Write-HookLog "+ Git hooks removed from $Repo" INFO
+    & git config --unset core.hooksPath 2>$null
+
+    Write-HookLog "+ Git hooks removed and core.hooksPath unset from $Repo" INFO
     Write-Host "+ Git hooks removed"
 }
 
@@ -419,6 +440,14 @@ function Test-Hooks {
 function Get-HookStatus {
     Write-Host "Git hook status for $Repo"
     Write-Host ""
+
+    $coreHooksPath = & git config core.hooksPath 2>$null
+    if ($coreHooksPath -eq '.githooks') {
+        Write-Host "+ core.hooksPath configured to .githooks"
+    }
+    else {
+        Write-Host "✗ core.hooksPath is not set to .githooks (current: '$coreHooksPath')"
+    }
 
     $preCommitPath = "$hooksDir\pre-commit"
     $postMergePath = "$hooksDir\post-merge"

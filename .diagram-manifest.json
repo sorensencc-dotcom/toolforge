@@ -1,0 +1,66 @@
+{
+  "docs/meta/mcp-governance-architecture.png": {
+    "htmlHash": "784c1f304731953f56b09360bb28e402b96b8686fcdc8f4f5e72b23f729c57e3",
+    "updatedAt": "2026-10-17T20:51:12.180Z"
+  },
+  "docs/meta/specs/diagrams/stateless-mcp-request.png": {
+    "htmlHash": "a89049577a2a1f84a3562602c82ba1f718f9211950e3f00729f666eedd0aa5e4",
+    "updatedAt": "2026-10-17T20:51:12.182Z"
+  },
+  "docs/meta/specs/diagrams/stateless-mcp-tasks.png": {
+    "htmlHash": "a350c4ceae10735fa8d27860e7c05d03ee9dfb3f23707bab71563d6a098da01a",
+    "updatedAt": "2026-10-17T20:51:12.183Z"
+  },
+  "docs/superpowers/specs/assets/agent-memory-sync-topology.png": {
+    "htmlHash": "d92fb2cc6c447b041e8a9a0942e9bc00ba4defce2f591972594ad768ee7c6850",
+    "updatedAt": "2026-10-17T20:51:12.186Z"
+  },
+  "docs/superpowers/specs/assets/agent-onboarding-flow.png": {
+    "htmlHash": "2d12123abf22f219f787c4a87271faa3c309c290a301c1d38f7e890f631fb15d",
+    "updatedAt": "2026-10-17T20:51:12.187Z"
+  },
+  "docs/wiki-pages/toolforge-architecture-overview.png": {
+    "htmlHash": "4b126a893d8983942c5003b4b3dc1ecf2fa68252d9dc50e824c6941d8a87d517",
+    "updatedAt": "2026-10-17T20:51:12.190Z"
+  },
+  "skills/research-store/docs/integration.png": {
+    "htmlHash": "4e0efe3c734c35174c0cceca55748a0557bf8f4edcebab7a4525854169e66258",
+    "updatedAt": "2026-10-17T20:51:12.207Z"
+  },
+  "toolforge-architecture-overview.png": {
+    "htmlHash": "58d96777b660e748dac5a070896317cc48261ec15de8295e051042d904220f7c",
+    "updatedAt": "2026-10-17T20:51:12.218Z"
+  },
+  "trm-devops-triage-architecture.png": {
+    "htmlHash": "af233e0a2439497dad648336116ed4f2f1d165adfdd81f3b8f8e1f197877f5be",
+    "updatedAt": "2026-10-17T20:51:12.219Z"
+  },
+  "trm-gap-triage-architecture.png": {
+    "htmlHash": "5fb84b31bf49dc2ed01e71ceedd6bf333ffd3eacfd424cb23700f35291e33b62",
+    "updatedAt": "2026-10-17T20:51:12.220Z"
+  },
+  "trm-mobile-ingress-pipeline-architecture.png": {
+    "htmlHash": "a9859e4d9f73762ecfb3f0405f80775744b6e9cedafae3ef566cf0de31d1c3b2",
+    "updatedAt": "2026-10-17T20:51:12.221Z"
+  },
+  "whichllm-architecture-topology.png": {
+    "htmlHash": "ba493170216c5a4e2e6f36bb5110209156e1e448e5f93fcf187cc08f54d1965d",
+    "updatedAt": "2026-10-17T20:51:12.222Z"
+  },
+  "wiki/ironbots-autonomous-architecture.png": {
+    "htmlHash": "8b61e76143d15a5e5a2e7e166f7789bc80421aec878dc172cbe9320740000bcf",
+    "updatedAt": "2026-10-17T20:51:12.223Z"
+  },
+  "wiki/research/trm-devops-triage-architecture.png": {
+    "htmlHash": "af233e0a2439497dad648336116ed4f2f1d165adfdd81f3b8f8e1f197877f5be",
+    "updatedAt": "2026-10-17T20:51:12.226Z"
+  },
+  "wiki/research/trm-mobile-ingress-pipeline-architecture.png": {
+    "htmlHash": "a9859e4d9f73762ecfb3f0405f80775744b6e9cedafae3ef566cf0de31d1c3b2",
+    "updatedAt": "2026-10-17T20:51:12.227Z"
+  },
+  "wiki/research/whichllm-architecture-topology.png": {
+    "htmlHash": "ba493170216c5a4e2e6f36bb5110209156e1e448e5f93fcf187cc08f54d1965d",
+    "updatedAt": "2026-10-17T20:51:12.228Z"
+  }
+}

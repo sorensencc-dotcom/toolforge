@@ -8,10 +8,10 @@ import { addFrontmatterTitle, ensureSkillLibrary } from './sync-github-wiki.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const WIKI_REMOTE = 'git@github.com:sorensencc-dotcom/toolforge.wiki.git';
-const GIT = process.platform === 'win32' && fs.existsSync('C:\\Program Files\\Git\\cmd\\git.exe')
+const GIT = process.env.GIT_BIN || (process.platform === 'win32' && fs.existsSync('C:\\Program Files\\Git\\cmd\\git.exe')
   ? 'C:\\Program Files\\Git\\cmd\\git.exe'
-  : 'git';
-const PUBLISHED_CLONE = path.resolve('C:/dev', 'toolforge-wiki').toLowerCase();
+  : 'git');
+const PUBLISHED_CLONE = path.resolve(process.env.TOOLFORGE_WIKI_DIR || path.join(root, '..', 'toolforge-wiki')).toLowerCase();
 
 export function wikiPagesFromRepo(mappings = ROOT_WIKI_PAGE_MAPPINGS) {
   return mappings.filter((mapping) => mapping.src.startsWith('wiki/') && mapping.dest.toLowerCase().endsWith('.md'));
@@ -28,9 +28,28 @@ export function changedWikiPaths(files) {
 export function assertPublishClone(dir) {
   const resolved = path.resolve(dir);
   const lower = resolved.toLowerCase();
-  const insidePublished = lower === PUBLISHED_CLONE || lower.startsWith(`${PUBLISHED_CLONE}${path.sep}`);
-  if (path.basename(resolved).toLowerCase() === 'toolforge-wiki' || insidePublished) {
+  const insidePublished = lower === PUBLISHED_CLONE
+    || lower.startsWith(`${PUBLISHED_CLONE}${path.sep}`);
+  const hasWikiSegment = resolved.split(/[/\\]/).some((p) => p.toLowerCase() === 'toolforge-wiki');
+  if (hasWikiSegment || insidePublished) {
     throw new Error('REFUSING_WIKI_CLONE: publish into a temp clone. The repo wiki/ tree is the source.');
+  }
+}
+
+export function getCurrentBranch(cwd = root) {
+  try {
+    return runGit(['rev-parse', '--abbrev-ref', 'HEAD'], cwd);
+  } catch {
+    return 'unknown';
+  }
+}
+
+export function checkDirtyWiki(cwd = root) {
+  try {
+    const dirty = runGit(['status', '--porcelain', '--', 'wiki/'], cwd);
+    return dirty.split(/\r?\n/).filter(Boolean);
+  } catch {
+    return [];
   }
 }
 
@@ -70,17 +89,36 @@ function git(args, cwd) {
 }
 
 function changedFilesAgainstUpstream() {
-  let range = 'origin/main...HEAD';
+  const tryRanges = [];
   try {
     const upstream = git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'], root);
-    if (upstream) range = `${upstream}...HEAD`;
-  } catch {
-    range = 'origin/main...HEAD';
+    if (upstream) tryRanges.push(`${upstream}...HEAD`);
+  } catch {}
+
+  if (process.env.GITHUB_BASE_REF) {
+    tryRanges.push(`origin/${process.env.GITHUB_BASE_REF}...HEAD`);
   }
-  return git(['diff', '--name-only', range], root).split(/\r?\n/).filter(Boolean);
+  tryRanges.push('origin/main...HEAD');
+  tryRanges.push('HEAD~1...HEAD');
+  tryRanges.push('HEAD~1..HEAD');
+  tryRanges.push('HEAD');
+
+  for (const range of tryRanges) {
+    try {
+      const diffOut = git(['diff', '--name-only', range], root);
+      return diffOut.split(/\r?\n/).filter(Boolean);
+    } catch {
+      // try next fallback range
+    }
+  }
+  return [];
 }
 
-function publish(pages) {
+export function publish(pages, { dryRun = false } = {}) {
+  if (dryRun) {
+    console.log(`WIKI_PUBLISH_DRY_RUN: verified ${pages.length} repo wiki page mappings cleanly.`);
+    return;
+  }
   const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), 'toolforge-wiki-publish-'));
   try {
     assertPublishClone(cloneDir);
@@ -119,12 +157,24 @@ export function removeCloneDir(dir, rm = fs.rmSync) {
 
 function main() {
   const ifChanged = process.argv.includes('--if-changed');
+  const dryRun = process.argv.includes('--dry-run');
   const pages = wikiPagesFromRepo();
   if (ifChanged && changedWikiPaths(changedFilesAgainstUpstream()).length === 0) {
     console.log('No repo wiki files in this push. Skipping wiki publish.');
     return;
   }
-  publish(pages);
+  const branch = getCurrentBranch();
+  if (branch !== 'main' && !dryRun) {
+    console.log(`Skipping live wiki publish on branch '${branch}'. Live publish runs only on main.`);
+    return;
+  }
+  const dirtyWiki = checkDirtyWiki();
+  if (dirtyWiki.length > 0 && !dryRun) {
+    console.error('REFUSING_WIKI_PUBLISH: uncommitted modifications detected in wiki/ working tree:');
+    for (const file of dirtyWiki) console.error(`  ${file}`);
+    process.exit(1);
+  }
+  publish(pages, { dryRun });
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();

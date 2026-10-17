@@ -70,15 +70,39 @@ test('executeSyncDocs: produces compliant toolforge-cli invocation contract', ()
 });
 
 test('pre-push hook & documentation workflow: verify diagram parity gate integration', () => {
-  const hookPath = path.resolve('.git/hooks/pre-push');
-  if (fs.existsSync(hookPath)) {
-    const hookContent = fs.readFileSync(hookPath, 'utf8');
-    assert.ok(hookContent.includes('--verify-parity'), 'Pre-push hook must include --verify-parity');
-  }
+  const hookPath = path.resolve('.githooks/pre-push');
+  assert.ok(fs.existsSync(hookPath), '.githooks/pre-push must exist and be tracked in git');
+  const hookContent = fs.readFileSync(hookPath, 'utf8');
+  assert.ok(hookContent.includes('--verify-parity'), 'Pre-push hook must include --verify-parity');
+  assert.ok(hookContent.includes('--dry-run'), 'Pre-push hook must dry-run wiki publish');
 
   const ciPath = path.resolve('.github/workflows/documentation.yml');
   const ciContent = fs.readFileSync(ciPath, 'utf8');
   assert.ok(ciContent.includes('node scripts/diagram-sync.mjs --verify-parity'), 'CI workflow must include verify-parity step');
+});
+
+test('verifyDiagramParity: detects stale PNG asset when content hash mismatches manifest', () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'parity-hash-'));
+  const htmlPath = path.join(tempDir, 'architecture.html');
+  const pngPath = path.join(tempDir, 'architecture.png');
+  const manifestPath = path.join(tempDir, '.diagram-manifest.json');
+  const htmlContent = buildCathrynLaveryHtml({ title: 'Test Arch Hash' });
+
+  fs.writeFileSync(htmlPath, htmlContent, 'utf8');
+  fs.writeFileSync(pngPath, 'fake-png-bytes', 'utf8');
+  fs.writeFileSync(manifestPath, JSON.stringify({
+    'architecture.png': {
+      htmlHash: 'mismatched-old-hash-value',
+      updatedAt: new Date().toISOString(),
+    }
+  }), 'utf8');
+
+  // Verify that mismatch is flagged as stale
+  const report = verifyDiagramParity(tempDir);
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((e) => e.includes('STALE_PNG')));
+
+  fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
 test('Performance: verifyDiagramParity executes within 800ms boundary', () => {

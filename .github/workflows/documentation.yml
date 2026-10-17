@@ -5,12 +5,24 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
+      - 'skills/**'
+      - 'wiki/**'
+      - 'scripts/diagram-sync.mjs'
+      - 'scripts/docs-synthesizer.mjs'
+      - 'scripts/publish-repo-wiki-pages.mjs'
+      - '.githooks/**'
       - 'mkdocs.yml'
       - 'requirements-docs.txt'
       - '.github/workflows/documentation.yml'
   pull_request:
     paths:
       - 'docs/**'
+      - 'skills/**'
+      - 'wiki/**'
+      - 'scripts/diagram-sync.mjs'
+      - 'scripts/docs-synthesizer.mjs'
+      - 'scripts/publish-repo-wiki-pages.mjs'
+      - '.githooks/**'
       - 'mkdocs.yml'
       - 'requirements-docs.txt'
       - '.github/workflows/documentation.yml'
@@ -29,6 +41,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5
         with:
@@ -41,5 +55,11 @@ jobs:
         run: node scripts/validate-docs-publishing.mjs
       - name: Verify diagram visual parity
         run: node scripts/diagram-sync.mjs --verify-parity
+      - name: Validate repo wiki pages (dry run)
+        run: node scripts/publish-repo-wiki-pages.mjs --if-changed --dry-run
       - name: Build MkDocs site
         run: mkdocs build --strict
+      - name: Publish repo wiki pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: node scripts/publish-repo-wiki-pages.mjs --if-changed
+        continue-on-error: true
