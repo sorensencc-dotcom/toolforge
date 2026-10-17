@@ -1,0 +1,21 @@
+STATUS.md
+  s_fa11606c187761::t_895ac918e6246e 12-18
+.context/retros/2026-10-17-1.json
+  s_fa11606c187761::t_9aa7d1f8ec5d4b 1-83
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "76e7eb859769575bc7327788bfa85e05bddede31",
+  "prompts": {},
+  "sessions": {
+    "s_fa11606c187761": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a14674-d160-7dd2-98f1-0646f6f76765",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
