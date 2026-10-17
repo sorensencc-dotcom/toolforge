@@ -565,7 +565,12 @@ foreach ($def in $TaskDefinitions) {
     # If action/trigger specified, (re)create
     if ($def.ContainsKey('ActionExe') -and $def['ActionExe']) {
         $actionArgs = if ($def.ContainsKey('ActionArgs')) { $def['ActionArgs'] } else { "" }
-        $action = New-ScheduledTaskAction -Execute $def['ActionExe'] -Argument $actionArgs -WorkingDirectory "C:\dev"
+        $actionExe = $def['ActionExe']
+        if ($actionExe -eq 'pwsh.exe' -or $actionExe -eq 'pwsh') {
+            $resolvedPwsh = (Get-Command pwsh.exe -ErrorAction SilentlyContinue)?.Source
+            if ($resolvedPwsh) { $actionExe = $resolvedPwsh }
+        }
+        $action = New-ScheduledTaskAction -Execute $actionExe -Argument $actionArgs -WorkingDirectory "C:\dev"
         $trigger = $null
 
         $triggerType = if ($def.ContainsKey('TriggerType')) { $def['TriggerType'] } else { "Daily" }
