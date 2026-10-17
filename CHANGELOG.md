@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.95.7
+Date: 2026-10-17
+
+### Changes
+- 80ef4004 - docs: capture current retro evidence to restore audit freshness (#155) (Chris Sorensen)
+- 4a201348 - Parkd821 20260908 (#154) (Chris Sorensen)
+
 ## Version 2.95.6
 Date: 2026-10-17
 
