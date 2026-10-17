@@ -116,16 +116,21 @@ test('TRM Pipeline End-to-End & Contract Integrity', async (t) => {
     const processed = processDecisions(boundaryDecisions);
     const manifest = buildIngestManifest(boundaryDecisions, processed);
 
-    const pZero = manifest.approved_photos.find((p) => p.photo_id === 'P-ZERO');
+    const photosById = Object.create(null);
+    for (const p of manifest.approved_photos) {
+      photosById[p.photo_id] = p;
+    }
+
+    const pZero = photosById['P-ZERO'];
     assert.equal(pZero.priority, 'MEDIUM');
 
-    const p79 = manifest.approved_photos.find((p) => p.photo_id === 'P-79');
+    const p79 = photosById['P-79'];
     assert.equal(p79.priority, 'MEDIUM');
 
-    const p80 = manifest.approved_photos.find((p) => p.photo_id === 'P-80');
+    const p80 = photosById['P-80'];
     assert.equal(p80.priority, 'HIGH', '0.80 boundary confidence must yield HIGH priority');
 
-    const pOne = manifest.approved_photos.find((p) => p.photo_id === 'P-ONE');
+    const pOne = photosById['P-ONE'];
     assert.equal(pOne.priority, 'HIGH', '1.0 confidence must yield HIGH priority');
 
     const draft = scanGaps(boundaryDecisions, 'boundary-test');

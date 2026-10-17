@@ -1,5 +1,29 @@
 # Changelog
 
+## Version 2.95.6
+Date: 2026-10-17
+
+### Changes
+- 6faef016 - test: pair Wave D readiness fix with executable regressions (#152) (Chris Sorensen)
+
+## Version 2.95.5
+Date: 2026-10-16
+
+### Changes
+- c35d60a3 - Optimize sequential Array.find lookups in TRM Pipeline tests (#153) (Chris Sorensen)
+
+## Version 2.95.4
+Date: 2026-10-16
+
+### Changes
+- 4b85ba2e - Fix ERESOLVE during npm install by updating @vitejs/plugin-react peer dependencies (#151) (Chris Sorensen)
+
+## Version 2.95.3
+Date: 2026-10-16
+
+### Changes
+- 0a688f98 - Parkd821 20260908 (#150) (Chris Sorensen)
+
 ## Version 2.95.2
 Date: 2026-10-16
 
