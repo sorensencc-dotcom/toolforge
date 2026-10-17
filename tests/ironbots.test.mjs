@@ -237,6 +237,37 @@ test('daemon-healer exports thrash guard configuration with cooldown window', as
   assert.ok(THRASH_GUARD_CONFIG.cooldownWindowMs >= 3600000);
 });
 
+test('daemon-healer resolveRelayPort detects configured relay port from config.json and env', async () => {
+  const { resolveRelayPort } = await import('../scripts/daemon-healer-bot.mjs');
+  const resolved = resolveRelayPort(REPO_ROOT);
+  assert.equal(typeof resolved.port, 'number');
+  assert.ok(resolved.port > 0);
+  assert.ok(['.sigil/config.json', 'env', 'default'].includes(resolved.source));
+
+  // Test env override
+  process.env.SIGIL_RELAY_PORT = '9999';
+  try {
+    const fromEnv = resolveRelayPort(REPO_ROOT);
+    assert.equal(fromEnv.port, 9999);
+    assert.equal(fromEnv.source, 'env');
+  } finally {
+    delete process.env.SIGIL_RELAY_PORT;
+  }
+});
+
+test('daemon-healer telemetry emits Sigil relay and rooms health metrics', () => {
+  const reportPath = path.join(REPO_ROOT, '_status-feed', 'daemon_health.json');
+  assert.ok(fs.existsSync(reportPath), 'daemon_health.json should exist');
+
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+  assert.equal(typeof report.sigilRelayPort, 'number');
+  assert.match(report.sigilRoomsUrl, /5173/);
+  assert.ok(typeof report.sigilStatus === 'string');
+  assert.ok(report.sigilInitialProbe);
+  assert.equal(typeof report.sigilInitialProbe.relay, 'object');
+  assert.equal(typeof report.sigilInitialProbe.rooms, 'object');
+});
+
 test('ironbots-daily-reporter exports REQUIRED_FLEET_TASKS with 10 tasks', async () => {
   const { REQUIRED_FLEET_TASKS } = await import('../scripts/ironbots-daily-reporter.mjs');
   assert.ok(Array.isArray(REQUIRED_FLEET_TASKS));
