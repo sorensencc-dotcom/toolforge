@@ -78,6 +78,37 @@ export function assertAllowedPackNotebook(notebookId, packFile, category) {
   }
 }
 
+export const EXCLUDED_PACK_DIRS = new Set([
+  '_kb-sync-staging',
+  '.worktrees',
+  '_staging',
+  'node_modules',
+  '.git',
+  '_archive',
+  'archive',
+  'dist',
+  'build',
+  '.cache',
+  '.tmp',
+  'coverage',
+]);
+
+export function isStagingOrExcludedPath(targetPath, rootDir) {
+  if (!targetPath || typeof targetPath !== 'string') return false;
+  const normalized = rootDir ? path.relative(rootDir, targetPath) : targetPath;
+  const segments = path.normalize(normalized).split(/[\\/]/);
+  return segments.some(segment => EXCLUDED_PACK_DIRS.has(segment));
+}
+
+export function assertAllowedPackPath(packFile, repoRoot) {
+  if (isStagingOrExcludedPath(packFile, repoRoot)) {
+    throw new Error(
+      `STAGING_GUARD_VIOLATION: Refusing to process pack from staging or excluded directory: "${packFile}". ` +
+      `Knowledge packs must not originate from staging directories (_kb-sync-staging, .worktrees, _staging, node_modules, .git).`
+    );
+  }
+}
+
 /** Inter-chunk delay (ms) between successive `nlm source add` calls. */
 const INTER_CHUNK_DELAY_MS = 4_000;
 
@@ -369,6 +400,7 @@ export async function replaceGate(opts) {
   if (!packFile || !targetNbId) {
     throw new Error('replaceGate: packFile and targetNbId are required.');
   }
+  assertAllowedPackPath(packFile, repoRoot);
   assertAllowedPackNotebook(targetNbId, packFile, category);
   if (!fs.existsSync(packFile)) {
     throw new Error(`replaceGate: packFile not found: ${packFile}`);
@@ -660,6 +692,9 @@ export function purgePackFamilyBeforeUpload({
   logInfo = console.log,
   logWarn = console.warn,
 }) {
+  if (packFile) {
+    assertAllowedPackPath(packFile);
+  }
   assertAllowedPackNotebook(notebookId, packFile);
   const packBase = packFile ? path.basename(packFile) : undefined;
   logInfo(

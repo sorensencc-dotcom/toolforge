@@ -213,6 +213,22 @@ describe('Knowledge Pack Compaction & Ingestion Hardening Suite', () => {
       '---\ncategory: willow-run\nsource_title: "Staging Note"\n---\nUNWANTED_STAGING_CONTENT\n'
     );
 
+    // 3b. Staging file in _staging (MUST BE EXCLUDED)
+    const underscoreStagingDir = path.join(wikiDir, '_staging');
+    fs.mkdirSync(underscoreStagingDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(underscoreStagingDir, 'staging-note.md'),
+      '---\ncategory: willow-run\nsource_title: "Underscore Staging Note"\n---\nUNWANTED_UNDERSCORE_STAGING_CONTENT\n'
+    );
+
+    // 3c. Staging file in .worktrees (MUST BE EXCLUDED)
+    const worktreesDir = path.join(wikiDir, '.worktrees', 'feature-branch');
+    fs.mkdirSync(worktreesDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(worktreesDir, 'worktree-note.md'),
+      '---\ncategory: willow-run\nsource_title: "Worktree Note"\n---\nUNWANTED_WORKTREE_CONTENT\n'
+    );
+
     // 4. Plain .txt file (MUST BE EXCLUDED)
     fs.writeFileSync(
       path.join(wikiDir, 'notes.txt'),
@@ -248,6 +264,8 @@ describe('Knowledge Pack Compaction & Ingestion Hardening Suite', () => {
 
     // Excluded files must NEVER be present
     assert.equal(packContent.includes('UNWANTED_STAGING_CONTENT'), false, '_kb-sync-staging files must be excluded');
+    assert.equal(packContent.includes('UNWANTED_UNDERSCORE_STAGING_CONTENT'), false, '_staging files must be excluded');
+    assert.equal(packContent.includes('UNWANTED_WORKTREE_CONTENT'), false, '.worktrees files must be excluded');
     assert.equal(packContent.includes('UNWANTED_TXT_FILE_CONTENT'), false, '.txt files must be excluded');
     assert.equal(packContent.includes('UNWANTED_STAGING_TXT_CONTENT'), false, 'staging .txt files must be excluded');
     assert.equal(packContent.includes('UNWANTED_LOG_MD_CONTENT'), false, 'log.md must be excluded');
@@ -286,10 +304,10 @@ describe('Knowledge Pack Compaction & Ingestion Hardening Suite', () => {
       '---\ncategory: ford_labor\nsource_title: "Ford Labor Relations"\n---\nFord labor relations content\n'
     );
 
-    // File 3: post-war via alias 'willys-overland'
+    // File 3: post-war via alias 'post_war'
     fs.writeFileSync(
       path.join(wikiDir, 'note-postwar.md'),
-      '---\ncategory: willys-overland\nsource_title: "Willys Overland Post-War"\n---\nPost-war Willys content\n'
+      '---\ncategory: post_war\nsource_title: "Post-War Reconstruction"\n---\nPost-war content\n'
     );
 
     // File 4: cuban-seizures via alias 'cuban-seizures'
@@ -320,7 +338,7 @@ describe('Knowledge Pack Compaction & Ingestion Hardening Suite', () => {
     const postWarPack = generatedPacks.find(p => p.packDef.category === 'post-war');
     assert.ok(postWarPack, 'post-war pack generated');
     const postWarContent = fs.readFileSync(postWarPack.packFile, 'utf8');
-    assert.ok(postWarContent.includes('Post-war Willys content'));
+    assert.ok(postWarContent.includes('Post-war content'));
 
     // Check cuba-claims pack
     const cubaPack = generatedPacks.find(p => p.packDef.category === 'cuba-claims');
@@ -334,7 +352,7 @@ describe('Knowledge Pack Compaction & Ingestion Hardening Suite', () => {
     const masterContent = fs.readFileSync(masterPack.packFile, 'utf8');
     assert.ok(masterContent.includes('Willow Run content'));
     assert.ok(masterContent.includes('Ford labor relations content'));
-    assert.ok(masterContent.includes('Post-war Willys content'));
+    assert.ok(masterContent.includes('Post-war content'));
     assert.ok(masterContent.includes('Cuban assets seizure content'));
 
     fs.rmSync(tmpDir, { recursive: true, force: true });
