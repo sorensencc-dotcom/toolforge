@@ -7,6 +7,8 @@
   ],
   "severity": "low",
   "categoryTags": {
-    "testing": "TEST"
+    "testing": "TEST",
+    "hygiene": "PROCESS",
+    "architecture": "SPEC"
   }
 }
