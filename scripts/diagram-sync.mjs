@@ -46,23 +46,25 @@ export function findChrome() {
 export const CHROME_PATH = process.env.CHROME_PATH || findChrome();
 export const MANIFEST_FILE = path.join(ROOT, '.diagram-manifest.json');
 
+// Fails closed: a manifest that exists but cannot be parsed is an error, never
+// an empty manifest. A missing manifest is reported by the parity check as a
+// missing entry for every diagram pair.
 export function loadManifest(manifestPath = MANIFEST_FILE) {
+  if (!fs.existsSync(manifestPath)) return {};
+  let parsed;
   try {
-    if (fs.existsSync(manifestPath)) {
-      return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-    }
-  } catch {
-    // ignore
+    parsed = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  } catch (err) {
+    throw new Error(`MANIFEST_INVALID: ${manifestPath} could not be read as JSON: ${err.message}`);
   }
-  return {};
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error(`MANIFEST_INVALID: ${manifestPath} must contain a JSON object`);
+  }
+  return parsed;
 }
 
 export function saveManifest(manifest, manifestPath = MANIFEST_FILE) {
-  try {
-    fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
-  } catch {
-    // ignore
-  }
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
 }
 
 export function computeFileHash(filePath) {
@@ -70,6 +72,27 @@ export function computeFileHash(filePath) {
   return crypto.createHash('sha256').update(content).digest('hex');
 }
 
+const PNG_SIGNATURE = Buffer.from('89504e470d0a1a0a', 'hex');
+
+export function isPngFile(filePath) {
+  const fd = fs.openSync(filePath, 'r');
+  try {
+    const head = Buffer.alloc(PNG_SIGNATURE.length);
+    const read = fs.readSync(fd, head, 0, head.length, 0);
+    return read === PNG_SIGNATURE.length && head.equals(PNG_SIGNATURE);
+  } finally {
+    fs.closeSync(fd);
+  }
+}
+
+// One manifest entry per html+png pair: both content hashes are recorded.
+export function buildManifestEntry(htmlPath, pngPath) {
+  return {
+    htmlHash: computeFileHash(htmlPath),
+    pngHash: computeFileHash(pngPath),
+    updatedAt: new Date().toISOString(),
+  };
+}
 export function renderWithChrome(htmlPath, pngPath, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT) {
   if (!fs.existsSync(CHROME_PATH)) {
     throw new Error(`CHROME_NOT_FOUND: Chrome executable not found at ${CHROME_PATH}`);
@@ -149,10 +172,7 @@ export function syncDiagramsInFile(filePath, { dryRun = false, renderPng = true 
         const relPng = path.relative(ROOT, pngPath).replace(/\\/g, '/');
         if (!relPng.startsWith('..')) {
           const manifest = loadManifest();
-          manifest[relPng] = {
-            htmlHash: computeFileHash(htmlPath),
-            updatedAt: new Date().toISOString(),
-          };
+          manifest[relPng] = buildManifestEntry(htmlPath, pngPath);
           saveManifest(manifest);
         }
       }
@@ -178,112 +198,142 @@ let lastTrackedFetch = 0;
 let cachedCommittedFiles = null;
 let lastCommittedFetch = 0;
 
+// Inside a git checkout a failing lookup throws (GIT_LOOKUP_FAILED) instead of
+// silently skipping the tracked/committed checks. Outside a checkout (for
+// example a source tarball) there is nothing to compare against and both sets
+// are null.
 export function getGitFiles() {
   const now = Date.now();
-  if (!cachedTrackedFiles || (now - lastTrackedFetch > 5000)) {
-    if (fs.existsSync(path.join(ROOT, '.git'))) {
-      try {
-        const stdout = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
-        cachedTrackedFiles = new Set(stdout.split('\n').map((l) => path.resolve(ROOT, l.trim())).filter(Boolean));
-        lastTrackedFetch = now;
-      } catch {
-        cachedTrackedFiles = null;
-      }
+  if (!fs.existsSync(path.join(ROOT, '.git'))) {
+    return { trackedFiles: null, committedFiles: null };
+  }
+  const list = (args) => {
+    try {
+      const out = execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+      return new Set(out.split('\n').map((l) => l.trim()).filter(Boolean).map((l) => path.resolve(ROOT, l)));
+    } catch (err) {
+      throw new Error(`GIT_LOOKUP_FAILED: git ${args.join(' ')} failed: ${(err.stderr || err.message || '').toString().trim()}`);
     }
+  };
+  if (!cachedTrackedFiles || (now - lastTrackedFetch > 5000)) {
+    cachedTrackedFiles = list(['ls-files']);
+    lastTrackedFetch = now;
   }
   if (!cachedCommittedFiles || (now - lastCommittedFetch > 5000)) {
-    if (fs.existsSync(path.join(ROOT, '.git'))) {
-      try {
-        const stdoutTree = execFileSync('git', ['ls-tree', '-r', '--name-only', 'HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
-        cachedCommittedFiles = new Set(stdoutTree.split('\n').map((l) => path.resolve(ROOT, l.trim())).filter(Boolean));
-        lastCommittedFetch = now;
-      } catch {
-        cachedCommittedFiles = null;
-      }
-    }
+    cachedCommittedFiles = list(['ls-tree', '-r', '--name-only', 'HEAD']);
+    lastCommittedFetch = now;
   }
   return { trackedFiles: cachedTrackedFiles, committedFiles: cachedCommittedFiles };
+}
+
+function resolveManifestPath(targetPath) {
+  const isDir = fs.existsSync(targetPath) && fs.statSync(targetPath).isDirectory();
+  const own = isDir ? path.join(targetPath, '.diagram-manifest.json') : null;
+  return own && fs.existsSync(own) ? own : MANIFEST_FILE;
+}
+
+function findManifestEntry(manifest, pngPath, targetPath) {
+  const relFromTarget = path.relative(targetPath, pngPath).replace(/\\/g, '/');
+  const relFromRoot = path.relative(ROOT, pngPath).replace(/\\/g, '/');
+  return manifest[relFromTarget] || manifest[relFromRoot] || null;
+}
+
+// Collect every Cathryn Lavery html+png pair under targetPath. Errors are
+// returned, not swallowed: an unreadable directory or HTML file is a gate failure.
+function collectDiagramPairs(targetPath) {
+  const pairs = [];
+  const errors = [];
+  const consider = (htmlPath) => {
+    try {
+      const skin = inspectHtmlSkin(fs.readFileSync(htmlPath, 'utf8'));
+      if (!skin.isLavery) return; // Only Cathryn Lavery diagrams are gated
+      pairs.push({ htmlPath, pngPath: htmlPath.replace(/\.html$/i, '.png') });
+    } catch (err) {
+      errors.push(`PARITY_CHECK_ERROR: could not inspect ${path.relative(ROOT, htmlPath)}: ${err.message}`);
+    }
+  };
+  const walk = (d) => {
+    let entries;
+    try {
+      entries = fs.readdirSync(d, { withFileTypes: true });
+    } catch (err) {
+      errors.push(`PARITY_CHECK_ERROR: could not read directory ${path.relative(ROOT, d) || d}: ${err.message}`);
+      return;
+    }
+    for (const entry of entries) {
+      if (IGNORED_DIRS.has(entry.name)) continue;
+      const full = path.join(d, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.isFile() && entry.name.endsWith('.html')) {
+        if (entry.name === 'dashboard.html' || entry.name === 'index.html') continue;
+        consider(full);
+      }
+    }
+  };
+  if (fs.existsSync(targetPath)) {
+    const s = fs.statSync(targetPath);
+    if (s.isFile() && targetPath.endsWith('.html')) consider(targetPath);
+    else if (s.isDirectory()) walk(targetPath);
+  }
+  return { pairs, errors };
 }
 
 export function verifyDiagramParity(targetPath = ROOT) {
   const errors = [];
   const checked = [];
+  let manifest = {};
+  let trackedFiles = null;
+  let committedFiles = null;
+  try {
+    ({ trackedFiles, committedFiles } = getGitFiles());
+    manifest = loadManifest(resolveManifestPath(targetPath));
+  } catch (err) {
+    // Fail closed: without the manifest or git state nothing can be verified.
+    return { valid: false, errors: [`PARITY_CHECK_ERROR: ${err.message}`], checkedCount: 0 };
+  }
 
-  const { trackedFiles, committedFiles } = getGitFiles();
+  const collected = collectDiagramPairs(targetPath);
+  errors.push(...collected.errors);
 
-  const targetManifest = path.join(targetPath, '.diagram-manifest.json');
-  const manifest = fs.existsSync(targetManifest)
-    ? loadManifest(targetManifest)
-    : loadManifest();
-
-  const checkHtmlFile = (htmlPath) => {
+  for (const { htmlPath, pngPath } of collected.pairs) {
+    const relHtml = path.relative(ROOT, htmlPath);
+    const relPng = path.relative(ROOT, pngPath);
     try {
-      const content = fs.readFileSync(htmlPath, 'utf8');
-      const skin = inspectHtmlSkin(content);
-      if (!skin.isLavery) return; // Only verify Cathryn Lavery diagrams
-
-      const pngPath = htmlPath.replace(/\.html$/i, '.png');
       if (!fs.existsSync(pngPath)) {
-        errors.push(`MISSING_PNG: ${path.relative(ROOT, pngPath)} is missing for ${path.relative(ROOT, htmlPath)}`);
-        return;
+        errors.push(`MISSING_PNG: ${relPng} is missing for ${relHtml}`);
+        continue;
       }
-
       if (trackedFiles && trackedFiles.has(path.resolve(htmlPath)) && !trackedFiles.has(path.resolve(pngPath))) {
-        errors.push(`UNTRACKED_PNG: ${path.relative(ROOT, pngPath)} is untracked in git for tracked spec ${path.relative(ROOT, htmlPath)}`);
-        return;
+        errors.push(`UNTRACKED_PNG: ${relPng} is untracked in git for tracked spec ${relHtml}`);
+        continue;
       }
-
       if (committedFiles && committedFiles.has(path.resolve(htmlPath)) && !committedFiles.has(path.resolve(pngPath))) {
-        errors.push(`UNCOMMITTED_PNG: ${path.relative(ROOT, pngPath)} is not committed in git HEAD for tracked spec ${path.relative(ROOT, htmlPath)}`);
-        return;
+        errors.push(`UNCOMMITTED_PNG: ${relPng} is not committed in git HEAD for tracked spec ${relHtml}`);
+        continue;
       }
-
-      const relPngFromRoot = path.relative(ROOT, pngPath).replace(/\\/g, '/');
-      const relPngFromTarget = path.relative(targetPath, pngPath).replace(/\\/g, '/');
-      const basePng = path.basename(pngPath);
-      const manifestEntry = manifest[relPngFromTarget] || manifest[relPngFromRoot] || manifest[basePng];
-      const htmlHash = computeFileHash(htmlPath);
-
-      if (manifestEntry) {
-        if (manifestEntry.htmlHash !== htmlHash) {
-          errors.push(`STALE_PNG: ${path.relative(ROOT, pngPath)} content hash does not match ${path.relative(ROOT, htmlPath)}`);
-          return;
-        }
-      } else {
-        const htmlStat = fs.statSync(htmlPath);
-        const pngStat = fs.statSync(pngPath);
-        if (pngStat.mtimeMs < htmlStat.mtimeMs) {
-          errors.push(`STALE_PNG: ${path.relative(ROOT, pngPath)} is older than ${path.relative(ROOT, htmlPath)}`);
-          return;
-        }
+      // Every pair needs a manifest entry. There is deliberately no mtime
+      // fallback: timestamps do not survive a fresh checkout.
+      const entry = findManifestEntry(manifest, pngPath, targetPath);
+      if (!entry) {
+        errors.push(`MANIFEST_MISSING: no .diagram-manifest.json entry for ${relPng}. Render it, then run: node scripts/diagram-sync.mjs --update-manifest`);
+        continue;
+      }
+      if (entry.htmlHash !== computeFileHash(htmlPath)) {
+        errors.push(`STALE_PNG: ${relPng} content hash does not match ${relHtml}`);
+        continue;
+      }
+      if (!entry.pngHash) {
+        errors.push(`MANIFEST_INCOMPLETE: manifest entry for ${relPng} has no pngHash. Run: node scripts/diagram-sync.mjs --update-manifest`);
+        continue;
+      }
+      if (entry.pngHash !== computeFileHash(pngPath)) {
+        errors.push(`CORRUPT_PNG: ${relPng} content hash does not match the manifest (file changed since it was rendered)`);
+        continue;
       }
       checked.push(htmlPath);
-    } catch {
-      // ignore
+    } catch (err) {
+      errors.push(`PARITY_CHECK_ERROR: ${relHtml}: ${err.message}`);
     }
-  };
-
-  const walk = (d) => {
-    try {
-      const entries = fs.readdirSync(d, { withFileTypes: true });
-      for (const entry of entries) {
-        if (IGNORED_DIRS.has(entry.name)) continue;
-        const full = path.join(d, entry.name);
-        if (entry.isDirectory()) walk(full);
-        else if (entry.isFile() && entry.name.endsWith('.html')) {
-          if (entry.name === 'dashboard.html' || entry.name === 'index.html') continue;
-          checkHtmlFile(full);
-        }
-      }
-    } catch {
-      // ignore
-    }
-  };
-
-  if (fs.existsSync(targetPath)) {
-    const s = fs.statSync(targetPath);
-    if (s.isFile() && targetPath.endsWith('.html')) checkHtmlFile(targetPath);
-    else if (s.isDirectory()) walk(targetPath);
   }
 
   return {
@@ -293,11 +343,57 @@ export function verifyDiagramParity(targetPath = ROOT) {
   };
 }
 
+// Regenerate manifest hashes from the PNGs that exist on disk. Never renders or
+// rewrites a PNG. Refuses a file that is not a PNG so a corrupted image cannot be
+// recorded as the new truth. Entries for PNGs that no longer exist are pruned.
+export function updateManifest(targetPath = ROOT, { dryRun = false } = {}) {
+  const manifestPath = resolveManifestPath(targetPath);
+  const manifestDir = path.dirname(manifestPath);
+  const manifest = loadManifest(manifestPath);
+  const { pairs, errors } = collectDiagramPairs(targetPath);
+  const updated = [];
+  const removed = [];
+  const next = { ...manifest };
+  for (const { htmlPath, pngPath } of pairs) {
+    const key = path.relative(manifestDir, pngPath).replace(/\\/g, '/');
+    if (key.startsWith('..')) {
+      errors.push(`MANIFEST_SCOPE: ${key} is outside the manifest directory; add a .diagram-manifest.json next to it first`);
+      continue;
+    }
+    if (!fs.existsSync(pngPath)) {
+      errors.push(`MISSING_PNG: ${key} is missing for ${path.relative(ROOT, htmlPath)}; render it first`);
+      continue;
+    }
+    if (!isPngFile(pngPath)) {
+      errors.push(`NOT_A_PNG: ${key} does not start with the PNG signature; refusing to record its hash`);
+      continue;
+    }
+    const prev = manifest[key];
+    const entry = buildManifestEntry(htmlPath, pngPath);
+    if (prev && prev.htmlHash === entry.htmlHash && prev.pngHash === entry.pngHash) {
+      next[key] = prev; // unchanged: keep the original timestamp so reruns are byte-identical
+      continue;
+    }
+    next[key] = entry;
+    updated.push(key);
+  }
+  for (const key of Object.keys(next)) {
+    if (!fs.existsSync(path.resolve(manifestDir, key))) {
+      delete next[key];
+      removed.push(key);
+    }
+  }
+  if (errors.length === 0 && !dryRun && (updated.length > 0 || removed.length > 0)) {
+    saveManifest(Object.fromEntries(Object.entries(next).sort(([a], [b]) => (a < b ? -1 : 1))), manifestPath);
+  }
+  return { valid: errors.length === 0, errors, updated, removed, manifestPath, total: Object.keys(next).length };
+}
 export function parseArgs(argv) {
   const options = {
     dryRun: false,
     benchmark: false,
     verifyParity: false,
+    updateManifest: false,
     targetPath: ROOT,
     fix: false,
   };
@@ -306,6 +402,7 @@ export function parseArgs(argv) {
     else if (arg === '--fix') options.fix = true;
     else if (arg === '--benchmark') options.benchmark = true;
     else if (arg === '--verify-parity') options.verifyParity = true;
+    else if (arg === '--update-manifest') options.updateManifest = true;
     else if (arg.startsWith('--path=')) options.targetPath = path.resolve(ROOT, arg.slice('--path='.length));
   }
   return options;
@@ -334,6 +431,20 @@ export async function main() {
     process.exit(0);
   }
 
+  if (options.updateManifest) {
+    const report = updateManifest(options.targetPath, { dryRun: options.dryRun });
+    if (!report.valid) {
+      console.error(`DIAGRAM_MANIFEST_ERROR: refusing to update ${report.errors.length} problem(s):`);
+      for (const err of report.errors) console.error(`  - ${err}`);
+      process.exit(1);
+    }
+    const verb = options.dryRun ? 'would update' : 'updated';
+    console.log(`DIAGRAM_MANIFEST_OK: ${verb} ${report.updated.length} entries, pruned ${report.removed.length}, ${report.total} total. PNG files were not modified.`);
+    for (const key of report.updated) console.log(`  ~ ${key}`);
+    for (const key of report.removed) console.log(`  - ${key}`);
+    process.exit(0);
+  }
+
   if (options.verifyParity) {
     const report = verifyDiagramParity(options.targetPath);
     if (!report.valid) {
@@ -341,7 +452,7 @@ export async function main() {
       for (const err of report.errors) console.error(`  - ${err}`);
       process.exit(1);
     }
-    console.log(`DIAGRAM_PARITY_OK: All ${report.checkedCount} visual diagram assets match their HTML sources.`);
+    console.log(`DIAGRAM_PARITY_OK: All ${report.checkedCount} visual diagram assets match their HTML sources and recorded PNG hashes.`);
     process.exit(0);
   }
 

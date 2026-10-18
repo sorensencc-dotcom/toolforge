@@ -36,11 +36,32 @@ node scripts/diagram-sync.mjs --fix --path=docs/meta
 
 ### 3. Verify visual parity
 
-To verify that every Cathryn Lavery HTML diagram has a matching, up-to-date PNG asset committed in git:
+To verify that every Cathryn Lavery HTML diagram has a matching PNG asset committed in git, and that both files still match the hashes recorded in `.diagram-manifest.json`:
 
 ```bash
 node scripts/diagram-sync.mjs --verify-parity
 ```
+
+The gate checks, for each HTML and PNG pair:
+
+- The PNG exists and is committed in git HEAD.
+- The manifest has an entry for the PNG. There is no timestamp fallback, so a new pair fails until it is recorded.
+- The manifest `htmlHash` matches the HTML (`STALE_PNG` if the spec changed after the render).
+- The manifest `pngHash` matches the PNG (`CORRUPT_PNG` if the image changed since it was recorded).
+
+Any error inside the check, such as an unreadable file or an invalid manifest, fails the gate. It never passes silently.
+
+### 3a. Record hashes after a render
+
+After you render or re-render a diagram, record the new hashes:
+
+```bash
+node scripts/diagram-sync.mjs --update-manifest            # whole repo
+node scripts/diagram-sync.mjs --update-manifest --dry-run  # show what would change
+node scripts/diagram-sync.mjs --update-manifest --path=docs/meta
+```
+
+`--update-manifest` only reads the PNG files. It never renders or rewrites them. It refuses a file that does not start with the PNG signature, and it prunes entries whose PNG no longer exists. Review the manifest diff before you commit it: the hashes record whatever PNG is on disk, so check that the PNG is the render you intend.
 
 ### 4. Audit technical writing heuristics
 

@@ -208,6 +208,12 @@ test('End-to-end pipeline execution via PowerShell: -GenerateWorkflows generates
   assert.ok(fs.existsSync(path.join(tempDir, 'docs', 'workflows', 'script-worker-daemon.html')));
   assert.ok(fs.existsSync(path.join(tempDir, 'docs', 'workflows', 'script-worker-daemon.png')));
 
+  // Output outside the repo has no manifest entries, so the gate rejects it (no mtime fallback).
+  fs.writeFileSync(path.join(tempDir, '.diagram-manifest.json'), '{}\n', 'utf8');
+  assert.equal(verifyDiagramParity(tempDir).valid, false, 'unrecorded pairs must fail parity');
+  // The documented way to record freshly rendered pairs.
+  execFileSync(process.execPath, [path.resolve('scripts/diagram-sync.mjs'), '--update-manifest', `--path=${tempDir}`], { encoding: 'utf8' });
+
   // Verify visual diagram parity across the generated artifacts
   const parity = verifyDiagramParity(tempDir);
   assert.equal(parity.valid, true, `Generated artifacts must satisfy visual diagram parity: ${JSON.stringify(parity.errors)}`);
