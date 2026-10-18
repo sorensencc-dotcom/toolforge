@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.96.3
+Date: 2026-10-18
+
+### Changes
+- a6dda643 - Merge pull request #170 from sorensencc-dotcom:chore/retro-harvest-20261018 (Chris Sorensen)
+- 10e75109 - chore(retro): harvest first retro inbox entries (6 findings) (Chris Sorensen)
+- b87ac2e5 - Merge pull request #168 from sorensencc-dotcom:docs/retro-policy-tier1-signed (Chris Sorensen)
+- 0f53185b - docs(governance): record Tier 1 approval of retro policy (Chris Sorensen)
+
 ## Version 2.96.2
 Date: 2026-10-18
 
