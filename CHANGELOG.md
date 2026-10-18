@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.96.4
+Date: 2026-10-18
+
+### Changes
+- 064df8cd - Codex/research store data first import (#167) (Chris Sorensen)
+
 ## Version 2.96.3
 Date: 2026-10-18
 
