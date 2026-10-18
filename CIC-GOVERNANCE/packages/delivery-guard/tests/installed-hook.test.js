@@ -143,12 +143,12 @@ test('executes installed hook artifact and blocks when a required gate fails', (
   }
 });
 
-test('executes installed hook artifact and keeps advisory delivery-guard policy non-blocking', () => {
+test('executes installed hook artifact and blocks when the delivery-guard policy fails', () => {
   const tempRepo = createTempGitRepo();
   try {
     installGitHook(tempRepo);
 
-    // Create failing advisory script for delivery guard
+    // Create failing script for delivery guard
     const guardScriptDir = path.join(tempRepo, 'CIC-GOVERNANCE', 'packages', 'delivery-guard', 'scripts');
     fs.mkdirSync(guardScriptDir, { recursive: true });
     fs.writeFileSync(
@@ -159,8 +159,8 @@ test('executes installed hook artifact and keeps advisory delivery-guard policy 
 
     const result = runHook(tempRepo);
 
-    assert.equal(result.status, 0, 'Advisory failure should not block commit');
-    assert.match(result.stdout, /Delivery guard automation policy is advisory; unable to evaluate\./);
+    assert.equal(result.status, 1, 'Delivery guard failure must block commit');
+    assert.match(result.stdout, /\[Pre-Commit Blocked\] Delivery guard/);
   } finally {
     cleanupTempDir(tempRepo);
   }

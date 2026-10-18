@@ -41,14 +41,15 @@ test('governance matrix checkouts fail closed and use scoped dependency fallback
   assert.match(workflow, /cp -a toolforge-source\/CIC-GOVERNANCE\/\. workspace\/CIC-GOVERNANCE\//);
 });
 
-test('local hook invokes the automation policy wrapper in advisory staged mode', () => {
+test('local hook invokes the automation policy wrapper in blocking staged mode', () => {
   const hookShim = fs.readFileSync(canonicalShimPath, 'utf8');
 
   assert.match(
     hookShim,
-    /evaluate-automation-policy\.mjs"? --staged --advisory/,
+    /evaluate-automation-policy\.mjs"? --staged \|\| \{/,
   );
-  assert.match(hookShim, /automation policy is advisory/);
+  assert.doesNotMatch(hookShim, /--advisory/);
+  assert.match(hookShim, /\[Pre-Commit Blocked\] Delivery guard/);
 });
 
 test('both hook installers install the same canonical delivery-guard shim', () => {
@@ -59,8 +60,9 @@ test('both hook installers install the same canonical delivery-guard shim', () =
   assert.match(powershellInstaller, /pre-commit-shim\.sh/);
 
   const shim = fs.readFileSync(canonicalShimPath, 'utf8');
-  assert.match(shim, /evaluate-automation-policy\.mjs --staged --advisory/);
-  assert.match(shim, /automation policy is advisory/);
+  assert.match(shim, /evaluate-automation-policy\.mjs --staged \|\| \{/);
+  assert.doesNotMatch(shim, /--advisory/);
+  assert.match(shim, /\[Pre-Commit Blocked\] Delivery guard/);
 });
 
 test('README documents the complete public API and enforcement contracts', () => {
