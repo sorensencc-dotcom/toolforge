@@ -9,6 +9,7 @@
   "categoryTags": {
     "testing": "TEST",
     "hygiene": "PROCESS",
-    "architecture": "SPEC"
+    "architecture": "SPEC",
+    "reliability": "RELIABILITY"
   }
 }

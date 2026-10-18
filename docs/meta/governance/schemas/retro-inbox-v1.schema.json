@@ -70,7 +70,8 @@
               "TEST",
               "PROCESS",
               "TOOLING",
-              "SECURITY"
+              "SECURITY",
+              "RELIABILITY"
             ]
           },
           "severity": {

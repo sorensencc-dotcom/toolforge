@@ -182,12 +182,12 @@ test('remapping a category never refiles a harvested recommendation', () => {
 
 test('leaves an unmapped category unharvested until the config maps it', () => {
   withWorkspace((ws) => {
-    writeRetro(ws, 'sigil-repo', '2026-10-16-1.json', [{ category: 'reliability', text: TRANSACTION }]);
+    writeRetro(ws, 'sigil-repo', '2026-10-16-1.json', [{ category: 'ergonomics', text: TRANSACTION }]);
     const first = harvest(ws);
     assert.equal(first.status, 0);
-    assert.match(first.stderr, /recommendations\/0: category "reliability" names no tag/);
+    assert.match(first.stderr, /recommendations\/0: category "ergonomics" names no tag/);
     assert.deepEqual(snapshot(ws), {});
-    const second = harvest(ws, { config: sigilConfig(ws, { categoryTags: { reliability: 'TOOLING' } }) });
+    const second = harvest(ws, { config: sigilConfig(ws, { categoryTags: { ergonomics: 'TOOLING' } }) });
     assert.equal(second.status, 0, second.stderr);
     assert.deepEqual(readJson(ws, SIGIL_ENTRY).findings.map(({ tag, summary }) => [tag, summary]), [['TOOLING', TRANSACTION]]);
   });
@@ -284,10 +284,10 @@ test('names a second entry from the same retro with a part suffix', () => {
   withWorkspace((ws) => {
     writeRetro(ws, 'sigil-repo', '2026-10-16-1.json', [
       { category: 'testing', text: HARNESS },
-      { category: 'reliability', text: TRANSACTION },
+      { category: 'ergonomics', text: TRANSACTION },
     ]);
     assert.equal(harvest(ws).status, 0);
-    assert.equal(harvest(ws, { config: sigilConfig(ws, { categoryTags: { testing: 'TEST', reliability: 'TOOLING' } }) }).status, 0);
+    assert.equal(harvest(ws, { config: sigilConfig(ws, { categoryTags: { testing: 'TEST', ergonomics: 'TOOLING' } }) }).status, 0);
     const second = readJson(ws, '.context/retros/inbox/ci/2026-10-16-sigil-retro-1-part-2.json');
     assert.deepEqual(second.findings.map(({ summary }) => summary), [TRANSACTION]);
     assert.deepEqual(validateInbox(inboxDir(ws)).errors, []);
@@ -347,4 +347,12 @@ test('CLI exits 2 on an unknown option or an invalid config', () => {
 
 test('committed config is valid', () => {
   assert.deepEqual(configErrors(JSON.parse(readFileSync(COMMITTED_CONFIG, 'utf8'))), []);
+});
+
+test('reliability recommendations map to the RELIABILITY tag with no config entry', () => {
+  withWorkspace((ws) => {
+    writeRetro(ws, 'sigil-repo', '2026-10-16-1.json', [{ category: 'reliability', text: TRANSACTION }]);
+    assert.equal(harvest(ws).status, 0);
+    assert.deepEqual(readJson(ws, SIGIL_ENTRY).findings.map(({ tag }) => tag), ['RELIABILITY']);
+  });
 });

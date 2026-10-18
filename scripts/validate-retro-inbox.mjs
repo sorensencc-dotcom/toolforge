@@ -32,6 +32,7 @@ export const INBOX_REGISTRY = deepFreeze({
     PROCESS: { icfCategory: 'governance' },
     TOOLING: { icfCategory: 'delivery' },
     SECURITY: { icfCategory: 'governance' },
+    RELIABILITY: { icfCategory: 'reliability' },
   },
   severities: {
     critical: { priority: 'P0' },

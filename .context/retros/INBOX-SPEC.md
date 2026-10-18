@@ -112,6 +112,7 @@ For `toolforge`, `MCP`, and `graft MCP server times out on cold start`, the id i
 | `PROCESS` | Workflow, handoff, and session discipline | `governance` |
 | `TOOLING` | Scripts, CLIs, hooks, and developer tools | `delivery` |
 | `SECURITY` | Secrets, permissions, sandboxing, and injection risks | `governance` |
+| `RELIABILITY` | Crashes, hangs, flaky behavior, and failure recovery outside ingestion pipelines and MCP servers | `reliability` |
 
 The ICF category is one of the four `LAUNCH_CATEGORY_IDS` in `icf/reporting/src/category-contract.mjs`.
 
