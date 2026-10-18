@@ -1,0 +1,19 @@
+docs/meta/governance/retro-policy.md
+  s_089b35bb781a72::t_9fcc624c751c42 3,5,66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0f53185b4b2104518c7facdd2fbbf8566843e7b9",
+  "prompts": {},
+  "sessions": {
+    "s_089b35bb781a72": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c8796cce-6654-4067-b9e6-3ce34d503cf7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
