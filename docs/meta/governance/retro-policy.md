@@ -57,6 +57,10 @@ Session wraps and memory notes are not retros. When a wrap or a memory note ment
 
 No tool applies this rule yet. The planned consolidator and TODOS.md writer must follow it.
 
+## Harvester configuration
+
+Tier 1 approves every change to `.context/retros/harvest/config.json`, including `categoryTags`, `severity`, and the repo list. A wrong tag stays in the committed record. Operator approval recorded 2026-10-18.
+
 ## Prerequisites before agents write entries
 
 Agents write no inbox entries until Tier 1 approves this policy. The retro harvester follows the same rule, so run it only with `--dry-run` until then. The two technical blockers are fixed on `feat/retro-governance`:
