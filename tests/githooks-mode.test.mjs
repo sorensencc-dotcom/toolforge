@@ -67,3 +67,36 @@ test('setup-git-hooks.ps1 Install is idempotent: no diff on a clean checkout, mo
     try { fs.rmSync(tmp, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }); } catch { /* leave temp dir */ }
   }
 });
+function stagedGuardCommit(cwd, files) {
+  for (const [file, body] of Object.entries(files)) {
+    fs.mkdirSync(path.dirname(path.join(cwd, file)), { recursive: true });
+    fs.writeFileSync(path.join(cwd, file), body);
+  }
+  git(['add', '-A'], cwd);
+  const env = { ...process.env, ...IDENTITY };
+  for (const key of ['GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE']) delete env[key];
+  return spawnSync('bash', [path.join(cwd, '.githooks', 'pre-commit')], { cwd, encoding: 'utf8', env });
+}
+
+test('pre-commit blocks an automation change staged without a regression test, and allows it when paired', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hooks-guard-'));
+  try {
+    git(['init', '-q'], tmp);
+    fs.cpSync(path.join(REPO, 'CIC-GOVERNANCE', 'packages', 'delivery-guard'), path.join(tmp, 'CIC-GOVERNANCE', 'packages', 'delivery-guard'), { recursive: true, filter: (src) => !src.includes('node_modules') });
+    fs.copyFileSync(path.join(REPO, 'CIC-GOVERNANCE', 'delivery-guard.config.js'), path.join(tmp, 'CIC-GOVERNANCE', 'delivery-guard.config.js'));
+    fs.mkdirSync(path.join(tmp, '.githooks'));
+    fs.copyFileSync(path.join(REPO, '.githooks', 'pre-commit'), path.join(tmp, '.githooks', 'pre-commit'));
+    fs.writeFileSync(path.join(tmp, '.githooks', 'pre-commit.ps1'), '');
+    git(['add', '-A'], tmp);
+    git(['commit', '-q', '-m', 'baseline'], tmp);
+
+    const blocked = stagedGuardCommit(tmp, { 'scripts/diagram-sync.mjs': '// automation change\n' });
+    assert.notEqual(blocked.status, 0, 'unpaired automation change must be blocked');
+    assert.match(blocked.stdout + blocked.stderr, /Pre-Commit Blocked\] Delivery guard/);
+
+    const paired = stagedGuardCommit(tmp, { 'tests/diagram-sync.test.mjs': "// regression test\n" });
+    assert.equal(paired.status, 0, `paired change must pass: ${paired.stdout}${paired.stderr}`);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
