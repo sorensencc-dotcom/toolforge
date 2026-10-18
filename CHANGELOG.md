@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.96.2
+Date: 2026-10-18
+
+### Changes
+- d55764f3 - chore(retro): track 2026-10-17-2 source retro with schema v1.0 backfill (#166) (Chris Sorensen)
+- 4228ca34 - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+- 52f4b853 - Merge pull request #165 from sorensencc-dotcom/docs/retro-harvest-config-approval (Chris Sorensen)
+- 4c2dd897 - docs(retro): require Tier 1 approval for harvester config changes (Chris Sorensen)
+
 ## Version 2.96.1
 Date: 2026-10-18
 
