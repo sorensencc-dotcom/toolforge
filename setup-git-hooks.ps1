@@ -133,6 +133,13 @@ function Test-RetroFiles {
 
 # Roadmap location check function
 function Test-RoadmapLocations {
+    `$repoRoot = git rev-parse --show-toplevel
+    `$nodeLinter = Join-Path `$repoRoot 'scripts/governance/check-roadmap-location.mjs'
+    if (Test-Path `$nodeLinter) {
+        node `$nodeLinter --staged
+        return (`$LASTEXITCODE -eq 0)
+    }
+
     `$stagedFiles = git diff --cached --name-only
     `$allowedRoots = @(
         "docs/meta",

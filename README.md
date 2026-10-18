@@ -4,7 +4,7 @@ Toolforge is a governed, observable, and deterministic execution platform that p
 
 Toolforge is not a loose collection of functions — it is a full lifecycle system for tool discovery, governance, execution, and observability. Every tool call passes through a controlled pipeline that guarantees correctness, safety, and traceability.
 
-**Status:** Active — platform release [v2.74.0](https://github.com/sorensencc-dotcom/toolforge/releases/tag/v2.74.0)  
+**Status:** Active — platform release [v2.95.9](https://github.com/sorensencc-dotcom/toolforge/releases/tag/v2.95.9)  
 **Audience:** AI agent developers, tool authors, and operators who need governed, observable tool execution (brand: `product-toolforge`).
 
 ## Quick start
@@ -32,10 +32,11 @@ npm run dev
 
 ```mermaid
 graph TD
-    CL["1. Clients & Ingress<br/>AI Agents • IDE Integrations • REST API • MCP stdio & HTTP"] --> GW["2. Gateway Layer<br/>Authentication (API Keys, JWT) • Capability RBAC • Rate Limiter"]
-    GW --> ER["3. Execution Runtime (Core Engine)<br/>• Input Validation (JSON Schema)<br/>• Sandbox Isolation<br/>• Deterministic Retry & Timeout Manager<br/>• Structured ToolResult Emitter"]
-    ER --> TR["4. Tool Registry<br/>Semantic Registry • Categories • Semver Versioning • Search"]
-    TR --> INF["5. Infrastructure & Telemetry<br/>PostgreSQL (Audit Logs) • Redis (Rate Limits & Caching) • Prometheus (/metrics)"]
+    CL["1. Clients & Multi-Agent Ingress<br/>AI Agents (AGY, Claude, Grok) • IDE Extensions • REST API • MCP stdio & HTTP • Sigil Mesh"] --> GW["2. Gateway & Policy Governance<br/>Capability RBAC • TorqueQuery Zero-Cost Routing • Token Burn & Egress Guards • Rate Limiter"]
+    GW --> ER["3. Execution Runtime & Sandbox Engine<br/>• Input Validation (JSON Schema) • Subprocess & Docker Isolation<br/>• Deterministic Retry & Timeout Manager • Structured ToolResult Emitter"]
+    ER --> TR["4. Toolforge Marketplace & Skill Packs<br/>Semantic Registry • Skill Pack Lifecycle (CLI list/install/submit/sync-docs) • Submission Validator"]
+    TR --> SUB["5. Continuous Subsystems & Automation<br/>TRM Closed-Loop Research • KB Sync DAG & Obsidian Vault • Cathryn Lavery Diagram Sync"]
+    SUB --> INF["6. Persistence, Cache & Telemetry<br/>PostgreSQL (Lineage & Audit Logs) • Redis (State & Rate Limits) • Prometheus (/metrics) • IronLedger Sync"]
 ```
 </details>
 

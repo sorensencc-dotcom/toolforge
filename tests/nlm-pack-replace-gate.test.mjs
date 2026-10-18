@@ -9,6 +9,9 @@ import {
   HISTORICAL_NOTEBOOK_IDS,
   replaceGate,
   purgePackFamilyBeforeUpload,
+  isStagingOrExcludedPath,
+  assertAllowedPackPath,
+  EXCLUDED_PACK_DIRS,
 } from '../scripts/nlm-pack-replace-gate.mjs';
 
 test('isPackFamilyTitle matches pack family titles', () => {
@@ -199,4 +202,46 @@ test('Agent Harness: case-insensitive and whitespace-trimmed pack family matchin
   assert.equal(isPackFamilyTitle('  repo_knowledge_pack_part_aa.txt  ', 'pack_agent_harness.txt'), true);
   assert.equal(isPackFamilyTitle('Repo_Knowledge_Pack_Part_Az.txt', 'pack_agent_harness.txt'), true);
 });
+
+test('isStagingOrExcludedPath detects staging, worktrees, and ignored paths', () => {
+  assert.equal(isStagingOrExcludedPath('_kb-sync-staging/pack.txt'), true);
+  assert.equal(isStagingOrExcludedPath('c:/dev/_kb-sync-staging/trm/pack.txt'), true);
+  assert.equal(isStagingOrExcludedPath('.worktrees/feature/pack.txt'), true);
+  assert.equal(isStagingOrExcludedPath('_staging/pack.txt'), true);
+  assert.equal(isStagingOrExcludedPath('node_modules/foo/pack.txt'), true);
+  assert.equal(isStagingOrExcludedPath('.git/objects/pack.txt'), true);
+  assert.equal(isStagingOrExcludedPath('deep/nested/_staging/pack.txt'), true);
+  assert.equal(isStagingOrExcludedPath('.nlm_pack/pack_willow_run.txt'), false);
+  assert.equal(isStagingOrExcludedPath('wiki/research/note.md'), false);
+});
+
+test('assertAllowedPackPath throws STAGING_GUARD_VIOLATION for staging paths', () => {
+  assert.throws(
+    () => assertAllowedPackPath('_kb-sync-staging/pack.txt'),
+    /STAGING_GUARD_VIOLATION/
+  );
+  assert.throws(
+    () => assertAllowedPackPath('.worktrees/branch/pack.txt'),
+    /STAGING_GUARD_VIOLATION/
+  );
+  assert.throws(
+    () => assertAllowedPackPath('_staging/pack.txt'),
+    /STAGING_GUARD_VIOLATION/
+  );
+  assert.doesNotThrow(() => assertAllowedPackPath('.nlm_pack/pack_willow_run.txt'));
+});
+
+test('replaceGate throws STAGING_GUARD_VIOLATION before attempting upload for staging paths', async () => {
+  await assert.rejects(
+    async () => {
+      await replaceGate({
+        packFile: '_kb-sync-staging/test_pack.txt',
+        targetNbId: '359b346c-6af7-4ba3-baef-b985c9e6e1af',
+        dryRun: true,
+      });
+    },
+    /STAGING_GUARD_VIOLATION/
+  );
+});
+
 

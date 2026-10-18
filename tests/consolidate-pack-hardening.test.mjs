@@ -12,6 +12,7 @@ import {
   getCanonicalPacks,
   MAX_PACK_BYTES
 } from '../scripts/consolidate-pack.mjs';
+import { withSandboxSync } from './helpers/sandbox.mjs';
 
 describe('Knowledge Pack Compaction & Ingestion Hardening Suite', () => {
 
@@ -184,75 +185,85 @@ describe('Knowledge Pack Compaction & Ingestion Hardening Suite', () => {
   });
 
   test('4. _kb-sync-staging, .txt files, and ignored files are excluded from candidate discovery', () => {
-    const tmpDir = path.join(process.cwd(), '.tmp', 'test-pack-exclusions');
-    const wikiDir = path.join(tmpDir, 'wiki');
-    const stagingDir = path.join(wikiDir, '_kb-sync-staging');
-    const subDir = path.join(wikiDir, 'nested');
-    const outDir = path.join(tmpDir, 'out');
+    withSandboxSync('test-pack-exclusions-', (sandbox) => {
+      const wikiDir = sandbox.mkdir('wiki');
+      const stagingDir = sandbox.mkdir('wiki', '_kb-sync-staging');
+      const subDir = sandbox.mkdir('wiki', 'nested');
+      const outDir = sandbox.mkdir('out');
 
-    fs.mkdirSync(wikiDir, { recursive: true });
-    fs.mkdirSync(stagingDir, { recursive: true });
-    fs.mkdirSync(subDir, { recursive: true });
-    fs.mkdirSync(outDir, { recursive: true });
+      // 1. Valid markdown file in root wiki
+      sandbox.writeFile(
+        path.join('wiki', 'valid-root.md'),
+        '---\ncategory: willow-run\nsource_title: "Valid Root"\n---\nValid root content\n'
+      );
 
-    // 1. Valid markdown file in root wiki
-    fs.writeFileSync(
-      path.join(wikiDir, 'valid-root.md'),
-      '---\ncategory: willow-run\nsource_title: "Valid Root"\n---\nValid root content\n'
-    );
+      // 2. Valid markdown file in nested subfolder
+      sandbox.writeFile(
+        path.join('wiki', 'nested', 'valid-nested.md'),
+        '---\ncategory: willow-run\nsource_title: "Valid Nested"\n---\nValid nested content\n'
+      );
 
-    // 2. Valid markdown file in nested subfolder
-    fs.writeFileSync(
-      path.join(subDir, 'valid-nested.md'),
-      '---\ncategory: willow-run\nsource_title: "Valid Nested"\n---\nValid nested content\n'
-    );
+      // 3. Staging file in _kb-sync-staging (MUST BE EXCLUDED)
+      sandbox.writeFile(
+        path.join('wiki', '_kb-sync-staging', 'staging-note.md'),
+        '---\ncategory: willow-run\nsource_title: "Staging Note"\n---\nUNWANTED_STAGING_CONTENT\n'
+      );
 
-    // 3. Staging file in _kb-sync-staging (MUST BE EXCLUDED)
-    fs.writeFileSync(
-      path.join(stagingDir, 'staging-note.md'),
-      '---\ncategory: willow-run\nsource_title: "Staging Note"\n---\nUNWANTED_STAGING_CONTENT\n'
-    );
+      // 3b. Staging file in _staging (MUST BE EXCLUDED)
+      const underscoreStagingDir = sandbox.mkdir('wiki', '_staging');
+      sandbox.writeFile(
+        path.join('wiki', '_staging', 'staging-note.md'),
+        '---\ncategory: willow-run\nsource_title: "Underscore Staging Note"\n---\nUNWANTED_UNDERSCORE_STAGING_CONTENT\n'
+      );
 
-    // 4. Plain .txt file (MUST BE EXCLUDED)
-    fs.writeFileSync(
-      path.join(wikiDir, 'notes.txt'),
-      '---\ncategory: willow-run\n---\nUNWANTED_TXT_FILE_CONTENT\n'
-    );
+      // 3c. Staging file in .worktrees (MUST BE EXCLUDED)
+      const worktreesDir = sandbox.mkdir('wiki', '.worktrees', 'feature-branch');
+      sandbox.writeFile(
+        path.join('wiki', '.worktrees', 'feature-branch', 'worktree-note.md'),
+        '---\ncategory: willow-run\nsource_title: "Worktree Note"\n---\nUNWANTED_WORKTREE_CONTENT\n'
+      );
 
-    // 5. Plain .txt file in staging (MUST BE EXCLUDED)
-    fs.writeFileSync(
-      path.join(stagingDir, 'staging-raw.txt'),
-      'UNWANTED_STAGING_TXT_CONTENT\n'
-    );
+      // 4. Plain .txt file (MUST BE EXCLUDED)
+      sandbox.writeFile(
+        path.join('wiki', 'notes.txt'),
+        '---\ncategory: willow-run\n---\nUNWANTED_TXT_FILE_CONTENT\n'
+      );
 
-    // 6. log.md file (MUST BE EXCLUDED per IGNORED_FILES)
-    fs.writeFileSync(
-      path.join(wikiDir, 'log.md'),
-      '---\ncategory: willow-run\n---\nUNWANTED_LOG_MD_CONTENT\n'
-    );
+      // 5. Plain .txt file in staging (MUST BE EXCLUDED)
+      sandbox.writeFile(
+        path.join('wiki', '_kb-sync-staging', 'staging-raw.txt'),
+        'UNWANTED_STAGING_TXT_CONTENT\n'
+      );
 
-    const generatedPacks = consolidatePacks({
-      rootDir: tmpDir,
-      scanDirs: [wikiDir],
-      outDir
+      // 6. log.md file (MUST BE EXCLUDED per IGNORED_FILES)
+      sandbox.writeFile(
+        path.join('wiki', 'log.md'),
+        '---\ncategory: willow-run\n---\nUNWANTED_LOG_MD_CONTENT\n'
+      );
+
+      const generatedPacks = consolidatePacks({
+        rootDir: sandbox.dir,
+        scanDirs: [wikiDir],
+        outDir
+      });
+
+      const willowPack = generatedPacks.find(p => p.packDef.category === 'willow-run');
+      assert.ok(willowPack, 'willow-run pack must be generated');
+
+      const packContent = fs.readFileSync(willowPack.packFile, 'utf8');
+
+      // Valid files must be present
+      assert.ok(packContent.includes('Valid root content'), 'valid-root.md must be included');
+      assert.ok(packContent.includes('Valid nested content'), 'valid-nested.md must be included');
+
+      // Excluded files must NEVER be present
+      assert.equal(packContent.includes('UNWANTED_STAGING_CONTENT'), false, '_kb-sync-staging files must be excluded');
+      assert.equal(packContent.includes('UNWANTED_UNDERSCORE_STAGING_CONTENT'), false, '_staging files must be excluded');
+      assert.equal(packContent.includes('UNWANTED_WORKTREE_CONTENT'), false, '.worktrees files must be excluded');
+      assert.equal(packContent.includes('UNWANTED_TXT_FILE_CONTENT'), false, '.txt files must be excluded');
+      assert.equal(packContent.includes('UNWANTED_STAGING_TXT_CONTENT'), false, 'staging .txt files must be excluded');
+      assert.equal(packContent.includes('UNWANTED_LOG_MD_CONTENT'), false, 'log.md must be excluded');
     });
-
-    const willowPack = generatedPacks.find(p => p.packDef.category === 'willow-run');
-    assert.ok(willowPack, 'willow-run pack must be generated');
-
-    const packContent = fs.readFileSync(willowPack.packFile, 'utf8');
-
-    // Valid files must be present
-    assert.ok(packContent.includes('Valid root content'), 'valid-root.md must be included');
-    assert.ok(packContent.includes('Valid nested content'), 'valid-nested.md must be included');
-
-    // Excluded files must NEVER be present
-    assert.equal(packContent.includes('UNWANTED_STAGING_CONTENT'), false, '_kb-sync-staging files must be excluded');
-    assert.equal(packContent.includes('UNWANTED_TXT_FILE_CONTENT'), false, '.txt files must be excluded');
-    assert.equal(packContent.includes('UNWANTED_STAGING_TXT_CONTENT'), false, 'staging .txt files must be excluded');
-    assert.equal(packContent.includes('UNWANTED_LOG_MD_CONTENT'), false, 'log.md must be excluded');
-
-    fs.rmSync(tmpDir, { recursive: true, force: true });
   });
 
   test('5. All thematic categories (willow-run, ford-politics, post-war, cuban-seizures, master-kb) are mapped and tested', () => {
@@ -267,77 +278,73 @@ describe('Knowledge Pack Compaction & Ingestion Hardening Suite', () => {
     assert.ok(categories.includes('master-kb'), 'master-kb category must exist');
 
     // Test alias mapping and generation in consolidatePacks
-    const tmpDir = path.join(process.cwd(), '.tmp', 'test-thematic-categories');
-    const wikiDir = path.join(tmpDir, 'wiki');
-    const outDir = path.join(tmpDir, 'out');
+    withSandboxSync('test-thematic-categories-', (sandbox) => {
+      const wikiDir = sandbox.mkdir('wiki');
+      const outDir = sandbox.mkdir('out');
 
-    fs.mkdirSync(wikiDir, { recursive: true });
-    fs.mkdirSync(outDir, { recursive: true });
+      // File 1: willow-run via canonical name
+      sandbox.writeFile(
+        path.join('wiki', 'note-willow.md'),
+        '---\ncategory: willow-run\nsource_title: "Willow Run Overview"\n---\nWillow Run content\n'
+      );
 
-    // File 1: willow-run via canonical name
-    fs.writeFileSync(
-      path.join(wikiDir, 'note-willow.md'),
-      '---\ncategory: willow-run\nsource_title: "Willow Run Overview"\n---\nWillow Run content\n'
-    );
+      // File 2: ford-politics via alias 'ford_labor'
+      sandbox.writeFile(
+        path.join('wiki', 'note-politics.md'),
+        '---\ncategory: ford_labor\nsource_title: "Ford Labor Relations"\n---\nFord labor relations content\n'
+      );
 
-    // File 2: ford-politics via alias 'ford_labor'
-    fs.writeFileSync(
-      path.join(wikiDir, 'note-politics.md'),
-      '---\ncategory: ford_labor\nsource_title: "Ford Labor Relations"\n---\nFord labor relations content\n'
-    );
+      // File 3: post-war via alias 'post_war'
+      sandbox.writeFile(
+        path.join('wiki', 'note-postwar.md'),
+        '---\ncategory: post_war\nsource_title: "Post-War Reconstruction"\n---\nPost-war content\n'
+      );
 
-    // File 3: post-war via alias 'willys-overland'
-    fs.writeFileSync(
-      path.join(wikiDir, 'note-postwar.md'),
-      '---\ncategory: willys-overland\nsource_title: "Willys Overland Post-War"\n---\nPost-war Willys content\n'
-    );
+      // File 4: cuban-seizures via alias 'cuban-seizures'
+      sandbox.writeFile(
+        path.join('wiki', 'note-cuba.md'),
+        '---\ncategory: cuban-seizures\nsource_title: "Cuban Assets Seizure"\n---\nCuban assets seizure content\n'
+      );
 
-    // File 4: cuban-seizures via alias 'cuban-seizures'
-    fs.writeFileSync(
-      path.join(wikiDir, 'note-cuba.md'),
-      '---\ncategory: cuban-seizures\nsource_title: "Cuban Assets Seizure"\n---\nCuban assets seizure content\n'
-    );
+      const generatedPacks = consolidatePacks({
+        rootDir: sandbox.dir,
+        scanDirs: [wikiDir],
+        outDir
+      });
 
-    const generatedPacks = consolidatePacks({
-      rootDir: tmpDir,
-      scanDirs: [wikiDir],
-      outDir
+      // Check willow-run pack
+      const willowPack = generatedPacks.find(p => p.packDef.category === 'willow-run');
+      assert.ok(willowPack, 'willow-run pack generated');
+      const willowContent = fs.readFileSync(willowPack.packFile, 'utf8');
+      assert.ok(willowContent.includes('Willow Run content'));
+
+      // Check ford-politics pack
+      const fordPack = generatedPacks.find(p => p.packDef.category === 'ford-politics');
+      assert.ok(fordPack, 'ford-politics pack generated');
+      const fordContent = fs.readFileSync(fordPack.packFile, 'utf8');
+      assert.ok(fordContent.includes('Ford labor relations content'));
+
+      // Check post-war pack
+      const postWarPack = generatedPacks.find(p => p.packDef.category === 'post-war');
+      assert.ok(postWarPack, 'post-war pack generated');
+      const postWarContent = fs.readFileSync(postWarPack.packFile, 'utf8');
+      assert.ok(postWarContent.includes('Post-war content'));
+
+      // Check cuba-claims pack
+      const cubaPack = generatedPacks.find(p => p.packDef.category === 'cuba-claims');
+      assert.ok(cubaPack, 'cuba-claims pack generated');
+      const cubaContent = fs.readFileSync(cubaPack.packFile, 'utf8');
+      assert.ok(cubaContent.includes('Cuban assets seizure content'));
+
+      // Check master-kb pack (aggregates all historical categories)
+      const masterPack = generatedPacks.find(p => p.packDef.category === 'master-kb');
+      assert.ok(masterPack, 'master-kb pack generated');
+      const masterContent = fs.readFileSync(masterPack.packFile, 'utf8');
+      assert.ok(masterContent.includes('Willow Run content'));
+      assert.ok(masterContent.includes('Ford labor relations content'));
+      assert.ok(masterContent.includes('Post-war content'));
+      assert.ok(masterContent.includes('Cuban assets seizure content'));
     });
-
-    // Check willow-run pack
-    const willowPack = generatedPacks.find(p => p.packDef.category === 'willow-run');
-    assert.ok(willowPack, 'willow-run pack generated');
-    const willowContent = fs.readFileSync(willowPack.packFile, 'utf8');
-    assert.ok(willowContent.includes('Willow Run content'));
-
-    // Check ford-politics pack
-    const fordPack = generatedPacks.find(p => p.packDef.category === 'ford-politics');
-    assert.ok(fordPack, 'ford-politics pack generated');
-    const fordContent = fs.readFileSync(fordPack.packFile, 'utf8');
-    assert.ok(fordContent.includes('Ford labor relations content'));
-
-    // Check post-war pack
-    const postWarPack = generatedPacks.find(p => p.packDef.category === 'post-war');
-    assert.ok(postWarPack, 'post-war pack generated');
-    const postWarContent = fs.readFileSync(postWarPack.packFile, 'utf8');
-    assert.ok(postWarContent.includes('Post-war Willys content'));
-
-    // Check cuba-claims pack
-    const cubaPack = generatedPacks.find(p => p.packDef.category === 'cuba-claims');
-    assert.ok(cubaPack, 'cuba-claims pack generated');
-    const cubaContent = fs.readFileSync(cubaPack.packFile, 'utf8');
-    assert.ok(cubaContent.includes('Cuban assets seizure content'));
-
-    // Check master-kb pack (aggregates all historical categories)
-    const masterPack = generatedPacks.find(p => p.packDef.category === 'master-kb');
-    assert.ok(masterPack, 'master-kb pack generated');
-    const masterContent = fs.readFileSync(masterPack.packFile, 'utf8');
-    assert.ok(masterContent.includes('Willow Run content'));
-    assert.ok(masterContent.includes('Ford labor relations content'));
-    assert.ok(masterContent.includes('Post-war Willys content'));
-    assert.ok(masterContent.includes('Cuban assets seizure content'));
-
-    fs.rmSync(tmpDir, { recursive: true, force: true });
   });
 
 });

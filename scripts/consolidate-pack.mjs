@@ -25,6 +25,28 @@ const logWarn = (msg) => console.log(`${COLOR.yellow}[CONSOLIDATE-PACK] [WARN]${
 const logError = (msg) => console.error(`${COLOR.red}[CONSOLIDATE-PACK] [ERROR]${COLOR.reset} ${msg}`);
 export const MAX_PACK_BYTES = 380 * 1024;
 
+export const EXCLUDED_PACK_DIRS = new Set([
+  '_kb-sync-staging',
+  '.worktrees',
+  '_staging',
+  'node_modules',
+  '.git',
+  '_archive',
+  'archive',
+  'dist',
+  'build',
+  '.cache',
+  '.tmp',
+  'coverage',
+]);
+
+export function isStagingOrExcludedPath(targetPath, rootDir) {
+  if (!targetPath || typeof targetPath !== 'string') return false;
+  const normalized = rootDir ? path.relative(rootDir, targetPath) : targetPath;
+  const segments = path.normalize(normalized).split(/[\\/]/);
+  return segments.some(segment => EXCLUDED_PACK_DIRS.has(segment));
+}
+
 export function getCanonicalPacks() {
   const data = loadCategoriesData();
   const categories = data.categories || {};
@@ -286,16 +308,16 @@ export function consolidatePacks(options = {}) {
 
   function walk(dir) {
     if (!fs.existsSync(dir)) return;
-    const IGNORED_DIRS = new Set(['node_modules', '.git', '_archive', 'archive', 'dist', 'build', '.cache', '.tmp', 'coverage', '_kb-sync-staging']);
+    if (isStagingOrExcludedPath(dir, rootDir)) return;
     const IGNORED_FILES = new Set(['log.md']);
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
-        if (!IGNORED_DIRS.has(entry.name) && !entry.name.startsWith('.')) {
+        if (!EXCLUDED_PACK_DIRS.has(entry.name) && !entry.name.startsWith('.')) {
           walk(full);
         }
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
-        if (!IGNORED_FILES.has(entry.name.toLowerCase())) {
+        if (!IGNORED_FILES.has(entry.name.toLowerCase()) && !isStagingOrExcludedPath(full, rootDir)) {
           candidateFiles.push(full);
         }
       }
@@ -303,7 +325,9 @@ export function consolidatePacks(options = {}) {
   }
 
   for (const sDir of scanDirs) {
-    walk(sDir);
+    if (!isStagingOrExcludedPath(sDir, rootDir)) {
+      walk(sDir);
+    }
   }
 
   logInfo(`Discovered ${candidateFiles.length} markdown source files.`);
