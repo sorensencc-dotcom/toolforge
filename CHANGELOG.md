@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.96.5
+Date: 2026-10-18
+
+### Changes
+- cf7876d0 - Parkd821 20260908 (#169) (Chris Sorensen)
+- f07e2698 - fix(hooks): block unpaired automation changes at pre-commit (#171) (Chris Sorensen)
+
 ## Version 2.96.4
 Date: 2026-10-18
 

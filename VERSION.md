@@ -1,1 +1,1 @@
-version: 2.96.4
+version: 2.96.5
