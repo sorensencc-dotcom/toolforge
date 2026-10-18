@@ -1,8 +1,8 @@
 # Retro policy
 
-Status: DRAFT, pending Tier 1 approval. Nothing enforces this policy yet.
+Status: APPROVED by Tier 1 on 2026-10-18. Nothing enforces this policy yet.
 Owner: Chris Sorensen
-Effective date: pending Tier 1 review
+Effective date: 2026-10-18
 
 This policy names the only places that hold retros and retro findings, who may write them, how long they stay, and how a finding becomes an action. It applies to every agent (Claude, Codex, Grok, Gemini, Copilot, and Antigravity), every person, and every CI job that works in a repository under `C:\dev`.
 
@@ -63,7 +63,7 @@ Tier 1 approves every change to `.context/retros/harvest/config.json`, including
 
 ## Prerequisites before agents write entries
 
-Agents write no inbox entries until Tier 1 approves this policy. The retro harvester follows the same rule, so run it only with `--dry-run` until then. The two technical blockers are fixed on `feat/retro-governance`:
+Tier 1 approved this policy on 2026-10-18, so agents and the retro harvester may now write inbox entries. The two technical blockers were fixed before approval:
 
 1. `.context/retros/validate-changed.ps1` validates only dated retros, so inbox entries no longer fail the `retro-schema` job. `.context/retros/test-v1.0.ps1` covers this.
 2. `.gitignore` re-includes `.context/retros/inbox/`, so a plain `git add` tracks new entries.
