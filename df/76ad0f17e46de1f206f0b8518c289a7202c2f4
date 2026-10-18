@@ -1,0 +1,34 @@
+.diagram-manifest.json
+  h_5c172e9b435f5a 4-5,9-10,14-15,27-28,32-33,37-38,42-43,47-48,52-53,57-58,62-63,67-68,72-73,77-78
+.github/workflows/documentation.yml
+  h_5c172e9b435f5a 35-36,63-79,82-88
+scripts/diagram-sync.mjs
+  h_5c172e9b435f5a 49-51,53-54,56-61,63,67,75-95,175,201-204,207-215,217-220,223-269,272-276,278,284-293,295-296,298-300,303-304,307-308,311-312,314-319,321-323,325-335,346-390,396,405,434-447,455
+scripts/publish-repo-wiki-pages.mjs
+  h_5c172e9b435f5a 1-17,27-31,68-80,82-108,110,113-154,182-188,195-214,216-219,221-223,225-228,230,233,236-259,264-268,272-280,285-286,291-297,317-324,326-336,339-346,351
+setup-git-hooks.ps1
+  h_5c172e9b435f5a 43-90,246-249,278-281,351-352,387-388,397,416,494
+skills/repo-docs-diagram-sync/docs/USAGE.md
+  h_5c172e9b435f5a 39,45-65
+tests/diagram-parity-hardening.test.mjs
+  h_5c172e9b435f5a 1-173
+tests/githooks-mode.test.mjs
+  h_5c172e9b435f5a 1-69
+tests/publish-repo-wiki-pages-ci.test.mjs
+  h_5c172e9b435f5a 1-269
+tests/sync-docs-gate.test.mjs
+  h_5c172e9b435f5a 6,23,27,29-33,42,46,48-49
+tests/sync-docs-pipeline-e2e.test.mjs
+  h_5c172e9b435f5a 211-216
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "df76ad0f17e46de1f206f0b8518c289a7202c2f4",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
