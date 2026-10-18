@@ -1,0 +1,19 @@
+.diagram-manifest.json
+  s_9ed72e8800daf1::t_d660b734f581e7 36-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "40fb528a7b2af0c2b5260c2ac3c95ef8613cee6b",
+  "prompts": {},
+  "sessions": {
+    "s_9ed72e8800daf1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e70526f-0da2-45f3-801a-e36414a59ec3",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
