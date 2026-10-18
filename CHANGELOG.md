@@ -1,5 +1,25 @@
 # Changelog
 
+## Version 2.96.0
+Date: 2026-10-18
+
+### Changes
+- 4dc50119 - Merge pull request #162 from sorensencc-dotcom:feat/retro-governance (Chris Sorensen)
+- 0024ff54 - feat(retro): add RELIABILITY inbox tag and map reliability recommendations (Chris Sorensen)
+- c17b9a0a - chore(retro): map hygiene and architecture recommendations to PROCESS and SPEC (Chris Sorensen)
+- 01210b4b - docs(retro): document the retro harvester in the inbox spec and policy (Chris Sorensen)
+- 9ddc27c5 - feat(retro): harvest retro recommendations into the inbox (Chris Sorensen)
+- 0573a3d7 - chore(retro): track the retro harvest directory without force-add (Chris Sorensen)
+- effcbef6 - docs(retro): refresh policy prerequisites and spec example after gate fixes (Chris Sorensen)
+- ca8aec47 - feat(retro): pass when the retro inbox directory is absent (Chris Sorensen)
+- 8b2a1929 - test(retro): cover inbox entries in the changed retro gate (Chris Sorensen)
+- 4dcc93c8 - fix(retro): track retro inbox entries without force-add (Chris Sorensen)
+- 99beda31 - fix(retro): validate only dated retros in the changed retro gate (Chris Sorensen)
+- e0110a07 - docs(retro): add draft retro governance policy (Chris Sorensen)
+- f1da3f6d - feat(retro): add retro inbox validator (Chris Sorensen)
+- d2088bfd - docs(retro): add retro inbox spec and schema (Chris Sorensen)
+- 6db960c0 - Fix/harden hooks and diagram sync (#160) (Chris Sorensen)
+
 ## Version 2.95.11
 Date: 2026-10-17
 
