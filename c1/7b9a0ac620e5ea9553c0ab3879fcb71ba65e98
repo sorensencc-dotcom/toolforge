@@ -1,0 +1,19 @@
+.context/retros/harvest/config.json
+  s_13f2bc9cd762c9::t_05d49ffa71f27e 10-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c17b9a0ac620e5ea9553c0ab3879fcb71ba65e98",
+  "prompts": {},
+  "sessions": {
+    "s_13f2bc9cd762c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca16ec9a-66a2-47ef-8058-abfc8c1f1a41",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
