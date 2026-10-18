@@ -1,5 +1,21 @@
 # Research store operation
 
+## Original-file import (DEV/UAT only)
+
+`files:sync` preserves originals independently of Markdown parsing, embeddings, and retrieval quality. Original bytes go to private `research-originals-uat` Storage; `research_original_files` records source/path, SHA-256, byte count, UTF-8 text up to 1 MiB, and Git provenance. Catalog access is service-role-only; no anonymous or ordinary authenticated read policies are added. Existing search tables and defaults remain unchanged.
+
+1. Apply only additive migration `20261013000124_research_original_files.sql` to approved DEV/UAT `bhezixgmkhpndmezgsxk`; never reset schemas or target production. Provision private bucket with an explicit per-file limit. Verify project storage allowance/capacity separately; a bucket file limit is not a total quota check.
+2. Create a local source JSON array with explicit `id`, absolute `root`, optional canonical `gitRoot`, and optional `gitOnly`. Example: `[{"id":"dev-docs","root":"C:/dev/docs","gitRoot":"C:/dev"}]`. Separate IDs prevent collisions across repositories/data roots. Directory mode includes untracked data; `gitOnly:true` limits to committed-tree paths. Source files remain read-only.
+3. Run `timeout 180s npm --prefix skills/research-store run files:sync -- --sources <sources.json> --report <dry-run.json> --dry-run`. This reads/hashes content, scans existing credential patterns and provider tokens, and reports explicit exclusions without cloud writes. Confirm source-read permission before using cloud-backed roots; reads may hydrate placeholders.
+4. Inspect excluded/quarantined paths, total bytes, and storage limits. Configure exact DEV/UAT `SUPABASE_URL`, securely provision writer key, `FILES_MAX_FILE_BYTES` (default 50,000,000), and an explicit approved `FILES_MAX_TOTAL_BYTES`. Run the same command without `--dry-run`. Capture uses private local staging, rejects changed sources, and preserves binary bytes. TUS transfers use 6 MiB chunks, bounded timeout, and no automatic retries. No credentials or content printed.
+5. Repeat command after Git/source updates, or add `--watch` for a foreground 60-second refresh loop. Do not start duplicate workers. Missing/renamed paths never delete existing data; a rename creates a new catalog path and retains the old one. Matching committed bytes get `git_sha`; working-tree edits and untracked files do not masquerade as committed snapshots. Changed files update the catalog only after successful content-addressed upload; old objects retained.
+
+Generated/sync internals and links are excluded. Google pointers require real export; archive/database/Office/PDF containers and logs require separate content review before import. These exclusions are reported, not considered completed imports. Secret pattern checks are not a universal secret/PII detector. Body text/lifecycle frontmatter is not interpreted as research evidence status. No source deletion, public bucket, credential promotion, or search approval inferred.
+
+`test:files:uat` is separately approved live verification with run-owned originals and actual Storage/catalog repeat-run checks. No bulk source upload is part of that test. Original-file catalog migration is additive and retains existing search contracts. TUS implementation uses [tus-js-client](https://github.com/tus/tus-js-client) and follows [Supabase resumable uploads](https://supabase.com/docs/guides/storage/uploads/resumable-uploads).
+
+Git provenance uses only `git rev-parse` and `git ls-tree` through `execFile` argument arrays, with no shell interpolation and a 30-second timeout. Explicit security-auditor annotation covers this read-only subprocess import, not arbitrary command execution.
+
 ## Setup
 
 1. Use verified Toolforge checkout on Node >=24. Install skill-local dependencies with `npm --prefix skills/research-store install --ignore-scripts`.
