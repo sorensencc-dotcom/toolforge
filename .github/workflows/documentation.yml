@@ -5,12 +5,24 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
+      - 'skills/**'
+      - 'wiki/**'
+      - 'scripts/diagram-sync.mjs'
+      - 'scripts/docs-synthesizer.mjs'
+      - 'scripts/publish-repo-wiki-pages.mjs'
+      - '.githooks/**'
       - 'mkdocs.yml'
       - 'requirements-docs.txt'
       - '.github/workflows/documentation.yml'
   pull_request:
     paths:
       - 'docs/**'
+      - 'skills/**'
+      - 'wiki/**'
+      - 'scripts/diagram-sync.mjs'
+      - 'scripts/docs-synthesizer.mjs'
+      - 'scripts/publish-repo-wiki-pages.mjs'
+      - '.githooks/**'
       - 'mkdocs.yml'
       - 'requirements-docs.txt'
       - '.github/workflows/documentation.yml'
@@ -20,7 +32,8 @@ permissions:
 
 concurrency:
   group: documentation-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Never cancel a run that may be mid-publish on main.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   build:
@@ -29,6 +42,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5
         with:
@@ -41,5 +56,33 @@ jobs:
         run: node scripts/validate-docs-publishing.mjs
       - name: Verify diagram visual parity
         run: node scripts/diagram-sync.mjs --verify-parity
+      - name: Validate repo wiki pages (dry run)
+        run: node scripts/publish-repo-wiki-pages.mjs --if-changed --dry-run
       - name: Build MkDocs site
         run: mkdocs build --strict
+
+  # Separate job so only the live publish gets contents: write. The build job
+  # (which also runs on pull requests) stays read-only. Publish errors are not
+  # suppressed: a failed publish must show up as a failed run.
+  publish-wiki:
+    name: Publish repo wiki pages
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Publish repo wiki pages
+        run: node scripts/publish-repo-wiki-pages.mjs --if-changed
+        env:
+          # The script prefers WIKI_PUSH_TOKEN and falls back to GITHUB_TOKEN.
+          # Tokens reach git only through its environment, never argv or a file.
+          WIKI_PUSH_TOKEN: ${{ secrets.WIKI_PUSH_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          WIKI_DIFF_BASE: ${{ github.event.before }}
+          WIKI_DIFF_HEAD: ${{ github.sha }}

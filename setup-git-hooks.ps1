@@ -29,7 +29,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $Repo = [System.IO.Path]::GetFullPath($Repo)
-$hooksDir = "$Repo\.git\hooks"
+$hooksDir = Join-Path $Repo '.githooks'
+$gitHooksDir = "$Repo\.git\hooks"
 $logDir = Join-Path $Repo 'logs\hooks'
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 
@@ -39,6 +40,54 @@ function Write-HookLog {
     "$timestamp [$Level] $Message" | Tee-Object -FilePath "$logDir\hooks.log" -Append
 }
 
+function Test-HookTracked {
+    param([string]$Path)
+    $rel = ".githooks/" + (Split-Path -Leaf $Path)
+    & git -C $Repo ls-files --error-unmatch -- $rel *> $null
+    return ($LASTEXITCODE -eq 0)
+}
+
+function Write-HookFile {
+    # Bootstrap-only writer. A hook that is already tracked in .githooks/ is the
+    # source of truth (it is edited by hand and reviewed in PRs), so it is never
+    # rewritten: regenerating it from the templates below would dirty a clean
+    # checkout and silently revert reviewed changes. Untracked hooks are written
+    # as UTF-8 without BOM, LF endings and one trailing newline, and only when
+    # the bytes differ. Out-File would write CRLF on Windows and break POSIX
+    # shell hooks.
+    param([string]$Path, [string]$Content)
+    if (Test-HookTracked $Path) {
+        Write-HookLog "= Kept tracked hook $(Split-Path -Leaf $Path)" INFO
+        return $false
+    }
+    $text = $Content -replace "`r`n", "`n"
+    if (-not $text.EndsWith("`n")) { $text += "`n" }
+    $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($text)
+    if (Test-Path -LiteralPath $Path) {
+        $existing = [System.IO.File]::ReadAllBytes($Path)
+        if ($existing.Length -eq $bytes.Length -and
+            [Convert]::ToBase64String($existing) -eq [Convert]::ToBase64String($bytes)) {
+            return $false
+        }
+    }
+    [System.IO.File]::WriteAllBytes($Path, $bytes)
+    return $true
+}
+
+function Set-HookExecutable {
+    # Hooks only run on POSIX git when the executable bit is set. Windows
+    # filesystems cannot carry it, so record it in the index for tracked hooks.
+    # Uses --cacheinfo so only the mode changes: the staged blob is kept and
+    # working-tree edits are not staged. No-op when the hook is already 100755
+    # or is not tracked.
+    param([string]$Path)
+    $rel = ".githooks/" + (Split-Path -Leaf $Path)
+    $entry = & git -C $Repo ls-files -s -- $rel 2>$null
+    if ($entry -and -not $entry.StartsWith('100755')) {
+        $sha = ($entry -split '\s+')[1]
+        & git -C $Repo update-index --cacheinfo "100755,$sha,$rel"
+    }
+}
 function Install-Hooks {
     if (-not (Test-Path "$Repo\.git")) {
         Write-HookLog "Not a git repo: $Repo" ERROR
@@ -46,6 +95,7 @@ function Install-Hooks {
     }
 
     New-Item -ItemType Directory -Path $hooksDir -Force | Out-Null
+    New-Item -ItemType Directory -Path $gitHooksDir -Force | Out-Null
 
     # Pre-commit: retro validation + roadmap check + validator (fast)
     # pwsh refuses to run extensionless script files even via -File, so the
@@ -200,9 +250,10 @@ exit 0
     }
     $preCommitShim = Get-Content -Raw $canonicalShimPath
 
-    $preCommitHook | Out-File -FilePath "$hooksDir\pre-commit.ps1" -Encoding utf8NoBOM -Force
-    $preCommitShim | Out-File -FilePath "$hooksDir\pre-commit" -Encoding utf8NoBOM -Force
-    if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\pre-commit" 2>$null }
+    Write-HookFile -Path "$hooksDir\pre-commit.ps1" -Content $preCommitHook | Out-Null
+    Set-HookExecutable "$hooksDir\pre-commit.ps1"
+    Write-HookFile -Path "$hooksDir\pre-commit" -Content $preCommitShim | Out-Null
+    Set-HookExecutable "$hooksDir\pre-commit"
     Write-HookLog "+ Pre-commit hook installed (validator only)" INFO
 
     # Post-merge: full pipeline (integration)
@@ -231,9 +282,10 @@ exit 0
 exec pwsh -NoProfile -File "`$(dirname "`$0")/post-merge.ps1" "`$@"
 "@
 
-    $postMergeHook | Out-File -FilePath "$hooksDir\post-merge.ps1" -Encoding utf8NoBOM -Force
-    $postMergeShim | Out-File -FilePath "$hooksDir\post-merge" -Encoding utf8NoBOM -Force
-    if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\post-merge" 2>$null }
+    Write-HookFile -Path "$hooksDir\post-merge.ps1" -Content $postMergeHook | Out-Null
+    Set-HookExecutable "$hooksDir\post-merge.ps1"
+    Write-HookFile -Path "$hooksDir\post-merge" -Content $postMergeShim | Out-Null
+    Set-HookExecutable "$hooksDir\post-merge"
     Write-HookLog "+ Post-merge hook installed (full pipeline)" INFO
 
     # Pre-push: security auditor
@@ -287,17 +339,25 @@ if [ `$FAIL -ne 0 ]; then
   exit 1
 fi
 
+echo -e "\033[36m[Hook]\033[0m Executing diagram visual parity and documentation sync gate..."
+node "`$REPO_ROOT/scripts/diagram-sync.mjs" --verify-parity || FAIL=1
+
+if [ `$FAIL -ne 0 ]; then
+  echo -e "\033[31m[Hook Fail]\033[0m Diagram visual parity failed. Push blocked."
+  exit 1
+fi
+
 echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceeding with push."
-if ! node "`$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed; then
-  echo -e "\033[31m[Hook Fail]\033[0m Repo wiki publish failed. Push blocked."
+if ! node "`$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed --dry-run; then
+  echo -e "\033[31m[Hook Fail]\033[0m Repo wiki dry-run check failed. Push blocked."
   exit 1
 fi
 exit 0
 "@
 
-    $prePushHook | Out-File -FilePath "$hooksDir\pre-push" -Encoding utf8NoBOM -Force
-    if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\pre-push" 2>$null }
-    Write-HookLog "+ Pre-push hook installed (security auditor)" INFO
+    Write-HookFile -Path "$hooksDir\pre-push" -Content $prePushHook | Out-Null
+    Set-HookExecutable "$hooksDir\pre-push"
+    Write-HookLog "+ Pre-push hook installed (security auditor + diagram parity)" INFO
 
     # Commit-msg: session continuity nudge (advisory, never blocks)
     # If the gap since the last commit exceeds 1 hour (multi-drop session),
@@ -331,11 +391,20 @@ echo -e "\033[33m[Hook]\033[0m Multi-drop session continuity: consider adding on
 exit 0
 "@
 
-    $commitMsgHook | Out-File -FilePath "$hooksDir\commit-msg" -Encoding utf8NoBOM -Force
-    if (Get-Command chmod -ErrorAction SilentlyContinue) { chmod +x "$hooksDir\commit-msg" 2>$null }
+    Write-HookFile -Path "$hooksDir\commit-msg" -Content $commitMsgHook | Out-Null
+    Set-HookExecutable "$hooksDir\commit-msg"
     Write-HookLog "+ Commit-msg hook installed (session continuity nudge)" INFO
 
-    Write-Host "+ Git hooks installed in $Repo"
+    # Sync to .git/hooks as fallback
+    if (Test-Path "$Repo\.git") {
+        Copy-Item -Path "$hooksDir\*" -Destination $gitHooksDir -Force -ErrorAction SilentlyContinue
+    }
+
+    # Configure tracked core.hooksPath
+    & git -C $Repo config core.hooksPath .githooks
+    Write-HookLog "+ Configured git core.hooksPath to .githooks" INFO
+
+    Write-Host "+ Git hooks installed in $Repo (core.hooksPath -> .githooks)"
 }
 
 function Uninstall-Hooks {
@@ -351,7 +420,9 @@ function Uninstall-Hooks {
     Remove-Item -Path $prePushPath -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $commitMsgPath -Force -ErrorAction SilentlyContinue
 
-    Write-HookLog "+ Git hooks removed from $Repo" INFO
+    & git -C $Repo config --unset core.hooksPath 2>$null
+
+    Write-HookLog "+ Git hooks removed and core.hooksPath unset from $Repo" INFO
     Write-Host "+ Git hooks removed"
 }
 
@@ -426,6 +497,14 @@ function Test-Hooks {
 function Get-HookStatus {
     Write-Host "Git hook status for $Repo"
     Write-Host ""
+
+    $coreHooksPath = & git -C $Repo config core.hooksPath 2>$null
+    if ($coreHooksPath -eq '.githooks') {
+        Write-Host "+ core.hooksPath configured to .githooks"
+    }
+    else {
+        Write-Host "✗ core.hooksPath is not set to .githooks (current: '$coreHooksPath')"
+    }
 
     $preCommitPath = "$hooksDir\pre-commit"
     $postMergePath = "$hooksDir\post-merge"

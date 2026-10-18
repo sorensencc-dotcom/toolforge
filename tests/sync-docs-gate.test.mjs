@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { verifyDiagramParity } from '../scripts/diagram-sync.mjs';
+import { buildManifestEntry, verifyDiagramParity } from '../scripts/diagram-sync.mjs';
 import { executeSyncDocs } from '../skills/toolforge-cli/src/invoke-skill.mjs';
 import { buildCathrynLaveryHtml } from '../skills/repo-docs-diagram-sync/src/diagram-engine.mjs';
 
@@ -20,20 +20,18 @@ test('verifyDiagramParity: detects missing PNG asset for Cathryn Lavery HTML dia
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
-test('verifyDiagramParity: detects stale PNG asset when HTML source has newer mtime', async () => {
+test('verifyDiagramParity: detects stale PNG asset when the HTML changed after the manifest was recorded', () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'parity-stale-'));
   const htmlPath = path.join(tempDir, 'architecture.html');
   const pngPath = path.join(tempDir, 'architecture.png');
-  const htmlContent = buildCathrynLaveryHtml({ title: 'Test Arch' });
-
-  // Write PNG first
+  fs.writeFileSync(htmlPath, buildCathrynLaveryHtml({ title: 'Test Arch' }), 'utf8');
   fs.writeFileSync(pngPath, 'fake-png-bytes', 'utf8');
-  // Wait a small delay so file timestamps differ
-  await new Promise((r) => setTimeout(r, 50));
-  // Write HTML afterwards (newer mtime)
-  fs.writeFileSync(htmlPath, htmlContent, 'utf8');
+  const entry = buildManifestEntry(htmlPath, pngPath);
+  fs.writeFileSync(path.join(tempDir, '.diagram-manifest.json'), JSON.stringify({ 'architecture.png': entry }), 'utf8');
 
-  // Verify that stale PNG is flagged
+  // The spec changes after the PNG was rendered; hashes, not mtimes, decide.
+  fs.writeFileSync(htmlPath, buildCathrynLaveryHtml({ title: 'Test Arch, edited' }), 'utf8');
+
   const report = verifyDiagramParity(tempDir);
   assert.equal(report.valid, false);
   assert.ok(report.errors.some((e) => e.includes('STALE_PNG')));
@@ -41,17 +39,14 @@ test('verifyDiagramParity: detects stale PNG asset when HTML source has newer mt
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
-test('verifyDiagramParity: passes cleanly when PNG matches fresh HTML diagram', async () => {
+test('verifyDiagramParity: passes cleanly when HTML and PNG match the manifest hashes', () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'parity-pass-'));
   const htmlPath = path.join(tempDir, 'architecture.html');
   const pngPath = path.join(tempDir, 'architecture.png');
-  const htmlContent = buildCathrynLaveryHtml({ title: 'Test Arch' });
-
-  // Write HTML first
-  fs.writeFileSync(htmlPath, htmlContent, 'utf8');
-  await new Promise((r) => setTimeout(r, 50));
-  // Write PNG second (newer mtime)
+  fs.writeFileSync(htmlPath, buildCathrynLaveryHtml({ title: 'Test Arch' }), 'utf8');
   fs.writeFileSync(pngPath, 'fake-png-bytes', 'utf8');
+  const entry = buildManifestEntry(htmlPath, pngPath);
+  fs.writeFileSync(path.join(tempDir, '.diagram-manifest.json'), JSON.stringify({ 'architecture.png': entry }), 'utf8');
 
   const report = verifyDiagramParity(tempDir);
   assert.equal(report.valid, true);
@@ -60,7 +55,6 @@ test('verifyDiagramParity: passes cleanly when PNG matches fresh HTML diagram', 
 
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
-
 test('executeSyncDocs: produces compliant toolforge-cli invocation contract', () => {
   const descriptor = executeSyncDocs({ dryRun: true, fix: false, path: 'docs' });
   assert.equal(descriptor.command, 'sync-docs');
@@ -70,15 +64,39 @@ test('executeSyncDocs: produces compliant toolforge-cli invocation contract', ()
 });
 
 test('pre-push hook & documentation workflow: verify diagram parity gate integration', () => {
-  const hookPath = path.resolve('.git/hooks/pre-push');
-  if (fs.existsSync(hookPath)) {
-    const hookContent = fs.readFileSync(hookPath, 'utf8');
-    assert.ok(hookContent.includes('--verify-parity'), 'Pre-push hook must include --verify-parity');
-  }
+  const hookPath = path.resolve('.githooks/pre-push');
+  assert.ok(fs.existsSync(hookPath), '.githooks/pre-push must exist and be tracked in git');
+  const hookContent = fs.readFileSync(hookPath, 'utf8');
+  assert.ok(hookContent.includes('--verify-parity'), 'Pre-push hook must include --verify-parity');
+  assert.ok(hookContent.includes('--dry-run'), 'Pre-push hook must dry-run wiki publish');
 
   const ciPath = path.resolve('.github/workflows/documentation.yml');
   const ciContent = fs.readFileSync(ciPath, 'utf8');
   assert.ok(ciContent.includes('node scripts/diagram-sync.mjs --verify-parity'), 'CI workflow must include verify-parity step');
+});
+
+test('verifyDiagramParity: detects stale PNG asset when content hash mismatches manifest', () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'parity-hash-'));
+  const htmlPath = path.join(tempDir, 'architecture.html');
+  const pngPath = path.join(tempDir, 'architecture.png');
+  const manifestPath = path.join(tempDir, '.diagram-manifest.json');
+  const htmlContent = buildCathrynLaveryHtml({ title: 'Test Arch Hash' });
+
+  fs.writeFileSync(htmlPath, htmlContent, 'utf8');
+  fs.writeFileSync(pngPath, 'fake-png-bytes', 'utf8');
+  fs.writeFileSync(manifestPath, JSON.stringify({
+    'architecture.png': {
+      htmlHash: 'mismatched-old-hash-value',
+      updatedAt: new Date().toISOString(),
+    }
+  }), 'utf8');
+
+  // Verify that mismatch is flagged as stale
+  const report = verifyDiagramParity(tempDir);
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((e) => e.includes('STALE_PNG')));
+
+  fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
 test('Performance: verifyDiagramParity executes within 800ms boundary', () => {
