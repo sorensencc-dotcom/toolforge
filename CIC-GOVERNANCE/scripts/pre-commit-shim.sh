@@ -23,6 +23,10 @@ if [ -f "CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-poli
   node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --staged --advisory || echo "[WARN] Delivery guard automation policy is advisory; unable to evaluate."
 fi
 
+if [ -f "scripts/governance/check-roadmap-location.mjs" ]; then
+  node scripts/governance/check-roadmap-location.mjs --staged || exit 1
+fi
+
 if [ -f "$(dirname "$0")/pre-commit.ps1" ]; then
   pwsh -NoProfile -File "$(dirname "$0")/pre-commit.ps1" "$@" || exit 1
 fi

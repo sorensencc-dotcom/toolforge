@@ -61,14 +61,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Block ROADMAP.md outside allowed roots
-        shell: bash
-        run: |
-          violations=$(git ls-files | grep -iE 'roadmap\.md$' | grep -vE '^(docs/meta|cic-ingestion|rewrite-docs|rewrite-mcp|kb-sync)/' || true)
-          if [ -n "$violations" ]; then
-            echo "ROADMAP.md blocked outside docs/meta, cic-ingestion, rewrite-docs, rewrite-mcp, kb-sync:"
-            echo "$violations"
-            exit 1
-          fi
+        run: node scripts/governance/check-roadmap-location.mjs
 
   graft-freshness:
     name: Graft context graph freshness
