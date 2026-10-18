@@ -1,0 +1,39 @@
+{
+  "schema": "retro-inbox/1",
+  "agent": "ci",
+  "repo": "toolforge",
+  "date": "2026-10-17",
+  "session": ".context/retros/2026-10-17-2.json",
+  "findings": [
+    {
+      "id": "RF-ee909fca39b5",
+      "tag": "TEST",
+      "severity": "low",
+      "summary": "Pair the large 'Parkd821 20260908' merges (#139, #141, #154) with test changes; test ratio is 11% and none of them is a test: commit",
+      "evidence": [
+        ".context/retros/2026-10-17-2.json#/recommendations/0"
+      ],
+      "suggestion": "Pair the large 'Parkd821 20260908' merges (#139, #141, #154) with test changes; test ratio is 11% and none of them is a test: commit"
+    },
+    {
+      "id": "RF-ffb34fcc76a8",
+      "tag": "TOOLING",
+      "severity": "low",
+      "summary": "Fix scripts/check-retro-needed.ps1: it printed '-29 new' yet returned PROCEED, and its 87 baseline disagrees with the 58 commits retro metrics reports",
+      "evidence": [
+        ".context/retros/2026-10-17-2.json#/recommendations/1"
+      ],
+      "suggestion": "Fix scripts/check-retro-needed.ps1: it printed '-29 new' yet returned PROCEED, and its 87 baseline disagrees with the 58 commits retro metrics reports"
+    },
+    {
+      "id": "RF-93f2db3149be",
+      "tag": "PROCESS",
+      "severity": "low",
+      "summary": "Rename the auto-titled 'Parkd821 20260908' PR merges to conventional-commit subjects so retro type counts stop landing in 'other'",
+      "evidence": [
+        ".context/retros/2026-10-17-2.json#/recommendations/2"
+      ],
+      "suggestion": "Rename the auto-titled 'Parkd821 20260908' PR merges to conventional-commit subjects so retro type counts stop landing in 'other'"
+    }
+  ]
+}
