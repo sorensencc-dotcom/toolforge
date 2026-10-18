@@ -1,0 +1,19 @@
+docs/reports/weekly/2026-W42.md
+  s_9ed72e8800daf1::t_aa45efb98e3abc 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f26d495fb201874890a9d1741acb5d0f8fc6400b",
+  "prompts": {},
+  "sessions": {
+    "s_9ed72e8800daf1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e70526f-0da2-45f3-801a-e36414a59ec3",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
