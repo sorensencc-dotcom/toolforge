@@ -18,6 +18,7 @@ Durable rules, policies, and gates that govern how work gets done across phases 
 - `wiki-style-and-structure.md` - curated GitHub/in-repo wiki style, brand matrix, Home/_Sidebar/_Footer, W/R CLI rules
 - `wiki-sync-registry.md` - per-product canonical wiki side (clone vs in-repo) for sync; pairs with wiki-style §10
 - `scripts-governance.md` — all scripts (.ps1, .sh, .bat, etc.) belong in C:\dev\scripts\
+- `retro-policy.md` sets where retros and retro findings live, who writes them, and how findings become actions (DRAFT, pending Tier 1 approval)
 
 ## Referenced by
 
