@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.96.1
+Date: 2026-10-18
+
+### Changes
+- e8462de5 - Merge pull request #161 from sorensencc-dotcom/fix/publish-and-parity-hardening-2026-10-17 (Chris Sorensen)
+- df76ad0f - fix(docs): publish wiki over HTTPS from CI, hash PNGs in the parity gate, make hooks executable (Chris Sorensen)
+
 ## Version 2.96.0
 Date: 2026-10-18
 
