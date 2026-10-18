@@ -1,0 +1,21 @@
+{
+  "id": "act-01-integrate-agentid-oidc",
+  "parent_action_id": null,
+  "timestamp": "2026-10-09T125501Z",
+  "source": "mobile-gemini-gdoc",
+  "category": "RESEARCH",
+  "domain": "sigil",
+  "target": "sigil",
+  "action_type": "antigravity_triage",
+  "intent": "integrate_agentid_oidc",
+  "summary": "Mobile action item submitted via Google Docs: 2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc",
+  "issue_url": null,
+  "research_ref": null,
+  "staged_at": "2026-10-09T15:59:31.653Z",
+  "source_file": "2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc.md.gdoc",
+  "context": {
+    "gdoc_filename": "2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc.md.gdoc",
+    "gdoc_stem": "2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc",
+    "note": "Ingested from standalone Google Drive .gdoc pointer."
+  }
+}

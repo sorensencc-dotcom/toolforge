@@ -314,7 +314,6 @@ export function createServer(
       const started = process.hrtime.bigint();
       try {
         const params = requireParams(request);
-        if (request.method === 'initialize') return { protocolVersion: '2025-06-18', capabilities: { resources: { listChanged: false }, tools: {} }, serverInfo: { name: 'viking-vfs', version: '0.2.0' } };
         if (request.method === 'resources/list' || request.method === 'resources_list') {
           const offset = params.cursor === undefined ? 0 : Number.parseInt(params.cursor, 10);
           if (!Number.isInteger(offset) || offset < 0 || (params.cursor !== undefined && String(offset) !== params.cursor)) throw new VikingError('INVALID_URI', 'cursor must be a non-negative integer token');

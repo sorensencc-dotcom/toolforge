@@ -59,6 +59,7 @@ test('P0 and P1 stale L1 reads escalate to immutable L2', async () => {
   const telemetry = new VikingTelemetryTracker();
   const client = new VikingClient({ transport: loopbackTransport(createServer(f.resolver)), telemetry, tokenCounter: (content) => content.split(/\s+/).length });
   await client.connect();
+  assert.equal(telemetry.snapshot().rpc_call_count, 0);
   const value = await client.readWithPolicy(f.uri, { severity: 'P1' });
   assert.equal(value.requestedTier, 'L1');
   assert.equal(value.resolvedTier, 'L2');
@@ -102,7 +103,7 @@ test('batchRead uses one RPC and normalizes per-item errors', async () => {
   assert.equal(telemetry.snapshot().resource_read_count, 2);
 });
 
-test('stdio transport performs initialize and snapshot-backed L2 read', async (t) => {
+test('stdio transport reads a snapshot-backed L2 resource', async (t) => {
   const f = fixture({ includeL1: false });
   const serverPath = fileURLToPath(new URL('../../mcp/viking-vfs-server.mjs', import.meta.url));
   const repoRoot = fileURLToPath(new URL('../../../', import.meta.url));

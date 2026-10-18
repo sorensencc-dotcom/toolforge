@@ -1,5 +1,136 @@
 # Changelog
 
+## Version 2.96.3
+Date: 2026-10-18
+
+### Changes
+- a6dda643 - Merge pull request #170 from sorensencc-dotcom:chore/retro-harvest-20261018 (Chris Sorensen)
+- 10e75109 - chore(retro): harvest first retro inbox entries (6 findings) (Chris Sorensen)
+- b87ac2e5 - Merge pull request #168 from sorensencc-dotcom:docs/retro-policy-tier1-signed (Chris Sorensen)
+- 0f53185b - docs(governance): record Tier 1 approval of retro policy (Chris Sorensen)
+
+## Version 2.96.2
+Date: 2026-10-18
+
+### Changes
+- d55764f3 - chore(retro): track 2026-10-17-2 source retro with schema v1.0 backfill (#166) (Chris Sorensen)
+- 4228ca34 - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+- 52f4b853 - Merge pull request #165 from sorensencc-dotcom/docs/retro-harvest-config-approval (Chris Sorensen)
+- 4c2dd897 - docs(retro): require Tier 1 approval for harvester config changes (Chris Sorensen)
+
+## Version 2.96.1
+Date: 2026-10-18
+
+### Changes
+- e8462de5 - Merge pull request #161 from sorensencc-dotcom/fix/publish-and-parity-hardening-2026-10-17 (Chris Sorensen)
+- df76ad0f - fix(docs): publish wiki over HTTPS from CI, hash PNGs in the parity gate, make hooks executable (Chris Sorensen)
+
+## Version 2.96.0
+Date: 2026-10-18
+
+### Changes
+- 4dc50119 - Merge pull request #162 from sorensencc-dotcom:feat/retro-governance (Chris Sorensen)
+- 0024ff54 - feat(retro): add RELIABILITY inbox tag and map reliability recommendations (Chris Sorensen)
+- c17b9a0a - chore(retro): map hygiene and architecture recommendations to PROCESS and SPEC (Chris Sorensen)
+- 01210b4b - docs(retro): document the retro harvester in the inbox spec and policy (Chris Sorensen)
+- 9ddc27c5 - feat(retro): harvest retro recommendations into the inbox (Chris Sorensen)
+- 0573a3d7 - chore(retro): track the retro harvest directory without force-add (Chris Sorensen)
+- effcbef6 - docs(retro): refresh policy prerequisites and spec example after gate fixes (Chris Sorensen)
+- ca8aec47 - feat(retro): pass when the retro inbox directory is absent (Chris Sorensen)
+- 8b2a1929 - test(retro): cover inbox entries in the changed retro gate (Chris Sorensen)
+- 4dcc93c8 - fix(retro): track retro inbox entries without force-add (Chris Sorensen)
+- 99beda31 - fix(retro): validate only dated retros in the changed retro gate (Chris Sorensen)
+- e0110a07 - docs(retro): add draft retro governance policy (Chris Sorensen)
+- f1da3f6d - feat(retro): add retro inbox validator (Chris Sorensen)
+- d2088bfd - docs(retro): add retro inbox spec and schema (Chris Sorensen)
+- 6db960c0 - Fix/harden hooks and diagram sync (#160) (Chris Sorensen)
+
+## Version 2.95.11
+Date: 2026-10-17
+
+### Changes
+- 846b6c4d - fix(hooks): track git hooks and harden diagram parity with content hashes (#159) (Chris Sorensen)
+
+## Version 2.95.10
+Date: 2026-10-17
+
+### Changes
+- d88ad86f - Parkd821 20260908 (#158) (Chris Sorensen)
+
+## Version 2.95.9
+Date: 2026-10-17
+
+### Changes
+- f023d2a1 - Parkd821 20260908 (#157) (Chris Sorensen)
+
+## Version 2.95.8
+Date: 2026-10-17
+
+### Changes
+- 006efaab - Parkd821 20260908 (#156) (Chris Sorensen)
+
+## Version 2.95.7
+Date: 2026-10-17
+
+### Changes
+- 80ef4004 - docs: capture current retro evidence to restore audit freshness (#155) (Chris Sorensen)
+- 4a201348 - Parkd821 20260908 (#154) (Chris Sorensen)
+
+## Version 2.95.6
+Date: 2026-10-17
+
+### Changes
+- 6faef016 - test: pair Wave D readiness fix with executable regressions (#152) (Chris Sorensen)
+
+## Version 2.95.5
+Date: 2026-10-16
+
+### Changes
+- c35d60a3 - Optimize sequential Array.find lookups in TRM Pipeline tests (#153) (Chris Sorensen)
+
+## Version 2.95.4
+Date: 2026-10-16
+
+### Changes
+- 4b85ba2e - Fix ERESOLVE during npm install by updating @vitejs/plugin-react peer dependencies (#151) (Chris Sorensen)
+
+## Version 2.95.3
+Date: 2026-10-16
+
+### Changes
+- 0a688f98 - Parkd821 20260908 (#150) (Chris Sorensen)
+
+## Version 2.95.2
+Date: 2026-10-16
+
+### Changes
+- 30d6feab - fix(delivery-guard): stream test failure output and extend container regression timeouts (#149) (Chris Sorensen)
+
+## Version 2.95.1
+Date: 2026-10-16
+
+### Changes
+- e2267d40 - fix(trm): persist structured card fields to ledger and suppress gdoc stub issue creation (closes #143) (#148) (Chris Sorensen)
+- 467671de - docs(status): record dynamic MCP tool scoping Phase 1 merge (#146) (Chris Sorensen)
+
+## Version 2.95.0
+Date: 2026-10-16
+
+### Changes
+- 750fa23e - feat(mcp-scoping): span-scoped dynamic MCP tool scoping hook (Phase 1) + design spec (#145) (Chris Sorensen)
+
+## Version 2.94.1
+Date: 2026-10-14
+
+### Changes
+- bc616bff - Parkd821 20260908 (#141) (Chris Sorensen)
+
+## Version 2.94.0
+Date: 2026-10-13
+
+### Changes
+- 33f060da - feat: complete research-store dev/UAT gates with local multimodel embeddings (#134) (Chris Sorensen)
+
 ## Version 2.93.1
 Date: 2026-10-13
 

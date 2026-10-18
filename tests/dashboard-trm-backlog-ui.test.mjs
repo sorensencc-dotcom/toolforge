@@ -17,8 +17,15 @@ test('icf/dashboard/index.html contains TRM action backlog UI elements and promo
 
   // Verify JavaScript handler functions exist
   assert.ok(dashboardHtml.includes('function loadTrmBacklog'), 'Missing loadTrmBacklog function');
+  assert.ok(dashboardHtml.includes('function filterTrmBacklog'), 'Missing filterTrmBacklog function');
   assert.ok(dashboardHtml.includes('function openPromoteModal'), 'Missing openPromoteModal function');
   assert.ok(dashboardHtml.includes('function submitPromoteModal'), 'Missing submitPromoteModal function');
+
+  // Verify Tab 04 backlog filter controls exist and default to OPEN
+  assert.ok(dashboardHtml.includes('id="btnBacklogFilterOpen"'), 'Missing btnBacklogFilterOpen button');
+  assert.ok(dashboardHtml.includes('id="btnBacklogFilterCompleted"'), 'Missing btnBacklogFilterCompleted button');
+  assert.ok(dashboardHtml.includes("let currentTrmBacklogFilter = 'OPEN';"), 'Default backlog filter must be OPEN');
+  assert.ok(dashboardHtml.includes("currentTrmBacklogFilter === 'COMPLETED'"), 'Missing COMPLETED filter handling');
 
   // Verify Tab 04 gaps matrix controls exist
   assert.ok(dashboardHtml.includes('id="trmGapsSearchInput"'), 'Missing trmGapsSearchInput');

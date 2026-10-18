@@ -7,9 +7,8 @@ const request = (method, params = {}) => ({ jsonrpc: '2.0', id: 1, method, param
 const success = (result) => ({ jsonrpc: '2.0', id: 1, result });
 const error = { jsonrpc: '2.0', id: 1, error: { code: -32602, message: 'missing', data: { viking_code: 'RESOURCE_NOT_FOUND' } } };
 
-test('accepts initialize and method-specific list/stat/read requests', () => {
+test('accepts method-specific list/stat/read requests', () => {
   for (const value of [
-    request('initialize', { protocolVersion: '2025-06-18' }),
     request('viking/list', { uri, offset: 0, limit: 10 }),
     request('viking/stat', { uri }),
     request('viking/read', { uri, resolution_tier: 'L1' }),
@@ -23,7 +22,7 @@ test('accepts initialize and method-specific list/stat/read requests', () => {
 
 test('rejects malformed requests and invalid method parameters', () => {
   const cases = [
-    [{ ...request('initialize'), jsonrpc: '1.0' }, '$.jsonrpc'],
+    [{ ...request('tools/list'), jsonrpc: '1.0' }, '$.jsonrpc'],
     [request('viking/stat', { uri: 'file:///tmp/x' }), '$.params.uri'],
     [request('viking/list', { uri, limit: 101 }), '$.params.limit'],
     [request('viking/read', { uri, resolution_tier: 'L3' }), '$.params.resolution_tier'],

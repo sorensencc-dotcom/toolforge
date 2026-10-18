@@ -8,7 +8,11 @@ import {
   applyRepoPages,
   assertPublishClone,
   changedWikiPaths,
+  checkDirtyWiki,
   cleanGitEnv,
+  getCurrentBranch,
+  publish,
+  removeCloneDir,
   runGit,
   wikiPagesFromRepo
 } from '../scripts/publish-repo-wiki-pages.mjs';
@@ -45,7 +49,7 @@ test('applyRepoPages writes the repo page into a temp clone and refuses the publ
   assert.ok(written.includes('repo-triage-and-digest.md'));
   assert.doesNotThrow(() => assertPublishClone(path.join(os.tmpdir(), 'toolforge-wiki-publish-abc')));
   assert.throws(() => assertPublishClone(path.join(root, 'toolforge-wiki')), /REFUSING_WIKI_CLONE/);
-  assert.throws(() => assertPublishClone(path.join('C:/dev', 'toolforge-wiki', 'nested')), /REFUSING_WIKI_CLONE/);
+  assert.throws(() => assertPublishClone(path.join(os.tmpdir(), 'toolforge-wiki', 'nested')), /REFUSING_WIKI_CLONE/);
 });
 
 test('wiki git commands ignore the hook GIT_DIR', () => {
@@ -85,4 +89,24 @@ test('published pages hide repo frontmatter in an HTML comment', () => {
   applyRepoPages(clone, [{ src, dest: 'repo-triage-and-digest.md' }]);
   const text = fs.readFileSync(path.join(clone, 'repo-triage-and-digest.md'), 'utf8');
   assert.match(text, /^<!--\n---\ntitle: "Repo Triage and Digest"\n---\n-->\n\n# From the repo\n/);
+});
+
+test('a failed temp clone removal warns instead of throwing', () => {
+  const eperm = Object.assign(new Error('EPERM'), { code: 'EPERM' });
+  assert.doesNotThrow(() => removeCloneDir('C:\tmp\clone', () => { throw eperm; }));
+});
+
+test('publish: dry-run mode executes without cloning or remote network calls', () => {
+  const pages = [{ src: 'wiki/sync-tools/repo-triage-and-digest.md', dest: 'repo-triage-and-digest.md' }];
+  assert.doesNotThrow(() => publish(pages, { dryRun: true }));
+});
+
+test('getCurrentBranch: extracts a valid git branch name', () => {
+  const branch = getCurrentBranch();
+  assert.ok(typeof branch === 'string' && branch.length > 0);
+});
+
+test('checkDirtyWiki: returns array of uncommitted wiki changes', () => {
+  const dirty = checkDirtyWiki();
+  assert.ok(Array.isArray(dirty));
 });

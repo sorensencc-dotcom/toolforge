@@ -1,6 +1,6 @@
 ---
 title: "CIC - Ford Executive Dynamics: Unresolved Contradictions Reconciliation"
-category: "ford-politics"
+category: "research"
 topic: "ford-executive-dynamics"
 target_notebook: "0caf6707-f8f2-4d2a-acd2-020acead55ba"
 status: "resolved"
@@ -12,7 +12,6 @@ tags:
   - executive-dynamics
   - trm-reconciliation
 ---
-
 # CIC - Ford Executive Dynamics: Unresolved Contradictions Reconciliation
 
 > Reconciles the five core historical contradictions in the Cast Iron Charlie project dossier (`0caf6707-f8f2-4d2a-acd2-020acead55ba`) cross-referencing corporate memoirs and primary archival accessions.

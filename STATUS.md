@@ -21,6 +21,64 @@
 - Docs-only cluster inventory (2026-10-13): deterministic folder-based local proposal covers all 353 imported docs / 4,786,037 bytes exactly once: governance 27, specifications 71, delivery plans 100, reports/reviews 82, design 23, tooling/integrations 15, historical archive 13, and reference/indexes 22. Assertions pass for non-overlap, exact totals, TRM exclusion, and unknown-folder rejection. No semantic clustering, catalog writes, namespace/validation label changes, embeddings, or file movement. Evidence: .artifacts/research-store-import-audit-2026-10-13/docs-clusters.md and docs-clusters.json.
 - Next: review cluster map and excluded/unreviewed docs before applying any catalog taxonomy. Keep archive separate; folder placement does not establish currentness or shipped status. TRM/database separation, deletions, new uploads, automatic sync, embeddings, search rescoring, and production changes remain off.
 
+## Retro freshness repair (2026-10-17)
+
+- Scheduled audit `39029775523` validated all 39 records, then failed because the newest committed retro was dated 2026-10-08. The schedule validates evidence; it does not create retros.
+- Captured `.context/retros/2026-10-17-1.json` from frozen `origin/main` `1dfd20a44f32cb26f4b54384f27b11b69cd1f943`, covering 2026-10-10 00:00 through 2026-10-17 00:00 America/New_York: 55 commits. Explicitly mark unavailable session/backlog telemetry and the incomparable one-hour prior baseline. Preserve the seven-day freshness gate.
+- Recurrence handling uses the existing session-end `scripts/check-retro-needed.ps1` and `/retro` process: capture evidence, validate it, and force-add the ignored dated JSON in the scoped commit. No new schedule or policy change.
+- Next action: review and merge the freshness PR after its branch audit passes, then verify a new audit of main. PR #152 has already merged; its post-merge Wave D run `38990252937` passed.
+
+## PR 152 Wave D readiness repair (2026-10-16)
+
+- Replaced the placeholder with executable regressions that run the workflow's inline Node command against controlled TCP events and timers: immediate success, retry then success, and failure after 20 retries. The tests enforce IPv4 port 5432 and socket closure on success.
+- Negative controls reject the original workflow, a return to localhost resolution, and an incorrect successful exit after exhaustion. Delivery-guard suite: 117 passed, 1 optional Graft CLI lifecycle test skipped.
+- The failing remote delivery guard checks every commit. Prepared a replacement commit on current main pairing the workflow change and regressions; retained the ESM invocation, IPv4 address, and missing-artifact handling from the PR. No policy changes or exemptions.
+- Next action: obtain explicit operator approval for a force-with-lease update of PR 152's existing branch, then verify current remote checks. Full PostgreSQL/migration/E2E/load acceptance remains separate from these workflow regressions.
+
+## Dynamic MCP tool scoping (2026-10-15)
+
+### Active goal
+
+Phase 1 of the dynamic MCP tool scoping hook is on main. Phases 2 and 3 are deferred pending the A/B/C replay and the D2/D3 decisions.
+
+### Completed work
+
+- Spec `docs/meta/specs/2026-10-15-toolforge-dynamic-mcp-scoping-design.md` rewritten from the v1.0 review and Tier 1 approved by Chris Sorensen. D1 is deferred to Phase 4. D2 and D3 are deferred to Phase 3.
+- `modules/mcp-scoping/` (span-scoped scoping hook, `contracts.mjs`, `measure-catalog.mjs`) merged in PR #145 as `750fa23e`. `npm run test:mcp-scoping` passes 16 of 16.
+- Phase 2 measurement: 1,981 schema tokens across 17 in-repo tools (about 117 per tool); only 4 tools are on main. Token savings alone do not justify the hook. The spec records the security gate (role gating, fail-closed step-up, WAL) as the primary rationale.
+- PR #144 (child_process annotations) was closed as superseded. Equivalent annotations, with `execFileSync` and `shell:false` in `trm-devops-triage`, already landed on main. The `assertShellSafe` test follow-up no longer applies.
+- Spec commits `0dfa1414`, `3f88d38e`, and `e680d1fc` are also on `origin/parkd821-20260908` (pushed), duplicating the spec commits on main. Leave them; no history rewrite needed.
+
+### Next action
+
+Confirm the unconfirmed tool names `torque_resolve_span`, `fetch_fact_claim`, and `query_fts5` before wiring the hook to a live catalog. Run the Phase 2 partition and A/B/C replay when a replay corpus exists.
+
+---
+
+## Stateless MCP gate 1 clients (2026-10-13)
+
+### Active goal
+
+Gate 5 is on the rewrite-mcp HTTP entry. Owned servers no longer answer `initialize`. Leave the section 4 harness unrun.
+
+### Completed work
+
+- `tools/wiki-browser-qa/neo-adapter.mjs` posts `tools/list` and `tools/call` at `2026-07-28`. It does not store a session id. The URL is still `http://127.0.0.1:9010/mcp` unless `WIKI_QA_NEO_MCP_URL` or `options.url` is set.
+- `rewrite-docs/src/cic/graph/adapters/McpClientRunner.ts` writes one stdio `tools/call` at `2026-07-28` to the server named in the cwd `.mcp.json`. That edit is uncommitted in rewrite-docs.
+- Spec status on disk is revision 18, uncommitted. Upstream checkouts and other-branch worktrees are outside gate 1. Client edits are commit `ea10757c` on `parkd821-20260908`, unpushed. The empty-inventory edge is rewrite-mcp commit `6fa0c24` on `fix/mcp-server-package`, unpushed. `node scripts/rewrite-mcp-mcp-package.mjs` printed `ALL PASS`. Owned servers no longer answer `initialize`. SDK servers still do. The section 4 harness still sends `initialize` and was not rerun. Host configs were not edited. Ports 8765 and 8766 were not bound. Gate 3 was not rerun.
+- `node --test --test-timeout=15000 modules/viking-client/test/client.test.mjs` passed 6 tests, including a stdio `viking/read` after `connect()`.
+- Checks on 2026-10-13: viking node tests 25 passed; IronLedger pytest 5 passed on temp databases; kb-sync CLI-03 passed; TRM vfs harness 12 passed against `trm/.kb_cache/test_knowledge.db`; rewrite-mcp idea-inbox suite 8 passed and smoke test 12 passed. The helm client script exited 0. `helm:costs`, `helm:routing`, and `helm:budget` returned JSON-RPC `-32603` Permission required, which is the existing server permission path.
+
+### Next action
+
+Current verification (2026-10-14) supersedes the peer outage and SDK migration claims from the prior session: BrowserOS at `127.0.0.1:9010/mcp` now returns HTTP 200 discovery advertising `2026-07-28`, lists 22 tools, executes a read-only `run` probe, and rejects unsupported `1900-01-01` with HTTP 400 / `-32022`; no MCP session header appeared. `truecode`, `gitnexus`, and `graphify` remain absent from PATH and from rewrite-docs local bin entries; their `.mcp.json` registrations still name `serve --stdio`. Installed global graft `0.21.1` still returns `-32601` for `server/discover` and lists six tools even with unsupported version metadata; this does not establish compatibility or pin npx resolution. Requested intended peer installation/source identities before provisioning. Current research-store and trm-devops source files import SDK server/stdio again and are clean in Git; portfolio retains the direct JSON-RPC implementation. Preserve current files and revalidate migrations before host retarget. Host configs remain unchanged; no installs, commits, pushes, gate 3, section 4 harness, or live database access in this continuation.
+
+Previous checkpoint:
+
+Leave the section 4 harness unrun. It still sends `initialize`. Leave SDK servers on the SDK until those packages move: research-store, trm-devops, and portfolio. Leave host configs on stdio. BrowserOS on port 9010 and the truecode, gitnexus, graphify, and graft peers still reject a `2026-07-28` client. Do not retarget hosts. Do not add a second subject to ports 8765 or 8766. Do not open the live financial database. Do not start the kb-sync daemon without `KB_CACHE_DB`. `C:\dev` and rewrite-mcp stay unpushed unless asked. The spec, STATUS, and the server `initialize` removals are uncommitted.
+
+---
+
 ## Issue 124 implementation planning (2026-10-11)
 
 ### Current candidate rehearsal (supersedes earlier checkpoints below)
@@ -1053,3 +1111,25 @@ Run provider-enabled Ollama integration after a local Ollama service and validat
 | ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: Runtime** (created 2026-08-19) (resolved 2026-08-30) — 1 skill(s): research-questions. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Runtime --> |
 | ✅ `[x]` | **P2** | **kb-sync drift remediation** (resolved 2026-09-02) — Knowledge base drift remediated (`kb:drift` status: `NO_DRIFT`, 0 stale pages, `scripts/install-git-hooks.mjs` entity doc synchronized). |
 <!-- /MANAGED-REGION: AGENT-TODOS -->
+
+---
+
+## ICF promote lock and Toolforge test roots (2026-10-15)
+
+### Active goal
+
+None open. icf work is merged.
+
+### Completed work
+
+- icf PR #6 and PR #8 are merged into `codex/weekly-retro-reporting` (the icf default branch; there is no `main`). Tip is `368481f`. That includes the promote re-promotion lock, commit-prefix mapping, card-detail sections, the hermetic Toolforge test root (`9a51bfb`), and the temp-inbox triage test (`603f42b`). Full icf suite: 71 of 71 pass serially in `C:\dev\icf`.
+- toolforge#142 closed as not planned. toolforge#143 tracks full card hydration, the Drive 401, and the `.gdoc` backfill.
+
+### Findings
+
+- `skills/toolforge-cli/src/invocation-reviewed.json` pins sha256 of root `manifest.json` and `package.json`. Both drifted on main (manifest changed in #134), so managed invoke reports `SOURCE_DRIFT` on `C:\dev` right now. Updating the pin is a separate reviewed Toolforge change. icf tests avoid it with pinned fixtures in `icf/test/fixtures/toolforge-pinned/`; they must be refreshed whenever the pin changes.
+
+### Open items
+
+- `trm-drive/inbox/ledger.jsonl` row 1 revert to `COMPLETED` is uncommitted.
+- `git stash@{0}` in `C:\dev\icf` holds pre-update edits to `daily_status.json`, `preview-enhanced.html`, and the pilot spec. Backups of five replaced untracked Toolforge files are in `%TEMP%\icf-local-backup-1792081802\`.

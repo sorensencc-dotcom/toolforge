@@ -1,6 +1,6 @@
 # Toolforge Skill Dependency Graph
 
-**Generated:** 2026-10-07T20:02:22.5231219Z
+**Generated:** 2026-10-17T19:50:10.3875884Z
 
 **Phase:** 1.4 — Dependency Graph Implementation
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Skills | 61 |
+| Total Skills | 67 |
 | Total Dependencies | 13 |
 | Max Depth | 2 |
 | Cyclic Skills | 0 |
 | Missing Internal Deps | 0 |
-| Orphan Skills | 52 |
+| Orphan Skills | 58 |
 
 ---
 
@@ -24,6 +24,12 @@
 ### Outbound Dependencies (Skill → Dependencies)
 
 ### _cic-shared
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### active-work-overview
 
 | Dependency | Type | Status |
 |------------|------|--------|
@@ -207,12 +213,32 @@
 |------------|------|--------|
 | *(none)* | — | Leaf node |
 
+### repo-docs-diagram-sync
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### repo-triage-and-digest
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### research-questions
 
 | Dependency | Type | Status |
 |------------|------|--------|
 | scan-gaps.mjs | external | ❌ Missing |
 | update-focus-areas.mjs | external | ❌ Missing |
+
+### research-store
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| @modelcontextprotocol/sdk | external | ❌ Missing |
+| @supabase/supabase-js | external | ❌ Missing |
+| js-yaml | external | ❌ Missing |
 
 ### retro-export
 
@@ -362,7 +388,19 @@
 |------------|------|--------|
 | git | external | ❌ Missing |
 
+### trm-triage
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
 ### usagecheck
+
+| Dependency | Type | Status |
+|------------|------|--------|
+| *(none)* | — | Leaf node |
+
+### vane-research
 
 | Dependency | Type | Status |
 |------------|------|--------|
@@ -410,6 +448,9 @@
 | cic-repair-pipeline | internal |
 | cic-run-gate | internal |
 
+### active-work-overview
+
+No inbound dependencies (root skill)\n
 ### agent-drift-detector
 
 No inbound dependencies (root skill)\n
@@ -512,7 +553,16 @@ No inbound dependencies (root skill)\n
 ### reconcile-vector-store
 
 No inbound dependencies (root skill)\n
+### repo-docs-diagram-sync
+
+No inbound dependencies (root skill)\n
+### repo-triage-and-digest
+
+No inbound dependencies (root skill)\n
 ### research-questions
+
+No inbound dependencies (root skill)\n
+### research-store
 
 No inbound dependencies (root skill)\n
 ### retro-export
@@ -596,7 +646,13 @@ No inbound dependencies (root skill)\n
 |-----------|------|
 | trm-feedback-report | internal |
 
+### trm-triage
+
+No inbound dependencies (root skill)\n
 ### usagecheck
+
+No inbound dependencies (root skill)\n
+### vane-research
 
 No inbound dependencies (root skill)\n
 ### wiki-governance-sync
@@ -631,6 +687,7 @@ Depth N = Depends on at least one skill at depth N-1
 | parallel-search | 1 |
 | pre-wrap-audit | 1 |
 | research-questions | 1 |
+| research-store | 1 |
 | sigil-grok-bridge | 1 |
 | skill-security-auditor | 1 |
 | tinyfish-search | 1 |
@@ -639,6 +696,7 @@ Depth N = Depends on at least one skill at depth N-1
 | trm-status | 1 |
 | workspace-storage-cleaner | 1 |
 | _cic-shared | 0 |
+| active-work-overview | 0 |
 | agent-drift-detector | 0 |
 | analyze-token-burn | 0 |
 | ashfall | 0 |
@@ -661,6 +719,8 @@ Depth N = Depends on at least one skill at depth N-1
 | plan-extractor-integration | 0 |
 | pre-flight-test-checker | 0 |
 | reconcile-vector-store | 0 |
+| repo-docs-diagram-sync | 0 |
+| repo-triage-and-digest | 0 |
 | retro-export | 0 |
 | retro-schema-validator | 0 |
 | rewrite-labs-orchestrator | 0 |
@@ -678,7 +738,9 @@ Depth N = Depends on at least one skill at depth N-1
 | toolforge-submission-validator | 0 |
 | trm-devops-triage | 0 |
 | trm-self-healing | 0 |
+| trm-triage | 0 |
 | usagecheck | 0 |
+| vane-research | 0 |
 | wiki-governance-sync | 0 |
 | wiki-sync-recovery | 0 |
 | work-summarizer | 0 |
@@ -701,6 +763,7 @@ Dependencies referenced but not found in canonical skills.
 Skills that have no inbound dependencies (nothing depends on them).
 | Skill |
 |-------|
+| active-work-overview |
 | agent-drift-detector |
 | analyze-token-burn |
 | automation-audit |
@@ -725,7 +788,10 @@ Skills that have no inbound dependencies (nothing depends on them).
 | pre-flight-test-checker |
 | pre-wrap-audit |
 | reconcile-vector-store |
+| repo-docs-diagram-sync |
+| repo-triage-and-digest |
 | research-questions |
+| research-store |
 | retro-export |
 | retro-schema-validator |
 | rewrite-labs-orchestrator |
@@ -747,7 +813,9 @@ Skills that have no inbound dependencies (nothing depends on them).
 | trm-devops-triage |
 | trm-feedback-report |
 | trm-self-healing |
+| trm-triage |
 | usagecheck |
+| vane-research |
 | wiki-governance-sync |
 | wiki-sync-recovery |
 | work-summarizer |
@@ -762,7 +830,7 @@ Skills that have no inbound dependencies (nothing depends on them).
 |----------|--------|---------|
 | Cycles | ✅ PASS | 0 cycle(s) detected |
 | Missing Deps | ✅ PASS | 0 missing dep(s) |
-| Orphans | ⚠️ WARN | 52 orphan skill(s) |
+| Orphans | ⚠️ WARN | 58 orphan skill(s) |
 
 ---
 

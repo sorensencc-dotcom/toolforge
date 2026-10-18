@@ -55,6 +55,36 @@ export function validateDAGSequence(phases) {
   return true;
 }
 
+export function findStaleMiningSources(existingSources, packBaseName, categoryTitle = '') {
+  const packStem = (packBaseName || '').replace(/\.txt$/, '').toLowerCase();
+  const cleanCatTitle = (categoryTitle || '').trim().toLowerCase();
+  const targetPackTitle = cleanCatTitle ? `${cleanCatTitle} pack` : '';
+
+  return (existingSources || []).filter(s => {
+    const rawName = (s.title || s.name || '').trim().toLowerCase();
+    if (!rawName) return false;
+
+    // Matches pack filename stem (e.g., "pack_daily", "pack_ford_politics", "pack_personal_os")
+    if (packStem && rawName.includes(packStem)) return true;
+
+    // Matches category pack title (e.g. "cic - daily research (buffer/intake) pack", "personal os (household, utilities, florida logistics) pack")
+    if (targetPackTitle && (rawName === targetPackTitle || rawName.includes(targetPackTitle))) return true;
+
+    // Matches exact category title or category title with "pack"
+    if (cleanCatTitle && (rawName === cleanCatTitle || (rawName.includes(cleanCatTitle) && rawName.includes('pack')))) return true;
+
+    // Matches legacy monolithic repo packs if in relevant notebook
+    if (rawName.includes('repo_knowledge_pack')) return true;
+
+    // Matches master-kb variations
+    if (packStem.startsWith('pack_master_kb') && (rawName.includes('pack_master_kb') || rawName.includes('cic-kb pack'))) {
+      return true;
+    }
+
+    return false;
+  });
+}
+
 export async function runDailyMiningPipeline(options = {}) {
   const isDryRun = options.dryRun || process.argv.includes('--dry-run');
   const simulatePackError = options.simulatePackError || process.argv.includes('--simulate-pack-error');
@@ -185,14 +215,8 @@ export async function runDailyMiningPipeline(options = {}) {
       } catch (e) {
         logWarn(`  Could not query existing sources for notebook ${targetUuid}: ${e.message}`);
       }
-      // Filter existing sources for previous versions of this pack or legacy monolithic packs
-      const packStem = packBaseName.replace(/\.txt$/, '').toLowerCase();
-      const staleSources = existingSources.filter(s => {
-        const name = (s.title || s.name || '').toLowerCase();
-        return name.includes(packStem) ||
-               name.includes('repo_knowledge_pack') ||
-               (packStem.startsWith('pack_master_kb') && (name.includes('pack_master_kb') || name.includes('cic-kb pack')));
-      });
+      // Filter existing sources for previous versions of this pack (by filename stem or custom category title) or legacy monolithic packs
+      const staleSources = findStaleMiningSources(existingSources, packBaseName, catDef.title);
 
       // Pre-upload deduplication sweep: prune prior instances of this pack before uploading
       if (staleSources.length > 0) {

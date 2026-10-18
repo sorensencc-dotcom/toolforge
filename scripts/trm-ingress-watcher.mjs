@@ -431,13 +431,20 @@ export function inferDomain(item) {
 }
 
 export function getRoutingDecision(item) {
-  const category = inferCategory(item);
+  const isGDocFetchFailure = Boolean(
+    item?.context?.body_fetch_failed ||
+    (item?.context?.note && /fetch failed|standalone Google Drive \.gdoc/i.test(item.context.note)) ||
+    (item?.context?.gdoc_stem && !item?.context?.body)
+  );
+
+  const category = isGDocFetchFailure ? 'RESEARCH' : inferCategory(item);
   const domain = inferDomain(item);
   const targetRouting = resolveTargetRouting(item.target || item.target_notebook_name || domain);
 
   const isResearchOrMonitor = ['RESEARCH', 'MONITOR', 'EVALUATE'].includes(category);
   const isCodeTarget = Boolean(targetRouting && targetRouting.type === 'github');
   const shouldCreateGitHubIssue = Boolean(
+    !isGDocFetchFailure &&
     (item.action_type === 'antigravity_triage') &&
     isCodeTarget &&
     !isResearchOrMonitor &&
@@ -450,7 +457,8 @@ export function getRoutingDecision(item) {
     targetRouting,
     shouldCreateGitHubIssue,
     repo: isCodeTarget ? targetRouting.repo : null,
-    targetDisplayName: targetRouting ? targetRouting.name : (domain || 'N/A')
+    targetDisplayName: targetRouting ? targetRouting.name : (domain || 'N/A'),
+    isGDocFetchFailure
   };
 }
 
@@ -507,6 +515,13 @@ export function validatePayload(item) {
   return true;
 }
 
+export function commitTypeForCard(card = {}) {
+  const category = String(card.category || '').toUpperCase();
+  if (card.action_type === 'deterministic_fix') return 'fix';
+  if (category === 'RESEARCH' || category === 'EVALUATE') return 'chore';
+  return 'feat';
+}
+
 export function createGitHubIssue(item, explicitRepo = null) {
   try {
     const repo = explicitRepo || item.target_repo || (resolveTargetRouting(item.target || item.domain)?.repo);
@@ -517,7 +532,10 @@ export function createGitHubIssue(item, explicitRepo = null) {
 
     const priority = (item.priority || 'P2').toUpperCase();
     const category = item.category || inferCategory(item);
-    const title = `[TRM-Triage] [${priority}] [${category}] ${item.intent}: ${item.summary || item.id}`;
+    const prefix = commitTypeForCard(item);
+    const target = item.target || item.domain || 'core';
+    const intent = item.intent || item.id;
+    const title = `${prefix}(${target}): ${intent}`;
 
     let body = `## TRM Mobile Action Item: \`${item.id || 'N/A'}\`\n\n`;
     body += `- **Source**: \`${item.source || 'mobile-gemini'}\`\n`;
@@ -540,6 +558,14 @@ export function createGitHubIssue(item, explicitRepo = null) {
         body += `- Step ${p.step || ''}: [${p.handler || 'bot'}] \`${p.action || ''}\` ${p.command ? `(\`${p.command}\`)` : ''}\n`;
       }
       body += `\n`;
+    }
+
+    if (item.deliverables) {
+      body += `### Deliverables & Acceptance Criteria\n${typeof item.deliverables === 'string' ? item.deliverables : JSON.stringify(item.deliverables, null, 2)}\n\n`;
+    }
+
+    if (item.direction) {
+      body += `### Direction\n${typeof item.direction === 'string' ? item.direction : JSON.stringify(item.direction, null, 2)}\n\n`;
     }
 
     body += `<details>\n<summary>Raw Ingress Action Payload</summary>\n\n\`\`\`json\n`;
@@ -1096,7 +1122,8 @@ export async function processFile(filePath, options = {}) {
         item = parseGDocFilenameMetadata(filename);
         item.context = {
           ...(item.context || {}),
-          note: `Ingested from .gdoc pointer via filename metadata (body text fetch failed: ${parseErr.message})`
+          note: `Ingested from .gdoc pointer via filename metadata (body text fetch failed: ${parseErr.message})`,
+          body_fetch_failed: true
         };
       } else {
         throw parseErr;
@@ -1216,6 +1243,11 @@ export async function processFile(filePath, options = {}) {
           target_notebook_name: item.target_notebook_name,
           summary: item.summary || item.context?.summary || '',
           status: 'COMPLETED',
+          archived_path: dest,
+          context: item.context,
+          execution_plan: item.execution_plan,
+          deliverables: item.deliverables,
+          direction: item.direction,
           duration_ms: Date.now() - startTime
         });
         dispatchMobileReceipt(item, {
@@ -1237,6 +1269,11 @@ export async function processFile(filePath, options = {}) {
           summary: item.summary || item.context?.summary || '',
           status: 'ARCHIVE_MOVE_FAILED',
           error: 'Action executed but card could not be archived/removed from inbox',
+          archived_path: null,
+          context: item.context,
+          execution_plan: item.execution_plan,
+          deliverables: item.deliverables,
+          direction: item.direction,
           duration_ms: Date.now() - startTime
         });
       }
@@ -1248,7 +1285,10 @@ export async function processFile(filePath, options = {}) {
 
       let issueUrl = null;
       let stageStatus = 'STAGED_FOR_TRIAGE';
-      if (routing.shouldCreateGitHubIssue) {
+      if (routing.isGDocFetchFailure) {
+        stageStatus = 'STAGED_FOR_RESEARCH';
+        item.issue_url = null;
+      } else if (routing.shouldCreateGitHubIssue) {
         issueUrl = createGitHubIssue(item, routing.repo);
         item.issue_url = issueUrl;
       } else {
@@ -1272,13 +1312,16 @@ export async function processFile(filePath, options = {}) {
       }
 
       const dest = path.join(HARNESS_PENDING_DIR, filename);
-      fs.writeFileSync(dest, JSON.stringify(item, null, 2), 'utf8');
-      
+
       let archived = false;
+      let archivedPath = null;
       if (isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)) {
-        archived = safeMoveFile(filePath, path.join(GDRIVE_ARCHIVE, filename));
+        archivedPath = path.join(GDRIVE_ARCHIVE, filename);
+        archived = safeMoveFile(filePath, archivedPath);
       } else if (fs.existsSync(filePath)) {
+        archivedPath = path.join(COMPLETED_DIR, filename);
         try {
+          fs.copyFileSync(filePath, archivedPath);
           fs.unlinkSync(filePath);
           archived = true;
         } catch (unlinkErr) {
@@ -1286,6 +1329,21 @@ export async function processFile(filePath, options = {}) {
           archived = false;
         }
       }
+
+      // Deduplicate: archive older versions of the same card in pending
+      if (fs.existsSync(HARNESS_PENDING_DIR)) {
+        for (const existingFile of fs.readdirSync(HARNESS_PENDING_DIR)) {
+          if (existingFile !== filename && (existingFile.includes(`__${itemId}.`) || existingFile.startsWith(`${itemId}.`))) {
+            const oldPath = path.join(HARNESS_PENDING_DIR, existingFile);
+            const archiveTarget = path.join(REPO_ROOT, '.harness/tasks/archive', existingFile);
+            safeMoveFile(oldPath, archiveTarget);
+            console.log(`[TRM-INGRESS] Deduplicated and archived older pending card: ${existingFile}`);
+          }
+        }
+      }
+
+      item.archived_path = archivedPath || dest;
+      fs.writeFileSync(dest, JSON.stringify(item, null, 2), 'utf8');
       
       if (archived) {
         cleanupCompanionFiles(filePath, isFromGDrive);
@@ -1306,6 +1364,11 @@ export async function processFile(filePath, options = {}) {
           issue_url: issueUrl,
           research_ref: researchRef,
           status: stageStatus,
+          archived_path: item.archived_path || dest,
+          context: item.context,
+          execution_plan: item.execution_plan,
+          deliverables: item.deliverables,
+          direction: item.direction,
           duration_ms: Date.now() - startTime
         });
         dispatchMobileReceipt(item, {
@@ -1332,6 +1395,11 @@ export async function processFile(filePath, options = {}) {
           research_ref: researchRef,
           status: 'STAGED_ARCHIVE_FAILED',
           error: 'Staged to harness but card could not be archived/removed from inbox',
+          archived_path: null,
+          context: item.context,
+          execution_plan: item.execution_plan,
+          deliverables: item.deliverables,
+          direction: item.direction,
           duration_ms: Date.now() - startTime
         });
       }
@@ -1470,6 +1538,11 @@ export function parseGDocFilenameMetadata(filename) {
   }
 
   const cleanIntent = intent.replace(/^act-\d+-/, '').replace(/-/g, '_');
+  const humanTitle = cleanIntent
+    .replace(/^act_/i, '')
+    .split('_')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 
   const baseItem = {
     id,
@@ -1480,13 +1553,15 @@ export function parseGDocFilenameMetadata(filename) {
     domain,
     target: domain,
     parent_action_id,
+    title: humanTitle,
     intent: cleanIntent,
     summary: parent_action_id 
-      ? `Mobile action item submitted via Google Docs (follow-up to ${parent_action_id}): ${stem}`
-      : `Mobile action item submitted via Google Docs: ${stem}`,
+      ? `Mobile action item (${humanTitle}, follow-up to ${parent_action_id})`
+      : `Mobile action item: ${humanTitle}`,
     context: {
       gdoc_filename: filename,
       gdoc_stem: stem,
+      real_title: humanTitle,
       note: 'Ingested from standalone Google Drive .gdoc pointer.'
     }
   };
@@ -1571,18 +1646,8 @@ export function processGDocStub(filePath, inboxDir, options = {}) {
   item.target_notebook_name = item.target_notebook_name || routing.targetDisplayName;
 
   let issueUrl = null;
-  let stageStatus = 'STAGED_FOR_TRIAGE';
-  if (routing.shouldCreateGitHubIssue) {
-    issueUrl = createGitHubIssue(item, routing.repo);
-    item.issue_url = issueUrl;
-  } else {
-    item.issue_url = null;
-    if (routing.category === 'RESEARCH') {
-      stageStatus = 'STAGED_FOR_RESEARCH';
-    } else if (routing.category === 'MONITOR') {
-      stageStatus = 'STAGED_FOR_MONITORING';
-    }
-  }
+  let stageStatus = 'STAGED_FOR_RESEARCH';
+  item.issue_url = null;
 
   // Check if local research RFC/note exists
   let researchRef = null;
@@ -1595,30 +1660,34 @@ export function processGDocStub(filePath, inboxDir, options = {}) {
     researchRef = `wiki/research/${item.id}.md`;
   }
 
+  const dest = isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)
+    ? path.join(GDRIVE_ARCHIVE, filename)
+    : path.join(COMPLETED_DIR, filename);
+
   const harnessTask = {
     id: item.id,
     parent_action_id: item.parent_action_id || null,
     timestamp: item.timestamp,
     source: item.source,
-    category: routing.category,
+    category: 'RESEARCH',
     domain: routing.domain,
     target: routing.targetDisplayName,
     action_type: item.action_type,
     intent: item.intent,
     summary: item.summary,
-    issue_url: issueUrl,
+    issue_url: null,
     research_ref: researchRef,
     staged_at: new Date().toISOString(),
     source_file: filename,
-    context: item.context
+    archived_path: dest,
+    context: item.context,
+    execution_plan: item.execution_plan,
+    deliverables: item.deliverables,
+    direction: item.direction
   };
 
   const harnessDest = path.join(HARNESS_PENDING_DIR, `${item.id}.json`);
   fs.writeFileSync(harnessDest, JSON.stringify(harnessTask, null, 2), 'utf8');
-
-  const dest = isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)
-    ? path.join(GDRIVE_ARCHIVE, filename)
-    : path.join(COMPLETED_DIR, filename);
 
   const moved = safeMoveFile(filePath, dest);
   const finalStatus = moved ? stageStatus : 'ARCHIVE_MOVE_FAILED';
@@ -1629,14 +1698,19 @@ export function processGDocStub(filePath, inboxDir, options = {}) {
     processed_at: new Date().toISOString(),
     timestamp: item.timestamp,
     source: item.source,
-    category: routing.category,
+    category: 'RESEARCH',
     domain: routing.domain,
     action_type: item.action_type,
     intent: item.intent,
     target_notebook_name: routing.targetDisplayName,
     status: finalStatus,
-    issue_url: issueUrl,
+    issue_url: null,
     research_ref: researchRef,
+    archived_path: dest,
+    context: item.context,
+    execution_plan: item.execution_plan,
+    deliverables: item.deliverables,
+    direction: item.direction,
     duration_ms: Date.now() - startTime
   });
 

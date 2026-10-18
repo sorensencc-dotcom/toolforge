@@ -371,6 +371,11 @@ export async function aggregateFleetActivity(options = {}) {
     await fs.mkdir(path.dirname(WIKI_REPORT_PATH), { recursive: true });
     await fs.writeFile(WIKI_REPORT_PATH, markdownContent, 'utf8');
 
+    // Regenerate master scheduled tasks roster
+    try {
+      execFileSync(process.execPath, [path.join(__dirname, 'generate-scheduled-tasks-roster.mjs')], { stdio: 'ignore' });
+    } catch (_) {}
+
     // Append to Log.md
     const dateFormatted = nowIso.replace('T', ' ').slice(0, 16);
     const logEntry = `\n## [${dateFormatted}] ironbots-daily-fleet-report\n\n- Provider: \`ironbots-daily-reporter\` (\`v1.0.0\`)\n- Fleet Health: ${fleetHealthScore}/100 (${fleetStatus})\n- Active Bots: ${activeBots.length}\n- Host: \`${hostHeartbeat.hostname}\` (Uptime: ${hostHeartbeat.uptimeHuman}, Tasks: ${hostHeartbeat.taskScheduler.taskCount})\n- Telemetry: \`_status-feed/ironbots_daily_report.json\`\n`;

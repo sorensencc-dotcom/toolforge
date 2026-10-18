@@ -333,6 +333,10 @@ Available gstack skills:
 
 End each session: run `pwsh -NoProfile -File scripts/check-retro-needed.ps1` first — exit 1 means no commits since the last same-day retro, skip the run. Exit 0: run `/retro` to log insights, patterns, fixes, and decisions. Learnings feed forward to future sessions via `/learn` — cuts repeat debugging and rediscovery.
 
+## Retro findings
+
+Retro findings belong in `.context/retros/inbox/<agent>/<YYYY-MM-DD>-<slug>.json`, in the format of `.context/retros/INBOX-SPEC.md`, checked by `node scripts/validate-retro-inbox.mjs`. Do not write inbox entries yet, because `docs/meta/governance/retro-policy.md` is a DRAFT pending Tier 1 approval. Session wraps and memory notes are not retros.
+
 ## GBrain Search
 
 For semantic code questions ("where's the auth logic?", "how's billing handled?"), use:

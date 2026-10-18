@@ -4,46 +4,46 @@
   <meta charset="utf-8" />
   <title>Long work uses task handles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Geist+Mono:wght@400;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <style>
-    html, body { margin: 0; background: #f2ece2; }
-    body { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; color: #2c2420; }
+    html, body { margin: 0; background: #f5f5f5; }
+    body { font-family: "Geist", "Arial Narrow", sans-serif; color: #2d3142; }
   </style>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
-  <rect width="1200" height="720" fill="#f2ece2"/>
-  <text x="48" y="64" fill="#2c2420" font-family="Playfair Display, Palatino, serif" font-size="36">Long work uses a task handle</text>
-  <text x="48" y="96" fill="#5c5349" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">A held HTTP stream is the timeout you are migrating away from</text>
+  <rect width="1200" height="720" fill="#f5f5f5"/>
+  <text x="48" y="64" fill="#2d3142" font-family="Instrument Serif, Palatino, serif" font-size="36">Long work uses a task handle</text>
+  <text x="48" y="96" fill="#4f5d75" font-family="Geist, Arial Narrow, sans-serif" font-size="18">A held HTTP stream is the timeout you are migrating away from</text>
 
-  <rect x="48" y="140" width="520" height="500" rx="8" fill="#fffaf4" stroke="#2c2420" stroke-width="1.5"/>
-  <text x="72" y="180" fill="#5c5349" font-family="Geist Mono, Consolas, monospace" font-size="14">REJECT</text>
-  <text x="72" y="214" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="26">Hold the response open</text>
-  <text x="72" y="268" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="20">tools/call stays on one socket</text>
-  <text x="72" y="304" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="20">until the job finishes.</text>
-  <text x="72" y="364" fill="#5c5349" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">Proxy idle timers cut the stream.</text>
-  <text x="72" y="396" fill="#5c5349" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">The worker restart drops the call.</text>
-  <text x="72" y="428" fill="#5c5349" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">Retrying the POST can run the job twice.</text>
-  <rect x="72" y="480" width="220" height="36" rx="4" fill="#2c2420"/>
-  <text x="182" y="504" text-anchor="middle" fill="#f2ece2" font-family="Geist Mono, Consolas, monospace" font-size="14">no Last-Event-ID</text>
+  <rect x="48" y="140" width="520" height="500" rx="8" fill="#fafafa" stroke="#2d3142" stroke-width="1.5"/>
+  <text x="72" y="180" fill="#4f5d75" font-family="Geist Mono, Consolas, monospace" font-size="14">REJECT</text>
+  <text x="72" y="214" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="26">Hold the response open</text>
+  <text x="72" y="268" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="20">tools/call stays on one socket</text>
+  <text x="72" y="304" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="20">until the job finishes.</text>
+  <text x="72" y="364" fill="#4f5d75" font-family="Geist, Arial Narrow, sans-serif" font-size="18">Proxy idle timers cut the stream.</text>
+  <text x="72" y="396" fill="#4f5d75" font-family="Geist, Arial Narrow, sans-serif" font-size="18">The worker restart drops the call.</text>
+  <text x="72" y="428" fill="#4f5d75" font-family="Geist, Arial Narrow, sans-serif" font-size="18">Retrying the POST can run the job twice.</text>
+  <rect x="72" y="480" width="220" height="36" rx="4" fill="#2d3142"/>
+  <text x="182" y="504" text-anchor="middle" fill="#f5f5f5" font-family="Geist Mono, Consolas, monospace" font-size="14">no Last-Event-ID</text>
 
-  <rect x="632" y="140" width="520" height="500" rx="8" fill="#fffaf4" stroke="#c4501a" stroke-width="2"/>
-  <text x="656" y="180" fill="#c4501a" font-family="Geist Mono, Consolas, monospace" font-size="14">USE</text>
-  <text x="656" y="214" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="26">Return a task, then poll</text>
+  <rect x="632" y="140" width="520" height="500" rx="8" fill="#fafafa" stroke="#bf4520" stroke-width="2"/>
+  <text x="656" y="180" fill="#bf4520" font-family="Geist Mono, Consolas, monospace" font-size="14">USE</text>
+  <text x="656" y="214" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="26">Return a task, then poll</text>
 
-  <rect x="656" y="250" width="472" height="52" rx="4" fill="#f2ece2" stroke="#2c2420"/>
-  <text x="676" y="282" fill="#2c2420" font-family="Geist Mono, Consolas, monospace" font-size="16">1  tools/call  →  resultType: task</text>
+  <rect x="656" y="250" width="472" height="52" rx="4" fill="#f5f5f5" stroke="#2d3142"/>
+  <text x="676" y="282" fill="#2d3142" font-family="Geist Mono, Consolas, monospace" font-size="16">1  tools/call  →  resultType: task</text>
 
-  <rect x="656" y="318" width="472" height="52" rx="4" fill="#f2ece2" stroke="#2c2420"/>
-  <text x="676" y="350" fill="#2c2420" font-family="Geist Mono, Consolas, monospace" font-size="16">2  tasks/get   →  working | completed</text>
+  <rect x="656" y="318" width="472" height="52" rx="4" fill="#f5f5f5" stroke="#2d3142"/>
+  <text x="676" y="350" fill="#2d3142" font-family="Geist Mono, Consolas, monospace" font-size="16">2  tasks/get   →  working | completed</text>
 
-  <rect x="656" y="386" width="472" height="52" rx="4" fill="#f2ece2" stroke="#2c2420"/>
-  <text x="676" y="418" fill="#2c2420" font-family="Geist Mono, Consolas, monospace" font-size="16">3  any worker reads the same task id</text>
+  <rect x="656" y="386" width="472" height="52" rx="4" fill="#f5f5f5" stroke="#2d3142"/>
+  <text x="676" y="418" fill="#2d3142" font-family="Geist Mono, Consolas, monospace" font-size="16">3  any worker reads the same task id</text>
 
-  <text x="656" y="480" fill="#5c5349" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">The server mints the handle.</text>
-  <text x="656" y="510" fill="#5c5349" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">The caller cannot name another subject's task.</text>
-  <text x="656" y="560" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">Mutations also store an idempotency record.</text>
-  <text x="656" y="590" fill="#2c2420" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="18">The ledger is shared across workers.</text>
+  <text x="656" y="480" fill="#4f5d75" font-family="Geist, Arial Narrow, sans-serif" font-size="18">The server mints the handle.</text>
+  <text x="656" y="510" fill="#4f5d75" font-family="Geist, Arial Narrow, sans-serif" font-size="18">The caller cannot name another subject's task.</text>
+  <text x="656" y="560" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="18">Mutations also store an idempotency record.</text>
+  <text x="656" y="590" fill="#2d3142" font-family="Geist, Arial Narrow, sans-serif" font-size="18">The ledger is shared across workers.</text>
 </svg>
 </body>
 </html>

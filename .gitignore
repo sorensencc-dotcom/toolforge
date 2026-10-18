@@ -125,7 +125,11 @@ graft/
 /cic-vision-governance/artifacts/threshold/
 *.gdoc
 /pwsh
-.context/retros/
+.context/retros/*
+# Git cannot re-include a path inside an ignored directory, so the rule above
+# ignores the contents instead. Dated retros still need git add -f.
+!.context/retros/inbox/
+!.context/retros/harvest/
 
 # Daemon artifacts + nested working repos — not source (added 2026-09-08)
 .autoheal-receipt.json

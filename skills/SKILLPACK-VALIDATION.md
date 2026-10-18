@@ -1,6 +1,6 @@
 # Toolforge Skill Validation Report
 
-**Generated**: 2026-10-07T20:03:00.6514899Z
+**Generated**: 2026-10-17T19:50:07.8698564Z
 
 ---
 
@@ -9,15 +9,15 @@
 | Domain | Errors | Warnings | Passed | Status |
 |--------|--------|----------|--------|--------|
 | Canonical | 0 | 4 | 0 | ✅ |
-| Distributed | 0 | 14 | 0 | ✅ |
-| Manifest | 0 | 111 | 0 | ✅ |
-| Cowork | 0 | 61 | 0 | ✅ |
-| Dependencies | 0 | 20 | 1 | ✅ |
-| Runtime | 0 | 0 | 61 | ✅ |
+| Distributed | 0 | 13 | 0 | ✅ |
+| Manifest | 0 | 123 | 0 | ✅ |
+| Cowork | 0 | 67 | 0 | ✅ |
+| Dependencies | 0 | 23 | 1 | ✅ |
+| Runtime | 0 | 0 | 67 | ✅ |
 | Audit | 0 | 0 | 0 | ℹ️ |
 
 **Total Errors**: 0
-**Total Warnings**: 210
+**Total Warnings**: 230
 
 **Overall Status**: ✅ PASS
 
@@ -28,11 +28,12 @@
 | ID | Name | Version | Status | Canonical | Distributed | Manifest | Cowork | Runtime |
 |----|------|---------|--------|-----------|-------------|----------|--------|---------|
 | _cic-shared | CIC Shared Utilities | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
+| active-work-overview | Active Work Overview | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | agent-drift-detector | Agent Drift Detector | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | analyze-token-burn | Analyze Token Burn | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | ashfall | Ashfall | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | automation-audit | Automation Audit | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
-| benchmark-mistral-large-chonk | Benchmark Mistral Large Chonk | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| benchmark-mistral-large-chonk | Benchmark Mistral Large Chonk | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-consolidate-artifacts | CIC Consolidate Artifacts | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-ingest-world | CIC Ingest World | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | cic-orchestrate-flow | CIC Orchestrate Flow | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -48,7 +49,7 @@
 | ironbots-fleet-status-monitor | Ironbots Fleet Status Monitor | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
 | kb-sync-artifact-generator | KB Sync Artifact Generator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | kb-sync-nightly | KB Sync Nightly | 1.0.2 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
-| lean-proof-verification-harness | Lean Proof Verification Harness | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| lean-proof-verification-harness | Lean Proof Verification Harness | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | obsidian-ingest-wiki | Obsidian Wiki Ingest | 1.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | operator-image-build | Operator Image Build | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | parallel-search | Parallel Search | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
@@ -57,7 +58,10 @@
 | pre-flight-test-checker | Pre-Flight Test Checker | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | pre-wrap-audit | Pre Wrap Audit | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | reconcile-vector-store | Reconcile Vector Store | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
+| repo-docs-diagram-sync | Repo Docs and Diagram Sync | 1.0.0 | active | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| repo-triage-and-digest | Repo Triage and Digest | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | research-questions | Research Questions | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
+| research-store | research-store | 0.1.0 | candidate | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | retro-export | Retro Export | 1.0.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ✅ |
 | retro-schema-validator | Retro Schema Validator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | rewrite-labs-orchestrator | Rewrite Labs Orchestrator | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -82,7 +86,9 @@
 | trm-feedback-report | TRM Feedback/Report | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | trm-self-healing | TRM Self Healing | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | trm-status | TRM Status | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
+| trm-triage | TRM Triage | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | usagecheck | Usage Check | 0.1.0 | active | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| vane-research | vane-research | 1.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 | wiki-governance-sync | Wiki Governance Sync | 1.0.0 | active | ✅ | ✅ | ❌ | ⚠️ | ⚠️ |
 | wiki-sync-recovery | Wiki Sync Recovery | 0.1.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
 | work-summarizer | Work Summarizer v4.0 | 4.0.0 | active | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
@@ -101,15 +107,14 @@
 ## Distributed Validation
 
 ⚠️ **_cic-shared**: Entrypoint missing in distributed
-⚠️ **benchmark-mistral-large-chonk**: Directory missing in distributed
 ⚠️ **context-manager**: Category mismatch: canonical 'utilities', distributed 'utility'
 ⚠️ **doc-sync-drift-audit**: SKILL.json missing in distributed
 ⚠️ **governance-matrix-validator**: SKILL.json missing in distributed
 ⚠️ **kb-sync-nightly**: Category mismatch: canonical 'sync-tools', distributed 'governance'
 ⚠️ **kb-sync-nightly**: Entrypoint missing in distributed
 ⚠️ **kb-sync-nightly**: Version mismatch: canonical 1.0.2, distributed 1.0.0
-⚠️ **lean-proof-verification-harness**: Directory missing in distributed
 ⚠️ **obsidian-ingest-wiki**: Version mismatch: canonical 1.1.0, distributed 1.0.0
+⚠️ **repo-docs-diagram-sync**: Directory missing in distributed
 ⚠️ **research-questions**: SKILL.json missing in distributed
 ⚠️ **retro-export**: SKILL.json missing in distributed
 ⚠️ **tool-lifecycle-manager**: Category mismatch: canonical 'pipeline', distributed 'automation'
@@ -118,6 +123,9 @@
 ## Manifest Validation
 
 ⚠️ **_cic-shared**: Path mismatch: expected 'skills/_cic-shared', got ''
+⚠️ **active-work-overview**: Description mismatch: canonical 'Aggregates active pull requests, recent landings, git worktrees, open backlog items, mobile ingress receipts, and daemon health into a structured report.', manifest 'Aggregates active pull requests, recent landings, git worktrees, open backlog items, mobile ingress receipts, and daemon health into a structured report'
+⚠️ **active-work-overview**: Path mismatch: expected 'skills/active-work-overview', got ''
+⚠️ **active-work-overview**: Tags mismatch: canonical '', manifest 'overview, status, dashboard, worktrees, pull-requests'
 ⚠️ **agent-drift-detector**: Path mismatch: expected 'skills/agent-drift-detector', got ''
 ⚠️ **agent-drift-detector**: Tags mismatch: canonical '', manifest 'drift, schema, validation'
 ⚠️ **analyze-token-burn**: Path mismatch: expected 'skills/analyze-token-burn', got ''
@@ -177,8 +185,12 @@
 ⚠️ **pre-wrap-audit**: Tags mismatch: canonical '', manifest ''
 ⚠️ **reconcile-vector-store**: Path mismatch: expected 'skills/reconcile-vector-store', got ''
 ⚠️ **reconcile-vector-store**: Tags mismatch: canonical '', manifest ''
+⚠️ **repo-triage-and-digest**: Path mismatch: expected 'skills/repo-triage-and-digest', got ''
+⚠️ **repo-triage-and-digest**: Tags mismatch: canonical '', manifest 'kb-skills, gitdiagram, gitingest, mcp, repository'
 ⚠️ **research-questions**: Path mismatch: expected 'skills/research-questions', got ''
 ⚠️ **research-questions**: Tags mismatch: canonical '', manifest 'trm, research-questions, trm-vault, curator'
+⚠️ **research-store**: Description mismatch: canonical 'One-way research indexing and project-scoped MCP retrieval.', manifest 'One-way research indexing and project-scoped MCP retrieval'
+⚠️ **research-store**: Path mismatch: expected 'skills/research-store', got ''
 ⚠️ **retro-export**: Path mismatch: expected 'skills/retro-export', got ''
 ⚠️ **retro-export**: Tags mismatch: canonical '', manifest 'retro, metrics, export, reporting'
 ⚠️ **retro-schema-validator**: Path mismatch: expected 'skills/retro-schema-validator', got ''
@@ -220,7 +232,12 @@
 ⚠️ **trm-self-healing**: Tags mismatch: canonical '', manifest 'trm, self-healing, sigil, triage'
 ⚠️ **trm-status**: Description mismatch: canonical 'Instant status table across all TRM research topics in trm-vault: source/extract counts, staging backlog, extract lag, staleness, uncommitted files, and concrete next steps per TRM.', manifest 'Instant status table across TRM research topics.'
 ⚠️ **trm-status**: Path mismatch: expected 'skills/trm-status', got ''
+⚠️ **trm-triage**: Description mismatch: canonical 'Autonomous task card triage engine applying YAGNI evaluation, reversibility classification, and GitHub Issue promotion payloads.', manifest 'Autonomous task card triage engine applying YAGNI evaluation, reversibility classification, and GitHub Issue promotion payloads'
+⚠️ **trm-triage**: Path mismatch: expected 'skills/trm-triage', got ''
+⚠️ **trm-triage**: Tags mismatch: canonical '', manifest 'trm, triage, yagni, backlog, cards, ollama'
 ⚠️ **usagecheck**: Path mismatch: expected 'skills/usagecheck', got ''
+⚠️ **vane-research**: Path mismatch: expected 'skills/vane-research', got ''
+⚠️ **vane-research**: Tags mismatch: canonical '', manifest 'research, search, vane, searxng, ollama, loopback'
 ⚠️ **wiki-sync-recovery**: Path mismatch: expected 'skills/wiki-sync-recovery', got ''
 ⚠️ **wiki-sync-recovery**: Tags mismatch: canonical '', manifest 'wiki-sync-recovery, wiki, sync, recovery'
 ⚠️ **work-summarizer**: Path mismatch: expected 'skills/work-summarizer', got ''
@@ -232,6 +249,7 @@
 ## Cowork Validation
 
 ⚠️ **_cic-shared**: Not registered (installer will register on next run)
+⚠️ **active-work-overview**: Not registered (installer will register on next run)
 ⚠️ **agent-drift-detector**: Not registered (installer will register on next run)
 ⚠️ **analyze-token-burn**: Not registered (installer will register on next run)
 ⚠️ **ashfall**: Not registered (installer will register on next run)
@@ -261,7 +279,10 @@
 ⚠️ **pre-flight-test-checker**: Not registered (installer will register on next run)
 ⚠️ **pre-wrap-audit**: Not registered (installer will register on next run)
 ⚠️ **reconcile-vector-store**: Not registered (installer will register on next run)
+⚠️ **repo-docs-diagram-sync**: Not registered (installer will register on next run)
+⚠️ **repo-triage-and-digest**: Not registered (installer will register on next run)
 ⚠️ **research-questions**: Not registered (installer will register on next run)
+⚠️ **research-store**: Not registered (installer will register on next run)
 ⚠️ **retro-export**: Not registered (installer will register on next run)
 ⚠️ **retro-schema-validator**: Not registered (installer will register on next run)
 ⚠️ **rewrite-labs-orchestrator**: Not registered (installer will register on next run)
@@ -286,7 +307,9 @@
 ⚠️ **trm-feedback-report**: Not registered (installer will register on next run)
 ⚠️ **trm-self-healing**: Not registered (installer will register on next run)
 ⚠️ **trm-status**: Not registered (installer will register on next run)
+⚠️ **trm-triage**: Not registered (installer will register on next run)
 ⚠️ **usagecheck**: Not registered (installer will register on next run)
+⚠️ **vane-research**: Not registered (installer will register on next run)
 ⚠️ **wiki-governance-sync**: Not registered (installer will register on next run)
 ⚠️ **wiki-sync-recovery**: Not registered (installer will register on next run)
 ⚠️ **work-summarizer**: Not registered (installer will register on next run)
@@ -305,6 +328,9 @@
 ⚠️ **parallel-search**: Missing external dependency: parallel-web
 ⚠️ **research-questions**: Missing external dependency: scan-gaps.mjs
 ⚠️ **research-questions**: Missing external dependency: update-focus-areas.mjs
+⚠️ **research-store**: Missing external dependency: @modelcontextprotocol/sdk
+⚠️ **research-store**: Missing external dependency: @supabase/supabase-js
+⚠️ **research-store**: Missing external dependency: js-yaml
 ⚠️ **sigil-grok-bridge**: Missing external dependency: @modelcontextprotocol/sdk
 ⚠️ **skill-security-auditor**: Missing external dependency: python3
 ⚠️ **tinyfish-search**: Missing external dependency: @tiny-fish/sdk
@@ -319,6 +345,7 @@
 ## Runtime Validation
 
 ℹ️ **_cic-shared**: Discoverable
+ℹ️ **active-work-overview**: Skill inactive (status: )
 ℹ️ **agent-drift-detector**: Skill inactive (status: )
 ℹ️ **analyze-token-burn**: Skill inactive (status: )
 ℹ️ **ashfall**: Skill inactive (status: )
@@ -348,7 +375,10 @@
 ℹ️ **pre-flight-test-checker**: Discoverable
 ℹ️ **pre-wrap-audit**: Skill inactive (status: )
 ℹ️ **reconcile-vector-store**: Skill inactive (status: )
+ℹ️ **repo-docs-diagram-sync**: Skill inactive (status: )
+ℹ️ **repo-triage-and-digest**: Skill inactive (status: )
 ℹ️ **research-questions**: Discoverable
+ℹ️ **research-store**: Skill inactive (status: candidate)
 ℹ️ **retro-export**: Discoverable
 ℹ️ **retro-schema-validator**: Discoverable
 ℹ️ **rewrite-labs-orchestrator**: Skill inactive (status: )
@@ -373,7 +403,9 @@
 ℹ️ **trm-feedback-report**: Skill inactive (status: )
 ℹ️ **trm-self-healing**: Discoverable
 ℹ️ **trm-status**: Discoverable
+ℹ️ **trm-triage**: Skill inactive (status: )
 ℹ️ **usagecheck**: Skill inactive (status: )
+ℹ️ **vane-research**: Discoverable
 ℹ️ **wiki-governance-sync**: Skill inactive (status: )
 ℹ️ **wiki-sync-recovery**: Skill inactive (status: )
 ℹ️ **work-summarizer**: Skill inactive (status: )

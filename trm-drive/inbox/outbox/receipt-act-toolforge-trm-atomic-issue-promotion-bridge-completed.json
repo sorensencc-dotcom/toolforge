@@ -1,0 +1,17 @@
+{
+  "receipt_id": "rcpt-1792212698305-done-act-toolforge-trm-atomic-issue-promotion-bridge",
+  "action_id": "act-toolforge-trm-atomic-issue-promotion-bridge",
+  "source": "mobile-gemini-gdoc",
+  "intent": "toolforge_trm_atomic_issue_promotion_bridge",
+  "category": "IMPLEMENT",
+  "domain": "toolforge",
+  "target_notebook": "toolforge",
+  "action_type": "antigravity_triage",
+  "status": "COMPLETED",
+  "summary": "Implemented atomic CLI promotion script (scripts/trm/promote-card.mjs) with repo prefix mapping, transactional rollback, and atomic ledger commit, verified via test suite (4/4 tests PASS).",
+  "completion_details": "Implemented atomic CLI promotion script (scripts/trm/promote-card.mjs) with repo prefix mapping, transactional rollback, and atomic ledger commit, verified via test suite (4/4 tests PASS).",
+  "test_verification": "tests/promote-card.test.mjs",
+  "completed_at": "2026-10-17T04:51:38.159Z",
+  "dispatched_at": "2026-10-17T04:51:38.159Z",
+  "dryRun": false
+}
