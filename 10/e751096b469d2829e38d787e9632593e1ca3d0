@@ -1,0 +1,23 @@
+.context/retros/inbox/ci/2026-10-17-toolforge-retro-2.json
+  s_9ed72e8800daf1::t_3fbf29ea8919c1 1-39
+.context/retros/harvest/ledger.jsonl
+  s_9ed72e8800daf1::t_3fbf29ea8919c1 1-6
+.context/retros/inbox/ci/2026-10-16-sigil-retro-1.json
+  s_9ed72e8800daf1::t_3fbf29ea8919c1 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "10e751096b469d2829e38d787e9632593e1ca3d0",
+  "prompts": {},
+  "sessions": {
+    "s_9ed72e8800daf1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e70526f-0da2-45f3-801a-e36414a59ec3",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
