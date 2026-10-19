@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.98.0
+Date: 2026-10-19
+
+### Changes
+- 81ed4f6a - Merge pull request #175 from sorensencc-dotcom/feat/retro-report-actions (Chris Sorensen)
+- 0b1495ab - feat(retro): publish inbox findings as weekly report actions (Chris Sorensen)
+
 ## Version 2.97.0
 Date: 2026-10-19
 
