@@ -2,96 +2,172 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import {
+  generateAndWriteGuide,
+  DEFAULT_GUIDE_OUTPUT_PATH,
+  DEFAULT_REGISTRY_PATH
+} from './ecosystem-compiler.mjs';
 
-export const GUIDE_PATH = 'C:\\dev\\docs\\Ecosystem Architecture Guide (Current).md';
-export const REGISTRY_PATH = 'C:\\dev\\notebooklm-registry.json';
+export const GUIDE_PATH = DEFAULT_GUIDE_OUTPUT_PATH;
+export const REGISTRY_PATH = DEFAULT_REGISTRY_PATH;
+export const DRIVE_DOC_ID = '1zTiYlA6NIhJRDsr0_9s0I_oQKUnW6l8eJX6xqYGRM_M';
 
-export function resolveSyncTargets(registryPath = REGISTRY_PATH) {
-  let targets = [];
-  if (fs.existsSync(registryPath)) {
-    try {
-      const reg = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
-      targets = (reg.notebooks || []).map(n => ({ name: n.title, id: n.notebook_id }));
-    } catch (err) {
-      console.error('Failed to parse notebooklm-registry.json:', err.message);
+export const KEY_CLUSTER_NOTEBOOKS = [
+  { name: 'AI News and Tools', id: 'bec5a197-8256-4eba-af78-c4881cc28fdd' },
+  { name: 'Operations Briefings & Research Logs', id: 'c17c2a18-3562-4fe4-9880-c1289ec5f506' },
+  { name: 'CIC-KB', id: '679b8bab-2d87-42cb-a726-6dc54c83acc2' },
+  { name: 'Open Dev Issues', id: 'cb0498ce-1ea5-4668-9f65-ac368753404e' },
+  { name: 'Rewrite Labs', id: '140119ae-3496-45c9-bf0c-71c955136afc' }
+];
+
+export function resolveSyncTargets(options = {}) {
+  const opts = typeof options === 'string' ? { registryPath: options, cluster: 'all' } : (options || {});
+  if (opts.cluster === 'all') {
+    const regPath = opts.registryPath || REGISTRY_PATH;
+    if (fs.existsSync(regPath)) {
+      try {
+        const reg = JSON.parse(fs.readFileSync(regPath, 'utf8'));
+        const targets = (reg.notebooks || []).map(n => ({ name: n.title, id: n.notebook_id }));
+        if (targets.length > 0) {
+          return targets;
+        }
+      } catch (err) {
+        console.error('Failed to parse notebooklm-registry.json:', err.message);
+      }
     }
+    return KEY_CLUSTER_NOTEBOOKS;
   }
-  if (targets.length === 0) {
-    targets = [
-      { name: 'IronLedger Architecture', id: '76e1932c-054a-4520-9e83-5e882dffc938' },
-      { name: 'Sigil Protocol & Federation', id: '26eacb85-2c97-443d-9d81-3bd99cc98412' },
-      { name: 'Agent Harnesses & Local Execution', id: '359b346c-6af7-4ba3-baef-b985c9e6e1af' },
-      { name: 'Rewrite Labs SSG Platform', id: '140119ae-3496-45c9-bf0c-71c955136afc' },
-      { name: 'Open Dev Issues (Dev Triage)', id: 'cb0498ce-1ea5-4668-9f65-ac368753404e' },
-      { name: 'CIC-KB (Master Historical)', id: '679b8bab-2d87-42cb-a726-6dc54c83acc2' }
-    ];
-  }
-  return targets;
+  return KEY_CLUSTER_NOTEBOOKS;
 }
 
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+function isDriveGuideSource(source) {
+  const title = (source.title || source.name || '').toLowerCase();
+  const type = (source.type || source.source_type || '').toLowerCase();
+  const url = source.url || '';
+  const driveId = source.drive_id || source.document_id || '';
+
+  if (driveId === DRIVE_DOC_ID || url.includes(DRIVE_DOC_ID)) {
+    return true;
+  }
+  if (title.includes('ecosystem architecture guide') && (type.includes('drive') || type.includes('doc') || url.includes('docs.google.com'))) {
+    return true;
+  }
+  return false;
+}
+
+function isGuideSource(source) {
+  const title = (source.title || source.name || '').toLowerCase();
+  return title.includes('ecosystem architecture guide');
+}
+
 export async function syncEcosystemGuide(options = {}) {
-  const targets = resolveSyncTargets(options.registryPath);
-  console.log(`=== Syncing Canonical Ecosystem Architecture Guide across ${targets.length} Notebooks ===`);
+  const guidePath = options.guidePath || GUIDE_PATH;
+
+  if (options.compileOnly) {
+    const compileResult = generateAndWriteGuide(guidePath, options);
+    return { success: true, compiledOnly: true, compileResult };
+  }
+
+  if (!options.noCompile) {
+    generateAndWriteGuide(guidePath, options);
+  }
+
+  const targets = resolveSyncTargets(options);
+  console.log(`=== Syncing Canonical Ecosystem Architecture Guide across ${targets.length} Notebooks (cluster: ${options.cluster || 'key'}) ===`);
 
   for (const target of targets) {
     console.log(`\nProcessing: ${target.name} (${target.id})...`);
-    
+
     if (options.dryRun) {
       console.log(`  [DRY-RUN] Would sync guide to ${target.name}`);
       continue;
     }
 
-    // 1. Check existing sources and prune stale copies of the guide
+    let hasDriveSource = false;
+    const staleUploadedSources = [];
+
     try {
-      const raw = execSync(`nlm source list "${target.id}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+      const raw = execSync(`nlm source list "${target.id}" --json`, {
+        encoding: 'utf8',
+        stdio: ['pipe', 'pipe', 'pipe']
+      });
       const parsed = JSON.parse(raw);
       const sources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
-      
-      const staleSources = sources.filter(s => {
-        const title = (s.title || s.name || '').toLowerCase();
-        return title.includes('ecosystem architecture guide');
-      });
 
-      if (staleSources.length > 0) {
-        console.log(`  Found ${staleSources.length} existing/stale guide source(s) in ${target.name}. Pruning...`);
-        for (const stale of staleSources) {
-          try {
-            execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
-            console.log(`  ✓ Deleted stale source: ${stale.id} ("${stale.title || stale.name}")`);
-          } catch (delErr) {
-            console.warn(`  Failed to delete source ${stale.id}: ${delErr.message}`);
-          }
+      for (const source of sources) {
+        if (isDriveGuideSource(source)) {
+          hasDriveSource = true;
+        } else if (isGuideSource(source)) {
+          staleUploadedSources.push(source);
         }
-      } else {
-        console.log(`  No prior guide found in ${target.name}.`);
       }
     } catch (err) {
       console.warn(`  Warning during source check for ${target.name}: ${err.message}`);
     }
 
-    // 2. Upload fresh canonical guide
-    try {
-      console.log(`  Uploading fresh canonical guide to ${target.name}...`);
-      execSync(`nlm source add "${target.id}" --file "${GUIDE_PATH}"`, { stdio: 'inherit' });
-      console.log(`  ✓ Successfully uploaded canonical guide to ${target.name} (${target.id})`);
-    } catch (uploadErr) {
-      console.error(`  ❌ Failed to upload guide to ${target.name}: ${uploadErr.message}`);
+    if (hasDriveSource) {
+      try {
+        console.log(`  Found Drive master source in ${target.name}. Refreshing in-place...`);
+        execSync(`nlm source sync "${target.id}" --confirm`, { stdio: 'inherit' });
+        console.log(`  ✓ Synced Drive source in ${target.name} (${target.id})`);
+      } catch (syncErr) {
+        console.error(`  ❌ Failed to sync Drive source in ${target.name}: ${syncErr.message}`);
+      }
+    } else {
+      if (staleUploadedSources.length > 0) {
+        console.log(`  Found ${staleUploadedSources.length} existing/stale guide source(s) in ${target.name}. Pruning...`);
+        for (const stale of staleUploadedSources) {
+          const sourceId = stale.id || stale.source_id;
+          try {
+            execSync(`nlm source delete "${sourceId}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+            console.log(`  ✓ Deleted stale source: ${sourceId} ("${stale.title || stale.name}")`);
+          } catch (delErr) {
+            console.warn(`  Failed to delete source ${sourceId}: ${delErr.message}`);
+          }
+        }
+      }
+
+      try {
+        console.log(`  Uploading fresh canonical guide to ${target.name}...`);
+        execSync(`nlm source add "${target.id}" --file "${guidePath}"`, { stdio: 'inherit' });
+        console.log(`  ✓ Successfully uploaded canonical guide to ${target.name} (${target.id})`);
+      } catch (uploadErr) {
+        console.error(`  ❌ Failed to upload guide to ${target.name}: ${uploadErr.message}`);
+      }
     }
 
-    // Pacing delay to avoid rate limits
     await sleep(options.pacingMs !== undefined ? options.pacingMs : 3500);
   }
 
   console.log('\n================================================================================');
-  console.log('🎉 SUCCESS: Canonical Ecosystem Architecture Guide is synchronized across all dev workbooks!');
+  console.log('🎉 SUCCESS: Canonical Ecosystem Architecture Guide is synchronized!');
   console.log('================================================================================');
   return { success: true, targetsCount: targets.length };
 }
 
+export function parseCliArgs(args) {
+  const options = {
+    dryRun: args.includes('--dry-run'),
+    noCompile: args.includes('--no-compile'),
+    compileOnly: args.includes('--compile-only'),
+    cluster: 'key'
+  };
+
+  const clusterArg = args.find((a) => a.startsWith('--cluster='));
+  if (clusterArg) {
+    options.cluster = clusterArg.split('=')[1];
+  } else if (args.includes('--all')) {
+    options.cluster = 'all';
+  }
+
+  return options;
+}
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
-  syncEcosystemGuide({ dryRun: process.argv.includes('--dry-run') })
+  const options = parseCliArgs(process.argv.slice(2));
+  syncEcosystemGuide(options)
     .then(() => process.exit(0))
     .catch((err) => {
       console.error(err);
