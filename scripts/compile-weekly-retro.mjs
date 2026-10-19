@@ -16,6 +16,7 @@ import { fileURLToPath } from 'node:url';
 import { validateWeeklyRetroReport } from '../icf/reporting/src/weekly-retro-contract.mjs';
 import { buildWeeklyRetroArtifact } from '../icf/reporting/src/publication-artifact.mjs';
 import { CATEGORY_REGISTRY, normalizeCategoryMetrics } from '../icf/reporting/src/category-contract.mjs';
+import { summarizeBacklog } from './backlog-summary.mjs';
 import { collectMeridianWeek, DEFAULT_MERIDIAN_DB } from '../modules/telemetry/meridian-telemetry.mjs';
 import { buildReportActions } from './retro-report-actions.mjs';
 
@@ -270,7 +271,7 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
       chore_pct: chorePct,
       peak_hour: peakHour,
       ai_assisted_commits: Math.round(totalCommits * 0.65),
-      focus_score: 0.92,
+      focus_score: null,
       focus_area: "Unified Doc-Sync, Ticket Scorer & 10-Ironbot Fleet"
     },
     authors: Object.keys(authorsMap).length > 0 ? authorsMap : {
@@ -300,13 +301,7 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
       regression_test_commits: 0,
       test_files_changed: testFilesChangedSet.size || 18
     },
-    backlog: {
-      total_open: 5,
-      p0_p1: 1,
-      p2: 4,
-      completed_this_period: 8,
-      added_this_period: 3
-    },
+    backlog: summarizeBacklog(options.todosPath || path.join(REPO_ROOT, 'TODOS.md'), sinceDate, targetDate),
     shortcut_debt: {
       markers_found: shortcutMarkersFound,
       no_trigger: 0
