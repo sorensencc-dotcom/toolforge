@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.99.1
+Date: 2026-10-19
+
+### Changes
+- e38e8da1 - Merge pull request #182 from sorensencc-dotcom/fix/retro-fabricated-fallbacks (Chris Sorensen)
+- b8707ab9 - fix(retro): derive weekly metrics from git data instead of constants (Chris Sorensen)
+
 ## Version 2.99.0
 Date: 2026-10-19
 
