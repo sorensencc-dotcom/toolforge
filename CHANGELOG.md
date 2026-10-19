@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.96.6
+Date: 2026-10-19
+
+### Changes
+- 0d6e8b17 - Feat/retro consolidate core (#172) (Chris Sorensen)
+
 ## Version 2.96.5
 Date: 2026-10-18
 
