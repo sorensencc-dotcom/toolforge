@@ -9,6 +9,31 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Retro governance follow-ups (2026-10-19)
+
+### Active goal
+
+Retro governance steps 1-4 are merged (#173, #174, #175). The follow-ups below are open as PRs or closed.
+
+### Completed work
+
+- Weekly retro placeholders removed from `scripts/compile-weekly-retro.mjs`: `backlog` is counted from `TODOS.md` (null when the file is absent) and `focus_score` is null. Compiler change is toolforge#176. It depends on icf#14, which makes `metrics.focus_score` nullable in the contract.
+- Installed `C:\dev\.git\hooks\pre-commit` replaced with the canonical `CIC-GOVERNANCE/scripts/pre-commit-shim.sh`, so the #171 blocking delivery guard and the retro-inbox check run locally. Backup: `.git/hooks/pre-commit.bak-20261019`. No other repo references the delivery guard, so none needs the change.
+- Removed the duplicate Postgres transaction todo (sigil audit-atomicity closed 2026-09-24, 11 of 11 tasks).
+- Removed stale retro worktrees and merged branches, the remote `backup/parkd821-pre-squash-20261018`, and `pre-push.bak-20261018`.
+
+### Decisions
+
+- Metrics with no real source report null, not a constant. Other fallbacks in `compile-weekly-retro.mjs` (`prs_referenced`, `active_days`, `streak_days`, `ai_assisted_commits`) and the placeholders in `generate-weekly-retro.mjs` remain.
+
+### Blockers
+
+- Merge icf#14 before toolforge#176, or the compiler output fails contract validation.
+
+### Next action
+
+Merge icf#14, then toolforge#176. Decide whether to remove the remaining fabricated fallbacks. Seven unrelated worktrees under `C:\dev\.worktrees` hold dirty files or unpushed commits and need an owner decision.
+
 ## Data-first DEV/UAT import (2026-10-13)
 
 - Active scope changed by operator (2026-10-13): C:\dev\docs only. TRM excluded from new work; separate image-free TRM database deferred. Prior approved docs/Drive import remains historical and retained, with no deletion implied. Search work parked; production untouched.
