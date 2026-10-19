@@ -1,0 +1,140 @@
+.context/retros/2026-10-17-2.json
+  h_5c172e9b435f5a 1
+.context/retros/INBOX-SPEC.md
+  h_5c172e9b435f5a 1-207
+.context/retros/harvest/config.json
+  h_5c172e9b435f5a 1-15
+.context/retros/harvest/ledger.jsonl
+  h_5c172e9b435f5a 1-6
+.context/retros/inbox/ci/2026-10-16-sigil-retro-1.json
+  h_5c172e9b435f5a 1-39
+.context/retros/inbox/ci/2026-10-17-toolforge-retro-2.json
+  h_5c172e9b435f5a 1-29
+.context/retros/test-v1.0.ps1
+  h_5c172e9b435f5a 147-256
+.context/retros/validate-changed.ps1
+  h_5c172e9b435f5a 20-21
+.diagram-manifest.json
+  h_5c172e9b435f5a 1-80
+.githooks/commit-msg
+  h_5c172e9b435f5a 1-24
+.githooks/post-merge
+  h_5c172e9b435f5a 1-2
+.githooks/post-merge.ps1
+  h_5c172e9b435f5a 1-17
+.githooks/pre-commit
+  h_5c172e9b435f5a 1-30
+.githooks/pre-commit.ps1
+  h_5c172e9b435f5a 1-127
+.githooks/pre-push
+  h_5c172e9b435f5a 1-58
+.github/workflows/documentation.yml
+  h_5c172e9b435f5a 8-13,20-25,35-36,45-46,59-60,63-88
+.github/workflows/governance.yml
+  h_5c172e9b435f5a 38-52
+.github/workflows/retro-full-audit.yml
+  h_5c172e9b435f5a 21-26
+.gitignore
+  h_5c172e9b435f5a 128-132,150
+AGENTS.md
+  h_5c172e9b435f5a 336-339
+CHANGELOG.md
+  h_5c172e9b435f5a 3-114
+CIC-GOVERNANCE/packages/delivery-guard/.ijfw/.session-signals.jsonl
+  h_5c172e9b435f5a 1
+CIC-GOVERNANCE/packages/delivery-guard/tests/ci-wiring.test.js
+  h_5c172e9b435f5a 26-32,44,49,51-52,63-65
+CIC-GOVERNANCE/packages/delivery-guard/tests/installed-hook.test.js
+  h_5c172e9b435f5a 146,151,162-163
+CIC-GOVERNANCE/scripts/pre-commit-shim.sh
+  h_5c172e9b435f5a 23-31
+STATUS.md
+  h_5c172e9b435f5a 12-48
+VERSION.md
+  h_5c172e9b435f5a 1
+docs/meta/governance/README.md
+  h_5c172e9b435f5a 21
+docs/meta/governance/retro-policy.md
+  h_5c172e9b435f5a 1-84
+docs/meta/governance/schemas/README.md
+  h_5c172e9b435f5a 9-12
+docs/meta/governance/schemas/retro-inbox-v1.schema.json
+  h_5c172e9b435f5a 1-106
+docs/wiki-pages/toolforge-architecture-overview.html
+  h_5c172e9b435f5a 15,24,31,37,45,48,77,85,92,104,114-115,128,131,138-142,145,147-151,154,156-160,164,166-170,173,175-179,184
+drift/SLOP-REPORT.md
+  h_5c172e9b435f5a 3
+scripts/backlog-summary.mjs
+  h_5c172e9b435f5a 1-28
+scripts/compile-weekly-retro.mjs
+  h_5c172e9b435f5a 19,21,249,274,304
+scripts/consolidate-retro-inbox.mjs
+  h_5c172e9b435f5a 1-130
+scripts/diagram-sync.mjs
+  h_5c172e9b435f5a 6,28-68,70-95,172-177,198-199,201-205,207-208,210-219,222-226,229-233,235-239,241-252,256,258-269,275,278-337,346-390,396,405,434-447,455
+scripts/harvest-retro-inbox.mjs
+  h_5c172e9b435f5a 1-304
+scripts/publish-repo-wiki-pages.mjs
+  h_5c172e9b435f5a 1-17,27-32,34-35,52-55,60-154,182-188,195-237,239,241,243-256,259-268,272-280,285-286,291-297,315,317-336,339-348,351
+scripts/retro-report-actions.mjs
+  h_5c172e9b435f5a 1-50
+scripts/validate-retro-inbox.mjs
+  h_5c172e9b435f5a 1-268
+setup-git-hooks.ps1
+  h_5c172e9b435f5a 32-33,43-90,98,253-256,285-288,342-349,351-352,358-360,394-395,398-407,423-425,501-508
+skills/repo-docs-diagram-sync/docs/USAGE.md
+  h_5c172e9b435f5a 1-76
+skills/repo-docs-diagram-sync/src/diagram-engine.mjs
+  h_5c172e9b435f5a 40-46,49,55-67
+skills/research-store/README.md
+  h_5c172e9b435f5a 5-6
+skills/research-store/docs/USAGE.md
+  h_5c172e9b435f5a 3-18
+skills/research-store/package.json
+  h_5c172e9b435f5a 6-8,12-14,25-26
+skills/research-store/sql/003-original-files.sql
+  h_5c172e9b435f5a 1-19
+skills/research-store/src/file-sync.mjs
+  h_5c172e9b435f5a 1-224
+skills/research-store/tests/file-sync-live.test.mjs
+  h_5c172e9b435f5a 1-76
+skills/research-store/tests/file-sync.test.mjs
+  h_5c172e9b435f5a 1-106
+supabase/migrations/20261013000124_research_original_files.sql
+  h_5c172e9b435f5a 1-21
+tests/compile-weekly-retro.test.mjs
+  h_5c172e9b435f5a 4-7,16-44
+tests/consolidate-retro-inbox.test.mjs
+  h_5c172e9b435f5a 1-188
+tests/diagram-parity-hardening.test.mjs
+  h_5c172e9b435f5a 1-173
+tests/githooks-mode.test.mjs
+  h_5c172e9b435f5a 1-102
+tests/harvest-retro-inbox.test.mjs
+  h_5c172e9b435f5a 1-358
+tests/publish-repo-wiki-pages-ci.test.mjs
+  h_5c172e9b435f5a 1-269
+tests/publish-repo-wiki-pages.test.mjs
+  h_5c172e9b435f5a 11,13-14,52,98-111
+tests/retro-inbox-wiring.test.mjs
+  h_5c172e9b435f5a 1-50
+tests/retro-report-actions.test.mjs
+  h_5c172e9b435f5a 1-117
+tests/sync-docs-gate.test.mjs
+  h_5c172e9b435f5a 6,23,27,29-33,42,46,48-49,67-71,78-101
+tests/sync-docs-pipeline-e2e.test.mjs
+  h_5c172e9b435f5a 211-216
+tests/validate-retro-inbox.test.mjs
+  h_5c172e9b435f5a 1-255
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b7ebe28f4e47d6ff152ab5cd73dc2e94f66182b3",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
