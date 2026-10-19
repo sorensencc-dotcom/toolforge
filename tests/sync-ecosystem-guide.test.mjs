@@ -7,7 +7,9 @@ import os from 'node:os';
 import {
   resolveSyncTargets,
   syncEcosystemGuide,
+  KEY_CLUSTER_NOTEBOOKS,
   GUIDE_PATH,
+  REGISTRY_PATH
 } from '../scripts/sync-ecosystem-guide.mjs';
 
 describe('Sync Ecosystem Guide Suite', () => {
@@ -17,37 +19,60 @@ describe('Sync Ecosystem Guide Suite', () => {
     assert.ok(stat.size > 1000, 'Guide file is too small');
   });
 
-  it('resolveSyncTargets loads all 31 notebooks from canonical registry', () => {
+  it('resolveSyncTargets defaults to key cluster of 5 core notebooks', () => {
     const targets = resolveSyncTargets();
-    assert.ok(targets.length >= 21, `Expected at least 21 targets, got ${targets.length}`);
+    assert.equal(targets.length, 5, `Expected 5 key cluster targets, got ${targets.length}`);
+    const ids = new Set(targets.map((t) => t.id));
+    assert.ok(ids.has('bec5a197-8256-4eba-af78-c4881cc28fdd'), 'AI News and Tools must be included');
+    assert.ok(ids.has('c17c2a18-3562-4fe4-9880-c1289ec5f506'), 'Operations Briefings must be included');
+    assert.ok(ids.has('679b8bab-2d87-42cb-a726-6dc54c83acc2'), 'CIC-KB must be included');
+    assert.ok(ids.has('cb0498ce-1ea5-4668-9f65-ac368753404e'), 'Open Dev Issues must be included');
+    assert.ok(ids.has('140119ae-3496-45c9-bf0c-71c955136afc'), 'Rewrite Labs must be included');
+  });
+
+  it('resolveSyncTargets loads all 31 notebooks when cluster is "all"', () => {
+    const targets = resolveSyncTargets({ cluster: 'all' });
+    assert.equal(targets.length, 31, `Expected 31 targets, got ${targets.length}`);
 
     const ids = new Set(targets.map((t) => t.id));
-    // Verify core canonical notebooks are included
     assert.ok(ids.has('679b8bab-2d87-42cb-a726-6dc54c83acc2'), 'CIC-KB must be targeted');
     assert.ok(ids.has('76e1932c-054a-4520-9e83-5e882dffc938'), 'IronLedger must be targeted');
     assert.ok(ids.has('26eacb85-2c97-443d-9d81-3bd99cc98412'), 'Sigil must be targeted');
     assert.ok(ids.has('9724e682-c5ea-4693-8e21-caf8de68611e'), 'Personal OS must be targeted');
   });
 
-  it('resolveSyncTargets falls back to default dev targets if registry path does not exist', () => {
+  it('resolveSyncTargets falls back to key cluster if registry path does not exist', () => {
     const nonExistentPath = path.join(os.tmpdir(), 'non-existent-reg-' + Date.now() + '.json');
-    const targets = resolveSyncTargets(nonExistentPath);
+    const targets = resolveSyncTargets({ cluster: 'all', registryPath: nonExistentPath });
 
-    assert.equal(targets.length, 6);
+    assert.equal(targets.length, 5);
     const names = targets.map((t) => t.name);
-    assert.ok(names.includes('IronLedger Architecture'));
-    assert.ok(names.includes('Sigil Protocol & Federation'));
-    assert.ok(names.includes('CIC-KB (Master Historical)'));
+    assert.ok(names.includes('CIC-KB'));
+    assert.ok(names.includes('AI News and Tools'));
   });
 
-  it('syncEcosystemGuide performs dry-run sweep without spawning commands', async () => {
-    const result = await syncEcosystemGuide({ dryRun: true, pacingMs: 0 });
+  it('syncEcosystemGuide performs dry-run sweep end-to-end for key cluster', async () => {
+    const result = await syncEcosystemGuide({ dryRun: true, cluster: 'key', pacingMs: 0 });
     assert.equal(result.success, true);
-    assert.ok(result.targetsCount >= 21);
+    assert.equal(result.targetsCount, 5);
+  });
+
+  it('syncEcosystemGuide performs dry-run sweep end-to-end for all cluster', async () => {
+    const result = await syncEcosystemGuide({ dryRun: true, cluster: 'all', pacingMs: 0 });
+    assert.equal(result.success, true);
+    assert.equal(result.targetsCount, 31);
+  });
+
+  it('syncEcosystemGuide supports compile-only mode', async () => {
+    const result = await syncEcosystemGuide({ compileOnly: true });
+    assert.equal(result.success, true);
+    assert.equal(result.compiledOnly, true);
+    assert.ok(result.compileResult);
+    assert.equal(result.compileResult.notebookCount, 31);
   });
 
   it('canonical registry contains 31 notebooks with valid synthesis_profile and metadata', () => {
-    const reg = JSON.parse(fs.readFileSync('C:/dev/notebooklm-registry.json', 'utf8'));
+    const reg = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
     assert.equal(reg.notebooks.length, 31, 'Registry must contain exactly 31 notebooks');
     for (const nb of reg.notebooks) {
       assert.ok(nb.notebook_id, `Notebook must have notebook_id: ${nb.title}`);
