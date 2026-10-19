@@ -35,6 +35,21 @@ jobs:
         shell: pwsh
         run: ./.context/retros/validate-changed.ps1
 
+  retro-inbox:
+    name: Retro inbox validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Validate retro inbox
+        run: node scripts/validate-retro-inbox.mjs
+
   delivery-guard:
     name: Delivery guard automation policy
     runs-on: ubuntu-latest

@@ -18,6 +18,12 @@ jobs:
       - name: Validate all retro history
         shell: pwsh
         run: ./.context/retros/validate.ps1
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Validate retro inbox
+        run: node scripts/validate-retro-inbox.mjs
       - name: Check retro freshness
         shell: pwsh
         run: |
