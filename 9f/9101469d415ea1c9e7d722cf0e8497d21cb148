@@ -1,0 +1,29 @@
+.github/workflows/governance.yml
+  s_56c9c85774587a::t_7ae9ca009e1dd9 38-52
+tests/retro-inbox-wiring.test.mjs
+  s_56c9c85774587a::t_83e25a7b6876e5 42
+  s_56c9c85774587a::t_d4d3b18d967669 1-41,43-50
+CIC-GOVERNANCE/scripts/pre-commit-shim.sh
+  s_56c9c85774587a::t_7eefcf833aa39d 30
+  s_56c9c85774587a::t_7aa4571f1151b3 31-33
+docs/meta/governance/retro-policy.md
+  s_56c9c85774587a::t_7ae9ca009e1dd9 58
+.github/workflows/retro-full-audit.yml
+  s_56c9c85774587a::t_7ae9ca009e1dd9 21-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9f9101469d415ea1c9e7d722cf0e8497d21cb148",
+  "prompts": {},
+  "sessions": {
+    "s_56c9c85774587a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d3ca11b8-1593-4409-a485-49c67f3a63ad",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
