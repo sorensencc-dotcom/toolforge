@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.97.0
+Date: 2026-10-19
+
+### Changes
+- 713b0998 - Merge pull request #174 from sorensencc-dotcom/feat/retro-inbox-ci (Chris Sorensen)
+- 9f910146 - feat(retro): validate the retro inbox in CI, pre-commit, and nightly audit (Chris Sorensen)
+- e30ed3bb - Merge pull request #173 from sorensencc-dotcom:feat/retro-consolidate-core (Chris Sorensen)
+- 97389a44 - chore(retro): drop test-ratio finding RF-ee909fca39b5 (Chris Sorensen)
+- 07a58071 - feat(retro): add inbox consolidator with tests (Chris Sorensen)
+
 ## Version 2.96.6
 Date: 2026-10-19
 
