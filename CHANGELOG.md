@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.98.1
+Date: 2026-10-19
+
+### Changes
+- bc9be9cc - Merge pull request #176 from sorensencc-dotcom:fix/retro-placeholder-metrics (Chris Sorensen)
+- f7cb22e4 - fix(retro): compute backlog from TODOS.md and drop fake focus_score (Chris Sorensen)
+
 ## Version 2.98.0
 Date: 2026-10-19
 
