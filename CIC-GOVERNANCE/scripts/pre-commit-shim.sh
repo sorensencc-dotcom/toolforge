@@ -27,6 +27,10 @@ if [ -f "scripts/governance/check-roadmap-location.mjs" ]; then
   node scripts/governance/check-roadmap-location.mjs --staged || exit 1
 fi
 
+if [ -f "scripts/validate-retro-inbox.mjs" ] && git diff --cached --name-only | grep -q "^\.context/retros/inbox/"; then
+  node scripts/validate-retro-inbox.mjs || { echo "[Pre-Commit Blocked] Retro inbox entries are invalid."; exit 1; }
+fi
+
 if [ -f "$(dirname "$0")/pre-commit.ps1" ]; then
   pwsh -NoProfile -File "$(dirname "$0")/pre-commit.ps1" "$@" || exit 1
 fi

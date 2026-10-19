@@ -55,7 +55,7 @@ Session wraps and memory notes are not retros. When a wrap or a memory note ment
 4. The action reuses the finding id. TODOS.md carries the id in a `<!-- retro-finding: RF-... -->` marker, and the ICF weekly report uses it as the action `sourceId`. A repeated id never creates a second action.
 5. `INBOX_REGISTRY` in `scripts/validate-retro-inbox.mjs` holds these mappings. Tools read the registry and never restate the rules.
 
-No tool applies this rule yet. The planned consolidator and TODOS.md writer must follow it.
+`scripts/consolidate-retro-inbox.mjs` applies this rule. TODOS.md is gitignored, so the consolidator runs locally and CI validates only the inbox.
 
 ## Harvester configuration
 
