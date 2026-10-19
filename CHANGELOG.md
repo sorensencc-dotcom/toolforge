@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.99.0
+Date: 2026-10-19
+
+### Changes
+- 99abfee1 - Merge pull request #178 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- cda86ae9 - feat(ecosystem): automate guide compilation and sync (Chris Sorensen)
+- 1b0aac9c - docs(report): add daily report for 2026-10-19 (Chris Sorensen)
+- 64170ea5 - docs(report): add weekly report for 2026-W42 (Chris Sorensen)
+- 2d89c191 - Merge pull request #177 from sorensencc-dotcom/docs/status-retro-followups (Chris Sorensen)
+- 39e2cc2f - docs(status): record retro governance follow-ups (Chris Sorensen)
+
 ## Version 2.98.1
 Date: 2026-10-19
 
