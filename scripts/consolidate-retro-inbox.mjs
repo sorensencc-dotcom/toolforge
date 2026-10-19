@@ -15,7 +15,7 @@ const NEXT_HEADING = /^## /m;
 export function deriveActions(entries, registry = INBOX_REGISTRY) {
   const seen = new Set();
   const actions = [];
-  for (const { entry } of entries) {
+  for (const { path: entryPath, entry } of entries) {
     for (const finding of entry.findings) {
       if (finding.suggestion === undefined || seen.has(finding.id)) continue;
       seen.add(finding.id);
@@ -32,6 +32,7 @@ export function deriveActions(entries, registry = INBOX_REGISTRY) {
         suggestion: finding.suggestion,
         evidence: finding.evidence,
         todosAppend: registry.priorities[priority].todosAppend,
+        entryPath,
       });
     }
   }
@@ -40,6 +41,16 @@ export function deriveActions(entries, registry = INBOX_REGISTRY) {
 
 export function recordedIds(todosText) {
   return new Set([...todosText.matchAll(MARKER)].map((match) => match[1]));
+}
+
+export function recordedStatuses(todosText) {
+  const statuses = new Map();
+  for (const line of todosText.split(/\r?\n/)) {
+    const checkbox = /^\s*[-*]\s+\[([ xX])\]/.exec(line);
+    if (!checkbox) continue;
+    for (const match of line.matchAll(MARKER)) statuses.set(match[1], checkbox[1] === ' ' ? 'open' : 'completed');
+  }
+  return statuses;
 }
 
 export function renderTodoLine(action) {
