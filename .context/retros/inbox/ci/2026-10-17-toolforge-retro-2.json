@@ -6,16 +6,6 @@
   "session": ".context/retros/2026-10-17-2.json",
   "findings": [
     {
-      "id": "RF-ee909fca39b5",
-      "tag": "TEST",
-      "severity": "low",
-      "summary": "Pair the large 'Parkd821 20260908' merges (#139, #141, #154) with test changes; test ratio is 11% and none of them is a test: commit",
-      "evidence": [
-        ".context/retros/2026-10-17-2.json#/recommendations/0"
-      ],
-      "suggestion": "Pair the large 'Parkd821 20260908' merges (#139, #141, #154) with test changes; test ratio is 11% and none of them is a test: commit"
-    },
-    {
       "id": "RF-ffb34fcc76a8",
       "tag": "TOOLING",
       "severity": "low",
