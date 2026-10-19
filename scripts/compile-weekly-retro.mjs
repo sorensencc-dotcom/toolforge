@@ -17,6 +17,7 @@ import { validateWeeklyRetroReport } from '../icf/reporting/src/weekly-retro-con
 import { buildWeeklyRetroArtifact } from '../icf/reporting/src/publication-artifact.mjs';
 import { CATEGORY_REGISTRY, normalizeCategoryMetrics } from '../icf/reporting/src/category-contract.mjs';
 import { collectMeridianWeek, DEFAULT_MERIDIAN_DB } from '../modules/telemetry/meridian-telemetry.mjs';
+import { buildReportActions } from './retro-report-actions.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -244,6 +245,7 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
   const retroData = {
     date: targetDate,
     window: "7d",
+    actions: buildReportActions({ targetDate, todosFile: path.join(REPO_ROOT, 'TODOS.md') }),
     metrics: {
       commits: totalCommits,
       contributors: Object.keys(authorsMap).length || 1,
