@@ -24,15 +24,15 @@ Retro governance steps 1-4 are merged (#173, #174, #175). The follow-ups below a
 
 ### Decisions
 
-- Metrics with no real source report null, not a constant. Other fallbacks in `compile-weekly-retro.mjs` (`prs_referenced`, `active_days`, `streak_days`, `ai_assisted_commits`) and the placeholders in `generate-weekly-retro.mjs` remain.
+- Metrics with no real source report null, not a constant. `compile-weekly-retro.mjs` now derives every other metric from git data: sessions from commit clusters split at a 2-hour gap, active days and streaks from commit dates, AI-assisted commits from `Co-Authored-By` trailers, and PR references from `#N` in subjects. `scripts/generate-weekly-retro.mjs` (hardcoded 2026-09-26 data, no callers) is deleted. `shortcut_debt.no_trigger` is still a hardcoded 0.
 
 ### Blockers
 
-- Merge icf#14 before toolforge#176, or the compiler output fails contract validation.
+- None.
 
 ### Next action
 
-Merge icf#14, then toolforge#176. Decide whether to remove the remaining fabricated fallbacks. Seven unrelated worktrees under `C:\dev\.worktrees` hold dirty files or unpushed commits and need an owner decision.
+Remove the leftover empty directory `C:\dev\.worktrees\local-guard` once the process holding it closes. Eight worktrees under `C:\dev\.worktrees` hold dirty files or unpushed commits and need an owner decision.
 
 ## Data-first DEV/UAT import (2026-10-13)
 
