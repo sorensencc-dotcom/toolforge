@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.102.0
+Date: 2026-10-20
+
+### Changes
+- b1c45f0e - Merge pull request #194 from sorensencc-dotcom/trm/act-01-active-memory-persistent-context (Chris Sorensen)
+- 4382f855 - docs(memory): document active memory commands and injection (Chris Sorensen)
+- 8eb7f3c1 - test(memory): cover persistence, encryption, prune, and injection (Chris Sorensen)
+- 68b13c24 - feat(cli): add memory list, add, and prune commands (Chris Sorensen)
+- a91f9c8a - feat(memory): add token-capped active memory prompt injection (Chris Sorensen)
+- 73a75a65 - feat(memory): add encrypted SQLite memory store (Chris Sorensen)
+
 ## Version 2.101.2
 Date: 2026-10-20
 
