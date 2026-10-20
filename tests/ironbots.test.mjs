@@ -111,6 +111,7 @@ test('daemon-healer-bot runs in check-only mode and writes valid telemetry', () 
   const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
   assert.ok(typeof report.status === 'string');
   assert.equal(report.dryRun, true);
+  assert.equal(report.targetApiUrl, 'http://127.0.0.1:8080/api/reporting/trm-backlog');
 });
 
 test('ci-watchdog-bot runs in dry-run mode and writes valid telemetry', () => {
@@ -130,6 +131,7 @@ test('ci-watchdog-bot runs in dry-run mode and writes valid telemetry', () => {
   const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
   assert.ok(typeof report.status === 'string');
   assert.equal(report.dryRun, true);
+  assert.equal(report.targetApiUrl, 'http://127.0.0.1:8080/api/reporting/trm-backlog');
 });
 
 test('ci-watchdog-bot evaluateRunAlerts filters superseded failures and flags active failures', async () => {
