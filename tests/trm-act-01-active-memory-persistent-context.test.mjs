@@ -13,7 +13,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { mkdtempSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -336,4 +336,28 @@ test('a constraint stored in an earlier session is injected for a related query 
   assert.ok(block.includes('- [constraint] Never force-push to the shared main branch'));
   assert.ok(block.includes('- [decision] Release branches are cut from main on Thursdays'));
   assert.equal(block.includes('port 8080'), false);
+});
+
+test('concurrent first-run processes share one key file and lose no entries', async (t) => {
+  const workspace = scratch(t);
+  const env = { ...process.env, HOME: workspace.home, USERPROFILE: workspace.home };
+  delete env.TOOLFORGE_MEMORY_KEY;
+
+  const runAdd = (n) => new Promise((resolve) => {
+    const child = spawn(process.execPath, [CLI, 'memory', 'add', `Concurrent fact ${n}`, '--workspace', workspace.dir], { env });
+    let stderr = '';
+    child.stderr.on('data', (chunk) => { stderr += chunk; });
+    child.on('close', (status) => resolve({ status, stderr }));
+  });
+
+  const results = await Promise.all(Array.from({ length: 6 }, (_, n) => runAdd(n)));
+  results.forEach(({ status, stderr }) => assert.equal(status, 0, stderr));
+
+  const keyFile = join(workspace.home, '.toolforge', 'memory.key');
+  assert.equal(statSync(keyFile).size, 32);
+
+  const key = resolveMemoryKey({ env: {}, keyFile });
+  const store = workspace.open({ dbPath: memoryDbPath(workspace.dir), key });
+  const texts = store.list().map((stored) => stored.text).sort();
+  assert.deepEqual(texts, Array.from({ length: 6 }, (_, n) => `Concurrent fact ${n}`));
 });
