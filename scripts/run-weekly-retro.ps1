@@ -63,7 +63,13 @@ $compiler = Join-Path $RepoRoot 'scripts\compile-weekly-retro.mjs'
 
 Push-Location $RepoRoot
 try {
-    Write-Output "[$stamp] Compiling deterministic weekly retro for $date..." | Tee-Object -FilePath $logFile
+    Write-Output "[$stamp] Consolidating retro inbox into TODOS.md..." | Tee-Object -FilePath $logFile
+    & node (Join-Path $RepoRoot 'scripts\consolidate-retro-inbox.mjs') 2>&1 | Tee-Object -FilePath $logFile -Append
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning "Retro consolidation failed with exit code $LASTEXITCODE. Continuing with the report. See $logFile"
+    }
+
+    Write-Output "[$stamp] Compiling deterministic weekly retro for $date..." | Tee-Object -FilePath $logFile -Append
     & node $compiler --date $date | Tee-Object -FilePath $logFile -Append
     if ($LASTEXITCODE -ne 0) {
         throw "Weekly retro compilation failed with exit code $LASTEXITCODE. See $logFile"
