@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.101.0
+Date: 2026-10-20
+
+### Changes
+- 24e35865 - Merge pull request #184 from sorensencc-dotcom:feat/retro-action-ledger (Chris Sorensen)
+- 40a27ac7 - feat(retro): add the tracked action ledger (Chris Sorensen)
+
 ## Version 2.100.0
 Date: 2026-10-20
 
