@@ -12,6 +12,10 @@ concurrency:
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   governance:
     name: ${{ matrix.repository }} governance
@@ -66,8 +70,8 @@ jobs:
           cp -a toolforge-source/CIC-GOVERNANCE/. CIC-GOVERNANCE/
 
           mkdir -p workspace/.github/workflows
-          cp -a toolforge-source/.github/workflows/. workspace/.github/workflows/ || true
-          cp -a toolforge-source/setup-git-hooks.ps1 workspace/ || true
+          cp -a toolforge-source/.github/workflows/. workspace/.github/workflows/
+          cp -a toolforge-source/setup-git-hooks.ps1 workspace/
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
