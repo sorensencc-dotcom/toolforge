@@ -1,0 +1,20 @@
+docs/toolforge/active-memory.md
+  s_cf53e61e5cba17::t_bf55f6e957f3c5 1-15,17-53
+  s_cf53e61e5cba17::t_dec00b157fe671 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "06a9039668031a7d4ab4d56d6f2cbf417ca2b368",
+  "prompts": {},
+  "sessions": {
+    "s_cf53e61e5cba17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5aa13dcd-b7a7-4f10-9493-274974cbf37f",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
