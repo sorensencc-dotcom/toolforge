@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.101.2
+Date: 2026-10-20
+
+### Changes
+- a65fd3e7 - Merge pull request #193 from sorensencc-dotcom/trm/act-toolforge-ci-workflow-false-exit-remediation (Chris Sorensen)
+- 72143aa8 - chore(toolforge): Remediate False-Success Exit Codes and Unhandled Subshell Errors in Recurring CI Workflows (closes #186) (Chris Sorensen)
+
 ## Version 2.101.1
 Date: 2026-10-20
 
