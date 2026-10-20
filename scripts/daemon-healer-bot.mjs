@@ -54,13 +54,13 @@ const isReset = args.includes('--reset');
 const isVerbose = args.includes('--verbose');
 
 export function probeUrl(url, options = {}) {
-  const { timeoutMs = 8000, expectJson = false, expectHtml = false, allowedStatuses = [200] } = options;
+  const { timeoutMs = 8000, expectJson = false, expectHtml = false, allowedStatuses = [200], maxBodyLength = 10 * 1024 * 1024 } = options;
   return new Promise((resolve) => {
     let rawBody = '';
     const req = http.get(url, { timeout: timeoutMs }, (res) => {
       res.setEncoding('utf8');
       res.on('data', (chunk) => {
-        if (rawBody.length < 8192) rawBody += chunk;
+        if (rawBody.length < maxBodyLength) rawBody += chunk;
       });
 
       res.on('end', () => {

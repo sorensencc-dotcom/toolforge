@@ -470,3 +470,23 @@ test('parseGDocFilenameMetadata provides humanTitle and clean title casing', () 
   assert.equal(meta.intent, 'evaluate_incident_reporting_guardrails');
   assert.match(meta.summary, /Mobile action item: Evaluate Incident Reporting Guardrails/);
 });
+
+test('getRoutingDecision treats cards with substantive raw_content as valid and routes coding directions to GitHub issue', () => {
+  const card = {
+    action_type: 'antigravity_triage',
+    target: 'toolforge',
+    category: 'EVALUATE',
+    direction: 'REFACTOR_OPTIMIZATION',
+    raw_content: 'source: gemini-spark\ncategory: EVALUATE\ndirection: REFACTOR_OPTIMIZATION\ntarget: toolforge\n### Directive\nRemediate workflow failures',
+    context: {
+      body_fetch_failed: true,
+      note: 'Ingested from .gdoc pointer via filename metadata (body text fetch failed: 401 Unauthorized)'
+    }
+  };
+
+  const decision = getRoutingDecision(card);
+  assert.equal(decision.isGDocFetchFailure, false, 'Card with raw_content must not be marked as fetch failure');
+  assert.equal(decision.shouldCreateGitHubIssue, true, 'Coding card with raw_content must create GitHub issue');
+  assert.equal(decision.repo, 'sorensencc-dotcom/toolforge');
+});
+

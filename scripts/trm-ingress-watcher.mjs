@@ -311,6 +311,26 @@ export const TARGET_ROUTING_MAP = {
     repo: 'sorensencc-dotcom/sigil',
     name: 'sigil'
   },
+  'icf': {
+    type: 'github',
+    repo: 'sorensencc-dotcom/icf',
+    name: 'icf'
+  },
+  'kb-sync': {
+    type: 'github',
+    repo: 'sorensencc-dotcom/kb-sync',
+    name: 'kb-sync'
+  },
+  'personal-os': {
+    type: 'github',
+    repo: 'sorensencc-dotcom/personal-os',
+    name: 'personal-os'
+  },
+  'ironledger': {
+    type: 'github',
+    repo: 'sorensencc-dotcom/IronLedger',
+    name: 'IronLedger'
+  },
   'cic': {
     type: 'local_research',
     backlogDir: 'wiki/research',
@@ -353,6 +373,10 @@ export function resolveTargetRouting(targetName) {
   if (key.includes('toolforge')) return TARGET_ROUTING_MAP['toolforge'];
   if (key.includes('rewrite')) return TARGET_ROUTING_MAP['rewrite'];
   if (key.includes('sigil')) return TARGET_ROUTING_MAP['sigil'];
+  if (key.includes('icf')) return TARGET_ROUTING_MAP['icf'];
+  if (key.includes('kb-sync') || key.includes('kbsync')) return TARGET_ROUTING_MAP['kb-sync'];
+  if (key.includes('personal-os') || key.includes('personal_os')) return TARGET_ROUTING_MAP['personal-os'];
+  if (key.includes('ironledger')) return TARGET_ROUTING_MAP['ironledger'];
   if (key.includes('cic')) return TARGET_ROUTING_MAP['cic'];
   if (key.includes('research')) return TARGET_ROUTING_MAP['research'];
   if (key.includes('sandbox')) return TARGET_ROUTING_MAP['sandboxes'];
@@ -431,7 +455,13 @@ export function inferDomain(item) {
 }
 
 export function getRoutingDecision(item) {
-  const isGDocFetchFailure = Boolean(
+  const hasSubstantiveContent = Boolean(
+    (item?.raw_content && item.raw_content.length > 50) ||
+    (item?.context?.body && item.context.body.length > 50) ||
+    (item?.body && item.body.length > 50)
+  );
+
+  const isGDocFetchFailure = !hasSubstantiveContent && Boolean(
     item?.context?.body_fetch_failed ||
     (item?.context?.note && /fetch failed|standalone Google Drive \.gdoc/i.test(item.context.note)) ||
     (item?.context?.gdoc_stem && !item?.context?.body)
@@ -441,14 +471,16 @@ export function getRoutingDecision(item) {
   const domain = inferDomain(item);
   const targetRouting = resolveTargetRouting(item.target || item.target_notebook_name || domain);
 
-  const isResearchOrMonitor = ['RESEARCH', 'MONITOR', 'EVALUATE'].includes(category);
+  const direction = String(item?.direction || '').toUpperCase();
+  const isCodeDirection = direction.includes('REFACTOR') || direction.includes('IMPLEMENT') || direction.includes('FIX') || direction.includes('FEATURE');
+  const isResearchOrMonitor = ['RESEARCH', 'MONITOR'].includes(category) || (category === 'EVALUATE' && !isCodeDirection);
   const isCodeTarget = Boolean(targetRouting && targetRouting.type === 'github');
   const shouldCreateGitHubIssue = Boolean(
     !isGDocFetchFailure &&
     (item.action_type === 'antigravity_triage') &&
     isCodeTarget &&
     !isResearchOrMonitor &&
-    (category === 'IMPLEMENT' || item.target === 'toolforge' || item.target === 'rewrite')
+    (category === 'IMPLEMENT' || isCodeDirection || item.target === 'toolforge' || item.target === 'rewrite')
   );
 
   return {
@@ -465,6 +497,10 @@ export function getRoutingDecision(item) {
 export function inferActionType(item) {
   if (item && item.action_type && ['deterministic_fix', 'antigravity_triage'].includes(item.action_type)) {
     return item.action_type;
+  }
+  const direction = String(item?.direction || '').toUpperCase();
+  if (direction.includes('REFACTOR') || direction.includes('FEATURE') || direction.includes('SPIKE') || direction.includes('NEW_IMPLEMENTATION')) {
+    return 'antigravity_triage';
   }
   const text = `${item?.intent || ''} ${item?.summary || ''} ${item?.category || ''} ${item?.action_type || ''}`.toLowerCase();
   if (text.startsWith('fix_') || text.startsWith('remediate_') || text.startsWith('prune_') || text.startsWith('quarantine_') || text.startsWith('clean_')) {

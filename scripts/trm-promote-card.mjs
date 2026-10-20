@@ -11,6 +11,8 @@ export const DEFAULT_REPO_MAP = {
   'toolforge': 'sorensencc-dotcom/toolforge',
   'sigil': 'sorensencc-dotcom/sigil',
   'kb-sync': 'sorensencc-dotcom/kb-sync',
+  'personal-os': 'sorensencc-dotcom/personal-os',
+  'icf': 'sorensencc-dotcom/icf',
   'rewrite': 'sorensencc-dotcom/rewrite-mcp',
   'rewrite-mcp': 'sorensencc-dotcom/rewrite-mcp',
   'ironledger': 'sorensencc-dotcom/IronLedger',
