@@ -14,6 +14,10 @@ on:
       - "package.json"
       - ".github/workflows/toolforge-wave-d.yml"
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   wave-d-gate:
     name: Wave D Gate (PG + migrate + e2e + load)
