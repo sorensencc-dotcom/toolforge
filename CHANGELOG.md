@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.102.1
+Date: 2026-10-20
+
+### Changes
+- 9f22aa8e - Merge pull request #195 from sorensencc-dotcom/test/active-memory-ci-and-concurrency (Chris Sorensen)
+- 1a3c5251 - Merge pull request #196 from sorensencc-dotcom/fix/pdf-test-isolate-plugin-registry (Chris Sorensen)
+- 6295acd7 - test(pdf): isolate plugin registry from the real home directory (Chris Sorensen)
+- 1120d629 - test(memory): run memory suite in npm test and cover concurrent first run (Chris Sorensen)
+
 ## Version 2.102.0
 Date: 2026-10-20
 
