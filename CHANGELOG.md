@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.101.1
+Date: 2026-10-20
+
+### Changes
+- a7da8054 - Merge pull request #185 from sorensencc-dotcom/chore/retro-ledger-close-rf5038 (Chris Sorensen)
+- 0406e0a2 - chore(retro): close RF-5038ebd02a40 in the action ledger (Chris Sorensen)
+
 ## Version 2.101.0
 Date: 2026-10-20
 
