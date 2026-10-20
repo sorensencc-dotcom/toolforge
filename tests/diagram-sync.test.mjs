@@ -11,7 +11,7 @@ import {
   generateSvgFromMermaid,
   LAVERY_PALETTE,
 } from '../skills/repo-docs-diagram-sync/src/diagram-engine.mjs';
-import { syncDiagramsInFile, parseArgs, runBenchmark } from '../scripts/diagram-sync.mjs';
+import { syncDiagramsInFile, parseArgs, runBenchmark, IGNORED_DIRS } from '../scripts/diagram-sync.mjs';
 
 test('scanMarkdownForMermaid: identifies un-embedded and embedded mermaid blocks', () => {
   const sample = `# Title
@@ -152,4 +152,11 @@ test('parseArgs & runBenchmark: parses CLI flags and executes performance probe'
   const elapsed = runBenchmark();
   assert.ok(typeof elapsed === 'number');
   assert.ok(elapsed < 4500, `Benchmark elapsed (${elapsed}ms) must be under 4500ms`);
+});
+
+test('IGNORED_DIRS isolates sibling repos and sandboxes from parity scanning', () => {
+  const requiredIgnored = ['dev-sandbox', 'kb-sync', 'sigil-repo', 'rewrite-mcp', 'icf', 'scratch', 'toolforge-marketplace'];
+  for (const dir of requiredIgnored) {
+    assert.ok(IGNORED_DIRS.has(dir), `IGNORED_DIRS must contain ${dir}`);
+  }
 });

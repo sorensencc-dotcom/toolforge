@@ -22,7 +22,10 @@ export const IGNORED_DIRS = new Set([
   'node_modules', '.git', 'archive', '.claude', '.gemini', '.trm',
   'trm-drive', '_kb-sync-staging', '.ijfw', 'weekly-report-wt', '.worktrees',
   'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness',
-  '.pytest_cache', '__pycache__', '.venv', 'venv', 'IronLedger'
+  '.pytest_cache', '__pycache__', '.venv', 'venv', 'IronLedger',
+  'dev-sandbox', 'toolforge-marketplace', 'toolforge-marketplace-wiki',
+  'toolforge-wiki', 'sigil-wiki', 'trm-wiki', 'kb-sync', 'kb-sync-wiki',
+  'kb-sync-r2', 'sigil-repo', 'rewrite-mcp', 'icf', 'scratch'
 ]);
 
 export function findChrome() {
@@ -261,7 +264,7 @@ function collectDiagramPairs(targetPath) {
       return;
     }
     for (const entry of entries) {
-      if (IGNORED_DIRS.has(entry.name)) continue;
+      if (IGNORED_DIRS.has(entry.name) || entry.name.includes('-wt-') || entry.name.endsWith('-wt')) continue;
       const full = path.join(d, entry.name);
       if (entry.isDirectory()) walk(full);
       else if (entry.isFile() && entry.name.endsWith('.html')) {

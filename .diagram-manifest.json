@@ -14,6 +14,11 @@
     "pngHash": "8895f4852ec88cc36a389f50167d20ca8ce426d1264a5de192fd4aec54ae4179",
     "updatedAt": "2026-10-18T01:56:53.863Z"
   },
+  "docs/meta/specs/diagrams/trm-mobile-inbox-triage-pipeline.png": {
+    "htmlHash": "dcfbea0864719c65999b08cc24d311c284232254734a546c274c5aed4433e9ce",
+    "pngHash": "db43846c54cf9e75cddcf6f3a5cbe9177b72cb6f47e9c0c4ef3f9c01612f2c52",
+    "updatedAt": "2026-10-20T03:27:18.334Z"
+  },
   "docs/superpowers/specs/assets/agent-memory-sync-topology.png": {
     "htmlHash": "d92fb2cc6c447b041e8a9a0942e9bc00ba4defce2f591972594ad768ee7c6850",
     "updatedAt": "2026-10-17T20:51:12.186Z"
