@@ -1,0 +1,19 @@
+src/memory/inject.js
+  s_cf53e61e5cba17::t_6ec9ee3ae3016b 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "190d790706c949851c4cc551b76e367d8a3719ca",
+  "prompts": {},
+  "sessions": {
+    "s_cf53e61e5cba17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5aa13dcd-b7a7-4f10-9493-274974cbf37f",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
