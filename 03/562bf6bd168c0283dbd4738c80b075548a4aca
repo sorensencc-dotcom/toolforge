@@ -1,0 +1,23 @@
+src/memory/entry.js
+  s_cf53e61e5cba17::t_d83a2d0b24ad3d 1-41
+src/memory/store.js
+  s_cf53e61e5cba17::t_53e49a98b57256 1-221
+.gitignore
+  s_cf53e61e5cba17::t_4a99116b114716 152-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "03562bf6bd168c0283dbd4738c80b075548a4aca",
+  "prompts": {},
+  "sessions": {
+    "s_cf53e61e5cba17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5aa13dcd-b7a7-4f10-9493-274974cbf37f",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
