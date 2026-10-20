@@ -1,0 +1,29 @@
+scripts/daemon-healer-bot.mjs
+  s_ec28c71dfa5ac3::t_52324bf4bfa839 23
+tests/ironbots.test.mjs
+  s_f95fc772d12a9e::t_efebac4b372d96 114,134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e92756f1f485496b36c2b3b4ca79c374332eb59d",
+  "prompts": {},
+  "sessions": {
+    "s_ec28c71dfa5ac3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8d19aa43-7b20-48d6-9c1e-60b2da225984",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f95fc772d12a9e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "82144fcb-9d46-41c3-aea0-c79210e2d6c0",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
