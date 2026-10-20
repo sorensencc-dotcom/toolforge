@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.100.0
+Date: 2026-10-20
+
+### Changes
+- dea478d9 - Merge pull request #183 from sorensencc-dotcom:feat/retro-consolidate-weekly (Chris Sorensen)
+- d24a6365 - feat(retro): run inbox consolidator before the weekly report (Chris Sorensen)
+
 ## Version 2.99.1
 Date: 2026-10-19
 
