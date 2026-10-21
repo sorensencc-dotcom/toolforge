@@ -93,7 +93,7 @@ export function findStaleMiningSources(existingSources, packBaseName, categoryTi
   });
 }
 
-export const FALLBACK_PROTECTED_NOTEBOOK_IDS = [
+export const FALLBACK_MULTIPART_NOTEBOOK_IDS = [
   '1b4861a3-931f-4632-8fc1-343a8dd37df8', // Daily (multipart)
   '679b8bab-2d87-42cb-a726-6dc54c83acc2', // master-kb (multipart)
   '359b346c-6af7-4ba3-baef-b985c9e6e1af', // Agent Harness (multipart, master-written)
@@ -101,25 +101,37 @@ export const FALLBACK_PROTECTED_NOTEBOOK_IDS = [
 
 const DEFAULT_KB_SYNC_ROOT = 'C:\\dev\\kb-sync';
 
-// Every notebook in kb-sync's knowledge-plane registry is kb-sync-managed. Read at runtime so
-// a missing kb-sync checkout degrades to the hard-coded fallback set instead of breaking.
-export function loadProtectedNotebookIds(env = process.env, readFile = (p) => fs.readFileSync(p, 'utf8')) {
-  const ids = new Set(FALLBACK_PROTECTED_NOTEBOOK_IDS);
+function isMultipartRegistryEntry(nb) {
+  return nb?.multipart === true || Number(nb?.expected_parts) > 1;
+}
+
+// Only notebooks kb-sync marks multipart are skipped; single-pack registry notebooks keep syncing.
+// Read at runtime so a missing kb-sync checkout degrades to the hard-coded fallback set.
+export function loadMultipartNotebookIds(env = process.env, readFile = (p) => fs.readFileSync(p, 'utf8')) {
+  const ids = new Set(FALLBACK_MULTIPART_NOTEBOOK_IDS);
   const manifestPath = env.KB_SYNC_MANIFEST_PATH
     || path.join(env.KB_SYNC_ROOT || DEFAULT_KB_SYNC_ROOT, 'state', 'knowledge-plane-notebooks.json');
   try {
     const manifest = JSON.parse(readFile(manifestPath));
     for (const cluster of Object.values(manifest.clusters || {})) {
       for (const nb of cluster?.notebooks || []) {
-        if (nb?.uuid) ids.add(String(nb.uuid).toLowerCase());
+        if (nb?.uuid && isMultipartRegistryEntry(nb)) ids.add(String(nb.uuid).toLowerCase());
       }
     }
   } catch (_) {}
   return ids;
 }
 
-export function isProtectedNotebook(notebookId, protectedIds) {
-  return protectedIds.has(String(notebookId || '').toLowerCase());
+export function isMultipartNotebook(notebookId, multipartIds) {
+  return multipartIds.has(String(notebookId || '').toLowerCase());
+}
+
+export function hasMultipartSources(sources, packBaseName) {
+  const packStem = (packBaseName || '').replace(/\.txt$/, '').toLowerCase();
+  return (sources || []).some(s => {
+    const title = sourceTitle(s).toLowerCase();
+    return PART_TITLE_RE.test(title) && matchesStem(title, packStem);
+  });
 }
 
 const sourceTitle = (s) => (s.title || s.name || '').trim();
@@ -139,6 +151,9 @@ export function syncPackToNotebook({ targetUuid, packFile, packTitle, categoryTi
     before = deps.listSources(targetUuid);
   } catch (e) {
     return { ok: false, reason: 'list_failed', error: e.message };
+  }
+  if (hasMultipartSources(before, packBaseName)) {
+    return { ok: true, skipped: true, reason: 'multipart-managed' };
   }
   const beforeIds = new Set(before.map(s => s.id));
   const staleSources = findStaleMiningSources(before, packBaseName, categoryTitle);
@@ -200,7 +215,7 @@ export async function runDailyMiningPipeline(options = {}) {
   const maxRetries = options.nlmRetries || 3;
   const backoffMs = options.nlmBackoffMs || 3000;
   const deps = options.nlmDeps || nlmDeps;
-  const protectedIds = options.protectedNotebookIds || loadProtectedNotebookIds();
+  const multipartIds = options.multipartNotebookIds || loadMultipartNotebookIds();
   const sleep = options.sleep || ((ms) => execSync(`node -e "setTimeout(() => {}, ${ms})"`));
 
   const startTime = Date.now();
@@ -274,10 +289,10 @@ export async function runDailyMiningPipeline(options = {}) {
 
     logInfo(`\n>>> Processing Category: [${catName}] (Target: ${targetUuid})`);
 
-    if (isProtectedNotebook(targetUuid, protectedIds)) {
-      logWarn(`  Notebook ${targetUuid} is kb-sync-managed (multipart). Skipping category.`);
-      emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: 'kb-sync-managed' });
-      categoryResults.push({ category: catName, status: 'skipped', reason: 'kb-sync-managed' });
+    if (isMultipartNotebook(targetUuid, multipartIds)) {
+      logWarn(`  Notebook ${targetUuid} is multipart (kb-sync-managed). Skipping category.`);
+      emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: 'multipart-managed' });
+      categoryResults.push({ category: catName, status: 'skipped', reason: 'multipart-managed' });
       continue;
     }
 
@@ -340,7 +355,11 @@ export async function runDailyMiningPipeline(options = {}) {
         }
       }
 
-      if (result.ok) {
+      if (result.skipped) {
+        logWarn(`  Notebook ${targetUuid} has live multipart sources. Skipped without upload or delete.`);
+        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: result.reason });
+        categoryResults.push({ category: catName, status: 'skipped', reason: result.reason });
+      } else if (result.ok) {
         logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
         emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { attempt, pruned: result.pruned });
         categoryResults.push({ category: catName, status: 'synced', attempts: attempt, durationMs: Date.now() - catStartTime });

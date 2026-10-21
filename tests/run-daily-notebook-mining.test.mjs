@@ -4,8 +4,8 @@ import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {
   findStaleMiningSources,
-  isProtectedNotebook,
-  loadProtectedNotebookIds,
+  isMultipartNotebook,
+  loadMultipartNotebookIds,
   syncPackToNotebook,
   validateDAGSequence,
 } from '../scripts/run-daily-notebook-mining.mjs';
@@ -160,41 +160,90 @@ test('findStaleMiningSources uses stem boundaries, not substring', () => {
   assert.deepEqual(matched.map(s => s.id), ['b', 'c']);
 });
 
-test('protected set includes fallback IDs when the kb-sync manifest is missing', () => {
-  const ids = loadProtectedNotebookIds({ KB_SYNC_MANIFEST_PATH: '/nope/missing.json' }, () => { throw new Error('ENOENT'); });
+test('multipart set includes fallback IDs when the kb-sync manifest is missing', () => {
+  const ids = loadMultipartNotebookIds({ KB_SYNC_MANIFEST_PATH: '/nope/missing.json' }, () => { throw new Error('ENOENT'); });
   for (const id of [DAILY_ID, '679b8bab-2d87-42cb-a726-6dc54c83acc2', '359b346c-6af7-4ba3-baef-b985c9e6e1af']) {
-    assert.equal(isProtectedNotebook(id, ids), true);
+    assert.equal(isMultipartNotebook(id, ids), true);
   }
-  assert.equal(isProtectedNotebook('unrelated-id', ids), false);
+  assert.equal(isMultipartNotebook('unrelated-id', ids), false);
 });
 
-test('protected set adds every notebook from the kb-sync registry', () => {
-  const manifest = JSON.stringify({ clusters: { c1: { notebooks: [{ uuid: 'ABC-123' }, { uuid: 'def-456' }] } } });
-  const ids = loadProtectedNotebookIds({ KB_SYNC_MANIFEST_PATH: '/m.json' }, () => manifest);
-  assert.equal(isProtectedNotebook('abc-123', ids), true);
-  assert.equal(isProtectedNotebook('def-456', ids), true);
-  assert.equal(isProtectedNotebook(DAILY_ID, ids), true);
+test('registry notebooks marked multipart (multipart:true or expected_parts>1) are skipped', () => {
+  const manifest = JSON.stringify({
+    clusters: {
+      c1: { notebooks: [{ uuid: 'ABC-123', multipart: true }, { uuid: 'def-456', expected_parts: 3 }] },
+    },
+  });
+  const ids = loadMultipartNotebookIds({ KB_SYNC_MANIFEST_PATH: '/m.json' }, () => manifest);
+  assert.equal(isMultipartNotebook('abc-123', ids), true);
+  assert.equal(isMultipartNotebook('def-456', ids), true);
+  assert.equal(isMultipartNotebook(DAILY_ID, ids), true);
 });
 
-test('syncPackToNotebook leaves a 21-part Daily notebook intact and removes only the old monolith', () => {
+test('single-pack registry notebooks are not treated as multipart', () => {
+  const manifest = JSON.stringify({
+    clusters: {
+      c1: {
+        notebooks: [
+          { uuid: 'personal-os-id' },
+          { uuid: 'modules-id', multipart: false, expected_parts: 1 },
+        ],
+      },
+    },
+  });
+  const ids = loadMultipartNotebookIds({ KB_SYNC_MANIFEST_PATH: '/m.json' }, () => manifest);
+  assert.equal(isMultipartNotebook('personal-os-id', ids), false);
+  assert.equal(isMultipartNotebook('modules-id', ids), false);
+});
+
+test('syncPackToNotebook skips a notebook whose live sources include pack_daily_partN, with no upload or delete', () => {
   const nb = fakeNotebook([...partSources, { id: 'old-mono', title: 'pack_daily.txt' }]);
-  const result = syncPackToNotebook(syncArgs(nb.deps));
-  assert.equal(result.ok, true);
-  assert.deepEqual(nb.deleted, ['old-mono']);
-  assert.equal(nb.sources.filter(s => s.id.startsWith('part-')).length, 21);
-  assert.equal(nb.sources.some(s => s.id === 'new-1'), true);
-});
-
-test('syncPackToNotebook deletes nothing when only multipart sources exist', () => {
-  const nb = fakeNotebook(partSources);
-  const result = syncPackToNotebook(syncArgs(nb.deps));
-  assert.equal(result.ok, true);
+  let uploads = 0;
+  const deps = { ...nb.deps, uploadSource: (...a) => { uploads++; nb.deps.uploadSource(...a); } };
+  const result = syncPackToNotebook(syncArgs(deps));
+  assert.deepEqual(result, { ok: true, skipped: true, reason: 'multipart-managed' });
+  assert.equal(uploads, 0);
   assert.deepEqual(nb.deleted, []);
   assert.equal(nb.sources.length, 22);
 });
 
+test('syncPackToNotebook skips a notebook with only multipart sources', () => {
+  const nb = fakeNotebook(partSources);
+  const result = syncPackToNotebook(syncArgs(nb.deps));
+  assert.equal(result.skipped, true);
+  assert.deepEqual(nb.deleted, []);
+  assert.equal(nb.sources.length, 21);
+});
+
+test('syncPackToNotebook ignores part-titled sources from an unrelated pack family', () => {
+  const nb = fakeNotebook([{ id: 'other-part', title: 'pack_other_part1.txt' }, { id: 'old-mono', title: 'pack_daily.txt' }]);
+  const result = syncPackToNotebook(syncArgs(nb.deps));
+  assert.equal(result.ok, true);
+  assert.equal(result.skipped, undefined);
+  assert.deepEqual(nb.deleted, ['old-mono']);
+});
+
+test('syncPackToNotebook still uploads and prunes the old single pack for a single-pack notebook', () => {
+  const nb = fakeNotebook([
+    { id: 'old-pack', title: 'pack_personal_os.txt' },
+    { id: 'keep', title: 'Home Insurance Policy 2026.pdf' },
+  ]);
+  const result = syncPackToNotebook({
+    targetUuid: 'personal-os-id',
+    packFile: '/x/.nlm_pack/pack_personal_os.txt',
+    packTitle: 'Personal OS Pack',
+    categoryTitle: 'Personal OS',
+    deps: nb.deps,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.pruned, 1);
+  assert.deepEqual(nb.deleted, ['old-pack']);
+  assert.equal(nb.sources.some(s => s.id === 'new-1'), true);
+  assert.equal(nb.sources.some(s => s.id === 'keep'), true);
+});
+
 test('syncPackToNotebook deletes nothing when upload fails', () => {
-  const nb = fakeNotebook([...partSources, { id: 'old-mono', title: 'pack_daily.txt' }], { failUpload: true });
+  const nb = fakeNotebook([{ id: 'old-mono', title: 'pack_daily.txt' }], { failUpload: true });
   const result = syncPackToNotebook(syncArgs(nb.deps));
   assert.equal(result.ok, false);
   assert.equal(result.reason, 'upload_failed');
