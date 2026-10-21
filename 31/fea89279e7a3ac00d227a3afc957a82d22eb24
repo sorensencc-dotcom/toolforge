@@ -1,0 +1,19 @@
+scripts/daemon-healer-bot.mjs
+  s_ec28c71dfa5ac3::t_f4703d38a4439a 26,315-320
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "31fea89279e7a3ac00d227a3afc957a82d22eb24",
+  "prompts": {},
+  "sessions": {
+    "s_ec28c71dfa5ac3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8d19aa43-7b20-48d6-9c1e-60b2da225984",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
