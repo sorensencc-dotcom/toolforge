@@ -152,3 +152,4 @@ graft/
 
 # Toolforge active memory database, one encrypted store per workspace. Never commit it.
 .toolforge/
+coverage/
