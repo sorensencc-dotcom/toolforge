@@ -13,25 +13,15 @@ const EDITS_FILE = '.ijfw/.session-edits.jsonl';
 const WORK_DIR = path.join(__dirname, 'test-workdir');
 
 function runHook(env = {}) {
-  // Use `node --experimental-default-type=commonjs` to execute it without changing the file
-  const result = spawnSync('node', ['--experimental-default-type=commonjs', HOOK_PATH], {
+  // The hook is CommonJS; copy it to .cjs so it runs regardless of the repo's package type.
+  fs.mkdirSync(WORK_DIR, { recursive: true });
+  const cjsPath = path.join(WORK_DIR, 'hook.cjs');
+  fs.copyFileSync(HOOK_PATH, cjsPath);
+  const result = spawnSync(process.execPath, [cjsPath], {
     env: { ...process.env, ...env },
     cwd: WORK_DIR,
     encoding: 'utf8'
   });
-
-  // Note: if that fails in older node, we could copy it to a .cjs file in the temp dir instead
-  if (result.stderr.includes('require is not defined')) {
-     const cjsPath = path.join(WORK_DIR, 'hook.cjs');
-     fs.copyFileSync(HOOK_PATH, cjsPath);
-     const result2 = spawnSync('node', [cjsPath], {
-       env: { ...process.env, ...env },
-       cwd: WORK_DIR,
-       encoding: 'utf8'
-     });
-     return { status: result2.status, output: result2.stdout || '', stderr: result2.stderr || '' };
-  }
-
   return { status: result.status, output: result.stdout || '', stderr: result.stderr || '' };
 }
 
