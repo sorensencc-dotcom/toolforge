@@ -41,6 +41,21 @@ const CONFIG = {
 const SKIP_MESSAGE =
   'Load test requires provisioned PG — set DATABASE_URL to run. Skipping.';
 
+const MAX_QUERY_PARAMS = 65_535;
+
+export function batchValues(values, params, paramsPerRow) {
+  const maxRows = Math.max(1, Math.floor(MAX_QUERY_PARAMS / paramsPerRow));
+  const batches = [];
+  for (let start = 0; start < values.length; start += maxRows) {
+    const end = Math.min(start + maxRows, values.length);
+    batches.push({
+      values: values.slice(start, end),
+      params: params.slice(start * paramsPerRow, end * paramsPerRow),
+    });
+  }
+  return batches;
+}
+
 function intEnv(name, fallback) {
   const raw = process.env[name];
   if (raw === undefined || raw === '') return fallback;
@@ -167,11 +182,13 @@ async function seed(db, runId) {
         values.push(`($${p + 1}, $${p + 2}, $${p + 3}, 'success', NOW() - ($${p + 4} || ' days')::interval)`);
         params.push(skillId, versionId, uid, String(daysAgo));
       }
-      await db.query(
-        `INSERT INTO installation_log (skill_id, version_id, user_id, status, timestamp)
-         VALUES ${values.join(',')}`,
-        params
-      );
+      for (const batch of batchValues(values, params, 4)) {
+        await db.query(
+          `INSERT INTO installation_log (skill_id, version_id, user_id, status, timestamp)
+           VALUES ${batch.values.join(',')}`,
+          batch.params
+        );
+      }
     }
     for (let r = 0; r < CONFIG.seedRatingsPerSkill; r++) {
       const uid = `${runId}-r${s}-${r}@load.local`;
