@@ -1,5 +1,22 @@
 # Changelog
 
+## Version 2.103.0
+Date: 2026-10-21
+
+### Changes
+- 70fef923 - Merge pull request #203 from sorensencc-dotcom/perf/optimize-blend-loop-8205037533533266870 (Chris Sorensen)
+- d5400026 - Merge pull request #201 from sorensencc-dotcom/jules-test-improvement-skill-security-auditor-10741383535133071462 (Chris Sorensen)
+- e688bdcf - Merge pull request #200 from sorensencc-dotcom/test-improvement/signal-strength-9460087693583168982 (Chris Sorensen)
+- 309572a7 - Merge pull request #198 from sorensencc-dotcom/implement-embedding-dimension-validation-12640348215107979884 (Chris Sorensen)
+- e5a2d987 - Merge pull request #197 from sorensencc-dotcom/fix/test-agent-dispatch-results-12093249204195215695 (Chris Sorensen)
+- 662fe9e3 - Merge pull request #205 from sorensencc-dotcom/fix-marketplace-load-n-plus-1-13015903514712833920 (Chris Sorensen)
+- b176b4df - perf(load-tests): batch inserts for faster seeding (google-labs-jules[bot])
+- b98e795b - perf: optimize blend computation in recommendation service (google-labs-jules[bot])
+- cfb8d4c3 - 🧪 Cover exception path in skill-security-auditor utility (google-labs-jules[bot])
+- 07423ab9 - Add test for empty hits array in deriveSignalStrength (google-labs-jules[bot])
+- b945ae02 - feat: implement embedding dimension validation and tests (google-labs-jules[bot])
+- 53baff64 - Add tests for write_result atomic creation (google-labs-jules[bot])
+
 ## Version 2.102.1
 Date: 2026-10-20
 
