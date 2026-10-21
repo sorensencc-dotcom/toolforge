@@ -157,13 +157,20 @@ async function seed(db, runId) {
   for (let s = 0; s < skillIds.length; s++) {
     const skillId = skillIds[s];
     const versionId = versionIds[s];
-    for (let k = 0; k < CONFIG.seedInstallsPerSkill; k++) {
-      const uid = `${runId}-u${Math.floor(Math.random() * CONFIG.users)}@load.local`;
-      const daysAgo = Math.floor(Math.random() * 14);
+    if (CONFIG.seedInstallsPerSkill > 0) {
+      const values = [];
+      const params = [];
+      for (let k = 0; k < CONFIG.seedInstallsPerSkill; k++) {
+        const uid = `${runId}-u${Math.floor(Math.random() * CONFIG.users)}@load.local`;
+        const daysAgo = Math.floor(Math.random() * 14);
+        const p = params.length;
+        values.push(`($${p + 1}, $${p + 2}, $${p + 3}, 'success', NOW() - ($${p + 4} || ' days')::interval)`);
+        params.push(skillId, versionId, uid, String(daysAgo));
+      }
       await db.query(
         `INSERT INTO installation_log (skill_id, version_id, user_id, status, timestamp)
-         VALUES ($1, $2, $3, 'success', NOW() - ($4 || ' days')::interval)`,
-        [skillId, versionId, uid, String(daysAgo)]
+         VALUES ${values.join(',')}`,
+        params
       );
     }
     for (let r = 0; r < CONFIG.seedRatingsPerSkill; r++) {
