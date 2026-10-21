@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.103.3
+Date: 2026-10-21
+
+### Changes
+- 675ca6db - Merge pull request #209 from sorensencc-dotcom/fix/token-budget-gate-test-node24 (Chris Sorensen)
+- c1b386ae - test(token-budget-gate): run hook as .cjs instead of removed --experimental-default-type flag (Chris Sorensen)
+
 ## Version 2.103.2
 Date: 2026-10-21
 
