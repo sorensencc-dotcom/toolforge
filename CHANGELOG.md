@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.103.1
+Date: 2026-10-21
+
+### Changes
+- 67ef85ce - Merge pull request #207 from sorensencc-dotcom/jules-token-budget-gate-test-6147880464960928059 (Chris Sorensen)
+- b62d734f - Merge pull request #206 from sorensencc-dotcom/fix-notebook-prompt-sync-coverage-3795333818641780947 (Chris Sorensen)
+- f49f3329 - 🧪 Add test for token-budget-gate gracefully handling malformed JSON (google-labs-jules[bot])
+- 0fe3dbc8 - 🧪 Add test coverage for notebook sync exception handling (google-labs-jules[bot])
+
 ## Version 2.103.0
 Date: 2026-10-21
 
