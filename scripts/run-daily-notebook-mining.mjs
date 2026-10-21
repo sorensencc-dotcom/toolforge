@@ -10,7 +10,6 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { loadCategoriesData } from '../kb-sync/core/config.mjs';
 import { appendToWikiLog } from './lib/wiki-log-append.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -55,6 +54,14 @@ export function validateDAGSequence(phases) {
   return true;
 }
 
+const PART_TITLE_RE = /[_-]part[_-]?[a-z0-9]+/i;
+
+// Mirrors kb-sync scripts/nlm-pack-replace-gate.mjs matchesPackFamily for the generic case.
+function matchesStem(title, stem) {
+  if (!stem) return false;
+  return title === stem || ['_', '.', '-'].some(sep => title.startsWith(stem + sep));
+}
+
 export function findStaleMiningSources(existingSources, packBaseName, categoryTitle = '') {
   const packStem = (packBaseName || '').replace(/\.txt$/, '').toLowerCase();
   const cleanCatTitle = (categoryTitle || '').trim().toLowerCase();
@@ -64,20 +71,21 @@ export function findStaleMiningSources(existingSources, packBaseName, categoryTi
     const rawName = (s.title || s.name || '').trim().toLowerCase();
     if (!rawName) return false;
 
-    // Matches pack filename stem (e.g., "pack_daily", "pack_ford_politics", "pack_personal_os")
-    if (packStem && rawName.includes(packStem)) return true;
+    // Multipart members (pack_daily_part1...) belong to kb-sync and are never stale here.
+    if (PART_TITLE_RE.test(rawName)) return false;
 
-    // Matches category pack title (e.g. "cic - daily research (buffer/intake) pack", "personal os (household, utilities, florida logistics) pack")
-    if (targetPackTitle && (rawName === targetPackTitle || rawName.includes(targetPackTitle))) return true;
+    // Matches pack filename stem (e.g., "pack_daily", "pack_daily.txt")
+    if (matchesStem(rawName, packStem)) return true;
 
-    // Matches exact category title or category title with "pack"
-    if (cleanCatTitle && (rawName === cleanCatTitle || (rawName.includes(cleanCatTitle) && rawName.includes('pack')))) return true;
+    // Matches category pack title or exact category title
+    if (targetPackTitle && rawName === targetPackTitle) return true;
+    if (cleanCatTitle && rawName === cleanCatTitle) return true;
 
-    // Matches legacy monolithic repo packs if in relevant notebook
-    if (rawName.includes('repo_knowledge_pack')) return true;
+    // Matches legacy monolithic repo packs
+    if (matchesStem(rawName, 'repo_knowledge_pack')) return true;
 
     // Matches master-kb variations
-    if (packStem.startsWith('pack_master_kb') && (rawName.includes('pack_master_kb') || rawName.includes('cic-kb pack'))) {
+    if (packStem.startsWith('pack_master_kb') && (matchesStem(rawName, 'pack_master_kb') || rawName === 'cic-kb pack')) {
       return true;
     }
 
@@ -85,11 +93,130 @@ export function findStaleMiningSources(existingSources, packBaseName, categoryTi
   });
 }
 
+export const FALLBACK_MULTIPART_NOTEBOOK_IDS = [
+  '1b4861a3-931f-4632-8fc1-343a8dd37df8', // Daily (multipart)
+  '679b8bab-2d87-42cb-a726-6dc54c83acc2', // master-kb (multipart)
+  '359b346c-6af7-4ba3-baef-b985c9e6e1af', // Agent Harness (multipart, master-written)
+];
+
+const DEFAULT_KB_SYNC_ROOT = 'C:\\dev\\kb-sync';
+
+function isMultipartRegistryEntry(nb) {
+  return nb?.multipart === true || Number(nb?.expected_parts) > 1;
+}
+
+// Only notebooks kb-sync marks multipart are skipped; single-pack registry notebooks keep syncing.
+// Read at runtime so a missing kb-sync checkout degrades to the hard-coded fallback set.
+export function loadMultipartNotebookIds(env = process.env, readFile = (p) => fs.readFileSync(p, 'utf8')) {
+  const ids = new Set(FALLBACK_MULTIPART_NOTEBOOK_IDS);
+  const manifestPath = env.KB_SYNC_MANIFEST_PATH
+    || path.join(env.KB_SYNC_ROOT || DEFAULT_KB_SYNC_ROOT, 'state', 'knowledge-plane-notebooks.json');
+  try {
+    const manifest = JSON.parse(readFile(manifestPath));
+    for (const cluster of Object.values(manifest.clusters || {})) {
+      for (const nb of cluster?.notebooks || []) {
+        if (nb?.uuid && isMultipartRegistryEntry(nb)) ids.add(String(nb.uuid).toLowerCase());
+      }
+    }
+  } catch (_) {}
+  return ids;
+}
+
+export function isMultipartNotebook(notebookId, multipartIds) {
+  return multipartIds.has(String(notebookId || '').toLowerCase());
+}
+
+export function hasMultipartSources(sources, packBaseName) {
+  const packStem = (packBaseName || '').replace(/\.txt$/, '').toLowerCase();
+  return (sources || []).some(s => {
+    const title = sourceTitle(s).toLowerCase();
+    return PART_TITLE_RE.test(title) && matchesStem(title, packStem);
+  });
+}
+
+const sourceTitle = (s) => (s.title || s.name || '').trim();
+
+/**
+ * Upload first, confirm the new source is present, then prune stale predecessors.
+ * deps: { listSources(id) -> [], uploadSource(id, file, title), deleteSource(sourceId) }.
+ * Never deletes anything unless the upload was confirmed, and never deletes the new source.
+ */
+export function syncPackToNotebook({ targetUuid, packFile, packTitle, categoryTitle, deps, log = {} }) {
+  const info = log.info || (() => {});
+  const warn = log.warn || (() => {});
+  const packBaseName = path.basename(packFile);
+
+  let before;
+  try {
+    before = deps.listSources(targetUuid);
+  } catch (e) {
+    return { ok: false, reason: 'list_failed', error: e.message };
+  }
+  if (hasMultipartSources(before, packBaseName)) {
+    return { ok: true, skipped: true, reason: 'multipart-managed' };
+  }
+  const beforeIds = new Set(before.map(s => s.id));
+  const staleSources = findStaleMiningSources(before, packBaseName, categoryTitle);
+
+  try {
+    deps.uploadSource(targetUuid, packFile, packTitle);
+  } catch (e) {
+    return { ok: false, reason: 'upload_failed', error: e.message };
+  }
+
+  let after;
+  try {
+    after = deps.listSources(targetUuid);
+  } catch (e) {
+    return { ok: false, reason: 'confirm_failed', error: e.message };
+  }
+  const added = after.filter(s => !beforeIds.has(s.id) && sourceTitle(s).toLowerCase() === packTitle.toLowerCase());
+  if (added.length === 0) {
+    return { ok: false, reason: 'upload_unconfirmed' };
+  }
+  const keepIds = new Set(added.map(s => s.id));
+  const afterIds = new Set(after.map(s => s.id));
+  const toPrune = staleSources.filter(s => !keepIds.has(s.id) && afterIds.has(s.id));
+
+  const failures = [];
+  if (toPrune.length > 0) info(`Pruning ${toPrune.length} stale previous version(s) after confirmed upload...`);
+  for (const stale of toPrune) {
+    try {
+      deps.deleteSource(stale.id);
+      info(`✓ Pruned prior source: ${stale.id} ("${sourceTitle(stale)}")`);
+    } catch (e) {
+      warn(`Failed to delete stale source ${stale.id}: ${e.message}`);
+      failures.push(stale.id);
+    }
+  }
+  if (failures.length > 0) {
+    return { ok: false, reason: 'prune_failed', failedDeletes: failures };
+  }
+  return { ok: true, pruned: toPrune.length };
+}
+
+const nlmDeps = {
+  listSources(id) {
+    const out = execSync(`nlm source list "${id}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+    const parsed = JSON.parse(out);
+    return Array.isArray(parsed) ? parsed : (parsed.sources || []);
+  },
+  uploadSource(id, file, title) {
+    execSync(`nlm source add "${id}" --file "${file}" --title "${title}" --wait`, { stdio: 'inherit' });
+  },
+  deleteSource(sourceId) {
+    execSync(`nlm source delete "${sourceId}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
+  },
+};
+
 export async function runDailyMiningPipeline(options = {}) {
   const isDryRun = options.dryRun || process.argv.includes('--dry-run');
   const simulatePackError = options.simulatePackError || process.argv.includes('--simulate-pack-error');
   const maxRetries = options.nlmRetries || 3;
   const backoffMs = options.nlmBackoffMs || 3000;
+  const deps = options.nlmDeps || nlmDeps;
+  const multipartIds = options.multipartNotebookIds || loadMultipartNotebookIds();
+  const sleep = options.sleep || ((ms) => execSync(`node -e "setTimeout(() => {}, ${ms})"`));
 
   const startTime = Date.now();
   const dateStr = new Date().toISOString().slice(0, 10);
@@ -116,6 +243,7 @@ export async function runDailyMiningPipeline(options = {}) {
   logInfo(`✓ Execution DAG validated: ${phases.join(' -> ')}`);
 
   // 3. Load Categories
+  const { loadCategoriesData } = await import('../kb-sync/core/config.mjs');
   const catData = loadCategoriesData();
   const categories = Object.entries(catData.categories || {});
   logInfo(`Loaded ${categories.length} canonical categories from categories.json.`);
@@ -161,6 +289,13 @@ export async function runDailyMiningPipeline(options = {}) {
 
     logInfo(`\n>>> Processing Category: [${catName}] (Target: ${targetUuid})`);
 
+    if (isMultipartNotebook(targetUuid, multipartIds)) {
+      logWarn(`  Notebook ${targetUuid} is multipart (kb-sync-managed). Skipping category.`);
+      emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: 'multipart-managed' });
+      categoryResults.push({ category: catName, status: 'skipped', reason: 'multipart-managed' });
+      continue;
+    }
+
     if (!fs.existsSync(packFile)) {
       logWarn(`  No pack file found at ${packFile}. Skipping category sync.`);
       emitTelemetryEvent(runId, dateStr, catName, 'validate-pack', 'skipped', { reason: 'no_pack_file' });
@@ -202,58 +337,36 @@ export async function runDailyMiningPipeline(options = {}) {
       emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'simulated_success');
       categoryResults.push({ category: catName, status: 'dry_run_success', durationMs: Date.now() - catStartTime });
     } else {
-      let uploadSuccess = false;
+      const packTitle = `${catDef.title} Pack`;
+      let result = { ok: false };
       let attempt = 0;
-      const packBaseName = path.basename(packFile);
-
-      // Query existing sources in target notebook to find previous versions of this pack
-      let existingSources = [];
-      try {
-        const out = execSync(`nlm source list "${targetUuid}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
-        const parsed = JSON.parse(out);
-        existingSources = Array.isArray(parsed) ? parsed : (parsed.sources || []);
-      } catch (e) {
-        logWarn(`  Could not query existing sources for notebook ${targetUuid}: ${e.message}`);
-      }
-      // Filter existing sources for previous versions of this pack (by filename stem or custom category title) or legacy monolithic packs
-      const staleSources = findStaleMiningSources(existingSources, packBaseName, catDef.title);
-
-      // Pre-upload deduplication sweep: prune prior instances of this pack before uploading
-      if (staleSources.length > 0) {
-        logInfo(`  Pruning ${staleSources.length} stale previous version(s) before upload...`);
-        for (const stale of staleSources) {
-          try {
-            execSync(`nlm source delete "${stale.id}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
-            logInfo(`  ✓ Pruned prior source: ${stale.id} ("${stale.title || stale.name}")`);
-          } catch (delErr) {
-            logWarn(`  Failed to delete stale source ${stale.id}: ${delErr.message}`);
-          }
-        }
-      }
-
-      while (attempt < maxRetries && !uploadSuccess) {
+      while (attempt < maxRetries) {
         attempt++;
-        try {
-          logInfo(`  Uploading pack to NotebookLM (Attempt ${attempt}/${maxRetries})...`);
-          execSync(`nlm source add "${targetUuid}" --file "${packFile}" --title "${catDef.title} Pack" --wait`, { stdio: 'inherit' });
-          uploadSuccess = true;
-          logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
-          emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { attempt });
-        } catch (uploadErr) {
-          logWarn(`  Upload attempt ${attempt} failed: ${uploadErr.message}`);
-          if (attempt < maxRetries) {
-            logInfo(`  Waiting ${backoffMs}ms before retry...`);
-            execSync(`node -e "setTimeout(() => {}, ${backoffMs})"`);
-          }
+        logInfo(`  Uploading pack to NotebookLM (Attempt ${attempt}/${maxRetries})...`);
+        result = syncPackToNotebook({
+          targetUuid, packFile, packTitle, categoryTitle: catDef.title, deps,
+          log: { info: (m) => logInfo(`  ${m}`), warn: (m) => logWarn(`  ${m}`) },
+        });
+        if (result.ok || result.reason === 'prune_failed') break;
+        logWarn(`  Sync attempt ${attempt} failed: ${result.reason}${result.error ? ` (${result.error})` : ''}`);
+        if (attempt < maxRetries) {
+          logInfo(`  Waiting ${backoffMs}ms before retry...`);
+          sleep(backoffMs);
         }
       }
 
-      if (uploadSuccess) {
+      if (result.skipped) {
+        logWarn(`  Notebook ${targetUuid} has live multipart sources. Skipped without upload or delete.`);
+        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: result.reason });
+        categoryResults.push({ category: catName, status: 'skipped', reason: result.reason });
+      } else if (result.ok) {
+        logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
+        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { attempt, pruned: result.pruned });
         categoryResults.push({ category: catName, status: 'synced', attempts: attempt, durationMs: Date.now() - catStartTime });
       } else {
-        logError(`  ✗ Failed to upload ${catName} after ${maxRetries} attempts.`);
-        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'failed', { max_attempts: maxRetries });
-        categoryResults.push({ category: catName, status: 'failed_upload' });
+        logError(`  ✗ Failed to sync ${catName}: ${result.reason}`);
+        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'failed', { max_attempts: maxRetries, reason: result.reason });
+        categoryResults.push({ category: catName, status: 'failed_upload', reason: result.reason });
       }
     }
   }
