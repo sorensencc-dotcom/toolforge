@@ -166,13 +166,20 @@ async function seed(db, runId) {
         [skillId, versionId, uid, String(daysAgo)]
       );
     }
-    for (let r = 0; r < CONFIG.seedRatingsPerSkill; r++) {
-      const uid = `${runId}-r${s}-${r}@load.local`;
+    if (CONFIG.seedRatingsPerSkill > 0) {
+      const values = [];
+      const params = [];
+      for (let r = 0; r < CONFIG.seedRatingsPerSkill; r++) {
+        const uid = `${runId}-r${s}-${r}@load.local`;
+        const p = params.length;
+        values.push(`($${p + 1}, $${p + 2}, $${p + 3}, 'load review')`);
+        params.push(skillId, uid, (r % 5) + 1);
+      }
       await db.query(
         `INSERT INTO ratings (skill_id, user_id, score, review_text)
-         VALUES ($1, $2, $3, 'load review')
+         VALUES ${values.join(',')}
          ON CONFLICT (skill_id, user_id) DO NOTHING`,
-        [skillId, uid, (r % 5) + 1]
+        params
       );
     }
   }
