@@ -112,6 +112,7 @@ test('daemon-healer-bot runs in check-only mode and writes valid telemetry', () 
   assert.ok(typeof report.status === 'string');
   assert.equal(report.dryRun, true);
   assert.equal(report.targetApiUrl, 'http://127.0.0.1:8080/api/reporting/trm-backlog');
+  assert.match(fs.readFileSync(scriptPath, 'utf8'), /\.restart-dashboard/);
 });
 
 test('node-process-janitor protects active service daemon ports and classifies icf/src/server.mjs as dashboard-server', () => {

@@ -23,6 +23,7 @@ const TARGET_DASHBOARD_URL = 'http://127.0.0.1:8080/dashboard';
 const TARGET_API_URL = 'http://127.0.0.1:8080/api/reporting/trm-backlog';
 const ICF_SERVER_PATH = path.resolve(REPO_ROOT, 'icf', 'src', 'server.mjs');
 const ICF_DIR = path.resolve(REPO_ROOT, 'icf');
+const RESTART_FLAG_PATH = path.resolve(REPO_ROOT, '.restart-dashboard');
 
 const SIGIL_DIR = path.resolve(REPO_ROOT, 'sigil-repo');
 const SIGIL_ROOMS_DIR = path.resolve(SIGIL_DIR, 'packages', 'sigil-rooms-web');
@@ -311,7 +312,12 @@ async function runDaemonHealer() {
   console.log(`  - Sigil Rooms ${TARGET_SIGIL_ROOMS_URL} -> Status: ${initialSigilRoomsProbe.statusCode || initialSigilRoomsProbe.error} (ok: ${initialSigilRoomsProbe.ok})`);
 
   // 3. Heal ICF
-  if (initialProbe.ok) {
+  const forceRestart = !isCheckOnly && !isDryRun && fsSync.existsSync(RESTART_FLAG_PATH);
+  if (forceRestart) {
+    try { fsSync.unlinkSync(RESTART_FLAG_PATH); } catch {}
+    console.log(`[Daemon-Healer] .restart-dashboard flag detected. Forcing clean ICF daemon restart...`);
+  }
+  if (initialProbe.ok && !forceRestart) {
     if (!isCheckOnly && !isDryRun) {
       consecutiveHeals = 0;
       thrashCooldownActive = false;
