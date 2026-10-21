@@ -3,6 +3,15 @@
  * Reconciles vector database state with canonical knowledge base
  */
 
+export function validateEmbedding(embedding: number[], expectedDimension: number = 1536): void {
+  if (!Array.isArray(embedding)) {
+    throw new Error("Invalid embedding: must be an array");
+  }
+  if (embedding.length !== expectedDimension) {
+    throw new Error(`Invalid embedding dimension: expected ${expectedDimension}, got ${embedding.length}`);
+  }
+}
+
 export async function main(input: {
   storeId?: string;
   dryRun?: boolean;
