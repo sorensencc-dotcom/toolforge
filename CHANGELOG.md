@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.103.2
+Date: 2026-10-21
+
+### Changes
+- 3b6792b8 - Merge pull request #208 from sorensencc-dotcom/fix/mining-protect-multipart-packs (Chris Sorensen)
+- 0ff47e56 - fix(mining): skip only multipart notebooks; keep single-pack syncing (Chris Sorensen)
+- e797aa38 - fix(mining): never delete multipart/kb-sync-managed pack sources; upload-confirm-then-prune (Chris Sorensen)
+
 ## Version 2.103.1
 Date: 2026-10-21
 
