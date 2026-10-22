@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.103.4
+Date: 2026-10-22
+
+### Changes
+- 01ce987f - Merge pull request #210 from sorensencc-dotcom/fix/mining-thin-caller (Chris Sorensen)
+- 789a077e - fix(mining): delegate pack sync to kb-sync replaceSinglePack with atomic quarantine and no orphan retries (Chris Sorensen)
+
 ## Version 2.103.3
 Date: 2026-10-21
 
