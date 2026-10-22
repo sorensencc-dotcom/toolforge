@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.103.5
+Date: 2026-10-22
+
+### Changes
+- 92402f09 - Merge pull request #211 from sorensencc-dotcom/fix/mining-dead-retry-test (Chris Sorensen)
+- cf03d185 - refactor(mining): extract runPackSync, drop dead retry and legacy sync code (Chris Sorensen)
+
 ## Version 2.103.4
 Date: 2026-10-22
 
