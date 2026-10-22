@@ -61,45 +61,6 @@ export function validateDAGSequence(phases) {
   return true;
 }
 
-const PART_TITLE_RE = /[_-]part[_-]?[a-z0-9]+/i;
-
-// Mirrors kb-sync scripts/nlm-pack-replace-gate.mjs matchesPackFamily for the generic case.
-function matchesStem(title, stem) {
-  if (!stem) return false;
-  return title === stem || ['_', '.', '-'].some(sep => title.startsWith(stem + sep));
-}
-
-export function findStaleMiningSources(existingSources, packBaseName, categoryTitle = '') {
-  const packStem = (packBaseName || '').replace(/\.txt$/, '').toLowerCase();
-  const cleanCatTitle = (categoryTitle || '').trim().toLowerCase();
-  const targetPackTitle = cleanCatTitle ? `${cleanCatTitle} pack` : '';
-
-  return (existingSources || []).filter(s => {
-    const rawName = (s.title || s.name || '').trim().toLowerCase();
-    if (!rawName) return false;
-
-    // Multipart members (pack_daily_part1...) belong to kb-sync and are never stale here.
-    if (PART_TITLE_RE.test(rawName)) return false;
-
-    // Matches pack filename stem (e.g., "pack_daily", "pack_daily.txt")
-    if (matchesStem(rawName, packStem)) return true;
-
-    // Matches category pack title or exact category title
-    if (targetPackTitle && rawName === targetPackTitle) return true;
-    if (cleanCatTitle && rawName === cleanCatTitle) return true;
-
-    // Matches legacy monolithic repo packs
-    if (matchesStem(rawName, 'repo_knowledge_pack')) return true;
-
-    // Matches master-kb variations
-    if (packStem.startsWith('pack_master_kb') && (matchesStem(rawName, 'pack_master_kb') || rawName === 'cic-kb pack')) {
-      return true;
-    }
-
-    return false;
-  });
-}
-
 export const FALLBACK_MULTIPART_NOTEBOOK_IDS = [
   '1b4861a3-931f-4632-8fc1-343a8dd37df8', // Daily (multipart)
   '679b8bab-2d87-42cb-a726-6dc54c83acc2', // master-kb (multipart)
@@ -133,97 +94,25 @@ export function isMultipartNotebook(notebookId, multipartIds) {
   return multipartIds.has(String(notebookId || '').toLowerCase());
 }
 
-export function hasMultipartSources(sources, packBaseName) {
-  const packStem = (packBaseName || '').replace(/\.txt$/, '').toLowerCase();
-  return (sources || []).some(s => {
-    const title = sourceTitle(s).toLowerCase();
-    return PART_TITLE_RE.test(title) && matchesStem(title, packStem);
-  });
-}
-
-const sourceTitle = (s) => (s.title || s.name || '').trim();
-
 /**
- * Upload first, confirm the new source is present, then prune stale predecessors.
- * deps: { listSources(id) -> [], uploadSource(id, file, title), deleteSource(sourceId) }.
- * Never deletes anything unless the upload was confirmed, and never deletes the new source.
+ * Maps a syncPackFn (kb-sync replaceSinglePack contract) outcome to a pipeline result.
+ * Never retries: replaceSinglePack fails closed and cleans up its own upload.
  */
-export function syncPackToNotebook({ targetUuid, packFile, packTitle, categoryTitle, deps, log = {} }) {
-  const info = log.info || (() => {});
-  const warn = log.warn || (() => {});
-  const packBaseName = path.basename(packFile);
-
-  let before;
+export async function runPackSync({ syncPackFn, notebookId, packFile, logInfo, logWarn }) {
   try {
-    before = deps.listSources(targetUuid);
-  } catch (e) {
-    return { ok: false, reason: 'list_failed', error: e.message };
+    const res = await syncPackFn({ notebookId, packFile, logInfo, logWarn });
+    if (res.skipped) return { ok: true, skipped: true, reason: res.reason };
+    if (res.success) return { ok: true, pruned: (res.purgedOldSourceIds || []).length };
+    return { ok: false, reason: 'replace_gate_failed' };
+  } catch (gateErr) {
+    return { ok: false, reason: gateErr.message };
   }
-  if (hasMultipartSources(before, packBaseName)) {
-    return { ok: true, skipped: true, reason: 'multipart-managed' };
-  }
-  const beforeIds = new Set(before.map(s => s.id));
-  const staleSources = findStaleMiningSources(before, packBaseName, categoryTitle);
-
-  try {
-    deps.uploadSource(targetUuid, packFile, packTitle);
-  } catch (e) {
-    return { ok: false, reason: 'upload_failed', error: e.message };
-  }
-
-  let after;
-  try {
-    after = deps.listSources(targetUuid);
-  } catch (e) {
-    return { ok: false, reason: 'confirm_failed', error: e.message };
-  }
-  const added = after.filter(s => !beforeIds.has(s.id) && sourceTitle(s).toLowerCase() === packTitle.toLowerCase());
-  if (added.length === 0) {
-    return { ok: false, reason: 'upload_unconfirmed' };
-  }
-  const keepIds = new Set(added.map(s => s.id));
-  const afterIds = new Set(after.map(s => s.id));
-  const toPrune = staleSources.filter(s => !keepIds.has(s.id) && afterIds.has(s.id));
-
-  const failures = [];
-  if (toPrune.length > 0) info(`Pruning ${toPrune.length} stale previous version(s) after confirmed upload...`);
-  for (const stale of toPrune) {
-    try {
-      deps.deleteSource(stale.id);
-      info(`✓ Pruned prior source: ${stale.id} ("${sourceTitle(stale)}")`);
-    } catch (e) {
-      warn(`Failed to delete stale source ${stale.id}: ${e.message}`);
-      failures.push(stale.id);
-    }
-  }
-  if (failures.length > 0) {
-    return { ok: false, reason: 'prune_failed', failedDeletes: failures };
-  }
-  return { ok: true, pruned: toPrune.length };
 }
-
-const nlmDeps = {
-  listSources(id) {
-    const out = execSync(`nlm source list "${id}" --json`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
-    const parsed = JSON.parse(out);
-    return Array.isArray(parsed) ? parsed : (parsed.sources || []);
-  },
-  uploadSource(id, file, title) {
-    execSync(`nlm source add "${id}" --file "${file}" --title "${title}" --wait`, { stdio: 'inherit' });
-  },
-  deleteSource(sourceId) {
-    execSync(`nlm source delete "${sourceId}" -y`, { stdio: ['pipe', 'pipe', 'pipe'] });
-  },
-};
 
 export async function runDailyMiningPipeline(options = {}) {
   const isDryRun = options.dryRun || process.argv.includes('--dry-run');
   const simulatePackError = options.simulatePackError || process.argv.includes('--simulate-pack-error');
-  const maxRetries = options.nlmRetries || 3;
-  const backoffMs = options.nlmBackoffMs || 3000;
-  const deps = options.nlmDeps || nlmDeps;
   const multipartIds = options.multipartNotebookIds || loadMultipartNotebookIds();
-  const sleep = options.sleep || ((ms) => execSync(`node -e "setTimeout(() => {}, ${ms})"`));
   const syncPackFn = options.syncPackFn || defaultSyncPack;
 
   const startTime = Date.now();
@@ -345,26 +234,13 @@ export async function runDailyMiningPipeline(options = {}) {
       emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'simulated_success');
       categoryResults.push({ category: catName, status: 'dry_run_success', durationMs: Date.now() - catStartTime });
     } else {
-      let result = { ok: false };
-      try {
-        const replaceRes = await syncPackFn({
-          notebookId: targetUuid,
-          packFile,
-          logInfo: (m) => logInfo(`  ${m}`),
-          logWarn: (m) => logWarn(`  ${m}`),
-        });
-        if (replaceRes.skipped) {
-          result = { ok: true, skipped: true, reason: replaceRes.reason };
-        } else if (replaceRes.success) {
-          result = { ok: true, pruned: (replaceRes.purgedOldSourceIds || []).length };
-        } else {
-          result = { ok: false, reason: 'replace_gate_failed' };
-        }
-      } catch (gateErr) {
-        // replacePackFamilyAtomic quarantine preserves old generation and cleans up any newly-uploaded orphan.
-        // Never retry: replaceSinglePack fails closed cleanly.
-        result = { ok: false, reason: gateErr.message };
-      }
+      const result = await runPackSync({
+        syncPackFn,
+        notebookId: targetUuid,
+        packFile,
+        logInfo: (m) => logInfo(`  ${m}`),
+        logWarn: (m) => logWarn(`  ${m}`),
+      });
 
       if (result.skipped) {
         logWarn(`  Notebook ${targetUuid} skipped (${result.reason}). No upload or delete.`);
@@ -373,7 +249,7 @@ export async function runDailyMiningPipeline(options = {}) {
       } else if (result.ok) {
         logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
         emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { pruned: result.pruned });
-        categoryResults.push({ category: catName, status: 'synced', attempts: 1, durationMs: Date.now() - catStartTime });
+        categoryResults.push({ category: catName, status: 'synced', durationMs: Date.now() - catStartTime });
       } else {
         logError(`  ✗ Failed to sync ${catName}: ${result.reason}`);
         emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'failed', { reason: result.reason });
