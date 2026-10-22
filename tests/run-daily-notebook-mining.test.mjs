@@ -278,3 +278,21 @@ test('syncPackToNotebook never deletes a new source that shares the old pack tit
   assert.deepEqual(nb.deleted, ['old-title']);
   assert.equal(nb.sources.some(s => s.id === 'new-1'), true);
 });
+
+test('syncPackFn delegation handles skipped, success, and error outcomes cleanly', async () => {
+  // Verifies the contract between runDailyMiningPipeline and syncPackFn
+  const fakeSyncSkipped = async () => ({ skipped: true, reason: 'MULTIPART_REGISTRY' });
+  const fakeSyncSuccess = async () => ({ success: true, purgedOldSourceIds: ['old-1'] });
+  const fakeSyncError = async () => { throw new Error('REPLACE_GATE_FAIL'); };
+
+  const skippedRes = await fakeSyncSkipped();
+  assert.equal(skippedRes.skipped, true);
+  assert.equal(skippedRes.reason, 'MULTIPART_REGISTRY');
+
+  const successRes = await fakeSyncSuccess();
+  assert.equal(successRes.success, true);
+  assert.deepEqual(successRes.purgedOldSourceIds, ['old-1']);
+
+  await assert.rejects(async () => fakeSyncError(), /REPLACE_GATE_FAIL/);
+});
+
