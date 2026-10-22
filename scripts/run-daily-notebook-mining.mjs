@@ -9,8 +9,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { appendToWikiLog } from './lib/wiki-log-append.mjs';
+
+// Lazily load replaceSinglePack from kb-sync/scripts/nlm-pack-replace-gate.mjs
+async function defaultSyncPack(args) {
+  const gatePath = path.join(ROOT_DIR, 'kb-sync', 'scripts', 'nlm-pack-replace-gate.mjs');
+  const { replaceSinglePack } = await import(pathToFileURL(gatePath).href);
+  return replaceSinglePack(args);
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -217,6 +224,7 @@ export async function runDailyMiningPipeline(options = {}) {
   const deps = options.nlmDeps || nlmDeps;
   const multipartIds = options.multipartNotebookIds || loadMultipartNotebookIds();
   const sleep = options.sleep || ((ms) => execSync(`node -e "setTimeout(() => {}, ${ms})"`));
+  const syncPackFn = options.syncPackFn || defaultSyncPack;
 
   const startTime = Date.now();
   const dateStr = new Date().toISOString().slice(0, 10);
@@ -337,35 +345,38 @@ export async function runDailyMiningPipeline(options = {}) {
       emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'simulated_success');
       categoryResults.push({ category: catName, status: 'dry_run_success', durationMs: Date.now() - catStartTime });
     } else {
-      const packTitle = `${catDef.title} Pack`;
       let result = { ok: false };
-      let attempt = 0;
-      while (attempt < maxRetries) {
-        attempt++;
-        logInfo(`  Uploading pack to NotebookLM (Attempt ${attempt}/${maxRetries})...`);
-        result = syncPackToNotebook({
-          targetUuid, packFile, packTitle, categoryTitle: catDef.title, deps,
-          log: { info: (m) => logInfo(`  ${m}`), warn: (m) => logWarn(`  ${m}`) },
+      try {
+        const replaceRes = await syncPackFn({
+          notebookId: targetUuid,
+          packFile,
+          logInfo: (m) => logInfo(`  ${m}`),
+          logWarn: (m) => logWarn(`  ${m}`),
         });
-        if (result.ok || result.reason === 'prune_failed') break;
-        logWarn(`  Sync attempt ${attempt} failed: ${result.reason}${result.error ? ` (${result.error})` : ''}`);
-        if (attempt < maxRetries) {
-          logInfo(`  Waiting ${backoffMs}ms before retry...`);
-          sleep(backoffMs);
+        if (replaceRes.skipped) {
+          result = { ok: true, skipped: true, reason: replaceRes.reason };
+        } else if (replaceRes.success) {
+          result = { ok: true, pruned: (replaceRes.purgedOldSourceIds || []).length };
+        } else {
+          result = { ok: false, reason: 'replace_gate_failed' };
         }
+      } catch (gateErr) {
+        // replacePackFamilyAtomic quarantine preserves old generation and cleans up any newly-uploaded orphan.
+        // Never retry: replaceSinglePack fails closed cleanly.
+        result = { ok: false, reason: gateErr.message };
       }
 
       if (result.skipped) {
-        logWarn(`  Notebook ${targetUuid} has live multipart sources. Skipped without upload or delete.`);
+        logWarn(`  Notebook ${targetUuid} skipped (${result.reason}). No upload or delete.`);
         emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: result.reason });
         categoryResults.push({ category: catName, status: 'skipped', reason: result.reason });
       } else if (result.ok) {
         logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
-        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { attempt, pruned: result.pruned });
-        categoryResults.push({ category: catName, status: 'synced', attempts: attempt, durationMs: Date.now() - catStartTime });
+        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { pruned: result.pruned });
+        categoryResults.push({ category: catName, status: 'synced', attempts: 1, durationMs: Date.now() - catStartTime });
       } else {
         logError(`  ✗ Failed to sync ${catName}: ${result.reason}`);
-        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'failed', { max_attempts: maxRetries, reason: result.reason });
+        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'failed', { reason: result.reason });
         categoryResults.push({ category: catName, status: 'failed_upload', reason: result.reason });
       }
     }
