@@ -1,0 +1,29 @@
+tests/review-command.test.mjs
+  s_7e3bdbbc19215a::t_af7fd80d379196 18-19
+modules/review/routing.ts
+  s_7e3bdbbc19215a::t_7e4f14dda2b937 37
+  s_7e3bdbbc19215a::t_3e16254018a5e8 29-30,40-43,46-50,55-73,75,84-85,90,92-98,100,102-103
+  s_7e3bdbbc19215a::t_b762d1d5bb2146 38,99,101
+  s_7e3bdbbc19215a::t_9724e6940a5c26 39
+modules/review/routing.test.ts
+  s_7e3bdbbc19215a::t_333767af15ad39 62-88,121-132,218-220
+  s_7e3bdbbc19215a::t_ddd758e4eb5a3a 221-222
+AGENTS.md
+  s_7e3bdbbc19215a::t_3378e2859e0c0b 207,277-285
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6bef2ff2b984565d51bcd4ca0a949743f4f4b173",
+  "prompts": {},
+  "sessions": {
+    "s_7e3bdbbc19215a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "89a3f79c-77ed-4350-bbc3-0c14584e675a",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
