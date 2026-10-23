@@ -1,0 +1,25 @@
+modules/review/adversarial-review.test.ts
+  s_ae298c02f15bce::t_e739df2f51c65c 148-153,190-191
+docs/meta/specs/adversarial-dual-model-review-spec.md
+  s_ae298c02f15bce::t_638bd486c26b9a 3
+modules/review/adversarial-review.ts
+  s_ae298c02f15bce::t_638bd486c26b9a 101-102,131-132
+package.json
+  s_ae298c02f15bce::t_638bd486c26b9a 42-43,56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7bc9afa29e8dc82140413c523724f382140a5169",
+  "prompts": {},
+  "sessions": {
+    "s_ae298c02f15bce": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f4971ad-315e-4672-9600-6c923f685f2e",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
