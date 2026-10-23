@@ -1,0 +1,27 @@
+.ijfw/memory/project-journal.md
+  s_7e3bdbbc19215a::t_733e6b1c539023 271-272
+AGENTS.md
+  s_7e3bdbbc19215a::t_8ef1adf4d2b1c0 145-168,231,301-309
+modules/review/anthropic-provider.ts
+  s_7e3bdbbc19215a::t_8f5c7e3fd8bb86 5,48-49
+modules/review/openai-provider.ts
+  s_7e3bdbbc19215a::t_acfd5ecc21271b 5,46-47
+modules/review/provider-http.ts
+  s_7e3bdbbc19215a::t_ad8cf7cc06bd1c 69,74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1135c0cf9da91dd09274b1a633eb9c07f21397a0",
+  "prompts": {},
+  "sessions": {
+    "s_7e3bdbbc19215a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "89a3f79c-77ed-4350-bbc3-0c14584e675a",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
