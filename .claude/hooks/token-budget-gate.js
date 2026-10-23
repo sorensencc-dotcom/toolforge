@@ -13,9 +13,8 @@
  * Exit: 0 = proceed, 1 = blocked (need plan)
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+import fs from 'fs';
+import { execFileSync } from 'child_process';
 
 const LOC_THRESHOLD = parseInt(process.env.LOC_THRESHOLD || '50000');
 const COMMIT_THRESHOLD = parseInt(process.env.COMMIT_THRESHOLD || '200');
@@ -45,11 +44,13 @@ function getSessionLOC() {
 
 function getBranchCommits() {
   try {
-    const output = execSync(
-      'git rev-list --count HEAD ^origin/main 2>/dev/null || echo "0"',
-      { encoding: 'utf8' }
+    // execFileSync so cmd.exe cannot eat ^ as its escape character.
+    const output = execFileSync(
+      'git',
+      ['rev-list', '--count', 'HEAD', '^origin/main'],
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }
     ).trim();
-    return parseInt(output) || 0;
+    return parseInt(output, 10) || 0;
   } catch (e) {
     return 0;
   }
@@ -84,7 +85,18 @@ if (thresholdsHit && !planLocked) {
   log('  - Creates checkpoint if session needs to resume later', 'ACTION');
   log('', 'ACTION');
   log('Or: Set LOC_THRESHOLD=999999 COMMIT_THRESHOLD=999999 to skip', 'BYPASS');
-  process.exit(1);
+  // Grok fail-opens on exit 1. Deny with JSON, then exit 0.
+  console.log(
+    JSON.stringify({
+      hookSpecificOutput: {
+        hookEventName: 'PreToolUse',
+        permissionDecision: 'deny',
+        permissionDecisionReason:
+          'Session scale high and no plan locked. Enter /plan mode, or set LOC_THRESHOLD=999999 COMMIT_THRESHOLD=999999 to skip.',
+      },
+    })
+  );
+  process.exit(0);
 }
 
 if (thresholdsHit && planLocked) {
