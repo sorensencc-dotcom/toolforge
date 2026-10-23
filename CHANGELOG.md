@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.104.0
+Date: 2026-10-23
+
+### Changes
+- 24266ab2 - Merge pull request #216 from sorensencc-dotcom/feat/adversarial-review-slice1 (Chris Sorensen)
+- 7bc9afa2 - fix(review): address PR 216 review feedback (Chris Sorensen)
+- 02f0995b - feat(review): add over-validation circuit breaker (Chris Sorensen)
+- 88266cf1 - fix(review): fail closed on any invalid finding (Chris Sorensen)
+- 12b9a56a - feat(review): add adversarial review parse, rank, and validation core (Chris Sorensen)
+- 13aca4d2 - docs(specs): add adversarial dual-model review spec (rev 2, Tier 1 approved) (Chris Sorensen)
+
 ## Version 2.103.7
 Date: 2026-10-23
 
