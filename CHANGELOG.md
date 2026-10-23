@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.103.7
+Date: 2026-10-23
+
+### Changes
+- 3eb7fa5f - Merge pull request #212 from sorensencc-dotcom/fix/mining-data-root (Chris Sorensen)
+- 768671ac - fix(mining): resolve data paths from MINING_DATA_ROOT, not the checkout (Chris Sorensen)
+
 ## Version 2.103.6
 Date: 2026-10-23
 
