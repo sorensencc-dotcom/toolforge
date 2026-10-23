@@ -31,6 +31,20 @@ function getStagedFiles(repoRoot) {
   }
 }
 
+function getRangeFiles(repoRoot, range) {
+  try {
+    const output = execSync(`git diff --name-only --diff-filter=ACM ${range}`, {
+      cwd: repoRoot,
+      encoding: 'utf8',
+      stdio: ['pipe', 'pipe', 'ignore']
+    });
+    return output.split('\n').map(f => f.trim()).filter(Boolean);
+  } catch (err) {
+    logError(`git diff failed for range ${range}: ${err.message}`);
+    process.exit(1);
+  }
+}
+
 async function main() {
   const repoRoot = process.cwd();
   
@@ -42,19 +56,35 @@ async function main() {
   const filesArg = args.find(arg => arg.startsWith('--files='));
   let stagedFiles = filesArg ? filesArg.split('=')[1].split(',').map(f => f.trim()) : [];
   
-  if (stagedFiles.length === 0) {
+  const rangeArg = args.find(arg => arg.startsWith('--range='));
+  const range = rangeArg ? rangeArg.slice('--range='.length) : undefined;
+
+  if (stagedFiles.length === 0 && range) {
+    stagedFiles = getRangeFiles(repoRoot, range);
+  }
+  if (stagedFiles.length === 0 && !range) {
     stagedFiles = getStagedFiles(repoRoot);
   }
 
   if (stagedFiles.length === 0) {
-    logInfo('No staged files detected in execution context. Sibling checks bypassed.');
+    logInfo(range
+      ? `No files changed in range ${range}. Sibling checks bypassed.`
+      : 'No staged files detected in execution context. Sibling checks bypassed.');
     process.exit(0);
   }
 
-  logInfo(`Staging Context: Auditing ${stagedFiles.length} file(s) in --mode=${mode}...`);
+  logInfo(`${range ? `Range ${range}` : 'Staging Context'}: Auditing ${stagedFiles.length} file(s) in --mode=${mode}...`);
 
   try {
-    const { warnings, errors } = checkSiblingPatterns(stagedFiles, repoRoot);
+    const { warnings, errors, graftUnavailable } = checkSiblingPatterns(stagedFiles, repoRoot, { range });
+
+    if (graftUnavailable) {
+      logWarn('graft callers failed: interface checks could not run for changed exports.');
+      if (mode === 'pre-push' && process.env.GRAFT_GATE_STRICT === '1') {
+        logError('GRAFT_GATE_STRICT=1: push blocked because graft is unavailable.');
+        process.exit(1);
+      }
+    }
 
     if (mode === 'pre-commit') {
       // Rule 1: Wiki Drift Warning (Fail-Soft)
@@ -117,6 +147,10 @@ async function main() {
     process.exit(0);
 
   } catch (err) {
+    if (mode === 'pre-push') {
+      logError(`Sibling checks crashed: ${err.message}. Push blocked (fail-closed).`);
+      process.exit(1);
+    }
     // Fail-soft during commit hooks, but print error
     logWarn(`Execution suspended: Sibling checks encountered error: ${err.message}. Proceeding cleanly.`);
     process.exit(0);
