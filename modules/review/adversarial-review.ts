@@ -45,6 +45,7 @@ export function parseReview(
   const findings: Finding[] = [];
   for (const raw of document.findings) {
     const item = parseFinding(raw);
+    if (item === null) return { findings: [], noise: [], flags: ['malformed'], pass: false };
     if ('risk' in item) findings.push(item);
     else noise.push(item);
   }
@@ -71,8 +72,9 @@ function parseJson(rawText: string): unknown {
   }
 }
 
-function parseFinding(raw: unknown): Finding | NoiseItem {
-  if (!isRecord(raw)) return demote(raw, 'Not a JSON object.');
+// null means the finding is not shaped like a finding at all; a missing trigger is a modelling gap, so it demotes to noise.
+function parseFinding(raw: unknown): Finding | NoiseItem | null {
+  if (!isRecord(raw)) return null;
   const { id, file, summary, trigger, likelihood, cost, fixRecipe } = raw;
   if (
     typeof id !== 'string' ||
@@ -80,26 +82,16 @@ function parseFinding(raw: unknown): Finding | NoiseItem {
     typeof summary !== 'string' ||
     typeof fixRecipe !== 'string'
   ) {
-    return demote(raw, 'Missing a string id, file, summary, or fixRecipe.');
+    return null;
   }
-  if (typeof likelihood !== 'number' || likelihood < 0 || likelihood > 1) {
-    return demote(raw, 'Likelihood is not a number from 0 to 1.');
-  }
-  if (typeof cost !== 'number' || cost < 1 || cost > 10) {
-    return demote(raw, 'Cost is not a number from 1 to 10.');
-  }
+  if (typeof likelihood !== 'number' || !(likelihood >= 0 && likelihood <= 1)) return null;
+  if (typeof cost !== 'number' || !(cost >= 1 && cost <= 10)) return null;
   if (typeof trigger !== 'string' || trigger.trim() === '') {
-    return demote(raw, 'No concrete trigger condition.');
+    return { summary, whyHypothetical: 'No concrete trigger condition.' };
   }
   // Rounding to 9 places makes 0.3 x 9 equal 2.7, not 2.6999999999999997, so a product on the threshold still blocks.
   const risk = Math.round(likelihood * cost * 1e9) / 1e9;
   return { id, file, summary, trigger, likelihood, cost, risk, fixRecipe };
-}
-
-function demote(raw: unknown, whyHypothetical: string): NoiseItem {
-  const summary =
-    isRecord(raw) && typeof raw.summary === 'string' && raw.summary.trim() !== '' ? raw.summary : JSON.stringify(raw);
-  return { summary, whyHypothetical };
 }
 
 function byRiskThenId(a: Finding, b: Finding): number {

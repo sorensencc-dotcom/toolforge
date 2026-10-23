@@ -170,6 +170,8 @@ describe('parseReview', () => {
       ['likelihood below 0', { likelihood: -0.1 }],
       ['likelihood above 1', { likelihood: 1.5 }],
       ['likelihood as a string', { likelihood: '0.9' }],
+      ['likelihood as a percentage', { likelihood: 80 }],
+      ['NaN-like likelihood', { likelihood: null }],
       ['cost below 1', { cost: 0.5 }],
       ['cost above 10', { cost: 11 }],
       ['no cost', { cost: undefined }],
@@ -179,27 +181,24 @@ describe('parseReview', () => {
       ['no fixRecipe', { fixRecipe: undefined }],
     ];
     for (const [name, overrides] of cases) {
-      it(`moves a finding with ${name} to noise without blocking`, () => {
+      it(`fails the whole review closed on a finding with ${name}`, () => {
         const outcome = parseReview(review([finding({ likelihood: 0.9, cost: 10, ...overrides })]));
-        assert.deepEqual(outcome.findings, []);
-        assert.equal(outcome.pass, true);
-        assert.equal(outcome.noise.length, 1);
+        assert.deepEqual(outcome, { findings: [], noise: [], flags: ['malformed'], pass: false });
       });
     }
 
-    it('keeps the model summary on a demoted finding', () => {
-      const outcome = parseReview(review([finding({ cost: 11 })]));
-      assert.deepEqual(
-        outcome.noise.map((n) => n.summary),
-        [SUMMARY],
+    it('discards valid findings and noise alongside an invalid one', () => {
+      const outcome = parseReview(
+        review([finding({ id: 'ok', likelihood: 1, cost: 10 }), finding({ id: 'bad', cost: 11 })], [
+          { summary: 'n', whyHypothetical: 'w' },
+        ]),
       );
+      assert.deepEqual(outcome, { findings: [], noise: [], flags: ['malformed'], pass: false });
     });
 
-    it('records a non-object finding as noise that shows what the model sent', () => {
+    it('fails closed on a non-object finding', () => {
       const outcome = parseReview(review([SUMMARY]));
-      assert.deepEqual(outcome.findings, []);
-      assert.equal(outcome.noise.length, 1);
-      assert.ok(outcome.noise[0].summary.includes(SUMMARY));
+      assert.deepEqual(outcome, { findings: [], noise: [], flags: ['malformed'], pass: false });
     });
 
     it('accepts likelihood and cost on their range bounds', () => {
