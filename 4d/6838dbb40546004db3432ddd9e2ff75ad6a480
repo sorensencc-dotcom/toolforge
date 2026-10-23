@@ -1,0 +1,31 @@
+modules/review/anthropic-provider.ts
+  s_7e3bdbbc19215a::t_2ef1599bb99dbd 1-51
+modules/review/openai-provider.ts
+  s_7e3bdbbc19215a::t_2ef1599bb99dbd 2-9,11,18-19,21,26-32
+modules/review/routing.ts
+  s_7e3bdbbc19215a::t_9293c6bc116cd8 2-4,55,60
+modules/review/routing.test.ts
+  s_7e3bdbbc19215a::t_9293c6bc116cd8 168-185
+modules/review/provider-http.ts
+  s_7e3bdbbc19215a::t_2ef1599bb99dbd 1-76
+modules/review/openai-provider.test.ts
+  s_7e3bdbbc19215a::t_04da730e575012 204-219
+modules/review/anthropic-provider.test.ts
+  s_7e3bdbbc19215a::t_04da730e575012 1-133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4d6838dbb40546004db3432ddd9e2ff75ad6a480",
+  "prompts": {},
+  "sessions": {
+    "s_7e3bdbbc19215a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "89a3f79c-77ed-4350-bbc3-0c14584e675a",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
