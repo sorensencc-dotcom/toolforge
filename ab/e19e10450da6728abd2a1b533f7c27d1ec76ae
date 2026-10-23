@@ -1,0 +1,19 @@
+docs/meta/specs/adversarial-dual-model-review-spec.md
+  s_4bf199cef937d7::t_805792f7e5ea2d 1-130
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "abe19e10450da6728abd2a1b533f7c27d1ec76ae",
+  "prompts": {},
+  "sessions": {
+    "s_4bf199cef937d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "97519bb5-b1ee-4996-9774-75ed354d8bff",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
