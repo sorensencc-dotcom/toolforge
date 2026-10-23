@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.103.6
+Date: 2026-10-23
+
+### Changes
+- 902ab2a0 - Merge pull request #213 from sorensencc-dotcom/fix/graft-prepush-gate (Chris Sorensen)
+- ff1d5f37 - fix(hooks): make graft pre-push gate check the pushed range and fail closed (Chris Sorensen)
+
 ## Version 2.103.5
 Date: 2026-10-22
 
