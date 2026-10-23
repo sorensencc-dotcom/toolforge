@@ -155,7 +155,7 @@ test('parseArgs & runBenchmark: parses CLI flags and executes performance probe'
 });
 
 test('IGNORED_DIRS isolates sibling repos and sandboxes from parity scanning', () => {
-  const requiredIgnored = ['dev-sandbox', 'kb-sync', 'sigil-repo', 'rewrite-mcp', 'icf', 'scratch', 'toolforge-marketplace'];
+  const requiredIgnored = ['dev-sandbox', 'kb-sync', 'sigil-repo', 'rewrite-mcp', 'icf', 'scratch', 'toolforge-marketplace', 'worktrees', '.worktrees'];
   for (const dir of requiredIgnored) {
     assert.ok(IGNORED_DIRS.has(dir), `IGNORED_DIRS must contain ${dir}`);
   }
