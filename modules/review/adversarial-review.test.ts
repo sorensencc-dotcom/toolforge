@@ -145,6 +145,12 @@ describe('parseReview', () => {
       assert.equal(outcome.pass, false);
     });
 
+    it('fails closed on a non-finite threshold even with no findings', () => {
+      for (const threshold of [Number.NaN, Number.POSITIVE_INFINITY]) {
+        assert.equal(parseReview('{"findings": []}', { threshold }).pass, false);
+      }
+    });
+
     it('fails closed when the threshold is NaN', () => {
       assert.equal(parseReview(review([finding({ likelihood: 0, cost: 1 })]), { threshold: Number.NaN }).pass, false);
     });
@@ -181,6 +187,8 @@ describe('parseReview', () => {
       ['a non-string file', { file: ['src/tx/pool.ts'] }],
       ['a null summary', { summary: null }],
       ['no fixRecipe', { fixRecipe: undefined }],
+      ['a numeric trigger', { trigger: 5 }],
+      ['a null trigger', { trigger: null }],
     ];
     for (const [name, overrides] of cases) {
       it(`fails the whole review closed on a finding with ${name}`, () => {

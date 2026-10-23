@@ -98,8 +98,8 @@ export function parseReview(
     noise,
     suppressed,
     flags: findings.length > MAX_FINDINGS ? ['capped'] : [],
-    // "Every finding below" rather than "none at or above", so a NaN threshold blocks instead of passing.
-    pass: kept.every((finding) => finding.risk < threshold),
+    // "Every finding below" rather than "none at or above", so a NaN threshold blocks; the finite check covers an empty list.
+    pass: Number.isFinite(threshold) && kept.every((finding) => finding.risk < threshold),
   };
 }
 
@@ -128,7 +128,8 @@ function parseFinding(raw: unknown): Finding | NoiseItem | null {
   }
   if (typeof likelihood !== 'number' || !(likelihood >= 0 && likelihood <= 1)) return null;
   if (typeof cost !== 'number' || !(cost >= 1 && cost <= 10)) return null;
-  if (typeof trigger !== 'string' || trigger.trim() === '') {
+  if (trigger !== undefined && typeof trigger !== 'string') return null;
+  if (trigger === undefined || trigger.trim() === '') {
     return { summary, whyHypothetical: 'No concrete trigger condition.' };
   }
   // Rounding to 9 places makes 0.3 x 9 equal 2.7, not 2.6999999999999997, so a product on the threshold still blocks.

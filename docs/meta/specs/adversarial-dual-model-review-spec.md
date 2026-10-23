@@ -1,6 +1,6 @@
 # Adversarial dual-model review and rank-by-risk spec
 
-Status: APPROVED (Tier 1, 2026-10-23). Implementation not started.
+Status: APPROVED (Tier 1, 2026-10-23). Implementation in progress: delivery steps 1 and 2 done (PR 216), steps 3 to 6 not started.
 Source: [issue 191](https://github.com/sorensencc-dotcom/toolforge/issues/191). Upstream card: TRM `ACT-01`, Drive file `1DDMvsBbL-M90LdMHBiMaZafiZz86kwOO6R9B_UrRvSw` (`2026-10-15T124801Z__action__toolforge__act-01-adversarial-dual-model-review.md`), priority HIGH, Sprint 35.
 Date: 2026-10-22
 Revision: 2. Replaces the first draft, whose defaults were guesses made before the card was found.
