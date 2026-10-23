@@ -66,11 +66,11 @@ function parseJson(text: string): unknown {
 
 // Provider error messages can echo part of the key, so only a snake_case code or type reaches the thrown message.
 export function errorCodeSuffix(body: unknown): string {
-  const error: Record<string, unknown> = isRecord(body) && isRecord(body.error) ? body.error : {};
+  const error: Record<string, unknown> = isReviewerJsonObject(body) && isReviewerJsonObject(body.error) ? body.error : {};
   const code = [error.code, error.type].find((value): value is string => typeof value === 'string' && ERROR_CODE.test(value));
   return code === undefined ? '' : ` (${code})`;
 }
 
-export function isRecord(value: unknown): value is Record<string, unknown> {
+export function isReviewerJsonObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }

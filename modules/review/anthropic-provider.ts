@@ -2,7 +2,7 @@ import type { LocalProviderLike } from '../../src/providers/index.js';
 import {
   DEFAULT_TIMEOUT_MS,
   errorCodeSuffix,
-  isRecord,
+  isReviewerJsonObject,
   postJson,
   resolveKey,
   type ReviewerHttpDeps,
@@ -45,7 +45,7 @@ export function createAnthropicProvider({
 }
 
 function replyText(body: unknown): string | undefined {
-  const blocks = isRecord(body) && Array.isArray(body.content) ? body.content : [];
-  const texts = blocks.filter(isRecord).filter((block) => block.type === 'text').map((block) => block.text);
+  const blocks = isReviewerJsonObject(body) && Array.isArray(body.content) ? body.content : [];
+  const texts = blocks.filter(isReviewerJsonObject).filter((block) => block.type === 'text').map((block) => block.text);
   return texts.length > 0 && texts.every((text): text is string => typeof text === 'string') ? texts.join('') : undefined;
 }

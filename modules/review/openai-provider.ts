@@ -2,7 +2,7 @@ import type { LocalProviderLike } from '../../src/providers/index.js';
 import {
   DEFAULT_TIMEOUT_MS,
   errorCodeSuffix,
-  isRecord,
+  isReviewerJsonObject,
   postJson,
   resolveKey,
   type ReviewerHttpDeps,
@@ -43,7 +43,7 @@ export function createOpenAIProvider({
 }
 
 function messageContent(body: unknown): string | undefined {
-  const choice = isRecord(body) && Array.isArray(body.choices) ? body.choices[0] : undefined;
-  const content = isRecord(choice) && isRecord(choice.message) ? choice.message.content : undefined;
+  const choice = isReviewerJsonObject(body) && Array.isArray(body.choices) ? body.choices[0] : undefined;
+  const content = isReviewerJsonObject(choice) && isReviewerJsonObject(choice.message) ? choice.message.content : undefined;
   return typeof content === 'string' ? content : undefined;
 }
