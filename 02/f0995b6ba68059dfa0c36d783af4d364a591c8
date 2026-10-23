@@ -1,0 +1,33 @@
+modules/review/adversarial-review.test.ts
+  s_ae298c02f15bce::t_e2e5e9578bb164 261
+  s_ae298c02f15bce::t_f4cdeafe40ad59 188,192,194-201,203,208
+  s_ae298c02f15bce::t_ed58e8dbf7e69e 301
+  s_ae298c02f15bce::t_187f37ffd4fe1a 46
+  s_ae298c02f15bce::t_17015d53700748 57
+  s_ae298c02f15bce::t_3b9915151cb75c 416-419
+  s_ae298c02f15bce::t_4bd6736adbe1f6 7
+  s_ae298c02f15bce::t_9c1c8ef42a9a4a 284-300,302-415,420
+  s_ae298c02f15bce::t_a9fc39c842fee9 3
+modules/review/adversarial-review.ts
+  s_ae298c02f15bce::t_3c8b6e72d48240 139,141-146
+  s_ae298c02f15bce::t_54a2ab5dc9c1c3 22-53,57,64
+  s_ae298c02f15bce::t_5f80ffbe232b83 72
+  s_ae298c02f15bce::t_93a6e73ef2475d 80,83-90,94,99
+  s_ae298c02f15bce::t_1efca72a81059a 140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "02f0995b6ba68059dfa0c36d783af4d364a591c8",
+  "prompts": {},
+  "sessions": {
+    "s_ae298c02f15bce": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f4971ad-315e-4672-9600-6c923f685f2e",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

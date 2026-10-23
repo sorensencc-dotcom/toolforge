@@ -1,0 +1,25 @@
+modules/review/adversarial-review.test.ts
+  s_ae298c02f15bce::t_6a6f0efc786a43 1-52,54-152,156,158-228,230-278
+  s_ae298c02f15bce::t_a7f6afe2b57ece 53
+  s_ae298c02f15bce::t_241bda804cf72e 153-155,157
+  s_ae298c02f15bce::t_f7ef8d45b8fe60 229
+modules/review/adversarial-review.ts
+  s_ae298c02f15bce::t_a43ca47bd2324b 77-82
+  s_ae298c02f15bce::t_764b8329c452de 1-76,83-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "12b9a56ae5869afd7a0ef2c50247f29b772f4a91",
+  "prompts": {},
+  "sessions": {
+    "s_ae298c02f15bce": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f4971ad-315e-4672-9600-6c923f685f2e",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
