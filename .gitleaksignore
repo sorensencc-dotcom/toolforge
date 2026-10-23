@@ -1,0 +1,2 @@
+# Test fixture API key, not a secret (modules/review/anthropic-provider.test.ts)
+4d6838dbb40546004db3432ddd9e2ff75ad6a480:modules/review/anthropic-provider.test.ts:generic-api-key:7
