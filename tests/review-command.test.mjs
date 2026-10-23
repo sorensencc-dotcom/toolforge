@@ -15,7 +15,8 @@ describe('toolforge review --adversarial', () => {
     );
     assert.equal(code, 0);
     assert.match(seen[0].diff, /\+x/);
-    assert.match(seen[0].packet.commitMessage, /Claude Opus 5\.5/);
+    assert.equal(seen[0].packet.commitMessages.length, 1);
+    assert.match(seen[0].packet.commitMessages[0], /Claude Opus 5\.5/);
   });
 
   it('exits 1 when a finding blocks', async () => {

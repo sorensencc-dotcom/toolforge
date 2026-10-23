@@ -59,9 +59,33 @@ describe('selectReviewer', () => {
       assert.deepEqual(selectReviewer({ commitMessage: crlf }), CLAUDE_REVIEWER);
     });
 
-    it('uses the last trailer when several name a model', () => {
-      assert.deepEqual(selectReviewer({ commitMessage: commitMessage(GPT_TRAILER, CLAUDE_TRAILER) }), GPT_REVIEWER);
-      assert.deepEqual(selectReviewer({ commitMessage: commitMessage(CLAUDE_TRAILER, GPT_TRAILER) }), CLAUDE_REVIEWER);
+    it('fails closed when trailers name different reviewer families, in either order', () => {
+      for (const trailers of [[GPT_TRAILER, CLAUDE_TRAILER], [CLAUDE_TRAILER, GPT_TRAILER]]) {
+        assert.throws(() => selectReviewer({ commitMessage: commitMessage(...trailers) }), /Conflicting author models/);
+      }
+    });
+
+    it('accepts several trailers that route to the same reviewer', () => {
+      const sonnet = 'Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>';
+      assert.deepEqual(selectReviewer({ commitMessage: commitMessage(CLAUDE_TRAILER, sonnet) }), GPT_REVIEWER);
+    });
+
+    it('ignores a trailer-shaped line in the body', () => {
+      const message = ['feat: x', '', CLAUDE_TRAILER, '', 'More prose.', '', GPT_TRAILER].join('\n');
+      assert.deepEqual(selectReviewer({ commitMessage: message }), CLAUDE_REVIEWER);
+      const bodyOnly = ['feat: x', '', CLAUDE_TRAILER, '', 'Closing prose.'].join('\n');
+      assert.throws(() => selectReviewer({ commitMessage: bodyOnly }), ReviewRoutingError);
+    });
+
+    it('reads the final trailer block of every commit in commitMessages', () => {
+      const one = { commitMessages: [commitMessage(CLAUDE_TRAILER), commitMessage(CLAUDE_TRAILER)] };
+      assert.deepEqual(selectReviewer(one), GPT_REVIEWER);
+      const mixed = { commitMessages: [commitMessage(CLAUDE_TRAILER), commitMessage(GPT_TRAILER)] };
+      assert.throws(() => selectReviewer(mixed), /Conflicting author models/);
+    });
+
+    it('rejects a co-author trailer with an empty email', () => {
+      assert.throws(() => selectReviewer({ commitMessage: commitMessage('Co-Authored-By: Claude Opus 5.5 <>') }), ReviewRoutingError);
     });
 
     it('prefers the author_model field over the trailer', () => {
@@ -91,6 +115,18 @@ describe('selectReviewer', () => {
 
     it('replaces the default matrix instead of extending it', () => {
       assert.throws(() => selectReviewer({ author_model: 'claude-opus-5-5' }, matrix), ReviewRoutingError);
+    });
+  });
+
+  describe('matrix validation', () => {
+    it('rejects an empty author prefix', () => {
+      const matrix: ReviewerMatrix = [{ authorPrefix: '', reviewer: GPT_REVIEWER }, { authorPrefix: 'claude-', reviewer: GPT_REVIEWER }];
+      assert.throws(() => selectReviewer({ author_model: 'claude-opus-5-5' }, matrix), /empty author prefix/);
+    });
+
+    it('rejects a reviewer from the author family', () => {
+      const matrix: ReviewerMatrix = [{ authorPrefix: 'claude-', reviewer: CLAUDE_REVIEWER }];
+      assert.throws(() => selectReviewer({ author_model: 'claude-opus-5-5' }, matrix), /same model family/);
     });
   });
 
@@ -177,6 +213,11 @@ describe('resolveReviewerProvider', () => {
     });
     assert.equal(await provider.generate(CLAUDE_REVIEWER.model, 'Review this diff'), '{"findings": []}');
     assert.deepEqual(urls, ['https://api.anthropic.com/v1/messages']);
+  });
+
+  it('rejects an unsupported provider instead of returning undefined', () => {
+    const route = { provider: 'gemini', model: 'x' } as unknown as ReviewerRoute;
+    assert.throws(() => resolveReviewerProvider(route), ReviewRoutingError);
   });
 
   it('fails fast when the anthropic route has no key', () => {
