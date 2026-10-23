@@ -201,4 +201,20 @@ describe('createOpenAIProvider', () => {
       });
     }
   });
+  describe('timeout', () => {
+    const hang = (_url: string, init: RequestInit): Promise<Response> =>
+      new Promise((_resolve, reject) => init.signal?.addEventListener('abort', () => reject(init.signal?.reason)));
+
+    it('passes an abort signal with the request', async () => {
+      const { fetch, sent } = recordingFetch();
+      await provider({ fetch }).generate(MODEL, 'Review this diff');
+      assert.ok(sent[0].init.signal instanceof AbortSignal);
+    });
+
+    it('rejects with a timeout message when the request exceeds timeoutMs', async () => {
+      await assert.rejects(provider({ fetch: hang, timeoutMs: 10 }).generate(MODEL, 'Review this diff'), {
+        message: `OpenAI chat completion for ${MODEL} timed out after 10 ms`,
+      });
+    });
+  });
 });

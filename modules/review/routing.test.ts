@@ -165,8 +165,23 @@ describe('resolveReviewerProvider', () => {
     assert.throws(() => resolveReviewerProvider(GPT_REVIEWER, { env: {}, readDotEnv: noDotEnv }), { message: MISSING_KEY });
   });
 
-  it('fails closed for the anthropic route a GPT author gets', () => {
-    const route = selectReviewer({ author_model: 'gpt-6.1-sol' });
-    assert.throws(() => resolveReviewerProvider(route, { env: {}, readDotEnv: noDotEnv }), ReviewRoutingError);
+  it('returns an Anthropic provider for an anthropic route', async () => {
+    const urls: string[] = [];
+    const provider = resolveReviewerProvider(CLAUDE_REVIEWER, {
+      env: { ANTHROPIC_API_KEY: 'test-routing-key' },
+      readDotEnv: noDotEnv,
+      fetch: async (url) => {
+        urls.push(url);
+        return Response.json({ content: [{ type: 'text', text: '{"findings": []}' }] });
+      },
+    });
+    assert.equal(await provider.generate(CLAUDE_REVIEWER.model, 'Review this diff'), '{"findings": []}');
+    assert.deepEqual(urls, ['https://api.anthropic.com/v1/messages']);
+  });
+
+  it('fails fast when the anthropic route has no key', () => {
+    assert.throws(() => resolveReviewerProvider(CLAUDE_REVIEWER, { env: {}, readDotEnv: noDotEnv }), {
+      message: 'Missing ANTHROPIC_API_KEY for secondary reviewer in dispatch matrix',
+    });
   });
 });

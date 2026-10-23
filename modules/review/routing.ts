@@ -1,5 +1,7 @@
 import type { LocalProviderLike } from '../../src/providers/index.js';
-import { createOpenAIProvider, type OpenAIProviderDeps } from './openai-provider.ts';
+import { createAnthropicProvider } from './anthropic-provider.ts';
+import { createOpenAIProvider } from './openai-provider.ts';
+import type { ReviewerHttpDeps } from './provider-http.ts';
 
 export type ReviewerProviderName = 'openai' | 'anthropic';
 
@@ -50,12 +52,12 @@ export function selectReviewer(packet: ReviewPacket, matrix: ReviewerMatrix = DE
   return entry.reviewer;
 }
 
-export function resolveReviewerProvider(route: ReviewerRoute, deps: OpenAIProviderDeps = {}): LocalProviderLike {
+export function resolveReviewerProvider(route: ReviewerRoute, deps: ReviewerHttpDeps = {}): LocalProviderLike {
   switch (route.provider) {
     case 'openai':
       return createOpenAIProvider(deps);
     case 'anthropic':
-      throw new ReviewRoutingError(`Reviewer provider "anthropic" for ${route.model} is not implemented.`);
+      return createAnthropicProvider(deps);
   }
 }
 
