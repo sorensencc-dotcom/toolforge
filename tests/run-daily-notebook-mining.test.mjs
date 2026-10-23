@@ -1,13 +1,39 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { resolve, join, sep } from 'node:path';
+import { tmpdir } from 'node:os';
+import { fileURLToPath } from 'node:url';
 import {
   isMultipartNotebook,
   loadMultipartNotebookIds,
+  miningPaths,
+  resolveMiningDataRoot,
   runPackSync,
   validateDAGSequence,
 } from '../scripts/run-daily-notebook-mining.mjs';
+
+test('resolveMiningDataRoot fails closed when MINING_DATA_ROOT is unset or blank', () => {
+  assert.throws(() => resolveMiningDataRoot({}), /^Error: MINING_DATA_ROOT_UNSET/);
+  assert.throws(() => resolveMiningDataRoot({ MINING_DATA_ROOT: '  ' }), /^Error: MINING_DATA_ROOT_UNSET/);
+});
+
+test('mining data paths live under MINING_DATA_ROOT, not the script checkout', () => {
+  const checkout = resolve(fileURLToPath(new URL('..', import.meta.url)));
+  const dataRoot = resolveMiningDataRoot({ MINING_DATA_ROOT: join(tmpdir(), 'mining-data-root-test') });
+  assert.equal(dataRoot, resolve(tmpdir(), 'mining-data-root-test'));
+  for (const p of Object.values(miningPaths(dataRoot))) {
+    assert.equal(p.startsWith(dataRoot), true, p);
+    assert.equal(p.startsWith(checkout + sep), false, p);
+  }
+});
+
+test('KB_SYNC_ROOT defaults to <dataRoot>/kb-sync and requires MINING_DATA_ROOT', () => {
+  let read;
+  loadMultipartNotebookIds({ MINING_DATA_ROOT: '/data/root' }, (p) => { read = p; return '{}'; });
+  assert.equal(read, join(resolve('/data/root'), 'kb-sync', 'state', 'knowledge-plane-notebooks.json'));
+  assert.throws(() => loadMultipartNotebookIds({}, () => '{}'), /MINING_DATA_ROOT_UNSET/);
+});
 
 test('run-daily-notebook-mining script exists and exports required functions', () => {
   const scriptPath = resolve('scripts/run-daily-notebook-mining.mjs');

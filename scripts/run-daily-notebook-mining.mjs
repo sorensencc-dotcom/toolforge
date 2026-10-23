@@ -13,30 +13,42 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { appendToWikiLog } from './lib/wiki-log-append.mjs';
 
 // Lazily load replaceSinglePack from kb-sync/scripts/nlm-pack-replace-gate.mjs
-async function defaultSyncPack(args) {
-  const gatePath = path.join(ROOT_DIR, 'kb-sync', 'scripts', 'nlm-pack-replace-gate.mjs');
+async function defaultSyncPack(dataRoot, args) {
+  const gatePath = path.join(dataRoot, 'kb-sync', 'scripts', 'nlm-pack-replace-gate.mjs');
   const { replaceSinglePack } = await import(pathToFileURL(gatePath).href);
   return replaceSinglePack(args);
 }
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const ROOT_DIR = path.resolve(__dirname, '..');
 
-const FREEZE_FILE = path.join(ROOT_DIR, 'freeze.mining');
-const LOGS_DIR = path.join(ROOT_DIR, 'logs', 'mining');
-const DEAD_LETTER_DIR = path.join(ROOT_DIR, '.nlm_pack_dead_letter');
-const PACKS_DIR = path.join(ROOT_DIR, '.nlm_pack');
-const PIPELINE_CONFIG_PATH = path.join(ROOT_DIR, 'kb-sync', 'core', 'research_pipeline.json');
-const LOG_JSON_PATH = path.join(ROOT_DIR, 'wiki', 'Log.json');
+export function resolveMiningDataRoot(env = process.env) {
+  const root = env.MINING_DATA_ROOT;
+  if (!root || !root.trim()) {
+    throw new Error('MINING_DATA_ROOT_UNSET: set MINING_DATA_ROOT to the mining data directory');
+  }
+  return path.resolve(root);
+}
+
+export function miningPaths(dataRoot) {
+  return {
+    root: dataRoot,
+    freezeFile: path.join(dataRoot, 'freeze.mining'),
+    logsDir: path.join(dataRoot, 'logs', 'mining'),
+    deadLetterDir: path.join(dataRoot, '.nlm_pack_dead_letter'),
+    packsDir: path.join(dataRoot, '.nlm_pack'),
+    pipelineConfigPath: path.join(dataRoot, 'kb-sync', 'core', 'research_pipeline.json'),
+    logJsonPath: path.join(dataRoot, 'wiki', 'Log.json'),
+  };
+}
 
 const COLOR = { red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', cyan: '\x1b[36m', reset: '\x1b[0m' };
 const logInfo = (msg) => console.log(`${COLOR.green}[DAILY-MINER] [INFO]${COLOR.reset} ${msg}`);
 const logWarn = (msg) => console.log(`${COLOR.yellow}[DAILY-MINER] [WARN]${COLOR.reset} ${msg}`);
 const logError = (msg) => console.error(`${COLOR.red}[DAILY-MINER] [ERROR]${COLOR.reset} ${msg}`);
 
-export function emitTelemetryEvent(runId, dateStr, category, phase, status, metrics = {}) {
-  fs.mkdirSync(LOGS_DIR, { recursive: true });
+export function emitTelemetryEvent(logsDir, runId, dateStr, category, phase, status, metrics = {}) {
+  fs.mkdirSync(logsDir, { recursive: true });
   const event = {
     run_id: runId,
     timestamp: new Date().toISOString(),
@@ -45,7 +57,7 @@ export function emitTelemetryEvent(runId, dateStr, category, phase, status, metr
     status,
     metrics
   };
-  const logFile = path.join(LOGS_DIR, `mining-${dateStr}.jsonl`);
+  const logFile = path.join(logsDir, `mining-${dateStr}.jsonl`);
   try {
     fs.appendFileSync(logFile, JSON.stringify(event) + '\n', 'utf8');
   } catch (_) {}
@@ -67,8 +79,6 @@ export const FALLBACK_MULTIPART_NOTEBOOK_IDS = [
   '359b346c-6af7-4ba3-baef-b985c9e6e1af', // Agent Harness (multipart, master-written)
 ];
 
-const DEFAULT_KB_SYNC_ROOT = 'C:\\dev\\kb-sync';
-
 function isMultipartRegistryEntry(nb) {
   return nb?.multipart === true || Number(nb?.expected_parts) > 1;
 }
@@ -78,7 +88,7 @@ function isMultipartRegistryEntry(nb) {
 export function loadMultipartNotebookIds(env = process.env, readFile = (p) => fs.readFileSync(p, 'utf8')) {
   const ids = new Set(FALLBACK_MULTIPART_NOTEBOOK_IDS);
   const manifestPath = env.KB_SYNC_MANIFEST_PATH
-    || path.join(env.KB_SYNC_ROOT || DEFAULT_KB_SYNC_ROOT, 'state', 'knowledge-plane-notebooks.json');
+    || path.join(env.KB_SYNC_ROOT || path.join(resolveMiningDataRoot(env), 'kb-sync'), 'state', 'knowledge-plane-notebooks.json');
   try {
     const manifest = JSON.parse(readFile(manifestPath));
     for (const cluster of Object.values(manifest.clusters || {})) {
@@ -110,10 +120,13 @@ export async function runPackSync({ syncPackFn, notebookId, packFile, logInfo, l
 }
 
 export async function runDailyMiningPipeline(options = {}) {
+  const env = options.env || process.env;
+  const dataRoot = resolveMiningDataRoot(env);
+  const paths = miningPaths(dataRoot);
   const isDryRun = options.dryRun || process.argv.includes('--dry-run');
   const simulatePackError = options.simulatePackError || process.argv.includes('--simulate-pack-error');
-  const multipartIds = options.multipartNotebookIds || loadMultipartNotebookIds();
-  const syncPackFn = options.syncPackFn || defaultSyncPack;
+  const multipartIds = options.multipartNotebookIds || loadMultipartNotebookIds(env);
+  const syncPackFn = options.syncPackFn || ((args) => defaultSyncPack(dataRoot, args));
 
   const startTime = Date.now();
   const dateStr = new Date().toISOString().slice(0, 10);
@@ -125,12 +138,13 @@ export async function runDailyMiningPipeline(options = {}) {
   console.log(`${COLOR.cyan}======================================================================${COLOR.reset}`);
   logInfo(`Run ID:        ${runId}`);
   logInfo(`Date:          ${dateStr}`);
+  logInfo(`Data Root:     ${dataRoot}`);
   logInfo(`Dry Run Mode:  ${isDryRun ? 'ENABLED (Skipping Live NLM Upload)' : 'DISABLED (Live)'}\n`);
 
   // 1. Freeze Check
-  if (fs.existsSync(FREEZE_FILE)) {
-    logWarn(`[FREEZE] Kill switch detected at ${FREEZE_FILE}. Aborting mining run cleanly.`);
-    emitTelemetryEvent(runId, dateStr, 'global', 'init', 'frozen', { reason: 'freeze.mining exists' });
+  if (fs.existsSync(paths.freezeFile)) {
+    logWarn(`[FREEZE] Kill switch detected at ${paths.freezeFile}. Aborting mining run cleanly.`);
+    emitTelemetryEvent(paths.logsDir, runId, dateStr, 'global', 'init', 'frozen', { reason: 'freeze.mining exists' });
     return { status: 'frozen', runId };
   }
 
@@ -140,7 +154,7 @@ export async function runDailyMiningPipeline(options = {}) {
   logInfo(`✓ Execution DAG validated: ${phases.join(' -> ')}`);
 
   // 3. Load Categories
-  const { loadCategoriesData } = await import('../kb-sync/core/config.mjs');
+  const { loadCategoriesData } = await import(pathToFileURL(path.join(dataRoot, 'kb-sync', 'core', 'config.mjs')).href);
   const catData = loadCategoriesData();
   const categories = Object.entries(catData.categories || {});
   logInfo(`Loaded ${categories.length} canonical categories from categories.json.`);
@@ -149,29 +163,29 @@ export async function runDailyMiningPipeline(options = {}) {
   logInfo('Step A: Executing Live Web Deep Harvester across categories...');
   try {
     execSync(`node "${path.join(__dirname, 'trm-web-harvester.mjs')}" --all-categories`, { stdio: 'inherit' });
-    emitTelemetryEvent(runId, dateStr, 'all', 'harvest', 'success');
+    emitTelemetryEvent(paths.logsDir, runId, dateStr, 'all', 'harvest', 'success');
   } catch (err) {
     logWarn(`Harvester step completed with warnings: ${err.message}`);
-    emitTelemetryEvent(runId, dateStr, 'all', 'harvest', 'warning', { error: err.message });
+    emitTelemetryEvent(paths.logsDir, runId, dateStr, 'all', 'harvest', 'warning', { error: err.message });
   }
 
   logInfo('Step B: Executing Property & Deed Record Extractor...');
   try {
     execSync(`node "${path.join(__dirname, 'extract-property-records.mjs')}"`, { stdio: 'inherit' });
-    emitTelemetryEvent(runId, dateStr, 'all', 'extract-properties', 'success');
+    emitTelemetryEvent(paths.logsDir, runId, dateStr, 'all', 'extract-properties', 'success');
   } catch (err) {
     logWarn(`Property extraction completed with warnings: ${err.message}`);
-    emitTelemetryEvent(runId, dateStr, 'all', 'extract-properties', 'warning', { error: err.message });
+    emitTelemetryEvent(paths.logsDir, runId, dateStr, 'all', 'extract-properties', 'warning', { error: err.message });
   }
 
   // 5. Compile & Consolidate Thematic Packs
   logInfo('Step C: Consolidating Thematic Knowledge Packs...');
   try {
     execSync(`node "${path.join(__dirname, 'consolidate-pack.mjs')}"`, { stdio: 'inherit' });
-    emitTelemetryEvent(runId, dateStr, 'all', 'consolidate-pack', 'success');
+    emitTelemetryEvent(paths.logsDir, runId, dateStr, 'all', 'consolidate-pack', 'success');
   } catch (err) {
     logError(`Pack consolidation failed: ${err.message}`);
-    emitTelemetryEvent(runId, dateStr, 'all', 'consolidate-pack', 'error', { error: err.message });
+    emitTelemetryEvent(paths.logsDir, runId, dateStr, 'all', 'consolidate-pack', 'error', { error: err.message });
   }
 
   // 6. Per-Category Fault-Isolated Validation & Sync Loop
@@ -182,20 +196,20 @@ export async function runDailyMiningPipeline(options = {}) {
     const catStartTime = Date.now();
     const targetUuid = catDef.target;
     const packSlug = catName.replace(/-/g, '_');
-    const packFile = path.join(PACKS_DIR, `pack_${packSlug}.txt`);
+    const packFile = path.join(paths.packsDir,`pack_${packSlug}.txt`);
 
     logInfo(`\n>>> Processing Category: [${catName}] (Target: ${targetUuid})`);
 
     if (isMultipartNotebook(targetUuid, multipartIds)) {
       logWarn(`  Notebook ${targetUuid} is multipart (kb-sync-managed). Skipping category.`);
-      emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: 'multipart-managed' });
+      emitTelemetryEvent(paths.logsDir, runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: 'multipart-managed' });
       categoryResults.push({ category: catName, status: 'skipped', reason: 'multipart-managed' });
       continue;
     }
 
     if (!fs.existsSync(packFile)) {
       logWarn(`  No pack file found at ${packFile}. Skipping category sync.`);
-      emitTelemetryEvent(runId, dateStr, catName, 'validate-pack', 'skipped', { reason: 'no_pack_file' });
+      emitTelemetryEvent(paths.logsDir, runId, dateStr, catName, 'validate-pack', 'skipped', { reason: 'no_pack_file' });
       categoryResults.push({ category: catName, status: 'skipped', reason: 'no pack file' });
       continue;
     }
@@ -209,7 +223,7 @@ export async function runDailyMiningPipeline(options = {}) {
         execSync(`pwsh -NoProfile -File "${path.join(__dirname, 'validate-pack.ps1')}" -Pack "${packFile}"`, { stdio: 'pipe' });
         validationPassed = true;
         logInfo(`  ✓ Pack validation passed for ${path.basename(packFile)}.`);
-        emitTelemetryEvent(runId, dateStr, catName, 'validate-pack', 'success');
+        emitTelemetryEvent(paths.logsDir, runId, dateStr, catName, 'validate-pack', 'success');
       } catch (valErr) {
         logError(`  ✗ Validation failed for pack ${path.basename(packFile)}: ${valErr.message}`);
       }
@@ -217,13 +231,13 @@ export async function runDailyMiningPipeline(options = {}) {
 
     if (!validationPassed) {
       // Quarantine to Dead-Letter Queue
-      const deadLetterCatDir = path.join(DEAD_LETTER_DIR, dateStr, catName);
+      const deadLetterCatDir = path.join(paths.deadLetterDir,dateStr, catName);
       fs.mkdirSync(deadLetterCatDir, { recursive: true });
       const deadLetterFile = path.join(deadLetterCatDir, path.basename(packFile));
       try { fs.copyFileSync(packFile, deadLetterFile); } catch (_) {}
 
       logWarn(`  ⚠ Quarantined failed pack to Dead-Letter Queue: ${deadLetterFile}`);
-      emitTelemetryEvent(runId, dateStr, catName, 'validate-pack', 'quarantined', { dead_letter: deadLetterFile });
+      emitTelemetryEvent(paths.logsDir, runId, dateStr, catName, 'validate-pack', 'quarantined', { dead_letter: deadLetterFile });
       categoryResults.push({ category: catName, status: 'quarantined', deadLetter: deadLetterFile });
       continue; // Mining safety gate: Never sync unvalidated pack
     }
@@ -231,7 +245,7 @@ export async function runDailyMiningPipeline(options = {}) {
     // Sync to NotebookLM
     if (isDryRun) {
       logInfo(`  [DRY-RUN] Simulating NotebookLM sync -> ${catDef.title} (${targetUuid}).`);
-      emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'simulated_success');
+      emitTelemetryEvent(paths.logsDir, runId, dateStr, catName, 'sync-notebooklm', 'simulated_success');
       categoryResults.push({ category: catName, status: 'dry_run_success', durationMs: Date.now() - catStartTime });
     } else {
       const result = await runPackSync({
@@ -244,15 +258,15 @@ export async function runDailyMiningPipeline(options = {}) {
 
       if (result.skipped) {
         logWarn(`  Notebook ${targetUuid} skipped (${result.reason}). No upload or delete.`);
-        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: result.reason });
+        emitTelemetryEvent(paths.logsDir, runId, dateStr, catName, 'sync-notebooklm', 'skipped', { reason: result.reason });
         categoryResults.push({ category: catName, status: 'skipped', reason: result.reason });
       } else if (result.ok) {
         logInfo(`  ✓ Successfully uploaded pack to NotebookLM: ${catDef.title}`);
-        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'success', { pruned: result.pruned });
+        emitTelemetryEvent(paths.logsDir, runId, dateStr, catName, 'sync-notebooklm', 'success', { pruned: result.pruned });
         categoryResults.push({ category: catName, status: 'synced', durationMs: Date.now() - catStartTime });
       } else {
         logError(`  ✗ Failed to sync ${catName}: ${result.reason}`);
-        emitTelemetryEvent(runId, dateStr, catName, 'sync-notebooklm', 'failed', { reason: result.reason });
+        emitTelemetryEvent(paths.logsDir, runId, dateStr, catName, 'sync-notebooklm', 'failed', { reason: result.reason });
         categoryResults.push({ category: catName, status: 'failed_upload', reason: result.reason });
       }
     }
@@ -277,12 +291,12 @@ export async function runDailyMiningPipeline(options = {}) {
 
   try {
     let logs = [];
-    if (fs.existsSync(LOG_JSON_PATH)) logs = JSON.parse(fs.readFileSync(LOG_JSON_PATH, 'utf8'));
+    if (fs.existsSync(paths.logJsonPath)) logs = JSON.parse(fs.readFileSync(paths.logJsonPath, 'utf8'));
     logs.push(auditRecord);
-    fs.writeFileSync(LOG_JSON_PATH, JSON.stringify(logs, null, 2), 'utf8');
+    fs.writeFileSync(paths.logJsonPath, JSON.stringify(logs, null, 2), 'utf8');
 
     const mdSummary = `\n## ${auditRecord.timestamp} - Daily Research Mining Run (${runId})\n- **Duration:** ${totalDuration}s\n- **Dry Run:** ${isDryRun}\n- **Categories Processed:** ${categoryResults.map(r => `${r.category} (${r.status})`).join(', ')}\n`;
-    appendToWikiLog(ROOT_DIR, mdSummary);
+    appendToWikiLog(dataRoot, mdSummary);
   } catch (_) {}
 
   return { runId, totalDuration, results: categoryResults };
