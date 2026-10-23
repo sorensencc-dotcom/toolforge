@@ -1,9 +1,10 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseReview } from './adversarial-review.ts';
+import { DEFENSIVE_RULES, parseReview } from './adversarial-review.ts';
 
 const FENCE = '```';
 const SUMMARY = 'Connection release races with acquire';
+const MALFORMED = { findings: [], noise: [], suppressed: [], flags: ['malformed'], pass: false };
 
 function finding(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
@@ -42,6 +43,7 @@ describe('parseReview', () => {
         },
       ],
       noise: [],
+      suppressed: [],
       flags: [],
       pass: false,
     });
@@ -52,7 +54,7 @@ describe('parseReview', () => {
     ['no noise key', '{"findings": []}'],
   ] as const) {
     it(`passes a review with no findings and ${name}`, () => {
-      assert.deepEqual(parseReview(text), { findings: [], noise: [], flags: [], pass: true });
+      assert.deepEqual(parseReview(text), { findings: [], noise: [], suppressed: [], flags: [], pass: true });
     });
   }
 
@@ -183,22 +185,27 @@ describe('parseReview', () => {
     for (const [name, overrides] of cases) {
       it(`fails the whole review closed on a finding with ${name}`, () => {
         const outcome = parseReview(review([finding({ likelihood: 0.9, cost: 10, ...overrides })]));
-        assert.deepEqual(outcome, { findings: [], noise: [], flags: ['malformed'], pass: false });
+        assert.deepEqual(outcome, MALFORMED);
       });
     }
 
-    it('discards valid findings and noise alongside an invalid one', () => {
+    it('discards valid, suppressed, and noise entries alongside an invalid one', () => {
       const outcome = parseReview(
-        review([finding({ id: 'ok', likelihood: 1, cost: 10 }), finding({ id: 'bad', cost: 11 })], [
-          { summary: 'n', whyHypothetical: 'w' },
-        ]),
+        review(
+          [
+            finding({ id: 'ok', likelihood: 1, cost: 10 }),
+            finding({ id: 'bait', likelihood: 0.05, fixRecipe: 'Add a null check before reading config.timeout' }),
+            finding({ id: 'bad', cost: 11 }),
+          ],
+          [{ summary: 'n', whyHypothetical: 'w' }],
+        ),
       );
-      assert.deepEqual(outcome, { findings: [], noise: [], flags: ['malformed'], pass: false });
+      assert.deepEqual(outcome, MALFORMED);
     });
 
     it('fails closed on a non-object finding', () => {
       const outcome = parseReview(review([SUMMARY]));
-      assert.deepEqual(outcome, { findings: [], noise: [], flags: ['malformed'], pass: false });
+      assert.deepEqual(outcome, MALFORMED);
     });
 
     it('accepts likelihood and cost on their range bounds', () => {
@@ -251,7 +258,7 @@ describe('parseReview', () => {
     ];
     for (const [name, text] of cases) {
       it(`fails closed on ${name}`, () => {
-        assert.deepEqual(parseReview(text), { findings: [], noise: [], flags: ['malformed'], pass: false });
+        assert.deepEqual(parseReview(text), MALFORMED);
       });
     }
   });
@@ -272,6 +279,143 @@ describe('parseReview', () => {
       assert.deepEqual(outcome.noise, [
         { summary: 'Pool size could overflow', whyHypothetical: 'Needs more than 2^31 open connections' },
       ]);
+    });
+  });
+
+  describe('over-validation circuit breaker', () => {
+    const baitSummary = 'acquire() trusts the options object built by createPool';
+    const baitRecipe = 'Add input validation for every PoolOptions field';
+
+    function bait(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+      return finding({
+        id: 'bait',
+        summary: baitSummary,
+        trigger: 'A future caller passes options without timeoutMs',
+        likelihood: 0.05,
+        cost: 10,
+        fixRecipe: baitRecipe,
+        ...overrides,
+      });
+    }
+
+    it('suppresses a low-likelihood redundant-validation finding and passes at a threshold its risk meets', () => {
+      assert.deepEqual(parseReview(review([bait()]), { threshold: 0.5 }), {
+        findings: [],
+        noise: [],
+        suppressed: [
+          {
+            id: 'bait',
+            file: 'src/tx/pool.ts',
+            summary: baitSummary,
+            trigger: 'A future caller passes options without timeoutMs',
+            likelihood: 0.05,
+            cost: 10,
+            risk: 0.5,
+            fixRecipe: baitRecipe,
+            rule: 'input-validation',
+          },
+        ],
+        flags: [],
+        pass: true,
+      });
+    });
+
+    it('keeps a defensive finding whose likelihood is exactly 0.1', () => {
+      const outcome = parseReview(review([bait({ likelihood: 0.1 })]), { threshold: 0.5 });
+      assert.deepEqual(
+        outcome.findings.map((f) => f.id),
+        ['bait'],
+      );
+      assert.deepEqual(outcome.suppressed, []);
+      assert.equal(outcome.pass, false);
+    });
+
+    it('keeps a high-likelihood defensive finding blocking', () => {
+      const outcome = parseReview(review([bait({ likelihood: 0.9 })]));
+      assert.deepEqual(
+        outcome.findings.map((f) => f.id),
+        ['bait'],
+      );
+      assert.deepEqual(outcome.suppressed, []);
+      assert.equal(outcome.pass, false);
+    });
+
+    it('keeps a low-likelihood finding that recommends no defensive code', () => {
+      const outcome = parseReview(review([finding({ likelihood: 0.05, cost: 10 })]), { threshold: 0.5 });
+      assert.deepEqual(
+        outcome.findings.map((f) => f.id),
+        ['F1'],
+      );
+      assert.deepEqual(outcome.suppressed, []);
+      assert.equal(outcome.pass, false);
+    });
+
+    it('suppresses before the cap, so a suppressed finding takes no slot and sets no flag', () => {
+      const outcome = parseReview(review([...findingsWithRisks([1, 2, 3, 4, 5, 6, 7]), bait()]));
+      assert.deepEqual(
+        outcome.findings.map((f) => f.risk),
+        [7, 6, 5, 4, 3, 2, 1],
+      );
+      assert.deepEqual(outcome.flags, []);
+      assert.deepEqual(
+        outcome.suppressed.map((f) => f.id),
+        ['bait'],
+      );
+    });
+
+    it('ranks suppressed findings by descending risk', () => {
+      const outcome = parseReview(
+        review([bait({ id: 'low', likelihood: 0.02, cost: 5 }), bait({ id: 'high', likelihood: 0.08, cost: 10 })]),
+      );
+      assert.deepEqual(
+        outcome.suppressed.map((f) => [f.id, f.risk]),
+        [
+          ['high', 0.8],
+          ['low', 0.1],
+        ],
+      );
+    });
+
+    it('sends a defensive finding without a trigger to noise, not suppressed', () => {
+      const outcome = parseReview(review([bait({ trigger: undefined })]));
+      assert.deepEqual(outcome.suppressed, []);
+      assert.deepEqual(
+        outcome.noise.map((n) => n.summary),
+        [baitSummary],
+      );
+    });
+
+    const ruleCases: [string, 'summary' | 'fixRecipe', string][] = [
+      ['null-check', 'summary', 'Missing null check on config.timeout'],
+      ['null-check', 'fixRecipe', 'Check for undefined before calling release()'],
+      ['type-check', 'fixRecipe', 'Add runtime type checks for every PoolOptions field'],
+      ['input-validation', 'fixRecipe', baitRecipe],
+      ['input-validation', 'fixRecipe', 'Validate the arguments of the internal normalizePath helper'],
+      ['guard-layer', 'fixRecipe', 'Put a guard clause at the top of acquire()'],
+      ['guard-layer', 'fixRecipe', 'Add a wrapper that checks pool state before each call'],
+      ['defensive-boilerplate', 'summary', 'Options are not defensively copied'],
+      ['defensive-boilerplate', 'fixRecipe', 'Re-read the pool size just in case'],
+      ['defensive-boilerplate', 'fixRecipe', 'Clamp the timeout to be safe'],
+      ['defensive-boilerplate', 'fixRecipe', 'Wrap the release() call in a try/catch'],
+    ];
+    for (const [rule, field, text] of ruleCases) {
+      for (const [casing, variant] of [
+        ['', text],
+        [' in upper case', text.toUpperCase()],
+      ] as const) {
+        it(`records rule ${rule} for a ${field} of "${text}"${casing}`, () => {
+          const outcome = parseReview(review([finding({ likelihood: 0.05, [field]: variant })]));
+          assert.deepEqual(outcome.findings, []);
+          assert.deepEqual(
+            outcome.suppressed.map((f) => f.rule),
+            [rule],
+          );
+        });
+      }
+    }
+
+    it('has an example case for every exported rule', () => {
+      assert.deepEqual(new Set(ruleCases.map(([rule]) => rule)), new Set(DEFENSIVE_RULES.map(({ name }) => name)));
     });
   });
 });
