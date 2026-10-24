@@ -1,6 +1,6 @@
 # Adversarial dual-model review and rank-by-risk spec
 
-Status: APPROVED (Tier 1, 2026-10-23). Implementation in progress: delivery steps 1 and 2 done (PR 216), steps 3 to 6 not started.
+Status: APPROVED (Tier 1, 2026-10-23). Implementation complete: delivery steps 1 to 6 done. The pre-push wiring is opt-in, and the benchmark has not been run against live models.
 Source: [issue 191](https://github.com/sorensencc-dotcom/toolforge/issues/191). Upstream card: TRM `ACT-01`, Drive file `1DDMvsBbL-M90LdMHBiMaZafiZz86kwOO6R9B_UrRvSw` (`2026-10-15T124801Z__action__toolforge__act-01-adversarial-dual-model-review.md`), priority HIGH, Sprint 35.
 Date: 2026-10-22
 Revision: 2. Replaces the first draft, whose defaults were guesses made before the card was found.
@@ -99,7 +99,7 @@ Replace the placeholder in `tests/trm-act-01-adversarial-dual-model-review.test.
 
 Run with `timeout 60 node --test`.
 
-Benchmark, as a separate non-blocking deliverable: compare false-positive rates for single-model and cross-model passes in the Antigravity suites. The card asks for it and does not give a pass bar.
+Benchmark, as a separate non-blocking deliverable: compare false-positive rates for single-model and cross-model passes. The card says "Antigravity suites" and no such suite exists in the repo, so the operator chose labeled fixture diffs in `tests/fixtures/review-benchmark/cases.json` (2 clean, 2 bug, 2 boilerplate-bait). Run `npm run review:benchmark`. It needs live `OPENAI_API_KEY` and `ANTHROPIC_API_KEY`, reports rates, and has no pass bar.
 
 ## Delivery order
 
@@ -108,7 +108,7 @@ Benchmark, as a separate non-blocking deliverable: compare false-positive rates 
 3. Routing and the second provider implementation (test 7). Needs the credentials decision below.
 4. Prompt template and `toolforge review --adversarial` wiring (tests 1 and 2).
 5. Merge the `.js` and `.ts` auditor logic. Find callers first with `graft callers runAdversarialCrossAudit`.
-6. Benchmark in the Antigravity suites.
+6. Benchmark on labeled fixture diffs (`modules/review/review-benchmark.ts`, `scripts/review-benchmark.mjs`), and opt-in pre-push wiring (`scripts/pre-push-adversarial-review.sh`, called from `.githooks/pre-push`).
 
 ## Resolved items
 
@@ -128,3 +128,7 @@ None blocking. Approval is the only gate left.
 ## Approval
 
 Tier 1 approval: granted by the operator in chat, 2026-10-23. Scope: this spec, revision 2, with decisions D1 to D5 and resolved items 1 to 6.
+
+## Pre-push wiring
+
+Set `TOOLFORGE_ADVERSARIAL_REVIEW=1` to run `toolforge review --adversarial --base origin/main` before every push. It is off by default because each run calls a paid model. Once on, a blocking finding (exit 1), a failed-closed review (exit 2), or a missing base ref blocks the push. `TOOLFORGE_REVIEW_BASE` changes the base ref. Bypass once with `git push --no-verify`.

@@ -41,6 +41,8 @@
     "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
     "test:healing": "npx tsx --test modules/healing/*.test.ts",
     "test:review": "npx tsx --test modules/review/*.test.ts",
+    "test:review-hook": "node --test scripts/pre-push-adversarial-review.test.mjs",
+    "review:benchmark": "node scripts/review-benchmark.mjs",
     "test:providers-api": "npx tsx --test src/api/providers-api.test.ts",
     "test:trm": "npx tsx --test tests/validate-chunks.test.ts",
     "test:watchlist": "node test-watchlist-run.mjs",
