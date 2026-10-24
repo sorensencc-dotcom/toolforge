@@ -1,0 +1,19 @@
+.mcp.json
+  s_eb62a187f56d6f::t_ab3b6534a183a1 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "31c7adb73bfeade39728a71817d25e61a0944a7f",
+  "prompts": {},
+  "sessions": {
+    "s_eb62a187f56d6f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f61ea1c8-9f32-4a92-8e15-d9f05484228d",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
