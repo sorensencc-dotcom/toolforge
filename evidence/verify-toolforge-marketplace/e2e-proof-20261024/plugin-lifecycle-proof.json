@@ -1,0 +1,31 @@
+{
+  "feature": "plugin-lifecycle",
+  "runId": "e2e-proof-20261024",
+  "timestamp": "2026-10-24T05:31:26.890Z",
+  "verdict": "PASS",
+  "steps": [
+    {
+      "step": "register",
+      "output": "✓ Successfully registered plugin Verify Echo (verify-echo) v1.0.0"
+    },
+    {
+      "step": "list",
+      "output": "Registered Plugins:\n- Verify Echo (verify-echo) v1.0.0 at C:\\dev\\evidence\\verify-toolforge-marketplace\\e2e-proof-20261024\\sample-echo-plugin"
+    },
+    {
+      "step": "exec",
+      "output": {
+        "reply": "verification-token-42",
+        "receivedAt": "2026-10-24T05:31:26.601Z"
+      }
+    },
+    {
+      "step": "remove",
+      "output": "✓ Successfully removed plugin verify-echo"
+    },
+    {
+      "step": "verify_empty",
+      "output": "No plugins registered."
+    }
+  ]
+}
