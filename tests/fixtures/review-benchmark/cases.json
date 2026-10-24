@@ -1,0 +1,44 @@
+[
+  {
+    "id": "clean-rename",
+    "label": "clean",
+    "authorModel": "claude-opus-5-5",
+    "commitMessage": "refactor: rename retryCount to attemptCount\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+    "diff": "diff --git a/src/retry.ts b/src/retry.ts\n--- a/src/retry.ts\n+++ b/src/retry.ts\n@@ -1,5 +1,5 @@\n-export function retry(fn: () => Promise<void>, retryCount: number) {\n-  return loop(fn, retryCount);\n+export function retry(fn: () => Promise<void>, attemptCount: number) {\n+  return loop(fn, attemptCount);\n }\n"
+  },
+  {
+    "id": "clean-docs",
+    "label": "clean",
+    "authorModel": "gpt-6.1-sol",
+    "commitMessage": "docs: fix typo in setup guide\n\nCo-Authored-By: GPT 6.1 Sol <noreply@openai.com>",
+    "diff": "diff --git a/docs/setup.md b/docs/setup.md\n--- a/docs/setup.md\n+++ b/docs/setup.md\n@@ -3 +3 @@\n-Run npm instal to fetch dependencies.\n+Run npm install to fetch dependencies.\n"
+  },
+  {
+    "id": "bug-concurrent-counter",
+    "label": "bug",
+    "authorModel": "claude-opus-5-5",
+    "commitMessage": "feat: count active jobs\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+    "diff": "diff --git a/src/jobs.ts b/src/jobs.ts\n--- a/src/jobs.ts\n+++ b/src/jobs.ts\n@@ -1,6 +1,12 @@\n+let active = 0;\n+\n export async function runJob(job: Job) {\n-  await job.run();\n+  const current = active;\n+  await job.run();\n+  active = current + 1;\n }\n"
+  },
+  {
+    "id": "bug-unbounded-query",
+    "label": "bug",
+    "authorModel": "gpt-6.1-sol",
+    "commitMessage": "feat: export all orders\n\nCo-Authored-By: GPT 6.1 Sol <noreply@openai.com>",
+    "diff": "diff --git a/src/export.ts b/src/export.ts\n--- a/src/export.ts\n+++ b/src/export.ts\n@@ -1,4 +1,6 @@\n export async function exportOrders(db: Db) {\n-  return db.query('SELECT * FROM orders LIMIT 1000');\n+  const rows = await db.query('SELECT * FROM orders');\n+  return rows.map((r) => JSON.stringify(r)).join('\\n');\n }\n"
+  },
+  {
+    "id": "bait-internal-type",
+    "label": "bait",
+    "authorModel": "claude-opus-5-5",
+    "commitMessage": "feat: add slugify helper\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+    "diff": "diff --git a/src/slug.ts b/src/slug.ts\n--- a/src/slug.ts\n+++ b/src/slug.ts\n@@ -0,0 +1,3 @@\n+export function slugify(title: string): string {\n+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-');\n+}\n"
+  },
+  {
+    "id": "bait-private-helper",
+    "label": "bait",
+    "authorModel": "gpt-6.1-sol",
+    "commitMessage": "refactor: extract formatName\n\nCo-Authored-By: GPT 6.1 Sol <noreply@openai.com>",
+    "diff": "diff --git a/src/user.ts b/src/user.ts\n--- a/src/user.ts\n+++ b/src/user.ts\n@@ -1,3 +1,6 @@\n+function formatName(first: string, last: string): string {\n+  return `${first} ${last}`;\n+}\n export function label(u: User) {\n-  return `${u.first} ${u.last}`;\n+  return formatName(u.first, u.last);\n }\n"
+  }
+]
