@@ -1,7 +1,7 @@
 ---
 title: Toolforge Marketplace v1.0 — Charter & Specification
 date: 2026-07-13
-version: "1.0"
+version: "1.1"
 status: DRAFT
 owner: "Tier 1 (Chris Sorensen)"
 authority: "Tier 1 decision required to lock"
@@ -51,7 +51,7 @@ Transform Toolforge from governance-only (skill eligibility rules in CLAUDE.md) 
 **Safety Boundaries (Absolute):**
 - No skill published without Tier 1 approval
 - No registry entry quarantined without audit log
-- No installation without checksum verification
+- No installation without integrity verification: a `sha256-<hash>` checksum, or for git-sourced versions the pinned commit SHA (Amendment 1.1)
 - Validator must not execute untrusted code (schema validation only, no eval)
 
 ---
@@ -63,7 +63,7 @@ Transform Toolforge from governance-only (skill eligibility rules in CLAUDE.md) 
 | `toolforge install` mid-way fails | Partial install in `~/.toolforge/skills/<id>`, marked BROKEN in log | Retry install (idempotent) or `toolforge uninstall <id>` |
 | Validator detects non-conformance | Submission marked REJECTED + report generated + PR closed | Developer fixes + resubmits (new submission ID) |
 | Registry entry quarantined (safety issue found) | Entry marked `quarantined` in registry + reason logged | Tier 1 investigates + decides: revoke or restore |
-| Checksum mismatch on install | Installation fails, error printed, local copy deleted | User checks registry.json validity + retries |
+| Integrity mismatch on install (checksum mismatch, or fetched commit differs from the pinned SHA) | Installation fails, error printed, local copy deleted | User checks the registry entry + retries |
 | Malformed SKILL.json | Validator fails + blocks submission | Developer fixes manifest + resubmits |
 
 ---
@@ -155,6 +155,8 @@ toolforge submit <path> [--dry-run]
   }
 }
 ```
+
+> Git-sourced entries add a `source` object and use a `git:`-prefixed `checksum`. See Amendment 1.1.
 
 ### Submission Report Schema
 
@@ -330,7 +332,7 @@ toolforge install toolforge-drift-monitor
 
 **Behavior:**
 1. Verify plugin exists in registry
-2. Validate checksum
+2. Verify integrity: validate the checksum, or for git-sourced entries confirm the fetched commit equals the pinned SHA (Amendment 1.1)
 3. Copy plugin to `~/.toolforge/skills/<id>`
 4. Register in local INDEX.md
 5. Log to `~/.toolforge/install-log.json`
@@ -485,7 +487,7 @@ Published: users can `toolforge install`
 
 **Tests:**
 - CLI: `toolforge list` returns all published skills ✓
-- CLI: `toolforge install <id>` downloads + verifies checksum ✓
+- CLI: `toolforge install <id>` downloads + verifies integrity ✓
 - Validator: detects missing SKILL.json ✓
 - Validator: detects failed tests ✓
 - Validator: detects missing docs ✓
@@ -596,11 +598,43 @@ c:\dev\
 
 ---
 
+## Amendment 1.1 — integrity of git-sourced versions
+
+**Decision.** For a version whose source is a git commit, the pinned commit SHA is the checksum. These versions do not need a separate `sha256-<hash>` over the installed files. Entries distributed as archives keep the `sha256-<hash>` checksum.
+
+Approved by Tier 1 (Chris Sorensen) on 2026-10-24, in a working session with the assistant that drafted this amendment. It takes effect when Tier 1 merges this change.
+
+**Why.** A git commit SHA is content-addressed: it commits to every file in the tree and to the history behind it. Confirming that a fetched checkout's `HEAD` equals the pinned SHA verifies the same bytes a tree hash would. A second hash would add rules to define and maintain (file ordering, modes, line endings) and could fail for reasons unrelated to tampering.
+
+**Rule.** A git-sourced registry entry records:
+
+| Field | Value |
+|---|---|
+| `source.repo` | GitHub `owner/name` |
+| `source.sha` | Full 40-character lowercase commit SHA. Branch names and abbreviated hashes are not accepted. |
+| `source.ref` | Optional tag or branch name the SHA was resolved from. Informational only. |
+| `source.path` | Optional subdirectory that holds the plugin. Omit it when the plugin is the whole repository. |
+| `checksum` | `git:<sha>` or `git:<sha>:<path>`. The path keeps the value unique when several plugins share one commit. |
+
+`toolforge install` for a git-sourced entry:
+1. Fetches `source.sha` from `source.repo`.
+2. Confirms the fetched `HEAD` equals `source.sha`. A mismatch fails the install and deletes the partial copy.
+3. Copies only `source.path` when it is set. The path is relative, has no `.` or `..` segments, and contains nothing inside `.git`.
+4. Refuses the install if any symbolic link resolves outside the install directory, or to nothing.
+5. Never copies `.git`.
+
+**Unchanged.** Registry immutability, the Tier 1 approval gate for publication, the `toolforge submit` flow, and the quarantine rules all stand. Versions stay immutable: publishing a different source under an existing tag is refused.
+
+**Implementation.** The `toolforge-marketplace` repository implements this model: install in pull requests #11 and #12, the publish and backfill scripts in #13 and #14, and skill creation in #15.
+
+---
+
 ## Approval & Amendment Log
 
 | Version | Date | Status | Decision |
 |---------|------|--------|----------|
 | 1.0 | 2026-07-13 | DRAFT | Awaiting Tier 1 review |
+| 1.1 | 2026-10-24 | DRAFT | Amendment 1.1: the commit SHA is the integrity check for git-sourced versions. Approved by Tier 1 in session; takes effect when Tier 1 merges. |
 
 **Conformance Check:** PENDING (to be run after charter lock)
 
