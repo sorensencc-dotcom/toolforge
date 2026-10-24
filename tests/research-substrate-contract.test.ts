@@ -29,3 +29,17 @@ test('builds receipts for every closed outcome with request and output hashes', 
     assert.equal(receipt.output_hash, sha256(result.draft_output));
   }
 });
+
+test('buildReceipt throws an error when correlation_id mismatch', () => {
+  assert.throws(
+    () => buildReceipt(request, { ...result, correlation_id: 'c-2' }, { policy_version: 'v1', adapter_version: 'v1', created_at: '2026-09-07T00:00:00Z' }),
+    { message: 'correlation_id mismatch' }
+  );
+});
+
+test('buildReceipt throws an error when outcome is invalid', () => {
+  assert.throws(
+    () => buildReceipt(request, { ...result, outcome: 'invalid_outcome' as any }, { policy_version: 'v1', adapter_version: 'v1', created_at: '2026-09-07T00:00:00Z' }),
+    { message: 'invalid outcome' }
+  );
+});
