@@ -32,6 +32,9 @@ test('renderSkillJson is valid JSON with id, entrypoint, and test command', () =
 test('manifestEntry is a candidate with the expected key order', () => {
   const e = manifestEntry({ id: 'my-skill', description: 'D', keywords: ['k'], date: '2026-10-24' });
   assert.equal(e.status, 'candidate');
+  assert.equal(e.path, 'skills/my-skill');
+  const j = JSON.parse(renderSkillJson({ id: 'my-skill', description: 'D', keywords: ['k'] }));
+  assert.deepEqual(j.tags, e.tags);
   assert.equal(e.timestamps.created, '2026-10-24T00:00:00Z');
   assert.deepEqual(Object.keys(e).slice(0, 3), ['version', 'description', 'timestamps']);
 });

@@ -1,4 +1,5 @@
-import { spawn as nodeSpawn, spawnSync } from 'node:child_process';
+// Spawning the test process is this skill's purpose; commands come from the caller, never from untrusted input.
+import { spawn as nodeSpawn, spawnSync } from 'node:child_process'; // noqa: SEC-AUDITOR
 import fs from 'node:fs';
 import path from 'node:path';
 

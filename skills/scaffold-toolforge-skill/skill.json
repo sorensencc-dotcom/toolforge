@@ -12,6 +12,12 @@
     "manifest",
     "template"
   ],
+  "tags": [
+    "scaffold",
+    "skill",
+    "manifest",
+    "template"
+  ],
   "commands": {
     "test": "node --test --test-timeout=15000 skills/scaffold-toolforge-skill/tests/index.test.mjs"
   },

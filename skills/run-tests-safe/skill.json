@@ -3,10 +3,16 @@
   "name": "Run Tests Safe",
   "version": "0.1.0",
   "description": "Run a test suite under a hard 60s timeout, detect hangs, clear stale locks, and name the hanging file.",
-  "category": "testing",
+  "category": "validation",
   "runtime": "node",
   "entrypoint": "src/index.mjs",
   "keywords": [
+    "tests",
+    "timeout",
+    "hung",
+    "locks"
+  ],
+  "tags": [
     "tests",
     "timeout",
     "hung",

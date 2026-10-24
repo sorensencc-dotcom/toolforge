@@ -12,6 +12,12 @@
     "warnings",
     "skillpack"
   ],
+  "tags": [
+    "skill",
+    "health",
+    "warnings",
+    "skillpack"
+  ],
   "commands": {
     "test": "node --test --test-timeout=15000 skills/triage-skill-health-warnings/tests/index.test.mjs"
   },
