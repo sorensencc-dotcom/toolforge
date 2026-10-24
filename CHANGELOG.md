@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.108.0
+Date: 2026-10-24
+
+### Changes
+- b1ea09d3 - Merge pull request #237 from sorensencc-dotcom/chore-cic-daily-status-expanded-aggregator (Chris Sorensen)
+- d4ba5a56 - Merge pull request #236 from sorensencc-dotcom/sorensencc-dotcom/trm-triage-p2-frontier_lab_verification_standard (Chris Sorensen)
+- 89e4b2f2 - docs(research): rewrite ACT-04 RFC from source card (Chris Sorensen)
+- 3b35e8c9 - feat(scripts): add expanded CIC daily status aggregator and regression test (Chris Sorensen)
+- 0aeaab78 - Merge pull request #234 from sorensencc-dotcom/claude/festive-brahmagupta-0xjmjg (Chris Sorensen)
+- cd4b0497 - docs(governance): amend marketplace spec so the commit SHA is the integrity check (v1.1) (Claude)
+
 ## Version 2.107.2
 Date: 2026-10-24
 
