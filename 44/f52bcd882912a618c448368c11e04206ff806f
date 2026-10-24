@@ -1,0 +1,22 @@
+package.json
+  s_b6041bb690bc5b::t_393785ffc8c9e6 44
+src/api/providers-api.test.ts
+  s_b6041bb690bc5b::t_64ea7ff639dee9 1-69
+  s_b6041bb690bc5b::t_3a1711eb5725f4 70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "44f52bcd882912a618c448368c11e04206ff806f",
+  "prompts": {},
+  "sessions": {
+    "s_b6041bb690bc5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "88beef84-8f01-422d-9742-583501d724c3",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
