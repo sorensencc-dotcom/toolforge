@@ -1,4 +1,4 @@
-import { type LocalProviderLike } from '../../src/providers/index.js';
+import { getProvider, type LocalProviderLike } from '../../src/providers/index.js';
 
 export interface AuditPacket {
   packetId: string;
@@ -17,7 +17,7 @@ export interface AuditVerdict {
 
 export async function runAdversarialCrossAudit(
   packet: AuditPacket,
-  localProvider: LocalProviderLike
+  localProvider: LocalProviderLike = getProvider()
 ): Promise<AuditVerdict> {
   const auditPrompt = `
 You are an adversarial code referee operating under strict IJFW discipline.
