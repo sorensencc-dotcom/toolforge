@@ -1,0 +1,21 @@
+wiki/research/rfc-frontier-lab-verification-standards-dissent.md
+  s_eefe94c075ee19::t_66af53a494a263 2,8,11-13,16-17,20,22,24,26,28-30,32,34,36-41,43,45,47-61,63,65-67
+.harness/tasks/completed/act-04-frontier-lab-verification-standards-dissent.json
+  s_eefe94c075ee19::t_55f258d5b237bc 18-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "89e4b2f255fda9bf87ff6ecb1c2064af0ce6cc52",
+  "prompts": {},
+  "sessions": {
+    "s_eefe94c075ee19": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e0bb805a-3544-4e87-bfd6-c5135f5ebf3f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
