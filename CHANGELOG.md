@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.107.1
+Date: 2026-10-24
+
+### Changes
+- 16b3774b - Merge pull request #226 from sorensencc-dotcom/trm/act-218-link-scrubber-resilience (Chris Sorensen)
+- 0943b543 - chore(core): Toolforge Suspicious Link Scrubber Resilience (closes #218) (Chris Sorensen)
+
 ## Version 2.107.0
 Date: 2026-10-24
 
