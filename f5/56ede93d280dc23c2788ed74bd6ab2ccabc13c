@@ -1,0 +1,63 @@
+skills/open-trm-act-pr/README.md
+  s_0f81f823596052::t_c1293642adc14d 1-17
+skills/open-trm-act-pr/SKILL.md
+  s_0f81f823596052::t_96d09b13ffcdf5 1-66
+skills/open-trm-act-pr/docs/USAGE.md
+  s_0f81f823596052::t_ffb0cb737d8771 1-26
+skills/open-trm-act-pr/src/index.mjs
+  s_0f81f823596052::t_a9e35801a82a6b 1-28
+skills/open-trm-act-pr/tests/index.test.mjs
+  s_0f81f823596052::t_be73e236e1a9f3 1-30
+skills/start-session-preflight/README.md
+  s_0f81f823596052::t_ce03acb133d94e 1-19
+skills/start-session-preflight/SKILL.md
+  s_0f81f823596052::t_df6d9491f3bf70 1-67
+skills/start-session-preflight/src/index.mjs
+  s_0f81f823596052::t_e8b15ac3fa8b21 1-70
+skills/start-session-preflight/tests/index.test.mjs
+  s_0f81f823596052::t_80d2faa3bfa667 1-43
+skills/wrap-session/README.md
+  s_0f81f823596052::t_b02a73e8aad1a2 1-17
+skills/wrap-session/SKILL.md
+  s_0f81f823596052::t_514b806cf6d372 1-65
+skills/wrap-session/src/index.mjs
+  s_0f81f823596052::t_87c152e530627b 1-45
+skills/wrap-session/tests/index.test.mjs
+  s_0f81f823596052::t_fa6091b4a6a696 1-33
+package.json
+  s_6b6a6288a10af8::t_0bece098e7cab2 38
+tests/manifest-skills-integrity.test.mjs
+  s_6b6a6288a10af8::t_866b53d7fe43f0 14
+manifest.json
+  s_0f81f823596052::t_5add2c9898fc7c 1919-2016
+skills/open-trm-act-pr/skill.json
+  s_0f81f823596052::t_f365da794860b4 1-32
+skills/start-session-preflight/skill.json
+  s_0f81f823596052::t_ef3d937ebc86ff 1-29
+skills/wrap-session/skill.json
+  s_0f81f823596052::t_5f7c952c4e1803 1-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f556ede93d280dc23c2788ed74bd6ab2ccabc13c",
+  "prompts": {},
+  "sessions": {
+    "s_0f81f823596052": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4219511d-1dcd-456d-b112-7fb172867747",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_6b6a6288a10af8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a16dd6-a329-7061-ba41-1bde4f4bd5d0",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
