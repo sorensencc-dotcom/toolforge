@@ -1,0 +1,29 @@
+scripts/local-small-model-bridge.mjs
+  s_3ccd25f5652152::t_ed18c695b8ccbf 173,197,219,262,296
+scripts/trm-ingress-watcher.mjs
+  s_3ccd25f5652152::t_cccd71df6d5685 67-68,240-243,269-272,560-567
+src/validators/manifest.js
+  s_3ccd25f5652152::t_3fb995e7cef0ac 40-46,116
+src/validators/manifest.test.js
+  s_3ccd25f5652152::t_de4c3e794cf319 142-186
+tests/schema-validator.test.mjs
+  s_3ccd25f5652152::t_d75c2b08c206a1 37-42,129-172
+tests/trm-ingress-routing.test.mjs
+  s_3ccd25f5652152::t_0a10170615ecb8 473,494-526
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0943b5432b9b171a8d1f163a54f2a3028968bda9",
+  "prompts": {},
+  "sessions": {
+    "s_3ccd25f5652152": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b079bd05-d930-41d5-bc67-bc59c646e98c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
