@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.105.1
+Date: 2026-10-24
+
+### Changes
+- 0063cd73 - Merge pull request #219 from sorensencc-dotcom/feat/adversarial-auditor-merge (Chris Sorensen)
+- f82fa907 - refactor(healing): merge adversarial auditor .js into .ts (Chris Sorensen)
+
 ## Version 2.105.0
 Date: 2026-10-24
 
