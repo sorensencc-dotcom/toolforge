@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.107.2
+Date: 2026-10-24
+
+### Changes
+- 3d4db904 - Merge pull request #227 from sorensencc-dotcom/trm/act-toolforge-icf-batch-triage-pr-bridge-tests (Chris Sorensen)
+- 0f45b47a - chore(icf): implement integration test suite for batch triage and PR staging bridge (closes #215) (Chris Sorensen)
+
 ## Version 2.107.1
 Date: 2026-10-24
 
