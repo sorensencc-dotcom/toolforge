@@ -1,0 +1,59 @@
+skills/scaffold-toolforge-skill/src/index.mjs
+  s_b17fe6de81133b::t_a9021d34cee81f 1-161
+skills/run-tests-safe/src/index.mjs
+  s_b17fe6de81133b::t_f5669bfc6c4340 1-96
+skills/run-tests-safe/SKILL.md
+  s_b17fe6de81133b::t_628b5c3720c4f7 1-57
+skills/scaffold-toolforge-skill/tests/index.test.mjs
+  s_b17fe6de81133b::t_e9e3ee03a9758d 1-68
+skills/scaffold-toolforge-skill/skill.json
+  s_b17fe6de81133b::t_60364c96ec25b2 1-31
+skills/scaffold-toolforge-skill/README.md
+  s_b17fe6de81133b::t_60364c96ec25b2 1-17
+skills/triage-skill-health-warnings/docs/USAGE.md
+  s_b17fe6de81133b::t_026e21ac71e549 1-12
+skills/triage-skill-health-warnings/SKILL.md
+  s_b17fe6de81133b::t_026e21ac71e549 1-55
+skills/run-tests-safe/tests/index.test.mjs
+  s_b17fe6de81133b::t_9441a3495b9632 1-94
+skills/triage-skill-health-warnings/skill.json
+  s_b17fe6de81133b::t_026e21ac71e549 1-30
+skills/scaffold-toolforge-skill/SKILL.md
+  s_b17fe6de81133b::t_60364c96ec25b2 1-60
+skills/run-tests-safe/skill.json
+  s_b17fe6de81133b::t_628b5c3720c4f7 1-30
+skills/triage-skill-health-warnings/README.md
+  s_b17fe6de81133b::t_026e21ac71e549 1-17
+manifest.json
+  s_b17fe6de81133b::t_2af3a8fa196795 2017-2112
+package.json
+  s_b17fe6de81133b::t_2af3a8fa196795 38
+skills/run-tests-safe/README.md
+  s_b17fe6de81133b::t_628b5c3720c4f7 1-17
+skills/run-tests-safe/docs/USAGE.md
+  s_b17fe6de81133b::t_628b5c3720c4f7 1-12
+tests/manifest-skills-integrity.test.mjs
+  s_b17fe6de81133b::t_2af3a8fa196795 14
+skills/scaffold-toolforge-skill/docs/USAGE.md
+  s_b17fe6de81133b::t_60364c96ec25b2 1-12
+skills/triage-skill-health-warnings/src/index.mjs
+  s_b17fe6de81133b::t_bd029cd0440f42 1-58
+skills/triage-skill-health-warnings/tests/index.test.mjs
+  s_b17fe6de81133b::t_5ebf49ddc335e9 1-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0c534164f070e7b0cb8c8a9a67017c99e1dea987",
+  "prompts": {},
+  "sessions": {
+    "s_b17fe6de81133b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ce02bd4e-7bfa-4740-a007-09852f174da2",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
