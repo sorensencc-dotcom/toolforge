@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.107.0
+Date: 2026-10-24
+
+### Changes
+- d3927a6f - Merge pull request #225 from sorensencc-dotcom/feat/adv-review-step6 (Chris Sorensen)
+- 038a81ae - feat(review): benchmark cross-model review and wire it into pre-push (issue 191 step 6) (Chris Sorensen)
+- 90e23ee3 - Merge pull request #224 from sorensencc-dotcom/docs/chris-mode-review (Chris Sorensen)
+- d3bbc5c9 - docs(skills): tighten chris-mode after skill-reviewer pass (Chris Sorensen)
+
 ## Version 2.106.2
 Date: 2026-10-24
 
