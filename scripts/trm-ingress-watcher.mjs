@@ -64,6 +64,8 @@ const GDRIVE_OUTBOX_ARCHIVE = path.join(GDRIVE_ROOT, '04_archive/mobile-outbox')
 const LOCAL_OUTBOX_ARCHIVE = path.join(LOCAL_INBOX_ROOT, 'completed/outbox');
 const LOCAL_DOT_TRM_OUTBOX_ARCHIVE = path.join(REPO_ROOT, '.trm/inbox/outbox/archive');
 
+export const LINK_SCRUBBER_REGEX = /(?:\[|%5B)suspicious link removed(?:\]|%5D)/i;
+
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
 const isOnce = args.includes('--once') || isDryRun;
@@ -235,6 +237,10 @@ export function parsePayload(raw, ext, options = {}) {
         }
       }
 
+      if (LINK_SCRUBBER_REGEX.test(text)) {
+        throw new Error('Document corrupted by link scrubber: suspicious link removed');
+      }
+
       const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
       if (!match) {
         throw new Error('Markdown action item missing frontmatter block');
@@ -258,6 +264,10 @@ export function parsePayload(raw, ext, options = {}) {
         }
       };
     })();
+  }
+
+  if (typeof text === 'string' && LINK_SCRUBBER_REGEX.test(text)) {
+    throw new Error('Document corrupted by link scrubber: suspicious link removed');
   }
 
   if (ext === '.json') {
@@ -547,6 +557,14 @@ export function validatePayload(item) {
   if (!item.action_type || !['deterministic_fix', 'antigravity_triage'].includes(item.action_type)) {
     item.action_type = inferActionType(item);
   }
+  // Validate $schema URI resilience if present
+  if (item.$schema !== undefined && item.$schema !== null) {
+    if (typeof item.$schema !== 'string' || !URL.canParse(item.$schema)) {
+      item.$schema_invalid = item.$schema;
+      item.$schema = 'urn:toolforge:schema:base-sync-task:v1';
+    }
+  }
+
   if (!item.intent) throw new Error('Missing intent');
   return true;
 }
