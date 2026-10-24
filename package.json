@@ -46,6 +46,7 @@
     "test:providers-api": "npx tsx --test src/api/providers-api.test.ts",
     "test:trm": "npx tsx --test tests/validate-chunks.test.ts",
     "test:watchlist": "node test-watchlist-run.mjs",
+    "test:backend": "node --test test/backend/batch-triage-pr-bridge.test.ts",
     "wiki:publish": "node scripts/sync-github-wiki.mjs",
     "wiki:publish:pages": "node scripts/publish-repo-wiki-pages.mjs",
     "wiki:sync": "node scripts/sync-github-wiki.mjs",
