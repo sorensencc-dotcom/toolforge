@@ -1,0 +1,29 @@
+.claude/hooks/block-env-edit.js
+  s_f556306c402d1e::t_e6186a5c9d7d01 2,5-13
+tests/claude-hooks-stdin.test.mjs
+  s_ae298c02f15bce::t_a58820a7fc58f3 66-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f0e9506b2bd70c0666772b7576f223b7262a99ad",
+  "prompts": {},
+  "sessions": {
+    "s_ae298c02f15bce": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f4971ad-315e-4672-9600-6c923f685f2e",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f556306c402d1e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "25cf9643-2c9c-42a3-8032-b7a580305fee",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
