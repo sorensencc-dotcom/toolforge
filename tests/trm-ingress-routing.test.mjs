@@ -502,6 +502,16 @@ test('parsePayload rejects payloads containing link scrubber text', async () => 
     /Document corrupted by link scrubber/
   );
 
+  const encodedJson = JSON.stringify({
+    source: 'mobile-grok',
+    intent: 'test_scrub',
+    notes: 'Reference: %5Bsuspicious%20link%20removed%5D'
+  });
+  await assert.rejects(
+    async () => parsePayload(encodedJson, '.json'),
+    /Document corrupted by link scrubber/
+  );
+
   const scrubbedMd = `---
 source: mobile-grok
 intent: test_scrub
@@ -512,6 +522,18 @@ Body with %5Bsuspicious link removed%5D
     async () => parsePayload(scrubbedMd, '.md'),
     /Document corrupted by link scrubber/
   );
+
+  // But if ONLY $schema is scrubbed, parsePayload preserves payload for normalization
+  const scrubbedSchemaJson = JSON.stringify({
+    $schema: '[Suspicious link removed]',
+    source: 'mobile-grok',
+    intent: 'test_scrub'
+  });
+  const parsed = await parsePayload(scrubbedSchemaJson, '.json');
+  assert.equal(parsed.intent, 'test_scrub');
+  assert.equal(parsed.$schema, '[Suspicious link removed]');
+  validatePayload(parsed);
+  assert.equal(parsed.$schema, 'urn:toolforge:schema:base-sync-task:v1');
 });
 
 test('validatePayload normalizes invalid or scrubbed $schema to bundled URN without throwing', () => {

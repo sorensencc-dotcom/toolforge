@@ -389,13 +389,20 @@ Return ONLY valid JSON.`;
     if (res.ok) {
       const data = await res.json();
       const parsed = JSON.parse(data.response);
+      const testStubVal = typeof parsed.testStub === 'string'
+        ? parsed.testStub
+        : (parsed.testStub ? JSON.stringify(parsed.testStub, null, 2) : defaultSynthesis.testStub);
+      const cliContractVal = typeof parsed.cliContract === 'string'
+        ? parsed.cliContract
+        : (parsed.cliContract ? JSON.stringify(parsed.cliContract, null, 2) : defaultSynthesis.cliContract);
+
       return {
         tier: parsed.tier || defaultSynthesis.tier,
         rationale: parsed.rationale || defaultSynthesis.rationale,
         priorArtSummary: parsed.priorArtSummary || defaultSynthesis.priorArtSummary,
         deltaPlan: Array.isArray(parsed.deltaPlan) && parsed.deltaPlan.length > 0 ? parsed.deltaPlan : defaultSynthesis.deltaPlan,
-        cliContract: parsed.cliContract || defaultSynthesis.cliContract,
-        testStub: parsed.testStub || defaultSynthesis.testStub
+        cliContract: cliContractVal,
+        testStub: testStubVal
       };
     }
   } catch (err) {
@@ -490,6 +497,12 @@ async function main() {
   if (!card) {
     console.error(`Error: Could not locate card data for ${args.cardId}`);
     process.exit(1);
+  }
+
+  // Guard against enriching degraded cards where GDoc text fetch failed or body is missing
+  if (card.context?.body_fetch_failed === true || card.body_fetch_failed === true) {
+    console.warn(`[enricher] Skipping enrichment for ${args.cardId}: body_fetch_failed is true (cannot synthesize from filename metadata alone).`);
+    process.exit(0);
   }
 
   // Phase A: Deterministic file and AST extraction

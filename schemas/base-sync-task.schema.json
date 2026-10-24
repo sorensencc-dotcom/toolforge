@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "urn:toolforge:schema:base-sync-task:v1",
+  "title": "BaseSyncTask",
+  "description": "Schema for Toolforge base synchronization tasks and action cards",
+  "type": "object",
+  "required": ["id", "timestamp", "intent"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "action_type": {
+      "type": "string"
+    },
+    "intent": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "context": {
+      "type": "object"
+    },
+    "execution_plan": {
+      "type": "array"
+    }
+  }
+}

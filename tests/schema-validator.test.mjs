@@ -44,7 +44,8 @@ function validateManifestPayload(manifest, schema) {
 }
 
 describe('Toolforge Manifest Schema Validator Suite', () => {
-  const schemaPath = path.resolve('schemas/toolforge-manifest-schema.json');
+  const schemaPath = path.resolve(import.meta.dirname, '../schemas/toolforge-manifest-schema.json');
+  const baseSyncTaskPath = path.resolve(import.meta.dirname, '../schemas/base-sync-task.schema.json');
 
   it('validates schema file existence and root properties', () => {
     assert.ok(fs.existsSync(schemaPath), 'Schema file must exist on disk');
@@ -53,6 +54,11 @@ describe('Toolforge Manifest Schema Validator Suite', () => {
     assert.equal(content.$id, 'https://toolforge.rewrite.internal/schemas/v1/manifest.json');
     assert.ok(content.required.includes('manifestVersion'));
     assert.ok(content.required.includes('skills'));
+
+    assert.ok(fs.existsSync(baseSyncTaskPath), 'Base sync task schema file must exist on disk');
+    const baseContent = JSON.parse(fs.readFileSync(baseSyncTaskPath, 'utf8'));
+    assert.equal(baseContent.$id, 'urn:toolforge:schema:base-sync-task:v1');
+    assert.equal(baseContent.title, 'BaseSyncTask');
   });
 
   it('accepts a fully compliant skill manifest', () => {

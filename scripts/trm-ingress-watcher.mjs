@@ -12,6 +12,7 @@ export function applySmallModelTriage(item, triaged) {
     item.intent = triaged.intent || item.intent || 'triage_mobile_request';
   }
   item.action_type = item.action_type || triaged.action_type;
+  item.$schema = item.$schema || triaged.$schema;
   if (!item.priority) {
     item.priority = ALLOWED_TRIAGE_PRIORITIES.includes(triaged.priority) ? triaged.priority : 'P2';
   }
@@ -64,7 +65,7 @@ const GDRIVE_OUTBOX_ARCHIVE = path.join(GDRIVE_ROOT, '04_archive/mobile-outbox')
 const LOCAL_OUTBOX_ARCHIVE = path.join(LOCAL_INBOX_ROOT, 'completed/outbox');
 const LOCAL_DOT_TRM_OUTBOX_ARCHIVE = path.join(REPO_ROOT, '.trm/inbox/outbox/archive');
 
-export const LINK_SCRUBBER_REGEX = /(?:\[|%5B)suspicious link removed(?:\]|%5D)/i;
+export const LINK_SCRUBBER_REGEX = /(?:\[|%5B|&#91;|&lbrack;)\s*suspicious(?:\s+|%20|\+)+link(?:\s+|%20|\+)+removed\s*(?:\]|%5D|&#93;|&rbrack;)/i;
 
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
@@ -237,10 +238,6 @@ export function parsePayload(raw, ext, options = {}) {
         }
       }
 
-      if (LINK_SCRUBBER_REGEX.test(text)) {
-        throw new Error('Document corrupted by link scrubber: suspicious link removed');
-      }
-
       const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
       if (!match) {
         throw new Error('Markdown action item missing frontmatter block');
@@ -256,6 +253,13 @@ export function parsePayload(raw, ext, options = {}) {
         }
       }
       const body = text.slice(match[0].length).trim();
+      if (LINK_SCRUBBER_REGEX.test(body)) {
+        throw new Error('Document corrupted by link scrubber: suspicious link removed');
+      }
+      const { $schema: _gdocFmSchema, ...restGdocFm } = frontmatter;
+      if (LINK_SCRUBBER_REGEX.test(JSON.stringify(restGdocFm))) {
+        throw new Error('Document corrupted by link scrubber: suspicious link removed');
+      }
       return {
         ...frontmatter,
         context: {
@@ -266,12 +270,13 @@ export function parsePayload(raw, ext, options = {}) {
     })();
   }
 
-  if (typeof text === 'string' && LINK_SCRUBBER_REGEX.test(text)) {
-    throw new Error('Document corrupted by link scrubber: suspicious link removed');
-  }
-
   if (ext === '.json') {
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+    const { $schema: _jsonSchema, ...restJson } = parsed;
+    if (LINK_SCRUBBER_REGEX.test(JSON.stringify(restJson))) {
+      throw new Error('Document corrupted by link scrubber: suspicious link removed');
+    }
+    return parsed;
   }
   if (ext === '.md') {
     const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -289,6 +294,13 @@ export function parsePayload(raw, ext, options = {}) {
       }
     }
     const body = text.slice(match[0].length).trim();
+    if (LINK_SCRUBBER_REGEX.test(body)) {
+      throw new Error('Document corrupted by link scrubber: suspicious link removed');
+    }
+    const { $schema: _mdFmSchema, ...restMdFm } = frontmatter;
+    if (LINK_SCRUBBER_REGEX.test(JSON.stringify(restMdFm))) {
+      throw new Error('Document corrupted by link scrubber: suspicious link removed');
+    }
     return {
       ...frontmatter,
       context: {

@@ -292,9 +292,14 @@ Respond with raw JSON only. No markdown fences. No explanations.`;
 
     // Validate required fields
     if (parsed.action_type && parsed.intent) {
+      const { $schema: rawSchema, ...restParsed } = parsed;
+      const validSchema = (rawSchema && typeof rawSchema === 'string' && URL.canParse(rawSchema))
+        ? rawSchema
+        : 'urn:toolforge:schema:base-sync-task:v1';
+
       return {
-        $schema: parsed.$schema || 'urn:toolforge:schema:base-sync-task:v1',
-        ...parsed,
+        ...restParsed,
+        $schema: validSchema,
         id: parsed.id || `act-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
         timestamp: parsed.timestamp || new Date().toISOString(),
         source: metadata.source || parsed.source || 'mobile-voice',
