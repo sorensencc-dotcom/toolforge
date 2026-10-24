@@ -1,0 +1,45 @@
+.claude/helpers/graft-hooks.cjs
+  s_eefe94c075ee19::t_c946b782982620 25-29,32-40,42-63
+.claude/helpers/graft-statusline.cjs
+  s_eefe94c075ee19::t_0b6c956f0db377 25-29,32-40,42-63
+.claude/settings.json
+  s_eefe94c075ee19::t_7f17231e96a806 104,152-154
+.ijfw/memory/project-journal.md
+  s_eefe94c075ee19::t_cab7192af517fb 313-314
+.serena/.gitignore
+  s_eefe94c075ee19::t_f96d8f5c38958b 1-2
+.serena/project.yml
+  s_eefe94c075ee19::t_0512a1a38ea52d 1-169
+AGENTS.md
+  s_eefe94c075ee19::t_8a9b31ee62eeb1 1-24,163-167,173-174
+ijfw/memory/archive/finding-vision-subsystem-typescript-incompatibility.md
+  s_eefe94c075ee19::t_7c1a6c5aba0ef5 1-33
+ijfw/memory/archive/plan-vision.md
+  s_eefe94c075ee19::t_6c7c60fd4286ab 1-104
+ijfw/memory/archive/plan.md
+  s_eefe94c075ee19::t_ad241768fdc567 1-113
+ijfw/memory/handoff.md
+  s_eefe94c075ee19::t_a310f843e5a13e 1-42
+ijfw/memory/plan.md
+  s_eefe94c075ee19::t_2dcfa73754324a 1-99
+ijfw/memory/project-journal.md
+  s_eefe94c075ee19::t_682bf97a51724b 1-313
+ijfw/sessions/session_2026-09-29_16-54-49.md
+  s_eefe94c075ee19::t_d77dda2e95db38 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d0f18aa366eefe9d5d549f7fe16bf9aa0d314698",
+  "prompts": {},
+  "sessions": {
+    "s_eefe94c075ee19": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e0bb805a-3544-4e87-bfd6-c5135f5ebf3f",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
