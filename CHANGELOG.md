@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.106.2
+Date: 2026-10-24
+
+### Changes
+- 7cd1a3e0 - Merge pull request #223 from sorensencc-dotcom/feat/adversarial-auditor-merge (Chris Sorensen)
+- 44f52bcd - test(providers): cover example server imports, health redaction, and audit route (Chris Sorensen)
+
 ## Version 2.106.1
 Date: 2026-10-24
 
