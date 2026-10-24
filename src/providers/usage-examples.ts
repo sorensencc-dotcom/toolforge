@@ -5,7 +5,7 @@
 
 // In any module that needs the provider:
 import { getProvider, resetProvider } from "../providers/index.js";
-import { runAdversarialCrossAudit } from "../modules/healing/adversarial-auditor.js";
+import { runAdversarialCrossAudit } from "../../modules/healing/adversarial-auditor.ts";
 
 // Example 1: Using the provider in adversarial auditing flow
 export async function auditWithOllama(auditPacket: any) {
