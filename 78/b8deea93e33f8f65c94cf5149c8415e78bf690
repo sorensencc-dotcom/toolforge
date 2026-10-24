@@ -1,0 +1,29 @@
+OLLAMA_DEPLOYMENT_GUIDE.md
+  s_b6041bb690bc5b::t_3d8c1396fe8e35 211
+OLLAMA_PROVIDER_SETUP.md
+  s_b6041bb690bc5b::t_c3aa45926f6db2 103
+QUICKSTART.md
+  s_b6041bb690bc5b::t_4fc951f57c6e00 144
+src/api/providers-api.ts
+  s_b6041bb690bc5b::t_f6547d7a81c2f1 10
+src/providers/usage-examples.ts
+  s_b6041bb690bc5b::t_72b352e0c588e7 8
+.ijfw/memory/project-journal.md
+  s_b6041bb690bc5b::t_5ca963b00b7100 271
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "78b8deea93e33f8f65c94cf5149c8415e78bf690",
+  "prompts": {},
+  "sessions": {
+    "s_b6041bb690bc5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "88beef84-8f01-422d-9742-583501d724c3",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
