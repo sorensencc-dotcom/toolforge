@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.106.1
+Date: 2026-10-24
+
+### Changes
+- c68be1b7 - Merge pull request #221 from sorensencc-dotcom/feat/adversarial-auditor-merge (Chris Sorensen)
+- b2e935d9 - fix(providers): correct example imports and drop endpoint from health response (Chris Sorensen)
+- d542d46a - chore: drop unintended journal change (Chris Sorensen)
+- 78b8deea - docs(healing): point auditor imports at the .ts module (Chris Sorensen)
+
 ## Version 2.106.0
 Date: 2026-10-24
 
