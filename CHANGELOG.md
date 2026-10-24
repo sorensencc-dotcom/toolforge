@@ -1,5 +1,27 @@
 # Changelog
 
+## Version 2.106.0
+Date: 2026-10-24
+
+### Changes
+- fde41472 - Merge pull request #222 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- b8a76dd3 - Merge pull request #220 from sorensencc-dotcom/docs/chris-mode-update (Chris Sorensen)
+- b9d8ee89 - docs(skills): update chris-mode with Oct 2026 working conventions (Chris Sorensen)
+- f0e9506b - fix(hooks): harden block-env-edit stdin parsing (Chris Sorensen)
+- 9035b50f - fix(hooks): read stdin JSON and deny via JSON for Grok compatibility (Chris Sorensen)
+- dd122957 - fix(diagram-sync): ignore worktrees directory in visual parity walk (Chris Sorensen)
+- eb5268f6 - docs(report): add daily report for 2026-10-23 (Chris Sorensen)
+- 22218e10 - docs(report): add daily report for 2026-10-22 (Chris Sorensen)
+- 8740b7f3 - docs(report): add daily report for 2026-10-21 (Chris Sorensen)
+- 0d81cb67 - fix(hooks): use Windows paths in Grok Claude settings (Chris Sorensen)
+- 31fea892 - feat(daemon): honor .restart-dashboard flag in daemon-healer-bot (Chris Sorensen)
+- fa18e480 - fix(janitor): protect canonical daemon ports from orphan termination (Chris Sorensen)
+- e92756f1 - fix(daemon): probe trm-backlog endpoint to detect stale icf checkouts (Chris Sorensen)
+- 65aba6a4 - docs(report): add daily report for 2026-10-20 (Chris Sorensen)
+- efe0d229 - fix(diagram-sync): isolate sibling repository and worktree directories from parity gate (Chris Sorensen)
+- 8fb44bac - docs(diagram): add TRM mobile inbox triage architecture visual and manifest entry (Chris Sorensen)
+- 72aa0024 - feat(trm): implement mobile inbox batch triage engine, gdoc unstranding, and pr staging bridge (Chris Sorensen)
+
 ## Version 2.105.1
 Date: 2026-10-24
 
