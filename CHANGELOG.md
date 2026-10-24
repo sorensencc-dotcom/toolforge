@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.105.0
+Date: 2026-10-24
+
+### Changes
+- 4f499101 - Merge pull request #217 from sorensencc-dotcom/feat/adversarial-review-routing (Chris Sorensen)
+- c0e7bf02 - ci(secret-scan): allowlist the Anthropic provider test fixture key (Chris Sorensen)
+- 6bef2ff2 - fix(review): harden reviewer routing per PR 217 review (Chris Sorensen)
+- 1135c0cf - refactor(review): give the shared JSON-object guard a unique name (Chris Sorensen)
+- 34cbc3ca - feat(review): add reviewer prompt, runner, and toolforge review --adversarial (Chris Sorensen)
+- 4d6838db - feat(review): add Anthropic reviewer provider and request timeouts (Chris Sorensen)
+- 4fb6da39 - feat(review): add author-aware reviewer routing and OpenAI provider (Chris Sorensen)
+
 ## Version 2.104.0
 Date: 2026-10-23
 
