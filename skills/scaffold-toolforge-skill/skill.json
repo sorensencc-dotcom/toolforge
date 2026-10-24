@@ -1,0 +1,31 @@
+{
+  "id": "scaffold-toolforge-skill",
+  "name": "Scaffold Toolforge Skill",
+  "version": "0.1.0",
+  "description": "Create a new Toolforge skill from the template, register it in manifest.json, bump the pinned count, and run the validators.",
+  "category": "automation",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "keywords": [
+    "scaffold",
+    "skill",
+    "manifest",
+    "template"
+  ],
+  "commands": {
+    "test": "node --test --test-timeout=15000 skills/scaffold-toolforge-skill/tests/index.test.mjs"
+  },
+  "inputs": {
+    "id": "string, kebab-case skill id",
+    "description": "string, one sentence",
+    "category": "string, manifest category"
+  },
+  "outputs": {
+    "summary": "files created, manifest entry added, validator results"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "tooltip": "Create a new Toolforge skill from the template, register it, and run the validators."
+}

@@ -2014,6 +2014,102 @@
           "start-session-preflight"
         ]
       }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Run a test suite under a hard 60s timeout, detect hangs, clear stale locks, and name the hanging file.",
+      "timestamps": {
+        "created": "2026-10-24T00:00:00Z",
+        "lastValidation": "2026-10-24T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "tests",
+        "timeout",
+        "hung",
+        "locks"
+      ],
+      "status": "candidate",
+      "name": "run-tests-safe",
+      "runtime": "node",
+      "id": "run-tests-safe",
+      "entrypoint": "src/index.mjs",
+      "owner": "soren",
+      "category": "testing",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": false,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Group SKILLPACK-RUNTIME-HEALTH.md warnings, fix each group in the affected skills only, and close the matching AGENTS.md todo rows.",
+      "timestamps": {
+        "created": "2026-10-24T00:00:00Z",
+        "lastValidation": "2026-10-24T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "skill",
+        "health",
+        "warnings",
+        "skillpack"
+      ],
+      "status": "candidate",
+      "name": "triage-skill-health-warnings",
+      "runtime": "node",
+      "id": "triage-skill-health-warnings",
+      "entrypoint": "src/index.mjs",
+      "owner": "soren",
+      "category": "automation",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": false,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Create a new Toolforge skill from the template, register it in manifest.json, bump the pinned count, and run the validators.",
+      "timestamps": {
+        "created": "2026-10-24T00:00:00Z",
+        "lastValidation": "2026-10-24T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "scaffold",
+        "skill",
+        "manifest",
+        "template"
+      ],
+      "status": "candidate",
+      "name": "scaffold-toolforge-skill",
+      "runtime": "node",
+      "id": "scaffold-toolforge-skill",
+      "entrypoint": "src/index.mjs",
+      "owner": "soren",
+      "category": "automation",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": false,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
     }
   ],
   "summary": {

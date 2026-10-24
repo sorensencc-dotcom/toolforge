@@ -1,0 +1,30 @@
+{
+  "id": "triage-skill-health-warnings",
+  "name": "Triage Skill Health Warnings",
+  "version": "0.1.0",
+  "description": "Group SKILLPACK-RUNTIME-HEALTH.md warnings, fix each group in the affected skills only, and close the matching AGENTS.md todo rows.",
+  "category": "automation",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "keywords": [
+    "skill",
+    "health",
+    "warnings",
+    "skillpack"
+  ],
+  "commands": {
+    "test": "node --test --test-timeout=15000 skills/triage-skill-health-warnings/tests/index.test.mjs"
+  },
+  "inputs": {
+    "reportPath": "string, path to SKILLPACK-RUNTIME-HEALTH.md",
+    "agentsPath": "string, path to the root AGENTS.md"
+  },
+  "outputs": {
+    "summary": "warning groups, fixes applied per skill, todo rows closed"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "tooltip": "Group skill health warnings, fix per group, and close the matching todo rows."
+}

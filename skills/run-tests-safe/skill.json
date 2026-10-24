@@ -1,0 +1,30 @@
+{
+  "id": "run-tests-safe",
+  "name": "Run Tests Safe",
+  "version": "0.1.0",
+  "description": "Run a test suite under a hard 60s timeout, detect hangs, clear stale locks, and name the hanging file.",
+  "category": "testing",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "keywords": [
+    "tests",
+    "timeout",
+    "hung",
+    "locks"
+  ],
+  "commands": {
+    "test": "node --test --test-timeout=15000 skills/run-tests-safe/tests/index.test.mjs"
+  },
+  "inputs": {
+    "command": "string, test command to run, for example npm test",
+    "repoPath": "string, absolute path to the repo"
+  },
+  "outputs": {
+    "summary": "pass | fail | hung, real test output, hanging file when hung"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "tooltip": "Run a test suite under a hard 60s timeout, detect hangs, clear stale locks, and name the hanging file."
+}

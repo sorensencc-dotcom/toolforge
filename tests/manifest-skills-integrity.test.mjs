@@ -11,7 +11,7 @@ test('manifest.json maintains skill registry invariants', () => {
   const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
 
   assert.ok(Array.isArray(manifest.skills), 'manifest.skills must be an array');
-  assert.equal(manifest.skills.length, 66, 'manifest.skills must contain exactly 66 skills');
+  assert.equal(manifest.skills.length, 69, 'manifest.skills must contain exactly 69 skills');
 
   const names = new Set();
   for (const skill of manifest.skills) {
