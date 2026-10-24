@@ -1,7 +1,7 @@
 // Providers route. Mounted at /api/v1/providers.
 import express from 'express';
 import { getProvider } from '../../providers/index.js';
-import { runAdversarialCrossAudit } from '../../../modules/healing/adversarial-auditor.js';
+import { runAdversarialCrossAudit } from '../../../modules/healing/adversarial-auditor.ts';
 import { requireAuth } from '../middleware/auth.js';
 import { rateLimit } from '../middleware/rate-limit.js';
 
