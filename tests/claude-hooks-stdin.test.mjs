@@ -63,3 +63,28 @@ test('lint-on-edit and e2e-snapshots exit 0 with no file path', () => {
     assert.equal(r.status, 0, name);
   }
 });
+
+test('block-env-edit denies .env files for file_path, filePath and path keys', () => {
+  for (const key of ['file_path', 'filePath', 'path']) {
+    const r = runHook('block-env-edit.js', { tool_input: { [key]: 'C:/x/.env.production' } });
+    assert.equal(r.status, 0, key);
+    assert.equal(JSON.parse(r.stdout).hookSpecificOutput.permissionDecision, 'deny', key);
+  }
+});
+
+test('block-env-edit allows .env.example and ordinary files', () => {
+  for (const p of ['C:/x/.env.example', 'C:/x/.env.sample', 'C:/x/app.js']) {
+    const r = runHook('block-env-edit.js', { tool_input: { file_path: p } });
+    assert.equal(r.status, 0, p);
+    assert.equal(r.stdout.trim(), '{}', p);
+  }
+});
+
+test('block-env-edit tolerates malformed stdin', () => {
+  const r = spawnSync(process.execPath, [path.join(hooksDir, 'block-env-edit.js')], {
+    input: 'not json',
+    encoding: 'utf8',
+  });
+  assert.equal(r.status, 0);
+  assert.equal(r.stdout.trim(), '{}');
+});
