@@ -4,7 +4,7 @@
  */
 
 // In any module that needs the provider:
-import { getProvider, resetProvider } from "../providers/index.js";
+import { getProvider, resetProvider } from "./index.js";
 import { runAdversarialCrossAudit } from "../../modules/healing/adversarial-auditor.ts";
 
 // Example 1: Using the provider in adversarial auditing flow
