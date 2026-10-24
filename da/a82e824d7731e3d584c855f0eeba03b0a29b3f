@@ -1,0 +1,32 @@
+.agents/skills/verify-toolforge-marketplace/SKILL.md
+  h_5c172e9b435f5a 1-129
+.agents/skills/verify-toolforge-marketplace/features/README.md
+  h_5c172e9b435f5a 1-44
+.agents/skills/verify-toolforge-marketplace/features/manifest-validation.md
+  h_5c172e9b435f5a 1-42
+.agents/skills/verify-toolforge-marketplace/features/marketplace-trending.md
+  h_5c172e9b435f5a 1-43
+.agents/skills/verify-toolforge-marketplace/features/plugin-lifecycle.md
+  h_5c172e9b435f5a 1-45
+.agents/skills/verify-toolforge-marketplace/features/skill-discovery.md
+  h_5c172e9b435f5a 1-47
+.agents/skills/verify-toolforge-marketplace/features/skill-installation.md
+  h_5c172e9b435f5a 1-53
+.agents/skills/verify-toolforge-marketplace/scripts/control-marketplace.mjs
+  h_5c172e9b435f5a 1-392
+evidence/verify-toolforge-marketplace/e2e-proof-20261024/doctor-report.json
+  h_5c172e9b435f5a 1-37
+evidence/verify-toolforge-marketplace/e2e-proof-20261024/plugin-lifecycle-proof.json
+  h_5c172e9b435f5a 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "daa82e824d7731e3d584c855f0eeba03b0a29b3f",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
