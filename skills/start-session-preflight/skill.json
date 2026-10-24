@@ -1,0 +1,29 @@
+{
+  "id": "start-session-preflight",
+  "name": "Start Session Preflight",
+  "version": "0.1.0",
+  "description": "Run the mandatory repository-context preflight and load STATUS.md, then give a terse session-start brief.",
+  "category": "session-management",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "keywords": [
+    "session",
+    "preflight",
+    "status",
+    "repo-context"
+  ],
+  "commands": {
+    "test": "node --test --test-timeout=15000 skills/start-session-preflight/tests/index.test.mjs"
+  },
+  "inputs": {
+    "repoPath": "string, absolute path to a repo under C:\\dev"
+  },
+  "outputs": {
+    "brief": "goal, done, decisions, tests, blockers, next action"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "tooltip": "Run the mandatory repository-context preflight and load STATUS.md, then give a terse session-start brief."
+}

@@ -1916,6 +1916,104 @@
         "external": [],
         "internal": []
       }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Run the mandatory repository-context preflight and load STATUS.md, then give a terse session-start brief.",
+      "timestamps": {
+        "created": "2026-10-24T00:00:00Z",
+        "lastValidation": "2026-10-24T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "session",
+        "preflight",
+        "status",
+        "repo-context"
+      ],
+      "status": "candidate",
+      "name": "start-session-preflight",
+      "runtime": "node",
+      "id": "start-session-preflight",
+      "entrypoint": "src/index.mjs",
+      "owner": "soren",
+      "category": "session-management",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": false,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "0.1.0",
+      "description": "End-of-session ritual: retro-needed check, STATUS.md update, then push and verify.",
+      "timestamps": {
+        "created": "2026-10-24T00:00:00Z",
+        "lastValidation": "2026-10-24T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "session",
+        "wrap",
+        "retro",
+        "status"
+      ],
+      "status": "candidate",
+      "name": "wrap-session",
+      "runtime": "node",
+      "id": "wrap-session",
+      "entrypoint": "src/index.mjs",
+      "owner": "soren",
+      "category": "session-management",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": false,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": []
+      }
+    },
+    {
+      "version": "0.1.0",
+      "description": "Take a TRM/ICF ticket from trm/act-<slug> branch to an opened pull request with Why/Scope/Tradeoffs/Blast Radius body.",
+      "timestamps": {
+        "created": "2026-10-24T00:00:00Z",
+        "lastValidation": "2026-10-24T00:00:00Z",
+        "lastRun": null
+      },
+      "tags": [
+        "trm",
+        "pull-request",
+        "github",
+        "ticket"
+      ],
+      "status": "candidate",
+      "name": "open-trm-act-pr",
+      "runtime": "node",
+      "id": "open-trm-act-pr",
+      "entrypoint": "src/index.mjs",
+      "owner": "soren",
+      "category": "automation",
+      "health": {
+        "canonical": true,
+        "runtime": "good",
+        "distributed": false,
+        "overall": "good"
+      },
+      "dependencies": {
+        "external": [],
+        "internal": [
+          "start-session-preflight"
+        ]
+      }
     }
   ],
   "summary": {

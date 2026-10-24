@@ -1,0 +1,32 @@
+{
+  "id": "open-trm-act-pr",
+  "name": "Open TRM Act PR",
+  "version": "0.1.0",
+  "description": "Take a TRM/ICF ticket from trm/act-<slug> branch to an opened pull request with Why/Scope/Tradeoffs/Blast Radius body.",
+  "category": "automation",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "keywords": [
+    "trm",
+    "pull-request",
+    "github",
+    "ticket"
+  ],
+  "commands": {
+    "test": "node --test --test-timeout=15000 skills/open-trm-act-pr/tests/index.test.mjs"
+  },
+  "inputs": {
+    "issue": "number, GitHub issue or act item",
+    "slug": "string, branch slug"
+  },
+  "outputs": {
+    "pullRequest": "opened PR URL with closes #N"
+  },
+  "dependencies": {
+    "internal": [
+      "start-session-preflight"
+    ],
+    "external": []
+  },
+  "tooltip": "Take a TRM/ICF ticket from trm/act-<slug> branch to an opened pull request with Why/Scope/Tradeoffs/Blast Radius body."
+}
