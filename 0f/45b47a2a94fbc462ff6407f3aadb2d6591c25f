@@ -1,0 +1,20 @@
+icf/src/backend/pr-staging-bridge.ts
+  h_5c172e9b435f5a 1-329
+package.json
+  h_5c172e9b435f5a 48-49
+src/backend/pr-staging-bridge.ts
+  h_5c172e9b435f5a 1-2
+test/backend/batch-triage-pr-bridge.test.ts
+  h_5c172e9b435f5a 1-252
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0f45b47a2a94fbc462ff6407f3aadb2d6591c25f",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
