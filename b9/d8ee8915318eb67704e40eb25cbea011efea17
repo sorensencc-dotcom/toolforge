@@ -1,0 +1,19 @@
+.claude/skills/chris-mode/SKILL.md
+  s_3ccd25f5652152::t_6e2a6d8ade9627 3,17-19,23-28,43-44,53-57,66-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b9d8ee8915318eb67704e40eb25cbea011efea17",
+  "prompts": {},
+  "sessions": {
+    "s_3ccd25f5652152": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b079bd05-d930-41d5-bc67-bc59c646e98c",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
