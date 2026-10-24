@@ -2,6 +2,10 @@
 
 **Status: IMPLEMENTED**
 
+![Scaffold Toolforge Skill — Integration Diagram](INTEGRATION_DIAGRAM.png)
+
+<details><summary>Text flow source</summary>
+
 ```
 User ("scaffold a skill")
         |
@@ -18,3 +22,5 @@ scaffold-toolforge-skill (node, src/index.mjs)
 validators: skill-doc-validator.ps1, toolforgeSkillValidator.ps1,
             skill-security-auditor.py
 ```
+
+</details>

@@ -2,6 +2,10 @@
 
 **Status: IMPLEMENTED**
 
+![Triage Skill Health Warnings — Integration Diagram](INTEGRATION_DIAGRAM.png)
+
+<details><summary>Text flow source</summary>
+
 ```
 utilities/toolforgeSkillHealthCheck.ps1
         |
@@ -18,3 +22,5 @@ triage-skill-health-warnings (node, src/index.mjs)
         v
 closeTodoRow edits root AGENTS.md (todo-group rows -> done + resolved date)
 ```
+
+</details>

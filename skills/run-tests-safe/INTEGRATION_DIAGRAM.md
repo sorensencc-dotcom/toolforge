@@ -2,6 +2,10 @@
 
 **Status: IMPLEMENTED**
 
+![Run Tests Safe — Integration Diagram](INTEGRATION_DIAGRAM.png)
+
+<details><summary>Text flow source</summary>
+
 ```
 User / agent ("run tests", "tests hung")
         |
@@ -19,3 +23,5 @@ run-tests-safe (node, src/index.mjs)
         v
 real test output + hanging file name
 ```
+
+</details>
