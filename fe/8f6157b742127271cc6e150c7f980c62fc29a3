@@ -1,0 +1,21 @@
+scripts/aggregate_status.py
+  s_6855f0d0a26af3::t_e934884e1cdc1d 892
+tests/aggregate-status-stale-lock.test.mjs
+  s_6855f0d0a26af3::t_fc7e6c4eb03d6e 57-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fe8f6157b742127271cc6e150c7f980c62fc29a3",
+  "prompts": {},
+  "sessions": {
+    "s_6855f0d0a26af3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17368-d1b4-70d2-90cc-f09481c22c66",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
