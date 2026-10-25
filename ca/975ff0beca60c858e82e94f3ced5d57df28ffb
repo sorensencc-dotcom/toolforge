@@ -1,0 +1,21 @@
+.context/retros/retro.schema.json
+  s_6855f0d0a26af3::t_201fc753a32573 46-57,93-128
+AGENTS.md
+  s_6855f0d0a26af3::t_56a94d1d2c67ba 281
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ca975ff0beca60c858e82e94f3ced5d57df28ffb",
+  "prompts": {},
+  "sessions": {
+    "s_6855f0d0a26af3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17368-d1b4-70d2-90cc-f09481c22c66",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
