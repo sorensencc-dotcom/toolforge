@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2.110.0
+Date: 2026-10-25
+
+### Changes
+- a82d7d93 - Merge pull request #243 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- ce747db2 - test(governance): align token-budget-gate test with ESM hook and keep planned CI note (Chris Sorensen)
+- 3519e7aa - Merge branch 'main' into fix/mcp-playwright-package (Chris Sorensen)
+- 3cc780a4 - fix(grok): normalize direct CLI execution path and relax fast test timing (Chris Sorensen)
+- fe8f6157 - fix(toolforge): anchor PID lookup in tasklist output and harden stale lock test cleanup (Chris Sorensen)
+- 957479af - feat(toolforge): auto-recover stale AST knowledge graph locks and add ijfw project marker (Chris Sorensen)
+- 23350912 - docs(report): add daily report for 2026-10-25 (Chris Sorensen)
+- 6ba7fdf8 - docs(retro): add engineering retro for 2026-10-25 (Chris Sorensen)
+- 74be163f - test(grok): add hook guardrail validator and test suite (Chris Sorensen)
+- b3744505 - feat(pipeline): relocate CIC status pipeline to scripts (Chris Sorensen)
+
 ## Version 2.109.2
 Date: 2026-10-25
 
