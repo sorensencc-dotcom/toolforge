@@ -1,0 +1,20 @@
+package.json
+  h_5c172e9b435f5a 52-54
+scripts/check-grok-hooks.mjs
+  h_5c172e9b435f5a 1-181
+scripts/check-grok-hooks.ps1
+  h_5c172e9b435f5a 1-70
+tests/grok-hook-guardrails.test.mjs
+  h_5c172e9b435f5a 1-276
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "74be163f272ac320e13f08b8def17229dce7b9ec",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
