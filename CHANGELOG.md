@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.111.0
+Date: 2026-10-25
+
+### Changes
+- edd02bb8 - Merge pull request #246 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- e1a77c21 - chore(sync): update project journal with session learning state (Chris Sorensen)
+- 56d7f976 - feat(whichllm): integrate dynamic hardware detection and align local models to qwen2.5:1.5b (Chris Sorensen)
+
 ## Version 2.110.1
 Date: 2026-10-25
 
