@@ -278,7 +278,7 @@ Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on
 
 ## ICF Dashboard Canonical Surface Governance
 
-The canonical production dashboard is strictly located at `icf/dashboard/index.html` (served on port 8080 by `icf/src/server.mjs`).
+The canonical production dashboard lives in the separate `icf` repository (https://github.com/sorensencc-dotcom/icf), not in this repo. Its local checkout is `C:\dev\icf`, so the paths below (`icf/dashboard/index.html`, served on port 8080 by `icf/src/server.mjs`) are relative to `C:\dev`. In the `icf` repo they are `dashboard/index.html` and `src/server.mjs`.
 
 **Immutable Rules:**
 1. **Never copy root `dashboard.html` over `icf/dashboard/index.html`**: Root `dashboard.html` is a legacy single-file snapshot. Copying it clobbers the active Warm Parchment / Dark Forge dual-theme design system, `.command-header`, `.tab-strip`, and action execution engine.
