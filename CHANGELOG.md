@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.109.1
+Date: 2026-10-25
+
+### Changes
+- 6b0b2a6e - Merge pull request #242 from sorensencc-dotcom/chore/retro-2026-10-24 (Chris Sorensen)
+- 20d88e75 - chore(retro): add weekly retro snapshot 2026-10-24 (Chris Sorensen)
+
 ## Version 2.109.0
 Date: 2026-10-25
 
