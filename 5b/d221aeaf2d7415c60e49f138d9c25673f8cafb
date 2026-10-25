@@ -1,0 +1,38 @@
+.context/retros/validate.ps1
+  s_fc5edb8eb65b33::t_eb50c922689600 7
+  s_fc5edb8eb65b33::t_8148da785a0da5 12
+.context/retros/validate-changed.ps1
+  s_fc5edb8eb65b33::t_4e60eee59fdc1c 8
+.context/retros/2026-10-17-2.json
+  s_b8fdfc2b45ff45::t_36849aa7594553 1
+.context/retros/2026-10-24-1.json
+  s_fc5edb8eb65b33::t_7ddceca9e9b6ef 44,48
+AGENTS.md
+  s_fc5edb8eb65b33::t_8211ebf7c8b18b 338,445
+memory/MEMORY.md
+  s_fc5edb8eb65b33::t_fedcbf7a127dc0 14,16,41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5bd221aeaf2d7415c60e49f138d9c25673f8cafb",
+  "prompts": {},
+  "sessions": {
+    "s_b8fdfc2b45ff45": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "adebd980-cf58-4d35-8c78-bf007bd279b7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fc5edb8eb65b33": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4d160f59-c699-4a9a-8f44-b467f0c92a37",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
