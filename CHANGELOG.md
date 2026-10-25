@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.110.1
+Date: 2026-10-25
+
+### Changes
+- a93bdfb3 - Merge pull request #245 from sorensencc-dotcom/audit/2026-10-25 (Chris Sorensen)
+- eae94e0e - chore(audit): weekly session audit 2026-10-25 (Claude)
+
 ## Version 2.110.0
 Date: 2026-10-25
 
