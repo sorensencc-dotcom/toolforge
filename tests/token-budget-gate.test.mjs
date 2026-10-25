@@ -13,11 +13,11 @@ const EDITS_FILE = '.ijfw/.session-edits.jsonl';
 const WORK_DIR = path.join(__dirname, 'test-workdir');
 
 function runHook(env = {}) {
-  // The hook is CommonJS; copy it to .cjs so it runs regardless of the repo's package type.
+  // The hook is ESM; copy it to .mjs so it runs as an ES module in isolated test workdir.
   fs.mkdirSync(WORK_DIR, { recursive: true });
-  const cjsPath = path.join(WORK_DIR, 'hook.cjs');
-  fs.copyFileSync(HOOK_PATH, cjsPath);
-  const result = spawnSync(process.execPath, [cjsPath], {
+  const mjsPath = path.join(WORK_DIR, 'hook.mjs');
+  fs.copyFileSync(HOOK_PATH, mjsPath);
+  const result = spawnSync(process.execPath, [mjsPath], {
     env: { ...process.env, ...env },
     cwd: WORK_DIR,
     encoding: 'utf8'

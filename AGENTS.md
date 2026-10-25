@@ -442,7 +442,7 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 
 **Compliance Enforced By:**
 
-- CI governance check: `.github/workflows/governance.yml` job `skill-documentation` runs `utilities/skill-doc-validator.ps1 -Path ./skills -Recursive`, which enforces README < 100 lines, SKILL.md < 150 lines, no duplicate standard sections, and the Skill Operator Guide link
+- CI governance check: PLANNED — no job in `.github/workflows/` validates line limits or duplicate sections as of 2026-10-11
 - Caveman review: flags narrative in Input/Output schemas, Troubleshooting outside USAGE.md
 - Toolforge submission validator: PLANNED (Phase 8 Wave D deliverable) — NOT wired into CI as of 2026-09-06. No `.github/workflows/` job invokes it, and `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains `TEMPLATE FOR EXECUTION` (unsigned). Not an active gate until Wave D is signed.
 
