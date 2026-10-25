@@ -41,11 +41,11 @@
     "ai_assisted_commits": 69
   },
   "authors": {
-    "Chris Sorensen": { "commits": 151, "insertions": 30926, "deletions": 9348, "test_ratio": 0.23, "top_area": "scripts/" },
+    "Chris Sorensen": { "role": "human", "commits": 151, "insertions": 30926, "deletions": 9348, "test_ratio": 0.23, "top_area": "scripts/" },
     "toolforge-release-bot": { "commits": 43, "insertions": 423, "deletions": 43, "role": "automation" },
     "google-labs-jules[bot]": { "commits": 12, "insertions": 371, "deletions": 35, "test_ratio": 0.76, "role": "automation" },
     "github-actions[bot]": { "commits": 1, "insertions": 1, "deletions": 1, "role": "automation" },
-    "Claude": { "commits": 1, "insertions": 39, "deletions": 5, "top_area": "docs/" }
+    "Claude": { "role": "automation", "commits": 1, "insertions": 39, "deletions": 5, "top_area": "docs/" }
   },
   "test_health": {
     "total_test_files": 378,

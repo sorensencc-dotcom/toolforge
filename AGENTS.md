@@ -278,7 +278,7 @@ Local pre-commit hook (`.git/hooks/pre-commit.ps1`, Gate 2) blocks violations on
 
 ## ICF Dashboard Canonical Surface Governance
 
-The canonical production dashboard is strictly located at `icf/dashboard/index.html` (served on port 8080 by `icf/src/server.mjs`).
+The canonical production dashboard lives in the separate `icf` repository (https://github.com/sorensencc-dotcom/icf), not in this repo. Its local checkout is `C:\dev\icf`, so the paths below (`icf/dashboard/index.html`, served on port 8080 by `icf/src/server.mjs`) are relative to `C:\dev`. In the `icf` repo they are `dashboard/index.html` and `src/server.mjs`.
 
 **Immutable Rules:**
 1. **Never copy root `dashboard.html` over `icf/dashboard/index.html`**: Root `dashboard.html` is a legacy single-file snapshot. Copying it clobbers the active Warm Parchment / Dark Forge dual-theme design system, `.command-header`, `.tab-strip`, and action execution engine.
@@ -335,7 +335,7 @@ End each session: run `pwsh -NoProfile -File scripts/check-retro-needed.ps1` fir
 
 ## Retro findings
 
-Retro findings belong in `.context/retros/inbox/<agent>/<YYYY-MM-DD>-<slug>.json`, in the format of `.context/retros/INBOX-SPEC.md`, checked by `node scripts/validate-retro-inbox.mjs`. Do not write inbox entries yet, because `docs/meta/governance/retro-policy.md` is a DRAFT pending Tier 1 approval. Session wraps and memory notes are not retros.
+Retro findings belong in `.context/retros/inbox/<agent>/<YYYY-MM-DD>-<slug>.json`, in the format of `.context/retros/INBOX-SPEC.md`, checked by `node scripts/validate-retro-inbox.mjs`. `docs/meta/governance/retro-policy.md` was approved by Tier 1 on 2026-10-18, but the policy states that nothing enforces it yet. Session wraps and memory notes are not retros.
 
 ## GBrain Search
 
@@ -442,7 +442,7 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 
 **Compliance Enforced By:**
 
-- CI governance check: PLANNED — no job in `.github/workflows/` validates line limits or duplicate sections as of 2026-10-11
+- CI governance check: `.github/workflows/governance.yml` job `skill-documentation` runs `utilities/skill-doc-validator.ps1 -Path ./skills -Recursive`, which enforces README < 100 lines, SKILL.md < 150 lines, no duplicate standard sections, and the Skill Operator Guide link
 - Caveman review: flags narrative in Input/Output schemas, Troubleshooting outside USAGE.md
 - Toolforge submission validator: PLANNED (Phase 8 Wave D deliverable) — NOT wired into CI as of 2026-09-06. No `.github/workflows/` job invokes it, and `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains `TEMPLATE FOR EXECUTION` (unsigned). Not an active gate until Wave D is signed.
 

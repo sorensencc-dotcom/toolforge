@@ -4,12 +4,12 @@
 
 param(
     [switch]$Strict = $true,
-    [string]$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path,
+    [string]$RepoRoot = (Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")).Path,
     [string]$File = $null
 )
 
 $ErrorActionPreference = "Stop"
-$retrosDir = Join-Path $RepoRoot ".context\retros"
+$retrosDir = Join-Path (Join-Path $RepoRoot ".context") "retros"
 $validatorV1 = Join-Path $retrosDir "validate-v1.0.ps1"
 
 if (-not (Test-Path $retrosDir)) {
