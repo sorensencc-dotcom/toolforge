@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 2.108.1
+Date: 2026-10-25
+
+### Changes
+- 0d1943b6 - Merge pull request #241 from sorensencc-dotcom/fix/validate-policy-tests-5630008471324137546 (Chris Sorensen)
+- f519140f - Merge pull request #240 from sorensencc-dotcom/test/add-build-receipt-error-tests-17260589764327905036 (Chris Sorensen)
+- 21f9aec4 - Merge pull request #239 from sorensencc-dotcom/fix-ollama-ssrf-14896612757339310300 (Chris Sorensen)
+- 2a0ff57f - Merge pull request #238 from sorensencc-dotcom/fix/generalize-node-deprecation-regex-3481403695354634568 (Chris Sorensen)
+- 0975e59f - 🧪 Add missing tests for validatePolicy in research-substrate (google-labs-jules[bot])
+- a26a3769 - test: add error case coverage for buildReceipt (google-labs-jules[bot])
+- af2b15fd - Validate OLLAMA_BASE_URL protocol to prevent SSRF (google-labs-jules[bot])
+- 41b85b23 - Refactor Node.js deprecation regex to support newer versions (google-labs-jules[bot])
+
 ## Version 2.108.0
 Date: 2026-10-24
 
