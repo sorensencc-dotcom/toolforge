@@ -490,3 +490,37 @@ test('getRoutingDecision treats cards with substantive raw_content as valid and 
   assert.equal(decision.repo, 'sorensencc-dotcom/toolforge');
 });
 
+
+test('parsePayload rejects payloads containing link scrubber text', async () => {
+  const scrubbedJson = JSON.stringify({
+    source: 'mobile-grok',
+    intent: 'test_scrub',
+    notes: 'Reference: [Suspicious link removed]'
+  });
+  await assert.rejects(
+    async () => parsePayload(scrubbedJson, '.json'),
+    /Document corrupted by link scrubber/
+  );
+
+  const scrubbedMd = `---
+source: mobile-grok
+intent: test_scrub
+---
+Body with %5Bsuspicious link removed%5D
+`;
+  await assert.rejects(
+    async () => parsePayload(scrubbedMd, '.md'),
+    /Document corrupted by link scrubber/
+  );
+});
+
+test('validatePayload normalizes invalid or scrubbed $schema to bundled URN without throwing', () => {
+  const item = {
+    source: 'mobile-gemini',
+    intent: 'test_schema_resilience',
+    $schema: '[Suspicious link removed]'
+  };
+  assert.doesNotThrow(() => validatePayload(item));
+  assert.equal(item.$schema, 'urn:toolforge:schema:base-sync-task:v1');
+  assert.equal(item.$schema_invalid, '[Suspicious link removed]');
+});

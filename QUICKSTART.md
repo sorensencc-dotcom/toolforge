@@ -141,7 +141,7 @@ kubectl exec -n toolforge ollama-0 -- ollama pull llama2
 ### Using the Provider in Code
 ```typescript
 import { getProvider } from './src/providers/index.js';
-import { runAdversarialCrossAudit } from './modules/healing/adversarial-auditor.js';
+import { runAdversarialCrossAudit } from './modules/healing/adversarial-auditor.ts';
 
 // Direct usage
 const provider = getProvider();

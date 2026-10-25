@@ -18,6 +18,10 @@ on:
       - '**/*.sh'
       - 'graft/**'
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   graft-audit:
     name: AST Call-Graph & Sibling Contract Audit

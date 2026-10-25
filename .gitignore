@@ -130,6 +130,7 @@ graft/
 # ignores the contents instead. Dated retros still need git add -f.
 !.context/retros/inbox/
 !.context/retros/harvest/
+!.context/retros/actions/
 
 # Daemon artifacts + nested working repos — not source (added 2026-09-08)
 .autoheal-receipt.json
@@ -149,3 +150,7 @@ graft/
 .icf-telemetry.prom
 .wiki-sync-receipt.json
 evidence/
+
+# Toolforge active memory database, one encrypted store per workspace. Never commit it.
+.toolforge/
+coverage/

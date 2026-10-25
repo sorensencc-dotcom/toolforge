@@ -208,7 +208,7 @@ Test categories:
 
 ```typescript
 import { getProvider } from './src/providers/index.js';
-import { runAdversarialCrossAudit } from './modules/healing/adversarial-auditor.js';
+import { runAdversarialCrossAudit } from './modules/healing/adversarial-auditor.ts';
 
 const provider = getProvider();
 const verdict = await runAdversarialCrossAudit(auditPacket, provider);
