@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 /**
@@ -152,7 +153,8 @@ export function validateGrokHooks({ grokHome, fast = false, skipLive = false } =
 }
 
 // CLI runner if invoked directly
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1'))) {
+const isDirectCli = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isDirectCli) {
   const args = process.argv.slice(2);
   const fast = args.includes('--fast');
   let grokHome = null;
