@@ -56,6 +56,8 @@
     "test:floor": "node tests/deterministicVerificationFloor.test.mjs",
     "docs:validate": "node scripts/validate-docs-publishing.mjs",
     "test:watch": "node --test --watch src/**/*.test.js",
+    "grok:check-hooks": "node scripts/check-grok-hooks.mjs",
+    "test:grok-hooks": "node --test tests/grok-hook-guardrails.test.mjs",
     "preflight": "pwsh -NoProfile -File scripts/preflight.ps1",
     "lint": "eslint src/**/*.js",
     "pre-flight": "npm run lint && npm test && npm run test:vision && npm run test:scheduler && npm run test:healing && npm run test:review && npm run test:trm && npm run index:validate",

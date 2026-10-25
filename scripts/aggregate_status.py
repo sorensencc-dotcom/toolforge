@@ -8,7 +8,7 @@ Run from a context where C:\\dev is mounted at DEV_ROOT and the CIC OneDrive
 folder is mounted at CIC_ROOT. Designed to be safe to re-run: every read is
 best-effort and missing sources are flagged, not fatal.
 """
-import json, os, re, sys
+import json, os, re, sys, subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -881,6 +881,89 @@ for blocker in persistent_blockers:
                 "days_over": elapsed - sla,
                 "message": f"Blocker SLA exceeded by {elapsed - sla} days"
             })
+
+def is_pid_running(pid):
+    if not pid or pid <= 0:
+        return False
+    try:
+        if platform.system() == "Windows":
+            res = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
+                                 capture_output=True, text=True, timeout=5)
+            return f'"{pid}"' in res.stdout
+        else:
+            os.kill(pid, 0)
+            return True
+    except Exception:
+        return False
+
+# AST / Graft Knowledge Graph Stale Lock & Dirty-State Recovery
+ast_cache_dirs = [
+    DEV_ROOT / "toolforge" / "graft" / ".cache",
+    DEV_ROOT / "graft" / ".cache",
+]
+
+for cache_dir in ast_cache_dirs:
+    if not cache_dir.exists():
+        continue
+    lock_file = cache_dir / ".sync.lock"
+    stats_file = cache_dir / "stats.json"
+
+    if lock_file.exists():
+        lock_age_seconds = (now - datetime.fromtimestamp(lock_file.stat().st_mtime, tz=timezone.utc)).total_seconds()
+        lock_content = read_text(lock_file) or ""
+        writer_pid = None
+        pid_match = re.search(r"pid[:=\s]+(\d+)", lock_content, re.IGNORECASE) or re.search(r"^(\d+)$", lock_content.strip())
+        if pid_match:
+            try:
+                writer_pid = int(pid_match.group(1))
+            except Exception:
+                writer_pid = None
+
+        is_stale = lock_age_seconds > 300
+        process_dead = not is_pid_running(writer_pid) if writer_pid else True
+
+        if is_stale and process_dead:
+            try:
+                lock_file.unlink(missing_ok=True)
+                anomalies.append({
+                    "type": "stale_sync_lock_cleared",
+                    "path": str(lock_file),
+                    "age_seconds": round(lock_age_seconds, 1),
+                    "writer_pid": writer_pid,
+                    "message": f"Orphan .sync.lock cleared after {round(lock_age_seconds, 1)}s (PID {writer_pid} dead)"
+                })
+            except Exception:
+                pass
+
+            if stats_file.exists():
+                try:
+                    sdata = read_json(stats_file)
+                    if sdata and sdata.get("syncing"):
+                        sdata["syncing"] = False
+                        sdata["dirty_recovered_at"] = now.isoformat()
+                        stats_file.write_text(json.dumps(sdata, indent=2), encoding="utf-8")
+                        anomalies.append({
+                            "type": "stats_json_syncing_reset",
+                            "path": str(stats_file),
+                            "message": "Reset syncing: false in stats.json following orphan lock recovery"
+                        })
+                except Exception:
+                    pass
+    else:
+        if stats_file.exists():
+            try:
+                sdata = read_json(stats_file)
+                if sdata and sdata.get("syncing"):
+                    sdata["syncing"] = False
+                    sdata["dirty_recovered_at"] = now.isoformat()
+                    stats_file.write_text(json.dumps(sdata, indent=2), encoding="utf-8")
+                    anomalies.append({
+                        "type": "stats_json_syncing_reset",
+                        "path": str(stats_file),
+                        "message": "Reset orphan syncing: false in stats.json (no active lockfile)"
+                    })
+            except Exception:
+                pass
 
 status["anomalies"] = anomalies[:10]
 
