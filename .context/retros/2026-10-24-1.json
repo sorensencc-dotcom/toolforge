@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-24",
+  "window": "7d",
+  "since": "2026-10-17T00:00:00-04:00",
+  "until": "2026-10-24T23:59:59-04:00",
+  "base_branch": "origin/main",
+  "prior_retro_baseline": ".context/retros/2026-10-17-2.json",
+  "metrics": {
+    "commits": 208,
+    "commits_no_merge": 156,
+    "contributors": 5,
+    "automation_commits": 56,
+    "insertions_raw": 31760,
+    "deletions_raw": 9432,
+    "net_loc_raw": 22328,
+    "insertions_filtered": 31760,
+    "deletions_filtered": 9432,
+    "net_loc_filtered": 22328,
+    "filter_note": "No lockfile filtering applied; filtered values equal raw values from gstack-retro-metrics on origin/main. backlog_closed_this_period was not derived and is 0. prs_merged is an approximate gh pr list count; PRS_REFERENCED in commit subjects was 67.",
+    "test_loc_insertions": 7399,
+    "test_ratio_pct": 23,
+    "feat_pct": 11.5,
+    "fix_pct": 11.5,
+    "docs_pct": 11.1,
+    "chore_pct": 26.4,
+    "test_pct": 3.4,
+    "active_days": 8,
+    "sessions": 40,
+    "deep_sessions": 7,
+    "peak_hour": 22,
+    "late_night_commits_22_to_04": 81,
+    "team_streak_days": 17,
+    "personal_streak_days": 17,
+    "backlog_open_todos": 9,
+    "backlog_closed_this_period": 0,
+    "version_range": ["2.99.1", "2.109.0"],
+    "release_commits": 43,
+    "focus_area": "(root)",
+    "logical_sloc_added": 27407,
+    "prs_merged": 65,
+    "ai_assisted_commits": 69
+  },
+  "authors": {
+    "Chris Sorensen": { "commits": 151, "insertions": 30926, "deletions": 9348, "test_ratio": 0.23, "top_area": "scripts/" },
+    "toolforge-release-bot": { "commits": 43, "insertions": 423, "deletions": 43, "role": "automation" },
+    "google-labs-jules[bot]": { "commits": 12, "insertions": 371, "deletions": 35, "test_ratio": 0.76, "role": "automation" },
+    "github-actions[bot]": { "commits": 1, "insertions": 1, "deletions": 1, "role": "automation" },
+    "Claude": { "commits": 1, "insertions": 39, "deletions": 5, "top_area": "docs/" }
+  },
+  "test_health": {
+    "total_test_files": 378,
+    "regression_test_commits": 0,
+    "test_files_changed": 66
+  },
+  "streak_days": 17,
+  "user_streak_days": 17,
+  "tweetable": "Week of Oct 17: 208 commits (5 contributors, 56 automation), 27.4k SLOC, 23% tests, ~65 PRs merged, peak: 10pm | Streak: 17d",
+  "recommendations": [
+    { "category": "testing", "text": "Ship a regression test with every fix(mining)/fix(review)/fix(hooks) commit: 24 fix commits landed with 0 regression-test commits; scripts/run-daily-notebook-mining.mjs changed 5 times against tests/run-daily-notebook-mining.test.mjs" },
+    { "category": "pace", "text": "Cap the late-night window: 81 of 208 commits (39%) landed 22:00-04:00; batch merges into an evening block ending by 22:00" },
+    { "category": "hygiene", "text": "Stop single-commit dumps like 4a201348 'Parkd821 20260908 (#154)' (10,581 LOC); add a pre-push warning over 1500 LOC per commit in the existing graft pre-push gate" }
+  ],
+  "session_focus": {
+    "summary": "Weekly retro for 2026-10-17 to 2026-10-24 across toolforge origin/main. Window overlaps the prior retro's last day; prior commit counts were flagged unreliable. Shortcut-debt scan of scripts/ timed out; skill-usage log not analyzed.",
+    "incidents": [],
+    "process_learnings": []
+  }
+}
