@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.109.0
+Date: 2026-10-25
+
+### Changes
+- b1588217 - Merge pull request #235 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- 1413e87f - merge: resolve PR 235 main conflict (Chris Sorensen)
+- 31c7adb7 - fix(mcp): use @playwright/mcp package name (Chris Sorensen)
+- d060ba6d - docs(report): add daily report for 2026-10-24 (Chris Sorensen)
+- 32cb2909 - chore(ignore): ignore evidence directory and untrack run artifacts (Chris Sorensen)
+- daa82e82 - feat(verify): add verify-toolforge-marketplace skill and proof harness (Chris Sorensen)
+
 ## Version 2.108.1
 Date: 2026-10-25
 
