@@ -1,0 +1,19 @@
+docs/archive/build-output/CIP/CIC
+  s_fda856bf205e0d::t_124a94c2aa3c04 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "82932f1a5f6d49147c6fe5e84720f3bc80d9f213",
+  "prompts": {},
+  "sessions": {
+    "s_fda856bf205e0d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77d54c09-1b77-4d8b-b6fa-44351f19c78d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

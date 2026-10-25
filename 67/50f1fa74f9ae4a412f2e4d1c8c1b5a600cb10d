@@ -1,0 +1,21 @@
+CHANGELOG.md
+  s_fda856bf205e0d::t_716e6c49c798d1 3-20
+VERSION.md
+  s_fda856bf205e0d::t_1ecc36655f8568 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "6750f1fa74f9ae4a412f2e4d1c8c1b5a600cb10d",
+  "prompts": {},
+  "sessions": {
+    "s_fda856bf205e0d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77d54c09-1b77-4d8b-b6fa-44351f19c78d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

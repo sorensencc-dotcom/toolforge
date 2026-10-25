@@ -1,0 +1,35 @@
+skills/scale-ingestion-service/jest.config.js
+  s_7cbe892bfbb449::t_48a4959d144160 1-7
+skills/scale-ingestion-service/tsconfig.json
+  s_7cbe892bfbb449::t_952dac9838bdc1 1-22
+skills/scale-ingestion-service/tests/skill.test.ts
+  s_7cbe892bfbb449::t_3243b69abe80ec 1-99
+skills/scale-ingestion-service/package-lock.json
+  s_2deb705e4a5150::t_4b74ce25e32aef 1-4025
+skills/scale-ingestion-service/package.json
+  s_2deb705e4a5150::t_176a7b9384bac4 1-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "5d2f8ace69c9733b8061e050701649e69abb19cd",
+  "prompts": {},
+  "sessions": {
+    "s_2deb705e4a5150": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-aa2c42eae1c09c636",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7cbe892bfbb449": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c047833-a9dd-49b9-9c7f-f6cbe419fbd3",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

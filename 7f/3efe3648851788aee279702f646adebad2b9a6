@@ -1,0 +1,82 @@
+skills/work-summarizer/src/providers/ollamaProvider.ts
+  s_0a97f98aab9ab3::t_377acb2329ca3a 1-30
+skills/SKILLPACK-METADATA.json
+  s_d3640c043b3d74::t_f438fcdf9f7656 3-4,6-8,10,14-27,30,32,34-40,45-51,53-62,64-106,108-115,117-127,129-131,133-145,149-162,164-167,169-175,180-186,188-207,210,212-221,223-226,230-231,233,236,239-241,246,248,250,252,254-256,262,266,268,271-277,279
+  s_d3640c043b3d74::t_c919fc5dcea7e2 232
+  s_d3640c043b3d74::t_8e940d38eb05a4 234-235
+  s_d3640c043b3d74::t_2a3babb1472d5d 237-238
+  s_d3640c043b3d74::t_178748f1d7de2b 242
+  s_d3640c043b3d74::t_d679d5ad2d2ea5 251
+  s_d3640c043b3d74::t_b02d345556e7d3 253
+  s_d3640c043b3d74::t_cb18cadcf37acd 261
+  s_d3640c043b3d74::t_0eeb52b370fa56 264-265
+  s_d3640c043b3d74::t_a40e2f5e25f5d3 269-270
+  s_d3640c043b3d74::t_52db059c74b3a0 278
+  s_d3640c043b3d74::t_553ea0648f7662 280
+skills/work-summarizer/PROVIDERS.md
+  s_0a97f98aab9ab3::t_2be2534853ee69 1-147
+skills/work-summarizer/src/reasoningProvider.ts
+  s_0a97f98aab9ab3::t_a416f5e1e69ac0 1-66
+skills/work-summarizer/src/providers/claudeProvider.ts
+  s_0a97f98aab9ab3::t_21d162c889be5b 1-171
+skills/work-summarizer/src/index.ts
+  s_0a97f98aab9ab3::t_a486a349565f66 209,219,235-239
+  s_0a97f98aab9ab3::t_53d59b8eb265da 29-30,40
+  s_0a97f98aab9ab3::t_7e2bcc734fe232 196-208,210-218,220-234,240-254
+  s_0a97f98aab9ab3::t_14532dd713be90 64
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_d3640c043b3d74::t_f438fcdf9f7656 126-130,132-135
+  s_7008a9810d4867::t_cf806c41672373 3,13,18,26-43,50-67,80-85,88-96,99-107,114-116,154-156,158-160,163,173
+skills/work-summarizer/src/providers/index.ts
+  s_0a97f98aab9ab3::t_deb7fb0b9ab63b 1-52
+utilities/toolforgeSkillValidator.ps1
+  s_d3640c043b3d74::t_4e2c22bd844973 198-200
+skills/work-summarizer/tests/reasoningProvider.test.ts
+  s_0a97f98aab9ab3::t_9045a36c2ff060 1-107
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_d3640c043b3d74::t_227ba1d4f353e5 3,13,22,26-28,30-32,35,40-74
+skills/SKILLPACK-VALIDATION.md
+  s_1c8c72bfe5bcd2::t_49e3b4f5dbfd8a 3,11-12,14,16,19-20,22,30-32,34-36,39,43-80,83-85,87-90,98-100,102-104,107,111-113,115-117,120
+skills/work-summarizer/skill.json
+  s_0a97f98aab9ab3::t_b6c2bff43874d3 5,17-20,52-61,79-87,91-180,188-199,204-207,214-216
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "7f3efe3648851788aee279702f646adebad2b9a6",
+  "prompts": {},
+  "sessions": {
+    "s_0a97f98aab9ab3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "326ed19a-b6bc-4fa5-bc92-39ad09aec125",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d3640c043b3d74": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6a3bc7a-e5d5-4837-8509-3c2a67fc7c7d",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

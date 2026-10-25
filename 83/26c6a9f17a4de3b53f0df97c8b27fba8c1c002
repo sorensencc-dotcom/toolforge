@@ -1,0 +1,30 @@
+docs/meta/5-ijfw-plan-phase-5-multicanary.md
+  s_970389637ddcef::t_2f9845c3ef12cc 127-130
+  s_38c0e0c5eaedf2::t_58e276c1121c90 1-126,131-132,137-138,141-296
+  s_970389637ddcef::t_7453cfcb77de86 139-140
+  s_38c0e0c5eaedf2::t_43c458dd3b8344 133-136
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "8326c6a9f17a4de3b53f0df97c8b27fba8c1c002",
+  "prompts": {},
+  "sessions": {
+    "s_38c0e0c5eaedf2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e9ff065d-a791-426c-ae97-1a2b3a863982",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_970389637ddcef": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31370f92-89b8-4321-b817-d1500000411c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

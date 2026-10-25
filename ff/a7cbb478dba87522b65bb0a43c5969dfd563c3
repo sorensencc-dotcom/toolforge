@@ -1,0 +1,23 @@
+run-tool.ps1
+  s_ae6c36133a3b6d::t_50659658a3e841 85-103,115,125,129-132
+  s_ae6c36133a3b6d::t_b3d1f063e9fa58 69
+  s_ae6c36133a3b6d::t_a0768382d889f7 403-404,406
+  s_ae6c36133a3b6d::t_d81fd3d95530f3 45-58
+  s_ae6c36133a3b6d::t_7940ec1642e5af 420-421,423-424
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "ffa7cbb478dba87522b65bb0a43c5969dfd563c3",
+  "prompts": {},
+  "sessions": {
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

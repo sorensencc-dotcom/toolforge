@@ -1,0 +1,29 @@
+notebooklm-registry.json
+  s_3841bb92f28092::t_56750553994d4c 11-21,64
+schedule-task-wrapper-TRM-Notebooklm-Mine.ps1
+  s_bed36bc834b400::t_847cbbc455543e 13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "11cacc54c6bde17ca644e900453706df44384508",
+  "prompts": {},
+  "sessions": {
+    "s_3841bb92f28092": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5ae3c205-297a-40a4-896d-c3fbc44ef13e",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bed36bc834b400": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f2b61664-db06-4322-a0b2-7f2788dcbb07",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

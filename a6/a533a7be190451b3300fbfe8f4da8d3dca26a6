@@ -1,0 +1,19 @@
+docs/superpowers/plans/2026-07-19-roadmap-consolidation-plan.md
+  s_f5f266ba677d57::t_7a55e0f8ceb505 1-1496
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a6a533a7be190451b3300fbfe8f4da8d3dca26a6",
+  "prompts": {},
+  "sessions": {
+    "s_f5f266ba677d57": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77972b09-70fa-486c-8208-fe7fd38c5149",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

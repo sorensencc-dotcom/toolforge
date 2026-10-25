@@ -1,0 +1,23 @@
+.context/retros/validate.ps1
+  s_9b04e33689e249::t_17e64deab5f290 7
+.github/workflows/governance.yml
+  s_9b04e33689e249::t_2e1a8603cba54a 16,27
+.github/workflows/toolforge-wave-d.yml
+  s_9b04e33689e249::t_2e1a8603cba54a 52,55,57,84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "12fc08861f69500e79ad70ad256b482ddf93a50e",
+  "prompts": {},
+  "sessions": {
+    "s_9b04e33689e249": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc2cc-b74c-7c20-b39b-9af6e9ee68b9",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

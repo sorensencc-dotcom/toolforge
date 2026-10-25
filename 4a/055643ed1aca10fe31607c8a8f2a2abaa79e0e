@@ -1,0 +1,19 @@
+skills/session-wrap/src/index.ts
+  s_b2b0627ddda6f1::t_7c05e8c7f0ad9d 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4a055643ed1aca10fe31607c8a8f2a2abaa79e0e",
+  "prompts": {},
+  "sessions": {
+    "s_b2b0627ddda6f1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4e14930-d8e9-4be4-ad89-e2a1859a4645",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

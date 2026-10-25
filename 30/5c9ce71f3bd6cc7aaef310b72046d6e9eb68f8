@@ -1,0 +1,27 @@
+skills/retro-export/src/index.ts
+  s_be92be7ea0d8a4::t_418bed4ab66146 1-62
+skills/retro-export/jest.config.js
+  s_be92be7ea0d8a4::t_8f94aad0bd73ac 1-7
+skills/retro-export/tsconfig.json
+  s_be92be7ea0d8a4::t_c977df612ff66f 1-22
+skills/retro-export/package.json
+  s_be92be7ea0d8a4::t_e5d9b6aac5f03f 1-23
+skills/retro-export/README.md
+  s_be92be7ea0d8a4::t_37d065b6022502 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "305c9ce71f3bd6cc7aaef310b72046d6e9eb68f8",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

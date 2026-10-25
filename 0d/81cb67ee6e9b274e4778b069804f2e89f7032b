@@ -1,0 +1,19 @@
+.claude/settings.json
+  s_7e761c688e1d49::t_a8c80ba60da980 45,55,60,72,77,87,98,108,119,130,141,150,157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0d81cb67ee6e9b274e4778b069804f2e89f7032b",
+  "prompts": {},
+  "sessions": {
+    "s_7e761c688e1d49": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15ac4-72c1-75a1-ab24-bdc44e1db759",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

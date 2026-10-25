@@ -1,0 +1,20 @@
+scripts/daily-report-backfill.ps1
+  s_be92be7ea0d8a4::t_04aa485e16108a 13,17
+  s_be92be7ea0d8a4::t_21fa41f936c48d 1-12,14-16,18-330
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "7f1481de8df02f8c71ac144c3d945cb7c29534e3",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

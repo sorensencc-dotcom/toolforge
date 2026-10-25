@@ -1,0 +1,19 @@
+docs/meta/phase-6-rollback-charter.md
+  s_7a9219f317eb85::t_5db6997d89f022 70-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "2997425f71303965625e33813f96472de65eefba",
+  "prompts": {},
+  "sessions": {
+    "s_7a9219f317eb85": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a5bd5ef-3f82-4819-941f-6a4b651c1e08",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

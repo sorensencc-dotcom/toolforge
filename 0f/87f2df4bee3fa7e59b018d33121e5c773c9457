@@ -1,0 +1,19 @@
+docs/meta/specs/torquequery-ai-agent-routing-policy.md
+  s_0b72b0b6a27e79::t_a0a227d8e286f6 7,35,51-56,60-61,86-87,100-101,107-108,123,131-133,140-147,152-157,188,204-206,239
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "0f87f2df4bee3fa7e59b018d33121e5c773c9457",
+  "prompts": {},
+  "sessions": {
+    "s_0b72b0b6a27e79": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbdda-e73f-79e3-9b63-cfb7e0acc48c",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

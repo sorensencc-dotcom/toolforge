@@ -1,0 +1,22 @@
+tests/run-daily-notebook-mining.test.mjs
+  s_2dc9f7316d2895::t_27be1fa615b944 7-8,163-164,166,168,171-196,199,201-219,222,226-237,239-242
+  s_2dc9f7316d2895::t_4578f165a05e24 246
+scripts/run-daily-notebook-mining.mjs
+  s_2dc9f7316d2895::t_eea15ef26d0876 96,104-111,118,125-134,155-157,218,292-295,358-362
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0ff47e56db61847b8dfafa2837e024bea0f2b936",
+  "prompts": {},
+  "sessions": {
+    "s_2dc9f7316d2895": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0b239a4d-49af-4763-9efd-6ecee0bbc6d3",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

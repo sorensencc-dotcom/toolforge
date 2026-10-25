@@ -1,0 +1,35 @@
+skills/cic-run-gate/skill.json
+  s_f6aa48b2d59f04::t_07169444d76ea6 1
+manifest.json
+  s_758b92363514e5::t_d4727c0e1d6060 72
+skills/workspace-storage-cleaner/SKILL.json
+  s_758b92363514e5::t_9a58991d6dc415 1-37
+skills/workspace-storage-cleaner/SKILL.md
+  s_758b92363514e5::t_a6c7e4460ba0dd 1-50
+skills/workspace-storage-cleaner/scripts/clean-storage.py
+  s_758b92363514e5::t_662f0edf1d4992 1-190
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d2c4193115c37ff8f8245aaa4fed0b531c5fbb35",
+  "prompts": {},
+  "sessions": {
+    "s_758b92363514e5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc6b4d83-44cf-4509-9618-a786a6b33de6",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": null
+    },
+    "s_f6aa48b2d59f04": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a007da-4822-7db0-998d-6f48eda7e830",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

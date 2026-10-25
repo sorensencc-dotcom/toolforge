@@ -1,0 +1,26 @@
+"docs/Ecosystem Architecture Guide (Current).md"
+  h_5c172e9b435f5a 1-109
+package.json
+  h_5c172e9b435f5a 10-12
+scripts/ecosystem-compiler.mjs
+  h_5c172e9b435f5a 1-326
+scripts/schedule-task-wrapper-Ecosystem-Guide-Sync.ps1
+  h_5c172e9b435f5a 1-159
+scripts/sync-ecosystem-guide.mjs
+  h_5c172e9b435f5a 5-9,11-13,15-36,38,40,45-64,66-78,82,88-90,92-95,99-103,110-138,145,150-167,169-170,176
+tests/ecosystem-compiler.test.mjs
+  h_5c172e9b435f5a 1-151
+tests/sync-ecosystem-guide.test.mjs
+  h_5c172e9b435f5a 10,12,22,24-35,44,46,48,50-63,66-67,69-71,75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cda86ae918336a15afe9f334d6b36d912af04cb9",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

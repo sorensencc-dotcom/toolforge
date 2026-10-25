@@ -1,0 +1,24 @@
+modules/healing/adversarial-auditor.test.ts
+  s_b6041bb690bc5b::t_f84371687c2214 3,77-93
+  s_b6041bb690bc5b::t_72109e20e8bf25 94
+src/api/routes/providers.js
+  s_b6041bb690bc5b::t_0543e11ce62cd5 4
+modules/healing/adversarial-auditor.ts
+  s_b6041bb690bc5b::t_0543e11ce62cd5 1,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f82fa9077d54ac1871e7988f51f81291a1cf9be0",
+  "prompts": {},
+  "sessions": {
+    "s_b6041bb690bc5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "88beef84-8f01-422d-9742-583501d724c3",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

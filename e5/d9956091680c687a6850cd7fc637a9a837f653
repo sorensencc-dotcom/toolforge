@@ -1,0 +1,39 @@
+.ijfw/memory/finding-vision-subsystem-typescript-incompatibility.md
+  s_51835977e6ec78::t_f4d903ef48dd92 1-33
+src/harvester/external/vision/index.js
+  s_51835977e6ec78::t_ec843c2c750fbb 1-2,9,18,34,51
+  s_51835977e6ec78::t_15477a3a8f567d 42-43
+  s_51835977e6ec78::t_6d078b326fd3fd 5
+  s_51835977e6ec78::t_17b616a7d5f364 3-4,6-8,10-17,19-33,35-41,44-50
+src/harvester/external/vision/visionAdapter.js
+  s_51835977e6ec78::t_ffd1ab34937096 2-4,6-10,12-14,16-146
+  s_51835977e6ec78::t_946566ea38c64c 1,5,11,15
+cic-vision-governance/wrapper/vision-governance-wrapper.js
+  s_51835977e6ec78::t_c37e846ba0546b 9-50,52-84,86-87,92-98,100-119,121-134,136-144
+  s_51835977e6ec78::t_500d667f33881d 4
+  s_51835977e6ec78::t_4398524f9d8056 1-3,5-8,51,99,120,135
+  s_51835977e6ec78::t_7cb77c513e9a07 85,88-91
+src/harvester/external/vision/adaptiveThreshold.js
+  s_51835977e6ec78::t_63c221718730ac 1
+  s_51835977e6ec78::t_bb055e437f6af9 2-37
+src/harvester/external/vision/__tests__/vision-index.test.js
+  s_51835977e6ec78::t_3edb751efaaf11 96,100-101
+  s_51835977e6ec78::t_2e9955a9f33477 1-4,46,60,74,87-88
+  s_51835977e6ec78::t_1e9791a2c10c07 5-45,47-59,61-73,75-86,89-95,97-99,102-112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "e5d9956091680c687a6850cd7fc637a9a837f653",
+  "prompts": {},
+  "sessions": {
+    "s_51835977e6ec78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b5f70a8f-ea63-4a04-9ca8-40f1085773e2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

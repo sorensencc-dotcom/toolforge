@@ -1,0 +1,113 @@
+windows-task-manager/dashboard/dashboard.js
+  s_2f4136e9f30eb3::t_cc2b6bd197fa75 486-494
+skills/agent-drift-detector/package-lock.json
+  s_7b3c1b06b534bb::t_e9295f09da5197 2,8
+skills/analyze-token-burn/package-lock.json
+  s_56dd30092cbf2f::t_695b681af2172b 2,8
+skills/cic-section-summarizer/jest.config.js
+  s_7b3c1b06b534bb::t_96478a149e9724 1-7
+skills/cic-section-summarizer/package.json
+  s_7b3c1b06b534bb::t_5b6fe21ada2ad2 1-20
+skills/cic-section-summarizer/tests/skill.test.ts
+  s_7b3c1b06b534bb::t_42b64902c42de9 1,3
+skills/cic-section-summarizer/tsconfig.json
+  s_7b3c1b06b534bb::t_843849715cf577 1-22
+skills/html-visual-verify/tests/skill.test.ts
+  s_bda1e8f1bfba9e::t_7d293665ce34be 11,116-117
+skills/plan-extractor-integration/jest.config.js
+  s_7b3c1b06b534bb::t_8634e2955be59f 1-7
+skills/plan-extractor-integration/package.json
+  s_7b3c1b06b534bb::t_7dcfe3683b7f1c 1-20
+skills/plan-extractor-integration/tests/skill.test.ts
+  s_7b3c1b06b534bb::t_75abf576dddf4c 1,3
+skills/plan-extractor-integration/tsconfig.json
+  s_7b3c1b06b534bb::t_342e7e62465637 1-22
+skills/pre-wrap-audit/jest.config.js
+  s_7b3c1b06b534bb::t_58fe7cdf5ea4ae 1-7
+skills/pre-wrap-audit/package.json
+  s_7b3c1b06b534bb::t_65f97e8f6d265c 1-20
+skills/pre-wrap-audit/tests/skill.test.ts
+  s_7b3c1b06b534bb::t_766dc03492279a 1,3
+skills/pre-wrap-audit/tsconfig.json
+  s_7b3c1b06b534bb::t_ef429fd881e2aa 1-22
+skills/roadmap-validator/jest.config.js
+  s_7b3c1b06b534bb::t_fd4bcefc545390 1-7
+skills/roadmap-validator/package.json
+  s_7b3c1b06b534bb::t_15be9dd528bc2a 1-20
+skills/roadmap-validator/tsconfig.json
+  s_7b3c1b06b534bb::t_34e0754da26fb8 1-22
+skills/rollback-phase/coverage/clover.xml
+  s_ae6c36133a3b6d::t_ba65621c490bd9 2-4,28-36,39-46,48
+skills/rollback-phase/coverage/coverage-final.json
+  s_ae6c36133a3b6d::t_731e91fe02191c 4-5
+skills/rollback-phase/coverage/lcov-report/configRestorer.ts.html
+  s_ae6c36133a3b6d::t_3e3c683f6668ca 127
+skills/rollback-phase/coverage/lcov-report/flagRestorer.ts.html
+  s_ae6c36133a3b6d::t_32e9c536c41215 127
+skills/rollback-phase/coverage/lcov-report/healthGate.ts.html
+  s_ae6c36133a3b6d::t_ab3219b80be559 175
+skills/rollback-phase/coverage/lcov-report/index.html
+  s_ae6c36133a3b6d::t_1708301ab4313d 26,28,40,42,47,49,127-129,131-132,135-138,142-144,146-147,150-153,179
+skills/rollback-phase/coverage/lcov-report/index.ts.html
+  s_ae6c36133a3b6d::t_c93e2043ecd461 26,28,40,42,47,49,64,83-86,93-96,99-100,103-104,109,112-115,118-119,122,130
+skills/rollback-phase/coverage/lcov-report/rollbackOrchestrator.ts.html
+  s_ae6c36133a3b6d::t_fe01f0f2e55fc7 26,28,40,42,47,49,64,110-114,121-123,137,142,146-148,155,169-171,173-174,182-190,202-203,217
+skills/rollback-phase/coverage/lcov-report/snapshotLoader.ts.html
+  s_ae6c36133a3b6d::t_cf853d124c50c4 124
+skills/rollback-phase/coverage/lcov.info
+  s_ae6c36133a3b6d::t_6ab3d16fca3dc6 58-59,61-73,81-83,85-87,91-97,99-101
+skills/run-adapter-diagnostic/package-lock.json
+  s_56dd30092cbf2f::t_61f4130d0e8a72 2,8
+skills/toolforge-drift-monitor/package-lock.json
+  s_56dd30092cbf2f::t_1f4cb0131ff33d 2,8
+skills/work-summarizer/jest.config.js
+  s_7b3c1b06b534bb::t_12dd06a053cce7 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "b5d9ff708bbd9bc0454bde12f003df8952cb86f1",
+  "prompts": {},
+  "sessions": {
+    "s_2f4136e9f30eb3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8094dda3-bc77-4e24-8f6e-9a82e9136970",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_56dd30092cbf2f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1c065b5e-b0c1-4121-b669-25aaeb9cfefb",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7b3c1b06b534bb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9d49ba3a-3854-47ba-bbae-fb62a8e34701",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bda1e8f1bfba9e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39bf75cb-e57c-46e8-a733-d913c769f1bf",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

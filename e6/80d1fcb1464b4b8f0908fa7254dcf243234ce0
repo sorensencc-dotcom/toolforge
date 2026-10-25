@@ -1,0 +1,22 @@
+docs/meta/specs/2026-10-15-toolforge-dynamic-mcp-scoping-design.md
+  s_9d0f16c720771f::t_98227104bb9157 18-19
+  s_9d0f16c720771f::t_9e8783eaec8b97 24-25
+  s_9d0f16c720771f::t_b1e5c72999859b 654-663
+  s_9d0f16c720771f::t_27f30dd20d96eb 711
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e680d1fcb1464b4b8f0908fa7254dcf243234ce0",
+  "prompts": {},
+  "sessions": {
+    "s_9d0f16c720771f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "632d9ea0-4e4e-4a5e-afde-71280fb8ac94",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

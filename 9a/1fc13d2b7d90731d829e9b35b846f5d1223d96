@@ -1,0 +1,30 @@
+docs/toolforge/registry-audit.log
+  s_bd67b7a956c5e4::t_4f8b135ba7b0b4 1
+skills/toolforge-registry-manager/SKILL.json
+  s_bd67b7a956c5e4::t_76fe2d1afacda7 1-31
+skills/toolforge-registry-manager/src/checksum.ps1
+  s_bd67b7a956c5e4::t_20f4daf7982744 1-64
+.gitignore
+  s_bd67b7a956c5e4::t_5cb320c9d06706 6
+skills/toolforge-registry-manager/src/registry.ps1
+  s_bd67b7a956c5e4::t_1d1145b3880f90 1-194
+docs/toolforge/registry.json
+  s_bd67b7a956c5e4::t_075f7f5d4daee0 1-2,5,7-11
+  s_bd67b7a956c5e4::t_6918a5c312c378 3-4,6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "9a1fc13d2b7d90731d829e9b35b846f5d1223d96",
+  "prompts": {},
+  "sessions": {
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

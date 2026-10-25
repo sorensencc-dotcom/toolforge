@@ -1,0 +1,29 @@
+src/cli/commands/install.js
+  s_1e2a7070ffa23f::t_f0c2fd3593fb49 1-126
+src/cli/README.md
+  s_1e2a7070ffa23f::t_bbdbadf025dac2 1-132
+src/cli/index.js
+  s_1e2a7070ffa23f::t_598f4445b2f5bf 1-27
+package.json
+  s_1e2a7070ffa23f::t_6bf47575b1d6ed 29-31,39-40
+src/cli/commands/list.js
+  s_1e2a7070ffa23f::t_89aecf3f3b8fca 1-65
+src/cli/commands/search.js
+  s_1e2a7070ffa23f::t_ec4a66f2cf0a43 1-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "e398e6e79c4201e8755df5ba2fa4ad511e6d689f",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

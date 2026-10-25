@@ -1,0 +1,19 @@
+scripts/verify-reporting-setup.ps1
+  s_be92be7ea0d8a4::t_71bd91f56d6718 54-103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "115e3ec0dcfdee1f4c311206a143e2ec95ad32e8",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

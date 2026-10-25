@@ -1,0 +1,19 @@
+src/ui/index.html
+  s_1e2a7070ffa23f::t_b639255f5bcb09 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "db5c10ebbc8decacf7a87d77ea0a3bbfd05ae544",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

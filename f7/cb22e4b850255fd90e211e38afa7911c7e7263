@@ -1,0 +1,26 @@
+tests/compile-weekly-retro.test.mjs
+  s_368a2d912b4ec1::t_7078cb03c80c27 16-44
+  s_368a2d912b4ec1::t_e216bd2453536a 4-6
+  s_368a2d912b4ec1::t_1353303a9abb8e 7
+scripts/compile-weekly-retro.mjs
+  s_368a2d912b4ec1::t_1353303a9abb8e 19
+  s_368a2d912b4ec1::t_3e150c5a0084f1 274,304
+scripts/backlog-summary.mjs
+  s_368a2d912b4ec1::t_1353303a9abb8e 1-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f7cb22e4b850255fd90e211e38afa7911c7e7263",
+  "prompts": {},
+  "sessions": {
+    "s_368a2d912b4ec1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "574e2b73-c2e9-4e32-bfea-e54837634393",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

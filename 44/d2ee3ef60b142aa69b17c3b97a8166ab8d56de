@@ -1,0 +1,31 @@
+.harness/tasks/completed/2026-10-16T233001Z__action__sigil__act-sigil-rooms-phase6-floor-warden-bridge.md
+  s_cf48dae32d5dd9::t_d537139b7e7645 1-37
+.harness/tasks/completed/2026-10-16T233002Z__action__toolforge__act-toolforge-trm-atomic-issue-promotion-bridge.md
+  s_cf48dae32d5dd9::t_8b96c326dddabd 1-37
+trm-drive/inbox/ledger.jsonl
+  s_a8c54205434b64::t_fbcbc21cf5f586 59-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "44d2ee3ef60b142aa69b17c3b97a8166ab8d56de",
+  "prompts": {},
+  "sessions": {
+    "s_a8c54205434b64": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b2a36691-8258-4ddb-9f0d-48310f3f8876",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_cf48dae32d5dd9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b2d6e6eb-486c-43c6-b0b9-03b0bd947fd1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

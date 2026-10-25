@@ -1,0 +1,19 @@
+docs/meta/specs/2026-07-18-trm-ingest-file-convert-design.md
+  s_0d9ddae18b26ab::t_6b4c7067e7ae9f 1-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "fd0e64468367056e49c5e188bf41668a3d5cf0af",
+  "prompts": {},
+  "sessions": {
+    "s_0d9ddae18b26ab": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c3ced89e-055b-429c-9ef0-8f25abece942",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

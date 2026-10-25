@@ -1,0 +1,48 @@
+docs/meta/plans/README.md
+  s_08b9cdeabfac84::t_fcde210b0714d5 1-10
+docs/meta/ijfw-verify-parallelism-checks.md
+  s_08b9cdeabfac84::t_0ad0c3d2d2f4dc 288
+docs/meta/plans/parallelism-matrix-delivery-index.md
+  s_08b9cdeabfac84::t_0ad0c3d2d2f4dc 28
+  s_08b9cdeabfac84::t_a0d6a7c65d7dc3 180
+docs/meta/plans/parallelism-matrix-retrofit-example-phase3.md
+  s_08b9cdeabfac84::t_0ad0c3d2d2f4dc 1-310
+docs/meta/specs/toolforge-phase-2b-step2-design.md
+  s_08b9cdeabfac84::t_81c55184c53427 8
+docs/meta/specs/toolforge-phase-2b-step1-design.md
+  s_08b9cdeabfac84::t_81c55184c53427 7
+docs/meta/plans/parallelism-matrix-template.md
+  s_08b9cdeabfac84::t_0ad0c3d2d2f4dc 1-244
+docs/meta/parallelism-matrix-governance-rule.md
+  s_08b9cdeabfac84::t_0ad0c3d2d2f4dc 168-169,199
+.github/workflows/toolforge-release.yml
+  s_08b9cdeabfac84::t_81c55184c53427 3
+docs/meta/phases/phase-4-completion-report.md
+  s_02a69778e7c4e0::t_ef8db7266b05f9 242
+docs/meta/plans/parallelism-matrix-system.md
+  s_02a69778e7c4e0::t_7adb7b490aa00d 242
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "00ad5ce6c1b0873d6ca7748b17734877b17034c3",
+  "prompts": {},
+  "sessions": {
+    "s_02a69778e7c4e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a6ff1cd9ad6f516a3",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

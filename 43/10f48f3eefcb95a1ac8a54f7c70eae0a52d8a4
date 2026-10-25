@@ -1,0 +1,21 @@
+utilities/roadmap-drift-checker.ps1
+  s_f5f266ba677d57::t_3832dd61c5037d 76-78
+  s_f5f266ba677d57::t_cad72e87b200c3 159-162
+  s_f5f266ba677d57::t_c04e985c94f51f 163-199
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "4310f48f3eefcb95a1ac8a54f7c70eae0a52d8a4",
+  "prompts": {},
+  "sessions": {
+    "s_f5f266ba677d57": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77972b09-70fa-486c-8208-fe7fd38c5149",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

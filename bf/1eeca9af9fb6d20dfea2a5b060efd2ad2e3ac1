@@ -1,0 +1,14 @@
+scripts/reconcile-scheduled-tasks.ps1
+  h_5c172e9b435f5a 312-356,495-497
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bf1eeca9af9fb6d20dfea2a5b060efd2ad2e3ac1",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

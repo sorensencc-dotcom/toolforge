@@ -1,0 +1,123 @@
+CIC-GOVERNANCE/MANIFEST/CIC-GOV-MANIFEST-001.md
+  s_08b9cdeabfac84::t_7809db1b75c6b6 1-9
+CIC-GOVERNANCE/MANIFEST/PHASE-09-ONBOARDING.md
+  s_08b9cdeabfac84::t_91cbf59023a42b 1-9
+CIC-GOVERNANCE/README.md
+  s_08b9cdeabfac84::t_b96aad3288ae63 1-9
+CIC-GOVERNANCE/README/CIC-README.md
+  s_08b9cdeabfac84::t_11ea6a117c3aab 1-9
+CIC-GOVERNANCE/templates/commit-message-template.md
+  s_3eff2f821192fa::t_2569fd2f4ec801 1-8
+CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-0001.md
+  s_aa7737a79f8c75::t_8b52cd4681443a 1-9
+CIC-GOVERNANCE/AMENDMENTS/README.md
+  s_ddfadb443c9ee9::t_bdd70f86f57bf7 1-9
+CIC-GOVERNANCE/LINEAGE/README.md
+  s_ddfadb443c9ee9::t_d1ab263dac917f 1-9
+CIC-GOVERNANCE/MANIFEST/PHASE-09-CHARTER.md
+  s_1e2a7070ffa23f::t_e725a39f2c985f 1-9
+CIC-GOVERNANCE/MANIFEST/README.md
+  s_ddfadb443c9ee9::t_bc739279ac09a1 1-9
+CIC-GOVERNANCE/MANIFEST/gate-implementation-status.md
+  s_4d8e0aed4ef174::t_d6ec9c847b44ce 1-9
+CIC-GOVERNANCE/PIPELINE/CIC-Pipeline-v2.4.0.md
+  s_ddfadb443c9ee9::t_a2c9c998374635 1-9
+CIC-GOVERNANCE/PIPELINE/README.md
+  s_fcda7fb6f58ab1::t_0f92223e5740ac 1-9
+CIC-GOVERNANCE/REVIEW.md
+  s_4c7d78ab723bd0::t_1b5256893efe87 1-38
+CIC-GOVERNANCE/SPEC/CIC-GATE-SPEC-001.md
+  s_ddfadb443c9ee9::t_616a5324b652f4 1-9
+CIC-GOVERNANCE/SPEC/README.md
+  s_ddfadb443c9ee9::t_09ad800e3b23f7 1-8
+CIC-GOVERNANCE/WRAPPERS/README.md
+  s_ddfadb443c9ee9::t_89e5881cbd7971 1-8
+CIC-GOVERNANCE/package.json
+  s_51835977e6ec78::t_f659d05b0cf022 1-18
+CIC-GOVERNANCE/scripts/governance-contract-backfill.mjs
+  s_51835977e6ec78::t_e8d86f7ccb4b8e 1-248
+CIC-GOVERNANCE/scripts/governance-validate-precommit.sh
+  s_51835977e6ec78::t_3ed2daea0740dc 1-52
+CIC-GOVERNANCE/scripts/setup-git-hook.mjs
+  s_51835977e6ec78::t_0c1f2a1e749218 1-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "e9204442460f87e9280c1ccb23226b8d183507a2",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_3eff2f821192fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e647d8c9-19b2-4849-95a0-d8ffc0179a13",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_4c7d78ab723bd0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "97830631-12b5-4d23-8590-4de354d06cc2",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_4d8e0aed4ef174": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "82f15449-69ab-480a-9f7a-0d05046bc692",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_51835977e6ec78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b5f70a8f-ea63-4a04-9ca8-40f1085773e2",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_aa7737a79f8c75": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7ff5e352-f85c-43ac-bb5b-ae0ab17e4000",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ddfadb443c9ee9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5968-5c87-71d3-b3e1-14f1386972af",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fcda7fb6f58ab1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "98a6963f-dbac-4c1d-a6ba-ebf2cbe45d1f",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

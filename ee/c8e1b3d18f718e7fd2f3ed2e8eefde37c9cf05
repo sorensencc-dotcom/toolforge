@@ -1,0 +1,30 @@
+.ijfw/memory/project-journal.md
+  s_9d0f16c720771f::t_40f76a914cd91e 269
+  s_8dbecc43d9f29d::t_1c938bd2fa44fc 268,270
+STATUS.md
+  s_8dbecc43d9f29d::t_edc03f844a1cff 24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "eec8e1b3d18f718e7fd2f3ed2e8eefde37c9cf05",
+  "prompts": {},
+  "sessions": {
+    "s_8dbecc43d9f29d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "692647c0-f930-4062-b2b8-a22887786cb1",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9d0f16c720771f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "632d9ea0-4e4e-4a5e-afde-71280fb8ac94",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

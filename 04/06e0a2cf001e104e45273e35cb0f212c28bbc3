@@ -1,0 +1,19 @@
+.context/retros/actions/ledger.jsonl
+  s_ae48bc30365f0a::t_4b44ce9b197bf2 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0406e0a2cf001e104e45273e35cb0f212c28bbc3",
+  "prompts": {},
+  "sessions": {
+    "s_ae48bc30365f0a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a51eabaa-2101-434f-9d9d-9a97b8871669",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+cic-vision-governance/schema/CIC-VISION-THRESHOLD.schema.json
+  s_51835977e6ec78::t_403c202daf0d04 1-123
+cic-vision-governance/schema/lineage-log.schema.json
+  s_51835977e6ec78::t_bd219cdd88cbfb 1-47
+src/harvester/external/vision/visionAdapter.ts
+  s_51835977e6ec78::t_31b70a22492351 1-170
+cic-vision-governance/ratification/__tests__/ratify-threshold.test.ts
+  s_51835977e6ec78::t_04751e3b61db2c 1-159
+cic-vision-governance/ratification/ratify-threshold.ts
+  s_51835977e6ec78::t_00a5842d72190b 1-133
+src/harvester/external/vision/adaptiveThreshold.ts
+  s_51835977e6ec78::t_ce842eac207136 1-42
+.ijfw/memory/plan-vision.md
+  s_51835977e6ec78::t_86c280c11fa42a 1-104
+src/harvester/external/vision/__tests__/adaptiveThreshold.test.ts
+  s_51835977e6ec78::t_9de5d31453b0c5 1-115
+cic-vision-governance/wrapper/vision-governance-wrapper.ts
+  s_51835977e6ec78::t_469953c8af951a 1-187
+cic-vision-governance/README.md
+  s_51835977e6ec78::t_f3d28667693f08 1-125
+src/harvester/external/vision/__tests__/vision-integration.test.ts
+  s_51835977e6ec78::t_7fddf0438f6272 1-141
+src/harvester/external/vision/__tests__/visionAdapter.test.ts
+  s_51835977e6ec78::t_27f3ba24511e1a 1-200
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "d132df06f2ded7b34d73dd5029b49e6efc2f3dd2",
+  "prompts": {},
+  "sessions": {
+    "s_51835977e6ec78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b5f70a8f-ea63-4a04-9ca8-40f1085773e2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

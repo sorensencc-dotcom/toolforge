@@ -1,0 +1,14 @@
+tests/promote-card.test.mjs
+  h_5c172e9b435f5a 7,10,18-23,27,29-37,39-46,50-54,57-66,68-216,260,265-348
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ce69a7fb55cb112bbfe7ad79c63df40c4c26ac0f",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

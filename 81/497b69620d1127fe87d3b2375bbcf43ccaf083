@@ -1,0 +1,23 @@
+CLAUDE.md
+  s_20d91d3a603d8f::t_17f92f2f88482a 100
+  s_20d91d3a603d8f::t_25dcc07b7ea5b8 3-15
+docs/meta/global-operating-rules-cic-rewrite-labs.md
+  s_20d91d3a603d8f::t_c4c591f80d0de8 3-4,12,14,16,20,22-23,25-27,29-33,35-36,38,40,42,44-54,58,60-64,66,68,70,72,74,76-78,80,82-86,88-93
+  s_20d91d3a603d8f::t_31439a1f80d824 97,100-101,103-104,109,111,115,117,119,121,123-127,129-132,134,138,143-144,146,150,152-157,159-163,169-173,177,179,181,187
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "81497b69620d1127fe87d3b2375bbcf43ccaf083",
+  "prompts": {},
+  "sessions": {
+    "s_20d91d3a603d8f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "279a5e26-a6ad-4218-af58-2bc6efe55319",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

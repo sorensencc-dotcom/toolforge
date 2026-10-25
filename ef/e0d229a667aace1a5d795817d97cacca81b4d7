@@ -1,0 +1,19 @@
+tests/diagram-sync.test.mjs
+  s_e8c5d5cef80b42::t_2573e6427cedca 14,156-162
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "efe0d229a667aace1a5d795817d97cacca81b4d7",
+  "prompts": {},
+  "sessions": {
+    "s_e8c5d5cef80b42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "002e2a65-c944-428c-8fd9-d5393e7b3986",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

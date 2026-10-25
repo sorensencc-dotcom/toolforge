@@ -1,0 +1,19 @@
+src/harvester/external/curator-decision-processor.mjs
+  s_a3505f9072d5c6::t_c61ffc88cdd3b9 176
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "22fc571b00a57c77241833f9e2a8fe1b5da09902",
+  "prompts": {},
+  "sessions": {
+    "s_a3505f9072d5c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fca6dcee-f6dd-473d-b31e-9b5879c5d874",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

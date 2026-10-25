@@ -1,0 +1,19 @@
+docs/meta/specs/2026-07-18-trm-reporting-engine-v1-design.md
+  s_0d9ddae18b26ab::t_459729e7f25701 1-122
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "55b014f624a550622357283826f5d15d53b20ea5",
+  "prompts": {},
+  "sessions": {
+    "s_0d9ddae18b26ab": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c3ced89e-055b-429c-9ef0-8f25abece942",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

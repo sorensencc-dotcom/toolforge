@@ -1,0 +1,75 @@
+skills/kb-sync-artifact-generator/SKILL.md
+  s_f6f0534a7aa116::t_493269a56d7d4c 3,6,12,14,17,20,22-25,30,41
+  s_f6f0534a7aa116::t_9389abb6c71b05 28-29
+  s_f6f0534a7aa116::t_d93ce6cc23a142 31-33,38-40
+  s_482eee185846e3::t_eae10f1992b95a 34-37,44,46
+skills/analyze-token-burn/README.md
+  s_f6f0534a7aa116::t_5f3eefb47807e3 3,5
+  s_482eee185846e3::t_1af48a240ca9fd 11-13,15,17
+skills/analyze-token-burn/SKILL.md
+  s_f6f0534a7aa116::t_6744c147a5c8dc 3-6,8,11-13,15-17,19,21-25,27,29-31,38-39
+  s_f6f0534a7aa116::t_e6b17f27711ec5 32-37
+  s_482eee185846e3::t_d0c1aa568c9065 41,43
+skills/roadmap-validator/SKILL.md
+  s_f6f0534a7aa116::t_c27c6266c4743e 2-6,9,11,13,15-17,19,21-25,29-32
+  s_f6f0534a7aa116::t_669acb962f6772 33-35
+  s_482eee185846e3::t_abd76e33ec30a1 36-41,45,47
+skills/ashfall/SKILL.md
+  s_f6f0534a7aa116::t_abea016efedd12 3-6,9,11,13,16,19,21-27,29-34,43-44
+  s_f6f0534a7aa116::t_fca81fc153002e 35-37,40-42
+  s_482eee185846e3::t_1b2a8b2e48e9be 38-39,46,48
+skills/cic-ingest-world/README.md
+  s_f6f0534a7aa116::t_aba91958bfc220 3
+  s_482eee185846e3::t_ab3a723a3ad216 11,13-15,19
+skills/cic-consolidate-artifacts/README.md
+  s_f6f0534a7aa116::t_6bfb77ede31738 3
+  s_482eee185846e3::t_09d715cfddf912 11,13-15,19
+skills/cic-run-gate/README.md
+  s_f6f0534a7aa116::t_76b9ecd7414708 3
+  s_482eee185846e3::t_8a616db11c0028 8,11,13-15,19
+skills/cic-run-gate/SKILL.md
+  s_f6f0534a7aa116::t_5254bcae413af4 2-6,11,13,15-17,19,21-26,28,30-32,40-41
+  s_f6f0534a7aa116::t_8f05b71f11f987 33-35,37-39
+  s_482eee185846e3::t_20f451ad77c68c 36,43,45
+skills/roadmap-validator/README.md
+  s_f6f0534a7aa116::t_23ad1caf3a2dc1 3,5
+  s_482eee185846e3::t_7a7763943595ed 11,13-16,20,22
+skills/cic-ingest-world/SKILL.md
+  s_f6f0534a7aa116::t_da5dc3bd6a6d6a 2-5,10,12,14-16,18,20-25,27,29-31,39-40
+  s_f6f0534a7aa116::t_c5a05a65530895 32-34,36-38
+  s_482eee185846e3::t_2e81626284dfb8 35,42,44
+skills/kb-sync-artifact-generator/README.md
+  s_f6f0534a7aa116::t_b7c39a78c9af3c 3,7
+  s_482eee185846e3::t_07fdd174d38b2f 13-16,20-22
+skills/cic-consolidate-artifacts/SKILL.md
+  s_f6f0534a7aa116::t_f5d1698619f0bc 2-5,10,12,14-16,18,20-25,27,29-31,39-40
+  s_f6f0534a7aa116::t_367f382b25c0d3 32-34,36-38
+  s_482eee185846e3::t_ed5c45a43c5acd 35,42,44
+skills/ashfall/README.md
+  s_f6f0534a7aa116::t_ff2ef4bf0b5621 1,3,11
+  s_482eee185846e3::t_4705d84eec2e47 13-17,21-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "3cb514c48d351c7e36b84de85b93f5a26f619a96",
+  "prompts": {},
+  "sessions": {
+    "s_482eee185846e3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a3318e20e382a5ea6",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f6f0534a7aa116": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d93bae0e-35c3-434a-9771-bc575f938963",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

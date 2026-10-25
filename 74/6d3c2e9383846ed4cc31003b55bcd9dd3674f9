@@ -1,0 +1,58 @@
+skills/pre-wrap-audit/docs/USAGE.md
+  s_eaf7b68a8592fd::t_11ffb66736b0fb 1-263
+skills/pre-wrap-audit/src/index.ts
+  s_eaf7b68a8592fd::t_081aa9ecb0ef3d 1-220
+skills/ashfall/src/index.ts
+  s_eaf7b68a8592fd::t_5312bc5fabbf7e 5-14
+  s_eaf7b68a8592fd::t_6224a5ba033e2e 368-419,421
+  s_eaf7b68a8592fd::t_d85dfd1377e885 425,439
+  s_eaf7b68a8592fd::t_bc85065c40980c 44-52,64
+  s_5c02ea523022ac::t_4870e1d3ab9c22 453-466,468-472
+skills/pre-wrap-audit/tests/verdict.test.ts
+  s_eaf7b68a8592fd::t_f98d30a717155f 1-315
+skills/pre-wrap-audit/docs/EXAMPLES.md
+  s_eaf7b68a8592fd::t_0c6debc764627e 1-327
+skills/ashfall/skill.json
+  s_eaf7b68a8592fd::t_6050d425cd7940 27
+skills/pre-wrap-audit/src/questions.ts
+  s_eaf7b68a8592fd::t_a5611aa79a7bb2 1-88
+skills/pre-wrap-audit/docs/HARNESS-INTEGRATION.md
+  s_eaf7b68a8592fd::t_bfcfa33888b9df 1-265
+skills/pre-wrap-audit/skill.json
+  s_eaf7b68a8592fd::t_f074a9e12868d5 1-51
+skills/pre-wrap-audit/src/verdict.ts
+  s_eaf7b68a8592fd::t_a20b6b10ea3987 1-241
+skills/pre-wrap-audit/docs/FRAMEWORK.md
+  s_eaf7b68a8592fd::t_f0bfcb755eb899 1-336
+skills/pre-wrap-audit/README.md
+  s_eaf7b68a8592fd::t_562ed8ad0262cc 84-88
+  s_eaf7b68a8592fd::t_000c16ca2fbd02 1-29,38-49,52-83
+  s_eaf7b68a8592fd::t_5182465e065360 50-51
+  s_eaf7b68a8592fd::t_b867a7496f1db0 30-37
+skills/pre-wrap-audit/tests/audit.test.ts
+  s_eaf7b68a8592fd::t_f8656473e9a0ee 1-276
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "746d3c2e9383846ed4cc31003b55bcd9dd3674f9",
+  "prompts": {},
+  "sessions": {
+    "s_5c02ea523022ac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "65ae4da6-dbb1-442f-9552-e4acf5224bb9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_eaf7b68a8592fd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0547e723-ba1b-434f-bf82-37e8f88c2262",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

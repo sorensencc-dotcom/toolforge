@@ -1,0 +1,33 @@
+.claude/skills/workflow-lint/scripts/scan.sh
+  s_3e5d58d3fdd8c4::t_950a0d6307ec75 1-44
+.claude/skills/workflow-lint/SKILL.md
+  s_3e5d58d3fdd8c4::t_c63d6815983cbe 1-42
+.claude/hooks/block-env-edit.js
+  s_3e5d58d3fdd8c4::t_26fcef04b995e2 1-24
+.claude/skills/ci-triage/SKILL.md
+  s_3e5d58d3fdd8c4::t_4776327f76215b 1-59
+.claude/hooks/post-push-ci-check.sh
+  s_3e5d58d3fdd8c4::t_ff06b018d0ad33 1-11
+.mcp.json
+  s_3e5d58d3fdd8c4::t_242e03a5c4e87a 1-14
+.claude/agents/repo-governance-auditor.md
+  s_3e5d58d3fdd8c4::t_7070f4beffed8b 1-32
+.claude/settings.json
+  s_3e5d58d3fdd8c4::t_bc70e0ea0bdc4b 33-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "adda8e016d903d02d1a0a30ea4053e1c73f04722",
+  "prompts": {},
+  "sessions": {
+    "s_3e5d58d3fdd8c4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f9959fa1-4b91-4a6c-b913-92e744119cfa",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

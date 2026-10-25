@@ -1,0 +1,47 @@
+services/chat-agent/src/quality/qualityRoutingSignals.ts
+  s_ad60e6d4907ca7::t_a016e7961417f7 1-100
+services/chat-agent/src/models/ModelSelector.test.ts
+  s_ad60e6d4907ca7::t_1886cd7f095020 38,42-52
+  s_ad60e6d4907ca7::t_04d07cbb74ccfe 1-37,39-41,53-55
+services/chat-agent/src/models/ModelSelector.ts
+  s_ad60e6d4907ca7::t_3a613bbbf18b8b 1-53
+services/chat-agent/src/models/modelCatalog.ts
+  s_ad60e6d4907ca7::t_9c8511d04bd123 1-20
+services/chat-agent/src/handlers/pipeline.test.ts
+  s_ad60e6d4907ca7::t_3f0eea5bc2a3b8 1-57
+services/chat-agent/src/index.ts
+  s_ad60e6d4907ca7::t_e084e8c16c82dd 1-3
+services/chat-agent/package.json
+  s_ad60e6d4907ca7::t_a070b3a3f79fb9 1-24
+services/chat-agent/src/quality/types.ts
+  s_ad60e6d4907ca7::t_82f3b03a48969a 1-18
+services/chat-agent/src/quality/qualityRoutingSignals.test.ts
+  s_ad60e6d4907ca7::t_0e55fd9f7d78f8 1-75
+services/chat-agent/src/server.ts
+  s_ad60e6d4907ca7::t_ae74c230d184e7 1-16
+services/chat-agent/jest.config.cjs
+  s_ad60e6d4907ca7::t_29a6ee4465f3b8 1-4,6
+  s_ad60e6d4907ca7::t_e4d440dac6c125 5
+services/chat-agent/src/routes/pipeline.ts
+  s_ad60e6d4907ca7::t_4fe9aa6fbd491d 1-23
+services/chat-agent/tsconfig.json
+  s_ad60e6d4907ca7::t_f18d2065493d25 1-18
+services/chat-agent/src/handlers/pipeline.ts
+  s_ad60e6d4907ca7::t_5e3e1f57ff59f4 1-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "25a9b45a1527bbcd9542ba7db0897361405db850",
+  "prompts": {},
+  "sessions": {
+    "s_ad60e6d4907ca7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0e150237-fc96-4442-b8b7-c8bbd3a3f611",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

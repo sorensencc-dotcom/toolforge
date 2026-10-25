@@ -1,0 +1,45 @@
+skills/operator-image-build/tests/index.ts
+  s_24531e0f82e936::t_2f90f686d60535 1-53
+skills/operator-image-build/docs/USAGE.md
+  s_24531e0f82e936::t_b3efd2375ac1df 1-189
+skills/operator-image-build/.gitignore
+  s_24531e0f82e936::t_3b11e3c747df14 1-6
+skills/operator-image-build/jest.config.js
+  s_24531e0f82e936::t_9ad53c6ab7e968 1-15
+skills/operator-image-build/src/index.ts
+  s_24531e0f82e936::t_0646d5b299d755 1-185
+skills/operator-image-build/README.md
+  s_24531e0f82e936::t_398c5a6cb50cb8 1-127
+skills/operator-image-build/tsconfig.json
+  s_24531e0f82e936::t_a2c7efbdfac8d3 1-19
+skills/operator-image-build/skill.json
+  s_24531e0f82e936::t_ac2a624d6512a7 1-120
+skills/operator-image-build/package.json
+  s_24531e0f82e936::t_c4529444f0ba56 1-29
+skills/operator-image-build/dist/index.d.ts
+  s_24531e0f82e936::t_2514e652bb4ed4 1-29
+skills/operator-image-build/dist/index.d.ts.map
+  s_24531e0f82e936::t_228960afc8ce65 1
+skills/operator-image-build/dist/index.js
+  s_24531e0f82e936::t_cb5b2482d59e14 1-166
+skills/operator-image-build/dist/index.js.map
+  s_24531e0f82e936::t_e3c2bc26f79f7b 1
+skills/operator-image-build/package-lock.json
+  s_24531e0f82e936::t_77d94d4c2885d9 1-3861
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6bb96efd9adc29a9cdf409b5166aa70872f252ba",
+  "prompts": {},
+  "sessions": {
+    "s_24531e0f82e936": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c6043ef0-b3d2-41c0-8516-888507c4bdef",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

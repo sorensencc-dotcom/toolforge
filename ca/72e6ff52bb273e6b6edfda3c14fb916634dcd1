@@ -1,0 +1,19 @@
+STATUS.md
+  s_8dbecc43d9f29d::t_8d5b5c466a2611 12-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ca72e6ff52bb273e6b6edfda3c14fb916634dcd1",
+  "prompts": {},
+  "sessions": {
+    "s_8dbecc43d9f29d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "692647c0-f930-4062-b2b8-a22887786cb1",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

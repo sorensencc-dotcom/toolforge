@@ -1,0 +1,19 @@
+TODOS.md
+  s_a3dded960a0852::t_333a4790513dcb 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "a06117d308dccf847705a3e2993d0af1780f5e1c",
+  "prompts": {},
+  "sessions": {
+    "s_a3dded960a0852": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fe9a6-0250-79c3-80fb-621fa8539484",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

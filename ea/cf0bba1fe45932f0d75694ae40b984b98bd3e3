@@ -1,0 +1,94 @@
+.context/retros/2026-07-21-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1,4-8,10-11,13-27,29-42,44-52,54-65
+.context/retros/2026-07-14-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-7,9-43,47,52-57
+.context/retros/2026-07-15-2.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-6,9-43,47,53,58-63
+.context/retros/2026-07-16-5.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-53,69-70
+.context/retros/2026-07-16-4.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-6,9-43,47,51,54-59
+.context/retros/2026-07-12-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-7,9-43,47,54-59
+.context/retros/2026-07-12-2.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-7,9-43,47,54-59
+.context/retros/2026-07-17-3.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-6,11-14,16-27,29-33,36,41-47,49-52,54-59
+.context/retros/2026-07-17-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-6,11-14,17-23,25-34,36,41-42,44-59
+src/governance.test.js
+  s_591b1ecd1643b0::t_bc3e1d382fdbd1 1-62
+.context/retros/2026-07-15-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-2,4,6-8,11-14,17-21,24,26-28,30-31,33-35,37-42,44-55
+.context/retros/2026-07-17-2.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-6,11-14,17-23,25-34,36,41-42,44-59
+.context/retros/2026-07-25-2.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1,4-8,10-11,13-21,23-27,29,31-42,44-52,54-59
+.context/retros/2026-07-26-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-64
+.context/retros/2026-07-23-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1,4-8,10-11,13-21,23-27,29-42,44-52,54-68
+.context/retros/2026-07-16-3.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-6,11-14,17-18,22-31,33-35,37-52,54-63
+.context/retros/validate.ps1
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-3,6,8,11,13,16,20-22,25-28,31-33,35-37,40
+.context/retros/validate-v1.0.ps1
+  s_bf425cfb5dd902::t_f6fc890545ffc1 4,7-19,23,48-49,52,56,58-66,69,73-89,91-107,110-123,127-131,140-141,144-151,188
+setup-git-hooks.ps1
+  s_61cdf6f459809b::t_6556233cf90063 271-303,305-306
+  s_bf425cfb5dd902::t_f6fc890545ffc1 178,209,268,304
+  s_591b1ecd1643b0::t_0c30c2077a9349 27,31,33,154,186
+  s_61cdf6f459809b::t_7069392d034b4e 314,321
+  s_61cdf6f459809b::t_fd02593bd2f426 339
+  s_61cdf6f459809b::t_d8d19f803ce2b5 377-391
+  s_61cdf6f459809b::t_092b3b7bf99fca 402,425-432
+.github/workflows/governance.yml
+  s_591b1ecd1643b0::t_0c30c2077a9349 1-20,24-27,30
+  s_61cdf6f459809b::t_f4feb9785a9057 21-23,28-29,31
+.context/retros/2026-07-17-7.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-7,9-43,54-59
+.context/retros/2026-07-21-2.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-2,4-5,7-8,11-27,29-32,35-36,40-42,54-59
+.context/retros/2026-07-25-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1,4-8,10-11,13-21,23-27,29,31-42,44-52,54-59
+.context/retros/2026-07-16-1.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-6,9-43,47,53,58-63
+.context/retros/migrate-to-v1.0.ps1
+  s_bf425cfb5dd902::t_f6fc890545ffc1 4,7-9,13-15,18,20-103,106-111,114-117,119-122,124-179,181,183-187,189,191-195,198-221,223-316,323-324,327,329-332,334,336-342,345,347-351,353,355,357,362
+.context/retros/retro.schema.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 3-4,10-11,13-14,20,24,30,32-44,49-50,52-60,62-66,68-78,81-117,119,121-132,135-150,152-153
+.context/retros/2026-07-16-2.json
+  s_bf425cfb5dd902::t_f6fc890545ffc1 1-6,11-14,17-18,22-31,33-35,37-42,44-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "eacf0bba1fe45932f0d75694ae40b984b98bd3e3",
+  "prompts": {},
+  "sessions": {
+    "s_591b1ecd1643b0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9f21-9fb6-70a0-a194-5f52a203f374",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_61cdf6f459809b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ad93fa8c-ae69-41e0-b9c5-43180f116a2c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bf425cfb5dd902": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d0bddb46-1770-430a-a668-ee0f4c688ce6",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+docs/meta/audit-first-scope-lock-formalization-summary.md
+  s_08b9cdeabfac84::t_d021a1a22fc61b 66
+docs/meta/docs-structure-policy-plan.md
+  s_08b9cdeabfac84::t_d021a1a22fc61b 185-202,209-226,242
+docs/meta/ijfw-agent-integration-guide-v1.5.md
+  s_08b9cdeabfac84::t_d021a1a22fc61b 158
+docs/meta/phases/phase-4-completion-report.md
+  s_08b9cdeabfac84::t_8252422b30ac81 242
+docs/meta/phase-7-etcd-integration-spec.md
+  s_08b9cdeabfac84::t_d021a1a22fc61b 411
+docs/meta/audit/README.md
+  s_08b9cdeabfac84::t_d021a1a22fc61b 74
+docs/meta/phases/phase-27-wave-e-data-contract.md
+  s_08b9cdeabfac84::t_5386c3e3dca681 532
+docs/meta/phases/README.md
+  s_08b9cdeabfac84::t_49d20cd8f60401 1-19
+docs/meta/phases/phase-7-rollback-health-check-gate.md
+  s_08b9cdeabfac84::t_d021a1a22fc61b 1-525
+TIER1_APPROVAL_PHASES_3-6.md
+  s_08b9cdeabfac84::t_d021a1a22fc61b 26,47,74,97,349
+docs/meta/phase-7-unleash-integration-spec.md
+  s_08b9cdeabfac84::t_d021a1a22fc61b 579
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "fbb5d328ea95e61245d88efac3ad47a7e7de8c0d",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+skills/skill-security-auditor/src/skill_security_auditor.py
+  s_b2b0627ddda6f1::t_8ec0b56dce3f79 608-619,824-830
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c819100602b69548b59f6eaf93aefd807ca5296c",
+  "prompts": {},
+  "sessions": {
+    "s_b2b0627ddda6f1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4e14930-d8e9-4be4-ad89-e2a1859a4645",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

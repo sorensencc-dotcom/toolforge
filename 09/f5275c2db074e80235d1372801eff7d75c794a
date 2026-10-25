@@ -1,0 +1,30 @@
+src/harvester/external/vision/phase2-trm-linking.mjs
+  s_51835977e6ec78::t_768af583aef13a 1-115,119-123,125-138,140-145,147-210
+  s_51835977e6ec78::t_ef453cf8c53ebd 116-118,124,139,146
+src/harvester/external/vision/batch-ingest-willow-run.mjs
+  s_51835977e6ec78::t_c1ebd2230d8224 36-71
+  s_51835977e6ec78::t_06f8521ec99524 1-14,16-35,72-208
+  s_51835977e6ec78::t_56ed91caec04b7 15
+src/harvester/external/vision/phase3-aggregate.mjs
+  s_51835977e6ec78::t_892913fe513736 1-210
+docs/meta/governance/trm-data-pipeline-training-strategy.md
+  s_51835977e6ec78::t_68fba4c05360da 1-361
+docs/meta/governance/trm-vision-indexing-strategy.md
+  s_51835977e6ec78::t_7e130d87dc4e9a 1-270
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "09f5275c2db074e80235d1372801eff7d75c794a",
+  "prompts": {},
+  "sessions": {
+    "s_51835977e6ec78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b5f70a8f-ea63-4a04-9ca8-40f1085773e2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

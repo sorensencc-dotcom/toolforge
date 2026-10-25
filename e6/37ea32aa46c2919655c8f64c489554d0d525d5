@@ -1,0 +1,37 @@
+skills/permission-governor/package.json
+  s_7cbe892bfbb449::t_394ba33197cdc8 1-8,10-25
+  s_7cbe892bfbb449::t_8fb3c1fff259ba 9
+skills/permission-governor/tests/skill.test.ts
+  s_7cbe892bfbb449::t_72fe3cafaffb35 1
+  s_7cbe892bfbb449::t_e11026f7436474 2-214
+skills/permission-governor/jest.config.cjs
+  s_7cbe892bfbb449::t_bd69c01b814ca1 1-14
+skills/permission-governor/tsconfig.json
+  s_7cbe892bfbb449::t_2288d326469355 1-23
+skills/permission-governor/package-lock.json
+  s_793713c76da777::t_4ee31dac04875a 1-3861
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "e637ea32aa46c2919655c8f64c489554d0d525d5",
+  "prompts": {},
+  "sessions": {
+    "s_793713c76da777": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ab0a3cfd19d377b0e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7cbe892bfbb449": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c047833-a9dd-49b9-9c7f-f6cbe419fbd3",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

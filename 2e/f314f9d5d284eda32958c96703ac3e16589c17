@@ -1,0 +1,53 @@
+.ijfw/memory/project-journal.md
+  s_a3505f9072d5c6::t_b3865ddcea0436 152-153
+.ijfw/metrics/.transcript-cursor.json
+  s_a3505f9072d5c6::t_2a48033a0ec77b 1
+.ijfw/metrics/sessions.jsonl
+  s_a3505f9072d5c6::t_757212eb243458 279-280
+.ijfw/sessions/session_2026-08-15_23-52-05.md
+  s_f160cbd326fcea::t_51550689409f1f 2-4
+.ijfw/sessions/session_2026-08-15_23-55-34.md
+  s_bed36bc834b400::t_35b7667531cdb8 2-4
+.obsidian/graph.json
+  s_6f1867e686704b::t_e474ac2a76a38a 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "2ef314f9d5d284eda32958c96703ac3e16589c17",
+  "prompts": {},
+  "sessions": {
+    "s_6f1867e686704b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9c45-1b94-7fa2-ba43-0e3e81f03dbd",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a3505f9072d5c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fca6dcee-f6dd-473d-b31e-9b5879c5d874",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bed36bc834b400": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f2b61664-db06-4322-a0b2-7f2788dcbb07",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f160cbd326fcea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d1e32787-bde9-468f-b091-1352710053fb",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

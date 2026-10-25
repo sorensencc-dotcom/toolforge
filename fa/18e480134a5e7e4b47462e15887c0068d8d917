@@ -1,0 +1,16 @@
+tests/ironbots.test.mjs
+  h_5c172e9b435f5a 117-125,143-151
+utilities/node-process-janitor.ps1
+  h_5c172e9b435f5a 64,76-86,118,191-196
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fa18e480134a5e7e4b47462e15887c0068d8d917",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

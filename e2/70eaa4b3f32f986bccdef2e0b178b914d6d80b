@@ -1,0 +1,19 @@
+docs/meta/phase-8-gate-sign-off.md
+  s_bd67b7a956c5e4::t_7993971190d727 1-209
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "e270eaa4b3f32f986bccdef2e0b178b914d6d80b",
+  "prompts": {},
+  "sessions": {
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

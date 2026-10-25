@@ -1,0 +1,19 @@
+scripts/consolidate-retro-inbox.mjs
+  s_9ed72e8800daf1::t_22c8ca122f6623 1-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4c495c3af4d89694025eab6ea4c4975937d9744a",
+  "prompts": {},
+  "sessions": {
+    "s_9ed72e8800daf1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e70526f-0da2-45f3-801a-e36414a59ec3",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+CIC-GOVERNANCE/packages/delivery-guard/src/policy.js
+  s_27a9513441c216::t_a9318b06ccb776 3
+CIC-GOVERNANCE/packages/delivery-guard/tests/policy.test.js
+  s_27a9513441c216::t_cc7ab2fdb8019a 132-151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3350e55165d023e98ec0c1f898e484ae770ebe68",
+  "prompts": {},
+  "sessions": {
+    "s_27a9513441c216": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d0d069-d844-4a5e-88d1-9a619445b2d4",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

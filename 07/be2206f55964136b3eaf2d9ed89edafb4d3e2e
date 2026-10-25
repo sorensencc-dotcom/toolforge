@@ -1,0 +1,96 @@
+skills/SKILLPACK-VALIDATION.md
+  s_b373d71e8d6906::t_a968c8fb67a067 101
+  s_1c8c72bfe5bcd2::t_9ba70805b67699 3,11,13,20,92-93,96,106,108,110,114,117
+skills/SKILLPACK-METADATA.json
+  s_b373d71e8d6906::t_a968c8fb67a067 15,26-27,30,32,34-38,41-45,48-49,53-54,57,59,61-65,68-72,75-76,80-81,84-86,88-92,95-99,102-103,107-108,111,113,115-119,122-126,129-130,134-135,138,140,142-146,149-153,156-157,161-162,165,167,169-173,176-180,183-184,188-189,192,194,196-200,203-207,210-211,215-216,219,221,223-227,230-234,237-238,242-243,246,248,250-254,257-261,264-265,269-270,273,275,277-281,284-288,291-292,296-297,300,302,304-308,311-317,320-321,325-326,329,331,341,344,352,356,360-361,368,379,383,387-388,395,398,406,410,414-415,422,425,433,437,441-442,449,452,460,464,468-469,476,479,487,491,495-496,506,514,518,522-523,533,541,545,549-550,557,560,568,572,576-577
+  s_b373d71e8d6906::t_59d185d4012e65 14
+  s_b373d71e8d6906::t_abe75dae26885e 16-18
+  s_b373d71e8d6906::t_af94e30c37bd09 340
+  s_b373d71e8d6906::t_91ee71c59b42e7 342-343
+  s_b373d71e8d6906::t_ed24459f5cf42b 353
+  s_b373d71e8d6906::t_e8a6ebb3360e8f 362-364
+  s_b373d71e8d6906::t_990e41189d0d0e 367
+  s_b373d71e8d6906::t_5a4ce6bdbb2bc1 369-371
+  s_b373d71e8d6906::t_ee6475e372980d 380
+  s_b373d71e8d6906::t_5a01b1bac0a17f 389-391
+  s_b373d71e8d6906::t_5212e1ce0626cf 394
+  s_b373d71e8d6906::t_7471fc69c65c2f 396-397
+  s_b373d71e8d6906::t_4ace7b50baaec5 407
+  s_b373d71e8d6906::t_dac35d816d0e5c 416-418
+  s_b373d71e8d6906::t_889382cdfe0587 421
+  s_b373d71e8d6906::t_f61fb67f7f113a 423-424
+  s_b373d71e8d6906::t_0dcf748290c074 434
+  s_b373d71e8d6906::t_c7eb2c758eba63 443-445
+  s_b373d71e8d6906::t_d2567252ef1b8e 448
+  s_b373d71e8d6906::t_2b28201a23959b 450-451
+  s_b373d71e8d6906::t_4a9041530d21fd 461
+  s_b373d71e8d6906::t_50dbb5c3708572 470-472
+  s_b373d71e8d6906::t_27ae1c4f4d0212 475
+  s_b373d71e8d6906::t_91927da7153dbe 477-478
+  s_b373d71e8d6906::t_7b3cf69f820ce6 488
+  s_b373d71e8d6906::t_fa0019db48875c 497-499
+  s_b373d71e8d6906::t_2ca830d610c9f1 503-505
+  s_b373d71e8d6906::t_6f35ad745d5d2e 515
+  s_b373d71e8d6906::t_ca58901486fdc7 524-526
+  s_b373d71e8d6906::t_fc953e73c0f6eb 530-532
+  s_b373d71e8d6906::t_b35e92ded34f85 542
+  s_b373d71e8d6906::t_74ae46f194f50c 551-553
+  s_b373d71e8d6906::t_d0eca472556384 556
+  s_b373d71e8d6906::t_8797ce602b5a79 558-559
+  s_b373d71e8d6906::t_d2b84a6a2eb450 569
+  s_b373d71e8d6906::t_ee00ff79522c64 578-580
+manifest.json
+  s_009762e0c47c61::t_d73f6ec8dd1538 45
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_7008a9810d4867::t_05e724f8cd2694 3,229-230,233-234,236-240,242-244,246,248
+skills/ashfall/SKILL.md
+  s_2aa07fbf42095a::t_29e35645400f83 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "07be2206f55964136b3eaf2d9ed89edafb4d3e2e",
+  "prompts": {},
+  "sessions": {
+    "s_009762e0c47c61": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1e684a20-d25a-4bda-a0b6-18f4dbfd616d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2aa07fbf42095a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c241397-5bda-475b-8045-9cdf372ab4ef",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_b373d71e8d6906": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4e5e6ec-886f-4214-93ff-c8b21970b341",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

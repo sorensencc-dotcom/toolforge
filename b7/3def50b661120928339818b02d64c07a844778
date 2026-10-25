@@ -1,0 +1,20 @@
+scripts/trm-batch-ingest-willow-run.sh
+  s_c1043ee729806c::t_c45ebb3dc7729e 1-30,32-34,39-75
+  s_c1043ee729806c::t_e9b33d552e7f4b 31,35-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "b73def50b661120928339818b02d64c07a844778",
+  "prompts": {},
+  "sessions": {
+    "s_c1043ee729806c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "99d25816-4ecb-479a-8849-989c70467307",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

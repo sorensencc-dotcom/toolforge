@@ -1,0 +1,465 @@
+.ijfw/.session-edits.jsonl
+  s_0704e88a1f3df3::t_9253268d59706d 24-27
+  s_0704e88a1f3df3::t_afa5332184d8ab 1-23
+src/harvester/external/.ijfw/.session-counter
+  s_7256e7379f3ea4::t_27558ca25b4512 1
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_0704e88a1f3df3::t_33f9ba21f49678 370,373,377-381,383-385,387
+  s_c4e2e0ad144627::t_cb536b56142f20 371,376
+  s_7008a9810d4867::t_fd426a9e743496 389-390,393,395-396,399-405
+  s_c4e2e0ad144627::t_6159ef96a3efd0 375
+  s_0704e88a1f3df3::t_3b5c9773dbca67 3,388
+.ijfw/sessions/session_2026-07-25_15-58-15.md
+  s_e0edbb5b6ad50b::t_7d1348be8fd15a 1-5
+cic-vision-governance/artifacts/threshold/v004.json
+  s_3a648444963bf0::t_0693ae563e5285 1-15
+.ijfw/.banner-buf
+  s_a599b4094c137a::t_b1f7fdc0bd6cdd 1-5
+cic-vision-governance/artifacts/threshold/v005.json
+  s_3a648444963bf0::t_0693ae563e5285 1-15
+research-data/raw/Mfm-visit/converted/.ijfw/.session-counter-id
+  s_e0edbb5b6ad50b::t_db960ef14e381b 1
+.ijfw/sessions/session_2026-07-25_15-55-42.md
+  s_e0edbb5b6ad50b::t_e53944661a7f68 1-5
+.ijfw/sessions/session_2026-07-25_18-19-34.md
+  s_bc7da79cf48d89::t_09aa2f1743d5ba 1-5
+dashboard.html
+  s_009762e0c47c61::t_a5bcd8c5ec15d2 941
+  s_009762e0c47c61::t_e85bc7d04ef61e 409,469,548,847,849,942-943,957-959,963-970,978-983,988,993,1018,1020,1026,1029-1030,1049,1051,1057,1083
+  s_c4e2e0ad144627::t_7eb625c5dd5cac 376-377,399,408,667,829
+  s_0704e88a1f3df3::t_0435e1ebddd621 107,112,116-122,128-129,133-134,137-139,143,145-147,149-150,155-156,160-161,164,166,170-172,175-177,182-183,187-188,191-193,197-204,209-210,214,218-220,224-227,229-231,242,245-247,251-252,254-256,258,263-264,268-269,272-273,280-285,290,296,301,305-311,317-318,322-323,326-328,332,334-336,338-339,344-345,349-350,353,355,359-361,364-366,380-382,386-393,398,403-404,414-416,419-420,425,430-431,434-436,440-442,444-446,453,457-458,461-463,465-467,470-472,474-478,486,490-491,494-496,501,503-505,507-509,512-513,517-518,521-522,528-530,533-534,539,549,556-561,572,576-577,581-587,593-594,598-599,602-604,608,610-612,614-615,620-621,625-626,629,631,635-637,640-642,647-648,652-653,656-658,662-664,666,677,681-682,685-687,691-692,694-696,698,703-704,708-709,712-713,719-721,724-725,730,740,747-752,757,763,767-768,772-774,785,789,793-795,799-802,804-806,817,820-828,831,838-839,843-844,854,856-858,865-866,870-871,874-876,880,938,992,999,1037,1054,1060,1062,1082,1089,1092,1094
+  s_009762e0c47c61::t_0cc3d4ad5e7fb5 241,816,855,859,948-949,953-954,987,1077
+  s_009762e0c47c61::t_5e8889298eaa16 1015,1046,1078
+  s_009762e0c47c61::t_5269aed3ba57fa 106,110,148,173,215,236,274,278,299,417,426,468,506,510,527,531,540,544-545,550,554,566,571,575,613,665,676,697,718,722,731,735-736,741,745,790,881,1038
+  s_b2b0627ddda6f1::t_5121f42998ca5b 257,362,588,630,638,758,775-779,803
+  s_fda856bf205e0d::t_0beb5ca8b31765 144,165,312,354,418,443,447,523,567,609,693,714,739,853
+  s_009762e0c47c61::t_3e759ee24e3010 407,991,1081
+  s_b2b0627ddda6f1::t_322b0f2138b3d0 253,291,295,333
+  s_b2b0627ddda6f1::t_9ef66e011240a7 123
+  s_b2b0627ddda6f1::t_5632c46d9e4186 228,337
+  s_b2b0627ddda6f1::t_f2ce55b11f6c79 762,766,811
+  s_009762e0c47c61::t_91a2922be0b941 111,300,371,452,532,668,723,784,848,882-887,892-893,897-898,901-903,907-914,921-922,926-927,930-932,936,939,1000-1004,1009,1019,1027,1040,1050,1058,1090,1093,1099
+  s_0704e88a1f3df3::t_7639f7b61a8893 102,174,237,279,363,372,413,555,639,669,746,812,860,937,940,997-998,1010,1014,1024-1025,1028,1031,1036,1039,1041,1045,1053,1055-1056,1059,1063-1066,1073,1087-1088,1091,1100,1103-1111,1360-1375
+cic-vision-governance/artifacts/threshold/v001.json
+  s_3a648444963bf0::t_0693ae563e5285 1-15
+"research-data/raw/Mfm-visit/2432b1d7-cc01-4a0d-9301-df7bb6f1cbd1 (1)"
+  s_4d9c6374d994ba::t_226df81285df17 1-2
+.ijfw/sessions/session_2026-07-26_00-27-51.md
+  s_4d9c6374d994ba::t_e8a5b7d24b6f82 1-5
+.ijfw/.profile-derive-cursor.json
+  s_a599b4094c137a::t_24007e3ce4c79f 1
+.ijfw/sessions/session_2026-07-25_18-43-23.md
+  s_e0edbb5b6ad50b::t_1c9b1650f12642 1-5
+research-data/raw/Mfm-visit/a8e1b9ef-ef15-41b0-9a62-f524e5893e85
+  s_4d9c6374d994ba::t_33b20e6b6deb20 1-2
+.ijfw/sessions/session_2026-07-25_22-30-31.md
+  s_7256e7379f3ea4::t_01811c1a05ec98 1-5
+.ijfw/sessions/session_2026-07-25_13-33-52.md
+  s_d5f18884ef6841::t_199d343e284312 1-5
+morning-ingestion-20260725.html
+  s_e0edbb5b6ad50b::t_46d175f2040249 1-362
+.ijfw/sessions/session_2026-07-25_20-16-56.md
+  s_4d9c6374d994ba::t_35e6ce02a46b66 1-5
+.ijfw/sessions/session_2026-07-25_20-04-28.md
+  s_9b66427fb12ed4::t_0d7ee5a4b3163b 1-5
+docs/superpowers/specs/2026-07-22-antigravity-retro-fixes-design.md
+  s_5f8d40bf855cf6::t_d6f3e01f0fd4f9 67
+research-data/raw/Mfm-visit/ff7919b1-428d-4755-a3ea-e82192f0f5f8
+  s_4d9c6374d994ba::t_fa157c663ef739 1-2
+.ijfw/.startup-flags
+  s_6f1867e686704b::t_cff70219c7bb99 1
+research-data/raw/Mfm-visit/converted/.ijfw/.dream-state.json
+  s_e0edbb5b6ad50b::t_ee7d752d86eed8 1
+audit/COWORK-REGISTERED-SKILLS.md
+  s_0704e88a1f3df3::t_8e183edd4b9731 3
+  s_0704e88a1f3df3::t_f65c9b914d2eb5 53-129
+.context/retros/2026-07-25-1.json
+  s_e0edbb5b6ad50b::t_826c487231bfae 1-46
+skills/SKILLPACK-METADATA.json
+  s_b2b0627ddda6f1::t_5121f42998ca5b 276,677
+  s_b2b0627ddda6f1::t_9ef66e011240a7 195,678
+  s_c4e2e0ad144627::t_7dc4eb4ae33b33 73,115,178,369,390,407,476,538,645,690
+  s_b2b0627ddda6f1::t_322b0f2138b3d0 153,157,237,277,675,679
+  s_b373d71e8d6906::t_a968c8fb67a067 174,365,428,513,641
+  s_c4e2e0ad144627::t_51a81dbf1a2f0d 481
+  s_7008a9810d4867::t_9c99254363a977 781
+  s_9df6068d39c023::t_e3fe7889aff644 6,386,432,472
+  s_b2b0627ddda6f1::t_5632c46d9e4186 597
+  s_b2b0627ddda6f1::t_88e73c7774b9fe 576,662,666,711,733,843
+  s_c4e2e0ad144627::t_bfb17190a4e524 2,11,19-23,43-44,61,64-65,74,82-83,103-104,124-128,136-137,141,145-147,158,168-169,179,190-191,199-200,208-212,232-233,250,253-254,263,271-272,291-292,307,315-319,336,340,357-358,361,370,378,391,400-403,412,421-423,433,444-445,456,466-467,477,488,508-509,526,529-530,539,547-548,568-569,581,591-593,612-614,623,635,646,657-658,667,674,676,699-703,712,716,726-729,759-760,770-771,786,798,813,826-827,838,842,854,887-888,899,903,915,946,977-978,989,993
+  s_bfb81b8e0acf35::t_1eb17cee6f9b70 10,48,299,455
+  s_0704e88a1f3df3::t_442acf020afcd2 7,12,16-18,28-29,33-34,37-39,45-47,49-50,55-56,60,66,70-72,75-77,87-88,91-93,97-102,109-110,114,118-120,129-131,142,152,154-156,163-164,172-173,180-185,196,201,205-207,217-218,222-223,226-228,234-236,238-239,244-245,249,255,259-262,264-266,280-282,286-290,293,298,303-304,308-309,313,320,325-326,330-331,334-335,341-347,352,362-363,366-368,371-372,374-377,394-396,404-406,413,417-418,427,429-431,434,439-440,448-450,454,457-461,471,475,482-487,493-494,498-499,502-504,510-512,514-515,520-521,525,531,535-537,540-542,552-553,556-558,562-567,577,582,585-587,594-596,598,603-604,608-609,619,621,624-630,639-640,647-652,663,668,672-673,684-685,689,693-695,704-706,717,720-722,730-732,738-739,743-744,747-749,753-758,765-766,774-776,780,782-783,785,787,792,801-803,809-810,814,821,830-832,839,841,848,857-859,865-866,882,891-893,900,902,904,909,918-920,926-927,938-940,949-951,954,957-958,960,962,981-983,990,992,994,999
+  s_fda856bf205e0d::t_a15864fb02833d 631,636
+  s_0704e88a1f3df3::t_f8bcf1a88fb16b 151,314,353,784,793,797,807-808,811-812,822,836-837,840,849,853,863-864,867-870,878-881,883,897-898,901,910,914,924-925,928-931,936-937,941,945,953,955-956,959,963-966,973,987-988,991,1000,1003-1011
+.ijfw/sessions/session_2026-07-25_21-14-56.md
+  s_bc7da79cf48d89::t_ed23f3ddd8ba08 1-5
+.ijfw/sessions/session_2026-07-25_13-11-37.md
+  s_2cd31475c474b0::t_5badbc11bbd0df 1-5
+src/harvester/external/curator-decision-processor.mjs
+  s_3a648444963bf0::t_22b80f753cff6d 119
+  s_3a648444963bf0::t_60c25b2aeb7a89 10-54,56-57,59-88,91-95,97-100,102-104,106-108,110-111,113-114,117-118,120-121,123-133,135-147,150-155,157-176
+research-data/raw/Mfm-visit/converted/.ijfw/.dream-state-v2.json
+  s_e0edbb5b6ad50b::t_b44f03c5f2fa80 1-38
+.ijfw/sessions/session_2026-07-25_13-27-24.md
+  s_a599b4094c137a::t_e8b8b1c79ebb1a 1-5
+.ijfw/memory/project-journal.md
+  s_0704e88a1f3df3::t_9253268d59706d 54-59
+  s_0704e88a1f3df3::t_6f77fc1ed11c74 1-53
+.ijfw/sessions/session_2026-07-25_18-04-59.md
+  s_e0edbb5b6ad50b::t_3ab8b61bfbe1fb 1-5
+.ijfw/sessions/session_2026-07-25_20-38-00.md
+  s_e0edbb5b6ad50b::t_58c31a9e54d837 1-5
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_7008a9810d4867::t_9ea802be8fab9d 148
+  s_0704e88a1f3df3::t_0e32de1f5f6f3e 3,66-147
+src/harvester/external/.ijfw/.session-marker-ts
+  s_7256e7379f3ea4::t_83c114c63fb79d 1
+.obsidian/graph.json
+  s_0704e88a1f3df3::t_49c3d25c177981 1-22
+.ijfw/sessions/session_2026-07-25_22-35-25.md
+  s_0704e88a1f3df3::t_0938eef1f4a1d9 1-5
+cic-vision-governance/artifacts/threshold/v002.json
+  s_3a648444963bf0::t_0693ae563e5285 1-15
+.ijfw/sessions/session_2026-07-26_00-32-23.md
+  s_6f1867e686704b::t_5938b1fe71f09e 1-5
+research-data/raw/Mfm-visit/converted/.ijfw/metrics/sessions.jsonl
+  s_e0edbb5b6ad50b::t_b88f79976e6f7a 1
+.ijfw/.dream-state-v2.json
+  s_a599b4094c137a::t_c05a5fdeb6223d 1-38
+.ijfw/sessions/session_2026-07-25_22-41-47.md
+  s_1de637c50ecee8::t_5732a29c89ae25 1-5
+.ijfw/sessions/session_2026-07-25_15-44-39.md
+  s_1e5e9f4ec86fbb::t_88e265cfea6063 1-5
+research-data/raw/Mfm-visit/converted/.ijfw/sessions/session_2026-07-25_18-22-33.md
+  s_e0edbb5b6ad50b::t_a8f0ef2a9dbb4c 1-5
+research-data/raw/Mfm-visit/.ijfw/.session-counter
+  s_c974deff2dd722::t_eb06a0c07a9bcd 1
+AGENTS.md
+  s_4d9c6374d994ba::t_f6b8161ecea5b3 1-62
+research-data/raw/Mfm-visit/.ijfw/sessions/session_2026-07-25_00-02-51.md
+  s_c974deff2dd722::t_42abc55d1ccd35 1-5
+research-data/raw/Mfm-visit/converted/.ijfw/.session-marker-ts
+  s_e0edbb5b6ad50b::t_344dca0672afaa 1
+.ijfw/sessions/session_2026-07-25_19-53-41.md
+  s_9b66427fb12ed4::t_1d2951dbcffc85 1-5
+.ijfw/sessions/session_2026-07-25_20-30-43.md
+  s_bc7da79cf48d89::t_048ed346117d79 1-5
+cic-vision-governance/artifacts/threshold/v003.json
+  s_3a648444963bf0::t_0693ae563e5285 1-15
+.ijfw/sessions/session_2026-07-25_18-19-58.md
+  s_bc7da79cf48d89::t_19a49505ba6681 1-5
+src/harvester/external/.ijfw/.session-counter-id
+  s_7256e7379f3ea4::t_7703925dd61de6 1
+.ijfw/sessions/session_2026-07-25_13-26-23.md
+  s_4d9c6374d994ba::t_707e510fb7e18c 1-5
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_0704e88a1f3df3::t_4bb67dcd9a9f68 3
+.ijfw/sessions/session_2026-07-25_22-35-52.md
+  s_1de637c50ecee8::t_127864b332db67 1-5
+.obsidian/community-plugins.json
+  s_4d9c6374d994ba::t_2d7c01ec07dbf7 1-3
+research-data/raw/Mfm-visit/2432b1d7-cc01-4a0d-9301-df7bb6f1cbd1
+  s_4d9c6374d994ba::t_b27cdf9dd4e8a6 1-2
+research-data/raw/Mfm-visit/converted/.ijfw/metrics/.transcript-cursor.json
+  s_e0edbb5b6ad50b::t_278340643ae850 1
+research-data/raw/Mfm-visit/.ijfw/metrics/.transcript-cursor.json
+  s_c974deff2dd722::t_41e32a416643f3 1
+.ijfw/sessions/session_2026-07-25_20-42-59.md
+  s_bc7da79cf48d89::t_9a31ce2198759b 1-5
+CLAUDE.md
+  s_a3505f9072d5c6::t_8f483f7feabdf0 200-223
+research-data/raw/Mfm-visit/40032ae5-84fd-4e39-ac47-c7244f956aa9
+  s_4d9c6374d994ba::t_b0a640669ae76e 1-2
+src/harvester/external/.ijfw/metrics/.transcript-cursor.json
+  s_7256e7379f3ea4::t_b9eb52a1bd34f9 1
+.context/retros/2026-07-25-2.json
+  s_9b66427fb12ed4::t_ceb7b8b9135a4a 1-55
+.github/copilot-toolbox-mcp-skills-awareness.md
+  s_4d9c6374d994ba::t_06c88fa927d3ba 3
+.ijfw/.detection.prev
+  s_4d9c6374d994ba::t_1879b1f9dda6fd 1
+.ijfw/project.type
+  s_4d9c6374d994ba::t_de8319034593e6 1-42
+.ijfw/.dream-state.json
+  s_a599b4094c137a::t_fad3eb62a59381 1
+.ijfw/metrics/sessions.jsonl
+  s_0704e88a1f3df3::t_9253268d59706d 52-57
+  s_0704e88a1f3df3::t_fd94700bf13525 1-51
+research-data/raw/Mfm-visit/.ijfw/.session-marker-ts
+  s_c974deff2dd722::t_d235565acd019a 1
+research-data/raw/Mfm-visit/converted/.ijfw/.session-counter
+  s_e0edbb5b6ad50b::t_5853dda5b954cb 1
+.ijfw/sessions/session_2026-07-25_18-31-30.md
+  s_9b66427fb12ed4::t_f1c22aa37a8126 1-5
+.ijfw/sessions/session_2026-07-25_21-01-04.md
+  s_4d9c6374d994ba::t_43a6552044372c 1-5
+.ijfw/metrics/.transcript-cursor.json
+  s_0704e88a1f3df3::t_9253268d59706d 1
+.ijfw/.migrated
+  s_4d9c6374d994ba::t_463d58accd2c14 1-2
+.gitignore
+  s_0704e88a1f3df3::t_5ff00d1233f0b0 40-41
+  s_0704e88a1f3df3::t_add40b16f0ccec 59-60
+.ijfw/sessions/session_2026-07-26_00-43-50.md
+  s_6f1867e686704b::t_db755891e49890 1-5
+research-data/raw/Mfm-visit/.ijfw/memory/project-journal.md
+  s_c974deff2dd722::t_9b1b85a4a37f03 1-3
+.github/copilot-instructions.md
+  s_4d9c6374d994ba::t_c912e21b3355af 12-21,31
+research-data/raw/Mfm-visit/d1ab1ead-c0bd-4623-aa3c-a6e0adee18aa
+  s_4d9c6374d994ba::t_2917b8ecd97aca 1-2
+.ijfw/sessions/session_2026-07-26_01-07-07.md
+  s_0704e88a1f3df3::t_9253268d59706d 1-5
+research-data/raw/Mfm-visit/.ijfw/metrics/sessions.jsonl
+  s_c974deff2dd722::t_a19afe13f7372e 1
+.ijfw/sessions/session_2026-07-25_20-33-03.md
+  s_e0edbb5b6ad50b::t_8dbebf60027dd8 1-5
+.ijfw/sessions/session_2026-07-26_00-26-25.md
+  s_4d9c6374d994ba::t_23d7301fd5a14f 1-5
+skills/SKILLPACK-VALIDATION.md
+  s_c01c5887199fb9::t_e3e3f9d1fbbc85 120
+  s_0704e88a1f3df3::t_7412a30eacb72d 3,11,16,19-20,92-93,119,298
+  s_1c8c72bfe5bcd2::t_51716a3af9d8ca 299
+research-data/raw/Mfm-visit/.ijfw/.session-edits.jsonl
+  s_d8e39c0f71c649::t_23f1388eb97343 1-4
+src/harvester/external/__tests__/curator-decision-processor.test.js
+  s_3a648444963bf0::t_6fe251d931d0fb 1-82
+.ijfw/sessions/session_2026-07-26_00-25-41.md
+  s_4d9c6374d994ba::t_9923a76e1dd80c 1-5
+.ijfw/index/files.md
+  s_4d9c6374d994ba::t_93cf9b96dc7603 1-10034
+research-data/raw/Mfm-visit/converted/.ijfw/memory/project-journal.md
+  s_e0edbb5b6ad50b::t_ca614d92a45b82 1-3
+research-data/raw/Mfm-visit/converted/.ijfw/.session-edits.jsonl
+  s_e0edbb5b6ad50b::t_109bdc917e95fe 1
+.ijfw/sessions/session_2026-07-25_13-09-50.md
+  s_9b66427fb12ed4::t_ca20d5a3166e80 1-5
+research-data/raw/Mfm-visit/.ijfw/.session-counter-id
+  s_c974deff2dd722::t_5878e9016d9e00 1
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_0704e88a1f3df3::t_006a931ac47662 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "4f66345f1e42d6db2bff228d1790fb399b4eed0a",
+  "prompts": {},
+  "sessions": {
+    "s_009762e0c47c61": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1e684a20-d25a-4bda-a0b6-18f4dbfd616d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0704e88a1f3df3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de2f1c5c-6819-41a4-9422-e6d06c50274d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1de637c50ecee8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ae8e3a074f2f3f0f5",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1e5e9f4ec86fbb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ad02fa50cf2c3e3e8",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2cd31475c474b0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9a38-ded4-7a33-aae3-d82af6692571",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_3a648444963bf0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "654fa057-2fe6-49cf-b028-c4126ffbcac7",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_4d9c6374d994ba": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dab0131d-8450-48b9-be4e-37fa34e0f48f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_5f8d40bf855cf6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08f1121a-602b-4b4c-a8fe-b6db21242ea3",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_6f1867e686704b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9c45-1b94-7fa2-ba43-0e3e81f03dbd",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7256e7379f3ea4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5c3de151-f9f9-4d7d-94d7-0812072a588e",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9b66427fb12ed4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4b024e-1309-431a-9262-f57816a83582",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9df6068d39c023": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd3a8b0d-47f8-4f0f-a511-393c978880be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a3505f9072d5c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fca6dcee-f6dd-473d-b31e-9b5879c5d874",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a599b4094c137a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f1f7bf8b-761c-45e2-96e7-9703d4ac9325",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_b2b0627ddda6f1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4e14930-d8e9-4be4-ad89-e2a1859a4645",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_b373d71e8d6906": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4e5e6ec-886f-4214-93ff-c8b21970b341",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bc7da79cf48d89": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "01ab3baa-5401-4e47-8e21-9f470a714881",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bfb81b8e0acf35": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "06095a09-c81a-4a53-85ba-3d31e899287b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c01c5887199fb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f9fcb8-8183-4409-91aa-b2f076438001",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c974deff2dd722": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ab997fed91b85f0bb",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d5f18884ef6841": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-acc94cccce0ecd00a",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d8e39c0f71c649": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ae7b4814da5a24dd9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e0edbb5b6ad50b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "47da2b69-f21c-4825-afc7-f62ba763fc94",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fda856bf205e0d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77d54c09-1b77-4d8b-b6fa-44351f19c78d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

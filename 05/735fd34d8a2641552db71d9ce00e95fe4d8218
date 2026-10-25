@@ -1,0 +1,19 @@
+docs/meta/phase-3-cowork-gateway-charter.md
+  s_7a9219f317eb85::t_6a5e209fcd26ed 69-97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "05735fd34d8a2641552db71d9ce00e95fe4d8218",
+  "prompts": {},
+  "sessions": {
+    "s_7a9219f317eb85": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a5bd5ef-3f82-4819-941f-6a4b651c1e08",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+utilities/skill-doc-validator.ps1
+  s_2d0543fc69f59c::t_a65c1cb9a10433 1-127
+skills/_TEMPLATE/SKILL.md
+  s_2d0543fc69f59c::t_35ea095393dab0 1-79
+CLAUDE.md
+  s_fc45e6d5de6368::t_d5475d2478c3b4 8
+  s_2d0543fc69f59c::t_fdd968c965fc19 18
+  s_fc45e6d5de6368::t_435b47cc955b83 26-27
+  s_2d0543fc69f59c::t_60bebee3c41335 114,122-126,133,135,137,139,141,143,145,147-149,151,153,155,157,159-161,163,165
+docs/meta/skill-operator-guide.md
+  s_2d0543fc69f59c::t_f1bde84d5540cc 1-9,11-77,79-84,86-93,95-102,104-114,116-147,149-156,158-163,165-173,175-204,214-215,217-218,221,225,227-233,237
+  s_2d0543fc69f59c::t_519e2120640a19 205,207-211,213,216,220,222-224,226
+  s_2d0543fc69f59c::t_cce54806b9dfb6 10,78,85,94,103,115,148,157,164,174,206,212,219,234-236
+skills/_TEMPLATE/README.md
+  s_2d0543fc69f59c::t_08d4be334136f1 1,3,5-6,11,13-17,21,23-28,33,35,37,39-41,45-47,49,51-52,56-58,62,64,66-76,78,80,82-85,87-90,92-95,97,99,101-107,113-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "54236a1e55847de07565fd499ef92dd40b16e115",
+  "prompts": {},
+  "sessions": {
+    "s_2d0543fc69f59c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2fdd07d2-3e7a-470d-91fd-eba2b27dfb9c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fc45e6d5de6368": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0dc08aba-ceaf-497c-9bae-ff0a7ea9d058",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

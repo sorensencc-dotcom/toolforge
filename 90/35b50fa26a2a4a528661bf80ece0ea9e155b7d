@@ -1,0 +1,29 @@
+.claude/hooks/lint-on-edit.js
+  s_f556306c402d1e::t_87dd60bf001e27 6-7,12,14-17,20-28,31-45,49-60
+.claude/hooks/token-budget-gate.js
+  s_f556306c402d1e::t_ad79a8c6d37d0d 16-17,47-51,53,88-99
+.claude/hooks/block-lockfile-edit.js
+  s_f556306c402d1e::t_ddaec9ef29cc0b 6-8,24-32,35-37,43-62,65-76
+.claude/hooks/e2e-snapshots.js
+  s_f556306c402d1e::t_5c3b17e121c50b 6-7,11,13,15-23,26-27,29-31,33-34,36-37,39-49,52-64
+STATUS.md
+  s_f556306c402d1e::t_f6aac96fb44aaa 105
+tests/claude-hooks-stdin.test.mjs
+  s_f556306c402d1e::t_4a859b09c31a34 1-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9035b50fa26a2a4a528661bf80ece0ea9e155b7d",
+  "prompts": {},
+  "sessions": {
+    "s_f556306c402d1e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "25cf9643-2c9c-42a3-8032-b7a580305fee",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": null
+    }
+  }
+}

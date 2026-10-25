@@ -1,0 +1,62 @@
+.context/retros/2026-07-27-1.json
+  s_26f50ac8184d58::t_e768dd6c207b66 1-38
+  s_26f50ac8184d58::t_d5e45bc537de91 39-41
+.context/retros/2026-07-26-1.json
+  s_a06ef2bbc680e7::t_19fbbed69865ba 1
+.context/retros/2026-07-25-1.json
+  s_e0edbb5b6ad50b::t_b5c2bd04d66fbc 1
+.context/retros/2026-07-25-2.json
+  s_9b66427fb12ed4::t_7aa778ca9dc3ba 1
+.context/retros/2026-07-26-2.json
+  s_6a00681f0b8e43::t_7cce19062a4368 1,4,37-40,66
+.context/retros/2026-07-26-3.json
+  s_6a00681f0b8e43::t_d6be206bfde3a6 1,4-5,8,37-40,45-52,65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "f790c89de2e60d1115010daf921ef24155cadcc9",
+  "prompts": {},
+  "sessions": {
+    "s_26f50ac8184d58": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "658bbda9-9a8f-4470-a925-f9cd6c15a5ba",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": null
+    },
+    "s_6a00681f0b8e43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "981e78ef-7109-40f0-b716-7b025099bc81",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9b66427fb12ed4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4b024e-1309-431a-9262-f57816a83582",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a06ef2bbc680e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0a494a8b-02a6-43ca-9ef9-72788e831d5a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e0edbb5b6ad50b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "47da2b69-f21c-4825-afc7-f62ba763fc94",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

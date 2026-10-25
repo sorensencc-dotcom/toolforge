@@ -1,0 +1,26 @@
+tests/reconcile-scheduled-tasks.test.mjs
+  s_45bddb49f83c59::t_d2b9c3ea3a1a52 30-43
+scripts/reconcile-scheduled-tasks.ps1
+  h_5c172e9b435f5a 312-356,495-497
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ab72c2c2c057d60d4da4c960e1db3da5570800ee",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_45bddb49f83c59": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "588abe99-cc40-463e-afdb-05d0681cc5b4",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

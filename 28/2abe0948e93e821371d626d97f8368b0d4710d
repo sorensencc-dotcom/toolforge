@@ -1,0 +1,24 @@
+scripts/validate-retro-inbox.mjs
+  s_e8c5d5cef80b42::t_433dad94880044 1,3-200,202-260
+  s_e8c5d5cef80b42::t_3cc9ed5951c609 2
+  s_e8c5d5cef80b42::t_8f709287c566a3 201
+tests/validate-retro-inbox.test.mjs
+  s_e8c5d5cef80b42::t_3ebcb380352e68 1-19,21-235
+  s_e8c5d5cef80b42::t_93ef9cc54df86c 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "282abe0948e93e821371d626d97f8368b0d4710d",
+  "prompts": {},
+  "sessions": {
+    "s_e8c5d5cef80b42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "002e2a65-c944-428c-8fd9-d5393e7b3986",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

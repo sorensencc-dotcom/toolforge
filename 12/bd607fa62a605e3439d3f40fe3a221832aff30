@@ -1,0 +1,91 @@
+multi-repo-orchestrator.ps1
+  s_ce8440a119520d::t_5873f8d1bbe774 190
+  s_ce8440a119520d::t_b707f1e7b5fb44 111
+  s_ce8440a119520d::t_e87f0795577ff0 53
+TODOS.md
+  s_ce8440a119520d::t_777a4cec2a13ef 17-18
+bootstrap-toolforge.ps1
+  s_c4e2e0ad144627::t_60755b16fd2ecf 4,50
+ci-pipeline.ps1
+  s_ce8440a119520d::t_1e60fe12ac49bd 44
+create-toolforge.ps1
+  s_c4e2e0ad144627::t_24a53558bbaeeb 4,23
+daemons/cowork-auto-sync.ps1
+  s_c4e2e0ad144627::t_73adb6a1ecb1a4 36-43
+install-toolforge.ps1
+  s_c4e2e0ad144627::t_027d581f42d90d 1,20
+run-tool.ps1
+  s_b2b0627ddda6f1::t_bb646287bc1cbc 36,40,345
+setup-all-automation.ps1
+  s_c4e2e0ad144627::t_43a8604b8694b6 41
+setup-ci-scheduler.ps1
+  s_c4e2e0ad144627::t_d8f0bd74489c6a 11,29-30
+setup-git-hooks.ps1
+  s_ce8440a119520d::t_431a9a59a2e811 32,56,88
+toolforge-install.ps1
+  s_c4e2e0ad144627::t_a0a6c8d67d0517 4
+toolforge.ps1
+  s_c4e2e0ad144627::t_70f9aa936e8487 5
+utilities/Invoke-CoworkSkillInstall.ps1
+  s_c4e2e0ad144627::t_c08a6ba86bd471 22,41
+utilities/run-tool.ps1
+  s_c4e2e0ad144627::t_f3b253777f06ef 40-41
+utilities/tests/test-run-tool-smoke.ps1
+  s_ce8440a119520d::t_26a3ad192b5d76 1-75
+utilities/toolforgeDependencyGraph.ps1
+  s_c4e2e0ad144627::t_fbdf82cf452958 15,29,36-37
+utilities/toolforgeDriftDetector.ps1
+  s_c4e2e0ad144627::t_6d75f562517c5c 8,18,32,38
+utilities/toolforgeMetadataGenerator.ps1
+  s_c4e2e0ad144627::t_db61dd4fb14222 15,29,36,38-40
+utilities/toolforgeSkillHealthCheck.ps1
+  s_c4e2e0ad144627::t_fa43682ebcc270 16,33,41-43
+utilities/toolforgeSkillInstaller.ps1
+  s_c4e2e0ad144627::t_938eaebedf6229 11,29,36,38-39,42,370-372,554
+utilities/toolforgeSkillValidator.ps1
+  s_c4e2e0ad144627::t_6e98675cff04bb 1,15,29,42,44-46,584-586,1116-1119
+utilities/bump-version.ps1
+  s_ce8440a119520d::t_0b31e3a488bcb9 24,32,39
+utilities/generate-changelog.ps1
+  s_ce8440a119520d::t_62bd7970394ee6 18,21,24,28,32-34
+utilities/init-run-store.ps1
+  s_ce8440a119520d::t_8f15cb610bdce3 12,15,22,26-27
+utilities/tests/test-step1-database.ps1
+  s_ce8440a119520d::t_205e10b7b1e1f0 1,22
+utilities/tests/test-step1-telemetry.ps1
+  s_ce8440a119520d::t_204724d074acde 1,20
+utilities/tests/test-step3-release-automation.ps1
+  s_ce8440a119520d::t_8336de96a50ada 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "12bd607fa62a605e3439d3f40fe3a221832aff30",
+  "prompts": {},
+  "sessions": {
+    "s_b2b0627ddda6f1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4e14930-d8e9-4be4-ad89-e2a1859a4645",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ce8440a119520d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4273f35c-4ab5-478e-8e9b-57bf3f30e162",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

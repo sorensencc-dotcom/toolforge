@@ -1,0 +1,36 @@
+.ijfw/memory/project-journal.md
+  h_5c172e9b435f5a 268-270
+CHANGELOG.md
+  h_5c172e9b435f5a 3-27
+CIC-GOVERNANCE/packages/delivery-guard/src/ci.js
+  h_5c172e9b435f5a 64-67,73-74
+CIC-GOVERNANCE/packages/delivery-guard/tests/ci.test.js
+  h_5c172e9b435f5a 90,93,100-101
+CIC-GOVERNANCE/packages/delivery-guard/tests/production-container.test.js
+  h_5c172e9b435f5a 31,67,77
+STATUS.md
+  h_5c172e9b435f5a 12-31
+VERSION.md
+  h_5c172e9b435f5a 1
+modules/mcp-scoping/contracts.mjs
+  h_5c172e9b435f5a 1-38
+modules/mcp-scoping/measure-catalog.mjs
+  h_5c172e9b435f5a 1-83
+modules/mcp-scoping/scoping-hook.mjs
+  h_5c172e9b435f5a 1-333
+modules/mcp-scoping/scoping-hook.test.mjs
+  h_5c172e9b435f5a 1-218
+package.json
+  h_5c172e9b435f5a 81,107-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9933a6f6a7b80207785daacb9adceaa908cef1d6",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+TODOS.md
+  s_758b92363514e5::t_70e19695244647 13-18,160
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_c4e2e0ad144627::t_18bd3ebf83a107 3,13-14,22,48,65,70-159
+audit/COWORK-REGISTERED-SKILLS.md
+  s_c4e2e0ad144627::t_5fc315147897a8 3,5,7,35,52,57-140
+dashboard.html
+  s_758b92363514e5::t_29dd400d92188f 102,133-135,138-139,141,150,154-156,322-324,330,343-345,349-351,355-357,361,370-371,557-614,818-820,830-831,847-849,859-860,876-882,892-893,898-900,902-904,906,909-912,921-922,927-929,933,935,948-949,965-967,977-978,1151-1153,1157,1159,1172-1174,1203-1231,1235-1236,1238-1239,1634
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_c4e2e0ad144627::t_3ffb778af937c9 3,13-14,18,60,66,72-76,82,94,162-167,266-271,276-283,301-304,307-310,316-319,325-328,361-363,421-423,433-438,443,460,507,521,531
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_c4e2e0ad144627::t_51485d2c50c0d4 3,13-14,21-22,41,45-46,48-49,52,132,136-137,143,145,149-150,153,157,236-261,365,378,391-392,396-400,404-405,409-410,413,430,509,513-514,517,520,535-547
+skills/SKILLPACK-METADATA.json
+  s_c4e2e0ad144627::t_27e606a0cc9945 2,33-35,38-39,41,50,54-56,222-224,230,243-245,249-251,255-257,261,270-271,457-514,718-720,730-731,747-749,759-760,776-782,792-793,798-800,802-804,806,809-812,821-822,827-829,833,835,848-849,865-867,877-878,1051-1053,1057,1059,1072-1074,1103-1131,1135-1136,1138-1139
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_c4e2e0ad144627::t_a6420f762c189b 3,13-14,74,86,98,110,134,272-283,476-487,536-538
+skills/SKILLPACK-VALIDATION.md
+  s_c4e2e0ad144627::t_aadd9f0e5baf56 3,11-16,19-20,52,69,83-84,94-95,109-111,121,123,153,159,163,165,169,174,182,187,190,194,218,246,263,267-270,272,278,305,322
+skills/cic-consolidate-artifacts/skill.json
+  s_758b92363514e5::t_b2892c5ae0867d 1
+skills/cic-ingest-world/skill.json
+  s_758b92363514e5::t_b29f9bed79d53b 1
+skills/cic-orchestrate-flow/skill.json
+  s_758b92363514e5::t_4aca7e8f44d0c6 1
+skills/cic-repair-pipeline/skill.json
+  s_758b92363514e5::t_283d4261c16376 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "2d1c47f0a7e76316b46d1f8c45bf4c456723e774",
+  "prompts": {},
+  "sessions": {
+    "s_758b92363514e5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc6b4d83-44cf-4509-9618-a786a6b33de6",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

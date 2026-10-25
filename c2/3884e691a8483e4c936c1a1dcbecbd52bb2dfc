@@ -1,0 +1,33 @@
+gateway/cowork/src/sync/index.ts
+  s_c01c5887199fb9::t_afa088695d0f41 15-17
+gateway/cowork/package.json
+  s_c01c5887199fb9::t_1d0709dcc863ac 14-18
+gateway/cowork/src/cli/sync.ts
+  s_c01c5887199fb9::t_42972e1b0d07a4 1-104
+gateway/cowork/src/sync/SyncAuditLog.ts
+  s_c01c5887199fb9::t_3bbcc3f251f2ca 1-160
+gateway/cowork/src/cli/rollback.ts
+  s_c01c5887199fb9::t_3e005ce3149162 1-85
+gateway/cowork/src/cli/audit-log.ts
+  s_c01c5887199fb9::t_ae61c75f8e479e 1-141
+gateway/cowork/src/sync/DistributedSyncOrchestrator.ts
+  s_c01c5887199fb9::t_8eeaf0be55fab9 1-144
+gateway/cowork/src/sync/DistributedSyncUtil.ts
+  s_c01c5887199fb9::t_62620d3b9988eb 1-280
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "c23884e691a8483e4c936c1a1dcbecbd52bb2dfc",
+  "prompts": {},
+  "sessions": {
+    "s_c01c5887199fb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f9fcb8-8183-4409-91aa-b2f076438001",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

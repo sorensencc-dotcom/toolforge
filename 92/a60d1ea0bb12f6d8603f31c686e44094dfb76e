@@ -1,0 +1,35 @@
+docs/meta/phase-7-rollback-config-featureflag-charter.md
+  s_ed845446215532::t_55175c858034c6 66
+  s_ed845446215532::t_f873a7b27d3b4f 278
+  s_ed845446215532::t_03174bc30a05e7 296-297
+  s_ed845446215532::t_d699840ce6d7b3 9-11,85,90,109-110,121,124,127,203-204,207,219-220,225,228,235,238-240,242,244-247,252,267,275-277,279-285,293-294,300,305
+  s_659aefbaf5fabf::t_8f0480bd2549a2 1-8,12-44,46-65,67-84,86-89,91-108,111-120,122-123,125-126,128-202,205-206,208-218,221-224,226-227,229-234,236-237,241,248-251,253-266,268-274,286-292,295,298-299,301-304
+  s_ed845446215532::t_8f31d5752b4578 243
+  s_ed845446215532::t_e442755f876c7c 45
+docs/meta/phase-7-rollback-config-featureflag-charter-REVIEW.md
+  s_ed845446215532::t_006439d79a4089 1-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "92a60d1ea0bb12f6d8603f31c686e44094dfb76e",
+  "prompts": {},
+  "sessions": {
+    "s_659aefbaf5fabf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "154d4d74-8bba-4a86-af10-c33faf83fe81",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ed845446215532": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6e9e0d5c-e1f4-43b0-8d97-98a051e88725",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

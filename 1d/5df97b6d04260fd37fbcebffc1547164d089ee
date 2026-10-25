@@ -1,0 +1,19 @@
+docs/meta/specs/cic-run-gate-gate02-03-05-support-design.md
+  s_4d8e0aed4ef174::t_22efacd6f636cf 1-99
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "1d5df97b6d04260fd37fbcebffc1547164d089ee",
+  "prompts": {},
+  "sessions": {
+    "s_4d8e0aed4ef174": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "82f15449-69ab-480a-9f7a-0d05046bc692",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

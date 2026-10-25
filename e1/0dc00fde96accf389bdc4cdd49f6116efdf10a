@@ -1,0 +1,33 @@
+skills/toolforge-submission-validator/SKILL.json
+  s_bd67b7a956c5e4::t_091d8cde32ec25 1-31
+skills/toolforge-submission-validator/tests/validate.test.ts
+  s_bd67b7a956c5e4::t_96d34e53ff1272 1-330
+skills/toolforge-submission-validator/jest.config.js
+  s_bd67b7a956c5e4::t_6dbb95b448622d 1-12
+skills/toolforge-submission-validator/README.md
+  s_bd67b7a956c5e4::t_842242c08cf9df 1-73
+skills/toolforge-cli/src/cli.ps1
+  s_bd67b7a956c5e4::t_783b898730e1e8 137,142-154,156-193,199,203-227,231
+skills/toolforge-submission-validator/src/validate.ts
+  s_bd67b7a956c5e4::t_91c180ad0a98ad 1-299
+skills/toolforge-submission-validator/package.json
+  s_bd67b7a956c5e4::t_9d0ea7a3da3332 1-25
+skills/toolforge-submission-validator/package-lock.json
+  s_bd67b7a956c5e4::t_2037c0563b4e50 1-4087
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "e10dc00fde96accf389bdc4cdd49f6116efdf10a",
+  "prompts": {},
+  "sessions": {
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

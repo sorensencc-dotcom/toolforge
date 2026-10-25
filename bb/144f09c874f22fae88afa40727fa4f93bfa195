@@ -1,0 +1,14 @@
+docs/superpowers/specs/2026-08-01-agent-cost-spec-execution-design.md
+  h_5c172e9b435f5a 1-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "bb144f09c874f22fae88afa40727fa4f93bfa195",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

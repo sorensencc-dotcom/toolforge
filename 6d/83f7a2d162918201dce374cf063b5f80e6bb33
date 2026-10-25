@@ -1,0 +1,21 @@
+modules/mcp-scoping/measure-catalog.mjs
+  s_9d0f16c720771f::t_b4b7dbc6c51106 1,4-6,8-9,12-35,39-56,61,72-82
+  s_9d0f16c720771f::t_fdd97675ef12e8 10-11,57-60,62-71,83
+  s_9d0f16c720771f::t_52a16e1e33c571 2-3,7,36-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6d83f7a2d162918201dce374cf063b5f80e6bb33",
+  "prompts": {},
+  "sessions": {
+    "s_9d0f16c720771f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "632d9ea0-4e4e-4a5e-afde-71280fb8ac94",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

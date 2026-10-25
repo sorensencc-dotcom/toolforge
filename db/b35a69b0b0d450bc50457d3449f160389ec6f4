@@ -1,0 +1,35 @@
+CIC-GOVERNANCE/packages/delivery-guard/tests/installed-hook.test.js
+  s_9ed72e8800daf1::t_cb60b29a22df6a 146,151
+  s_9ed72e8800daf1::t_f80abc6744b67d 162-163
+CIC-GOVERNANCE/packages/delivery-guard/tests/ci-wiring.test.js
+  s_9ed72e8800daf1::t_a6b94ea2730f4e 26-32,49,51-52
+  s_9ed72e8800daf1::t_a5fa0adcaa170b 63-64
+  s_9ed72e8800daf1::t_cb60b29a22df6a 44
+  s_9ed72e8800daf1::t_db044f75a1da26 65
+CIC-GOVERNANCE/packages/delivery-guard/.ijfw/.session-signals.jsonl
+  s_076f3c71e26267::t_10ae23d2b60924 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "dbb35a69b0b0d450bc50457d3449f160389ec6f4",
+  "prompts": {},
+  "sessions": {
+    "s_076f3c71e26267": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15120-c5a5-7ea3-8c04-a21640781000",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9ed72e8800daf1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e70526f-0da2-45f3-801a-e36414a59ec3",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

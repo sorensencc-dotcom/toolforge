@@ -1,0 +1,42 @@
+toolforge-pdf/server.js
+  s_8db3b6be2245e7::t_5be9fd8347a748 2-23
+  s_8db3b6be2245e7::t_02dacdd019f618 1
+  s_8db3b6be2245e7::t_1218791a121aa8 24-26
+  s_8db3b6be2245e7::t_0023b60ead1730 27-49
+src/cli/commands/plugins.js
+  s_8db3b6be2245e7::t_d29c5ba2c91c5a 65-66
+  s_8db3b6be2245e7::t_a471e14b97ccdc 1,3-46,53-64,67-112
+  s_8db3b6be2245e7::t_df857463c77f95 2
+  s_8db3b6be2245e7::t_ba83bdd90abeed 47-52
+src/cli/commands/exec.js
+  s_8db3b6be2245e7::t_80a5d536df6cb9 11,16,23,37,43,47-56,60,101
+  s_8db3b6be2245e7::t_a54b6d537ab3f9 1-2
+  s_8db3b6be2245e7::t_2fc6ece896e0c2 3-5,8-10
+  s_8db3b6be2245e7::t_7156f91c4f3a65 12-15
+  s_8db3b6be2245e7::t_b80626e7e887a7 17-22
+  s_8db3b6be2245e7::t_6b33707e1ef492 24-26,34-36
+  s_8db3b6be2245e7::t_2af3793a7a8608 38-42
+  s_8db3b6be2245e7::t_dc1c38eed3e2f7 44-46
+  s_8db3b6be2245e7::t_ee5ea29fe2e60d 57-59
+  s_8db3b6be2245e7::t_796dd22bce18d6 61-63,98-100
+  s_8db3b6be2245e7::t_4cf875772f92c6 102
+  s_8db3b6be2245e7::t_da1198b7a65e7a 6-7,27-33,64-97
+src/cli/index.js
+  s_8db3b6be2245e7::t_91e0d1c5e0f321 8-65,71-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "029e6117aa8a071bff633b08dba88b626946e847",
+  "prompts": {},
+  "sessions": {
+    "s_8db3b6be2245e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b478928e-6771-4966-bcae-bfc769d3eb09",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

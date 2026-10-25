@@ -1,0 +1,41 @@
+README.md
+  s_e8c5d5cef80b42::t_8092e507bb1bdd 7,35-39
+docs/wiki-pages/toolforge-architecture-overview.html
+  s_07f4a2660cd3c8::t_a335a830c3bb74 15,24,31,37,45,48-49,57,61,80,88,95,107,117-118,131,134,141-145,148,150-154,157,159-163,167-176,178-182,185,187-191,196
+scripts/diagram-sync.mjs
+  s_2da5084d6c5c71::t_5e5f498e84cdad 124-142,146
+toolforge-architecture-overview.html
+  s_2da5084d6c5c71::t_00d053c94b20a5 8,12-15,22-24,26,29,31,37,40,44-46,48-49,53-54,57,61,68-69,73-74,78,80-81,86,88-89,95-96,99,104,107,109,114-119,131,134,141-145,148,150-154,157,159-163,167-176,178-182,185,187-191,196-197,200
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1b6dcf4be26067a6325380fd111d1473dbc3cb9b",
+  "prompts": {},
+  "sessions": {
+    "s_07f4a2660cd3c8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c1906f8e-dd36-497c-acb7-aaf0a2a7eddd",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2da5084d6c5c71": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a49af109cf76c2f09",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e8c5d5cef80b42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "002e2a65-c944-428c-8fd9-d5393e7b3986",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

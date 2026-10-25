@@ -1,0 +1,47 @@
+tests/trm-act-toolforge-ci-workflow-false-exit-remediation.test.mjs
+  s_b3e99153955a5a::t_dfbb6ee27d58fa 1-43
+.github/workflows/docker-ci.yml
+  s_b3e99153955a5a::t_ff49c514480f58 22-25
+.github/workflows/documentation.yml
+  s_b3e99153955a5a::t_5eb51d8248dc53 38-41
+.github/workflows/graft-audit.yml
+  s_b3e99153955a5a::t_b2162608626504 21-24
+.github/workflows/retro-full-audit.yml
+  s_b3e99153955a5a::t_72e7faa5cdd40a 11-14
+.github/workflows/secret-scan.yml
+  s_b3e99153955a5a::t_46e5b84a0848ba 9-12
+.github/workflows/slop-sweep.yml
+  s_b3e99153955a5a::t_82885f74d50876 20-23
+.github/workflows/toolforge-wave-d.yml
+  s_b3e99153955a5a::t_abe57f20eb2c94 17-20
+.github/workflows/ci-governance-matrix.yml
+  s_b3e99153955a5a::t_24194979407153 15-18,73-74
+.github/workflows/governance.yml
+  s_f95fc772d12a9e::t_29a8097c582fdd 15-18
+.github/workflows/toolforge-release.yml
+  s_f95fc772d12a9e::t_3da048d4c4fb5b 38-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "72143aa8a4a1dcb428f5a089fe96dbb908188f96",
+  "prompts": {},
+  "sessions": {
+    "s_b3e99153955a5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6e80981e-8b63-4eaf-aa2c-4f6922da5ffa",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f95fc772d12a9e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "82144fcb-9d46-41c3-aea0-c79210e2d6c0",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

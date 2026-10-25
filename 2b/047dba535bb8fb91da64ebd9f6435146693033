@@ -1,0 +1,27 @@
+docs/meta/governance/ijfw-spec-phase-data-contract-gate.md
+  s_08b9cdeabfac84::t_76e9d67cd7ba25 258
+docs/meta/docs-structure-policy-plan.md
+  s_08b9cdeabfac84::t_5287ed7846dec8 51-61,64
+  s_08b9cdeabfac84::t_6adbdae408a28d 105-111
+  s_08b9cdeabfac84::t_dc658bdfe87489 742-744,753,757,759
+  s_08b9cdeabfac84::t_eb0e1567f214df 65
+  s_08b9cdeabfac84::t_0602a1e3c18a63 72-82
+docs/meta/governance/governance-update-data-contracts.md
+  s_08b9cdeabfac84::t_cdf862d7c0bf15 290,292,294
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "2b047dba535bb8fb91da64ebd9f6435146693033",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

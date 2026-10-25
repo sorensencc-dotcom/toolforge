@@ -1,0 +1,31 @@
+skills/obsidian-ingest-wiki/src/index.ts
+  s_d05a08dc3db088::t_5e5d57b1e80355 1-258
+skills/obsidian-ingest-wiki/INTEGRATION_DIAGRAM.md
+  s_d05a08dc3db088::t_f1c6ac121b2031 1-167
+skills/obsidian-ingest-wiki/skill.json
+  s_d05a08dc3db088::t_76033d7db4d50b 1-102
+skills/obsidian-ingest-wiki/docs/README.md
+  s_d05a08dc3db088::t_7711e1cf74664e 1-230
+skills/obsidian-ingest-wiki/tests/index.test.ts
+  s_d05a08dc3db088::t_a3ee1ec266dcde 1-109
+skills/obsidian-ingest-wiki/README.md
+  s_d05a08dc3db088::t_782fc88f69ee0e 1-92
+skills/obsidian-ingest-wiki/SKILL.md
+  s_d05a08dc3db088::t_0b3f30f7b67c29 1-218
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "9d7bd9adf75fd2145c55b0fe4c7215b0f4fc6aed",
+  "prompts": {},
+  "sessions": {
+    "s_d05a08dc3db088": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9837535e-c768-4223-a214-59099185e3e1",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

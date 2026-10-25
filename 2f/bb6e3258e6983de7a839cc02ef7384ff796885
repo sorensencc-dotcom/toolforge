@@ -1,0 +1,55 @@
+docs/meta/docs-structure-policy-plan.md
+  s_08b9cdeabfac84::t_02702218a3bea2 417,419
+  s_08b9cdeabfac84::t_ac61c899e34885 480
+  s_08b9cdeabfac84::t_197f3876fa8bd5 443
+  s_08b9cdeabfac84::t_9bce40cbfdccb6 441
+  s_08b9cdeabfac84::t_29581d09a7a364 588,590-591,596,599,605,616-617,630-631
+  s_08b9cdeabfac84::t_1348d6b1541cff 405-406
+docs/meta/plans/parallelism-matrix-delivery-index.md
+  s_08b9cdeabfac84::t_f9b8a3d7babfde 28
+docs/meta/plans/parallelism-matrix-retrofit-example-phase3.md
+  s_08b9cdeabfac84::t_69ad23915c9c29 309
+docs/meta/plans/parallelism-matrix-governance-rule.md
+  s_08b9cdeabfac84::t_d3dc8a811397cb 168-169
+  s_08b9cdeabfac84::t_5d21ba05810b54 199
+  s_08b9cdeabfac84::t_031ea69517711d 171
+  s_08b9cdeabfac84::t_1a91a1def6ba09 170
+  s_08b9cdeabfac84::t_02e08f6295e256 197-198
+  s_08b9cdeabfac84::t_53412a39e5a048 200
+  s_08b9cdeabfac84::t_11175d2deec96b 1,6,19-22,28,31-32,35,37-38,41-42,47-48,51-53,60-72,77,79,81-85,89,91,93-108,110,112,114,116-117,121,123-128,130-133,135-136,139-143,149,151,156-159,177-178,181,184-187,189-190
+docs/meta/plans/parallelism-matrix-template.md
+  s_08b9cdeabfac84::t_054cf8a80fd833 243
+docs/meta/plans/ijfw-verify-parallelism-checks.md
+  s_08b9cdeabfac84::t_5d75d6ee10e84d 288
+  s_08b9cdeabfac84::t_70ef9dad45caa2 285-287
+  s_08b9cdeabfac84::t_2ded27c302b2d8 289
+  s_08b9cdeabfac84::t_df74588a512bdb 1,3,5-7,11,13,17-18,30-32,35-36,41,43,48,53-54,56,61-62,68,70,73-74,77,81-84,88-92,97,99,102,107,109-110,112,115-116,119,121,123-125,130,133-135,140-141,143,149,151,154-155,158,160,164-165,168,178-181,189,192-196,199-200,203,205,210-211,215-223,228-232,237,239-243,249,251,255-259,262-267,273-284
+docs/meta/3-ijfw-verify-parallelism-checks.md
+  s_a8524015512eea::t_63c872dc2a1d95 1,3,5,9,11,15-17,29-32,39,41,46,51-52,54,59-60,66,68,73,77-80,84-88,94-95,98,103-104,106-107,113,115,117-119,124,127-129,134-136,138,144-145,151,153,157-158,160,164-173,181-184,192,195-199,204,206,211-212,216-224,229-233,238,240-243,249,251-252,256-260,263-264
+docs/meta/4-parallelism-matrix-governance-rule.md
+  s_a8524015512eea::t_3455439dba0f9f 1,18-27,33,36-38,41,43-44,47-48,53-54,57-60,67-87,92,94,96-100,104,106-108,110-114,118-127,129-132,136,138,140-154,156-160,163-173,179,181,186-188,197-200,206-207,210,213,215-216
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "2fbb6e3258e6983de7a839cc02ef7384ff796885",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a8524015512eea": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6ba3-2cb9-7bd2-aae6-61642dae94c4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

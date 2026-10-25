@@ -1,0 +1,20 @@
+modules/healing/adversarial-auditor.ts
+  h_5c172e9b435f5a 1-66
+modules/healing/tripwire-monitor.ts
+  h_5c172e9b435f5a 1-98
+scripts/quarantine-packet.mjs
+  h_5c172e9b435f5a 1-53
+scripts/serial-merge-queue.mjs
+  h_5c172e9b435f5a 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "85828e7d880e7e5bf2ed17de39a6d194d531caec",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

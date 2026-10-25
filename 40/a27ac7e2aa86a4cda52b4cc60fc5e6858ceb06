@@ -1,0 +1,37 @@
+scripts/consolidate-retro-inbox.mjs
+  s_ae48bc30365f0a::t_5fa23653b88e72 8,11,61-63,68,70,72-73,76,92,96,99-100,102,112,124-129,137-138
+tests/retro-action-ledger.test.mjs
+  s_ae48bc30365f0a::t_ef9c03a75d4821 1-122
+.gitignore
+  s_ae48bc30365f0a::t_d5ceca0274b80f 133
+scripts/retro-action-ledger.mjs
+  s_ae48bc30365f0a::t_daa5def89dd70a 1-129
+scripts/retro-report-actions.mjs
+  s_ae48bc30365f0a::t_d5ceca0274b80f 5,19-22,25-27,36-38
+docs/meta/governance/retro-policy.md
+  s_c74226617cd7b9::t_591eb5b75ad11e 22,48,55,59-69,88,97-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "40a27ac7e2aa86a4cda52b4cc60fc5e6858ceb06",
+  "prompts": {},
+  "sessions": {
+    "s_ae48bc30365f0a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a51eabaa-2101-434f-9d9d-9a97b8871669",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c74226617cd7b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15648-52f1-74e1-9328-bfd34e28d815",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

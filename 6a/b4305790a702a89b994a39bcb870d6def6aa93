@@ -1,0 +1,25 @@
+modules/mcp-scoping/contracts.mjs
+  s_9d0f16c720771f::t_e0cce595e6ecd5 1-38
+modules/mcp-scoping/scoping-hook.mjs
+  s_9d0f16c720771f::t_17b594743144fe 1-333
+modules/mcp-scoping/scoping-hook.test.mjs
+  s_9d0f16c720771f::t_136c3a7323de17 1-218
+package.json
+  s_9d0f16c720771f::t_b1731ec0041ca1 78,104-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6ab4305790a702a89b994a39bcb870d6def6aa93",
+  "prompts": {},
+  "sessions": {
+    "s_9d0f16c720771f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "632d9ea0-4e4e-4a5e-afde-71280fb8ac94",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

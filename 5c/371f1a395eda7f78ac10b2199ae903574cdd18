@@ -1,0 +1,29 @@
+tests/trm-act-01-active-memory-persistent-context.test.mjs
+  s_cf53e61e5cba17::t_a6955f0ec3a008 7-339
+  s_cf53e61e5cba17::t_bcf8fa8cd92edf 4-6
+  s_0749945d2bec32::t_90a5fab20a57ec 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5c371f1a395eda7f78ac10b2199ae903574cdd18",
+  "prompts": {},
+  "sessions": {
+    "s_0749945d2bec32": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a299da8c44772da47",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_cf53e61e5cba17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5aa13dcd-b7a7-4f10-9493-274974cbf37f",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+scripts/diagram-sync.mjs
+  s_2da5084d6c5c71::t_f1ae936b3c3dcb 23-24,128-137,150-154
+scripts/docs-synthesizer.mjs
+  s_2da5084d6c5c71::t_9e8dad6ad398f5 18-19
+scripts/workflow-recon.mjs
+  s_2da5084d6c5c71::t_56754321a338be 58,60
+skills/repo-docs-diagram-sync/src/workflow-recon.mjs
+  s_2da5084d6c5c71::t_843a422cb132ca 15-16,132-143
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8902b18fc50b4b7b9adac3c1d2bcc746bb04ea60",
+  "prompts": {},
+  "sessions": {
+    "s_2da5084d6c5c71": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a49af109cf76c2f09",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

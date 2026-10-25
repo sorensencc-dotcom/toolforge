@@ -1,0 +1,25 @@
+docs/gateway/phase-3c-kickoff-charter.md
+  s_c4e2e0ad144627::t_57aaebf79be4b2 1-305
+docs/gateway/cowork-mock-api.md
+  s_c4e2e0ad144627::t_6352dcd9054a6e 1-474
+docs/meta/cic-ashfall-state.md
+  s_c4e2e0ad144627::t_b148b7f0eb1e06 1-178
+mkdocs.yml
+  s_c4e2e0ad144627::t_d408393b9433ce 1-182
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "982af81de6f9943034cf19d8496c9b9084d8540d",
+  "prompts": {},
+  "sessions": {
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

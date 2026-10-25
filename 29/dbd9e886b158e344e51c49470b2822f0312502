@@ -1,0 +1,65 @@
+skills/agent-drift-detector/jest.config.js
+  s_56dd30092cbf2f::t_0dd4e4e1320755 1-7
+skills/agent-drift-detector/tsconfig.json
+  s_56dd30092cbf2f::t_1b7bcc0f96e2d5 1-22
+skills/analyze-token-burn/jest.config.js
+  s_56dd30092cbf2f::t_f826babcba962d 1-7
+skills/analyze-token-burn/tsconfig.json
+  s_56dd30092cbf2f::t_7edc5492185bde 1-22
+skills/html-visual-verify/jest.config.js
+  s_56dd30092cbf2f::t_a002307788f9b1 1-7
+skills/html-visual-verify/tsconfig.json
+  s_56dd30092cbf2f::t_9776c981de860e 1-22
+skills/kb-sync-nightly/jest.config.js
+  s_56dd30092cbf2f::t_f1386da3c17edc 1-7
+skills/kb-sync-nightly/tsconfig.json
+  s_56dd30092cbf2f::t_86ef6e56e16e95 1-22
+skills/run-adapter-diagnostic/jest.config.js
+  s_56dd30092cbf2f::t_356b759ec48ae1 1-7
+skills/run-adapter-diagnostic/tsconfig.json
+  s_56dd30092cbf2f::t_10b5d4142586d5 1-22
+skills/toolforge-drift-monitor/jest.config.js
+  s_56dd30092cbf2f::t_53af08ccfd6cbf 1-7
+skills/toolforge-drift-monitor/tsconfig.json
+  s_56dd30092cbf2f::t_13a71988ef4dca 1-22
+skills/agent-drift-detector/package-lock.json
+  s_56dd30092cbf2f::t_716a3a573519af 1-3861
+skills/agent-drift-detector/package.json
+  s_56dd30092cbf2f::t_d880829cc58fcd 1-20
+skills/analyze-token-burn/package-lock.json
+  s_56dd30092cbf2f::t_1b83f202f74c21 1-3861
+skills/analyze-token-burn/package.json
+  s_56dd30092cbf2f::t_018a4b1f163707 1-20
+skills/html-visual-verify/package-lock.json
+  s_56dd30092cbf2f::t_bf902dba458537 1-3861
+skills/html-visual-verify/package.json
+  s_56dd30092cbf2f::t_6494c9a89ad5a0 1-20
+skills/kb-sync-nightly/package-lock.json
+  s_56dd30092cbf2f::t_02cdb4a47ccfc6 1-3861
+skills/kb-sync-nightly/package.json
+  s_56dd30092cbf2f::t_5201c3adc729b6 1-20
+skills/run-adapter-diagnostic/package-lock.json
+  s_56dd30092cbf2f::t_0d7a9feaade283 1-3861
+skills/run-adapter-diagnostic/package.json
+  s_56dd30092cbf2f::t_b521238c4a282d 1-20
+skills/toolforge-drift-monitor/package-lock.json
+  s_56dd30092cbf2f::t_0e412e0ec99adc 1-3861
+skills/toolforge-drift-monitor/package.json
+  s_56dd30092cbf2f::t_1a8b1338b71e00 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "29dbd9e886b158e344e51c49470b2822f0312502",
+  "prompts": {},
+  "sessions": {
+    "s_56dd30092cbf2f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1c065b5e-b0c1-4121-b669-25aaeb9cfefb",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

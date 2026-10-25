@@ -1,0 +1,62 @@
+docs/meta/phase-7-unleash-integration-spec.md
+  s_31fbaa890cfd27::t_fbdfcf55e05775 1-581
+windows-task-manager/dashboard/dashboard.js
+  s_d784d9e30fa087::t_aa6927a94cd5bf 373
+  s_d784d9e30fa087::t_2f01b6109c0230 63
+  s_d784d9e30fa087::t_3999730a9dc3f4 187-188
+  s_d784d9e30fa087::t_91da78892a0953 250-251
+  s_d784d9e30fa087::t_16792942d1f730 60-62
+  s_d784d9e30fa087::t_56bd6b8ccf0fec 64-66,184-186
+  s_d784d9e30fa087::t_b7030d64e4f842 189-191,247-249
+  s_d784d9e30fa087::t_51bbc1022c9a8c 252-254,370-372
+  s_d784d9e30fa087::t_ac39b54cc2c7f3 374-376
+  s_d784d9e30fa087::t_96d70f2ad07e79 1-59,67-183,192-246,255-369,377-456
+windows-task-manager/dashboard/copilot.js
+  s_c57362b65e0120::t_6ea4e9ec2c8c7a 1-82,85-106,118,134-192,196-234,237-246
+  s_d784d9e30fa087::t_2e2737c2d2e182 193-195
+  s_d784d9e30fa087::t_3c42100389c583 235-236
+  s_c57362b65e0120::t_34d245c7690588 107-117,119-133
+  s_d784d9e30fa087::t_9b94f31da92d0a 83-84
+CLAUDE.md
+  s_d784d9e30fa087::t_725a86c5ad4293 1-42
+docs/ROLLBACK_RUNBOOK.md
+  s_31fbaa890cfd27::t_4d3d03a5e31584 1-546
+docs/meta/phase-7-rollback-health-check-gate.md
+  s_31fbaa890cfd27::t_4d6b27ef8cf692 1-525
+.claude/settings.json
+  s_c57362b65e0120::t_c60a857b6d163b 6-8
+docs/meta/phase-7-etcd-integration-spec.md
+  s_31fbaa890cfd27::t_30bc18a5492798 1-412
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "819cdddeb9cb304f2e348e9ef8a1bcc724abc1e9",
+  "prompts": {},
+  "sessions": {
+    "s_31fbaa890cfd27": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e54e9bb-ce71-40ed-801a-923fd76ed9be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c57362b65e0120": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36b19781-eb2f-4b0e-b505-cee5cd2a36be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d784d9e30fa087": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3849f2e7-22eb-4310-8f8e-4a34dcd33f0a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

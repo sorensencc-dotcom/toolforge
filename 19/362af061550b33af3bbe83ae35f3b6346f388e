@@ -1,0 +1,75 @@
+skills/trm-status/SKILL.md
+  s_00d135f05ed507::t_42249d2f399308 1-61
+skills/trm-status/docs/USAGE.md
+  s_00d135f05ed507::t_12cfdf9ce57552 1-49
+skills/trm-status/src/index.ts
+  s_d194132b9a288c::t_49dd540b67a9c5 1-19
+skills/trm-status/src/report.ts
+  s_d194132b9a288c::t_8262a8ca4d86aa 1-39
+skills/trm-status/src/scanTopic.ts
+  s_00d135f05ed507::t_c7ece98f2ee2b8 1-139
+skills/trm-status/src/vaultGit.ts
+  s_00d135f05ed507::t_b25dee89ead165 1-13
+skills/trm-status/tests/scanTopic.test.ts
+  s_00d135f05ed507::t_d6ff7dfbbd717d 1-115
+TODOS.md
+  s_0747b231dbf553::t_fcdcef2e015602 14-17
+docs/toolforge/registry-audit.log
+  s_bd67b7a956c5e4::t_7651702a45bdd6 2-3
+docs/toolforge/registry.json
+  s_bd67b7a956c5e4::t_b7c96b3451facb 3-16,18-19
+skills/toolforge-registry-manager/src/registry.ps1
+  s_0747b231dbf553::t_6100e6283fc7f0 141-181,225-228
+skills/trm-status/INTEGRATION_DIAGRAM.md
+  s_00d135f05ed507::t_03f0792c755ab4 1-16
+skills/trm-status/README.md
+  s_0747b231dbf553::t_3b00a4c337c3b7 1-23
+skills/trm-status/jest.config.cjs
+  s_0747b231dbf553::t_69ed08c8390043 1-7
+skills/trm-status/package.json
+  s_0747b231dbf553::t_c4233f375ce089 1-22
+skills/trm-status/skill.json
+  s_0747b231dbf553::t_b9268d41e4ce44 1-41
+skills/trm-status/tsconfig.json
+  s_0747b231dbf553::t_6997f38829cbf2 1-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "19362af061550b33af3bbe83ae35f3b6346f388e",
+  "prompts": {},
+  "sessions": {
+    "s_00d135f05ed507": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f4bb51ba-5872-43ae-8c28-6c4818b108b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0747b231dbf553": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66c1e7fb-5222-4928-9ad7-dd38950f1a29",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d194132b9a288c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb843-14e2-7e20-b930-a01545e52b1b",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

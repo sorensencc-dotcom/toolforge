@@ -1,0 +1,35 @@
+modules/review/openai-provider.test.ts
+  s_ae298c02f15bce::t_0bf88acb939f81 7
+  s_ae298c02f15bce::t_03858328395f3d 85,92-93,97,100
+  s_ae298c02f15bce::t_4610fed2dadf9e 66,77
+  s_ae298c02f15bce::t_c06ed6d8fea555 1-6,8-65,67-68,70,72-74,76,78-80,82,84,86-88,91,94-95,99,101-204
+  s_ae298c02f15bce::t_80563b74496fe5 69,71,75,81,83,96,98
+  s_ae298c02f15bce::t_c68b4cefb3e831 89-90
+modules/review/routing.test.ts
+  s_ae298c02f15bce::t_63e0730a30dffd 103-107
+  s_ae298c02f15bce::t_b682da7c946110 1-102,108-114,122-152,154-172
+  s_ae298c02f15bce::t_b60f8e649e601e 153
+  s_ae298c02f15bce::t_e26d92cb49af55 115-121
+modules/review/routing.ts
+  s_ae298c02f15bce::t_fa3bbcbcd50fea 33-34
+  s_ae298c02f15bce::t_b4e47fa6025a0b 1-32,35-72
+modules/review/openai-provider.ts
+  s_ae298c02f15bce::t_592e58fb5cf0f2 1-54,56-79
+  s_ae298c02f15bce::t_58acc85fe1caad 55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4fb6da39b6cda447098695adbcd13a1ea3a04002",
+  "prompts": {},
+  "sessions": {
+    "s_ae298c02f15bce": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f4971ad-315e-4672-9600-6c923f685f2e",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

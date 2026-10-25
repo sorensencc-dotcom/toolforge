@@ -1,0 +1,19 @@
+docs/meta/skill-regression-backfill-charter.md
+  s_7cbe892bfbb449::t_f23896899f0d90 1-223
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "2c5dae96e7533fa9311478e51a57359a10c1c90d",
+  "prompts": {},
+  "sessions": {
+    "s_7cbe892bfbb449": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c047833-a9dd-49b9-9c7f-f6cbe419fbd3",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

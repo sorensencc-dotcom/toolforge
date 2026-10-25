@@ -1,0 +1,39 @@
+skills/analyze-token-burn/skill.json
+  s_fe4a607b589077::t_1926019ee4bcbe 3,15-25
+skills/ashfall/skill.json
+  s_fe4a607b589077::t_834352ebde967c 3,51-61
+skills/kb-sync-nightly/skill.json
+  s_fe4a607b589077::t_8f6bfa47c505d3 3,34-44
+skills/operator-image-build/skill.json
+  s_fe4a607b589077::t_e272ea5d9f1b7a 18-25,55-63,67-81,89-100,105-109,112-122
+skills/pre-wrap-audit/skill.json
+  s_fe4a607b589077::t_1a415693aa8276 3,36-38,52-62
+skills/reconcile-vector-store/skill.json
+  s_fe4a607b589077::t_6722033afc996b 3,14-24
+skills/roadmap-validator/skill.json
+  s_fe4a607b589077::t_f4f3872e8b0144 15-25,56-61,65-79,90-98,104-106,108-110,113,115-118,146-147
+skills/rollback-phase/skill.json
+  s_fe4a607b589077::t_6f975b7149b24e 3,14-24
+skills/run-adapter-diagnostic/skill.json
+  s_fe4a607b589077::t_ba882dcebda580 3,19-29
+skills/scale-ingestion-service/skill.json
+  s_fe4a607b589077::t_52e435e571c6db 3,14-24
+skills/work-summarizer/skill.json
+  s_fe4a607b589077::t_fc18eab0fc5276 17-20,56-59,79-87,91-172,180-191,196-199,202-212
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1748a7b8293d8d3b99825faf51c41676d103570f",
+  "prompts": {},
+  "sessions": {
+    "s_fe4a607b589077": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2a3b4a99-5f1a-480f-a4ab-8ef682040cbc",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

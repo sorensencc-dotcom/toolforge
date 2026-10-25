@@ -1,0 +1,22 @@
+skills/cic-ingest-world/tests/skill.test.ts
+  s_217263389faf70::t_8ede8b0c4d967d 2,4
+  s_217263389faf70::t_83be6d0245e26f 21-36
+skills/cic-ingest-world/src/index.ts
+  s_217263389faf70::t_11d6fb868268da 4,23-24,29-30,33-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f521e77a42e922a5fb54d0dedb7a330ee69b9162",
+  "prompts": {},
+  "sessions": {
+    "s_217263389faf70": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6c91-7b6a-7d82-8cb9-fbaf5aadb5f2",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

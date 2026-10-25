@@ -1,0 +1,23 @@
+CIC-GOVERNANCE/adapters/torquequery_routing_adapter.py
+  s_5a8f46f7923443::t_9db6563c9da2b1 1-72
+CIC-GOVERNANCE/WRAPPERS/torquequery_routing_runtime.py
+  s_5a8f46f7923443::t_9db6563c9da2b1 1-355
+CIC-GOVERNANCE/tests/test_torquequery_routing_runtime.py
+  s_5a8f46f7923443::t_9db6563c9da2b1 1-237
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "f93523d38fcdf3937b823d16d900324d62b65e93",
+  "prompts": {},
+  "sessions": {
+    "s_5a8f46f7923443": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbfcd-f26c-7730-a1bf-c75f1f0ad993",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+CLAUDE.md
+  s_bd67b7a956c5e4::t_57fde569102430 100-118
+docs/meta/TOOLFORGE-MARKETPLACE-SPEC-v1.0.md
+  s_bd67b7a956c5e4::t_0f809e46ff9a64 1-615
+docs/meta/phase-8-toolforge-marketplace/DELIVERABLE-1-MANIFEST-SCHEMA.md
+  s_bd67b7a956c5e4::t_5b5abb3c7cd381 1-177
+docs/meta/phase-8-toolforge-marketplace/DELIVERABLE-2-REGISTRY-SERVICE.md
+  s_bd67b7a956c5e4::t_1cc8b0df17b0b2 1-138
+docs/meta/phase-8-toolforge-marketplace/DELIVERABLE-3-CLI.md
+  s_bd67b7a956c5e4::t_0ab5b7d3af17e0 1-183
+docs/meta/phase-8-toolforge-marketplace/DELIVERABLE-4-VALIDATOR.md
+  s_bd67b7a956c5e4::t_333703f7d17d42 1-249
+docs/meta/phase-8-toolforge-marketplace/SUCCESS.md
+  s_bd67b7a956c5e4::t_4d9d7a850bd26e 1-151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "80f22267e3e03857c2b7fecdf61cb240e390fe74",
+  "prompts": {},
+  "sessions": {
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

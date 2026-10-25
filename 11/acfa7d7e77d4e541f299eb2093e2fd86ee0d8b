@@ -1,0 +1,34 @@
+windows-task-manager/dashboard/dashboard.js
+  s_e7b8d6ceceb53e::t_6d74ab9a5b4521 530,544
+  s_e7b8d6ceceb53e::t_1a6b421d9e092b 562,576
+  s_e7b8d6ceceb53e::t_40cb9bb1526d7b 502-503,505,507-508,510-511
+  s_e7b8d6ceceb53e::t_770ec822160d7d 55-69
+skills/html-visual-verify/tests/skill.test.ts
+  s_4afe753e305b4c::t_a7b492e09ecaa3 11-14,119-120
+skills/rollback-phase/src/rollbackOrchestrator.ts
+  s_e7b8d6ceceb53e::t_35cf30ba113ba8 22,26,28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "11acfa7d7e77d4e541f299eb2093e2fd86ee0d8b",
+  "prompts": {},
+  "sessions": {
+    "s_4afe753e305b4c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2b648cdc-3ef9-4191-a994-186d20f3827f",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e7b8d6ceceb53e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5ab3ab00-7d8e-40ca-978d-fc6b8b64d47e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

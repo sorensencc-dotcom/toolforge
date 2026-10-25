@@ -1,0 +1,21 @@
+scripts/local-small-model-bridge.mjs
+  s_3ccd25f5652152::t_05d7bf05da0cbf 295-299,301-302
+tests/schema-validator.test.mjs
+  s_3ccd25f5652152::t_1eb219789624d3 47-48,57-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f70ba0328f07851491cbb55b376dbc05ac1e627c",
+  "prompts": {},
+  "sessions": {
+    "s_3ccd25f5652152": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b079bd05-d930-41d5-bc67-bc59c646e98c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+TODOS.md
+  s_d92a162c4798dd::t_c5ece8ec558aca 11,13,35-36,38
+  s_7925e941be7422::t_6b1c409dfce597 9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "4780b3167bb429101c97ea7e543a025cfeeece80",
+  "prompts": {},
+  "sessions": {
+    "s_7925e941be7422": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc7ea-e966-78c2-812a-16fa0610b3ef",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d92a162c4798dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "360deef7-8c42-43b7-bd32-1c055da8344d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+skills/cic-run-gate/docs/USAGE.md
+  s_a8524015512eea::t_2748fa37ef1332 1-12
+skills/cic-run-gate/package.json
+  s_a8524015512eea::t_33e9c17f953155 1
+skills/cic-run-gate/src/index.ts
+  s_a8524015512eea::t_5c18bb71bf8e10 1-37
+skills/cic-run-gate/tests/skill.test.ts
+  s_a8524015512eea::t_33e9c17f953155 1-26
+skills/cic-run-gate/tsconfig.json
+  s_a8524015512eea::t_33e9c17f953155 1
+skills/cic-run-gate/jest.config.js
+  s_a8524015512eea::t_33e9c17f953155 1
+skills/cic-run-gate/skill.json
+  s_a8524015512eea::t_2748fa37ef1332 1
+manifest.json
+  s_a8524015512eea::t_d8274a57c17cdb 623-637
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "168cdca3bc660e256e5839c623bde06efe5e25b2",
+  "prompts": {},
+  "sessions": {
+    "s_a8524015512eea": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6ba3-2cb9-7bd2-aae6-61642dae94c4",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

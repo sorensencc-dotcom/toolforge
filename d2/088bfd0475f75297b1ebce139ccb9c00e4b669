@@ -1,0 +1,31 @@
+.context/retros/INBOX-SPEC.md
+  s_e8c5d5cef80b42::t_7be72442fc4c2c 1-160
+docs/meta/governance/schemas/README.md
+  s_e8c5d5cef80b42::t_a8bd4257ae0806 9-12
+docs/meta/governance/schemas/retro-inbox-v1.schema.json
+  s_f80176bea0d668::t_01ae285e9a785c 1-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d2088bfd0475f75297b1ebce139ccb9c00e4b669",
+  "prompts": {},
+  "sessions": {
+    "s_e8c5d5cef80b42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "002e2a65-c944-428c-8fd9-d5393e7b3986",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f80176bea0d668": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ad571f98e7758305b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

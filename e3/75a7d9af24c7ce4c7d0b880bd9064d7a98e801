@@ -1,0 +1,19 @@
+docs/meta/ijfw-agent-integration-guide-v1.5.md
+  s_38c0e0c5eaedf2::t_34ab7e8595a905 1-433
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "e375a7d9af24c7ce4c7d0b880bd9064d7a98e801",
+  "prompts": {},
+  "sessions": {
+    "s_38c0e0c5eaedf2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e9ff065d-a791-426c-ae97-1a2b3a863982",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

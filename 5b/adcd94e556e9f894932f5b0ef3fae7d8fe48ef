@@ -1,0 +1,28 @@
+scripts/trm-sync-treatment-agent.ps1
+  s_8b728eb8a9da4f::t_55392f60a7bb04 1,3-4,12-21,177
+  s_8b728eb8a9da4f::t_ccd0f17b85ef0c 101
+  s_8b728eb8a9da4f::t_f9cb05a1438981 123,126
+  s_8b728eb8a9da4f::t_08c2774d95ef82 157-176,178-182,184
+  s_8b728eb8a9da4f::t_a6e571b405a5d9 195-206,219-224
+  s_8b728eb8a9da4f::t_45ac38b4e5236c 33-39
+  s_8b728eb8a9da4f::t_b1a430e16f4c93 105
+  s_8b728eb8a9da4f::t_349f31f7b2e693 78-85
+scripts/setup-trm-sync-treatment-schedule.ps1
+  s_8b728eb8a9da4f::t_faf4170a5199c4 48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "5badcd94e556e9f894932f5b0ef3fae7d8fe48ef",
+  "prompts": {},
+  "sessions": {
+    "s_8b728eb8a9da4f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ef6ff86-8e91-4817-b8af-bfc018de4377",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

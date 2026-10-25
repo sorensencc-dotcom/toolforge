@@ -1,0 +1,31 @@
+api/telemetry/server.js
+  s_cb8fde1a059c42::t_297d8e2a5c03a1 18-21
+  s_cb8fde1a059c42::t_b5445ef0f9e91e 22-23
+  s_cb8fde1a059c42::t_d171ca21dc6040 233-243,792
+.github/workflows/toolforge-release.yml
+  s_cb8fde1a059c42::t_db7689fbe5e4c4 42,123
+api/telemetry/.env.example
+  s_cb8fde1a059c42::t_89efffb0436b84 7
+api/telemetry/tests/test-step1-2-api.js
+  s_cb8fde1a059c42::t_9e389538937b01 46-47,210
+api/telemetry/tests/test-step4-badges.js
+  s_cb8fde1a059c42::t_8ac3db0d5400b2 45-46,158
+gateway/cowork/mock-server/src/mockCoworkServer.ts
+  s_cb8fde1a059c42::t_d96d96971b982a 31-36,61,73,104,133,164,191,213,235
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "8f3abdf6fbc069b3b255d54772dca6f48c5db3c8",
+  "prompts": {},
+  "sessions": {
+    "s_cb8fde1a059c42": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6e4d-2adc-7273-8170-57f82e0e170c",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

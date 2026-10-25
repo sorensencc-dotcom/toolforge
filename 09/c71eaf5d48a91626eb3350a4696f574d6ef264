@@ -1,0 +1,47 @@
+skills/cic-orchestrate-flow/README.md
+  s_758b92363514e5::t_c180982514f578 1-18
+skills/research-questions/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_9dc7492f04f6f1 1-13
+skills/cic-orchestrate-flow/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_9579413d2c90f6 1-10
+skills/workspace-storage-cleaner/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_5f0aa445e2b213 1-9
+skills/research-questions/README.md
+  s_758b92363514e5::t_b999a8eb4a4110 1-18
+skills/_cic-shared/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_8393f82f0e215c 1-11
+skills/session-wrap/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_540a51130e2bde 1-9
+skills/skill-health-monitor/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_e07191519f044c 1-9
+skills/workspace-storage-cleaner/README.md
+  s_758b92363514e5::t_9485ebb90b018c 1-20
+skills/trm-feedback-report/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_45dc48921e39b7 1-9
+skills/_cic-shared/README.md
+  s_758b92363514e5::t_b23541c0837e4e 1-21
+skills/automation-audit/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_f4f2b262ded49d 1-8
+skills/research-questions/SKILL.json
+  s_758b92363514e5::t_88b1a138b504f9 1-42
+skills/retro-export/SKILL.md
+  s_758b92363514e5::t_e2c80a2609f9fa 1-28
+skills/retro-export/INTEGRATION_DIAGRAM.md
+  s_758b92363514e5::t_88ed11339be731 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "09c71eaf5d48a91626eb3350a4696f574d6ef264",
+  "prompts": {},
+  "sessions": {
+    "s_758b92363514e5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc6b4d83-44cf-4509-9618-a786a6b33de6",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

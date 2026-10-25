@@ -1,0 +1,31 @@
+.claude/skills/chris-mode/SKILL.md
+  s_3ccd25f5652152::t_e8a0f585a6877b 37
+  s_3ccd25f5652152::t_9f1d4ee84e0c96 27
+  s_3ccd25f5652152::t_42f44a71fdb1ab 51
+  s_3ccd25f5652152::t_4acd7b3389fd10 57
+  s_3ccd25f5652152::t_ec248e0ea75165 15
+  s_3ccd25f5652152::t_35d0bb22b3e76f 21
+  s_3ccd25f5652152::t_9c1e93d3da0c22 59
+  s_3ccd25f5652152::t_a5cb67d11bd441 9
+  s_3ccd25f5652152::t_4089f8fcf08c0e 13
+  s_3ccd25f5652152::t_ade61a22a8d883 41
+  s_3ccd25f5652152::t_13d5b95cc716bd 43-45
+  s_3ccd25f5652152::t_770ee3da6afb01 3
+  s_3ccd25f5652152::t_62fdab37a291b9 39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d3bbc5c948803871109833e8bc77ab2d13583c6a",
+  "prompts": {},
+  "sessions": {
+    "s_3ccd25f5652152": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b079bd05-d930-41d5-bc67-bc59c646e98c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

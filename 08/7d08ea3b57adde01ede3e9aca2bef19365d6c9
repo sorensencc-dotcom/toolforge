@@ -1,0 +1,141 @@
+src/validators/semver.js
+  s_7e0aaf4c0aba69::t_07c5b2e1d90401 2-3,12-17,19-22,26,32-33,37-80,82-83,85-87,89-90,92-103,106-116,118-128,131-138,141-156,159-167,170-172,175-182,185-191,194-200,202-203,205-214,217-227,229,231,236
+src/ui/pages/Trending.jsx
+  s_7e0aaf4c0aba69::t_0ce97a05b5343a 1-70
+src/services/recommendation.js
+  s_7e0aaf4c0aba69::t_5b8160a754c85a 1-111
+src/ui/components/RelatedSkills.jsx
+  s_7e0aaf4c0aba69::t_edf962b49d7772 1-47
+src/ui/fixtures/related.json
+  s_7e0aaf4c0aba69::t_4d0a9766005453 1-9
+src/api/middleware/rate-limit.js
+  s_7e0aaf4c0aba69::t_dd019711448f0b 1-32
+src/api/server.js
+  s_7e0aaf4c0aba69::t_96f3707af65408 80
+  s_7e0aaf4c0aba69::t_cba7a00050493f 4,7-10,15-22,24-26,28-68,70-79,81-83,85-107,109-123,125-153
+  s_7e0aaf4c0aba69::t_9a7101bc7208bf 11
+src/ui/components/ReviewList.test.jsx
+  s_7e0aaf4c0aba69::t_93e5f049dedf58 1-40
+src/ui/components/TrendingSection.test.jsx
+  s_7e0aaf4c0aba69::t_2f8e9abb8d7265 1-36
+src/ui/components/CategoryNav.test.jsx
+  s_7e0aaf4c0aba69::t_7641a7a30e3498 1-40
+src/api/middleware/auth.js
+  s_7e0aaf4c0aba69::t_bcc63654c741fe 1-37
+src/ui/components/CategoryNav.jsx
+  s_7e0aaf4c0aba69::t_c0416add37daf0 1-51
+src/ui/components/RelatedSkills.test.jsx
+  s_7e0aaf4c0aba69::t_f5be2a4cf9f67c 1-34
+src/api/routes/categories.js
+  s_7e0aaf4c0aba69::t_e817d4c258b3f6 6,14
+  s_7e0aaf4c0aba69::t_15c60a66602c6e 1-5,7-13,15-22
+src/ui/components/ReviewList.jsx
+  s_7e0aaf4c0aba69::t_6c2abfdf18f696 1-77
+src/db/migrations/0002_wave_c_taxonomy_ratings.sql
+  s_7e0aaf4c0aba69::t_a7f67eac06166d 1-44
+src/ui/fixtures/categories.json
+  s_7e0aaf4c0aba69::t_f8e28d6a3e33e9 1-11
+WAVE-C-BACKEND-REPORT.md
+  s_7e0aaf4c0aba69::t_fbcb6d00887928 1-98
+src/validators/semver.test.js
+  s_7e0aaf4c0aba69::t_60d3c2f275dfb6 3
+  s_7e0aaf4c0aba69::t_b35898d2781158 105-213
+src/services/trending-batch.js
+  s_7e0aaf4c0aba69::t_46740114c31af1 1-4,6-54
+  s_7e0aaf4c0aba69::t_200b216f6591e0 5
+  s_7e0aaf4c0aba69::t_ce02c5e52a5d60 55-70
+src/ui/styles/App.css
+  s_7e0aaf4c0aba69::t_576d15a73a106c 512-1069
+src/ui/App.jsx
+  s_7e0aaf4c0aba69::t_0618407279e14f 4,8,37-54,57,67-70
+src/ui/components/VersionPinSelector.test.jsx
+  s_7e0aaf4c0aba69::t_d7478cfb4bb9c6 11-13,15-17
+  s_7e0aaf4c0aba69::t_84e0e50d48c6a5 1-10,14,18-39
+src/db/schema.js
+  s_7e0aaf4c0aba69::t_cec37853daa938 209-214
+  s_7e0aaf4c0aba69::t_bd3edcbd745c6a 403-405,410
+  s_7e0aaf4c0aba69::t_50dc2bca41c8ec 123-124,136-208,215-369
+  s_7e0aaf4c0aba69::t_c3721452c65d5a 370
+src/ui/components/ReviewForm.test.jsx
+  s_7e0aaf4c0aba69::t_fdf3ee5f0268cc 1-45
+WAVE-C-FRONTEND-REPORT.md
+  s_7e0aaf4c0aba69::t_1400a599c99978 1-79
+vite.config.js
+  s_7e0aaf4c0aba69::t_7f887ab663fd23 20-25
+src/api/server.test.js
+  s_7e0aaf4c0aba69::t_f3f7b392237123 69,75-78
+  s_7e0aaf4c0aba69::t_6b369623ac2743 173
+  s_7e0aaf4c0aba69::t_13695a1d891406 148
+  s_7e0aaf4c0aba69::t_6404c3a3e13467 5,9-68,70-74,79-90,92-147,149-172,174-228
+  s_7e0aaf4c0aba69::t_fa7fbb291e9c21 91
+  s_7e0aaf4c0aba69::t_e931cbc217a778 229
+src/ui/components/VersionPinSelector.jsx
+  s_7e0aaf4c0aba69::t_c6dd77aae9452d 1-67
+src/ui/fixtures/ratings.json
+  s_7e0aaf4c0aba69::t_b8e78dcf8aa1dd 1-11
+src/services/trending-batch.test.js
+  s_7e0aaf4c0aba69::t_41213a0b8d818b 1-68
+src/services/ratings.test.js
+  s_7e0aaf4c0aba69::t_7dc254dc5c9c19 1-131
+src/ui/pages/SkillDetail.jsx
+  s_7e0aaf4c0aba69::t_98800b8127fbb0 3-9,11,19-26,29-30,50-87,90,96-97,99,108-109,117-118,126,134-136,141,150-152,161-166,176,179-180,184-198
+  s_7e0aaf4c0aba69::t_e3adeddc3f54f3 199
+src/api/routes/related.js
+  s_7e0aaf4c0aba69::t_7f9ebda87b49f2 18
+  s_7e0aaf4c0aba69::t_bc9890cc823cc7 8
+  s_7e0aaf4c0aba69::t_991f0f38b76d65 1-7,9-17,19-62
+package.json
+  s_7e0aaf4c0aba69::t_3d2e89dd07783f 9
+  s_7e0aaf4c0aba69::t_a6a2eccf2295d3 16
+  s_4bbe44839489c2::t_0c6ca48323d020 35,38-39,45-48,50,53
+src/ui/components/TrendingSection.jsx
+  s_7e0aaf4c0aba69::t_bd07b165628a04 1-73
+src/api/routes/ratings.js
+  s_7e0aaf4c0aba69::t_71371ca609fda1 49
+  s_7e0aaf4c0aba69::t_4d200574ec0da9 65
+  s_7e0aaf4c0aba69::t_cc47fdbab6fdd8 26
+  s_7e0aaf4c0aba69::t_45973d763d8267 1-8,10-25,27-48,50-64,66-73
+  s_7e0aaf4c0aba69::t_728dc541a6c674 9
+src/services/ratings.js
+  s_7e0aaf4c0aba69::t_98692b6083a7c8 1-75
+src/ui/test-setup.js
+  s_7e0aaf4c0aba69::t_ae285bcd483ba3 1
+src/api/serializers.js
+  s_7e0aaf4c0aba69::t_6d21a7189a5a05 1-80
+src/ui/fixtures/trending.json
+  s_7e0aaf4c0aba69::t_e291390a7ecc51 1-22
+src/ui/components/RatingStars.test.jsx
+  s_7e0aaf4c0aba69::t_b0e172a5edb8e6 1-30
+src/ui/components/RatingStars.jsx
+  s_7e0aaf4c0aba69::t_04cba16e972448 1-69
+src/ui/components/ReviewForm.jsx
+  s_7e0aaf4c0aba69::t_11755b7493df5c 1-95
+src/services/recommendation.test.js
+  s_7e0aaf4c0aba69::t_94c650c5b5e047 1-89
+package-lock.json
+  s_7e0aaf4c0aba69::t_4de63a10bac8b6 1-5731
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "087d08ea3b57adde01ede3e9aca2bef19365d6c9",
+  "prompts": {},
+  "sessions": {
+    "s_4bbe44839489c2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a7bdee5dd37f9941e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7e0aaf4c0aba69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d1f977af-bb9c-46d5-a2bc-16b5a00fcf3b",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

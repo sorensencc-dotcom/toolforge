@@ -1,0 +1,39 @@
+scripts/trm-stage-pr.mjs
+  s_c74226617cd7b9::t_6d85b552888cdc 1-267
+scripts/daemon-healer-bot.mjs
+  s_ec28c71dfa5ac3::t_774954116f7d6a 57,63
+scripts/trm-post-promote-enricher.mjs
+  s_368a2d912b4ec1::t_f56703f89abae6 1-562
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "72aa00243c457cbd67b4596167d5d6215c12ad11",
+  "prompts": {},
+  "sessions": {
+    "s_368a2d912b4ec1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "574e2b73-c2e9-4e32-bfea-e54837634393",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c74226617cd7b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15648-52f1-74e1-9328-bfd34e28d815",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ec28c71dfa5ac3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8d19aa43-7b20-48d6-9c1e-60b2da225984",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

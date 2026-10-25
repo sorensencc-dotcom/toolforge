@@ -1,0 +1,20 @@
+scripts/trm-ingress-watcher.mjs
+  h_5c172e9b435f5a 434-440,447,460-461,518-524,535-538,563-570,1125-1126,1246-1250,1272-1276,1288-1291,1315,1317,1319-1320,1322,1324,1332-1334,1355-1359,1386-1390,1630-1631,1644-1647,1653,1659,1663-1667,1682,1688,1690-1694
+tests/trm-ingress-routing.test.mjs
+  h_5c172e9b435f5a 21-23,412-466
+trm-drive/inbox/completed/2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter.md
+  h_5c172e9b435f5a 1-51
+trm-drive/inbox/completed/2026-10-11T120503Z__action__rewrite-mcp__act-03-evaluate-copilot-autopilot-architecture.md
+  h_5c172e9b435f5a 1-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6c7a93379d6c7fd793851a1a163a2041beef13cd",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

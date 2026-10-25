@@ -1,0 +1,311 @@
+skills/reconcile-vector-store/README.md
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-31
+utilities/toolforgeSkillValidator.ps1
+  s_7008a9810d4867::t_384ece34725e86 1-2,5-6,14-34,38,41-42,54-62,65,70-71,73,80,88,95,118,124-126,132,135-136,142-143,147,151,157,203,208-209,226-228,230-231,259,282-283,289-292,294-295,299,302,306-307,313-314,321,326-327,330,336,339,351,356,361,366,413-414,417,421,424,440-441,452,454,457,482,513,516,761,788,791-792,906-907,909-910,913,923,926,928-932,935-936,947-948,950,954,957,970-971,973-974,1022-1024,1026,1032-1034,1036,1041,1047,1082,1090-1091,1098,1138,1140,1142-1143,1146-1147
+  s_7008a9810d4867::t_5d78be78671830 1087
+  s_439fbcbd69e0f4::t_9b59a6389b29ff 1100-1136
+  s_7008a9810d4867::t_2683aadc4615e9 519-676,678-680,682-750
+  s_7008a9810d4867::t_76902f6f4b279e 952
+  s_7008a9810d4867::t_fd3d1506e8f442 797
+  s_7008a9810d4867::t_7e6b61a97cbc7f 266-276
+  s_7008a9810d4867::t_19b925c88dbe04 1096,1137
+  s_7008a9810d4867::t_445be407b91aa7 367-375
+  s_7008a9810d4867::t_84452715acaef2 218-219
+  s_7008a9810d4867::t_e6ed16fb83f418 3-4,7-13,35-37,39-40,43-49,51-52,63-64,66-69,72,74-79,81-87,89-94,96-117,119-123,127-131,133-134,137-141,144-146,148-150,152-156,197-202,204-207,210-216,220-225,229,232-258,260-265,277-281,284-288,293,296-298,300-301,303-305,308-312,315-320,322-325,328-329,331-335,337-338,340-350,352-355,357-360,362-365,412,415-416,418-420,422-423,425-439,442-451,453,455-456,458-481,483-512,514-515,517-518,751-760,762-787,789-790,793,901-905,908,911-912,914-919,921-922,933-934,937-946,949,951,953,955-956,958-969,972,975-1021,1025,1027-1031,1035,1037-1040,1042-1045,1048-1052,1080-1081,1083,1088-1089,1092-1095,1097,1099,1139,1141,1144-1145
+  s_7008a9810d4867::t_cd5b5dcd9b67dc 158-166
+  s_7008a9810d4867::t_d4276594af8397 1046,1053-1079,1084-1086
+  s_7008a9810d4867::t_9f434485311831 50,53
+  s_7008a9810d4867::t_ff296e29612b24 217
+  s_7008a9810d4867::t_69376fde7f4d65 794-796,798-900
+  s_7008a9810d4867::t_1bb152152861dc 677,681
+  s_7008a9810d4867::t_7a71170a9dc411 376-411
+  s_7008a9810d4867::t_cba4c02f7abe43 167-196
+  s_7008a9810d4867::t_eea4c13f571ab1 920,924-925
+  s_7008a9810d4867::t_c6185b91a8a72f 927
+skills/work-summarizer/src/transcript-excerpts.ts
+  s_1a0b2d4c5a3d0a::t_10a6d6f0a163f1 1-112
+skills/roadmap-validator/skill.json
+  s_439fbcbd69e0f4::t_6916ce6dd996a2 9-10
+  s_7008a9810d4867::t_8e1a17d7defbc5 1-8,11-128
+skills/roadmap-validator/SKILL.md
+  s_439fbcbd69e0f4::t_632632942b1d55 1-86
+skills/toolforge-drift-monitor/README.md
+  s_7008a9810d4867::t_3055e9b66d6f20 1-29
+ci-pipeline.ps1
+  s_916c7aa6afc922::t_68758519493d83 1-38,40-73,75-80,82-87,89-94,96-133
+  s_916c7aa6afc922::t_8f06f3337df7d9 74,81,88,95
+  s_916c7aa6afc922::t_3ae67827929061 39
+utilities/toolforgeSkillInstaller.ps1
+  s_7008a9810d4867::t_7cf76a03b02e9b 1-133,186-230,254-329,382-405,408,410-472,474-521,524-701
+  s_7008a9810d4867::t_dc72b73508f7d5 330-336,406-407,409
+  s_7008a9810d4867::t_701be7aba28eb9 522-523
+  s_7008a9810d4867::t_adb825cf91b40b 473
+  s_7008a9810d4867::t_a11aaeb4665f40 231-253
+  s_7008a9810d4867::t_50f464d41cf1dc 134-139
+  s_7008a9810d4867::t_dcbdde1465da83 337-353
+  s_7008a9810d4867::t_d3d343a81c6a8b 140-185
+  s_7008a9810d4867::t_d61567e58d0d3a 354-381
+setup-ci-scheduler.ps1
+  s_916c7aa6afc922::t_8781aa2c3c06d3 1-111
+utilities/README-VALIDATOR.md
+  s_7008a9810d4867::t_d3acf0d327d734 1-251
+skills/work-summarizer/docs/USAGE.md
+  s_1a0b2d4c5a3d0a::t_a5cb6789a1fb0f 59,64
+  s_1a0b2d4c5a3d0a::t_a80cf537d3c1d1 45
+  s_1a0b2d4c5a3d0a::t_7ba7a6ac4f9cc4 60,65,71,73,75-81,85-90,92-96,98-99
+  s_1a0b2d4c5a3d0a::t_bf629769b7ddb9 84
+  s_1a0b2d4c5a3d0a::t_d98e1209f0aedb 91,97
+skills/run-adapter-diagnostic/skill.json
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-12
+AUTOMATION-SETUP.md
+  s_916c7aa6afc922::t_a6a1a3f35a6a88 1-264
+utilities/toolforgeMetadataGenerator.ps1
+  s_439fbcbd69e0f4::t_639780c47e8789 1-261
+skills/SKILLPACK-VALIDATION.md
+  s_1c8c72bfe5bcd2::t_53d8788cad7401 2-121
+  s_1c8c72bfe5bcd2::t_a9480632b652f5 1
+  s_1c8c72bfe5bcd2::t_5f81bb12d248c5 122
+multi-repo-orchestrator.ps1
+  s_916c7aa6afc922::t_f20405e9703f1f 125-126
+  s_916c7aa6afc922::t_12f0afef4e027b 1-124,127-243,245-273
+  s_916c7aa6afc922::t_2941f806717e78 244
+skills/rollback-phase/README.md
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-39
+skills/scale-ingestion-service/skill.json
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-8
+utilities/toolforgeSkillHealthCheck.ps1
+  s_439fbcbd69e0f4::t_d45ef5d73ee079 1-490
+skills/analyze-token-burn/skill.json
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-8
+skills/scale-ingestion-service/README.md
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-26
+skills/MANIFEST-SKILL-REQUIREMENTS.md
+  s_1c8c72bfe5bcd2::t_e1908303baf06f 1-438
+skills/work-summarizer/src/llm-provider.ts
+  s_1a0b2d4c5a3d0a::t_c17a48cedf38b4 1-191
+skills/roadmap-validator/src/index.ts
+  s_7008a9810d4867::t_4fce117b2e7601 1-311
+skills/roadmap-validator/tests/skill.test.ts
+  s_7008a9810d4867::t_9ae60983b87fb1 1-329
+utilities/toolforgeDriftDetector.ps1
+  s_7008a9810d4867::t_ee178eaa23d4ba 1-477
+skills/_TEMPLATE/skill.json
+  s_1c8c72bfe5bcd2::t_47475e92ea1865 1-108
+utilities/run-tool.ps1
+  s_7008a9810d4867::t_84b544581be577 228
+  s_7008a9810d4867::t_44dea4d115fb26 82-83,88-90
+  s_7008a9810d4867::t_60078fdcc3e8b1 170
+  s_7008a9810d4867::t_ef3b22e9eaa42e 111-123
+  s_7008a9810d4867::t_7056e2e3c720a8 241
+  s_7008a9810d4867::t_7ab56e5334eeca 141-145,147-149
+  s_7008a9810d4867::t_6daab659c06831 103-110
+  s_7008a9810d4867::t_cba219514ab7cc 1-81,84-87,91-102,124-140,146,150-169,171-227,229-240
+setup-git-hooks.ps1
+  s_916c7aa6afc922::t_1d81dbe55800ca 1-191
+manifest.json
+  s_7008a9810d4867::t_5066e122df6d6b 2-3
+  s_7008a9810d4867::t_ba0dbe46ad4828 28
+  s_7008a9810d4867::t_b3e75694fbec60 45-47,67,69
+  s_7008a9810d4867::t_6dc344e154ae83 5,7-12,14,16-25,37,42-44,59,64-66
+  s_7008a9810d4867::t_d42c7854baa5d3 4
+  s_7008a9810d4867::t_407bcf28b9815d 26-27
+  s_7008a9810d4867::t_65a3737bcb322d 29
+  s_7008a9810d4867::t_b5b45fa3917f07 34-36
+  s_7008a9810d4867::t_23ce3cbfe6da5e 41
+  s_7008a9810d4867::t_6d0c81511e4f83 48-50
+  s_7008a9810d4867::t_7761bd17ab4c3e 56-58
+  s_7008a9810d4867::t_7855a01dcd4b0f 63
+  s_7008a9810d4867::t_0fcf393059e1ef 68
+  s_7008a9810d4867::t_a4ad166480f544 70-72
+  s_7008a9810d4867::t_2e504f226ec89c 32-33,51,54-55,73
+skills/_TEMPLATE/tests/skill.test.ts
+  s_1c8c72bfe5bcd2::t_348065e86d8cb2 1-139
+skills/rollback-phase/skill.json
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-8
+skills/run-adapter-diagnostic/README.md
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-34
+run-tool.ps1
+  s_7008a9810d4867::t_770d713950464a 245-251,253-254,258-260,268-269,295
+  s_7008a9810d4867::t_844d93c99ee31b 59
+  s_7008a9810d4867::t_7feae7175ccde9 168-169,174,177-195,198-200
+  s_7008a9810d4867::t_54869ebcba6230 75-112
+  s_7008a9810d4867::t_d7e9ab13f7f0e4 210-216,218-219,224-236
+  s_7008a9810d4867::t_69fb9d8c6e8be3 41
+  s_7008a9810d4867::t_34f1a60a41198b 138-140,142,154-159,162
+  s_7008a9810d4867::t_98c970943b8c98 114-115,119,122-124,128,132-137,141,143-150,160-161
+skills/roadmap-validator/INTEGRATION_DIAGRAM.md
+  s_7008a9810d4867::t_33430d0566fd42 1-463
+skills/tool-lifecycle-manager/SKILL.json
+  s_7008a9810d4867::t_3715dc3ff9d965 12
+  s_7008a9810d4867::t_34e304e7496b79 3
+  s_7008a9810d4867::t_4cb060f92b113d 1-2
+  s_7008a9810d4867::t_d400bb29ac29b2 4-6,9-11
+  s_7008a9810d4867::t_2aa2a8a666188e 13-15
+  s_7008a9810d4867::t_a34160aa1f8ce5 7-8,16-21
+skills/tool-lifecycle-manager/INTEGRATION_DIAGRAM.md
+  s_7008a9810d4867::t_cfd1a94abca5cc 1-49
+skills/analyze-token-burn/README.md
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-36
+skills/roadmap-validator/docs/USAGE.md
+  s_7008a9810d4867::t_e78f05f571c446 1-500
+skills/tool-lifecycle-manager/README.md
+  s_7008a9810d4867::t_bca95427336c86 1-24
+setup-all-automation.ps1
+  s_916c7aa6afc922::t_12656076723ce8 1-258
+skills/toolforge-drift-monitor/INTEGRATION_DIAGRAM.md
+  s_7008a9810d4867::t_6aff24bee7376e 1-68
+sync-tools/repo-registry.json
+  s_1c8c72bfe5bcd2::t_5f52267d7e9b2d 7,9
+skills/_TEMPLATE/src/index.ts
+  s_1c8c72bfe5bcd2::t_a85ad1187d4e7c 1-135
+skills/work-summarizer/package.json
+  s_1a0b2d4c5a3d0a::t_b75f949c7996f3 3,5,13
+OPERATOR-COMMANDS.md
+  s_439fbcbd69e0f4::t_4cc240603353ac 1-272
+skills/roadmap-validator/README.md
+  s_7008a9810d4867::t_437af9fe60113f 1-231
+skills/toolforge-drift-monitor/SKILL.json
+  s_7008a9810d4867::t_e50f87edcc1c57 3
+  s_7008a9810d4867::t_3370e0bca13b67 12
+  s_7008a9810d4867::t_9bc03d75cb149f 1-2
+  s_7008a9810d4867::t_c22844e3447dcb 4-6,9-11
+  s_7008a9810d4867::t_3c4151acad4907 13-15
+  s_7008a9810d4867::t_3a85922ce1d8c2 7-8,16-21
+drift/README-DRIFT.md
+  s_7008a9810d4867::t_c81e6c7b4ce5d3 1-318
+utilities/Invoke-CoworkSkillInstall.ps1
+  s_7008a9810d4867::t_e10724d13b45e0 1-151
+skills/README.md
+  s_1c8c72bfe5bcd2::t_c196fc8ea89f98 1-95
+skills/work-summarizer/src/index.ts
+  s_1a0b2d4c5a3d0a::t_661ae01af0ec83 58,60-63
+  s_1a0b2d4c5a3d0a::t_0256e1ab42308f 227-228,246-266,268-269,271
+  s_1a0b2d4c5a3d0a::t_89c9203780beb6 26-28,37-39
+  s_1a0b2d4c5a3d0a::t_910bc3730dfeb0 172-214,222-224
+skills/work-summarizer/src/dependency-graph.ts
+  s_1a0b2d4c5a3d0a::t_b916f54462923a 1-76
+daemons/cowork-auto-sync.ps1
+  s_439fbcbd69e0f4::t_d2670444aaae5e 1-403
+skills/_TEMPLATE/docs/USAGE.md
+  s_1c8c72bfe5bcd2::t_216c0a82a17258 1-297
+skills/_TEMPLATE/README.md
+  s_1c8c72bfe5bcd2::t_e541244b108ea6 1-203
+skills/reconcile-vector-store/skill.json
+  s_d3640c043b3d74::t_f1e353e04b4d20 1-8
+skills/SYNC-RECOMMENDATIONS.md
+  s_1c8c72bfe5bcd2::t_606b63572bc9a6 1-286
+PHASE-1-4-7-IMPLEMENTATION.md
+  s_439fbcbd69e0f4::t_d427f575a8f054 1-405
+utilities/toolforgeDependencyGraph.ps1
+  s_439fbcbd69e0f4::t_a46b835443bcf7 1-455
+skills/work-summarizer/skill.json
+  s_1a0b2d4c5a3d0a::t_1042c72de6ec50 53
+  s_1a0b2d4c5a3d0a::t_0acc35c1eb8279 72,82-90
+  s_1a0b2d4c5a3d0a::t_021f77cca66cf0 3-5
+audit/SKILL-INSTALL-REPORT.md
+  s_7008a9810d4867::t_7ac6611e0208f0 1-61
+drift/DRIFT-REPORT.md
+  s_7008a9810d4867::t_e38c521c0a9900 3-6,12-23,25-26,28-29,31,33-34,36-40,42,44,46-48,50-61,65,67-71,73-75,77,79,82-83
+health/REPO-HEALTH-REPORT.md
+  s_1c8c72bfe5bcd2::t_527eafd4b9857e 1-203
+logs/orchestrator/orchestrator-report-2026-06-28_224940.json
+  s_916c7aa6afc922::t_4a547a20fb7b8f 1-124
+logs/orchestrator/orchestrator-report-2026-06-28_230407.json
+  s_916c7aa6afc922::t_26ef093743de8f 1-124
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_7008a9810d4867::t_9837211fc8d7d7 1-101
+skills/tool-lifecycle-manager/SKILL.md
+  s_7008a9810d4867::t_4fd6d254972780 1-186
+skills/tool-lifecycle-manager/src/index.ts
+  s_7008a9810d4867::t_89d0fbb24e9648 1-7
+skills/toolforge-drift-monitor/SKILL.md
+  s_7008a9810d4867::t_e78230f1ce6a12 1-118
+skills/toolforge-drift-monitor/src/index.ts
+  s_7008a9810d4867::t_493d0dca5bf401 1-7
+skills/work-summarizer/package-lock.json
+  s_748e5ab68ae704::t_132a7c13b42449 3,9,11,16-46,56-429,448-472
+audit/AUDIT-2026-06-28.md
+  s_7008a9810d4867::t_21255a7e996026 1-161
+audit/AUDIT-DISCIPLINE.md
+  s_7008a9810d4867::t_7e4f83b4defb4d 1-252
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_7008a9810d4867::t_9ea802be8fab9d 1-64
+audit/COWORK-REGISTERED-SKILLS.md
+  s_7008a9810d4867::t_478e617e78bba5 1-32
+audit/installed-skills/tool-lifecycle-manager.SKILL.md
+  s_7008a9810d4867::t_77014e6e66011d 1-186
+audit/installed-skills/toolforge-drift-monitor.SKILL.md
+  s_7008a9810d4867::t_658ec2794ffa6a 1-118
+logs/orchestrator/orchestrator-report-2026-06-29_082448.json
+  s_7008a9810d4867::t_6bf115a9a1087e 1-124
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_7008a9810d4867::t_04d086bbc0a72a 1-71
+skills/SKILLPACK-METADATA.json
+  s_7008a9810d4867::t_9c99254363a977 1-95
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_7008a9810d4867::t_085c5bc7ca73fb 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "846048106e12417d42711ccbedbbaad95739e581",
+  "prompts": {},
+  "sessions": {
+    "s_1a0b2d4c5a3d0a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dabad09c-d51b-4d48-8cfa-23d82621b26c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_439fbcbd69e0f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1e0c90b7-1611-4695-bcb6-9841018ce05a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_748e5ab68ae704": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "17f1198e-3730-4433-8b16-f492ccb56939",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_916c7aa6afc922": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b385e798-8381-4888-86c2-8a6602925a7b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d3640c043b3d74": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6a3bc7a-e5d5-4837-8509-3c2a67fc7c7d",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

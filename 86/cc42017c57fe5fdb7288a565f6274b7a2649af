@@ -1,0 +1,26 @@
+docs/superpowers/specs/2026-08-12-notebooklm-cic-ingest-mining-design.md
+  s_acaa711e7c3399::t_70f00f4d9a7ea3 507-535,539-548
+  s_acaa711e7c3399::t_8224141fcabadd 14-39
+  s_acaa711e7c3399::t_59fa956de78f38 3
+  s_acaa711e7c3399::t_7d086e52be94e5 291,299
+  s_acaa711e7c3399::t_b47a028793c17e 481-503
+  s_acaa711e7c3399::t_8307a7db627408 116-131
+  s_acaa711e7c3399::t_6c4c0e5662fb69 144-145,147-183,185-186,188-240
+  s_acaa711e7c3399::t_0c96ea7abcaa11 266-290,292-298,300-322,331-389
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "86cc42017c57fe5fdb7288a565f6274b7a2649af",
+  "prompts": {},
+  "sessions": {
+    "s_acaa711e7c3399": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1e8e68d7-e38d-48b1-be86-3a7570d8ddcd",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

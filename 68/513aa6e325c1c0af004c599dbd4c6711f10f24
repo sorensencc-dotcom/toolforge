@@ -1,0 +1,44 @@
+docs/meta/governance/ijfw-spec-phase-data-contract-gate.md
+  s_08b9cdeabfac84::t_24da08fcb2a5ed 257
+  s_a8524015512eea::t_57fbaa42ee7e23 259
+docs/meta/governance/global-operating-rules-cic-rewrite-labs.md
+  s_08b9cdeabfac84::t_06b59ca98c8acc 125
+docs/meta/governance/global-rules-amendment-v1.4.md
+  s_08b9cdeabfac84::t_2b464ebf9c99ef 130-131
+docs/meta/governance/governance-update-data-contracts.md
+  s_08b9cdeabfac84::t_7b84f996de9d7c 26
+docs/meta/governance/README.md
+  s_69d32939a05217::t_bbe33799e0ef5b 1-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "68513aa6e325c1c0af004c599dbd4c6711f10f24",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_69d32939a05217": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a94ddf1e-dd15-4a83-8dc4-8b6afc5ae859",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a8524015512eea": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6ba3-2cb9-7bd2-aae6-61642dae94c4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

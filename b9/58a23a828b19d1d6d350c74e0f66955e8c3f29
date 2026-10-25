@@ -1,0 +1,19 @@
+vite.config.js
+  s_1e2a7070ffa23f::t_6a96695737dda5 5,17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "b958a23a828b19d1d6d350c74e0f66955e8c3f29",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

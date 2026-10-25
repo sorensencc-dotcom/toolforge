@@ -1,0 +1,16 @@
+scripts/aggregate_status.py
+  h_5c172e9b435f5a 1-911
+tests/aggregate-status.test.mjs
+  h_5c172e9b435f5a 1-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3b35e8c9829dc7f17518fbf67768c54b9f8a73ee",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

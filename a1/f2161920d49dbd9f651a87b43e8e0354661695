@@ -1,0 +1,33 @@
+skills/triage-skill-health-warnings/skill.json
+  s_b17fe6de81133b::t_14cb3d8fdf1523 15-20
+skills/run-tests-safe/src/index.mjs
+  s_b17fe6de81133b::t_c2a741ba34d609 1-2
+manifest.json
+  s_b17fe6de81133b::t_14cb3d8fdf1523 2036,2039,2069,2102
+skills/scaffold-toolforge-skill/src/index.mjs
+  s_b17fe6de81133b::t_5e099a6ae9d1d9 51
+  s_b17fe6de81133b::t_41506ccf77f4fe 30
+skills/scaffold-toolforge-skill/tests/index.test.mjs
+  s_b17fe6de81133b::t_7d36f4d0be17ee 35-37
+skills/scaffold-toolforge-skill/skill.json
+  s_b17fe6de81133b::t_14cb3d8fdf1523 15-20
+skills/run-tests-safe/skill.json
+  s_b17fe6de81133b::t_14cb3d8fdf1523 6,15
+  s_b17fe6de81133b::t_a9731c7adc29c8 16-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a1f2161920d49dbd9f651a87b43e8e0354661695",
+  "prompts": {},
+  "sessions": {
+    "s_b17fe6de81133b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ce02bd4e-7bfa-4740-a007-09852f174da2",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

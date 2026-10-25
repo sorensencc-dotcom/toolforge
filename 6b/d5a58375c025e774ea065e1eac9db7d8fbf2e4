@@ -1,0 +1,19 @@
+tests/nlm-pack-replace-gate.test.mjs
+  s_202ef55ea699b7::t_33e9d87bfacaf5 12-14,206-247
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6bd5a58375c025e774ea065e1eac9db7d8fbf2e4",
+  "prompts": {},
+  "sessions": {
+    "s_202ef55ea699b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a3ef7c81-ecc5-411b-8104-e195edb132bc",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

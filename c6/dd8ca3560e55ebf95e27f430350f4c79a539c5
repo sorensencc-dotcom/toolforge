@@ -1,0 +1,19 @@
+scripts/trm-sync-treatment-agent.ps1
+  s_8b728eb8a9da4f::t_58df5cce8fe76a 1-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "c6dd8ca3560e55ebf95e27f430350f4c79a539c5",
+  "prompts": {},
+  "sessions": {
+    "s_8b728eb8a9da4f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ef6ff86-8e91-4817-b8af-bfc018de4377",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

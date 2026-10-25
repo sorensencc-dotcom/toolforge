@@ -1,0 +1,46 @@
+tests/retro-metrics.test.mjs
+  s_368a2d912b4ec1::t_7cf42d7d681622 1-35,37-52,55-80
+  s_368a2d912b4ec1::t_8e7ac5e81dc85d 36,53-54
+scripts/retro-metrics.mjs
+  s_368a2d912b4ec1::t_f787b916618fe2 45-82
+  s_368a2d912b4ec1::t_e6f157d69264cf 1-44
+STATUS.md
+  s_368a2d912b4ec1::t_6806c0eb6653e2 27,31,35
+scripts/compile-weekly-retro.mjs
+  s_368a2d912b4ec1::t_7cfd5a6df3a61a 184
+  s_368a2d912b4ec1::t_f787b916618fe2 27,156,284
+  s_368a2d912b4ec1::t_00264dcf1f3ed3 136-138
+  s_368a2d912b4ec1::t_a2153bfc4d1348 253
+  s_368a2d912b4ec1::t_ec3fd6acd48002 330
+  s_368a2d912b4ec1::t_5d024e7ef4db75 213
+  s_368a2d912b4ec1::t_7f29cb633cf225 268-283,285-290
+  s_368a2d912b4ec1::t_9d1e92b7544329 157
+  s_368a2d912b4ec1::t_70efb77550c8ed 206-207
+  s_368a2d912b4ec1::t_bbddcfcb3c72ec 298,300
+  s_368a2d912b4ec1::t_47eae4f3d2cf6b 307
+  s_368a2d912b4ec1::t_17afcd4d3464fa 312-313
+  s_368a2d912b4ec1::t_55fd6539f97979 319,321,323-324,326-328
+  s_368a2d912b4ec1::t_5906915202d7c9 196
+  s_368a2d912b4ec1::t_93d9444d1ff5a6 238-243
+  s_368a2d912b4ec1::t_f457a58eb30e4c 225-227
+  s_368a2d912b4ec1::t_f10ee52707164e 114-118
+  s_368a2d912b4ec1::t_725268b18546e1 246
+  s_368a2d912b4ec1::t_2fc15a1a46227f 20-26,28-29
+  s_368a2d912b4ec1::t_e8233634303e6c 333-334
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b8707ab9473d56832732245a7349ecb742ad09a1",
+  "prompts": {},
+  "sessions": {
+    "s_368a2d912b4ec1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "574e2b73-c2e9-4e32-bfea-e54837634393",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+gateway/cowork/mock-server/bin/start.ts
+  s_c4e2e0ad144627::t_4267406d8195b6 1-29
+gateway/cowork/tests/client.test.ts
+  s_c4e2e0ad144627::t_ba1e016d9cd883 5-7,9-24,27-39,42-67,70-87,92-142,145-146,152-162,166,168-180,184-189,192-202,204,206-212,215-227,231-244,247-260,264-271,273-274
+gateway/cowork/mock-server/src/mockCoworkServer.ts
+  s_c4e2e0ad144627::t_ca23255d4498a1 255
+  s_c4e2e0ad144627::t_eec7c9e367c8d4 154,164-165,169-170
+  s_c4e2e0ad144627::t_3746e27007264d 94,104-105,110-111
+  s_c4e2e0ad144627::t_4e8ed274d7efed 1-48,50-57,60-69,72-93,95-103,106-109,112-122,124-132,135-138,141-153,155-163,166-168,171-180,182-190,193-202,204-212,215-224,226-234,237-254,256-273
+  s_c4e2e0ad144627::t_5a2fb7955c2356 49,58-59,70-71
+  s_c4e2e0ad144627::t_227ed04dcb879c 123,133-134,139-140
+  s_c4e2e0ad144627::t_ba2a10316100f5 181,191-192,203,213-214,225,235-236
+gateway/cowork/gateway.json
+  s_c4e2e0ad144627::t_68cd2c90859073 7-12
+gateway/cowork/tests/fixtures/skills/_hidden-template/skill.json
+  s_c4e2e0ad144627::t_42e6dcbcf3228a 1-8
+gateway/cowork/package.json
+  s_c4e2e0ad144627::t_4c1e7cfa2f879a 25,28
+  s_c4e2e0ad144627::t_0ac96727c589c4 19
+SKILL-SYNC-LOG.md
+  s_c01c5887199fb9::t_43bebd29f389c7 1-159
+gateway/cowork/tests/sync.test.ts
+  s_c4e2e0ad144627::t_0255ea18de6442 73,75
+  s_c4e2e0ad144627::t_90cbd2ac7f086e 5-6
+  s_c4e2e0ad144627::t_34f775849ebd56 201,203
+  s_c4e2e0ad144627::t_3b21e4f4e7f24f 220-222
+  s_c4e2e0ad144627::t_f6313fe304d9ff 7-10,14-23,26-35,38-60,66-71,74,76-79,85-88,94-99,103-113,119-125,131-144,150-200,202,204-207,213-219,223-233,236,238-239,243-247,253-255,259-275,281-284,288-300,306-310,314-318
+  s_c4e2e0ad144627::t_b91c75e02c97b7 256
+gateway/cowork/tests/helpers/mockServer.ts
+  s_c4e2e0ad144627::t_4aab754453a166 1-70
+gateway/cowork/tests/registry.test.ts
+  s_c4e2e0ad144627::t_cca5ef29bdf430 5-13,16-33,36-42,45-53,58-64,69-77,82-86,91-95,101-106,108-118,121-133,136-137,140-154,159-181,187-204,207-215,219-233,236-250,255-264,269-283,288-310
+gateway/cowork/jest.config.js
+  s_c4e2e0ad144627::t_cf37749836e96b 13
+gateway/cowork/README.md
+  s_c4e2e0ad144627::t_9f329301ce4570 13-14,16-17,19,26
+  s_c4e2e0ad144627::t_d79edbb0f95504 66,76
+  s_c4e2e0ad144627::t_2016a9ab33b12c 92-93
+  s_c4e2e0ad144627::t_8a1976dfcf2b59 53-55,64-65,67-75,77
+  s_c4e2e0ad144627::t_53747b73862b0b 225-229,233-236
+  s_c4e2e0ad144627::t_b9b73692f1dc40 119-124
+  s_c4e2e0ad144627::t_8682f37864e1f6 1,5
+  s_c4e2e0ad144627::t_c938289b435b3d 6
+  s_c4e2e0ad144627::t_3b0bb67d7d16fd 27
+gateway/cowork/src/client/CoworkClient.ts
+  s_c4e2e0ad144627::t_b669c07009383a 172-213,215-235
+  s_c4e2e0ad144627::t_f902afa428babc 214
+  s_c4e2e0ad144627::t_c402acd91f2f26 236,238-246,255-256
+  s_c4e2e0ad144627::t_3c58fb472bee60 237
+gateway/cowork/tests/fixtures/skills/missing-version/skill.json
+  s_c4e2e0ad144627::t_412a942be8821d 1-7
+gateway/cowork/src/registry/RegistrationManager.ts
+  s_c4e2e0ad144627::t_a59e74e0fd472c 7
+gateway/cowork/src/sync/SyncCoordinator.ts
+  s_c4e2e0ad144627::t_7c64624d956005 100-103
+gateway/cowork/.env.example
+  s_c4e2e0ad144627::t_91e4be034976a7 1-18
+gateway/cowork/tests/fixtures/skills/valid-skill/skill.json
+  s_c4e2e0ad144627::t_0b7604ffd3658a 1-13
+gateway/cowork/package-lock.json
+  s_c4e2e0ad144627::t_dbacf467e171ec 1-5029
+gateway/cowork/src/registry/SkillRegistry.ts
+  s_c4e2e0ad144627::t_2d2a8e206ec8cb 56
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_7008a9810d4867::t_0fb2c8c9ca90c0 3,240-244,248-251,253-258
+skills/SKILLPACK-VALIDATION.md
+  s_c01c5887199fb9::t_2bae852d2d603b 3
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_c4e2e0ad144627::t_5ec2d8e7cfded8 3,52-104
+audit/COWORK-REGISTERED-SKILLS.md
+  s_c4e2e0ad144627::t_186e5c958f991f 3,39-85
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_c4e2e0ad144627::t_93a673aaef5c1c 3
+skills/SKILLPACK-METADATA.json
+  s_c4e2e0ad144627::t_7dc4eb4ae33b33 2,6,10-14,17,19-20,24,26-29,33,37-41,44,46-47,51,53-56,60,64-68,71,73-74,78,80-83,87,91-95,98,100-101,105,107-110,114,118-122,125,127-128,132,134-137,141,145-149,152,154-155,159,161-164,168,170-171,179-182,185,187-188,192,194-197,201,205-209,212,214-215,219,221-224,228,232-236,239,241-242,246,248-251,255,259-263,266,268-269,273,275-278,282,286-287,289,291-297,300,302-305,309,313-317,320,322-323,327,329-332,336,340-344,347,349-350,354,356-361,365,369-373,376,378-379,383,385-388,392,396-400,403,405-406,410,412-415,419,423-427,430,432-433,437,439-442,446,450-454,457,459-460,464,466-469,473,477-481,484,486-487,491,493-496,500,504-508,511,513-514,518,520-523,527,531-535,538,540-541,545,547-550,554,558-562,565,567-568,572,574-577,581,585-589,592,594-595,599,601-604,607-615
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_c4e2e0ad144627::t_612b58a83821e1 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "4fa02039701d84982790d766eabb1afde24bc24f",
+  "prompts": {},
+  "sessions": {
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c01c5887199fb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f9fcb8-8183-4409-91aa-b2f076438001",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

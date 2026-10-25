@@ -1,0 +1,34 @@
+skills/work-summarizer/tests/reasoningProvider.test.ts
+  s_bda1e8f1bfba9e::t_39a4dc94810571 1
+skills/work-summarizer/package.json
+  s_bda1e8f1bfba9e::t_39aabe325ed753 6-10,21
+  s_bda1e8f1bfba9e::t_6cb93a85e078d8 20
+  s_bda1e8f1bfba9e::t_5ef44b476a0859 22-24
+  s_bda1e8f1bfba9e::t_bb196337117914 25
+skills/work-summarizer/package-lock.json
+  s_c4e2e0ad144627::t_41243ef147f312 13-18,52-56,59-64,67-81,84-105,108-112,115-119,122,125-129,132-136,139,142-150,152-156,159-160,163,166-170,173-175,178-181,184-188,191,194-198,201,204-208,211,214-218,221,224-228,231-232,235,238-242,245-248,251,254-258,260-264,267-271,274,276-277,280-291,293-297,300,303-306,309-313,315-317,319-322,325-329,331-335,338-342,345,347-348,351-355,358,361-364,367-371,373-374,376-377,380-384,386-387,389-390,393-397,400,402-403,406-410,413,415-416,419-423,426-429,432-436,438-442,445-449,451-453,455-458,461-465,468,471-3636,3639-3716,3719-3723,3726,3729-3743,3746-3764,3767-3778,3780-3793,3795-3903,3912-4013,4015-4017,4027-4040,4047-4102,4127-4247
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "5197099c4868ac460843355f700cc019424b3b7b",
+  "prompts": {},
+  "sessions": {
+    "s_bda1e8f1bfba9e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39bf75cb-e57c-46e8-a733-d913c769f1bf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

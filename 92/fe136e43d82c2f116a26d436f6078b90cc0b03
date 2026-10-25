@@ -1,0 +1,22 @@
+skills/session-wrap/src/index.ts
+  s_be92be7ea0d8a4::t_b7ab06eade5579 3
+  s_be92be7ea0d8a4::t_d703a2d1b34aa9 13-20,29,51,136
+  s_be92be7ea0d8a4::t_f19c6485e27ba0 133-135
+  s_be92be7ea0d8a4::t_5446277d279164 137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "92fe136e43d82c2f116a26d436f6078b90cc0b03",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

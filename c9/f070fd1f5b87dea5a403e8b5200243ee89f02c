@@ -1,0 +1,23 @@
+.obsidian/workspace.json
+  s_07d93ac1a5c5a7::t_841ef3394bc23d 181-189
+setup-git-hooks.ps1
+  s_07d93ac1a5c5a7::t_3fa5216fcfe84e 115-119,126-128,130-133,135-139
+skills/skill-security-auditor/src/skill_security_auditor.py
+  s_07d93ac1a5c5a7::t_412202239ac6ba 30-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c9f070fd1f5b87dea5a403e8b5200243ee89f02c",
+  "prompts": {},
+  "sessions": {
+    "s_07d93ac1a5c5a7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b33a0fd9-b60d-4de4-9f89-2c8040789800",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

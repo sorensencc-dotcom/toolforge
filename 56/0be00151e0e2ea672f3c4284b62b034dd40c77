@@ -1,0 +1,31 @@
+scripts/daily-report-agent.ps1
+  s_be92be7ea0d8a4::t_0a663a4c6f1e6c 296,328-335
+  s_be92be7ea0d8a4::t_efbc07bc08a8d3 293-295
+  s_be92be7ea0d8a4::t_d025766321dbf1 297
+  s_be92be7ea0d8a4::t_c640049938a9b8 336
+  s_1c68d5e83c7ecf::t_5fe2dd82eec918 275-292
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "560be00151e0e2ea672f3c4284b62b034dd40c77",
+  "prompts": {},
+  "sessions": {
+    "s_1c68d5e83c7ecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c0df381f-758f-4ca2-a228-6908dcc220f7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

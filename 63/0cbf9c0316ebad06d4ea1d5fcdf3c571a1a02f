@@ -1,0 +1,53 @@
+gateway/cowork/package.json
+  s_c01c5887199fb9::t_3dc64d3e02b8cb 1-39
+gateway/cowork/src/index.ts
+  s_c01c5887199fb9::t_df37d04dccca6f 1-79
+gateway/cowork/tests/registry.test.ts
+  s_c01c5887199fb9::t_2cf03a00070b2f 1-121
+gateway/cowork/tests/client.test.ts
+  s_c01c5887199fb9::t_7b597ae76ae181 1-105
+gateway/cowork/tsconfig.json
+  s_c01c5887199fb9::t_ca8c90ad370806 1-30
+gateway/cowork/src/sync/SyncProtocol.ts
+  s_c01c5887199fb9::t_2d708570c37c8a 1-137
+gateway/cowork/jest.config.js
+  s_c01c5887199fb9::t_34e9c0451ae18d 1-15
+gateway/cowork/tests/sync.test.ts
+  s_c01c5887199fb9::t_550aade40d843d 1-126
+gateway/cowork/README.md
+  s_c01c5887199fb9::t_da2ce773512cb1 1-215
+gateway/cowork/src/registry/ManifestBuilder.ts
+  s_c01c5887199fb9::t_352c2b4bb08afc 1-115
+gateway/cowork/src/sync/SyncCoordinator.ts
+  s_c01c5887199fb9::t_f4af4365e442b5 1-157
+gateway/cowork/src/sync/index.ts
+  s_c01c5887199fb9::t_e4de35ec38476b 1-14
+gateway/cowork/gateway.json
+  s_c01c5887199fb9::t_b8ff834012f910 1-49
+gateway/cowork/src/client/index.ts
+  s_c01c5887199fb9::t_ed9dfe6c5854fc 1-9
+gateway/cowork/src/registry/RegistrationManager.ts
+  s_c01c5887199fb9::t_cb65da86a9b650 1-170
+gateway/cowork/src/registry/SkillRegistry.ts
+  s_c01c5887199fb9::t_49e9d57ab1e61c 1-148
+gateway/cowork/src/sync/SyncState.ts
+  s_c01c5887199fb9::t_a50766cf713bf9 1-144
+gateway/cowork/src/registry/index.ts
+  s_c01c5887199fb9::t_4203ea819ea6a7 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "630cbf9c0316ebad06d4ea1d5fcdf3c571a1a02f",
+  "prompts": {},
+  "sessions": {
+    "s_c01c5887199fb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f9fcb8-8183-4409-91aa-b2f076438001",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

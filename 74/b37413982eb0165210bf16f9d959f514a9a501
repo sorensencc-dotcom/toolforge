@@ -1,0 +1,68 @@
+skills/writing-heuristics/INTEGRATION_DIAGRAM.md
+  h_5c172e9b435f5a 1-36
+skills/writing-heuristics/README.md
+  h_5c172e9b435f5a 1-18
+skills/writing-heuristics/SKILL.md
+  h_5c172e9b435f5a 1-103
+skills/writing-heuristics/bin/compile.js
+  h_5c172e9b435f5a 1-92
+skills/writing-heuristics/bin/lint-heuristics.js
+  h_5c172e9b435f5a 1-852
+skills/writing-heuristics/docs/rules.md
+  h_5c172e9b435f5a 1-264
+skills/writing-heuristics/heuristics.json
+  h_5c172e9b435f5a 1-176
+skills/writing-heuristics/package.json
+  h_5c172e9b435f5a 1-30
+skills/writing-heuristics/skill.json
+  h_5c172e9b435f5a 1-196
+skills/writing-heuristics/src/cli.ts
+  h_5c172e9b435f5a 1-119
+skills/writing-heuristics/src/compiler.ts
+  h_5c172e9b435f5a 1-92
+skills/writing-heuristics/src/fixer.ts
+  h_5c172e9b435f5a 1-131
+skills/writing-heuristics/src/formatters.ts
+  h_5c172e9b435f5a 1-91
+skills/writing-heuristics/src/index.ts
+  h_5c172e9b435f5a 1-8
+skills/writing-heuristics/src/linter.ts
+  h_5c172e9b435f5a 1-251
+skills/writing-heuristics/src/parser.ts
+  h_5c172e9b435f5a 1-118
+skills/writing-heuristics/src/suppressions.ts
+  h_5c172e9b435f5a 1-52
+skills/writing-heuristics/src/types.ts
+  h_5c172e9b435f5a 1-83
+skills/writing-heuristics/tests/cli.test.ts
+  h_5c172e9b435f5a 1-27
+skills/writing-heuristics/tests/codegen.test.ts
+  h_5c172e9b435f5a 1-24
+skills/writing-heuristics/tests/fixer.test.ts
+  h_5c172e9b435f5a 1-21
+skills/writing-heuristics/tests/fixtures/fail-rules.md
+  h_5c172e9b435f5a 1-19
+skills/writing-heuristics/tests/fixtures/pass-all.md
+  h_5c172e9b435f5a 1-15
+skills/writing-heuristics/tests/fixtures/suppressed.md
+  h_5c172e9b435f5a 1-5
+skills/writing-heuristics/tests/linter.test.ts
+  h_5c172e9b435f5a 1-38
+skills/writing-heuristics/tests/parser.test.ts
+  h_5c172e9b435f5a 1-34
+skills/writing-heuristics/tsconfig.json
+  h_5c172e9b435f5a 1-25
+skills/writing-heuristics/vitest.config.ts
+  h_5c172e9b435f5a 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "74b37413982eb0165210bf16f9d959f514a9a501",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+src/harvester/external/scan-gaps.mjs
+  s_a3505f9072d5c6::t_1ac65d01b15e51 11
+  s_a3505f9072d5c6::t_6282e736908aa5 75
+src/harvester/external/update-focus-areas.mjs
+  s_a3505f9072d5c6::t_ea019471df6195 52
+  s_a3505f9072d5c6::t_1e951cdd420bd5 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "a86be1103c18bc2b8ee365aed93b76564f1a87a2",
+  "prompts": {},
+  "sessions": {
+    "s_a3505f9072d5c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fca6dcee-f6dd-473d-b31e-9b5879c5d874",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

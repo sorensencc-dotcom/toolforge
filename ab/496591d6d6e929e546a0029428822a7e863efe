@@ -1,0 +1,64 @@
+utilities/toolforgeSkillHealthCheck.ps1
+  s_fe4a607b589077::t_87a7d6dd8b71e7 313-343
+  s_fe4a607b589077::t_e0518f1256fb4d 375
+manifest.json
+  s_fe4a607b589077::t_10df2ce1ee2c91 34-35
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_fe4a607b589077::t_bbbefa6d6ebc7c 3,13,30,42,54,66,78,90,102,114,126,138,150,162,174
+skills/ashfall/SKILL.md
+  s_2aa07fbf42095a::t_a05e2f383da813 1-8,51
+skills/roadmap-validator/SKILL.md
+  s_439fbcbd69e0f4::t_33adf8ac61a08b 1-8,95
+skills/analyze-token-burn/SKILL.md
+  s_fe4a607b589077::t_bf97ef6be072d9 1-8,26
+skills/kb-sync-artifact-generator/SKILL.md
+  s_fe4a607b589077::t_524eaccbba9062 1-196
+skills/kb-sync-nightly/SKILL.md
+  s_fe4a607b589077::t_ae10e27dd6626c 1-8,26
+skills/operator-image-build/SKILL.md
+  s_fe4a607b589077::t_fbb94c965aa53d 1-8,69
+skills/pre-wrap-audit/SKILL.md
+  s_fe4a607b589077::t_5376aaf18b3de7 1-8,87
+skills/reconcile-vector-store/SKILL.md
+  s_fe4a607b589077::t_3c141f610330ed 1-8,26
+skills/rollback-phase/SKILL.md
+  s_fe4a607b589077::t_f497626263bb3f 1-8,26
+skills/run-adapter-diagnostic/SKILL.md
+  s_fe4a607b589077::t_3382cfe433228a 1-8,26
+skills/scale-ingestion-service/SKILL.md
+  s_fe4a607b589077::t_4566c799427ef9 1-8,26
+skills/work-summarizer/SKILL.md
+  s_fe4a607b589077::t_85569a411bdf5e 1-8,26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ab496591d6d6e929e546a0029428822a7e863efe",
+  "prompts": {},
+  "sessions": {
+    "s_2aa07fbf42095a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c241397-5bda-475b-8045-9cdf372ab4ef",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_439fbcbd69e0f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1e0c90b7-1611-4695-bcb6-9841018ce05a",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fe4a607b589077": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2a3b4a99-5f1a-480f-a4ab-8ef682040cbc",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+scripts/verify-reporting-setup.ps1
+  s_be92be7ea0d8a4::t_47a50b1a29afa5 104-120
+.superpowers/sdd/PHASE-0-NOTES.md
+  s_be92be7ea0d8a4::t_5025b0d5da865b 1-38
+.superpowers/sdd/.gitignore
+  s_be92be7ea0d8a4::t_c57a325dd8c09e 2
+  s_be92be7ea0d8a4::t_32b549596e1789 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "6ff23c0b511acfe5632f6c775c6dff7c8df0fc8b",
+  "prompts": {},
+  "sessions": {
+    "s_be92be7ea0d8a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9cfde7a2-7e2e-47fa-80fc-b69491c79587",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

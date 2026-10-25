@@ -1,0 +1,77 @@
+CIC-GOVERNANCE/GATES/GATE-05/harness/driver.py
+  s_41118c95f63edf::t_9626887399bb77 1-13
+CIC-GOVERNANCE/GATES/GATE-05/harness/evidence_builder.py
+  s_41118c95f63edf::t_9626887399bb77 1-8
+CIC-GOVERNANCE/GATES/GATE-05/harness/ratify.py
+  s_41118c95f63edf::t_da1c9837cdc747 1-17
+CIC-GOVERNANCE/GATES/GATE-05/harness/submission_orchestrator.py
+  s_41118c95f63edf::t_9626887399bb77 2-3,5-11,19
+  s_41118c95f63edf::t_0a5d75f06ec6d1 1,4,12-18,20
+CIC-GOVERNANCE/GATES/GATE-03/harness/ratify.py
+  s_41118c95f63edf::t_58b49825880d78 1-20
+CIC-GOVERNANCE/GATES/GATE-03/harness/driver.py
+  s_41118c95f63edf::t_66022b1e03ac00 1-27,29-32,36-50
+  s_41118c95f63edf::t_0f972526f099d8 28,33-35
+CIC-GOVERNANCE/WRAPPERS/commit_governance.py
+  s_41118c95f63edf::t_8a1e3db565b80d 1-10
+CIC-GOVERNANCE/GATES/GATE-03/harness/evidence_builder.py
+  s_41118c95f63edf::t_66022b1e03ac00 1-9
+CIC-GOVERNANCE/WRAPPERS/activate_runtime.py
+  s_41118c95f63edf::t_807110b896b810 1-6
+CIC-GOVERNANCE/GATES/GATE-03/harness/submission_orchestrator.py
+  s_41118c95f63edf::t_8648d1c59d98ca 1-2,4,6,8-15,26
+  s_41118c95f63edf::t_56bcca25d787bc 5,7
+  s_41118c95f63edf::t_9338d65d7de09d 3,16-25,27
+CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-GATE-03-CLOSED.draft.json
+  s_41118c95f63edf::t_935b05dd0d318b 1-18
+CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-GATE-03-CLOSED.json
+  s_41118c95f63edf::t_471403cf8aa276 1-19
+CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-GATE-05-CLOSED.draft.json
+  s_41118c95f63edf::t_5140e6b242281d 1-18
+CIC-GOVERNANCE/AMENDMENTS/AMD-v2.4.0-GATE-05-CLOSED.json
+  s_41118c95f63edf::t_669b99f9b147fb 1-19
+CIC-GOVERNANCE/AMENDMENTS/amendment-registry.json
+  s_41118c95f63edf::t_58bcf948f4c1fa 81-112
+CIC-GOVERNANCE/LINEAGE/CIC-Lineage-v2.4.jsonl
+  s_41118c95f63edf::t_ce12b24943db06 13-19
+CIC-GOVERNANCE/MANIFEST/gate-registry.json
+  s_41118c95f63edf::t_138de6c0f5ab30 4,6-37
+CIC-GOVERNANCE/MANIFEST/runtime-status.json
+  s_41118c95f63edf::t_a1a3cae58ee21b 1
+CIC-GOVERNANCE/confirmation/COMMIT-CONFIRMATION.json
+  s_41118c95f63edf::t_e11ff97c9580df 1-25
+CIC-GOVERNANCE/confirmation/GATE-03-R2-CONFIRMATION.json
+  s_41118c95f63edf::t_d39bdf7925189b 1-14
+CIC-GOVERNANCE/confirmation/GATE-03-R2-DRIVER-EVIDENCE.json
+  s_41118c95f63edf::t_1bec9eb1004c53 1-81
+CIC-GOVERNANCE/confirmation/GATE-03-RATIFICATION-CONFIRMATION.json
+  s_41118c95f63edf::t_71846667d284b5 1-27
+CIC-GOVERNANCE/confirmation/GATE-05-R2-CONFIRMATION.json
+  s_41118c95f63edf::t_32e3c4752afc2f 1-14
+CIC-GOVERNANCE/confirmation/GATE-05-R2-DRIVER-EVIDENCE.json
+  s_41118c95f63edf::t_ac4de6edc9105e 1-19
+CIC-GOVERNANCE/confirmation/GATE-05-RATIFICATION-CONFIRMATION.json
+  s_41118c95f63edf::t_ed17ce744a6663 1-26
+CIC-GOVERNANCE/confirmation/RUNTIME-ACTIVATION-CONFIRMATION.json
+  s_41118c95f63edf::t_0e39facba484d3 1-13
+CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-03-R2.json
+  s_41118c95f63edf::t_7d8f0b917df1f6 1-128
+CIC-GOVERNANCE/tests/reports/CIC-TEST-REPORT-GATE-05-R2.json
+  s_41118c95f63edf::t_f65a1dd4983397 1-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "f815ca254fafe22ac3928f7a81d1d5723033ca91",
+  "prompts": {},
+  "sessions": {
+    "s_41118c95f63edf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6217-07fb-7d61-b61e-0ff132a45ceb",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

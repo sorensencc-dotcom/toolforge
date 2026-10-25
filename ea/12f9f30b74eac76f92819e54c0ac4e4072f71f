@@ -1,0 +1,42 @@
+.claude/skills/db-migrate/SKILL.md
+  s_fc45e6d5de6368::t_72290fb6e31224 1-61
+.claude/skills/db-migrate/skill.json
+  s_fc45e6d5de6368::t_a86ea9f7e15b39 1-11
+.mcp.json
+  s_fc45e6d5de6368::t_91e7475af027d9 12-19
+.claude/skills/db-migrate/docs/USAGE.md
+  s_fc45e6d5de6368::t_30c5ab90b70782 1-108
+.claude/skills/play-e2e/skill.json
+  s_fc45e6d5de6368::t_c74e2331d4ffdd 1-11
+.claude/skills/play-e2e/SKILL.md
+  s_fc45e6d5de6368::t_352a7574aa6fb0 1-80
+.claude/hooks/block-lockfile-edit.js
+  s_fc45e6d5de6368::t_354504205ea664 1-7,9-42
+  s_fc45e6d5de6368::t_60b189d5979333 8
+.claude/hooks/lint-on-edit.js
+  s_fc45e6d5de6368::t_0963e5ad09d838 1-39
+.claude/skills/db-migrate/src/index.ts
+  s_fc45e6d5de6368::t_7183b0548b0d7e 1-132
+.claude/skills/play-e2e/src/index.ts
+  s_fc45e6d5de6368::t_fb1e6b8aa9ec15 1-140
+.claude/hooks/e2e-snapshots.js
+  s_fc45e6d5de6368::t_8fab28a5f4039e 1-48
+.claude/settings.json
+  s_fc45e6d5de6368::t_4c4f0c6e726f60 43-47,53-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "ea12f9f30b74eac76f92819e54c0ac4e4072f71f",
+  "prompts": {},
+  "sessions": {
+    "s_fc45e6d5de6368": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0dc08aba-ceaf-497c-9bae-ff0a7ea9d058",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

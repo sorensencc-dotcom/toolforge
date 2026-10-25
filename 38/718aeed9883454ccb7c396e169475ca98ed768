@@ -1,0 +1,69 @@
+skills/analyze-token-burn/SKILL.md
+  s_fe4a607b589077::t_f9667f338a5d57 4,28
+skills/ashfall/SKILL.md
+  s_2aa07fbf42095a::t_71ac6cd1995562 4,53
+skills/kb-sync-artifact-generator/SKILL.md
+  s_fe4a607b589077::t_6be6b279ebc696 197
+skills/kb-sync-nightly/SKILL.md
+  s_fe4a607b589077::t_3f78b3bed8c8cb 4,28
+skills/operator-image-build/SKILL.md
+  s_fe4a607b589077::t_3fe9bc32fcc047 4,71
+skills/pre-wrap-audit/SKILL.md
+  s_fe4a607b589077::t_b2ae3677f8ef9e 4,89
+skills/reconcile-vector-store/SKILL.md
+  s_fe4a607b589077::t_8ab837528da4c4 4,28
+skills/roadmap-validator/SKILL.md
+  s_439fbcbd69e0f4::t_93778442d6c2c8 4,97
+skills/rollback-phase/SKILL.md
+  s_fe4a607b589077::t_84219bd6088c77 4,28
+skills/run-adapter-diagnostic/SKILL.md
+  s_fe4a607b589077::t_47688a7507845b 4,28
+skills/scale-ingestion-service/SKILL.md
+  s_fe4a607b589077::t_f0dc7c682b58e7 4,28
+skills/tool-lifecycle-manager/SKILL.md
+  s_fe4a607b589077::t_5da2b87014fc77 4,188
+skills/toolforge-drift-monitor/SKILL.md
+  s_7008a9810d4867::t_8b515fa020f4d8 4,120
+skills/work-summarizer/SKILL.md
+  s_fe4a607b589077::t_5bb8eccb19f2c5 4,28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "38718aeed9883454ccb7c396e169475ca98ed768",
+  "prompts": {},
+  "sessions": {
+    "s_2aa07fbf42095a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c241397-5bda-475b-8045-9cdf372ab4ef",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_439fbcbd69e0f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1e0c90b7-1611-4695-bcb6-9841018ce05a",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7008a9810d4867": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "63049693-941b-4de1-be40-cc398d6dbfa9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fe4a607b589077": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2a3b4a99-5f1a-480f-a4ab-8ef682040cbc",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

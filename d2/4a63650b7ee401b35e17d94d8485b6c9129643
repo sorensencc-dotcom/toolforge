@@ -1,0 +1,22 @@
+tests/run-weekly-retro-consolidate.test.mjs
+  s_ae48bc30365f0a::t_5b05d26a2aad34 1-9,11-45
+  s_ae48bc30365f0a::t_ada0449f682872 10
+scripts/run-weekly-retro.ps1
+  s_ae48bc30365f0a::t_62b99aefa17494 66-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d24a63650b7ee401b35e17d94d8485b6c9129643",
+  "prompts": {},
+  "sessions": {
+    "s_ae48bc30365f0a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a51eabaa-2101-434f-9d9d-9a97b8871669",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+docs/reports/daily/2026-07-01.md
+  s_cb8cc264a7e788::t_0b1b8878c02622 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "9c36b04c67356636fad72ca866d8dff3f1322ffe",
+  "prompts": {},
+  "sessions": {
+    "s_cb8cc264a7e788": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ab9c4a11c9f9c4807",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

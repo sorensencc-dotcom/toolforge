@@ -1,0 +1,29 @@
+.context/retros/2026-07-12-2.json
+  s_77f2f8894ba33d::t_d6fc49f617d788 1-38
+.claude/settings.json
+  s_ddfadb443c9ee9::t_a0efe05ef0a7ee 13-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "0c2a00fc796ef8472c76a55c9632c657c12aec33",
+  "prompts": {},
+  "sessions": {
+    "s_77f2f8894ba33d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0cd26d54-edf0-4781-8502-a13a23c63174",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ddfadb443c9ee9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5968-5c87-71d3-b3e1-14f1386972af",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

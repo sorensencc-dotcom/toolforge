@@ -1,0 +1,21 @@
+skills/trm-feedback-report/tests/signalStrength.test.ts
+  s_a20a044fda74f9::t_eb1b9721cc446e 1-21
+skills/trm-feedback-report/src/signalStrength.ts
+  s_a20a044fda74f9::t_ebad9790a9a4ca 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "77746440b9b8862e20750c3d5cdc34ce89d648bb",
+  "prompts": {},
+  "sessions": {
+    "s_a20a044fda74f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3d3c6af5-d66a-4183-aa8b-60284c53847c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+scripts/test-daily-report-agent.ps1
+  s_7925e941be7422::t_2402a711bb0ee3 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "eb17766076a198e627de6715784b7c479f8d7333",
+  "prompts": {},
+  "sessions": {
+    "s_7925e941be7422": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc7ea-e966-78c2-812a-16fa0610b3ef",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

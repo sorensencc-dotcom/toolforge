@@ -1,0 +1,19 @@
+setup-git-hooks.ps1
+  s_d5b060fb87db98::t_0b0e47ce79cfe5 54-62,138-146,148-165
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a75aea1f26953a9f2ed9dd1b80f45cc21198047e",
+  "prompts": {},
+  "sessions": {
+    "s_d5b060fb87db98": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f70fb-bd84-7850-aee7-8af29d5ef7cc",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

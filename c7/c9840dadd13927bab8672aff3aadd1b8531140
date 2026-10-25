@@ -1,0 +1,16 @@
+CIC-GOVERNANCE/adapters/cost_gate_adapter.py
+  h_5c172e9b435f5a 1-55
+CIC-GOVERNANCE/tests/test_cost_governance_runtime.py
+  h_5c172e9b435f5a 14-16,482-560
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "c7c9840dadd13927bab8672aff3aadd1b8531140",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

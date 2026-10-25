@@ -1,0 +1,19 @@
+docs/toolforge/WAVE-D-COMPLETION.md
+  s_bd67b7a956c5e4::t_1fd1c5a4f01395 1-220
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "ef1e39babe06a988ba43d9208c041334256d360e",
+  "prompts": {},
+  "sessions": {
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

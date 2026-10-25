@@ -1,0 +1,1333 @@
+dashboard.html
+  s_f6aa48b2d59f04::t_5da06a917a678c 105,108,815,818,1542-1552
+  s_f6aa48b2d59f04::t_b3648a89954750 104
+  s_f6aa48b2d59f04::t_472e865fa4feac 106-107
+  s_f6aa48b2d59f04::t_7ce237abfda048 109-111
+  s_f6aa48b2d59f04::t_a5271709824634 814
+  s_f6aa48b2d59f04::t_b8b4398c66baee 816-817
+  s_f6aa48b2d59f04::t_fbfad42491820d 819-821
+.claude/helpers/graft-hooks.cjs
+  s_fffa1bd0ad6cb8::t_5fac4f215493a4 1-42
+.claude/helpers/graft-statusline.cjs
+  s_fffa1bd0ad6cb8::t_431d60c2bd0901 1-42
+.cursor/mcp.json
+  s_fffa1bd0ad6cb8::t_b6d7c2fcfc3c25 1-12
+.cursor/rules/graft.mdc
+  s_fffa1bd0ad6cb8::t_88587714c87193 1-43
+.gemini/settings.json
+  s_fffa1bd0ad6cb8::t_cf5cad9931dcdf 1-12
+.ignore
+  s_fffa1bd0ad6cb8::t_169cd62524b7ab 1-5
+.ijfw/sessions/session_2026-08-12_16-58-27.md
+  s_fffa1bd0ad6cb8::t_494433709ff462 2-4
+.ijfw/sessions/session_2026-08-12_17-47-32.md
+  s_fffa1bd0ad6cb8::t_af1dda4da98e5e 2-4
+.ijfw/sessions/session_2026-08-12_17-55-22.md
+  s_fffa1bd0ad6cb8::t_e9e8fa6c333cc3 2-4
+.ijfw/sessions/session_2026-08-12_18-05-08.md
+  s_fffa1bd0ad6cb8::t_9c06fbbf7e5c81 2-4
+.ijfw/sessions/session_2026-08-12_18-10-44.md
+  s_fffa1bd0ad6cb8::t_f6c364c354d841 1-5
+.ijfw/sessions/session_2026-08-12_18-13-29.md
+  s_fffa1bd0ad6cb8::t_667ccce4cc258e 1-5
+.ijfw/sessions/session_2026-08-12_19-31-11.md
+  s_fffa1bd0ad6cb8::t_deb67834bd69c7 1-5
+.ijfw/sessions/session_2026-08-12_19-31-20.md
+  s_fffa1bd0ad6cb8::t_69ed9793dcdf89 1-5
+.ijfw/sessions/session_2026-08-12_20-42-40.md
+  s_fffa1bd0ad6cb8::t_e5f0f8fd2cd928 1-5
+.ijfw/sessions/session_2026-08-12_21-34-42.md
+  s_fffa1bd0ad6cb8::t_64fd91a2a6c314 1-5
+.ijfw/sessions/session_2026-08-12_23-04-10.md
+  s_fffa1bd0ad6cb8::t_b8a2a850320a2f 1-5
+.ijfw/sessions/session_2026-08-12_23-37-06.md
+  s_fffa1bd0ad6cb8::t_ed3d69e7ea0903 1-5
+.ijfw/sessions/session_2026-08-12_23-44-39.md
+  s_fffa1bd0ad6cb8::t_71de71b8c4caa9 1-5
+.ijfw/sessions/session_2026-08-13_00-20-54.md
+  s_fffa1bd0ad6cb8::t_124d0b2cb62cc2 1-5
+.ijfw/sessions/session_2026-08-13_00-22-26.md
+  s_fffa1bd0ad6cb8::t_29da7630c70072 1-5
+.ijfw/sessions/session_2026-08-13_00-31-46.md
+  s_fffa1bd0ad6cb8::t_9f0ee473e8fb6b 1-5
+.ijfw/sessions/session_2026-08-13_01-58-41.md
+  s_fffa1bd0ad6cb8::t_c3e0ea07f8d5c6 1-5
+.ijfw/sessions/session_2026-08-13_08-33-55.md
+  s_fffa1bd0ad6cb8::t_5cbdaa7e65927d 1-5
+.ijfw/sessions/session_2026-08-13_11-21-48.md
+  s_fffa1bd0ad6cb8::t_54729d251c690f 1-5
+.ijfw/sessions/session_2026-08-13_13-51-00.md
+  s_fffa1bd0ad6cb8::t_00b5f5a8e219d8 1-5
+.ijfw/sessions/session_2026-08-13_17-01-07.md
+  s_fffa1bd0ad6cb8::t_c4e6cfb039e62c 1-5
+.ijfw/sessions/session_2026-08-13_19-08-44.md
+  s_fffa1bd0ad6cb8::t_8928a5e61e3d95 1-5
+.ijfw/sessions/session_2026-08-14_10-21-58.md
+  s_fffa1bd0ad6cb8::t_8447883e1f523f 1-5
+.ijfw/sessions/session_2026-08-14_16-51-06.md
+  s_fffa1bd0ad6cb8::t_7c7f94b6d78367 1-5
+.ijfw/sessions/session_2026-08-14_21-08-15.md
+  s_fffa1bd0ad6cb8::t_60c41f6a2beae6 1-5
+.ijfw/sessions/session_2026-08-15_13-55-10.md
+  s_4d5378553c6b81::t_4176b9a612a10b 1-5
+.ijfw/sessions/session_2026-08-15_20-21-35.md
+  s_2afe06807554bb::t_c08de6c249c603 1-5
+.ijfw/sessions/session_2026-08-15_23-10-17.md
+  s_bed36bc834b400::t_6375cf56d0d6ab 1-5
+.nlm_pack/current_generation.json
+  s_4d5378553c6b81::t_d6388fe47444a9 1-4
+.nlm_pack/generations/20260716_153612_62d4141f/KB_SYNC_DAG.md
+  s_4d5378553c6b81::t_c296919d9dca62 1-20
+.nlm_pack/generations/20260716_153612_62d4141f/adjacency.json
+  s_4d5378553c6b81::t_90789037cf88c9 1-11
+.nlm_pack/generations/20260716_153612_62d4141f/dag.json
+  s_4d5378553c6b81::t_d37ef6a9056151 1-34
+.nlm_pack/generations/20260716_153612_62d4141f/manifest.json
+  s_4d5378553c6b81::t_8a920e88322fc6 1-10
+.windsurf/rules/graft.md
+  s_fffa1bd0ad6cb8::t_68e643a1af2919 1-39
+GEMINI.md
+  s_fffa1bd0ad6cb8::t_0556d9c4726323 1-41
+_status-feed/claude-memory/MEMORY.md
+  s_fffa1bd0ad6cb8::t_3733659277fae1 1-143
+_status-feed/claude-memory/MEMORY.md.original.md
+  s_fffa1bd0ad6cb8::t_18d42db724f9d0 1-125
+_status-feed/claude-memory/aab-governance-decisions.md
+  s_fffa1bd0ad6cb8::t_ae468d2b085bf6 1-84
+_status-feed/claude-memory/aab-governance-decisions.original.md
+  s_fffa1bd0ad6cb8::t_09f99584f8b1cb 1-84
+_status-feed/claude-memory/action-items-phase-2-complete.md
+  s_fffa1bd0ad6cb8::t_ca8e261ca5b103 1-65
+_status-feed/claude-memory/agent-panel-backend-complete.md
+  s_fffa1bd0ad6cb8::t_82a18426dfd151 1-83
+_status-feed/claude-memory/api-credit-drain-fixed.md
+  s_fffa1bd0ad6cb8::t_9adce692ca8434 1-63
+_status-feed/claude-memory/approval-infrastructure-location.md
+  s_fffa1bd0ad6cb8::t_c7f4f5159b898c 1-48
+_status-feed/claude-memory/approval-infrastructure-location.original.md
+  s_fffa1bd0ad6cb8::t_c6c6fb8cbdd35a 1-48
+_status-feed/claude-memory/arl-phase-7-7-confidence-model.md
+  s_fffa1bd0ad6cb8::t_15ba13944ba3c6 1-84
+_status-feed/claude-memory/arl-phase-7-7-confidence-model.original.md
+  s_fffa1bd0ad6cb8::t_43159ed430bdae 1-84
+_status-feed/claude-memory/arl-phase-7-8-drift-calculator.md
+  s_fffa1bd0ad6cb8::t_d74d39763de48a 1-94
+_status-feed/claude-memory/arl-phase-7-8-drift-calculator.original.md
+  s_fffa1bd0ad6cb8::t_3b3fc435413318 1-94
+_status-feed/claude-memory/ashfall-v1-shipped.md
+  s_fffa1bd0ad6cb8::t_c93eda0448c80e 1-62
+_status-feed/claude-memory/ashfall-wrap-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_abdfefc12d7c71 1-97
+_status-feed/claude-memory/audit-gstack-skill-ecosystem-2026-07-11.md
+  s_fffa1bd0ad6cb8::t_04e1d2f62b8f44 1-72
+_status-feed/claude-memory/auto-docs-skill-complete.md
+  s_fffa1bd0ad6cb8::t_e1442105d5496d 1-35
+_status-feed/claude-memory/auto-docs-skill.md
+  s_fffa1bd0ad6cb8::t_9a232c21905b73 1-75
+_status-feed/claude-memory/automation-infrastructure-complete-2026-06-29.md
+  s_fffa1bd0ad6cb8::t_270a71d1ffbd2d 1-68
+_status-feed/claude-memory/batch-2-tickets-location.md
+  s_fffa1bd0ad6cb8::t_d933d3be482408 1-14
+_status-feed/claude-memory/batch-5-tickets-location.md
+  s_fffa1bd0ad6cb8::t_b1882f583f5ec8 1-18
+_status-feed/claude-memory/batch-approval-system-complete.md
+  s_fffa1bd0ad6cb8::t_a125237bffa243 1-50
+_status-feed/claude-memory/blocker-phase-24-tests.md
+  s_fffa1bd0ad6cb8::t_1d66d6382b1650 1-62
+_status-feed/claude-memory/bootstrap-orchestrator-complete.md
+  s_fffa1bd0ad6cb8::t_2c945229032a63 1-75
+_status-feed/claude-memory/build-ready-2026-06-19.md
+  s_fffa1bd0ad6cb8::t_f6e906dd29f469 1-128
+_status-feed/claude-memory/build_queue_executor_skill_pattern.md
+  s_fffa1bd0ad6cb8::t_2d62e94f5526e2 1-46
+_status-feed/claude-memory/build_queue_executor_skill_pattern.original.md
+  s_fffa1bd0ad6cb8::t_471368b9308249 1-46
+_status-feed/claude-memory/cast-iron-charlie-design-system.md
+  s_fffa1bd0ad6cb8::t_d130a48c7c0097 1-147
+_status-feed/claude-memory/changelog_discipline_gap.md
+  s_fffa1bd0ad6cb8::t_b60c07edd13f50 1-14
+_status-feed/claude-memory/ci-cd-fix-2026-07-03.md
+  s_fffa1bd0ad6cb8::t_193913c78ac143 1-87
+_status-feed/claude-memory/ci-cd-fix-root-cause-2026-07-05.md
+  s_fffa1bd0ad6cb8::t_beb910079d8252 1-81
+_status-feed/claude-memory/cic-consolidation-phase-1-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_4b6d255ed3e0b7 1-97
+_status-feed/claude-memory/cic-consolidation-phase-2-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_eaff2e8011255c 1-171
+_status-feed/claude-memory/cic-design-system-preference.md
+  s_fffa1bd0ad6cb8::t_45893e44f810e0 1-29
+_status-feed/claude-memory/cic-documentary-treatment-framework.md
+  s_fffa1bd0ad6cb8::t_47ef7c61a3ac3f 1-19
+_status-feed/claude-memory/cic-os-doc-unification-2026-07-03.md
+  s_fffa1bd0ad6cb8::t_529c42315c6cc3 1-26
+_status-feed/claude-memory/cic-rewrite-labs-global-rules.md
+  s_fffa1bd0ad6cb8::t_627113c817dfcd 1-56
+_status-feed/claude-memory/cic-runtime-v0-2-validation-complete.md
+  s_fffa1bd0ad6cb8::t_d3d21b37008a9e 1-189
+_status-feed/claude-memory/cic-stability-infrastructure.md
+  s_fffa1bd0ad6cb8::t_52749c1367d3b6 1-155
+_status-feed/claude-memory/cic-stability-infrastructure.original.md
+  s_fffa1bd0ad6cb8::t_e9257a75accea8 1-228
+_status-feed/claude-memory/cic-tool-surface-phase2-shipped.md
+  s_fffa1bd0ad6cb8::t_6049c65e521eb8 1-40
+_status-feed/claude-memory/cloakbrowser-phase-1-complete.md
+  s_fffa1bd0ad6cb8::t_6908fa09a1f96f 1-91
+_status-feed/claude-memory/console-v3-dashboard-layout-complete.md
+  s_fffa1bd0ad6cb8::t_5f4827029d4710 1-65
+_status-feed/claude-memory/console-v3-ui-enforcement-phase.md
+  s_fffa1bd0ad6cb8::t_d7d2114959799e 1-91
+_status-feed/claude-memory/console-v3-validation-complete.md
+  s_fffa1bd0ad6cb8::t_6e01884ba762b3 1-54
+_status-feed/claude-memory/cost-system-migration-complete.md
+  s_fffa1bd0ad6cb8::t_c9e0f108be4f57 1-72
+_status-feed/claude-memory/cybersecurity-skills-integration.md
+  s_fffa1bd0ad6cb8::t_0e5b709a9e597f 1-50
+_status-feed/claude-memory/cybersecurity-skills-integration.original.md
+  s_fffa1bd0ad6cb8::t_f0b4ca1a077458 1-162
+_status-feed/claude-memory/decision-cic-research-vault-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_4a748c0f0d571b 1-18
+_status-feed/claude-memory/decision-ijfw-journal-schema-canonical-2026-07-26.md
+  s_fffa1bd0ad6cb8::t_9ade61eb609750 1-15
+_status-feed/claude-memory/decision-xberg-real-extraction-2026-07-16.md
+  s_fffa1bd0ad6cb8::t_6203d1e9efc0c1 1-18
+_status-feed/claude-memory/deploy-review-skill.md
+  s_fffa1bd0ad6cb8::t_e57d995c8ec9ec 1-106
+_status-feed/claude-memory/deployment-fixes-2026-06-21.md
+  s_fffa1bd0ad6cb8::t_f110665a5eed65 1-69
+_status-feed/claude-memory/design-system-dashboard-status.md
+  s_fffa1bd0ad6cb8::t_64c39671fddcdd 1-80
+_status-feed/claude-memory/docker-compose-service-wiring.md
+  s_fffa1bd0ad6cb8::t_68651e736aee04 1-70
+_status-feed/claude-memory/docker-compose-startup-blockers-2026-06-19.md
+  s_fffa1bd0ad6cb8::t_3fa70ef1d5a0e2 1-88
+_status-feed/claude-memory/docker-configuration-fixes-2026-06-23.md
+  s_fffa1bd0ad6cb8::t_842812b17520e9 1-85
+_status-feed/claude-memory/drift-2026-07-11-003-unauthorized-artifact.md
+  s_fffa1bd0ad6cb8::t_7be6ec4db50282 1-28
+_status-feed/claude-memory/drift-2026-07-11-004-storage-location.md
+  s_fffa1bd0ad6cb8::t_6e78db9f0a4804 1-28
+_status-feed/claude-memory/drift-2026-07-11-005-fix.md
+  s_fffa1bd0ad6cb8::t_d1a0902c647428 1-238
+_status-feed/claude-memory/drift-2026-07-11-005-skill-governance-incomplete.md
+  s_fffa1bd0ad6cb8::t_edf1cac2d5b3f1 1-110
+_status-feed/claude-memory/drift-2026-07-14-cic-design-enforcement.md
+  s_fffa1bd0ad6cb8::t_a5a30220213963 1-41
+_status-feed/claude-memory/drift-2026-07-14-ui-design-system.md
+  s_fffa1bd0ad6cb8::t_4e57c9b9fdefd0 1-29
+_status-feed/claude-memory/drift-2026-07-14-wave-b-file-paths.md
+  s_fffa1bd0ad6cb8::t_976d371ff4d421 1-28
+_status-feed/claude-memory/drift-2026-07-16-spec-location.md
+  s_fffa1bd0ad6cb8::t_2c832214ffff68 1-30
+_status-feed/claude-memory/drift-analysis-2026-07-12-comprehensive.md
+  s_fffa1bd0ad6cb8::t_57be716cc0b874 1-370
+_status-feed/claude-memory/drift-artifact-cic-style-exception.md
+  s_fffa1bd0ad6cb8::t_60013fa5595f9c 1-50
+_status-feed/claude-memory/drift-detector-fix-2026-07-02.md
+  s_fffa1bd0ad6cb8::t_9a35b5283d3b03 1-66
+_status-feed/claude-memory/drift-incident-2026-07-13-dashboard.md
+  s_fffa1bd0ad6cb8::t_d0ddcdc4c7c786 1-35
+_status-feed/claude-memory/drift-incident-summary-2026-07-12.md
+  s_fffa1bd0ad6cb8::t_aa96e8ae06f197 1-257
+_status-feed/claude-memory/drift_2026-07-22_cic_vision_design_omission.md
+  s_fffa1bd0ad6cb8::t_f97d3245027fd7 1-22
+_status-feed/claude-memory/enhanced-session-wrap-audit.md
+  s_fffa1bd0ad6cb8::t_41b5bcf523b4ef 1-156
+_status-feed/claude-memory/esm-imports-fixed-2026-06-19.md
+  s_fffa1bd0ad6cb8::t_9e8edf68650e0b 1-45
+_status-feed/claude-memory/extractor-reverseimagesearch-deployed.md
+  s_fffa1bd0ad6cb8::t_4cedcdb3ca9e8a 1-25
+_status-feed/claude-memory/extractor-reverseimagesearch-deployed.original.md
+  s_fffa1bd0ad6cb8::t_abcf14653a13f4 1-25
+_status-feed/claude-memory/feedback-npm-test-default.md
+  s_fffa1bd0ad6cb8::t_b9b299e8b705c7 1-23
+_status-feed/claude-memory/feedback-use-test-hook-always.md
+  s_fffa1bd0ad6cb8::t_a5e3e22718df65 1-14
+_status-feed/claude-memory/feedback_batch_pushes_per_session.md
+  s_fffa1bd0ad6cb8::t_987a6d1870fef8 1-14
+_status-feed/claude-memory/feedback_check_background_agents_for_hangs.md
+  s_fffa1bd0ad6cb8::t_4c36771d315a8b 1-30
+_status-feed/claude-memory/feedback_check_git_add_a_embedded_repo_warnings.md
+  s_fffa1bd0ad6cb8::t_05d0f67427234f 1-15
+_status-feed/claude-memory/feedback_checkpoint_long_autonomous_chains.md
+  s_fffa1bd0ad6cb8::t_abc8a0176631d3 1-21
+_status-feed/claude-memory/feedback_codex_verbatim_plan_code.md
+  s_fffa1bd0ad6cb8::t_28014497aa731a 1-30
+_status-feed/claude-memory/feedback_commit_chore_sync_tag.md
+  s_fffa1bd0ad6cb8::t_670d2b695ea22a 1-15
+_status-feed/claude-memory/feedback_commit_test_tag_convention.md
+  s_fffa1bd0ad6cb8::t_d19a0874876319 1-15
+_status-feed/claude-memory/feedback_docker_wsL_approach.md
+  s_fffa1bd0ad6cb8::t_e0b6a195d04b1e 1-24
+_status-feed/claude-memory/feedback_docker_wsL_approach.original.md
+  s_fffa1bd0ad6cb8::t_c095e05ac504cd 1-24
+_status-feed/claude-memory/feedback_file_reference_governance_vault_distinction.md
+  s_fffa1bd0ad6cb8::t_49eeefef0e8813 1-46
+_status-feed/claude-memory/feedback_frontload_plan_review.md
+  s_fffa1bd0ad6cb8::t_b997605511d4b1 1-15
+_status-feed/claude-memory/feedback_full_disk_paths.md
+  s_fffa1bd0ad6cb8::t_fac02a56e3e3e1 1-25
+_status-feed/claude-memory/feedback_governance_roadmap-location.md
+  s_fffa1bd0ad6cb8::t_5aa2c0ebc194bd 1-20
+_status-feed/claude-memory/feedback_gstack_telemetry_coverage_gap.md
+  s_fffa1bd0ad6cb8::t_a3b45691cb4760 1-16
+_status-feed/claude-memory/feedback_hardcoded_path_scope_check.md
+  s_fffa1bd0ad6cb8::t_b248ee7bd708a5 1-14
+_status-feed/claude-memory/feedback_log_skipped_days.md
+  s_fffa1bd0ad6cb8::t_b590d2c52d42c4 1-15
+_status-feed/claude-memory/feedback_no_late_night_commentary.md
+  s_fffa1bd0ad6cb8::t_bc7ce67172082f 1-14
+_status-feed/claude-memory/feedback_push_discipline_hook.md
+  s_fffa1bd0ad6cb8::t_5b7e8b3572672f 1-14
+_status-feed/claude-memory/feedback_reduce_prompts.md
+  s_fffa1bd0ad6cb8::t_0ac2b6722fe782 1-14
+_status-feed/claude-memory/feedback_regression_tag_convention.md
+  s_fffa1bd0ad6cb8::t_ebc40cf67cd57a 1-15
+_status-feed/claude-memory/feedback_retro_memory_triage_lesson.md
+  s_fffa1bd0ad6cb8::t_383b19d38c8985 1-19
+_status-feed/claude-memory/feedback_sorensen_sorenson_spelling.md
+  s_fffa1bd0ad6cb8::t_700ed2ce679be2 1-14
+_status-feed/claude-memory/feedback_test_while_shipping_discipline.md
+  s_fffa1bd0ad6cb8::t_e6bdb9b48f9b78 1-28
+_status-feed/claude-memory/feedback_todos_md_decision.md
+  s_fffa1bd0ad6cb8::t_5924d5aa0e0c24 1-14
+_status-feed/claude-memory/feedback_trm_vault_commit_per_run.md
+  s_fffa1bd0ad6cb8::t_cfdc58c08a3713 1-15
+_status-feed/claude-memory/feedback_verify_fix_by_running_not_reading.md
+  s_fffa1bd0ad6cb8::t_eef421ace9f6c7 1-37
+_status-feed/claude-memory/feedback_verify_subagent_test_reports.md
+  s_fffa1bd0ad6cb8::t_1379800127bb84 1-21
+_status-feed/claude-memory/finding-cic-ingestion-autocommit-push-daemon-2026-07-27.md
+  s_fffa1bd0ad6cb8::t_760249d04220d9 1-31
+_status-feed/claude-memory/finding-cic-ingestion-pipeline-gamed-pass-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_d7df972b195a4d 1-21
+_status-feed/claude-memory/finding-cic-ingestion-round2-progress-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_be2bbe632adcb8 1-22
+_status-feed/claude-memory/finding-cic-ingestion-round3-pipeline-flaky-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_8f0d11500d2ce0 1-22
+_status-feed/claude-memory/finding-cic-ingestion-round4-pipeline-verified-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_9124ca04e11320 1-18
+_status-feed/claude-memory/finding-cic-ingestion-round5-closed-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_bae1ccf50e7563 1-22
+_status-feed/claude-memory/finding-ijfw-fts5-missing-dep-fixed-2026-07-26.md
+  s_fffa1bd0ad6cb8::t_0d8158298b1ec2 1-15
+_status-feed/claude-memory/finding-journal-handoff-staleness-2026-07-26.md
+  s_fffa1bd0ad6cb8::t_538733a264ba0b 1-19
+_status-feed/claude-memory/finding-secret-scan-sk-false-positive-2026-07-26.md
+  s_fffa1bd0ad6cb8::t_b24e1b83320bed 1-17
+_status-feed/claude-memory/finding-sorensen-transcript-sweep-20items-2026-07-16.md
+  s_fffa1bd0ad6cb8::t_687c52e70d0dfe 1-20
+_status-feed/claude-memory/finding-sorensen-transcript-vs-treatment-2026-07-16.md
+  s_fffa1bd0ad6cb8::t_51f8aad0f46a58 1-22
+_status-feed/claude-memory/finding-torquequery-fastpath-nondeterminism-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_fa9f4b0918dcb6 1-20
+_status-feed/claude-memory/finding-trm-fct-ids-not-stable-2026-07-28.md
+  s_fffa1bd0ad6cb8::t_ff8a374d525716 1-28
+_status-feed/claude-memory/finding-v13-treatment-discovery-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_f303376abff586 1-16
+_status-feed/claude-memory/foundry-deployment-complete.md
+  s_fffa1bd0ad6cb8::t_1d47b5422c172b 1-54
+_status-feed/claude-memory/frontend-backend-wiring-blocker.md
+  s_fffa1bd0ad6cb8::t_052e3722e490f7 1-39
+_status-feed/claude-memory/global-skills-installed-2026-06-22.md
+  s_fffa1bd0ad6cb8::t_b6ba34f493025e 1-91
+_status-feed/claude-memory/governance-activation-pattern.md
+  s_fffa1bd0ad6cb8::t_b375f49c663403 1-172
+_status-feed/claude-memory/governance-playbook.md
+  s_fffa1bd0ad6cb8::t_c1f6f9fb07939e 1-499
+_status-feed/claude-memory/governance-v2-rewrite.md
+  s_fffa1bd0ad6cb8::t_40cd79b558e258 1-71
+_status-feed/claude-memory/governance_retro_schema_validation_gate.md
+  s_fffa1bd0ad6cb8::t_b672871b65f69e 1-38
+_status-feed/claude-memory/guardrail-scripts-installed-2026-06-19.md
+  s_fffa1bd0ad6cb8::t_210038626040f5 1-131
+_status-feed/claude-memory/handoff-2026-07-12-session-end.md
+  s_fffa1bd0ad6cb8::t_df581e97036a61 1-38
+_status-feed/claude-memory/improvement-analysis-skill.md
+  s_fffa1bd0ad6cb8::t_e3874c1276f470 1-68
+_status-feed/claude-memory/improvement-analysis-skill.original.md
+  s_fffa1bd0ad6cb8::t_a6f003b9dd3ae0 1-68
+_status-feed/claude-memory/incident_git_reset_data_loss_2026-07-16.md
+  s_fffa1bd0ad6cb8::t_6048eb6797a76e 1-30
+_status-feed/claude-memory/ingestion-cleanup-concrete-findings.md
+  s_fffa1bd0ad6cb8::t_3b64c59fdff535 1-167
+_status-feed/claude-memory/ingestion-cleanup-repo-aware-instructions.md
+  s_fffa1bd0ad6cb8::t_e99fbf92a6664e 1-152
+_status-feed/claude-memory/ingestion-small-cleanup-corrected-instructions.md
+  s_fffa1bd0ad6cb8::t_139c5e7e2b8b03 1-127
+_status-feed/claude-memory/instruction-format-preference.md
+  s_fffa1bd0ad6cb8::t_44546267b76684 1-44
+_status-feed/claude-memory/integration-test-fix-session-2026-06-22.md
+  s_fffa1bd0ad6cb8::t_a8cd912762e000 1-72
+_status-feed/claude-memory/integration-test-report-2026-06-22.md
+  s_fffa1bd0ad6cb8::t_f93e1531ea83e7 1-111
+_status-feed/claude-memory/integration-testing-docker-approach.md
+  s_fffa1bd0ad6cb8::t_82cd15cd0db00c 1-29
+_status-feed/claude-memory/learning-auto-resolve-health-warnings-todos-sync-2026-08-08.md
+  s_fffa1bd0ad6cb8::t_76bd3bf34275f2 1-15
+_status-feed/claude-memory/learning-codex-cli-location.md
+  s_fffa1bd0ad6cb8::t_fa1e777bb4d870 1-17
+_status-feed/claude-memory/learning-cowork-daemon-live-regen.md
+  s_fffa1bd0ad6cb8::t_e3af469fe9205a 1-14
+_status-feed/claude-memory/learning-hooks-generator-source-of-truth.md
+  s_fffa1bd0ad6cb8::t_77010271807b0e 1-14
+_status-feed/claude-memory/learning-plan-code-not-exempt-file-structure-first-2026-08-03.md
+  s_fffa1bd0ad6cb8::t_3c4a4ba3b4c531 1-17
+_status-feed/claude-memory/learning-sync-hook-fail-fast-and-session-search-2026-07-31.md
+  s_fffa1bd0ad6cb8::t_da3431cc1d1408 1-17
+_status-feed/claude-memory/learning-two-skill-trees.md
+  s_fffa1bd0ad6cb8::t_3d76924e96bfb9 1-60
+_status-feed/claude-memory/learning_duplicate_detection.md
+  s_fffa1bd0ad6cb8::t_18d6a037471174 1-25
+_status-feed/claude-memory/learning_git_reset_hard_danger.md
+  s_fffa1bd0ad6cb8::t_1563ff253fe652 1-25
+_status-feed/claude-memory/learning_sed_blind_corruption.md
+  s_fffa1bd0ad6cb8::t_9e16dc93d429e7 1-22
+_status-feed/claude-memory/learning_subagent_cd_verification.md
+  s_fffa1bd0ad6cb8::t_e4fbf2cc8113f6 1-26
+_status-feed/claude-memory/legacy-ingestion-cleanup-instructions.md
+  s_fffa1bd0ad6cb8::t_469ec05f24ac6b 1-105
+_status-feed/claude-memory/low-priority-skills-tested.md
+  s_fffa1bd0ad6cb8::t_748c7f412405bd 1-97
+_status-feed/claude-memory/m2-execution-framework-complete.md
+  s_fffa1bd0ad6cb8::t_bc79c15f05debf 1-81
+_status-feed/claude-memory/m3-persistent-vault-complete.md
+  s_fffa1bd0ad6cb8::t_c7443f330c1bab 1-58
+_status-feed/claude-memory/mailbox-intake-daemon-complete.md
+  s_fffa1bd0ad6cb8::t_a76b1a2ed0ac1e 1-281
+_status-feed/claude-memory/master-roadmap-location.md
+  s_fffa1bd0ad6cb8::t_8cf1a4ecd81f9b 1-32
+_status-feed/claude-memory/master-roadmap-location.original.md
+  s_fffa1bd0ad6cb8::t_cb838c2fb7131f 1-32
+_status-feed/claude-memory/medium-priority-skills-deployed.md
+  s_fffa1bd0ad6cb8::t_aba23a4317f1ca 1-99
+_status-feed/claude-memory/next-session-action-items.md
+  s_fffa1bd0ad6cb8::t_e338b25e7640fb 1-70
+_status-feed/claude-memory/nvidia-compliance-audit-2026-06-28.md
+  s_fffa1bd0ad6cb8::t_3c31fda4893ddb 1-74
+_status-feed/claude-memory/observations-phase-2-blockers.md
+  s_fffa1bd0ad6cb8::t_090d9568358849 1-67
+_status-feed/claude-memory/operator-grade-image-builder-system.md
+  s_fffa1bd0ad6cb8::t_f59de3a1831bdf 1-290
+_status-feed/claude-memory/permission-audit-2026-06-15.md
+  s_fffa1bd0ad6cb8::t_3eaba230076adb 1-92
+_status-feed/claude-memory/permission-audit-skill.md
+  s_fffa1bd0ad6cb8::t_702ac2f413b3d0 1-25
+_status-feed/claude-memory/permission-audit-skill.original.md
+  s_fffa1bd0ad6cb8::t_6924145023ffad 1-25
+_status-feed/claude-memory/permissions-allowlist-update-2026-06-14.md
+  s_fffa1bd0ad6cb8::t_05c1bb815658e6 1-41
+_status-feed/claude-memory/phase-0-7-nemotron-nim-complete.md
+  s_fffa1bd0ad6cb8::t_0d0a6db1876b70 1-86
+_status-feed/claude-memory/phase-0-7-nemotron-nim-complete.original.md
+  s_fffa1bd0ad6cb8::t_ea374ad65ba2a2 1-86
+_status-feed/claude-memory/phase-0-8-integration-complete.md
+  s_fffa1bd0ad6cb8::t_6c644fff98c0d0 1-84
+_status-feed/claude-memory/phase-0-8-integration-complete.original.md
+  s_fffa1bd0ad6cb8::t_5bf89195bc57db 1-84
+_status-feed/claude-memory/phase-0-9-m1-complete.md
+  s_fffa1bd0ad6cb8::t_a1ec891bbf8e21 1-36
+_status-feed/claude-memory/phase-0-9-m1-complete.original.md
+  s_fffa1bd0ad6cb8::t_d4da665c3a840a 1-36
+_status-feed/claude-memory/phase-0-9-m2-complete.md
+  s_fffa1bd0ad6cb8::t_de82f74441a4b5 1-69
+_status-feed/claude-memory/phase-0-9-m3-phase-23-2-complete.md
+  s_fffa1bd0ad6cb8::t_1831c9cab31fe7 1-135
+_status-feed/claude-memory/phase-0-9-thefoundry.md
+  s_fffa1bd0ad6cb8::t_9336d97c127a44 1-83
+_status-feed/claude-memory/phase-0-9-thefoundry.original.md
+  s_fffa1bd0ad6cb8::t_83b9da4584f136 1-83
+_status-feed/claude-memory/phase-1-1-docker-complete.md
+  s_fffa1bd0ad6cb8::t_4fb965b52a957a 1-85
+_status-feed/claude-memory/phase-1-1-docker-complete.original.md
+  s_fffa1bd0ad6cb8::t_a5809f1ad918b8 1-85
+_status-feed/claude-memory/phase-1-4-completion-2026-07-02.md
+  s_fffa1bd0ad6cb8::t_ee48e199417cef 1-123
+_status-feed/claude-memory/phase-1-implementation-order-fixed.md
+  s_fffa1bd0ad6cb8::t_58d232eb957eda 1-229
+_status-feed/claude-memory/phase-1-local-first-implementation.md
+  s_fffa1bd0ad6cb8::t_afa26ccfd23ff6 1-135
+_status-feed/claude-memory/phase-1-planning-engine-complete.md
+  s_fffa1bd0ad6cb8::t_2ece5e6b143f24 1-117
+_status-feed/claude-memory/phase-1-pr-template.md
+  s_fffa1bd0ad6cb8::t_dee0da58ad9d70 1-287
+_status-feed/claude-memory/phase-2-1-sqlite-complete.md
+  s_fffa1bd0ad6cb8::t_e6492c120d4fbb 1-123
+_status-feed/claude-memory/phase-2-3-prometheus-metrics-complete.md
+  s_fffa1bd0ad6cb8::t_3163981ba3ea54 1-101
+_status-feed/claude-memory/phase-2-4-cli-commands-complete.md
+  s_fffa1bd0ad6cb8::t_3101e4e3dfbf34 1-159
+_status-feed/claude-memory/phase-2-5-complete.md
+  s_fffa1bd0ad6cb8::t_8b282369eeae47 1-49
+_status-feed/claude-memory/phase-2-implementation-complete.md
+  s_fffa1bd0ad6cb8::t_852377519a9ee2 1-129
+_status-feed/claude-memory/phase-2-ingestion-hardening.md
+  s_fffa1bd0ad6cb8::t_9179848dd1663d 1-56
+_status-feed/claude-memory/phase-2-simulation-harness-contract.md
+  s_fffa1bd0ad6cb8::t_135df16a0534c8 1-638
+_status-feed/claude-memory/phase-2-tier2-merge-complete.md
+  s_fffa1bd0ad6cb8::t_39ab58eca2dbd1 1-37
+_status-feed/claude-memory/phase-2-tier2-specs-locked.md
+  s_fffa1bd0ad6cb8::t_1070d761558548 1-76
+_status-feed/claude-memory/phase-23-2-23-3-complete.md
+  s_fffa1bd0ad6cb8::t_2428b2adf52d00 1-73
+_status-feed/claude-memory/phase-23-2-23-3-complete.original.md
+  s_fffa1bd0ad6cb8::t_4616415e41eccd 1-73
+_status-feed/claude-memory/phase-23-4-memory-query-complete.md
+  s_fffa1bd0ad6cb8::t_534ca969accaf9 1-61
+_status-feed/claude-memory/phase-23-4-memory-query-complete.original.md
+  s_fffa1bd0ad6cb8::t_d2824c03a6299d 1-61
+_status-feed/claude-memory/phase-23-5-retention-archival-complete.md
+  s_fffa1bd0ad6cb8::t_aa801759d11fb2 1-86
+_status-feed/claude-memory/phase-23-5-retention-archival-complete.original.md
+  s_fffa1bd0ad6cb8::t_5af96007d91d72 1-86
+_status-feed/claude-memory/phase-23-6-23-7-parallel-execution.md
+  s_fffa1bd0ad6cb8::t_b41decfcc62612 1-78
+_status-feed/claude-memory/phase-23-6-23-7-parallel-execution.original.md
+  s_fffa1bd0ad6cb8::t_5e04ad61b349f6 1-753
+_status-feed/claude-memory/phase-24-1-complete.md
+  s_fffa1bd0ad6cb8::t_32da7a9b3b385d 1-135
+_status-feed/claude-memory/phase-24-1-complete.original.md
+  s_fffa1bd0ad6cb8::t_a12e16e2512ace 1-178
+_status-feed/claude-memory/phase-24-2-complete.md
+  s_fffa1bd0ad6cb8::t_43ec9696481834 1-143
+_status-feed/claude-memory/phase-24-2-complete.original.md
+  s_fffa1bd0ad6cb8::t_5046a153fd4093 1-233
+_status-feed/claude-memory/phase-24-2-evolution-loop-complete.md
+  s_fffa1bd0ad6cb8::t_99fc46facbbb0a 1-73
+_status-feed/claude-memory/phase-24-3-complete.md
+  s_fffa1bd0ad6cb8::t_0f2843798a28ca 1-137
+_status-feed/claude-memory/phase-24-3-complete.original.md
+  s_fffa1bd0ad6cb8::t_9f92234e57fb44 1-255
+_status-feed/claude-memory/phase-24-4-complete.md
+  s_fffa1bd0ad6cb8::t_41270b09275957 1-56
+_status-feed/claude-memory/phase-24-4-complete.original.md
+  s_fffa1bd0ad6cb8::t_51043731f13fb3 1-280
+_status-feed/claude-memory/phase-24-5-complete.md
+  s_fffa1bd0ad6cb8::t_8b69fb1c804431 1-88
+_status-feed/claude-memory/phase-24-5-complete.original.md
+  s_fffa1bd0ad6cb8::t_b1e3f85b364140 1-88
+_status-feed/claude-memory/phase-24-autonomous-governance.md
+  s_fffa1bd0ad6cb8::t_54a94bfff5157b 1-110
+_status-feed/claude-memory/phase-24-autonomous-governance.original.md
+  s_fffa1bd0ad6cb8::t_6f7898ca0a84df 1-479
+_status-feed/claude-memory/phase-24-governance-complete.md
+  s_fffa1bd0ad6cb8::t_474f302704e0ae 1-72
+_status-feed/claude-memory/phase-24-tests-passing.md
+  s_fffa1bd0ad6cb8::t_1def0d2dfadc04 1-59
+_status-feed/claude-memory/phase-26-31-integration-testing.md
+  s_fffa1bd0ad6cb8::t_50f64f8b688431 1-128
+_status-feed/claude-memory/phase-26-ashfall-wrap-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_8da13667104ed7 1-83
+_status-feed/claude-memory/phase-26-docker-optimization.md
+  s_fffa1bd0ad6cb8::t_bda09f075d6e8f 1-42
+_status-feed/claude-memory/phase-26-execution-complete.md
+  s_fffa1bd0ad6cb8::t_3e0846eafee5c0 1-134
+_status-feed/claude-memory/phase-26-jest-fix-complete.md
+  s_fffa1bd0ad6cb8::t_c09200723ab929 1-36
+_status-feed/claude-memory/phase-26-memory-governance-routers-mounted.md
+  s_fffa1bd0ad6cb8::t_f865f986b42518 1-52
+_status-feed/claude-memory/phase-26-next-window-pack.md
+  s_fffa1bd0ad6cb8::t_b08030d0c81494 1-204
+_status-feed/claude-memory/phase-26-pipeline-complete.md
+  s_fffa1bd0ad6cb8::t_10805e0053ea0e 1-186
+_status-feed/claude-memory/phase-26-torquequery-blocker-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_ad35d6ddc20b30 1-84
+_status-feed/claude-memory/phase-26-torquequery-complete.md
+  s_fffa1bd0ad6cb8::t_97c09416571f31 1-50
+_status-feed/claude-memory/phase-26-torquequery-enhancements.md
+  s_fffa1bd0ad6cb8::t_a7f8b5de820eb1 1-196
+_status-feed/claude-memory/phase-26-torquequery-scope-decision.md
+  s_fffa1bd0ad6cb8::t_7e1e77c9af1553 1-76
+_status-feed/claude-memory/phase-26-torquequery.md
+  s_fffa1bd0ad6cb8::t_4c07272ff6e94a 1-122
+_status-feed/claude-memory/phase-26-torquequery.original.md
+  s_fffa1bd0ad6cb8::t_47f35db21a0e36 1-122
+_status-feed/claude-memory/phase-26-typescript-compilation-complete.md
+  s_fffa1bd0ad6cb8::t_f9f32136758895 1-91
+_status-feed/claude-memory/phase-26-verification-blocking.md
+  s_fffa1bd0ad6cb8::t_d9f2355b844c6e 1-128
+_status-feed/claude-memory/phase-26-verification-session-2.md
+  s_fffa1bd0ad6cb8::t_883da28a23f750 1-92
+_status-feed/claude-memory/phase-26-verification-session-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_1eee691fa1cc66 1-99
+_status-feed/claude-memory/phase-26-verification-session-3.md
+  s_fffa1bd0ad6cb8::t_a493805551d29f 1-59
+_status-feed/claude-memory/phase-27-1-complete.md
+  s_fffa1bd0ad6cb8::t_ae807671d296c0 1-64
+_status-feed/claude-memory/phase-27-2-output-validation-complete.md
+  s_fffa1bd0ad6cb8::t_c2bc4a324793f4 1-38
+_status-feed/claude-memory/phase-27-3-m1-m2-m3-complete.md
+  s_fffa1bd0ad6cb8::t_86b843cd8c9579 1-129
+_status-feed/claude-memory/phase-27-4-skeleton-implementation.md
+  s_fffa1bd0ad6cb8::t_049ae87afd6d2b 1-162
+_status-feed/claude-memory/phase-27-4-team-dispatch.md
+  s_fffa1bd0ad6cb8::t_7a61f61195d764 1-87
+_status-feed/claude-memory/phase-27-aperture-review.md
+  s_fffa1bd0ad6cb8::t_1b23f523bde67f 1-89
+_status-feed/claude-memory/phase-27-complete-verified.md
+  s_fffa1bd0ad6cb8::t_067dad40a548e3 1-56
+_status-feed/claude-memory/phase-27-ingestion-autonomy-locked.md
+  s_fffa1bd0ad6cb8::t_4bfd4971ef0cfc 1-92
+_status-feed/claude-memory/phase-27-input-validation-complete.md
+  s_fffa1bd0ad6cb8::t_1a3bb6fadf357d 1-85
+_status-feed/claude-memory/phase-27-m1-aperture-tests-complete.md
+  s_fffa1bd0ad6cb8::t_98c3a96af1571b 1-48
+_status-feed/claude-memory/phase-27-m1-aperture-tests-phase-b.md
+  s_fffa1bd0ad6cb8::t_c6fa87cb751f92 1-183
+_status-feed/claude-memory/phase-27-m1-commit.md
+  s_fffa1bd0ad6cb8::t_143c3472f37031 1-49
+_status-feed/claude-memory/phase-27-m1-complete.md
+  s_fffa1bd0ad6cb8::t_72949a393a9f4c 1-125
+_status-feed/claude-memory/phase-27-step4-webhook-testing-complete.md
+  s_fffa1bd0ad6cb8::t_75abf6c3d52c18 1-80
+_status-feed/claude-memory/phase-27-wave-b-shipped.md
+  s_fffa1bd0ad6cb8::t_e233da527a63d0 1-96
+_status-feed/claude-memory/phase-27-wave-c-shipped.md
+  s_fffa1bd0ad6cb8::t_47a12125aaccbe 1-104
+_status-feed/claude-memory/phase-27-wave-d-shipped.md
+  s_fffa1bd0ad6cb8::t_9d29251bb348fd 1-131
+_status-feed/claude-memory/phase-27-wave-e-six-rules-framework.md
+  s_fffa1bd0ad6cb8::t_dbfddb31d074ce 1-190
+_status-feed/claude-memory/phase-27-wave-f-shipped.md
+  s_fffa1bd0ad6cb8::t_63d9f319271cf5 1-138
+_status-feed/claude-memory/phase-27-wave-f-verification-complete.md
+  s_fffa1bd0ad6cb8::t_a3b5b6bf17295f 1-93
+_status-feed/claude-memory/phase-27-wave-g-g1-healing-primitives-complete.md
+  s_fffa1bd0ad6cb8::t_1d73e69330e52e 1-214
+_status-feed/claude-memory/phase-27-wave-g-g2-drift-correlation-complete.md
+  s_fffa1bd0ad6cb8::t_6df4199c89e8ab 1-234
+_status-feed/claude-memory/phase-27-wave-g-g3-resume-gate-complete.md
+  s_fffa1bd0ad6cb8::t_47d2c7b0aa9a6c 1-186
+_status-feed/claude-memory/phase-27-wave-g-g4-multi-wave-telemetry-complete.md
+  s_fffa1bd0ad6cb8::t_7dc89a8aa7de36 1-254
+_status-feed/claude-memory/phase-28a-skill-contribution-pipeline.md
+  s_fffa1bd0ad6cb8::t_00727ae05f43aa 1-78
+_status-feed/claude-memory/phase-28a-skill-contribution-pipeline.original.md
+  s_fffa1bd0ad6cb8::t_bda8743c16c44a 1-78
+_status-feed/claude-memory/phase-29-0-complete.md
+  s_fffa1bd0ad6cb8::t_d158dce83ae3bb 1-71
+_status-feed/claude-memory/phase-29-31-architecture-and-build-blueprint.md
+  s_fffa1bd0ad6cb8::t_81680f3b674d00 1-332
+_status-feed/claude-memory/phase-29-31-commit-ready-todos.md
+  s_fffa1bd0ad6cb8::t_e350c6862f3737 1-876
+_status-feed/claude-memory/phase-29-31-test-matrices.md
+  s_fffa1bd0ad6cb8::t_1cda1347d553b5 1-89
+_status-feed/claude-memory/phase-29-knowledge-graph-complete.md
+  s_fffa1bd0ad6cb8::t_53f4d1086729d6 1-102
+_status-feed/claude-memory/phase-29-starter-code-skeletons.md
+  s_fffa1bd0ad6cb8::t_e82c992b02e3ba 1-549
+_status-feed/claude-memory/phase-29-torquequery-kg-mapping.md
+  s_fffa1bd0ad6cb8::t_6e49fdb113e2d8 1-215
+_status-feed/claude-memory/phase-3-5-complete.md
+  s_fffa1bd0ad6cb8::t_b189b9a1c2278b 1-33
+_status-feed/claude-memory/phase-3-6-console-hardening.md
+  s_fffa1bd0ad6cb8::t_62bbb1c7469e9f 1-122
+_status-feed/claude-memory/phase-3-6-consolev3-integration.md
+  s_fffa1bd0ad6cb8::t_287f7a7389bc6c 1-208
+_status-feed/claude-memory/phase-3-6-implementation-complete.md
+  s_fffa1bd0ad6cb8::t_1e9362468d39e5 1-208
+_status-feed/claude-memory/phase-3-6-mount-and-wiring.md
+  s_fffa1bd0ad6cb8::t_3a7167cf2b7b9f 1-102
+_status-feed/claude-memory/phase-3-completion.md
+  s_fffa1bd0ad6cb8::t_b7a5177b54dfa1 1-87
+_status-feed/claude-memory/phase-3-humanizer-complete.md
+  s_fffa1bd0ad6cb8::t_778027f3292c57 1-92
+_status-feed/claude-memory/phase-3-humanizer-complete.original.md
+  s_fffa1bd0ad6cb8::t_6bf33e15ad8073 1-204
+_status-feed/claude-memory/phase-3-integration-contract.md
+  s_fffa1bd0ad6cb8::t_33856b92912873 1-377
+_status-feed/claude-memory/phase-3-tests.md
+  s_fffa1bd0ad6cb8::t_212082862340f9 1-428
+_status-feed/claude-memory/phase-3-ui-integration-complete.md
+  s_fffa1bd0ad6cb8::t_6368a708bfc6e8 1-121
+_status-feed/claude-memory/phase-3-wave-a-complete-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_d46e5adf24c9e5 1-41
+_status-feed/claude-memory/phase-3-wave-b-complete-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_bad472496a4495 1-40
+_status-feed/claude-memory/phase-3-wave-c-complete-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_cb3a3986e530ea 1-43
+_status-feed/claude-memory/phase-3-wave-d-complete-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_a8717fbdfb16b5 1-51
+_status-feed/claude-memory/phase-3-wave-e-complete-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_d2a6fb17fd39e0 1-59
+_status-feed/claude-memory/phase-3-wave-f-complete-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_2992412f06c4ca 1-92
+_status-feed/claude-memory/phase-4-3-codeburn-integration.md
+  s_fffa1bd0ad6cb8::t_435b88e558a802 1-136
+_status-feed/claude-memory/phase-4-3-codeburn-integration.original.md
+  s_fffa1bd0ad6cb8::t_91107a83bbb6c0 1-127
+_status-feed/claude-memory/phase-4-4-repomix-integration-complete.md
+  s_fffa1bd0ad6cb8::t_b7d164ddee13a3 1-53
+_status-feed/claude-memory/phase-4-4-repomix-integration.md
+  s_fffa1bd0ad6cb8::t_b8661b9d3bf46f 1-116
+_status-feed/claude-memory/phase-4-4-repomix-integration.original.md
+  s_fffa1bd0ad6cb8::t_b7716e70c52227 1-157
+_status-feed/claude-memory/phase-4-5-4-7-sales-pipeline-complete.md
+  s_fffa1bd0ad6cb8::t_40888a9aaf6d08 1-162
+_status-feed/claude-memory/phase-4-ci-gate-migration-complete.md
+  s_fffa1bd0ad6cb8::t_1fab8a82d21d34 1-323
+_status-feed/claude-memory/phase-4-complete-spec.md
+  s_fffa1bd0ad6cb8::t_6e0b1bf7467b48 1-288
+_status-feed/claude-memory/phase-4-e2e-complete.md
+  s_fffa1bd0ad6cb8::t_c26f12a76f0bec 1-122
+_status-feed/claude-memory/phase-4-humanizer-shipped.md
+  s_fffa1bd0ad6cb8::t_901d478912c03e 1-31
+_status-feed/claude-memory/phase-4-humanizer-shipped.original.md
+  s_fffa1bd0ad6cb8::t_ebfacd19099cf3 1-219
+_status-feed/claude-memory/phase-4-observability-complete.md
+  s_fffa1bd0ad6cb8::t_2a3fa75833f6f0 1-110
+_status-feed/claude-memory/phase-4-review.md
+  s_fffa1bd0ad6cb8::t_10fd37abda1b0d 1-66
+_status-feed/claude-memory/phase-4-shipped-2026-06-29.md
+  s_fffa1bd0ad6cb8::t_c8a84d2256c68e 1-43
+_status-feed/claude-memory/phase-4-validation-testing-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_91facab40c572a 1-104
+_status-feed/claude-memory/phase-5-archive-cleanup-2026-07-06.md
+  s_fffa1bd0ad6cb8::t_0805dec8754812 1-88
+_status-feed/claude-memory/phase-5-maal-conflict-audit.md
+  s_fffa1bd0ad6cb8::t_06cd901a3f5429 1-163
+_status-feed/claude-memory/phase-5-production-hardening.md
+  s_fffa1bd0ad6cb8::t_06db706f70d0a8 1-111
+_status-feed/claude-memory/phase-5-torquequery-v2-complete.md
+  s_fffa1bd0ad6cb8::t_f5546772b327ce 1-63
+_status-feed/claude-memory/phase-6-locked.md
+  s_fffa1bd0ad6cb8::t_28cd88c586d089 1-49
+_status-feed/claude-memory/phase-7-12-completion.md
+  s_fffa1bd0ad6cb8::t_4f54140a18b45a 1-72
+_status-feed/claude-memory/phase-7-12-completion.original.md
+  s_fffa1bd0ad6cb8::t_1cc3a4cbecc43b 1-72
+_status-feed/claude-memory/phase-7-13-completion.md
+  s_fffa1bd0ad6cb8::t_448ce54590bb2b 1-78
+_status-feed/claude-memory/phase-7-13-completion.original.md
+  s_fffa1bd0ad6cb8::t_ee066b1a4d4fa0 1-78
+_status-feed/claude-memory/phase-7-15-7-20-deployment-complete.md
+  s_fffa1bd0ad6cb8::t_9152c255dc22df 1-106
+_status-feed/claude-memory/phase-7-15-7-20-deployment-complete.original.md
+  s_fffa1bd0ad6cb8::t_6afc381bab7833 1-150
+_status-feed/claude-memory/phase-7-autonomous-hardening.md
+  s_fffa1bd0ad6cb8::t_29b7b25cd8274e 1-125
+_status-feed/claude-memory/phase-7-charter-approved-2026-07-11.md
+  s_fffa1bd0ad6cb8::t_98988d084811fa 1-35
+_status-feed/claude-memory/phase-8-cost-optimization-locked.md
+  s_fffa1bd0ad6cb8::t_f45d9e457c19ea 1-167
+_status-feed/claude-memory/phase-8-unit-tests-complete.md
+  s_fffa1bd0ad6cb8::t_69f0fe743cedff 1-80
+_status-feed/claude-memory/phase-9-charter-2026-07-14.md
+  s_fffa1bd0ad6cb8::t_0ba67b090ed165 1-89
+_status-feed/claude-memory/phase-a-optimization-2026-07-02.md
+  s_fffa1bd0ad6cb8::t_e08f9e200b1c00 1-90
+_status-feed/claude-memory/phase-abc-code-review-findings.md
+  s_fffa1bd0ad6cb8::t_70ba7f47845bf4 1-64
+_status-feed/claude-memory/phase-abc-repository-governance-complete.md
+  s_fffa1bd0ad6cb8::t_e8ccd0b691ca08 1-96
+_status-feed/claude-memory/phase-b-hardening-2026-07-02.md
+  s_fffa1bd0ad6cb8::t_1765ac905e97a0 1-146
+_status-feed/claude-memory/phase-c-complete.md
+  s_fffa1bd0ad6cb8::t_a3d544763285f0 1-84
+_status-feed/claude-memory/phase-c-integration-2026-07-02.md
+  s_fffa1bd0ad6cb8::t_6b8195034b67ba 1-172
+_status-feed/claude-memory/phase-c-settings-configuration-complete.md
+  s_fffa1bd0ad6cb8::t_f2415b31c0b516 1-121
+_status-feed/claude-memory/phase-c-ship-readiness-decision.md
+  s_fffa1bd0ad6cb8::t_260e0f77b10df2 1-87
+_status-feed/claude-memory/phase-c-week-1-complete.md
+  s_fffa1bd0ad6cb8::t_952c843d5bac70 1-69
+_status-feed/claude-memory/phase-d-code-review-complete.md
+  s_fffa1bd0ad6cb8::t_cc571ca649461b 1-54
+_status-feed/claude-memory/phase-d-complete.md
+  s_fffa1bd0ad6cb8::t_b299eb7dbf2d05 1-96
+_status-feed/claude-memory/phase-d-comprehensive-testing-complete.md
+  s_fffa1bd0ad6cb8::t_51ac02ebd916c7 1-174
+_status-feed/claude-memory/phase-d-integration-complete.md
+  s_fffa1bd0ad6cb8::t_64ff9f28640acd 1-77
+_status-feed/claude-memory/phase-e-enforcement-complete.md
+  s_fffa1bd0ad6cb8::t_524c94ab3e79cd 1-131
+_status-feed/claude-memory/phase-e-f-complete.md
+  s_fffa1bd0ad6cb8::t_33d972f379409e 1-41
+_status-feed/claude-memory/phase-e-realtime-policy-validator.md
+  s_fffa1bd0ad6cb8::t_449e4a565495f5 1-76
+_status-feed/claude-memory/phase-e-realtime-policy-validator.original.md
+  s_fffa1bd0ad6cb8::t_de9dea4ae2e8eb 1-76
+_status-feed/claude-memory/phase-repo-sweep-complete.md
+  s_fffa1bd0ad6cb8::t_bb432fed5d3138 1-167
+_status-feed/claude-memory/phase-retrofit-2-6-parallelism-matrix.md
+  s_fffa1bd0ad6cb8::t_18c9b0f52fdc2a 1-61
+_status-feed/claude-memory/phase-rl-4-1-redesign-agent.md
+  s_fffa1bd0ad6cb8::t_25d7db7b072c68 1-23
+_status-feed/claude-memory/phase-rl-4-2-wcag-audit.md
+  s_fffa1bd0ad6cb8::t_b555952aae927e 1-85
+_status-feed/claude-memory/phase-sandbox-2-validation-complete.md
+  s_fffa1bd0ad6cb8::t_422bdc1d36921d 1-79
+_status-feed/claude-memory/phase-work-summarizer-stage-1.md
+  s_fffa1bd0ad6cb8::t_9321003158b7a5 1-37
+_status-feed/claude-memory/phase-work-summarizer-stage-2-complete.md
+  s_fffa1bd0ad6cb8::t_1209ae58dd6100 1-45
+_status-feed/claude-memory/phase7-execution-specs-complete.md
+  s_fffa1bd0ad6cb8::t_1a7925329bae11 1-196
+_status-feed/claude-memory/phase7-tier1-decision-pack.md
+  s_fffa1bd0ad6cb8::t_f6f6a045b41bc8 1-60
+_status-feed/claude-memory/phase8-skill-regression-backfill-option-b.md
+  s_fffa1bd0ad6cb8::t_827179a519204e 1-83
+_status-feed/claude-memory/phases-23-27-autonomy-stack.md
+  s_fffa1bd0ad6cb8::t_463e9d4b3582d6 1-123
+_status-feed/claude-memory/phases-23-27-autonomy-stack.original.md
+  s_fffa1bd0ad6cb8::t_e4cd4eb2b6e71a 1-125
+_status-feed/claude-memory/policy_scripts_governance.md
+  s_fffa1bd0ad6cb8::t_e2ade5d029d98c 1-21
+_status-feed/claude-memory/pre-wrap-audit-skill-complete-2026-07-08.md
+  s_fffa1bd0ad6cb8::t_9064ab7884ff37 1-275
+_status-feed/claude-memory/productivity_rebound_binge_pattern.md
+  s_fffa1bd0ad6cb8::t_eb123cf2d168dc 1-21
+_status-feed/claude-memory/project-2026-08-01-uncaptured-fix-commits.md
+  s_fffa1bd0ad6cb8::t_a68aa13db49240 1-18
+_status-feed/claude-memory/project-2026-08-06-retro-tooling-fixes.md
+  s_fffa1bd0ad6cb8::t_903f82b37f590e 1-21
+_status-feed/claude-memory/project-benson-ford-batch1-closed-2026-07-27.md
+  s_fffa1bd0ad6cb8::t_3145e1a35962f1 1-69
+_status-feed/claude-memory/project-charles-sorensen-miami-residence-benson-ford.md
+  s_fffa1bd0ad6cb8::t_ee8b786756b926 1-17
+_status-feed/claude-memory/project-cic-ingestion-scaffold-handoff-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_34989d9c497a62 1-18
+_status-feed/claude-memory/project-cic-ingestion-token-baseline-2026-07-26.md
+  s_fffa1bd0ad6cb8::t_262e281f3ae8ae 1-15
+_status-feed/claude-memory/project-cic-ingestion-tsc-health-2026-07-25.md
+  s_fffa1bd0ad6cb8::t_f6493d78c92f85 1-21
+_status-feed/claude-memory/project-cic-source-library-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_3dd1bf94cf8753 1-18
+_status-feed/claude-memory/project-cost-governance-runtime-antigravity-build.md
+  s_fffa1bd0ad6cb8::t_8b733e21f2eb0a 1-34
+_status-feed/claude-memory/project-family-history-business.md
+  s_fffa1bd0ad6cb8::t_f041429aa98067 1-61
+_status-feed/claude-memory/project-family-history-business.original.md
+  s_fffa1bd0ad6cb8::t_5ce8589b9693f3 1-61
+_status-feed/claude-memory/project-helene-two-yachts-mark-sprang-provenance.md
+  s_fffa1bd0ad6cb8::t_b4726dcc29bbb8 1-21
+_status-feed/claude-memory/project-kb-sync-ingest-handoff-2026-07-22.md
+  s_fffa1bd0ad6cb8::t_e11152d990daa0 1-21
+_status-feed/claude-memory/project-micro-session-fragmentation-watch-2026-07-29.md
+  s_fffa1bd0ad6cb8::t_68d6fb2c000328 1-15
+_status-feed/claude-memory/project-notebooklm-ingest-live-bugs-2026-08-13.md
+  s_fffa1bd0ad6cb8::t_e8047d0747fa04 1-38
+_status-feed/claude-memory/project-preflight-underlying-scripts-broken-2026-07-23.md
+  s_fffa1bd0ad6cb8::t_c48c0986cf82e4 1-15
+_status-feed/claude-memory/project-prepush-hook-test-flake.md
+  s_fffa1bd0ad6cb8::t_a8db17cebbf0c5 1-15
+_status-feed/claude-memory/project-torquequery-reconciliation-2026-07-17.md
+  s_fffa1bd0ad6cb8::t_30fa8f7e34649e 1-20
+_status-feed/claude-memory/project-trm-cross-topic-facts-deferred.md
+  s_fffa1bd0ad6cb8::t_36a0d142ef163f 1-19
+_status-feed/claude-memory/project-trm-flight-museum-benson-ford-ingest-pending-2026-07-24.md
+  s_fffa1bd0ad6cb8::t_e8038d4601dd56 1-38
+_status-feed/claude-memory/project-trm-ingest-scale-problem-2026-07-25.md
+  s_fffa1bd0ad6cb8::t_88761a653aced9 1-51
+_status-feed/claude-memory/project-trm-ocr-endpoint-live-benson-ford-next-2026-07-27.md
+  s_fffa1bd0ad6cb8::t_7adda97c51b8d8 1-57
+_status-feed/claude-memory/project-trm-route-intake-shipped-2026-08-05.md
+  s_fffa1bd0ad6cb8::t_01a2b42e9f56d9 1-29
+_status-feed/claude-memory/project-trm-vault-deliberately-local-only.md
+  s_fffa1bd0ad6cb8::t_0335114f5e21da 1-17
+_status-feed/claude-memory/project-trm-video-ingest-shipped-2026-08-08.md
+  s_fffa1bd0ad6cb8::t_ff2a66378eb759 1-33
+_status-feed/claude-memory/project-trm-video-smoke-test-2026-08-08.md
+  s_fffa1bd0ad6cb8::t_8063bc4ab5fad5 1-35
+_status-feed/claude-memory/project-trm-willys-overland-partial-2026-08-05.md
+  s_fffa1bd0ad6cb8::t_56f834a8c92b67 1-26
+_status-feed/claude-memory/prompt-cache-week-1-complete.md
+  s_fffa1bd0ad6cb8::t_e0da135d26e3c5 1-126
+_status-feed/claude-memory/retro-2026-07-12-phase2b-step2.md
+  s_fffa1bd0ad6cb8::t_fcadda0b2d18fd 1-155
+_status-feed/claude-memory/retro_lockfile_loc_exclusion.md
+  s_fffa1bd0ad6cb8::t_203d3a6f437db6 1-22
+_status-feed/claude-memory/reverse-image-validation-improved.md
+  s_fffa1bd0ad6cb8::t_198a1ef96b840d 1-106
+_status-feed/claude-memory/reverse-image-validation-improved.original.md
+  s_fffa1bd0ad6cb8::t_d296f5b4876143 1-106
+_status-feed/claude-memory/rewrite-labs-ir-toolkit-v1.md
+  s_fffa1bd0ad6cb8::t_5ace654bb7319a 1-122
+_status-feed/claude-memory/rewrite-labs-ir-toolkit-v1.original.md
+  s_fffa1bd0ad6cb8::t_f6d949b3691564 1-237
+_status-feed/claude-memory/roadmap-sync-daemon-setup.md
+  s_fffa1bd0ad6cb8::t_f021d036973f15 1-88
+_status-feed/claude-memory/scp-skill-deployment.md
+  s_fffa1bd0ad6cb8::t_cbb2b93c28ae31 1-69
+_status-feed/claude-memory/scp-skill-deployment.original.md
+  s_fffa1bd0ad6cb8::t_2241f20bbcce0d 1-69
+_status-feed/claude-memory/session-2026-06-14-four-phase-queue.md
+  s_fffa1bd0ad6cb8::t_37ed69a52b771f 1-116
+_status-feed/claude-memory/session-2026-06-15-integration-testing-blockers.md
+  s_fffa1bd0ad6cb8::t_32a40ad32d8cc3 1-105
+_status-feed/claude-memory/session-2026-06-15-learnings.md
+  s_fffa1bd0ad6cb8::t_b197b4735ccb1f 1-68
+_status-feed/claude-memory/session-2026-06-15-phase-2-complete.md
+  s_fffa1bd0ad6cb8::t_c19e180621cf2b 1-136
+_status-feed/claude-memory/session-2026-06-15-summary.md
+  s_fffa1bd0ad6cb8::t_6466b90933d0cd 1-145
+_status-feed/claude-memory/session-2026-06-20-phase27-fixes.md
+  s_fffa1bd0ad6cb8::t_72d7747687118d 1-140
+_status-feed/claude-memory/session-2026-06-21-30day-skill-audit.md
+  s_fffa1bd0ad6cb8::t_b7ff468c942aca 1-81
+_status-feed/claude-memory/session-2026-06-21-design-system-c-d.md
+  s_fffa1bd0ad6cb8::t_4aa553721538e3 1-85
+_status-feed/claude-memory/session-2026-06-21-design-system-phase-3-final.md
+  s_fffa1bd0ad6cb8::t_6f3fc949084931 1-89
+_status-feed/claude-memory/session-2026-06-21-frontend-backend-wire.md
+  s_fffa1bd0ad6cb8::t_28e8bee999b718 1-77
+_status-feed/claude-memory/session-2026-06-22-integration-test-96pct.md
+  s_fffa1bd0ad6cb8::t_e50d9b0e3d78d7 1-85
+_status-feed/claude-memory/session-2026-06-22-test-gate-fix.md
+  s_fffa1bd0ad6cb8::t_8da485db41431d 1-54
+_status-feed/claude-memory/session-2026-06-27-skill-wave-complete.md
+  s_fffa1bd0ad6cb8::t_2dbef73200c29a 1-241
+_status-feed/claude-memory/session-2026-06-28-automation-complete.md
+  s_fffa1bd0ad6cb8::t_7ef9604bed1579 1-205
+_status-feed/claude-memory/session-2026-06-29-workflow-incident-resolution.md
+  s_fffa1bd0ad6cb8::t_0c1a34b1c5ce49 1-74
+_status-feed/claude-memory/session-2026-07-03-infrastructure.md
+  s_fffa1bd0ad6cb8::t_29786582dc7b4a 1-57
+_status-feed/claude-memory/session-2026-07-04-batch2-runner-hardening.md
+  s_fffa1bd0ad6cb8::t_971c67ca03e81d 1-44
+_status-feed/claude-memory/session-2026-07-04-phase-8-30-complete.md
+  s_fffa1bd0ad6cb8::t_df3da4b412e8df 1-66
+_status-feed/claude-memory/session-2026-07-04-runner-activation-wrap.md
+  s_fffa1bd0ad6cb8::t_d6d1ece952c51b 1-79
+_status-feed/claude-memory/session-2026-07-04-track-7-wrap.md
+  s_fffa1bd0ad6cb8::t_2c9c8cf5efc368 1-124
+_status-feed/claude-memory/session-2026-07-04-track-9-wrap.md
+  s_fffa1bd0ad6cb8::t_cab92670b2ecd4 1-80
+_status-feed/claude-memory/session-2026-07-04-vault-sync-fix.md
+  s_fffa1bd0ad6cb8::t_e7d33f6a5ae5ae 1-73
+_status-feed/claude-memory/session-2026-07-04-wrap.md
+  s_fffa1bd0ad6cb8::t_5df21d0b9b5f5f 1-51
+_status-feed/claude-memory/session-2026-07-05-phase-23-27-mitigation.md
+  s_fffa1bd0ad6cb8::t_c791dffab1b400 1-165
+_status-feed/claude-memory/session-2026-07-05-phase-26-continuation.md
+  s_fffa1bd0ad6cb8::t_cfd033b9fdcdb4 1-40
+_status-feed/claude-memory/session-2026-07-05-ts2307-sweep-complete.md
+  s_fffa1bd0ad6cb8::t_ad690300afe52b 1-48
+_status-feed/claude-memory/session-2026-07-05-ts2307-sweep.md
+  s_fffa1bd0ad6cb8::t_ceddda3f45ebed 1-63
+_status-feed/claude-memory/session-2026-07-07-phase-27-waves-abc-complete.md
+  s_fffa1bd0ad6cb8::t_e4484a7143dfd8 1-155
+_status-feed/claude-memory/session-2026-07-08-governance-finalization.md
+  s_fffa1bd0ad6cb8::t_54a6aef7eb5d27 1-95
+_status-feed/claude-memory/session-2026-07-11-agent-integration-deployed.md
+  s_fffa1bd0ad6cb8::t_3049ea5321ee71 1-112
+_status-feed/claude-memory/session-2026-07-11-directory-triage-phase2-6-ready.md
+  s_fffa1bd0ad6cb8::t_3d95daddbe7dec 1-65
+_status-feed/claude-memory/session-2026-07-11-governance-improvements-v1.5.md
+  s_fffa1bd0ad6cb8::t_a5cc8cf2950535 1-140
+_status-feed/claude-memory/session-2026-07-11-phase-12-wiki.md
+  s_fffa1bd0ad6cb8::t_1590992464f2f0 1-119
+_status-feed/claude-memory/session-2026-07-11-phase-3-complete.md
+  s_fffa1bd0ad6cb8::t_08c3905973aa20 1-61
+_status-feed/claude-memory/session-2026-07-11-phase0-gate-design.md
+  s_fffa1bd0ad6cb8::t_b3494757025ecf 1-201
+_status-feed/claude-memory/session-2026-07-11-phase2-e2e-skeletons.md
+  s_fffa1bd0ad6cb8::t_bca8c5bb24c661 1-107
+_status-feed/claude-memory/session-2026-07-11-phase4-complete.md
+  s_fffa1bd0ad6cb8::t_c2cd4d24e659ef 1-91
+_status-feed/claude-memory/session-2026-07-11-phase4-dispatch.md
+  s_fffa1bd0ad6cb8::t_e37e9496f18594 1-123
+_status-feed/claude-memory/session-2026-07-11-phase5-audit-wrap.md
+  s_fffa1bd0ad6cb8::t_1317e7fb52ea5f 1-140
+_status-feed/claude-memory/session-2026-07-11-phase5-exit.md
+  s_fffa1bd0ad6cb8::t_b2cd76c93d1377 1-92
+_status-feed/claude-memory/session-2026-07-11-phase7-charter-wrap.md
+  s_fffa1bd0ad6cb8::t_6e968120f20fd5 1-67
+_status-feed/claude-memory/session-2026-07-11-windows-task-manager-wrap.md
+  s_fffa1bd0ad6cb8::t_672c9cc04d4325 1-145
+_status-feed/claude-memory/session-2026-07-11-wrap.md
+  s_fffa1bd0ad6cb8::t_294ac71437a2b9 1-151
+_status-feed/claude-memory/session-2026-07-12-phase2b-complete.md
+  s_fffa1bd0ad6cb8::t_42794641664c69 1-146
+_status-feed/claude-memory/session-2026-07-12-phase2b-step2-flag-fixes.md
+  s_fffa1bd0ad6cb8::t_35fee78bb38fab 1-83
+_status-feed/claude-memory/session-2026-07-12-phase7-waves-a-b.md
+  s_fffa1bd0ad6cb8::t_e5875276923de9 1-177
+_status-feed/claude-memory/session-2026-07-12-tiny-app-cleanup.md
+  s_fffa1bd0ad6cb8::t_359adbbba6b6c0 1-52
+_status-feed/claude-memory/session-2026-07-12-wave-b-dispatch.md
+  s_fffa1bd0ad6cb8::t_baad352833a483 1-177
+_status-feed/claude-memory/session-2026-07-12-wave-c-setup.md
+  s_fffa1bd0ad6cb8::t_95443ec7443814 1-86
+_status-feed/claude-memory/session-2026-07-12-windows-task-manager-a11y-audit.md
+  s_fffa1bd0ad6cb8::t_f898583d4a1bb8 1-141
+_status-feed/claude-memory/session-2026-07-12-windows-task-manager-debug.md
+  s_fffa1bd0ad6cb8::t_07e0e059ad8216 1-73
+_status-feed/claude-memory/session-2026-07-12-windows-task-manager-wmi-fix.md
+  s_fffa1bd0ad6cb8::t_a6a5c99955cec9 1-59
+_status-feed/claude-memory/session-2026-07-12-wmi-solution.md
+  s_fffa1bd0ad6cb8::t_59d299b76d61c4 1-155
+_status-feed/claude-memory/session-2026-07-13-kb-sync-repair.md
+  s_fffa1bd0ad6cb8::t_003f582b434975 1-58
+_status-feed/claude-memory/session-2026-07-13-kb-sync-validator.md
+  s_fffa1bd0ad6cb8::t_5a49e5960cc565 1-69
+_status-feed/claude-memory/session-docker-torquequery-vault-2026-06-15.md
+  s_fffa1bd0ad6cb8::t_b98263c08f725d 1-85
+_status-feed/claude-memory/session-esm-fix-2026-06-19-summary.md
+  s_fffa1bd0ad6cb8::t_4033d66c46cf91 1-99
+_status-feed/claude-memory/session-handoff-2026-07-23-task13-curator.md
+  s_fffa1bd0ad6cb8::t_045aa731f129e6 1-104
+_status-feed/claude-memory/session-handoff-2026-07-25-mfm-closed-benson-ford-next.md
+  s_fffa1bd0ad6cb8::t_8143b8d199b4da 1-50
+_status-feed/claude-memory/session-handoff-2026-07-25-mfm-merge-pending.md
+  s_fffa1bd0ad6cb8::t_ada199621cb19d 1-93
+_status-feed/claude-memory/session-repo-recovery-2026-06-19.md
+  s_fffa1bd0ad6cb8::t_c7c47f3ca73980 1-58
+_status-feed/claude-memory/session-retro-2026-07-12-governance-simplification.md
+  s_fffa1bd0ad6cb8::t_bb0586469b57dc 1-158
+_status-feed/claude-memory/session-wrap-2026-07-12-cleanup-final.md
+  s_fffa1bd0ad6cb8::t_8a2b0add9bb596 1-135
+_status-feed/claude-memory/session-wrap-2026-07-12-drift-remediation.md
+  s_fffa1bd0ad6cb8::t_dcbb1edd02f9b3 1-216
+_status-feed/claude-memory/session-wrap-2026-07-12-treatment-framework.md
+  s_fffa1bd0ad6cb8::t_8ea32e271f4e33 1-34
+_status-feed/claude-memory/session-wrap-2026-07-12-treatment-v11.md
+  s_fffa1bd0ad6cb8::t_3f8ab1ec42111f 1-18
+_status-feed/claude-memory/session-wrap-2026-07-12-wave-c-completion.md
+  s_fffa1bd0ad6cb8::t_2d940793f46c63 1-67
+_status-feed/claude-memory/session-wrap-2026-07-12-wave-c.md
+  s_fffa1bd0ad6cb8::t_afce96a8c661ef 1-221
+_status-feed/claude-memory/session-wrap-2026-07-13-kb-sync-releases.md
+  s_fffa1bd0ad6cb8::t_e0c9b2d1197e6a 1-113
+_status-feed/claude-memory/session-wrap-2026-07-14-kb-sync-artifact-gen.md
+  s_fffa1bd0ad6cb8::t_addb1506f6594f 1-24
+_status-feed/claude-memory/session-wrap-2026-07-14-phase8-completion.md
+  s_fffa1bd0ad6cb8::t_05070585600b5d 1-134
+_status-feed/claude-memory/session-wrap-2026-07-14-phase9-wavesab.md
+  s_fffa1bd0ad6cb8::t_410441f27da82e 1-94
+_status-feed/claude-memory/session-wrap-2026-07-15-cic-ingestion-recovery.md
+  s_fffa1bd0ad6cb8::t_73ac409002d154 1-31
+_status-feed/claude-memory/session-wrap-2026-07-15-git-hooks-repair.md
+  s_fffa1bd0ad6cb8::t_c15585e8b5b1e0 1-22
+_status-feed/claude-memory/session-wrap-2026-07-15-reconciliation-retro.md
+  s_fffa1bd0ad6cb8::t_83dda2338a6256 1-21
+_status-feed/claude-memory/session-wrap-2026-07-15-retro-telemetry-fix.md
+  s_fffa1bd0ad6cb8::t_97aea1f48363d3 1-18
+_status-feed/claude-memory/session-wrap-2026-07-16-ci-fixes-4-repos.md
+  s_fffa1bd0ad6cb8::t_879b25d568f572 1-24
+_status-feed/claude-memory/session-wrap-2026-07-16-cic-phase1-ship.md
+  s_fffa1bd0ad6cb8::t_bd94134445793c 1-43
+_status-feed/claude-memory/session-wrap-2026-07-16-housekeeping-push.md
+  s_fffa1bd0ad6cb8::t_23003c1b017981 1-22
+_status-feed/claude-memory/session-wrap-2026-07-16-noqa-policy.md
+  s_fffa1bd0ad6cb8::t_1f54b2890f6098 1-40
+_status-feed/claude-memory/session-wrap-2026-07-16-toolforge-plugin.md
+  s_fffa1bd0ad6cb8::t_93ee1f4cb2f99a 1-31
+_status-feed/claude-memory/session-wrap-2026-07-17-cic-ingestion-review-cycle.md
+  s_fffa1bd0ad6cb8::t_1788d74e8a4def 1-21
+_status-feed/claude-memory/session-wrap-2026-07-17-dual-clone-collapse.md
+  s_fffa1bd0ad6cb8::t_423ee1b2e9f0f4 1-16
+_status-feed/claude-memory/session-wrap-2026-07-17-hook-scoping.md
+  s_fffa1bd0ad6cb8::t_24213432233cd5 1-20
+_status-feed/claude-memory/session-wrap-2026-07-17-skill-migration-runtool-repair.md
+  s_fffa1bd0ad6cb8::t_99a1587b1fcd69 1-69
+_status-feed/claude-memory/session-wrap-2026-07-17-skills-cleanup.md
+  s_fffa1bd0ad6cb8::t_bedc9d69bf011e 1-65
+_status-feed/claude-memory/session-wrap-2026-07-18-skill-migration-complete.md
+  s_fffa1bd0ad6cb8::t_2f1d2723cc0d05 1-97
+_status-feed/claude-memory/session-wrap-2026-07-18-trm-harvester-mock-wiring.md
+  s_fffa1bd0ad6cb8::t_b7ff72d133ef23 1-48
+_status-feed/claude-memory/session-wrap-2026-07-18-trm-reporting-and-ingest.md
+  s_fffa1bd0ad6cb8::t_135a93d8575b3a 1-38
+_status-feed/claude-memory/session-wrap-2026-07-18-wave-a-migration.md
+  s_fffa1bd0ad6cb8::t_219b9b7a36b78c 1-62
+_status-feed/claude-memory/session-wrap-2026-07-28-benson-ford-close.md
+  s_fffa1bd0ad6cb8::t_c3f354c0c7bb38 1-69
+_status-feed/claude-memory/session-wrap-2026-07-28-sync-treatment-plan-ready.md
+  s_fffa1bd0ad6cb8::t_c3b061c85603af 1-26
+_status-feed/claude-memory/session-wrap-2026-07-29-sync-treatment-shipped.md
+  s_fffa1bd0ad6cb8::t_882e97bea64041 1-29
+_status-feed/claude-memory/session-wrap-2026-07-31-test-coverage-expansion.md
+  s_fffa1bd0ad6cb8::t_57c19df3ab4712 1-19
+_status-feed/claude-memory/session_continuity_gap.md
+  s_fffa1bd0ad6cb8::t_04ed932893e3b3 1-14
+_status-feed/claude-memory/skill-approval-governance.md
+  s_fffa1bd0ad6cb8::t_8b0a23e5e2e55a 1-31
+_status-feed/claude-memory/skill-automation-schedule.md
+  s_fffa1bd0ad6cb8::t_96c57907858ada 1-165
+_status-feed/claude-memory/skill-deployment-complete-2026-06-27.md
+  s_fffa1bd0ad6cb8::t_ba0143c6cff7b0 1-81
+_status-feed/claude-memory/skills-moved-to-project-scope.md
+  s_fffa1bd0ad6cb8::t_97c97ce0b004ce 1-63
+_status-feed/claude-memory/skills-policy-agent-requirement.md
+  s_fffa1bd0ad6cb8::t_c5fb15a27d68da 1-119
+_status-feed/claude-memory/skills-policy-agent-requirement.original.md
+  s_fffa1bd0ad6cb8::t_54ac6a49426c4a 1-119
+_status-feed/claude-memory/sleep-no-prompt-skill.md
+  s_fffa1bd0ad6cb8::t_af59b939509aeb 1-78
+_status-feed/claude-memory/social-media-orchestrator-integration.md
+  s_fffa1bd0ad6cb8::t_2db90e4e2eb247 1-88
+_status-feed/claude-memory/social-media-orchestrator-integration.original.md
+  s_fffa1bd0ad6cb8::t_7cfb044a3025a9 1-88
+_status-feed/claude-memory/staging-deploy-2026-06-22.md
+  s_fffa1bd0ad6cb8::t_d51361c06ec8c0 1-39
+_status-feed/claude-memory/step-4-notifications-complete.md
+  s_fffa1bd0ad6cb8::t_adb6663e8c8e57 1-121
+_status-feed/claude-memory/step-5-mount-complete.md
+  s_fffa1bd0ad6cb8::t_d51139f7a44f27 1-93
+_status-feed/claude-memory/team-composition-phase8-onwards.md
+  s_fffa1bd0ad6cb8::t_d376a147d14f52 1-17
+_status-feed/claude-memory/test-fixes-2026-06-13.md
+  s_fffa1bd0ad6cb8::t_737adb662ba99c 1-75
+_status-feed/claude-memory/test-hook-batch-approval-pattern.md
+  s_fffa1bd0ad6cb8::t_c758cfeb2ca19b 1-29
+_status-feed/claude-memory/testing-jest-config-pattern.md
+  s_fffa1bd0ad6cb8::t_b1f06f749f4b8c 1-52
+_status-feed/claude-memory/tier-1-dark-mode-complete.md
+  s_fffa1bd0ad6cb8::t_82631dbd9433d2 1-81
+_status-feed/claude-memory/tier-2-agents-panel-complete.md
+  s_fffa1bd0ad6cb8::t_1571f2741cd040 1-79
+_status-feed/claude-memory/token-system-phase-3-complete.md
+  s_fffa1bd0ad6cb8::t_50c846fb819f33 1-112
+_status-feed/claude-memory/token_monitoring_preference.md
+  s_fffa1bd0ad6cb8::t_672f357255e508 1-27
+_status-feed/claude-memory/umm-d3-plan-locked.md
+  s_fffa1bd0ad6cb8::t_c14e229b2d31fd 1-143
+_status-feed/claude-memory/user_preferences.md
+  s_fffa1bd0ad6cb8::t_deb7b297c53e8a 1-14
+_status-feed/claude-memory/user_preferences.original.md
+  s_fffa1bd0ad6cb8::t_553e5fa46d6468 1-14
+_status-feed/claude-memory/wave-a-completion-status.md
+  s_fffa1bd0ad6cb8::t_e6ef995126af55 1-75
+_status-feed/claude-memory/wave-b-builder-dispatch.md
+  s_fffa1bd0ad6cb8::t_8e4d82ae0e15fb 1-114
+_status-feed/claude-memory/wave-b-dispatch-ready.md
+  s_fffa1bd0ad6cb8::t_be5caae6b32022 1-94
+_status-feed/claude-memory/wave-d-full-gate-requirement.md
+  s_fffa1bd0ad6cb8::t_a0dc385159765a 1-30
+_status-feed/claude-memory/wayland-v1-1-complete.md
+  s_fffa1bd0ad6cb8::t_50266c739c5ab7 1-62
+_status-feed/claude-memory/wayland-v1-1-complete.original.md
+  s_fffa1bd0ad6cb8::t_ffeb6541f02751 1-62
+_status-feed/claude-memory/wayland-w1-w3-deployment.md
+  s_fffa1bd0ad6cb8::t_de7ba32bf950fb 1-73
+_status-feed/claude-memory/wayland-w1-w3-deployment.original.md
+  s_fffa1bd0ad6cb8::t_0c3bf484546e8b 1-73
+_status-feed/claude-memory/week2-audit-forward-verification-2026-07-12.md
+  s_fffa1bd0ad6cb8::t_faa8724f01e484 1-146
+_status-feed/claude-memory/week2-audit-retroactive-approvals.md
+  s_fffa1bd0ad6cb8::t_e721b4944b2cb8 1-152
+_status-feed/claude-memory/work-summarizer-v2-complete.md
+  s_fffa1bd0ad6cb8::t_ce0f8bbeac2489 1-112
+_status-feed/claude-memory/workflow-checklists-embedded.md
+  s_fffa1bd0ad6cb8::t_415612fcb26ede 1-208
+_status-feed/daily_status.json
+  s_fffa1bd0ad6cb8::t_7482f891f34ed1 1-257
+audit/COWORK-REGISTERED-SKILLS.md
+  s_f6aa48b2d59f04::t_589b8844e95d4f 3,5,29,55-135
+cic-vision-governance/artifacts/threshold/v006.json
+  s_fffa1bd0ad6cb8::t_0762b3c618c7f3 1-15
+cic-vision-governance/artifacts/threshold/v007.json
+  s_fffa1bd0ad6cb8::t_22a2804dcc6fdf 1-15
+cic-vision-governance/artifacts/threshold/v008.json
+  s_fffa1bd0ad6cb8::t_d8fb1e60f1b912 1-15
+cic-vision-governance/artifacts/threshold/v009.json
+  s_fffa1bd0ad6cb8::t_d10a5fa976c33f 1-15
+cic-vision-governance/artifacts/threshold/v010.json
+  s_fffa1bd0ad6cb8::t_d23ad059c23b6b 1-15
+docs/KB_SYNC_DAG.md
+  s_4d5378553c6b81::t_66963f22568155 2-20
+opencode.json
+  s_fffa1bd0ad6cb8::t_17c867d22f4071 1-14
+scripts/run-sibling-check-v2.mjs
+  s_bed36bc834b400::t_2ce6d9f3ba29e5 1-126
+scripts/sibling-checker-v2.mjs
+  s_bed36bc834b400::t_80be3527ae927e 1-383
+sigil-protocol-spec-v1.0.0-draft.md
+  s_42b84b1143f597::t_e0de3e80750a78 749,762-776
+skills/SKILLPACK-DEPENDENCY-GRAPH.md
+  s_f6aa48b2d59f04::t_394c32b7cceadf 3,393-394,397,399,401-410,412-413,415-418,420,422-426,429
+skills/SKILLPACK-METADATA-SUMMARY.md
+  s_f6aa48b2d59f04::t_cda65752f628f3 3,242
+skills/SKILLPACK-METADATA.json
+  s_f6aa48b2d59f04::t_284dfdca131b9b 4-11,14-15,17-20,24-25,28,31-38,41-42,44-47,51-52,55,58-65,68-69,71-74,78-79,82,85-92,95-96,98-101,105-106,109,112-119,122-123,125-128,132-133,136,139-146,149-150,152-155,159-160,163,166-173,176-177,179-182,186-187,190,193-200,203-204,206-209,213-214,217,220-227,230-231,233-236,240-241,244,247-254,257-258,260-263,267-268,271,274-281,284-285,287-290,294-295,298,301-308,311-312,314-317,321-322,325,328-335,338-339,341-344,348-349,352,362-364,370-372,374-377,381-382,384-388,390-391,393-394,396-402,405-412,415-422,425-426,428-431,435-436,439,443-445,450-456,459-466,469-476,479-480,482-485,489-490,493,496-503,506-507,509-512,516-517,520,524-526,532-534,536-539,543-544,546-550,552,555,557-558,560-566,569-576,579-586,589-590,592-595,599-600,603,606-613,616-617,619-622,626-627,630,633-640,643-644,646-649,653-654,657,660-667,670-671,673-676,680-681,684,687-694,697-698,700-703,707-708,711,714-721,724-725,727-730,734-735,738,741-748,751-752,754-757,761-762,765,769-771,777-779,781-784,788-789,791-795,799-800,802-803,805-811,814-821,824-831,834-835,837-840,844-845,848,857,861,863-864,866-872,875-882,885-892,895-896,898-901,905-906,909,917-919,924-930,933-940,949-951,957-959,961-964,968-969,971-975,979-981,984-985,988-990,992-995,999-1000,1002-1006,1010-1011,1013-1014,1016-1022,1025-1032,1035-1042,1045-1046,1048-1051,1055-1056,1059,1062-1063,1065,1067,1070
+.claude/settings.json
+  s_da0ccad02c88a3::t_5f3851d296180c 22-26,92-144,147-158
+.context/retros/2026-08-15-1.json
+  s_2afe06807554bb::t_9926831a8208f6 1-74
+.gitignore
+  s_0704e88a1f3df3::t_efe0b468458294 64-66
+.ijfw/.session-counter
+  s_2286c94786820d::t_2030a3e9949513 1
+.ijfw/.session-counter-id
+  s_2286c94786820d::t_3367ee5b459335 1
+.ijfw/.session-edits.jsonl
+  s_a3505f9072d5c6::t_2ed8a598558327 66-110
+.ijfw/.session-marker-ts
+  s_2286c94786820d::t_bd36f213412757 1
+.ijfw/memory/handoff.md
+  s_6a1827a8f9da7e::t_a39558a15cca17 1,6,8-10,14-24,26-40,42-81,85-96,100
+.ijfw/memory/project-journal.md
+  s_a3505f9072d5c6::t_c55343ced00e11 109-151
+.ijfw/metrics/.transcript-cursor.json
+  s_a3505f9072d5c6::t_dc3ecba9ec71cf 1
+.ijfw/metrics/sessions.jsonl
+  s_a3505f9072d5c6::t_801b7133f4050d 144-278
+.ijfw/sessions/session_2026-08-15_20-28-38.md
+  s_2afe06807554bb::t_08f01fac3470af 1-5
+.ijfw/sessions/session_2026-08-15_20-43-01.md
+  s_bed36bc834b400::t_b37412b04bd599 1-5
+.mcp.json
+  s_fc45e6d5de6368::t_956db4a580a532 20-27,30
+.obsidian/graph.json
+  s_6f1867e686704b::t_7e573f0a160b80 20
+TODOS.md
+  s_0ef148c23bdbc7::t_643b2f65052fc7 22,120-130
+audit/COWORK-AUTO-SYNC-REPORT.md
+  s_c4e2e0ad144627::t_ec270450b400c5 3,14,42,68-154
+cic-vision-governance/artifacts/threshold/v016.json
+  s_4d5378553c6b81::t_37131697374f20 1-15
+cic-vision-governance/artifacts/threshold/v017.json
+  s_4d5378553c6b81::t_dbfb5f38f27df8 1-15
+cic-vision-governance/artifacts/threshold/v018.json
+  s_4d5378553c6b81::t_8fa25ad45b6590 1-15
+cic-vision-governance/artifacts/threshold/v019.json
+  s_4d5378553c6b81::t_f65ca0203b5c56 1-15
+cic-vision-governance/artifacts/threshold/v020.json
+  s_4d5378553c6b81::t_acdd8c8280c9ef 1-15
+docs/superpowers/plans/2026-08-12-notebooklm-cic-ingest-mining.md
+  s_94faec07655f22::t_dfd2885708ea59 1234,1236,1252,1261-1274,1279,1300,1312,1338
+drift/DRIFT-REPORT.md
+  s_c4e2e0ad144627::t_43f00b59029f8f 3,14,16,20,28-30,44,55,64,73
+skills/SKILLPACK-RUNTIME-HEALTH.md
+  s_c4e2e0ad144627::t_acc6deb435b3cc 3,13-14,200,208,486,512
+skills/SKILLPACK-VALIDATION.md
+  s_c4e2e0ad144627::t_2ca291d4c46300 3,12-13,19-20,46,114,147,151,154,157,161-162,169,171,173-174,176,182,184
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "68f0ace5efba73988a15df85dc94853f1d1d1192",
+  "prompts": {},
+  "sessions": {
+    "s_0704e88a1f3df3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de2f1c5c-6819-41a4-9422-e6d06c50274d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0ef148c23bdbc7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "94167709-ebc1-4e2a-8520-a94716ca7d33",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2286c94786820d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7879568e-3545-4fec-8f62-bff4d5dbcfe4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2afe06807554bb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6294ff91-fde0-4654-bfc7-e05c971e527f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_42b84b1143f597": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ff87d-e129-7310-ab30-dc054de846f6",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_4d5378553c6b81": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a005b0-ab11-7f52-989d-e699d42e7a83",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_6a1827a8f9da7e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ef08b674-69ce-49c1-9b0d-80187a2a3f0d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_6f1867e686704b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9c45-1b94-7fa2-ba43-0e3e81f03dbd",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_94faec07655f22": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f60c70b8-bc6f-4f21-bbae-d9e10da07149",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a3505f9072d5c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fca6dcee-f6dd-473d-b31e-9b5879c5d874",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bed36bc834b400": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f2b61664-db06-4322-a0b2-7f2788dcbb07",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c4e2e0ad144627": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87903fa8-2e5d-4e0f-88e3-820bde2cfb8e",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_da0ccad02c88a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a93499f4-6577-4680-bdd3-467b313ad54c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f6aa48b2d59f04": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a007da-4822-7db0-998d-6f48eda7e830",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fc45e6d5de6368": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0dc08aba-ceaf-497c-9bae-ff0a7ea9d058",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fffa1bd0ad6cb8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a001dc-b98d-78d0-8faa-bb1393fc4690",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

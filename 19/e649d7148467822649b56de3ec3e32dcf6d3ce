@@ -1,0 +1,19 @@
+docs/superpowers/plans/2026-08-01-trm-sync-treatment-followups.md
+  s_8b728eb8a9da4f::t_9c784dc51d2e9c 1-429
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "19e649d7148467822649b56de3ec3e32dcf6d3ce",
+  "prompts": {},
+  "sessions": {
+    "s_8b728eb8a9da4f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ef6ff86-8e91-4817-b8af-bfc018de4377",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,155 @@
+skills/rollback-phase/src/rollbackOrchestrator.ts
+  s_7cbe892bfbb449::t_69a20fd0aa57cf 22
+  s_7cbe892bfbb449::t_6e26f7bada0b0b 27
+  s_7cbe892bfbb449::t_7d6a4c51f5dabf 39-40
+  s_7cbe892bfbb449::t_0e494be392f7d6 1-12,14-20,28-38,41-46
+  s_7cbe892bfbb449::t_38f5c653ea99eb 13,21,24,26
+  s_7cbe892bfbb449::t_a8b7f3954f1827 23
+  s_7cbe892bfbb449::t_41f76e9e11f558 25
+  s_7cbe892bfbb449::t_bfb9e77b23c32f 47-48
+skills/tool-lifecycle-manager/src/canaryRouter.ts
+  s_7cbe892bfbb449::t_72086f9e5fd21d 1-21
+skills/tool-lifecycle-manager/src/index.ts
+  s_7cbe892bfbb449::t_1e53ca3039eb64 1,4,6-7,19,22-24
+  s_7cbe892bfbb449::t_53ac03bf9cc633 2,8,10-17,20-21
+  s_7cbe892bfbb449::t_4b8c5968c5d1f3 5,18
+  s_7cbe892bfbb449::t_22a7875b02f6d3 25-27
+  s_7cbe892bfbb449::t_854ffac899fbf0 28-45
+skills/tool-lifecycle-manager/src/healthScorer.ts
+  s_7cbe892bfbb449::t_a87438a1f3dbaa 1-35
+skills/tool-lifecycle-manager/src/versionPromoter.ts
+  s_7cbe892bfbb449::t_886f7d2601175d 1-31
+skills/rollback-phase/src/configRestorer.ts
+  s_7cbe892bfbb449::t_6a5a7a8a63cefe 1-18
+skills/rollback-phase/src/index.ts
+  s_7cbe892bfbb449::t_cb4afd93c4e798 1-2,4,7-9,11,13
+  s_7cbe892bfbb449::t_1d22a16d858dc5 12
+  s_ae6c36133a3b6d::t_46c22cd29fb4d5 15-16
+windows-task-manager/dashboard/dashboard.js
+  s_a910acc9cbcbda::t_654e74d68b24a7 23-24,32-35
+  s_a910acc9cbcbda::t_80cd524bfa2d1e 76-82,85-87,89,92,94
+  s_a910acc9cbcbda::t_1d8f602ce5400b 83-84
+  s_a910acc9cbcbda::t_bfdf2bca321785 128-133
+  s_a910acc9cbcbda::t_bf26a07afde0e8 197
+  s_a910acc9cbcbda::t_5a338649ca2dde 134-135,137-148
+  s_a910acc9cbcbda::t_14dc0149d6dffa 286-291
+  s_a910acc9cbcbda::t_62660fb15e726d 20-22,25-31,36-38
+  s_a910acc9cbcbda::t_06db7acd41e074 209-233,235-253
+  s_c57362b65e0120::t_f80a307bc8f12f 268-270,272-277
+  s_a910acc9cbcbda::t_353a408d0aa176 234
+  s_a910acc9cbcbda::t_9b02841bad4fc2 149,372-448
+  s_a910acc9cbcbda::t_1f6f2268458331 1
+  s_a910acc9cbcbda::t_281940c31fcd18 136
+  s_c57362b65e0120::t_dc3ed98f818be5 520-526
+  s_c57362b65e0120::t_20c62e556a7401 307-310
+  s_a910acc9cbcbda::t_edc0bdb9a44d85 317-337
+  s_c57362b65e0120::t_cfb3b974baacd0 560-566
+  s_a910acc9cbcbda::t_ca63b3c171541e 611
+  s_a910acc9cbcbda::t_baba7d4ab844a5 150
+skills/rollback-phase/src/healthGate.ts
+  s_7cbe892bfbb449::t_05fc60a0113276 1-34
+skills/rollback-phase/src/types.ts
+  s_7cbe892bfbb449::t_bb61d50ff2564c 1-51
+.ijfw/memory/plan.md
+  s_31fbaa890cfd27::t_b9495f50c9c4c7 1-113
+skills/tool-lifecycle-manager/src/types.ts
+  s_7cbe892bfbb449::t_5b2fdc3528f395 1-44
+skills/rollback-phase/src/flagRestorer.ts
+  s_7cbe892bfbb449::t_63086723df7a3b 1-18
+skills/tool-lifecycle-manager/src/lifecycleController.ts
+  s_7cbe892bfbb449::t_6ebffde84c6e3e 1-45
+docs/meta/toolforge-phase-2b-step2-REVIEW.md
+  s_ae6c36133a3b6d::t_a51ab6be1d1416 15
+  s_ae6c36133a3b6d::t_eb7bc765cf04dc 1-9,12-14,16-99
+  s_ae6c36133a3b6d::t_39cdf3ba2b9c65 10-11
+.claude/settings.json
+  s_a910acc9cbcbda::t_583231970e86c7 8-12
+CLAUDE.md
+  s_c57362b65e0120::t_7688f95e1bf496 8,44-58
+skills/rollback-phase/coverage/clover.xml
+  s_7cbe892bfbb449::t_1f80e3ab8cd2a3 1-55
+skills/rollback-phase/coverage/coverage-final.json
+  s_7cbe892bfbb449::t_e9eb920758e19c 1-7
+skills/rollback-phase/coverage/lcov-report/base.css
+  s_7cbe892bfbb449::t_e36ae3e8e139c7 1-224
+skills/rollback-phase/coverage/lcov-report/block-navigation.js
+  s_7cbe892bfbb449::t_a6e29489cfa673 1-87
+skills/rollback-phase/coverage/lcov-report/configRestorer.ts.html
+  s_7cbe892bfbb449::t_6ce64c9ac86dd6 1-139
+skills/rollback-phase/coverage/lcov-report/flagRestorer.ts.html
+  s_7cbe892bfbb449::t_4b411b3371b8c3 1-139
+skills/rollback-phase/coverage/lcov-report/healthGate.ts.html
+  s_7cbe892bfbb449::t_2143ce4d0eb521 1-187
+skills/rollback-phase/coverage/lcov-report/index.html
+  s_7cbe892bfbb449::t_5214e39ae90c78 1-191
+skills/rollback-phase/coverage/lcov-report/index.ts.html
+  s_7cbe892bfbb449::t_375d144add668a 1-136
+skills/rollback-phase/coverage/lcov-report/prettify.css
+  s_7cbe892bfbb449::t_8c91b7ca6140b5 1
+skills/rollback-phase/coverage/lcov-report/prettify.js
+  s_7cbe892bfbb449::t_1d0b23c8401a3a 1-2
+skills/rollback-phase/coverage/lcov-report/rollbackOrchestrator.ts.html
+  s_7cbe892bfbb449::t_9010227ed6637f 1-217
+skills/rollback-phase/coverage/lcov-report/snapshotLoader.ts.html
+  s_7cbe892bfbb449::t_c203a9dda034be 1-136
+skills/rollback-phase/coverage/lcov-report/sorter.js
+  s_7cbe892bfbb449::t_25c9b8b015aa75 1-210
+skills/rollback-phase/coverage/lcov.info
+  s_7cbe892bfbb449::t_39e9b4f8fff934 1-118
+skills/rollback-phase/src/snapshotLoader.ts
+  s_7cbe892bfbb449::t_f80fa042a6205e 1-17
+.obsidian/app.json
+  s_7cbe892bfbb449::t_b916983aecc5e9 1
+.obsidian/appearance.json
+  s_7cbe892bfbb449::t_06594fb4c4e7f8 1
+.obsidian/workspace.json
+  s_7cbe892bfbb449::t_16b20666b9307d 1-181
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "2614810d2988778c00f374bfc40c3f6b07d1bf90",
+  "prompts": {},
+  "sessions": {
+    "s_31fbaa890cfd27": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e54e9bb-ce71-40ed-801a-923fd76ed9be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7cbe892bfbb449": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c047833-a9dd-49b9-9c7f-f6cbe419fbd3",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a910acc9cbcbda": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a8343c8-95b2-4e2a-8cba-c872687f7c97",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ae6c36133a3b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3fdd281-bf7a-4836-9ea3-d631c6c293d9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c57362b65e0120": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36b19781-eb2f-4b0e-b505-cee5cd2a36be",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

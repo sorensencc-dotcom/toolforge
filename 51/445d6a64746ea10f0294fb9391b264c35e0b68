@@ -1,0 +1,23 @@
+src/harvester/external/__tests__/update-focus-areas.test.js
+  s_a3505f9072d5c6::t_1df3c0725efeca 1-43
+src/harvester/external/update-focus-areas.mjs
+  s_a3505f9072d5c6::t_890f5de76ef859 1-5,7-31,33-36,38-39,41-68
+  s_a3505f9072d5c6::t_8ed1bf7fcd81f3 32,37,40
+  s_a3505f9072d5c6::t_09304246af1c71 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "51445d6a64746ea10f0294fb9391b264c35e0b68",
+  "prompts": {},
+  "sessions": {
+    "s_a3505f9072d5c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fca6dcee-f6dd-473d-b31e-9b5879c5d874",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

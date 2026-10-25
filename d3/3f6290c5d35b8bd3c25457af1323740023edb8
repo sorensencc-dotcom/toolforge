@@ -1,0 +1,24 @@
+TODOS.md
+  s_92e7d4e50c8fe3::t_1b327b0838f95f 7-10
+  s_92e7d4e50c8fe3::t_5a63222f629c76 15-19,21,23-26
+  s_92e7d4e50c8fe3::t_ee6590def0078a 70
+scripts/loc-filtered.ps1
+  s_92e7d4e50c8fe3::t_e27fe744f4985e 12-16
+  s_92e7d4e50c8fe3::t_f1d13612191104 54-57,60-62,66-68,71-78,89-92,103,105,109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "d33f6290c5d35b8bd3c25457af1323740023edb8",
+  "prompts": {},
+  "sessions": {
+    "s_92e7d4e50c8fe3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07668d9b-2ca5-4d16-970d-f99f58c246e5",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

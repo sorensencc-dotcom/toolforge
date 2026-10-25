@@ -1,0 +1,50 @@
+skills/work-summarizer/README.md
+  s_748e5ab68ae704::t_6882cb6ea4f7a2 1-175
+skills/work-summarizer/src/routing-artifact.ts
+  s_748e5ab68ae704::t_0649f4445721e6 1-161
+skills/work-summarizer/docs/USAGE.md
+  s_748e5ab68ae704::t_7a159094246f33 1-135
+skills/work-summarizer/package.json
+  s_748e5ab68ae704::t_97b698a46c57f7 1-2,4,6-7,10-16
+  s_748e5ab68ae704::t_8b2184f8a1a593 3,5,8-9
+skills/work-summarizer/src/drift-detector.ts
+  s_748e5ab68ae704::t_43b477d7f41af1 9
+  s_748e5ab68ae704::t_d0f95b8b5768bb 1-8,10-31,33-46,48-109,111-149
+  s_748e5ab68ae704::t_e4dfa32f9555c5 32,47,110
+skills/work-summarizer/skill.json
+  s_748e5ab68ae704::t_e4af62f8d12190 1-108
+skills/work-summarizer/src/utils.ts
+  s_748e5ab68ae704::t_db7c82b90f7e1e 1-104
+skills/work-summarizer/src/category-map.ts
+  s_748e5ab68ae704::t_3df6738596e584 1-125
+skills/work-summarizer/src/diff-engine.ts
+  s_748e5ab68ae704::t_50bf5268ed8ac7 1-170
+skills/work-summarizer/src/weekly-aggregator.ts
+  s_748e5ab68ae704::t_2db0542d2a4926 1-138
+skills/work-summarizer/src/index.ts
+  s_748e5ab68ae704::t_8d72a34dc36259 129-149,152,160,169
+  s_748e5ab68ae704::t_2c6f4abea42321 1-9,11-128,150-151,153-159,161-168,170-253
+  s_748e5ab68ae704::t_8e4d9acda1ff5f 10
+skills/work-summarizer/tsconfig.json
+  s_748e5ab68ae704::t_bfc48b37e64eb9 7
+  s_748e5ab68ae704::t_d22e3a8214b029 1-4,6,8-21
+  s_748e5ab68ae704::t_fedc1212d69803 5
+skills/work-summarizer/package-lock.json
+  s_748e5ab68ae704::t_24ff86a949d538 1-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "80c246b3cad20c478ce945d72b65fa3efd1a4108",
+  "prompts": {},
+  "sessions": {
+    "s_748e5ab68ae704": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "17f1198e-3730-4433-8b16-f492ccb56939",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

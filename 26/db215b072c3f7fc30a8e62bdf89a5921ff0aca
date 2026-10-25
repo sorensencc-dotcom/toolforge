@@ -1,0 +1,20 @@
+docs/superpowers/plans/2026-07-28-trm-feedback-report.md
+  s_904046ee856c16::t_5a46c25da29c57 90-102
+  s_904046ee856c16::t_0a03dfd43dc8e5 1-89,103-1690
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "26db215b072c3f7fc30a8e62bdf89a5921ff0aca",
+  "prompts": {},
+  "sessions": {
+    "s_904046ee856c16": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0259ef53-b03d-4c1b-9980-f30fe6d696ca",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

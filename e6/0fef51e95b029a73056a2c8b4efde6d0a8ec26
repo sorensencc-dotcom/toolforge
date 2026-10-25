@@ -1,0 +1,23 @@
+skills/run-tests-safe/INTEGRATION_DIAGRAM.md
+  s_b17fe6de81133b::t_faedb2ba43bfcc 1-21
+skills/scaffold-toolforge-skill/INTEGRATION_DIAGRAM.md
+  s_b17fe6de81133b::t_faedb2ba43bfcc 1-20
+skills/triage-skill-health-warnings/INTEGRATION_DIAGRAM.md
+  s_b17fe6de81133b::t_faedb2ba43bfcc 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e60fef51e95b029a73056a2c8b4efde6d0a8ec26",
+  "prompts": {},
+  "sessions": {
+    "s_b17fe6de81133b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ce02bd4e-7bfa-4740-a007-09852f174da2",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

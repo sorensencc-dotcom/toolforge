@@ -1,0 +1,19 @@
+docs/superpowers/specs/2026-07-28-trm-sync-treatment-design.md
+  s_7131d22b7ab717::t_9f3172327c14f0 1-167
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "b9c96a0ad9e551f53a68194b0a68bb91a24083ba",
+  "prompts": {},
+  "sessions": {
+    "s_7131d22b7ab717": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d606102f-397d-4ccc-a80b-ccf2dca4143a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

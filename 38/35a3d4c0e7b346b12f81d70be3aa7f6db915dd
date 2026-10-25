@@ -1,0 +1,20 @@
+tests/consolidate-pack-hardening.test.mjs
+  h_5c172e9b435f5a 15,188-198,200-204,206-210,212-217,219-224,226-230,232-236,238-242,244-248,250-251,253,255-257,259-266,281-289,291-295,297-301,303-307,309-346
+tests/consolidate-pack-isolation.test.mjs
+  h_5c172e9b435f5a 7,10-34,38-40,42-43,45-47,49-52
+tests/helpers-sandbox.test.mjs
+  h_5c172e9b435f5a 1-67
+tests/helpers/sandbox.mjs
+  h_5c172e9b435f5a 1-106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3835a3d4c0e7b346b12f81d70be3aa7f6db915dd",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

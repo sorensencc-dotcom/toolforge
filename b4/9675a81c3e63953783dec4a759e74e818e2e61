@@ -1,0 +1,73 @@
+.ijfw/memory/project-journal.md
+  s_f160cbd326fcea::t_7f43a8e091187a 157
+  s_bed36bc834b400::t_3909356dc73460 154-156,158-160
+.ijfw/.session-edits.jsonl
+  s_f160cbd326fcea::t_7f43a8e091187a 112
+  s_bed36bc834b400::t_381e9fd94fa80e 111,113
+.context/retros/2026-08-16-1.json
+  s_f160cbd326fcea::t_f1d7811c257b83 1-62
+  s_bed36bc834b400::t_07b2c344647c01 63-67
+.claude/skills/sigil-consult/SKILL.md
+  s_bed36bc834b400::t_767e5c2ce6c8aa 1-46
+.ijfw/sessions/session_2026-08-16_00-52-00.md
+  s_f160cbd326fcea::t_7f43a8e091187a 1-5
+.ijfw/metrics/sessions.jsonl
+  s_f160cbd326fcea::t_7f43a8e091187a 284
+  s_bed36bc834b400::t_aeaa93729f3f3c 281-283,285-287
+.ijfw/metrics/.transcript-cursor.json
+  s_bed36bc834b400::t_179ffa871a3051 1
+.ijfw/sessions/session_2026-08-16_00-22-29.md
+  s_f6aa48b2d59f04::t_381492889549a8 2-4
+.ijfw/sessions/session_2026-08-16_00-39-13.md
+  s_f6aa48b2d59f04::t_b28f51e0fa7cc8 2-4
+.ijfw/sessions/session_2026-08-16_00-39-24.md
+  s_f6aa48b2d59f04::t_e54e73d081d913 2-4
+.ijfw/sessions/session_2026-08-16_00-59-42.md
+  s_bed36bc834b400::t_526a36a6dede49 1-5
+.ijfw/sessions/session_2026-08-16_00-53-14.md
+  s_bed36bc834b400::t_73d4cc5ee65eeb 1-5
+.ijfw/sessions/session_2026-08-16_00-53-54.md
+  s_bed36bc834b400::t_13d4945ad65771 1-5
+TODOS.md
+  s_0ef148c23bdbc7::t_bd9923d4e23619 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "b49675a81c3e63953783dec4a759e74e818e2e61",
+  "prompts": {},
+  "sessions": {
+    "s_0ef148c23bdbc7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "94167709-ebc1-4e2a-8520-a94716ca7d33",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bed36bc834b400": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f2b61664-db06-4322-a0b2-7f2788dcbb07",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f160cbd326fcea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d1e32787-bde9-468f-b091-1352710053fb",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f6aa48b2d59f04": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a007da-4822-7db0-998d-6f48eda7e830",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

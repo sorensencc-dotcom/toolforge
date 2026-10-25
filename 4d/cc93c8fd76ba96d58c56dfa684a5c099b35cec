@@ -1,0 +1,19 @@
+.gitignore
+  s_2da5084d6c5c71::t_6fd4f9ff15ccb8 128-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4dcc93c8fd76ba96d58c56dfa684a5c099b35cec",
+  "prompts": {},
+  "sessions": {
+    "s_2da5084d6c5c71": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a49af109cf76c2f09",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

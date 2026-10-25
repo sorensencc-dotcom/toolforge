@@ -1,0 +1,21 @@
+trm-drive/inbox/LEDGER.md
+  s_fa11606c187761::t_66676c83811dc3 51
+trm-drive/inbox/ledger.jsonl
+  s_fa11606c187761::t_2ab9fb8c1e18f3 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a9385755a4ee3656e5300acfff6cbd7bc61b02da",
+  "prompts": {},
+  "sessions": {
+    "s_fa11606c187761": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a14674-d160-7dd2-98f1-0646f6f76765",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

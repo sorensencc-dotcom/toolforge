@@ -1,0 +1,35 @@
+docs/toolforge/schemas/skill.marketplace.schema.json
+  s_bd67b7a956c5e4::t_c8d91f453c4899 1-161
+skills/toolforge-drift-monitor/tests/manifest-schema.test.ts
+  s_bd67b7a956c5e4::t_bbb92acb294a1c 6
+  s_bd67b7a956c5e4::t_a5e2cad8a2ec16 44
+  s_bd67b7a956c5e4::t_5ddddd98a15164 1-5,7-43,45-92
+.gitignore
+  s_bd67b7a956c5e4::t_6e243f846e4018 25
+docs/toolforge/validators/manifest-validator.ps1
+  s_bd67b7a956c5e4::t_fa9f0d981a8eb5 1-162
+skills/tool-lifecycle-manager/tests/manifest-schema.test.ts
+  s_bd67b7a956c5e4::t_1ced1b9d3adf44 44
+  s_bd67b7a956c5e4::t_7ba14183157237 6
+  s_bd67b7a956c5e4::t_6143961ce3312c 1-5,7-43,45-92
+skills/tool-lifecycle-manager/SKILL.json
+  s_bd67b7a956c5e4::t_a3db872f222aab 30-50
+skills/toolforge-drift-monitor/SKILL.json
+  s_bd67b7a956c5e4::t_66e2397496ce20 30-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "fecb92e071c5dfa31e10ebff550b56b1744a1189",
+  "prompts": {},
+  "sessions": {
+    "s_bd67b7a956c5e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8831fba-1de4-4afe-9063-95b81e9784b0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

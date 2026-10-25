@@ -1,0 +1,55 @@
+docs/meta/PARALLELISM_MATRIX_DELIVERY_INDEX.md
+  s_08b9cdeabfac84::t_c63218b3f140ab 180
+docs/meta/governance/README.md
+  s_08b9cdeabfac84::t_25094e483df714 1-16
+docs/meta/parallelism-matrix-governance-rule.md
+  s_08b9cdeabfac84::t_026457f6c07d83 171
+docs/meta/PARALLELISM_MATRIX_SYSTEM.md
+  s_08b9cdeabfac84::t_4d1aa669d75329 242
+CIC-GOVERNANCE/MANIFEST/CIC-GOV-MANIFEST-001.md
+  s_08b9cdeabfac84::t_bd430ba694bf63 13
+CIC-GOVERNANCE/MANIFEST/PHASE-09-ONBOARDING.md
+  s_08b9cdeabfac84::t_0c1e8328ee758c 212-213
+CIC-GOVERNANCE/README.md
+  s_08b9cdeabfac84::t_788162ab74ebeb 14
+CIC-GOVERNANCE/README/CIC-README.md
+  s_08b9cdeabfac84::t_a07f3bc57d0496 4
+CLAUDE.md
+  s_08b9cdeabfac84::t_83f93f69413ea9 14,108
+docs/meta/PHASE27_WAVE_E_DATA_CONTRACT.md
+  s_08b9cdeabfac84::t_20b25f57aa82eb 532
+docs/meta/audit-first-scope-lock-formalization-summary.md
+  s_08b9cdeabfac84::t_e9bcd3ef7b4f75 21,35,53,82-83
+docs/meta/audit/README.md
+  s_08b9cdeabfac84::t_b59d16b6bfc547 71-73
+docs/meta/docs-structure-policy-plan.md
+  s_08b9cdeabfac84::t_0905dfc37d33ca 51-61,70-80,103-109,742,751
+docs/meta/governance/global-operating-rules-cic-rewrite-labs.md
+  s_08b9cdeabfac84::t_46e10b53648f10 125
+docs/meta/governance/global-rules-amendment-v1.4.md
+  s_08b9cdeabfac84::t_ca68151bd573b4 130-131
+docs/meta/governance/governance-update-data-contracts.md
+  s_08b9cdeabfac84::t_c070b674d16558 26
+docs/meta/governance/ijfw-spec-phase-data-contract-gate.md
+  s_08b9cdeabfac84::t_c699f302fc2fa1 259
+docs/meta/phase-abc-audit-phases-addition.md
+  s_08b9cdeabfac84::t_f0a52777c0f341 89
+skills/toolforge-registry-manager/README.md
+  s_08b9cdeabfac84::t_d2e74871951151 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "14965d6a73d4f4d36ab1c2b3b9b98adc15d560e3",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

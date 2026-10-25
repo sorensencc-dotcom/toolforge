@@ -1,0 +1,41 @@
+docs/meta/4-ijfw-plan-phase-4-governance.md
+  s_659aefbaf5fabf::t_219ef4b5c06ec0 1-508
+docs/meta/phase-4-completion-report.md
+  s_659aefbaf5fabf::t_579d1dfea4757e 1-289
+docs/meta/phase-4-observability-contract.md
+  s_659aefbaf5fabf::t_738c57cbb25f61 1-233
+.claude/settings.json
+  s_c57362b65e0120::t_e681a53512aa73 1-9
+.github/copilot-instructions.md
+  s_659aefbaf5fabf::t_a3833166b65b82 1-161
+.github/copilot-toolbox-mcp-skills-awareness.md
+  s_659aefbaf5fabf::t_466ba989abfec0 1-235
+.ijfw/.layout-version
+  s_659aefbaf5fabf::t_d551220dfa5a89 1
+docs/archive/build-output/CIP/CIC
+  s_659aefbaf5fabf::t_88d0e62e95d158 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "e9475d5fdee2ca99ac54221912c4f5656540d778",
+  "prompts": {},
+  "sessions": {
+    "s_659aefbaf5fabf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "154d4d74-8bba-4a86-af10-c33faf83fe81",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c57362b65e0120": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36b19781-eb2f-4b0e-b505-cee5cd2a36be",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

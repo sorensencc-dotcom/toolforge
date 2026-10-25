@@ -1,0 +1,22 @@
+src/stress-tests/gate04-fairness.js
+  s_1e2a7070ffa23f::t_01bbdc04ea4818 1-20,29-30,32-185
+  s_1e2a7070ffa23f::t_41432d5d153fb5 21-28,31
+src/stress-tests/README.md
+  s_1e2a7070ffa23f::t_74230bb3108393 1-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "cd77e6ed100ba4f0d001e0206f5e7c622fc68419",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

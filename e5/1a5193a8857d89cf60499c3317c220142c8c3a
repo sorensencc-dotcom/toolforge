@@ -1,0 +1,30 @@
+skills/toolforge-submission-validator/package.json
+  s_0a7f79c06386c0::t_10c3b9f4dba391 9
+  s_0747b231dbf553::t_a54146bb0c356d 6
+skills/toolforge-submission-validator/src/cli.js
+  s_0a7f79c06386c0::t_52de1cca441a85 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "e51a5193a8857d89cf60499c3317c220142c8c3a",
+  "prompts": {},
+  "sessions": {
+    "s_0747b231dbf553": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66c1e7fb-5222-4928-9ad7-dd38950f1a29",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_0a7f79c06386c0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "514da530-3475-4dc9-862a-59feaf0d3250",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.github/workflows/governance.yml
+  h_5c172e9b435f5a 64
+CIC-GOVERNANCE/scripts/pre-commit-shim.sh
+  h_5c172e9b435f5a 26-29
+scripts/governance/check-roadmap-location.mjs
+  h_5c172e9b435f5a 1-129
+setup-git-hooks.ps1
+  h_5c172e9b435f5a 86-92
+tests/governance-roadmap.test.mjs
+  h_5c172e9b435f5a 5-11,13,18-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fc7f19c0af2e1cce1211d66b32c4f9b248767f2e",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

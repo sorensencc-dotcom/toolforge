@@ -1,0 +1,22 @@
+src/harvester/external/curator-decision-processor.mjs
+  s_51835977e6ec78::t_33b753d37ef2f7 65
+  s_51835977e6ec78::t_13c9276eaf2aca 1-64,66-111,113-167,173-176
+  s_51835977e6ec78::t_4b4f92ae30a074 168-172
+  s_51835977e6ec78::t_f76283937e9cae 112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "b510e545113b944222f97cb1fcb27ec9a1b63564",
+  "prompts": {},
+  "sessions": {
+    "s_51835977e6ec78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b5f70a8f-ea63-4a04-9ca8-40f1085773e2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

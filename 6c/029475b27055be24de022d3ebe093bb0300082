@@ -1,0 +1,27 @@
+src/validators/manifest.js
+  s_1e2a7070ffa23f::t_8efcda6786d05d 1-130
+src/validators/semver.js
+  s_1e2a7070ffa23f::t_4ff9250909b45f 1-132
+src/validators/manifest.test.js
+  s_1e2a7070ffa23f::t_7652793d008993 1-142
+src/validators/semver.test.js
+  s_1e2a7070ffa23f::t_94139b9e15d21d 1-104
+src/validators/README.md
+  s_1e2a7070ffa23f::t_45981b15813063 1-96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "6c029475b27055be24de022d3ebe093bb0300082",
+  "prompts": {},
+  "sessions": {
+    "s_1e2a7070ffa23f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf05dba-5b2e-42cb-914e-45473bad602b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

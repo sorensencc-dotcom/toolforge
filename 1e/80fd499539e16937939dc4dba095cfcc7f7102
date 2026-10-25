@@ -1,0 +1,19 @@
+docs/superpowers/specs/2026-07-16-cic-tool-surface-phase1-design.md
+  s_c83ac9271709b1::t_979dba5950fff9 1-186
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "1e80fd499539e16937939dc4dba095cfcc7f7102",
+  "prompts": {},
+  "sessions": {
+    "s_c83ac9271709b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "42f01400-e2ad-495c-8aab-219a5fbcf7c9",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

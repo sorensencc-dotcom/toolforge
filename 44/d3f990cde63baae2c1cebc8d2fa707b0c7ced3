@@ -1,0 +1,43 @@
+.ijfw/memory/handoff.md
+  s_f3f810462d7935::t_1a865b6bad0118 6,8,12-14,18-19,23-25,29-31
+skills/_cic-shared/tests/shared.test.ts
+  s_217263389faf70::t_b62dcce9660a25 3,8,28-43,45-46,48,51-67
+skills/_cic-shared/src/artifactPaths.js
+  s_08b9cdeabfac84::t_100419d3c00fad 1-41
+skills/_cic-shared/src/runId.js
+  s_08b9cdeabfac84::t_d487a2a226c50e 1-50
+skills/_cic-shared/src/writeResultJson.js
+  s_08b9cdeabfac84::t_83c9ebe8871410 1-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "44d3f990cde63baae2c1cebc8d2fa707b0c7ced3",
+  "prompts": {},
+  "sessions": {
+    "s_08b9cdeabfac84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70a7503f-7c80-434f-9a45-e2cadde4143f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_217263389faf70": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6c91-7b6a-7d82-8cb9-fbaf5aadb5f2",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f3f810462d7935": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6c78-bdf1-7002-9c67-2967051fa9b9",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

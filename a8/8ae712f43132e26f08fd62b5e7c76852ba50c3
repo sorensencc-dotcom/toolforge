@@ -1,0 +1,60 @@
+README.md
+  s_1c8c72bfe5bcd2::t_63515f26d51e11 5,18,24,30,38
+  s_1c8c72bfe5bcd2::t_706b41c587172d 3,6-17,19-23,25-29,31-37,39-53
+  s_1c8c72bfe5bcd2::t_9fbdba7ea7e2d5 54-56
+ROADMAP.md
+  s_1c8c72bfe5bcd2::t_1876199a7f6186 19-20
+  s_1c8c72bfe5bcd2::t_6d2e891c65bce0 26,35
+  s_1c8c72bfe5bcd2::t_3c04f4d268169c 49
+  s_1c8c72bfe5bcd2::t_a06cc3b600db4c 3-18,21-25,27-34,36-48,50-63,65-102
+  s_1c8c72bfe5bcd2::t_ea69c134eeac69 64
+  s_1c8c72bfe5bcd2::t_f727d46f3b3395 103-104
+TOOL_CREATION_GUIDE.md
+  s_1c8c72bfe5bcd2::t_d7871a8cd1484e 1-358
+OPERATOR_GUIDE.md
+  s_1c8c72bfe5bcd2::t_442a10940d8e06 1-284
+GOVERNANCE.md
+  s_1c8c72bfe5bcd2::t_2d9f07062c04ee 76-77
+  s_1c8c72bfe5bcd2::t_460269a6a743f5 4-75,78-190
+  s_1c8c72bfe5bcd2::t_db07bc24879bb4 191-193
+run-tool.ps1
+  s_1c8c72bfe5bcd2::t_4f84f1bd539b9d 1-28,30-35,37-247
+manifest.json
+  s_1c8c72bfe5bcd2::t_90d7a86276a0ba 3,12-57,63,65
+  s_1c8c72bfe5bcd2::t_162f9cf635edb5 58-62
+  s_1c8c72bfe5bcd2::t_cddb72b304dd5e 64
+  s_1c8c72bfe5bcd2::t_776c6dd577264c 66-67
+sync-tools/README.md
+  s_1c8c72bfe5bcd2::t_bf899afe6e9cf5 1-251
+INDEX.md
+  s_1c8c72bfe5bcd2::t_45f5146c2530c9 83
+  s_1c8c72bfe5bcd2::t_a22c64b10e7b1e 20
+  s_1c8c72bfe5bcd2::t_24460481b53965 104,110,116
+  s_1c8c72bfe5bcd2::t_549bc3bf0caf2a 2-19,21-82,84-103,105-109,111-115,117-145
+sync-tools/repo-registry.json
+  s_658bf2605d5067::t_067d6d405f3162 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "a88ae712f43132e26f08fd62b5e7c76852ba50c3",
+  "prompts": {},
+  "sessions": {
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_658bf2605d5067": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab18ad0c-b44f-4d4b-a24d-5fcf6ffea313",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+scripts/reconcile-scheduled-tasks.ps1
+  s_e8c5d5cef80b42::t_bdc8b9d17aacfe 568-573
+scripts/schedule-task-wrapper-CI-Watchdog.ps1
+  s_27a9513441c216::t_b20c6df69fdbd6 73-75
+scripts/schedule-task-wrapper-Daemon-Healer.ps1
+  s_27a9513441c216::t_94a6b154d9c90a 72-74
+scripts/schedule-task-wrapper-IronLedger-Sentinel.ps1
+  s_27a9513441c216::t_4f7de294906fb0 72-74
+scripts/schedule-task-wrapper-Ironbots-Reporter.ps1
+  s_27a9513441c216::t_a091d1c1f81d1c 74-76
+scripts/schedule-task-wrapper-KB-Sentinel.ps1
+  s_27a9513441c216::t_528d57d7ccf464 74-75,77
+scripts/schedule-task-wrapper-Notebook-Ingester.ps1
+  s_e8c5d5cef80b42::t_018b7ad45aa693 72-73,75
+scripts/schedule-task-wrapper-TRM-Bot.ps1
+  s_27a9513441c216::t_b9f047ebee53a1 74-76
+scripts/schedule-task-wrapper-TRM-Ingress-Watcher.ps1
+  s_27a9513441c216::t_0bba370509a6a4 76-77,79
+scripts/schedule-task-wrapper-Watchlist-Miner.ps1
+  s_27a9513441c216::t_2a641d83b09f0c 73-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5ac92730ef9655982443744b254cb7661183e2c8",
+  "prompts": {},
+  "sessions": {
+    "s_27a9513441c216": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d0d069-d844-4a5e-88d1-9a619445b2d4",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e8c5d5cef80b42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "002e2a65-c944-428c-8fd9-d5393e7b3986",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

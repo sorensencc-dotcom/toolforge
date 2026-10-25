@@ -1,0 +1,28 @@
+utilities/bump-version.ps1
+  s_7dcb05f04ef810::t_6fe4a3b5d556b1 1-89
+utilities/tests/test-step3-release-automation.ps1
+  s_7dcb05f04ef810::t_02cdfdb8da280e 1-196
+utilities/generate-changelog.ps1
+  s_7dcb05f04ef810::t_9941747d76a47f 1-95,97-98,105,107-108
+  s_7dcb05f04ef810::t_e8ccc2d87c5802 96,99-104,106
+.github/workflows/toolforge-release.yml
+  s_7dcb05f04ef810::t_703f6f92cae457 127-128
+  s_7dcb05f04ef810::t_727d85e4e5d0a2 96-103
+  s_7dcb05f04ef810::t_3de01372f671ec 1-95,104-126,129-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "7d2ba9fad474075ec6578d767ba59071e7ef0d25",
+  "prompts": {},
+  "sessions": {
+    "s_7dcb05f04ef810": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3580a60-f5b2-4772-b7b6-3974f712fb99",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

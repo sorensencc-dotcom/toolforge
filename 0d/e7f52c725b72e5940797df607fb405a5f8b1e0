@@ -1,0 +1,27 @@
+docs/meta/ijfw-spec-phase-phase0-integration.md
+  s_7a9219f317eb85::t_aec3d0f367de87 1-268
+docs/meta/phase-0-pattern-research-gate-template.md
+  s_7a9219f317eb85::t_7f1cb0df9c80d7 1-209
+docs/meta/global-operating-rules-cic-rewrite-labs.md
+  s_7a9219f317eb85::t_3be416fe1fbe65 1-234,309-337,339-359
+  s_7a9219f317eb85::t_44d444d603969e 338
+  s_7a9219f317eb85::t_7afffa246960ae 240
+  s_7a9219f317eb85::t_b995d75fd0b499 235-239,241-266,268-308
+  s_7a9219f317eb85::t_76cbc807857d90 267
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "0de7f52c725b72e5940797df607fb405a5f8b1e0",
+  "prompts": {},
+  "sessions": {
+    "s_7a9219f317eb85": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a5bd5ef-3f82-4819-941f-6a4b651c1e08",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+docs/meta/proof-layer-reporting.md
+  s_341c33d5a0a6ed::t_68744635399901 1-15
+package.json
+  s_8b728eb8a9da4f::t_a0a7b848453059 27,68
+scripts/preflight.ps1
+  s_341c33d5a0a6ed::t_bd3805bdeedf41 1-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "72f765ceb81f811b4aeec22e5c0a47720f0e1ae3",
+  "prompts": {},
+  "sessions": {
+    "s_341c33d5a0a6ed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fddfc715-c90e-40b3-87a3-b3e940afb164",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_8b728eb8a9da4f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ef6ff86-8e91-4817-b8af-bfc018de4377",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+docs/reports/daily/2026-10-20.md
+  h_5c172e9b435f5a 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "65aba6a43efacef5957551d8b413c7434d60b048",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
