@@ -1,0 +1,26 @@
+_integration/model_selection.json
+  h_5c172e9b435f5a 2,5-9,36,105-136,157,173,195
+modules/adapters/WhichLlmAdapter.mjs
+  h_5c172e9b435f5a 23,25,38-39,51,54-55
+scripts/local-small-model-bridge.mjs
+  h_5c172e9b435f5a 19-44
+scripts/whichllm-bfcl-evaluator.mjs
+  h_5c172e9b435f5a 4,137-138,140-163,167,172-185,195-197,207,210-225,255-256
+scripts/whichllm-router.mjs
+  h_5c172e9b435f5a 29
+tests/local-small-model-bridge.test.mjs
+  h_5c172e9b435f5a 1-12
+tests/whichllm-router.test.mjs
+  h_5c172e9b435f5a 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "56d7f9762fca49b62a04a5a77ad93ba3396fa541",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
