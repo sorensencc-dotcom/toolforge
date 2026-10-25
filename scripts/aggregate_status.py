@@ -889,7 +889,7 @@ def is_pid_running(pid):
         if platform.system() == "Windows":
             res = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
                                  capture_output=True, text=True, timeout=5)
-            return str(pid) in res.stdout
+            return f'"{pid}"' in res.stdout
         else:
             os.kill(pid, 0)
             return True

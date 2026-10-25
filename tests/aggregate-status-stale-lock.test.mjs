@@ -54,6 +54,8 @@ test('aggregate_status auto-recovers stale AST sync locks older than 5 minutes',
     }
     if (originalStats !== null) {
       writeFileSync(statsFile, originalStats, 'utf8');
+    } else if (existsSync(statsFile)) {
+      try { rmSync(statsFile, { force: true }); } catch {}
     }
   }
 });
