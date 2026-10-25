@@ -1,0 +1,29 @@
+tests/aggregate-status-stale-lock.test.mjs
+  s_99b2669a4058e3::t_6571098e25f2fa 1-59
+trm-drive/inbox/.ijfw-project
+  s_1c22ea7f821e91::t_e669add94e8082 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "957479afae8003fe02095eaf96cd3b971a8401e2",
+  "prompts": {},
+  "sessions": {
+    "s_1c22ea7f821e91": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d3e35f2c-ecf4-4c4b-a75b-fe4c5d27f855",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_99b2669a4058e3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a171a1-27ee-77b3-9a56-6cc118178e6a",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
