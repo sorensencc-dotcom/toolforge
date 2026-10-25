@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.109.2
+Date: 2026-10-25
+
+### Changes
+- 1afb6565 - Merge pull request #244 from sorensencc-dotcom/claude/chris-mode-review-1097cc (Chris Sorensen)
+- ca975ff0 - fix(retro): allow legacy optional keys in retro schema; point ICF section at icf repo (Chris Sorensen)
+- 5bd221ae - fix(governance): apply 2026-10-25 audit fixes (Chris Sorensen)
+- ceaea75a - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+
 ## Version 2.109.1
 Date: 2026-10-25
 
