@@ -1,0 +1,14 @@
+.context/retros/2026-10-25-1.json
+  h_5c172e9b435f5a 1-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6ba7fdf8c2cb8c817a76eed70fcdc80652519eb4",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
