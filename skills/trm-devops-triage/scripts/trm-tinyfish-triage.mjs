@@ -24,7 +24,7 @@ export function matchLocalSignature(logExtract) {
   }
 
   // 3. Node runner deprecations
-  if (/Node\.js (12|14|16) actions are deprecated|ACTIONS_RUNNER_FORCED_NODE_VERSION/i.test(logExtract)) {
+  if (/Node\.js \d+ actions are deprecated|ACTIONS_RUNNER_FORCED_NODE_VERSION/i.test(logExtract)) {
     return {
       status: 'resolved',
       remediation: 'Upgrade workflow action versions to modern releases targeting Node 20+ (e.g. actions/checkout@v4, actions/setup-node@v4) or set ACTIONS_RUNNER_FORCED_NODE_VERSION=node20.',

@@ -35,6 +35,10 @@ concurrency:
   group: toolforge-release
   cancel-in-progress: false
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   release:
     runs-on: ubuntu-latest

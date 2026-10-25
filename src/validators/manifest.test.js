@@ -139,4 +139,49 @@ test('Manifest Validator', async (t) => {
     const result = validateManifest(manifest);
     assert.strictEqual(result.manifest.status, 'draft');
   });
+
+  await t.test('accept valid $schema URI (URL and URN)', () => {
+    const manifestUrl = {
+      $schema: 'https://json-schema.org/draft-07/schema',
+      name: 'my-skill',
+      version: '1.0.0',
+      category: 'linting',
+      description: 'A skill for linting',
+      owner: 'user@example.com',
+      entrypoint: 'index.js',
+      runtime: 'node',
+    };
+    const resultUrl = validateManifest(manifestUrl);
+    assert.strictEqual(resultUrl.manifest.$schema, 'https://json-schema.org/draft-07/schema');
+
+    const manifestUrn = {
+      $schema: 'urn:toolforge:schema:base-sync-task:v1',
+      name: 'my-skill',
+      version: '1.0.0',
+      category: 'linting',
+      description: 'A skill for linting',
+      owner: 'user@example.com',
+      entrypoint: 'index.js',
+      runtime: 'node',
+    };
+    const resultUrn = validateManifest(manifestUrn);
+    assert.strictEqual(resultUrn.manifest.$schema, 'urn:toolforge:schema:base-sync-task:v1');
+  });
+
+  await t.test('reject scrubbed or malformed $schema URI', () => {
+    const scrubbedManifest = {
+      $schema: '[Suspicious link removed]',
+      name: 'my-skill',
+      version: '1.0.0',
+      category: 'linting',
+      description: 'A skill for linting',
+      owner: 'user@example.com',
+      entrypoint: 'index.js',
+      runtime: 'node',
+    };
+    assert.throws(
+      () => validateManifest(scrubbedManifest),
+      (err) => err instanceof ManifestError && err.message.includes('Field "$schema" must be a valid URI')
+    );
+  });
 });

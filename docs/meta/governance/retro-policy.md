@@ -19,6 +19,7 @@ This policy names the only places that hold retros and retro findings, who may w
 | Retro | `<repo>/.context/retros/<YYYY-MM-DD>-<N>.json` | Retro schema v1.x | The `/retro` skill |
 | Retro finding | `<repo>/.context/retros/inbox/<agent>/<YYYY-MM-DD>-<slug>.json` | `retro-inbox/1` | The agent that `<agent>` names |
 | Harvest ledger | `<repo>/.context/retros/harvest/ledger.jsonl` | One JSON line per harvested finding, per the retro inbox spec | The retro harvester |
+| Action ledger | `<repo>/.context/retros/actions/ledger.jsonl` | One JSON line per decision, per [Action ledger](#action-ledger) | `node scripts/retro-action-ledger.mjs append`, run by a person or by an agent that a person told to record the decision |
 
 No other location holds retros or retro findings. The ICF weekly report in `C:\dev\.icf-retros\weekly\` is generated output, and only the weekly retro scripts, such as `scripts/compile-weekly-retro.mjs`, write it.
 
@@ -44,18 +45,28 @@ Session wraps and memory notes are not retros. When a wrap or a memory note ment
 ## Retention
 
 - **Retros.** Keep every dated retro. The daily retro full audit validates the whole history, which starts at `2026-07-12-1.json`. Because `.gitignore` line 128 ignores `.context/retros/`, commit each new retro with `git add -f`.
-- **Retro findings.** Keep every committed entry as the audit record. Change a committed entry only to fix a validation error. Archival rules arrive with the planned consolidator.
+- **Retro findings.** Keep every committed entry as the audit record. Change a committed entry only to fix a validation error. Keep every action ledger line. Archival rules arrive when the inbox outgrows the report.
 - **Run logs.** This policy sets no retention for logs.
 
 ## Finding-to-action rule
 
 1. A finding with `suggestion` must become exactly one action. A finding without `suggestion` stays a record.
 2. Severity sets the priority. `critical` maps to P0 and `high` maps to P1. Both `medium` and `low` map to P2.
-3. P2 actions enter TODOS.md automatically. P0 and P1 actions enter TODOS.md only after Tier 1 approval.
+3. P2 actions enter TODOS.md automatically. P0 and P1 actions enter TODOS.md only after Tier 1 approval, which the action ledger records as an `approved` event.
 4. The action reuses the finding id. TODOS.md carries the id in a `<!-- retro-finding: RF-... -->` marker, and the ICF weekly report uses it as the action `sourceId`. A repeated id never creates a second action.
 5. `INBOX_REGISTRY` in `scripts/validate-retro-inbox.mjs` holds these mappings. Tools read the registry and never restate the rules.
 
-`scripts/consolidate-retro-inbox.mjs` applies this rule. TODOS.md is gitignored, so the consolidator runs locally and CI validates only the inbox.
+`scripts/consolidate-retro-inbox.mjs` applies this rule. TODOS.md is gitignored, so the consolidator runs locally, and `scripts/run-weekly-retro.ps1` runs it before each weekly report. CI validates only the inbox.
+
+## Action ledger
+
+The action ledger is the tracked record of what happened to each action. TODOS.md is a local view of it and never the only record.
+
+- **Format.** One JSON object per line with `id`, `state`, `by`, `date`, and an optional `ref`. `id` is a finding id from the inbox. `state` is `approved`, `closed`, or `dismissed`. `by` names the person who decided. `date` is a `YYYY-MM-DD` calendar date. `ref` points to the evidence, such as a pull request URL or a chat date.
+- **Append only.** Never edit or delete a line. The last event for an id decides its state, so a reversal is a new line.
+- **Tier 1 approval.** A P0 or P1 action enters TODOS.md only when its latest event is `approved`. Only a person with Tier 1 authority may state the approval, in the conversation or in a pull request. An agent never infers it, and it records the event only after a person states the approval.
+- **Closed and dismissed.** The consolidator never appends a `closed` or `dismissed` action again, even when its TODOS.md line is gone. The weekly report marks a `closed` action completed and omits a `dismissed` one.
+- **Writing.** Run `node scripts/retro-action-ledger.mjs append --id <RF-id> --state <state> --by <name>`. The command rejects an id that the inbox does not hold. Run `node scripts/retro-action-ledger.mjs validate` to check the file.
 
 ## Harvester configuration
 
@@ -74,6 +85,7 @@ Nothing below enforces this policy today. Every gate is PLANNED.
 
 | Mechanism | Plan | Status |
 |---|---|---|
+| Ledger validator | `node scripts/retro-action-ledger.mjs validate` checks every ledger line. | Exists. The consolidator and the report builder reject an invalid ledger, and no CI job calls it. |
 | Validator CLI | `node scripts/validate-retro-inbox.mjs` checks shape, registries, ids, paths, and duplicate ids. | Exists. Runs only by hand, and no gate calls it. |
 | CI job | A `.github/workflows/governance.yml` job runs the validator on every PR that touches `.context/retros/inbox/`. | PLANNED |
 | Pre-commit gate | `setup-git-hooks.ps1` adds an inbox check for staged entries to the generated `.git/hooks/pre-commit.ps1`. | PLANNED |
@@ -82,3 +94,8 @@ Nothing below enforces this policy today. Every gate is PLANNED.
 ## Changes
 
 Changes to this policy, or to the registries in the retro inbox spec, need Tier 1 approval.
+
+| Date | Change | Approval |
+|---|---|---|
+| 2026-10-18 | Initial policy. | Tier 1 |
+| 2026-10-19 | Add the action ledger and the rule that an `approved` event authorizes a P0 or P1 action. | Tier 1, typed "APPROVE 4" in the session conversation |

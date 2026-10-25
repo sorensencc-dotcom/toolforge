@@ -1,7 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { resolve, isAbsolute } from "node:path";
+import { existsSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { resolve, isAbsolute, join } from "node:path";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { ingest } from "./server.js";
@@ -106,29 +107,34 @@ test("ingest() produces a stable, strictly-typed output envelope", async () => {
 test("CLI toolforge exec invokes pdf ingestion and outputs valid JSON", async () => {
   const cliPath = resolve(import.meta.dirname, "../src/cli/index.js");
   const pluginDir = resolve(import.meta.dirname);
+  const home = mkdtempSync(join(tmpdir(), "toolforge-pdf-home-"));
+  const env = { ...process.env, HOME: home, USERPROFILE: home };
 
-  // Ensure plugin is registered in test environment
-  await execFileAsync(process.execPath, [cliPath, "plugins", "add", pluginDir]);
+  try {
+    await execFileAsync(process.execPath, [cliPath, "plugins", "add", pluginDir], { env });
 
-  const { stdout } = await execFileAsync(process.execPath, [
-    cliPath,
-    "exec",
-    "toolforge-pdf-ingestion",
-    "ingest",
-    LOCAL_FIXTURE,
-  ]);
+    const { stdout } = await execFileAsync(process.execPath, [
+      cliPath,
+      "exec",
+      "toolforge-pdf-ingestion",
+      "ingest",
+      LOCAL_FIXTURE,
+    ], { env });
 
-  const parsed = JSON.parse(stdout);
-  assert.equal(parsed.plugin, "toolforge-pdf-ingestion");
-  assert.equal(parsed.data.status, "success");
+    const parsed = JSON.parse(stdout);
+    assert.equal(parsed.plugin, "toolforge-pdf-ingestion");
+    assert.equal(parsed.data.status, "success");
 
-  await assert.rejects(
-    () => execFileAsync(process.execPath, [cliPath, "exec", "toolforge-pdf-ingestion", "ingest", "nonexistent.pdf"]),
-    (err) => {
-      assert.ok(err.code !== 0);
-      return true;
-    }
-  );
+    await assert.rejects(
+      () => execFileAsync(process.execPath, [cliPath, "exec", "toolforge-pdf-ingestion", "ingest", "nonexistent.pdf"], { env }),
+      (err) => {
+        assert.ok(err.code !== 0);
+        return true;
+      }
+    );
+  } finally {
+    rmSync(home, { recursive: true, force: true });
+  }
 });
 
 test("ingest() extracts real text from external vault fixture if present", { skip: !existsSync(FIXTURE) && "fixture lives outside repo in cic-research-vault; not present in this checkout" }, async () => {

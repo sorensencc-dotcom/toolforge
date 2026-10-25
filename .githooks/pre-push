@@ -51,6 +51,8 @@ if [ $FAIL -ne 0 ]; then
 fi
 
 echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceeding with push."
+# Opt-in cross-model review (TOOLFORGE_ADVERSARIAL_REVIEW=1). Fails closed once enabled.
+bash "$REPO_ROOT/scripts/pre-push-adversarial-review.sh" || exit 1
 if ! node "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed --dry-run; then
   echo -e "\033[31m[Hook Fail]\033[0m Repo wiki dry-run check failed. Push blocked."
   exit 1

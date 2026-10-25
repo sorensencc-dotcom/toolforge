@@ -170,6 +170,7 @@ export function extractIntentDeterministic(rawText, metadata = {}) {
   // 1. Remediate quarantine / ENOBUFS
   if (/quarantine|enobufs|buffer overflow|consolidate pack/i.test(lower)) {
     return {
+      $schema: 'urn:toolforge:schema:base-sync-task:v1',
       id,
       timestamp,
       source,
@@ -193,6 +194,7 @@ export function extractIntentDeterministic(rawText, metadata = {}) {
   // 2. Prune dead or duplicate sources
   if (/prune|delete (failed|dead|dup|duplicate)|cleanup sources/i.test(lower)) {
     return {
+      $schema: 'urn:toolforge:schema:base-sync-task:v1',
       id,
       timestamp,
       source,
@@ -214,6 +216,7 @@ export function extractIntentDeterministic(rawText, metadata = {}) {
 
   // 3. Antigravity Triage (Codebase investigation, PR reviews, CI issues)
   return {
+    $schema: 'urn:toolforge:schema:base-sync-task:v1',
     id,
     timestamp,
     source,
@@ -256,6 +259,7 @@ export async function extractMobileIntent(rawText, metadata = {}, options = {}) 
   const systemPrompt = `You are a zero-token local intent extraction engine for an autonomous engineering system.
 Convert the unstructured user message into a strict, validated JSON action card matching this schema:
 {
+  "$schema": "urn:toolforge:schema:base-sync-task:v1",
   "id": "act-<timestamp>-<rand>",
   "timestamp": "<ISO-8601>",
   "source": "${metadata.source || 'mobile-voice'}",
@@ -289,6 +293,7 @@ Respond with raw JSON only. No markdown fences. No explanations.`;
     // Validate required fields
     if (parsed.action_type && parsed.intent) {
       return {
+        $schema: parsed.$schema || 'urn:toolforge:schema:base-sync-task:v1',
         ...parsed,
         id: parsed.id || `act-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
         timestamp: parsed.timestamp || new Date().toISOString(),

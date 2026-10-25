@@ -17,6 +17,16 @@ import { validateWeeklyRetroReport } from '../icf/reporting/src/weekly-retro-con
 import { buildWeeklyRetroArtifact } from '../icf/reporting/src/publication-artifact.mjs';
 import { CATEGORY_REGISTRY, normalizeCategoryMetrics } from '../icf/reporting/src/category-contract.mjs';
 import { summarizeBacklog } from './backlog-summary.mjs';
+import {
+  buildTweetable,
+  computeSessions,
+  computeStreak,
+  countActiveDays,
+  countPrReferences,
+  isSourceFile,
+  localDay,
+  topDirectories
+} from './retro-metrics.mjs';
 import { collectMeridianWeek, DEFAULT_MERIDIAN_DB } from '../modules/telemetry/meridian-telemetry.mjs';
 import { buildReportActions } from './retro-report-actions.mjs';
 
@@ -101,6 +111,11 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
   const hourDistribution = {};
   const testFilesChangedSet = new Set();
   const versionsSeen = [];
+  const commitDays = [];
+  const commitTimes = [];
+  const allFiles = [];
+  const filesByAuthor = {};
+  let totalSourceInsertions = 0;
 
   for (const block of rawBlocks) {
     const lines = block.trim().split(/\r?\n/);
@@ -118,6 +133,9 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
         const ins = parseInt(parts[0], 10) || 0;
         const del = parseInt(parts[1], 10) || 0;
         const file = parts[2];
+        allFiles.push(file);
+        (filesByAuthor[author] ||= []).push(file);
+        if (isSourceFile(file) && !isTestFile(file)) totalSourceInsertions += ins;
 
         commitInsertions += ins;
         commitDeletions += del;
@@ -135,6 +153,8 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
     const commitDate = new Date(dateStr);
     const hour = commitDate.getHours();
     hourDistribution[hour] = (hourDistribution[hour] || 0) + 1;
+    commitDays.push(localDay(dateStr));
+    commitTimes.push(commitDate.getTime());
 
     // Categorize commit type
     const lowerSub = subject.toLowerCase();
@@ -161,7 +181,7 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
         insertions: 0,
         deletions: 0,
         test_loc: 0,
-        top_area: 'scripts/, icf/, modules/'
+        top_area: ''
       };
     }
     targetMap[author].commits++;
@@ -173,7 +193,7 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
   }
 
   // Find peak hour
-  let peakHour = 14;
+  let peakHour = 0;
   let maxHourCount = 0;
   for (const [h, count] of Object.entries(hourDistribution)) {
     if (count > maxHourCount) {
@@ -183,13 +203,14 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
   }
 
   // Version range
-  let versionRange = ['2.68.0', '2.83.1'];
+  const currentVersion = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'package.json'), 'utf8')).version;
+  let versionRange = [currentVersion, currentVersion];
   if (versionsSeen.length > 0) {
     versionRange = [versionsSeen[versionsSeen.length - 1], versionsSeen[0]];
   }
 
   // Total commits & author normalization
-  const totalCommits = commitList.length || 1;
+  const totalCommits = commitList.length;
   const categorizedTotal = (commitTypes.feat + commitTypes.fix + commitTypes.docs + commitTypes.chore) || 1;
   const featPct = Math.round((commitTypes.feat / categorizedTotal) * 100) / 100;
   const fixPct = Math.round((commitTypes.fix / categorizedTotal) * 100) / 100;
@@ -201,6 +222,9 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
     d.test_ratio = d.insertions > 0 ? Math.round((d.test_loc / d.insertions) * 100) / 100 : 0;
     delete d.test_loc;
   }
+  for (const [name, entry] of [...Object.entries(authorsMap), ...Object.entries(automationMap)]) {
+    entry.top_area = topDirectories(filesByAuthor[name] || []).join(', ');
+  }
 
   // 2. Meridian Telemetry
   let meridianTotals = { tracked_minutes: 0, minutes_by_category: {} };
@@ -211,21 +235,22 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
     }
   } catch {}
 
-  const activeMinutes = meridianTotals.tracked_minutes || 4800;
-  const sessionsCount = Math.max(1, Math.round(activeMinutes / 60));
-  const deepSessions = Math.round(sessionsCount * 0.45);
-  const mediumSessions = Math.round(sessionsCount * 0.35);
-  const microSessions = Math.max(0, sessionsCount - deepSessions - mediumSessions);
+  const sessionStats = computeSessions(commitTimes);
+  const sessionsCount = sessionStats.sessions;
+  const deepSessions = sessionStats.deep;
+  const mediumSessions = sessionStats.medium;
+  const microSessions = sessionStats.micro;
+  const activeMinutes = meridianTotals.tracked_minutes || sessionStats.totalMinutes;
 
   // 3. Count Total Test Files on Disk
-  let totalTestFiles = 192;
+  let totalTestFiles = 0;
   try {
     const testFilesOutput = execFileSync(
       'git',
       ['ls-files', '*.test.js', '*.test.ts', '*.test.mjs', '*__tests__*'],
       { cwd: REPO_ROOT, encoding: 'utf8' }
     );
-    totalTestFiles = testFilesOutput.split(/\r?\n/).filter(Boolean).length || 192;
+    totalTestFiles = testFilesOutput.split(/\r?\n/).filter(Boolean).length;
   } catch {}
 
   // 4. Shortcut Debt & Backlog Markers
@@ -240,8 +265,29 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
   } catch {}
 
   const netLoc = totalInsertions - totalDeletions;
-  const logicalSlocAdded = Math.round(totalInsertions * 0.82);
-  const testRatio = totalInsertions > 0 ? Math.round((totalTestLoc / totalInsertions) * 100) / 100 : 0.22;
+  const logicalSlocAdded = totalSourceInsertions;
+  const testRatio = totalInsertions > 0 ? Math.round((totalTestLoc / totalInsertions) * 100) / 100 : 0;
+  const aiAssistedCommits = Number(execFileSync(
+    'git',
+    [
+      'rev-list', '--count', `--since=${sinceIso}`, `--until=${untilIso}`,
+      '-i', '-E', '--grep=^Co-Authored-By:.*(Claude|Codex|Copilot|Gemini)', 'HEAD'
+    ],
+    { cwd: REPO_ROOT, encoding: 'utf8' }
+  ).trim());
+  const streakHistory = execFileSync(
+    'git',
+    ['log', `--since=${shiftDateString(targetDate, -120)}T00:00:00`, `--until=${untilIso}`, '--format=%an|%aI'],
+    { cwd: REPO_ROOT, encoding: 'utf8' }
+  ).split(/\r?\n/).filter(Boolean).map(line => {
+    const [name, iso] = line.split('|');
+    return { name, day: localDay(iso) };
+  });
+  const streakDays = computeStreak(streakHistory.map(entry => entry.day), targetDate);
+  const userStreakDays = computeStreak(
+    streakHistory.filter(entry => !/bot|automation|actions/i.test(entry.name)).map(entry => entry.day),
+    targetDate
+  );
 
   const retroData = {
     date: targetDate,
@@ -249,57 +295,43 @@ export function compileWeeklyRetro(targetDate = '2026-10-03', options = {}) {
     actions: buildReportActions({ targetDate, todosFile: path.join(REPO_ROOT, 'TODOS.md') }),
     metrics: {
       commits: totalCommits,
-      contributors: Object.keys(authorsMap).length || 1,
+      contributors: Object.keys(authorsMap).length,
       prs_merged: null,
-      prs_referenced: versionsSeen.length * 2 || 14,
+      prs_referenced: countPrReferences(commitList.map(commit => commit.subject)),
       insertions: totalInsertions,
       deletions: totalDeletions,
       net_loc: netLoc,
       logical_sloc_added: logicalSlocAdded,
       test_loc: totalTestLoc,
       test_ratio: testRatio,
-      active_days: 6,
+      active_days: countActiveDays(commitDays),
       sessions: sessionsCount,
       deep_sessions: deepSessions,
       medium_sessions: mediumSessions,
       micro_sessions: microSessions,
-      avg_session_minutes: Math.round(activeMinutes / sessionsCount),
-      loc_per_session_hour: Math.round((logicalSlocAdded / (activeMinutes / 60))),
+      avg_session_minutes: sessionStats.avgMinutes,
+      loc_per_session_hour: activeMinutes > 0 ? Math.round(logicalSlocAdded / (activeMinutes / 60)) : 0,
       feat_pct: featPct,
       fix_pct: fixPct,
       docs_pct: docsPct,
       chore_pct: chorePct,
       peak_hour: peakHour,
-      ai_assisted_commits: Math.round(totalCommits * 0.65),
+      ai_assisted_commits: aiAssistedCommits,
       focus_score: null,
-      focus_area: "Unified Doc-Sync, Ticket Scorer & 10-Ironbot Fleet"
+      focus_area: topDirectories(allFiles, 3).join(', ')
     },
-    authors: Object.keys(authorsMap).length > 0 ? authorsMap : {
-      "Chris Sorensen": {
-        commits: totalCommits,
-        insertions: totalInsertions,
-        deletions: totalDeletions,
-        test_ratio: testRatio,
-        top_area: "scripts/, icf/, modules/"
-      }
-    },
-    automation: Object.keys(automationMap).length > 0 ? automationMap : {
-      "toolforge-release-bot": {
-        commits: versionsSeen.length || 8,
-        insertions: 340,
-        deletions: 40
-      }
-    },
+    authors: authorsMap,
+    automation: automationMap,
     version_range: versionRange,
-    release_commits: versionsSeen.length || 8,
-    streak_days: 7,
-    user_streak_days: 7,
+    release_commits: versionsSeen.length,
+    streak_days: streakDays,
+    user_streak_days: userStreakDays,
     streak_anchor: targetDate,
-    tweetable: `Week of ${targetDate}: ${totalCommits} commits, releases ${versionRange[0]} → ${versionRange[1]}, 10-Ironbot fleet active, unified doc-sync pipeline, and 100% test integrity across ${totalTestFiles} test suites.`,
+    tweetable: buildTweetable({ date: targetDate, commits: totalCommits, versionRange, testFiles: totalTestFiles }),
     test_health: {
       total_test_files: totalTestFiles,
-      regression_test_commits: 0,
-      test_files_changed: testFilesChangedSet.size || 18
+      regression_test_commits: commitList.filter(commit => /regression/i.test(commit.subject)).length,
+      test_files_changed: testFilesChangedSet.size
     },
     backlog: summarizeBacklog(options.todosPath || path.join(REPO_ROOT, 'TODOS.md'), sinceDate, targetDate),
     shortcut_debt: {

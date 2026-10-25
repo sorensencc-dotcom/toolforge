@@ -17,6 +17,10 @@ concurrency:
   group: slop-sweep
   cancel-in-progress: true
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   sweep:
     name: Slop grader full-repo sweep

@@ -143,36 +143,63 @@ async function seed(db, runId) {
     for (const row of res.rows) skillIds.push(row.id);
   }
 
-  // One published version per skill.
-  for (const skillId of skillIds) {
+  // One published version per skill (batched).
+  for (let start = 0; start < skillIds.length; start += BATCH) {
+    const end = Math.min(start + BATCH, skillIds.length);
+    const values = [];
+    const params = [];
+    for (let i = start; i < end; i++) {
+      const p = params.length;
+      values.push(`($${p + 1}, '1.0.0', NOW(), 'seed', $${p + 2})`);
+      params.push(skillIds[i], `${runId}-${uuidLike()}`);
+    }
     const res = await db.query(
       `INSERT INTO versions (skill_id, version_tag, release_date, changelog, checksum)
-       VALUES ($1, '1.0.0', NOW(), 'seed', $2) RETURNING id`,
-      [skillId, `${runId}-${uuidLike()}`]
+       VALUES ${values.join(',')} RETURNING id`,
+      params
     );
-    versionIds.push(res.rows[0].id);
+    for (const row of res.rows) versionIds.push(row.id);
   }
 
-  // Installs + ratings so trending/ratings endpoints have realistic data.
-  for (let s = 0; s < skillIds.length; s++) {
-    const skillId = skillIds[s];
-    const versionId = versionIds[s];
-    for (let k = 0; k < CONFIG.seedInstallsPerSkill; k++) {
-      const uid = `${runId}-u${Math.floor(Math.random() * CONFIG.users)}@load.local`;
-      const daysAgo = Math.floor(Math.random() * 14);
+  // Installs + ratings so trending/ratings endpoints have realistic data (batched).
+  for (let start = 0; start < skillIds.length; start += BATCH) {
+    const end = Math.min(start + BATCH, skillIds.length);
+    const installValues = [];
+    const installParams = [];
+    const ratingValues = [];
+    const ratingParams = [];
+
+    for (let s = start; s < end; s++) {
+      const skillId = skillIds[s];
+      const versionId = versionIds[s];
+      for (let k = 0; k < CONFIG.seedInstallsPerSkill; k++) {
+        const uid = `${runId}-u${Math.floor(Math.random() * CONFIG.users)}@load.local`;
+        const daysAgo = Math.floor(Math.random() * 14);
+        const p = installParams.length;
+        installValues.push(`($${p + 1}, $${p + 2}, $${p + 3}, 'success', NOW() - ($${p + 4} || ' days')::interval)`);
+        installParams.push(skillId, versionId, uid, String(daysAgo));
+      }
+      for (let r = 0; r < CONFIG.seedRatingsPerSkill; r++) {
+        const uid = `${runId}-r${s}-${r}@load.local`;
+        const p = ratingParams.length;
+        ratingValues.push(`($${p + 1}, $${p + 2}, $${p + 3}, 'load review')`);
+        ratingParams.push(skillId, uid, (r % 5) + 1);
+      }
+    }
+
+    if (installValues.length > 0) {
       await db.query(
         `INSERT INTO installation_log (skill_id, version_id, user_id, status, timestamp)
-         VALUES ($1, $2, $3, 'success', NOW() - ($4 || ' days')::interval)`,
-        [skillId, versionId, uid, String(daysAgo)]
+         VALUES ${installValues.join(',')}`,
+        installParams
       );
     }
-    for (let r = 0; r < CONFIG.seedRatingsPerSkill; r++) {
-      const uid = `${runId}-r${s}-${r}@load.local`;
+    if (ratingValues.length > 0) {
       await db.query(
         `INSERT INTO ratings (skill_id, user_id, score, review_text)
-         VALUES ($1, $2, $3, 'load review')
+         VALUES ${ratingValues.join(',')}
          ON CONFLICT (skill_id, user_id) DO NOTHING`,
-        [skillId, uid, (r % 5) + 1]
+        ratingParams
       );
     }
   }
