@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as crypto from 'node:crypto';
+import * as cp from 'node:child_process';
 
 /**
  * whichllm-bfcl-evaluator.mjs
@@ -133,22 +134,55 @@ export function evaluateModelBFCL(modelName, hardware) {
 }
 
 /**
+ * Resolves the workstation hardware profile dynamically using the official `whichllm` CLI
+ * or falls back to configuration files / system baselines.
+ */
+export function resolveHardwareProfile(configPath = './configs/global.yaml') {
+  // 1. Live hardware detection via installed `whichllm` CLI (Andyyyy64/whichllm)
+  try {
+    const raw = cp.execSync('whichllm --json --top 1', { encoding: 'utf8', timeout: 10000, stdio: ['ignore', 'pipe', 'ignore'] });
+    const data = JSON.parse(raw);
+    if (data.hardware) {
+      const gpus = data.hardware.gpus || [];
+      const primaryGpu = gpus[0] || { name: 'CPU / Integrated', vram_bytes: 0, shared_memory: true };
+      const vramGB = primaryGpu.shared_memory ? 0 : Math.round((primaryGpu.usable_vram_bytes || primaryGpu.vram_bytes || 0) / (1024 * 1024 * 1024));
+      const ramGB = Math.round((data.hardware.ram_bytes || 32 * 1024 * 1024 * 1024) / (1024 * 1024 * 1024));
+      return {
+        gpu_count: gpus.length,
+        gpu_name: primaryGpu.name,
+        vram_gb: vramGB,
+        ram_gb: ramGB,
+        shared_memory: !!primaryGpu.shared_memory,
+        detection_source: 'whichllm_cli'
+      };
+    }
+  } catch (_) {
+    logWarn("Unable to query whichllm CLI. Checking config fallback...");
+  }
+
+  // 2. Read existing hardware profile from config
+  if (fs.existsSync(configPath)) {
+    try {
+      const cfg = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+      if (cfg.hardware) return { ...cfg.hardware, detection_source: 'config_file' };
+    } catch (_) {
+      logWarn("Unable to parse config. Using baseline hardware defaults.");
+    }
+  }
+
+  // 3. Baseline fallback
+  return { gpu_count: 1, gpu_name: "AMD Radeon 780M Graphics", vram_gb: 0, ram_gb: 32, shared_memory: true, detection_source: 'fallback' };
+}
+
+/**
  * Main Upgrade Sweep Evaluator function
  */
 export async function runUpgradeSweepEvaluator(configPath = './configs/global.yaml', outputPath = './_integration/model_selection.json') {
   logStep(1, "Initializing WhichLLM Automated BFCL Upgrade Sweep Evaluator");
   
-  // 1. Read existing hardware profile or fallback to defaults
-  let hardware = { gpu_count: 1, gpu_name: "NVIDIA RTX 4090", vram_gb: 24, ram_gb: 64 };
-  if (fs.existsSync(configPath)) {
-    try {
-      const cfg = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-      if (cfg.hardware) hardware = cfg.hardware;
-    } catch (_) {
-      logWarn("Unable to parse config. Using baseline hardware defaults.");
-    }
-  }
-  logInfo(`Hardware context resolved: ${hardware.gpu_count}x ${hardware.gpu_name} (${hardware.vram_gb}GB VRAM, ${hardware.ram_gb}GB RAM)`);
+  // 1. Dynamically resolve real hardware profile
+  const hardware = resolveHardwareProfile(configPath);
+  logInfo(`Hardware context resolved: ${hardware.gpu_count}x ${hardware.gpu_name} (${hardware.vram_gb}GB VRAM, ${hardware.ram_gb}GB RAM, shared: ${!!hardware.shared_memory}) via [${hardware.detection_source}]`);
 
   // 2. Candidate Models Sweep Definitions
   const candidateModels = [
@@ -158,7 +192,9 @@ export async function runUpgradeSweepEvaluator(configPath = './configs/global.ya
     { name: "qwen2.5:72b-instruct-q4_k_m", type: "local", size_b: 72 },
     { name: "qwen2.5:32b-instruct-q8_0", type: "local", size_b: 32 },
     { name: "llama3.1:8b", type: "local", size_b: 8 },
-    { name: "qwen2.5:7b", type: "local", size_b: 7.6 }
+    { name: "qwen2.5:7b", type: "local", size_b: 7.6 },
+    { name: "qwen2.5:3b", type: "local", size_b: 3.0 },
+    { name: "qwen2.5:1.5b", type: "local", size_b: 1.5 }
   ];
 
   logStep(2, "Running Automated Berkeley Function Calling Benchmark (BFCL) Scenarios");
@@ -168,14 +204,25 @@ export async function runUpgradeSweepEvaluator(configPath = './configs/global.ya
     logInfo(`Evaluating Function Calling Accuracy for: '${candidate.name}' ...`);
     const bfclResult = evaluateModelBFCL(candidate.name, hardware);
     
-    // Fit status
+    // Fit status based on actual hardware (discrete VRAM vs shared memory / CPU)
     let fitStatus = "fits_easily";
     if (candidate.type === "local") {
-      const estimatedVramRequiredGB = (candidate.size_b * 0.7) + 4;
-      if (estimatedVramRequiredGB > hardware.vram_gb) {
-        fitStatus = "out_of_vram_degraded";
-      } else if (estimatedVramRequiredGB > hardware.vram_gb - 4) {
-        fitStatus = "tight_vram_warning";
+      if (hardware.vram_gb === 0 || hardware.shared_memory) {
+        // Integrated / CPU inference: models > 3.5B allocate >5GB RAM and saturate CPU cores
+        if (candidate.size_b > 3.5) {
+          fitStatus = "out_of_vram_degraded";
+        } else if (candidate.size_b > 2.0) {
+          fitStatus = "tight_vram_warning";
+        } else {
+          fitStatus = "fits_easily";
+        }
+      } else {
+        const estimatedVramRequiredGB = (candidate.size_b * 0.7) + 4;
+        if (estimatedVramRequiredGB > hardware.vram_gb) {
+          fitStatus = "out_of_vram_degraded";
+        } else if (estimatedVramRequiredGB > hardware.vram_gb - 4) {
+          fitStatus = "tight_vram_warning";
+        }
       }
     } else if (candidate.type === "muscle_cloud") {
       fitStatus = "cloud_hosted_muscle";
@@ -205,7 +252,8 @@ export async function runUpgradeSweepEvaluator(configPath = './configs/global.ya
 
   // 3. Selection Recommendations
   logStep(3, "Synthesizing Hardware-Aware Model Selection Recommendations");
-  const recommendedLocal = rankedCandidates.find(c => c.tier.includes("Local Muscle") && c.vram_fit_status !== "out_of_vram_degraded") 
+  const recommendedLocal = rankedCandidates.find(c => c.tier.includes("Local Muscle") && c.vram_fit_status === "fits_easily")
+    || rankedCandidates.find(c => c.tier.includes("Local Muscle") && c.vram_fit_status !== "out_of_vram_degraded") 
     || rankedCandidates.find(c => c.tier.includes("Local Muscle"));
 
   const recommendedMuscle = rankedCandidates.find(c => c.tier.includes("Muscle Cloud")) || { model_name: "mistralai/mistral-large-2407" };

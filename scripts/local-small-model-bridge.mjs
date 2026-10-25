@@ -16,10 +16,32 @@ import path from 'node:path';
 
 export const REPO_ROOT = path.resolve(import.meta.dirname, '..');
 
-export const DEFAULT_OLLAMA_HOST = process.env.OLLAMA_HOST || '127.0.0.1';
-export const DEFAULT_OLLAMA_PORT = parseInt(process.env.OLLAMA_PORT || '11434', 10) || 11434;
-export const DEFAULT_OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || `http://${DEFAULT_OLLAMA_HOST}:${DEFAULT_OLLAMA_PORT}`;
-export const PREFERRED_MODELS = ['qwen2.5:latest', 'qwen2.5:7b', 'llama3.2:latest', 'llama3.2:3b', 'qwen2.5:3b', 'mistral:latest'];
+export function resolveOllamaEndpoint() {
+  if (process.env.OLLAMA_BASE_URL) return process.env.OLLAMA_BASE_URL;
+  let rawHost = process.env.OLLAMA_HOST || '127.0.0.1';
+  let defaultPort = process.env.OLLAMA_PORT || '11434';
+  if (rawHost.startsWith('0.0.0.0')) {
+    rawHost = rawHost.replace('0.0.0.0', '127.0.0.1');
+  }
+  if (!rawHost.startsWith('http://') && !rawHost.startsWith('https://')) {
+    rawHost = `http://${rawHost}`;
+  }
+  try {
+    const u = new URL(rawHost);
+    if (u.hostname === '0.0.0.0') {
+      u.hostname = '127.0.0.1';
+    }
+    if (!u.port) {
+      u.port = defaultPort;
+    }
+    return u.origin;
+  } catch {
+    return `http://127.0.0.1:${defaultPort}`;
+  }
+}
+
+export const DEFAULT_OLLAMA_BASE_URL = resolveOllamaEndpoint();
+export const PREFERRED_MODELS = ['qwen2.5:1.5b', 'qwen2.5:3b', 'llama3.2:1b', 'llama3.2:3b', 'qwen2.5:latest', 'mistral:latest'];
 
 /**
  * Validate that host is strictly a loopback address to ensure zero-token, privacy-preserving local execution.
