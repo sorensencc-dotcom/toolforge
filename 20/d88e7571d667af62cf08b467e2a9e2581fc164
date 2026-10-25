@@ -1,0 +1,19 @@
+.context/retros/2026-10-24-1.json
+  s_cc0ae9df8f1a74::t_de6c58f2f501ac 1-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "20d88e7571d667af62cf08b467e2a9e2581fc164",
+  "prompts": {},
+  "sessions": {
+    "s_cc0ae9df8f1a74": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "61e125ed-cc76-4fe1-bca5-4dfb7c608993",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
