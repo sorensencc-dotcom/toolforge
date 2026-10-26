@@ -1,0 +1,19 @@
+HANDOFF-mcp-repair-20261024.md
+  s_1c22ea7f821e91::t_7f7aed9ee1cd1e 35-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "51e0ba52d71e153317958ebac8d30ae6d4d58be5",
+  "prompts": {},
+  "sessions": {
+    "s_1c22ea7f821e91": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d3e35f2c-ecf4-4c4b-a75b-fe4c5d27f855",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
