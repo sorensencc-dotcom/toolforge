@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.111.2
+Date: 2026-10-27
+
+### Changes
+- c1ece039 - Merge pull request #202 from sorensencc-dotcom/performance-improve-marketplace-load-1527620147398857578 (Chris Sorensen)
+- ed08c6b7 - merge: resolve PR 202 main conflicts (Chris Sorensen)
+- 21038c3e - test: cover bounded marketplace seed batches (Chris Sorensen)
+- 7e34fc9a - chore: keep load test dependency scope focused (Chris Sorensen)
+- 66268eab - fix: chunk marketplace seed inserts (Chris Sorensen)
+- a0b2b3e9 - Performance improvement: batch marketplace load DB insertions (google-labs-jules[bot])
+
 ## Version 2.111.1
 Date: 2026-10-27
 
