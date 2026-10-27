@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.111.1
+Date: 2026-10-27
+
+### Changes
+- a4ab470a - Merge pull request #204 from sorensencc-dotcom/perf-optimize-load-test-seeding-14094330525025906589 (Chris Sorensen)
+- 7b7f91b7 - merge: resolve PR 204 main conflicts (Chris Sorensen)
+- 29501589 - test: cover bounded rating seed batches (Chris Sorensen)
+- f71f0e11 - fix: chunk marketplace rating inserts (Chris Sorensen)
+- f2a41c26 - Optimize database seed query for marketplace load tests (google-labs-jules[bot])
+
 ## Version 2.111.0
 Date: 2026-10-25
 
