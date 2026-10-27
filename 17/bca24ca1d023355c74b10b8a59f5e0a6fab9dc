@@ -1,0 +1,22 @@
+scripts/copilot-ironledger-reconcile.mjs
+  s_081bf3289bc9fa::t_da946ff6241eb9 192
+  s_081bf3289bc9fa::t_27ba084ed14f68 160
+tests/copilot-ironledger-reconcile.test.mjs
+  s_081bf3289bc9fa::t_6f2a80a6343caa 3-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "17bca24ca1d023355c74b10b8a59f5e0a6fab9dc",
+  "prompts": {},
+  "sessions": {
+    "s_081bf3289bc9fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86e867cf-68e8-492a-a959-17282e65bb4b",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
