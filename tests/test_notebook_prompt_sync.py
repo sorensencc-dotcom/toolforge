@@ -1,3 +1,4 @@
+import unittest.mock
 import json
 import os
 import shutil
@@ -264,6 +265,81 @@ class TestNotebookPromptSync(unittest.TestCase):
         # Cell 2 should retain its execution count and outputs untouched
         self.assertEqual(updated_nb["cells"][2]["execution_count"], 5)
         self.assertEqual(len(updated_nb["cells"][2]["outputs"]), 1)
+
+    @unittest.mock.patch("pathlib.Path.is_file")
+    @unittest.mock.patch("builtins.open")
+    def test_error_read_exception(self, mock_open, mock_is_file):
+        cells = [{"cell_type": "markdown", "metadata": {"tags": ["tag1"]}, "source": []}]
+        nb_path = self._create_sample_notebook(cells)
+
+        mock_is_file.return_value = True
+        mock_open.side_effect = OSError("Permission denied")
+
+        code, msg = update_targeted_cell(nb_path, "tag1", "content")
+        self.assertEqual(code, 1)
+        self.assertIn("Failed to read notebook", msg)
+        self.assertIn("Permission denied", msg)
+
+    def test_error_json_decode_exception(self):
+        # The prompt specifically requests testing json.JSONDecodeError
+        nb_path = self.test_dir_path / "invalid_json.ipynb"
+        with open(nb_path, "w", encoding="utf-8") as f:
+            f.write("{ invalid json data }")
+
+        code, msg = update_targeted_cell(nb_path, "tag1", "content")
+        self.assertEqual(code, 1)
+        self.assertIn("not valid JSON", msg)
+
+    @unittest.mock.patch("os.replace")
+    def test_error_write_exception(self, mock_replace):
+        cells = [{"cell_type": "markdown", "metadata": {"tags": ["tag1"]}, "source": ["old content"]}]
+        nb_path = self._create_sample_notebook(cells)
+
+        mock_replace.side_effect = OSError("Disk full")
+
+        code, msg = update_targeted_cell(nb_path, "tag1", "new content")
+        self.assertEqual(code, 1)
+        self.assertIn("Failed to write notebook atomically", msg)
+        self.assertIn("Disk full", msg)
+
+    def test_source_as_string(self):
+        cells = [{"cell_type": "markdown", "metadata": {"tags": ["tag1"]}, "source": "Old string content"}]
+        nb_path = self._create_sample_notebook(cells)
+
+        # Update content should work correctly even if the source is a string initially
+        code, msg = update_targeted_cell(nb_path, "tag1", "New string content")
+        self.assertEqual(code, 0)
+        self.assertIn("Successfully updated", msg)
+
+        with open(nb_path, "r", encoding="utf-8") as f:
+            updated_nb = json.load(f)
+
+        target_cell = updated_nb["cells"][0]
+        # Our update writes it back as list of lines with keepends=True
+        self.assertEqual(target_cell["source"], ["New string content"])
+
+    @unittest.mock.patch("pathlib.Path.read_text")
+    def test_main_cli_error_read_prompt_exception(self, mock_read_text):
+        cells = [{"cell_type": "markdown", "metadata": {"tags": ["tag1"]}, "source": []}]
+        nb_path = self._create_sample_notebook(cells)
+        prompt_file = self.test_dir_path / "prompt.txt"
+        prompt_file.write_text("content", encoding="utf-8")
+
+        mock_read_text.side_effect = OSError("Mock read prompt failed")
+
+        # Redirect stderr to capture the print
+        import io
+        import sys
+        stderr_backup = sys.stderr
+        sys.stderr = io.StringIO()
+        try:
+            code = main([str(nb_path), "tag1", str(prompt_file)])
+            self.assertEqual(code, 1)
+            output = sys.stderr.getvalue()
+            self.assertIn("Failed to read prompt file", output)
+            self.assertIn("Mock read prompt failed", output)
+        finally:
+            sys.stderr = stderr_backup
 
 
 if __name__ == "__main__":

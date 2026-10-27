@@ -6,7 +6,7 @@
  * Run with: npm test
  */
 
-import { VectorStore } from '../src/index';
+import { VectorStore, validateEmbedding } from '../src/index';
 
 describe('reconcile-vector-store', () => {
   describe('vector operations', () => {
@@ -47,8 +47,16 @@ describe('reconcile-vector-store', () => {
 
   describe('embedding validation', () => {
     it('should validate embedding dimensions', () => {
-      // TODO: Implement test
-      expect(true).toBe(true);
+      const validEmbedding = new Array(1536).fill(0.1);
+      const invalidEmbedding = new Array(1535).fill(0.1);
+
+      expect(() => validateEmbedding(validEmbedding)).not.toThrow();
+      expect(() => validateEmbedding(invalidEmbedding)).toThrow('Invalid embedding dimension: expected 1536, got 1535');
+      expect(() => validateEmbedding(invalidEmbedding, 1536)).toThrow('Invalid embedding dimension: expected 1536, got 1535');
+
+      const wrongDimensionEmbedding = new Array(512).fill(0.1);
+      expect(() => validateEmbedding(wrongDimensionEmbedding, 512)).not.toThrow();
+      expect(() => validateEmbedding(validEmbedding, 512)).toThrow('Invalid embedding dimension: expected 512, got 1536');
     });
 
     it('should compute similarity scores accurately', () => {

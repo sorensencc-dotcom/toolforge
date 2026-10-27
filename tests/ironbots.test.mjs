@@ -111,6 +111,17 @@ test('daemon-healer-bot runs in check-only mode and writes valid telemetry', () 
   const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
   assert.ok(typeof report.status === 'string');
   assert.equal(report.dryRun, true);
+  assert.equal(report.targetApiUrl, 'http://127.0.0.1:8080/api/reporting/trm-backlog');
+  assert.match(fs.readFileSync(scriptPath, 'utf8'), /\.restart-dashboard/);
+});
+
+test('node-process-janitor protects active service daemon ports and classifies icf/src/server.mjs as dashboard-server', () => {
+  const janitorPath = path.join(REPO_ROOT, 'utilities', 'node-process-janitor.ps1');
+  const content = fs.readFileSync(janitorPath, 'utf8');
+  assert.match(content, /function Get-ProtectedDaemonPidSet/);
+  assert.match(content, /\b8080\b.*5173.*8791/);
+  assert.match(content, /\$protectedDaemonPids\.ContainsKey\(\$r\.Pid\)/);
+  assert.match(content, /\(icf\|kb-sync\)\[\/\\\\\]\(src\[\/\\\\\]\)\?server\\\.mjs/);
 });
 
 test('ci-watchdog-bot runs in dry-run mode and writes valid telemetry', () => {
@@ -130,6 +141,15 @@ test('ci-watchdog-bot runs in dry-run mode and writes valid telemetry', () => {
   const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
   assert.ok(typeof report.status === 'string');
   assert.equal(report.dryRun, true);
+});
+
+test('node-process-janitor protects active service daemon ports and classifies icf/src/server.mjs as dashboard-server', () => {
+  const janitorPath = path.join(REPO_ROOT, 'utilities', 'node-process-janitor.ps1');
+  const content = fs.readFileSync(janitorPath, 'utf8');
+  assert.match(content, /function Get-ProtectedDaemonPidSet/);
+  assert.match(content, /\b8080\b.*5173.*8791/);
+  assert.match(content, /\$protectedDaemonPids\.ContainsKey\(\$r\.Pid\)/);
+  assert.match(content, /\(icf\|kb-sync\)\[\/\\\\\]\(src\[\/\\\\\]\)\?server\\\.mjs/);
 });
 
 test('ci-watchdog-bot evaluateRunAlerts filters superseded failures and flags active failures', async () => {

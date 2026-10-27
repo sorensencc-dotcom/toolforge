@@ -1,6 +1,10 @@
 import { deriveSignalStrength } from '../src/signalStrength';
 
 describe('deriveSignalStrength', () => {
+  it('returns low when the array of hits is empty', () => {
+    expect(deriveSignalStrength([])).toBe('low');
+  });
+
   it('returns low when there are no corroborating hits at all', () => {
     expect(deriveSignalStrength([{ consistent: false }, { consistent: false }])).toBe('low');
   });
