@@ -6,7 +6,7 @@
  * Run with: npm test
  */
 
-import { validateEmbedding } from '../src/index';
+import { VectorStore, validateEmbedding } from '../src/index';
 
 describe('reconcile-vector-store', () => {
   describe('vector operations', () => {
@@ -21,8 +21,12 @@ describe('reconcile-vector-store', () => {
     });
 
     it('should delete vectors from store', () => {
-      // TODO: Implement test
-      expect(true).toBe(true);
+      const vectorStore = new VectorStore();
+      vectorStore.insert('vec1', [0.1, 0.2, 0.3]);
+      expect(vectorStore.has('vec1')).toBe(true);
+
+      vectorStore.delete('vec1');
+      expect(vectorStore.has('vec1')).toBe(false);
     });
 
     it('should query vectors by similarity', () => {
