@@ -34,6 +34,12 @@ function validateManifestPayload(manifest, schema) {
     }
   }
 
+  if (manifest.$schema !== undefined && manifest.$schema !== null) {
+    if (typeof manifest.$schema !== 'string' || !URL.canParse(manifest.$schema)) {
+      errors.push(`Field "$schema" must be a valid URI (got: ${manifest.$schema})`);
+    }
+  }
+
   return { valid: errors.length === 0, errors };
 }
 
@@ -119,5 +125,49 @@ describe('Toolforge Manifest Schema Validator Suite', () => {
     const result = validateManifestPayload(invalidManifest);
     assert.equal(result.valid, false);
     assert.ok(result.errors.some(e => e.includes('Unknown or unsupported manifestVersion')));
+  });
+
+  it('accepts valid HTTP URL and URN $schema identifiers', () => {
+    const manifestWithUrl = {
+      $schema: 'https://json-schema.org/draft-07/schema',
+      manifestVersion: '1.0.0',
+      name: 'trm-self-healing',
+      skills: []
+    };
+    assert.equal(validateManifestPayload(manifestWithUrl).valid, true);
+
+    const manifestWithUrn = {
+      $schema: 'urn:toolforge:schema:base-sync-task:v1',
+      manifestVersion: '1.0.0',
+      name: 'trm-self-healing',
+      skills: []
+    };
+    assert.equal(validateManifestPayload(manifestWithUrn).valid, true);
+  });
+
+  it('rejects scrubbed or malformed $schema without throwing unhandled exceptions', () => {
+    const scrubbedManifest = {
+      $schema: '[Suspicious link removed]',
+      manifestVersion: '1.0.0',
+      name: 'trm-self-healing',
+      skills: []
+    };
+    let result;
+    assert.doesNotThrow(() => {
+      result = validateManifestPayload(scrubbedManifest);
+    });
+    assert.equal(result.valid, false);
+    assert.ok(result.errors.some(e => e.includes('Field "$schema" must be a valid URI')));
+
+    const encodedScrubbed = {
+      $schema: '%5Bsuspicious%20link%20removed%5D',
+      manifestVersion: '1.0.0',
+      name: 'trm-self-healing',
+      skills: []
+    };
+    assert.doesNotThrow(() => {
+      result = validateManifestPayload(encodedScrubbed);
+    });
+    assert.equal(result.valid, false);
   });
 });

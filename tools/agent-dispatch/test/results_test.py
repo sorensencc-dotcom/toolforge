@@ -2,6 +2,7 @@ import json
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1]))
@@ -10,6 +11,25 @@ from trace import append_trace, init_trace, reset_trace, write_trace
 
 
 class ResultsTests(unittest.TestCase):
+    def test_write_result_atomic_creation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            result_data = {"final_status": "succeeded", "attempts": [{"route": "ollama", "latency": 120}]}
+
+            with patch("tempfile.mkstemp", wraps=tempfile.mkstemp) as mock_mkstemp:
+                receipt = write_result(result_data, directory)
+
+                # Verify mkstemp was called correctly
+                mock_mkstemp.assert_called_once_with(prefix="result-", suffix=".json.tmp", dir=Path(directory))
+
+                # Verify receipt
+                expected_target = Path(directory) / "result.json"
+                self.assertEqual(receipt["result_path"], str(expected_target))
+                self.assertEqual(receipt["summary"], "status=succeeded attempts=1")
+
+                # Verify the final file exists and contains correct data
+                self.assertTrue(expected_target.exists())
+                self.assertEqual(json.loads(expected_target.read_text()), result_data)
+
     def test_result_and_trace_are_structured_and_redacted(self):
         with tempfile.TemporaryDirectory() as directory:
             result = {"final_status": "succeeded", "attempts": [{"route": "ollama"}]}

@@ -1,9 +1,16 @@
 let data = '';
+process.stdin.setEncoding('utf8');
 process.stdin.on('data', (c) => (data += c));
 process.stdin.on('end', () => {
-  const input = JSON.parse(data || '{}');
-  const filePath = (input.tool_input && input.tool_input.file_path) || '';
-  const base = filePath.split(/[\\/]/).pop() || '';
+  let input = {};
+  try {
+    input = JSON.parse(data || '{}');
+  } catch {
+    input = {};
+  }
+  const toolInput = input.tool_input || input.toolInput || input.tool?.input || {};
+  const filePath = toolInput.file_path || toolInput.filePath || toolInput.path || process.argv[2] || '';
+  const base = String(filePath).split(/[\\/]/).pop() || '';
   const allowed = new Set(['.env.example', '.env.sample']);
   const isEnv = base === '.env' || (base.startsWith('.env.') && !allowed.has(base));
 

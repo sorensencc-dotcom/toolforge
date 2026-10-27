@@ -100,7 +100,7 @@ console.log(response);
 // Already integrated in modules/healing/adversarial-auditor.ts
 // Imports LocalProviderLike from src/providers/index.ts
 
-import { runAdversarialCrossAudit } from './modules/healing/adversarial-auditor.js';
+import { runAdversarialCrossAudit } from './modules/healing/adversarial-auditor.ts';
 import { getProvider } from './src/providers/index.js';
 
 const provider = getProvider();

@@ -37,6 +37,13 @@ export function validateManifest(manifest) {
     errors.push('Field "name" must be lowercase alphanumeric with hyphens');
   }
 
+  // Validate $schema if present
+  if (manifest.$schema !== undefined && manifest.$schema !== null) {
+    if (typeof manifest.$schema !== 'string' || !URL.canParse(manifest.$schema)) {
+      errors.push(`Field "$schema" must be a valid URI (got: ${manifest.$schema})`);
+    }
+  }
+
   // Validate version (SemVer)
   if (manifest.version && !isSemVer(manifest.version)) {
     errors.push(`Field "version" must be valid SemVer (got: ${manifest.version})`);
@@ -106,6 +113,7 @@ export function validateManifest(manifest) {
   return {
     valid: true,
     manifest: {
+      ...(manifest.$schema ? { $schema: manifest.$schema } : {}),
       name: manifest.name,
       version: manifest.version,
       category: manifest.category,

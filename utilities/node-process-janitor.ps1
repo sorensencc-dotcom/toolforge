@@ -61,7 +61,7 @@ function Test-IsSigilProcess([string]$cmd) {
 }
 
 function Get-SingletonClass([string]$cmd) {
-  if ($cmd -match '(?i)dashboard-server') { return 'dashboard-server' }
+  if ($cmd -match '(?i)dashboard-server' -or $cmd -match '(?i)([/\\]|^)(icf|kb-sync)[/\\](src[/\\])?server\.mjs') { return 'dashboard-server' }
   if ($cmd -match '(?i)mcp-memory-server') { return 'mcp-memory-server' }
   # .ijfw/mcp-server or any path containing mcp-server/src/server.js
   if ($cmd -match '(?i)([/\\]\.ijfw[/\\]mcp-server|mcp-server[/\\]src[/\\]server\.js)') {
@@ -71,6 +71,17 @@ function Get-SingletonClass([string]$cmd) {
     return 'http-server'
   }
   return $null
+}
+
+function Get-ProtectedDaemonPidSet {
+  $protectedPorts = @(8080, 5173, 8791, 8792)
+  $set = @{}
+  foreach ($conn in Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue) {
+    if ($protectedPorts -contains [int]$conn.LocalPort -and $conn.OwningProcess -gt 0) {
+      $set[[int]$conn.OwningProcess] = [int]$conn.LocalPort
+    }
+  }
+  return $set
 }
 
 function Test-IsTestWorker([string]$cmd) {
@@ -104,6 +115,7 @@ Write-Host ''
 
 $now = Get-Date
 $livePids = Get-LivePidSet
+$protectedDaemonPids = Get-ProtectedDaemonPidSet
 
 $nodeProcs = @(Get-CimInstance Win32_Process -Filter "Name = 'node.exe'" -ErrorAction SilentlyContinue)
 if (-not $nodeProcs -or $nodeProcs.Count -eq 0) {
@@ -173,6 +185,12 @@ function Add-Candidate {
 
 foreach ($r in $records) {
   if ($r.IsSigil -and -not $IncludeSigil) {
+    continue
+  }
+
+  # Protect active background service daemons listening on canonical ports (8080 ICF, 5173/8791/8792 Sigil)
+  # Detached daemons intentionally outlive their launcher shell (ParentAlive = false).
+  if ($protectedDaemonPids.ContainsKey($r.Pid)) {
     continue
   }
 

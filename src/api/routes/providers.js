@@ -1,7 +1,7 @@
 // Providers route. Mounted at /api/v1/providers.
 import express from 'express';
 import { getProvider } from '../../providers/index.js';
-import { runAdversarialCrossAudit } from '../../../modules/healing/adversarial-auditor.js';
+import { runAdversarialCrossAudit } from '../../../modules/healing/adversarial-auditor.ts';
 import { requireAuth } from '../middleware/auth.js';
 import { rateLimit } from '../middleware/rate-limit.js';
 
@@ -160,6 +160,12 @@ export function createProvidersRouter(customProvider, { limiter } = {}) {
     try {
       const baseUrl = process.env.OLLAMA_BASE_URL || 'http://host.docker.internal:11434/v1';
       const tagsUrl = baseUrl.replace(/\/v1\/?$/, '/api/tags');
+
+      const parsedUrl = new URL(tagsUrl);
+      if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+        return res.status(400).json({ error: 'Invalid URL protocol' });
+      }
+
       const response = await fetch(tagsUrl);
       if (!response.ok) {
         return res.status(503).json({

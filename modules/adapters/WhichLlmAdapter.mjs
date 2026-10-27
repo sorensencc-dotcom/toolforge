@@ -20,9 +20,9 @@ export class WhichLlmAdapter {
       return {
         status: 'FAIL_CLOSED',
         error: err.message,
-        selectedModel: 'llama3:8b-instruct-fp16',
+        selectedModel: 'qwen2.5:1.5b',
         scopesAllowed: ['S0', 'S1'],
-        vramTargetGB: 24
+        vramTargetGB: 0
       };
     }
   }
@@ -35,8 +35,8 @@ export class WhichLlmAdapter {
     return {
       allowed: isAllowed,
       requestedScope: scope.toUpperCase(),
-      selectedModel: selection.selectedModel || 'llama3:8b-instruct-fp16',
-      vramTargetGB: selection.vramTargetGB || 24,
+      selectedModel: selection.selectedModel || 'qwen2.5:1.5b',
+      vramTargetGB: selection.vramTargetGB || 0,
       reason: isAllowed
         ? `Model ${selection.selectedModel} satisfies BFCL benchmark score for ${scope}`
         : `Model does not satisfy BFCL score threshold for ${scope}. Allowed scopes: ${allowedScopes.join(', ')}`
@@ -48,11 +48,11 @@ export class WhichLlmAdapter {
     return {
       status: 'OK',
       timestamp: data.timestamp || new Date().toISOString(),
-      selectedModel: data.selected_model || data.selectedModel || 'llama3:8b-instruct-fp16',
+      selectedModel: data.selected_model || data.selectedModel || 'qwen2.5:1.5b',
       bfclScore: data.bfcl_score || data.bfclScore || 0.88,
       scopesAllowed: data.scopes_allowed || ['S0', 'S1', 'S2', 'S3'],
-      vramTargetGB: data.vram_target_gb || 24,
-      hardwareProfile: data.hardware_profile || { gpu: 'RTX 4090', vramGB: 24 },
+      vramTargetGB: data.vram_target_gb || 0,
+      hardwareProfile: data.hardware_profile || { gpu: 'AMD Radeon 780M Graphics', vramGB: 0, shared: true },
       lineageHash: data.lineage_hash || data.hash || null
     };
   }

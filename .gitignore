@@ -149,6 +149,8 @@ graft/
 .icf-telemetry-latest.json
 .icf-telemetry.prom
 .wiki-sync-receipt.json
+evidence/
 
 # Toolforge active memory database, one encrypted store per workspace. Never commit it.
 .toolforge/
+coverage/

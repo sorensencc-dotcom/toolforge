@@ -1,104 +1,45 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { resolve, join, sep } from 'node:path';
+import { tmpdir } from 'node:os';
+import { fileURLToPath } from 'node:url';
 import {
-  findStaleMiningSources,
+  isMultipartNotebook,
+  loadMultipartNotebookIds,
+  miningPaths,
+  resolveMiningDataRoot,
+  runPackSync,
   validateDAGSequence,
 } from '../scripts/run-daily-notebook-mining.mjs';
+
+test('resolveMiningDataRoot fails closed when MINING_DATA_ROOT is unset or blank', () => {
+  assert.throws(() => resolveMiningDataRoot({}), /^Error: MINING_DATA_ROOT_UNSET/);
+  assert.throws(() => resolveMiningDataRoot({ MINING_DATA_ROOT: '  ' }), /^Error: MINING_DATA_ROOT_UNSET/);
+});
+
+test('mining data paths live under MINING_DATA_ROOT, not the script checkout', () => {
+  const checkout = resolve(fileURLToPath(new URL('..', import.meta.url)));
+  const dataRoot = resolveMiningDataRoot({ MINING_DATA_ROOT: join(tmpdir(), 'mining-data-root-test') });
+  assert.equal(dataRoot, resolve(tmpdir(), 'mining-data-root-test'));
+  for (const p of Object.values(miningPaths(dataRoot))) {
+    assert.equal(p.startsWith(dataRoot), true, p);
+    assert.equal(p.startsWith(checkout + sep), false, p);
+  }
+});
+
+test('KB_SYNC_ROOT defaults to <dataRoot>/kb-sync and requires MINING_DATA_ROOT', () => {
+  let read;
+  loadMultipartNotebookIds({ MINING_DATA_ROOT: '/data/root' }, (p) => { read = p; return '{}'; });
+  assert.equal(read, join(resolve('/data/root'), 'kb-sync', 'state', 'knowledge-plane-notebooks.json'));
+  assert.throws(() => loadMultipartNotebookIds({}, () => '{}'), /MINING_DATA_ROOT_UNSET/);
+});
 
 test('run-daily-notebook-mining script exists and exports required functions', () => {
   const scriptPath = resolve('scripts/run-daily-notebook-mining.mjs');
   assert.equal(existsSync(scriptPath), true);
-  assert.equal(typeof findStaleMiningSources, 'function');
+  assert.equal(typeof runPackSync, 'function');
   assert.equal(typeof validateDAGSequence, 'function');
-});
-
-test('findStaleMiningSources matches Daily Research pack by filename and title', () => {
-  const sources = [
-    { id: 'src-1', title: 'pack_daily.txt' },
-    { id: 'src-2', title: 'CIC - Daily Research (Buffer/Intake) Pack' },
-    { id: 'src-3', title: 'CIC - Daily Research (Buffer/Intake)' },
-    { id: 'src-keep', title: 'Research Interview - Oct 12.docx' },
-  ];
-  const matched = findStaleMiningSources(sources, 'pack_daily.txt', 'CIC - Daily Research (Buffer/Intake)');
-  assert.equal(matched.length, 3);
-  assert.deepEqual(matched.map(s => s.id), ['src-1', 'src-2', 'src-3']);
-});
-
-test('findStaleMiningSources matches Personal OS pack by title (preventing accumulation)', () => {
-  const sources = [
-    { id: 'p-1', title: 'Personal OS (Household, Utilities, Florida Logistics) Pack' },
-    { id: 'p-2', title: 'Personal OS (Household, Utilities, Florida Logistics) Pack' },
-    { id: 'p-keep', title: 'Home Insurance Policy 2026.pdf' },
-  ];
-  const matched = findStaleMiningSources(
-    sources,
-    'pack_personal_os.txt',
-    'Personal OS (Household, Utilities, Florida Logistics)'
-  );
-  assert.equal(matched.length, 2);
-  assert.deepEqual(matched.map(s => s.id), ['p-1', 'p-2']);
-});
-
-test('findStaleMiningSources matches Ford Politics pack by both filename and pasted-text title', () => {
-  const sources = [
-    { id: 'ford-1', title: 'pack_ford_politics.txt' },
-    { id: 'ford-2', title: 'CIC - Ford Executive Dynamics & Politics Pack' },
-    { id: 'ford-doc', title: 'Ford Executive Board Meeting Minutes 1944.pdf' },
-  ];
-  const matched = findStaleMiningSources(
-    sources,
-    'pack_ford_politics.txt',
-    'CIC - Ford Executive Dynamics & Politics'
-  );
-  assert.equal(matched.length, 2);
-  assert.deepEqual(matched.map(s => s.id), ['ford-1', 'ford-2']);
-});
-
-test('findStaleMiningSources matches legacy monolithic repo_knowledge_pack sources', () => {
-  const sources = [
-    { id: 'repo-1', title: 'repo_knowledge_pack.txt' },
-    { id: 'repo-2', name: 'repo_knowledge_pack_v1.txt' },
-    { id: 'other', title: 'System Architecture.md' },
-  ];
-  const matched = findStaleMiningSources(sources, 'pack_agent_harness.txt', 'Agent Harness');
-  assert.equal(matched.length, 2);
-  assert.deepEqual(matched.map(s => s.id), ['repo-1', 'repo-2']);
-});
-
-test('findStaleMiningSources matches master-kb variations', () => {
-  const sources = [
-    { id: 'mk-1', title: 'pack_master_kb.txt' },
-    { id: 'mk-2', title: 'CIC-KB Pack' },
-    { id: 'mk-3', title: 'CIC - Knowledge Base (Master) Pack' },
-    { id: 'mk-other', title: 'Master Index.md' },
-  ];
-  const matched = findStaleMiningSources(
-    sources,
-    'pack_master_kb.txt',
-    'CIC - Knowledge Base (Master)'
-  );
-  assert.equal(matched.length, 3);
-  assert.deepEqual(matched.map(s => s.id), ['mk-1', 'mk-2', 'mk-3']);
-});
-
-test('findStaleMiningSources rejects non-pack sources cleanly', () => {
-  const sources = [
-    { id: 'n-1', title: 'Interview transcript - User research.docx' },
-    { id: 'n-2', title: 'Meeting Notes 2026-10-12.txt' },
-    { id: 'n-3', title: 'Historical Timeline - Post War.pdf' },
-    { id: 'n-4', title: '' },
-    { id: 'n-5' },
-  ];
-  const matched = findStaleMiningSources(sources, 'pack_willow_run.txt', 'CIC - Willow Run & Aviation Engineering');
-  assert.equal(matched.length, 0);
-});
-
-test('findStaleMiningSources handles empty or invalid inputs gracefully', () => {
-  assert.deepEqual(findStaleMiningSources([], 'pack_daily.txt', 'Daily'), []);
-  assert.deepEqual(findStaleMiningSources(null, 'pack_daily.txt', 'Daily'), []);
-  assert.deepEqual(findStaleMiningSources(undefined, '', ''), []);
 });
 
 test('validateDAGSequence enforces strict phase execution order', () => {
@@ -108,4 +49,77 @@ test('validateDAGSequence enforces strict phase execution order', () => {
   assert.throws(() => {
     validateDAGSequence(['harvest', 'load-category', 'extract-properties', 'consolidate-pack', 'validate-pack', 'sync-notebooklm']);
   }, /DAG_VALIDATION_ERROR/);
+});
+
+const DAILY_ID = '1b4861a3-931f-4632-8fc1-343a8dd37df8';
+test('multipart set includes fallback IDs when the kb-sync manifest is missing', () => {
+  const ids = loadMultipartNotebookIds({ KB_SYNC_MANIFEST_PATH: '/nope/missing.json' }, () => { throw new Error('ENOENT'); });
+  for (const id of [DAILY_ID, '679b8bab-2d87-42cb-a726-6dc54c83acc2', '359b346c-6af7-4ba3-baef-b985c9e6e1af']) {
+    assert.equal(isMultipartNotebook(id, ids), true);
+  }
+  assert.equal(isMultipartNotebook('unrelated-id', ids), false);
+});
+
+test('registry notebooks marked multipart (multipart:true or expected_parts>1) are skipped', () => {
+  const manifest = JSON.stringify({
+    clusters: {
+      c1: { notebooks: [{ uuid: 'ABC-123', multipart: true }, { uuid: 'def-456', expected_parts: 3 }] },
+    },
+  });
+  const ids = loadMultipartNotebookIds({ KB_SYNC_MANIFEST_PATH: '/m.json' }, () => manifest);
+  assert.equal(isMultipartNotebook('abc-123', ids), true);
+  assert.equal(isMultipartNotebook('def-456', ids), true);
+  assert.equal(isMultipartNotebook(DAILY_ID, ids), true);
+});
+
+test('single-pack registry notebooks are not treated as multipart', () => {
+  const manifest = JSON.stringify({
+    clusters: {
+      c1: {
+        notebooks: [
+          { uuid: 'personal-os-id' },
+          { uuid: 'modules-id', multipart: false, expected_parts: 1 },
+        ],
+      },
+    },
+  });
+  const ids = loadMultipartNotebookIds({ KB_SYNC_MANIFEST_PATH: '/m.json' }, () => manifest);
+  assert.equal(isMultipartNotebook('personal-os-id', ids), false);
+  assert.equal(isMultipartNotebook('modules-id', ids), false);
+});
+
+const packArgs = (syncPackFn) => ({
+  syncPackFn,
+  notebookId: DAILY_ID,
+  packFile: '/x/.nlm_pack/pack_daily.txt',
+  logInfo: () => {},
+  logWarn: () => {},
+});
+
+test('runPackSync passes notebook and pack to syncPackFn and counts purged sources on success', async () => {
+  let received;
+  const res = await runPackSync(packArgs(async (args) => {
+    received = args;
+    return { success: true, purgedOldSourceIds: ['old-1', 'old-2'] };
+  }));
+  assert.equal(received.notebookId, DAILY_ID);
+  assert.equal(received.packFile, '/x/.nlm_pack/pack_daily.txt');
+  assert.deepEqual(res, { ok: true, pruned: 2 });
+});
+
+test('runPackSync reports a skip with the gate reason', async () => {
+  const res = await runPackSync(packArgs(async () => ({ skipped: true, reason: 'MULTIPART_REGISTRY' })));
+  assert.deepEqual(res, { ok: true, skipped: true, reason: 'MULTIPART_REGISTRY' });
+});
+
+test('runPackSync fails when the gate returns neither success nor skip', async () => {
+  const res = await runPackSync(packArgs(async () => ({ success: false })));
+  assert.deepEqual(res, { ok: false, reason: 'replace_gate_failed' });
+});
+
+test('runPackSync converts a gate throw into a failure and calls syncPackFn once', async () => {
+  let calls = 0;
+  const res = await runPackSync(packArgs(async () => { calls++; throw new Error('REPLACE_GATE_FAIL'); }));
+  assert.deepEqual(res, { ok: false, reason: 'REPLACE_GATE_FAIL' });
+  assert.equal(calls, 1);
 });
