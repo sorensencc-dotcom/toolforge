@@ -1,0 +1,251 @@
+skills/reconcile-vector-store/src/index.ts
+  s_5669ac8bb9e03f::t_bbe6ac1290826f 22-30
+skills/reconcile-vector-store/tests/skill.test.ts
+  s_5669ac8bb9e03f::t_bbe6ac1290826f 9,50-59
+.harness/tasks/completed/2026-10-19T211500Z__action__icf__act-icf-fix-backlog-target-routing-map.md
+  s_5669ac8bb9e03f::t_aca6c72a998fe7 1-48
+.harness/tasks/completed/2026-10-19T211501Z__action__toolforge__act-toolforge-decoupled-post-promote-enricher-and-spike-runner.md
+  s_5669ac8bb9e03f::t_9d8747b19ed37b 1-37
+.harness/tasks/completed/act-04-frontier-lab-verification-standards-dissent.json
+  s_5669ac8bb9e03f::t_07af447d85fe4e 18-19
+.ijfw/memory/project-journal.md
+  s_5669ac8bb9e03f::t_f81210d4a23321 271-375
+.mcp.json
+  s_5669ac8bb9e03f::t_81014ab2254210 18
+AGENTS.md
+  s_5669ac8bb9e03f::t_880d585bba6b13 281,338
+CHANGELOG.md
+  s_5669ac8bb9e03f::t_67885c9e02da24 3-253
+OLLAMA_DEPLOYMENT_GUIDE.md
+  s_5669ac8bb9e03f::t_7faf5bfe44aa7d 211
+OLLAMA_PROVIDER_SETUP.md
+  s_5669ac8bb9e03f::t_a0ba28c1c21101 103
+QUICKSTART.md
+  s_5669ac8bb9e03f::t_bb36617602cafd 144
+STATUS.md
+  s_5669ac8bb9e03f::t_48abe1120ebb5d 83,85,87,89-97,99,101,103,105
+VERSION.md
+  s_5669ac8bb9e03f::t_88f1c67b282c65 1
+_integration/model_selection.json
+  s_5669ac8bb9e03f::t_c80f818ecd1c80 2,5-9,36,105-136,157,173,195
+dashboard.html
+  s_5669ac8bb9e03f::t_592af105992116 1797
+docs/meta/governance/toolforge-marketplace-spec-v1.0.md
+  s_5669ac8bb9e03f::t_b4b0386184e084 4,54,66,159-160,335,490,601-631,637
+docs/meta/specs/adversarial-dual-model-review-spec.md
+  s_5669ac8bb9e03f::t_6e932954a602ed 1-134
+docs/meta/specs/diagrams/trm-mobile-inbox-triage-pipeline.html
+  s_5669ac8bb9e03f::t_9184e897dae54a 1-271
+docs/reports/daily/2026-10-20.md
+  s_5669ac8bb9e03f::t_c63a6324eab52e 1-36
+docs/reports/daily/2026-10-21.md
+  s_5669ac8bb9e03f::t_7c6282a0dca436 1-207
+docs/reports/daily/2026-10-22.md
+  s_5669ac8bb9e03f::t_a550abc76539de 1-38
+docs/reports/daily/2026-10-23.md
+  s_5669ac8bb9e03f::t_b5ae0fdb921492 1-28
+docs/reports/daily/2026-10-24.md
+  s_5669ac8bb9e03f::t_5be5bbaa41d741 1-32
+docs/reports/daily/2026-10-25.md
+  s_5669ac8bb9e03f::t_e0ace08b4006ed 1-50
+drift/SLOP-REPORT.md
+  s_5669ac8bb9e03f::t_39eae364bbefd0 3
+icf/src/backend/pr-staging-bridge.ts
+  s_5669ac8bb9e03f::t_f9a13f77cb5c28 1-329
+memory/MEMORY.md
+  s_5669ac8bb9e03f::t_2488ff0de796a7 14,16,41
+modules/adapters/WhichLlmAdapter.mjs
+  s_5669ac8bb9e03f::t_ceaf4f00a895db 23,25,38-39,51,54-55
+modules/healing/adversarial-auditor.test.ts
+  s_5669ac8bb9e03f::t_7e0b8ce5cd0c38 3,77-94
+modules/healing/adversarial-auditor.ts
+  s_5669ac8bb9e03f::t_bfaa0fc1b766b8 1,20
+modules/review/adversarial-review.test.ts
+  s_5669ac8bb9e03f::t_0006da0f238cd6 1-429
+modules/review/adversarial-review.ts
+  s_5669ac8bb9e03f::t_63f8c031501be4 1-160
+modules/review/anthropic-provider.test.ts
+  s_5669ac8bb9e03f::t_fbe2b2280e85f1 1-133
+modules/review/anthropic-provider.ts
+  s_5669ac8bb9e03f::t_08b35be6f721a6 1-51
+modules/review/openai-provider.test.ts
+  s_5669ac8bb9e03f::t_d64270b97f1de6 1-220
+modules/review/openai-provider.ts
+  s_5669ac8bb9e03f::t_914f0888fe3a03 1-49
+modules/review/provider-http.ts
+  s_5669ac8bb9e03f::t_fd212d98bd47c1 1-76
+modules/review/review-benchmark.test.ts
+  s_5669ac8bb9e03f::t_70e1ac28896406 1-160
+modules/review/review-benchmark.ts
+  s_5669ac8bb9e03f::t_7702436d3a5bb9 1-126
+modules/review/review-runner.test.ts
+  s_5669ac8bb9e03f::t_64abf8c3b7be55 1-126
+modules/review/review-runner.ts
+  s_5669ac8bb9e03f::t_923a2e7be32f98 1-59
+modules/review/routing.test.ts
+  s_5669ac8bb9e03f::t_a2fd30eda21b1d 1-228
+modules/review/routing.ts
+  s_5669ac8bb9e03f::t_a4b5034c360149 1-108
+modules/wiki/dashboard.html
+  s_5669ac8bb9e03f::t_62384722fb8de1 2032,3095-3103,3105-3108,3110-3123,3126-3127,3153,3189-3190,3195-3196,3199,3286,3288,3291,3343-3344,3349-3363,3376
+package.json
+  s_5669ac8bb9e03f::t_d1b7d17efd6cba 38-39,43-47,49-50,58-60,63
+scripts/Mirror-ClaudeMemory.ps1
+  s_5669ac8bb9e03f::t_33d2f74911ed0b 1-86
+scripts/Run-DailyStatus.ps1
+  s_5669ac8bb9e03f::t_fb2c9a9003c80b 1-90
+scripts/aggregate_status.py
+  s_5669ac8bb9e03f::t_0788f42ffbbe2f 1-994
+scripts/catchup-daily-pipeline.ps1
+  s_5669ac8bb9e03f::t_9514b3e9fd7fc3 142-148,150
+scripts/check-grok-hooks.mjs
+  s_5669ac8bb9e03f::t_37aa406ce57468 1-183
+scripts/check-grok-hooks.ps1
+  s_5669ac8bb9e03f::t_f053e1c30ab9f3 1-70
+scripts/daemon-healer-bot.mjs
+  s_5669ac8bb9e03f::t_40393bfb65ab85 23,26,58,64,315-320
+scripts/diagram-sync.mjs
+  s_5669ac8bb9e03f::t_cf3193717c8676 23,25-28,267
+scripts/local-small-model-bridge.mjs
+  s_5669ac8bb9e03f::t_61ab99ee0ff4ba 19-44,195,219,241,284,318
+scripts/pre-push-adversarial-review.sh
+  s_5669ac8bb9e03f::t_09e595f8fa7cb9 1-50
+scripts/pre-push-adversarial-review.test.mjs
+  s_5669ac8bb9e03f::t_f667704f1f2478 1-86
+scripts/pre-push-graft.sh
+  s_5669ac8bb9e03f::t_b3f6296934fe32 4-6,12,14-17,20,22-24,26-29,31-39,41-44,47-48,50-51,53-60
+scripts/pre-push-graft.test.mjs
+  s_5669ac8bb9e03f::t_f2645474ced842 1-75
+scripts/render_dashboard.py
+  s_5669ac8bb9e03f::t_bce13ba2022705 1-551
+scripts/render_status_html.py
+  s_5669ac8bb9e03f::t_1928d09baa41b8 1-656
+scripts/review-benchmark.mjs
+  s_5669ac8bb9e03f::t_3068b2bca99d04 1-47
+scripts/run-daily-notebook-mining.mjs
+  s_5669ac8bb9e03f::t_21743e902d0d1a 12,15-21,25-43,50-51,60,76-80,82-84,86-97,99-101,103-119,123-125,128-129,141,145-147,157,166,169,175,178,185,188,199,203-209,212,226,234,240,248,251-266,268-270,294,296,299
+scripts/run-daily-notebook-mining.ps1
+  s_5669ac8bb9e03f::t_d9839c04798f81 4-5,9-15,18-19,25,30
+scripts/run-ondemand-mine.ps1
+  s_5669ac8bb9e03f::t_9ffca26310815a 105-111
+scripts/run-sibling-check-v2.mjs
+  s_5669ac8bb9e03f::t_7781579dbb58d1 34-47,59-65,70-72,76,79-87,150-153
+scripts/run_daily_pipeline.ps1
+  s_5669ac8bb9e03f::t_e0ad73874e6807 1-137
+scripts/sibling-checker-v2.mjs
+  s_5669ac8bb9e03f::t_2cfcbb2009bb61 143-152,162,167,173,175,286,289-291,372,386-387,438
+scripts/trm-batch-triage.mjs
+  s_5669ac8bb9e03f::t_0fbcfe97223bab 1-424
+scripts/trm-ingress-watcher.mjs
+  s_5669ac8bb9e03f::t_0c346f374580ad 1-1907
+scripts/trm-post-promote-enricher.mjs
+  s_5669ac8bb9e03f::t_63c1331d9908b1 1-562
+scripts/trm-promote-card.mjs
+  s_5669ac8bb9e03f::t_881206e844f804 14-15
+scripts/trm-stage-pr.mjs
+  s_5669ac8bb9e03f::t_e34ccc73be2ec9 1-267
+scripts/whichllm-bfcl-evaluator.mjs
+  s_5669ac8bb9e03f::t_427092bac6e48f 4,137-138,140-163,167,172-185,195-197,207,210-225,255-256
+scripts/whichllm-router.mjs
+  s_5669ac8bb9e03f::t_e84d7354511638 29
+skills/trm-devops-triage/scripts/trm-tinyfish-triage.mjs
+  s_5669ac8bb9e03f::t_402aad7e9a61ba 27
+skills/trm-devops-triage/tests/trm-devops-triage.test.mjs
+  s_5669ac8bb9e03f::t_14d55bc5c2ca28 74-82
+skills/trm-feedback-report/tests/signalStrength.test.ts
+  s_5669ac8bb9e03f::t_6392843a7c8e2d 4-7
+src/api/providers-api.test.ts
+  s_5669ac8bb9e03f::t_6b4adb1bced5f5 1-70
+src/api/providers-api.ts
+  s_5669ac8bb9e03f::t_2dfe566f8e66bf 9-10
+src/api/routes/providers.js
+  s_5669ac8bb9e03f::t_95eb6978ea4104 4,163-168
+src/backend/pr-staging-bridge.ts
+  s_5669ac8bb9e03f::t_b36f34f0d29793 1-2
+src/cli/index.js
+  s_5669ac8bb9e03f::t_ab139d902bd6d4 11,20,52,80
+src/load-tests/marketplace-load.js
+  s_5669ac8bb9e03f::t_236d2bfcbbda40 44-58,161-170,173-174,176,179-205,208-209,212-220
+src/load-tests/marketplace-load.test.js
+  s_5669ac8bb9e03f::t_eabcdec5c61af3 1-17
+src/providers/usage-examples.ts
+  s_5669ac8bb9e03f::t_951cbaa6941cb1 7-8
+src/services/recommendation.js
+  s_5669ac8bb9e03f::t_77c7ceb0c56a80 40-54,58-59,61-64,68
+src/validators/manifest.js
+  s_5669ac8bb9e03f::t_cf61bd81740336 40-46,116
+src/validators/manifest.test.js
+  s_5669ac8bb9e03f::t_e92461c6c1fc8a 142-186
+test/backend/batch-triage-pr-bridge.test.ts
+  s_5669ac8bb9e03f::t_d29827b8321081 1-252
+tests/aggregate-status-stale-lock.test.mjs
+  s_5669ac8bb9e03f::t_ce9a31c6532adc 1-12,14-15,17-19,21-22,25-34,36-59,61
+tests/aggregate-status.test.mjs
+  s_5669ac8bb9e03f::t_42adabba0478db 1-32
+tests/claude-hooks-stdin.test.mjs
+  s_5669ac8bb9e03f::t_d3950f4ed8dfbe 1-90
+tests/diagram-sync.test.mjs
+  s_5669ac8bb9e03f::t_252c5d9f4ee02c 14,156-162
+tests/fixtures/review-benchmark/cases.json
+  s_5669ac8bb9e03f::t_6518364a81b818 1-44
+tests/grok-hook-guardrails.test.mjs
+  s_5669ac8bb9e03f::t_4dee23c1c83b13 1-276
+tests/ironbots.test.mjs
+  s_5669ac8bb9e03f::t_a0f7590c0100cb 114-124,146-154
+tests/local-small-model-bridge.test.mjs
+  s_5669ac8bb9e03f::t_e8cff5788e543e 1-12
+tests/research-substrate-contract.test.ts
+  s_5669ac8bb9e03f::t_633796797616c8 11-63,66-67,85-98
+tests/review-command.test.mjs
+  s_5669ac8bb9e03f::t_c955a4ff561313 1-45
+tests/run-daily-notebook-mining.test.mjs
+  s_5669ac8bb9e03f::t_8a8304ba97fe53 4-6,8-12,16-37,41,45-51,54-60,63-72,75-88,91-96,99-107,110-112,115-118,120-124
+tests/run-daily-pipeline.test.mjs
+  s_5669ac8bb9e03f::t_8f094dd2302206 1-40
+tests/schema-validator.test.mjs
+  s_5669ac8bb9e03f::t_14e10417f1b373 37-42,129-172
+tests/test_notebook_prompt_sync.py
+  s_5669ac8bb9e03f::t_008ccd5a77889e 1,269-343
+tests/test_skill_security_auditor_utility.py
+  s_5669ac8bb9e03f::t_153139af23a9c6 1-28
+tests/token-budget-gate.test.mjs
+  s_5669ac8bb9e03f::t_58d35e4b318d4c 1-56
+tests/trm-ingress-routing.test.mjs
+  s_5669ac8bb9e03f::t_4167f23611cc28 473-526
+tests/whichllm-router.test.mjs
+  s_5669ac8bb9e03f::t_76e985e9934713 7
+tools/agent-dispatch/test/results_test.py
+  s_5669ac8bb9e03f::t_f9189c927bc230 5,14-32
+trm-drive/inbox/.ijfw-project
+  s_5669ac8bb9e03f::t_1df3d933656e19 1-3
+trm-drive/inbox/.ijfw/project
+  s_5669ac8bb9e03f::t_b6a5fe4b9331fc 1
+trm-drive/inbox/LEDGER.md
+  s_5669ac8bb9e03f::t_58dba86ec9af48 3,7-29,33-34,40-42,44-45,50,52-54,56-59
+trm-drive/inbox/completed/1792444291363-2026-10-19T211500Z__action__icf__act-icf-fix-backlog-target-routing-map.md
+  s_5669ac8bb9e03f::t_3f31c2ce6e92e7 1-48
+trm-drive/inbox/completed/2026-10-19T211501Z__action__toolforge__act-toolforge-decoupled-post-promote-enricher-and-spike-runner.md
+  s_5669ac8bb9e03f::t_51b051d52a19d7 1-48
+trm-drive/inbox/ledger.jsonl
+  s_5669ac8bb9e03f::t_addb2378ab18a9 30-37,39,44-49,55-56,67-82
+utilities/node-process-janitor.ps1
+  s_5669ac8bb9e03f::t_3165d4ead101c1 64,76-86,118,191-196
+wiki/research/rfc-frontier-lab-verification-standards-dissent.md
+  s_5669ac8bb9e03f::t_05d9bf38030577 2,8,11-13,16-17,20,22,24,26,28-30,32,34,36-41,43,45,47-61,63,65-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bec0086d6f97616a44fd3528c18ca02b6039cd3d",
+  "prompts": {},
+  "sessions": {
+    "s_5669ac8bb9e03f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17b17-92db-7671-be19-8b05e6655174",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
