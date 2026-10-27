@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.111.3
+Date: 2026-10-27
+
+### Changes
+- de2639c7 - Merge pull request #199 from sorensencc-dotcom/fix-vector-deletion-test-5816378410706720232 (Chris Sorensen)
+- bec0086d - merge: resolve PR 199 main conflicts (Chris Sorensen)
+- 7431590c - test: implement vector deletion test and basic VectorStore class (google-labs-jules[bot])
+
 ## Version 2.111.2
 Date: 2026-10-27
 
