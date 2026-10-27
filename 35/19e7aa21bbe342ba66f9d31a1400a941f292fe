@@ -1,0 +1,224 @@
+.claude/skills/chris-mode/SKILL.md
+  h_5c172e9b435f5a 3,9,13,15,17,19-27,37-41,43,45,51,55-59,68-79
+.context/retros/2026-10-17-2.json
+  h_5c172e9b435f5a 1
+.context/retros/2026-10-24-1.json
+  h_5c172e9b435f5a 1-68
+.context/retros/actions/ledger.jsonl
+  h_5c172e9b435f5a 1
+.context/retros/retro.schema.json
+  h_5c172e9b435f5a 46-57,93-128
+.context/retros/validate-changed.ps1
+  h_5c172e9b435f5a 8
+.context/retros/validate.ps1
+  h_5c172e9b435f5a 7,12
+.githooks/pre-push
+  h_5c172e9b435f5a 54-55
+.github/workflows/ci-governance-matrix.yml
+  h_5c172e9b435f5a 15-18,73-74
+.github/workflows/docker-ci.yml
+  h_5c172e9b435f5a 22-25
+.github/workflows/documentation.yml
+  h_5c172e9b435f5a 38-41
+.github/workflows/governance.yml
+  h_5c172e9b435f5a 15-18
+.github/workflows/graft-audit.yml
+  h_5c172e9b435f5a 21-24
+.github/workflows/retro-full-audit.yml
+  h_5c172e9b435f5a 11-14
+.github/workflows/secret-scan.yml
+  h_5c172e9b435f5a 9-12
+.github/workflows/slop-sweep.yml
+  h_5c172e9b435f5a 20-23
+.github/workflows/toolforge-release.yml
+  h_5c172e9b435f5a 38-41
+.github/workflows/toolforge-wave-d.yml
+  h_5c172e9b435f5a 17-20
+.gitignore
+  h_5c172e9b435f5a 133,153-156
+.gitleaksignore
+  h_5c172e9b435f5a 1-2
+.harness/tasks/completed/act-04-frontier-lab-verification-standards-dissent.json
+  h_5c172e9b435f5a 18-19
+AGENTS.md
+  h_5c172e9b435f5a 281,338,445
+CHANGELOG.md
+  h_5c172e9b435f5a 3-270
+OLLAMA_DEPLOYMENT_GUIDE.md
+  h_5c172e9b435f5a 211
+OLLAMA_PROVIDER_SETUP.md
+  h_5c172e9b435f5a 103
+QUICKSTART.md
+  h_5c172e9b435f5a 144
+STATUS.md
+  h_5c172e9b435f5a 27,31,35
+VERSION.md
+  h_5c172e9b435f5a 1
+docs/meta/governance/retro-policy.md
+  h_5c172e9b435f5a 22,48,55,59-69,88,97-101
+docs/meta/governance/toolforge-marketplace-spec-v1.0.md
+  h_5c172e9b435f5a 4,54,66,159-160,335,490,601-631,637
+docs/meta/specs/adversarial-dual-model-review-spec.md
+  h_5c172e9b435f5a 1-134
+docs/toolforge/active-memory.md
+  h_5c172e9b435f5a 1-53
+drift/SLOP-REPORT.md
+  h_5c172e9b435f5a 3
+icf/src/backend/pr-staging-bridge.ts
+  h_5c172e9b435f5a 1-329
+memory/MEMORY.md
+  h_5c172e9b435f5a 14,16,41
+modules/healing/adversarial-auditor.test.ts
+  h_5c172e9b435f5a 3,77-94
+modules/healing/adversarial-auditor.ts
+  h_5c172e9b435f5a 1,20
+modules/review/adversarial-review.test.ts
+  h_5c172e9b435f5a 1-429
+modules/review/adversarial-review.ts
+  h_5c172e9b435f5a 1-160
+modules/review/anthropic-provider.test.ts
+  h_5c172e9b435f5a 1-133
+modules/review/anthropic-provider.ts
+  h_5c172e9b435f5a 1-51
+modules/review/openai-provider.test.ts
+  h_5c172e9b435f5a 1-220
+modules/review/openai-provider.ts
+  h_5c172e9b435f5a 1-49
+modules/review/provider-http.ts
+  h_5c172e9b435f5a 1-2,4,6,8-15,17-18,20-22,24-29,31-33,35-54,56,58-63,65-72,74-75
+modules/review/review-benchmark.test.ts
+  h_5c172e9b435f5a 1-160
+modules/review/review-benchmark.ts
+  h_5c172e9b435f5a 1-126
+modules/review/review-runner.test.ts
+  h_5c172e9b435f5a 1-126
+modules/review/review-runner.ts
+  h_5c172e9b435f5a 1-59
+modules/review/routing.test.ts
+  h_5c172e9b435f5a 1-228
+modules/review/routing.ts
+  h_5c172e9b435f5a 1-108
+package.json
+  h_5c172e9b435f5a 38-39,43-47,49-50,63
+scripts/compile-weekly-retro.mjs
+  h_5c172e9b435f5a 20-29,114-118,136-138,156-157,184,196,206-207,213,225-227,238-243,246,253,268-290,298,300,307,312-313,319,321,323-324,326-328,330,333-334
+scripts/consolidate-retro-inbox.mjs
+  h_5c172e9b435f5a 8,11,61-63,68,70,72-73,76,92,96,99-100,102,112,124-129,137-138
+scripts/local-small-model-bridge.mjs
+  h_5c172e9b435f5a 173,197,219,262,296
+scripts/pre-push-adversarial-review.sh
+  h_5c172e9b435f5a 1-50
+scripts/pre-push-adversarial-review.test.mjs
+  h_5c172e9b435f5a 1-86
+scripts/pre-push-graft.sh
+  h_5c172e9b435f5a 4-6,12,14-17,20,22-24,26-29,31-39,41-44,47-48,50-51,53-60
+scripts/pre-push-graft.test.mjs
+  h_5c172e9b435f5a 1-75
+scripts/retro-action-ledger.mjs
+  h_5c172e9b435f5a 1-129
+scripts/retro-metrics.mjs
+  h_5c172e9b435f5a 1-82
+scripts/retro-report-actions.mjs
+  h_5c172e9b435f5a 5,19-22,25-27,36-38
+scripts/review-benchmark.mjs
+  h_5c172e9b435f5a 1-47
+scripts/run-daily-notebook-mining.mjs
+  h_5c172e9b435f5a 12,15-21,25-43,50-51,60,76-80,82-84,86-97,99-101,103-119,123-125,128-129,141,145-147,157,166,169,175,178,185,188,199,203-209,212,226,234,240,248,251-266,268-270,294,296,299
+scripts/run-daily-notebook-mining.ps1
+  h_5c172e9b435f5a 4-5,9-15,18-19,25,30
+scripts/run-sibling-check-v2.mjs
+  h_5c172e9b435f5a 34-47,59-65,70-72,76,79-87,150-153
+scripts/run-weekly-retro.ps1
+  h_5c172e9b435f5a 66-72
+scripts/sibling-checker-v2.mjs
+  h_5c172e9b435f5a 143-152,162,167,173,175,286,289-291,372,386-387,438
+scripts/trm-ingress-watcher.mjs
+  h_5c172e9b435f5a 67-68,240-243,269-272,560-567
+skills/reconcile-vector-store/src/index.ts
+  h_5c172e9b435f5a 6-14
+skills/reconcile-vector-store/tests/skill.test.ts
+  h_5c172e9b435f5a 9-10,46-55
+skills/trm-devops-triage/scripts/trm-tinyfish-triage.mjs
+  h_5c172e9b435f5a 27
+skills/trm-devops-triage/tests/trm-devops-triage.test.mjs
+  h_5c172e9b435f5a 74-82
+skills/trm-feedback-report/tests/signalStrength.test.ts
+  h_5c172e9b435f5a 4-7
+src/api/providers-api.test.ts
+  h_5c172e9b435f5a 1-70
+src/api/providers-api.ts
+  h_5c172e9b435f5a 9-10
+src/api/routes/providers.js
+  h_5c172e9b435f5a 4,163-168
+src/backend/pr-staging-bridge.ts
+  h_5c172e9b435f5a 1-2
+src/cli/commands/memory.js
+  h_5c172e9b435f5a 1-151
+src/cli/index.js
+  h_5c172e9b435f5a 10-11,20,51-52,79-80
+src/load-tests/marketplace-load.js
+  h_5c172e9b435f5a 146-155,158-159,161,164-190,193-194,197,200,202
+src/memory/entry.js
+  h_5c172e9b435f5a 1-41
+src/memory/inject.js
+  h_5c172e9b435f5a 1-75
+src/memory/store.js
+  h_5c172e9b435f5a 1-221
+src/providers/usage-examples.ts
+  h_5c172e9b435f5a 7-8
+src/services/recommendation.js
+  h_5c172e9b435f5a 40-54,58-59,61-64,68
+src/validators/manifest.js
+  h_5c172e9b435f5a 40-46,116
+src/validators/manifest.test.js
+  h_5c172e9b435f5a 142-186
+test/backend/batch-triage-pr-bridge.test.ts
+  h_5c172e9b435f5a 1-252
+tests/aggregate-status.test.mjs
+  h_5c172e9b435f5a 1-32
+tests/fixtures/review-benchmark/cases.json
+  h_5c172e9b435f5a 1-44
+tests/research-substrate-contract.test.ts
+  h_5c172e9b435f5a 11-63,66-67,85-98
+tests/retro-action-ledger.test.mjs
+  h_5c172e9b435f5a 1-122
+tests/retro-metrics.test.mjs
+  h_5c172e9b435f5a 1-80
+tests/review-command.test.mjs
+  h_5c172e9b435f5a 1-45
+tests/run-daily-notebook-mining.test.mjs
+  h_5c172e9b435f5a 4-6,8-12,16-37,41,45-51,54-60,63-72,75-88,91-96,99-107,110-112,115-118,120-124
+tests/run-weekly-retro-consolidate.test.mjs
+  h_5c172e9b435f5a 1-45
+tests/schema-validator.test.mjs
+  h_5c172e9b435f5a 37-42,129-172
+tests/test_notebook_prompt_sync.py
+  h_5c172e9b435f5a 1,269-343
+tests/test_skill_security_auditor_utility.py
+  h_5c172e9b435f5a 1-28
+tests/token-budget-gate.test.mjs
+  h_5c172e9b435f5a 1-56
+tests/trm-act-01-active-memory-persistent-context.test.mjs
+  h_5c172e9b435f5a 1-363
+tests/trm-act-toolforge-ci-workflow-false-exit-remediation.test.mjs
+  h_5c172e9b435f5a 1-2,5,7-11,13-15,17-24,26-28,30-34,36-43
+tests/trm-ingress-routing.test.mjs
+  h_5c172e9b435f5a 493-526
+toolforge-pdf/ingest.test.js
+  h_5c172e9b435f5a 3-5,110-137
+tools/agent-dispatch/test/results_test.py
+  h_5c172e9b435f5a 5,14-32
+wiki/research/rfc-frontier-lab-verification-standards-dissent.md
+  h_5c172e9b435f5a 2,8,11-13,16-17,20,22,24,26,28-30,32,34,36-41,43,45,47-61,63,65-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3519e7aa21bbe342ba66f9d31a1400a941f292fe",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

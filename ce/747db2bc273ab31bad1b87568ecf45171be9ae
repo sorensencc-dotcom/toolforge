@@ -1,0 +1,16 @@
+AGENTS.md
+  h_5c172e9b435f5a 445
+tests/token-budget-gate.test.mjs
+  h_5c172e9b435f5a 16,18-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ce747db2bc273ab31bad1b87568ecf45171be9ae",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

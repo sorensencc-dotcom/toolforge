@@ -1,0 +1,19 @@
+.ijfw/memory/project-journal.md
+  s_d0f800ccc90f9d::t_6480e17e9a293c 271-375
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e1a77c21fdd3517d35d23beed57ed9e89e6589ef",
+  "prompts": {},
+  "sessions": {
+    "s_d0f800ccc90f9d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8e2c015-5a16-4c6f-99eb-d9352b91a2c7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
