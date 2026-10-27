@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.112.0
+Date: 2026-10-27
+
+### Changes
+- f769d222 - Merge pull request #247 from sorensencc-dotcom/claude/mcp-ironleger-integration-700493 (Chris Sorensen)
+- be3e3b60 - feat(ironbots): surface Copilot reconcile summary in daily report (Chris Sorensen)
+- 17bca24c - refactor(ironledger): rename reconcile entrypoint to avoid main collision (Chris Sorensen)
+- 8a6a3a06 - feat(ironledger): add read-only Copilot reconciliation spike (Chris Sorensen)
+
 ## Version 2.111.3
 Date: 2026-10-27
 
