@@ -1,5 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { getProvider, resetProvider } from '../../src/providers/index.js';
 import {
   runAdversarialCrossAudit,
   type AuditPacket,
@@ -72,5 +73,23 @@ describe('AdversarialAuditor', () => {
     assert.match(capturedPrompt, /Turn 1: Attempted direct timer increase/);
     assert.match(capturedPrompt, /Turn 2: Iron Gate failed on lock timeout/);
     assert.match(capturedPrompt, /src\/tx\/lock\.ts/);
+  });
+
+  it('falls back to the shared provider when none is passed', async () => {
+    resetProvider();
+    const shared = getProvider({ selection: {} });
+    let used = false;
+    shared.generate = async () => {
+      used = true;
+      return JSON.stringify({ consensus: true, blockerAnalysis: 'Clean', targetedFixRecipe: 'None' });
+    };
+
+    try {
+      const verdict = await runAdversarialCrossAudit(samplePacket);
+      assert.equal(used, true);
+      assert.equal(verdict.consensus, true);
+    } finally {
+      resetProvider();
+    }
   });
 });

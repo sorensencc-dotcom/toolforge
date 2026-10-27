@@ -14,6 +14,11 @@
     "pngHash": "8895f4852ec88cc36a389f50167d20ca8ce426d1264a5de192fd4aec54ae4179",
     "updatedAt": "2026-10-18T01:56:53.863Z"
   },
+  "docs/meta/specs/diagrams/trm-mobile-inbox-triage-pipeline.png": {
+    "htmlHash": "dcfbea0864719c65999b08cc24d311c284232254734a546c274c5aed4433e9ce",
+    "pngHash": "db43846c54cf9e75cddcf6f3a5cbe9177b72cb6f47e9c0c4ef3f9c01612f2c52",
+    "updatedAt": "2026-10-20T03:27:18.334Z"
+  },
   "docs/superpowers/specs/assets/agent-memory-sync-topology.png": {
     "htmlHash": "d92fb2cc6c447b041e8a9a0942e9bc00ba4defce2f591972594ad768ee7c6850",
     "updatedAt": "2026-10-17T20:51:12.186Z"
@@ -26,6 +31,36 @@
     "htmlHash": "4b126a893d8983942c5003b4b3dc1ecf2fa68252d9dc50e824c6941d8a87d517",
     "pngHash": "48f017038aa268d71231e2f675ac4b7ce1051c1c1ac9abda800879e57bd8ff52",
     "updatedAt": "2026-10-18T01:56:53.865Z"
+  },
+  "icf/docs/icf-architecture-diagram.png": {
+    "htmlHash": "6a3225077425e505043e561e04a7f629b9e91d4dc40db1244645a47f39427815",
+    "pngHash": "73486e99baea6f56be90c91322c1bb5b06293f47208cc7f36345c70a1498025f",
+    "updatedAt": "2026-10-20T03:16:44.270Z"
+  },
+  "icf/docs/ironbots-architecture-diagram.png": {
+    "htmlHash": "69adc46885a9d1ae606fa5e572ae57373c5e22a8d436c1b5fbcaf65eccf06a65",
+    "pngHash": "1bc011c2bbd132b2a43e93d7882761b6cf62e06cd88007bd3f9c646eaeb7fd3a",
+    "updatedAt": "2026-10-20T03:16:44.274Z"
+  },
+  "icf/docs/ironbots-autonomous-agent-pipeline.png": {
+    "htmlHash": "bf971dcf7b903b78f1e5372cf6fd5d659a4b776fddc7233015c8228c88623877",
+    "pngHash": "6c0a13637e3f6869178931b6f67b69a5fcb77bc23322edc2047769889fdff8f5",
+    "updatedAt": "2026-10-20T03:16:44.279Z"
+  },
+  "icf/docs/trm-mobile-inbox-triage-pipeline.png": {
+    "htmlHash": "dcfbea0864719c65999b08cc24d311c284232254734a546c274c5aed4433e9ce",
+    "pngHash": "db43846c54cf9e75cddcf6f3a5cbe9177b72cb6f47e9c0c4ef3f9c01612f2c52",
+    "updatedAt": "2026-10-20T03:16:44.280Z"
+  },
+  "icf/docs/workflows/script-publish-weekly-retro-artifact.png": {
+    "htmlHash": "cbf2babe1bbd5f0fc7d90b5a3f04ae8ed7dd3ac755fbf745b0993e850d231f68",
+    "pngHash": "120f952dd1090b76eeeb7065de974c7498cd57bc86344a8cd7613e4aeb8345ee",
+    "updatedAt": "2026-10-20T03:16:44.283Z"
+  },
+  "icf/docs/workflows/script-register-dashboard-server-task.png": {
+    "htmlHash": "7b9ce61f6ecac80b7372324949298fdb57c9507221fe325cbd4c0f77abbb6dcd",
+    "pngHash": "6ca7eb7af562f23782f6f50cd16814a2614684d271cc1d2c8e7bbb36c4ac7d20",
+    "updatedAt": "2026-10-20T03:16:44.286Z"
   },
   "skills/research-store/docs/integration.png": {
     "htmlHash": "4e0efe3c734c35174c0cceca55748a0557bf8f4edcebab7a4525854169e66258",

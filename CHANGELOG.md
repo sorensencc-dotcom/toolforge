@@ -1,5 +1,256 @@
 # Changelog
 
+## Version 2.111.1
+Date: 2026-10-27
+
+### Changes
+- a4ab470a - Merge pull request #204 from sorensencc-dotcom/perf-optimize-load-test-seeding-14094330525025906589 (Chris Sorensen)
+- 7b7f91b7 - merge: resolve PR 204 main conflicts (Chris Sorensen)
+- 29501589 - test: cover bounded rating seed batches (Chris Sorensen)
+- f71f0e11 - fix: chunk marketplace rating inserts (Chris Sorensen)
+- f2a41c26 - Optimize database seed query for marketplace load tests (google-labs-jules[bot])
+
+## Version 2.111.0
+Date: 2026-10-25
+
+### Changes
+- edd02bb8 - Merge pull request #246 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- e1a77c21 - chore(sync): update project journal with session learning state (Chris Sorensen)
+- 56d7f976 - feat(whichllm): integrate dynamic hardware detection and align local models to qwen2.5:1.5b (Chris Sorensen)
+
+## Version 2.110.1
+Date: 2026-10-25
+
+### Changes
+- a93bdfb3 - Merge pull request #245 from sorensencc-dotcom/audit/2026-10-25 (Chris Sorensen)
+- eae94e0e - chore(audit): weekly session audit 2026-10-25 (Claude)
+
+## Version 2.110.0
+Date: 2026-10-25
+
+### Changes
+- a82d7d93 - Merge pull request #243 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- ce747db2 - test(governance): align token-budget-gate test with ESM hook and keep planned CI note (Chris Sorensen)
+- 3519e7aa - Merge branch 'main' into fix/mcp-playwright-package (Chris Sorensen)
+- 3cc780a4 - fix(grok): normalize direct CLI execution path and relax fast test timing (Chris Sorensen)
+- fe8f6157 - fix(toolforge): anchor PID lookup in tasklist output and harden stale lock test cleanup (Chris Sorensen)
+- 957479af - feat(toolforge): auto-recover stale AST knowledge graph locks and add ijfw project marker (Chris Sorensen)
+- 23350912 - docs(report): add daily report for 2026-10-25 (Chris Sorensen)
+- 6ba7fdf8 - docs(retro): add engineering retro for 2026-10-25 (Chris Sorensen)
+- 74be163f - test(grok): add hook guardrail validator and test suite (Chris Sorensen)
+- b3744505 - feat(pipeline): relocate CIC status pipeline to scripts (Chris Sorensen)
+
+## Version 2.109.2
+Date: 2026-10-25
+
+### Changes
+- 1afb6565 - Merge pull request #244 from sorensencc-dotcom/claude/chris-mode-review-1097cc (Chris Sorensen)
+- ca975ff0 - fix(retro): allow legacy optional keys in retro schema; point ICF section at icf repo (Chris Sorensen)
+- 5bd221ae - fix(governance): apply 2026-10-25 audit fixes (Chris Sorensen)
+- ceaea75a - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+
+## Version 2.109.1
+Date: 2026-10-25
+
+### Changes
+- 6b0b2a6e - Merge pull request #242 from sorensencc-dotcom/chore/retro-2026-10-24 (Chris Sorensen)
+- 20d88e75 - chore(retro): add weekly retro snapshot 2026-10-24 (Chris Sorensen)
+
+## Version 2.109.0
+Date: 2026-10-25
+
+### Changes
+- b1588217 - Merge pull request #235 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- 1413e87f - merge: resolve PR 235 main conflict (Chris Sorensen)
+- 31c7adb7 - fix(mcp): use @playwright/mcp package name (Chris Sorensen)
+- d060ba6d - docs(report): add daily report for 2026-10-24 (Chris Sorensen)
+- 32cb2909 - chore(ignore): ignore evidence directory and untrack run artifacts (Chris Sorensen)
+- daa82e82 - feat(verify): add verify-toolforge-marketplace skill and proof harness (Chris Sorensen)
+
+## Version 2.108.1
+Date: 2026-10-25
+
+### Changes
+- 0d1943b6 - Merge pull request #241 from sorensencc-dotcom/fix/validate-policy-tests-5630008471324137546 (Chris Sorensen)
+- f519140f - Merge pull request #240 from sorensencc-dotcom/test/add-build-receipt-error-tests-17260589764327905036 (Chris Sorensen)
+- 21f9aec4 - Merge pull request #239 from sorensencc-dotcom/fix-ollama-ssrf-14896612757339310300 (Chris Sorensen)
+- 2a0ff57f - Merge pull request #238 from sorensencc-dotcom/fix/generalize-node-deprecation-regex-3481403695354634568 (Chris Sorensen)
+- 0975e59f - 🧪 Add missing tests for validatePolicy in research-substrate (google-labs-jules[bot])
+- a26a3769 - test: add error case coverage for buildReceipt (google-labs-jules[bot])
+- af2b15fd - Validate OLLAMA_BASE_URL protocol to prevent SSRF (google-labs-jules[bot])
+- 41b85b23 - Refactor Node.js deprecation regex to support newer versions (google-labs-jules[bot])
+
+## Version 2.108.0
+Date: 2026-10-24
+
+### Changes
+- b1ea09d3 - Merge pull request #237 from sorensencc-dotcom/chore-cic-daily-status-expanded-aggregator (Chris Sorensen)
+- d4ba5a56 - Merge pull request #236 from sorensencc-dotcom/sorensencc-dotcom/trm-triage-p2-frontier_lab_verification_standard (Chris Sorensen)
+- 89e4b2f2 - docs(research): rewrite ACT-04 RFC from source card (Chris Sorensen)
+- 3b35e8c9 - feat(scripts): add expanded CIC daily status aggregator and regression test (Chris Sorensen)
+- 0aeaab78 - Merge pull request #234 from sorensencc-dotcom/claude/festive-brahmagupta-0xjmjg (Chris Sorensen)
+- cd4b0497 - docs(governance): amend marketplace spec so the commit SHA is the integrity check (v1.1) (Claude)
+
+## Version 2.107.2
+Date: 2026-10-24
+
+### Changes
+- 3d4db904 - Merge pull request #227 from sorensencc-dotcom/trm/act-toolforge-icf-batch-triage-pr-bridge-tests (Chris Sorensen)
+- 0f45b47a - chore(icf): implement integration test suite for batch triage and PR staging bridge (closes #215) (Chris Sorensen)
+
+## Version 2.107.1
+Date: 2026-10-24
+
+### Changes
+- 16b3774b - Merge pull request #226 from sorensencc-dotcom/trm/act-218-link-scrubber-resilience (Chris Sorensen)
+- 0943b543 - chore(core): Toolforge Suspicious Link Scrubber Resilience (closes #218) (Chris Sorensen)
+
+## Version 2.107.0
+Date: 2026-10-24
+
+### Changes
+- d3927a6f - Merge pull request #225 from sorensencc-dotcom/feat/adv-review-step6 (Chris Sorensen)
+- 038a81ae - feat(review): benchmark cross-model review and wire it into pre-push (issue 191 step 6) (Chris Sorensen)
+- 90e23ee3 - Merge pull request #224 from sorensencc-dotcom/docs/chris-mode-review (Chris Sorensen)
+- d3bbc5c9 - docs(skills): tighten chris-mode after skill-reviewer pass (Chris Sorensen)
+
+## Version 2.106.2
+Date: 2026-10-24
+
+### Changes
+- 7cd1a3e0 - Merge pull request #223 from sorensencc-dotcom/feat/adversarial-auditor-merge (Chris Sorensen)
+- 44f52bcd - test(providers): cover example server imports, health redaction, and audit route (Chris Sorensen)
+
+## Version 2.106.1
+Date: 2026-10-24
+
+### Changes
+- c68be1b7 - Merge pull request #221 from sorensencc-dotcom/feat/adversarial-auditor-merge (Chris Sorensen)
+- b2e935d9 - fix(providers): correct example imports and drop endpoint from health response (Chris Sorensen)
+- d542d46a - chore: drop unintended journal change (Chris Sorensen)
+- 78b8deea - docs(healing): point auditor imports at the .ts module (Chris Sorensen)
+
+## Version 2.106.0
+Date: 2026-10-24
+
+### Changes
+- fde41472 - Merge pull request #222 from sorensencc-dotcom/parkd821-20260908 (Chris Sorensen)
+- b8a76dd3 - Merge pull request #220 from sorensencc-dotcom/docs/chris-mode-update (Chris Sorensen)
+- b9d8ee89 - docs(skills): update chris-mode with Oct 2026 working conventions (Chris Sorensen)
+- f0e9506b - fix(hooks): harden block-env-edit stdin parsing (Chris Sorensen)
+- 9035b50f - fix(hooks): read stdin JSON and deny via JSON for Grok compatibility (Chris Sorensen)
+- dd122957 - fix(diagram-sync): ignore worktrees directory in visual parity walk (Chris Sorensen)
+- eb5268f6 - docs(report): add daily report for 2026-10-23 (Chris Sorensen)
+- 22218e10 - docs(report): add daily report for 2026-10-22 (Chris Sorensen)
+- 8740b7f3 - docs(report): add daily report for 2026-10-21 (Chris Sorensen)
+- 0d81cb67 - fix(hooks): use Windows paths in Grok Claude settings (Chris Sorensen)
+- 31fea892 - feat(daemon): honor .restart-dashboard flag in daemon-healer-bot (Chris Sorensen)
+- fa18e480 - fix(janitor): protect canonical daemon ports from orphan termination (Chris Sorensen)
+- e92756f1 - fix(daemon): probe trm-backlog endpoint to detect stale icf checkouts (Chris Sorensen)
+- 65aba6a4 - docs(report): add daily report for 2026-10-20 (Chris Sorensen)
+- efe0d229 - fix(diagram-sync): isolate sibling repository and worktree directories from parity gate (Chris Sorensen)
+- 8fb44bac - docs(diagram): add TRM mobile inbox triage architecture visual and manifest entry (Chris Sorensen)
+- 72aa0024 - feat(trm): implement mobile inbox batch triage engine, gdoc unstranding, and pr staging bridge (Chris Sorensen)
+
+## Version 2.105.1
+Date: 2026-10-24
+
+### Changes
+- 0063cd73 - Merge pull request #219 from sorensencc-dotcom/feat/adversarial-auditor-merge (Chris Sorensen)
+- f82fa907 - refactor(healing): merge adversarial auditor .js into .ts (Chris Sorensen)
+
+## Version 2.105.0
+Date: 2026-10-24
+
+### Changes
+- 4f499101 - Merge pull request #217 from sorensencc-dotcom/feat/adversarial-review-routing (Chris Sorensen)
+- c0e7bf02 - ci(secret-scan): allowlist the Anthropic provider test fixture key (Chris Sorensen)
+- 6bef2ff2 - fix(review): harden reviewer routing per PR 217 review (Chris Sorensen)
+- 1135c0cf - refactor(review): give the shared JSON-object guard a unique name (Chris Sorensen)
+- 34cbc3ca - feat(review): add reviewer prompt, runner, and toolforge review --adversarial (Chris Sorensen)
+- 4d6838db - feat(review): add Anthropic reviewer provider and request timeouts (Chris Sorensen)
+- 4fb6da39 - feat(review): add author-aware reviewer routing and OpenAI provider (Chris Sorensen)
+
+## Version 2.104.0
+Date: 2026-10-23
+
+### Changes
+- 24266ab2 - Merge pull request #216 from sorensencc-dotcom/feat/adversarial-review-slice1 (Chris Sorensen)
+- 7bc9afa2 - fix(review): address PR 216 review feedback (Chris Sorensen)
+- 02f0995b - feat(review): add over-validation circuit breaker (Chris Sorensen)
+- 88266cf1 - fix(review): fail closed on any invalid finding (Chris Sorensen)
+- 12b9a56a - feat(review): add adversarial review parse, rank, and validation core (Chris Sorensen)
+- 13aca4d2 - docs(specs): add adversarial dual-model review spec (rev 2, Tier 1 approved) (Chris Sorensen)
+
+## Version 2.103.7
+Date: 2026-10-23
+
+### Changes
+- 3eb7fa5f - Merge pull request #212 from sorensencc-dotcom/fix/mining-data-root (Chris Sorensen)
+- 768671ac - fix(mining): resolve data paths from MINING_DATA_ROOT, not the checkout (Chris Sorensen)
+
+## Version 2.103.6
+Date: 2026-10-23
+
+### Changes
+- 902ab2a0 - Merge pull request #213 from sorensencc-dotcom/fix/graft-prepush-gate (Chris Sorensen)
+- ff1d5f37 - fix(hooks): make graft pre-push gate check the pushed range and fail closed (Chris Sorensen)
+
+## Version 2.103.5
+Date: 2026-10-22
+
+### Changes
+- 92402f09 - Merge pull request #211 from sorensencc-dotcom/fix/mining-dead-retry-test (Chris Sorensen)
+- cf03d185 - refactor(mining): extract runPackSync, drop dead retry and legacy sync code (Chris Sorensen)
+
+## Version 2.103.4
+Date: 2026-10-22
+
+### Changes
+- 01ce987f - Merge pull request #210 from sorensencc-dotcom/fix/mining-thin-caller (Chris Sorensen)
+- 789a077e - fix(mining): delegate pack sync to kb-sync replaceSinglePack with atomic quarantine and no orphan retries (Chris Sorensen)
+
+## Version 2.103.3
+Date: 2026-10-21
+
+### Changes
+- 675ca6db - Merge pull request #209 from sorensencc-dotcom/fix/token-budget-gate-test-node24 (Chris Sorensen)
+- c1b386ae - test(token-budget-gate): run hook as .cjs instead of removed --experimental-default-type flag (Chris Sorensen)
+
+## Version 2.103.2
+Date: 2026-10-21
+
+### Changes
+- 3b6792b8 - Merge pull request #208 from sorensencc-dotcom/fix/mining-protect-multipart-packs (Chris Sorensen)
+- 0ff47e56 - fix(mining): skip only multipart notebooks; keep single-pack syncing (Chris Sorensen)
+- e797aa38 - fix(mining): never delete multipart/kb-sync-managed pack sources; upload-confirm-then-prune (Chris Sorensen)
+
+## Version 2.103.1
+Date: 2026-10-21
+
+### Changes
+- 67ef85ce - Merge pull request #207 from sorensencc-dotcom/jules-token-budget-gate-test-6147880464960928059 (Chris Sorensen)
+- b62d734f - Merge pull request #206 from sorensencc-dotcom/fix-notebook-prompt-sync-coverage-3795333818641780947 (Chris Sorensen)
+- f49f3329 - 🧪 Add test for token-budget-gate gracefully handling malformed JSON (google-labs-jules[bot])
+- 0fe3dbc8 - 🧪 Add test coverage for notebook sync exception handling (google-labs-jules[bot])
+
+## Version 2.103.0
+Date: 2026-10-21
+
+### Changes
+- 70fef923 - Merge pull request #203 from sorensencc-dotcom/perf/optimize-blend-loop-8205037533533266870 (Chris Sorensen)
+- d5400026 - Merge pull request #201 from sorensencc-dotcom/jules-test-improvement-skill-security-auditor-10741383535133071462 (Chris Sorensen)
+- e688bdcf - Merge pull request #200 from sorensencc-dotcom/test-improvement/signal-strength-9460087693583168982 (Chris Sorensen)
+- 309572a7 - Merge pull request #198 from sorensencc-dotcom/implement-embedding-dimension-validation-12640348215107979884 (Chris Sorensen)
+- e5a2d987 - Merge pull request #197 from sorensencc-dotcom/fix/test-agent-dispatch-results-12093249204195215695 (Chris Sorensen)
+- 662fe9e3 - Merge pull request #205 from sorensencc-dotcom/fix-marketplace-load-n-plus-1-13015903514712833920 (Chris Sorensen)
+- b176b4df - perf(load-tests): batch inserts for faster seeding (google-labs-jules[bot])
+- b98e795b - perf: optimize blend computation in recommendation service (google-labs-jules[bot])
+- cfb8d4c3 - 🧪 Cover exception path in skill-security-auditor utility (google-labs-jules[bot])
+- 07423ab9 - Add test for empty hits array in deriveSignalStrength (google-labs-jules[bot])
+- b945ae02 - feat: implement embedding dimension validation and tests (google-labs-jules[bot])
+- 53baff64 - Add tests for write_result atomic creation (google-labs-jules[bot])
+
 ## Version 2.102.1
 Date: 2026-10-20
 

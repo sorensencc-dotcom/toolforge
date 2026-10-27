@@ -80,27 +80,29 @@ Confirm the unconfirmed tool names `torque_resolve_span`, `fetch_fact_claim`, an
 
 ---
 
-## Stateless MCP gate 1 clients (2026-10-13)
+## Stateless MCP (hygiene 2026-10-19)
 
-### Active goal
+Spec revision 18 is on `origin/parkd821-20260908` in `bc616bff` (toolforge#141, 2026-10-14). `C:\dev` is clean and tracks that origin. Host configs stay on stdio. The section 4 harness stays unrun.
 
-Gate 5 is on the rewrite-mcp HTTP entry. Owned servers no longer answer `initialize`. Leave the section 4 harness unrun.
+### Git as of 2026-10-19
 
-### Completed work
+- Spec file `docs/meta/specs/2026-10-10-stateless-mcp-migration.md` status line: empty-inventory edge is on the rewrite-mcp HTTP entry, revision 18.
+- `tools/wiki-browser-qa/neo-adapter.mjs` posts `tools/list` and `tools/call` at `2026-07-28` to `http://127.0.0.1:9010/mcp` unless `WIKI_QA_NEO_MCP_URL` or `options.url` is set. It does not store a session id.
+- `modules/viking-client/src/client.mjs` `connect()` does not send a handshake. `modules/mcp/viking-vfs-server.mjs` `handle()` has no `initialize` branch.
+- IronLedger `0bd04d1` is on `origin/main`. `src/ironledger/mcp/protocol.py` returns `-32601` for `initialize`.
+- kb-sync `origin/main` `scripts/mcp-memory-server.mjs` has no `initialize` handler (only `notifications/initialized`). Commit `645327b9` lives on `fix/notebooklm-chat-injection-staleness` and related branches.
+- Sigil `origin/main` `166500f` (sigil#78, 2026-10-20) stops answering `initialize` in `sigil/connectors/v1/mcp-stdio-server.mjs`. Cherry-pick of `0f3932f`. Unknown methods fall through to JSON-RPC `-32601`. `tools/list` and `tools/call` stay.
+- Graft is not an owned server. Global `@nanonets/graft` 0.21.1 `dist/mcp/server.js` still answers `initialize` with protocolVersion `2024-11-05` (or the client version). Source is gitignored `C:\dev\graft\context-graph-engine` tracking `NanoNets/context-graph-engine` at `ead585b` (package 0.23.0); `src/mcp/server.ts` has the same `initialize` branch. Spec revision 15/18: do not edit that checkout. `C:\dev\graft` itself is the toolforge graph folder.
+- rewrite-mcp `fix/mcp-server-package` matches `origin/fix/mcp-server-package` at `472f501`. Six commits ahead of `origin/main` (`0a8cf6f` … `472f501`). Open PR: [rewrite-mcp#10](https://github.com/sorensencc-dotcom/rewrite-mcp/pull/10) against `main`. Working tree has a large unrelated dirty set; leave it unstaged. `origin/main` is two Muse Wonder skill commits ahead (`d23683e` / rewrite-mcp#9); those files do not overlap this diff.
+- Dangling C:\dev commits `97be709b` and `ea10757c` are reachable from stash only. Their spec/client text is already in `#141`.
 
-- `tools/wiki-browser-qa/neo-adapter.mjs` posts `tools/list` and `tools/call` at `2026-07-28`. It does not store a session id. The URL is still `http://127.0.0.1:9010/mcp` unless `WIKI_QA_NEO_MCP_URL` or `options.url` is set.
-- `rewrite-docs/src/cic/graph/adapters/McpClientRunner.ts` writes one stdio `tools/call` at `2026-07-28` to the server named in the cwd `.mcp.json`. That edit is uncommitted in rewrite-docs.
-- Spec status on disk is revision 18, uncommitted. Upstream checkouts and other-branch worktrees are outside gate 1. Client edits are commit `ea10757c` on `parkd821-20260908`, unpushed. The empty-inventory edge is rewrite-mcp commit `6fa0c24` on `fix/mcp-server-package`, unpushed. `node scripts/rewrite-mcp-mcp-package.mjs` printed `ALL PASS`. Owned servers no longer answer `initialize`. SDK servers still do. The section 4 harness still sends `initialize` and was not rerun. Host configs were not edited. Ports 8765 and 8766 were not bound. Gate 3 was not rerun.
-- `node --test --test-timeout=15000 modules/viking-client/test/client.test.mjs` passed 6 tests, including a stdio `viking/read` after `connect()`.
-- Checks on 2026-10-13: viking node tests 25 passed; IronLedger pytest 5 passed on temp databases; kb-sync CLI-03 passed; TRM vfs harness 12 passed against `trm/.kb_cache/test_knowledge.db`; rewrite-mcp idea-inbox suite 8 passed and smoke test 12 passed. The helm client script exited 0. `helm:costs`, `helm:routing`, and `helm:budget` returned JSON-RPC `-32603` Permission required, which is the existing server permission path.
+### 2026-10-14 peer check (last live verification)
+
+BrowserOS at `127.0.0.1:9010/mcp` returned HTTP 200 discovery advertising `2026-07-28`, listed 22 tools, executed a read-only `run` probe, and rejected `1900-01-01` with HTTP 400 / `-32022`. No MCP session header appeared. `truecode`, `gitnexus`, and `graphify` were absent from PATH. Installed global graft `0.21.1` returned `-32601` for `server/discover`. rewrite-docs `McpClientRunner.ts` 2026-07-28 edit is on `fix/mcp-client-2026-07-28` at `775e7d6` (rewrite-docs#19). The same uncommitted copy still sits on `fix/mkdocs-nav-py314-strict`.
 
 ### Next action
 
-Current verification (2026-10-14) supersedes the peer outage and SDK migration claims from the prior session: BrowserOS at `127.0.0.1:9010/mcp` now returns HTTP 200 discovery advertising `2026-07-28`, lists 22 tools, executes a read-only `run` probe, and rejects unsupported `1900-01-01` with HTTP 400 / `-32022`; no MCP session header appeared. `truecode`, `gitnexus`, and `graphify` remain absent from PATH and from rewrite-docs local bin entries; their `.mcp.json` registrations still name `serve --stdio`. Installed global graft `0.21.1` still returns `-32601` for `server/discover` and lists six tools even with unsupported version metadata; this does not establish compatibility or pin npx resolution. Requested intended peer installation/source identities before provisioning. Current research-store and trm-devops source files import SDK server/stdio again and are clean in Git; portfolio retains the direct JSON-RPC implementation. Preserve current files and revalidate migrations before host retarget. Host configs remain unchanged; no installs, commits, pushes, gate 3, section 4 harness, or live database access in this continuation.
-
-Previous checkpoint:
-
-Leave the section 4 harness unrun. It still sends `initialize`. Leave SDK servers on the SDK until those packages move: research-store, trm-devops, and portfolio. Leave host configs on stdio. BrowserOS on port 9010 and the truecode, gitnexus, graphify, and graft peers still reject a `2026-07-28` client. Do not retarget hosts. Do not add a second subject to ports 8765 or 8766. Do not open the live financial database. Do not start the kb-sync daemon without `KB_CACHE_DB`. `C:\dev` and rewrite-mcp stay unpushed unless asked. The spec, STATUS, and the server `initialize` removals are uncommitted.
+Grok hook path fixes are on `0d81cb67` (not pushed). Remaining leftover after that: Pre/Post gates that never saw Grok stdin JSON, plus `exit 1` denies that Grok fail-opens. Committed `94a74fa4` (local, unpushed): `token-budget-gate.js` (ESM + `execFileSync` + JSON deny), `block-lockfile-edit.js` / `lint-on-edit.js` / `e2e-snapshots.js` (stdin `file_path`/`path`). Home-dir: `skill-location-gate.js`, `intercept-grep.js`, `session-length-check.js` (JSON deny + Grok tool aliases). Re-measure 2026-10-21: 33 remaining commands exit 0; lockfile/skill/grep deny JSON on stdin. Duplicate graft prompt still runs twice, both succeed. Timeline-stop stays in `~\.claude\settings.json`. Handoff: `C:\Users\soren\AppData\Local\Temp\sigil-initialize-stop-handoff-2026-10-20.md`. Owned-server initialize-stop is done. Graft MCP is upstream. Do not retarget hosts, bind 8765/8766, rerun gate 3, or provision truecode/gitnexus/graphify/graft. Do not push unless asked. Tests: `tests/claude-hooks-stdin.test.mjs`.
 
 ---
 

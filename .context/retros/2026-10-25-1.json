@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-25",
+  "window": "7d",
+  "since": "2026-10-18T00:00:00-04:00",
+  "until": "2026-10-25T23:59:59-04:00",
+  "base_branch": "origin/main",
+  "prior_retro_baseline": ".context/retros/2026-10-24-1.json",
+  "metrics": {
+    "commits": 181,
+    "commits_no_merge": 139,
+    "contributors": 5,
+    "automation_commits": 49,
+    "insertions_raw": 16369,
+    "deletions_raw": 3806,
+    "net_loc_raw": 12563,
+    "insertions_filtered": 16369,
+    "deletions_filtered": 3806,
+    "net_loc_filtered": 12563,
+    "filter_note": "No lockfile filtering applied. Raw LOC metrics on origin/main plus branch HEAD.",
+    "test_loc_insertions": 4968,
+    "test_ratio_pct": 30,
+    "feat_pct": 11.0,
+    "fix_pct": 11.0,
+    "docs_pct": 9.9,
+    "chore_pct": 26.5,
+    "test_pct": 3.3,
+    "active_days": 8,
+    "sessions": 38,
+    "deep_sessions": 8,
+    "peak_hour": 22,
+    "late_night_commits_22_to_04": 79,
+    "team_streak_days": 18,
+    "personal_streak_days": 18,
+    "backlog_open_todos": 9,
+    "backlog_closed_this_period": 0,
+    "version_range": ["2.83.1", "2.109.0"],
+    "release_commits": 37,
+    "focus_area": "Grok hook guardrails, MCP Playwright packaging & TRM triage",
+    "logical_sloc_added": 14120,
+    "prs_merged": 65,
+    "ai_assisted_commits": 62
+  },
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 130,
+      "insertions": 15592,
+      "deletions": 3728,
+      "test_ratio": 0.30,
+      "top_area": "scripts/, tests/, icf/"
+    },
+    "toolforge-release-bot": {
+      "commits": 37,
+      "insertions": 366,
+      "deletions": 37,
+      "role": "automation"
+    },
+    "google-labs-jules[bot]": {
+      "commits": 12,
+      "insertions": 371,
+      "deletions": 35,
+      "test_ratio": 0.89,
+      "role": "automation"
+    },
+    "Claude": {
+      "commits": 1,
+      "insertions": 39,
+      "deletions": 5,
+      "top_area": "docs/"
+    },
+    "github-actions[bot]": {
+      "commits": 1,
+      "insertions": 1,
+      "deletions": 1,
+      "role": "automation"
+    }
+  },
+  "test_health": {
+    "total_test_files": 379,
+    "regression_test_commits": 1,
+    "test_files_changed": 67
+  },
+  "streak_days": 18,
+  "user_streak_days": 18,
+  "tweetable": "Week of Oct 18: 181 commits (5 contributors, 49 automation), 12.6k net LOC, 30% tests, ~65 PRs merged, peak: 10pm | Streak: 18d",
+  "recommendations": [
+    {
+      "category": "testing",
+      "text": "Keep pairing regression tests with every fix/guardrail: grok-hook guardrails added 16 unit tests, raising test ratio from 23% to 30%."
+    },
+    {
+      "category": "pace",
+      "text": "Cap late-night coding window: 79 of 181 commits (43.6%) landed between 22:00 and 04:00; batch merges into an evening block ending by 22:00."
+    },
+    {
+      "category": "hooks",
+      "text": "Enforce automated startup and session verification across all agent runtimes to catch hook contract drift before execution."
+    }
+  ],
+  "session_focus": {
+    "summary": "Engineering retro for 2026-10-18 to 2026-10-25 across toolforge origin/main and branch fix/mcp-playwright-package. Resolving Grok hook hangs, eliminating blocking claude-mem telemetry hooks, adding fast startup guardrails with 16 automated tests.",
+    "incidents": [
+      "Grok hook hangs caused by synchronous observation hooks blocking tool use and user turns."
+    ],
+    "process_learnings": [
+      "Grok does not support async background hooks; running telemetry observation as synchronous hooks causes 120s timeout hangs on every turn. Telemetry must be decoupled to out-of-band transcript ingest."
+    ]
+  }
+}

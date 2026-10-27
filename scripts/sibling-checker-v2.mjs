@@ -140,7 +140,16 @@ export function extractExportedSymbolsFromDiff(diff) {
  * @returns {Array<string>} - Calling relative file paths
  */
 export function queryGraftCallers(symbol, repoRoot) {
-  if (!symbol) return [];
+  return queryGraftCallersChecked(symbol, repoRoot).files;
+}
+
+/**
+ * Same query as queryGraftCallers, but reports whether graft itself ran so a
+ * caller can tell "no callers" apart from "graft unavailable".
+ * @returns {{files: Array<string>, ok: boolean}}
+ */
+export function queryGraftCallersChecked(symbol, repoRoot) {
+  if (!symbol) return { files: [], ok: true };
   try {
     let output = '';
     try {
@@ -150,21 +159,20 @@ export function queryGraftCallers(symbol, repoRoot) {
       // Fallback: Attempt running via npx
       output = execSync(`npx @nanonets/graft callers "${symbol}"`, { cwd: repoRoot, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
     }
-    
+
     const files = [];
     const lines = output.split('\n');
     for (const line of lines) {
       // Parse paths from graft callers output (match typical project relative files)
-      const pathRegex = /\b([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_/.-]+\.[a-zA-Z0-9]+)\b/g;
+      const pathRegex = /([A-Za-z0-9_.\/-]+\.[A-Za-z0-9]+):L\d+/g;
       let match;
       while ((match = pathRegex.exec(line)) !== null) {
         files.push(match[1].replace(/\\/g, '/'));
       }
     }
-    return [...new Set(files)];
+    return { files: [...new Set(files)], ok: true };
   } catch (_) {
-    // Fail-soft: if graft command fails, return empty array
-    return [];
+    return { files: [], ok: false };
   }
 }
 
@@ -275,10 +283,12 @@ export function groupTodoLines(content, { groupMarker, line, legacy }) {
   const updated = [...lines.slice(0, openStart + 1), '', ...kept, ...lines.slice(openEnd)];
   return updated.join('\n').replace(/\n{3,}/g, '\n\n');
 }
-export function checkSiblingPatterns(changedFiles, repoRoot) {
+export function checkSiblingPatterns(changedFiles, repoRoot, { range } = {}) {
   const warnings = [];
   const errors = [];
-  
+  let graftUnavailable = false;
+  const diffBase = range ? range : 'HEAD';
+
   const obsidianConfig = loadObsidianConfig(repoRoot);
   const vaultRoot = path.resolve(repoRoot, obsidianConfig.vault_root);
 
@@ -359,7 +369,7 @@ export function checkSiblingPatterns(changedFiles, repoRoot) {
     try {
       const fullSourcePath = path.join(repoRoot, cleanFile);
       if (fs.existsSync(fullSourcePath)) {
-        const diff = execSync(`git diff -U0 HEAD -- "${cleanFile}"`, { cwd: repoRoot, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+        const diff = execSync(`git diff -U0 ${diffBase} -- "${cleanFile}"`, { cwd: repoRoot, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
         isSigChange = /^\+.*export\s+(function|class|const|interface|default|async|type|let|var)/im.test(diff);
         if (isSigChange) {
           modifiedSymbols = extractExportedSymbolsFromDiff(diff);
@@ -373,7 +383,8 @@ export function checkSiblingPatterns(changedFiles, repoRoot) {
       // 2.1 Graft-Powered Call Graph Blast Radius Query
       if (modifiedSymbols.length > 0) {
         for (const symbol of modifiedSymbols) {
-          const graftCallers = queryGraftCallers(symbol, repoRoot);
+          const { files: graftCallers, ok } = queryGraftCallersChecked(symbol, repoRoot);
+          if (!ok) graftUnavailable = true;
           if (graftCallers.length > 0) {
             graftResolved = true;
             for (const consumer of graftCallers) {
@@ -424,5 +435,5 @@ export function checkSiblingPatterns(changedFiles, repoRoot) {
     }
   }
 
-  return { warnings, errors };
+  return { warnings, errors, graftUnavailable };
 }

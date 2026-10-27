@@ -1,10 +1,12 @@
 {
-  "evaluated_at": "2026-10-07T20:15:36.852Z",
+  "evaluated_at": "2026-10-25T18:12:06.171Z",
   "hardware_profile": {
     "gpu_count": 1,
-    "gpu_name": "NVIDIA RTX 4090",
-    "vram_gb": 24,
-    "ram_gb": 64,
+    "gpu_name": "AMD Radeon 780M Graphics",
+    "vram_gb": 0,
+    "ram_gb": 32,
+    "shared_memory": true,
+    "detection_source": "fallback",
     "mhs_class": "MHS-3_POWER"
   },
   "test_suite_coverage": {
@@ -31,26 +33,9 @@
   "recommendations": {
     "frontier_judgment_anchor": "claude-3-5-sonnet-20241022",
     "cloud_muscle_anchor": "mistralai/mistral-large-2407",
-    "local_muscle_anchor": "llama3.1:8b",
+    "local_muscle_anchor": "qwen2.5:1.5b",
     "mhs_level": "MHS-3_POWER",
     "local_fit_reasoning": "Model fits cleanly in VRAM with comfortable overhead. Maximum tokens/sec unlocked."
-  },
-  "provider": "ollama",
-  "validated_local_model": {
-    "model": "llama3.1:8b",
-    "validation": "bfcl_v2_automated",
-    "validated": true
-  },
-  "routing_state": "local-only",
-  "cloud_routing_enabled": false,
-  "policy_version": "toolforge-local-routing-v1",
-  "steward": "toolforge-runtime-owner",
-  "echo_mismatch_policy": {
-    "action": "fail-closed",
-    "receipt": "provider_echo_mismatch",
-    "trm_event": "trm_provider_validation_failed",
-    "retry": false,
-    "fallback": false
   },
   "ranked_candidates": [
     {
@@ -118,6 +103,38 @@
       }
     },
     {
+      "model_name": "qwen2.5:3b",
+      "tier": "Tier 2 (Local Muscle)",
+      "tierId": "tier_0_local",
+      "vram_fit_status": "tight_vram_warning",
+      "benchmark_matrix": {
+        "bfcl_composite_score": 0.87,
+        "metrics": {
+          "simple_tool_call_accuracy": 0.92,
+          "parallel_tool_call_accuracy": 0.88,
+          "nested_tool_call_accuracy": 0.81,
+          "relevance_rejection_rate": 0.87
+        },
+        "quantization_overhead_penalty": 0
+      }
+    },
+    {
+      "model_name": "qwen2.5:1.5b",
+      "tier": "Tier 2 (Local Muscle)",
+      "tierId": "tier_0_local",
+      "vram_fit_status": "fits_easily",
+      "benchmark_matrix": {
+        "bfcl_composite_score": 0.87,
+        "metrics": {
+          "simple_tool_call_accuracy": 0.92,
+          "parallel_tool_call_accuracy": 0.88,
+          "nested_tool_call_accuracy": 0.81,
+          "relevance_rejection_rate": 0.87
+        },
+        "quantization_overhead_penalty": 0
+      }
+    },
+    {
       "model_name": "qwen2.5:32b-instruct-q8_0",
       "tier": "Tier 2 (Local Muscle)",
       "tierId": "tier_0_local",
@@ -137,7 +154,7 @@
       "model_name": "llama3.1:8b",
       "tier": "Tier 2 (Local Muscle)",
       "tierId": "tier_0_local",
-      "vram_fit_status": "fits_easily",
+      "vram_fit_status": "out_of_vram_degraded",
       "benchmark_matrix": {
         "bfcl_composite_score": 0.694,
         "metrics": {
@@ -153,7 +170,7 @@
       "model_name": "qwen2.5:7b",
       "tier": "Tier 2 (Local Muscle)",
       "tierId": "tier_0_local",
-      "vram_fit_status": "fits_easily",
+      "vram_fit_status": "out_of_vram_degraded",
       "benchmark_matrix": {
         "bfcl_composite_score": 0.694,
         "metrics": {
@@ -175,5 +192,5 @@
       "model_hardware_standard_v1"
     ]
   },
-  "hash_chain_self": "f089fd482b2770122ec728c287613d92325ebc109f397d955c3f02c617d93f74"
+  "hash_chain_self": "70025ce38ef11e72adaa7aed93cac8fec8782f10d40a467e13ba09a9160d20f9"
 }

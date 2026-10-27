@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "date": "2026-10-25",
+  "repo": "toolforge",
+  "commit": "18c7c1a4517b924a440af0404d5fbf0e0c5eea92",
+  "default_branch": "main",
+  "baseline": null,
+  "findings": [
+    {
+      "id": "c1b8a0eccb",
+      "priority": "HIGH",
+      "category": "retro",
+      "file": ".context/retros/validate.ps1",
+      "line": 12,
+      "recommendation": "Replace the backslash segments in validate.ps1:7 and :12 and validate-changed.ps1:8 with Join-Path segments such as `Join-Path $RepoRoot '.context' 'retros'`, then run both gates on ubuntu-latest. Check the retro-full-audit and governance retro-schema run results in CI, which this checkout cannot show.",
+      "owner": "CI",
+      "evidence": "verified",
+      "details": "Retro schema gates build paths with backslashes, so they cannot run on the ubuntu-latest runner. validate.ps1:7 default `Join-Path $PSScriptRoot \"..\\..\"` is evaluated when retro-full-audit.yml:24 runs the script with no -RepoRoot. validate.ps1:12 then joins `.context\\retros`; on Linux a backslash is a literal filename character, so the default resolves to null (ErrorActionPreference is set only at :11), and the join at :12 fails. validate-changed.ps1:8 uses the same `'..\\..'` with ErrorActionPreference=Stop at :7, so governance.yml:38-40 stops before any diff. Not executed: pwsh is not installed in this sandbox. CI run outcomes are outside this checkout.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "7d79b441ef",
+      "priority": "HIGH",
+      "category": "memory",
+      "file": "memory/MEMORY.md",
+      "line": 20,
+      "recommendation": "Add dated Current Work entries for 2026-10-11 through 2026-10-25 and record this audit in Learnings. Session start loads this file, so the 14-day gap makes each session rederive project state.",
+      "owner": "Repo-docs",
+      "evidence": "verified",
+      "details": "The newest dated MEMORY.md entry is 2026-10-11, 14 days before the 2026-10-25 origin/main head. Newest ISO date in memory/MEMORY.md is 2026-10-11 (line 20, correction note). The other reading, 2026-10-04 (lines 15-16), gives 21 days; the later date gives the smaller gap, 14 days. origin/main head 18c7c1a4517b924a440af0404d5fbf0e0c5eea92 has committer date 2026-10-25. Commits in 2026-10-11..2026-10-25 UTC: raw 262 = 54 merge + 82 bot + 126 authored + 0 chore(sync). Authored count: 126.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "0fa858907c",
+      "priority": "HIGH",
+      "category": "learnings",
+      "file": "memory/MEMORY.md",
+      "line": 12,
+      "recommendation": "Add Current Work entries that name each PR or scope group in the Details appendix, starting with feat(retro), docs(report) and chore(retro). Put the PR number or scope in each entry so the next audit can match it. The HIGH tier comes from the index-gap rule (memory-index-gap).",
+      "owner": "Repo-docs",
+      "evidence": "verified",
+      "details": "None of the 131 authored commits from 2026-10-08 to 2026-10-24 is captured in memory. Window 2026-10-08..2026-10-25 UTC (start = newest schema-valid retro 2026-10-08-1.json, earlier than MEMORY.md newest date 2026-10-11): raw 272 = 54 merge + 87 bot (toolforge-release-bot 73, google-labs-jules[bot] 12, github-actions[bot] 2) + 131 authored + 0 chore(sync). Captured: 0 of 131. MEMORY.md:20 is dated 2026-10-11 and names retro files, but it is a correction note about file existence, not a record of any listed commit; treated as not capturing. Groups (authored commits, 86 groups): see Details list.\nfeat(retro): 9 commits - 40a27ac7 2026-10-20 \"feat(retro): add the tracked action ledger\", d24a6365 2026-10-20 \"feat(retro): run inbox consolidator before the weekly report\", 0b1495ab 2026-10-19 \"feat(retro): publish inbox findings as weekly report actions\", 9f910146 2026-10-19 \"feat(retro): validate the retro inbox in CI, pre-commit, and nightly audit\", 07a58071 2026-10-19 \"feat(retro): add inbox consolidator with tests\", 0024ff54 2026-10-18 \"feat(retro): add RELIABILITY inbox tag and map reliability recommendations\", 9ddc27c5 2026-10-17 \"feat(retro): harvest retro recommendations into the inbox\", ca8aec47 2026-10-17 \"feat(retro): pass when the retro inbox directory is absent\", f1da3f6d 2026-10-17 \"feat(retro): add retro inbox validator\"\ndocs(report): 7 commits - d060ba6d 2026-10-24 \"docs(report): add daily report for 2026-10-24\", eb5268f6 2026-10-23 \"docs(report): add daily report for 2026-10-23\", 22218e10 2026-10-22 \"docs(report): add daily report for 2026-10-22\", 8740b7f3 2026-10-21 \"docs(report): add daily report for 2026-10-21\", 65aba6a4 2026-10-20 \"docs(report): add daily report for 2026-10-20\", 1b0aac9c 2026-10-19 \"docs(report): add daily report for 2026-10-19\", 64170ea5 2026-10-19 \"docs(report): add weekly report for 2026-W42\"\nchore(retro): 6 commits - 20d88e75 2026-10-25 \"chore(retro): add weekly retro snapshot 2026-10-24\", 0406e0a2 2026-10-20 \"chore(retro): close RF-5038ebd02a40 in the action ledger\", 97389a44 2026-10-19 \"chore(retro): drop test-ratio finding RF-ee909fca39b5\", 10e75109 2026-10-18 \"chore(retro): harvest first retro inbox entries (6 findings)\", c17b9a0a 2026-10-18 \"chore(retro): map hygiene and architecture recommendations to PROCESS and SPEC\", 0573a3d7 2026-10-17 \"chore(retro): track the retro harvest directory without force-add\"\nfeat(review): 6 commits - 038a81ae 2026-10-24 \"feat(review): benchmark cross-model review and wire it into pre-push (issue 191 \", 34cbc3ca 2026-10-23 \"feat(review): add reviewer prompt, runner, and toolforge review --adversarial\", 4d6838db 2026-10-23 \"feat(review): add Anthropic reviewer provider and request timeouts\", 4fb6da39 2026-10-23 \"feat(review): add author-aware reviewer routing and OpenAI provider\", 02f0995b 2026-10-23 \"feat(review): add over-validation circuit breaker\", 12b9a56a 2026-10-23 \"feat(review): add adversarial review parse, rank, and validation core\"\ndocs(retro): 5 commits - 4c2dd897 2026-10-18 \"docs(retro): require Tier 1 approval for harvester config changes\", 01210b4b 2026-10-17 \"docs(retro): document the retro harvester in the inbox spec and policy\", effcbef6 2026-10-17 \"docs(retro): refresh policy prerequisites and spec example after gate fixes\", e0110a07 2026-10-17 \"docs(retro): add draft retro governance policy\", d2088bfd 2026-10-17 \"docs(retro): add retro inbox spec and schema\"\nfix(hooks): 4 commits - f0e9506b 2026-10-24 \"fix(hooks): harden block-env-edit stdin parsing\", 9035b50f 2026-10-23 \"fix(hooks): read stdin JSON and deny via JSON for Grok compatibility\", ff1d5f37 2026-10-23 \"fix(hooks): make graft pre-push gate check the pushed range and fail closed\", 0d81cb67 2026-10-21 \"fix(hooks): use Windows paths in Grok Claude settings\"\nfix(mining): 4 commits - 768671ac 2026-10-23 \"fix(mining): resolve data paths from MINING_DATA_ROOT, not the checkout\", 789a077e 2026-10-22 \"fix(mining): delegate pack sync to kb-sync replaceSinglePack with atomic quarant\", 0ff47e56 2026-10-21 \"fix(mining): skip only multipart notebooks; keep single-pack syncing\"\nListed 40 of 131 commits; 91 more not listed.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "01df336e0d",
+      "priority": "HIGH",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 338,
+      "recommendation": "Change AGENTS.md:338 to the policy's status, and drop the hold on inbox writes if the approved policy allows them. retro-policy.md:20 names the inbox write path and its writer.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "AGENTS.md calls retro-policy.md a DRAFT and tells agents not to write inbox entries; the policy says APPROVED on 2026-10-18. AGENTS.md:338: `docs/meta/governance/retro-policy.md is a DRAFT pending Tier 1 approval`. docs/meta/governance/retro-policy.md:3: `Status: APPROVED by Tier 1 on 2026-10-18. Nothing enforces this policy yet.` Commit 0f53185b (2026-10-18, 'docs(governance): record Tier 1 approval of retro policy') is on origin/main.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "76a44feb44",
+      "priority": "MEDIUM",
+      "category": "retro",
+      "file": ".context/retros/2026-10-17-2.json",
+      "line": 1,
+      "recommendation": "Recount 2026-10-10..2026-10-17 from origin/main, then correct the counts or record the resolution in the file's note field, which already calls the discrepancy uninvestigated. Trend comparisons read both fields, so the contradiction must be resolved before any trend use.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "metrics.commits_no_merge is 83 while metrics.commits is 58 in the same file. Line 1 contains metrics.commits = 58 and metrics.commits_no_merge = 83; the file's note cites an earlier snapshot 2026-10-17-1 counting 87 commits, which is not tracked here (unverifiable-here). authors sum = 58, matching metrics.commits. Per the metric-consistency rule this file's counts are rejected for trend use. The file also fails the schema (retro-schema-nonconforming-files).",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "53fb510981",
+      "priority": "MEDIUM",
+      "category": "retro",
+      "file": ".context/retros/2026-10-24-1.json",
+      "line": 50,
+      "recommendation": "Migrate the 16 failing files to schema v1.0, or document a legacy exception in RETRO-SCHEMA.md. Start with 2026-10-24-1 and 2026-10-17-2, which leaves the newest comparison without a valid baseline.",
+      "owner": "Repo-docs",
+      "evidence": "verified",
+      "details": "16 of 41 dated retros fail retro.schema.json, including the two newest, so they are excluded from trend comparison. Manual check of retro.schema.json (required keys, top-level and metrics additionalProperties=false, authors role required). Errors per file: 2026-07-29-1 (8), 2026-07-29-2 (12), 2026-07-30-1 (12), 2026-07-31-1 (12), 2026-08-02-1 (13), 2026-08-02-2 (10), 2026-08-02-3 (13), 2026-08-03-1 (4), 2026-08-07-1 (5), 2026-08-08-1 (9), 2026-08-15-1 (12), 2026-08-16-1 (8), 2026-09-14-1 (7), 2026-09-27-1 (4), 2026-10-17-2 (7), 2026-10-24-1 (10). Passing (25): 2026-07-12-1 to 2026-07-28-1 (24 files) and 2026-10-08-1. Example at 2026-10-24-1.json:50 (`test_health`, an unexpected top-level key); authors lack `role` at :44. Manual check, not jsonschema output.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "6a27e992cb",
+      "priority": "MEDIUM",
+      "category": "retro",
+      "file": ".context/retros/validate-v1.0.ps1",
+      "line": 49,
+      "recommendation": "Add additionalProperties and author-role checks to validate-v1.0.ps1, or have CI run the JSON schema directly after the F1 path fix. Rerun the gate on all 41 dated retros afterward.",
+      "owner": "CI",
+      "evidence": "verified",
+      "details": "validate-v1.0.ps1 checks required keys and six legacy metric names, but not extra keys or author roles, which the schema rejects. validate-v1.0.ps1:49-54 required top-level keys; :73-89 required metrics; :91-97 six legacy names (commits_human, commits_bot, sessions_detected, test_loc, commits_per_day, avg_session_minutes); :127-133 author count vs contributors. No extra-key or role check exists. Derived from the script logic, not executed (pwsh absent): 2026-10-24-1.json has every required metric and none of the six legacy names, so these rules would accept it.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "476f46d4ca",
+      "priority": "MEDIUM",
+      "category": "memory",
+      "file": "memory/MEMORY.md",
+      "line": 15,
+      "recommendation": "Correct the 2026-10-04 entry to record that the retro was deleted in 739415ce. Restore it under a new retro number only if its content is still needed.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "MEMORY.md says retro 2026-10-04-1.json was filed, but it was deleted in commit 739415ce and is not on origin/main. `git log origin/main --diff-filter=D -- .context/retros/2026-10-04-1.json` returns 739415ce (ancestor of origin/main). `git ls-tree origin/main -- .context/retros/2026-10-04-1.json` is empty; `.gitignore:128` ignores the path, so a local copy may exist (unverifiable-here).",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "ef2f0215b1",
+      "priority": "MEDIUM",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 281,
+      "recommendation": "Confirm which repository holds the ICF dashboard, then correct AGENTS.md:279-286 to that location, or restore the files here if they belong in toolforge. Fix the tests/dashboard-trm-backlog-ui.test.mjs reference in the same change.",
+      "owner": "User",
+      "evidence": "contradicted",
+      "details": "AGENTS.md names icf/dashboard/index.html and icf/src/server.mjs as canonical; neither exists on origin/main and neither was ever tracked here. `git ls-tree origin/main -- icf` lists only icf/src/backend/pr-staging-bridge.ts. `git log --all -- icf/dashboard/index.html` and `-- icf/src/server.mjs` return nothing. tests/dashboard-trm-backlog-ui.test.mjs is tracked (AGENTS.md:286 cites it); its contents were not opened in this run, so no claim is made about what it checks.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "89089bed72",
+      "priority": "MEDIUM",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 445,
+      "recommendation": "Change AGENTS.md:445 to name governance.yml:20-29 and utilities/skill-doc-validator.ps1 as the enforcing gate, and list the rules it checks.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "AGENTS.md says no workflow validates skill line limits or duplicate sections, but governance.yml runs a validator that checks both. governance.yml:20-29 (skill-documentation job) runs `./utilities/skill-doc-validator.ps1 -Path ./skills -Recursive`. The validator checks README.md < 100 lines (:55-57), SKILL.md < 150 lines (:58-60), duplicate standard sections (:62-79), and the Skill Operator Guide link (:82-85). Whether the job passes is CI history, outside this checkout.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    },
+    {
+      "id": "d803efc509",
+      "priority": "LOW",
+      "category": "memory",
+      "file": "memory/MEMORY.md",
+      "line": 40,
+      "recommendation": "Replace the count with a pointer to a live listing, or re-date it as a 2026-08-30 snapshot everywhere it appears.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "MEMORY.md gives 52 skills/ directories with SKILL.md as the current checkout count; origin/main has 68. Line 40 is a 2026-08-30 snapshot. `git ls-tree -r --name-only origin/main -- skills | grep -c '/SKILL.md$'` returns 68.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-10-25",
+      "disposition": "open"
+    }
+  ],
+  "resolved": [],
+  "unverifiable_groups": [
+    {
+      "file": "memory/MEMORY.md",
+      "items": [
+        "L15: retros 2026-10-01..2026-10-03 are local-only and gitignored (.gitignore:128); not in origin/main or this checkout",
+        "L20: retro 2026-10-11-1.json cited as existing; git check-ignore matches .gitignore:128 and the file is absent here",
+        "L20: 'canonical retro validation passes 36/36' not re-runnable here (pwsh absent)",
+        "L8, L15, L36: .git/hooks/pre-commit and pre-commit.ps1 are untracked; their behaviour is not verifiable from origin/main",
+        "L35: ~/.gbrain/brain.pglite is an operator-machine path",
+        "L37: scripts/cross-audit.mjs is never tracked on origin/main and not ignored; cited as shipped"
+      ]
+    },
+    {
+      "file": "AGENTS.md",
+      "items": [
+        "L207, L231: graft/ and graft/INDEX.md are a gitignored local cache; contents not verifiable here",
+        "L353: C:\\dev\\scripts\\es.exe is an operator-machine path",
+        "L475-476: Slack channel and Notion data source for morning ingestion are external services",
+        "L500: '184 lockfiles (15.68 MB) excluded' is an operator-disk count; git ls-files lists 33 tracked lockfile paths on origin/main",
+        "L514: C:\\dev\\scripts\\verify-repo-context.ps1 is an operator-machine path"
+      ]
+    },
+    {
+      "file": "memory/workflow-checklists-embedded.md",
+      "items": [
+        "L10: referent .git/hooks/pre-commit.ps1 is untracked; the referent check is not verifiable here"
+      ]
+    },
+    {
+      "file": ".github/workflows/retro-full-audit.yml",
+      "items": [
+        "CI run outcomes for retro-full-audit.yml:23-24 and governance.yml:38-40 are not in this checkout"
+      ]
+    }
+  ]
+}

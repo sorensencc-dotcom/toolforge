@@ -42,7 +42,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/c/dev/.claude/hooks/token-budget-gate.js\"",
+            "command": "node \"C:/dev/.claude/hooks/token-budget-gate.js\"",
             "timeout": 10
           }
         ]
@@ -52,12 +52,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/c/dev/.claude/hooks/block-env-edit.js\"",
+            "command": "node \"C:/dev/.claude/hooks/block-env-edit.js\"",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "node \"/c/dev/.claude/hooks/block-lockfile-edit.js\"",
+            "command": "node \"C:/dev/.claude/hooks/block-lockfile-edit.js\"",
             "timeout": 10
           }
         ]
@@ -69,12 +69,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/c/dev/.claude/hooks/lint-on-edit.js\"",
+            "command": "node \"C:/dev/.claude/hooks/lint-on-edit.js\"",
             "timeout": 30
           },
           {
             "type": "command",
-            "command": "node \"/c/dev/.claude/hooks/e2e-snapshots.js\"",
+            "command": "node \"C:/dev/.claude/hooks/e2e-snapshots.js\"",
             "timeout": 120
           }
         ]
@@ -84,7 +84,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"/c/dev/.claude/hooks/post-push-ci-check.sh\"",
+            "command": "\"C:/Program Files/Git/bin/bash.exe\" \"C:/dev/.claude/hooks/post-push-ci-check.sh\"",
             "if": "Bash(git push*)",
             "timeout": 30
           }
@@ -95,7 +95,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/.claude/helpers/graft-hooks.cjs\" post-edit",
+            "command": "node \"C:/dev/.claude/helpers/graft-hooks.cjs\" post-edit",
             "timeout": 10000
           }
         ]
@@ -105,7 +105,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/.claude/helpers/graft-hooks.cjs\" tool-savings",
+            "command": "node \"C:/dev/.claude/helpers/graft-hooks.cjs\" tool-savings",
             "timeout": 8000
           }
         ]
@@ -116,7 +116,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/.claude/helpers/graft-hooks.cjs\" prompt",
+            "command": "node \"C:/dev/.claude/helpers/graft-hooks.cjs\" prompt",
             "timeout": 15000
           }
         ]
@@ -127,7 +127,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/.claude/helpers/graft-hooks.cjs\" session-start",
+            "command": "node \"C:/dev/.claude/helpers/graft-hooks.cjs\" session-start",
             "timeout": 8000
           }
         ]
@@ -138,7 +138,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/.claude/helpers/graft-hooks.cjs\" stop",
+            "command": "node \"C:/dev/.claude/helpers/graft-hooks.cjs\" stop",
             "timeout": 8000
           }
         ]
@@ -147,14 +147,14 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "node \"${CLAUDE_PROJECT_DIR:-.}/.claude/helpers/graft-statusline.cjs\""
+    "command": "node \"C:/dev/.claude/helpers/graft-statusline.cjs\""
   },
   "footerLinksRegexes": [
     "graft/[\\w./-]+\\.md"
   ],
   "subagentStatusLine": {
     "type": "command",
-    "command": "node \"${CLAUDE_PROJECT_DIR:-.}/.claude/helpers/graft-statusline.cjs\""
+    "command": "node \"C:/dev/.claude/helpers/graft-statusline.cjs\""
   },
   "enabledPlugins": {
     "diagram-design@diagram-design": true

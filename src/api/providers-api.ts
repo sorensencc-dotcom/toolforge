@@ -6,8 +6,8 @@
  */
 
 import express, { Express, Request, Response, NextFunction } from "express";
-import { getProvider } from "../src/providers/index.js";
-import { runAdversarialCrossAudit } from "../modules/healing/adversarial-auditor.js";
+import { getProvider } from "../providers/index.js";
+import { runAdversarialCrossAudit } from "../../modules/healing/adversarial-auditor.ts";
 
 declare global {
   namespace Express {
@@ -50,8 +50,6 @@ export function setupProviderRoutes(app: Express): void {
       res.json({
         status: "healthy",
         provider: "OllamaProvider",
-        endpoint:
-          process.env.OLLAMA_BASE_URL || "http://host.docker.internal:11434/v1",
         timestamp: new Date().toISOString(),
       });
     } catch (error) {
