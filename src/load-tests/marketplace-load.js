@@ -41,6 +41,21 @@ const CONFIG = {
 const SKIP_MESSAGE =
   'Load test requires provisioned PG — set DATABASE_URL to run. Skipping.';
 
+const MAX_QUERY_PARAMS = 65_535;
+
+export function batchValues(values, params, paramsPerRow) {
+  const maxRows = Math.max(1, Math.floor(MAX_QUERY_PARAMS / paramsPerRow));
+  const batches = [];
+  for (let start = 0; start < values.length; start += maxRows) {
+    const end = Math.min(start + maxRows, values.length);
+    batches.push({
+      values: values.slice(start, end),
+      params: params.slice(start * paramsPerRow, end * paramsPerRow),
+    });
+  }
+  return batches;
+}
+
 function intEnv(name, fallback) {
   const raw = process.env[name];
   if (raw === undefined || raw === '') return fallback;
@@ -195,12 +210,14 @@ async function seed(db, runId) {
       );
     }
     if (ratingValues.length > 0) {
-      await db.query(
-        `INSERT INTO ratings (skill_id, user_id, score, review_text)
-         VALUES ${ratingValues.join(',')}
-         ON CONFLICT (skill_id, user_id) DO NOTHING`,
-        ratingParams
-      );
+      for (const batch of batchValues(ratingValues, ratingParams, 3)) {
+        await db.query(
+          `INSERT INTO ratings (skill_id, user_id, score, review_text)
+           VALUES ${batch.values.join(',')}
+           ON CONFLICT (skill_id, user_id) DO NOTHING`,
+          batch.params
+        );
+      }
     }
   }
 
