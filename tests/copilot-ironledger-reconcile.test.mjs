@@ -1,6 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { reconcile, toMinor, ledgerToCopilotSign } from '../scripts/copilot-ironledger-reconcile.mjs';
+import { reconcile, toMinor, ledgerToCopilotSign, runCopilotReconcile } from '../scripts/copilot-ironledger-reconcile.mjs';
+
+test('entrypoint exits 2 with usage when --copilot is missing', () => {
+  const original = console.error;
+  console.error = () => {};
+  try {
+    assert.equal(runCopilotReconcile([]), 2);
+  } finally {
+    console.error = original;
+  }
+});
 
 const now = Date.parse('2026-10-27T00:00:00Z');
 const base = { toleranceMinor: 100, now, maxProjectionAgeHours: 48, projectionBuiltAtUtc: '2026-10-26T12:00:00Z' };

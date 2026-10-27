@@ -157,7 +157,7 @@ function parseArgs(argv) {
   return opts;
 }
 
-export function main(argv = process.argv.slice(2)) {
+export function runCopilotReconcile(argv = process.argv.slice(2)) {
   const opts = parseArgs(argv);
   if (!opts.copilot) {
     console.error('usage: copilot-ironledger-reconcile.mjs --copilot <accounts.json> [--map f] [--projection f] [--out f]');
@@ -189,5 +189,5 @@ export function main(argv = process.argv.slice(2)) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  process.exit(main());
+  process.exit(runCopilotReconcile());
 }
