@@ -154,3 +154,7 @@ evidence/
 # Toolforge active memory database, one encrypted store per workspace. Never commit it.
 .toolforge/
 coverage/
+
+# Copilot reconciliation spike: live balances and local account map
+_status-feed/copilot_*.json
+config/copilot-ironledger-map.json
