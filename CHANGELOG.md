@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.112.1
+Date: 2026-10-28
+
+### Changes
+- c59ce25f - Merge pull request #248 from sorensencc-dotcom/claude/machine-performance-tasks-b76098 (Chris Sorensen)
+- 8b624c03 - fix(janitor): stop killing live per-session MCP servers (Chris Sorensen)
+
 ## Version 2.112.0
 Date: 2026-10-27
 
