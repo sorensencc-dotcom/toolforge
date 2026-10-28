@@ -1,0 +1,23 @@
+utilities/node-process-janitor.md
+  s_eab18514360fbc::t_64f4faeff03248 29-30
+utilities/node-process-janitor.ps1
+  s_eab18514360fbc::t_7f6b16b5e5dbb2 120-121
+  s_eab18514360fbc::t_b147efb687c269 17-18
+  s_eab18514360fbc::t_03d47a01eb3a6d 210-212,215
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8b624c03cc99c9f9c48226e92dd6d4c5486640f7",
+  "prompts": {},
+  "sessions": {
+    "s_eab18514360fbc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b7d2251-295a-45e3-bf56-36bd9f550bd6",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
