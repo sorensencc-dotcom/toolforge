@@ -25,9 +25,9 @@ cd C:\dev\toolforge\utilities
 1. **Orphan** — `node.exe` whose parent PID is dead.
 2. **Duplicate singleton** — keep newest `CreationDate` only for:
    - `dashboard-server`
-   - `mcp-memory-server`
-   - `ijfw-mcp-server` (paths containing `mcp-server/src/server.js`)
    - `http-server`
+
+   Per-session stdio MCP servers (`ijfw-mcp-server`, `mcp-memory-server`) are not singletons: one runs per live client session, so they are cleaned only by rule 1 (dead parent).
 3. **Aged test workers** — `node --test` / vitest older than `-TestMaxAgeMinutes`.
 
 Sigil daemons are skipped unless `-IncludeSigil` is set.
