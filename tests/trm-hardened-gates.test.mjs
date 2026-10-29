@@ -26,6 +26,7 @@ import {
   resolveTargetRepo as serverResolveTargetRepo,
   loadArchivedCard
 } from '../icf/src/server.mjs';
+import { reconcileBacklog } from '../scripts/trm-reconcile-backlog.mjs';
 
 import os from 'node:os';
 
@@ -211,4 +212,15 @@ test('Ingress Gate Live Validation: processFile quarantines stub/empty card in d
   } finally {
     try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch {}
   }
+});
+
+test('Backlog Reconciler: reconcileBacklog categorizes completed, stubs, and pending', () => {
+  const result = reconcileBacklog({ dryRun: true });
+  assert.ok(result);
+  assert.equal(result.dryRun, true);
+  assert.ok(Array.isArray(result.completedMoved));
+  assert.ok(Array.isArray(result.quarantinedMoved));
+  assert.ok(Array.isArray(result.retainedPending));
+  assert.equal(result.retainedPending.length, 1);
+  assert.equal(result.retainedPending[0].id, 'act-20261003-viking-context-compaction');
 });
