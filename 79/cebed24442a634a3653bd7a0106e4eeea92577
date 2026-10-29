@@ -1,0 +1,16 @@
+scripts/trm-reconcile-backlog.mjs
+  h_5c172e9b435f5a 1-167
+tests/trm-hardened-gates.test.mjs
+  h_5c172e9b435f5a 29,216-226
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "79cebed24442a634a3653bd7a0106e4eeea92577",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
