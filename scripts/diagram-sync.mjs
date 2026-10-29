@@ -23,9 +23,10 @@ export const IGNORED_DIRS = new Set([
   'trm-drive', '_kb-sync-staging', '.ijfw', 'weekly-report-wt', '.worktrees', 'worktrees',
   'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness',
   '.pytest_cache', '__pycache__', '.venv', 'venv', 'IronLedger',
-  'dev-sandbox', 'toolforge-marketplace', 'toolforge-marketplace-wiki',
+  'dev-sandbox', 'toolforge', 'toolforge-marketplace', 'toolforge-marketplace-wiki',
   'toolforge-wiki', 'sigil-wiki', 'trm-wiki', 'kb-sync', 'kb-sync-wiki',
-  'kb-sync-r2', 'sigil-repo', 'rewrite-mcp', 'icf', 'scratch'
+  'kb-sync-r2', 'sigil-repo', 'rewrite-mcp', 'icf', 'scratch',
+  'toolforge-pr199-fix', 'toolforge-pr202-fix', 'toolforge-pr204-fix'
 ]);
 
 export function findChrome() {
@@ -264,7 +265,7 @@ function collectDiagramPairs(targetPath) {
       return;
     }
     for (const entry of entries) {
-      if (IGNORED_DIRS.has(entry.name) || entry.name.includes('-wt-') || entry.name.endsWith('-wt')) continue;
+      if (IGNORED_DIRS.has(entry.name) || entry.name.includes('-wt-') || entry.name.endsWith('-wt') || entry.name.startsWith('toolforge-pr')) continue;
       const full = path.join(d, entry.name);
       if (entry.isDirectory()) walk(full);
       else if (entry.isFile() && entry.name.endsWith('.html')) {
@@ -471,7 +472,7 @@ export async function main() {
         try {
           const entries = fs.readdirSync(dir, { withFileTypes: true });
           for (const entry of entries) {
-            if (IGNORED_DIRS.has(entry.name)) continue;
+            if (IGNORED_DIRS.has(entry.name) || entry.name.includes('-wt-') || entry.name.endsWith('-wt') || entry.name.startsWith('toolforge-pr')) continue;
             const full = path.join(dir, entry.name);
             if (entry.isDirectory()) scanDir(full);
             else if (entry.isFile() && entry.name.endsWith('.md')) filesToScan.push(full);
