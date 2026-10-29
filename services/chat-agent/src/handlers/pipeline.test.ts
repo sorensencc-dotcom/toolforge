@@ -54,4 +54,57 @@ describe("executePipeline", () => {
 
     expect(result.quality.hitRate).toBe(0);
   });
+
+  it("sends x-cic-route-key when CIC_CREDENTIALED_ROUTE_KEY is set", async () => {
+    process.env.CIC_CREDENTIALED_ROUTE_KEY = "route-key-0123456789";
+    try {
+      mockedAxios.post.mockResolvedValue({ status: 200, data: { success: true, data: {} } });
+      await executePipeline({ adapter: "familysearch", key: "LV7Q-DGW" });
+      expect(mockedAxios.post).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.any(Object),
+        expect.objectContaining({ headers: { "x-cic-route-key": "route-key-0123456789" } })
+      );
+    } finally {
+      delete process.env.CIC_CREDENTIALED_ROUTE_KEY;
+    }
+  });
+
+  it("omits the header when no route key is configured", async () => {
+    delete process.env.CIC_CREDENTIALED_ROUTE_KEY;
+    mockedAxios.post.mockResolvedValue({ status: 200, data: { success: true, data: {} } });
+    await executePipeline({ adapter: "familysearch", key: "LV7Q-DGW" });
+    expect(mockedAxios.post.mock.calls[0][2]).toEqual(expect.objectContaining({ headers: {} }));
+  });
+
+  it("validateStatus accepts 2xx, 400, 404, 502 and rejects 401 and 500", async () => {
+    mockedAxios.post.mockResolvedValue({ status: 200, data: { success: true, data: {} } });
+    await executePipeline({ adapter: "familysearch", key: "LV7Q-DGW" });
+    const { validateStatus } = mockedAxios.post.mock.calls[0][2] as any;
+    for (const ok of [200, 204, 400, 404, 502]) expect(validateStatus(ok)).toBe(true);
+    for (const bad of [401, 403, 500, 503]) expect(validateStatus(bad)).toBe(false);
+  });
+
+  it.each([
+    [400, "Invalid person id"],
+    [404, "Adapter not found: familysearch"],
+    [502, "FamilySearch upstream error"],
+  ])("returns the structured error for HTTP %i instead of throwing", async (status, error) => {
+    mockedAxios.post.mockResolvedValue({
+      status,
+      data: { success: false, error, driftSignals: [], hydrationFailures: [], stats: { hitRate: 0 } },
+    });
+
+    const result = await executePipeline({ adapter: "familysearch", key: "LV7Q-DGW" });
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBe(error);
+    expect(result.httpStatus).toBe(status);
+    expect(result.result).toBeUndefined();
+  });
+
+  it("propagates other HTTP failures (401, 500) as thrown errors", async () => {
+    mockedAxios.post.mockRejectedValue(new Error("Request failed with status code 401"));
+    await expect(executePipeline({ adapter: "familysearch", key: "LV7Q-DGW" })).rejects.toThrow("401");
+  });
 });
