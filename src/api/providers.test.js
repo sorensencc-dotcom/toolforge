@@ -14,15 +14,30 @@ async function withServer(mockDb, opts, fn) {
     fn = opts;
     opts = {};
   }
-  const app = createApp(mockDb, opts);
-  const server = app.listen(0);
-  await new Promise((resolve) => server.once('listening', resolve));
-  const { port } = server.address();
-  const base = `http://127.0.0.1:${port}`;
+  const previous = {
+    NODE_ENV: process.env.NODE_ENV,
+    TOOLFORGE_DEV_HEADER_AUTH: process.env.TOOLFORGE_DEV_HEADER_AUTH,
+  };
+  process.env.NODE_ENV = 'development';
+  process.env.TOOLFORGE_DEV_HEADER_AUTH = '1';
+
+  let server;
   try {
+    const app = createApp(mockDb, opts);
+    server = app.listen(0);
+    await new Promise((resolve) => server.once('listening', resolve));
+    const { port } = server.address();
+    const base = `http://127.0.0.1:${port}`;
     return await fn(base);
   } finally {
-    await new Promise((resolve) => server.close(resolve));
+    try {
+      if (server) await new Promise((resolve) => server.close(resolve));
+    } finally {
+      for (const [key, value] of Object.entries(previous)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+    }
   }
 }
 

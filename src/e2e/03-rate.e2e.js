@@ -9,8 +9,15 @@ export default {
   async run(ctx) {
     const { createContext, teardown, seedSkill, makeRunId, expect } = ctx;
     const runId = makeRunId();
-    const c = await createContext();
+    const previous = {
+      NODE_ENV: process.env.NODE_ENV,
+      TOOLFORGE_DEV_HEADER_AUTH: process.env.TOOLFORGE_DEV_HEADER_AUTH,
+    };
+    process.env.NODE_ENV = 'development';
+    process.env.TOOLFORGE_DEV_HEADER_AUTH = '1';
+    let c;
     try {
+      c = await createContext();
       const skill = await seedSkill(c.db, runId, { name: `${runId}-rateable` });
       const userId = `${runId}-rater@e2e.local`;
       const auth = { headers: { 'x-user-id': userId } };
@@ -70,8 +77,17 @@ export default {
       expect('list 200', list.status === 200);
       expect('list has 2', list.body.data.length === 2, `got ${list.body.data.length}`);
     } finally {
-      await teardown(c.db, runId);
-      await c.close();
+      try {
+        if (c) {
+          await teardown(c.db, runId);
+          await c.close();
+        }
+      } finally {
+        for (const [key, value] of Object.entries(previous)) {
+          if (value === undefined) delete process.env[key];
+          else process.env[key] = value;
+        }
+      }
     }
   },
 };

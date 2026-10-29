@@ -4,12 +4,16 @@
 // that so no route can accidentally trust a body-supplied user_id.
 //
 // No session store exists yet in this stack, so the default resolver reads a
-// signed session (req.session.userId) if present, else an `x-user-id` header as
-// a development stand-in. Swap `resolveUser` for real session middleware later;
-// the contract (user from context, not body) stays fixed.
+// signed session (req.session.userId) if present, else an `x-user-id` header
+// only when development explicitly enables the header-auth escape hatch. Swap
+// `resolveUser` for real session middleware later; the contract stays fixed.
 
 export function defaultResolveUser(req) {
   if (req.session && req.session.userId) return req.session.userId;
+  if (
+    process.env.NODE_ENV !== 'development' ||
+    process.env.TOOLFORGE_DEV_HEADER_AUTH !== '1'
+  ) return null;
   const header = req.headers['x-user-id'];
   if (typeof header === 'string' && header.trim() !== '') return header.trim();
   return null;
