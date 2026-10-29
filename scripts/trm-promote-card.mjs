@@ -5,7 +5,8 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-export const REPO_ROOT = path.resolve(__dirname, '..', '..');
+export const DEV_ROOT = path.resolve(__dirname, '..');
+export const REPO_ROOT = DEV_ROOT;
 
 export const DEFAULT_REPO_MAP = {
   'toolforge': 'sorensencc-dotcom/toolforge',
@@ -15,20 +16,33 @@ export const DEFAULT_REPO_MAP = {
   'icf': 'sorensencc-dotcom/icf',
   'rewrite': 'sorensencc-dotcom/rewrite-mcp',
   'rewrite-mcp': 'sorensencc-dotcom/rewrite-mcp',
+  'rewrite-docs': 'sorensencc-dotcom/rewrite-docs',
   'ironledger': 'sorensencc-dotcom/IronLedger',
   'IronLedger': 'sorensencc-dotcom/IronLedger'
 };
 
+export const NON_CODE_TARGETS = new Set([
+  'cic',
+  'cic-kb',
+  'research',
+  'whichllm',
+  'sandboxes',
+  'cross-fleet',
+  'strategic-intelligence'
+]);
+
 export function resolveTargetRepo(targetOrDomain, customMap = {}) {
-  if (!targetOrDomain) return DEFAULT_REPO_MAP['toolforge'];
-  const map = { ...DEFAULT_REPO_MAP, ...customMap };
+  if (!targetOrDomain) return null;
   const key = String(targetOrDomain).trim();
   if (key.includes('/')) return key;
   const lower = key.toLowerCase();
+  if (NON_CODE_TARGETS.has(lower)) return null;
+
+  const map = { ...DEFAULT_REPO_MAP, ...customMap };
   for (const [k, v] of Object.entries(map)) {
     if (k.toLowerCase() === lower) return v;
   }
-  return `sorensencc-dotcom/${lower}`;
+  return null;
 }
 
 export function commitTypeForCard(card = {}) {
@@ -48,6 +62,23 @@ export function parseCardFile(cardPath) {
     throw new Error(`Action card file not found: ${cardPath}`);
   }
   const raw = fs.readFileSync(cardPath, 'utf8');
+  const trimmed = raw.trim();
+  if (trimmed.startsWith('{') || cardPath.endsWith('.json') || cardPath.endsWith('.gdoc')) {
+    try {
+      const parsed = JSON.parse(raw);
+      const body = parsed.body || parsed.raw_content || parsed.summary || parsed.directive || '';
+      return {
+        raw,
+        frontmatter: parsed,
+        body,
+        cardPath,
+        isJson: true
+      };
+    } catch {
+      // If JSON parse fails, attempt YAML frontmatter parsing below
+    }
+  }
+
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) {
     throw new Error(`Action card missing YAML frontmatter: ${cardPath}`);
@@ -69,7 +100,8 @@ export function parseCardFile(cardPath) {
     raw,
     frontmatter,
     body,
-    cardPath
+    cardPath,
+    isJson: false
   };
 }
 
@@ -107,6 +139,18 @@ export function formatIssueBody(cardData, parsedCard = null) {
 export function updateCardFrontmatter(cardPath, fieldsToUpdate = {}) {
   if (!fs.existsSync(cardPath)) return false;
   const raw = fs.readFileSync(cardPath, 'utf8');
+  const trimmed = raw.trim();
+  if (trimmed.startsWith('{') || cardPath.endsWith('.json') || cardPath.endsWith('.gdoc')) {
+    try {
+      const data = JSON.parse(raw);
+      Object.assign(data, fieldsToUpdate);
+      fs.writeFileSync(cardPath, JSON.stringify(data, null, 2) + '\n', 'utf8');
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) return false;
 
@@ -171,9 +215,16 @@ export function promoteCard(cardPath, options = {}) {
   const { frontmatter } = parsed;
   const cardId = frontmatter.id || frontmatter.action_id || path.basename(cardPath).replace(/\.(md|json)$/i, '');
 
-  const repo = options.repo || resolveTargetRepo(frontmatter.target || frontmatter.domain);
-  const commitType = commitTypeForCard(frontmatter);
   const target = frontmatter.target || frontmatter.domain || 'core';
+  const repo = options.repo || resolveTargetRepo(target);
+  if (!repo) {
+    if (NON_CODE_TARGETS.has(String(target).toLowerCase())) {
+      throw new Error(`CANNOT_PROMOTE_RESEARCH: Target '${target}' is a local research topic, not a code repository. Assign an explicit repository or manage via research notes.`);
+    }
+    throw new Error(`UNROUTABLE_TARGET: Target '${target}' has no mapped repository. Explicitly specify a repository before promotion.`);
+  }
+
+  const commitType = commitTypeForCard(frontmatter);
   const intent = frontmatter.intent || frontmatter.title || cardId;
   const title = options.title || `${commitType}(${target}): ${intent}`;
 
@@ -201,8 +252,10 @@ export function promoteCard(cardPath, options = {}) {
   if (options.dryRun || options.mockGh) {
     issueUrl = options.mockIssueUrl || `https://github.com/${repo}/issues/mock-${Date.now()}`;
   } else {
-    // Spawns gh CLI with temporary body file
-    const tmpFile = path.resolve(os.tmpdir(), `trm-promote-${Date.now()}-${Math.random().toString(36).slice(2)}.md`);
+    // Spawns gh CLI with temporary body file in workspace temp dir
+    const tmpDir = path.resolve(os.homedir(), '.tmp');
+    fs.mkdirSync(tmpDir, { recursive: true });
+    const tmpFile = path.resolve(tmpDir, `trm-promote-${Date.now()}-${Math.random().toString(36).slice(2)}.md`);
     fs.writeFileSync(tmpFile, bodyText, 'utf8');
     try {
       const ghRunner = options.ghRunner || ((args) => execFileSync('gh', args, { encoding: 'utf8', timeout: 30000 }));
@@ -272,7 +325,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       console.log('No pending harness tasks directory.');
       process.exit(0);
     }
-    const files = fs.readdirSync(pendingDir).filter(f => f.endsWith('.md'));
+    const files = fs.readdirSync(pendingDir).filter(f => f.endsWith('.md') || f.endsWith('.json') || f.endsWith('.gdoc'));
     console.log(`Found ${files.length} pending cards to promote.`);
     for (const f of files) {
       try {

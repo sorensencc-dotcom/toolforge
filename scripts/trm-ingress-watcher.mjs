@@ -64,8 +64,6 @@ const GDRIVE_OUTBOX_ARCHIVE = path.join(GDRIVE_ROOT, '04_archive/mobile-outbox')
 const LOCAL_OUTBOX_ARCHIVE = path.join(LOCAL_INBOX_ROOT, 'completed/outbox');
 const LOCAL_DOT_TRM_OUTBOX_ARCHIVE = path.join(REPO_ROOT, '.trm/inbox/outbox/archive');
 
-export const LINK_SCRUBBER_REGEX = /(?:\[|%5B)suspicious link removed(?:\]|%5D)/i;
-
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
 const isOnce = args.includes('--once') || isDryRun;
@@ -237,10 +235,6 @@ export function parsePayload(raw, ext, options = {}) {
         }
       }
 
-      if (LINK_SCRUBBER_REGEX.test(text)) {
-        throw new Error('Document corrupted by link scrubber: suspicious link removed');
-      }
-
       const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
       if (!match) {
         throw new Error('Markdown action item missing frontmatter block');
@@ -264,10 +258,6 @@ export function parsePayload(raw, ext, options = {}) {
         }
       };
     })();
-  }
-
-  if (typeof text === 'string' && LINK_SCRUBBER_REGEX.test(text)) {
-    throw new Error('Document corrupted by link scrubber: suspicious link removed');
   }
 
   if (ext === '.json') {
@@ -464,6 +454,33 @@ export function inferDomain(item) {
   return 'research';
 }
 
+export function validateIngressQuality(item, rawContent = '') {
+  if (item?.context?.body_fetch_failed === true) {
+    return {
+      valid: false,
+      reason: 'GDOC_BODY_FETCH_FAILED',
+      error: 'Document body extraction failed; only filename metadata is present.'
+    };
+  }
+  const content = rawContent || item?.raw_content || item?.summary || item?.body || item?.context?.body || '';
+  const stripped = String(content).replace(/\s+/g, ' ').trim();
+  if (stripped.length < 50) {
+    return {
+      valid: false,
+      reason: 'INSUFFICIENT_CONTENT',
+      error: `Card content is too short (${stripped.length} chars, minimum 50 required).`
+    };
+  }
+  if (item?.title === 'Unknown Title' || item?.intent === 'triage_mobile_request') {
+    return {
+      valid: false,
+      reason: 'STUB_METADATA_ONLY',
+      error: 'Card contains only synthetic/stub metadata without actionable directives.'
+    };
+  }
+  return { valid: true };
+}
+
 export function getRoutingDecision(item) {
   const hasSubstantiveContent = Boolean(
     (item?.raw_content && item.raw_content.length > 50) ||
@@ -557,14 +574,6 @@ export function validatePayload(item) {
   if (!item.action_type || !['deterministic_fix', 'antigravity_triage'].includes(item.action_type)) {
     item.action_type = inferActionType(item);
   }
-  // Validate $schema URI resilience if present
-  if (item.$schema !== undefined && item.$schema !== null) {
-    if (typeof item.$schema !== 'string' || !URL.canParse(item.$schema)) {
-      item.$schema_invalid = item.$schema;
-      item.$schema = 'urn:toolforge:schema:base-sync-task:v1';
-    }
-  }
-
   if (!item.intent) throw new Error('Missing intent');
   return true;
 }
@@ -648,7 +657,16 @@ export function createGitHubIssue(item, explicitRepo = null) {
 
 export function logToLedger(entry) {
   const line = JSON.stringify(entry) + '\n';
-  fs.appendFileSync(LEDGER_JSONL, line, 'utf8');
+  try {
+    fs.appendFileSync(LEDGER_JSONL, line, 'utf8');
+  } catch (err) {
+    try {
+      const existing = fs.existsSync(LEDGER_JSONL) ? fs.readFileSync(LEDGER_JSONL, 'utf8') : '';
+      fs.writeFileSync(LEDGER_JSONL, existing + line, 'utf8');
+    } catch (e2) {
+      console.warn(`[TRM-INGRESS] Could not write to ledger: ${e2.message}`);
+    }
+  }
   refreshLedgerMarkdown();
 }
 
@@ -704,7 +722,11 @@ export function refreshLedgerMarkdown() {
   md += `- **Completed Archive**: \`${COMPLETED_DIR}\`\n`;
   md += `- **Antigravity Pending**: \`${HARNESS_PENDING_DIR}\`\n`;
 
-  fs.writeFileSync(LEDGER_MD, md, 'utf8');
+  try {
+    fs.writeFileSync(LEDGER_MD, md, 'utf8');
+  } catch (err) {
+    console.warn(`[TRM-INGRESS] Could not write ledger markdown: ${err.message}`);
+  }
 
   // Emit ICF Status Feed artifact
   emitIcfStatusFeed(rows);
@@ -1156,10 +1178,9 @@ export async function processFile(filePath, options = {}) {
   const isFromGDrive = filePath.startsWith(path.resolve(GDRIVE_ROOT));
   console.log(`[TRM-INGRESS] Reading incoming file: ${filename} (Source: ${isFromGDrive ? 'Google Drive' : 'Local'}, Dry-Run: ${dryRun})`);
   const startTime = Date.now();
-
+  let raw = '';
   let item;
   try {
-    let raw = '';
     let docId = null;
     if (ext === '.gdoc') {
       docId = await resolveGoogleDocId(filePath);
@@ -1241,6 +1262,41 @@ export async function processFile(filePath, options = {}) {
 
   const itemId = item.id || `act-${Date.now()}`;
   console.log(`[TRM-INGRESS] Dispatching action: ${itemId} | Type: ${item.action_type} | Intent: ${item.intent}`);
+
+  const quality = validateIngressQuality(item, raw);
+  if (!quality.valid) {
+    console.warn(`[TRM-INGRESS] Quality Gate REJECTED: Card ${itemId} (${filename}): ${quality.reason} - ${quality.error}`);
+    if (dryRun) {
+      return {
+        id: itemId,
+        source: item?.source || 'unknown',
+        action_type: item?.action_type || 'unknown',
+        intent: item?.intent || 'unknown',
+        status: 'QUARANTINED_INSUFFICIENT_DATA',
+        error: quality.error
+      };
+    }
+    const qTarget = path.join(QUARANTINE_DIR, `${Date.now()}-${filename}`);
+    const moved = safeMoveFile(filePath, qTarget);
+    logToLedger({
+      id: itemId,
+      processed_at: new Date().toISOString(),
+      timestamp: item?.timestamp || new Date().toISOString(),
+      source: item?.source || 'unknown',
+      action_type: item?.action_type || 'unknown',
+      intent: item?.intent || 'unknown',
+      target_notebook: item?.target_notebook,
+      target_notebook_name: item?.target_notebook_name,
+      summary: item?.summary || '',
+      status: moved ? 'QUARANTINED_INSUFFICIENT_DATA' : 'QUARANTINE_MOVE_FAILED',
+      error: quality.error,
+      archived_path: moved ? qTarget : null,
+      context: item?.context,
+      duration_ms: Date.now() - startTime
+    });
+    dispatchRejectionReceipt(filename, quality.error, item, { dryRun });
+    return null;
+  }
 
   if (dryRun) {
     console.log(`[TRM-INGRESS] [DRY-RUN] Inspected card ${itemId} (${item.action_type}) without mutating inbox or ledger.`);
@@ -1340,8 +1396,9 @@ export async function processFile(filePath, options = {}) {
       let issueUrl = null;
       let stageStatus = 'STAGED_FOR_TRIAGE';
       if (routing.isGDocFetchFailure) {
-        stageStatus = 'STAGED_FOR_RESEARCH';
+        stageStatus = 'QUARANTINED_INSUFFICIENT_DATA';
         item.issue_url = null;
+        console.warn(`[TRM-INGRESS] Quality Gate: Card ${itemId} (${filename}) quarantined due to failed GDoc body extraction.`);
       } else if (routing.shouldCreateGitHubIssue) {
         issueUrl = createGitHubIssue(item, routing.repo);
         item.issue_url = issueUrl;
@@ -1365,7 +1422,8 @@ export async function processFile(filePath, options = {}) {
         researchRef = `wiki/research/${item.id}.md`;
       }
 
-      const dest = path.join(HARNESS_PENDING_DIR, filename);
+      const targetStagingDir = routing.isGDocFetchFailure ? QUARANTINE_DIR : HARNESS_PENDING_DIR;
+      const dest = path.join(targetStagingDir, filename);
 
       let archived = false;
       let archivedPath = null;
