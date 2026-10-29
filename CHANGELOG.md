@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.112.2
+Date: 2026-10-29
+
+### Changes
+- 54f501db - Merge pull request #250 from sorensencc-dotcom/fix/x-user-id-dev-gate (Chris Sorensen)
+- 7aec9265 - fix(auth): honor x-user-id only in dev with TOOLFORGE_DEV_HEADER_AUTH=1 (Chris Sorensen)
+- 13c5f437 - Merge pull request #249 from sorensencc-dotcom/chore/parallel-search-deferred-minors (Chris Sorensen)
+- 27d899dd - chore(parallel-search): clear deferred cleanup minors (Chris Sorensen)
+
 ## Version 2.112.1
 Date: 2026-10-28
 
