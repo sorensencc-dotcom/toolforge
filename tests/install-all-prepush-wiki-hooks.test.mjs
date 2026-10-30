@@ -50,6 +50,36 @@ test('installPrePushHookInDir is idempotent when already present', () => {
   }
 });
 
+test('installPrePushHookInDir upgrades old toolforge-only pre-push hook', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hook-test-upgrade-'));
+  try {
+    const oldHook = `#!/bin/bash
+# Pre-push hook: dry-run publish repo wiki pages strictly targeting toolforge.wiki.git
+
+PUBLISH_SCRIPT="C:/dev/scripts/publish-repo-wiki-pages.mjs"
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [ -n "$REPO_ROOT" ] && [ -f "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" ]; then
+  PUBLISH_SCRIPT="$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs"
+fi
+if [ -f "$PUBLISH_SCRIPT" ]; then
+  if ! node "$PUBLISH_SCRIPT" --if-changed --dry-run; then
+    echo -e "\\033[31m[Hook Fail]\\033[0m Repo wiki dry-run check failed. Push blocked."
+    exit 1
+  fi
+fi
+exit 0
+`;
+    fs.writeFileSync(path.join(tmp, 'pre-push'), oldHook, 'utf8');
+    const res = installPrePushHookInDir(tmp);
+    assert.equal(res.status, 'updated');
+    const content = fs.readFileSync(path.join(tmp, 'pre-push'), 'utf8');
+    assert.match(content, /sync-wiki\.mjs/);
+    assert.match(content, /REPO_ROOT="\$REPO_ROOT"/);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
 test('getHookTargetDirs detects standard .git/hooks directory', () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hook-test-repo-'));
   try {

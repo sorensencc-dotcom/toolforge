@@ -2,14 +2,21 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const WIKI_CHECK_SNIPPET = `
-# Pre-push wiki dry-run check (strictly targets toolforge.wiki.git)
-PUBLISH_SCRIPT="C:/dev/scripts/publish-repo-wiki-pages.mjs"
+# Pre-push wiki dry-run check for repository documentation
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
-if [ -n "$REPO_ROOT" ] && [ -f "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" ]; then
-  PUBLISH_SCRIPT="$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs"
-fi
-if [ -f "$PUBLISH_SCRIPT" ]; then
-  if ! node "$PUBLISH_SCRIPT" --if-changed --dry-run; then
+PUBLISH_SCRIPT="C:/dev/scripts/publish-repo-wiki-pages.mjs"
+if [ -n "$REPO_ROOT" ] && [ -f "$REPO_ROOT/scripts/sync-wiki.mjs" ]; then
+  if ! node "$REPO_ROOT/scripts/sync-wiki.mjs" --dry-run; then
+    echo -e "\\033[31m[Hook Fail]\\033[0m Repo wiki dry-run check failed. Push blocked."
+    exit 1
+  fi
+elif [ -n "$REPO_ROOT" ] && [ -f "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" ]; then
+  if ! node "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed --dry-run; then
+    echo -e "\\033[31m[Hook Fail]\\033[0m Repo wiki dry-run check failed. Push blocked."
+    exit 1
+  fi
+elif [ -f "$PUBLISH_SCRIPT" ]; then
+  if ! REPO_ROOT="$REPO_ROOT" node "$PUBLISH_SCRIPT" --if-changed --dry-run; then
     echo -e "\\033[31m[Hook Fail]\\033[0m Repo wiki dry-run check failed. Push blocked."
     exit 1
   fi
@@ -17,15 +24,21 @@ fi
 `;
 
 const STANDALONE_PRE_PUSH = `#!/bin/bash
-# Pre-push hook: dry-run publish repo wiki pages strictly targeting toolforge.wiki.git
-
-PUBLISH_SCRIPT="C:/dev/scripts/publish-repo-wiki-pages.mjs"
+# Pre-push hook: dry-run publish repo wiki pages
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
-if [ -n "$REPO_ROOT" ] && [ -f "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" ]; then
-  PUBLISH_SCRIPT="$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs"
-fi
-if [ -f "$PUBLISH_SCRIPT" ]; then
-  if ! node "$PUBLISH_SCRIPT" --if-changed --dry-run; then
+PUBLISH_SCRIPT="C:/dev/scripts/publish-repo-wiki-pages.mjs"
+if [ -n "$REPO_ROOT" ] && [ -f "$REPO_ROOT/scripts/sync-wiki.mjs" ]; then
+  if ! node "$REPO_ROOT/scripts/sync-wiki.mjs" --dry-run; then
+    echo -e "\\033[31m[Hook Fail]\\033[0m Repo wiki dry-run check failed. Push blocked."
+    exit 1
+  fi
+elif [ -n "$REPO_ROOT" ] && [ -f "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" ]; then
+  if ! node "$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed --dry-run; then
+    echo -e "\\033[31m[Hook Fail]\\033[0m Repo wiki dry-run check failed. Push blocked."
+    exit 1
+  fi
+elif [ -f "$PUBLISH_SCRIPT" ]; then
+  if ! REPO_ROOT="$REPO_ROOT" node "$PUBLISH_SCRIPT" --if-changed --dry-run; then
     echo -e "\\033[31m[Hook Fail]\\033[0m Repo wiki dry-run check failed. Push blocked."
     exit 1
   fi
@@ -108,8 +121,23 @@ export function installPrePushHookInDir(hookDir) {
   }
 
   const existing = fs.readFileSync(hookFile, 'utf8');
-  if (existing.includes('publish-repo-wiki-pages.mjs')) {
+  if (existing.includes('REPO_ROOT="$REPO_ROOT"') || existing.includes('sync-wiki.mjs')) {
     return { file: hookFile, status: 'already-present' };
+  }
+
+  // If this hook has the old toolforge-only snippet, upgrade it
+  if (existing.includes('publish-repo-wiki-pages.mjs')) {
+    if (existing.trim().startsWith('#!/bin/bash\n# Pre-push hook: dry-run publish repo wiki pages strictly targeting toolforge.wiki.git')) {
+      fs.writeFileSync(hookFile, STANDALONE_PRE_PUSH.replace(/\r\n/g, '\n'), { encoding: 'utf8', mode: 0o755 });
+      return { file: hookFile, status: 'updated' };
+    }
+    // Replace old snippet inside existing hook
+    const oldSnippetPattern = /# Pre-push wiki dry-run check \(strictly targets toolforge\.wiki\.git\)[\s\S]*?if ! node "\$PUBLISH_SCRIPT" --if-changed --dry-run; then[\s\S]*?fi\s*fi/m;
+    if (oldSnippetPattern.test(existing)) {
+      const replaced = existing.replace(oldSnippetPattern, WIKI_CHECK_SNIPPET.trim());
+      fs.writeFileSync(hookFile, replaced.replace(/\r\n/g, '\n'), { encoding: 'utf8', mode: 0o755 });
+      return { file: hookFile, status: 'updated' };
+    }
   }
 
   // Append snippet before final exit 0 if present, or at the end
