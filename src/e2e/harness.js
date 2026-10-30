@@ -151,12 +151,16 @@ export async function seedInstalls(db, skillId, versionId, runId, count, { daysA
   for (let start = 0; start < count; start += chunkSize) {
     const chunkCount = Math.min(chunkSize, count - start);
     const values = [];
-    const params = [skillId, versionId, String(daysAgo)];
-    let paramIdx = 4;
+    const params = [];
+    let paramIdx = 1;
 
     for (let i = 0; i < chunkCount; i++) {
-      values.push(`($1, $2, $${paramIdx++}, 'success', NOW() - ($3 || ' days')::interval)`);
-      params.push(`${runId}-u${userOffset + start + i}@e2e.local`);
+      const p1 = paramIdx++;
+      const p2 = paramIdx++;
+      const p3 = paramIdx++;
+      const p4 = paramIdx++;
+      values.push(`($${p1}::uuid, $${p2}::uuid, $${p3}, 'success', NOW() - ($${p4} || ' days')::interval)`);
+      params.push(skillId, versionId, `${runId}-u${userOffset + start + i}@e2e.local`, String(daysAgo));
     }
 
     await db.query(
