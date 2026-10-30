@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.112.3
+Date: 2026-10-30
+
+### Changes
+- f2726646 - Merge pull request #253 from sorensencc-dotcom/perf-fix-n-plus-1-queries-248052672334964187 (Chris Sorensen)
+- d0ed080a - Merge pull request #251 from sorensencc-dotcom/perf/optimize-recommendation-excludes-15492995178946584509 (Chris Sorensen)
+- 105868ba - ⚡ Fix N+1 queries in seedInstalls by batching database inserts (google-labs-jules[bot])
+- 10e06659 - perf: optimize data structure for exclude checks in recommendations (google-labs-jules[bot])
+
 ## Version 2.112.2
 Date: 2026-10-29
 
