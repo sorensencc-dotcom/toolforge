@@ -104,8 +104,12 @@ export async function getRelated(db, skillId, { limit = 10 } = {}) {
 
     // Sparsity fallback: backfill from global top-rated published skills.
     if (results.length < SPARSITY_FLOOR) {
-      const seen = new Set(results.map((r) => r.id));
-      const excludeIds = [skillId, ...results.map((r) => r.id)];
+      const excludeIds = new Array(results.length + 1);
+      excludeIds[0] = skillId;
+      for (let i = 0; i < results.length; i++) {
+        excludeIds[i + 1] = results[i].id;
+      }
+      const seen = new Set(excludeIds);
       const top = await getTopRatedSkills(db, { limit: limit + excludeIds.length, excludeIds });
       for (const t of top) {
         if (!seen.has(t.id)) {
