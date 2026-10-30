@@ -1,0 +1,19 @@
+cic-qa-master-inventory-20260917.md
+  s_35568b652eedda::t_69969fc9ea4825 1-190
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "48d425104f7b787abeace1e323509f8122648143",
+  "prompts": {},
+  "sessions": {
+    "s_35568b652eedda": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18d57-ca9e-7c63-b605-9bbb47934152",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
