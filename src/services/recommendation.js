@@ -37,39 +37,44 @@ function toNum(v) {
  * coinstall_score from co_install_count. Each set normalized to [0,1] by max.
  */
 function blend(categoryRows, coRows) {
-  const catRaws = new Float64Array(categoryRows.length);
+  const catLen = categoryRows.length;
+  const catRaws = new Float64Array(catLen);
   let catMax = 1;
-  for (let i = 0; i < categoryRows.length; i++) {
+  for (let i = 0; i < catLen; i++) {
     const raw = toNum(categoryRows[i].rating_avg) || toNum(categoryRows[i].installs_30d);
     catRaws[i] = raw;
     if (raw > catMax) catMax = raw;
   }
 
-  const coRaws = new Float64Array(coRows.length);
+  const coLen = coRows.length;
+  const coRaws = new Float64Array(coLen);
   let coMax = 1;
-  for (let i = 0; i < coRows.length; i++) {
+  for (let i = 0; i < coLen; i++) {
     const raw = toNum(coRows[i].co_install_count);
     coRaws[i] = raw;
     if (raw > coMax) coMax = raw;
   }
 
   const merged = new Map();
+  const catMultiplier = CATEGORY_WEIGHT / catMax;
 
-  for (let i = 0; i < categoryRows.length; i++) {
-    merged.set(categoryRows[i].id, { row: categoryRows[i], score: CATEGORY_WEIGHT * (catRaws[i] / catMax) });
+  for (let i = 0; i < catLen; i++) {
+    merged.set(categoryRows[i].id, { row: categoryRows[i], score: catRaws[i] * catMultiplier });
   }
 
-  for (let i = 0; i < coRows.length; i++) {
-    const add = COINSTALL_WEIGHT * (coRaws[i] / coMax);
-    const existing = merged.get(coRows[i].id);
-    if (existing) {
+  const coMultiplier = COINSTALL_WEIGHT / coMax;
+  for (let i = 0; i < coLen; i++) {
+    const add = coRaws[i] * coMultiplier;
+    const row = coRows[i];
+    const existing = merged.get(row.id);
+    if (existing !== undefined) {
       existing.score += add;
     } else {
-      merged.set(coRows[i].id, { row: coRows[i], score: add });
+      merged.set(row.id, { row, score: add });
     }
   }
 
-  return [...merged.values()]
+  return Array.from(merged.values())
     .sort((a, b) => b.score - a.score)
     .map((e) => e.row);
 }
