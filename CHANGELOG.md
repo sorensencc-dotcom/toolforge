@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.112.5
+Date: 2026-10-30
+
+### Changes
+- 4e9e7993 - Merge pull request #255 from sorensencc-dotcom/optimize-blend-loop-5409133096194349565 (Chris Sorensen)
+- b61a2bd1 - Optimize loop logic in blend function (google-labs-jules[bot])
+
 ## Version 2.112.4
 Date: 2026-10-30
 
