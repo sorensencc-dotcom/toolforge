@@ -1,0 +1,18 @@
+scripts/diagram-sync.mjs
+  h_5c172e9b435f5a 23
+scripts/nlm-pack-replace-gate.mjs
+  h_5c172e9b435f5a 763-781
+tests/nlm-pack-replace-gate.test.mjs
+  h_5c172e9b435f5a 247-266
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "02588f25b1e4db07b55e5d09a123b550c35da94a",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
