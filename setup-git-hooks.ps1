@@ -37,13 +37,28 @@ New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 function Write-HookLog {
     param([string]$Message, [string]$Level = 'INFO')
     $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
-    "$timestamp [$Level] $Message" | Tee-Object -FilePath "$logDir\hooks.log" -Append
+    try {
+        "$timestamp [$Level] $Message" | Out-File -FilePath "$logDir\hooks.log" -Append -Encoding utf8NoBOM -ErrorAction Stop
+        Write-Host "$timestamp [$Level] $Message"
+    } catch {
+        Write-Host "$timestamp [$Level] $Message"
+    }
+}
+
+function Invoke-GitInRepo {
+    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$GitArgs)
+    $gitDir = Join-Path $Repo '.git'
+    if (Test-Path $gitDir) {
+        & git --git-dir=$gitDir --work-tree=$Repo @GitArgs
+    } else {
+        & git -C $Repo @GitArgs
+    }
 }
 
 function Test-HookTracked {
     param([string]$Path)
     $rel = ".githooks/" + (Split-Path -Leaf $Path)
-    & git -C $Repo ls-files --error-unmatch -- $rel *> $null
+    Invoke-GitInRepo ls-files --error-unmatch -- $rel *> $null
     return ($LASTEXITCODE -eq 0)
 }
 
@@ -82,10 +97,10 @@ function Set-HookExecutable {
     # or is not tracked.
     param([string]$Path)
     $rel = ".githooks/" + (Split-Path -Leaf $Path)
-    $entry = & git -C $Repo ls-files -s -- $rel 2>$null
+    $entry = Invoke-GitInRepo ls-files -s -- $rel 2>$null
     if ($entry -and -not $entry.StartsWith('100755')) {
         $sha = ($entry -split '\s+')[1]
-        & git -C $Repo update-index --cacheinfo "100755,$sha,$rel"
+        Invoke-GitInRepo update-index --cacheinfo "100755,$sha,$rel"
     }
 }
 function Install-Hooks {
@@ -348,9 +363,15 @@ if [ `$FAIL -ne 0 ]; then
 fi
 
 echo -e "\033[32m[Hook Pass]\033[0m No critical security issues found. Proceeding with push."
-if ! node "`$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs" --if-changed --dry-run; then
-  echo -e "\033[31m[Hook Fail]\033[0m Repo wiki dry-run check failed. Push blocked."
-  exit 1
+PUBLISH_SCRIPT="`$REPO_ROOT/scripts/publish-repo-wiki-pages.mjs"
+if [ ! -f "`$PUBLISH_SCRIPT" ] && [ -f "C:/dev/scripts/publish-repo-wiki-pages.mjs" ]; then
+  PUBLISH_SCRIPT="C:/dev/scripts/publish-repo-wiki-pages.mjs"
+fi
+if [ -f "`$PUBLISH_SCRIPT" ]; then
+  if ! node "`$PUBLISH_SCRIPT" --if-changed --dry-run; then
+    echo -e "\033[31m[Hook Fail]\033[0m Repo wiki dry-run check failed. Push blocked."
+    exit 1
+  fi
 fi
 exit 0
 "@
@@ -397,11 +418,15 @@ exit 0
 
     # Sync to .git/hooks as fallback
     if (Test-Path "$Repo\.git") {
-        Copy-Item -Path "$hooksDir\*" -Destination $gitHooksDir -Force -ErrorAction SilentlyContinue
+        try {
+            Copy-Item -Path "$hooksDir\*" -Destination $gitHooksDir -Force -ErrorAction SilentlyContinue
+        } catch {
+            Write-HookLog "Notice: Fallback sync to $gitHooksDir skipped: $_" WARNING
+        }
     }
 
     # Configure tracked core.hooksPath
-    & git -C $Repo config core.hooksPath .githooks
+    Invoke-GitInRepo config core.hooksPath .githooks
     Write-HookLog "+ Configured git core.hooksPath to .githooks" INFO
 
     Write-Host "+ Git hooks installed in $Repo (core.hooksPath -> .githooks)"
@@ -420,7 +445,7 @@ function Uninstall-Hooks {
     Remove-Item -Path $prePushPath -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $commitMsgPath -Force -ErrorAction SilentlyContinue
 
-    & git -C $Repo config --unset core.hooksPath 2>$null
+    Invoke-GitInRepo config --unset core.hooksPath 2>$null
 
     Write-HookLog "+ Git hooks removed and core.hooksPath unset from $Repo" INFO
     Write-Host "+ Git hooks removed"
@@ -498,7 +523,7 @@ function Get-HookStatus {
     Write-Host "Git hook status for $Repo"
     Write-Host ""
 
-    $coreHooksPath = & git -C $Repo config core.hooksPath 2>$null
+    $coreHooksPath = Invoke-GitInRepo config core.hooksPath 2>$null
     if ($coreHooksPath -eq '.githooks') {
         Write-Host "+ core.hooksPath configured to .githooks"
     }
