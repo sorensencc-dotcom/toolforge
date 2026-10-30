@@ -253,17 +253,17 @@ A retryable terminal failure compare-and-sets to `FAILED`. The caller does not o
 [MCP error codes](https://modelcontextprotocol.io/specification/2026-07-28/basic/index) reserve `-32020` through `-32099` and forbid new meanings in `-32000` through `-32019`. Both conflicts use `-32602` (invalid params) and `data.reason`. `-32602` is the code mcp 2.3.0 maps to HTTP 400. The reason string is the meaning. The fingerprint mismatch is a bad reuse of the id: do not retry it. The in-progress reason is not a bad parameter. A wrapper that treats every `-32602` as "do not retry" must read `data.reason` first. Resend the same request, including the same `dev.toolforge/clientRequestId`, only when the reason is `idempotency_in_progress`, and wait `data.retryAfterSeconds` before that resend. Do not resend `idempotency_fingerprint_mismatch`, `idempotency_retry_exhausted`, or any other `-32602`. Do not rely on `Client.call_tool` for this. It resends on its own only after `-32020`.
 
 ```python
-import time
+import asyncio
 from mcp.shared.exceptions import MCPError
 
-def send_mutation(post):
+async def send_mutation(post):
     try:
-        return post()
+        return await post()
     except MCPError as exc:
         data = exc.data if isinstance(exc.data, dict) else {}
         if exc.code == -32602 and data.get("reason") == "idempotency_in_progress":
-            time.sleep(data["retryAfterSeconds"])
-            return post()
+            await asyncio.sleep(data["retryAfterSeconds"])
+            return await post()
         raise
 ```
 
