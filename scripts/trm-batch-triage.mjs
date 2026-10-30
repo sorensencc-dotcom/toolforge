@@ -389,11 +389,6 @@ export async function processBatchTriage(options = {}) {
             }
           }
         }
-                promoted_at: new Date().toISOString()
-              });
-            }
-          }
-        }
 
         // Spawn enricher out-of-band
         if (!dryRun) {
