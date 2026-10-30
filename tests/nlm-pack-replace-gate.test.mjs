@@ -244,4 +244,24 @@ test('replaceGate throws STAGING_GUARD_VIOLATION before attempting upload for st
   );
 });
 
+test('CLI argv parser correctly handles space-separated flags in replaceGate invocation', async () => {
+  const { execFileSync } = await import('node:child_process');
+  const scriptPath = path.resolve('scripts/nlm-pack-replace-gate.mjs');
+  const dummyPackPath = path.resolve('.nlm_pack/pack_master_kb_part1.txt');
+  
+  const stdout = execFileSync(
+    process.execPath,
+    [
+      scriptPath,
+      '--notebook-id', '679b8bab-2d87-42cb-a726-6dc54c83acc2',
+      '--file', dummyPackPath,
+      '--dry-run'
+    ],
+    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }
+  );
+
+  assert.match(stdout, /\[DRY RUN\] Skipping NLM calls/);
+  assert.match(stdout, /genId:/);
+});
+
 

@@ -20,7 +20,7 @@ const ROOT = path.resolve(here, '..');
 
 export const IGNORED_DIRS = new Set([
   'node_modules', '.git', 'archive', '.claude', '.gemini', '.trm',
-  'trm-drive', '_kb-sync-staging', '.ijfw', 'weekly-report-wt', '.worktrees', 'worktrees',
+  'trm-drive', '_kb-sync-staging', '.ijfw', 'weekly-report-wt', '.worktrees', 'worktrees', 'dev-worktrees',
   'dist', 'coverage', '.tmp.driveupload', '.serena', '.harness',
   '.pytest_cache', '__pycache__', '.venv', 'venv', 'IronLedger',
   'dev-sandbox', 'toolforge', 'toolforge-marketplace', 'toolforge-marketplace-wiki',
