@@ -1,5 +1,28 @@
 # Changelog
 
+## Version 2.112.5
+Date: 2026-10-30
+
+### Changes
+- 4e9e7993 - Merge pull request #255 from sorensencc-dotcom/optimize-blend-loop-5409133096194349565 (Chris Sorensen)
+- b61a2bd1 - Optimize loop logic in blend function (google-labs-jules[bot])
+
+## Version 2.112.4
+Date: 2026-10-30
+
+### Changes
+- bfa0a41a - Merge pull request #254 from sorensencc-dotcom/optimize-send-mutation-async-3891107885754259279 (Chris Sorensen)
+- f783dc6a - ⚡ Optimize send_mutation to use async/await to prevent blocking I/O (google-labs-jules[bot])
+
+## Version 2.112.3
+Date: 2026-10-30
+
+### Changes
+- f2726646 - Merge pull request #253 from sorensencc-dotcom/perf-fix-n-plus-1-queries-248052672334964187 (Chris Sorensen)
+- d0ed080a - Merge pull request #251 from sorensencc-dotcom/perf/optimize-recommendation-excludes-15492995178946584509 (Chris Sorensen)
+- 105868ba - ⚡ Fix N+1 queries in seedInstalls by batching database inserts (google-labs-jules[bot])
+- 10e06659 - perf: optimize data structure for exclude checks in recommendations (google-labs-jules[bot])
+
 ## Version 2.112.2
 Date: 2026-10-29
 
