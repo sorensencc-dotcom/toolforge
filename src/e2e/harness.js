@@ -145,13 +145,23 @@ export async function seedVersion(db, skillId, versionTag, { releaseDate } = {})
  * (used to shape 7d/30d/prev windows for the trending scenario).
  */
 export async function seedInstalls(db, skillId, versionId, runId, count, { daysAgo = 0, userOffset = 0 } = {}) {
+  if (count <= 0) return;
+
+  const values = [];
+  const params = [];
+  let paramIdx = 1;
+
   for (let i = 0; i < count; i++) {
-    await db.query(
-      `INSERT INTO installation_log (skill_id, version_id, user_id, status, timestamp)
-       VALUES ($1, $2, $3, 'success', NOW() - ($4 || ' days')::interval)`,
-      [skillId, versionId, `${runId}-u${userOffset + i}@e2e.local`, String(daysAgo)]
-    );
+    const userId = `${runId}-u${userOffset + i}@e2e.local`;
+
+    values.push(`($${paramIdx++}, $${paramIdx++}, $${paramIdx++}, 'success', NOW() - ($${paramIdx++} || ' days')::interval)`);
+
+    params.push(skillId, versionId, userId, String(daysAgo));
   }
+
+  const query = `INSERT INTO installation_log (skill_id, version_id, user_id, status, timestamp) VALUES ${values.join(', ')}`;
+
+  await db.query(query, params);
 }
 
 // --- Runner ---
