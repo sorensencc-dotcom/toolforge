@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.112.6
+Date: 2026-10-31
+
+### Changes
+- 3e7093cb - Merge pull request #252 from sorensencc-dotcom/perf/fix-n1-seed-installs-2413063419031487865 (Chris Sorensen)
+- e5ad7745 - Merge origin/main to resolve PR #252 conflicts (Chris Sorensen)
+- 93f1d321 - perf: resolve N+1 query issue in seedInstalls by utilizing batched bulk inserts (google-labs-jules[bot])
+- 799df16f - perf: resolve N+1 query issue in seedInstalls by utilizing batched bulk inserts (google-labs-jules[bot])
+- a153e2a4 - perf: resolve N+1 query issue in seedInstalls by utilizing batched bulk inserts (google-labs-jules[bot])
+- c702d623 - perf: resolve N+1 query issue in seedInstalls by utilizing batched bulk inserts (google-labs-jules[bot])
+
 ## Version 2.112.5
 Date: 2026-10-30
 
