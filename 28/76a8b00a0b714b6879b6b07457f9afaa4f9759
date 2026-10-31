@@ -1,0 +1,611 @@
+.harness/tasks/archive/act-04-frontier-lab-verification-standards-dissent.json
+  s_6a98b9866b478c::t_585dd68484edfe 18
+.trm/inbox/outbox/archive/receipt-act-toolforge-ci-workflow-false-exit-remediation-completed.json
+  s_cf53e61e5cba17::t_0f4a51933ae2e9 1-15
+.trm/inbox/outbox/archive/receipt-act-toolforge-ci-workflow-false-exit-remediation-completed.md
+  s_cf53e61e5cba17::t_7e6b4131f468d1 1-12
+.trm/inbox/outbox/archive/receipt-1791740594835-consolidate_pack.json
+  s_486abadd59cfd9::t_6edf3ad7035b5a 1-16
+.trm/inbox/outbox/archive/receipt-1791740594835-consolidate_pack.md
+  s_486abadd59cfd9::t_8d194f3be7d11a 1-11
+.trm/inbox/outbox/archive/receipt-1791828327531-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_d45801d1b1a333::t_6a0b981c195be9 1-16
+.trm/inbox/outbox/archive/receipt-1791828327531-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_d45801d1b1a333::t_c10aa3df185f48 1-11
+.trm/inbox/outbox/archive/receipt-1791914553688-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_2fdfc760a507b3::t_0de320828fec70 1-16
+.trm/inbox/outbox/archive/receipt-1791914553688-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_2fdfc760a507b3::t_32b725aeb67221 1-11
+.trm/inbox/outbox/archive/receipt-1792073575285-adversarial_dual_model_review.json
+  s_26524d5f38ba8d::t_76c37d6811fe11 1-16
+.trm/inbox/outbox/archive/receipt-1792073575285-adversarial_dual_model_review.md
+  s_26524d5f38ba8d::t_c38c57741c2a5c 1-11
+.trm/inbox/outbox/archive/receipt-1792212085484-sigil_rooms_phase6_floor_warden_bridge.json
+  s_cf48dae32d5dd9::t_3b49d59c5094c1 1-16
+.trm/inbox/outbox/archive/receipt-1792212085484-sigil_rooms_phase6_floor_warden_bridge.md
+  s_cf48dae32d5dd9::t_d83c67d831ba1b 1-11
+.trm/inbox/outbox/archive/receipt-1792212118727-toolforge_trm_atomic_issue_promotion_bridge.json
+  s_cf48dae32d5dd9::t_9c01680b0dc750 1-16
+.trm/inbox/outbox/archive/receipt-1792212118727-toolforge_trm_atomic_issue_promotion_bridge.md
+  s_cf48dae32d5dd9::t_ccd0d119f7cd0d 1-11
+.trm/inbox/outbox/archive/receipt-act-01-active-memory-persistent-context-completed.json
+  s_cf53e61e5cba17::t_472212f6ec92ed 1-15
+.trm/inbox/outbox/archive/receipt-act-01-active-memory-persistent-context-completed.md
+  s_cf53e61e5cba17::t_200f4e51686447 1-12
+.trm/inbox/outbox/archive/receipt-1791561571513-claude_dashboard_motion_exporter.json
+  s_cf48dae32d5dd9::t_1fcf1c5c54cb09 2-3,5,7-12,14
+.trm/inbox/outbox/archive/receipt-1791561571513-claude_dashboard_motion_exporter.md
+  s_cf48dae32d5dd9::t_3c2b1d728b49a9 1-11
+.trm/inbox/outbox/archive/receipt-1791561571692-integrate_agentid_oidc.json
+  s_cf48dae32d5dd9::t_9c92b3afb047b8 2-3,5,7-12,14
+.trm/inbox/outbox/archive/receipt-1791561571692-integrate_agentid_oidc.md
+  s_cf48dae32d5dd9::t_0084c4f801d6c6 1-11
+.trm/inbox/outbox/archive/receipt-1791561571782-frontier_safety_cruelty_governance.json
+  s_cf48dae32d5dd9::t_4c7bc8e23823cf 1-16
+.trm/inbox/outbox/archive/receipt-1791561571782-frontier_safety_cruelty_governance.md
+  s_cf48dae32d5dd9::t_625e712673f525 1-11
+.trm/inbox/outbox/archive/receipt-1791561571868-evaluate_gemini_workspace_connectors.json
+  s_cf48dae32d5dd9::t_567615f1149df1 2-3,5,8-12,14
+.trm/inbox/outbox/archive/receipt-1791561571868-evaluate_gemini_workspace_connectors.md
+  s_cf48dae32d5dd9::t_c2ff5464078159 1-11
+.trm/inbox/outbox/archive/receipt-1791561571942-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_cf48dae32d5dd9::t_097078154fc2df 1-16
+.trm/inbox/outbox/archive/receipt-1791561571942-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_cf48dae32d5dd9::t_9508371955be38 1-11
+.trm/inbox/outbox/archive/receipt-1791582181521-2026-10-09T105922Z__gap__whichllm__gap-whichllm-tensorfold-001_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_349af187d4f085 1-12
+.trm/inbox/outbox/archive/receipt-1791582181521-2026-10-09T105922Z__gap__whichllm__gap-whichllm-tensorfold-001_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_ce6bdf8606282b 1-11
+.trm/inbox/outbox/archive/receipt-1791582181618-2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_4e98b82c243fef 1-12
+.trm/inbox/outbox/archive/receipt-1791582181618-2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_cb8fa30589de0a 1-11
+.trm/inbox/outbox/archive/receipt-1791582181751-2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_7c2ddcfb1d6cdf 1-12
+.trm/inbox/outbox/archive/receipt-1791582181751-2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_48bc45e2a01e39 1-11
+.trm/inbox/outbox/archive/receipt-1791582181834-2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_f22ccae7df9df4 1-12
+.trm/inbox/outbox/archive/receipt-1791582181834-2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_b0f09326ca16b1 1-11
+.trm/inbox/outbox/archive/receipt-1791582181918-2026-10-09T125503Z__action__rewrite-mcp__act-03-evaluate-gemini-workspace-connectors_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_3210ca6bed477b 1-12
+.trm/inbox/outbox/archive/receipt-1791582181918-2026-10-09T125503Z__action__rewrite-mcp__act-03-evaluate-gemini-workspace-connectors_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_2f725af9b6eca5 1-11
+.trm/inbox/outbox/archive/receipt-1791582182014-2026-10-09T155400Z__action__kb-sync__act-kbsync-chat-injection-staleness-entropy-fail_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_949a232c0160ad 1-12
+.trm/inbox/outbox/archive/receipt-1791582182014-2026-10-09T155400Z__action__kb-sync__act-kbsync-chat-injection-staleness-entropy-fail_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_b96eaf093c3db5 1-11
+.trm/inbox/outbox/archive/receipt-1791582387597-1791582181521-2026-10-09T105922Z__gap__whichllm__gap-whichllm-tensorfold-001_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_56c783f275f2f9 1-12
+.trm/inbox/outbox/archive/receipt-1791582387597-1791582181521-2026-10-09T105922Z__gap__whichllm__gap-whichllm-tensorfold-001_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_94a46d10cd2cdc 1-11
+.trm/inbox/outbox/archive/receipt-1791582387683-1791582181618-2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_f507a60169aefb 1-12
+.trm/inbox/outbox/archive/receipt-1791582387683-1791582181618-2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_b8498fe191b7e4 1-11
+.trm/inbox/outbox/archive/receipt-1791582387820-1791582181751-2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_fe8ca4daf80487 1-12
+.trm/inbox/outbox/archive/receipt-1791582387820-1791582181751-2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_2190a9a070944d 1-11
+.trm/inbox/outbox/archive/receipt-1791582387925-1791582181834-2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_c7cd908adbb761 1-12
+.trm/inbox/outbox/archive/receipt-1791582387925-1791582181834-2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_f70ca63b51712e 1-11
+.trm/inbox/outbox/archive/receipt-1791582388024-1791582181918-2026-10-09T125503Z__action__rewrite-mcp__act-03-evaluate-gemini-workspace-connectors_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_f651fd3f5f149a 1-12
+.trm/inbox/outbox/archive/receipt-1791582388024-1791582181918-2026-10-09T125503Z__action__rewrite-mcp__act-03-evaluate-gemini-workspace-connectors_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_1433dd6aee6635 1-11
+.trm/inbox/outbox/archive/receipt-1791582388120-1791582182014-2026-10-09T155400Z__action__kb-sync__act-kbsync-chat-injection-staleness-entropy-fail_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_c29bfeb9103037 1-12
+.trm/inbox/outbox/archive/receipt-1791582388120-1791582182014-2026-10-09T155400Z__action__kb-sync__act-kbsync-chat-injection-staleness-entropy-fail_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_29cb0d9459820d 1-11
+.trm/inbox/outbox/archive/receipt-1791656122452-act_kbsync_trm_ingest_gdoc_auth_hardening.json
+  s_cf48dae32d5dd9::t_02e52abdcea683 1-16
+.trm/inbox/outbox/archive/receipt-1791656122452-act_kbsync_trm_ingest_gdoc_auth_hardening.md
+  s_cf48dae32d5dd9::t_d8bf1eafce8d6e 1-11
+.trm/inbox/outbox/archive/receipt-1791656122714-act_toolforge_icf_action_engine_safety_audit.json
+  s_cf48dae32d5dd9::t_cc7828f4eea573 1-16
+.trm/inbox/outbox/archive/receipt-1791656122714-act_toolforge_icf_action_engine_safety_audit.md
+  s_cf48dae32d5dd9::t_9c8b8ba57c0c39 1-11
+.trm/inbox/outbox/archive/receipt-1791656122842-act_kbsync_trm_wal_compaction_concurrency_spike.json
+  s_cf48dae32d5dd9::t_4bb8a84e7ec83a 1-16
+.trm/inbox/outbox/archive/receipt-1791656122842-act_kbsync_trm_wal_compaction_concurrency_spike.md
+  s_cf48dae32d5dd9::t_5c92f90be48f85 1-11
+.trm/inbox/outbox/archive/receipt-1791669601905-research_store_hybrid_supabase_mcp.json
+  s_cf48dae32d5dd9::t_9d224fea933ec8 1-16
+.trm/inbox/outbox/archive/receipt-1791669601905-research_store_hybrid_supabase_mcp.md
+  s_cf48dae32d5dd9::t_0e9dbda4589642 1-11
+.trm/inbox/outbox/archive/receipt-1791722099598-act_toolforge_quicksand_qemu_sandboxing.json
+  s_cf48dae32d5dd9::t_01d6d72894bf68 1-16
+.trm/inbox/outbox/archive/receipt-1791722099598-act_toolforge_quicksand_qemu_sandboxing.md
+  s_cf48dae32d5dd9::t_f9da439b8ab051 1-11
+.trm/inbox/outbox/archive/receipt-1791722123260-act_sigil_agentic_iam_identity_registry.json
+  s_cf48dae32d5dd9::t_1951bcf920a021 1-16
+.trm/inbox/outbox/archive/receipt-1791722123260-act_sigil_agentic_iam_identity_registry.md
+  s_cf48dae32d5dd9::t_9200797e9611d0 1-11
+.trm/inbox/outbox/archive/receipt-1791722150101-act_rewrite_mcp_gpt61_sol_ultrafast_benchmark.json
+  s_cf48dae32d5dd9::t_1fdeb9a5d60d46 1-16
+.trm/inbox/outbox/archive/receipt-1791722150101-act_rewrite_mcp_gpt61_sol_ultrafast_benchmark.md
+  s_cf48dae32d5dd9::t_96356d85ec0829 1-11
+.trm/inbox/outbox/archive/receipt-1791722173197-one_way_door_action_gates.json
+  s_cf48dae32d5dd9::t_29414259c4bd52 2-3,5,8-12,14
+.trm/inbox/outbox/archive/receipt-1791722173197-one_way_door_action_gates.md
+  s_cf48dae32d5dd9::t_0e1d0be741fd39 1,3,5,7-9,12
+.trm/inbox/outbox/archive/receipt-1791722191018-multi_model_auto_routing_classifier.json
+  s_cf48dae32d5dd9::t_a8b88af572a125 1-16
+.trm/inbox/outbox/archive/receipt-1791722191018-multi_model_auto_routing_classifier.md
+  s_cf48dae32d5dd9::t_61f0167ded109a 1-11
+.trm/inbox/outbox/archive/receipt-1791722224695-evaluate_copilot_autopilot_architecture.json
+  s_cf48dae32d5dd9::t_c4c00408c986ba 1-16
+.trm/inbox/outbox/archive/receipt-1791722224695-evaluate_copilot_autopilot_architecture.md
+  s_cf48dae32d5dd9::t_633afc31cc0aa8 1-11
+.trm/inbox/outbox/archive/receipt-1791722252565-eu_autonomous_system_liability_rebranding.json
+  s_cf48dae32d5dd9::t_6de3f4800cc8ad 1-16
+.trm/inbox/outbox/archive/receipt-1791722252565-eu_autonomous_system_liability_rebranding.md
+  s_cf48dae32d5dd9::t_24aa3af4ead764 1-11
+.trm/inbox/outbox/archive/receipt-1791733071084-under_sourced_assertions_brief.json
+  s_cf48dae32d5dd9::t_55b131c518791d 1-16
+.trm/inbox/outbox/archive/receipt-1791733071084-under_sourced_assertions_brief.md
+  s_cf48dae32d5dd9::t_210b1246b2ab7e 1-11
+.trm/inbox/outbox/archive/receipt-1791733097787-investigate_ci_failure.json
+  s_cf48dae32d5dd9::t_178d6ffe514424 1-16
+.trm/inbox/outbox/archive/receipt-1791733097787-investigate_ci_failure.md
+  s_cf48dae32d5dd9::t_d9a2ce3fd62c4c 1-11
+.trm/inbox/outbox/archive/receipt-1791740565400-research_store_mcp_tool_definition.json
+  s_cf48dae32d5dd9::t_60668daa65d601 1-16
+.trm/inbox/outbox/archive/receipt-1791740565400-research_store_mcp_tool_definition.md
+  s_cf48dae32d5dd9::t_9ca87854067888 1-11
+.trm/inbox/outbox/archive/receipt-1791741776842-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_cf48dae32d5dd9::t_489131fc71ba7d 1-16
+.trm/inbox/outbox/archive/receipt-1791741776868-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_cf48dae32d5dd9::t_b223276ec03a26 1-11
+.trm/inbox/outbox/archive/receipt-1791805685880-act_toolforge_fastmcp_gitdiagram_gitingest_pipeline.json
+  s_cf48dae32d5dd9::t_87cbfd1e5c2b29 1-16
+.trm/inbox/outbox/archive/receipt-1791805685887-act_toolforge_fastmcp_gitdiagram_gitingest_pipeline.md
+  s_cf48dae32d5dd9::t_efdfac4123b5e6 1-11
+.trm/inbox/outbox/archive/receipt-1791805910524-act_kbsync_drift_remediation_nlm_runner_cache.json
+  s_cf48dae32d5dd9::t_29adea4fbbac37 1-16
+.trm/inbox/outbox/archive/receipt-1791805910524-act_kbsync_drift_remediation_nlm_runner_cache.md
+  s_cf48dae32d5dd9::t_ed9b62ca664822 1-11
+.trm/inbox/outbox/archive/receipt-1791806104172-act_sigil_rooms_phase4b2_pr_review.json
+  s_cf48dae32d5dd9::t_6fb27ab8b44d2e 1-16
+.trm/inbox/outbox/archive/receipt-1791806104172-act_sigil_rooms_phase4b2_pr_review.md
+  s_cf48dae32d5dd9::t_b650e761c7f354 1-11
+.trm/inbox/outbox/archive/receipt-1791813731498-zero_trust_insider_quarantine.json
+  s_cf48dae32d5dd9::t_fe16e3e8d990aa 1-16
+.trm/inbox/outbox/archive/receipt-1791813731498-zero_trust_insider_quarantine.md
+  s_cf48dae32d5dd9::t_195f3ff6e0a2d3 1-11
+.trm/inbox/outbox/archive/receipt-1791813962054-tamper_proof_flight_recorder.json
+  s_cf48dae32d5dd9::t_e15a8b8d1dd4d1 1-16
+.trm/inbox/outbox/archive/receipt-1791813962054-tamper_proof_flight_recorder.md
+  s_cf48dae32d5dd9::t_8d52814054544b 1-11
+.trm/inbox/outbox/archive/receipt-1791814044320-code_to_matter_compilers_research.json
+  s_cf48dae32d5dd9::t_2841fcf126faad 1-16
+.trm/inbox/outbox/archive/receipt-1791814044466-code_to_matter_compilers_research.md
+  s_cf48dae32d5dd9::t_65f9b213bc9633 1-11
+.trm/inbox/outbox/archive/receipt-1791814116857-evaluate_incident_reporting_guardrails.json
+  s_cf48dae32d5dd9::t_2c18a39a8d17fd 1-16
+.trm/inbox/outbox/archive/receipt-1791814116857-evaluate_incident_reporting_guardrails.md
+  s_cf48dae32d5dd9::t_0ca31639472d31 1-11
+.trm/inbox/outbox/archive/receipt-1791871659400-act_toolforge_ci_workflow_false_exit_remediation.json
+  s_cf48dae32d5dd9::t_9e35456f08c237 1-16
+.trm/inbox/outbox/archive/receipt-1791871659400-act_toolforge_ci_workflow_false_exit_remediation.md
+  s_cf48dae32d5dd9::t_8540bc4162139a 1-11
+.trm/inbox/outbox/archive/receipt-1791872094489-act_rewrite_mcp_hybrid_research_store_supabase.json
+  s_cf48dae32d5dd9::t_27b6ab7a9e0254 1-16
+.trm/inbox/outbox/archive/receipt-1791872094550-act_rewrite_mcp_hybrid_research_store_supabase.md
+  s_cf48dae32d5dd9::t_d0c5f687a57465 1-11
+.trm/inbox/outbox/archive/receipt-1791872292134-act_personal_os_vehicle_accessories_inventory_sync.json
+  s_cf48dae32d5dd9::t_01b8ce2b47eb2d 1-16
+.trm/inbox/outbox/archive/receipt-1791872292134-act_personal_os_vehicle_accessories_inventory_sync.md
+  s_cf48dae32d5dd9::t_90a1704d963cf1 1-11
+.trm/inbox/outbox/archive/receipt-1791903186955-active_memory_persistent_context.json
+  s_cf48dae32d5dd9::t_ffc67bfa83ae28 1-16
+.trm/inbox/outbox/archive/receipt-1791903186981-active_memory_persistent_context.md
+  s_cf48dae32d5dd9::t_e191f02f9bb5c9 1-11
+.trm/inbox/outbox/archive/receipt-1791903284991-domain_post_trained_adapter_registry.json
+  s_cf48dae32d5dd9::t_76e2c10ddd9e6a 1-16
+.trm/inbox/outbox/archive/receipt-1791903284991-domain_post_trained_adapter_registry.md
+  s_cf48dae32d5dd9::t_3f224ebdb0a67b 1-11
+.trm/inbox/outbox/archive/receipt-1791903366045-frontier_capability_asymmetry_funnel.json
+  s_cf48dae32d5dd9::t_4ee128f9fc24b6 1-16
+.trm/inbox/outbox/archive/receipt-1791903366045-frontier_capability_asymmetry_funnel.md
+  s_cf48dae32d5dd9::t_5108cc66436c2a 1-11
+.trm/inbox/outbox/archive/receipt-1791903436187-evaluate_muse_wonder_active_focus.json
+  s_cf48dae32d5dd9::t_05a992ecf769ac 1-16
+.trm/inbox/outbox/archive/receipt-1791903436187-evaluate_muse_wonder_active_focus.md
+  s_cf48dae32d5dd9::t_7ef44d9bd5e848 1-11
+.trm/inbox/outbox/archive/receipt-1791979195432-act_personal_os_paperless_ironledger_sync_adapter.json
+  s_cf48dae32d5dd9::t_a805448385a339 1-16
+.trm/inbox/outbox/archive/receipt-1791979195432-act_personal_os_paperless_ironledger_sync_adapter.md
+  s_cf48dae32d5dd9::t_bda2269444fdf9 1-11
+.trm/inbox/outbox/archive/receipt-1791979359930-act_toolforge_pack_staging_directory_guard.json
+  s_cf48dae32d5dd9::t_4e8a4d36e50b5e 1-16
+.trm/inbox/outbox/archive/receipt-1791979359930-act_toolforge_pack_staging_directory_guard.md
+  s_cf48dae32d5dd9::t_d0f14c291f2500 1-11
+.trm/inbox/outbox/archive/receipt-1791979462884-act_toolforge_roadmap_location_governance_hook.json
+  s_cf48dae32d5dd9::t_3161b296cfe9be 1-16
+.trm/inbox/outbox/archive/receipt-1791979462884-act_toolforge_roadmap_location_governance_hook.md
+  s_cf48dae32d5dd9::t_2b28ca3cc48f5e 1-11
+.trm/inbox/outbox/archive/receipt-1792000841684-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_cf48dae32d5dd9::t_eaf819b6b73681 1-16
+.trm/inbox/outbox/archive/receipt-1792000841684-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_cf48dae32d5dd9::t_79240e960e806a 1-11
+.trm/inbox/outbox/archive/receipt-1792065964461-act_toolforge_agent_network_airgap_containment.json
+  s_cf48dae32d5dd9::t_be8ea52f625b4f 1-16
+.trm/inbox/outbox/archive/receipt-1792065964461-act_toolforge_agent_network_airgap_containment.md
+  s_cf48dae32d5dd9::t_3ad4eae20d95a9 1-11
+.trm/inbox/outbox/archive/receipt-1792066036415-act_kbsync_spur_content_telemetry_attribution.json
+  s_cf48dae32d5dd9::t_80543eefde1b5d 1-16
+.trm/inbox/outbox/archive/receipt-1792066036415-act_kbsync_spur_content_telemetry_attribution.md
+  s_cf48dae32d5dd9::t_48a93503c70f73 1-11
+.trm/inbox/outbox/archive/receipt-1792066157251-act_kbsync_mcp_gateway_loopback_watchdog.json
+  s_cf48dae32d5dd9::t_ebc87b7d420742 1-16
+.trm/inbox/outbox/archive/receipt-1792066157251-act_kbsync_mcp_gateway_loopback_watchdog.md
+  s_cf48dae32d5dd9::t_a3e97ed3dbba9a 1-11
+.trm/inbox/outbox/archive/receipt-1792073223822-leaked_key_ingress_traps.json
+  s_cf48dae32d5dd9::t_21616144f747ae 1-16
+.trm/inbox/outbox/archive/receipt-1792073223822-leaked_key_ingress_traps.md
+  s_cf48dae32d5dd9::t_25120db0693baa 1-11
+.trm/inbox/outbox/archive/receipt-1792073789954-industrial_digital_twins_ai_factories.json
+  s_cf48dae32d5dd9::t_7f7ced8076e40a 1-16
+.trm/inbox/outbox/archive/receipt-1792073789954-industrial_digital_twins_ai_factories.md
+  s_cf48dae32d5dd9::t_b8fa46b3fbddaa 1-11
+.trm/inbox/outbox/archive/receipt-1792073862515-evaluate_apple_homeview_siri_context.json
+  s_cf48dae32d5dd9::t_f59ff9f47e48aa 1-16
+.trm/inbox/outbox/archive/receipt-1792073862515-evaluate_apple_homeview_siri_context.md
+  s_cf48dae32d5dd9::t_14ca3a1baa24b5 1-11
+.trm/inbox/outbox/archive/receipt-1792090850211-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_cf48dae32d5dd9::t_3e3f6c958cd70e 1-16
+.trm/inbox/outbox/archive/receipt-1792090850211-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_cf48dae32d5dd9::t_8cc72a9cd9a90d 1-11
+.trm/inbox/outbox/archive/receipt-1792123377516-act_personal_os_tailscale_ironledger_remote_mesh.json
+  s_cf48dae32d5dd9::t_afa1dc951c5a4c 1-16
+.trm/inbox/outbox/archive/receipt-1792123377516-act_personal_os_tailscale_ironledger_remote_mesh.md
+  s_cf48dae32d5dd9::t_a8ec53c08f191c 1-11
+.trm/inbox/outbox/archive/receipt-1792123455945-act_kbsync_trm_dynamic_question_battery_generator.json
+  s_cf48dae32d5dd9::t_3f68e7fd4fb853 1-16
+.trm/inbox/outbox/archive/receipt-1792123455945-act_kbsync_trm_dynamic_question_battery_generator.md
+  s_cf48dae32d5dd9::t_573a77d0e733b6 1-11
+.trm/inbox/outbox/archive/receipt-1792123509780-act_rewrite_mcp_inflection_pi_conversational_adapter.json
+  s_cf48dae32d5dd9::t_0fb46d34a47857 1-16
+.trm/inbox/outbox/archive/receipt-1792123509780-act_rewrite_mcp_inflection_pi_conversational_adapter.md
+  s_cf48dae32d5dd9::t_0190055a3ccb72 1-11
+.trm/inbox/outbox/archive/receipt-1792159296560-prompt_ad_leakage_sanitizer.json
+  s_cf48dae32d5dd9::t_464588a2077895 1-16
+.trm/inbox/outbox/archive/receipt-1792159296560-prompt_ad_leakage_sanitizer.md
+  s_cf48dae32d5dd9::t_71a0d170bf2cc7 1-11
+.trm/inbox/outbox/archive/receipt-1792159368204-opentelemetry_agent_tracing.json
+  s_cf48dae32d5dd9::t_be13a8af2df9dd 1-16
+.trm/inbox/outbox/archive/receipt-1792159368204-opentelemetry_agent_tracing.md
+  s_cf48dae32d5dd9::t_43a19bd487f904 1-11
+.trm/inbox/outbox/archive/receipt-1792159412120-evaluate_harness2_recursive_adapters.json
+  s_cf48dae32d5dd9::t_02ab835cf9993b 1-16
+.trm/inbox/outbox/archive/receipt-1792159412120-evaluate_harness2_recursive_adapters.md
+  s_cf48dae32d5dd9::t_1eacc6d37aa12a 1-11
+.trm/inbox/outbox/archive/receipt-1792159461398-mlx_mac_studio_distributed_inference.json
+  s_cf48dae32d5dd9::t_75f6f84a8c646b 1-16
+.trm/inbox/outbox/archive/receipt-1792159461398-mlx_mac_studio_distributed_inference.md
+  s_cf48dae32d5dd9::t_700ed772796207 1-11
+.trm/inbox/outbox/archive/receipt-1792173690641-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_cf48dae32d5dd9::t_11d3eaecdd0e78 1-16
+.trm/inbox/outbox/archive/receipt-1792173690641-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_cf48dae32d5dd9::t_2f5e07957055db 1-11
+.trm/inbox/outbox/archive/receipt-1792209567819-act_sigil_rooms_phase6_floor_warden_bridge.json
+  s_cf48dae32d5dd9::t_d45e7c1a54ef04 1-16
+.trm/inbox/outbox/archive/receipt-1792209567819-act_sigil_rooms_phase6_floor_warden_bridge.md
+  s_cf48dae32d5dd9::t_9d4d47904cf45d 1-11
+.trm/inbox/outbox/archive/receipt-1792209586953-act_toolforge_trm_atomic_issue_promotion_bridge.json
+  s_cf48dae32d5dd9::t_30504b87e5546c 1-16
+.trm/inbox/outbox/archive/receipt-1792209586953-act_toolforge_trm_atomic_issue_promotion_bridge.md
+  s_cf48dae32d5dd9::t_c0da685ce3e4b4 1-11
+.trm/inbox/outbox/archive/receipt-1792212048494-act_kbsync_ingestion_lock_sweeper_windows_guard.json
+  s_cf48dae32d5dd9::t_a2a6f64b739fb2 1-16
+.trm/inbox/outbox/archive/receipt-1792212048494-act_kbsync_ingestion_lock_sweeper_windows_guard.md
+  s_cf48dae32d5dd9::t_685758a6f77434 1-11
+.trm/inbox/outbox/archive/receipt-1792212151172-kbsync_ingestion_lock_sweeper_windows_guard.json
+  s_cf48dae32d5dd9::t_719b6ada4e306d 1-16
+.trm/inbox/outbox/archive/receipt-1792212151172-kbsync_ingestion_lock_sweeper_windows_guard.md
+  s_cf48dae32d5dd9::t_1efaf70e5d4b92 1-11
+.trm/inbox/outbox/archive/receipt-1792285076543-evaluate_desktop_tax_finance_workflows.json
+  s_cf48dae32d5dd9::t_bdb4e4026039ed 1-16
+.trm/inbox/outbox/archive/receipt-1792285076543-evaluate_desktop_tax_finance_workflows.md
+  s_cf48dae32d5dd9::t_2ba366aea4a6c1 1-11
+.trm/inbox/outbox/archive/receipt-1792285168374-tiered_token_quota_chargeback.json
+  s_cf48dae32d5dd9::t_aed45214778e27 1-16
+.trm/inbox/outbox/archive/receipt-1792285168374-tiered_token_quota_chargeback.md
+  s_cf48dae32d5dd9::t_bafdd330b383dd 1-11
+.trm/inbox/outbox/archive/receipt-1792285220208-job_ladder_collapse_generalist_design.json
+  s_cf48dae32d5dd9::t_957f04703fa978 1-16
+.trm/inbox/outbox/archive/receipt-1792285220208-job_ladder_collapse_generalist_design.md
+  s_cf48dae32d5dd9::t_3b13ed3b3722be 1-11
+.trm/inbox/outbox/archive/receipt-1792285300526-liquid_d1_ultra_decision_classifier.json
+  s_cf48dae32d5dd9::t_2a78ab25fff7fd 1-16
+.trm/inbox/outbox/archive/receipt-1792285300526-liquid_d1_ultra_decision_classifier.md
+  s_cf48dae32d5dd9::t_0d2baa578093ac 1-11
+.trm/inbox/outbox/archive/receipt-1792285361746-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_cf48dae32d5dd9::t_d6fc5619fd9bbd 1-16
+.trm/inbox/outbox/archive/receipt-1792285361746-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_cf48dae32d5dd9::t_6eb118c5e34cbd 1-11
+.trm/inbox/outbox/archive/receipt-1792306547379-act_rewrite_mcp_serpapi_realtime_grounding.json
+  s_cf48dae32d5dd9::t_051ff0ba3c96af 1-16
+.trm/inbox/outbox/archive/receipt-1792306547379-act_rewrite_mcp_serpapi_realtime_grounding.md
+  s_cf48dae32d5dd9::t_0d191ca89bfc04 1-11
+.trm/inbox/outbox/archive/receipt-1792306661255-act_sigil_rooms_phase5_bot_connectors.json
+  s_cf48dae32d5dd9::t_606d400296200a 1-16
+.trm/inbox/outbox/archive/receipt-1792306661255-act_sigil_rooms_phase5_bot_connectors.md
+  s_cf48dae32d5dd9::t_3b07c97fd60be8 1-11
+.trm/inbox/outbox/archive/receipt-1792306721566-act_toolforge_hermetic_test_sandbox_isolation.json
+  s_cf48dae32d5dd9::t_eefece89b28d87 1-16
+.trm/inbox/outbox/archive/receipt-1792306721566-act_toolforge_hermetic_test_sandbox_isolation.md
+  s_cf48dae32d5dd9::t_f19415e844c458 1-11
+.trm/inbox/outbox/archive/receipt-1792335419307-layered_pr_review_pipeline.json
+  s_cf48dae32d5dd9::t_b99ece4b06a621 1-16
+.trm/inbox/outbox/archive/receipt-1792335419307-layered_pr_review_pipeline.md
+  s_cf48dae32d5dd9::t_32e26ea7c12201 1-11
+.trm/inbox/outbox/archive/receipt-1792335540311-code_switching_multilingual_normalizer.json
+  s_cf48dae32d5dd9::t_22bb8848f44272 1-16
+.trm/inbox/outbox/archive/receipt-1792335540311-code_switching_multilingual_normalizer.md
+  s_cf48dae32d5dd9::t_705cf76add7cab 1-11
+.trm/inbox/outbox/archive/receipt-1792335677315-clinical_timeline_reconciliation.json
+  s_cf48dae32d5dd9::t_16c57da6a8ba3c 1-16
+.trm/inbox/outbox/archive/receipt-1792335677315-clinical_timeline_reconciliation.md
+  s_cf48dae32d5dd9::t_8027ae41465f26 1-11
+.trm/inbox/outbox/archive/receipt-1792349739567-evaluate_kernel_vulnerability_sweeper.json
+  s_cf48dae32d5dd9::t_c3a3c709aafbb1 1-16
+.trm/inbox/outbox/archive/receipt-1792349739567-evaluate_kernel_vulnerability_sweeper.md
+  s_cf48dae32d5dd9::t_c60b652960a032 1-11
+.trm/inbox/outbox/archive/receipt-1792349778042-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_cf48dae32d5dd9::t_0cec1383fe07ca 1-16
+.trm/inbox/outbox/archive/receipt-1792349778042-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_cf48dae32d5dd9::t_f7efc6539d9928 1-11
+.trm/inbox/outbox/archive/receipt-1792392938959-act_sigil_rooms_phase7_reply_ingress_tunnel.json
+  s_cf48dae32d5dd9::t_5498148eda4ddc 1-16
+.trm/inbox/outbox/archive/receipt-1792392938959-act_sigil_rooms_phase7_reply_ingress_tunnel.md
+  s_cf48dae32d5dd9::t_1d60c744883956 1-11
+.trm/inbox/outbox/archive/receipt-1792392987728-act_toolforge_git_backed_draft_stager.json
+  s_cf48dae32d5dd9::t_480a63a0e2a6e6 1-16
+.trm/inbox/outbox/archive/receipt-1792392987728-act_toolforge_git_backed_draft_stager.md
+  s_cf48dae32d5dd9::t_d620493eed56c3 1-11
+.trm/inbox/outbox/archive/receipt-1792393038564-act_rewrite_mcp_screenshot_to_code_adapter.json
+  s_cf48dae32d5dd9::t_4a032200d5ab91 1-16
+.trm/inbox/outbox/archive/receipt-1792393038564-act_rewrite_mcp_screenshot_to_code_adapter.md
+  s_cf48dae32d5dd9::t_594006e94032d9 1-11
+.trm/inbox/outbox/archive/receipt-1792407351232-fifo_week_q_a_2026_10_12_to_2026_10_19.json
+  s_cf48dae32d5dd9::t_e92e236702a140 1-16
+.trm/inbox/outbox/archive/receipt-1792407351232-fifo_week_q_a_2026_10_12_to_2026_10_19.md
+  s_cf48dae32d5dd9::t_73889d12dac7d5 1-11
+.trm/inbox/outbox/archive/receipt-1792421826152-deepseek_search_fetch_provider.json
+  s_cf48dae32d5dd9::t_f274efe718ef6c 1-16
+.trm/inbox/outbox/archive/receipt-1792421826152-deepseek_search_fetch_provider.md
+  s_cf48dae32d5dd9::t_6d2bec74c7f22d 1-11
+.trm/inbox/outbox/archive/receipt-1792421890563-memory_pointer_output_offloading.json
+  s_cf48dae32d5dd9::t_022d595bb5c676 1-16
+.trm/inbox/outbox/archive/receipt-1792421890563-memory_pointer_output_offloading.md
+  s_cf48dae32d5dd9::t_0da2523134786c 1-11
+.trm/inbox/outbox/archive/receipt-1792421926558-junior_developer_displacement_dynamics.json
+  s_cf48dae32d5dd9::t_4c07e770b54c40 1-16
+.trm/inbox/outbox/archive/receipt-1792421926558-junior_developer_displacement_dynamics.md
+  s_cf48dae32d5dd9::t_b56511619ef010 1-11
+.trm/inbox/outbox/archive/receipt-1792421969809-evaluate_growth_metric_client_roi.json
+  s_cf48dae32d5dd9::t_6f06ec33aa04b1 1-16
+.trm/inbox/outbox/archive/receipt-1792421969809-evaluate_growth_metric_client_roi.md
+  s_cf48dae32d5dd9::t_6c77ae2c77f509 1-11
+.trm/inbox/outbox/archive/receipt-1792430751886-act_kbsync_chat_injection_staleness_entropy_fail.json
+  s_cf48dae32d5dd9::t_77a251142cfc33 1-16
+.trm/inbox/outbox/archive/receipt-1792430751886-act_kbsync_chat_injection_staleness_entropy_fail.md
+  s_cf48dae32d5dd9::t_effeb0688b603a 1-11
+.trm/inbox/outbox/archive/receipt-1792436141063-cast_iron_charlie_research_pull_five_mike_kroll_posts_saved_oct_19_2026.json
+  s_cf48dae32d5dd9::t_049deefabe9fa5 1-16
+.trm/inbox/outbox/archive/receipt-1792436141063-cast_iron_charlie_research_pull_five_mike_kroll_posts_saved_oct_19_2026.md
+  s_cf48dae32d5dd9::t_d51e91d02ca9cf 1-11
+.trm/inbox/outbox/archive/receipt-1792444291635-fix_icf_backlog_target_repository_routing_map.json
+  s_cf48dae32d5dd9::t_51868ef65021a1 1-16
+.trm/inbox/outbox/archive/receipt-1792444291635-fix_icf_backlog_target_repository_routing_map.md
+  s_cf48dae32d5dd9::t_ba3ad1b13763db 1-11
+.trm/inbox/outbox/archive/receipt-1792444322081-decoupled_post_promote_context_enricher_autonomous_spike_runner.json
+  s_cf48dae32d5dd9::t_ba4104b7b7e378 1-16
+.trm/inbox/outbox/archive/receipt-1792444322081-decoupled_post_promote_context_enricher_autonomous_spike_runner.md
+  s_cf48dae32d5dd9::t_7a3b15f6090540 1-11
+.trm/inbox/outbox/archive/receipt-1792479340226-act_toolforge_mcp_push_delivery_receipt_verifier.json
+  s_cf48dae32d5dd9::t_f7a847095031b6 1-16
+.trm/inbox/outbox/archive/receipt-1792479340226-act_toolforge_mcp_push_delivery_receipt_verifier.md
+  s_cf48dae32d5dd9::t_8b91d406e429f6 1-11
+.trm/inbox/outbox/archive/receipt-1792479373437-act_sigil_federated_peer_license_gate.json
+  s_cf48dae32d5dd9::t_1f2ef7815900fc 1-16
+.trm/inbox/outbox/archive/receipt-1792479373437-act_sigil_federated_peer_license_gate.md
+  s_cf48dae32d5dd9::t_67082839c9a251 1-11
+.trm/inbox/outbox/archive/receipt-1792479402906-act_kbsync_single_writer_pack_lease.json
+  s_cf48dae32d5dd9::t_5bb2e2aeab8a78 1-16
+.trm/inbox/outbox/archive/receipt-1792479402906-act_kbsync_single_writer_pack_lease.md
+  s_cf48dae32d5dd9::t_612c623e86fecf 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T105922Z__gap__whichllm__gap-whichllm-tensorfold-001_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_c499e7381edb83 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T105922Z__gap__whichllm__gap-whichllm-tensorfold-001_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_1dd3076ad213dc 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_1ccf10c2788132 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T125501Z__action__sigil__act-01-integrate-agentid-oidc_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_929d11dc0d8749 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_16756be9b7b841 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T125502Z__action__toolforge__act-02-claude-dashboard-motion-exporter_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_847e815e6841bb 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T125503Z__action__rewrite-mcp__act-03-evaluate-gemini-workspace-connectors_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_ad0a97257d32f8 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T125503Z__action__rewrite-mcp__act-03-evaluate-gemini-workspace-connectors_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_4f51188a2f2526 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_ab9b3c56da697a 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T125504Z__research__cic-kb__act-04-frontier-safety-cruelty-governance_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_8328edb2fe535b 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T155400Z__action__kb-sync__act-kbsync-chat-injection-staleness-entropy-fail_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_f6cc929f739266 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T155400Z__action__kb-sync__act-kbsync-chat-injection-staleness-entropy-fail_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_2b0c70f901b5c4 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T233001Z__action__kb-sync__act-kbsync-trm-ingest-gdoc-auth-hardening_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_31b567dd22e865 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T233001Z__action__kb-sync__act-kbsync-trm-ingest-gdoc-auth-hardening_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_455d37bcaed002 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T233002Z__action__toolforge__act-toolforge-icf-action-engine-safety-audit_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_24ec314718b06a 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T233002Z__action__toolforge__act-toolforge-icf-action-engine-safety-audit_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_c96dd3c9698c99 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-09T233003Z__action__kb-sync__act-kbsync-trm-wal-compaction-concurrency-spike_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_1ca2fd00a9572b 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-09T233003Z__action__kb-sync__act-kbsync-trm-wal-compaction-concurrency-spike_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_e066b53ac17799 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-10T233001Z__action__toolforge__act-toolforge-quicksand-qemu-sandboxing_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_fb17aef2dd0147 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-10T233001Z__action__toolforge__act-toolforge-quicksand-qemu-sandboxing_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_f1f3b334373f6e 1-11
+.trm/inbox/outbox/archive/receipt-2026-10-18T122603Z__action__rewrite-mcp__act-03-evaluate-kernel-vulnerability-sweeper_md_gdoc-rejected.json
+  s_cf48dae32d5dd9::t_5e413b51bfc48e 1-12
+.trm/inbox/outbox/archive/receipt-2026-10-18T122603Z__action__rewrite-mcp__act-03-evaluate-kernel-vulnerability-sweeper_md_gdoc-rejected.md
+  s_cf48dae32d5dd9::t_d512f420882ac4 1-11
+.trm/inbox/outbox/archive/receipt-ACT-20261008-fix-notebooklm-chat-injection-staleness-rejected.json
+  s_cf48dae32d5dd9::t_c155286ca0ae31 1-12
+.trm/inbox/outbox/archive/receipt-ACT-20261008-fix-notebooklm-chat-injection-staleness-rejected.md
+  s_cf48dae32d5dd9::t_08231262ec7a8d 1-11
+.trm/inbox/outbox/archive/receipt-act-01-one-way-door-action-gates-completed.json
+  s_cf48dae32d5dd9::t_73bc215dd1c219 1-17
+.trm/inbox/outbox/archive/receipt-act-01-one-way-door-action-gates-completed.md
+  s_cf48dae32d5dd9::t_075ff63f2823cb 1,3-6,8-9,11-12
+.trm/inbox/outbox/archive/receipt-act-01-tamper-proof-flight-recorder-completed.json
+  s_cf48dae32d5dd9::t_fa6ac4a7b2937f 1-17
+.trm/inbox/outbox/archive/receipt-act-01-tamper-proof-flight-recorder-completed.md
+  s_cf48dae32d5dd9::t_1622648e3db3db 1-11
+.trm/inbox/outbox/archive/receipt-act-02-claude-dashboard-motion-exporter-completed.json
+  s_cf48dae32d5dd9::t_bd4b19135bd907 1-17
+.trm/inbox/outbox/archive/receipt-act-02-claude-dashboard-motion-exporter-completed.md
+  s_cf48dae32d5dd9::t_d380508c81b392 1,3-6,8-9,11-12
+.trm/inbox/outbox/archive/receipt-act-02-zero-trust-insider-quarantine-completed.json
+  s_cf48dae32d5dd9::t_5d0d21cedc1802 1-17
+.trm/inbox/outbox/archive/receipt-act-02-zero-trust-insider-quarantine-completed.md
+  s_cf48dae32d5dd9::t_b5ec313f46dc24 1-11
+.trm/inbox/outbox/archive/receipt-act-03-evaluate-gemini-workspace-connectors-completed.json
+  s_cf48dae32d5dd9::t_9639233cb5b7fe 1-17
+.trm/inbox/outbox/archive/receipt-act-03-evaluate-gemini-workspace-connectors-completed.md
+  s_cf48dae32d5dd9::t_5102145323a39c 1,3-6,8-9,11-12
+.trm/inbox/outbox/archive/receipt-act-03-evaluate-incident-reporting-guardrails-completed.json
+  s_cf48dae32d5dd9::t_b989040081658e 1-17
+.trm/inbox/outbox/archive/receipt-act-03-evaluate-incident-reporting-guardrails-completed.md
+  s_cf48dae32d5dd9::t_46198939f6f44c 1-12
+.trm/inbox/outbox/archive/receipt-act-04-code-to-matter-compilers-research-completed.json
+  s_cf48dae32d5dd9::t_2a1bd337331c2f 1-17
+.trm/inbox/outbox/archive/receipt-act-04-code-to-matter-compilers-research-completed.md
+  s_cf48dae32d5dd9::t_7e283ea305bf23 1-11
+.trm/inbox/outbox/archive/receipt-act-1791669601795-completed.json
+  s_cf48dae32d5dd9::t_8b8d3120c60566 1-17
+.trm/inbox/outbox/archive/receipt-act-1791669601795-completed.md
+  s_cf48dae32d5dd9::t_4671b50dd52acd 1-11
+.trm/inbox/outbox/archive/receipt-act-1791669602076-mcp-tool-definition-completed.json
+  s_cf48dae32d5dd9::t_34baf8c16030ff 1-17
+.trm/inbox/outbox/archive/receipt-act-1791669602076-mcp-tool-definition-completed.md
+  s_cf48dae32d5dd9::t_f9b815b5ebce69 1-11
+.trm/inbox/outbox/archive/receipt-act-1791669602226-package-json-completed.json
+  s_cf48dae32d5dd9::t_d0b32c1c755c98 1-17
+.trm/inbox/outbox/archive/receipt-act-1791669602226-package-json-completed.md
+  s_cf48dae32d5dd9::t_a515f6399021ee 1-11
+.trm/inbox/outbox/archive/receipt-act-1791733022845-completed.json
+  s_cf48dae32d5dd9::t_ce6eccfdacd45e 1-17
+.trm/inbox/outbox/archive/receipt-act-1791733022845-completed.md
+  s_cf48dae32d5dd9::t_16f36c5f43bb70 1-11
+.trm/inbox/outbox/archive/receipt-act-kbsync-drift-remediation-nlm-runner-cache-completed.json
+  s_cf48dae32d5dd9::t_574ce81c3676f1 1-17
+.trm/inbox/outbox/archive/receipt-act-kbsync-drift-remediation-nlm-runner-cache-completed.md
+  s_cf48dae32d5dd9::t_88b722b8016c4d 1-11
+.trm/inbox/outbox/archive/receipt-act-kbsync-trm-ingest-gdoc-auth-hardening-completed.json
+  s_cf48dae32d5dd9::t_5a31b1d34b80e2 1-17
+.trm/inbox/outbox/archive/receipt-act-kbsync-trm-ingest-gdoc-auth-hardening-completed.md
+  s_cf48dae32d5dd9::t_1ebceca36e8cc1 1-11
+.trm/inbox/outbox/archive/receipt-act-kbsync-trm-wal-compaction-concurrency-spike-completed.json
+  s_cf48dae32d5dd9::t_203ca00692ee44 1-17
+.trm/inbox/outbox/archive/receipt-act-kbsync-trm-wal-compaction-concurrency-spike-completed.md
+  s_cf48dae32d5dd9::t_98cd4cbf021cdb 1-11
+.trm/inbox/outbox/archive/receipt-act-sigil-rooms-phase4b2-pr-review-completed.json
+  s_cf48dae32d5dd9::t_2d0e97ab6cc488 1-17
+.trm/inbox/outbox/archive/receipt-act-sigil-rooms-phase4b2-pr-review-completed.md
+  s_cf48dae32d5dd9::t_88fd127fe4137c 1-11
+.trm/inbox/outbox/archive/receipt-act-toolforge-fastmcp-gitdiagram-gitingest-pipeline-completed.json
+  s_cf48dae32d5dd9::t_01c256b72ac7fc 1-17
+.trm/inbox/outbox/archive/receipt-act-toolforge-fastmcp-gitdiagram-gitingest-pipeline-completed.md
+  s_cf48dae32d5dd9::t_0edb2bef237c47 1-11
+.trm/inbox/outbox/archive/receipt-act-toolforge-icf-action-engine-safety-audit-completed.json
+  s_cf48dae32d5dd9::t_0e8a8964ebc0bb 1-17
+.trm/inbox/outbox/archive/receipt-act-toolforge-icf-action-engine-safety-audit-completed.md
+  s_cf48dae32d5dd9::t_fb387e87d5426f 1-11
+.trm/inbox/outbox/archive/receipt-mcp-tool-definition_md-rejected.json
+  s_cf48dae32d5dd9::t_d6aca9bbcdc758 1-12
+.trm/inbox/outbox/archive/receipt-mcp-tool-definition_md-rejected.md
+  s_cf48dae32d5dd9::t_5b8a9fa0994323 1-11
+.trm/inbox/outbox/archive/receipt-package_json-rejected.json
+  s_cf48dae32d5dd9::t_57622e1871a5ba 1-12
+.trm/inbox/outbox/archive/receipt-package_json-rejected.md
+  s_cf48dae32d5dd9::t_4508eedf99d773 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2876a8b00a0b714b6879b6b07457f9afaa4f9759",
+  "prompts": {},
+  "sessions": {
+    "s_26524d5f38ba8d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13fde-0446-7b81-afdf-92063a899fe9",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2fdfc760a507b3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13515-a2aa-74d1-8790-e7ca13dba329",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_486abadd59cfd9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0b4d5487-a142-4657-96b3-95837af2124c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_6a98b9866b478c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7749b3f8-8803-4566-af1d-15a66a31c1d6",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_cf48dae32d5dd9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b2d6e6eb-486c-43c6-b0b9-03b0bd947fd1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_cf53e61e5cba17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5aa13dcd-b7a7-4f10-9493-274974cbf37f",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d45801d1b1a333": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f81f6be-e807-46ea-a3ef-daed88bf471d",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

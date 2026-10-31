@@ -1,0 +1,25 @@
+.gitignore
+  s_081bf3289bc9fa::t_7fd2ae9c582d84 157-160
+config/copilot-ironledger-map.example.json
+  s_081bf3289bc9fa::t_b2bb4f6d2d5647 1-7
+scripts/copilot-ironledger-reconcile.mjs
+  s_081bf3289bc9fa::t_e32349f4eabc8d 1-193
+tests/copilot-ironledger-reconcile.test.mjs
+  s_081bf3289bc9fa::t_7e5c62b773d452 1-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8a6a3a06562885a149298b2ee2c428e5a1d2372e",
+  "prompts": {},
+  "sessions": {
+    "s_081bf3289bc9fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86e867cf-68e8-492a-a959-17282e65bb4b",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

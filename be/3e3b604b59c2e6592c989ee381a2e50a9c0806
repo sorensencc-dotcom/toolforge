@@ -1,0 +1,23 @@
+tests/copilot-reconcile-summary.test.mjs
+  s_081bf3289bc9fa::t_5d057ffc826f30 1-31
+scripts/ironbots-daily-reporter.mjs
+  s_081bf3289bc9fa::t_e8afc8b012892c 43-44,47-62
+  s_081bf3289bc9fa::t_c43ef926e1a484 355
+  s_081bf3289bc9fa::t_0f7b8220bd4776 63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "be3e3b604b59c2e6592c989ee381a2e50a9c0806",
+  "prompts": {},
+  "sessions": {
+    "s_081bf3289bc9fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86e867cf-68e8-492a-a959-17282e65bb4b",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

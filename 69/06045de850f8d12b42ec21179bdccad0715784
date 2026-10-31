@@ -1,0 +1,19 @@
+GEMINI.md
+  s_bf79443c7fa635::t_f91142bef6ede3 78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6906045de850f8d12b42ec21179bdccad0715784",
+  "prompts": {},
+  "sessions": {
+    "s_bf79443c7fa635": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1935e-abcc-7370-8e07-03d08d685f4f",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

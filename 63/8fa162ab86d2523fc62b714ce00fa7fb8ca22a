@@ -1,0 +1,25 @@
+scripts/install-all-prepush-wiki-hooks.mjs
+  s_f9204e718a8a51::t_9c35ddd7e734f9 5,7-19,27,29-41,124,128-142
+scripts/publish-repo-wiki-pages.mjs
+  s_f9204e718a8a51::t_c5d8ee4d312d0e 26-30,35-53,60-79,160-161,163,165-167,279,282,286-287,302-303,308,311,317,319,322,325,340,360-365,367,375-376,383,385,393
+tests/install-all-prepush-wiki-hooks.test.mjs
+  s_f9204e718a8a51::t_c1f243628d1957 53-82
+tests/publish-repo-wiki-pages.test.mjs
+  s_f9204e718a8a51::t_46448a4441efca 14,17,115-139
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "638fa162ab86d2523fc62b714ce00fa7fb8ca22a",
+  "prompts": {},
+  "sessions": {
+    "s_f9204e718a8a51": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "03137f00-8527-46c0-98c1-92def41d2ba2",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+docs/reports/daily/2026-10-27.md
+  h_5c172e9b435f5a 1-46
+docs/reports/daily/2026-10-28.md
+  h_5c172e9b435f5a 1-27
+docs/reports/daily/2026-10-29.md
+  h_5c172e9b435f5a 1-60
+manifest.json
+  h_5c172e9b435f5a 1348-1349
+skills/third-party-repo-auditor/README.md
+  h_5c172e9b435f5a 13-18,29,31
+skills/third-party-repo-auditor/SKILL.json
+  h_5c172e9b435f5a 12,20
+skills/third-party-repo-auditor/SKILL.md
+  h_5c172e9b435f5a 17,20-25
+skills/third-party-repo-auditor/src/update.ps1
+  h_5c172e9b435f5a 1-166
+skills/third-party-repo-auditor/tests/update.test.ps1
+  h_5c172e9b435f5a 1-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a33a9899dd717e6541cfb121e330742649180dd3",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
