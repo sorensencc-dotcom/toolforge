@@ -200,6 +200,17 @@ Local exemptions must use audit-trail directives: `<!-- heuristics-disable <rule
 <!-- TOOLFORGE-WRITING-DISCIPLINE-END -->
 <!-- IJFW-DISCIPLINE-END -->
 
+## Canonical Architecture & System Topology
+
+- **Authoritative Architecture Guide:** [`docs/Ecosystem Architecture Guide (Current).md`](file:///C:/dev/docs/Ecosystem%20Architecture%20Guide%20(Current).md)
+  - Google Drive Master: `G:\My Drive\Admin\Ecosystem Architecture Guide (Current).md.gdoc`
+  - Contains live Trail AST contract skeletons, Mermaid sequence diagrams, and 31-notebook cluster mappings.
+- **Service Ports:** ICF (`3000 / 8080`), IronLedger (`5000 / 5050`), Sigil Relay (`8765`), Ollama (`11434`).
+- **TRM Mobile Ingress Backlog:**
+  - Incoming action cards: `G:\My Drive\TRM-Research\mobile-inbox` (from Gemini scheduled runs)
+  - Automated watcher: `node scripts/trm-ingress-watcher.mjs`
+  - Completion receipts: `G:\My Drive\TRM-Research\mobile-outbox`
+
 <!-- trail:start -->
 ## Trail — repo context graph
 
