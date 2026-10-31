@@ -24,6 +24,8 @@ const logInfo = (msg) => console.log(`${COLOR.green}[CONSOLIDATE-PACK] [INFO]${C
 const logWarn = (msg) => console.log(`${COLOR.yellow}[CONSOLIDATE-PACK] [WARN]${COLOR.reset} ${msg}`);
 const logError = (msg) => console.error(`${COLOR.red}[CONSOLIDATE-PACK] [ERROR]${COLOR.reset} ${msg}`);
 export const MAX_PACK_BYTES = 380 * 1024;
+export const WARNING_PACK_BYTES = Math.floor(MAX_PACK_BYTES * 0.80); // 304 KiB
+export const PROACTIVE_SPLIT_THRESHOLD_BYTES = Math.floor(MAX_PACK_BYTES * 0.85); // 323 KiB
 
 export const EXCLUDED_PACK_DIRS = new Set([
   '_kb-sync-staging',
@@ -150,6 +152,10 @@ export function serializePackItem(item) {
 function splitItemIntoParts(item, budget, serialize) {
   const contentToSplit = item.enrichedContent ?? item.content;
   const paragraphs = contentToSplit.split(/\n\n+/);
+  if (paragraphs.length <= 1) {
+    // Cannot be split across paragraph boundaries
+    return [item];
+  }
 
   const subItems = [];
   let currentParagraphs = [];
@@ -174,42 +180,8 @@ function splitItemIntoParts(item, budget, serialize) {
 
     const testSub = createSubItem([p], partIndex);
     if (Buffer.byteLength(serialize(testSub), 'utf8') > budget) {
-      if (currentParagraphs.length > 0) {
-        subItems.push(createSubItem(currentParagraphs, partIndex++));
-        currentParagraphs = [];
-      }
-
-      const lines = p.split('\n');
-      let currentLines = [];
-      for (const line of lines) {
-        const testLineSub = createSubItem([...currentLines, line], partIndex);
-        if (Buffer.byteLength(serialize(testLineSub), 'utf8') > budget) {
-          if (currentLines.length > 0) {
-            subItems.push(createSubItem(currentLines, partIndex++));
-            currentLines = [];
-          }
-          let remainingLine = line;
-          while (remainingLine.length > 0) {
-            let sliceLen = remainingLine.length;
-            while (sliceLen > 0) {
-              const sliceCandidate = remainingLine.slice(0, sliceLen);
-              const sliceSub = createSubItem([sliceCandidate], partIndex);
-              if (Buffer.byteLength(serialize(sliceSub), 'utf8') <= budget || sliceLen === 1) {
-                subItems.push(createSubItem([sliceCandidate], partIndex++));
-                remainingLine = remainingLine.slice(sliceLen);
-                break;
-              }
-              sliceLen = Math.floor(sliceLen * 0.8);
-            }
-          }
-        } else {
-          currentLines.push(line);
-        }
-      }
-      if (currentLines.length > 0) {
-        subItems.push(createSubItem(currentLines, partIndex++));
-      }
-      continue;
+      // Individual paragraph itself exceeds budget; cannot split cleanly across paragraph boundaries
+      return [item];
     }
 
     const candidateSub = createSubItem([...currentParagraphs, p], partIndex);
@@ -268,7 +240,13 @@ function removePackFiles(outDir, category) {
   const safe = category.replace(/-/g, '_').replace(/[^a-zA-Z0-9_]/g, '_');
   const pattern = new RegExp(`^pack_${safe}(?:_part\\d+)?\\.txt$`);
   for (const name of fs.readdirSync(outDir)) {
-    if (pattern.test(name)) fs.unlinkSync(path.join(outDir, name));
+    if (pattern.test(name)) {
+      try {
+        fs.unlinkSync(path.join(outDir, name));
+      } catch (err) {
+        logWarn(`Could not unlink old pack file ${name}: ${err.message}`);
+      }
+    }
   }
 }
 
@@ -456,6 +434,30 @@ export function consolidatePacks(options = {}) {
     });
   }
 
+  // Standing pack-size dashboard & telemetry report
+  try {
+    const reportPath = path.join(outDir, 'pack_size_report.json');
+    const report = {
+      generatedAt: new Date().toISOString(),
+      maxPackBytes: MAX_PACK_BYTES,
+      warningPackBytes: WARNING_PACK_BYTES,
+      proactiveSplitThresholdBytes: PROACTIVE_SPLIT_THRESHOLD_BYTES,
+      packs: generatedPacks.map(p => ({
+        filename: path.basename(p.packFile),
+        category: p.packDef?.category,
+        bytes: p.bytes,
+        kib: Number((p.bytes / 1024).toFixed(2)),
+        percentOfCeiling: Number(((p.bytes / MAX_PACK_BYTES) * 100).toFixed(1)),
+        fileCount: p.fileCount,
+        status: p.bytes > MAX_PACK_BYTES ? 'OVERFLOW' : p.bytes >= WARNING_PACK_BYTES ? 'WARNING' : 'NOMINAL'
+      }))
+    };
+    fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), 'utf8');
+    logInfo(`Standing pack-size report saved to ${path.relative(rootDir, reportPath)}`);
+  } catch (reportErr) {
+    logWarn(`Could not write pack_size_report.json: ${reportErr.message}`);
+  }
+
   return generatedPacks;
 }
 
@@ -465,7 +467,9 @@ if (mainFile === thisFile) {
   try {
     const categoryArg = process.argv.find(a => a.startsWith('--category=') || a.startsWith('-c='));
     const category = categoryArg ? categoryArg.split('=')[1].trim().replace(/^['"]|['"]$/g, '') : null;
-    consolidatePacks({ category });
+    const outDirArg = process.argv.find(a => a.startsWith('--out-dir=') || a.startsWith('-o='));
+    const outDir = outDirArg ? outDirArg.split('=')[1].trim().replace(/^['"]|['"]$/g, '') : null;
+    consolidatePacks({ category, outDir });
     logInfo('Thematic knowledge pack consolidation completed successfully.');
   } catch (err) {
     logError(`Consolidation failed: ${err.message}`);

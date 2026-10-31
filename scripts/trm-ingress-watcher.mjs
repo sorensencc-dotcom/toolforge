@@ -162,6 +162,16 @@ export function cleanupCompanionFiles(filePath, isFromGDrive) {
   } catch {}
 }
 
+let betterSqlite3Module = null;
+async function getBetterSqlite3() {
+  if (!betterSqlite3Module) {
+    try {
+      betterSqlite3Module = (await import('better-sqlite3')).default;
+    } catch {}
+  }
+  return betterSqlite3Module;
+}
+
 export async function resolveGoogleDocId(filePath) {
   try {
     if (fs.existsSync(filePath)) {
@@ -179,23 +189,141 @@ export async function resolveGoogleDocId(filePath) {
   const driveFsBase = path.join(process.env.LOCALAPPDATA || '', 'Google', 'DriveFS');
   if (fs.existsSync(driveFsBase)) {
     try {
-      const entries = fs.readdirSync(driveFsBase);
-      for (const entry of entries) {
-        const dbPath = path.join(driveFsBase, entry, 'mirror_metadata_sqlite.db');
-        if (fs.existsSync(dbPath)) {
-          try {
-            const Database = (await import('better-sqlite3')).default;
-            const db = new Database(dbPath, { readonly: true });
-            const row = db.prepare("SELECT id FROM items WHERE local_title LIKE ? AND mime_type = 'application/vnd.google-apps.document' LIMIT 1").get(`%${baseName}%`);
-            db.close();
-            if (row && row.id) return row.id;
-          } catch {}
+      const Database = await getBetterSqlite3();
+      if (Database) {
+        const entries = fs.readdirSync(driveFsBase);
+        for (const entry of entries) {
+          const dbPath = path.join(driveFsBase, entry, 'mirror_metadata_sqlite.db');
+          if (fs.existsSync(dbPath)) {
+            try {
+              const db = new Database(dbPath, { readonly: true });
+              const row = db.prepare("SELECT id FROM items WHERE local_title LIKE ? AND mime_type = 'application/vnd.google-apps.document' LIMIT 1").get(`%${baseName}%`);
+              db.close();
+              if (row && row.id) return row.id;
+            } catch {}
+          }
         }
       }
     } catch {}
   }
 
   return null;
+}
+
+let cachedAccessToken = null;
+let tokenExpiresAt = 0;
+let refreshPromise = null;
+let envLoaded = false;
+
+export function resetTokenCacheForTesting() {
+  cachedAccessToken = null;
+  tokenExpiresAt = 0;
+  refreshPromise = null;
+  envLoaded = false;
+}
+
+function loadEnvCredentials() {
+  if (envLoaded) return;
+  envLoaded = true;
+
+  if (process.env.GOOGLE_REFRESH_TOKEN && process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    return;
+  }
+
+  for (const envPath of [path.join(REPO_ROOT, 'scripts', '.env'), path.join(REPO_ROOT, '.env')]) {
+    if (fs.existsSync(envPath)) {
+      try {
+        const lines = fs.readFileSync(envPath, 'utf8').split(/\r?\n/);
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith('#')) continue;
+          const eqIdx = trimmed.indexOf('=');
+          if (eqIdx > 0) {
+            const key = trimmed.slice(0, eqIdx).trim();
+            let val = trimmed.slice(eqIdx + 1).trim();
+            if (!val.startsWith('"') && !val.startsWith("'")) {
+              const hashIdx = val.indexOf('#');
+              if (hashIdx >= 0) val = val.slice(0, hashIdx).trim();
+            } else {
+              const quoteChar = val[0];
+              const endQuoteIdx = val.indexOf(quoteChar, 1);
+              if (endQuoteIdx > 0) val = val.slice(1, endQuoteIdx);
+            }
+            if (key.startsWith('GOOGLE_') && !process.env[key]) {
+              process.env[key] = val;
+            }
+          }
+        }
+      } catch {}
+    }
+  }
+}
+
+export async function getValidAccessToken(forceRefresh = false) {
+  loadEnvCredentials();
+
+  const isExpired = Date.now() >= (tokenExpiresAt - 300000); // 5-minute safety buffer
+  if (cachedAccessToken && !forceRefresh && !isExpired) {
+    return cachedAccessToken;
+  }
+
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+
+  if (!refreshToken || !clientId || !clientSecret) {
+    return process.env.GOOGLE_OAUTH_TOKEN || null;
+  }
+
+  if (refreshPromise) {
+    return refreshPromise;
+  }
+
+  refreshPromise = (async () => {
+    try {
+      const params = new URLSearchParams({
+        client_id: clientId,
+        client_secret: clientSecret,
+        refresh_token: refreshToken,
+        grant_type: 'refresh_token'
+      });
+
+      const res = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+        signal: AbortSignal.timeout(15000)
+      });
+
+      if (!res.ok) {
+        let errDesc = '';
+        try {
+          const errJson = await res.json();
+          errDesc = errJson.error_description || errJson.error || '';
+        } catch {
+          errDesc = (await res.text()).slice(0, 200);
+        }
+        cachedAccessToken = null;
+        tokenExpiresAt = 0;
+        throw new Error(`OAuth token refresh failed (${res.status}): ${errDesc}`);
+      }
+
+      const data = await res.json();
+      cachedAccessToken = data.access_token;
+      const expiresInSec = typeof data.expires_in === 'number' ? data.expires_in : 3600;
+      tokenExpiresAt = Date.now() + (expiresInSec * 1000);
+      process.env.GOOGLE_OAUTH_TOKEN = cachedAccessToken;
+      return cachedAccessToken;
+    } catch (err) {
+      cachedAccessToken = null;
+      tokenExpiresAt = 0;
+      throw err;
+    } finally {
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
 }
 
 export function parsePayload(raw, ext, options = {}) {
@@ -222,12 +350,77 @@ export function parsePayload(raw, ext, options = {}) {
           throw new Error(`Failed to fetch gdoc text: ${res?.error || 'Custom docFetcher failed'}`);
         }
       } else {
-        const headers = {};
-        const token = options.authBearer || process.env.GOOGLE_OAUTH_TOKEN;
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
+        let token = options.authBearer || (await getValidAccessToken());
+        let res = null;
+        for (let attempt = 0; attempt <= 1; attempt++) {
+          const headers = {};
+          if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+          }
+
+          const driveApiUrl = `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(docId)}/export?mimeType=text%2Fplain`;
+          const docsWebUrl = `https://docs.google.com/document/d/${encodeURIComponent(docId)}/export?format=txt`;
+          // Prefer Google Drive API v3 when token is available, fallback to Docs web URL
+          const targetUrl = token ? driveApiUrl : docsWebUrl;
+
+          try {
+            res = await fetch(targetUrl, {
+              headers,
+              redirect: 'manual',
+              signal: AbortSignal.timeout(30000)
+            });
+
+            // If Drive API returned 404 or unsupported method, fall back to docs.google.com web export
+            if (!res.ok && res.status !== 401 && res.status !== 403 && targetUrl === driveApiUrl) {
+              res = await fetch(docsWebUrl, {
+                headers,
+                redirect: 'manual',
+                signal: AbortSignal.timeout(30000)
+              });
+            }
+          } catch (fetchErr) {
+            if (attempt === 0 && !options.authBearer && (process.env.GOOGLE_REFRESH_TOKEN || process.env.GOOGLE_CLIENT_ID)) {
+              console.warn(`[TRM-INGRESS] GDoc fetch network error on doc ${docId} (${fetchErr.message}). Attempting token refresh...`);
+              try {
+                token = await getValidAccessToken(true);
+                await new Promise(r => setTimeout(r, 500));
+                continue;
+              } catch (refreshErr) {
+                console.warn(`[TRM-INGRESS] Token refresh attempt failed: ${refreshErr.message}`);
+                throw new Error(`Failed to fetch gdoc text: ${fetchErr.message} (Refresh failed: ${refreshErr.message})`);
+              }
+            }
+            throw fetchErr;
+          }
+
+          const isRedirectToLogin = (res.status >= 300 && res.status < 400) &&
+            (res.headers.get('location')?.includes('accounts.google.com') || res.headers.get('location')?.includes('ServiceLogin'));
+          const isAuthChallenge = res.status === 401 || res.status === 403 || isRedirectToLogin;
+
+          if (isAuthChallenge && attempt === 0 && !options.authBearer) {
+            console.warn(`[TRM-INGRESS] Auth challenge (HTTP ${res.status}${isRedirectToLogin ? ' -> Login Redirect' : ''}) for doc ${docId}. Refreshing token and retrying...`);
+            try {
+              token = await getValidAccessToken(true);
+              continue;
+            } catch (refreshErr) {
+              console.warn(`[TRM-INGRESS] Token refresh attempt failed: ${refreshErr.message}`);
+              throw new Error(`Failed to fetch gdoc text: Auth expired (${res.status}) and token refresh failed: ${refreshErr.message}`);
+            }
+          }
+
+          if (res.status >= 300 && res.status < 400 && !isRedirectToLogin) {
+            const redirectUrl = res.headers.get('location');
+            if (redirectUrl) {
+              res = await fetch(redirectUrl, {
+                headers,
+                signal: AbortSignal.timeout(30000)
+              });
+            }
+          }
+
+          break;
         }
-        const res = await fetch(`https://docs.google.com/document/d/${docId}/export?format=txt`, { headers });
+
         if (!res.ok) throw new Error(`Failed to fetch gdoc text: ${res.status} ${res.statusText}`);
         text = await res.text();
         if (text.trim().startsWith('<!DOCTYPE html>') || text.includes('<html')) {
@@ -456,19 +649,26 @@ export function inferDomain(item) {
 
 export function validateIngressQuality(item, rawContent = '') {
   if (item?.context?.body_fetch_failed === true) {
-    return {
-      valid: false,
-      reason: 'GDOC_BODY_FETCH_FAILED',
-      error: 'Document body extraction failed; only filename metadata is present.'
-    };
+    const hasActionableTriage = Boolean(
+      (item?.execution_plan && item.execution_plan.length > 0) ||
+      (item?.intent && item.intent !== 'triage_mobile_request' && item.intent !== 'validation_error' && item.intent !== 'unknown')
+    );
+    if (!hasActionableTriage) {
+      return {
+        valid: false,
+        reason: 'GDOC_BODY_FETCH_FAILED',
+        error: 'Document body extraction failed; only filename metadata is present.'
+      };
+    }
   }
   const content = rawContent || item?.raw_content || item?.summary || item?.body || item?.context?.body || '';
   const stripped = String(content).replace(/\s+/g, ' ').trim();
-  if (stripped.length < 50) {
+  const minLength = (item?.execution_plan?.length > 0 || (item?.intent && item.intent !== 'triage_mobile_request')) ? 20 : 50;
+  if (stripped.length < minLength) {
     return {
       valid: false,
       reason: 'INSUFFICIENT_CONTENT',
-      error: `Card content is too short (${stripped.length} chars, minimum 50 required).`
+      error: `Card content is too short (${stripped.length} chars, minimum ${minLength} required).`
     };
   }
   if (item?.title === 'Unknown Title' || item?.intent === 'triage_mobile_request') {
@@ -777,6 +977,9 @@ export function auditOutboxReconciliation() {
   let pendingCompletionCount = 0;
   let completedReceiptsCount = 0;
   const unreconciledCardIds = [];
+  const unReceiptedOverdue = [];
+  const now = Date.now();
+  const UNRECEIPTED_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 
   for (const row of ledgerRows) {
     const cardId = row.id;
@@ -790,6 +993,10 @@ export function auditOutboxReconciliation() {
       reconciledCardsCount++;
     } else if (row.status !== 'QUARANTINED') {
       unreconciledCardIds.push(cardId);
+      const rowTime = row.timestamp ? new Date(row.timestamp).getTime() : 0;
+      if (rowTime && (now - rowTime > UNRECEIPTED_MAX_AGE_MS)) {
+        unReceiptedOverdue.push({ id: cardId, intent: row.intent, ageHours: Number(((now - rowTime) / (3600 * 1000)).toFixed(1)) });
+      }
     }
 
     if (row.status === 'COMPLETED' || row.status === 'RESOLVED') {
@@ -799,13 +1006,45 @@ export function auditOutboxReconciliation() {
     }
   }
 
+  // Check un-ingested files in active staging inboxes older than 4 hours
+  const unIngestedStagedOverdue = [];
+  const UNINGESTED_MAX_AGE_MS = 4 * 60 * 60 * 1000; // 4 hours
+  for (const inbox of getActiveInboxDirs()) {
+    if (fs.existsSync(inbox)) {
+      try {
+        const files = fs.readdirSync(inbox);
+        for (const f of files) {
+          const fp = path.join(inbox, f);
+          try {
+            const stat = fs.statSync(fp);
+            if (!stat.isDirectory() && (now - stat.mtimeMs > UNINGESTED_MAX_AGE_MS)) {
+              unIngestedStagedOverdue.push({ file: f, path: fp, ageHours: Number(((now - stat.mtimeMs) / (3600 * 1000)).toFixed(1)) });
+            }
+          } catch {}
+        }
+      } catch {}
+    }
+  }
+
   const rejectedReceiptFiles = activeReceiptFiles.filter(f => f.includes('-rejected') || f.includes('.rejected.'));
   const isReconciled = unreconciledCardIds.length === 0 && rejectedReceiptFiles.length === 0 && ledgerRows.length > 0;
   const reconciliationStatus = isReconciled ? 'RECONCILED' : (ledgerRows.length === 0 ? 'NO_DATA' : (rejectedReceiptFiles.length > 0 ? 'REJECTED_CARDS_PRESENT' : 'DISCREPANCY'));
+  const slaAlerts = [];
+  if (unIngestedStagedOverdue.length > 0) {
+    slaAlerts.push(`P1_ALARM: ${unIngestedStagedOverdue.length} card(s) un-ingested in staging > 4h`);
+  }
+  if (unReceiptedOverdue.length > 0) {
+    slaAlerts.push(`P2_ALARM: ${unReceiptedOverdue.length} card(s) un-receipted in execution > 24h`);
+  }
+  const slaStatus = unIngestedStagedOverdue.length > 0 ? 'P1_ALARM' : (unReceiptedOverdue.length > 0 ? 'P2_ALARM' : 'NOMINAL');
 
   return {
     timestamp: new Date().toISOString(),
     reconciliationStatus,
+    slaStatus,
+    slaAlerts,
+    unIngestedStagedOverdue,
+    unReceiptedOverdue,
     archivedCardsCount,
     activeReceiptsCount: activeReceiptFiles.length,
     rejectedReceiptsCount: rejectedReceiptFiles.length,
@@ -1061,7 +1300,11 @@ export function emitIcfStatusFeed(rows = null, options = {}) {
     recentCards: rows.slice(-10).reverse()
   };
 
-  fs.writeFileSync(STATUS_FEED_JSON, JSON.stringify(telemetry, null, 2), 'utf8');
+  try {
+    fs.writeFileSync(STATUS_FEED_JSON, JSON.stringify(telemetry, null, 2), 'utf8');
+  } catch (err) {
+    console.warn(`[TRM-INGRESS] Could not emit status feed: ${err.message}`);
+  }
 }
 
 /**
@@ -1192,7 +1435,7 @@ export async function processFile(filePath, options = {}) {
     try {
       item = await parsePayload(ext === '.gdoc' ? { docId } : raw, ext, options);
     } catch (parseErr) {
-      if (ext === '.gdoc' && (parseErr.message.includes('Failed to fetch gdoc text') || parseErr.message.includes('401') || parseErr.message.includes('missing doc_id'))) {
+      if (ext === '.gdoc') {
         console.warn(`[TRM-INGRESS] GDoc body fetch failed (${parseErr.message}), falling back to filename metadata for ${filename}`);
         item = parseGDocFilenameMetadata(filename);
         item.context = {
@@ -1200,9 +1443,27 @@ export async function processFile(filePath, options = {}) {
           note: `Ingested from .gdoc pointer via filename metadata (body text fetch failed: ${parseErr.message})`,
           body_fetch_failed: true
         };
+      } else if (ext === '.md' && parseErr.message.includes('missing frontmatter block')) {
+        console.warn(`[TRM-INGRESS] Markdown frontmatter missing for ${filename}, synthesizing frontmatter from content`);
+        const firstLine = raw.split(/\r?\n/).find(l => l.trim().length > 0) || '';
+        const cleanTitle = firstLine.replace(/^#+\s*/, '').slice(0, 80).trim();
+        const cleanIntent = cleanTitle ? cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') : path.basename(filename, '.md').toLowerCase().replace(/[^a-z0-9]+/g, '_');
+        item = {
+          source: 'mobile-markdown',
+          action_type: 'antigravity_triage',
+          intent: cleanIntent || 'markdown_action_item',
+          summary: cleanTitle || `Action item from ${filename}`,
+          context: {
+            body: raw.trim(),
+            note: 'Ingested from markdown file lacking YAML frontmatter.'
+          }
+        };
       } else {
         throw parseErr;
       }
+    }
+    if (ext === '.json' && item && !item.source) {
+      item.source = filename.includes('grok') ? 'mobile-grok' : 'mobile-inbox';
     }
     if (filename.includes('__gap__') || filename.startsWith('gap-')) {
       item.type = item.type || 'pending-gap';
@@ -1273,7 +1534,9 @@ export async function processFile(filePath, options = {}) {
         action_type: item?.action_type || 'unknown',
         intent: item?.intent || 'unknown',
         status: 'QUARANTINED_INSUFFICIENT_DATA',
-        error: quality.error
+        error: quality.error,
+        execution_plan: item?.execution_plan,
+        context: item?.context
       };
     }
     const qTarget = path.join(QUARANTINE_DIR, `${Date.now()}-${filename}`);
