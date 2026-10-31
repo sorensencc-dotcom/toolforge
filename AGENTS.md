@@ -376,6 +376,23 @@ Before performing workspace-wide text searches (`grep`, `rg`, `findstr`, or `git
 
 Raw file grep is permitted only when targeting a single file, or after confirming that a target symbol is absent from Tree-sitter AST extraction. Broad workspace greps are hard-blocked by `scripts/intercept-grep.js`.
 
+### High-Gravity Architectural Contract Hubs (Trail Skeleton Targets)
+
+When inspecting system boundaries or routing tasks across the multi-repo workspace, default to `trail skeleton <file>` on these verified contract hubs instead of reading whole source files:
+
+| Subsystem | Primary Hub / Contract Targets | High-Value Interfaces Skimmed |
+| :--- | :--- | :--- |
+| **`sigil-repo`** | `sigil/relay/v1/room-routes.mjs`<br>`sigil/relay/v1/accept-envelope.mjs`<br>`sigil/relay/v1/stream-server.mjs` | Room message dispatch, federation envelope verification, and SSE stream session lifecycle. |
+| **`icf`** | `icf/src/server.mjs`<br>`modules/TorqueQueryOrchestrator.mjs` | Port 8080 telemetry hub, action dispatcher, and memory search hooks. |
+| **`IronLedger`** | `src/ironledger/compile/journal.py`<br>`src/ironledger/ingest/acquire.py` | Compilation state machines, hashing algorithms, and ingestion acquisition pipelines. |
+| **`kb-sync`** | `watch-competitors-v2.mjs`<br>`build-kb-sync-diagrams.mjs`<br>`server.mjs` | Competitor watchlist monitor, diff computation, and wiki sync servers. |
+| **`trm`** | `src/notebooklm/chatArchiver.ts`<br>`src/core/topicRouting.ts`<br>`src/notebooklm/nlmCli.ts` | Chat transcript synthesis, topic routing classification, and NotebookLM CLI wrappers. |
+| **`toolforge`** | `openrouter-transport.ts`<br>`scripts/toolforgeSkillValidator.ps1` | LLM concurrency pools, retry policies, and skill manifest validation. |
+| **`marketplace`** | `src/api/server.js`<br>`src/services/analytics.js`<br>`src/services/ratings.js` | Registry API endpoints, install telemetry, and trending calculation batches. |
+
+> [!TIP]
+> When executing in read-only sandbox or subrepo environments, pass `--no-refresh` (e.g. `trail skeleton --no-refresh <file>`) to extract AST symbol definitions immediately from the graph without checking git freshness.
+
 ## Skill Approval & Registration
 
 ### Toolforge Skill (Candidate Criteria)
