@@ -1,0 +1,33 @@
+.trail/learnings/2026-11-01-agents-md-keeps-rules-only-generated-chris.md
+  s_330fcd17ec49a4::t_bce1a0a637f387 1-25
+.trail/learnings/2026-11-01-graph-freshness-in-ci-is-trail-chris.md
+  s_8d757b145ec218::t_f5d2da26fc9f19 1-25
+.trail/learnings/2026-11-01-ijfw-removed-and-graft-renamed-to-chris.md
+  s_330fcd17ec49a4::t_058fb50b17d6bd 1-25
+CIC-GOVERNANCE/packages/delivery-guard/tests/production-container.test.js
+  s_330fcd17ec49a4::t_048a1967d4f4e8 75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9763ad3ad5d17910d6c65c18a54c804d8bac5e14",
+  "prompts": {},
+  "sessions": {
+    "s_330fcd17ec49a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1bbfce07-cee8-45f9-b564-99e6551ae6d5",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_8d757b145ec218": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "75548f70-11f7-48aa-917a-1db9219a4bcb",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
