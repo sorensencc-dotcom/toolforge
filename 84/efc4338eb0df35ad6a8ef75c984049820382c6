@@ -1,0 +1,31 @@
+src/cli/commands/worktree.js
+  s_a479e520bcb038::t_cbfd24e5d357dc 72
+  s_a479e520bcb038::t_ddba2f6c22b66a 1-71,73-74
+src/cli/index.js
+  s_a479e520bcb038::t_ddba2f6c22b66a 12,21,54,83
+src/worktree/manager.js
+  s_a479e520bcb038::t_4ff807d3c60e19 1-66,68-70,72-179,181-190,192-222,224-261
+  s_a479e520bcb038::t_be29c8d2163bb8 67,71,223
+  s_a479e520bcb038::t_cbfd24e5d357dc 180,191
+src/worktree/manager.test.js
+  s_a479e520bcb038::t_fdbb21cee91f4e 17
+  s_a479e520bcb038::t_91d7513a2fbe56 27-29
+  s_a479e520bcb038::t_dd3c600cae6cce 128
+  s_a479e520bcb038::t_7581a1a00f5f3b 1-16,18-26,30-127
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "84efc4338eb0df35ad6a8ef75c984049820382c6",
+  "prompts": {},
+  "sessions": {
+    "s_a479e520bcb038": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1953d-f269-74b0-850c-9f0deb854090",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
