@@ -1,0 +1,19 @@
+AGENTS.md
+  s_8d757b145ec218::t_ae1e0c14ad88ae 319-327,329,333,338-340
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5376cb9882edecc53110c81e7f36f460177d2629",
+  "prompts": {},
+  "sessions": {
+    "s_8d757b145ec218": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "75548f70-11f7-48aa-917a-1db9219a4bcb",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
