@@ -1,0 +1,19 @@
+scripts/trm-ingest-drive-v2.mjs
+  s_002e5fbd96dd1d::t_a1bd6692d58453 1-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9abbd84400bdef36331ef809be84319f2ac7cb19",
+  "prompts": {},
+  "sessions": {
+    "s_002e5fbd96dd1d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19369-7668-7013-85dd-3c0bcc1d5bce",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
