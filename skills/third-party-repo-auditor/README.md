@@ -10,6 +10,12 @@ Run an interactive audit across all workspace third-party checkouts:
 pwsh -NoProfile -File C:\dev\skills\third-party-repo-auditor\src\audit.ps1
 ```
 
+Or synchronize/update repositories behind upstream:
+
+```powershell
+pwsh -NoProfile -File C:\dev\skills\third-party-repo-auditor\src\update.ps1
+```
+
 Or output structured JSON for automated pipelines:
 
 ```powershell
@@ -20,8 +26,9 @@ pwsh -NoProfile -File C:\dev\skills\third-party-repo-auditor\src\audit.ps1 -Json
 
 - **Automated Upstream Fetch**: Pulls remote heads and tags without mutating the local working tree.
 - **Commit Delta Calculation**: Computes commits ahead and behind upstream tracking branches (`origin/main`, `origin/master`).
+- **Dependency-Ordered Remediation**: Synchronizes repositories and nested submodules safely (`update.ps1`).
 - **Release Tag Tracking**: Identifies the latest available upstream release tags.
-- **Working Tree Integrity**: Reports uncommitted or dirty file modifications.
+- **Working Tree Integrity**: Reports and handles uncommitted or dirty file modifications.
 
 ---
 

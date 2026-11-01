@@ -1,44 +1,44 @@
-<!-- graft:start -->
-## Graft — repo context graph
+<!-- trail:start -->
+## Trail — repo context graph
 
-This repo is indexed in `graft/`: small linked markdown nodes that explain each
+This repo is indexed in `.trail/cache/`: small linked markdown nodes that explain each
 system and carry exact file:line spans, kept in sync with the code through git.
 
 For ANY task here — understanding how something works, finding where code lives,
 or scoping a change — get context from the graph before grepping or opening
 source files. Re-ask freely (it's cheap) and reuse literal identifiers you
 already have (symbol, error string, file name) as the query. New to this repo?
-Run `graft map` first — a token-budgeted orientation (dir clusters, hubs,
+Run `trail map` first — a token-budgeted orientation (dir clusters, hubs,
 hotspots), no LLM, no key.
 
-- Run `graft ask "<your question>" --source` → ranked nodes with the relevant
+- Run `trail ask "<your question>" --source` → ranked nodes with the relevant
   code spans inlined (each hit's ≤8-line crux by default; `--full` for whole
   definitions when the crux isn't enough). Match the tool to the task shape:
   for understanding or editing, the top node IS the answer — cite its
   `covers:` file:line spans and edit straight from `--source`. For
   exhaustive tasks ("every occurrence / every caller of this pattern"), ranked
-  results are top-N, not complete — run `graft grep "<literal>"` instead
+  results are top-N, not complete — run `trail grep "<literal>"` instead
   (exhaustive over indexed files, grouped by enclosing symbol), falling back
   to raw `grep -rn` only for unindexed files.
-- `graft skeleton <file>` → every definition's signature + span, ~10× cheaper
+- `trail skeleton <file>` → every definition's signature + span, ~10× cheaper
   than reading the file; use it to skim an API surface.
-- `graft callers <symbol>` gives precomputed, exact edges — who calls this.
+- `trail callers <symbol>` gives precomputed, exact edges — who calls this.
   Add `--direction out` for what it calls, or `--depth N` to walk
   transitively for the full blast radius. For structural questions, skip
   ranking and use this directly.
-- Or browse: `graft/INDEX.md` lists every node; follow the links.
+- Or browse: `.trail/cache/INDEX.md` lists every node; follow the links.
 - Monorepos and folders of multiple repos rank fairly across sub-projects —
   hits carry `[scope/]` labels naming which one they're from. Narrow with
-  `graft ask "<task>" --in <scope>/` once you know where you're working.
+  `trail ask "<task>" --in <scope>/` once you know where you're working.
 
 If a returned span is truncated ("+N more lines"), open the file at that exact
 range before finalizing. Only open source files when a node genuinely lacks a
 needed detail, and then at the exact file:line the node points to — never
 re-read whole files.
 
-After big code changes, refresh the graph with `graft build` (deterministic,
+After big code changes, refresh the graph with `trail build` (deterministic,
 no API key, $0).
-<!-- graft:end -->
+<!-- trail:end -->
 <!-- TOOLFORGE-VAULT-POINTER-START -->
 # Persistent System Memory Pointer
 > Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
@@ -60,10 +60,22 @@ no API key, $0).
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Canonical Architecture & System Topology
+
+- **Authoritative Architecture Guide:** [`docs/Ecosystem Architecture Guide (Current).md`](file:///C:/dev/docs/Ecosystem%20Architecture%20Guide%20(Current).md)
+  - Google Drive Master: `G:\My Drive\Admin\Ecosystem Architecture Guide (Current).md.gdoc`
+  - Contains live Trail AST contract skeletons, Mermaid sequence diagrams, and 31-notebook cluster mappings.
+- **Service Ports:** ICF (`3000 / 8080`), IronLedger (`5000 / 5050`), Sigil Relay (`8765`), Ollama (`11434`).
+- **TRM Mobile Ingress Backlog:**
+  - Incoming action cards: `G:\My Drive\TRM-Research\mobile-inbox` (from Gemini scheduled runs)
+  - Automated watcher: `node scripts/trm-ingress-watcher.mjs`
+  - Completion receipts: `G:\My Drive\TRM-Research\mobile-outbox`
+
 <!-- MANAGED-REGION: AGENT-TODOS -->
 ### Active Multi-Agent Tasks
 | Status | Priority | Task Description |
 | :---: | :---: | :--- |
+| ✅ `[x]` | **P1** | **[P1] Ecosystem Hardening & Copilot Audit Action Plan** (resolved 2026-10-31) — Synthesized master action spec (arena score 46.0/50), hardened 380 KiB boundary with proactive 80-85% threshold, added pack size report telemetry, added mobile ingress 4h/24h SLA tracking, and fixed cross-platform test runners; 65/65 tests PASS. See [`COMPREHENSIVE-ARCHITECTURAL-ACTION-SPEC.md`](file:///C:/Users/soren/.gemini/antigravity/brain/44f9f95a-9d0c-48a0-8701-ed09ad57f6bb/COMPREHENSIVE-ARCHITECTURAL-ACTION-SPEC.md). |
 | ✅ `[x]` | **P1** | **[P1] IronLedger Phase 18: Background Ingest Daemon & Split Proposal UI** (shipped 2026-10-02, verified 2026-10-06) — IMAP background poller daemon (`src/ironledger/ingest/imap_poller.py`), split proposal triage card (`InspectorSidecar.tsx`), partial-shipment matching, and taxonomy editor implemented; 1146/1146 tests PASS. See [`docs/meta/roadmap.md`](file:///C:/dev/IronLedger/docs/meta/roadmap.md). |
 | ⏳ `[ ]` | **P1** | **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`. |
 | ✅ `[x]` | **P2** | **[P2] Non-deterministic skillpack generators** (created 2026-09-02, resolved 2026-09-28) — Stable sorting applied across skill directories, findings, manifest entries, and dependencies in `toolforgeSkillValidator.ps1` and `toolforgeDependencyGraph.ps1`. |

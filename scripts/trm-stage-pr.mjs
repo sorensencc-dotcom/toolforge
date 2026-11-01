@@ -25,20 +25,22 @@ export const REPO_LOCAL_PATHS = {
   'sigil': path.resolve(DEV_ROOT, 'sigil-repo'),
   'rewrite-mcp': path.resolve(DEV_ROOT, 'rewrite-mcp'),
   'rewrite': path.resolve(DEV_ROOT, 'rewrite-mcp'),
+  'rewrite-docs': path.resolve(DEV_ROOT, 'rewrite-docs'),
   'ironledger': path.resolve(DEV_ROOT, 'IronLedger'),
   'IronLedger': path.resolve(DEV_ROOT, 'IronLedger'),
   'personal-os': path.resolve(DEV_ROOT, 'personal-os')
 };
 
 export function resolveLocalRepoDir(target) {
-  if (!target) return DEV_ROOT;
+  if (!target) return null;
   const key = String(target).trim().toLowerCase();
+  const cleanKey = key.includes('/') ? key.split('/').pop().trim() : key;
   for (const [k, v] of Object.entries(REPO_LOCAL_PATHS)) {
-    if (k.toLowerCase() === key) {
+    if (k.toLowerCase() === cleanKey) {
       if (fs.existsSync(v)) return v;
     }
   }
-  return DEV_ROOT;
+  return null;
 }
 
 export function loadCardData(cardId, options = {}) {
@@ -46,6 +48,7 @@ export function loadCardData(cardId, options = {}) {
   const searchDirs = [
     ...customDirs,
     path.resolve(DEV_ROOT, '.harness/tasks/pending'),
+    path.resolve(DEV_ROOT, '.harness/tasks/in-progress'),
     path.resolve(DEV_ROOT, '.harness/tasks/completed'),
     path.resolve(DEV_ROOT, '.harness/tasks/archive'),
     path.resolve(DEV_ROOT, 'trm-drive/inbox/completed')
@@ -101,7 +104,8 @@ export function loadCardData(cardId, options = {}) {
 
 export function generateTestScaffold(card) {
   const cardId = card.id || card.action_id || 'unknown';
-  const title = card.title || card.intent || cardId;
+  const rawTitle = card.title || card.intent || cardId;
+  const title = String(rawTitle).replace(/[\r\n]+/g, ' ').replace(/'/g, "\\'").trim();
   const target = card.target || card.domain || 'core';
   const deliverables = card.deliverables || [];
   const acceptanceList = Array.isArray(deliverables) && deliverables.length > 0
@@ -159,6 +163,9 @@ export function stagePr(cardId, options = {}) {
 
   const target = card.target || card.domain || 'core';
   const repoDir = resolveLocalRepoDir(target);
+  if (!repoDir) {
+    throw new Error(`UNRESOLVED_LOCAL_REPO: Cannot stage PR for target '${target}'. No valid local repository directory resolved.`);
+  }
   const branchName = `trm/${cardId}`;
   const isPython = target.toLowerCase() === 'ironledger';
 

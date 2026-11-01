@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import {
-  generateAndWriteGuide,
+  generateAndWriteGuideAsync,
   DEFAULT_GUIDE_OUTPUT_PATH,
   DEFAULT_REGISTRY_PATH
 } from './ecosystem-compiler.mjs';
@@ -66,12 +66,12 @@ export async function syncEcosystemGuide(options = {}) {
   const guidePath = options.guidePath || GUIDE_PATH;
 
   if (options.compileOnly) {
-    const compileResult = generateAndWriteGuide(guidePath, options);
+    const compileResult = await generateAndWriteGuideAsync(guidePath, options);
     return { success: true, compiledOnly: true, compileResult };
   }
 
   if (!options.noCompile) {
-    generateAndWriteGuide(guidePath, options);
+    await generateAndWriteGuideAsync(guidePath, options);
   }
 
   const targets = resolveSyncTargets(options);
@@ -152,6 +152,7 @@ export function parseCliArgs(args) {
     dryRun: args.includes('--dry-run'),
     noCompile: args.includes('--no-compile'),
     compileOnly: args.includes('--compile-only'),
+    withGemini: args.includes('--with-gemini'),
     cluster: 'key'
   };
 

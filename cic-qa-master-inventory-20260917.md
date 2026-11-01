@@ -4,8 +4,8 @@
 - **Master Manifest**: `cic-qa-master-inventory-20260917.md`
 - **Verification Engine**: TorqueSpanResolver / Ollama Bounded Extractor
 - **Synchronized Artifacts**: Google Sheets Master QA Matrix (`Executive Dynamics`, `Willow Run Aviation`, `Cuban Assets`, `Willys-Overland`)
-- **Last Sync**: 2026-10-07T09:16:00Z
-- **Status Summary**: 3 RESOLVED, 1 OPEN, 9 STAGED, 1 PROVISIONAL
+- **Last Sync**: 2026-10-30T13:20:00Z
+- **Status Summary**: 4 RESOLVED, 4 OPEN, 9 ACTIVE/STAGED, 5 CANONICAL ADDITIONS (Watermark: GAP-39)
 
 ---
 
@@ -139,3 +139,52 @@
 - **Contradiction**: Ford shop logs blamed machine chatter on Cincinnati beds; Wright Field metallurgical labs identified ingot porosity and uneven grain flow in raw extruded blanks.
 - **Primary Archival Targets**: NARA II, RG 342, Wright Field Aircraft Laboratory Test Reports; BFRC Accession 185, Box 38.
 - **Matrix Tab**: `Willow Run Aviation` $\rightarrow$ Row `GAP-34`
+
+---
+
+## 4. October 2026 Canonical Additions (Reconciled Living Matrix Appends)
+
+### GAP-35: Willow Run Layout Sketch Provenance (M/Y Helene vs. Hotel del Coronado)
+- **Tracking Key**: `GAP-35` (TRM Cluster Ref: `GAP-85` / `GAP-86`)
+- **Domain**: Willow Run Aviation Engineering / Design History
+- **Status**: `ACTIVE / PENDING ARCHIVAL PULL`
+- **Primary Inquiry**: Was the original single-sheet floor plan layout for the Willow Run bomber plant sketched aboard Sorensen's motor yacht *M/Y Helene* or in his suite at the Hotel del Coronado in San Diego?
+- **Contradiction**: Secondary accounts and family lore place the drafting on the *M/Y Helene* during Florida/Great Lakes cruising; Sorensen's raw Accession 65 oral history dictation and handwritten notes explicitly state he drew the initial sequence on a single Coronado Hotel notepad during the January 1941 San Diego conference with Consolidated Aircraft.
+- **Primary Archival Target**: Benson Ford Research Center (BFRC), Accession 65 (Oral History Series), Owen Bombard Interviews, Box 68; Accession 38 (Personal Papers), Box 14.
+- **Matrix Tab**: `Willow Run Aviation` $\rightarrow$ Row `GAP-35`
+
+### GAP-36: Sørensen Family Emigration Timeline & Arrival Year Collision
+- **Tracking Key**: `GAP-36` (TRM Cluster Ref: `GAP-77` / `GAP-78`)
+- **Domain**: Danish Origins & Family Lineage
+- **Status**: `ACTIVE / RESOLUTION DOCUMENTED`
+- **Primary Inquiry**: Did Charles E. Sorensen arrive in the United States in 1883 (age 2) or 1885 (age 4), and what explains the divergent secondary biographical records?
+- **Resolution / Ground Truth**: Sorensen's raw dictation confirms his father, Søren Sørensen, emigrated alone in 1883 to establish patternmaker work in Detroit before sending for his wife (Eva) and sons in 1885. Secondary compendia conflate the father's solo 1883 arrival with the family's 1885 entry.
+- **Primary Archival Target**: Danish National Archives (Rigsarkivet), Utvandrerprotokoller (Copenhagen Emigration Police Protocols, 1885 series); NARA RG 85 (Immigration and Naturalization Service Passenger Lists, Port of New York, 1885).
+- **Matrix Tab**: `Executive Dynamics` $\rightarrow$ Row `GAP-36`
+
+### GAP-37: Flathead V-8 Monobloc Casting Design Attribution
+- **Tracking Key**: `GAP-37` (TRM Cluster Ref: Monobloc V-8 Lore)
+- **Domain**: Rouge Metallurgy & Engine Manufacturing
+- **Status**: `OPEN / UNVERIFIED LORE`
+- **Primary Inquiry**: Did external patternmakers "Lew Walters" and "Bob Heime" originate the core assembly technique for casting the 1932 Ford Flathead V-8 en bloc, or was the design executed wholly within the Rouge toolroom under Sorensen and John Wandersee?
+- **Contradiction**: Popular automotive lore and secondary hobbyist texts credit "Walters" and "Heime" with the complex core-box breakthrough; official Ford engineering records and BFRC Accession 62 toolroom work orders record no individuals under those names on the V-8 casting development team.
+- **Primary Archival Target**: BFRC, Accession 62 (Toolroom Work Orders & Foundry Memoranda, 1930–1932); Accession 38 (Sorensen Pattern Files).
+- **Matrix Tab**: `Executive Dynamics` $\rightarrow$ Row `GAP-37`
+
+### GAP-38: Danish Consular Diplomatic Appointment Claims (Disentangled from Honors)
+- **Tracking Key**: `GAP-38` (TRM Cluster Ref: `GAP-69`)
+- **Domain**: Danish Origins & Diplomatic Claims
+- **Status**: `OPEN / UNCORROBORATED`
+- **Primary Inquiry**: Did Charles E. Sorensen receive a formal diplomatic appointment as Danish Consul or Commercial Attaché for Michigan/Detroit, beyond his verified Order of the Dannebrog knighthood conferrals?
+- **Contradiction**: Secondary biographical sketches claim Sorensen served as an official Danish consular officer in Detroit; Danish Foreign Ministry (*Udenrigsministeriet*) public appointment lists and Dansk Biografisk Leksikon confirm royal honours (1930 Ridder, 1937 Kommandør) but contain no record of formal diplomatic or consular postings.
+- **Primary Archival Target**: Danish National Archives (Rigsarkivet), Udenrigsministeriets Arkiv, Gruppeordnede sager: Konsulatvæsen (Sydhavnen Doc-Series 400-B, pending formal SLA follow-up).
+- **Matrix Tab**: `Executive Dynamics` $\rightarrow$ Row `GAP-38`
+
+### GAP-39: Charles E. Sorensen Vital Statistics & Death Date Discrepancy
+- **Tracking Key**: `GAP-39` (TRM Cluster Ref: Vital Statistics Discrepancy)
+- **Domain**: Biographical Verification & Estate
+- **Status**: `OPEN / PENDING OFFICIAL CERTIFICATE`
+- **Primary Inquiry**: Did Charles E. Sorensen pass away on August 11, 1968 or August 28, 1968, and where did the death occur?
+- **Contradiction**: FamilySearch primary registry, Woodland Park North Mausoleum records, and Bethesda Naval Hospital logs document death on August 11, 1968; Wikipedia, Detroit press retrospectives, and standard biographical compendia perpetuate August 28, 1968.
+- **Primary Archival Target**: Florida Department of Health, Bureau of Vital Statistics (Certified Death Certificate Request, August 1968 series); Montgomery County / Maryland State Archives (Bethesda Naval Hospital death record extracts).
+- **Matrix Tab**: `Executive Dynamics` $\rightarrow$ Row `GAP-39`

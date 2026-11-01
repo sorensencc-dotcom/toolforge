@@ -23,18 +23,60 @@ import { fileURLToPath } from 'node:url';
 import { ROOT_WIKI_PAGE_MAPPINGS } from '../tools/wiki-browser-qa/wiki-page-rules.mjs';
 import { addFrontmatterTitle, ensureSkillLibrary } from './sync-github-wiki.mjs';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const defaultRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+export function getRepoRoot(env = process.env) {
+  return env.REPO_ROOT ? path.resolve(env.REPO_ROOT) : defaultRoot;
+}
+const root = defaultRoot;
 // Live publishes use HTTPS with a token passed through the environment. SSH is
 // only the local fallback when no token is set and we are not running in CI.
 const WIKI_HTTPS_URL = 'https://github.com/sorensencc-dotcom/toolforge.wiki.git';
 const WIKI_SSH_URL = 'git@github.com:sorensencc-dotcom/toolforge.wiki.git';
+
+export function resolveWikiUrls(repoPath = root) {
+  if (process.env.WIKI_REPO_URL) {
+    return { https: process.env.WIKI_REPO_URL, ssh: process.env.WIKI_REPO_URL };
+  }
+  try {
+    const originUrl = runGit(['config', '--get', 'remote.origin.url'], repoPath);
+    const match = originUrl.trim().match(/github\.com[:/]([^/]+)\/([^/]+?)(?:\.git)?$/i);
+    if (match) {
+      const org = match[1];
+      const repo = match[2];
+      return {
+        https: `https://github.com/${org}/${repo}.wiki.git`,
+        ssh: `git@github.com:${org}/${repo}.wiki.git`
+      };
+    }
+  } catch {}
+  return { https: WIKI_HTTPS_URL, ssh: WIKI_SSH_URL };
+}
 const ZERO_SHA = /^0+$/;
 const GIT = process.env.GIT_BIN || (process.platform === 'win32' && fs.existsSync('C:\\Program Files\\Git\\cmd\\git.exe')
   ? 'C:\\Program Files\\Git\\cmd\\git.exe'
   : 'git');
 const PUBLISHED_CLONE = path.resolve(process.env.TOOLFORGE_WIKI_DIR || path.join(root, '..', 'toolforge-wiki')).toLowerCase();
 
-export function wikiPagesFromRepo(mappings = ROOT_WIKI_PAGE_MAPPINGS) {
+export function findWikiPagesInDir(wikiDir, baseRel = 'wiki') {
+  const pages = [];
+  if (!fs.existsSync(wikiDir)) return pages;
+  const entries = fs.readdirSync(wikiDir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.name === '.git' || entry.name === 'node_modules' || entry.name.startsWith('.tmp') || entry.name.startsWith('.ijfw')) continue;
+    const rel = path.join(baseRel, entry.name);
+    if (entry.isDirectory()) {
+      pages.push(...findWikiPagesInDir(path.join(wikiDir, entry.name), rel));
+    } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) {
+      pages.push({ src: rel.replace(/\\/g, '/'), dest: entry.name });
+    }
+  }
+  return pages;
+}
+
+export function wikiPagesFromRepo(mappings = ROOT_WIKI_PAGE_MAPPINGS, targetRoot = root) {
+  if (targetRoot !== defaultRoot && fs.existsSync(path.join(targetRoot, 'wiki'))) {
+    return findWikiPagesInDir(path.join(targetRoot, 'wiki'));
+  }
   return mappings.filter((mapping) => mapping.src.startsWith('wiki/') && mapping.dest.toLowerCase().endsWith('.md'));
 }
 
@@ -115,13 +157,14 @@ export function evaluatePublishGuards({ branch, dirty = [], env = process.env } 
  * GITHUB_TOKEN. Without either, CI has no way to authenticate (mode 'none');
  * a local run falls back to SSH.
  */
-export function resolveWikiAuth(env = process.env) {
+export function resolveWikiAuth(env = process.env, targetRoot = root) {
+  const urls = resolveWikiUrls(targetRoot);
   const wikiToken = String(env.WIKI_PUSH_TOKEN || '').trim();
-  if (wikiToken) return { mode: 'https-token', source: 'WIKI_PUSH_TOKEN', token: wikiToken, url: WIKI_HTTPS_URL };
+  if (wikiToken) return { mode: 'https-token', source: 'WIKI_PUSH_TOKEN', token: wikiToken, url: urls.https };
   const ghToken = String(env.GITHUB_TOKEN || '').trim();
-  if (ghToken) return { mode: 'https-token', source: 'GITHUB_TOKEN', token: ghToken, url: WIKI_HTTPS_URL };
-  if (env.GITHUB_ACTIONS === 'true') return { mode: 'none', source: null, token: null, url: WIKI_HTTPS_URL };
-  return { mode: 'ssh', source: 'local ssh', token: null, url: WIKI_SSH_URL };
+  if (ghToken) return { mode: 'https-token', source: 'GITHUB_TOKEN', token: ghToken, url: urls.https };
+  if (env.GITHUB_ACTIONS === 'true') return { mode: 'none', source: null, token: null, url: urls.https };
+  return { mode: 'ssh', source: 'local ssh', token: null, url: urls.ssh };
 }
 
 /**
@@ -233,15 +276,15 @@ export function changedFilesFromRanges(ranges, run = git, cwd = root) {
   return null;
 }
 
-function changedFilesAgainstUpstream(env = process.env) {
+export function changedFilesAgainstUpstream(env = process.env, targetRoot = root) {
   let upstream = '';
   try {
-    upstream = git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'], root);
+    upstream = git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'], targetRoot);
   } catch {
     // no upstream configured
   }
-  const ranges = diffRangeCandidates({ env, upstream, branch: resolveBranch(env) });
-  return changedFilesFromRanges(ranges);
+  const ranges = diffRangeCandidates({ env, upstream, branch: resolveBranch(env, () => getCurrentBranch(targetRoot)) });
+  return changedFilesFromRanges(ranges, git, targetRoot);
 }
 
 export function commitIdentityEnv(env = process.env) {
@@ -256,29 +299,30 @@ export function commitIdentityEnv(env = process.env) {
   };
 }
 
-export function publish(pages, { dryRun = false, auth = resolveWikiAuth(), env = process.env } = {}) {
+export function publish(pages, { dryRun = false, auth, env = process.env, targetRoot = root } = {}) {
+  const resolvedAuth = auth || resolveWikiAuth(env, targetRoot);
   if (dryRun) {
     console.log(`WIKI_PUBLISH_DRY_RUN: verified ${pages.length} repo wiki page mappings cleanly.`);
     return;
   }
-  if (auth.mode === 'none') {
+  if (resolvedAuth.mode === 'none') {
     throw new Error('WIKI_TOKEN_MISSING: set WIKI_PUSH_TOKEN (or pass GITHUB_TOKEN with contents: write) to publish the wiki from CI.');
   }
-  const authEnv = gitAuthEnv(auth);
+  const authEnv = gitAuthEnv(resolvedAuth);
   const run = (args, cwd, extra = {}) => runGit(args, cwd, env, { ...authEnv, ...extra });
   const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), 'toolforge-wiki-publish-'));
   try {
     assertPublishClone(cloneDir);
     try {
-      run(['-c', 'core.autocrlf=false', 'clone', '--depth', '1', auth.url, cloneDir], root);
+      run(['-c', 'core.autocrlf=false', 'clone', '--depth', '1', resolvedAuth.url, cloneDir], targetRoot);
     } catch (error) {
-      const hint = auth.mode === 'https-token'
+      const hint = resolvedAuth.mode === 'https-token'
         ? ' Check that the wiki is enabled and initialised and that the token can push to it (contents: write).'
         : '';
-      throw new Error(`WIKI_CLONE_FAILED (${auth.mode}${auth.source ? `, ${auth.source}` : ''}): ${redactSecrets(error.stderr || error.message, auth).trim()}${hint}`);
+      throw new Error(`WIKI_CLONE_FAILED (${resolvedAuth.mode}${resolvedAuth.source ? `, ${resolvedAuth.source}` : ''}): ${redactSecrets(error.stderr || error.message, resolvedAuth).trim()}${hint}`);
     }
     run(['config', 'core.autocrlf', 'false'], cloneDir);
-    const repoPages = pages.map((page) => ({ ...page, src: path.join(root, page.src) }));
+    const repoPages = pages.map((page) => ({ ...page, src: path.join(targetRoot, page.src) }));
     applyRepoPages(cloneDir, repoPages);
     const addPaths = repoPages.map((page) => page.dest);
     if (fs.existsSync(path.join(cloneDir, '_Sidebar.md'))) addPaths.push('_Sidebar.md');
@@ -293,7 +337,7 @@ export function publish(pages, { dryRun = false, auth = resolveWikiAuth(), env =
     try {
       run(['-c', 'core.hooksPath=.git/no-hooks', 'push', 'origin', 'HEAD'], cloneDir);
     } catch (error) {
-      throw new Error(`WIKI_PUSH_FAILED (${auth.mode}${auth.source ? `, ${auth.source}` : ''}): ${redactSecrets(error.stderr || error.message, auth).trim()}`);
+      throw new Error(`WIKI_PUSH_FAILED (${resolvedAuth.mode}${resolvedAuth.source ? `, ${resolvedAuth.source}` : ''}): ${redactSecrets(error.stderr || error.message, resolvedAuth).trim()}`);
     }
     console.log(`Published ${dirty.split(/\r?\n/).filter(Boolean).join(', ')}`);
   } finally {
@@ -313,9 +357,14 @@ export function removeCloneDir(dir, rm = fs.rmSync) {
 function main() {
   const ifChanged = process.argv.includes('--if-changed');
   const dryRun = process.argv.includes('--dry-run');
-  const pages = wikiPagesFromRepo();
+  const targetRoot = getRepoRoot();
+  const pages = wikiPagesFromRepo(targetRoot === root ? ROOT_WIKI_PAGE_MAPPINGS : undefined, targetRoot);
+  if (pages.length === 0) {
+    console.log('No repo wiki files found for repository. Skipping wiki publish.');
+    return;
+  }
   if (ifChanged) {
-    const files = changedFilesAgainstUpstream();
+    const files = changedFilesAgainstUpstream(process.env, targetRoot);
     if (files === null) {
       console.warn('WIKI_PUBLISH_WARNING: could not determine the changed files for this push; treating wiki as changed (publishing is idempotent).');
     } else if (changedWikiPaths(files).length === 0) {
@@ -323,17 +372,17 @@ function main() {
       return;
     }
   }
-  const branch = resolveBranch();
-  const guards = evaluatePublishGuards({ branch, dirty: checkDirtyWiki() });
+  const branch = resolveBranch(process.env, () => getCurrentBranch(targetRoot));
+  const guards = evaluatePublishGuards({ branch, dirty: checkDirtyWiki(targetRoot) });
   if (dryRun) {
     if (guards.length === 0) {
       console.log('WIKI_PUBLISH_GUARDS: none would trigger; a real run from this ref would publish.');
     } else {
       for (const guard of guards) console.log(`WIKI_PUBLISH_GUARD: a real run would refuse (${guard.code}): ${guard.message}`);
     }
-    const auth = resolveWikiAuth();
+    const auth = resolveWikiAuth(process.env, targetRoot);
     console.log(`WIKI_PUBLISH_AUTH: ${auth.mode}${auth.source ? ` via ${auth.source}` : ''}`);
-    publish(pages, { dryRun: true });
+    publish(pages, { dryRun: true, auth, targetRoot });
     return;
   }
   if (guards.length > 0) {
@@ -341,7 +390,7 @@ function main() {
     process.exit(1);
   }
   try {
-    publish(pages);
+    publish(pages, { auth: resolveWikiAuth(process.env, targetRoot), targetRoot });
   } catch (error) {
     console.error(error.message);
     process.exit(1);

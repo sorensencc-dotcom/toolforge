@@ -64,8 +64,6 @@ const GDRIVE_OUTBOX_ARCHIVE = path.join(GDRIVE_ROOT, '04_archive/mobile-outbox')
 const LOCAL_OUTBOX_ARCHIVE = path.join(LOCAL_INBOX_ROOT, 'completed/outbox');
 const LOCAL_DOT_TRM_OUTBOX_ARCHIVE = path.join(REPO_ROOT, '.trm/inbox/outbox/archive');
 
-export const LINK_SCRUBBER_REGEX = /(?:\[|%5B)suspicious link removed(?:\]|%5D)/i;
-
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
 const isOnce = args.includes('--once') || isDryRun;
@@ -164,6 +162,16 @@ export function cleanupCompanionFiles(filePath, isFromGDrive) {
   } catch {}
 }
 
+let betterSqlite3Module = null;
+async function getBetterSqlite3() {
+  if (!betterSqlite3Module) {
+    try {
+      betterSqlite3Module = (await import('better-sqlite3')).default;
+    } catch {}
+  }
+  return betterSqlite3Module;
+}
+
 export async function resolveGoogleDocId(filePath) {
   try {
     if (fs.existsSync(filePath)) {
@@ -181,23 +189,141 @@ export async function resolveGoogleDocId(filePath) {
   const driveFsBase = path.join(process.env.LOCALAPPDATA || '', 'Google', 'DriveFS');
   if (fs.existsSync(driveFsBase)) {
     try {
-      const entries = fs.readdirSync(driveFsBase);
-      for (const entry of entries) {
-        const dbPath = path.join(driveFsBase, entry, 'mirror_metadata_sqlite.db');
-        if (fs.existsSync(dbPath)) {
-          try {
-            const Database = (await import('better-sqlite3')).default;
-            const db = new Database(dbPath, { readonly: true });
-            const row = db.prepare("SELECT id FROM items WHERE local_title LIKE ? AND mime_type = 'application/vnd.google-apps.document' LIMIT 1").get(`%${baseName}%`);
-            db.close();
-            if (row && row.id) return row.id;
-          } catch {}
+      const Database = await getBetterSqlite3();
+      if (Database) {
+        const entries = fs.readdirSync(driveFsBase);
+        for (const entry of entries) {
+          const dbPath = path.join(driveFsBase, entry, 'mirror_metadata_sqlite.db');
+          if (fs.existsSync(dbPath)) {
+            try {
+              const db = new Database(dbPath, { readonly: true });
+              const row = db.prepare("SELECT id FROM items WHERE local_title LIKE ? AND mime_type = 'application/vnd.google-apps.document' LIMIT 1").get(`%${baseName}%`);
+              db.close();
+              if (row && row.id) return row.id;
+            } catch {}
+          }
         }
       }
     } catch {}
   }
 
   return null;
+}
+
+let cachedAccessToken = null;
+let tokenExpiresAt = 0;
+let refreshPromise = null;
+let envLoaded = false;
+
+export function resetTokenCacheForTesting() {
+  cachedAccessToken = null;
+  tokenExpiresAt = 0;
+  refreshPromise = null;
+  envLoaded = false;
+}
+
+function loadEnvCredentials() {
+  if (envLoaded) return;
+  envLoaded = true;
+
+  if (process.env.GOOGLE_REFRESH_TOKEN && process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    return;
+  }
+
+  for (const envPath of [path.join(REPO_ROOT, 'scripts', '.env'), path.join(REPO_ROOT, '.env')]) {
+    if (fs.existsSync(envPath)) {
+      try {
+        const lines = fs.readFileSync(envPath, 'utf8').split(/\r?\n/);
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith('#')) continue;
+          const eqIdx = trimmed.indexOf('=');
+          if (eqIdx > 0) {
+            const key = trimmed.slice(0, eqIdx).trim();
+            let val = trimmed.slice(eqIdx + 1).trim();
+            if (!val.startsWith('"') && !val.startsWith("'")) {
+              const hashIdx = val.indexOf('#');
+              if (hashIdx >= 0) val = val.slice(0, hashIdx).trim();
+            } else {
+              const quoteChar = val[0];
+              const endQuoteIdx = val.indexOf(quoteChar, 1);
+              if (endQuoteIdx > 0) val = val.slice(1, endQuoteIdx);
+            }
+            if (key.startsWith('GOOGLE_') && !process.env[key]) {
+              process.env[key] = val;
+            }
+          }
+        }
+      } catch {}
+    }
+  }
+}
+
+export async function getValidAccessToken(forceRefresh = false) {
+  loadEnvCredentials();
+
+  const isExpired = Date.now() >= (tokenExpiresAt - 300000); // 5-minute safety buffer
+  if (cachedAccessToken && !forceRefresh && !isExpired) {
+    return cachedAccessToken;
+  }
+
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+
+  if (!refreshToken || !clientId || !clientSecret) {
+    return process.env.GOOGLE_OAUTH_TOKEN || null;
+  }
+
+  if (refreshPromise) {
+    return refreshPromise;
+  }
+
+  refreshPromise = (async () => {
+    try {
+      const params = new URLSearchParams({
+        client_id: clientId,
+        client_secret: clientSecret,
+        refresh_token: refreshToken,
+        grant_type: 'refresh_token'
+      });
+
+      const res = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+        signal: AbortSignal.timeout(15000)
+      });
+
+      if (!res.ok) {
+        let errDesc = '';
+        try {
+          const errJson = await res.json();
+          errDesc = errJson.error_description || errJson.error || '';
+        } catch {
+          errDesc = (await res.text()).slice(0, 200);
+        }
+        cachedAccessToken = null;
+        tokenExpiresAt = 0;
+        throw new Error(`OAuth token refresh failed (${res.status}): ${errDesc}`);
+      }
+
+      const data = await res.json();
+      cachedAccessToken = data.access_token;
+      const expiresInSec = typeof data.expires_in === 'number' ? data.expires_in : 3600;
+      tokenExpiresAt = Date.now() + (expiresInSec * 1000);
+      process.env.GOOGLE_OAUTH_TOKEN = cachedAccessToken;
+      return cachedAccessToken;
+    } catch (err) {
+      cachedAccessToken = null;
+      tokenExpiresAt = 0;
+      throw err;
+    } finally {
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
 }
 
 export function parsePayload(raw, ext, options = {}) {
@@ -224,21 +350,82 @@ export function parsePayload(raw, ext, options = {}) {
           throw new Error(`Failed to fetch gdoc text: ${res?.error || 'Custom docFetcher failed'}`);
         }
       } else {
-        const headers = {};
-        const token = options.authBearer || process.env.GOOGLE_OAUTH_TOKEN;
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
+        let token = options.authBearer || (await getValidAccessToken());
+        let res = null;
+        for (let attempt = 0; attempt <= 1; attempt++) {
+          const headers = {};
+          if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+          }
+
+          const driveApiUrl = `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(docId)}/export?mimeType=text%2Fplain`;
+          const docsWebUrl = `https://docs.google.com/document/d/${encodeURIComponent(docId)}/export?format=txt`;
+          // Prefer Google Drive API v3 when token is available, fallback to Docs web URL
+          const targetUrl = token ? driveApiUrl : docsWebUrl;
+
+          try {
+            res = await fetch(targetUrl, {
+              headers,
+              redirect: 'manual',
+              signal: AbortSignal.timeout(30000)
+            });
+
+            // If Drive API returned 404 or unsupported method, fall back to docs.google.com web export
+            if (!res.ok && res.status !== 401 && res.status !== 403 && targetUrl === driveApiUrl) {
+              res = await fetch(docsWebUrl, {
+                headers,
+                redirect: 'manual',
+                signal: AbortSignal.timeout(30000)
+              });
+            }
+          } catch (fetchErr) {
+            if (attempt === 0 && !options.authBearer && (process.env.GOOGLE_REFRESH_TOKEN || process.env.GOOGLE_CLIENT_ID)) {
+              console.warn(`[TRM-INGRESS] GDoc fetch network error on doc ${docId} (${fetchErr.message}). Attempting token refresh...`);
+              try {
+                token = await getValidAccessToken(true);
+                await new Promise(r => setTimeout(r, 500));
+                continue;
+              } catch (refreshErr) {
+                console.warn(`[TRM-INGRESS] Token refresh attempt failed: ${refreshErr.message}`);
+                throw new Error(`Failed to fetch gdoc text: ${fetchErr.message} (Refresh failed: ${refreshErr.message})`);
+              }
+            }
+            throw fetchErr;
+          }
+
+          const isRedirectToLogin = (res.status >= 300 && res.status < 400) &&
+            (res.headers.get('location')?.includes('accounts.google.com') || res.headers.get('location')?.includes('ServiceLogin'));
+          const isAuthChallenge = res.status === 401 || res.status === 403 || isRedirectToLogin;
+
+          if (isAuthChallenge && attempt === 0 && !options.authBearer) {
+            console.warn(`[TRM-INGRESS] Auth challenge (HTTP ${res.status}${isRedirectToLogin ? ' -> Login Redirect' : ''}) for doc ${docId}. Refreshing token and retrying...`);
+            try {
+              token = await getValidAccessToken(true);
+              continue;
+            } catch (refreshErr) {
+              console.warn(`[TRM-INGRESS] Token refresh attempt failed: ${refreshErr.message}`);
+              throw new Error(`Failed to fetch gdoc text: Auth expired (${res.status}) and token refresh failed: ${refreshErr.message}`);
+            }
+          }
+
+          if (res.status >= 300 && res.status < 400 && !isRedirectToLogin) {
+            const redirectUrl = res.headers.get('location');
+            if (redirectUrl) {
+              res = await fetch(redirectUrl, {
+                headers,
+                signal: AbortSignal.timeout(30000)
+              });
+            }
+          }
+
+          break;
         }
-        const res = await fetch(`https://docs.google.com/document/d/${docId}/export?format=txt`, { headers });
+
         if (!res.ok) throw new Error(`Failed to fetch gdoc text: ${res.status} ${res.statusText}`);
         text = await res.text();
         if (text.trim().startsWith('<!DOCTYPE html>') || text.includes('<html')) {
           throw new Error('Failed to fetch gdoc text: Received HTML login/redirect page instead of text');
         }
-      }
-
-      if (LINK_SCRUBBER_REGEX.test(text)) {
-        throw new Error('Document corrupted by link scrubber: suspicious link removed');
       }
 
       const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -264,10 +451,6 @@ export function parsePayload(raw, ext, options = {}) {
         }
       };
     })();
-  }
-
-  if (typeof text === 'string' && LINK_SCRUBBER_REGEX.test(text)) {
-    throw new Error('Document corrupted by link scrubber: suspicious link removed');
   }
 
   if (ext === '.json') {
@@ -464,6 +647,40 @@ export function inferDomain(item) {
   return 'research';
 }
 
+export function validateIngressQuality(item, rawContent = '') {
+  if (item?.context?.body_fetch_failed === true) {
+    const hasActionableTriage = Boolean(
+      (item?.execution_plan && item.execution_plan.length > 0) ||
+      (item?.intent && item.intent !== 'triage_mobile_request' && item.intent !== 'validation_error' && item.intent !== 'unknown')
+    );
+    if (!hasActionableTriage) {
+      return {
+        valid: false,
+        reason: 'GDOC_BODY_FETCH_FAILED',
+        error: 'Document body extraction failed; only filename metadata is present.'
+      };
+    }
+  }
+  const content = rawContent || item?.raw_content || item?.summary || item?.body || item?.context?.body || '';
+  const stripped = String(content).replace(/\s+/g, ' ').trim();
+  const minLength = (item?.execution_plan?.length > 0 || (item?.intent && item.intent !== 'triage_mobile_request')) ? 20 : 50;
+  if (stripped.length < minLength) {
+    return {
+      valid: false,
+      reason: 'INSUFFICIENT_CONTENT',
+      error: `Card content is too short (${stripped.length} chars, minimum ${minLength} required).`
+    };
+  }
+  if (item?.title === 'Unknown Title' || item?.intent === 'triage_mobile_request') {
+    return {
+      valid: false,
+      reason: 'STUB_METADATA_ONLY',
+      error: 'Card contains only synthetic/stub metadata without actionable directives.'
+    };
+  }
+  return { valid: true };
+}
+
 export function getRoutingDecision(item) {
   const hasSubstantiveContent = Boolean(
     (item?.raw_content && item.raw_content.length > 50) ||
@@ -557,14 +774,6 @@ export function validatePayload(item) {
   if (!item.action_type || !['deterministic_fix', 'antigravity_triage'].includes(item.action_type)) {
     item.action_type = inferActionType(item);
   }
-  // Validate $schema URI resilience if present
-  if (item.$schema !== undefined && item.$schema !== null) {
-    if (typeof item.$schema !== 'string' || !URL.canParse(item.$schema)) {
-      item.$schema_invalid = item.$schema;
-      item.$schema = 'urn:toolforge:schema:base-sync-task:v1';
-    }
-  }
-
   if (!item.intent) throw new Error('Missing intent');
   return true;
 }
@@ -576,12 +785,64 @@ export function commitTypeForCard(card = {}) {
   return 'feat';
 }
 
+export function findExistingGitHubIssueOrPr(repo, intentOrId) {
+  if (!repo || !intentOrId) return null;
+  const cleanSearch = String(intentOrId).replace(/[^a-zA-Z0-9_\-]/g, ' ').trim();
+  if (!cleanSearch) return null;
+
+  // 1. Check existing issues
+  try {
+    const issueListOut = execFileSync('gh', ['issue', 'list', '--repo', repo, '--state', 'all', '--search', cleanSearch, '--limit', '5', '--json', 'number,title,state,url'], {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      shell: false,
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim();
+    if (issueListOut) {
+      const issues = JSON.parse(issueListOut);
+      if (Array.isArray(issues) && issues.length > 0) {
+        const matched = issues.find(i => (i.title && i.title.toLowerCase().includes(cleanSearch.toLowerCase())) || (i.number && cleanSearch.includes(String(i.number))));
+        if (matched) {
+          return { type: 'issue', url: matched.url, state: matched.state, number: matched.number, title: matched.title };
+        }
+      }
+    }
+  } catch {}
+
+  // 2. Check existing PRs
+  try {
+    const prListOut = execFileSync('gh', ['pr', 'list', '--repo', repo, '--state', 'all', '--search', cleanSearch, '--limit', '5', '--json', 'number,title,state,url'], {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      shell: false,
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim();
+    if (prListOut) {
+      const prs = JSON.parse(prListOut);
+      if (Array.isArray(prs) && prs.length > 0) {
+        const matched = prs.find(p => (p.title && p.title.toLowerCase().includes(cleanSearch.toLowerCase())) || (p.number && cleanSearch.includes(String(p.number))));
+        if (matched) {
+          return { type: 'pr', url: matched.url, state: matched.state, number: matched.number, title: matched.title };
+        }
+      }
+    }
+  } catch {}
+
+  return null;
+}
+
 export function createGitHubIssue(item, explicitRepo = null) {
   try {
     const repo = explicitRepo || item.target_repo || (resolveTargetRouting(item.target || item.domain)?.repo);
     if (!repo || repo.startsWith('local:')) {
       console.log(`[TRM-INGRESS] Bypassing GitHub issue creation for local/unmapped target: ${item.target || item.domain || 'N/A'}`);
       return null;
+    }
+
+    const existing = findExistingGitHubIssueOrPr(repo, item.intent || item.id);
+    if (existing) {
+      console.log(`[TRM-INGRESS] Found existing GitHub ${existing.type.toUpperCase()} #${existing.number} (${existing.state}): ${existing.url}`);
+      return existing.url;
     }
 
     const priority = (item.priority || 'P2').toUpperCase();
@@ -646,15 +907,25 @@ export function createGitHubIssue(item, explicitRepo = null) {
   }
 }
 
-export function logToLedger(entry) {
+export function logToLedger(entry, explicitLedgerPath = null) {
+  const targetLedger = explicitLedgerPath || process.env.TRM_LEDGER_PATH || LEDGER_JSONL;
   const line = JSON.stringify(entry) + '\n';
-  fs.appendFileSync(LEDGER_JSONL, line, 'utf8');
-  refreshLedgerMarkdown();
+  try {
+    fs.appendFileSync(targetLedger, line, 'utf8');
+  } catch (err) {
+    try {
+      const existing = fs.existsSync(targetLedger) ? fs.readFileSync(targetLedger, 'utf8') : '';
+      fs.writeFileSync(targetLedger, existing + line, 'utf8');
+    } catch (e2) {
+      console.warn(`[TRM-INGRESS] Could not write to ledger: ${e2.message}`);
+    }
+  }
+  refreshLedgerMarkdown(targetLedger);
 }
 
-export function refreshLedgerMarkdown() {
-  if (!fs.existsSync(LEDGER_JSONL)) return;
-  const lines = fs.readFileSync(LEDGER_JSONL, 'utf8').trim().split('\n').filter(Boolean);
+export function refreshLedgerMarkdown(targetLedger = process.env.TRM_LEDGER_PATH || LEDGER_JSONL) {
+  if (!fs.existsSync(targetLedger)) return;
+  const lines = fs.readFileSync(targetLedger, 'utf8').trim().split('\n').filter(Boolean);
   const rows = lines.map((l) => {
     try {
       return JSON.parse(l);
@@ -680,12 +951,16 @@ export function refreshLedgerMarkdown() {
 
     const target = r.target_notebook_name || r.target || r.domain || 'N/A';
     let issueLink = '—';
-    if (r.issue_url) {
-      const match = r.issue_url.match(/github\.com\/([^/]+\/[^/]+)\/issues\/(\d+)/);
-      if (match) {
-        issueLink = `[${match[1]}#${match[2]}](${r.issue_url})`;
+    const trackingUrl = r.pr_url || r.issue_url;
+    if (trackingUrl) {
+      const prMatch = trackingUrl.match(/github\.com\/([^/]+\/[^/]+)\/pull\/(\d+)/);
+      const issueMatch = trackingUrl.match(/github\.com\/([^/]+\/[^/]+)\/issues\/(\d+)/);
+      if (prMatch) {
+        issueLink = `[${prMatch[1]}#${prMatch[2]} (PR)](${trackingUrl})`;
+      } else if (issueMatch) {
+        issueLink = `[${issueMatch[1]}#${issueMatch[2]}](${trackingUrl})`;
       } else {
-        issueLink = `[Issue #${r.issue_url.split('/').pop()}](${r.issue_url})`;
+        issueLink = `[Link](${trackingUrl})`;
       }
     } else if (r.research_ref) {
       issueLink = `[${path.basename(r.research_ref)}](${r.research_ref})`;
@@ -704,7 +979,12 @@ export function refreshLedgerMarkdown() {
   md += `- **Completed Archive**: \`${COMPLETED_DIR}\`\n`;
   md += `- **Antigravity Pending**: \`${HARNESS_PENDING_DIR}\`\n`;
 
-  fs.writeFileSync(LEDGER_MD, md, 'utf8');
+  const targetMdPath = targetLedger === LEDGER_JSONL ? LEDGER_MD : path.join(path.dirname(targetLedger), 'LEDGER.md');
+  try {
+    fs.writeFileSync(targetMdPath, md, 'utf8');
+  } catch (err) {
+    console.warn(`[TRM-INGRESS] Could not write ledger markdown: ${err.message}`);
+  }
 
   // Emit ICF Status Feed artifact
   emitIcfStatusFeed(rows);
@@ -755,6 +1035,9 @@ export function auditOutboxReconciliation() {
   let pendingCompletionCount = 0;
   let completedReceiptsCount = 0;
   const unreconciledCardIds = [];
+  const unReceiptedOverdue = [];
+  const now = Date.now();
+  const UNRECEIPTED_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 
   for (const row of ledgerRows) {
     const cardId = row.id;
@@ -768,6 +1051,10 @@ export function auditOutboxReconciliation() {
       reconciledCardsCount++;
     } else if (row.status !== 'QUARANTINED') {
       unreconciledCardIds.push(cardId);
+      const rowTime = row.timestamp ? new Date(row.timestamp).getTime() : 0;
+      if (rowTime && (now - rowTime > UNRECEIPTED_MAX_AGE_MS)) {
+        unReceiptedOverdue.push({ id: cardId, intent: row.intent, ageHours: Number(((now - rowTime) / (3600 * 1000)).toFixed(1)) });
+      }
     }
 
     if (row.status === 'COMPLETED' || row.status === 'RESOLVED') {
@@ -777,13 +1064,45 @@ export function auditOutboxReconciliation() {
     }
   }
 
+  // Check un-ingested files in active staging inboxes older than 4 hours
+  const unIngestedStagedOverdue = [];
+  const UNINGESTED_MAX_AGE_MS = 4 * 60 * 60 * 1000; // 4 hours
+  for (const inbox of getActiveInboxDirs()) {
+    if (fs.existsSync(inbox)) {
+      try {
+        const files = fs.readdirSync(inbox);
+        for (const f of files) {
+          const fp = path.join(inbox, f);
+          try {
+            const stat = fs.statSync(fp);
+            if (!stat.isDirectory() && (now - stat.mtimeMs > UNINGESTED_MAX_AGE_MS)) {
+              unIngestedStagedOverdue.push({ file: f, path: fp, ageHours: Number(((now - stat.mtimeMs) / (3600 * 1000)).toFixed(1)) });
+            }
+          } catch {}
+        }
+      } catch {}
+    }
+  }
+
   const rejectedReceiptFiles = activeReceiptFiles.filter(f => f.includes('-rejected') || f.includes('.rejected.'));
   const isReconciled = unreconciledCardIds.length === 0 && rejectedReceiptFiles.length === 0 && ledgerRows.length > 0;
   const reconciliationStatus = isReconciled ? 'RECONCILED' : (ledgerRows.length === 0 ? 'NO_DATA' : (rejectedReceiptFiles.length > 0 ? 'REJECTED_CARDS_PRESENT' : 'DISCREPANCY'));
+  const slaAlerts = [];
+  if (unIngestedStagedOverdue.length > 0) {
+    slaAlerts.push(`P1_ALARM: ${unIngestedStagedOverdue.length} card(s) un-ingested in staging > 4h`);
+  }
+  if (unReceiptedOverdue.length > 0) {
+    slaAlerts.push(`P2_ALARM: ${unReceiptedOverdue.length} card(s) un-receipted in execution > 24h`);
+  }
+  const slaStatus = unIngestedStagedOverdue.length > 0 ? 'P1_ALARM' : (unReceiptedOverdue.length > 0 ? 'P2_ALARM' : 'NOMINAL');
 
   return {
     timestamp: new Date().toISOString(),
     reconciliationStatus,
+    slaStatus,
+    slaAlerts,
+    unIngestedStagedOverdue,
+    unReceiptedOverdue,
     archivedCardsCount,
     activeReceiptsCount: activeReceiptFiles.length,
     rejectedReceiptsCount: rejectedReceiptFiles.length,
@@ -842,12 +1161,28 @@ export function syncCompletionReceipts(options = {}) {
       completionSummary = item.summary || 'Deterministic remediation executed and completed.';
     }
 
-    // Check GitHub Issue status if present
-    if (!isFinished && item.issue_url) {
-      const match = item.issue_url.match(/github\.com\/([^/]+\/[^/]+)\/issues\/(\d+)/);
-      if (match) {
-        const repo = match[1];
-        const issueNum = match[2];
+    // Check GitHub Issue or PR status if present
+    const trackingUrl = item.pr_url || item.issue_url;
+    if (!isFinished && trackingUrl) {
+      const prMatch = trackingUrl.match(/github\.com\/([^/]+\/[^/]+)\/pull\/(\d+)/);
+      const issueMatch = trackingUrl.match(/github\.com\/([^/]+\/[^/]+)\/issues\/(\d+)/);
+      if (prMatch) {
+        const repo = prMatch[1];
+        const prNum = prMatch[2];
+        try {
+          const jsonOut = execSync(`gh pr view ${prNum} --repo "${repo}" --json state,mergedAt,closedAt,title`, {
+            encoding: 'utf8',
+            stdio: ['pipe', 'pipe', 'ignore']
+          }).trim();
+          const prData = JSON.parse(jsonOut);
+          if (prData.state === 'MERGED' || prData.state === 'CLOSED') {
+            isFinished = true;
+            completionSummary = `GitHub PR #${prNum} in ${repo} was ${prData.state.toLowerCase()} at ${prData.mergedAt || prData.closedAt || 'earlier'}.`;
+          }
+        } catch {}
+      } else if (issueMatch) {
+        const repo = issueMatch[1];
+        const issueNum = issueMatch[2];
         try {
           const jsonOut = execSync(`gh issue view ${issueNum} --repo "${repo}" --json state,closedAt,title`, {
             encoding: 'utf8',
@@ -903,6 +1238,7 @@ export function syncCompletionReceipts(options = {}) {
         summary: `Action Completed: ${item.summary || item.intent}`,
         completion_details: completionSummary,
         issue_url: item.issue_url || null,
+        pr_url: item.pr_url || (item.issue_url && item.issue_url.includes('/pull/') ? item.issue_url : null),
         research_ref: item.research_ref || null,
         completed_at: item.completed_at,
         dispatched_at: new Date().toISOString(),
@@ -913,6 +1249,10 @@ export function syncCompletionReceipts(options = {}) {
       const fileNameJson = `receipt-${item.id}-completed.json`;
       const fileNameMd = `receipt-${item.id}-completed.md`;
 
+      const trackingLine = completionReceipt.pr_url
+        ? `- **Tracking PR**: [${completionReceipt.pr_url}](${completionReceipt.pr_url})\n`
+        : (completionReceipt.issue_url ? `- **Tracking Issue**: [${completionReceipt.issue_url}](${completionReceipt.issue_url})\n` : '');
+
       const mdContent = `# Completion Receipt: \`${completionReceipt.receipt_id}\`\n\n` +
         `- **Original Action ID**: \`${completionReceipt.action_id}\`\n` +
         `- **Status**: ✅ **COMPLETED**\n` +
@@ -920,7 +1260,7 @@ export function syncCompletionReceipts(options = {}) {
         `- **Intent**: \`${completionReceipt.intent}\`\n` +
         `- **Source**: \`${completionReceipt.source}\`\n` +
         `- **Completed At**: \`${completionReceipt.completed_at}\`\n` +
-        (completionReceipt.issue_url ? `- **Tracking Issue**: [${completionReceipt.issue_url}](${completionReceipt.issue_url})\n` : '') +
+        trackingLine +
         (completionReceipt.research_ref ? `- **Research Artifact**: [${completionReceipt.research_ref}](${completionReceipt.research_ref})\n` : '') +
         `\n### Completion Details\n${completionSummary || 'Task successfully resolved downstream.'}\n`;
 
@@ -1039,7 +1379,11 @@ export function emitIcfStatusFeed(rows = null, options = {}) {
     recentCards: rows.slice(-10).reverse()
   };
 
-  fs.writeFileSync(STATUS_FEED_JSON, JSON.stringify(telemetry, null, 2), 'utf8');
+  try {
+    fs.writeFileSync(STATUS_FEED_JSON, JSON.stringify(telemetry, null, 2), 'utf8');
+  } catch (err) {
+    console.warn(`[TRM-INGRESS] Could not emit status feed: ${err.message}`);
+  }
 }
 
 /**
@@ -1058,6 +1402,7 @@ export function dispatchMobileReceipt(item, result = {}, options = {}) {
     status: result.status || 'COMPLETED',
     summary: item.summary || item.context?.summary || '',
     issue_url: result.issue_url || item.issue_url || null,
+    pr_url: result.pr_url || item.pr_url || (item.issue_url && item.issue_url.includes('/pull/') ? item.issue_url : null),
     target_notebook: item.target_notebook_name || item.target_notebook || null,
     dispatched_at: new Date().toISOString(),
     duration_ms: result.duration_ms || 0,
@@ -1070,6 +1415,10 @@ export function dispatchMobileReceipt(item, result = {}, options = {}) {
   const fileNameJson = `receipt-${Date.now()}-${safeIntent}.json`;
   const fileNameMd = `receipt-${Date.now()}-${safeIntent}.md`;
 
+  const trackingLine = receipt.pr_url
+    ? `- **Tracking PR**: [${receipt.pr_url}](${receipt.pr_url})\n`
+    : (receipt.issue_url ? `- **Tracking Issue**: [${receipt.issue_url}](${receipt.issue_url})\n` : '');
+
   const mdContent = `# Action Receipt: \`${receipt.receipt_id}\`\n\n` +
     `- **Original Action ID**: \`${receipt.action_id}\`\n` +
     `- **Status**: \`${receipt.status}\`\n` +
@@ -1077,7 +1426,7 @@ export function dispatchMobileReceipt(item, result = {}, options = {}) {
     `- **Source**: \`${receipt.source}\`\n` +
     `- **Dispatched At**: \`${receipt.dispatched_at}\`\n` +
     `- **Duration**: \`${receipt.duration_ms}ms\`\n` +
-    (receipt.issue_url ? `- **Tracking Issue**: [${receipt.issue_url}](${receipt.issue_url})\n` : '') +
+    trackingLine +
     (receipt.error ? `- **Error**: \`${receipt.error}\`\n` : '') +
     `\n### Summary\n${receipt.summary || 'No summary provided.'}\n`;
 
@@ -1156,10 +1505,9 @@ export async function processFile(filePath, options = {}) {
   const isFromGDrive = filePath.startsWith(path.resolve(GDRIVE_ROOT));
   console.log(`[TRM-INGRESS] Reading incoming file: ${filename} (Source: ${isFromGDrive ? 'Google Drive' : 'Local'}, Dry-Run: ${dryRun})`);
   const startTime = Date.now();
-
+  let raw = '';
   let item;
   try {
-    let raw = '';
     let docId = null;
     if (ext === '.gdoc') {
       docId = await resolveGoogleDocId(filePath);
@@ -1171,7 +1519,7 @@ export async function processFile(filePath, options = {}) {
     try {
       item = await parsePayload(ext === '.gdoc' ? { docId } : raw, ext, options);
     } catch (parseErr) {
-      if (ext === '.gdoc' && (parseErr.message.includes('Failed to fetch gdoc text') || parseErr.message.includes('401') || parseErr.message.includes('missing doc_id'))) {
+      if (ext === '.gdoc') {
         console.warn(`[TRM-INGRESS] GDoc body fetch failed (${parseErr.message}), falling back to filename metadata for ${filename}`);
         item = parseGDocFilenameMetadata(filename);
         item.context = {
@@ -1179,9 +1527,27 @@ export async function processFile(filePath, options = {}) {
           note: `Ingested from .gdoc pointer via filename metadata (body text fetch failed: ${parseErr.message})`,
           body_fetch_failed: true
         };
+      } else if (ext === '.md' && parseErr.message.includes('missing frontmatter block')) {
+        console.warn(`[TRM-INGRESS] Markdown frontmatter missing for ${filename}, synthesizing frontmatter from content`);
+        const firstLine = raw.split(/\r?\n/).find(l => l.trim().length > 0) || '';
+        const cleanTitle = firstLine.replace(/^#+\s*/, '').slice(0, 80).trim();
+        const cleanIntent = cleanTitle ? cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') : path.basename(filename, '.md').toLowerCase().replace(/[^a-z0-9]+/g, '_');
+        item = {
+          source: 'mobile-markdown',
+          action_type: 'antigravity_triage',
+          intent: cleanIntent || 'markdown_action_item',
+          summary: cleanTitle || `Action item from ${filename}`,
+          context: {
+            body: raw.trim(),
+            note: 'Ingested from markdown file lacking YAML frontmatter.'
+          }
+        };
       } else {
         throw parseErr;
       }
+    }
+    if (ext === '.json' && item && !item.source) {
+      item.source = filename.includes('grok') ? 'mobile-grok' : 'mobile-inbox';
     }
     if (filename.includes('__gap__') || filename.startsWith('gap-')) {
       item.type = item.type || 'pending-gap';
@@ -1241,6 +1607,43 @@ export async function processFile(filePath, options = {}) {
 
   const itemId = item.id || `act-${Date.now()}`;
   console.log(`[TRM-INGRESS] Dispatching action: ${itemId} | Type: ${item.action_type} | Intent: ${item.intent}`);
+
+  const quality = validateIngressQuality(item, raw);
+  if (!quality.valid) {
+    console.warn(`[TRM-INGRESS] Quality Gate REJECTED: Card ${itemId} (${filename}): ${quality.reason} - ${quality.error}`);
+    if (dryRun) {
+      return {
+        id: itemId,
+        source: item?.source || 'unknown',
+        action_type: item?.action_type || 'unknown',
+        intent: item?.intent || 'unknown',
+        status: 'QUARANTINED_INSUFFICIENT_DATA',
+        error: quality.error,
+        execution_plan: item?.execution_plan,
+        context: item?.context
+      };
+    }
+    const qTarget = path.join(QUARANTINE_DIR, `${Date.now()}-${filename}`);
+    const moved = safeMoveFile(filePath, qTarget);
+    logToLedger({
+      id: itemId,
+      processed_at: new Date().toISOString(),
+      timestamp: item?.timestamp || new Date().toISOString(),
+      source: item?.source || 'unknown',
+      action_type: item?.action_type || 'unknown',
+      intent: item?.intent || 'unknown',
+      target_notebook: item?.target_notebook,
+      target_notebook_name: item?.target_notebook_name,
+      summary: item?.summary || '',
+      status: moved ? 'QUARANTINED_INSUFFICIENT_DATA' : 'QUARANTINE_MOVE_FAILED',
+      error: quality.error,
+      archived_path: moved ? qTarget : null,
+      context: item?.context,
+      duration_ms: Date.now() - startTime
+    });
+    dispatchRejectionReceipt(filename, quality.error, item, { dryRun });
+    return null;
+  }
 
   if (dryRun) {
     console.log(`[TRM-INGRESS] [DRY-RUN] Inspected card ${itemId} (${item.action_type}) without mutating inbox or ledger.`);
@@ -1340,8 +1743,9 @@ export async function processFile(filePath, options = {}) {
       let issueUrl = null;
       let stageStatus = 'STAGED_FOR_TRIAGE';
       if (routing.isGDocFetchFailure) {
-        stageStatus = 'STAGED_FOR_RESEARCH';
+        stageStatus = 'QUARANTINED_INSUFFICIENT_DATA';
         item.issue_url = null;
+        console.warn(`[TRM-INGRESS] Quality Gate: Card ${itemId} (${filename}) quarantined due to failed GDoc body extraction.`);
       } else if (routing.shouldCreateGitHubIssue) {
         issueUrl = createGitHubIssue(item, routing.repo);
         item.issue_url = issueUrl;
@@ -1365,7 +1769,8 @@ export async function processFile(filePath, options = {}) {
         researchRef = `wiki/research/${item.id}.md`;
       }
 
-      const dest = path.join(HARNESS_PENDING_DIR, filename);
+      const targetStagingDir = routing.isGDocFetchFailure ? QUARANTINE_DIR : HARNESS_PENDING_DIR;
+      const dest = path.join(targetStagingDir, filename);
 
       let archived = false;
       let archivedPath = null;

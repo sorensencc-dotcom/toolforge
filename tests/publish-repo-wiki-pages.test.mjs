@@ -11,8 +11,10 @@ import {
   checkDirtyWiki,
   cleanGitEnv,
   getCurrentBranch,
+  getRepoRoot,
   publish,
   removeCloneDir,
+  resolveWikiUrls,
   runGit,
   wikiPagesFromRepo
 } from '../scripts/publish-repo-wiki-pages.mjs';
@@ -109,4 +111,29 @@ test('getCurrentBranch: extracts a valid git branch name', () => {
 test('checkDirtyWiki: returns array of uncommitted wiki changes', () => {
   const dirty = checkDirtyWiki();
   assert.ok(Array.isArray(dirty));
+});
+
+test('multi-repo wiki support: dynamic resolution of repo root, origin URLs, and wiki pages', () => {
+  const tmpRepo = fs.mkdtempSync(path.join(os.tmpdir(), 'multi-wiki-test-'));
+  try {
+    fs.mkdirSync(path.join(tmpRepo, 'wiki'));
+    fs.writeFileSync(path.join(tmpRepo, 'wiki', 'Home.md'), '# Test Home\n');
+    fs.writeFileSync(path.join(tmpRepo, 'wiki', 'Architecture.md'), '# Arch\n');
+
+    // Test getRepoRoot
+    assert.equal(getRepoRoot({ REPO_ROOT: tmpRepo }), tmpRepo);
+
+    // Test wikiPagesFromRepo with custom targetRoot
+    const pages = wikiPagesFromRepo([], tmpRepo);
+    assert.equal(pages.length, 2);
+    assert.ok(pages.some((p) => p.dest === 'Home.md'));
+    assert.ok(pages.some((p) => p.dest === 'Architecture.md'));
+
+    // Test resolveWikiUrls with explicit repo
+    const urls = resolveWikiUrls(tmpRepo);
+    assert.match(urls.https, /\.wiki\.git$/);
+    assert.match(urls.ssh, /\.wiki\.git$/);
+  } finally {
+    fs.rmSync(tmpRepo, { recursive: true, force: true });
+  }
 });

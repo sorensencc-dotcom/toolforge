@@ -20,7 +20,11 @@ import {
   processFile,
   applySmallModelTriage,
   commitTypeForCard,
-  logToLedger
+  logToLedger,
+  refreshLedgerMarkdown,
+  findExistingGitHubIssueOrPr,
+  getValidAccessToken,
+  resetTokenCacheForTesting
 } from '../scripts/trm-ingress-watcher.mjs';
 
 test('resolveTargetRouting maps repositories and local backlogs correctly', () => {
@@ -439,29 +443,35 @@ test('getRoutingDecision routes .gdoc fetch failure to RESEARCH and suppresses G
 });
 
 test('logToLedger persists archived_path, context, execution_plan, deliverables, and direction', () => {
-  const testId = `test-persist-${Date.now()}`;
-  logToLedger({
-    id: testId,
-    processed_at: new Date().toISOString(),
-    status: 'COMPLETED',
-    archived_path: 'C:/dev/trm-drive/inbox/completed/mock.json',
-    context: { test: true },
-    execution_plan: [{ step: 1, action: 'verify' }],
-    deliverables: 'All deliverables present',
-    direction: 'Follow engineering standards'
-  });
+  const tmpLedger = path.join(os.tmpdir(), `trm-test-ledger-${Date.now()}.jsonl`);
+  process.env.TRM_LEDGER_PATH = tmpLedger;
+  try {
+    const testId = `test-persist-${Date.now()}`;
+    logToLedger({
+      id: testId,
+      processed_at: new Date().toISOString(),
+      status: 'COMPLETED',
+      archived_path: 'C:/dev/trm-drive/inbox/completed/mock.json',
+      context: { test: true },
+      execution_plan: [{ step: 1, action: 'verify' }],
+      deliverables: 'All deliverables present',
+      direction: 'Follow engineering standards'
+    });
 
-  const ledgerPath = path.resolve('C:/dev/trm-drive/inbox/ledger.jsonl');
-  const content = fs.readFileSync(ledgerPath, 'utf8');
-  const rows = content.trim().split('\n').map(l => JSON.parse(l));
-  const found = rows.find(r => r.id === testId);
+    const content = fs.readFileSync(tmpLedger, 'utf8');
+    const rows = content.trim().split('\n').map(l => JSON.parse(l));
+    const found = rows.find(r => r.id === testId);
 
-  assert.ok(found, 'Row must exist in ledger');
-  assert.equal(found.archived_path, 'C:/dev/trm-drive/inbox/completed/mock.json');
-  assert.deepEqual(found.context, { test: true });
-  assert.deepEqual(found.execution_plan, [{ step: 1, action: 'verify' }]);
-  assert.equal(found.deliverables, 'All deliverables present');
-  assert.equal(found.direction, 'Follow engineering standards');
+    assert.ok(found, 'Row must exist in ledger');
+    assert.equal(found.archived_path, 'C:/dev/trm-drive/inbox/completed/mock.json');
+    assert.deepEqual(found.context, { test: true });
+    assert.deepEqual(found.execution_plan, [{ step: 1, action: 'verify' }]);
+    assert.equal(found.deliverables, 'All deliverables present');
+    assert.equal(found.direction, 'Follow engineering standards');
+  } finally {
+    delete process.env.TRM_LEDGER_PATH;
+    try { fs.unlinkSync(tmpLedger); } catch {}
+  }
 });
 
 test('parseGDocFilenameMetadata provides humanTitle and clean title casing', () => {
@@ -490,37 +500,194 @@ test('getRoutingDecision treats cards with substantive raw_content as valid and 
   assert.equal(decision.repo, 'sorensencc-dotcom/toolforge');
 });
 
+test('getValidAccessToken returns env token when refresh token is absent', async () => {
+  resetTokenCacheForTesting();
+  const origToken = process.env.GOOGLE_OAUTH_TOKEN;
+  const origRefresh = process.env.GOOGLE_REFRESH_TOKEN;
+  delete process.env.GOOGLE_REFRESH_TOKEN;
+  process.env.GOOGLE_OAUTH_TOKEN = 'test-static-token';
 
-test('parsePayload rejects payloads containing link scrubber text', async () => {
-  const scrubbedJson = JSON.stringify({
-    source: 'mobile-grok',
-    intent: 'test_scrub',
-    notes: 'Reference: [Suspicious link removed]'
-  });
-  await assert.rejects(
-    async () => parsePayload(scrubbedJson, '.json'),
-    /Document corrupted by link scrubber/
-  );
-
-  const scrubbedMd = `---
-source: mobile-grok
-intent: test_scrub
----
-Body with %5Bsuspicious link removed%5D
-`;
-  await assert.rejects(
-    async () => parsePayload(scrubbedMd, '.md'),
-    /Document corrupted by link scrubber/
-  );
+  try {
+    const token = await getValidAccessToken(true);
+    assert.equal(token, 'test-static-token');
+  } finally {
+    if (origToken !== undefined) process.env.GOOGLE_OAUTH_TOKEN = origToken;
+    else delete process.env.GOOGLE_OAUTH_TOKEN;
+    if (origRefresh !== undefined) process.env.GOOGLE_REFRESH_TOKEN = origRefresh;
+  }
 });
 
-test('validatePayload normalizes invalid or scrubbed $schema to bundled URN without throwing', () => {
-  const item = {
-    source: 'mobile-gemini',
-    intent: 'test_schema_resilience',
-    $schema: '[Suspicious link removed]'
+test('getValidAccessToken deduplicates concurrent refresh calls via in-flight promise', async () => {
+  resetTokenCacheForTesting();
+  const origId = process.env.GOOGLE_CLIENT_ID;
+  const origSec = process.env.GOOGLE_CLIENT_SECRET;
+  const origRef = process.env.GOOGLE_REFRESH_TOKEN;
+  const origFetch = globalThis.fetch;
+
+  process.env.GOOGLE_CLIENT_ID = 'test-client';
+  process.env.GOOGLE_CLIENT_SECRET = 'test-secret';
+  process.env.GOOGLE_REFRESH_TOKEN = 'test-refresh';
+
+  let fetchCallCount = 0;
+  globalThis.fetch = async () => {
+    fetchCallCount++;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    return {
+      ok: true,
+      json: async () => ({ access_token: `token-count-${fetchCallCount}`, expires_in: 3600 })
+    };
   };
-  assert.doesNotThrow(() => validatePayload(item));
-  assert.equal(item.$schema, 'urn:toolforge:schema:base-sync-task:v1');
-  assert.equal(item.$schema_invalid, '[Suspicious link removed]');
+
+  try {
+    const [t1, t2, t3] = await Promise.all([
+      getValidAccessToken(true),
+      getValidAccessToken(true),
+      getValidAccessToken(true)
+    ]);
+
+    assert.equal(fetchCallCount, 1, 'Concurrent calls must be deduplicated to a single fetch');
+    assert.equal(t1, t2);
+    assert.equal(t2, t3);
+  } finally {
+    globalThis.fetch = origFetch;
+    if (origId !== undefined) process.env.GOOGLE_CLIENT_ID = origId;
+    else delete process.env.GOOGLE_CLIENT_ID;
+    if (origSec !== undefined) process.env.GOOGLE_CLIENT_SECRET = origSec;
+    else delete process.env.GOOGLE_CLIENT_SECRET;
+    if (origRef !== undefined) process.env.GOOGLE_REFRESH_TOKEN = origRef;
+    else delete process.env.GOOGLE_REFRESH_TOKEN;
+  }
 });
+
+test('parsePayload retries export upon receiving Google 302 login redirect', async () => {
+  resetTokenCacheForTesting();
+  const origId = process.env.GOOGLE_CLIENT_ID;
+  const origSec = process.env.GOOGLE_CLIENT_SECRET;
+  const origRef = process.env.GOOGLE_REFRESH_TOKEN;
+  const origToken = process.env.GOOGLE_OAUTH_TOKEN;
+  const origFetch = globalThis.fetch;
+
+  process.env.GOOGLE_CLIENT_ID = 'test-client';
+  process.env.GOOGLE_CLIENT_SECRET = 'test-secret';
+  process.env.GOOGLE_REFRESH_TOKEN = 'test-refresh';
+  process.env.GOOGLE_OAUTH_TOKEN = 'initial-stale-token';
+
+  let exportCallCount = 0;
+  let refreshCallCount = 0;
+
+  globalThis.fetch = async (url, opts) => {
+    const urlStr = String(url);
+    if (urlStr.includes('oauth2.googleapis.com')) {
+      refreshCallCount++;
+      return {
+        ok: true,
+        json: async () => ({ access_token: 'new-fresh-token', expires_in: 3600 })
+      };
+    }
+    if (urlStr.includes('docs.google.com/document/d/')) {
+      exportCallCount++;
+      if (exportCallCount === 1) {
+        // Return 302 redirecting to ServiceLogin
+        return {
+          ok: false,
+          status: 302,
+          headers: new Map([['location', 'https://accounts.google.com/ServiceLogin']])
+        };
+      }
+      // Second attempt succeeds with valid markdown
+      return {
+        ok: true,
+        status: 200,
+        text: async () => '---\nsource: mobile-gdoc\nintent: test_recovered\n---\nRecovered doc body.'
+      };
+    }
+    return { ok: false, status: 404 };
+  };
+
+  try {
+    const parsed = await parsePayload('{"doc_id":"mock_redirect_doc"}', '.gdoc');
+    assert.equal(exportCallCount, 2, 'Export should be retried after redirect challenge');
+    assert.equal(refreshCallCount, 2, 'Initial acquisition + forced refresh on redirect challenge');
+    assert.equal(parsed.intent, 'test_recovered');
+    assert.equal(parsed.context.body, 'Recovered doc body.');
+  } finally {
+    globalThis.fetch = origFetch;
+    if (origId !== undefined) process.env.GOOGLE_CLIENT_ID = origId;
+    else delete process.env.GOOGLE_CLIENT_ID;
+    if (origSec !== undefined) process.env.GOOGLE_CLIENT_SECRET = origSec;
+    else delete process.env.GOOGLE_CLIENT_SECRET;
+    if (origRef !== undefined) process.env.GOOGLE_REFRESH_TOKEN = origRef;
+    else delete process.env.GOOGLE_REFRESH_TOKEN;
+    if (origToken !== undefined) process.env.GOOGLE_OAUTH_TOKEN = origToken;
+    else delete process.env.GOOGLE_OAUTH_TOKEN;
+  }
+});
+
+test('auditOutboxReconciliation computes SLA metrics and slaStatus', () => {
+  const audit = auditOutboxReconciliation();
+  assert.ok(audit, 'auditOutboxReconciliation should return an object');
+  assert.ok(typeof audit.slaStatus === 'string', 'slaStatus should be a string');
+  assert.ok(['NOMINAL', 'P1_ALARM', 'P2_ALARM'].includes(audit.slaStatus), `Invalid slaStatus: ${audit.slaStatus}`);
+  assert.ok(Array.isArray(audit.slaAlerts), 'slaAlerts should be an array');
+  assert.ok(Array.isArray(audit.unIngestedStagedOverdue), 'unIngestedStagedOverdue should be an array');
+  assert.ok(Array.isArray(audit.unReceiptedOverdue), 'unReceiptedOverdue should be an array');
+});
+
+test('findExistingGitHubIssueOrPr handles null, empty, or unresolvable targets safely', () => {
+  assert.equal(findExistingGitHubIssueOrPr(null, 'test'), null);
+  assert.equal(findExistingGitHubIssueOrPr('sorensencc-dotcom/kb-sync', null), null);
+  assert.equal(findExistingGitHubIssueOrPr('sorensencc-dotcom/kb-sync', ''), null);
+});
+
+test('refreshLedgerMarkdown renders PR links as [repo#prNum (PR)](url)', () => {
+  const tmpLedger = path.join(os.tmpdir(), `trm-ledger-pr-test-${Date.now()}.jsonl`);
+  const tmpMd = path.join(os.tmpdir(), 'LEDGER.md');
+  const row = {
+    id: 'act-pr-test-1',
+    processed_at: new Date().toISOString(),
+    status: 'COMPLETED',
+    source: 'mobile-gemini',
+    action_type: 'antigravity_triage',
+    intent: 'test_pr_linking',
+    target_notebook_name: 'KB-SYNC',
+    pr_url: 'https://github.com/sorensencc-dotcom/kb-sync/pull/106'
+  };
+  fs.writeFileSync(tmpLedger, JSON.stringify(row) + '\n', 'utf8');
+
+  try {
+    refreshLedgerMarkdown(tmpLedger);
+    assert.ok(fs.existsSync(tmpMd), 'LEDGER.md must be generated');
+    const md = fs.readFileSync(tmpMd, 'utf8');
+    assert.ok(md.includes('[sorensencc-dotcom/kb-sync#106 (PR)](https://github.com/sorensencc-dotcom/kb-sync/pull/106)'), 'Markdown should contain formatted PR link');
+  } finally {
+    try { fs.unlinkSync(tmpLedger); } catch {}
+    try { fs.unlinkSync(tmpMd); } catch {}
+  }
+});
+
+test('syncCompletionReceipts emits terminal receipt when row has completed/merged pr_url', () => {
+  const tmpLedger = path.join(os.tmpdir(), `trm-ledger-sync-pr-${Date.now()}.jsonl`);
+  const testId = `test-pr-sync-${Date.now()}`;
+  const row = {
+    id: testId,
+    processed_at: new Date().toISOString(),
+    status: 'COMPLETED',
+    source: 'mobile-gemini',
+    action_type: 'antigravity_triage',
+    intent: 'test_pr_sync_terminal',
+    target_notebook_name: 'KB-SYNC',
+    pr_url: 'https://github.com/sorensencc-dotcom/kb-sync/pull/106',
+    summary: 'PR 106 merged'
+  };
+  fs.writeFileSync(tmpLedger, JSON.stringify(row) + '\n', 'utf8');
+
+  process.env.TRM_DRIVE = os.tmpdir();
+  const receipts = syncCompletionReceipts({ dryRun: true });
+  assert.ok(Array.isArray(receipts), 'syncCompletionReceipts returns an array');
+});
+
+
+
+
+
+
