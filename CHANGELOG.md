@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.114.1
+Date: 2026-11-01
+
+### Changes
+- 8bc89187 - Merge pull request #259 from sorensencc-dotcom/codex/issue-230-span-hash-gate (Chris Sorensen)
+- c8c18470 - fix(trm): validate structured ingestion span hashes (Chris Sorensen)
+
 ## Version 2.114.0
 Date: 2026-11-01
 
