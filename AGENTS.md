@@ -157,8 +157,8 @@ Otherwise keep using Glob — it's already fast for scoped, known-subtree patter
 ## Deterministic search and navigation policy
 
 Before performing workspace-wide text searches (`grep`, `rg`, `findstr`, or `git grep`), consult the deterministic codebase indexes:
-1. **Trace dependencies**: Run `trail callers <symbol>` or use MCP `trail_trace_calls` (or `graft callers` / `graft_trace_calls`) to evaluate call hierarchies and blast radius.
-2. **Inspect API surface**: Run `trail skeleton <file>` or use MCP `trail_file_api` (or `graft skeleton` / `graft_file_api`) instead of reading entire source files.
+1. **Trace dependencies**: Run `trail callers <symbol>` or use MCP `trail_trace_calls` to evaluate call hierarchies and blast radius.
+2. **Inspect API surface**: Run `trail skeleton <file>` or use MCP `trail_file_api` instead of reading entire source files.
 3. **Coupling and hotspots**: Consult `trail map` or query the local context SQLite database before initiating broad keyword scans.
 
 Raw file grep is permitted only when targeting a single file, or after confirming that a target symbol is absent from Tree-sitter AST extraction. Broad workspace greps are hard-blocked by `scripts/intercept-grep.js`.

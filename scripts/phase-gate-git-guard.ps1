@@ -7,7 +7,7 @@ Usage:
   - Before phase start: phase-gate-git-guard.ps1 -Phase "A" -Before
   - After phase gate: phase-gate-git-guard.ps1 -Phase "A" -After
 
-Logs to .ijfw/phase-gates/PHASE-A.log
+Logs to logs/phase-gates/PHASE-A.log
 
 Checks:
   - Fetch all remote branches (sync race detection)
@@ -29,7 +29,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$logDir = ".ijfw/phase-gates"
+$logDir = "logs/phase-gates"
 $logFile = Join-Path $logDir "PHASE-$Phase.log"
 
 if (-not (Test-Path $logDir)) {
