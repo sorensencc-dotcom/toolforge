@@ -321,6 +321,14 @@ When the correct project directory is unclear, especially for a new project, do 
 - **SEV-1 Top-of-Report Elevation**: When any core scheduled daemon, pipeline runner, or cluster sync job (e.g. `TRM-Notebooklm-Mine`, `CIC-Nightly-Notebook-Mining`, `KB-Sync-Master-Pipeline`) is offline or failing for >24 hours, agents and scheduled briefing generators MUST place an immediate **[SEV-1 OPERATIONAL OUTAGE]** banner at the very top of the report/briefing. Standard nominal executive summaries must be suppressed until the outage is resolved.
 - **No False-Signal Masking**: Isolated manual session turns, interactive chats, or static single-question test queries do NOT indicate a healthy automated runner. Audit telemetry against the automated daemon's actual execution schedule.
 - **Zombie Action Card Prevention**: Never recycle closed GitHub issue numbers (e.g. Issue #140) or resolved action titles (`act-kbsync-chat-injection-staleness-entropy-fail`) into recurring audit failure cards. Ingress watchers must suppress and archive any cards referencing closed issues at intake.
+- **Lane A vs. Lane B Triage Discipline & Research Guardrail**:
+  - **Strict Lane Isolation**: Action cards with `category: RESEARCH`, `target: cic`, or `target: cic-kb` belong exclusively to **Lane A** (the local TRM research workspace in `wiki/research/` or `obsidian/vault/wiki/research/`). Never create GitHub issues or stage PR branches for pure research cards. **Lane B** is reserved exclusively for software engineering tasks targeting code repositories (`toolforge`, `sigil`, `rewrite-mcp`, `kb-sync`).
+  - **Zero-Code Invariant for Research Cards**: Engineering subagents must never author dummy classes, mock auditing frameworks, or test scaffolds (`[object Object]`) for archival research topics. If an assigned card contains no code surface, halt implementation.
+  - **Misrouting Remediation Protocol**: If an archival research card is erroneously opened as a GitHub issue:
+    1. Close the issue immediately with: `Closed as misrouted. Source task is a pure archival research card (target: cic, category: RESEARCH) belonging to Lane A (TRM local research backlog), not an engineering code issue.`
+    2. Stash or commit any dirty working tree in the target TRM research repository to prevent merge collisions.
+    3. Author the structured research deliverable directly in `wiki/research/` or `obsidian/vault/wiki/research/`.
+    4. Involve `kb-sync` only downstream when the finalized deliverable is ready for NotebookLM ingestion or wiki registry sync.
 
 ## Automation delivery guard policy
 

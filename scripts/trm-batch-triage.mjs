@@ -87,6 +87,11 @@ export function classifyCardLane(card) {
   const direction = String(card.direction || '').toUpperCase();
   const target = String(card.target || card.domain || '').toLowerCase();
 
+  // Lane A takes precedence for CIC research cards regardless of direction keyword false-positives
+  if (target === 'cic' || target === 'cic-kb' || category === 'RESEARCH' || target === 'research') {
+    return 'LANE_A_SPIKE';
+  }
+
   const isCodeDirection = direction.includes('REFACTOR') ||
                           direction.includes('IMPLEMENT') ||
                           direction.includes('FIX') ||
@@ -97,7 +102,7 @@ export function classifyCardLane(card) {
     return 'LANE_B_CODING';
   }
 
-  if (category === 'RESEARCH' || target === 'cic-kb' || target === 'research' || direction === 'FEASIBILITY_SPIKE') {
+  if (direction === 'FEASIBILITY_SPIKE') {
     return 'LANE_A_SPIKE';
   }
 
