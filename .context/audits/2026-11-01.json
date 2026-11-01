@@ -30,7 +30,7 @@
       "owner": "Repo-docs",
       "evidence": "verified",
       "details": "retro.schema.json check (/tmp/audit/check.py, self-tested): 4 of 42 dated retros fail. Errors: 2026-07-30-1.json:51 'test_insertions' is an additional key in authors; 2026-08-02-2.json:56 and 2026-08-02-3.json:59 'merges' is an additional key; 2026-10-25-1.json:44 and :64 authors lack 'role'. 38 pass, including 2026-10-24-1.json. Baseline id 53fb510981 (16 failing, including 2026-10-24-1) did not reproduce and is listed under resolved. Current check is a mini-validator, not jsonschema (not installed; pwsh absent).",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
@@ -86,12 +86,12 @@
       "owner": "Repo-docs",
       "evidence": "contradicted",
       "details": "AGENTS.md:217-218 says 'This repo is indexed in .trail/cache/ ... kept in sync with the code through git.' .trail/cache/ has no tracked files on origin/main. Locally, .trail/ holds only learnings/. `git check-ignore` does not match .trail/cache/INDEX.md, so the path is neither ignored nor present. New finding.",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
     {
-      "id": "18c87bae38",
+      "id": "ef2f0215b1",
       "priority": "MEDIUM",
       "category": "governance",
       "file": "AGENTS.md",
@@ -114,7 +114,7 @@
       "owner": "Repo-docs",
       "evidence": "contradicted",
       "details": "AGENTS.md:297 calls tests/dashboard-trm-backlog-ui.test.mjs a 'CI / Test Invariant'. The test reads path.resolve('c:/dev/icf/dashboard/index.html') at tests/dashboard-trm-backlog-ui.test.mjs:7, an operator-machine path absent from this checkout. The root package.json `test` and `test:substrate` scripts do not list the file, and none of the 10 workflows under .github/workflows runs it (ci-governance-matrix.yml:29 runs root npm test only). New finding.",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
@@ -128,7 +128,7 @@
       "owner": "Repo-docs",
       "evidence": "contradicted",
       "details": "The toolforge row of the contract-hub table names scripts/toolforgeSkillValidator.ps1. That path is not tracked on origin/main. utilities/toolforgeSkillValidator.ps1 is tracked. The other toolforge row entries (openrouter-transport.ts, skills/toolforge-submission-validator/src/validate.ts) are tracked. New finding.",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
@@ -156,7 +156,7 @@
       "owner": "Repo-docs",
       "evidence": "contradicted",
       "details": "metrics.commits = 85 (line 1); authors' commits sum = 58 (Chris Sorensen 29, toolforge-release-bot 27, Claude 1, github-actions[bot] 1). The note says: 'authors still sum to the original 58' and 'Cause not investigated.' Because of that caveat, the trend use is directional only and the finding is at most LOW. Baseline 76a44feb44 (commits 58 vs commits_no_merge 83) is resolved: commits now 85 >= commits_no_merge 83.",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
@@ -170,7 +170,7 @@
       "owner": "Repo-docs",
       "evidence": "verified",
       "details": "Newest valid retro: 2026-10-24-1.json (schema pass). Same-window baseline: 2026-10-17-2.json (window 7d). Both are 7d, so raw counts are compared. Metric deltas (Details, appendix): commits 85 -> 208 (+144.7%); commits_no_merge 83 -> 156 (+88.0%); automation_commits 28 -> 56 (+100.0%); test_ratio_pct 11 -> 23 (+109.1%); net_loc_filtered 31677 -> 22328 (-29.5%); sessions 25 -> 40 (+60.0%). The baseline note says 'Cause not investigated', which caps the finding at LOW. Newest retro 2026-10-25-1.json is excluded (schema failure). 2026-10-17-2's prior_retro_baseline names 2026-10-08-1.json (window 1h), which is not a same-window baseline and is not used.",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
@@ -184,7 +184,7 @@
       "owner": "Repo-docs",
       "evidence": "contradicted",
       "details": "2026-10-24-1.json:12 automation_commits = 56. Automation-role authors sum to 57: toolforge-release-bot 43 (line 45), google-labs-jules[bot] 12 (line 46), github-actions[bot] 1 (line 47), Claude 1 (line 48). The same mismatch in 2026-10-17-2.json:1: automation_commits 28 vs automation-role sum 29. The newest valid retro is affected; the trend pair is directional-only because of the 2026-10-17-2 caveat.",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
@@ -198,7 +198,7 @@
       "owner": "User",
       "evidence": "verified",
       "details": "The gate (retro-full-audit.yml:41) throws when the newest dated retro is more than 7 days old. Newest tracked dated retro is 2026-10-25-1.json; age on 2026-11-01 is 7 days, so the gate passes today. Cron is daily at 07:30 UTC (retro-full-audit.yml:5). Not past the threshold, so this is LOW, not HIGH. The gate reads filenames only, so it would pass the schema-failing 2026-10-25-1.json.",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
@@ -212,7 +212,7 @@
       "owner": "Repo-docs",
       "evidence": "contradicted",
       "details": "memory/MEMORY.md:14 says '131 authored commits' for 2026-10-08..2026-10-25. Command: git log origin/main --no-merges --since=2026-10-08T00:00:00Z --until=2026-10-25T23:59:59Z, then excluding authors matching bot|release|github-actions and chore(sync) subjects: 149 authored, 95 bot, 1 generated, 59 merges. The memory does not define 'authored', so the gap may be definitional, but no reasonable definition yields 131 here. New finding. (The baseline's 131/87/54 split also differs from this run's 149/95/59.)",
-      "first_seen": "2026-10-25",
+      "first_seen": "2026-11-01",
       "last_seen": "2026-11-01",
       "disposition": "open"
     },
