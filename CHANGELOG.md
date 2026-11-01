@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.114.0
+Date: 2026-11-01
+
+### Changes
+- 8c67a41a - Merge pull request #258 from sorensencc-dotcom/codex/issue-231-worktree-mvp (Chris Sorensen)
+- e49d0d2f - feat: add isolated worktree runner (Chris Sorensen)
+- 045d4aa4 - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+
 ## Version 2.113.0
 Date: 2026-11-01
 
