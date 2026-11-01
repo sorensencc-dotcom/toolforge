@@ -1,0 +1,21 @@
+services/chat-agent/src/handlers/pipeline.test.ts
+  s_6b6a6288a10af8::t_9c350faa2fb946 57-109
+services/chat-agent/src/handlers/pipeline.ts
+  s_6b6a6288a10af8::t_256d5b723d5bf5 18-21,38-40,44-53,68-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ee55fea7ac55126d72bb163fd0226c67dbc6021b",
+  "prompts": {},
+  "sessions": {
+    "s_6b6a6288a10af8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a16dd6-a329-7061-ba41-1bde4f4bd5d0",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
