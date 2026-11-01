@@ -255,6 +255,21 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 
 Embedded workflow checklists (Pre-Artifact, Pre-Write, Pre-Governance) live in `memory/workflow-checklists-embedded.md`. Reference before critical actions.
 
+## Daily report reconciliation & autonomous cadence
+
+The canonical daily report reconciliation engine lives at `scripts/reconcile-daily-reports.mjs` and is wrapped by `scripts/schedule-task-wrapper-Reconcile-Daily-Reports.ps1`. See `docs/meta/daily-report-reconciliation.md` for the full four-phase specification.
+
+### Operating cadence (3x daily)
+1. **06:30 AM EST (Preflight cleanse)**: Purges stale quarantine files, audits pending tasks against Git and GitHub closed states to prevent zombie cards, and prepares the knowledge plane for the 07:00 AM Morning Ingestion pass.
+2. **11:15 AM EST (Briefing heartbeat & telemetry gate)**: Executes 30 minutes before the 11:45 AM Daily Intelligence Briefing. Inspects runner timestamps across `_status-feed/`, forces a `[SEV-1 PIPELINE_STALL]` banner into `daily_status.json` if a daemon exceeds 24h dormancy, and purges resolved cards.
+3. **06:00 PM EST (Daily close-out)**: Audits afternoon Git commits, calculates day-over-day differentials and claim entropy, and programmatically resolves documented research gaps with outbox completion receipts.
+
+### Windows scheduled task unattended registration
+Fleet runner tasks requiring "Elevated no login" execution must use `LogonType S4U` with `RunLevel Highest`. Because Windows restricts S4U token assignment to administrator contexts, run PowerShell as Administrator when registering or updating unattended tasks:
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File C:\dev\scripts\schedule-task-wrapper-<Name>.ps1 -Action Register
+```
+
 ## Morning ingestion automation (Tier 3)
 
 Daily 06:00 AM ET `morning-ingestion-dashboard` skill: calendar and email ingestion, Gmail label-and-archive only (no deletions), outputs to a Cowork artifact, Slack `#morning-ingestion`, and a Notion briefings database. Full spec: `docs/meta/morning-ingestion.md`.
