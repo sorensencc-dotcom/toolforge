@@ -294,7 +294,7 @@ The canonical production dashboard is strictly located at `icf/dashboard/index.h
 **Immutable Rules:**
 1. **Never copy root `dashboard.html` over `icf/dashboard/index.html`**: Root `dashboard.html` is a legacy single-file snapshot. Copying it clobbers the active Warm Parchment / Dark Forge dual-theme design system, `.command-header`, `.tab-strip`, and action execution engine.
 2. **Edits to dashboard UI belong in `icf/dashboard/index.html`**: All operational UI modifications, new telemetry cards, and action dispatch controls must be made directly to `icf/dashboard/index.html`.
-3. **CI / Test Invariant**: Automated test `tests/dashboard-trm-backlog-ui.test.mjs` verifies that `icf/dashboard/index.html` maintains all required UI elements and preserves the Warm Parchment theme switcher.
+3. **CI / Test Invariant**: Test `tests/dashboard-trm-backlog-ui.test.mjs` (not run by any workflow or `package.json` script; it hardcodes `c:/dev/icf/...`) verifies that `icf/dashboard/index.html` maintains all required UI elements and preserves the Warm Parchment theme switcher.
 
 ## gstack
 
@@ -346,7 +346,7 @@ End each session: run `pwsh -NoProfile -File scripts/check-retro-needed.ps1` fir
 
 ## Retro findings
 
-Retro findings belong in `.context/retros/inbox/<agent>/<YYYY-MM-DD>-<slug>.json`, in the format of `.context/retros/INBOX-SPEC.md`, checked by `node scripts/validate-retro-inbox.mjs`. Do not write inbox entries yet, because `docs/meta/governance/retro-policy.md` is a DRAFT pending Tier 1 approval. Session wraps and memory notes are not retros.
+Retro findings belong in `.context/retros/inbox/<agent>/<YYYY-MM-DD>-<slug>.json`, in the format of `.context/retros/INBOX-SPEC.md`, checked by `node scripts/validate-retro-inbox.mjs`. Write inbox entries as `docs/meta/governance/retro-policy.md` directs (approved by Tier 1 on 2026-10-18; the policy states nothing enforces it yet). Session wraps and memory notes are not retros.
 
 ## GBrain Search
 
@@ -398,7 +398,7 @@ When inspecting system boundaries or routing tasks across the multi-repo workspa
 | **`IronLedger`** | `src/ironledger/compile/journal.py`<br>`src/ironledger/ingest/acquire.py` | Compilation state machines, hashing algorithms, and ingestion acquisition pipelines. |
 | **`kb-sync`** | `watch-competitors-v2.mjs`<br>`build-kb-sync-diagrams.mjs`<br>`server.mjs` | Competitor watchlist monitor, diff computation, and wiki sync servers. |
 | **`trm`** | `src/notebooklm/chatArchiver.ts`<br>`src/core/topicRouting.ts`<br>`src/notebooklm/nlmCli.ts` | Chat transcript synthesis, topic routing classification, and NotebookLM CLI wrappers. |
-| **`toolforge`** | `openrouter-transport.ts`<br>`scripts/toolforgeSkillValidator.ps1` | LLM concurrency pools, retry policies, and skill manifest validation. |
+| **`toolforge`** | `openrouter-transport.ts`<br>`utilities/toolforgeSkillValidator.ps1` | LLM concurrency pools, retry policies, and skill manifest validation. |
 | **`marketplace`** | `src/api/server.js`<br>`src/services/analytics.js`<br>`src/services/ratings.js` | Registry API endpoints, install telemetry, and trending calculation batches. |
 
 > [!TIP]
@@ -489,7 +489,7 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 
 **Compliance Enforced By:**
 
-- CI governance check: PLANNED — no job in `.github/workflows/` validates line limits or duplicate sections as of 2026-10-11
+- CI governance check: ACTIVE — `.github/workflows/governance.yml:20-29` runs `utilities/skill-doc-validator.ps1` (README/SKILL.md line limits, duplicate sections, guide link) against `./skills`
 - Caveman review: flags narrative in Input/Output schemas, Troubleshooting outside USAGE.md
 - Toolforge submission validator: PLANNED (Phase 8 Wave D deliverable) — NOT wired into CI as of 2026-09-06. No `.github/workflows/` job invokes it, and `docs/meta/phase-8-toolforge-marketplace/SUCCESS.md` remains `TEMPLATE FOR EXECUTION` (unsigned). Not an active gate until Wave D is signed.
 
