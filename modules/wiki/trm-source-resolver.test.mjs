@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import crypto from 'node:crypto';
-import { TRMSourceResolver } from './trm-source-resolver.mjs';
+import { SpanHashValidationError, TRMSourceResolver } from './trm-source-resolver.mjs';
 
 console.log('🧪 Testing trm-source-resolver.mjs...');
 
@@ -11,6 +11,7 @@ const testTempDir = path.join(os.tmpdir(), `trm-resolver-test-${Date.now()}`);
 fs.mkdirSync(testTempDir, { recursive: true });
 
 const sha256 = (value) => `sha256:${crypto.createHash('sha256').update(value, 'utf8').digest('hex')}`;
+const sha256Bytes = (value) => `sha256:${crypto.createHash('sha256').update(value).digest('hex')}`;
 
 try {
   // Test 1: ID Normalization
@@ -89,6 +90,55 @@ try {
 
     const manifestPath = path.join(testTempDir, 'trm', batchId, 'sources.manifest.json');
     assert.ok(fs.existsSync(manifestPath), 'Manifest file must exist');
+  }
+
+  // Test 3: UTF-8 byte offsets and row-level fail-closed errors
+  {
+    const sourceStore = {
+      'UNICODE': {
+        title: 'Unicode bytes', url: 'https://example.test/unicode', revision: 'rev-1',
+        retrieved_at: '2026-11-01T00:00:00.000Z', text: 'A🙂B'
+      }
+    };
+    const resolver = new TRMSourceResolver(testTempDir, { resolveSource: async (id) => sourceStore[id] });
+    const bytes = Buffer.from(sourceStore.UNICODE.text, 'utf8');
+    const valid = {
+      source_id: 'UNICODE', source_revision: 'rev-1',
+      source_span: { start: 1, end: 5, span_hash: sha256Bytes(bytes.subarray(1, 5)) }
+    };
+    await resolver.resolveAndMaterialize({ schema: 'research.result.v1', task_id: 'unicode', status: 'completed', payload: { findings: [valid] } }, 'unicode-batch', { approved: true });
+
+    await assert.rejects(
+      resolver.resolveAndMaterialize({ schema: 'research.result.v1', task_id: 'bad-hash', status: 'completed', payload: { findings: [{ ...valid, source_span: { ...valid.source_span, span_hash: 'sha256:not-hex' } }] } }, 'bad-hash-batch', { approved: true }),
+      (error) => error instanceof SpanHashValidationError
+        && error.row.identity === '0:UNICODE'
+        && error.row.expected_hash === 'sha256:not-hex'
+        && error.row.observed_hash === null
+    );
+  }
+
+  // Test 4: changed bytes, invalid ranges, and mixed batches never publish output
+  {
+    const sourceStore = {
+      'ROW-1': { title: 'One', url: 'https://example.test/one', revision: 'rev-1', retrieved_at: '2026-11-01T00:00:00.000Z', text: 'stable bytes' },
+      'ROW-2': { title: 'Two', url: 'https://example.test/two', revision: 'rev-1', retrieved_at: '2026-11-01T00:00:00.000Z', text: 'changed bytes' }
+    };
+    const resolver = new TRMSourceResolver(testTempDir, { resolveSource: async (id) => sourceStore[id] });
+    const row = (source_id, text, end = text.length) => ({ source_id, source_revision: 'rev-1', source_span: { start: 0, end, span_hash: sha256(text) } });
+    const mixedBatch = 'mixed-batch';
+    await assert.rejects(
+      resolver.resolveAndMaterialize({ schema: 'research.result.v1', task_id: 'mixed', status: 'completed', payload: { findings: [row('ROW-1', sourceStore['ROW-1'].text), row('ROW-2', 'wrong bytes')] } }, mixedBatch, { approved: true }),
+      (error) => error instanceof SpanHashValidationError
+        && error.row.identity === '1:ROW-2'
+        && error.row.expected_hash === sha256('wrong bytes')
+        && error.row.observed_hash === sha256(sourceStore['ROW-2'].text.slice(0, 'wrong bytes'.length))
+    );
+    assert.ok(!fs.existsSync(path.join(testTempDir, 'trm', mixedBatch)), 'Mixed-validity batches must not publish partial output');
+
+    await assert.rejects(
+      resolver.resolveAndMaterialize({ schema: 'research.result.v1', task_id: 'range', status: 'completed', payload: { findings: [row('ROW-1', sourceStore['ROW-1'].text, 1000)] } }, 'bad-range-batch', { approved: true }),
+      (error) => error instanceof SpanHashValidationError && error.row.identity === '0:ROW-1' && error.row.observed_hash === null
+    );
   }
 
   console.log('✔ All trm-source-resolver tests passed successfully!');

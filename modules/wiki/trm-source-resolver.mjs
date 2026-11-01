@@ -1,13 +1,26 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { DeterministicVerificationFloor } from '../DeterministicVerificationFloor.mjs';
 
-const sha256 = (value) => `sha256:${crypto.createHash('sha256').update(value, 'utf8').digest('hex')}`;
+/**
+ * Toolforge's structured-ingestion consumer for approved research.result.v1 rows.
+ * The resolver is the batch acceptance boundary and verifies UTF-8 byte spans before materialization.
+ */
+export class SpanHashValidationError extends Error {
+  constructor(rowIdentity, expectedHash, observedHash) {
+    super(`span hash validation failed for row ${rowIdentity}`);
+    this.name = 'SpanHashValidationError';
+    this.code = 'SPAN_HASH_VALIDATION_FAILED';
+    this.row = { identity: rowIdentity, expected_hash: expectedHash ?? null, observed_hash: observedHash ?? null };
+  }
+}
 
 export class TRMSourceResolver {
   constructor(stagingRoot, { resolveSource } = {}) {
     this.stagingRoot = path.resolve(stagingRoot);
     this.resolveSource = resolveSource;
+    this.verificationFloor = new DeterministicVerificationFloor(this.stagingRoot);
     if (typeof resolveSource !== 'function') throw new Error('source content resolver is required');
   }
 
@@ -28,24 +41,46 @@ export class TRMSourceResolver {
 
     const batchDir = path.join(this.stagingRoot, 'trm', batchId);
     const sourcesDir = path.join(batchDir, 'sources');
-    fs.mkdirSync(sourcesDir, { recursive: true });
     const mappings = [];
     const sources = [];
     const manifest = {};
-    const seen = new Set();
+    const materialized = new Map();
 
-    for (const finding of findings) {
+    for (const [rowIndex, finding] of findings.entries()) {
       const incomingId = finding?.source_id;
-      if (seen.has(incomingId)) continue;
-      seen.add(incomingId);
       const source = await this.resolveSource(incomingId);
       if (!source || typeof source.text !== 'string') throw new Error(`source content is required: ${incomingId}`);
       if (finding.source_revision !== source.revision) throw new Error(`source revision mismatch: ${incomingId}`);
       const span = finding.source_span;
-      if (!span || !Number.isInteger(span.start) || !Number.isInteger(span.end) || span.start < 0 || span.end < span.start || span.end > source.text.length) throw new Error(`source span is invalid: ${incomingId}`);
-      if (span.span_hash !== sha256(source.text.slice(span.start, span.end))) throw new Error(`source span hash mismatch: ${incomingId}`);
+      const rowIdentity = `${rowIndex}:${String(incomingId ?? '')}`;
+      const expectedHash = span?.span_hash;
+      let observedHash = null;
+      try {
+        if (!span || !Number.isInteger(span.start) || !Number.isInteger(span.end)) {
+          throw new Error('[BOUNDS_ERROR] Span offsets must be integers');
+        }
+        if (!/^sha256:[0-9a-f]{64}$/.test(expectedHash)) {
+          throw new Error('[HASH_INVALID] span_hash must use sha256:<lowercase-hex>');
+        }
+        this.verificationFloor.verifySpanHash(
+          Buffer.from(source.text, 'utf8'),
+          span.start,
+          span.end,
+          expectedHash
+        );
+        observedHash = expectedHash;
+      } catch (error) {
+        observedHash = error.actualHash ?? null;
+        throw new SpanHashValidationError(rowIdentity, expectedHash, observedHash);
+      }
 
-      const resolvedId = this.normalizeSourceId(incomingId);
+      if (materialized.has(incomingId)) continue;
+      materialized.set(incomingId, { source, resolvedId: this.normalizeSourceId(incomingId) });
+    }
+
+    fs.mkdirSync(sourcesDir, { recursive: true });
+    for (const [incomingId, { source, resolvedId }] of materialized) {
+
       const stagedFilename = `${resolvedId}.md`;
       const markdown = `---\nsource_id: "${resolvedId}"\noriginal_id: "${incomingId}"\ntitle: "${String(source.title ?? incomingId).replaceAll('"', '\\"')}"\nurl: "${source.url}"\nretrieved_at: "${source.retrieved_at}"\n---\n\n${source.text}\n`;
       fs.writeFileSync(path.join(sourcesDir, stagedFilename), markdown, 'utf8');
