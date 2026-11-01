@@ -2,7 +2,7 @@
 title: "Windows Scheduled Tasks Master Roster"
 category: "reporting"
 status: "active"
-generated_at: "2026-10-17T19:05:25.418Z"
+generated_at: "2026-11-01T21:52:49.711Z"
 tags:
   - scheduled-tasks
   - ironbots
@@ -12,8 +12,8 @@ tags:
 
 # Windows Scheduled Tasks Master Roster
 
-> **Last Updated**: `2026-10-17 19:05:25 UTC`  
-> **Total Monitored Tasks**: **35**  
+> **Last Updated**: `2026-11-01 21:52:49 UTC`  
+> **Total Monitored Tasks**: **36**  
 > **Canonical Source**: Live Windows Task Scheduler Registry (`\Ironbots\`, `\KB-SYNC\`, `\toolforge\`, `\CIC\`, `\TRM\`, `\Sigil\`, `\Helix\`, `\RewriteLabs\`)
 
 This document is **automatically updated** by `scripts/generate-scheduled-tasks-roster.mjs`, which runs on every daily fleet reporting pass (`Ironbots-Reporter`, 06:30 AM ET) and master pipeline synchronization (`KB-Sync-Master`, 08:00 PM ET).
@@ -39,16 +39,17 @@ This document is **automatically updated** by `scripts/generate-scheduled-tasks-
 
 | Task Name | Location | Responsible Agent / Bot | Script / Command | Schedule | State | Last Result |
 |---|---|---|---|---|---|---|
-| **Notebook-Ingester** | `\Ironbots\` | Bot 1: Notebook-Ingester | `scripts/notebook-ingester-bot.mjs` | `Daily at 02:00 AM` | `Ready` | `0x80070002` |
-| **KB-Sentinel** | `\Ironbots\` | Bot 2: KB-Sentinel | `scripts/kb-sentinel-bot.mjs` | `Daily at 03:00 AM` | `Ready` | `0x80070002` |
-| **TRM-Bot** | `\Ironbots\` | Bot 3: TRM-Bot | `scripts/trm-bot-runner.mjs` | `Daily at 04:00 AM` | `Ready` | `0x80070002` |
-| **Watchlist-Miner** | `\Ironbots\` | Bot 4: Watchlist-Miner | `scripts/watchlist-miner-bot.mjs` | `Daily at 05:00 AM` | `Ready` | `0x80070002` |
-| **Daemon-Healer** | `\Ironbots\` | Bot 5: Daemon-Healer | `scripts/daemon-healer-bot.mjs` | `Every 15 Minutes` | `Ready` | `0x80070002` |
-| **CI-Watchdog** | `\Ironbots\` | Bot 6: CI-Watchdog | `scripts/ci-watchdog-bot.mjs` | `Daily at 06:00 AM` | `Ready` | `0x80070002` |
-| **Ironbots-Reporter** | `\Ironbots\` | Bot 7: Ironbots-Reporter | `scripts/ironbots-daily-reporter.mjs` | `Daily at 06:30 AM` | `Ready` | `0x80070002` |
-| **Storage-Pruner** | `\Ironbots\` | Bot 8: Storage-Pruner | `scripts/storage-pruner.mjs` | `Weekly (Sun) at 03:30 AM` | `Ready` | `0x80070002` |
-| **TRM-Drive-Sync** | `\Ironbots\` | Bot 9: TRM-Drive-Sync | `kb-sync/scripts/schedule-task-wrapper-TRM-Drive-Sync.ps1` | `Every 4 Hours` | `Ready` | `0x80070002` |
-| **IronLedger-Sentinel** | `\Ironbots\` | Bot 10: IronLedger-Sentinel | `scripts/ironledger-sentinel-bot.mjs` | `Every 15 Minutes` | `Ready` | `0x80070002` |
+| **Notebook-Ingester** | `\Ironbots\` | Bot 1: Notebook-Ingester | `scripts/notebook-ingester-bot.mjs` | `Daily at 02:00 AM` | `Ready` | `0x00000000` |
+| **KB-Sentinel** | `\Ironbots\` | Bot 2: KB-Sentinel | `scripts/kb-sentinel-bot.mjs` | `Daily at 03:00 AM` | `Ready` | `0x00000000` |
+| **TRM-Bot** | `\Ironbots\` | Bot 3: TRM-Bot | `scripts/trm-bot-runner.mjs` | `Daily at 04:00 AM` | `Ready` | `0x00000000` |
+| **Watchlist-Miner** | `\Ironbots\` | Bot 4: Watchlist-Miner | `scripts/watchlist-miner-bot.mjs` | `Daily at 05:00 AM` | `Ready` | `0x00000000` |
+| **Daemon-Healer** | `\Ironbots\` | Bot 5: Daemon-Healer | `scripts/daemon-healer-bot.mjs` | `Every 15 Minutes` | `Disabled` | `0x00000000` |
+| **CI-Watchdog** | `\Ironbots\` | Bot 6: CI-Watchdog | `scripts/ci-watchdog-bot.mjs` | `Daily at 06:00 AM` | `Ready` | `0x00000000` |
+| **Ironbots-Reporter** | `\Ironbots\` | Bot 7: Ironbots-Reporter | `scripts/ironbots-daily-reporter.mjs` | `Daily at 06:30 AM` | `Ready` | `0x00000000` |
+| **Storage-Pruner** | `\Ironbots\` | Bot 8: Storage-Pruner | `scripts/storage-pruner.mjs` | `Weekly (Sun) at 03:30 AM` | `Ready` | `0x00000000` |
+| **TRM-Drive-Sync** | `\Ironbots\` | Bot 9: TRM-Drive-Sync | `kb-sync/scripts/schedule-task-wrapper-TRM-Drive-Sync.ps1` | `Every 4 Hours` | `Ready` | `0x00000000` |
+| **IronLedger-Sentinel** | `\Ironbots\` | Bot 10: IronLedger-Sentinel | `scripts/ironledger-sentinel-bot.mjs` | `Every 15 Minutes` | `Ready` | `0x00000000` |
+| **Daily-Report-Reconciliation** | `\Ironbots\` | Daily Report Reconciliation Engine | `scripts/schedule-task-wrapper-Reconcile-Daily-Reports.ps1` | `Daily at 06:30, 11:15, 18:00 EST` | `Ready` | `0x00000000` |
 
 #### Functional Descriptions
 
@@ -62,6 +63,7 @@ This document is **automatically updated** by `scripts/generate-scheduled-tasks-
 - **`Storage-Pruner`** (`\Ironbots\`): Database and telemetry storage pruner. Vacuums SQLite databases (.kb_cache, snapshots), gzip-compacts historical telemetry logs, and archives completed harness tasks.
 - **`TRM-Drive-Sync`** (`\Ironbots\`): Two-way transport bridge between local Git repositories and Google Drive. Ingests mobile action cards and completed research, and emits Live Action Receipts.
 - **`IronLedger-Sentinel`** (`\Ironbots\`): Financial engine supervisor. Audits Docker container health, API endpoints (/healthz, /readyz), balance sheet invariants, and transaction ingestion pipelines.
+- **`Daily-Report-Reconciliation`** (`\Ironbots\`): Automated 3x daily differential report validator, zombie card cleanser, daemon heartbeat monitor, and gap reconciler.
 
 ---
 
@@ -69,9 +71,9 @@ This document is **automatically updated** by `scripts/generate-scheduled-tasks-
 
 | Task Name | Location | Responsible Agent / Bot | Script / Command | Schedule | State | Last Result |
 |---|---|---|---|---|---|---|
-| **KB-Sync-Master-Pipeline** | `\KB-SYNC\` | KB-Sync Master Orchestrator | `kb-sync/scripts/schedule-task-wrapper-KB-Sync-Master.ps1` | `Daily at 20:00 (8:00 PM)` | `Ready` | `0x80070002` |
+| **KB-Sync-Master-Pipeline** | `\KB-SYNC\` | KB-Sync Master Orchestrator | `kb-sync/scripts/schedule-task-wrapper-KB-Sync-Master.ps1` | `Daily at 20:00 (8:00 PM)` | `Ready` | `0x00000000` |
 | **KB-Sync-Dashboard-Server** | `\KB-SYNC\` | KB-Sync Service Daemon | `scripts/ensure-dashboard-server.ps1` | `At Logon (Continuous)` | `Ready` | `0x00000000` |
-| **KB-Sync-TRM-Triage** | `\KB-SYNC\` | TRM Knowledge Plane Triage | `kb-sync/scripts/schedule-task-wrapper-TRM-Triage.ps1` | `Daily at 20:30 (8:30 PM)` | `Ready` | `0x80070002` |
+| **KB-Sync-TRM-Triage** | `\KB-SYNC\` | TRM Knowledge Plane Triage | `kb-sync/scripts/schedule-task-wrapper-TRM-Triage.ps1` | `Daily at 20:30 (8:30 PM)` | `Ready` | `0x00000000` |
 
 #### Functional Descriptions
 
@@ -86,10 +88,10 @@ This document is **automatically updated** by `scripts/generate-scheduled-tasks-
 | Task Name | Location | Responsible Agent / Bot | Script / Command | Schedule | State | Last Result |
 |---|---|---|---|---|---|---|
 | **Daily-Roadmap-Sync** | `\toolforge\` | Toolforge Governance Agent | `sync-tools/multiRepoRoadmapSync.cjs` | `Daily at 07:00 AM` | `Ready` | `0x00000000` |
-| **Toolforge-CI-Nightly** | `\toolforge\` | Toolforge CI Engine | `ci-pipeline.ps1` | `Daily at 01:00 AM` | `Ready` | `0x80070002` |
-| **toolforge-daily-report-agent** | `\toolforge\` | Toolforge Reporting Agent | `scripts/daily-report-agent.ps1` | `Daily at 06:00 AM` | `Ready` | `0x80070002` |
+| **Toolforge-CI-Nightly** | `\toolforge\` | Toolforge CI Engine | `ci-pipeline.ps1` | `Daily at 01:00 AM` | `Ready` | `0x00000000` |
+| **toolforge-daily-report-agent** | `\toolforge\` | Toolforge Reporting Agent | `scripts/daily-report-agent.ps1` | `Daily at 06:00 AM` | `Ready` | `0x00000000` |
 | **Toolforge-Drift-Detector** | `\toolforge\` | Toolforge Drift Monitor | `utilities/toolforgeDriftDetector.ps1` | `Daily at 02:30 AM` | `Ready` | `0x00000000` |
-| **toolforge-retro-audit-agent** | `\toolforge\` | Toolforge Quality Sentinel | `scripts/retro-audit-agent.ps1` | `Daily at 04:00 AM` | `Ready` | `0x80070002` |
+| **toolforge-retro-audit-agent** | `\toolforge\` | Toolforge Quality Sentinel | `scripts/retro-audit-agent.ps1` | `Daily at 04:00 AM` | `Ready` | `0x00000000` |
 | **toolforge-weekly-report-agent** | `\toolforge\` | Toolforge Weekly Aggregator | `scripts/run-weekly-retro.ps1` | `Weekly (Sun) at 18:00 (6:00 PM)` | `Ready` | `0x00000000` |
 | **toolforge-weekly-report-md-agent** | `\toolforge\` | Toolforge Documentation Agent | `scripts/weekly-report-agent.ps1` | `Weekly (Sun) at 18:30 (6:30 PM)` | `Ready` | `0x00000000` |
 
@@ -109,10 +111,10 @@ This document is **automatically updated** by `scripts/generate-scheduled-tasks-
 
 | Task Name | Location | Responsible Agent / Bot | Script / Command | Schedule | State | Last Result |
 |---|---|---|---|---|---|---|
-| **CIC-Daily-Status** | `\CIC\` | Cast Iron Charlie Status Agent | `scripts/run-daily-status.ps1` | `Daily at 07:00 AM` | `Ready` | `0x80070002` |
-| **CIC-ImageBuild-Daily** | `\CIC\` | Cast Iron Charlie Builder | `pwsh -Command docker build ...` | `Daily at 02:00 AM` | `Ready` | `0x80070002` |
-| **CIC-Mirror-ClaudeMemory** | `\CIC\` | Claude Memory Mirror Agent | `scripts/mirror-claude-memory.ps1` | `Daily at 06:45 AM` | `Ready` | `0x80070002` |
-| **CIC-Nightly-Notebook-Mining** | `\CIC\` | NotebookLM Mining Agent | `scripts/run-daily-notebook-mining.ps1` | `Daily at 01:30 AM` | `Ready` | `0x80070002` |
+| **CIC-Daily-Status** | `\CIC\` | Cast Iron Charlie Status Agent | `scripts/run-daily-status.ps1` | `Daily at 07:00 AM` | `Ready` | `0x00000000` |
+| **CIC-ImageBuild-Daily** | `\CIC\` | Cast Iron Charlie Builder | `pwsh -Command docker build ...` | `Daily at 02:00 AM` | `Ready` | `0x00000040` |
+| **CIC-Mirror-ClaudeMemory** | `\CIC\` | Claude Memory Mirror Agent | `scripts/mirror-claude-memory.ps1` | `Daily at 06:45 AM` | `Ready` | `0x00000000` |
+| **CIC-Nightly-Notebook-Mining** | `\CIC\` | NotebookLM Mining Agent | `scripts/run-daily-notebook-mining.ps1` | `Daily at 01:30 AM` | `Ready` | `0x00000000` |
 | **CIC-Vault-Sync-rl** | `\CIC\` | Vault Sync Agent | `powershell.exe ...` | `Daily at 10:00 AM` | `Ready` | `0xFFFD0000` |
 | **CIC-WhichLLM-Weekly-Sweep** | `\CIC\` | WhichLLM Benchmark Agent | `CIC-GOVERNANCE/scripts/Run-WhichLLM-WeeklySweep.ps1` | `Weekly (Sun) at 09:00 AM` | `Ready` | `0x00000000` |
 
@@ -131,11 +133,11 @@ This document is **automatically updated** by `scripts/generate-scheduled-tasks-
 
 | Task Name | Location | Responsible Agent / Bot | Script / Command | Schedule | State | Last Result |
 |---|---|---|---|---|---|---|
-| **CIC-TRM-ClosedLoop-Nightly-Miner** | `\TRM\` | TRM Closed-Loop Miner | `scripts/run-sibling-check-v2.mjs + scripts/consolidate-pack.mjs` | `Daily at 03:30 AM` | `Ready` | `0x80070002` |
-| **toolforge-trm-sync-treatment** | `\TRM\` | TRM Treatment Sync | `scripts/trm-sync-treatment-agent.ps1` | `Daily at 06:30 AM` | `Ready` | `0x80070002` |
-| **TRM-Notebooklm-Auth-Heartbeat** | `\TRM\` | NotebookLM Auth Daemon | `trm/schedule-task-wrapper-TRM-Notebooklm-Auth-Heartbeat.ps1` | `Every 2 Hours` | `Ready` | `0x80070002` |
-| **TRM-Notebooklm-Chat-Archive** | `\TRM\` | NotebookLM Chat Archiver | `trm/schedule-task-wrapper-TRM-Notebooklm-Chat-Archive.ps1` | `Daily at 20:00 (8:00 PM)` | `Ready` | `0x80070002` |
-| **TRM-Notebooklm-Mine** | `\TRM\` | TRM NotebookLM Miner | `trm/schedule-task-wrapper-TRM-Notebooklm-Mine.ps1` | `Daily at 06:00 AM` | `Ready` | `0x80070002` |
+| **CIC-TRM-ClosedLoop-Nightly-Miner** | `\TRM\` | TRM Closed-Loop Miner | `scripts/run-sibling-check-v2.mjs + scripts/consolidate-pack.mjs` | `Daily at 03:30 AM` | `Ready` | `0x00000000` |
+| **toolforge-trm-sync-treatment** | `\TRM\` | TRM Treatment Sync | `scripts/trm-sync-treatment-agent.ps1` | `Daily at 06:30 AM` | `Ready` | `0x00000000` |
+| **TRM-Notebooklm-Auth-Heartbeat** | `\TRM\` | NotebookLM Auth Daemon | `trm/schedule-task-wrapper-TRM-Notebooklm-Auth-Heartbeat.ps1` | `Every 2 Hours` | `Ready` | `0x00000000` |
+| **TRM-Notebooklm-Chat-Archive** | `\TRM\` | NotebookLM Chat Archiver | `trm/schedule-task-wrapper-TRM-Notebooklm-Chat-Archive.ps1` | `Daily at 20:00 (8:00 PM)` | `Ready` | `0x00000000` |
+| **TRM-Notebooklm-Mine** | `\TRM\` | TRM NotebookLM Miner | `trm/schedule-task-wrapper-TRM-Notebooklm-Mine.ps1` | `Daily at 06:00 AM` | `Ready` | `0x00000001` |
 
 #### Functional Descriptions
 
@@ -151,9 +153,9 @@ This document is **automatically updated** by `scripts/generate-scheduled-tasks-
 
 | Task Name | Location | Responsible Agent / Bot | Script / Command | Schedule | State | Last Result |
 |---|---|---|---|---|---|---|
-| **IronBot-TaskMonitor** | `\IronBot\` | Task Monitor Daemon | `scripts/ironbot-task-monitor.ps1` | `Every 4 Hours` | `Ready` | `0x80070002` |
-| **SigilMeshDaemon** | `\Sigil\` | Sigil Mesh Protocol Daemon | `scripts/run-sigil-daemon.ps1` | `At Logon (Continuous)` | `Ready` | `0x80070002` |
-| **HelixDaemon** | `\Helix\` | Helix Agent Daemon | `helix/run-daemon.ps1` | `At Logon (Continuous)` | `Ready` | `0x80131506` |
+| **IronBot-TaskMonitor** | `\IronBot\` | Task Monitor Daemon | `scripts/ironbot-task-monitor.ps1` | `Every 4 Hours` | `Ready` | `0x00000000` |
+| **SigilMeshDaemon** | `\Sigil\` | Sigil Mesh Protocol Daemon | `scripts/run-sigil-daemon.ps1` | `At Logon (Continuous)` | `Unknown` | `N/A` |
+| **HelixDaemon** | `\Helix\` | Helix Agent Daemon | `helix/run-daemon.ps1` | `At Logon (Continuous)` | `Ready` | `0x00041306` |
 | **RewriteLabsDailyBackup** | `\RewriteLabs\` | RewriteLabs Backup Agent | `C:/Users/soren/rewritelabs.io/backup/backup.ps1` | `Daily at 00:00 (Midnight)` | `Ready` | `0xFFFD0000` |
 
 #### Functional Descriptions

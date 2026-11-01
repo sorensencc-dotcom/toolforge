@@ -124,6 +124,15 @@ export const TASK_DEFINITIONS = [
     schedule: 'Every 15 Minutes',
     purpose: 'Financial engine supervisor. Audits Docker container health, API endpoints (/healthz, /readyz), balance sheet invariants, and transaction ingestion pipelines.'
   },
+  {
+    name: 'Daily-Report-Reconciliation',
+    path: '\\Ironbots\\',
+    ironbot: 'Daily Report Reconciliation Engine',
+    subsystem: 'Ironbots Fleet',
+    script: 'scripts/schedule-task-wrapper-Reconcile-Daily-Reports.ps1',
+    schedule: 'Daily at 06:30, 11:15, 18:00 EST',
+    purpose: 'Automated 3x daily differential report validator, zombie card cleanser, daemon heartbeat monitor, and gap reconciler.'
+  },
 
   // --- \KB-SYNC\ Tasks ---
   {
