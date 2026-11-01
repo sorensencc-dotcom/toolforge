@@ -1,5 +1,31 @@
 # Changelog
 
+## Version 2.113.0
+Date: 2026-11-01
+
+### Changes
+- 9c9a8d8f - Merge pull request #257 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- bfb7b8c2 - fix(trm-ingress): reconcile mobile outbox on PR resolution and add dedup gate (Chris Sorensen)
+- 6906045d - feat(trm): harden 380 KiB pack boundary, add size telemetry, and tighten ingress SLA (Chris Sorensen)
+- bc779e01 - feat(ecosystem): integrate trail skeletons, diagrams, and pointer into ecosystem guide (Chris Sorensen)
+- 4252cad4 - docs: add second-pass contract and engine hubs for trail skeleton (Chris Sorensen)
+- c360748d - docs(report): add daily report for 2026-10-31 (Chris Sorensen)
+- 0252968b - docs: add high-gravity contract hubs for trail skeleton (Chris Sorensen)
+- a624c8a9 - feat(trail): configure trail-code, windows statechart runtime, and scaffold generator (Chris Sorensen)
+- 02588f25 - fix(cli): support space-separated flags in nlm-pack-replace-gate and ignore dev-worktrees in diagram-sync (Chris Sorensen)
+- 48d42510 - docs(cic): reconcile master inventory with living matrix appends through GAP-39 (Chris Sorensen)
+- 3c2d637e - docs(report): add daily report for 2026-10-30 (Chris Sorensen)
+- a8ce541e - test(trm): add live proof test suite for trm backlog and icf dashboard (Chris Sorensen)
+- 638fa162 - feat(wiki): upgrade global pre-push hook and publisher for dynamic multi-repo wiki support (Chris Sorensen)
+- 2bc66734 - fix(trm): drop duplicate syntax error block in batch triage runner and add regression test (Chris Sorensen)
+- 2addedd8 - feat(hooks): install toolforge wiki pre-push hook across all repos and templates (Chris Sorensen)
+- a33a9899 - feat(skills): add automated update runner and daily status reports for third-party-repo-auditor (Chris Sorensen)
+- 3ca2f88d - fix(diagram-sync): ignore PR review workspaces in visual parity scanner (Chris Sorensen)
+- 79cebed2 - feat(trm): add automated backlog reconciliation tool (Chris Sorensen)
+- 8c6e3444 - fix(trm): harden ingest quality and routing gates (Chris Sorensen)
+- ec15c98b - docs(report): add daily report for 2026-10-26 (Chris Sorensen)
+- cf3f56b7 - docs(report): add weekly report for 2026-W43 (Chris Sorensen)
+
 ## Version 2.112.6
 Date: 2026-10-31
 
