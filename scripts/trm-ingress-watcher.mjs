@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
 import { execSync, execFileSync } from 'node:child_process';
-import { extractMobileIntent } from './local-small-model-bridge.mjs';
+import { extractMobileIntent, sanitizeExecutionPlan } from './local-small-model-bridge.mjs';
 
 const ALLOWED_TRIAGE_PRIORITIES = ['P1', 'P2', 'P3'];
 
@@ -15,7 +15,8 @@ export function applySmallModelTriage(item, triaged) {
   if (!item.priority) {
     item.priority = ALLOWED_TRIAGE_PRIORITIES.includes(triaged.priority) ? triaged.priority : 'P2';
   }
-  item.execution_plan = item.execution_plan || triaged.execution_plan;
+  const rawPlan = item.execution_plan || triaged.execution_plan;
+  item.execution_plan = rawPlan ? sanitizeExecutionPlan(rawPlan) : rawPlan;
   item.context = {
     ...(item.context || {}),
     ...(triaged.context || {})
@@ -1645,6 +1646,45 @@ export async function processFile(filePath, options = {}) {
     return null;
   }
 
+  // Suppress closed zombie action cards (Issue #140)
+  const isZombieAction = (
+    itemId.includes('act-kbsync-chat-injection-staleness-entropy-fail') ||
+    (item.intent && item.intent.includes('chat_injection_staleness_entropy_fail'))
+  );
+  if (isZombieAction) {
+    console.warn(`[TRM-INGRESS] Suppressing zombie action card for closed Issue #140: ${itemId}`);
+    if (dryRun) {
+      return { id: itemId, status: 'SUPPRESSED_CLOSED_ISSUE', moved: false };
+    }
+    const dest = isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)
+      ? path.join(GDRIVE_ARCHIVE, filename)
+      : path.join(COMPLETED_DIR, filename);
+    const moved = safeMoveFile(filePath, dest);
+    dispatchMobileReceipt(item, {
+      status: 'SUPPRESSED_CLOSED_ISSUE',
+      issue_url: 'https://github.com/sorensencc-dotcom/toolforge/issues/140',
+      duration_ms: Date.now() - startTime,
+      details: 'Issue #140 was resolved and closed on October 16 (commits dbab5333 in kb-sync, 571d870 in trm). Zombie card permanently suppressed.'
+    }, { dryRun });
+    logToLedger({
+      id: itemId,
+      parent_action_id: item.parent_action_id || null,
+      processed_at: new Date().toISOString(),
+      timestamp: item.timestamp,
+      source: item.source,
+      category: 'MAINTENANCE',
+      domain: 'kb-sync',
+      action_type: item.action_type,
+      intent: item.intent,
+      target_notebook_name: 'KB-SYNC',
+      status: 'SUPPRESSED_CLOSED_ISSUE',
+      issue_url: 'https://github.com/sorensencc-dotcom/toolforge/issues/140',
+      archived_path: dest,
+      duration_ms: Date.now() - startTime
+    });
+    return { id: itemId, status: 'SUPPRESSED_CLOSED_ISSUE', moved };
+  }
+
   if (dryRun) {
     console.log(`[TRM-INGRESS] [DRY-RUN] Inspected card ${itemId} (${item.action_type}) without mutating inbox or ledger.`);
     return {
@@ -2045,6 +2085,27 @@ export function processGDocStub(filePath, inboxDir, options = {}) {
   const stem = filename.replace(/\.(md\.)?gdoc$/i, '');
   const dateMatch = filename.match(/^(\d{4}-\d{2}-\d{2}T\d{6}Z)/);
   const datePrefix = dateMatch ? dateMatch[1] : null;
+
+  // Suppress closed zombie action cards (Issue #140)
+  const isZombieStub = (
+    filename.includes('act-kbsync-chat-injection-staleness-entropy-fail') ||
+    (stem && stem.includes('act-kbsync-chat-injection-staleness-entropy-fail')) ||
+    (stem && stem.includes('chat_injection_staleness_entropy_fail'))
+  );
+  if (isZombieStub) {
+    console.warn(`[TRM-INGRESS] Suppressing zombie .gdoc stub for closed Issue #140: ${filename}`);
+    const dest = isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)
+      ? path.join(GDRIVE_ARCHIVE, filename)
+      : path.join(COMPLETED_DIR, filename);
+    const moved = safeMoveFile(filePath, dest);
+    dispatchMobileReceipt({ id: 'act-kbsync-chat-injection-staleness-entropy-fail', source: 'mobile-gemini-gdoc', intent: 'act_kbsync_chat_injection_staleness_entropy_fail' }, {
+      status: 'SUPPRESSED_CLOSED_ISSUE',
+      issue_url: 'https://github.com/sorensencc-dotcom/toolforge/issues/140',
+      duration_ms: Date.now() - startTime,
+      details: 'Issue #140 was resolved and closed on October 16 (commits dbab5333 in kb-sync, 571d870 in trm). Zombie card permanently suppressed.'
+    }, { dryRun });
+    return { id: filename, status: 'SUPPRESSED_CLOSED_ISSUE', moved };
+  }
 
   // Check if this stub matches any already-tracked ledger row, harness task, or archive file
   let isAlreadyHandled = false;
