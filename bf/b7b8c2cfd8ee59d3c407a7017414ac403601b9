@@ -1,0 +1,16 @@
+scripts/trm-ingress-watcher.mjs
+  h_5c172e9b435f5a 788-833,842-847,910-911,914,917-918,923,926-928,954-961,963,982,984,1164-1185,1241,1252-1255,1263,1405,1418-1421,1429
+tests/trm-ingress-routing.test.mjs
+  h_5c172e9b435f5a 24-25,446-459,461-463,465-474,636-690
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bfb7b8c2cfd8ee59d3c407a7017414ac403601b9",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
