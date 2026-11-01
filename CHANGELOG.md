@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 2.114.2
+Date: 2026-11-01
+
+### Changes
+- 95ef7db2 - Merge pull request #260 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- b0e55b2f - fix(ingress): suppress zombie issue 140 cards with regression test (Chris Sorensen)
+- 5376cb98 - chore(sync): Wave D gate marked resolved, task table synchronized (Chris Sorensen)
+- 9763ad3a - test(container): accept BuildKit cache-mount RUN in Dockerfile dependency test (Chris Sorensen)
+- 82af4859 - ci: switch graph freshness job from graft to trail (Chris Sorensen)
+- 28c6b9ae - chore: remove IJFW artifacts, keep two one-off scripts, rename graft to trail in docs and hook (Chris Sorensen)
+- 1ddc0c76 - docs(agents): remove IJFW, dedupe, fix hub paths, move reference tables to docs/meta (Chris Sorensen)
+- d5f8104d - docs(agents): fix stale retro, validator, and CI claims in AGENTS.md (Chris Sorensen)
+- be61fa15 - docs(report): add daily report for 2026-11-01 (Chris Sorensen)
+
 ## Version 2.114.1
 Date: 2026-11-01
 
