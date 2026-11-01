@@ -316,6 +316,16 @@ When the correct project directory is unclear, especially for a new project, do 
 - If a test suite exceeds 60 seconds without emitting output, treat it as hung: abort the process, clear `.staging.lock` / `.kb-sync.lock`, and report the hanging test file.
 - If investigating hanging tests, pass `--detectOpenHandles` or `--test-timeout=10000` to pinpoint unclosed database handles or unmocked network sockets.
 
+## Outage telemetry and incident escalation protocol
+
+- **SEV-1 Top-of-Report Elevation**: When any core scheduled daemon, pipeline runner, or cluster sync job (e.g. `TRM-Notebooklm-Mine`, `CIC-Nightly-Notebook-Mining`, `KB-Sync-Master-Pipeline`) is offline or failing for >24 hours, agents and scheduled briefing generators MUST place an immediate **[SEV-1 OPERATIONAL OUTAGE]** banner at the very top of the report/briefing. Standard nominal executive summaries must be suppressed until the outage is resolved.
+- **No False-Signal Masking**: Isolated manual session turns, interactive chats, or static single-question test queries do NOT indicate a healthy automated runner. Audit telemetry against the automated daemon's actual execution schedule.
+- **Zombie Action Card Prevention**: Never recycle closed GitHub issue numbers (e.g. Issue #140) or resolved action titles (`act-kbsync-chat-injection-staleness-entropy-fail`) into recurring audit failure cards. Ingress watchers must suppress and archive any cards referencing closed issues at intake.
+
+## Automation delivery guard policy
+
+- **Mandatory Regression Test Pairing**: Modifying any file under `scripts/**`, `.github/workflows/**`, or `CIC-GOVERNANCE/scripts/**` triggers the blocking `automation-test-policy` pre-commit hook. Every automation change MUST be paired with a corresponding test file under `tests/` (or matching `*.test.*` / `*.spec.*`) staged in the exact same commit.
+
 <!-- TOOLFORGE-VAULT-POINTER-START -->
 # Persistent System Memory Pointer
 > Managed by Toolforge sync-tools. Auto-generated on sync. DO NOT manually edit this block.
