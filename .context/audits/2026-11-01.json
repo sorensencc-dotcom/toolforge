@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "date": "2026-11-01",
+  "repo": "toolforge",
+  "commit": "f78bba0ff273caea8e08fbfc6c978f933aa3a05f",
+  "default_branch": "main",
+  "baseline": ".context/audits/2026-10-25.json",
+  "findings": [
+    {
+      "id": "01df336e0d",
+      "priority": "HIGH",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 349,
+      "recommendation": "Change AGENTS.md:349 to the approved status in docs/meta/governance/retro-policy.md:3 and state whether inbox writes are permitted.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "AGENTS.md:349 says retro-policy.md is a DRAFT and says 'Do not write inbox entries yet'. docs/meta/governance/retro-policy.md:3 reads 'Status: APPROVED by Tier 1 on 2026-10-18'. Two inbox entries are tracked (.context/retros/inbox/ci/2026-10-16-sigil-retro-1.json, .context/retros/inbox/ci/2026-10-17-toolforge-retro-2.json), and `node scripts/validate-retro-inbox.mjs` returns 'retro inbox valid: 2 files, 5 findings'. Changed since baseline: the two inbox entries are new facts; the status conflict is unchanged. Baseline id carried (its claim-key does not reproduce from the rule; matched by file and invariant).",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "bfc3767077",
+      "priority": "MEDIUM",
+      "category": "retro",
+      "file": ".context/retros/2026-10-25-1.json",
+      "line": 44,
+      "recommendation": "Add the missing role to authors 'Chris Sorensen' (line 44) and 'Claude' (line 64), then migrate the other three failing files or document a legacy exception in RETRO-SCHEMA.md.",
+      "owner": "Repo-docs",
+      "evidence": "verified",
+      "details": "retro.schema.json check (/tmp/audit/check.py, self-tested): 4 of 42 dated retros fail. Errors: 2026-07-30-1.json:51 'test_insertions' is an additional key in authors; 2026-08-02-2.json:56 and 2026-08-02-3.json:59 'merges' is an additional key; 2026-10-25-1.json:44 and :64 authors lack 'role'. 38 pass, including 2026-10-24-1.json. Baseline id 53fb510981 (16 failing, including 2026-10-24-1) did not reproduce and is listed under resolved. Current check is a mini-validator, not jsonschema (not installed; pwsh absent).",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "6a27e992cb",
+      "priority": "MEDIUM",
+      "category": "retro",
+      "file": ".context/retros/validate-v1.0.ps1",
+      "line": 49,
+      "recommendation": "Add additionalProperties and author-role checks to validate-v1.0.ps1, or run retro.schema.json directly in CI. Rerun the gate on all 42 dated retros afterward.",
+      "owner": "CI",
+      "evidence": "verified",
+      "details": "validate-v1.0.ps1:49-54 checks top-level required keys; :73-89 checks required metrics; :91-97 checks six legacy names; :127-133 compares author count with contributors. No check for extra keys or author roles exists. Derived from reading, not executed (pwsh absent): the validator would not reject 2026-07-30-1, 2026-08-02-2, 2026-08-02-3 or 2026-10-25-1 on the schema grounds above. Baseline id reproduces from its claim-key.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "7d79b441ef",
+      "priority": "MEDIUM",
+      "category": "memory",
+      "file": "memory/MEMORY.md",
+      "line": 14,
+      "recommendation": "Add dated Current Work entries under memory/MEMORY.md:12-19 for 2026-10-26 through 2026-11-01. The 24 authored commits in that window need entries that name their PR or scope.",
+      "owner": "Repo-docs",
+      "evidence": "verified",
+      "details": "Newest ISO date in memory/MEMORY.md is 2026-10-25 (lines 14 and 41). origin/main head f78bba0 has committer date 2026-11-01, so the gap is 7 days. Reading the older date 2026-10-11 (line 21, correction note) gives a 21-day gap; the rule takes the smaller gap. A gap of 7 days is not more than 7, so priority is MEDIUM (was HIGH). Authored non-merge commits dated 2026-10-26..2026-11-01: 24 (bots and chore(sync) excluded). Baseline id carried.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "0fa858907c",
+      "priority": "MEDIUM",
+      "category": "learnings",
+      "file": "memory/MEMORY.md",
+      "line": 12,
+      "recommendation": "Add Current Work entries that name each PR number or scope for the uncaptured commits, starting with the 24 dated 2026-10-26 or later. Each entry needs a date on or after the commit it records.",
+      "owner": "Repo-docs",
+      "evidence": "verified",
+      "details": "Window 2026-10-24..2026-11-01 (start = earlier of newest valid retro 2026-10-24-1 and memory date 2026-10-25). 139 raw commits = 42 merges + 97 non-merge; 97 = 56 authored + 40 bot (toolforge-release-bot 27, google-labs-jules[bot] 12, github-actions[bot] 1) + 1 generated (chore(sync), e1a77c21). Captured by the date-checked rule: 22 of 56, all through a scope word in a dated entry (memory/MEMORY.md:14 for 18, :41 for 4); no entry names a PR number with a date on or after its commit. Uncaptured: 34 (listed below). HIGH only if the index gap exceeds 7 days; it is 7. Changed from HIGH. Baseline id reproduces from its claim-key.\nUncaptured by group:\n- docs(report): 3 commits - c360748d 2026-10-31 \"docs(report): add daily report for 2026-10-31\", 3c2d637e 2026-10-30 \"docs(report): add daily report for 2026-10-30\", ec15c98b 2026-10-26 \"docs(report): add daily report for 2026-10-26\"\n- feat(trm): 2 commits - 6906045d 2026-10-31 \"feat(trm): harden 380 KiB pack boundary, add size telemetry, and tight\", 79cebed2 2026-10-29 \"feat(trm): add automated backlog reconciliation tool\"\n- fix(trm): 2 commits - 2bc66734 2026-10-30 \"fix(trm): drop duplicate syntax error block in batch triage runner and\", 8c6e3444 2026-10-29 \"fix(trm): harden ingest quality and routing gates\"\n- fix(trm-ingress): 1 commit - bfb7b8c2 2026-10-31 \"fix(trm-ingress): reconcile mobile outbox on PR resolution and add ded\"\n- feat(ecosystem): 1 commit - bc779e01 2026-10-31 \"feat(ecosystem): integrate trail skeletons, diagrams, and pointer into\"\n- feat(trail): 1 commit - a624c8a9 2026-10-30 \"feat(trail): configure trail-code, windows statechart runtime, and sca\"\n- fix(cli): 1 commit - 02588f25 2026-10-30 \"fix(cli): support space-separated flags in nlm-pack-replace-gate and i\"\n- docs(cic): 1 commit - 48d42510 2026-10-30 \"docs(cic): reconcile master inventory with living matrix appends throu\"\n- test(trm): 1 commit - a8ce541e 2026-10-30 \"test(trm): add live proof test suite for trm backlog and icf dashboard\"\n- feat(wiki): 1 commit - 638fa162 2026-10-30 \"feat(wiki): upgrade global pre-push hook and publisher for dynamic mul\"\n- feat(hooks): 1 commit - 2addedd8 2026-10-30 \"feat(hooks): install toolforge wiki pre-push hook across all repos and\"\n- feat(skills): 1 commit - a33a9899 2026-10-29 \"feat(skills): add automated update runner and daily status reports for\"\n- fix(diagram-sync): 1 commit - 3ca2f88d 2026-10-29 \"fix(diagram-sync): ignore PR review workspaces in visual parity scanne\"\n- fix(auth): 1 commit - 7aec9265 2026-10-28 \"fix(auth): honor x-user-id only in dev with TOOLFORGE_DEV_HEADER_AUTH=\"\n- fix(janitor): 1 commit - 8b624c03 2026-10-28 \"fix(janitor): stop killing live per-session MCP servers\"\n- feat(ironbots): 1 commit - be3e3b60 2026-10-27 \"feat(ironbots): surface Copilot reconcile summary in daily report\"\n- refactor(ironledger): 1 commit - 17bca24c 2026-10-27 \"refactor(ironledger): rename reconcile entrypoint to avoid main collis\"\n- feat(ironledger): 1 commit - 8a6a3a06 2026-10-27 \"feat(ironledger): add read-only Copilot reconciliation spike\"\n- feat(whichllm): 1 commit - 56d7f976 2026-10-25 \"feat(whichllm): integrate dynamic hardware detection and align local m\"\n- fix(mcp): 1 commit - 31c7adb7 2026-10-24 \"fix(mcp): use @playwright/mcp package name\"\n- chore(icf): 1 commit - 0f45b47a 2026-10-24 \"chore(icf): implement integration test suite for batch triage and PR s\"\n- chore(ignore): 1 commit - 32cb2909 2026-10-24 \"chore(ignore): ignore evidence directory and untrack run artifacts\"\n- feat(verify): 1 commit - daa82e82 2026-10-24 \"feat(verify): add verify-toolforge-marketplace skill and proof harness\"\n- chore(core): 1 commit - 0943b543 2026-10-23 \"chore(core): Toolforge Suspicious Link Scrubber Resilience (closes #21\"\n- docs(healing): 1 commit - 78b8deea 2026-10-23 \"docs(healing): point auditor imports at the .ts module\"\n- refactor(healing): 1 commit - f82fa907 2026-10-23 \"refactor(healing): merge adversarial auditor .js into .ts\"\n- fix(hooks): 1 commit - f0e9506b 2026-10-23 \"fix(hooks): harden block-env-edit stdin parsing\"\n- Other (no scope tag): 3 commits - 4252cad4 2026-10-31 \"docs: add second-pass contract and engine hubs for trail skeleton\", 0252968b 2026-10-30 \"docs: add high-gravity contract hubs for trail skeleton\", d542d46a 2026-10-23 \"chore: drop unintended journal change\"\nScope-only captures (memory line in parentheses): cf3f56b7, ce747db2, 3cc780a4, fe8f6157, ca975ff0, 5bd221ae, 957479af, 23350912, 6ba7fdf8, 74be163f, b3744505, 20d88e75, 3b35e8c9, cd4b0497, d060ba6d, 038a81ae, 44f52bcd, b2e935d9 (MEMORY.md:14); eae94e0e, 89e4b2f2, d3bbc5c9, b9d8ee89 (MEMORY.md:41). Generic scope words such as 'report' or 'governance' are counted here because the rule admits scope tags; counting them as vague would lower captures to 0.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "cd8c9f3689",
+      "priority": "MEDIUM",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 217,
+      "recommendation": "Commit the .trail/cache index, or change AGENTS.md:217-218 to describe a local-only cache and add it to .gitignore.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "AGENTS.md:217-218 says 'This repo is indexed in .trail/cache/ ... kept in sync with the code through git.' .trail/cache/ has no tracked files on origin/main. Locally, .trail/ holds only learnings/. `git check-ignore` does not match .trail/cache/INDEX.md, so the path is neither ignored nor present. New finding.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "18c87bae38",
+      "priority": "MEDIUM",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 292,
+      "recommendation": "Confirm which repository holds the ICF dashboard, then correct AGENTS.md:290-297 to that location, or restore the files here if they belong in toolforge.",
+      "owner": "User",
+      "evidence": "contradicted",
+      "details": "AGENTS.md:292 says the canonical dashboard is 'strictly located at icf/dashboard/index.html' (served by icf/src/server.mjs). Neither path exists on origin/main; the icf/ tree holds one file, icf/src/backend/pr-staging-bridge.ts. icf is not one of the repositories mounted in this session, so the location cannot be settled here. Baseline id carried from ef2f0215b1 (its claim-key does not reproduce from the rule).",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "9b8db5b6a0",
+      "priority": "MEDIUM",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 297,
+      "recommendation": "Reword AGENTS.md:297 to match what runs, or wire tests/dashboard-trm-backlog-ui.test.mjs into a CI job with a repo-relative path instead of c:/dev/icf/dashboard/index.html.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "AGENTS.md:297 calls tests/dashboard-trm-backlog-ui.test.mjs a 'CI / Test Invariant'. The test reads path.resolve('c:/dev/icf/dashboard/index.html') at tests/dashboard-trm-backlog-ui.test.mjs:7, an operator-machine path absent from this checkout. The root package.json `test` and `test:substrate` scripts do not list the file, and none of the 10 workflows under .github/workflows runs it (ci-governance-matrix.yml:29 runs root npm test only). New finding.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "1fbed57099",
+      "priority": "MEDIUM",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 401,
+      "recommendation": "Change the toolforge row at AGENTS.md:401 from scripts/toolforgeSkillValidator.ps1 to utilities/toolforgeSkillValidator.ps1, the tracked path.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "The toolforge row of the contract-hub table names scripts/toolforgeSkillValidator.ps1. That path is not tracked on origin/main. utilities/toolforgeSkillValidator.ps1 is tracked. The other toolforge row entries (openrouter-transport.ts, skills/toolforge-submission-validator/src/validate.ts) are tracked. New finding.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "89089bed72",
+      "priority": "MEDIUM",
+      "category": "governance",
+      "file": "AGENTS.md",
+      "line": 492,
+      "recommendation": "Change AGENTS.md:492 to name governance.yml:20-29 and utilities/skill-doc-validator.ps1 as the enforcing gate, and list the rules it checks.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "AGENTS.md:492 says 'no job in .github/workflows/ validates line limits or duplicate sections as of 2026-10-11'. .github/workflows/governance.yml:20-29 (job skill-documentation) runs ./utilities/skill-doc-validator.ps1 -Path ./skills -Recursive. The validator checks README.md < 100 lines (utilities/skill-doc-validator.ps1:55-57), SKILL.md < 150 lines (:58-60), duplicate sections (:62-79) and the Skill Operator Guide link (:81-85). Whether the job passes is CI history, outside this checkout. Line moved from 445 (baseline) to 492; claim unchanged. Baseline id carried.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "e99df2b9f4",
+      "priority": "LOW",
+      "category": "retro",
+      "file": ".context/retros/2026-10-17-2.json",
+      "line": 1,
+      "recommendation": "Reconcile authors with metrics.commits, or record in the note field why the authors block sums to 58 while commits is 85.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "metrics.commits = 85 (line 1); authors' commits sum = 58 (Chris Sorensen 29, toolforge-release-bot 27, Claude 1, github-actions[bot] 1). The note says: 'authors still sum to the original 58' and 'Cause not investigated.' Because of that caveat, the trend use is directional only and the finding is at most LOW. Baseline 76a44feb44 (commits 58 vs commits_no_merge 83) is resolved: commits now 85 >= commits_no_merge 83.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "bcff442a4e",
+      "priority": "LOW",
+      "category": "retro",
+      "file": ".context/retros/2026-10-24-1.json",
+      "line": 9,
+      "recommendation": "Treat the 2026-10-17-2 to 2026-10-24-1 comparison as directional only until 2026-10-17-2's commit count is explained. Add a dated note explaining the 85-vs-58 cause.",
+      "owner": "Repo-docs",
+      "evidence": "verified",
+      "details": "Newest valid retro: 2026-10-24-1.json (schema pass). Same-window baseline: 2026-10-17-2.json (window 7d). Both are 7d, so raw counts are compared. Metric deltas (Details, appendix): commits 85 -> 208 (+144.7%); commits_no_merge 83 -> 156 (+88.0%); automation_commits 28 -> 56 (+100.0%); test_ratio_pct 11 -> 23 (+109.1%); net_loc_filtered 31677 -> 22328 (-29.5%); sessions 25 -> 40 (+60.0%). The baseline note says 'Cause not investigated', which caps the finding at LOW. Newest retro 2026-10-25-1.json is excluded (schema failure). 2026-10-17-2's prior_retro_baseline names 2026-10-08-1.json (window 1h), which is not a same-window baseline and is not used.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "5c4bf8457b",
+      "priority": "LOW",
+      "category": "retro",
+      "file": ".context/retros/2026-10-24-1.json",
+      "line": 12,
+      "recommendation": "Count Claude once and make automation_commits match the sum of automation-role authors in both 2026-10-24-1.json and 2026-10-17-2.json.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "2026-10-24-1.json:12 automation_commits = 56. Automation-role authors sum to 57: toolforge-release-bot 43 (line 45), google-labs-jules[bot] 12 (line 46), github-actions[bot] 1 (line 47), Claude 1 (line 48). The same mismatch in 2026-10-17-2.json:1: automation_commits 28 vs automation-role sum 29. The newest valid retro is affected; the trend pair is directional-only because of the 2026-10-17-2 caveat.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "88c357c54d",
+      "priority": "LOW",
+      "category": "retro",
+      "file": ".github/workflows/retro-full-audit.yml",
+      "line": 41,
+      "recommendation": "Track a new dated retro before the next scheduled run, which is 2026-11-02 at 07:30 UTC. Otherwise the gate computes an age of 8 days and fails.",
+      "owner": "User",
+      "evidence": "verified",
+      "details": "The gate (retro-full-audit.yml:41) throws when the newest dated retro is more than 7 days old. Newest tracked dated retro is 2026-10-25-1.json; age on 2026-11-01 is 7 days, so the gate passes today. Cron is daily at 07:30 UTC (retro-full-audit.yml:5). Not past the threshold, so this is LOW, not HIGH. The gate reads filenames only, so it would pass the schema-failing 2026-10-25-1.json.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "5509348ee3",
+      "priority": "LOW",
+      "category": "memory",
+      "file": "memory/MEMORY.md",
+      "line": 14,
+      "recommendation": "Recount 2026-10-08..2026-10-25 and restate line 14's figure with its definition of 'authored'.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "memory/MEMORY.md:14 says '131 authored commits' for 2026-10-08..2026-10-25. Command: git log origin/main --no-merges --since=2026-10-08T00:00:00Z --until=2026-10-25T23:59:59Z, then excluding authors matching bot|release|github-actions and chore(sync) subjects: 149 authored, 95 bot, 1 generated, 59 merges. The memory does not define 'authored', so the gap may be definitional, but no reasonable definition yields 131 here. New finding. (The baseline's 131/87/54 split also differs from this run's 149/95/59.)",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    },
+    {
+      "id": "476f46d4ca",
+      "priority": "LOW",
+      "category": "memory",
+      "file": "memory/MEMORY.md",
+      "line": 16,
+      "recommendation": "Keep the deletion disclosure and drop the file citation, or cite commit 739415ce as the deletion point.",
+      "owner": "Repo-docs",
+      "evidence": "contradicted",
+      "details": "memory/MEMORY.md:16 cites .context/retros/2026-10-04-1.json. Commit 739415ce (2026-10-10) deleted the file; `git ls-tree origin/main -- .context/retros/2026-10-04-1.json` is empty, and `.gitignore:128` matches the path. The entry now says 'later deleted in 739415ce; not on origin/main', so it discloses the deletion. The citation stays contradicted under the evidence rule, which is why the finding stays; priority drops from MEDIUM because the text now states the deletion. Baseline id carried.",
+      "first_seen": "2026-10-25",
+      "last_seen": "2026-11-01",
+      "disposition": "open"
+    }
+  ],
+  "resolved": [
+    "c1b8a0eccb",
+    "53fb510981",
+    "76a44feb44",
+    "d803efc509"
+  ],
+  "unverifiable_groups": [
+    {
+      "file": "memory/MEMORY.md",
+      "items": [
+        "L21: retro 2026-10-11-1.json cited as existing; gitignored (.gitignore:128) and absent from origin/main and this checkout",
+        "L21: 'canonical retro validation passes 36/36' cannot be re-run here (pwsh absent)",
+        "L16: 2026-10-01..03 local retros are gitignored (.gitignore:128); not present here",
+        "L8: .git/hooks/pre-commit.ps1 is untracked; behaviour not verifiable from origin/main",
+        "L38: scripts/cross-audit.mjs is untracked on origin/main and not ignored; cited as shipped",
+        "L36: ~/.gbrain/brain.pglite is an operator-machine path"
+      ]
+    },
+    {
+      "file": "AGENTS.md",
+      "items": [
+        "L205-212: G:\\ Drive and C:\\dev operator-machine paths (Architecture Guide, TRM ingress)",
+        "L288: .git/hooks/pre-commit.ps1 (Gate 2) is untracked; the 2026-08-09, 08-30 and 10-04 verifications are not checkable here",
+        "L364: C:\\dev\\scripts\\es.exe is an operator-machine path",
+        "L522-523: Slack channel and Notion data source for morning ingestion are external services",
+        "L547: '184 lockfiles (15.68 MB) excluded' is an operator-disk count; git ls-tree lists 33 tracked lockfile paths on origin/main",
+        "L561: C:\\dev\\scripts\\verify-repo-context.ps1 is an operator-machine path",
+        "L394-402 and L411-424: contract-hub rows for sigil, icf, IronLedger, kb-sync, trm and marketplace name paths in other repositories; not checked (only toolforge row checked; other repos not opened)"
+      ]
+    },
+    {
+      "file": "memory/workflow-checklists-embedded.md",
+      "items": [
+        "L10: referent .git/hooks/pre-commit.ps1 is untracked; the referent check is not verifiable here"
+      ]
+    },
+    {
+      "file": ".github/workflows/retro-full-audit.yml",
+      "items": [
+        "CI run outcomes for retro-full-audit.yml:24 (validate.ps1 on ubuntu-latest) and governance.yml:38-40 (validate-changed.ps1) are not in this checkout"
+      ]
+    }
+  ]
+}
