@@ -1,0 +1,14 @@
+AGENTS.md
+  h_5c172e9b435f5a 319-328
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "156f39a855de65e529e821ee2d81633e9f8c98cd",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
