@@ -785,12 +785,64 @@ export function commitTypeForCard(card = {}) {
   return 'feat';
 }
 
+export function findExistingGitHubIssueOrPr(repo, intentOrId) {
+  if (!repo || !intentOrId) return null;
+  const cleanSearch = String(intentOrId).replace(/[^a-zA-Z0-9_\-]/g, ' ').trim();
+  if (!cleanSearch) return null;
+
+  // 1. Check existing issues
+  try {
+    const issueListOut = execFileSync('gh', ['issue', 'list', '--repo', repo, '--state', 'all', '--search', cleanSearch, '--limit', '5', '--json', 'number,title,state,url'], {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      shell: false,
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim();
+    if (issueListOut) {
+      const issues = JSON.parse(issueListOut);
+      if (Array.isArray(issues) && issues.length > 0) {
+        const matched = issues.find(i => (i.title && i.title.toLowerCase().includes(cleanSearch.toLowerCase())) || (i.number && cleanSearch.includes(String(i.number))));
+        if (matched) {
+          return { type: 'issue', url: matched.url, state: matched.state, number: matched.number, title: matched.title };
+        }
+      }
+    }
+  } catch {}
+
+  // 2. Check existing PRs
+  try {
+    const prListOut = execFileSync('gh', ['pr', 'list', '--repo', repo, '--state', 'all', '--search', cleanSearch, '--limit', '5', '--json', 'number,title,state,url'], {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      shell: false,
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim();
+    if (prListOut) {
+      const prs = JSON.parse(prListOut);
+      if (Array.isArray(prs) && prs.length > 0) {
+        const matched = prs.find(p => (p.title && p.title.toLowerCase().includes(cleanSearch.toLowerCase())) || (p.number && cleanSearch.includes(String(p.number))));
+        if (matched) {
+          return { type: 'pr', url: matched.url, state: matched.state, number: matched.number, title: matched.title };
+        }
+      }
+    }
+  } catch {}
+
+  return null;
+}
+
 export function createGitHubIssue(item, explicitRepo = null) {
   try {
     const repo = explicitRepo || item.target_repo || (resolveTargetRouting(item.target || item.domain)?.repo);
     if (!repo || repo.startsWith('local:')) {
       console.log(`[TRM-INGRESS] Bypassing GitHub issue creation for local/unmapped target: ${item.target || item.domain || 'N/A'}`);
       return null;
+    }
+
+    const existing = findExistingGitHubIssueOrPr(repo, item.intent || item.id);
+    if (existing) {
+      console.log(`[TRM-INGRESS] Found existing GitHub ${existing.type.toUpperCase()} #${existing.number} (${existing.state}): ${existing.url}`);
+      return existing.url;
     }
 
     const priority = (item.priority || 'P2').toUpperCase();
@@ -855,24 +907,25 @@ export function createGitHubIssue(item, explicitRepo = null) {
   }
 }
 
-export function logToLedger(entry) {
+export function logToLedger(entry, explicitLedgerPath = null) {
+  const targetLedger = explicitLedgerPath || process.env.TRM_LEDGER_PATH || LEDGER_JSONL;
   const line = JSON.stringify(entry) + '\n';
   try {
-    fs.appendFileSync(LEDGER_JSONL, line, 'utf8');
+    fs.appendFileSync(targetLedger, line, 'utf8');
   } catch (err) {
     try {
-      const existing = fs.existsSync(LEDGER_JSONL) ? fs.readFileSync(LEDGER_JSONL, 'utf8') : '';
-      fs.writeFileSync(LEDGER_JSONL, existing + line, 'utf8');
+      const existing = fs.existsSync(targetLedger) ? fs.readFileSync(targetLedger, 'utf8') : '';
+      fs.writeFileSync(targetLedger, existing + line, 'utf8');
     } catch (e2) {
       console.warn(`[TRM-INGRESS] Could not write to ledger: ${e2.message}`);
     }
   }
-  refreshLedgerMarkdown();
+  refreshLedgerMarkdown(targetLedger);
 }
 
-export function refreshLedgerMarkdown() {
-  if (!fs.existsSync(LEDGER_JSONL)) return;
-  const lines = fs.readFileSync(LEDGER_JSONL, 'utf8').trim().split('\n').filter(Boolean);
+export function refreshLedgerMarkdown(targetLedger = process.env.TRM_LEDGER_PATH || LEDGER_JSONL) {
+  if (!fs.existsSync(targetLedger)) return;
+  const lines = fs.readFileSync(targetLedger, 'utf8').trim().split('\n').filter(Boolean);
   const rows = lines.map((l) => {
     try {
       return JSON.parse(l);
@@ -898,12 +951,16 @@ export function refreshLedgerMarkdown() {
 
     const target = r.target_notebook_name || r.target || r.domain || 'N/A';
     let issueLink = '—';
-    if (r.issue_url) {
-      const match = r.issue_url.match(/github\.com\/([^/]+\/[^/]+)\/issues\/(\d+)/);
-      if (match) {
-        issueLink = `[${match[1]}#${match[2]}](${r.issue_url})`;
+    const trackingUrl = r.pr_url || r.issue_url;
+    if (trackingUrl) {
+      const prMatch = trackingUrl.match(/github\.com\/([^/]+\/[^/]+)\/pull\/(\d+)/);
+      const issueMatch = trackingUrl.match(/github\.com\/([^/]+\/[^/]+)\/issues\/(\d+)/);
+      if (prMatch) {
+        issueLink = `[${prMatch[1]}#${prMatch[2]} (PR)](${trackingUrl})`;
+      } else if (issueMatch) {
+        issueLink = `[${issueMatch[1]}#${issueMatch[2]}](${trackingUrl})`;
       } else {
-        issueLink = `[Issue #${r.issue_url.split('/').pop()}](${r.issue_url})`;
+        issueLink = `[Link](${trackingUrl})`;
       }
     } else if (r.research_ref) {
       issueLink = `[${path.basename(r.research_ref)}](${r.research_ref})`;
@@ -922,8 +979,9 @@ export function refreshLedgerMarkdown() {
   md += `- **Completed Archive**: \`${COMPLETED_DIR}\`\n`;
   md += `- **Antigravity Pending**: \`${HARNESS_PENDING_DIR}\`\n`;
 
+  const targetMdPath = targetLedger === LEDGER_JSONL ? LEDGER_MD : path.join(path.dirname(targetLedger), 'LEDGER.md');
   try {
-    fs.writeFileSync(LEDGER_MD, md, 'utf8');
+    fs.writeFileSync(targetMdPath, md, 'utf8');
   } catch (err) {
     console.warn(`[TRM-INGRESS] Could not write ledger markdown: ${err.message}`);
   }
@@ -1103,12 +1161,28 @@ export function syncCompletionReceipts(options = {}) {
       completionSummary = item.summary || 'Deterministic remediation executed and completed.';
     }
 
-    // Check GitHub Issue status if present
-    if (!isFinished && item.issue_url) {
-      const match = item.issue_url.match(/github\.com\/([^/]+\/[^/]+)\/issues\/(\d+)/);
-      if (match) {
-        const repo = match[1];
-        const issueNum = match[2];
+    // Check GitHub Issue or PR status if present
+    const trackingUrl = item.pr_url || item.issue_url;
+    if (!isFinished && trackingUrl) {
+      const prMatch = trackingUrl.match(/github\.com\/([^/]+\/[^/]+)\/pull\/(\d+)/);
+      const issueMatch = trackingUrl.match(/github\.com\/([^/]+\/[^/]+)\/issues\/(\d+)/);
+      if (prMatch) {
+        const repo = prMatch[1];
+        const prNum = prMatch[2];
+        try {
+          const jsonOut = execSync(`gh pr view ${prNum} --repo "${repo}" --json state,mergedAt,closedAt,title`, {
+            encoding: 'utf8',
+            stdio: ['pipe', 'pipe', 'ignore']
+          }).trim();
+          const prData = JSON.parse(jsonOut);
+          if (prData.state === 'MERGED' || prData.state === 'CLOSED') {
+            isFinished = true;
+            completionSummary = `GitHub PR #${prNum} in ${repo} was ${prData.state.toLowerCase()} at ${prData.mergedAt || prData.closedAt || 'earlier'}.`;
+          }
+        } catch {}
+      } else if (issueMatch) {
+        const repo = issueMatch[1];
+        const issueNum = issueMatch[2];
         try {
           const jsonOut = execSync(`gh issue view ${issueNum} --repo "${repo}" --json state,closedAt,title`, {
             encoding: 'utf8',
@@ -1164,6 +1238,7 @@ export function syncCompletionReceipts(options = {}) {
         summary: `Action Completed: ${item.summary || item.intent}`,
         completion_details: completionSummary,
         issue_url: item.issue_url || null,
+        pr_url: item.pr_url || (item.issue_url && item.issue_url.includes('/pull/') ? item.issue_url : null),
         research_ref: item.research_ref || null,
         completed_at: item.completed_at,
         dispatched_at: new Date().toISOString(),
@@ -1174,6 +1249,10 @@ export function syncCompletionReceipts(options = {}) {
       const fileNameJson = `receipt-${item.id}-completed.json`;
       const fileNameMd = `receipt-${item.id}-completed.md`;
 
+      const trackingLine = completionReceipt.pr_url
+        ? `- **Tracking PR**: [${completionReceipt.pr_url}](${completionReceipt.pr_url})\n`
+        : (completionReceipt.issue_url ? `- **Tracking Issue**: [${completionReceipt.issue_url}](${completionReceipt.issue_url})\n` : '');
+
       const mdContent = `# Completion Receipt: \`${completionReceipt.receipt_id}\`\n\n` +
         `- **Original Action ID**: \`${completionReceipt.action_id}\`\n` +
         `- **Status**: ✅ **COMPLETED**\n` +
@@ -1181,7 +1260,7 @@ export function syncCompletionReceipts(options = {}) {
         `- **Intent**: \`${completionReceipt.intent}\`\n` +
         `- **Source**: \`${completionReceipt.source}\`\n` +
         `- **Completed At**: \`${completionReceipt.completed_at}\`\n` +
-        (completionReceipt.issue_url ? `- **Tracking Issue**: [${completionReceipt.issue_url}](${completionReceipt.issue_url})\n` : '') +
+        trackingLine +
         (completionReceipt.research_ref ? `- **Research Artifact**: [${completionReceipt.research_ref}](${completionReceipt.research_ref})\n` : '') +
         `\n### Completion Details\n${completionSummary || 'Task successfully resolved downstream.'}\n`;
 
@@ -1323,6 +1402,7 @@ export function dispatchMobileReceipt(item, result = {}, options = {}) {
     status: result.status || 'COMPLETED',
     summary: item.summary || item.context?.summary || '',
     issue_url: result.issue_url || item.issue_url || null,
+    pr_url: result.pr_url || item.pr_url || (item.issue_url && item.issue_url.includes('/pull/') ? item.issue_url : null),
     target_notebook: item.target_notebook_name || item.target_notebook || null,
     dispatched_at: new Date().toISOString(),
     duration_ms: result.duration_ms || 0,
@@ -1335,6 +1415,10 @@ export function dispatchMobileReceipt(item, result = {}, options = {}) {
   const fileNameJson = `receipt-${Date.now()}-${safeIntent}.json`;
   const fileNameMd = `receipt-${Date.now()}-${safeIntent}.md`;
 
+  const trackingLine = receipt.pr_url
+    ? `- **Tracking PR**: [${receipt.pr_url}](${receipt.pr_url})\n`
+    : (receipt.issue_url ? `- **Tracking Issue**: [${receipt.issue_url}](${receipt.issue_url})\n` : '');
+
   const mdContent = `# Action Receipt: \`${receipt.receipt_id}\`\n\n` +
     `- **Original Action ID**: \`${receipt.action_id}\`\n` +
     `- **Status**: \`${receipt.status}\`\n` +
@@ -1342,7 +1426,7 @@ export function dispatchMobileReceipt(item, result = {}, options = {}) {
     `- **Source**: \`${receipt.source}\`\n` +
     `- **Dispatched At**: \`${receipt.dispatched_at}\`\n` +
     `- **Duration**: \`${receipt.duration_ms}ms\`\n` +
-    (receipt.issue_url ? `- **Tracking Issue**: [${receipt.issue_url}](${receipt.issue_url})\n` : '') +
+    trackingLine +
     (receipt.error ? `- **Error**: \`${receipt.error}\`\n` : '') +
     `\n### Summary\n${receipt.summary || 'No summary provided.'}\n`;
 

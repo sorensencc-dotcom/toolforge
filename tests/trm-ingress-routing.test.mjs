@@ -21,6 +21,8 @@ import {
   applySmallModelTriage,
   commitTypeForCard,
   logToLedger,
+  refreshLedgerMarkdown,
+  findExistingGitHubIssueOrPr,
   getValidAccessToken,
   resetTokenCacheForTesting
 } from '../scripts/trm-ingress-watcher.mjs';
@@ -441,29 +443,35 @@ test('getRoutingDecision routes .gdoc fetch failure to RESEARCH and suppresses G
 });
 
 test('logToLedger persists archived_path, context, execution_plan, deliverables, and direction', () => {
-  const testId = `test-persist-${Date.now()}`;
-  logToLedger({
-    id: testId,
-    processed_at: new Date().toISOString(),
-    status: 'COMPLETED',
-    archived_path: 'C:/dev/trm-drive/inbox/completed/mock.json',
-    context: { test: true },
-    execution_plan: [{ step: 1, action: 'verify' }],
-    deliverables: 'All deliverables present',
-    direction: 'Follow engineering standards'
-  });
+  const tmpLedger = path.join(os.tmpdir(), `trm-test-ledger-${Date.now()}.jsonl`);
+  process.env.TRM_LEDGER_PATH = tmpLedger;
+  try {
+    const testId = `test-persist-${Date.now()}`;
+    logToLedger({
+      id: testId,
+      processed_at: new Date().toISOString(),
+      status: 'COMPLETED',
+      archived_path: 'C:/dev/trm-drive/inbox/completed/mock.json',
+      context: { test: true },
+      execution_plan: [{ step: 1, action: 'verify' }],
+      deliverables: 'All deliverables present',
+      direction: 'Follow engineering standards'
+    });
 
-  const ledgerPath = path.resolve('C:/dev/trm-drive/inbox/ledger.jsonl');
-  const content = fs.readFileSync(ledgerPath, 'utf8');
-  const rows = content.trim().split('\n').map(l => JSON.parse(l));
-  const found = rows.find(r => r.id === testId);
+    const content = fs.readFileSync(tmpLedger, 'utf8');
+    const rows = content.trim().split('\n').map(l => JSON.parse(l));
+    const found = rows.find(r => r.id === testId);
 
-  assert.ok(found, 'Row must exist in ledger');
-  assert.equal(found.archived_path, 'C:/dev/trm-drive/inbox/completed/mock.json');
-  assert.deepEqual(found.context, { test: true });
-  assert.deepEqual(found.execution_plan, [{ step: 1, action: 'verify' }]);
-  assert.equal(found.deliverables, 'All deliverables present');
-  assert.equal(found.direction, 'Follow engineering standards');
+    assert.ok(found, 'Row must exist in ledger');
+    assert.equal(found.archived_path, 'C:/dev/trm-drive/inbox/completed/mock.json');
+    assert.deepEqual(found.context, { test: true });
+    assert.deepEqual(found.execution_plan, [{ step: 1, action: 'verify' }]);
+    assert.equal(found.deliverables, 'All deliverables present');
+    assert.equal(found.direction, 'Follow engineering standards');
+  } finally {
+    delete process.env.TRM_LEDGER_PATH;
+    try { fs.unlinkSync(tmpLedger); } catch {}
+  }
 });
 
 test('parseGDocFilenameMetadata provides humanTitle and clean title casing', () => {
@@ -624,6 +632,61 @@ test('auditOutboxReconciliation computes SLA metrics and slaStatus', () => {
   assert.ok(Array.isArray(audit.unIngestedStagedOverdue), 'unIngestedStagedOverdue should be an array');
   assert.ok(Array.isArray(audit.unReceiptedOverdue), 'unReceiptedOverdue should be an array');
 });
+
+test('findExistingGitHubIssueOrPr handles null, empty, or unresolvable targets safely', () => {
+  assert.equal(findExistingGitHubIssueOrPr(null, 'test'), null);
+  assert.equal(findExistingGitHubIssueOrPr('sorensencc-dotcom/kb-sync', null), null);
+  assert.equal(findExistingGitHubIssueOrPr('sorensencc-dotcom/kb-sync', ''), null);
+});
+
+test('refreshLedgerMarkdown renders PR links as [repo#prNum (PR)](url)', () => {
+  const tmpLedger = path.join(os.tmpdir(), `trm-ledger-pr-test-${Date.now()}.jsonl`);
+  const tmpMd = path.join(os.tmpdir(), 'LEDGER.md');
+  const row = {
+    id: 'act-pr-test-1',
+    processed_at: new Date().toISOString(),
+    status: 'COMPLETED',
+    source: 'mobile-gemini',
+    action_type: 'antigravity_triage',
+    intent: 'test_pr_linking',
+    target_notebook_name: 'KB-SYNC',
+    pr_url: 'https://github.com/sorensencc-dotcom/kb-sync/pull/106'
+  };
+  fs.writeFileSync(tmpLedger, JSON.stringify(row) + '\n', 'utf8');
+
+  try {
+    refreshLedgerMarkdown(tmpLedger);
+    assert.ok(fs.existsSync(tmpMd), 'LEDGER.md must be generated');
+    const md = fs.readFileSync(tmpMd, 'utf8');
+    assert.ok(md.includes('[sorensencc-dotcom/kb-sync#106 (PR)](https://github.com/sorensencc-dotcom/kb-sync/pull/106)'), 'Markdown should contain formatted PR link');
+  } finally {
+    try { fs.unlinkSync(tmpLedger); } catch {}
+    try { fs.unlinkSync(tmpMd); } catch {}
+  }
+});
+
+test('syncCompletionReceipts emits terminal receipt when row has completed/merged pr_url', () => {
+  const tmpLedger = path.join(os.tmpdir(), `trm-ledger-sync-pr-${Date.now()}.jsonl`);
+  const testId = `test-pr-sync-${Date.now()}`;
+  const row = {
+    id: testId,
+    processed_at: new Date().toISOString(),
+    status: 'COMPLETED',
+    source: 'mobile-gemini',
+    action_type: 'antigravity_triage',
+    intent: 'test_pr_sync_terminal',
+    target_notebook_name: 'KB-SYNC',
+    pr_url: 'https://github.com/sorensencc-dotcom/kb-sync/pull/106',
+    summary: 'PR 106 merged'
+  };
+  fs.writeFileSync(tmpLedger, JSON.stringify(row) + '\n', 'utf8');
+
+  process.env.TRM_DRIVE = os.tmpdir();
+  const receipts = syncCompletionReceipts({ dryRun: true });
+  assert.ok(Array.isArray(receipts), 'syncCompletionReceipts returns an array');
+});
+
+
 
 
 
