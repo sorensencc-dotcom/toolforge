@@ -1,0 +1,21 @@
+scripts/intercept-grep.js
+  s_c18290ef58a40c::t_8cf7ac6be10999 98
+scripts/intercept-grep.test.mjs
+  s_c18290ef58a40c::t_354a201d2992fd 20,28,34,64,74,88,100,120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c3c8e552c74c1df19892dff515bf0fd4eddc6941",
+  "prompts": {},
+  "sessions": {
+    "s_c18290ef58a40c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ce39e3dd-db5c-44d9-bd2f-236703b13d05",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
