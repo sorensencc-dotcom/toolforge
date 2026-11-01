@@ -72,7 +72,7 @@ test('Docker dependency installation works with and without a root lockfile', (t
   const root = temporaryDirectory(t);
   fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify({ name: 'container-regression-fixture', version: '1.0.0', private: true }));
   const dockerfile = fs.readFileSync(path.join(repositoryRoot, 'Dockerfile'), 'utf8');
-  const command = dockerfile.match(/^RUN ((?:npm ci|if \[ -f package-lock\.json \])[^\r\n]*)/m)[1];
+  const command = dockerfile.match(/^RUN (?:--mount=\S+\s*\\\r?\n\s*)?((?:npm ci|if \[ -f package-lock\.json \])[^\r\n]*)/m)[1];
   const bash = process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : 'bash';
   const run = () => spawnSync(bash, ['-c', command], { cwd: root, encoding: 'utf8', timeout: 30_000 });
   const withoutLock = run();

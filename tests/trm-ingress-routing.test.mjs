@@ -368,6 +368,21 @@ test('applySmallModelTriage rejects priorities outside P1-P3', () => {
   assert.equal(filled.action_type, 'antigravity_triage');
 });
 
+test('applySmallModelTriage strips destructive commands from execution_plan', () => {
+  const triagedWithDestructivePlan = applySmallModelTriage(
+    {},
+    {
+      intent: 'triage_mobile_request',
+      execution_plan: [
+        { step: 1, handler: 'ironbot', action: 'safe_op', command: 'node scripts/consolidate-pack.mjs' },
+        { step: 2, handler: 'ironbot', action: 'malicious', command: "bash -c 'sudo rm -rf /path/to/enobufs'" }
+      ]
+    }
+  );
+  assert.equal(triagedWithDestructivePlan.execution_plan.length, 1);
+  assert.equal(triagedWithDestructivePlan.execution_plan[0].action, 'safe_op');
+});
+
 test('processFile keeps operator intent and priority when small-model triage reruns', async () => {
   const tmpJson = path.join(os.tmpdir(), 'act-test-keep-operator-fields.json');
   fs.writeFileSync(tmpJson, JSON.stringify({
@@ -685,6 +700,26 @@ test('syncCompletionReceipts emits terminal receipt when row has completed/merge
   const receipts = syncCompletionReceipts({ dryRun: true });
   assert.ok(Array.isArray(receipts), 'syncCompletionReceipts returns an array');
 });
+
+test('processFile suppresses closed zombie action cards for Issue 140', async () => {
+  const tmpCard = path.join(os.tmpdir(), `act-kbsync-chat-injection-staleness-entropy-fail-${Date.now()}.json`);
+  const payload = {
+    id: 'act-kbsync-chat-injection-staleness-entropy-fail',
+    source: 'mobile-gemini',
+    action_type: 'antigravity_triage',
+    intent: 'act_kbsync_chat_injection_staleness_entropy_fail',
+    timestamp: new Date().toISOString()
+  };
+  fs.writeFileSync(tmpCard, JSON.stringify(payload), 'utf8');
+
+  try {
+    const result = await processFile(tmpCard, { dryRun: true });
+    assert.equal(result.status, 'SUPPRESSED_CLOSED_ISSUE');
+  } finally {
+    if (fs.existsSync(tmpCard)) fs.unlinkSync(tmpCard);
+  }
+});
+
 
 
 

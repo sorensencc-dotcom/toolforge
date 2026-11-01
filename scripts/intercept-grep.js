@@ -3,7 +3,7 @@
 /**
  * PreToolUse Bash & PowerShell Interceptor
  * Blocks coding agents from running broad, brute-force grep searches across the repo
- * when deterministic AST tools (Graft) and SQLite context caches are available.
+ * when deterministic AST tools (Trail) and SQLite context caches are available.
  */
 
 // Hoist regex patterns outside invocation scope
@@ -57,10 +57,10 @@ function evaluateCommand(rawCommand) {
     console.error('\n[TOOL REDIRECT: DETERMINISTIC CODE GRAPH]');
     console.error('Workspace-wide grep is disabled because deterministic AST indexing is active.');
     console.error('Use one of these alternatives:');
-    console.error('  - Callers / blast radius : trail callers <symbol>  OR mcp__trail__trail_trace_calls (or graft)');
-    console.error('  - File surface & API     : trail skeleton <file>   OR mcp__trail__trail_file_api (or graft)');
-    console.error('  - Ranked code search     : trail ask \"<query>\"     OR mcp__trail__trail_find_code (or graft)');
-    console.error('  - Coupling & hotspots    : trail map               OR mcp__trail__trail_repo_map (or graft)\n');
+    console.error('  - Callers / blast radius : trail callers <symbol>  OR mcp__trail__trail_trace_calls');
+    console.error('  - File surface & API     : trail skeleton <file>   OR mcp__trail__trail_file_api');
+    console.error('  - Ranked code search     : trail ask \"<query>\"     OR mcp__trail__trail_find_code');
+    console.error('  - Coupling & hotspots    : trail map               OR mcp__trail__trail_repo_map\n');
 
     process.exit(1);
   }

@@ -33,9 +33,9 @@ test('Graft CI builds the ignored graph before checking it with a pinned CLI', (
   const job = workflow.split('\n  graft-freshness:')[1];
   assert.ok(job, 'Graft job must exist');
   assert.match(job, /node-version: '22'/);
-  assert.match(job, /npm install -g @nanonets\/graft@0\.21\.1/);
+  assert.match(job, /npm install -g @trailhq\/trail-code@0\.28\.1/);
   assert.match(job, /graft-freshness\.test\.js/);
-  assert.match(job, /run: graft build\s+[\s\S]*run: graft check/);
+  assert.match(job, /run: trail build\s+[\s\S]*run: trail build --check/);
   assert.doesNotMatch(job, /continue-on-error|\|\| true|--deep/);
 });
 
