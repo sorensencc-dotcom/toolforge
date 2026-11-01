@@ -1,0 +1,30 @@
+modules/wiki/trm-source-resolver.mjs
+  s_63b34a1f71c0ad::t_2ef48a7a477b33 11,74
+  s_63b34a1f71c0ad::t_229ae0c3669076 6-9
+  s_63b34a1f71c0ad::t_4c96c2fb0bbc26 73
+  s_63b34a1f71c0ad::t_c3da3d4784c291 4,10,12-17,23,47,49,55-72,75-82,99
+modules/DeterministicVerificationFloor.mjs
+  s_63b34a1f71c0ad::t_4dae4363bae9ae 235,238-239
+  s_63b34a1f71c0ad::t_c3da3d4784c291 196,203-205
+  s_63b34a1f71c0ad::t_44b2e464a00c3a 168,183-195,197-201,220,229,240
+modules/wiki/trm-source-resolver.test.mjs
+  s_63b34a1f71c0ad::t_de016be6d50f2b 134
+  s_63b34a1f71c0ad::t_7bd683401f0b29 6,14,95-133,135-142
+  s_63b34a1f71c0ad::t_7544f12b227a19 143
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c8c18470c2b4bcde526c2587cd588ca061ccf489",
+  "prompts": {},
+  "sessions": {
+    "s_63b34a1f71c0ad": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19857-31c7-7363-9d89-7d7200ab32cd",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
