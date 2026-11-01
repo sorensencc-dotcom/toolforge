@@ -1,0 +1,27 @@
+AGENTS.md
+  s_5370d02561242c::t_1f566f72e7b8b6 160-161
+scripts/ijfw-script-relocation.test.mjs
+  s_5370d02561242c::t_b5f3179e34bddf 1-20
+scripts/intercept-grep.js
+  s_5370d02561242c::t_32872f38564f19 6,60-63
+scripts/intercept-grep.test.mjs
+  s_5370d02561242c::t_aa3379ed1ed264 22-23
+scripts/phase-gate-git-guard.ps1
+  s_5370d02561242c::t_4d09db0d17ee68 10,32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "28c6b9ae66e721ff29af013b07e418c6744cdd76",
+  "prompts": {},
+  "sessions": {
+    "s_5370d02561242c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b272e385-37ba-4706-a49b-801126ba9dc2",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
