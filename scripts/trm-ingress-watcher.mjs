@@ -910,6 +910,10 @@ export function createGitHubIssue(item, explicitRepo = null) {
 
 export function logToLedger(entry, explicitLedgerPath = null) {
   const targetLedger = explicitLedgerPath || process.env.TRM_LEDGER_PATH || LEDGER_JSONL;
+  if (!explicitLedgerPath && !process.env.TRM_LEDGER_PATH && String(entry.id || '').startsWith('test-')) {
+    console.warn(`[TRM-INGRESS] Blocked test entry from writing to production ledger: ${entry.id}`);
+    return;
+  }
   const line = JSON.stringify(entry) + '\n';
   try {
     fs.appendFileSync(targetLedger, line, 'utf8');

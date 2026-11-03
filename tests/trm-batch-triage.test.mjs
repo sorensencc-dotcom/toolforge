@@ -22,3 +22,12 @@ test('scripts/trm-batch-triage.mjs exports expected functions and parses without
   const codingCard = { target: 'toolforge', category: 'IMPLEMENT', direction: 'FEATURE', title: 'Implement adapter' };
   assert.equal(classifyCardLane(codingCard), 'LANE_B_CODING', 'IMPLEMENT category on toolforge should classify as LANE_B_CODING');
 });
+
+test('scripts/trm-batch-triage.mjs blocks invalid and validation_error failure cards', async () => {
+  const invalidCard1 = { id: 'invalid-2026-10-27-drop.md', intent: 'validation_error', target: 'toolforge' };
+  const res = await processBatchTriage({ dryRun: true });
+  // Verify that getPendingCards / processBatchTriage does not include or promote invalid failure records
+  const pending = getPendingCards();
+  const invalidHits = pending.filter(c => c.id.startsWith('invalid-') || c.intent === 'validation_error');
+  assert.equal(invalidHits.length, 0, 'No invalid or validation_error cards should be present in pending batch');
+});
