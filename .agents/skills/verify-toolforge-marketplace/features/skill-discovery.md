@@ -6,7 +6,7 @@ Skill discovery lets users and automated agents browse available catalog skills,
 
 - `discovery-list` returns published skills paginated by limit and offset.
 - `discovery-filter` narrows skills matching a specific category slug (e.g. `linting`, `auth`, `testing`).
-- `discovery-search` performs substring and full-text keyword searches across skill names and descriptions.
+- `discovery-search` performs full-text keyword searches across skill names and descriptions using PostgreSQL English text search vectors.
 - `discovery-cli` formats skill discovery output into readable terminal summaries.
 
 ## How to get to it (user POV)
@@ -44,4 +44,4 @@ Preconditions:
 
 - Omitting `--api-url` defaults to `http://localhost:3000`. If the API server is not running on port 3000, CLI commands will exit 1 with `ECONNREFUSED`.
 - The CLI enforces a maximum `--limit` of 100 entries per request; requests requesting higher counts are capped at 100.
-- Keyword queries with empty or whitespace-only strings return HTTP 400 (`Query parameter q is required`).
+- Keyword queries with empty strings or missing parameters return HTTP 400 (`Query parameter q is required`). Note that whitespace-only strings bypass the truthiness check in the API handler and execute against the database.

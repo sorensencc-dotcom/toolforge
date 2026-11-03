@@ -23,11 +23,11 @@ Preconditions:
 
 - **Fetch 7-day trending metrics.** Query the 7d window:
   Run `curl -s "<url>/api/v1/skills/trending?window=7d&limit=5"`.
-  Returns status 200 and a JSON list of trending skills with `installs7d`, `growthPct`, and `trendDirection`.
+  Returns status 200 and a JSON object `{ "data": [ ... ] }` of trending skills with `installs7d`, `installs30d`, `trendScore`, and `trendDirection` (`growthPct` is a derived UI calculation, not serialized in the API response).
 
 - **Fetch 30-day trending metrics.** Query the 30d window:
   Run `curl -s "<url>/api/v1/skills/trending?window=30d&limit=5"`.
-  Returns status 200 with monthly aggregate installations `installs30d`.
+  Returns status 200 with `{ "data": [ ... ] }` containing monthly aggregate installations `installs30d`.
 
 - **Verify ordering invariance.** Inspect returned ranking order:
   Assert that skills are sorted in descending order of momentum/score.
@@ -40,4 +40,5 @@ Preconditions:
 
 - If `/api/v1/skills/trending` is registered AFTER `/api/v1/skills/:id` in Express, the route matcher treats `"trending"` as a skill ID parameter and returns 404 from `getSkill("trending")`.
 - Window parameter values other than `7d` default to `30d`.
-- In test environments without a provisioned PostgreSQL instance, live SQL aggregate recalculation is skipped; rely on the fixture-backed resilient adapter for deterministic contract verification.
+- In the frontend Web UI, `Trending.jsx` currently loads from local static fixture `src/ui/fixtures/trending.json` as a mock swap point rather than live API polling.
+- In test environments without a provisioned PostgreSQL instance, live SQL aggregate recalculation is skipped; run unit test suite `node --test src/services/trending-batch.test.js` (13 tests) for deterministic spike algorithm verification.
