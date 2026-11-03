@@ -1,5 +1,21 @@
 # Changelog
 
+## Version 2.115.0
+Date: 2026-11-03
+
+### Changes
+- 06d9e753 - Merge pull request #261 from sorensencc-dotcom/chore/verify-toolforge-marketplace-feature-map (Chris Sorensen)
+- 851148c1 - docs(verify): reconcile toolforge marketplace feature map with source (Chris Sorensen)
+- 530f3961 - docs(governance): scope zombie card suppression and codify entropy invariants (Chris Sorensen)
+- b08ee639 - fix(ingress): scope Issue #140 zombie check to legacy cards (Chris Sorensen)
+- 5f120b41 - docs(report): add daily report for 2026-11-02 (Chris Sorensen)
+- 1a6ef643 - docs(governance): finalize global operating rules v2.2 (Chris Sorensen)
+- 11a563bc - docs(report): add weekly report for 2026-W44 (Chris Sorensen)
+- 1100ceb7 - feat(triage): enforce lane a vs b triage isolation and add cork research deliverable (Chris Sorensen)
+- 156f39a8 - docs(governance): add outage escalation and automation test pairing protocols (Chris Sorensen)
+- 0bbef4df - docs(governance): codify daily report reconciliation cadence and operational guide (Chris Sorensen)
+- 9abbd844 - feat(reports): add closed-loop daily report reconciliation engine and scheduled task (Chris Sorensen)
+
 ## Version 2.114.2
 Date: 2026-11-01
 
