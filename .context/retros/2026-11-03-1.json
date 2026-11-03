@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-03",
+  "window": "7d",
+  "since": "2026-10-27T00:00:00-05:00",
+  "until": "2026-11-03T23:59:59-05:00",
+  "base_branch": "origin/main",
+  "prior_retro_baseline": ".context/retros/2026-10-25-1.json",
+  "metrics": {
+    "commits": 79,
+    "commits_no_merge": 61,
+    "contributors": 3,
+    "automation_commits": 12,
+    "insertions_raw": 6240,
+    "deletions_raw": 1420,
+    "net_loc_raw": 4820,
+    "insertions_filtered": 6240,
+    "deletions_filtered": 1420,
+    "net_loc_filtered": 4820,
+    "filter_note": "No lockfile filtering applied. Raw LOC metrics on origin/main plus branch HEAD.",
+    "test_loc_insertions": 1650,
+    "test_ratio_pct": 26,
+    "feat_pct": 28.0,
+    "fix_pct": 22.0,
+    "docs_pct": 25.0,
+    "chore_pct": 20.0,
+    "test_pct": 5.0,
+    "active_days": 7,
+    "sessions": 42,
+    "deep_sessions": 12,
+    "peak_hour": 16,
+    "late_night_commits_22_to_04": 18,
+    "team_streak_days": 27,
+    "personal_streak_days": 27,
+    "backlog_open_todos": 9,
+    "backlog_closed_this_period": 2,
+    "version_range": ["2.112.0", "2.115.0"],
+    "release_commits": 12,
+    "focus_area": "Daily report reconciliation, Trail migration, TRM triage isolation & Briefing hardening",
+    "logical_sloc_added": 5100,
+    "prs_merged": 18,
+    "ai_assisted_commits": 44
+  },
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 66,
+      "insertions": 6120,
+      "deletions": 1410,
+      "test_ratio": 0.26,
+      "top_area": "scripts/, docs/, icf/, tests/"
+    },
+    "toolforge-release-bot": {
+      "commits": 12,
+      "insertions": 118,
+      "deletions": 9,
+      "role": "automation"
+    },
+    "github-actions[bot]": {
+      "commits": 1,
+      "insertions": 2,
+      "deletions": 1,
+      "role": "automation"
+    }
+  },
+  "test_health": {
+    "total_test_files": 382,
+    "regression_test_commits": 6,
+    "test_files_changed": 24
+  },
+  "streak_days": 27,
+  "user_streak_days": 27,
+  "tweetable": "Week of Nov 3: 79 commits (3 contributors, 12 releases v2.112.0→v2.115.0), daily report reconciliation engine, TRM triage isolation, and strict briefing privacy boundaries.",
+  "recommendations": [
+    {
+      "category": "governance",
+      "text": "Strictly decouple public delivery payloads from internal operator notes to prevent private repo and roadmap leakage."
+    },
+    {
+      "category": "tooling",
+      "text": "Ensure payload reader scripts strip UTF-8 BOM before JSON.parse to tolerate exported Google Drive artifacts."
+    },
+    {
+      "category": "ingestion",
+      "text": "Enforce application/json mime-types when staging payloads in Google Drive to prevent .gdoc desktop shortcut sync issues."
+    }
+  ],
+  "session_focus": {
+    "summary": "Engineering retro for 2026-10-27 to 2026-11-03 across toolforge and rewritelabs.io. Implementing daily report reconciliation, Trail graph migration, TRM zombie card suppression, and briefing dispatch hardening.",
+    "top_shipped": [
+      "Daily report reconciliation engine (scripts/reconcile-daily-reports.mjs)",
+      "TRM ingress zombie card suppression and lane A vs B triage isolation",
+      "Briefing dispatch hardening and historical privacy scrub across rewritelabs.io",
+      "Toolforge releases v2.112.0 through v2.115.0"
+    ],
+    "incidents": [
+      "Public briefing feed displayed internal operator directives mentioning Sigil and Toolforge; scrubbed across 8 historical briefings and updated prompt schema.",
+      "G: Drive desktop sync produced .gdoc shortcut for briefing-payload.json; mitigated via Drive API export and raw JSON staging."
+    ],
+    "process_learnings": [
+      "Public site generator deliverables must enforce separate schemas for public vs internal directives.",
+      "PowerShell git pre-commit hooks must validate individual staged files rather than whole retro directories."
+    ]
+  }
+}
