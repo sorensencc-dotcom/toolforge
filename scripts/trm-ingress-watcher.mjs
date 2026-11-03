@@ -1495,6 +1495,17 @@ export function dispatchRejectionReceipt(filename, errorMsg, rawItem = null, opt
   return receipt;
 }
 
+function isZombieIncident(idOrName, dateStr) {
+  const hasFreshDate = Boolean(
+    idOrName.match(/2026-?(1[1-9]|[2-9]\d)/) ||
+    (dateStr && !dateStr.startsWith('2026-10'))
+  );
+  return !hasFreshDate && (
+    idOrName.includes('act-kbsync-chat-injection-staleness-entropy-fail') ||
+    idOrName.includes('chat_injection_staleness_entropy_fail')
+  );
+}
+
 export async function processFile(filePath, options = {}) {
   const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
   if (!fs.existsSync(filePath)) return null;
@@ -1646,11 +1657,8 @@ export async function processFile(filePath, options = {}) {
     return null;
   }
 
-  // Suppress closed zombie action cards (Issue #140)
-  const isZombieAction = (
-    itemId.includes('act-kbsync-chat-injection-staleness-entropy-fail') ||
-    (item.intent && item.intent.includes('chat_injection_staleness_entropy_fail'))
-  );
+  // Suppress closed zombie action cards (Issue #140) ONLY if it specifically targets the closed October incident without a fresh timestamp
+  const isZombieAction = isZombieIncident(itemId, item.created_at) || (item.intent && isZombieIncident(item.intent, item.created_at));
   if (isZombieAction) {
     console.warn(`[TRM-INGRESS] Suppressing zombie action card for closed Issue #140: ${itemId}`);
     if (dryRun) {
@@ -2086,12 +2094,8 @@ export function processGDocStub(filePath, inboxDir, options = {}) {
   const dateMatch = filename.match(/^(\d{4}-\d{2}-\d{2}T\d{6}Z)/);
   const datePrefix = dateMatch ? dateMatch[1] : null;
 
-  // Suppress closed zombie action cards (Issue #140)
-  const isZombieStub = (
-    filename.includes('act-kbsync-chat-injection-staleness-entropy-fail') ||
-    (stem && stem.includes('act-kbsync-chat-injection-staleness-entropy-fail')) ||
-    (stem && stem.includes('chat_injection_staleness_entropy_fail'))
-  );
+  // Suppress closed zombie action cards (Issue #140) ONLY if it specifically targets the closed October incident without a fresh timestamp
+  const isZombieStub = isZombieIncident(filename, datePrefix) || (stem && isZombieIncident(stem, datePrefix));
   if (isZombieStub) {
     console.warn(`[TRM-INGRESS] Suppressing zombie .gdoc stub for closed Issue #140: ${filename}`);
     const dest = isFromGDrive && fs.existsSync(GDRIVE_ARCHIVE)
