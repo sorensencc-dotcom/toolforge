@@ -7,7 +7,7 @@
 
 function Test-RetroFiles {
     $stagedFiles = git diff --cached --name-only
-    $retroFiles = $stagedFiles | Where-Object { $_ -match '\.context[\\/]retros[\\/].*\.json$' -and $_ -notmatch 'schema\.json$' }
+    $retroFiles = @($stagedFiles | Where-Object { $_ -match '^\.context[\\/]retros[\\/]\d{4}-\d{2}-\d{2}-\d+\.json$' })
 
     if ($retroFiles.Count -eq 0) {
         return $true
@@ -19,9 +19,11 @@ function Test-RetroFiles {
         return $false
     }
 
-    & $validatorScript -Strict
-    if ($LASTEXITCODE -ne 0) {
-        return $false
+    foreach ($file in $retroFiles) {
+        & $validatorScript -File $file -Strict
+        if ($LASTEXITCODE -ne 0) {
+            return $false
+        }
     }
 
     return $true

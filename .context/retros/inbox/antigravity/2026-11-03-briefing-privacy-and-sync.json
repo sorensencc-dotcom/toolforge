@@ -1,0 +1,43 @@
+{
+  "schema": "retro-inbox/1",
+  "agent": "antigravity",
+  "repo": "rewritelabs.io",
+  "date": "2026-11-03",
+  "session": "session-briefing-privacy-and-sync",
+  "findings": [
+    {
+      "id": "RF-8541f1e161ee",
+      "tag": "SECURITY",
+      "severity": "high",
+      "summary": "Scrub leaked internal operator directives from public briefing posts",
+      "evidence": [
+        "content-site/src/content/briefings/2026-11-01.md:32 contained Operator Takeaways naming Sigil and Toolforge",
+        "historical briefings 2026-10-23 through 2026-10-31 contained internal operator directives",
+        "scrubbed across 8 briefing markdown files in commit a7b5f01 and 2fe1450"
+      ],
+      "suggestion": "Enforce strict schema separation between public Industry & Architecture Takeaways and private operator directives in daily-ai-news-summary, and add an automated pre-merge regex check in rewritelabs.io CI to block internal repo names."
+    },
+    {
+      "id": "RF-d62fb3c74580",
+      "tag": "TOOLING",
+      "severity": "medium",
+      "summary": "Strip UTF-8 BOM in briefing payload parsers to prevent JSON syntax errors",
+      "evidence": [
+        "content-site/scripts/publish-briefing.mjs crashed with Unexpected token \uFEFF when reading exported Drive payload",
+        "fixed in content-site/scripts/publish-briefing.mjs:19 by replacing leading \uFEFF"
+      ],
+      "suggestion": "Sanitize leading UTF-8 BOM across all payload reader scripts before calling JSON.parse."
+    },
+    {
+      "id": "RF-f625e0efb330",
+      "tag": "INGESTION",
+      "severity": "medium",
+      "summary": "Save Google Drive daily briefing payloads as raw JSON to prevent gdoc shortcut sync",
+      "evidence": [
+        "G:\\My Drive\\AI\\briefing-payload.json synced as .gdoc shortcut because Drive file was created as application/vnd.google-apps.document",
+        "publish-briefing.mjs failed with ENOENT on Windows Google Drive for Desktop"
+      ],
+      "suggestion": "Save daily briefing payloads with MIME type application/json or export via Drive API before dispatching."
+    }
+  ]
+}
