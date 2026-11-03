@@ -1,0 +1,18 @@
+.context/retros/inbox/antigravity/2026-11-03-briefing-privacy-and-sync.json
+  h_5c172e9b435f5a 1-43
+.githooks/pre-commit
+  h_5c172e9b435f5a 26-29
+.githooks/pre-commit.ps1
+  h_5c172e9b435f5a 10,22-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "62033d2182a95607e33b45fe978a98338c0d7fd9",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

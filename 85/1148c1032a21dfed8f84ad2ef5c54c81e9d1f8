@@ -1,0 +1,20 @@
+.agents/skills/verify-toolforge-marketplace/features/manifest-validation.md
+  h_5c172e9b435f5a 7-9,14-15,35-36,41-42
+.agents/skills/verify-toolforge-marketplace/features/marketplace-trending.md
+  h_5c172e9b435f5a 26,30,43-44
+.agents/skills/verify-toolforge-marketplace/features/skill-discovery.md
+  h_5c172e9b435f5a 9,47
+.agents/skills/verify-toolforge-marketplace/features/skill-installation.md
+  h_5c172e9b435f5a 3,7-9,52,55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "851148c1032a21dfed8f84ad2ef5c54c81e9d1f8",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+docs/meta/governance/global-operating-rules-cic-rewrite-labs.md
+  s_6dfc4ece7de02d::t_b173a6e409311d 156
+  s_6dfc4ece7de02d::t_8ec6603d9f4b68 12
+  s_6dfc4ece7de02d::t_db80cdc0f153ce 155
+  s_6dfc4ece7de02d::t_93d6f63104b083 10
+  s_6dfc4ece7de02d::t_d80be6bb902542 4-5
+  s_6dfc4ece7de02d::t_0727e38ab1f569 15,17,19-29,32-51,53,55,57,61-62,64,67-89,92,95-104,106,108,110-117,119,121-124,126,128,131-137,139-141,144-146,153-154,158
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1a6ef6438030466918e59af00b4c35708bcd5b3f",
+  "prompts": {},
+  "sessions": {
+    "s_6dfc4ece7de02d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "536e93dc-ffad-4358-9c98-5a15332da4cf",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

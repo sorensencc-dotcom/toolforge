@@ -1,0 +1,25 @@
+AGENTS.md
+  s_5370d02561242c::t_b8f58a641bd83a 28,81,95,100-106,115-119,127,138,157,166,168,170-172,186,218,222,238,244,254,258-262,271,285,293,297-298
+docs/meta/contract-hubs.md
+  s_5370d02561242c::t_57edd2fb26a825 1-39
+docs/meta/governance/roadmap-governance-evidence.md
+  s_5370d02561242c::t_8268c91232873b 1-14
+docs/meta/morning-ingestion.md
+  s_5370d02561242c::t_d55c5f08cd30d7 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1ddc0c7695e5e2180d8921528e3cd44952a668f1",
+  "prompts": {},
+  "sessions": {
+    "s_5370d02561242c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b272e385-37ba-4706-a49b-801126ba9dc2",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

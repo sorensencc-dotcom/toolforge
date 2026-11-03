@@ -1,0 +1,19 @@
+AGENTS.md
+  s_8f57339020e400::t_0cb6c60b6513e9 323-324
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "530f3961b0f014bb605dd176a8f1acd17ab8de08",
+  "prompts": {},
+  "sessions": {
+    "s_8f57339020e400": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19920-a40c-7f00-969f-a8bacc3be6a5",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

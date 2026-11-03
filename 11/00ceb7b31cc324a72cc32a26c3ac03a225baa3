@@ -1,0 +1,29 @@
+AGENTS.md
+  s_8f57339020e400::t_cbfc7025965138 323-331
+tests/trm-batch-triage.test.mjs
+  s_5c0fec649b5e80::t_e7f4d71752a386 16-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1100ceb7b31cc324a72cc32a26c3ac03a225baa3",
+  "prompts": {},
+  "sessions": {
+    "s_5c0fec649b5e80": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18b1e-c415-7912-ad17-08dea655c29c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_8f57339020e400": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19920-a40c-7f00-969f-a8bacc3be6a5",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
