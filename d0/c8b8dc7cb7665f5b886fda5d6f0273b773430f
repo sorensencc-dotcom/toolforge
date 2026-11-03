@@ -1,0 +1,14 @@
+skills/trm-closed-loop-research/SKILL.md
+  h_5c172e9b435f5a 100-107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d0c8b8dc7cb7665f5b886fda5d6f0273b773430f",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
