@@ -1,0 +1,21 @@
+_integration/model_selection.json
+  s_011e85473fb60d::t_12adc5a65686dd 40-56
+.trail/learnings/2026-11-03-regenerating-the-model-selection-record-must-chris.md
+  s_011e85473fb60d::t_9102b42850d522 1-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a07ef6a74995dc808949bb4a94ef51b4d49fbd81",
+  "prompts": {},
+  "sessions": {
+    "s_011e85473fb60d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1979a2f3-f48a-40b8-b054-5cccaf84e9e1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
