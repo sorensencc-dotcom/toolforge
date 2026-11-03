@@ -720,6 +720,29 @@ test('processFile suppresses closed zombie action cards for Issue 140', async ()
   }
 });
 
+test('processFile does NOT suppress fresh dated staleness failure cards', async () => {
+  const tmpCard = path.join(os.tmpdir(), `act-20261102-chat-injection-staleness-fail-${Date.now()}.json`);
+  const payload = {
+    id: 'act-20261102-chat-injection-staleness-entropy-fail',
+    source: 'mobile-gemini',
+    action_type: 'antigravity_triage',
+    intent: 'chat_injection_staleness_entropy_fail',
+    created_at: '2026-11-02T18:00:00Z',
+    domain: 'cic-kb',
+    category: 'RESEARCH',
+    summary: 'Fresh November 2 failure card',
+    timestamp: new Date().toISOString()
+  };
+  fs.writeFileSync(tmpCard, JSON.stringify(payload), 'utf8');
+
+  try {
+    const result = await processFile(tmpCard, { dryRun: true });
+    assert.notEqual(result?.status, 'SUPPRESSED_CLOSED_ISSUE');
+  } finally {
+    if (fs.existsSync(tmpCard)) fs.unlinkSync(tmpCard);
+  }
+});
+
 
 
 

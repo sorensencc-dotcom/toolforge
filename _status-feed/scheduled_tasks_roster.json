@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-10-17T19:05:25.421Z",
-  "total_tasks": 35,
+  "timestamp": "2026-11-01T21:52:49.712Z",
+  "total_tasks": 36,
   "tasks": [
     {
       "name": "Notebook-Ingester",
@@ -11,8 +11,8 @@
       "schedule": "Daily at 02:00 AM",
       "purpose": "Autonomous knowledge base indexer. Traverses markdown sources and notes, builds full-text search indexes in SQLite FTS5 for zero-token retrieval, and verifies source size ceilings.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 04:00:03",
-      "last_result": "0x80070002"
+      "last_run": "2026-10-31 02:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "KB-Sentinel",
@@ -23,8 +23,8 @@
       "schedule": "Daily at 03:00 AM",
       "purpose": "Knowledge base health & drift sentinel. Audits links, validates frontmatter schemas against canonical whitelists, and applies deterministic self-healing fixes.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 14:46:48",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 02:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "TRM-Bot",
@@ -35,8 +35,8 @@
       "schedule": "Daily at 04:00 AM",
       "purpose": "Autonomous TRM gap triage engine. Reads actionable research gaps, executes local SQLite FTS5 context queries, and drafts structured RFC decision notes with evidence.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 04:00:03",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 03:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "Watchlist-Miner",
@@ -47,8 +47,8 @@
       "schedule": "Daily at 05:00 AM",
       "purpose": "Watchlist & competitor drift miner. Probes external web targets using SHA-256 and ETag diffing to detect structural landscape and technology changes.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:59",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 04:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "Daemon-Healer",
@@ -58,9 +58,9 @@
       "script": "scripts/daemon-healer-bot.mjs",
       "schedule": "Every 15 Minutes",
       "purpose": "High-availability daemon supervisor. Monitors ICF Dashboard (port 8080), Sigil Relay (8791), and Sigil Rooms (5173); terminates colliding or hanging processes and restarts services.",
-      "live_state": "Ready",
-      "last_run": "2026-10-17 14:53:45",
-      "last_result": "0x80070002"
+      "live_state": "Disabled",
+      "last_run": "2026-10-29 23:24:52",
+      "last_result": "0x00000000"
     },
     {
       "name": "CI-Watchdog",
@@ -71,8 +71,8 @@
       "schedule": "Daily at 06:00 AM",
       "purpose": "GitHub Actions failure triage bot. Inspects workflow run telemetry, filters out superseded failures on unmerged commits, and flags persistent CI defects.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:58",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 05:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "Ironbots-Reporter",
@@ -83,8 +83,8 @@
       "schedule": "Daily at 06:30 AM",
       "purpose": "Daily fleet telemetry aggregator. Consolidates health reports across all fleet bots, calculates host heartbeat and fleet health score (0-100), and emits wiki reports.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:58",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 05:30:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "Storage-Pruner",
@@ -95,8 +95,8 @@
       "schedule": "Weekly (Sun) at 03:30 AM",
       "purpose": "Database and telemetry storage pruner. Vacuums SQLite databases (.kb_cache, snapshots), gzip-compacts historical telemetry logs, and archives completed harness tasks.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 04:00:03",
-      "last_result": "0x80070002"
+      "last_run": "2026-10-31 03:30:00",
+      "last_result": "0x00000000"
     },
     {
       "name": "TRM-Drive-Sync",
@@ -107,8 +107,8 @@
       "schedule": "Every 4 Hours",
       "purpose": "Two-way transport bridge between local Git repositories and Google Drive. Ingests mobile action cards and completed research, and emits Live Action Receipts.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 14:00:00",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 13:54:56",
+      "last_result": "0x00000000"
     },
     {
       "name": "IronLedger-Sentinel",
@@ -119,8 +119,20 @@
       "schedule": "Every 15 Minutes",
       "purpose": "Financial engine supervisor. Audits Docker container health, API endpoints (/healthz, /readyz), balance sheet invariants, and transaction ingestion pipelines.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 15:00:01",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 16:45:01",
+      "last_result": "0x00000000"
+    },
+    {
+      "name": "Daily-Report-Reconciliation",
+      "path": "\\Ironbots\\",
+      "ironbot": "Daily Report Reconciliation Engine",
+      "subsystem": "Ironbots Fleet",
+      "script": "scripts/schedule-task-wrapper-Reconcile-Daily-Reports.ps1",
+      "schedule": "Daily at 06:30, 11:15, 18:00 EST",
+      "purpose": "Automated 3x daily differential report validator, zombie card cleanser, daemon heartbeat monitor, and gap reconciler.",
+      "live_state": "Ready",
+      "last_run": "2026-11-01 16:52:05",
+      "last_result": "0x00000000"
     },
     {
       "name": "KB-Sync-Master-Pipeline",
@@ -131,8 +143,8 @@
       "schedule": "Daily at 20:00 (8:00 PM)",
       "purpose": "Master knowledge synchronization orchestrator. Executes staging, offline wiki synthesis, NotebookLM multipart pack cutovers with dedupe gates, drift checks, and gap triage.",
       "live_state": "Ready",
-      "last_run": "2026-10-16 20:46:10",
-      "last_result": "0x80070002"
+      "last_run": "2026-10-31 20:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "KB-Sync-Dashboard-Server",
@@ -143,7 +155,7 @@
       "schedule": "At Logon (Continuous)",
       "purpose": "Ensures the canonical HTTP telemetry and documentation server is active on port 8080, serving the Warm Parchment / Dark Forge dual-theme dashboard.",
       "live_state": "Ready",
-      "last_run": "2026-10-16 14:59:44",
+      "last_run": "2026-11-01 11:52:04",
       "last_result": "0x00000000"
     },
     {
@@ -155,8 +167,8 @@
       "schedule": "Daily at 20:30 (8:30 PM)",
       "purpose": "Executes grounded TRM gap triage with cognitive query expansion directly within the kb-sync pipeline context.",
       "live_state": "Ready",
-      "last_run": "2026-10-16 20:46:10",
-      "last_result": "0x80070002"
+      "last_run": "2026-10-31 20:30:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "Daily-Roadmap-Sync",
@@ -167,7 +179,7 @@
       "schedule": "Daily at 07:00 AM",
       "purpose": "Multi-repository roadmap synchronization. Enforces roadmap placement rules, audits cross-repo roadmaps, and catches governance drift.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:58",
+      "last_run": "2026-11-01 06:00:01",
       "last_result": "0x00000000"
     },
     {
@@ -179,8 +191,8 @@
       "schedule": "Daily at 01:00 AM",
       "purpose": "Automated nightly continuous integration run. Executes test suites, validates skill manifests, and checks dependency graph invariants across all modules.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 01:00:01",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 01:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "toolforge-daily-report-agent",
@@ -191,8 +203,8 @@
       "schedule": "Daily at 06:00 AM",
       "purpose": "Compiles the daily developer activity report from commit history, PR deliveries, and automated verification tests over the previous 24 hours.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:58",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 05:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "Toolforge-Drift-Detector",
@@ -203,7 +215,7 @@
       "schedule": "Daily at 02:30 AM",
       "purpose": "Continuous skill and plugin drift detector. Validates installed skills against canonical manifest schemas and automatically repairs minor drift.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 04:00:03",
+      "last_run": "2026-11-01 01:30:01",
       "last_result": "0x00000000"
     },
     {
@@ -215,8 +227,8 @@
       "schedule": "Daily at 04:00 AM",
       "purpose": "Verifies daily retrospectives, checks test-tag hygiene, audits commit conventions, and validates operational checklists.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 04:00:03",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 03:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "toolforge-weekly-report-agent",
@@ -227,7 +239,7 @@
       "schedule": "Weekly (Sun) at 18:00 (6:00 PM)",
       "purpose": "Runs comprehensive weekly retrospective analysis, calculates token efficiencies, and evaluates milestone progress.",
       "live_state": "Ready",
-      "last_run": "2026-10-11 18:00:00",
+      "last_run": "2026-10-25 18:00:00",
       "last_result": "0x00000000"
     },
     {
@@ -239,7 +251,7 @@
       "schedule": "Weekly (Sun) at 18:30 (6:30 PM)",
       "purpose": "Compiles and formats weekly Markdown summary reports into docs/reports/weekly/ for persistent project history.",
       "live_state": "Ready",
-      "last_run": "2026-10-11 18:50:09",
+      "last_run": "2026-10-25 18:40:27",
       "last_result": "0x00000000"
     },
     {
@@ -251,8 +263,8 @@
       "schedule": "Daily at 07:00 AM",
       "purpose": "Synthesizes daily status of the historical research pipeline, active research questions, and topic extraction status.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:58",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 06:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "CIC-ImageBuild-Daily",
@@ -263,8 +275,8 @@
       "schedule": "Daily at 02:00 AM",
       "purpose": "Daily container build for Cast Iron Charlie ingestion microservices and isolated research containers.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 04:00:03",
-      "last_result": "0x80070002"
+      "last_run": "2026-10-31 02:00:01",
+      "last_result": "0x00000040"
     },
     {
       "name": "CIC-Mirror-ClaudeMemory",
@@ -275,8 +287,8 @@
       "schedule": "Daily at 06:45 AM",
       "purpose": "Mirrors and backs up Claude Code project memory files and session context files into persistent git-tracked state.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:58",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 05:45:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "CIC-Nightly-Notebook-Mining",
@@ -287,8 +299,8 @@
       "schedule": "Daily at 01:30 AM",
       "purpose": "Automated nightly query injection and extraction against historical research notebooks (Willow Run, Ford Politics, Willys-Overland).",
       "live_state": "Ready",
-      "last_run": "2026-10-17 01:30:01",
-      "last_result": "0x80070002"
+      "last_run": "2026-10-21 03:06:31",
+      "last_result": "0x00000000"
     },
     {
       "name": "CIC-Vault-Sync-rl",
@@ -299,7 +311,7 @@
       "schedule": "Daily at 10:00 AM",
       "purpose": "Synchronizes completed historical findings and entity notes into the canonical Obsidian vault.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 10:00:01",
+      "last_run": "2026-11-01 09:00:01",
       "last_result": "0xFFFD0000"
     },
     {
@@ -311,7 +323,7 @@
       "schedule": "Weekly (Sun) at 09:00 AM",
       "purpose": "Evaluates inference cost, token latency, and quality benchmarks across configured LLM endpoints to update WhichLLM routing profiles.",
       "live_state": "Ready",
-      "last_run": "2026-10-11 09:00:00",
+      "last_run": "2026-11-01 09:00:00",
       "last_result": "0x00000000"
     },
     {
@@ -323,8 +335,8 @@
       "schedule": "Daily at 03:30 AM",
       "purpose": "Nightly closed-loop research mining. Runs sibling contradiction checks, queries expansion batteries, and consolidates thematic knowledge packs.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 04:00:03",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 02:30:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "toolforge-trm-sync-treatment",
@@ -335,8 +347,8 @@
       "schedule": "Daily at 06:30 AM",
       "purpose": "Synchronizes active research treatments, resolves claimed research tasks, and reconciles treatment logs.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:58",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 05:30:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "TRM-Notebooklm-Auth-Heartbeat",
@@ -347,8 +359,8 @@
       "schedule": "Every 2 Hours",
       "purpose": "Periodic authentication keep-alive probe for Google NotebookLM. Prevents session timeout and preserves valid auth cookies.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 14:00:02",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 15:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "TRM-Notebooklm-Chat-Archive",
@@ -359,8 +371,8 @@
       "schedule": "Daily at 20:00 (8:00 PM)",
       "purpose": "Extracts, parses, and formats interactive NotebookLM chat conversations and grounding citations into permanent markdown archives.",
       "live_state": "Ready",
-      "last_run": "2026-10-16 20:46:10",
-      "last_result": "0x80070002"
+      "last_run": "2026-10-31 20:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "TRM-Notebooklm-Mine",
@@ -371,8 +383,8 @@
       "schedule": "Daily at 06:00 AM",
       "purpose": "Autonomous knowledge mining loop sweeping registered notebooks for emerging topic clusters and research insights.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 09:02:58",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 05:00:01",
+      "last_result": "0x00000001"
     },
     {
       "name": "IronBot-TaskMonitor",
@@ -383,8 +395,8 @@
       "schedule": "Every 4 Hours",
       "purpose": "Supervises running PowerShell and Node background tasks, terminates orphaned processes, and monitors fleet runtime health.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 12:00:01",
-      "last_result": "0x80070002"
+      "last_run": "2026-11-01 15:00:01",
+      "last_result": "0x00000000"
     },
     {
       "name": "SigilMeshDaemon",
@@ -394,9 +406,9 @@
       "script": "scripts/run-sigil-daemon.ps1",
       "schedule": "At Logon (Continuous)",
       "purpose": "Runs the local Sigil peer-to-peer mesh relay (port 8791) and streaming WebSocket gateway (port 8793) for federated multi-agent routing.",
-      "live_state": "Ready",
-      "last_run": "2026-10-17 12:03:00",
-      "last_result": "0x80070002"
+      "live_state": "Unknown",
+      "last_run": null,
+      "last_result": null
     },
     {
       "name": "HelixDaemon",
@@ -407,8 +419,8 @@
       "schedule": "At Logon (Continuous)",
       "purpose": "Provides local agent execution harness and desktop window automation services for Helix applications.",
       "live_state": "Ready",
-      "last_run": "2026-10-16 14:59:44",
-      "last_result": "0x80131506"
+      "last_run": "2026-10-29 23:49:31",
+      "last_result": "0x00041306"
     },
     {
       "name": "RewriteLabsDailyBackup",
@@ -419,7 +431,7 @@
       "schedule": "Daily at 00:00 (Midnight)",
       "purpose": "Automated backup of RewriteLabs workspaces, static site generator templates, and database state.",
       "live_state": "Ready",
-      "last_run": "2026-10-17 00:00:01",
+      "last_run": "2026-11-01 00:00:01",
       "last_result": "0xFFFD0000"
     }
   ]

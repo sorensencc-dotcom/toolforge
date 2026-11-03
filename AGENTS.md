@@ -255,6 +255,21 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 
 Embedded workflow checklists (Pre-Artifact, Pre-Write, Pre-Governance) live in `memory/workflow-checklists-embedded.md`. Reference before critical actions.
 
+## Daily report reconciliation & autonomous cadence
+
+The canonical daily report reconciliation engine lives at `scripts/reconcile-daily-reports.mjs` and is wrapped by `scripts/schedule-task-wrapper-Reconcile-Daily-Reports.ps1`. See `docs/meta/daily-report-reconciliation.md` for the full four-phase specification.
+
+### Operating cadence (3x daily)
+1. **06:30 AM EST (Preflight cleanse)**: Purges stale quarantine files, audits pending tasks against Git and GitHub closed states to prevent zombie cards, and prepares the knowledge plane for the 07:00 AM Morning Ingestion pass.
+2. **11:15 AM EST (Briefing heartbeat & telemetry gate)**: Executes 30 minutes before the 11:45 AM Daily Intelligence Briefing. Inspects runner timestamps across `_status-feed/`, forces a `[SEV-1 PIPELINE_STALL]` banner into `daily_status.json` if a daemon exceeds 24h dormancy, and purges resolved cards.
+3. **06:00 PM EST (Daily close-out)**: Audits afternoon Git commits, calculates day-over-day differentials and claim entropy, and programmatically resolves documented research gaps with outbox completion receipts.
+
+### Windows scheduled task unattended registration
+Fleet runner tasks requiring "Elevated no login" execution must use `LogonType S4U` with `RunLevel Highest`. Because Windows restricts S4U token assignment to administrator contexts, run PowerShell as Administrator when registering or updating unattended tasks:
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File C:\dev\scripts\schedule-task-wrapper-<Name>.ps1 -Action Register
+```
+
 ## Morning ingestion automation (Tier 3)
 
 Daily 06:00 AM ET `morning-ingestion-dashboard` skill: calendar and email ingestion, Gmail label-and-archive only (no deletions), outputs to a Cowork artifact, Slack `#morning-ingestion`, and a Notion briefings database. Full spec: `docs/meta/morning-ingestion.md`.
@@ -300,6 +315,25 @@ When the correct project directory is unclear, especially for a new project, do 
 - Always append a timeout or use GNU `timeout 60 npm test`.
 - If a test suite exceeds 60 seconds without emitting output, treat it as hung: abort the process, clear `.staging.lock` / `.kb-sync.lock`, and report the hanging test file.
 - If investigating hanging tests, pass `--detectOpenHandles` or `--test-timeout=10000` to pinpoint unclosed database handles or unmocked network sockets.
+
+## Outage telemetry and incident escalation protocol
+
+- **SEV-1 Top-of-Report Elevation**: When any core scheduled daemon, pipeline runner, or cluster sync job (e.g. `TRM-Notebooklm-Mine`, `CIC-Nightly-Notebook-Mining`, `KB-Sync-Master-Pipeline`) is offline or failing for >24 hours, agents and scheduled briefing generators MUST place an immediate **[SEV-1 OPERATIONAL OUTAGE]** banner at the very top of the report/briefing. Standard nominal executive summaries must be suppressed until the outage is resolved.
+- **No False-Signal Masking**: Isolated manual session turns, interactive chats, or static single-question test queries do NOT indicate a healthy automated runner. Audit telemetry against the automated daemon's actual execution schedule.
+- **Zombie Action Card Prevention & Scoped Suppression**: Never recycle closed GitHub issue numbers or resolved action titles into recurring audit failure cards. However, ingress watchers MUST scope suppression strictly to the historical timeframe of the resolved incident (e.g., legacy month/date checks). Fresh recurring failure cards dated after the incident resolution boundary must NEVER be suppressed as duplicates, as title-only matching silences active SEV-1 outages.
+- **Question Battery Entropy & Dynamic Grounding Invariant**: Never compute question battery entropy against an unbounded historical union of all previous questions, as Jaccard distance degrades to zero over time. Always compute entropy relative to the immediate prior battery (`.slice(-N)`). Synthesis batteries must dynamically anchor to reverse-chronologically sorted primary sources and recent chat turns before falling back to template questions.
+- **Lane A vs. Lane B Triage Discipline & Research Guardrail**:
+  - **Strict Lane Isolation**: Action cards with `category: RESEARCH`, `target: cic`, or `target: cic-kb` belong exclusively to **Lane A** (the local TRM research workspace in `wiki/research/` or `obsidian/vault/wiki/research/`). Never create GitHub issues or stage PR branches for pure research cards. **Lane B** is reserved exclusively for software engineering tasks targeting code repositories (`toolforge`, `sigil`, `rewrite-mcp`, `kb-sync`).
+  - **Zero-Code Invariant for Research Cards**: Engineering subagents must never author dummy classes, mock auditing frameworks, or test scaffolds (`[object Object]`) for archival research topics. If an assigned card contains no code surface, halt implementation.
+  - **Misrouting Remediation Protocol**: If an archival research card is erroneously opened as a GitHub issue:
+    1. Close the issue immediately with: `Closed as misrouted. Source task is a pure archival research card (target: cic, category: RESEARCH) belonging to Lane A (TRM local research backlog), not an engineering code issue.`
+    2. Stash or commit any dirty working tree in the target TRM research repository to prevent merge collisions.
+    3. Author the structured research deliverable directly in `wiki/research/` or `obsidian/vault/wiki/research/`.
+    4. Involve `kb-sync` only downstream when the finalized deliverable is ready for NotebookLM ingestion or wiki registry sync.
+
+## Automation delivery guard policy
+
+- **Mandatory Regression Test Pairing**: Modifying any file under `scripts/**`, `.github/workflows/**`, or `CIC-GOVERNANCE/scripts/**` triggers the blocking `automation-test-policy` pre-commit hook. Every automation change MUST be paired with a corresponding test file under `tests/` (or matching `*.test.*` / `*.spec.*`) staged in the exact same commit.
 
 <!-- TOOLFORGE-VAULT-POINTER-START -->
 # Persistent System Memory Pointer

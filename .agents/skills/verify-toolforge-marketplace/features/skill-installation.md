@@ -1,12 +1,12 @@
 # Skill installation
 
-Skill installation lets a developer or autonomous agent download, pin, and install a skill package into a target destination directory, writing a deterministic `.toolforge-install.json` metadata receipt.
+Skill installation lets a developer or autonomous agent resolve, pin, and initialize a skill installation in a target destination directory, writing a deterministic `.toolforge-install.json` metadata receipt.
 
 ## Sub-features
 
-- `install-latest` resolves the latest published version of a skill and installs it.
-- `install-version` pins and downloads an exact SemVer release version specified by the user.
-- `install-destination` places skill files into a custom target directory.
+- `install-latest` resolves the latest published version of a skill from catalog metadata.
+- `install-version` matches against published version tags (falling back to newest release if unmatched).
+- `install-destination` ensures the target destination directory exists and isolates the installation receipt.
 - `install-receipt` records an installation manifest (`.toolforge-install.json`) with timestamps, skill ID, entrypoint, and runtime.
 
 ## How to get to it (user POV)
@@ -49,5 +49,7 @@ Preconditions:
 ## Gotchas
 
 - If a requested skill name does not exist in the catalog, `toolforge install` exits 1 with `✗ Skill not found: <skill-name>`.
+- If an unmatched `--version` string is passed, the CLI falls back to the newest release (`versions[0]`) rather than throwing an error.
 - The target destination directory defaults to `./skills`. Always specify `--destination` in automated verification runs to avoid writing untracked files into the working tree.
 - The installation receipt `.toolforge-install.json` is overwritten on reinstall: ensure your assertions inspect the file immediately following the specific command invocation.
+- In the React Web UI (`SkillDetail.jsx`), the Install button performs a localized state simulation (`setTimeout`) and does not connect to backend installation or filesystem receipts.
