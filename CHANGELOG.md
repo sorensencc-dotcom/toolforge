@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.115.1
+Date: 2026-11-03
+
+### Changes
+- e4948328 - Merge pull request #263 from sorensencc-dotcom/fix/restore-model-selection-record (Chris Sorensen)
+- a07ef6a7 - fix(whichllm): restore local-only routing fields dropped from model_selection.json (Chris Sorensen)
+- 1f324c44 - Merge pull request #262 from sorensencc-dotcom/docs/chris-mode-nov-update (Chris Sorensen)
+- 2eaa037d - docs(skills): add approval gates, handoff, and pasted-output rules to chris-mode (Chris Sorensen)
+
 ## Version 2.115.0
 Date: 2026-11-03
 
