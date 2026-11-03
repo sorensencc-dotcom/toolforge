@@ -1,0 +1,19 @@
+tests/trm-batch-triage.test.mjs
+  s_5c0fec649b5e80::t_76341281e9ea43 25-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c8730bb1d6f553fd6c30818c296378f6c01ecfa3",
+  "prompts": {},
+  "sessions": {
+    "s_5c0fec649b5e80": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18b1e-c415-7912-ad17-08dea655c29c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
