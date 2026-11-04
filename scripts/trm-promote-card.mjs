@@ -3,6 +3,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { validateCardIntegrity } from './trm-card-validation.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const DEV_ROOT = path.resolve(__dirname, '..');
@@ -214,6 +215,13 @@ export function promoteCard(cardPath, options = {}) {
   const parsed = parseCardFile(cardPath);
   const { frontmatter } = parsed;
   const cardId = frontmatter.id || frontmatter.action_id || path.basename(cardPath).replace(/\.(md|json)$/i, '');
+
+  const integrity = validateCardIntegrity({ ...frontmatter, body: parsed.body }, {
+    existingIds: options.existingIds || []
+  });
+  if (!integrity.valid && (frontmatter.source || frontmatter.action_type || frontmatter.acceptance_criteria || frontmatter.acceptanceCriteria || frontmatter.deliverables)) {
+    throw new Error(`${integrity.reason}: ${integrity.error}`);
+  }
 
   if (cardId.startsWith('invalid-') || String(frontmatter.intent || '').toLowerCase() === 'validation_error') {
     throw new Error(`CANNOT_PROMOTE_INVALID_CARD: Card ${cardId} is an unparsed/quarantined failure record.`);

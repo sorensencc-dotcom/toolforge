@@ -1,0 +1,20 @@
+{
+  "schema": "retro-inbox/1",
+  "agent": "codex",
+  "repo": "toolforge",
+  "date": "2026-11-04",
+  "session": "fix/trm-intake-clean-cards",
+  "findings": [
+    {
+      "id": "RF-225ab0acfcbd",
+      "tag": "INGESTION",
+      "severity": "medium",
+      "summary": "TRM focused gate verification is obscured by an absent ICF sibling checkout",
+      "evidence": [
+        "tests/trm-hardened-gates.test.mjs imports absent icf/src/server.mjs in this worktree",
+        "npm test exceeded the 60-second bounded run while unrelated tests were still executing"
+      ],
+      "suggestion": "Keep TRM gate tests independent of sibling checkouts or provide an explicit fixture boundary for the ICF resolver."
+    }
+  ]
+}
