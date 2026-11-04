@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.116.5
+Date: 2026-11-04
+
+### Changes
+- 76b55974 - Merge pull request #270 from sorensencc-dotcom/chore/trail-workspace (Chris Sorensen)
+- 1e726536 - chore(trail): link repo to team Trail workspace (Chris Sorensen)
+
 ## Version 2.116.4
 Date: 2026-11-04
 
