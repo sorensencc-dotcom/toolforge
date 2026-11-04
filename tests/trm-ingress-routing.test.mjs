@@ -749,3 +749,9 @@ test('processFile does NOT suppress fresh dated staleness failure cards', async 
 
 
 
+
+test('parsePayload strips a UTF-8 BOM before JSON.parse', async () => {
+  const { stripBom } = await import('../scripts/trm-ingress-watcher.mjs');
+  assert.equal(stripBom('﻿{"a":1}'), '{"a":1}');
+  assert.deepEqual(parsePayload('﻿{"a":1}', '.json'), { a: 1 });
+});
