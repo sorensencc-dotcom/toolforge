@@ -1,0 +1,34 @@
+scripts/trm-ingress-watcher.mjs
+  s_137aa8ee4bfde2::t_c6c896e788436d 6,656-657,659-660,1589-1598,1648,1667
+  s_137aa8ee4bfde2::t_f58c4a54d32ff6 8
+  s_137aa8ee4bfde2::t_41b68236b2d803 1599,1635-1638
+  s_137aa8ee4bfde2::t_76b31593db8664 658
+  s_137aa8ee4bfde2::t_9c6ad5836b1065 2180-2206
+  s_137aa8ee4bfde2::t_bfb0e7853a3aed 7
+scripts/trm-promote-card.mjs
+  s_137aa8ee4bfde2::t_87c9836f84a227 6,219-224
+  s_137aa8ee4bfde2::t_1331a6c520accf 225
+scripts/trm-card-validation.mjs
+  s_137aa8ee4bfde2::t_5505f7bb9c8550 1-98
+tests/trm-intake-clean-cards.test.mjs
+  s_137aa8ee4bfde2::t_01224f7bd635df 125-141
+scripts/trm-stage-pr.mjs
+  s_137aa8ee4bfde2::t_87c9836f84a227 17,107-110,169-181
+  s_137aa8ee4bfde2::t_3668b6c047405e 182
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "182bff78d95b330597da04ab73c97f219933751b",
+  "prompts": {},
+  "sessions": {
+    "s_137aa8ee4bfde2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a8a9-c471-7af3-bec2-2929d1cca422",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
