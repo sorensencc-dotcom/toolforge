@@ -195,9 +195,11 @@ status["memory"] = {
 }
 
 # ---------------------------------------------------------------------------
-# 4. .ijfw/memory/handoff.md — dev root (most recent handoff)
+# 4. STATUS.md (dev root) with fallback to legacy .ijfw/memory/handoff.md
 # ---------------------------------------------------------------------------
 handoff_path = DEV_ROOT / ".ijfw" / "memory" / "handoff.md"
+if not handoff_path.exists():
+    handoff_path = DEV_ROOT / "STATUS.md"
 handoff_text = read_text(handoff_path)
 note(handoff_path, handoff_text is not None)
 
@@ -206,15 +208,17 @@ def extract_section(text, header):
         return []
     m = re.search(rf"{re.escape(header)}\s*\n-+\s*\n(.*?)(?=\n[A-Za-z].*\n-+\s*\n|\Z)", text, re.S)
     if not m:
+        m = re.search(rf"###\s*{re.escape(header)}[^\n]*\n(.*?)(?=\n###|\Z)", text, re.S)
+    if not m:
         return []
     lines = [l.strip() for l in m.group(1).splitlines() if l.strip()]
     return lines
 
-next_steps = extract_section(handoff_text, "Next Steps")
+next_steps = extract_section(handoff_text, "Next Steps") or extract_section(handoff_text, "Next action")
 blockers = extract_section(handoff_text, "Blockers")
 handoff_date = None
 if handoff_text:
-    dm = re.search(r"Handoff:\s*([\d-]+)", handoff_text)
+    dm = re.search(r"Handoff:\s*([\d-]+)", handoff_text) or re.search(r"\((202\d-[\d]{2}-[\d]{2})\)", handoff_text)
     if dm:
         handoff_date = dm.group(1)
 

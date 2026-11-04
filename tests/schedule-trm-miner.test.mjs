@@ -30,3 +30,12 @@ test('reconcile-scheduled-tasks defines 3 hour execution limit for TRM-Notebookl
   assert.match(content, /ExecutionTimeLimitHours/);
 });
 
+test('reconcile-scheduled-tasks supports password parameter and multi-trigger schedules', () => {
+  const scriptPath = resolve(REPO_ROOT, 'scripts/reconcile-scheduled-tasks.ps1');
+  assert.equal(existsSync(scriptPath), true);
+  const content = readFileSync(scriptPath, 'utf8');
+  assert.match(content, /\[string\]\$Password\s*=\s*\$null/);
+  assert.match(content, /TriggerTimes\s*=\s*@\("06:30",\s*"11:15",\s*"18:00"\)/);
+});
+
+
