@@ -9,6 +9,34 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## TRM card-intake clean cards (2026-11-04)
+
+### Active goal
+
+Complete strict TDD validation for TRM intake, staging, and promotion without touching ICF or real ingress data.
+
+### Completed work
+
+- Added shared validation for body extraction, real acceptance criteria, case-insensitive duplicate IDs, and repository consistency.
+- Routed failed `.gdoc` pointer extraction through the existing quarantine path with machine-readable reasons.
+- Preserved closed-zombie suppression precedence and summary-only content handling.
+- Added fixture-backed tests and updated stale ingress expectations for the strict acceptance contract.
+
+### Tests
+
+- Focused intake and promotion tests: 21/21 passed.
+- Existing ingress routing tests: 37/37 passed.
+- Existing promotion tests: 11/11 passed.
+- Full `npm test` attempt stopped at the 60-second bound while unrelated tests were still running.
+
+### Blockers
+
+- `tests/trm-hardened-gates.test.mjs` cannot load because this worktree does not contain the sibling `icf/src/server.mjs` checkout.
+
+### Next action
+
+Review the three commits and `DONE.md`; no push or PR was performed.
+
 ## Software Factory Closed-Loop & Runner Remediation (2026-11-03)
 
 ### Active goal
