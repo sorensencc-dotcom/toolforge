@@ -122,6 +122,23 @@ test('promotion rejects a repository-mismatched card before calling GitHub', () 
   }
 });
 
+test('promotion rejects a case-insensitive duplicate card ID', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trm-clean-promote-duplicate-'));
+  const cardPath = path.join(dir, 'act-duplicate.json');
+  fs.writeFileSync(cardPath, JSON.stringify(validCard()), 'utf8');
+  try {
+    assert.throws(
+      () => promoteCard(cardPath, {
+        dryRun: true,
+        existingIds: ['ACT-CLEAN-CARD-001']
+      }),
+      /DUPLICATE_ID/
+    );
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test('staging rejects a case-insensitive duplicate card ID', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trm-clean-stage-'));
   const cardPath = path.join(dir, 'act-sigil-chief-daemon-logon-task-watchdog.json');
