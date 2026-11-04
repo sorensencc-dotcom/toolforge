@@ -1,0 +1,23 @@
+.trail/learnings/2026-11-04-model-verification-means-running-the-bfcl-chris.md
+  s_05552b31f9d6ed::t_79e15b7729d0d3 1-30
+_integration/model_selection.json
+  s_05552b31f9d6ed::t_e235d0553125d4 42
+src/providers/model-selection.test.js
+  s_05552b31f9d6ed::t_22b7ad0a5d9550 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9902be3854807ef4eaf4bdb909d6b0c2b09ad68d",
+  "prompts": {},
+  "sessions": {
+    "s_05552b31f9d6ed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "146ff308-16a9-4aeb-80fd-417e6717367c",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
