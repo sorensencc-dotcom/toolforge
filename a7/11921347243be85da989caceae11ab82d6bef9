@@ -1,0 +1,29 @@
+docs/trm-dispatch/SPEC.md
+  s_65c49438034d1c::t_dbcc7780ad63d9 1-105
+docs/trm-dispatch/codex-brief.template.md
+  s_137aa8ee4bfde2::t_02553652f60f78 1-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a711921347243be85da989caceae11ab82d6bef9",
+  "prompts": {},
+  "sessions": {
+    "s_137aa8ee4bfde2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a8a9-c471-7af3-bec2-2929d1cca422",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_65c49438034d1c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a8a9-d3f6-7952-9239-1ce4236a282f",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
