@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.116.0
+Date: 2026-11-04
+
+### Changes
+- ef9d7d3b - Merge pull request #264 from sorensencc-dotcom/chore/remove-ijfw (Chris Sorensen)
+- 5779560d - feat(hooks): git-based edit-size check in token-budget-gate (Grok Bot)
+- 0ed54178 - chore: remove IJFW leftovers (Grok Bot)
+
 ## Version 2.115.1
 Date: 2026-11-03
 
