@@ -1,0 +1,21 @@
+tests/ci-governance-matrix-sigil-timeout.test.mjs
+  s_011e85473fb60d::t_7a6651066a843e 1-15
+.github/workflows/ci-governance-matrix.yml
+  s_011e85473fb60d::t_bc41a55629b890 43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1fe596ac31aa9a69ec67989cf3d6d9826bb8d33a",
+  "prompts": {},
+  "sessions": {
+    "s_011e85473fb60d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1979a2f3-f48a-40b8-b054-5cccaf84e9e1",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
