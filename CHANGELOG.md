@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2.117.0
+Date: 2026-11-04
+
+### Changes
+- 9456bb5c - Merge pull request #272 from sorensencc-dotcom/feat/trm-dispatch (Chris Sorensen)
+- 305f7092 - Merge pull request #271 from sorensencc-dotcom/fix/trm-intake-clean-cards (Chris Sorensen)
+- a7119213 - feat(trm): trm-dispatch dispatcher (Chris Sorensen)
+- 01f4f171 - test(trm): dispatcher contract (Chris Sorensen)
+- fc71dba1 - chore(retro): record trm intake verification finding (Chris Sorensen)
+- 1c5dc2c1 - docs(trm): add clean card completion report (Chris Sorensen)
+- ab12ae7c - docs(trm): record clean card intake evidence (Chris Sorensen)
+- 27a5ff0a - fix(trm): preserve intake gate ordering (Chris Sorensen)
+- 182bff78 - fix(trm): reject dirty mobile action cards (Chris Sorensen)
+- 5b446db7 - test(trm): cover clean card intake gates (Chris Sorensen)
+
 ## Version 2.116.5
 Date: 2026-11-04
 
