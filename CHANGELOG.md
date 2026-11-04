@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.116.3
+Date: 2026-11-04
+
+### Changes
+- bb685f19 - Merge pull request #267 from sorensencc-dotcom/fix/smoke-test-timeout-pin (Chris Sorensen)
+- 17c7e4b0 - test(delivery-guard): update pinned sigil smoke timeout to 180s (Chris Sorensen)
+
 ## Version 2.116.2
 Date: 2026-11-04
 
