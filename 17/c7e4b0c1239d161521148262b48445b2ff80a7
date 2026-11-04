@@ -1,0 +1,19 @@
+CIC-GOVERNANCE/packages/delivery-guard/tests/matrix-sigil-smoke.test.js
+  s_63fdddc58048e7::t_809d67f792862d 48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "17c7e4b0c1239d161521148262b48445b2ff80a7",
+  "prompts": {},
+  "sessions": {
+    "s_63fdddc58048e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27d99d62-ead5-4303-be4b-0996e786e6c1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
