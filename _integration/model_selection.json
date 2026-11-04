@@ -39,7 +39,7 @@
   },
   "provider": "ollama",
   "validated_local_model": {
-    "model": "llama3.1:8b",
+    "model": "qwen2.5:7b",
     "validation": "bfcl_v2_automated",
     "validated": true
   },
