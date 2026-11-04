@@ -5,7 +5,7 @@ import OllamaProvider from './ollama-provider.js';
 
 test('loads the ratified local-only Ollama selection', () => {
   const selection = loadModelSelection();
-  assert.deepEqual({ provider: selection.provider, model: selection.model, routing: selection.routing_state }, { provider: 'ollama', model: 'llama3.1:8b', routing: 'local-only' });
+  assert.deepEqual({ provider: selection.provider, model: selection.model, routing: selection.routing_state }, { provider: 'ollama', model: 'qwen2.5:7b', routing: 'local-only' });
   assert.equal(selection.cloud_routing_enabled, false);
 });
 
