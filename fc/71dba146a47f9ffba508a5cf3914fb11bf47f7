@@ -1,0 +1,20 @@
+.context/retros/inbox/codex/2026-11-04-trm-clean-card-gate-verification.json
+  s_137aa8ee4bfde2::t_83f9d5ee8961fb 9
+  s_137aa8ee4bfde2::t_931e4ae096dbb9 1-8,10-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fc71dba146a47f9ffba508a5cf3914fb11bf47f7",
+  "prompts": {},
+  "sessions": {
+    "s_137aa8ee4bfde2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a8a9-c471-7af3-bec2-2929d1cca422",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
