@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.116.1
+Date: 2026-11-04
+
+### Changes
+- 47e7777e - Merge pull request #265 from sorensencc-dotcom/fix/pin-qwen25-7b (Chris Sorensen)
+- 9902be38 - fix(routing): pin qwen2.5:7b as validated local model (Chris Sorensen)
+
 ## Version 2.116.0
 Date: 2026-11-04
 
