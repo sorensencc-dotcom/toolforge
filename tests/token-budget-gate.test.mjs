@@ -1,56 +1,91 @@
 import test from 'node:test';
-import assert from 'node:assert';
-import { spawnSync } from 'node:child_process';
+import assert from 'node:assert/strict';
+import { spawnSync, execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const HOOK_PATH = path.join(path.dirname(fileURLToPath(import.meta.url)), '../.claude/hooks/token-budget-gate.js');
 
-const HOOK_PATH = path.join(__dirname, '../.claude/hooks/token-budget-gate.js');
-const EDITS_FILE = '.ijfw/.session-edits.jsonl';
-const WORK_DIR = path.join(__dirname, 'test-workdir');
-
-function runHook(env = {}) {
-  // The hook is ESM; copy it to .mjs so it runs as an ES module in isolated test workdir.
-  fs.mkdirSync(WORK_DIR, { recursive: true });
-  const mjsPath = path.join(WORK_DIR, 'hook.mjs');
-  fs.copyFileSync(HOOK_PATH, mjsPath);
-  const result = spawnSync(process.execPath, [mjsPath], {
-    env: { ...process.env, ...env },
-    cwd: WORK_DIR,
-    encoding: 'utf8'
-  });
-  return { status: result.status, output: result.stdout || '', stderr: result.stderr || '' };
+function git(cwd, ...args) {
+  execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...args], { cwd, stdio: 'ignore' });
 }
 
-test('token-budget-gate.js handles malformed JSON lines in .session-edits.jsonl gracefully', (t) => {
-  fs.mkdirSync(path.join(WORK_DIR, '.ijfw'), { recursive: true });
-  const editsPath = path.join(WORK_DIR, EDITS_FILE);
+// Temp repo on `main` with one base commit, then a feature branch.
+function makeRepo() {
+  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'budget-gate-'));
+  git(cwd, 'init', '-q', '-b', 'main');
+  fs.writeFileSync(path.join(cwd, 'a.txt'), 'base\n');
+  git(cwd, 'add', '.');
+  git(cwd, 'commit', '-q', '-m', 'base');
+  git(cwd, 'checkout', '-q', '-b', 'feature');
+  return cwd;
+}
 
-  const fileContent = [
-    '{"added": 10}',
-    'THIS IS A MALFORMED JSON LINE THAT WOULD CAUSE JSON.parse TO CRASH',
-    '{"added": 20, "removed": 5}'
-  ].join('\n');
-  fs.writeFileSync(editsPath, fileContent);
+function lines(n) {
+  return Array.from({ length: n }, (_, i) => `line ${i}`).join('\n') + '\n';
+}
 
-  const result = runHook({ LOC_THRESHOLD: '100', COMMIT_THRESHOLD: '999' });
+function runHook(cwd, env = {}) {
+  const r = spawnSync(process.execPath, [HOOK_PATH], {
+    cwd, input: '{}', encoding: 'utf8', timeout: 20000,
+    env: { ...process.env, COMMIT_THRESHOLD: '999', TOKEN_BUDGET_MAX_LINES: '', PLAN_LOCKED: '', ...env },
+  });
+  const denied = r.stdout.trim() !== '' &&
+    JSON.parse(r.stdout).hookSpecificOutput.permissionDecision === 'deny';
+  return { status: r.status, stderr: r.stderr, denied };
+}
 
-  fs.rmSync(WORK_DIR, { recursive: true, force: true });
+function withRepo(fn) {
+  const cwd = makeRepo();
+  try { fn(cwd); } finally { fs.rmSync(cwd, { recursive: true, force: true }); }
+}
 
-  const fullOutput = result.output + '\n' + result.stderr;
-  assert.ok(fullOutput.includes('Session LOC: 35'), `Should correctly sum LOC from valid lines. Output: ${fullOutput}`);
-});
+test('passes when branch edits are under the line limit', () => withRepo((cwd) => {
+  fs.writeFileSync(path.join(cwd, 'b.txt'), lines(10));
+  git(cwd, 'add', '.');
+  git(cwd, 'commit', '-q', '-m', 'small');
+  const r = runHook(cwd);
+  assert.equal(r.status, 0);
+  assert.equal(r.denied, false);
+  assert.match(r.stderr, /Branch edit lines: 10 \(threshold: 1500\)/);
+}));
 
-test('token-budget-gate.js handles missing edits log gracefully', (t) => {
-  fs.mkdirSync(path.join(WORK_DIR, '.ijfw'), { recursive: true });
+test('blocks when committed + uncommitted edits exceed the limit', () => withRepo((cwd) => {
+  fs.writeFileSync(path.join(cwd, 'b.txt'), lines(30));
+  git(cwd, 'add', '.');
+  git(cwd, 'commit', '-q', '-m', 'committed');
+  fs.writeFileSync(path.join(cwd, 'a.txt'), lines(30)); // uncommitted: +30 -1
+  const r = runHook(cwd, { TOKEN_BUDGET_MAX_LINES: '50' });
+  assert.equal(r.status, 0);
+  assert.match(r.stderr, /Branch edit lines: 61/);
+  assert.equal(r.denied, true);
+}));
 
-  const result = runHook({ LOC_THRESHOLD: '100', COMMIT_THRESHOLD: '999' });
+test('default limit of 1500 blocks a large branch', () => withRepo((cwd) => {
+  fs.writeFileSync(path.join(cwd, 'b.txt'), lines(1600));
+  git(cwd, 'add', '.');
+  git(cwd, 'commit', '-q', '-m', 'big');
+  assert.equal(runHook(cwd).denied, true);
+}));
 
-  fs.rmSync(WORK_DIR, { recursive: true, force: true });
+test('PLAN_LOCKED=1 allows a branch over the limit', () => withRepo((cwd) => {
+  fs.writeFileSync(path.join(cwd, 'b.txt'), lines(100));
+  const r = runHook(cwd, { TOKEN_BUDGET_MAX_LINES: '50', PLAN_LOCKED: '1' });
+  assert.equal(r.status, 0);
+  assert.equal(r.denied, false);
+  assert.match(r.stderr, /Plan locked/);
+}));
 
-  const fullOutput = result.output + '\n' + result.stderr;
-  assert.ok(fullOutput.includes('Session LOC: 0'), `Should default to 0 LOC. Output: ${fullOutput}`);
+test('fails open with a stderr note outside a git repo', () => {
+  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'budget-gate-nogit-'));
+  try {
+    const r = runHook(cwd, { TOKEN_BUDGET_MAX_LINES: '0' });
+    assert.equal(r.status, 0);
+    assert.equal(r.denied, false);
+    assert.match(r.stderr, /fail open/);
+  } finally {
+    fs.rmSync(cwd, { recursive: true, force: true });
+  }
 });
