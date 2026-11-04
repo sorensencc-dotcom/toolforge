@@ -1,0 +1,23 @@
+.githooks/pre-commit
+  s_31dd115102abc1::t_d1d728b4f6de0a 30-41
+.trail/learnings/2026-11-04-retro-recommendations-are-enforced-by-the-chris.md
+  s_31dd115102abc1::t_7de94bf1d8ca56 1-31
+tests/trm-ingress-routing.test.mjs
+  s_31dd115102abc1::t_a4b85ada2af01a 752-757
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b6096a8286888e2e44fcdbde03615a89fb52d10b",
+  "prompts": {},
+  "sessions": {
+    "s_31dd115102abc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8fca7f9-825e-43b8-b4ec-b1d0da188afa",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
