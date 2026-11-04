@@ -9,6 +9,84 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Software Factory Closed-Loop & Runner Remediation (2026-11-03)
+
+### Active goal
+
+Incorporate Matt Pocock's software factory model into the TRM mobile inbox pipeline (intake to PR to build to receipt) and remediate scheduled daemon failures across TRM and KB-Sync.
+
+### Completed work
+
+- **Software Factory Pipeline Architecture:** Mapped five canonical service slots (Ticket Source, Ticket Tracker, Git Host, Orchestrator, Runner, Observability Platform) and three brakes (60s test timeout, cold diff review, Tier 1 manual merge).
+- **Local Small-Model Synchronization:** Pinned `qwen2.5:7b` as primary model in [`scripts/local-small-model-bridge.mjs`](file:///c:/dev/scripts/local-small-model-bridge.mjs), aligning with Toolforge PR #265 BFCL benchmark rankings (0.750). Added destructive command sanitization.
+- **Unit Verification & Git Sync:** Updated [`tests/local-small-model-bridge.test.mjs`](file:///c:/dev/tests/local-small-model-bridge.test.mjs), passed unit suites, committed `df63a4e5` (`fix(model): pin qwen2.5:7b in local small model bridge`), and pushed to remote origin.
+- **Generative UI Dashboard:** Built and embedded interactive closed-loop inspector artifact: `software_factory_dashboard.html`.
+- **Item 1 Complete:** Registered `\Ironbots\Daily-Report-Reconciliation` Windows scheduled task (06:30, 11:15, 18:00 EST) with `LogonType S4U` and `RunLevel Highest`.
+- **KB-Sync Contract Fix:** Repaired frontmatter in [`research/cic-archival-audit-cork-operations-investigation.md`](file:///c:/dev/kb-sync/obsidian/vault/wiki/research/cic-archival-audit-cork-operations-investigation.md) (standardized `title` and canonical `status: active`).
+
+### Decisions
+
+- Reconcile task runs via Windows Task Scheduler S4U unattended execution across three daily cadences (06:30, 11:15, 18:00 EST).
+- Software factory implementer task preserves manual Tier 1 review and merge on the git host as an explicit human gate before receipts emit to `mobile-outbox`.
+- Single-notebook RPC timeouts in `TRM-Notebooklm-Chat-Archive` should isolate gracefully without failing the entire 53-notebook harvest sweep.
+
+### Tests
+
+- `node --test tests/local-small-model-bridge.test.mjs`: PASS (1/1)
+- `node --test scripts/whichllm-router.test.mjs`: PASS (6/6)
+- Pre-commit invariant engine & CIC governance verification: PASS (commit `df63a4e5`)
+- Pre-push static analysis & diagram visual parity hooks: PASS
+
+### Blockers
+
+- 18 conversation files in `kb-sync/obsidian/vault/wiki/conversations/` (`2026-11-02` through `2026-11-04`) lack YAML frontmatter headers, blocking Phase 5 contract validation.
+- Six cards waiting in `.harness/tasks/pending/` awaiting `trm-factory-runner.mjs`.
+
+### Next action (New Session)
+
+1. Write and deploy [`scripts/trm-factory-runner.mjs`](file:///c:/dev/scripts/trm-factory-runner.mjs) to consume pending cards and archive stale `act-inprogress-fixture.json`.
+2. Prepend standard YAML frontmatter to the 18 conversation files in `kb-sync/obsidian/vault/wiki/conversations/` to restore clean contract validation for `KB-Sync-Master-Pipeline`.
+3. Add single-notebook timeout isolation in `TRM-Notebooklm-Chat-Archive`.
+4. Adjust task execution limits or source batching for `TRM-Notebooklm-Mine`.
+5. Re-register `TRM-Notebooklm-Auth-Heartbeat` under elevated administrator context for `LogonType S4U`.
+6. Add explicit error status flags to status feeds and Phase 2 heartbeat checks.
+7. Cleanse 45 rejected receipts and 85 quarantined cards.
+
+
+## Sigil rooms web console (2026-10-29)
+
+Work lives in `C:\dev\sigil-repo` (repo `sorensencc-dotcom/sigil`), not in this repo.
+
+### Active goal
+
+Ship the rooms web console redesign and fix its layout at narrow viewports (125% Windows scaling gives about 918 CSS px).
+
+### Completed work
+
+- #138 merged (`cd835f6`): Console theme, self-hosted fonts, mobile drawer, dark/light toggle replacing the theme picker, edited theme tests in `pages.spec.tsx`.
+- #140 open (`75c74fa` on `fix/console-sidebar-narrow-viewport`): sidebar 15rem under 60rem, new-room input stacked above Create, room list grid pinned to the sidebar width so long names no longer add a horizontal scrollbar.
+- #141 open, stacked on #140 (`6ee9c0c` on `fix/console-density-narrow-viewport`): message cards get one width, shorter room header, tighter padding under 60rem.
+- Earlier hook failure on the two ollama tests was a worktree with no root `node_modules` (`canonicalize` missing). Both pass on main and in the worktree.
+
+### Decisions
+
+- Edited the local, untracked `C:\dev\sigil-repo\.git\hooks\pre-push` so a push touching only `packages/sigil-rooms-web/` runs that package's vitest instead of the full suite. Any other change, a new branch with no merge-base, or a delete still runs preflight, `audit:jcs` and `npm test`. Backup: `pre-push.bak-20261029` in the same folder.
+- Pushes ran with `llama-server` suspended through `NtSuspendProcess` and resumed afterwards. The earlier ollama pause code was not found.
+- Stopped the `headroom-default` container (627 MB) to free RAM for the hook's 2 GB preflight. It is not restarted.
+
+### Tests
+
+- Web package vitest before pushing #140 and #141: 30 files, 202 tests passed. #138 push: 15 files, 92 tests passed.
+- Not verified: the signed-in room view after #140 and #141. No screenshot after the final two fixes.
+
+### Blockers
+
+- None for the pushes. The relay CLI tests time out at 30 s when the machine is starved; that run was killed, not fixed.
+
+### Next action
+
+Look at the signed-in view after a hard refresh and report what is still off. Merge #140, retarget #141 to main, then merge it. The deferred items (command palette, shortcuts, message grouping, unread divider, relay status bar, agent chip) are not started.
+
 ## Retro governance follow-ups (2026-10-19)
 
 ### Active goal
@@ -24,15 +102,15 @@ Retro governance steps 1-4 are merged (#173, #174, #175). The follow-ups below a
 
 ### Decisions
 
-- Metrics with no real source report null, not a constant. `compile-weekly-retro.mjs` now derives every other metric from git data: sessions from commit clusters split at a 2-hour gap, active days and streaks from commit dates, AI-assisted commits from `Co-Authored-By` trailers, and PR references from `#N` in subjects. `scripts/generate-weekly-retro.mjs` (hardcoded 2026-09-26 data, no callers) is deleted. `shortcut_debt.no_trigger` is still a hardcoded 0.
+- Metrics with no real source report null, not a constant. Other fallbacks in `compile-weekly-retro.mjs` (`prs_referenced`, `active_days`, `streak_days`, `ai_assisted_commits`) and the placeholders in `generate-weekly-retro.mjs` remain.
 
 ### Blockers
 
-- None.
+- Merge icf#14 before toolforge#176, or the compiler output fails contract validation.
 
 ### Next action
 
-Remove the leftover empty directory `C:\dev\.worktrees\local-guard` once the process holding it closes. Eight worktrees under `C:\dev\.worktrees` hold dirty files or unpushed commits and need an owner decision.
+Merge icf#14, then toolforge#176. Decide whether to remove the remaining fabricated fallbacks. Seven unrelated worktrees under `C:\dev\.worktrees` hold dirty files or unpushed commits and need an owner decision.
 
 ## Data-first DEV/UAT import (2026-10-13)
 
@@ -1124,18 +1202,28 @@ Run provider-enabled Ollama integration after a local Ollama service and validat
 ### Active Multi-Agent Tasks
 | Status | Priority | Task Description |
 | :---: | :---: | :--- |
-| ⏳ `[ ]` | **P1** | **[P1] Wave D full conformance gate** — code-level PASS only. Needs provisioned PostgreSQL 15+, `npm run migrate`, live E2E rerun (5 scenarios), live load test (assert p99 <200ms on list/search/trending/ratings), trending scheduler install verified. Blocked on infra (no PG in this dev environment; ad-hoc local PG rejected as fake-prod-signal). Tier 1 decision 2026-07-14. See `memory/wave-d-full-gate-requirement.md`. |
-| ⏳ `[ ]` | **P2** | **[P2] Non-deterministic skillpack generators** (created 2026-09-02) — `SKILLPACK-VALIDATION.md` (~6 lines), `SKILLPACK-DEPENDENCY-GRAPH.md` (~65 lines), and `audit/COWORK-*.md` (~100 lines each) reorder their warning/log lines on every regen, so each pre-commit run that touches `skills/` or `utilities/` produces churn. Separate defect from the timestamp-clobber + LF-flip bug fixed 2026-09-02 in `toolforgeMetadataGenerator.ps1` / `toolforgeSkillValidator.ps1` (commits `bc5f02ac`, `935bdc5b`). Fix: stable sort (by skill id / finding key) before emit in `toolforgeDependencyGraph.ps1`, the validator's finding list, and the Cowork sync-report writer. Deferred — cosmetic churn, no data loss. |
-| ⏳ `[ ]` | **P2** | **[P2] TorqueQuery CIC observability hooks** (deferred, low priority) — TorqueQuery determinism verified 2026-07-17. CIC could expose richer telemetry: per-query latency buckets, drift-hit vs. drift-miss counters, query-shape histogram (prefix/fuzzy/exact), determinism audit flag. Adapter-side only, no TorqueQuery core changes. Defer until CIC dashboard audit surfaces real observability gap. See discussion 2026-07-18. |
+| ⏳ `[ ]` | **P1** | **[P1] Viking Phase 3: staging artifacts, live tests, release evidence** (created 2026-09-29) — carried over from the retired `C:\dev\viking-phase3` clone (stale `feat/viking-tier-index`, last commit 2026-08-28, deleted during repo-sprawl audit step 7). Main already ships the VFS server, contracts, resolver, snapshot pinning, and `viking-client`; this is what never landed: |
+| ⏳ `[ ]` | **P2** | **[P2] Automate an integration harness for multi-turn web room sessions against live Postgres and loopback TLS proxies.** (created 2026-10-16, sigil TEST) — Automate an integration harness for multi-turn web room sessions against live Postgres and loopback TLS proxies. <!-- retro-finding: RF-f63dba153d7c --> |
+| ⏳ `[ ]` | **P2** | **[P2] Dev idea pipeline** (created 2026-09-21) — new `dev-idea-pipeline.md` at repo root tracks unbuilt dev ideas (exploration notes, no build decision yet) so all CLIs see them via the daily status feed / dashboard. First entry: Warp CLI + WhichLLM local-model routing shim (`toolforge-nlm-pack-gate/docs/meta/warp-cli-whichllm-integration-exploration.md`). Add a row + TODOS entry per new idea going forward. |
+| ⏳ `[ ]` | **P2** | **[P2] fast-jev-compaction compactor plugin wiring** (created 2026-09-23) — parked, no build decision. Handoff deferred-follow-up #2 from `cic-jev/docs/superpowers/HANDOFF-2026-09-22.md`: point published `fast-jev-compaction` compactor at local `cic-jev` engine instead of cloud Jev. Client-layer interop already proven (Task 6/11); no consumer exists — npm package excludes the actual Claude Code plugin/hooks source, not installed anywhere on this machine. Real option (installing as live Claude Code plugin) is architectural-scope: unvalidated confidence heuristic risking real session history, new live Ollama dependency. See `cic-jev/docs/meta/compactor-plugin-wiring-exploration.md` and pipeline row in `dev-idea-pipeline.md`. |
+| ⏳ `[ ]` | **P2** | **[P2] Fix scripts/check-retro-needed.ps1: it printed '-29 new' yet returned PROCEED, and its 87 baseline disagrees with the 58 commits retro metrics reports** (created 2026-10-17, toolforge TOOLING) — Fix scripts/check-retro-needed.ps1: it printed '-29 new' yet returned PROCEED, and its 87 baseline disagrees with the 58 commits retro metrics reports <!-- retro-finding: RF-ffb34fcc76a8 --> |
+| ⏳ `[ ]` | **P2** | **[P2] Formalize the Floor Warden bridge routing contract between ep_grokbot and room task dispatchers.** (created 2026-10-16, sigil SPEC) — Formalize the Floor Warden bridge routing contract between ep_grokbot and room task dispatchers. <!-- retro-finding: RF-728407bb5c0b --> |
+| ⏳ `[ ]` | **P2** | **[P2] Governance-matrix-fix-surfaced bugs (3 repos)** (created 2026-10-01) — toolforge's `ci-governance-matrix.yml` had `continue-on-error: true` masking failures and pointed at a nonexistent `sorensencc-dotcom/cic-governance` repo instead of the real `toolforge/CIC-GOVERNANCE` path; fixed on `parkd821-20260908` (`be42ea89`). Live rerun (run `36851838055`) now surfaces 3 real pre-existing bugs, each in its own repo, unrelated to the workflow fix itself: |
+| ⏳ `[ ]` | **P2** | **[P2] Rename the auto-titled 'Parkd821 20260908' PR merges to conventional-commit subjects so retro type counts stop landing in 'other'** (created 2026-10-17, toolforge PROCESS) — Rename the auto-titled 'Parkd821 20260908' PR merges to conventional-commit subjects so retro type counts stop landing in 'other' <!-- retro-finding: RF-93f2db3149be --> |
 | ⏳ `[ ]` | **P2** | **[P2] xberg native build-out** (low priority) — `toolforge-pdf` plugin ran on a mock stub (`xberg-mock.exe`) that returned placeholder text regardless of input; swapped to real `pdf-parse` text-layer extraction 2026-07-16. Still open: OCR fallback for scanned/image PDFs (needs page-rasterization — `canvas`/native build tooling on Windows or a WASM-only path), and whether to compile a standalone cross-language binary if reused outside Node. Deferred until real need surfaces (e.g. scanned document in the CIC ingestion pipeline, or commercial research-business reuse outside this repo). See `memory/decision-xberg-real-extraction-2026-07-16.md`. |
 | ✅ `[x]` | **P1** | **[P1] Skill Health Check Failures (wiki-sync-recovery)** (created 2026-08-30, resolved 2026-08-30) — Automatically logged by toolforgeSkillHealthCheck.ps1. Fixed and verified 100% PASS across all checks in SKILLPACK-RUNTIME-HEALTH.md. |
+| ✅ `[x]` | **P1** | **[P1] Wave D full conformance gate** (resolved 2026-09-24) — live gate closed. Used `sigil_postgres` docker container (postgres:16-alpine, port 55432, pre-existing persistent dev infra — not ad-hoc — per Tier 1 revised call 2026-09-24), dedicated `wave_d_marketplace` DB. `npm run migrate`: 2/2 migrations applied. E2E: 5/5 scenarios PASS. Load test: p99 <200ms on list/search/trending/ratings, `acceptance.pass: true`. Trending scheduler: registered (`ToolforgeTrendingRefresh`, state `Ready`). Prerequisite: Wave D code carved out of `C:\dev` root into standalone repo `https://github.com/sorensencc-dotcom/toolforge-marketplace` (root package.json was double-duty as both this project's manifest and the C:\dev workspace's; violated no-project-files-in-C:\dev convention). Real bugs found + fixed during the live run: `modules/healing/adversarial-auditor.js` import broke on move (was marketplace-only, not shared — relocated with it); `pg.Pool` had no `max` set (default 10 vs test concurrency 50, caused p99 miss) — set to 50 via `DB_POOL_MAX`; load harness measured cold-start latency as steady-state — added unmeasured warm-up pass. See `memory/wave-d-full-gate-requirement.md` (updated with resolution). |
 | ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-23, resolved 2026-08-23) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). |
 | ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-24, resolved 2026-08-24) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). |
 | ✅ `[x]` | **P2** | **[P2] kb-sync documentation drift remediation (batch)** (created 2026-08-25, resolved 2026-09-02) — Synthesized wiki and cleared documentation drift across workspace (`kb:drift` status: `NO_DRIFT`, 0 stale pages). <!-- todo-group: kb-sync-documentation-drift --> |
+| ✅ `[x]` | **P2** | **[P2] Non-deterministic skillpack generators** (created 2026-09-02, resolved 2026-09-28) — Stable sorting applied across skill directories, findings, manifest entries, and dependencies in `toolforgeSkillValidator.ps1` and `toolforgeDependencyGraph.ps1`. |
 | ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: AuditLog** (created 2026-08-19) (resolved 2026-08-30) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:AuditLog --> |
 | ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: DryRun** (created 2026-09-02) (resolved 2026-09-02) — 1 skill(s): tinyfish-search. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:DryRun --> |
 | ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: Manifest** (created 2026-08-19) (resolved 2026-08-30) — 3 skill(s): research-questions, retro-export, workspace-storage-cleaner. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Manifest --> |
 | ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: Runtime** (created 2026-08-19) (resolved 2026-08-30) — 1 skill(s): research-questions. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:Runtime --> |
+| ✅ `[x]` | **P2** | **[P2] Toolforge health warning group: SkillMD** (created 2026-09-22) (resolved 2026-09-22) — 1 skill(s): slop-grader-sweep. Source: SKILLPACK-RUNTIME-HEALTH.md. <!-- todo-group: toolforge-health-warning:SkillMD --> |
+| ✅ `[x]` | **P2** | **[P2] TorqueQuery CIC observability hooks** (resolved 2026-09-28) — Implemented latency bucketing, drift-hit/miss counters, query shape histogram (exact/prefix/fuzzy/empty), and determinism audit flags in `modules/TorqueQueryOrchestrator.mjs` (5/5 tests PASS). |
+| ✅ `[x]` | **P2** | **[P2] Wrap mutation and audit-event writes in a single Postgres transaction in postgres-repository.mjs.** (created 2026-10-16, resolved 2026-09-24, sigil RELIABILITY) — Already done: sigil closed its repo-wide audit-atomicity item (11 of 11 tasks). Kept checked so the retro consolidator does not re-append it. <!-- retro-finding: RF-5038ebd02a40 --> |
 | ✅ `[x]` | **P2** | **kb-sync drift remediation** (resolved 2026-09-02) — Knowledge base drift remediated (`kb:drift` status: `NO_DRIFT`, 0 stale pages, `scripts/install-git-hooks.mjs` entity doc synchronized). |
 <!-- /MANAGED-REGION: AGENT-TODOS -->
 
