@@ -1632,7 +1632,10 @@ export async function processFile(filePath, options = {}) {
   const itemId = item.id || `act-${Date.now()}`;
   console.log(`[TRM-INGRESS] Dispatching action: ${itemId} | Type: ${item.action_type} | Intent: ${item.intent}`);
 
-  const quality = item._integrityFailure?.valid === false
+  const preQualityZombie = isZombieIncident(itemId, item.created_at) || (item.intent && isZombieIncident(item.intent, item.created_at));
+  const quality = preQualityZombie
+    ? { valid: true }
+    : item._integrityFailure?.valid === false
     ? item._integrityFailure
     : validateIngressQuality(item, raw);
   delete item._integrityFailure;

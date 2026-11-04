@@ -40,7 +40,8 @@ function repoFromIssueUrl(value) {
 }
 
 function bodyFor(card) {
-  return normalize(card?.body ?? card?.raw_content ?? card?.context?.body);
+  if (card?.context?.body_fetch_failed === true) return '';
+  return normalize(card?.body ?? card?.raw_content ?? card?.context?.body ?? card?.summary);
 }
 
 function criteriaFor(card, body) {
