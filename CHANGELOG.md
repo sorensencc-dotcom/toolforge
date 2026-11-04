@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2.116.4
+Date: 2026-11-04
+
+### Changes
+- 4a35000b - Merge pull request #269 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- d21472a3 - Merge pull request #268 from sorensencc-dotcom/fix/smoke-test-timeout-pin (Chris Sorensen)
+- 38e921d0 - docs(trail): note smoke timeout is pinned by delivery-guard test (Chris Sorensen)
+- 313837cd - docs: update STATUS.md with software factory wrap and handoff (Chris Sorensen)
+- df63a4e5 - fix(model): pin qwen2.5:7b in local small model bridge (Chris Sorensen)
+- c8730bb1 - fix(trm): block invalid cards from triage (Chris Sorensen)
+- 5dc5dcdb - docs(retro): add engineering retro for 2026-11-03 (Chris Sorensen)
+- 62033d21 - chore(retro): file 2026-11-03 retro findings and align pre-commit retro gate (Chris Sorensen)
+- b6461a06 - docs(report): add daily report for 2026-11-03 (Chris Sorensen)
+- d0c8b8dc - docs(skills): codify battery freshness, entropy, and telemetry invariants in trm skill (Chris Sorensen)
+
 ## Version 2.116.3
 Date: 2026-11-04
 
