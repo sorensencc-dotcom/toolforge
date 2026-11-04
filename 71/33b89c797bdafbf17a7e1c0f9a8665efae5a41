@@ -1,0 +1,52 @@
+scripts/trm-ingress-watcher.mjs
+  s_31dd115102abc1::t_5954fb75717df0 179
+  s_31dd115102abc1::t_3a48750e0dcb03 330-333,335
+.harness/tasks/archive/act-inprogress-fixture.json
+  s_876d892d49c86c::t_72742cb6b09ebd 1-7
+scripts/trm-stage-pr.mjs
+  s_c74226617cd7b9::t_09dbd579a6dd6b 60,63,93,97,160
+STATUS.md
+  s_31dd115102abc1::t_a2e23f41733ce8 25-30,37-38,42-46,54,58-65
+scripts/trm-factory-runner.mjs
+  s_63fdddc58048e7::t_10cda5784ba751 1-345
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7133b89c797bdafbf17a7e1c0f9a8665efae5a41",
+  "prompts": {},
+  "sessions": {
+    "s_31dd115102abc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8fca7f9-825e-43b8-b4ec-b1d0da188afa",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_63fdddc58048e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27d99d62-ead5-4303-be4b-0996e786e6c1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_876d892d49c86c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a187c0-7f10-78f1-bdff-433fb67c78fc",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c74226617cd7b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15648-52f1-74e1-9328-bfd34e28d815",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
