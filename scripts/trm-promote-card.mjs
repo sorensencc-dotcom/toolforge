@@ -215,6 +215,10 @@ export function promoteCard(cardPath, options = {}) {
   const { frontmatter } = parsed;
   const cardId = frontmatter.id || frontmatter.action_id || path.basename(cardPath).replace(/\.(md|json)$/i, '');
 
+  if (cardId.startsWith('invalid-') || String(frontmatter.intent || '').toLowerCase() === 'validation_error') {
+    throw new Error(`CANNOT_PROMOTE_INVALID_CARD: Card ${cardId} is an unparsed/quarantined failure record.`);
+  }
+
   const target = frontmatter.target || frontmatter.domain || 'core';
   const repo = options.repo || resolveTargetRepo(target);
   if (!repo) {

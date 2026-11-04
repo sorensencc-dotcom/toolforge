@@ -41,7 +41,7 @@ export function resolveOllamaEndpoint() {
 }
 
 export const DEFAULT_OLLAMA_BASE_URL = resolveOllamaEndpoint();
-export const PREFERRED_MODELS = ['qwen2.5:1.5b', 'qwen2.5:3b', 'llama3.2:1b', 'llama3.2:3b', 'qwen2.5:latest', 'mistral:latest'];
+export const PREFERRED_MODELS = ['qwen2.5:7b', 'qwen2.5:3b', 'qwen2.5:1.5b', 'llama3.2:3b', 'llama3.2:1b', 'qwen2.5:latest', 'mistral:latest'];
 
 /**
  * Validate that host is strictly a loopback address to ensure zero-token, privacy-preserving local execution.
@@ -258,6 +258,32 @@ export function extractIntentDeterministic(rawText, metadata = {}) {
   };
 }
 
+export const DESTRUCTIVE_COMMAND_PATTERNS = [
+  /\brm\s+(-[a-zA-Z]*r[a-zA-Z]*\s+|--recursive\s+)/i,
+  /\bsudo\b/i,
+  /\bDROP\s+(TABLE|DATABASE|SCHEMA)\b/i,
+  /\b(format|mkfs|dd\s+if=)\b/i,
+  /\bcurl\s+.*\|\s*(sh|bash|pwsh|cmd)\b/i,
+  /\bgit\s+(reset\s+--hard|clean\s+-[fFxdD]+)\b/i,
+];
+
+export function isDestructiveCommand(cmd) {
+  if (!cmd || typeof cmd !== 'string') return false;
+  return DESTRUCTIVE_COMMAND_PATTERNS.some(p => p.test(cmd));
+}
+
+export function sanitizeExecutionPlan(plan) {
+  if (!Array.isArray(plan)) return [];
+  return plan.filter(step => {
+    if (!step || typeof step !== 'object') return false;
+    if (step.command && isDestructiveCommand(step.command)) {
+      console.warn(`[SMALL-MODEL-BRIDGE] Blocked destructive command in execution plan: ${step.command}`);
+      return false;
+    }
+    return true;
+  });
+}
+
 /**
  * Extract structured mobile intent using local LLM with deterministic fallback.
  */
@@ -314,9 +340,11 @@ Respond with raw JSON only. No markdown fences. No explanations.`;
 
     // Validate required fields
     if (parsed.action_type && parsed.intent) {
+      const executionPlan = sanitizeExecutionPlan(parsed.execution_plan);
       return {
         $schema: parsed.$schema || 'urn:toolforge:schema:base-sync-task:v1',
         ...parsed,
+        execution_plan: executionPlan,
         id: parsed.id || `act-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
         timestamp: parsed.timestamp || new Date().toISOString(),
         source: metadata.source || parsed.source || 'mobile-voice',

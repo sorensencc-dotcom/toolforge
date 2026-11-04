@@ -144,6 +144,9 @@ export function getPendingCards(options = {}) {
         const normalized = normalizeCard(data, raw);
         const cardId = normalized.id || normalized.action_id || file.replace(/\.(json|md|gdoc)$/i, '');
         normalized.id = cardId;
+        if (cardId.startsWith('invalid-') || String(normalized.intent || '').toLowerCase() === 'validation_error') {
+          continue;
+        }
         cardsMap.set(cardId, normalized);
       } catch (err) {
         // Skip unparseable
@@ -159,8 +162,14 @@ export function getPendingCards(options = {}) {
         const row = JSON.parse(line);
         const id = row.id || row.action_id;
         if (!id) continue;
+        if (id.startsWith('invalid-') || String(row.intent || '').toLowerCase() === 'validation_error') {
+          continue;
+        }
         const status = String(row.status || '').toUpperCase();
-        const isOpen = !['DONE', 'COMPLETED', 'ARCHIVED', 'REJECTED', 'IN_PROGRESS', 'PROMOTED', 'QUARANTINED', 'QUARANTINED_INSUFFICIENT_DATA'].includes(status) && !row.issue_url;
+        const isTerminalOrQuarantined = [
+          'DONE', 'COMPLETED', 'ARCHIVED', 'REJECTED', 'IN_PROGRESS', 'PROMOTED'
+        ].includes(status) || status.startsWith('QUARANTINED') || status.startsWith('VALIDATION_FAILED');
+        const isOpen = !isTerminalOrQuarantined && !row.issue_url;
         if (isOpen) {
           if (cardsMap.has(id)) {
             const existing = cardsMap.get(id);
@@ -240,6 +249,14 @@ export async function processBatchTriage(options = {}) {
     const itemResult = { cardId, lane, title: card.title || card.intent, target: card.target, status: 'SKIPPED' };
 
     // Universal Quality Gate (both Lane A Spikes & Lane B Coding)
+    if (cardId.startsWith('invalid-') || String(card.intent || '').toLowerCase() === 'validation_error') {
+      console.warn(`[batch-triage] Skipping invalid failure record ${cardId} (intent: ${card.intent}).`);
+      itemResult.status = 'REJECTED';
+      itemResult.error = 'Invalid card ID or validation error failure record';
+      results.details.push(itemResult);
+      continue;
+    }
+
     const rawText = card.raw_content || card.summary || card.body || '';
     const isBodyFetchFailure = Boolean(
       card.context?.body_fetch_failed ||
