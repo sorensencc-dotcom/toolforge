@@ -179,3 +179,9 @@ test('dry-run spawns nothing and writes nothing', async () => {
   const text = out.join('\n');
   for (const k of ['repo:', 'branch:', 'worktree:', 'argv:', 'prompt_chars:']) assert.match(text, new RegExp(k));
 });
+
+test('parseArgs reads flags and rejects unknown cli', () => {
+  const o = parseArgs(['ACT-1', '--cli', 'claude', '--model', 'opus', '--effort', 'high', '--timeout-min', '10', '--dry-run']);
+  assert.deepEqual(o, { cli: 'claude', effort: 'high', timeoutMin: 10, dryRun: true, model: 'opus', cardId: 'ACT-1' });
+  assert.throws(() => parseArgs(['ACT-1', '--cli', 'nope']), /BAD_ARGS/);
+});
