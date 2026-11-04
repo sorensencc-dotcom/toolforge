@@ -1,0 +1,19 @@
+.trail/workspace.json
+  s_63fdddc58048e7::t_e432bdb9cec811 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1e72653625b56220b7b1f4ab1fdb9ca187692208",
+  "prompts": {},
+  "sessions": {
+    "s_63fdddc58048e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27d99d62-ead5-4303-be4b-0996e786e6c1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
