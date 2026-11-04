@@ -1,0 +1,34 @@
+STATUS.md
+  s_7a0390bb7d5cfc::t_8d8c5e448872e8 12-45,48,52,59,63,67
+  s_7a0390bb7d5cfc::t_7303a37f502ac2 46-47
+  s_7a0390bb7d5cfc::t_803a8ec9ee2e15 49-51
+  s_7a0390bb7d5cfc::t_2ae0fb3c9c58ac 53-58
+  s_7a0390bb7d5cfc::t_78d24c2a94fd90 60-62
+  s_7a0390bb7d5cfc::t_cda1f3635082eb 64-66
+  s_7a0390bb7d5cfc::t_18057efdd62112 68-70
+  s_011e85473fb60d::t_dc997cbfa02937 71-89,105,109,113,1205-1212,1215,1219,1224-1226
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "313837cd9dde1b9ce2d1b74651ba2fe275bacae2",
+  "prompts": {},
+  "sessions": {
+    "s_011e85473fb60d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1979a2f3-f48a-40b8-b054-5cccaf84e9e1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7a0390bb7d5cfc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fea57a9a-ad38-4e8a-a3e5-181aba492d70",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
