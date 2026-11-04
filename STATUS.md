@@ -22,16 +22,28 @@ Incorporate Matt Pocock's software factory model into the TRM mobile inbox pipel
 - **Unit Verification & Git Sync:** Updated [`tests/local-small-model-bridge.test.mjs`](file:///c:/dev/tests/local-small-model-bridge.test.mjs), passed unit suites, committed `df63a4e5` (`fix(model): pin qwen2.5:7b in local small model bridge`), and pushed to remote origin.
 - **Generative UI Dashboard:** Built and embedded interactive closed-loop inspector artifact: `software_factory_dashboard.html`.
 - **Item 1 Complete:** Registered `\Ironbots\Daily-Report-Reconciliation` Windows scheduled task (06:30, 11:15, 18:00 EST) with `LogonType S4U` and `RunLevel Highest`.
-- **KB-Sync Contract Fix:** Repaired frontmatter in [`research/cic-archival-audit-cork-operations-investigation.md`](file:///c:/dev/kb-sync/obsidian/vault/wiki/research/cic-archival-audit-cork-operations-investigation.md) (standardized `title` and canonical `status: active`).
+- **Software Factory Runner Deployed:** Authored and verified [`scripts/trm-factory-runner.mjs`](file:///c:/dev/scripts/trm-factory-runner.mjs) and [`tests/trm-factory-runner.test.mjs`](file:///c:/dev/tests/trm-factory-runner.test.mjs) (5/5 PASS). Archived stale `act-inprogress-fixture.json` to `.harness/tasks/archive/`. Processed 6 pending cards: staged 3 code cards into `.harness/tasks/in-progress/` with passing test scaffolds (`trm/ACT-*`), and transitioned 3 research cards to `.harness/tasks/completed/` against wiki deliverables.
+- **KB-Sync Contract Remediation Complete:** Repaired frontmatter in [`research/cic-archival-audit-cork-operations-investigation.md`](file:///c:/dev/kb-sync/obsidian/vault/wiki/research/cic-archival-audit-cork-operations-investigation.md) and healed all 18 date-partitioned conversation logs in `kb-sync/obsidian/vault/wiki/conversations/` (`2026-11-02` through `2026-11-04`) via [`scripts/heal-frontmatter.mjs`](file:///c:/dev/kb-sync/scripts/heal-frontmatter.mjs). Contract validation passes across 7,868 nodes with 0 defects.
+- **TRM Harvester Timeout Isolation Complete:** Updated [`src/cli/commands/archiveChats.ts`](file:///c:/dev/trm/src/cli/commands/archiveChats.ts) in TRM to isolate single-notebook RPC timeouts during universal sweeps. Partial harvests now proceed through VFS compaction and SQLite cache sync unless catastrophic total failure occurs. Tightened RPC timeout to 60s in [`src/notebooklm/nlmCli.ts`](file:///c:/dev/trm/src/notebooklm/nlmCli.ts) and verified via [`tests/archiveChats.test.ts`](file:///c:/dev/trm/tests/archiveChats.test.ts) (3/3 PASS).
+- **TRM Miner Timeout & Batching Hardening:** Implemented rotational batching (`[int]$BatchSize = 12`) and graceful time-ceiling enforcement (`[int]$MaxExecutionMinutes = 90`) in [`schedule-task-wrapper-TRM-Notebooklm-Mine.ps1`](file:///c:/dev/trm/schedule-task-wrapper-TRM-Notebooklm-Mine.ps1) sorted by parsed `last_mined_at` ascending. Updated task registration in [`scripts/reconcile-scheduled-tasks.ps1`](file:///c:/dev/scripts/reconcile-scheduled-tasks.ps1) with a 3-hour execution limit and wired unit tests in [`tests/schedule-trm-miner.test.mjs`](file:///c:/dev/tests/schedule-trm-miner.test.mjs) (3/3 PASS).
+- **Telemetry Error Flags & Phase 2 Assertion Hardening:** Enhanced Phase 2 pipeline heartbeat assertions in [`scripts/reconcile-daily-reports.mjs`](file:///c:/dev/scripts/reconcile-daily-reports.mjs) to detect explicit daemon error payloads (`ERROR`, `FAILED`, `CRITICAL`, `error: "..."`), emit `heartbeat_summary` into `daily_status.json`, and generalized quarantine card ID extraction for `act-*` and `gap-*` slugs (7/7 PASS).
+- **Ingress Backlog & Queue Cleansing:** Updated outbox retention in [`scripts/trm-ingress-watcher.mjs`](file:///c:/dev/scripts/trm-ingress-watcher.mjs) to automatically archive stale rejected receipts older than 24 hours. Swept 60 stale rejected receipts to archive and moved 85 quarantined cards to archive storage. Restored `_status-feed/trm_ingress_status.json` to `status: HEALTHY` with 0 quarantined items and all 7 monitored daemons in nominal state.
 
 ### Decisions
 
 - Reconcile task runs via Windows Task Scheduler S4U unattended execution across three daily cadences (06:30, 11:15, 18:00 EST).
 - Software factory implementer task preserves manual Tier 1 review and merge on the git host as an explicit human gate before receipts emit to `mobile-outbox`.
 - Single-notebook RPC timeouts in `TRM-Notebooklm-Chat-Archive` should isolate gracefully without failing the entire 53-notebook harvest sweep.
+- NotebookLM mining sweeps prioritize oldest or un-mined targets via rotational 12-notebook batches and break gracefully at 90 minutes before task scheduler hard termination.
+- Stale rejected receipts older than 24 hours are archived to maintain clean telemetry and suppress recurring outbox alarms.
 
 ### Tests
 
+- `node --test tests/schedule-trm-miner.test.mjs`: PASS (3/3)
+- `node --test tests/reconcile-daily-reports.test.mjs`: PASS (7/7)
+- `node --test tests/trm-factory-runner.test.mjs`: PASS (5/5)
+- `npm test -- tests/archiveChats.test.ts` (trm): PASS (3/3)
+- `node modules/wiki/validate-contract.mjs obsidian/vault/wiki` (kb-sync): PASS (7,868 nodes scanned, 0 errors)
 - `node --test tests/local-small-model-bridge.test.mjs`: PASS (1/1)
 - `node --test scripts/whichllm-router.test.mjs`: PASS (6/6)
 - Pre-commit invariant engine & CIC governance verification: PASS (commit `df63a4e5`)
@@ -39,18 +51,18 @@ Incorporate Matt Pocock's software factory model into the TRM mobile inbox pipel
 
 ### Blockers
 
-- 18 conversation files in `kb-sync/obsidian/vault/wiki/conversations/` (`2026-11-02` through `2026-11-04`) lack YAML frontmatter headers, blocking Phase 5 contract validation.
-- Six cards waiting in `.harness/tasks/pending/` awaiting `trm-factory-runner.mjs`.
+- None (KB-Sync Phase 5 contract validation passing cleanly; .harness/tasks/pending queue drained; all 7 status feed daemons reporting HEALTHY).
 
 ### Next action (New Session)
 
-1. Write and deploy [`scripts/trm-factory-runner.mjs`](file:///c:/dev/scripts/trm-factory-runner.mjs) to consume pending cards and archive stale `act-inprogress-fixture.json`.
-2. Prepend standard YAML frontmatter to the 18 conversation files in `kb-sync/obsidian/vault/wiki/conversations/` to restore clean contract validation for `KB-Sync-Master-Pipeline`.
-3. Add single-notebook timeout isolation in `TRM-Notebooklm-Chat-Archive`.
-4. Adjust task execution limits or source batching for `TRM-Notebooklm-Mine`.
-5. Re-register `TRM-Notebooklm-Auth-Heartbeat` under elevated administrator context for `LogonType S4U`.
-6. Add explicit error status flags to status feeds and Phase 2 heartbeat checks.
-7. Cleanse 45 rejected receipts and 85 quarantined cards.
+1. [x] Deploy [`scripts/trm-factory-runner.mjs`](file:///c:/dev/scripts/trm-factory-runner.mjs) to consume pending cards and archive stale `act-inprogress-fixture.json`.
+2. [x] Prepend standard YAML frontmatter to the 18 conversation files in `kb-sync/obsidian/vault/wiki/conversations/` to restore clean contract validation for `KB-Sync-Master-Pipeline`.
+3. [x] Add single-notebook timeout isolation in `TRM-Notebooklm-Chat-Archive`.
+4. [x] Adjust task execution limits or source batching for `TRM-Notebooklm-Mine`.
+5. [x] Re-register `TRM-Notebooklm-Auth-Heartbeat` and reconciled scheduled tasks in an elevated PowerShell session (`pwsh -NoProfile -ExecutionPolicy Bypass -File C:\dev\scripts\reconcile-scheduled-tasks.ps1 -Apply`).
+6. [x] Add explicit error status flags to status feeds and Phase 2 heartbeat checks.
+7. [x] Cleanse 45 rejected receipts and 85 quarantined cards.
+8. Implement builder waves for the 3 staged tasks in `.harness/tasks/in-progress/` (`ACT-KBSYNC-*`, `ACT-SIGIL-*`, `ACT-TOOLFORGE-*`).
 
 
 ## Sigil rooms web console (2026-10-29)

@@ -176,7 +176,7 @@ async function getBetterSqlite3() {
 export async function resolveGoogleDocId(filePath) {
   try {
     if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, 'utf8');
+      const raw = stripBom(fs.readFileSync(filePath, 'utf8'));
       try {
         const parsed = JSON.parse(raw);
         if (parsed.doc_id) return parsed.doc_id;
@@ -327,7 +327,12 @@ export async function getValidAccessToken(forceRefresh = false) {
   return refreshPromise;
 }
 
+export function stripBom(s) {
+  return typeof s === 'string' ? s.replace(/^﻿/, '') : s;
+}
+
 export function parsePayload(raw, ext, options = {}) {
+  raw = stripBom(raw);
   let text = typeof raw === 'string' ? raw : '';
   if (ext === '.gdoc') {
     return (async () => {
@@ -1326,12 +1331,15 @@ export function sweepOutboxRetention(maxAgeDays = 7, options = {}) {
           const ageMs = now - stats.mtimeMs;
           const isStale = ageMs >= maxAgeMs;
 
+          // Stale rejected receipts older than 24 hours should be archived to clear outbox alerts
+          const isStaleRejected = (file.includes('-rejected') || file.includes('.rejected.')) && (ageMs >= 24 * 60 * 60 * 1000);
+
           // Check if it's an initial staging receipt where a -completed receipt exists and is at least 1 day old
           const isStagingWithCompletion = file.startsWith('receipt-') &&
             !file.includes('-completed') &&
             files.some(f => f.includes('-completed') && f.replace('-completed', '').includes(file.replace(/receipt-\d+-/, '').replace(/\.(json|md)$/, '')));
 
-          if (isStale || isStagingWithCompletion) {
+          if (isStale || isStagingWithCompletion || isStaleRejected) {
             if (dryRun) {
               console.log(`[TRM-INGRESS] [DRY-RUN] Outbox retention candidate: ${file} (Age: ${(ageMs / (1000*3600*24)).toFixed(1)}d)`);
               results.archivedCount++;

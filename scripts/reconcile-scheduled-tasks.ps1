@@ -148,6 +148,33 @@ $TaskDefinitions = @(
         ActionExe = "pwsh.exe"
         ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-TRM-Drive-Sync.ps1`""
     },
+    @{
+        TaskName = "IronLedger-Sentinel"
+        Category = "\Ironbots\"
+        Description = "Ironbots: Financial engine supervisor and transaction pipeline auditor."
+        TriggerType = "Repeating"
+        RepetitionInterval = (New-TimeSpan -Minutes 15)
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\ironledger-sentinel-bot.mjs 1>> '$RepoRoot\logs\ironledger-sentinel-bot.stdout.log' 2>> '$RepoRoot\logs\ironledger-sentinel-bot.stderr.log'`""
+    },
+    @{
+        TaskName = "Daily-Report-Reconciliation"
+        Category = "\Ironbots\"
+        Description = "Ironbots: Daily report differential reconciler, zombie cleanser, and heartbeat monitor."
+        TriggerType = "Daily"
+        TriggerTime = "06:30"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\schedule-task-wrapper-Reconcile-Daily-Reports.ps1`""
+    },
+    @{
+        TaskName = "Ecosystem-Guide-Sync"
+        Category = "\Ironbots\"
+        Description = "Ironbots: Synchronizes authoritative ecosystem architecture guide with live code."
+        TriggerType = "Daily"
+        TriggerTime = "05:30"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\schedule-task-wrapper-Ecosystem-Guide-Sync.ps1`""
+    },
 
     # --- \toolforge\ Tasks ---
     @{
@@ -225,6 +252,15 @@ $TaskDefinitions = @(
         ActionExe = "node.exe"
         ActionArgs = "C:\dev\sync-tools\multiRepoRoadmapSync.cjs"
     },
+    @{
+        TaskName = "toolforge-librarian-archive-daily"
+        Category = "\toolforge\"
+        Description = "Toolforge: Daily librarian archive pass."
+        TriggerType = "Daily"
+        TriggerTime = "18:00"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\librarian-archive-daily.ps1`""
+    },
 
     # --- \CIC\ Tasks ---
     @{
@@ -271,6 +307,15 @@ $TaskDefinitions = @(
 
     # --- \TRM\ Tasks ---
     @{
+        TaskName = "TRM-Notebooklm-Auth-Heartbeat"
+        Category = "\TRM\"
+        Description = "TRM: Automated 2-hour Google NotebookLM auth keep-alive heartbeat."
+        TriggerType = "Repeating"
+        RepetitionInterval = (New-TimeSpan -Hours 2)
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\trm\schedule-task-wrapper-TRM-Notebooklm-Auth-Heartbeat.ps1`""
+    },
+    @{
         TaskName = "toolforge-trm-sync-treatment"
         Category = "\TRM\"
         Description = "TRM: Sync treatment pipeline."
@@ -294,6 +339,7 @@ $TaskDefinitions = @(
         Description = "TRM: NotebookLM miner."
         TriggerType = "Daily"
         TriggerTime = "06:00"
+        ExecutionTimeLimitHours = 3
         ActionExe = "pwsh.exe"
         ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\trm\schedule-task-wrapper-TRM-Notebooklm-Mine.ps1`""
     },
@@ -380,6 +426,15 @@ $TaskDefinitions = @(
         TriggerType = "Logon"
         ActionExe = "powershell.exe"
         ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"C:\dev\kb-sync\scripts\ensure-dashboard-server.ps1`""
+    },
+    @{
+        TaskName = "KB-Sync-NLM-Pack-Count"
+        Category = "\KB-SYNC\"
+        Description = "KB-Sync: NotebookLM pack-count invariant verification."
+        TriggerType = "Daily"
+        TriggerTime = "20:45"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-KB-Sync-NLM-Pack-Count.ps1`""
     },
 
     # --- Subsystem Daemons ---
@@ -584,13 +639,25 @@ foreach ($def in $TaskDefinitions) {
             $trigger = New-ScheduledTaskTrigger -AtLogOn
         }
 
+        $taskTimeLimit = if ($def.ContainsKey('ExecutionTimeLimitHours') -and $def.ExecutionTimeLimitHours) {
+            New-TimeSpan -Hours $def.ExecutionTimeLimitHours
+        } else {
+            New-TimeSpan -Hours 2
+        }
+        $taskSettings = New-ScheduledTaskSettingsSet `
+            -AllowStartIfOnBatteries `
+            -DontStopIfGoingOnBatteries `
+            -ExecutionTimeLimit $taskTimeLimit `
+            -MultipleInstances IgnoreNew `
+            -StartWhenAvailable
+
         try {
             Register-ScheduledTask `
                 -TaskName $def.TaskName `
                 -TaskPath $def.Category `
                 -Action $action `
                 -Trigger $trigger `
-                -Settings $settings `
+                -Settings $taskSettings `
                 -Principal $principal `
                 -Description $def.Description `
                 -Force | Out-Null
