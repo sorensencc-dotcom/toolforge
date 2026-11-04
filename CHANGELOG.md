@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.116.2
+Date: 2026-11-04
+
+### Changes
+- e6ceb350 - Merge pull request #266 from sorensencc-dotcom/fix/sigil-smoke-timeout (Chris Sorensen)
+- 1fe596ac - fix(ci): raise sigil governance smoke timeout to 180s (Chris Sorensen)
+
 ## Version 2.116.1
 Date: 2026-11-04
 
