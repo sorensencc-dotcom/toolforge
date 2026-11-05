@@ -36,7 +36,7 @@
     "ui:preview": "vite preview src/ui",
     "ui:test": "vitest run",
     "test:substrate": "npx tsx --test tests/research-substrate-contract.test.ts",
-    "test": "node --test src/**/*.test.js toolforge-pdf/*.test.js tests/trm-act-01-active-memory-persistent-context.test.mjs tests/token-budget-gate.test.mjs && npm run test:substrate",
+    "test": "node --test src/**/*.test.js toolforge-pdf/*.test.js tests/trm-act-01-active-memory-persistent-context.test.mjs tests/token-budget-gate.test.mjs skills/start-session-preflight/tests/index.test.mjs skills/wrap-session/tests/index.test.mjs skills/open-trm-act-pr/tests/index.test.mjs skills/run-tests-safe/tests/index.test.mjs skills/triage-skill-health-warnings/tests/index.test.mjs skills/scaffold-toolforge-skill/tests/index.test.mjs && npm run test:substrate",
     "test:vision": "vitest run --config vitest.config.vision.js",
     "test:providers": "vitest run --config vitest.config.providers.js",
     "test:scheduler": "pwsh src/services/__tests__/trending-scheduler.test.ps1",
@@ -90,6 +90,7 @@
     "test:ironbots": "node --test tests/ironbots.test.mjs",
     "test:runtime-owner": "node --test modules/runtime-owner/runtime-owner.test.mjs",
     "test:mcp-scoping": "node --test modules/mcp-scoping/scoping-hook.test.mjs",
+    "test:turn-audit": "node --test lib/auditors/turn-self-assessment.test.mjs",
     "test:runtime-owner-integration": "node --test integration-harness/open-notebook.integration.test.mjs",
     "retro:test-ratio": "pwsh -NoProfile -File scripts/investigate-retro-test-ratio.ps1"
   },

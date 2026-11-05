@@ -1,0 +1,29 @@
+{
+  "id": "wrap-session",
+  "name": "Wrap Session",
+  "version": "0.1.0",
+  "description": "End-of-session ritual: retro-needed check, STATUS.md update, then push and verify.",
+  "category": "session-management",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "keywords": [
+    "session",
+    "wrap",
+    "retro",
+    "status"
+  ],
+  "commands": {
+    "test": "node --test --test-timeout=15000 skills/wrap-session/tests/index.test.mjs"
+  },
+  "inputs": {
+    "repoPath": "string, absolute path to the repo being wrapped"
+  },
+  "outputs": {
+    "summary": "retro decision, STATUS.md update, push verification"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  },
+  "tooltip": "End-of-session ritual: retro-needed check, STATUS.md update, then push and verify."
+}

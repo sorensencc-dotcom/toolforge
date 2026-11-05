@@ -1,0 +1,5 @@
+{
+  "max_repeat_threshold": 3,
+  "min_entropy_bits_per_character": 1,
+  "max_response_characters": 16000
+}

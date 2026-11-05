@@ -1,5 +1,6 @@
 import { EventEmitter } from 'node:events';
 import { ToolBundleContract } from './contracts.mjs';
+import { assessTurn, DEFAULT_AUDIT_CONFIG } from '../../lib/auditors/turn-self-assessment.mjs';
 
 export const L0_BUNDLE_ID = 'bundle:toolforge_l0';
 export const SOFT_BUDGET_TOKENS = 1_800; // warn only
@@ -88,6 +89,8 @@ export class DynamicToolScopingHook extends EventEmitter {
       ceiling,
       mounted: new Map(),
       turn: 0,
+      responseHistory: [],
+      lastTurnAudit: undefined,
       churn_turns: [],
       halted: false,
       children: new Set(),
@@ -115,6 +118,38 @@ export class DynamicToolScopingHook extends EventEmitter {
     if (!sc) return;
     sc.turn += 1;
     this.expire(sc);
+    return { ok: true, turn: sc.turn };
+  }
+
+  /** Audits the completed response before the host persists the turn state. */
+  endTurn(spanId, response, config = DEFAULT_AUDIT_CONFIG) {
+    const sc = this.live(spanId);
+    if (!sc) return fail('INVALID_SPAN');
+    if (sc.halted) return fail('SPAN_HALTED');
+
+    let result;
+    try {
+      result = assessTurn({ turn: sc.turn, response, history: sc.responseHistory, config });
+    } catch (error) {
+      sc.halted = true;
+      const failure = {
+        ok: false,
+        verdict: 'FAIL',
+        reason: error instanceof Error ? error.message : 'TURN_AUDIT_FAILED',
+      };
+      sc.lastTurnAudit = failure;
+      this.emit('TURN_AUDIT_FAILED', { span_id: sc.span_id, ...failure });
+      return failure;
+    }
+
+    sc.lastTurnAudit = result;
+    if (!result.ok) {
+      sc.halted = true;
+      this.emit('TURN_AUDIT_FAILED', { span_id: sc.span_id, ...result });
+      return result;
+    }
+    sc.responseHistory.push(result.normalizedResponse);
+    return result;
   }
 
   discover(
@@ -234,6 +269,8 @@ export class DynamicToolScopingHook extends EventEmitter {
       schema_tokens: this.spend(sc),
       reclaimed_tokens_span: sc.reclaimed_tokens,
       reclaimed_tokens_total: this.reclaimedTotal,
+      turn: sc.turn,
+      last_turn_audit: sc.lastTurnAudit,
       halted: sc.halted,
     };
   }

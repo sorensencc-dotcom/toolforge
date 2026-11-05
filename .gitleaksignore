@@ -1,2 +1,6 @@
 # Test fixture API key, not a secret (modules/review/anthropic-provider.test.ts)
 4d6838dbb40546004db3432ddd9e2ff75ad6a480:modules/review/anthropic-provider.test.ts:generic-api-key:7
+
+# Historical test fixture value; the current fixture uses a low-entropy placeholder.
+ee55fea7ac55126d72bb163fd0226c67dbc6021b:services/chat-agent/src/handlers/pipeline.test.ts:generic-api-key:59
+ee55fea7ac55126d72bb163fd0226c67dbc6021b:services/chat-agent/src/handlers/pipeline.test.ts:generic-api-key:66
