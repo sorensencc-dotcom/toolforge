@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.119.4
+Date: 2026-11-05
+
+### Changes
+- 28129a0e - Merge pull request #282 from sorensencc-dotcom/fix/trm-dispatch-checker-namestatus (Chris Sorensen)
+- fc7b0a32 - fix(trm-dispatch): harden checker against nameless nameStatus lines (Grok Bot)
+
 ## Version 2.119.3
 Date: 2026-11-05
 
