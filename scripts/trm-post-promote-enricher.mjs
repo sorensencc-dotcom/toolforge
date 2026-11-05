@@ -14,6 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { fileURLToPath } from 'node:url';
 import { execSync, execFileSync } from 'node:child_process';
 
 const DEV_ROOT = path.resolve('C:/dev');
@@ -405,8 +406,27 @@ Return ONLY valid JSON.`;
   return defaultSynthesis;
 }
 
+// Coerce LLM-supplied values to text so objects never render as "[object Object]".
+export function toText(value) {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  try {
+    return JSON.stringify(value, null, 2);
+  } catch {
+    return '';
+  }
+}
+
+// Research cards belong to Lane A (local TRM research backlog); no engineering pre-flight comment.
+export function isResearchCard(card) {
+  const category = toText(card?.category).trim().toLowerCase();
+  const target = toText(card?.target).trim().toLowerCase();
+  return category === 'research' || target === 'cic' || target === 'cic-kb';
+}
+
 // 7. Format GitHub comment Markdown
-function formatMarkdownComment(card, astResults, knowledgeHits, hostProbes, synthesis) {
+export function formatMarkdownComment(card, astResults, knowledgeHits, hostProbes, synthesis) {
   const lines = [
     `## 🤖 Local LLM Pre-Flight & Context Pack`,
     ``,
@@ -454,19 +474,19 @@ function formatMarkdownComment(card, astResults, knowledgeHits, hostProbes, synt
 
   lines.push(`### 5. Delta Implementation Plan`);
   for (const step of synthesis.deltaPlan) {
-    lines.push(`- [ ] ${step}`);
+    lines.push(`- [ ] ${toText(step)}`);
   }
   lines.push(``);
 
   if (synthesis.cliContract) {
     lines.push(`### 6. CLI Contract Specification`);
-    lines.push(`\`\`\`bash\n${synthesis.cliContract}\n\`\`\``);
+    lines.push(`\`\`\`bash\n${toText(synthesis.cliContract)}\n\`\`\``);
     lines.push(``);
   }
 
   if (synthesis.testStub) {
     lines.push(`### 7. Unit Test Scaffold`);
-    lines.push(`\`\`\`javascript\n${synthesis.testStub}\n\`\`\``);
+    lines.push(`\`\`\`javascript\n${toText(synthesis.testStub)}\n\`\`\``);
     lines.push(``);
   }
 
@@ -490,6 +510,11 @@ async function main() {
   if (!card) {
     console.error(`Error: Could not locate card data for ${args.cardId}`);
     process.exit(1);
+  }
+
+  if (isResearchCard(card)) {
+    console.log(`[enricher] Card ${card.id} is a research card (Lane A). Skipping engineering pre-flight and GitHub comment.`);
+    return;
   }
 
   // Phase A: Deterministic file and AST extraction
@@ -556,7 +581,9 @@ async function main() {
   console.log(`[enricher] Enrichment complete for ${args.cardId} (Tier: ${synthesis.tier}).`);
 }
 
-main().catch(err => {
-  console.error('[enricher] Fatal error:', err);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    console.error('[enricher] Fatal error:', err);
+    process.exit(1);
+  });
+}
