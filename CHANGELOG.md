@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.118.1
+Date: 2026-11-05
+
+### Changes
+- 9c4ae34e - Merge pull request #273 from sorensencc-dotcom/fix/trm-dispatch-codex-mxc (Chris Sorensen)
+- dca8999d - fix(trm-dispatch): run codex with per-run windows.sandbox=mxc (avoid elevated DPAPI failure) (Chris Sorensen)
+
 ## Version 2.118.0
 Date: 2026-11-05
 
