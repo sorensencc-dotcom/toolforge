@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.119.1
+Date: 2026-11-05
+
+### Changes
+- 121ebcc3 - Merge pull request #279 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- 04b38f8d - docs(trail): note empty enrichment issue cause for card 146 (Chris Sorensen)
+- 52650ff1 - fix(enricher): render test scaffold as text and skip research cards (Chris Sorensen)
+
 ## Version 2.119.0
 Date: 2026-11-05
 
