@@ -1,0 +1,36 @@
+config/audit.json
+  s_876d562f82f5c1::t_023947977d8766 1-5
+lib/auditors/turn-self-assessment.test.mjs
+  s_876d562f82f5c1::t_023947977d8766 1-37
+modules/mcp-scoping/scoping-hook.test.mjs
+  s_876d562f82f5c1::t_adeb7785dad8fe 210-234
+STATUS.md
+  s_876d562f82f5c1::t_ef7b6db071acd1 27
+  s_876d562f82f5c1::t_96cd538d49741a 12-26,28-29,31-33,35-37
+  s_876d562f82f5c1::t_74e2cb97540161 30,34,38
+  s_876d562f82f5c1::t_26f20bb5b2a1d7 11
+package.json
+  s_876d562f82f5c1::t_96cd538d49741a 90
+lib/auditors/turn-self-assessment.mjs
+  s_876d562f82f5c1::t_023947977d8766 1-5,7-79
+  s_876d562f82f5c1::t_1b2636e7a3ec12 6
+modules/mcp-scoping/scoping-hook.mjs
+  s_876d562f82f5c1::t_adeb7785dad8fe 3,92-93,121-134,140-152,272-273
+  s_876d562f82f5c1::t_3f1fb0cff2383e 135-139
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "03fe32aef8da9ff54b0254aab7aab59f8d26b9fb",
+  "prompts": {},
+  "sessions": {
+    "s_876d562f82f5c1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a9aa-e4a0-7e61-a6a7-341e24919b75",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
