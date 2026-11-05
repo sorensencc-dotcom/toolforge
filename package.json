@@ -87,6 +87,7 @@
     "test:ironbots": "node --test tests/ironbots.test.mjs",
     "test:runtime-owner": "node --test modules/runtime-owner/runtime-owner.test.mjs",
     "test:mcp-scoping": "node --test modules/mcp-scoping/scoping-hook.test.mjs",
+    "test:turn-audit": "node --test lib/auditors/turn-self-assessment.test.mjs",
     "test:runtime-owner-integration": "node --test integration-harness/open-notebook.integration.test.mjs",
     "retro:test-ratio": "pwsh -NoProfile -File scripts/investigate-retro-test-ratio.ps1"
   },

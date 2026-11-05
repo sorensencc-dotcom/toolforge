@@ -9,6 +9,34 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Issue #256 post-turn self-assessment auditor
+
+### Active goal
+
+Implement the post-turn self-assessment feature with deterministic entropy, repeat detection, response-difference metrics, and fail-closed span halting.
+
+### Completed work
+
+- Added `lib/auditors/turn-self-assessment.mjs` with normalized response assessment, Shannon entropy, repeat counting, and token-set difference metrics.
+- Added `config/audit.json` with a repeat threshold of 3, minimum entropy of 1 bit per character, and a 16,000-character response ceiling.
+- Added `DynamicToolScopingHook.endTurn()` and per-span response history. Failed audits halt the span before turn-state persistence.
+- Added pure auditor tests and dynamic-scoping lifecycle regressions.
+
+### Verification
+
+- `npm run test:turn-audit -- --test-timeout=10000`: 4 passed.
+- `node --check lib/auditors/turn-self-assessment.mjs`: passed.
+- `node --check modules/mcp-scoping/scoping-hook.mjs`: passed.
+- `node --test --test-timeout=10000 modules/mcp-scoping/scoping-hook.test.mjs`: 18 passed after dependency installation.
+
+### Blockers
+
+- None for the scoped implementation. The dependency installation emitted Windows cleanup warnings, but the required test dependency loaded and the focused suite passed.
+
+### Next action
+
+Review the scoped diff and decide whether to commit or publish the implementation.
+
 ## Retro governance follow-ups (2026-10-19)
 
 ### Active goal

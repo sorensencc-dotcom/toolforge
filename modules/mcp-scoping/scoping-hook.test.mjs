@@ -207,6 +207,31 @@ test('a functional tool call resets the churn window', async () => {
   }
 });
 
+test('post-turn audit halts a span after repeated responses', async () => {
+  const { hook } = setup();
+  await hook.startSpan(span('a'));
+  const response = 'A grounded response with enough variation to pass entropy checks.';
+  for (let turn = 1; turn <= 3; turn++) {
+    hook.beginTurn('a');
+    assert.equal(hook.endTurn('a', response).ok, true);
+  }
+  hook.beginTurn('a');
+  const failure = hook.endTurn('a', response);
+  assert.deepEqual({ ok: failure.ok, reason: failure.reason }, {
+    ok: false,
+    reason: 'REPEATED_RESPONSE_THRESHOLD',
+  });
+  assert.equal(hook.snapshot('a').halted, true);
+});
+
+test('post-turn audit rejects malformed responses before state persistence', async () => {
+  const { hook } = setup();
+  await hook.startSpan(span('a'));
+  hook.beginTurn('a');
+  assert.deepEqual(hook.endTurn('a', null), { ok: false, verdict: 'FAIL', reason: 'INVALID_RESPONSE' });
+  assert.equal(hook.snapshot('a').halted, true);
+});
+
 test('reclaimed tokens accumulate on dismount and span end', async () => {
   const { hook } = setup();
   await hook.startSpan(span('a'));
