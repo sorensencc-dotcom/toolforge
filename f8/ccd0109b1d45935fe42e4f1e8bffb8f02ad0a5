@@ -1,0 +1,20 @@
+STATUS.md
+  h_5c172e9b435f5a 31-34
+scripts/aggregate_status.py
+  h_5c172e9b435f5a 198,201-202,210-211,217,221
+scripts/reconcile-scheduled-tasks.ps1
+  h_5c172e9b435f5a 27-28,78,109,139,150,160,171-172,471,482,506,508-512,569-570,574,577,579,600,611-627,657-662,685-710,715,717-723,725
+tests/schedule-trm-miner.test.mjs
+  h_5c172e9b435f5a 33-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f8ccd0109b1d45935fe42e4f1e8bffb8f02ad0a5",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

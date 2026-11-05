@@ -1,0 +1,19 @@
+DONE.md
+  s_137aa8ee4bfde2::t_4d65a50b9659ab 1-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1c5dc2c1f6b7fa3c58ad245dbfb999abf797acd2",
+  "prompts": {},
+  "sessions": {
+    "s_137aa8ee4bfde2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a8a9-c471-7af3-bec2-2929d1cca422",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

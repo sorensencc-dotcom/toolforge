@@ -1,0 +1,19 @@
+.context/retros/inbox/antigravity/2026-11-04-kbsync-grounding-gate-dynamic-entropy.json
+  s_35568b652eedda::t_8a9166a8720f53 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7628bc3023fc0982cf9e70bfcd5a58b7e931c935",
+  "prompts": {},
+  "sessions": {
+    "s_35568b652eedda": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18d57-ca9e-7c63-b605-9bbb47934152",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

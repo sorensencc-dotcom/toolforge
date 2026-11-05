@@ -1,0 +1,39 @@
+.claude/settings.json
+  s_99b12029ff869e::t_5db8858159bdaf 22,94-95
+.cursor/mcp.json
+  s_0dfe2b7b3fd934::t_452e9d020583ac 1-16
+.gemini/settings.json
+  s_0dfe2b7b3fd934::t_2e18c5a3236cba 3-4
+.mcp.json
+  s_99b12029ff869e::t_f66d8ed5743fae 1-41
+.sigil/mcp-registry.toml
+  s_0dfe2b7b3fd934::t_f112b84f50f000 12,15,21,27,33
+.trail/.gitignore
+  s_99b12029ff869e::t_45b1417bf216ab 1-2
+.trail/hook.cjs
+  s_99b12029ff869e::t_7712954b6b436e 4,8-17,19-24,28-65,67-68,71-72,108,110,113-115,119-215
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "78ff0062da163fd1ad7b8f95abded0852dd27dd9",
+  "prompts": {},
+  "sessions": {
+    "s_0dfe2b7b3fd934": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a9a7-d8d5-7ad1-a4d7-59dd88ae5eec",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_99b12029ff869e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3ad43833-f783-417a-a646-e33ca6cb2cb1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

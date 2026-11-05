@@ -1,0 +1,21 @@
+AGENTS.md
+  s_0dfe2b7b3fd934::t_42641f8b636d10 149,252
+OPERATOR-COMMANDS.md
+  s_0dfe2b7b3fd934::t_a4e22a6e51571b 259
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "701b8eb6aea80d55b1d673db25fe0727750b806a",
+  "prompts": {},
+  "sessions": {
+    "s_0dfe2b7b3fd934": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a9a7-d8d5-7ad1-a4d7-59dd88ae5eec",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
