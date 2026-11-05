@@ -56,14 +56,14 @@ describe("executePipeline", () => {
   });
 
   it("sends x-cic-route-key when CIC_CREDENTIALED_ROUTE_KEY is set", async () => {
-    process.env.CIC_CREDENTIALED_ROUTE_KEY = "route-key-0123456789";
+    process.env.CIC_CREDENTIALED_ROUTE_KEY = "fixture-route-key";
     try {
       mockedAxios.post.mockResolvedValue({ status: 200, data: { success: true, data: {} } });
       await executePipeline({ adapter: "familysearch", key: "LV7Q-DGW" });
       expect(mockedAxios.post).toHaveBeenCalledWith(
         expect.any(String),
         expect.any(Object),
-        expect.objectContaining({ headers: { "x-cic-route-key": "route-key-0123456789" } })
+        expect.objectContaining({ headers: { "x-cic-route-key": "fixture-route-key" } })
       );
     } finally {
       delete process.env.CIC_CREDENTIALED_ROUTE_KEY;

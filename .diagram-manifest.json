@@ -67,6 +67,21 @@
     "pngHash": "adf5fdb91fb0b357d1068e5815b80e4e23c0933db5bb29b2bb55b0ca46db54e2",
     "updatedAt": "2026-10-18T01:56:53.867Z"
   },
+  "skills/run-tests-safe/INTEGRATION_DIAGRAM.png": {
+    "htmlHash": "6525d8b0eafcc7321790afecd1d8dd1d1be84348e88d3b612cc87a667aa81f3d",
+    "pngHash": "f11d14c4e1ad9da1c1673058720ea0066c6b426213b64e6462c9043f0631cf0f",
+    "updatedAt": "2026-11-05T04:58:23.672Z"
+  },
+  "skills/scaffold-toolforge-skill/INTEGRATION_DIAGRAM.png": {
+    "htmlHash": "9f524c1e3e7fde52a386db9cfbe12b218b6f3804a1e34b978c7407d127d4af6b",
+    "pngHash": "20ded40adde8d9d6a2851305d17b1a111d714106ca5a7f99c9a727854b00f0e5",
+    "updatedAt": "2026-11-05T04:58:23.683Z"
+  },
+  "skills/triage-skill-health-warnings/INTEGRATION_DIAGRAM.png": {
+    "htmlHash": "513c189ca2db2b0eb4b30b5ae5e9483affffbfcdd6cc627530582ece9866560f",
+    "pngHash": "4fae2d38a67da6fc35477f9918168f91c5770cb12dfecbd824158013ae820dec",
+    "updatedAt": "2026-11-05T04:58:23.690Z"
+  },
   "toolforge-architecture-overview.png": {
     "htmlHash": "13267df97ee3caa9ca6dd761f5877cde3493a197dec458c53fe08cdcc27a14ad",
     "pngHash": "0ee9445b35184646b3e665a6b30341e2e037fc13644e76192d00c0f8f3db532b",
