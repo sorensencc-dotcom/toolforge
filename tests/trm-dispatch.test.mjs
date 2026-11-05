@@ -7,7 +7,7 @@ import {
   fetchCards, preflight, buildCommand, buildResume, fillTemplate, codexRulesContent, agySettings,
   runFlow, writeReceipt, parseCriteria, resolveRepo, parseArgs, CLI_PATHS
 } from '../scripts/trm-dispatch.mjs';
-import { checkRun } from '../scripts/trm-dispatch-checker.mjs';
+import { checkRun, resolveScopedTestCmd } from '../scripts/trm-dispatch-checker.mjs';
 
 const CARD_MD = `# Card\n## Context\nctx\n## Acceptance Criteria\n- [ ] Watchdog restarts daemon within 60s\n- [ ] Logs each restart to trm_history\n`;
 const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'trmd-'));
@@ -90,7 +90,8 @@ test('codex argv is default and sandboxed with rules file', async () => {
 test('claude/grok/copilot/agy argv carry allow and deny lists', async () => {
   const cl = buildCommand(await ctxFor('claude'));
   assert.deepEqual(cl.args.slice(0, 7), ['-p', '--model', 'sonnet', '--effort', 'medium', '--permission-mode', 'dontAsk']);
-  assert.ok(cl.args[cl.args.indexOf('--allowedTools') + 1].includes('Bash(git commit:*)'));
+  assert.ok(cl.args[cl.args.indexOf('--disallowedTools') + 1].includes('Bash(git commit:*)'));
+  assert.ok(!cl.args[cl.args.indexOf('--allowedTools') + 1].includes('Bash(git commit:*)'));
   assert.ok(cl.args[cl.args.indexOf('--disallowedTools') + 1].includes('Bash(git push:*)'));
   const g = buildCommand(await ctxFor('grok'));
   assert.ok(g.args.includes('--deny') && g.args.includes('Bash(git push:*)') && g.args.includes('--disable-web-search'));
@@ -100,7 +101,7 @@ test('claude/grok/copilot/agy argv carry allow and deny lists', async () => {
   assert.equal(a.cmd, 'C:\\Users\\soren\\AppData\\Local\\agy\\bin\\agy.exe');
   const sf = a.args[a.args.indexOf('--settings') + 1];
   const s = JSON.parse(a.files[sf]);
-  assert.ok(s.permissions.deny.some((r) => r.includes('git push')));
+  assert.ok(s.permissions.deny.some((r) => /git.*push/.test(r)));
   assert.deepEqual(s, agySettings());
 });
 test('no CLI argv has bypass flags or push/merge', async () => {
@@ -130,7 +131,7 @@ const goodEv = (o = {}) => ({
 });
 const gapsOf = (o) => checkRun(goodEv(o)).gaps.join('\n');
 
-test('checker passes good evidence', () => { assert.deepEqual(checkRun(goodEv()), { ok: true, gaps: [] }); });
+test('checker passes good evidence', () => { assert.deepEqual(checkRun(goodEv()), { ok: true, gaps: [], info: [] }); });
 test('checker rejections', () => {
   assert.match(gapsOf({ doneMd: null }), /DONE\.md missing/);
   assert.match(gapsOf({ doneMd: GOOD_DONE.replace('Status: MET', 'Status: NOT MET') }), /NOT MET/);
@@ -141,8 +142,6 @@ test('checker rejections', () => {
   assert.match(gapsOf({ test: { code: 0, output: '# tests 2\n# skipped 0\n# todo 0' } }), /test count dropped/);
   assert.match(gapsOf({ nameStatus: 'D\ttests/old.test.mjs' }), /deleted test file/);
   for (const bad of ['// TODO later', 'FIXME', 'it.skip(', 'test.only(', 'assert True', "throw new Error('not implemented')"]) assert.match(gapsOf({ addedLines: [bad] }), /forbidden pattern/, bad);
-  assert.match(gapsOf({ commits: [] }), /no commits/);
-  assert.match(gapsOf({ commits: [{ sha: 'a', files: ['tests/w.test.mjs', 'src/w.mjs'] }] }), /separate commits/);
   assert.match(gapsOf({ nameStatus: 'M\t_status-feed/x.json' }), /protected path/);
 });
 
@@ -197,4 +196,104 @@ test('codex pins windows.sandbox=mxc per run (first run and resume), overridable
   const u = buildCommand({ ...ctx, codexWindowsSandbox: 'unelevated' });
   assert.deepEqual(u.args.slice(0, 2), ['-c', 'windows.sandbox=unelevated']);
   assert.throws(() => buildCommand({ ...ctx, codexWindowsSandbox: 'bogus"x' }));
+});
+
+test('brief tells CLI to leave changes uncommitted and shows exact DONE.md Criterion format', async () => {
+  const ctx = await ctxFor('codex');
+  assert.match(ctx.brief, /leave (all )?changes uncommitted|do not (git )?(add|commit)|uncommitted/i);
+  assert.doesNotMatch(ctx.brief, /Commit tests alone|Commit: `\{\{COMMIT_TYPE\}\}/);
+  assert.match(ctx.brief, /## Criterion: <exact criterion text>/);
+  assert.match(ctx.brief, /Status: MET \| NOT MET/);
+  const c = buildCommand(ctx);
+  // codex rules / allow must not permit commit
+  const rules = Object.values(c.files).find((v) => typeof v === 'string' && v.includes('prefix_rule'));
+  assert.match(rules, /pattern=\["git", "commit"\].*forbidden|forbidden.*"git", "commit"/s);
+});
+
+test('checker accepts ## Criterion: blocks and ignores missing commits (dispatcher commits later)', () => {
+  const done = `## Criterion: Watchdog restarts daemon within 60s\nStatus: MET\nEvidence: a.mjs\nCommand: node --test tests/w.test.mjs\nOutput: # tests 1\\n# pass 1\n\n## Criterion: Logs each restart to trm_history\nStatus: MET\nEvidence: a.mjs\nCommand: node --test tests/w.test.mjs\nOutput: # tests 1\\n# pass 1\n`;
+  const r = checkRun({
+    doneMd: done, criteria: CRIT,
+    test: { code: 0, output: '# tests 1\n# pass 1\n# skipped 0\n# todo 0' },
+    nameStatus: 'A\ttests/w.test.mjs\nA\tsrc/w.mjs', addedLines: ['const x = 1;'],
+    commits: [],
+  });
+  assert.deepEqual(r.gaps, []);
+  assert.equal(r.ok, true);
+});
+
+test('checker DONE.md parser requires ## Criterion: <exact text> (rejects ### heading)', () => {
+  const bad = `### Watchdog restarts daemon within 60s\nStatus: MET\nCommand: node --test\nOutput: ok\n\n### Logs each restart to trm_history\nStatus: MET\nCommand: node --test\nOutput: ok\n`;
+  assert.match(checkRun({ doneMd: bad, criteria: CRIT, test: { code: 0, output: '# tests 1\n# pass 1\n# skipped 0\n# todo 0' }, nameStatus: '', addedLines: [], commits: [] }).gaps.join('\n'), /no block/);
+});
+
+test('resolveScopedTestCmd prefers card test files over npm test; full suite info only', async () => {
+  const cmd = resolveScopedTestCmd({
+    testCmd: 'npm test',
+    nameStatus: 'A\ttests/chief-watchdog.test.mjs\nA\tscripts/chief-watchdog.ps1',
+  });
+  assert.match(cmd, /node --test/);
+  assert.match(cmd, /chief-watchdog\.test\.mjs/);
+  assert.doesNotMatch(cmd, /^npm test$/);
+  const r = checkRun({
+    doneMd: GOOD_DONE, criteria: CRIT,
+    test: { code: 0, output: '# tests 3\n# pass 3\n# skipped 0\n# todo 0' },
+    nameStatus: 'A\ttests/w.test.mjs', addedLines: [], commits: [],
+    fullSuite: { code: 1, output: 'Error: Cannot find package canonicalize' },
+  });
+  assert.equal(r.ok, true);
+  assert.ok((r.info || []).some((i) => /pre-existing|info only|canonicalize/i.test(i)));
+});
+
+
+test('dispatch after VERIFIED commits+pushes+opens draft PR; skips commit when checker fails', async () => {
+  const { dispatch } = await import('../scripts/trm-dispatch.mjs');
+  const e = env(baseCard());
+  const wt = path.join(e.worktreeRoot, 'act-sigil-x');
+  const gitCalls = [];
+  const ghCalls = [];
+  let phase = 'pre';
+  const git = (args) => {
+    gitCalls.push(args);
+    if (args[0] === 'rev-parse' && args.includes('--verify')) return { code: 0, out: '' };
+    if (args[0] === 'rev-parse' && args.includes('--git-path')) return { code: 0, out: path.join(wt, '.git', 'info', 'exclude') };
+    if (args[0] === 'status' && args.includes('--porcelain')) {
+      if (phase === 'pre') return { code: 0, out: '' };
+      return { code: 0, out: '?? scripts/w.ps1\n?? tests/w.test.mjs\n' };
+    }
+    if (args[0] === 'worktree') return { code: 0, out: '' };
+    return { code: 0, out: '' };
+  };
+  phase = 'pre';
+  gitCalls.length = 0; ghCalls.length = 0;
+  const pass = await dispatch({
+    ...e, git,
+    runner: async () => { phase = 'post'; return { code: 0, sessionId: 's1' }; },
+    check: async () => ({ ok: true, gaps: [] }),
+    writeFile: () => {},
+    statusDir: tmp(),
+    gh: (args) => { ghCalls.push(args); return { code: 0, out: 'https://github.com/o/sigil/pull/1\n' }; },
+    log: () => {},
+  });
+  assert.equal(pass.status, 'PR_OPEN');
+  assert.ok(gitCalls.some((a) => a[0] === 'commit'), 'expected git commit after pass');
+  assert.ok(gitCalls.some((a) => a[0] === 'push'), 'expected git push after pass');
+  assert.ok(ghCalls.some((a) => a.includes('pr') && a.includes('create')), 'expected gh pr create');
+  assert.match(pass.pr_url || '', /pull\/1/);
+
+  phase = 'pre';
+  gitCalls.length = 0; ghCalls.length = 0;
+  const fail = await dispatch({
+    ...e, git,
+    runner: async () => { phase = 'post'; return { code: 0, sessionId: 's1' }; },
+    check: async () => ({ ok: false, gaps: ['x'] }),
+    writeFile: () => {},
+    statusDir: tmp(),
+    gh: (args) => { ghCalls.push(args); return { code: 0, out: '' }; },
+    log: () => {},
+  });
+  assert.equal(fail.status, 'NEEDS_HUMAN');
+  assert.ok(!gitCalls.some((a) => a[0] === 'commit'), 'no commit on fail');
+  assert.ok(!gitCalls.some((a) => a[0] === 'push'), 'no push on fail');
+  assert.equal(ghCalls.length, 0);
 });

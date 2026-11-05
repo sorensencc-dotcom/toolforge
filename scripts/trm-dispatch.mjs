@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Hands one promoted TRM card (from ICF) to a coding CLI, verifies the run, resumes once, writes a receipt.
-// Spec: docs/trm-dispatch/SPEC.md. No push, no PR, no ICF writes.
+// Spec: docs/trm-dispatch/SPEC.md. CLI leaves changes uncommitted; on VERIFIED this script commits+pushes and opens a draft PR. No ICF writes.
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
@@ -157,9 +157,9 @@ export async function preflight(opts) {
   return { card, cli, cliPath, repo, repoDir, issueNum, branch, worktree, wtExists, criteria, brief, testCmd, model, effort };
 }
 
-const ALLOW = ['git status', 'git diff', 'git add', 'git commit', 'git log', 'git show', 'node', 'npm test', 'npm run test', 'pnpm test'];
-const DENY = ['git push', 'git remote', 'gh', 'curl', 'wget', 'npm install', 'pnpm add'];
-const RULE_PREFIXES = [['git', 'push'], ['git', 'remote'], ['gh'], ['curl'], ['wget'], ['Invoke-WebRequest'], ['npm', 'install'], ['npm', 'i'], ['pnpm', 'add'], ['schtasks'], ['Register-ScheduledTask']];
+const ALLOW = ['git status', 'git diff', 'git log', 'git show', 'node', 'npm test', 'npm run test', 'pnpm test'];
+const DENY = ['git add', 'git commit', 'git push', 'git remote', 'gh', 'curl', 'wget', 'npm install', 'pnpm add'];
+const RULE_PREFIXES = [['git', 'add'], ['git', 'commit'], ['git', 'push'], ['git', 'remote'], ['gh'], ['curl'], ['wget'], ['Invoke-WebRequest'], ['npm', 'install'], ['npm', 'i'], ['pnpm', 'add'], ['schtasks'], ['Register-ScheduledTask']];
 
 export function codexRulesContent() {
   return RULE_PREFIXES.map((p) => `prefix_rule(pattern=[${p.map((x) => `"${x}"`).join(', ')}], decision="forbidden", justification="TRM dispatch: no network, push or scheduling")`).join('\n') + '\n';
@@ -168,8 +168,8 @@ export function codexRulesContent() {
 export function agySettings() {
   return {
     permissions: {
-      allow: ['command(git status)', 'command(regex:^git (diff|add|commit|log|show)( |$))', 'command(regex:^npm (test|run test))', 'command(regex:^node )'],
-      deny: ['command(regex:^git push)', 'command(regex:^git remote)', 'command(regex:^(gh|curl|wget) )', 'command(regex:^npm (install|i) )', 'read_url(*)', 'execute_url(*)']
+      allow: ['command(git status)', 'command(regex:^git (diff|log|show)( |$))', 'command(regex:^npm (test|run test))', 'command(regex:^pnpm test)', 'command(regex:^node )'],
+      deny: ['command(regex:^git (add|commit|push))', 'command(regex:^git remote)', 'command(regex:^(gh|curl|wget) )', 'command(regex:^npm (install|i) )', 'read_url(*)', 'execute_url(*)']
     }
   };
 }
@@ -288,12 +288,41 @@ export function realRunner(timeoutMin = 45) {
   });
 }
 
+export function defaultGh(args, cwd) {
+  const r = spawnSync('gh', args, { cwd, encoding: 'utf8', shell: process.platform === 'win32', maxBuffer: 16 << 20 });
+  return { code: r.status ?? 1, out: `${r.stdout || ''}${r.stderr || ''}` };
+}
+
+/** After checker VERIFIED: stage (code only), commit, push, open draft PR. No-op helpers injectable for tests. */
+export function finalizeAfterVerify(ctx, { git = defaultGit, gh = defaultGh } = {}) {
+  const skip = new Set(['AGENTS.override.md', 'DONE.md', 'gaps.md']);
+  const status = git(['status', '--porcelain', '-uall'], ctx.worktree).out;
+  const paths = status.split(/\r?\n/).filter(Boolean).map((l) => l.slice(3).trim().replace(/\\/g, '/')).filter((p) => p && ![...skip].some((s) => p === s || p.startsWith('.codex/') || p.startsWith('.trm-dispatch/')));
+  if (!paths.length) throw new Refusal('ERROR', 'verified but no files to commit');
+  const add = git(['add', '--', ...paths], ctx.worktree);
+  if (add.code !== 0) throw new Refusal('ERROR', `git add failed: ${add.out}`);
+  const target = String(ctx.card.target || ctx.repo).toLowerCase().replace(/[^a-z0-9-]+/g, '-');
+  const intent = String(ctx.card.intent || ctx.card.title || ctx.card.id).trim();
+  const type = commitTypeForCard(ctx.card);
+  const msg = `${type}(${target}): ${intent} (closes #${ctx.issueNum})`;
+  const commit = git(['commit', '-m', msg], ctx.worktree);
+  if (commit.code !== 0) throw new Refusal('ERROR', `git commit failed: ${commit.out}`);
+  const push = git(['push', '-u', 'origin', `HEAD:refs/heads/${ctx.branch}`], ctx.worktree);
+  if (push.code !== 0) throw new Refusal('ERROR', `git push failed: ${push.out}`);
+  const body = `Closes #${ctx.issueNum}\n\nDispatched by trm-dispatch (${ctx.cli}).`;
+  const pr = gh(['pr', 'create', '--draft', '--title', msg, '--body', body, '--head', ctx.branch], ctx.worktree);
+  if (pr.code !== 0) throw new Refusal('ERROR', `gh pr create failed: ${pr.out}`);
+  const pr_url = (pr.out.match(/https:\/\/github\.com\/\S+\/pull\/\d+/) || [])[0] || pr.out.trim().split(/\s+/).pop() || null;
+  return { pr_url, commitMessage: msg };
+}
+
 function prepareWorktree(ctx, git = defaultGit) {
   if (!ctx.wtExists) {
     const r = git(['worktree', 'add', ctx.worktree, ctx.branch], ctx.repoDir);
     if (r.code !== 0) throw new Refusal('ERROR', `git worktree add failed: ${r.out}`);
   }
-  const exclude = path.resolve(ctx.worktree, git(['rev-parse', '--git-path', 'info/exclude'], ctx.worktree).out);
+  const exclude = path.resolve(ctx.worktree, git(['rev-parse', '--git-path', 'info/exclude'], ctx.worktree).out.trim());
+  fs.mkdirSync(path.dirname(exclude), { recursive: true });
   const have = fs.existsSync(exclude) ? fs.readFileSync(exclude, 'utf8') : '';
   const add = ['AGENTS.override.md', 'DONE.md', 'gaps.md', '.codex/', '.trm-dispatch/'].filter((e) => !have.split('\n').includes(e));
   if (add.length) fs.appendFileSync(exclude, `\n${add.join('\n')}\n`);
@@ -324,15 +353,28 @@ export async function dispatch(opts) {
   const started = new Date().toISOString();
   const lock = prepareWorktree(ctx, opts.git);
   try {
-    const check = async () => checkRun(gatherEvidence({ worktree: ctx.worktree, criteria: ctx.criteria, testCmd: ctx.testCmd }));
+    const check = opts.check || (async () => checkRun(gatherEvidence({ worktree: ctx.worktree, criteria: ctx.criteria, testCmd: ctx.testCmd })));
     const r = await runFlow({ ctx, runner: opts.runner || realRunner(ctx.timeoutMin), check, writeFile: opts.writeFile });
+    let pr_url = null;
+    let status = r.status;
+    let gaps = r.gaps;
+    if (r.status === 'VERIFIED') {
+      try {
+        const fin = finalizeAfterVerify(ctx, { git: opts.git || defaultGit, gh: opts.gh || defaultGh });
+        pr_url = fin.pr_url;
+        status = 'PR_OPEN';
+      } catch (e) {
+        status = 'NEEDS_HUMAN';
+        gaps = [...r.gaps, `finalize failed: ${e.message}`];
+      }
+    }
     const rec = writeReceipt(opts.statusDir || STATUS_DIR, {
       card_id: ctx.card.id, cli: ctx.cli, model: ctx.model, effort: ctx.effort, branch: ctx.branch, worktree: ctx.worktree,
-      status: r.status, tests: r.gaps.some((g) => g.startsWith('tests failed')) ? 'FAIL' : 'PASS',
-      criteria_total: ctx.criteria.length, criteria_met: r.status === 'VERIFIED' ? ctx.criteria.length : null,
-      session_id: r.session_id, resumed: r.resumed, gaps: r.gaps, started_at: started, ended_at: new Date().toISOString(), log: cmd.log
+      status, pr_url, tests: gaps.some((g) => g.startsWith('tests failed')) ? 'FAIL' : 'PASS',
+      criteria_total: ctx.criteria.length, criteria_met: status === 'PR_OPEN' || status === 'VERIFIED' ? ctx.criteria.length : null,
+      session_id: r.session_id, resumed: r.resumed, gaps, started_at: started, ended_at: new Date().toISOString(), log: cmd.log
     });
-    log(`${rec.status}: ${ctx.card.id} (PR step not run: push needs Chris's ok)`);
+    log(`${rec.status}: ${ctx.card.id}${pr_url ? ` ${pr_url}` : ''}`);
     return rec;
   } finally {
     fs.rmSync(lock, { force: true });
