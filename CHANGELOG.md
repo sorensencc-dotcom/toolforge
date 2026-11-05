@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.119.3
+Date: 2026-11-05
+
+### Changes
+- e5aadcb5 - Merge pull request #281 from sorensencc-dotcom/fix/trm-dispatch-finalize-replace (Chris Sorensen)
+- 74fd939d - fix(trm-dispatch): guard finalize against undefined fields (Grok Bot)
+
 ## Version 2.119.2
 Date: 2026-11-05
 
