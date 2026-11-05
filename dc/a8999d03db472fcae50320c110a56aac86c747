@@ -1,0 +1,16 @@
+scripts/trm-dispatch.mjs
+  h_5c172e9b435f5a 179-186,199,235
+tests/trm-dispatch.test.mjs
+  h_5c172e9b435f5a 7,158,188-200
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "dca8999d03db472fcae50320c110a56aac86c747",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
