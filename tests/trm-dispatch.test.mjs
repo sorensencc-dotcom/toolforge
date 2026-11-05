@@ -145,6 +145,16 @@ test('checker rejections', () => {
   assert.match(gapsOf({ nameStatus: 'M\t_status-feed/x.json' }), /protected path/);
 });
 
+test('checkRun does not throw on nameStatus lines with no tab/path (malformed or status-only)', () => {
+  for (const line of ['M', 'A', '??', '   ', 'R100', 'D', '??\t', 'M\t']) {
+    assert.doesNotThrow(() => checkRun(goodEv({ nameStatus: line })), line);
+  }
+  const mixed = ['M', 'A', 'M\t_status-feed/x.json', 'D\ttests/old.test.mjs', '??'].join('\n');
+  const gaps = checkRun(goodEv({ nameStatus: mixed })).gaps;
+  assert.ok(gaps.some((g) => /protected path/.test(g)), 'protected path still fires alongside malformed lines');
+  assert.ok(gaps.some((g) => /deleted test file/.test(g)), 'deleted test file still fires alongside malformed lines');
+});
+
 test('flow: pass -> VERIFIED; fail twice -> resume once then NEEDS_HUMAN', async () => {
   const ctx = await ctxFor('codex');
   const calls = [];

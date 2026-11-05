@@ -73,7 +73,7 @@ export function checkRun(ev) {
   if (ev.baseTests != null && count != null && count < ev.baseTests) gaps.push(`test count dropped: ${count} < base ${ev.baseTests}`);
   for (const line of String(ev.nameStatus || '').split('\n').filter(Boolean)) {
     const [st, ...rest] = line.split('\t');
-    const file = rest[rest.length - 1].replace(/\\/g, '/');
+    const file = (rest[rest.length - 1] || '').replace(/\\/g, '/');
     if (st.startsWith('D') && TEST_FILE.test(file)) gaps.push(`deleted test file: ${file}`);
     if (PROTECTED.test(file)) gaps.push(`change to protected path: ${file}`);
   }
