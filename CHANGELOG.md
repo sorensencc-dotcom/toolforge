@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.118.2
+Date: 2026-11-05
+
+### Changes
+- ce64bde0 - Merge pull request #277 from sorensencc-dotcom/audit/2026-11-01 (Chris Sorensen)
+- 03a26c2b - chore(audit): fix carried finding id and first_seen in 2026-11-01 record (Claude)
+- 04295f82 - chore(audit): correct carried finding id and first_seen dates in 2026-11-01 record (Claude)
+- ea6b75d1 - chore(audit): weekly session audit 2026-11-01 (Claude)
+
 ## Version 2.118.1
 Date: 2026-11-05
 
