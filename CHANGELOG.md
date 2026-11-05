@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.117.1
+Date: 2026-11-05
+
+### Changes
+- 6038fa2e - Merge pull request #274 from sorensencc-dotcom/codex/chris-mode-refresh (Chris Sorensen)
+- 6ab61bba - docs(retro): record chris-mode refresh session (Chris Sorensen)
+- a804cb6a - docs(skills): refresh chris-mode conventions (Chris Sorensen)
+
 ## Version 2.117.0
 Date: 2026-11-04
 
