@@ -328,6 +328,51 @@ test('assertPipelineHeartbeats flags stalled and missing daemons with SEV-1 aler
     );
     assert.equal(statusData.pipeline_status, 'STALLED');
     assert.ok(statusData.sev1_alerts.length >= 1);
+    assert.ok(statusData.heartbeat_summary, 'Should emit heartbeat_summary');
+    assert.equal(statusData.heartbeat_summary.healthy_count, 1);
+  } finally {
+    cleanupTempRepoFixture(tmpDir);
+  }
+});
+
+test('assertPipelineHeartbeats flags explicit error status and payloads', async () => {
+  const tmpDir = createTempRepoFixture();
+  try {
+    const fixedNow = new Date('2026-11-01T12:00:00Z');
+    const recentTime = new Date('2026-11-01T11:30:00Z').toISOString();
+
+    // Seed recent report with explicit error
+    fs.writeFileSync(
+      path.join(tmpDir, '_status-feed', 'kb_sentinel_report.json'),
+      JSON.stringify({ timestamp: recentTime, status: 'ERROR', error: 'Database connection failed' }),
+      'utf8'
+    );
+    // Seed recent report with degraded status
+    fs.writeFileSync(
+      path.join(tmpDir, '_status-feed', 'notebook_ingester_report.json'),
+      JSON.stringify({ timestamp: recentTime, status: 'DEGRADED' }),
+      'utf8'
+    );
+
+    const { heartbeats, sev1Banners, pipelineStatus } = await assertPipelineHeartbeats({
+      repoRoot: tmpDir,
+      maxStallHours: 24,
+      now: fixedNow,
+      dryRun: false
+    });
+
+    assert.equal(pipelineStatus, 'STALLED');
+    assert.ok(sev1Banners.some(b => b.includes('[SEV-1 PIPELINE_ERROR]')));
+
+    const errHb = heartbeats.find(h => h.daemon === 'kb_sentinel');
+    assert.ok(errHb);
+    assert.equal(errHb.status, 'ERROR');
+    assert.equal(errHb.sev1Alert, true);
+
+    const degradedHb = heartbeats.find(h => h.daemon === 'notebook_ingester');
+    assert.ok(degradedHb);
+    assert.equal(degradedHb.status, 'DEGRADED');
+    assert.equal(degradedHb.sev1Alert, false);
   } finally {
     cleanupTempRepoFixture(tmpDir);
   }

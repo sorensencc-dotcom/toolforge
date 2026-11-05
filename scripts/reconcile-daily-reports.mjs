@@ -196,7 +196,7 @@ function checkGhAvailable(repoRoot) {
   return ghAvailable;
 }
 
-export async function verifyGroundTruthState({ repoRoot = DEFAULT_REPO_ROOT, dryRun = false, verbose = false } = {}) {
+export async function verifyGroundTruthState({ repoRoot = DEFAULT_REPO_ROOT, dryRun = false, verbose = false, now = new Date() } = {}) {
   const verifications = [];
   const seenIds = new Set();
 
@@ -213,7 +213,16 @@ export async function verifyGroundTruthState({ repoRoot = DEFAULT_REPO_ROOT, dry
 
   // Pre-load completed and archived tasks into a Set for O(1) lookup
   const completedFileSet = new Set();
-  for (const d of [completedTasksDir, archiveTasksDir]) {
+  const completedSearchDirs = [
+    completedTasksDir,
+    archiveTasksDir,
+    path.join(repoRoot, 'trm-drive', 'inbox', 'completed'),
+    path.join(repoRoot, 'trm-drive', 'inbox', 'archive'),
+    path.join(repoRoot, 'trm-drive', 'inbox', '04_archive'),
+    path.join(repoRoot, '.trm', 'inbox', 'completed'),
+    path.join(repoRoot, '.trm', 'inbox', 'archive')
+  ];
+  for (const d of completedSearchDirs) {
     if (fs.existsSync(d)) {
       try {
         const files = fs.readdirSync(d);
@@ -247,8 +256,9 @@ export async function verifyGroundTruthState({ repoRoot = DEFAULT_REPO_ROOT, dry
       if (!isFile) continue;
 
       let extractedId = file;
-      if (file.includes('act-kbsync-chat-injection-staleness-entropy-fail')) {
-        extractedId = 'act-kbsync-chat-injection-staleness-entropy-fail';
+      const actMatch = file.match(/(act-[a-z0-9\-]+|gap-[a-z0-9\-]+)/i);
+      if (actMatch) {
+        extractedId = actMatch[1].toLowerCase();
       } else {
         const match = file.match(/([a-zA-Z0-9_\-]+(?:-fail|-task|-card|-issue|\d+))/);
         if (match) extractedId = match[1];
@@ -392,8 +402,15 @@ export async function verifyGroundTruthState({ repoRoot = DEFAULT_REPO_ROOT, dry
       status = 'OPEN';
     }
 
-    // 4. Handle zombie and closed cards
-    if (status === 'CLOSED') {
+    // 4. Handle zombie and closed cards, as well as stale quarantine artifacts (>24h)
+    const isStaleQuarantine = item.isQuarantined && item.fullPath && fs.existsSync(item.fullPath) &&
+      ((now.getTime() - fs.statSync(item.fullPath).mtimeMs) > 24 * 60 * 60 * 1000);
+
+    if (status === 'CLOSED' || isStaleQuarantine) {
+      if (status !== 'CLOSED') {
+        status = 'STALE_PURGED';
+        verifiedBy = 'retention';
+      }
       isZombie = Boolean(item.isQuarantined || item.isPending || item.isTodo);
 
       const actions = [];
@@ -521,6 +538,9 @@ export async function assertPipelineHeartbeats({
     let effectiveDate = stat.mtime;
 
     const data = safeReadJson(filePath);
+    let explicitStatus = null;
+    let explicitError = null;
+
     if (data) {
       const rawTs = data.timestamp || data.last_run || data.generated_at || data.last_sync || data.updated_at;
       if (rawTs) {
@@ -529,10 +549,22 @@ export async function assertPipelineHeartbeats({
           effectiveDate = parsed;
         }
       }
+      if (data.status && typeof data.status === 'string') {
+        explicitStatus = data.status.toUpperCase();
+      } else if (data.health && typeof data.health === 'string') {
+        explicitStatus = data.health.toUpperCase();
+      }
+      if (data.error) {
+        explicitError = typeof data.error === 'string' ? data.error : JSON.stringify(data.error);
+      } else if (Array.isArray(data.errors) && data.errors.length > 0) {
+        explicitError = data.errors.map(e => (typeof e === 'string' ? e : e.message || JSON.stringify(e))).join('; ');
+      }
     }
 
     const ageHours = (now.getTime() - effectiveDate.getTime()) / (1000 * 60 * 60);
     const isStalled = ageHours > maxStallHours;
+    const isCriticalStatus = explicitStatus === 'ERROR' || explicitStatus === 'FAILED' || explicitStatus === 'CRITICAL';
+    const isDegradedStatus = explicitStatus === 'DEGRADED' || explicitStatus === 'ATTENTION';
 
     if (isStalled) {
       const banner = `[SEV-1 PIPELINE_STALL] Daemon ${daemon} flatlined: last active ${effectiveDate.toISOString()} (${ageHours.toFixed(1)}h ago > threshold ${maxStallHours}h)`;
@@ -547,6 +579,34 @@ export async function assertPipelineHeartbeats({
           status: 'PIPELINE_STALL',
           sev1Alert: true,
           message: banner
+        })
+      );
+    } else if (isCriticalStatus || explicitError) {
+      const errBanner = `[SEV-1 PIPELINE_ERROR] Daemon ${daemon} error: ${explicitError || explicitStatus}`;
+      sev1Banners.push(errBanner);
+      heartbeats.push(
+        createHeartbeatReport({
+          daemon,
+          logPath: path.relative(repoRoot, filePath),
+          lastModified: effectiveDate,
+          ageHours,
+          thresholdHours: maxStallHours,
+          status: explicitStatus || 'ERROR',
+          sev1Alert: true,
+          message: errBanner
+        })
+      );
+    } else if (isDegradedStatus) {
+      heartbeats.push(
+        createHeartbeatReport({
+          daemon,
+          logPath: path.relative(repoRoot, filePath),
+          lastModified: effectiveDate,
+          ageHours,
+          thresholdHours: maxStallHours,
+          status: explicitStatus,
+          sev1Alert: false,
+          message: `Daemon ${daemon} reporting ${explicitStatus}: last active ${effectiveDate.toISOString()} (${ageHours.toFixed(1)}h ago)`
         })
       );
     } else {
@@ -571,7 +631,9 @@ export async function assertPipelineHeartbeats({
     path.join(repoRoot, '_status-feed', 'daily_status.json')
   ].filter(p => fs.existsSync(p));
 
-  const pipelineStatus = sev1Banners.length > 0 ? 'STALLED' : 'HEALTHY';
+  const hasErrors = sev1Banners.length > 0;
+  const hasDegraded = heartbeats.some(h => h.status === 'DEGRADED' || h.status === 'ATTENTION');
+  const pipelineStatus = hasErrors ? 'STALLED' : (hasDegraded ? 'DEGRADED' : 'HEALTHY');
 
   if (!dryRun) {
     for (const statusPath of dailyStatusPaths) {
@@ -579,6 +641,13 @@ export async function assertPipelineHeartbeats({
       if (statusData) {
         statusData.sev1_alerts = sev1Banners;
         statusData.pipeline_status = pipelineStatus;
+        statusData.heartbeat_summary = {
+          total_daemons: heartbeats.length,
+          healthy_count: heartbeats.filter(h => h.status === 'HEALTHY').length,
+          error_count: heartbeats.filter(h => h.sev1Alert).length,
+          degraded_count: heartbeats.filter(h => !h.sev1Alert && h.status !== 'HEALTHY').length,
+          last_reconciled: now.toISOString()
+        };
         safeWriteJson(statusPath, statusData);
       }
     }

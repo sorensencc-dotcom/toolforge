@@ -1,52 +1,241 @@
 # schedule-task-wrapper-TRM-Notebooklm-Mine.ps1
 # Weekly sweep: runs `trm mine-notebooklm <id>` for every notebook in
-# notebooklm-registry.json. Registered in Windows Task Scheduler, weekly
-# trigger -- see docs/superpowers/specs/2026-08-12-notebooklm-cic-ingest-mining-design.md §5.
+# notebooklm-registry.json, then `trm research-notebooklm` once across all
+# notebooks to dispatch push-research for any urgent gaps mining queued.
+# Registered in Windows Task Scheduler, weekly trigger -- see
+# docs/superpowers/specs/2026-08-12-notebooklm-cic-ingest-mining-design.md §5
+# and docs/superpowers/specs/2026-09-13-notebooklm-push-research-loop-design.md.
+param(
+    [Parameter(Mandatory = $false)]
+    [string]$NotebookId,
+    [Parameter(Mandatory = $false)]
+    [switch]$SkipIngest,
+    [Parameter(Mandatory = $false)]
+    [int]$BatchSize = 12,
+    [Parameter(Mandatory = $false)]
+    [int]$MaxExecutionMinutes = 90
+)
 
-$ErrorActionPreference = 'Stop'
-$vaultRoot = if (Test-Path 'C:\Users\soren\trm-vault\notebooklm-registry.json') { 'C:\Users\soren\trm-vault' } else { 'C:\dev' }
-$logDir = Join-Path $vaultRoot 'logs'
-New-Item -ItemType Directory -Force -Path $logDir | Out-Null
-$logFile = Join-Path $logDir "trm-notebooklm-mine-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
+$ErrorActionPreference = "Continue"
+$VaultRoot = 'C:\Users\soren\trm-vault'
+$LogDir = Join-Path $VaultRoot 'logs'
+if (-not (Test-Path $LogDir)) {
+    New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
+}
 
-Set-Location $vaultRoot
-$env:TRM_ALLOW_GIT_ROOT = '1'
-$env:TRM_ACTOR = 'ACTOR-001'
+$Timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+$LogFile = Join-Path $LogDir "trm-notebooklm-mine-$Timestamp.log"
+$StartTime = Get-Date
 
-$registryPath = Join-Path $vaultRoot 'notebooklm-registry.json'
-if (-not (Test-Path $registryPath)) {
-    "notebooklm-registry.json not found at $registryPath -- nothing to mine" | Tee-Object -FilePath $logFile
+# Load Parallel API key from secrets if present
+$SecretsFile = 'C:\Users\soren\.secrets\parallel.env'
+if (Test-Path $SecretsFile) {
+    Get-Content $SecretsFile | ForEach-Object {
+        if ($_ -match '^\s*([^#=]+)=(.*)$') {
+            $key = $matches[1].Trim()
+            $val = $matches[2].Trim()
+            [Environment]::SetEnvironmentVariable($key, $val, 'Process')
+            Set-Item "env:$key" $val
+        }
+    }
+}
+
+"=== TRM Notebooklm Mining Sweep ===" | Tee-Object -FilePath $LogFile -Append
+"Started: $StartTime" | Tee-Object -FilePath $LogFile -Append
+"Vault Root: $VaultRoot" | Tee-Object -FilePath $LogFile -Append
+
+# The globally installed `trm` CLI is a symlink into the repo's dist/ output
+# (npm link), not a published package -- if src/ changes without a rebuild,
+# commands silently go stale and fail with "unknown command" deep into the
+# sweep. Rebuild before every run so dist/ never drifts from src/.
+$TrmRepoRoot = 'C:\dev\trm'
+"=== npm run build ($TrmRepoRoot) ===" | Tee-Object -FilePath $LogFile -Append
+Push-Location $TrmRepoRoot
+try {
+    & npm run build 2>&1 | Tee-Object -FilePath $LogFile -Append
+    if ($LASTEXITCODE -ne 0) {
+        "npm run build failed with exit code $LASTEXITCODE -- aborting sweep, dist/ may be stale" | Tee-Object -FilePath $LogFile -Append
+        Pop-Location
+        $EndTime = Get-Date
+        $Duration = ($EndTime - $StartTime).TotalSeconds
+        "Completed: $EndTime (Duration: {0:F2}s, Exit Code: 1)" -f $Duration | Tee-Object -FilePath $LogFile -Append
+        exit 1
+    }
+} finally {
+    Pop-Location
+}
+
+Set-Location $VaultRoot
+
+$RegistryPath = Join-Path $VaultRoot 'notebooklm-registry.json'
+if (-not (Test-Path $RegistryPath)) {
+    "notebooklm-registry.json not found at $RegistryPath -- nothing to mine" | Tee-Object -FilePath $LogFile -Append
+    $EndTime = Get-Date
+    $Duration = ($EndTime - $StartTime).TotalSeconds
+    "Completed: $EndTime (Duration: {0:F2}s, Exit Code: 1)" -f $Duration | Tee-Object -FilePath $LogFile -Append
     exit 1
 }
 
-$registry = Get-Content $registryPath -Raw | ConvertFrom-Json
-$exitCode = 0
+$Registry = $null
+try {
+    $Registry = Get-Content $RegistryPath -Raw | ConvertFrom-Json
+} catch {
+    "Failed to parse notebooklm-registry.json: $_" | Tee-Object -FilePath $LogFile -Append
+    $EndTime = Get-Date
+    $Duration = ($EndTime - $StartTime).TotalSeconds
+    "Completed: $EndTime (Duration: {0:F2}s, Exit Code: 1)" -f $Duration | Tee-Object -FilePath $LogFile -Append
+    exit 1
+}
 
-# Build freshness preflight check
-$trmRoot = 'C:\dev\trm'
-$trmDist = Join-Path $trmRoot 'dist\cli\index.js'
-$trmSrc = Join-Path $trmRoot 'src\cli\commands\mineNotebooklm.ts'
-if ((Test-Path $trmSrc) -and (Test-Path $trmDist)) {
-    $srcTime = (Get-Item $trmSrc).LastWriteTime
-    $distTime = (Get-Item $trmDist).LastWriteTime
-    if ($srcTime -gt $distTime) {
-        "Source newer than dist. Rebuilding C:\dev\trm CLI..." | Tee-Object -FilePath $logFile -Append
-        npm --prefix $trmRoot run build 2>&1 | Tee-Object -FilePath $logFile -Append
+$ExitCode = 0
+
+$TargetNotebooks = if ($NotebookId) {
+    $matched = @($Registry.notebooks | Where-Object { $_.notebook_id -eq $NotebookId })
+    if ($matched.Count -eq 0) {
+        "Notebook ID $NotebookId not found in registry -- aborting" | Tee-Object -FilePath $LogFile -Append
+        exit 1
+    }
+    $matched
+} else {
+    $sorted = @($Registry.notebooks | Sort-Object -Property @{
+        Expression = {
+            if ($_.last_mined_at) {
+                try { [DateTime]::Parse($_.last_mined_at) } catch { [DateTime]::MinValue }
+            } else {
+                [DateTime]::MinValue
+            }
+        }
+    })
+    if ($BatchSize -gt 0 -and $sorted.Count -gt $BatchSize) {
+        "Target selection: batched to oldest $BatchSize of $($sorted.Count) registered notebooks" | Tee-Object -FilePath $LogFile -Append
+        $sorted[0..($BatchSize - 1)]
+    } else {
+        $sorted
     }
 }
 
-foreach ($notebook in $registry.notebooks) {
-    "=== mining $($notebook.title) ($($notebook.notebook_id)) ===" | Tee-Object -FilePath $logFile -Append
+$TotalTargets = $TargetNotebooks.Count
+$AttemptedCount = 0
+$SucceededNotebooks = @()
+$FailedNotebooks = @()
+$HitTimeCeiling = $false
+
+foreach ($Notebook in $TargetNotebooks) {
+    $elapsedMinutes = ((Get-Date) - $StartTime).TotalMinutes
+    if ($MaxExecutionMinutes -gt 0 -and $elapsedMinutes -ge $MaxExecutionMinutes) {
+        $HitTimeCeiling = $true
+        "⚠️ Mining sweep reached time ceiling of $MaxExecutionMinutes minutes (elapsed: {0:F1}m). Breaking out of loop after attempting $AttemptedCount of $TotalTargets targets to proceed with downstream research and status refresh." -f $elapsedMinutes | Tee-Object -FilePath $LogFile -Append
+        break
+    }
+
+    $AttemptedCount++
+    $notebookFailed = $false
+    "================================================================================" | Tee-Object -FilePath $LogFile -Append
+    "=== [TARGET $AttemptedCount/$TotalTargets] $($Notebook.title) ($($Notebook.notebook_id)) ===" | Tee-Object -FilePath $LogFile -Append
+    "================================================================================" | Tee-Object -FilePath $LogFile -Append
+
+    if (-not $SkipIngest) {
+        "--- Ingesting $($Notebook.title) ---" | Tee-Object -FilePath $LogFile -Append
+        try {
+            $NarrativeRoot = 'C:\dev\charlie-deep-research'
+            if (Test-Path $NarrativeRoot) {
+                & trm ingest-notebooklm $Notebook.notebook_id --narrative-root $NarrativeRoot 2>&1 | Tee-Object -FilePath $LogFile -Append
+            } else {
+                "Narrative root $NarrativeRoot not found, skipping ingestion step" | Tee-Object -FilePath $LogFile -Append
+            }
+            if ($LASTEXITCODE -ne 0) {
+                "ingest-notebooklm failed for $($Notebook.notebook_id) with exit code $LASTEXITCODE" | Tee-Object -FilePath $LogFile -Append
+                $ExitCode = 1
+                $notebookFailed = $true
+            }
+        } catch {
+            "ingest-notebooklm threw for $($Notebook.notebook_id): $_" | Tee-Object -FilePath $LogFile -Append
+            $ExitCode = 1
+            $notebookFailed = $true
+        }
+    } else {
+        "--- Skipping ingestion for $($Notebook.title) (-SkipIngest set) ---" | Tee-Object -FilePath $LogFile -Append
+    }
+
+    "--- Mining $($Notebook.title) ---" | Tee-Object -FilePath $LogFile -Append
     try {
-        & node C:\dev\trm\dist\cli\index.js mine-notebooklm $notebook.notebook_id 2>&1 | Tee-Object -FilePath $logFile -Append
+        $mineStart = Get-Date
+        & trm mine-notebooklm $Notebook.notebook_id 2>&1 | Tee-Object -FilePath $LogFile -Append
+        $mineSec = [Math]::Round(((Get-Date) - $mineStart).TotalSeconds, 1)
         if ($LASTEXITCODE -ne 0) {
-            "mine-notebooklm failed for $($notebook.notebook_id) with exit code $LASTEXITCODE" | Tee-Object -FilePath $logFile -Append
-            $exitCode = 1
+            "mine-notebooklm failed for $($Notebook.notebook_id) with exit code $LASTEXITCODE (${mineSec}s)" | Tee-Object -FilePath $LogFile -Append
+            $ExitCode = 1
+            $notebookFailed = $true
+        } else {
+            "mine-notebooklm completed for $($Notebook.title) in ${mineSec}s" | Tee-Object -FilePath $LogFile -Append
         }
     } catch {
-        "mine-notebooklm threw for $($notebook.notebook_id): $_" | Tee-Object -FilePath $logFile -Append
-        $exitCode = 1
+        "mine-notebooklm threw for $($Notebook.notebook_id): $_" | Tee-Object -FilePath $LogFile -Append
+        $ExitCode = 1
+        $notebookFailed = $true
+    }
+
+    if ($notebookFailed) {
+        $FailedNotebooks += "$($Notebook.title) ($($Notebook.notebook_id))"
+    } else {
+        $SucceededNotebooks += "$($Notebook.title) ($($Notebook.notebook_id))"
     }
 }
 
-exit $exitCode
+"================================================================================" | Tee-Object -FilePath $LogFile -Append
+"=== SWEEP COMPLETENESS & STALENESS AUDIT ===" | Tee-Object -FilePath $LogFile -Append
+"Total Registry Targets: $($Registry.notebooks.Count) | Selected Batch Targets: $TotalTargets | Attempted: $AttemptedCount | Succeeded: $($SucceededNotebooks.Count) | Failed: $($FailedNotebooks.Count)" | Tee-Object -FilePath $LogFile -Append
+if ($AttemptedCount -lt $TotalTargets -and -not $HitTimeCeiling) {
+    $ExitCode = 1
+    $StallMsg = "🚨 CRITICAL: NotebookLM mining sweep stalled prematurely! Only attempted $AttemptedCount of $TotalTargets targets."
+    $StallMsg | Tee-Object -FilePath $LogFile -Append
+} elseif ($HitTimeCeiling) {
+    "ℹ️ Mining sweep exited gracefully due to time ceiling ($MaxExecutionMinutes min limit reached)." | Tee-Object -FilePath $LogFile -Append
+}
+if ($FailedNotebooks.Count -gt 0) {
+    "Failed Targets: $($FailedNotebooks -join ', ')" | Tee-Object -FilePath $LogFile -Append
+}
+"================================================================================" | Tee-Object -FilePath $LogFile -Append
+
+"=== research-notebooklm (all notebooks) ===" | Tee-Object -FilePath $LogFile -Append
+try {
+    & trm research-notebooklm 2>&1 | Tee-Object -FilePath $LogFile -Append
+    if ($LASTEXITCODE -ne 0) {
+        "research-notebooklm failed with exit code $LASTEXITCODE" | Tee-Object -FilePath $LogFile -Append
+        $ExitCode = 1
+    }
+} catch {
+    "research-notebooklm threw: $_" | Tee-Object -FilePath $LogFile -Append
+    $ExitCode = 1
+}
+
+# Refresh Daily Status Report
+$StatusRunner = "C:\Users\soren\OneDrive\Documents\Claude\Projects\CIC\scripts\Run-DailyStatus.ps1"
+if (Test-Path -Path $StatusRunner) {
+    "Refreshing CIC Daily Project Status Report..." | Tee-Object -FilePath $LogFile -Append
+    try {
+        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $StatusRunner 2>&1 | Tee-Object -FilePath $LogFile -Append
+    } catch {
+        "Failed to refresh Daily Status Report: $_" | Tee-Object -FilePath $LogFile -Append
+    }
+}
+
+$EndTime = Get-Date
+$Duration = ($EndTime - $StartTime).TotalSeconds
+"Completed: $EndTime (Duration: {0:F2}s, Exit Code: {1})" -f $Duration, $ExitCode | Tee-Object -FilePath $LogFile -Append
+
+$AlertDispatcher = "C:\dev\scripts\send-critical-alert.ps1"
+if (Test-Path $AlertDispatcher) {
+    if ($ExitCode -ne 0) {
+        & pwsh -NoProfile -File $AlertDispatcher -Source "TRM-Notebooklm-Mine" `
+            -Title "🚨 CRITICAL: TRM NotebookLM Mining Failed" `
+            -Message "TRM NotebookLM Mining sweep finished with non-zero exit code ($ExitCode)." `
+            -Severity "CRITICAL" `
+            -ActionRequired "Inspect log: $LogFile" `
+            -LogFile $LogFile
+    } else {
+        & pwsh -NoProfile -File $AlertDispatcher -Source "TRM-Notebooklm-Mine" -ClearAlert
+    }
+}
+
+exit $ExitCode

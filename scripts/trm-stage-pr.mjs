@@ -58,9 +58,10 @@ export function loadCardData(cardId, options = {}) {
   for (const dir of searchDirs) {
     if (!fs.existsSync(dir)) continue;
     try {
+      const targetId = String(cardId).toLowerCase();
       const files = fs.readdirSync(dir);
       for (const f of files) {
-        if (f.includes(cardId)) {
+        if (f.toLowerCase().includes(targetId)) {
           const fullPath = path.join(dir, f);
           const raw = fs.readFileSync(fullPath, 'utf8');
           if (f.endsWith('.json') || raw.trim().startsWith('{')) {
@@ -90,10 +91,11 @@ export function loadCardData(cardId, options = {}) {
   const ledgerPath = options.ledgerPath || (options.inboxDir ? path.resolve(options.inboxDir, 'ledger.jsonl') : path.resolve(DEV_ROOT, 'trm-drive/inbox/ledger.jsonl'));
   if (fs.existsSync(ledgerPath)) {
     const lines = fs.readFileSync(ledgerPath, 'utf8').split('\n').filter(Boolean);
+    const targetId = String(cardId).toLowerCase();
     for (const line of lines) {
       try {
         const row = JSON.parse(line);
-        if (row.id === cardId || row.action_id === cardId) {
+        if (String(row.id || '').toLowerCase() === targetId || String(row.action_id || '').toLowerCase() === targetId) {
           return row;
         }
       } catch {}
@@ -160,7 +162,7 @@ test('TRM Contract: ${cardId} - ${title.replace(/'/g, "\\'")}', async () => {
 export function stagePr(cardId, options = {}) {
   const dryRun = Boolean(options.dryRun);
   const createBranch = Boolean(options.createBranch);
-  const card = loadCardData(cardId, options);
+  const card = options.cardData || loadCardData(cardId, options);
 
   if (!card) {
     throw new Error(`Card ${cardId} not found in pending, completed, or ledger`);
