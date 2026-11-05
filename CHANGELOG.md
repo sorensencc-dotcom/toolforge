@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.118.0
+Date: 2026-11-05
+
+### Changes
+- 5ba7b6a0 - Merge pull request #275 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- 7628bc30 - chore(retro): log finding for Stage 1.5 dynamic grounding gate (Chris Sorensen)
+- f8ccd010 - feat(scheduler): fix task parameter sets, support password logon, and decouple handoff (Chris Sorensen)
+- 4b83c156 - docs(report): add daily report for 2026-11-04 (Chris Sorensen)
+- b6096a82 - chore(hooks): enforce delivery-guard on matrix workflow edits, nudge trail learning, test BOM strip (Chris Sorensen)
+- 7133b89c - feat(factory): deploy runner, isolate harvest timeouts, and harden fleet reconciliation (Chris Sorensen)
+
 ## Version 2.117.1
 Date: 2026-11-05
 
