@@ -1,0 +1,27 @@
+scripts/trm-post-promote-enricher.mjs
+  s_99b12029ff869e::t_48221daca17b6d 17
+  s_99b12029ff869e::t_b5f54495c653a1 584-589
+  s_99b12029ff869e::t_84408a91aaf918 409-427,429
+  s_99b12029ff869e::t_5367bd8b2dc83b 483
+  s_99b12029ff869e::t_423759f86b0613 489
+  s_99b12029ff869e::t_ae84e7a63b5a57 515-519
+  s_99b12029ff869e::t_8841dece21a402 477
+tests/trm-post-promote-enricher.test.mjs
+  s_99b12029ff869e::t_2c817dc89f8240 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "52650ff102c3bc1501abe29fdec1af6dc0baab21",
+  "prompts": {},
+  "sessions": {
+    "s_99b12029ff869e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3ad43833-f783-417a-a646-e33ca6cb2cb1",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
