@@ -1,0 +1,20 @@
+.claude/skills/chris-mode/SKILL.md
+  s_0dfe2b7b3fd934::t_92f3764ac974e7 3,11-23,67-69,83-87
+  s_0dfe2b7b3fd934::t_b010aee97c904e 88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a804cb6ac48dff8854d0ffdbb68c5c1a5fbb26f0",
+  "prompts": {},
+  "sessions": {
+    "s_0dfe2b7b3fd934": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a9a7-d8d5-7ad1-a4d7-59dd88ae5eec",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
