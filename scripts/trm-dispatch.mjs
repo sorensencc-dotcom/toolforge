@@ -176,6 +176,14 @@ export function agySettings() {
 
 const logPath = (ctx) => path.join(STATUS_DIR, 'trm_history', 'dispatch', `${ctx.card.id}-${ctx.stamp || 'run'}.log`);
 
+// Per-run Windows sandbox mode for Codex. 'elevated' breaks on stale DPAPI sandbox creds
+// (CryptUnprotectData 0x8009000B, openai/codex#41042); mxc needs no sandbox users. No global config change.
+export function codexSandboxArgs(ctx = {}) {
+  const mode = ctx.codexWindowsSandbox || process.env.TRM_CODEX_WINDOWS_SANDBOX || 'mxc';
+  if (!['mxc', 'elevated', 'unelevated'].includes(mode)) throw new Refusal('BAD_ARGS', `bad codex windows sandbox ${mode}`);
+  return ['-c', `windows.sandbox=${mode}`];
+}
+
 export function buildCommand(ctx) {
   const wt = ctx.worktree;
   const brief = path.join(wt, 'AGENTS.override.md');
@@ -188,7 +196,7 @@ export function buildCommand(ctx) {
   switch (ctx.cli) {
     case 'codex':
       files[path.join(wt, '.codex', 'rules', 'trm.rules')] = codexRulesContent();
-      args = ['exec', '-C', wt, '--sandbox', 'workspace-write', '-c', 'approval_policy="never"', '-c', `model_reasoning_effort="${effort}"`,
+      args = [...codexSandboxArgs(ctx), 'exec', '-C', wt, '--sandbox', 'workspace-write', '-c', 'approval_policy="never"', '-c', `model_reasoning_effort="${effort}"`,
         '-c', 'sandbox_workspace_write.network_access=false', ...(ctx.model ? ['-m', ctx.model] : []), '--json', '-o', `${log}.last.md`, '-'];
       break;
     case 'claude':
@@ -224,7 +232,7 @@ export function buildResume(ctx, first, gapsPath) {
   const gapsText = `Read ${gapsPath} and fix only those gaps.`;
   switch (ctx.cli) {
     case 'codex':
-      c.args = ['exec', 'resume', first.sessionId, '-C', ctx.worktree, '-c', 'approval_policy="never"', '-c', `model_reasoning_effort="${ctx.effort || 'medium'}"`, '--json', '-o', `${first.log}.resume.md`, '-'];
+      c.args = [...codexSandboxArgs(ctx), 'exec', 'resume', first.sessionId, '-C', ctx.worktree, '-c', 'approval_policy="never"', '-c', `model_reasoning_effort="${ctx.effort || 'medium'}"`, '--json', '-o', `${first.log}.resume.md`, '-'];
       break;
     case 'claude': c.args = ['-c', ...first.args]; break;
     case 'agy': c.args = ['--continue', ...first.args.map((a) => (a === ctx.brief ? gapsText : a))]; c.stdinFile = null; break;

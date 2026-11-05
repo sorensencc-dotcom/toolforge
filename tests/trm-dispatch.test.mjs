@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {
-  fetchCards, preflight, buildCommand, fillTemplate, codexRulesContent, agySettings,
+  fetchCards, preflight, buildCommand, buildResume, fillTemplate, codexRulesContent, agySettings,
   runFlow, writeReceipt, parseCriteria, resolveRepo, parseArgs, CLI_PATHS
 } from '../scripts/trm-dispatch.mjs';
 import { checkRun } from '../scripts/trm-dispatch-checker.mjs';
@@ -155,7 +155,7 @@ test('flow: pass -> VERIFIED; fail twice -> resume once then NEEDS_HUMAN', async
   calls.length = 0; const written = {};
   r = await runFlow({ ctx, runner, check: async () => ({ ok: false, gaps: ['tests failed'] }), writeFile: (p, c) => { written[p] = c; } });
   assert.equal(r.status, 'NEEDS_HUMAN'); assert.equal(r.resumed, true); assert.equal(calls.length, 2);
-  assert.deepEqual(calls[1].args.slice(0, 3), ['exec', 'resume', 'sess-1']);
+  assert.deepEqual(calls[1].args.slice(2, 5), ['exec', 'resume', 'sess-1']);
   assert.match(Object.entries(written).find(([p]) => p.endsWith('gaps.md'))[1], /Fix only these gaps/);
   let n = 0;
   r = await runFlow({ ctx, runner, check: async () => (n++ ? { ok: true, gaps: [] } : { ok: false, gaps: ['x'] }), writeFile: () => {} });
@@ -184,4 +184,17 @@ test('parseArgs reads flags and rejects unknown cli', () => {
   const o = parseArgs(['ACT-1', '--cli', 'claude', '--model', 'opus', '--effort', 'high', '--timeout-min', '10', '--dry-run']);
   assert.deepEqual(o, { cli: 'claude', effort: 'high', timeoutMin: 10, dryRun: true, model: 'opus', cardId: 'ACT-1' });
   assert.throws(() => parseArgs(['ACT-1', '--cli', 'nope']), /BAD_ARGS/);
+});
+
+test('codex pins windows.sandbox=mxc per run (first run and resume), overridable', async () => {
+  const ctx = await ctxFor('codex');
+  const c = buildCommand(ctx);
+  assert.deepEqual(c.args.slice(0, 3), ['-c', 'windows.sandbox=mxc', 'exec']);
+  assert.ok(c.args.includes('workspace-write'));
+  assert.ok(!c.args.some((a) => /danger-full-access|dangerously/.test(a)));
+  const r = buildResume(ctx, { ...c, sessionId: 'S1' }, 'gaps.md');
+  assert.deepEqual(r.args.slice(0, 3), ['-c', 'windows.sandbox=mxc', 'exec']);
+  const u = buildCommand({ ...ctx, codexWindowsSandbox: 'unelevated' });
+  assert.deepEqual(u.args.slice(0, 2), ['-c', 'windows.sandbox=unelevated']);
+  assert.throws(() => buildCommand({ ...ctx, codexWindowsSandbox: 'bogus"x' }));
 });
