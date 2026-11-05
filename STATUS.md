@@ -17,6 +17,7 @@ Incorporate Matt Pocock's software factory model into the TRM mobile inbox pipel
 
 ### Completed work
 
+- **Quarantine Auto-Healing Folded into Reconciliation Engine:** Integrated `healCardFile` from [`scripts/heal-quarantined-cards.mjs`](file:///c:/dev/scripts/heal-quarantined-cards.mjs) directly into Phase 1 of [`scripts/reconcile-daily-reports.mjs`](file:///c:/dev/scripts/reconcile-daily-reports.mjs). Operates cleanly on the existing 3x daily cadence (06:30, 11:15, 18:00 EST) without registering redundant background tasks. Swept and healed all 11 quarantined mobile `.gdoc` cards into `.harness/tasks/pending/`. Verified via [`tests/heal-quarantined-cards.test.mjs`](file:///c:/dev/tests/heal-quarantined-cards.test.mjs) (3/3 PASS) and [`tests/reconcile-daily-reports.test.mjs`](file:///c:/dev/tests/reconcile-daily-reports.test.mjs) (8/8 PASS).
 - **Software Factory Pipeline Architecture:** Mapped five canonical service slots (Ticket Source, Ticket Tracker, Git Host, Orchestrator, Runner, Observability Platform) and three brakes (60s test timeout, cold diff review, Tier 1 manual merge).
 - **Local Small-Model Synchronization:** Pinned `qwen2.5:7b` as primary model in [`scripts/local-small-model-bridge.mjs`](file:///c:/dev/scripts/local-small-model-bridge.mjs), aligning with Toolforge PR #265 BFCL benchmark rankings (0.750). Added destructive command sanitization.
 - **Unit Verification & Git Sync:** Updated [`tests/local-small-model-bridge.test.mjs`](file:///c:/dev/tests/local-small-model-bridge.test.mjs), passed unit suites, committed `df63a4e5` (`fix(model): pin qwen2.5:7b in local small model bridge`), and pushed to remote origin.
@@ -43,6 +44,7 @@ Incorporate Matt Pocock's software factory model into the TRM mobile inbox pipel
 
 ### Tests
 
+- `node --test tests/heal-quarantined-cards.test.mjs`: PASS (3/3)
 - `node --test tests/schedule-trm-miner.test.mjs`: PASS (3/3)
 - `node --test tests/reconcile-daily-reports.test.mjs`: PASS (7/7)
 - `node --test tests/trm-factory-runner.test.mjs`: PASS (5/5)

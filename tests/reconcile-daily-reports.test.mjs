@@ -275,6 +275,48 @@ test('verifyGroundTruthState cleanses zombie cards and updates daily_status', as
   }
 });
 
+test('verifyGroundTruthState auto-heals open quarantined cards into .harness/tasks/pending', async () => {
+  const tmpDir = createTempRepoFixture();
+  try {
+    const openQuarantineFile = path.join(
+      tmpDir,
+      'trm-drive',
+      'inbox',
+      'quarantine',
+      '2026-11-05T100000Z__action__toolforge__act-new-open-card.md.gdoc'
+    );
+    const cardData = {
+      id: 'act-new-open-card',
+      title: 'New Open Feature Card',
+      summary: 'Mobile action item: New Open Feature Card',
+      target: 'toolforge',
+      category: 'IMPLEMENT',
+      context: {
+        body_fetch_failed: true,
+        gdoc_stem: '2026-11-05T100000Z__action__toolforge__act-new-open-card'
+      }
+    };
+    fs.writeFileSync(openQuarantineFile, JSON.stringify(cardData, null, 2), 'utf8');
+
+    const result = await verifyGroundTruthState({ repoRoot: tmpDir, dryRun: false });
+    const healed = result.find(r => r.id === 'act-new-open-card');
+    assert.ok(healed, 'Should return verification item for open card');
+    assert.equal(healed.status, 'HEALED');
+    assert.equal(healed.actionTaken, 'auto_healed_to_pending');
+
+    // Quarantine file should be removed and moved to pending
+    assert.equal(fs.existsSync(openQuarantineFile), false, 'Original quarantined file should be moved');
+    const pendingFile = path.join(tmpDir, '.harness', 'tasks', 'pending', '2026-11-05T100000Z__action__toolforge__act-new-open-card.md');
+    assert.equal(fs.existsSync(pendingFile), true, 'File should exist in pending');
+
+    const parsedPending = JSON.parse(fs.readFileSync(pendingFile, 'utf8'));
+    assert.equal(parsedPending.context.healed, true);
+    assert.ok(parsedPending.summary.length > 50);
+  } finally {
+    cleanupTempRepoFixture(tmpDir);
+  }
+});
+
 // ============================================================================
 // PHASE 2: PIPELINE HEARTBEATS & SEV-1 ALERTS
 // ============================================================================
@@ -553,6 +595,70 @@ test('reconcileDailyReports dry-run leaves disk unchanged and returns complete s
     // Verify markdown was NOT modified in dry-run
     const mdContent = fs.readFileSync(path.join(tmpDir, 'trm-research-gaps.md'), 'utf8');
     assert.ok(mdContent.includes('- [/] [GAP-01]'), 'Markdown gap should remain unmodified during dry-run');
+  } finally {
+    cleanupTempRepoFixture(tmpDir);
+  }
+});
+
+test('reconcileDailyReports live pass heals open quarantine cards and archives zombie cards', async () => {
+  const tmpDir = createTempRepoFixture();
+  try {
+    const quarantineDir = path.join(tmpDir, 'trm-drive', 'inbox', 'quarantine');
+    const pendingDir = path.join(tmpDir, '.harness', 'tasks', 'pending');
+    const archiveDir = path.join(tmpDir, 'trm-drive', 'inbox', 'archive');
+    const ledgerPath = path.join(tmpDir, 'trm-drive', 'inbox', 'ledger.jsonl');
+
+    // 1. Seed zombie card (closed)
+    const zombieCard = path.join(quarantineDir, '2026-11-01T171300Z__action__kb-sync__act-kbsync-chat-injection-staleness-entropy-fail.md.gdoc');
+    fs.writeFileSync(zombieCard, JSON.stringify({ title: 'Zombie Card' }), 'utf8');
+
+    // 2. Seed open truncated card (needs healing)
+    const openCard = path.join(quarantineDir, '2026-11-05T140000Z__action__toolforge__act-e2e-heal-check.md.gdoc');
+    fs.writeFileSync(openCard, JSON.stringify({
+      id: 'act-e2e-heal-check',
+      title: 'E2E Heal Check',
+      summary: 'Mobile action item: E2E Heal Check',
+      target: 'toolforge',
+      category: 'IMPLEMENT',
+      context: {
+        body_fetch_failed: true,
+        gdoc_stem: '2026-11-05T140000Z__action__toolforge__act-e2e-heal-check'
+      }
+    }), 'utf8');
+
+    // 3. Execute live reconciliation
+    const summary = await reconcileDailyReports({
+      repoRoot: tmpDir,
+      dryRun: false,
+      silent: true
+    });
+
+    // 4. Assert zombie card was archived
+    assert.equal(fs.existsSync(zombieCard), false, 'Zombie card should be removed from quarantine');
+    assert.equal(fs.existsSync(path.join(archiveDir, path.basename(zombieCard))), true, 'Zombie card should be in archive');
+
+    // 5. Assert open card was healed and moved to pending
+    assert.equal(fs.existsSync(openCard), false, 'Open card should be removed from quarantine');
+    const stagedPending = path.join(pendingDir, '2026-11-05T140000Z__action__toolforge__act-e2e-heal-check.md');
+    assert.equal(fs.existsSync(stagedPending), true, 'Open card should be staged in pending without .gdoc extension');
+
+    const parsedStaged = JSON.parse(fs.readFileSync(stagedPending, 'utf8'));
+    assert.equal(parsedStaged.context.healed, true);
+    assert.equal(parsedStaged.context.body_fetch_failed, false);
+    assert.ok(parsedStaged.summary.length > 50, 'Healed summary must be substantive');
+    assert.ok(parsedStaged.body.length > 100, 'Healed body must be substantive');
+
+    // 6. Assert ledger audit log entry
+    assert.equal(fs.existsSync(ledgerPath), true, 'Ledger file should exist');
+    const ledgerRaw = fs.readFileSync(ledgerPath, 'utf8');
+    assert.ok(ledgerRaw.includes('act-e2e-heal-check'), 'Ledger should record healed card ID');
+    assert.ok(ledgerRaw.includes('HEALED_AND_STAGED'), 'Ledger should record HEALED_AND_STAGED status');
+
+    // 7. Verify verifications summary in reconciliation output
+    const healVerification = summary.verifications.find(v => v.id === 'act-e2e-heal-check');
+    assert.ok(healVerification, 'Summary should contain verification entry for healed card');
+    assert.equal(healVerification.status, 'HEALED');
+    assert.equal(healVerification.actionTaken, 'auto_healed_to_pending');
   } finally {
     cleanupTempRepoFixture(tmpDir);
   }

@@ -14,6 +14,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
 import { reconcileNotebookFindings as importedReconcileNotebookFindings } from './reconcile-trm-gaps.mjs';
+import { healCardFile } from './heal-quarantined-cards.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -461,6 +462,21 @@ export async function verifyGroundTruthState({ repoRoot = DEFAULT_REPO_ROOT, dry
       }
 
       actionTaken = actions.length > 0 ? actions.join('; ') : 'verified_closed_no_action_needed';
+    } else if (item.isQuarantined && item.fullPath && fs.existsSync(item.fullPath)) {
+      const actions = [];
+      try {
+        healCardFile(item.fullPath, {
+          pendingDir: pendingTasksDir,
+          ledgerPath: path.join(repoRoot, 'trm-drive', 'inbox', 'ledger.jsonl'),
+          dryRun
+        });
+        actions.push('auto_healed_to_pending');
+        status = 'HEALED';
+        verifiedBy = 'quarantine-normalizer';
+      } catch (healErr) {
+        actions.push('quarantine_heal_failed');
+      }
+      actionTaken = actions.join('; ');
     }
 
     verifications.push(
