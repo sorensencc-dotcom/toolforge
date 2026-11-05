@@ -1,0 +1,19 @@
+.gitleaksignore
+  s_876d562f82f5c1::t_3de95ce17a6d3f 3-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "25f4947b067fe3181430233e0b6b3e4a21e089bb",
+  "prompts": {},
+  "sessions": {
+    "s_876d562f82f5c1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a9aa-e4a0-7e61-a6a7-341e24919b75",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
