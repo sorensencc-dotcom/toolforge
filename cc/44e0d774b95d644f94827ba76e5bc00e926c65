@@ -1,0 +1,413 @@
+STATUS.md
+  s_876d562f82f5c1::t_b658ec895d9ec0 39-159,176,180,184,1276-1283,1286,1290,1295-1297
+package.json
+  s_876d562f82f5c1::t_eadcc493eb1201 38-39,58-60
+tests/token-budget-gate.test.mjs
+  s_876d562f82f5c1::t_11df9dda4c1fa1 16,18-21,24,29,36,48
+.agents/skills/verify-toolforge-marketplace/SKILL.md
+  s_876d562f82f5c1::t_b869c55a9585d3 1-3,6,8,10,12,14,16-18,21-23,25-28,30-31,34,36,38,40,42-43,46-51,53,55,57,59-60,62-63,66-67,69-71,73-74,76-78,80-81,83-84,87-93,95,97-98,100-104,106,108,110-112,114-118,120,122-123,125-129
+.agents/skills/verify-toolforge-marketplace/features/README.md
+  s_876d562f82f5c1::t_139d8e0645713a 1-44
+.agents/skills/verify-toolforge-marketplace/features/manifest-validation.md
+  s_876d562f82f5c1::t_c1cb960a143f3b 1-43
+.agents/skills/verify-toolforge-marketplace/features/marketplace-trending.md
+  s_876d562f82f5c1::t_7eaac28d9648b9 1-44
+.agents/skills/verify-toolforge-marketplace/features/plugin-lifecycle.md
+  s_876d562f82f5c1::t_4face387ef85f2 1-45
+.agents/skills/verify-toolforge-marketplace/features/skill-discovery.md
+  s_876d562f82f5c1::t_13938772f0b763 1-47
+.agents/skills/verify-toolforge-marketplace/features/skill-installation.md
+  s_876d562f82f5c1::t_646c77a85387f9 1-55
+.agents/skills/verify-toolforge-marketplace/scripts/control-marketplace.mjs
+  s_876d562f82f5c1::t_d0ece92e03c6ed 1-392
+.claude/skills/chris-mode/SKILL.md
+  s_876d562f82f5c1::t_bf8579a2aefbf3 3,9-22,26,28,30,32,34,36,38,40-49,59,61,63,65,67-68,70,72,74,76-81,83,85-87,89,91-96,98,100-103
+.context/audits/2026-10-25.json
+  s_876d562f82f5c1::t_a454124ee6c9c7 1-200
+.context/audits/2026-11-01.json
+  s_876d562f82f5c1::t_8331800ca8771e 1-277
+.context/retros/2026-10-17-2.json
+  s_876d562f82f5c1::t_516b525aac018e 1
+.context/retros/2026-10-24-1.json
+  s_876d562f82f5c1::t_0d167e68e02c8f 1-68
+.context/retros/2026-10-25-1.json
+  s_876d562f82f5c1::t_32f4eb8f805bd0 2-49,51-55,57-62,64-68,70-74,77-106
+.context/retros/2026-11-03-1.json
+  s_876d562f82f5c1::t_bce0bb32740a91 2-49,51-55,57-75,77-79,81-83,85-101,103
+.context/retros/2026-11-04-2.json
+  s_876d562f82f5c1::t_d2d59390a060f8 1-72
+.context/retros/inbox/antigravity/2026-11-03-briefing-privacy-and-sync.json
+  s_876d562f82f5c1::t_dceff512224095 2-7,9-18,21-29,32-40,42
+.context/retros/inbox/antigravity/2026-11-04-kbsync-grounding-gate-dynamic-entropy.json
+  s_876d562f82f5c1::t_2a130050b0bdda 1-20
+.context/retros/inbox/codex/2026-11-04-trm-clean-card-gate-verification.json
+  s_876d562f82f5c1::t_462e50896236dc 1-20
+.context/retros/retro.schema.json
+  s_876d562f82f5c1::t_37be7d81b21c7e 46-57,93-128
+.context/retros/validate-changed.ps1
+  s_876d562f82f5c1::t_0391f24bbc4289 8
+.context/retros/validate.ps1
+  s_876d562f82f5c1::t_f2b41eaa9d9031 7,12
+.githooks/pre-commit
+  s_876d562f82f5c1::t_8220ea3baa845a 26-41
+.githooks/pre-commit.ps1
+  s_876d562f82f5c1::t_aa88bdce7f6636 10,22-26
+.github/workflows/ci-governance-matrix.yml
+  s_876d562f82f5c1::t_29bb0b29348fa8 43
+.github/workflows/governance.yml
+  s_876d562f82f5c1::t_5fe70985bd2953 97-98,102,105-106,108-109
+.gitignore
+  s_876d562f82f5c1::t_dc6c5155c6e133 152,157-160
+.harness/tasks/archive/act-inprogress-fixture.json
+  s_876d562f82f5c1::t_d02a7d8ddb8abf 1-7
+.harness/tasks/completed/act-04-frontier-lab-verification-standards-dissent.json
+  s_876d562f82f5c1::t_fb9c3cbde247a2 18-19
+.mcp.json
+  s_876d562f82f5c1::t_93969b151ed17e 18
+.trail/README.md
+  s_876d562f82f5c1::t_ac985ebabcbced 1-16
+.trail/learnings/2026-10-30-trail-code-setup-and-windows-native-statechart-chris.md
+  s_876d562f82f5c1::t_5c29e40a9525e8 1-28
+.trail/learnings/2026-10-30-trm-ingest-drive-formal-state-machine-chris.md
+  s_876d562f82f5c1::t_aaaab4fc56be18 1-26
+.trail/learnings/2026-11-01-agents-md-keeps-rules-only-generated-chris.md
+  s_876d562f82f5c1::t_b4ba893f9cd25a 1-25
+.trail/learnings/2026-11-01-graph-freshness-in-ci-is-trail-chris.md
+  s_876d562f82f5c1::t_3676c86e11c592 1-25
+.trail/learnings/2026-11-01-ijfw-removed-and-graft-renamed-to-chris.md
+  s_876d562f82f5c1::t_1deebca71a2763 1-25
+.trail/learnings/2026-11-03-regenerating-the-model-selection-record-must-chris.md
+  s_876d562f82f5c1::t_d1edbbd76ac2e2 1-32
+.trail/learnings/2026-11-04-changing-the-sigil-smoke-timeout-also-chris.md
+  s_876d562f82f5c1::t_0254aa5feebc52 1-28
+.trail/learnings/2026-11-04-model-verification-means-running-the-bfcl-chris.md
+  s_876d562f82f5c1::t_c4799e212d9e39 1-30
+.trail/learnings/2026-11-04-retro-recommendations-are-enforced-by-the-chris.md
+  s_876d562f82f5c1::t_93e6bea468d135 1-31
+.trail/workspace.json
+  s_876d562f82f5c1::t_f82102f50ef012 1-5
+AGENTS.md
+  s_876d562f82f5c1::t_566862d2ceab75 27-37,39-40,42-43,49,52,58,61,63,67,70,77,79,81,95,100-106,108,110-113,115,117,119,125,127,138,157,160-162,164-170,172,186,218,222,236,238,244,254,258,260,262-265,267-271,273-277,286,300,308,312-313,319-337,353-361,363,367,372-374
+CHANGELOG.md
+  s_876d562f82f5c1::t_52c7410efc0150 3-352
+CIC-GOVERNANCE/packages/delivery-guard/tests/graft-automation.test.js
+  s_876d562f82f5c1::t_dbea78a1c3c563 36,38
+CIC-GOVERNANCE/packages/delivery-guard/tests/graft-freshness.test.js
+  s_876d562f82f5c1::t_699722926ca1ea 8,10,12,22-23,25,30,35,40
+CIC-GOVERNANCE/packages/delivery-guard/tests/matrix-sigil-smoke.test.js
+  s_876d562f82f5c1::t_8f90d37efa2011 48
+CIC-GOVERNANCE/packages/delivery-guard/tests/production-container.test.js
+  s_876d562f82f5c1::t_4cc4106b10896d 75
+DONE.md
+  s_876d562f82f5c1::t_20416fe0c902c9 1-51
+GEMINI.md
+  s_876d562f82f5c1::t_047d58db2f3fae 1-2,4,11,14,20,23,25,29,32,39,41,63-73,78
+VERSION.md
+  s_876d562f82f5c1::t_3b56725eef80aa 1
+_integration/model_selection.json
+  s_876d562f82f5c1::t_382f400f7785ce 2,5-9,36,42,122-153,174,190,212
+_status-feed/scheduled_tasks_roster.json
+  s_876d562f82f5c1::t_672f0150cad78a 2-3,14-15,26-27,38-39,50-51,61-63,74-75,86-87,98-99,110-111,122-135,146-147,158,170-171,182,194-195,206-207,218,230-231,242,254,266-267,278-279,290-291,302-303,314,326,338-339,350-351,362-363,374-375,386-387,398-399,409-411,422-423,434
+benchmark_send_mutation.py
+  s_876d562f82f5c1::t_e7b78df20f34ef 1-76
+cic-qa-master-inventory-20260917.md
+  s_876d562f82f5c1::t_60cf5e7dea3950 1-190
+config/copilot-ironledger-map.example.json
+  s_876d562f82f5c1::t_42b69a438d2bde 1-7
+dashboard.html
+  s_876d562f82f5c1::t_8954975d2e4142 1797
+"docs/Ecosystem Architecture Guide (Current).md"
+  s_876d562f82f5c1::t_a0a2b923c2b6d7 4,37-41,49,51-52,59,63,71,113-334
+docs/meta/contract-hubs.md
+  s_876d562f82f5c1::t_d50fd214a5a8bc 1-39
+docs/meta/daily-report-reconciliation.md
+  s_876d562f82f5c1::t_a345650f429a58 1-75
+docs/meta/governance/global-operating-rules-cic-rewrite-labs.md
+  s_876d562f82f5c1::t_ce35564377a02e 4-5,10,12,15,17,19-29,32-51,53,55,57,61-62,64,67-89,92,95-104,106,108,110-117,119,121-124,126,128,131-137,139-141,144-146,153-156,158
+docs/meta/governance/roadmap-governance-evidence.md
+  s_876d562f82f5c1::t_7832b480b4b5fc 1-14
+docs/meta/governance/toolforge-marketplace-spec-v1.0.md
+  s_876d562f82f5c1::t_7fa85795433ddf 4,54,66,159-160,335,490,601-631,637
+docs/meta/morning-ingestion.md
+  s_876d562f82f5c1::t_53b9ee25ad45c5 1-25
+docs/meta/specs/2026-10-10-stateless-mcp-migration.md
+  s_876d562f82f5c1::t_46bec07438f482 256,259,261,265-266
+docs/meta/specs/examples/stateless-mcp-python.py
+  s_876d562f82f5c1::t_b3852cf2bb309f 68,75,79-80
+docs/reports/SCHEDULED-TASKS-ROSTER.md
+  s_876d562f82f5c1::t_b6dbe0d0ebb4b5 5,15-16,42-52,66,74,76,91-92,94,114-117,136-140,156-158
+docs/reports/daily/2026-10-24.md
+  s_876d562f82f5c1::t_67ae3e5e3e1769 1-32
+docs/reports/daily/2026-10-25.md
+  s_876d562f82f5c1::t_4f150acd8436c0 1-50
+docs/reports/daily/2026-10-26.md
+  s_876d562f82f5c1::t_ba026617714054 1-62
+docs/reports/daily/2026-10-27.md
+  s_876d562f82f5c1::t_c34553f9946276 1-46
+docs/reports/daily/2026-10-28.md
+  s_876d562f82f5c1::t_e6d9ae8b1c2c71 1-27
+docs/reports/daily/2026-10-29.md
+  s_876d562f82f5c1::t_e2f9dcb1af0d28 1-60
+docs/reports/daily/2026-10-30.md
+  s_876d562f82f5c1::t_6b942e13d1b101 1-74
+docs/reports/daily/2026-10-31.md
+  s_876d562f82f5c1::t_c804b400263144 1-72
+docs/reports/daily/2026-11-01.md
+  s_876d562f82f5c1::t_8df9fe29e1cb51 1-29
+docs/reports/daily/2026-11-02.md
+  s_876d562f82f5c1::t_227280d19a4733 1-39
+docs/reports/daily/2026-11-03.md
+  s_876d562f82f5c1::t_13491330b8db37 1-75
+docs/reports/daily/2026-11-04.md
+  s_876d562f82f5c1::t_206d7472ffe5c2 1-48
+docs/reports/weekly/2026-W43.md
+  s_876d562f82f5c1::t_03b5f199ecfa01 1,3,5-13,15,17-19,22,24
+docs/reports/weekly/2026-W44.md
+  s_876d562f82f5c1::t_a32414d0bb60e0 1-24
+docs/trm-dispatch/SPEC.md
+  s_876d562f82f5c1::t_fdf41fb846d774 1-105
+docs/trm-dispatch/codex-brief.template.md
+  s_876d562f82f5c1::t_5a3f3110576092 1-42
+drift/SLOP-REPORT.md
+  s_876d562f82f5c1::t_1ae30a04083f40 3
+fix.cjs
+  s_876d562f82f5c1::t_380b213a68dec9 1-35
+manifest.json
+  s_876d562f82f5c1::t_47b23878dc8f3f 1348-1349
+memory/MEMORY.md
+  s_876d562f82f5c1::t_6ec1a1098119b0 14,16,41
+modules/DeterministicVerificationFloor.mjs
+  s_876d562f82f5c1::t_0ab86a291372f4 168,183-201,203-205,220,229,235,238-240
+modules/adapters/WhichLlmAdapter.mjs
+  s_876d562f82f5c1::t_fac9bbad78623f 23,25,38-39,51,54-55
+modules/wiki/dashboard.html
+  s_876d562f82f5c1::t_14ed5085f05877 2032,3095-3103,3105-3108,3110-3123,3126-3127,3153,3189-3190,3195-3196,3199,3286,3288,3291,3343-3344,3349-3363,3376
+modules/wiki/trm-source-resolver.mjs
+  s_876d562f82f5c1::t_7e2d8eb64c612b 4,6-17,23,47,49,55-82,99
+modules/wiki/trm-source-resolver.test.mjs
+  s_876d562f82f5c1::t_ee1ed319dc8c49 6,14,95-143
+schedule-task-wrapper-TRM-Notebooklm-Mine.ps1
+  s_876d562f82f5c1::t_7f7fdf1f0ecef1 3-86,90,92-113,117-160,162-164,166-170,173-237,241
+scripts/Mirror-ClaudeMemory.ps1
+  s_876d562f82f5c1::t_f59494ad948b22 1-86
+scripts/Run-DailyStatus.ps1
+  s_876d562f82f5c1::t_147600f84ddfe3 1-90
+scripts/aggregate_status.py
+  s_876d562f82f5c1::t_5cae9286385205 1-998
+scripts/catchup-daily-pipeline.ps1
+  s_876d562f82f5c1::t_695b96c2cccef1 142-148,150
+scripts/check-grok-hooks.mjs
+  s_876d562f82f5c1::t_ee84c608d3d801 1-183
+scripts/check-grok-hooks.ps1
+  s_876d562f82f5c1::t_d7f73b125457fc 1-70
+scripts/consolidate-pack.mjs
+  s_876d562f82f5c1::t_56b9a0dc3ce182 27-28,155-158,183-184,243-249,437-460,470-472
+scripts/copilot-ironledger-reconcile.mjs
+  s_876d562f82f5c1::t_97eb20ba8011bb 1-193
+scripts/diagram-sync.mjs
+  s_876d562f82f5c1::t_74304c48dbf75a 23,26,28-29,268,475
+scripts/ecosystem-compiler.mjs
+  s_876d562f82f5c1::t_803e0b7b18be83 4,20-52,227-320,353-376,384,427,438-439,441-475,477-557,560,562-591,595,599-600,602,606-637,639-662
+scripts/generate-scheduled-tasks-roster.mjs
+  s_876d562f82f5c1::t_33f8f552c43148 127-135
+scripts/ijfw-script-relocation.test.mjs
+  s_876d562f82f5c1::t_3983024fb85b1b 1-20
+scripts/install-all-prepush-wiki-hooks.mjs
+  s_876d562f82f5c1::t_d951c6f940855d 1-195
+scripts/intercept-grep.js
+  s_876d562f82f5c1::t_c8923af209a873 6,60-63
+scripts/intercept-grep.test.mjs
+  s_876d562f82f5c1::t_7b527d9ca72184 22-23
+scripts/ironbots-daily-reporter.mjs
+  s_876d562f82f5c1::t_2c4e0ae0f2b353 43-44,47-63,355
+scripts/local-small-model-bridge.mjs
+  s_876d562f82f5c1::t_b6cb659019eb44 19-44,261-286,343,347
+scripts/nlm-pack-replace-gate.mjs
+  s_876d562f82f5c1::t_9b66561841f7ea 763-781
+scripts/phase-gate-git-guard.ps1
+  s_876d562f82f5c1::t_50ca627dfc11f1 10,32
+scripts/publish-repo-wiki-pages.mjs
+  s_876d562f82f5c1::t_8cb8b4a239b35a 26-30,35-53,60-79,160-161,163,165-167,279,282,286-287,302-303,308,311,317,319,322,325,340,360-365,367,375-376,383,385,393
+scripts/reconcile-daily-reports.mjs
+  s_876d562f82f5c1::t_6b8030f68955b3 1-1183
+scripts/reconcile-scheduled-tasks.ps1
+  s_876d562f82f5c1::t_34e66ac1ee14c6 27-28,78,109,139,150,156-184,262-270,316-324,349,437-445,471,482,506,508-512,569-570,574,577,579,600,611-627,657-662,672-683,685-710,715,717-723,725
+scripts/render_dashboard.py
+  s_876d562f82f5c1::t_8b836a0cc11938 1-551
+scripts/render_status_html.py
+  s_876d562f82f5c1::t_3061cd2f460a56 1-656
+scripts/run-ondemand-mine.ps1
+  s_876d562f82f5c1::t_112b279f6737eb 105-111
+scripts/run_daily_pipeline.ps1
+  s_876d562f82f5c1::t_811f4b685316a2 1-137
+scripts/scaffold-statechart.mjs
+  s_876d562f82f5c1::t_6f70ce3c499c5f 1-155
+scripts/schedule-task-wrapper-Reconcile-Daily-Reports.ps1
+  s_876d562f82f5c1::t_22b77a7094c678 1-174
+scripts/sync-ecosystem-guide.mjs
+  s_876d562f82f5c1::t_523e53727edccb 6,69,74,155
+scripts/trm-batch-triage.mjs
+  s_876d562f82f5c1::t_0d3ff414cc1a2f 90-94,105,147-149,165-167,169-172,231-232,251-294,352-359,367-369,384-389,394-402,427-428
+scripts/trm-card-validation.mjs
+  s_876d562f82f5c1::t_ad74367d620362 1-99
+scripts/trm-dispatch-checker.mjs
+  s_876d562f82f5c1::t_fa06ad40114b1f 1-96
+scripts/trm-dispatch.mjs
+  s_876d562f82f5c1::t_27bea8b2852a43 1-351
+scripts/trm-dispatch/codex-brief.template.md
+  s_876d562f82f5c1::t_a031a810e23507 1-42
+scripts/trm-factory-runner.mjs
+  s_876d562f82f5c1::t_7df5daf94fa1a7 1-345
+scripts/trm-ingest-drive-v2.mjs
+  s_876d562f82f5c1::t_caa41c8ac6372a 1-48
+scripts/trm-ingress-watcher.mjs
+  s_876d562f82f5c1::t_73762b54764336 5-8,21-22,169-178,182,196-208,217-336,338,362-430,432,659-686,791-836,845-850,913-918,920-930,933-935,961-968,970,989-994,1045-1047,1061-1064,1074-1093,1097-1104,1109-1112,1171-1192,1248,1259-1262,1270,1331-1333,1339,1392-1396,1415,1428-1431,1439,1507-1517,1529,1543,1551-1565,1570-1572,1597-1607,1643-1723,1822,1824,1848-1849,2125-2141,2191-2217
+scripts/trm-promote-card.mjs
+  s_876d562f82f5c1::t_773df4c3bedaa2 6,9-10,20,25-34,36,40-42,46,66-82,104-105,143-154,219-229,231-239,267-270,340
+scripts/trm-reconcile-backlog.mjs
+  s_876d562f82f5c1::t_455230577b3152 1-167
+scripts/trm-stage-pr.mjs
+  s_876d562f82f5c1::t_5fc9d81beebdaf 17,29,36,38,40,44,52,61,64,94,98,109-112,114-115,165,171-184,187-189
+scripts/whichllm-bfcl-evaluator.mjs
+  s_876d562f82f5c1::t_60210c99f3fb7a 4,137-138,140-163,167,172-185,195-197,207,210-225,255-256
+scripts/whichllm-router.mjs
+  s_876d562f82f5c1::t_8f886066b48465 29
+setup-git-hooks.ps1
+  s_876d562f82f5c1::t_9bac175bd5e6c4 40-55,61,100,103,366-374,421-425,429,448,526
+skills/reconcile-vector-store/src/index.ts
+  s_876d562f82f5c1::t_e57969fc7a5da6 6-21
+skills/reconcile-vector-store/tests/skill.test.ts
+  s_876d562f82f5c1::t_f4437c1c98a5f0 9,24-29
+skills/third-party-repo-auditor/README.md
+  s_876d562f82f5c1::t_009647ceff5ccc 13-18,29,31
+skills/third-party-repo-auditor/SKILL.json
+  s_876d562f82f5c1::t_5750b604b9faa2 12,20
+skills/third-party-repo-auditor/SKILL.md
+  s_876d562f82f5c1::t_09b212e39c8aea 17,20-25
+skills/third-party-repo-auditor/src/update.ps1
+  s_876d562f82f5c1::t_77698060ba2776 1-166
+skills/third-party-repo-auditor/tests/update.test.ps1
+  s_876d562f82f5c1::t_4c407d146102eb 1-49
+skills/trm-closed-loop-research/SKILL.md
+  s_876d562f82f5c1::t_50cad8af1dde42 100-107
+skills/trm-devops-triage/scripts/trm-tinyfish-triage.mjs
+  s_876d562f82f5c1::t_785143fc2874a2 27
+skills/trm-devops-triage/tests/trm-devops-triage.test.mjs
+  s_876d562f82f5c1::t_5294b0d81011d0 74-82
+src/api/middleware/auth.js
+  s_876d562f82f5c1::t_b1f76fea87d13d 7-9,13-16
+src/api/middleware/auth.test.js
+  s_876d562f82f5c1::t_127ef99ffc5f3a 1-97
+src/api/providers.test.js
+  s_876d562f82f5c1::t_2750271634c5bf 17-24,26-30,33-40
+src/api/routes/providers.js
+  s_876d562f82f5c1::t_1f037469780655 163-168
+src/api/server.test.js
+  s_876d562f82f5c1::t_5e4bb7f6db0090 62-69,71-76,79-86
+src/cli/commands/worktree.js
+  s_876d562f82f5c1::t_90eaf79c6d3e1b 1-74
+src/cli/index.js
+  s_876d562f82f5c1::t_a1a7360d7488d3 12,21,54,83
+src/e2e/03-rate.e2e.js
+  s_876d562f82f5c1::t_f887a557a79bb5 12-18,20,80-90
+src/e2e/harness.js
+  s_876d562f82f5c1::t_589474dd118807 148-165,168-169
+src/load-tests/marketplace-load.js
+  s_876d562f82f5c1::t_5d1ef4fac4c3ff 44-58,213-220
+src/load-tests/marketplace-load.test.js
+  s_876d562f82f5c1::t_6e2aadb794dff5 1-30
+src/providers/model-selection.test.js
+  s_876d562f82f5c1::t_125bd92240b63e 8
+src/services/recommendation.js
+  s_876d562f82f5c1::t_557cc8adb4750a 40-41,43,49-50,52,59,61-62,65-70,73,77,112-117
+src/worktree/manager.js
+  s_876d562f82f5c1::t_3a57048370c482 1-261
+src/worktree/manager.test.js
+  s_876d562f82f5c1::t_3abb47f47e3e64 1-127
+tests/aggregate-status-stale-lock.test.mjs
+  s_876d562f82f5c1::t_c6dcda2560a579 1-61
+tests/aggregate-status.test.mjs
+  s_876d562f82f5c1::t_073458316a2e70 1-32
+tests/ci-governance-matrix-sigil-timeout.test.mjs
+  s_876d562f82f5c1::t_c24a8e940f8240 1-15
+tests/claude-hooks-stdin.test.mjs
+  s_876d562f82f5c1::t_c0c60de0676c6c 45
+tests/consolidate-pack-budget.test.mjs
+  s_876d562f82f5c1::t_be07ff7775ed77 3-8,26-32
+tests/copilot-ironledger-reconcile.test.mjs
+  s_876d562f82f5c1::t_dd485ad5d7166b 1-63
+tests/copilot-reconcile-summary.test.mjs
+  s_876d562f82f5c1::t_3dd7b658da85fb 1-31
+tests/dashboard-trm-backlog-ui.test.mjs
+  s_876d562f82f5c1::t_74c5310343dc72 29-30,52-67
+tests/diagram-sync.test.mjs
+  s_876d562f82f5c1::t_65a20954508566 158
+tests/ecosystem-compiler.test.mjs
+  s_876d562f82f5c1::t_61f49f9c873942 11,14,18,59-61,83-100,128-137,139,150-152,154-155,162-163,174,180-197
+tests/grok-hook-guardrails.test.mjs
+  s_876d562f82f5c1::t_08d9989fedfdf4 1-276
+tests/install-all-prepush-wiki-hooks.test.mjs
+  s_876d562f82f5c1::t_f09e956ffd8ce0 1-93
+tests/local-small-model-bridge.test.mjs
+  s_876d562f82f5c1::t_7ec3e57cfc4b59 1-13
+tests/nlm-pack-replace-gate.test.mjs
+  s_876d562f82f5c1::t_d438d7d9905adb 247-266
+tests/promote-card.test.mjs
+  s_876d562f82f5c1::t_e3c2eed07f8b93 18-21,41-42
+tests/prove-trm-backlog-works.test.mjs
+  s_876d562f82f5c1::t_830df865ea3f47 1-175
+tests/publish-repo-wiki-pages.test.mjs
+  s_876d562f82f5c1::t_285e717d79705e 14,17,115-139
+tests/reconcile-daily-reports.test.mjs
+  s_876d562f82f5c1::t_f9d93916d5cf25 1-559
+tests/research-substrate-contract.test.ts
+  s_876d562f82f5c1::t_783a12e50410db 11-63,66-67,85-98
+tests/run-daily-pipeline.test.mjs
+  s_876d562f82f5c1::t_963a82f042d3fd 1-40
+tests/schedule-trm-miner.test.mjs
+  s_876d562f82f5c1::t_1a9760bb85e363 6-7,9,14-41
+tests/trail-statechart-scaffold.test.mjs
+  s_876d562f82f5c1::t_9377ddba998000 1-23
+tests/trm-batch-triage.test.mjs
+  s_876d562f82f5c1::t_43363ecf32060e 1-33
+tests/trm-dispatch.test.mjs
+  s_876d562f82f5c1::t_d992d4408ae1ec 1-200
+tests/trm-factory-runner.test.mjs
+  s_876d562f82f5c1::t_9038710d2abd5b 1-140
+tests/trm-hardened-gates.test.mjs
+  s_876d562f82f5c1::t_7a0d0ea52fd16e 1-226
+tests/trm-ingress-routing.test.mjs
+  s_876d562f82f5c1::t_55ff0800be8d3d 23-27,337,346-347,370-384,395-396,460-473,475-477,479-488,517-522,524-532,534-719,722-725,727-733,735-755
+tests/trm-intake-clean-cards.test.mjs
+  s_876d562f82f5c1::t_d49d5c9c4b0f44 1-162
+tests/whichllm-router.test.mjs
+  s_876d562f82f5c1::t_a6d435ec1bfc52 7
+trm-drive/inbox/.ijfw-project
+  s_876d562f82f5c1::t_7dffa167f1abeb 1-3
+utilities/node-process-janitor.md
+  s_876d562f82f5c1::t_f2322b3bc56109 29-30
+utilities/node-process-janitor.ps1
+  s_876d562f82f5c1::t_eeef5b405a8eda 17-18,120-121,210-212,215
+wiki/research/SCHEDULED-TASKS-ROSTER.md
+  s_876d562f82f5c1::t_afc2b3bcb6fd65 5,15-16,42-52,66,74,76,91-92,94,114-117,136-140,156-158
+wiki/research/cic-archival-audit-cork-operations-investigation.md
+  s_876d562f82f5c1::t_9a6bcf2a32f9b4 1-79,81-112
+wiki/research/rfc-frontier-lab-verification-standards-dissent.md
+  s_876d562f82f5c1::t_79a8489b35c78a 2,8,11-13,16-17,20,22,24,26,28-30,32,34,36-41,43,45,47-61,63,65-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cc44e0d774b95d644f94827ba76e5bc00e926c65",
+  "prompts": {},
+  "sessions": {
+    "s_876d562f82f5c1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a9aa-e4a0-7e61-a6a7-341e24919b75",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
