@@ -1,0 +1,19 @@
+.trail/learnings/2026-11-05-an-empty-enrichment-issue-means-the-chris.md
+  s_a9255ab19745f2::t_1c2a5fd8119978 1-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "04b38f8df7d634325d40cd93189f2032713e4b06",
+  "prompts": {},
+  "sessions": {
+    "s_a9255ab19745f2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a9fe-2cf1-7a92-a9fa-55e1cb906810",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
