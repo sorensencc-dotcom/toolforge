@@ -1,5 +1,21 @@
 # Changelog
 
+## Version 2.119.0
+Date: 2026-11-05
+
+### Changes
+- 001da04d - Merge pull request #276 from sorensencc-dotcom/feat/session-workflow-skills (Chris Sorensen)
+- 25f4947b - fix(ci): ignore historical test fixture findings (Chris Sorensen)
+- c68ba32c - fix(ci): clear PR documentation and secret gates (Chris Sorensen)
+- cc44e0d7 - fix(pr-276): resolve main conflicts and repair gate tests (Chris Sorensen)
+- 03fe32ae - feat(audit): add post-turn self-assessment (Chris Sorensen)
+- ee55fea7 - test(chat-agent): send x-cic-route-key and surface 400/404/502 from executePipeline (Chris Sorensen)
+- f756f92f - docs(skills): diagram-design integration diagrams for three new skills (Chris Sorensen)
+- e60fef51 - docs(skills): add INTEGRATION_DIAGRAM for run-tests-safe, triage-skill-health-warnings, scaffold-toolforge-skill (Chris Sorensen)
+- a1f21619 - fix(skills): clear validator and auditor findings for new skills (Chris Sorensen)
+- 0c534164 - feat(skills): add run-tests-safe, triage-skill-health-warnings, scaffold-toolforge-skill (Chris Sorensen)
+- f556ede9 - feat(skills): register start-session-preflight, wrap-session, open-trm-act-pr (Chris Sorensen)
+
 ## Version 2.118.2
 Date: 2026-11-05
 
