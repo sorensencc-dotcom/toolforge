@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-04",
+  "window": "session",
+  "since": "2026-11-04T22:00:00-05:00",
+  "until": "2026-11-04T23:00:00-05:00",
+  "base_branch": "main",
+  "prior_retro_baseline": ".context/retros/2026-11-03-1.json",
+  "metrics": {
+    "commits": 1,
+    "commits_no_merge": 1,
+    "contributors": 1,
+    "automation_commits": 0,
+    "insertions_raw": 23,
+    "deletions_raw": 1,
+    "net_loc_raw": 22,
+    "insertions_filtered": 23,
+    "deletions_filtered": 1,
+    "net_loc_filtered": 22,
+    "filter_note": "No lockfiles or generated files were included in the scoped commit.",
+    "test_loc_insertions": 0,
+    "test_ratio_pct": 0.0,
+    "feat_pct": 0.0,
+    "fix_pct": 0.0,
+    "docs_pct": 100.0,
+    "chore_pct": 0.0,
+    "test_pct": 0.0,
+    "active_days": 1,
+    "sessions": 1,
+    "deep_sessions": 1,
+    "peak_hour": 22,
+    "late_night_commits_22_to_04": 1,
+    "team_streak_days": 0,
+    "personal_streak_days": 1,
+    "backlog_open_todos": 0,
+    "backlog_closed_this_period": 0,
+    "version_range": ["v2.117.0", "v2.117.0"],
+    "release_commits": 0,
+    "focus_area": ".claude/skills/chris-mode"
+  },
+  "authors": {
+    "Chris Sorensen": {
+      "commits": 1,
+      "role": "human",
+      "insertions": 23,
+      "deletions": 1,
+      "test_ratio": 0.0,
+      "top_area": ".claude/skills/chris-mode"
+    }
+  },
+  "note": "Session-scoped record. The canonical C:\\dev worktree had unrelated dirty files, and the managed worktree exposed a pre-existing fsmonitor and Git metadata permission failure. The scoped skill commit and remote push were verified.",
+  "session_focus": {
+    "summary": "Refreshed Chris mode with repository preflight, Trail-first navigation, research and engineering lane isolation, bounded test guidance, live-check safeguards, and session-close rules. Pushed commit a804cb6a to origin/codex/chris-mode-refresh.",
+    "commits_this_session_range": "a804cb6a^..a804cb6a",
+    "incidents": [
+      "The first managed worktree was detached and contained unrelated configuration churn. The scoped file remained isolated.",
+      "The repository fsmonitor and metadata permissions blocked direct Git operations until the managed elevated Git path was used."
+    ],
+    "process_learnings": [
+      "Verify the active worktree and branch before acting on a short push request.",
+      "Stage only the named skill file when a managed worktree contains unrelated changes.",
+      "Verify the remote ref after a hook-heavy push instead of relying on hook output."
+    ]
+  },
+  "external_repos_note": "No external repository was changed.",
+  "test_health": {
+    "total_test_files": 0,
+    "tests_added_this_period": 0,
+    "test_files_changed": 0,
+    "regression_test_commits": 0
+  },
+  "tweetable": "Refreshed Chris mode with verified repository context, lane isolation, bounded checks, and safer session closure; pushed as a one-file docs commit."
+}
