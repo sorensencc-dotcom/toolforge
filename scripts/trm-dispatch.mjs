@@ -98,7 +98,7 @@ export function parseCriteria(md) {
 }
 
 export function fillTemplate(tpl, vars) {
-  const out = tpl.replace(/\{\{([A-Z_]+)\}\}/g, (all, k) => (k in vars ? String(vars[k]) : all));
+  const out = (tpl || '').replace(/\{\{([A-Z_]+)\}\}/g, (all, k) => (k in vars ? String(vars[k]) : all));
   const left = [...new Set(out.match(/\{\{[A-Z_]+\}\}/g) || [])];
   if (left.length) throw new Error(`unfilled placeholders: ${left.join(', ')}`);
   return out;
@@ -296,23 +296,24 @@ export function defaultGh(args, cwd) {
 /** After checker VERIFIED: stage (code only), commit, push, open draft PR. No-op helpers injectable for tests. */
 export function finalizeAfterVerify(ctx, { git = defaultGit, gh = defaultGh } = {}) {
   const skip = new Set(['AGENTS.override.md', 'DONE.md', 'gaps.md']);
-  const status = git(['status', '--porcelain', '-uall'], ctx.worktree).out;
+  const status = git(['status', '--porcelain', '-uall'], ctx.worktree)?.out || '';
   const paths = status.split(/\r?\n/).filter(Boolean).map((l) => l.slice(3).trim().replace(/\\/g, '/')).filter((p) => p && ![...skip].some((s) => p === s || p.startsWith('.codex/') || p.startsWith('.trm-dispatch/')));
   if (!paths.length) throw new Refusal('ERROR', 'verified but no files to commit');
   const add = git(['add', '--', ...paths], ctx.worktree);
-  if (add.code !== 0) throw new Refusal('ERROR', `git add failed: ${add.out}`);
-  const target = String(ctx.card.target || ctx.repo).toLowerCase().replace(/[^a-z0-9-]+/g, '-');
-  const intent = String(ctx.card.intent || ctx.card.title || ctx.card.id).trim();
+  if (add?.code !== 0) throw new Refusal('ERROR', `git add failed: ${add?.out || ''}`);
+  const target = String(ctx.card.target || ctx.repo || ctx.card.id || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-');
+  const intent = String(ctx.card.intent || ctx.card.title || ctx.card.id || '').trim();
   const type = commitTypeForCard(ctx.card);
   const msg = `${type}(${target}): ${intent} (closes #${ctx.issueNum})`;
   const commit = git(['commit', '-m', msg], ctx.worktree);
-  if (commit.code !== 0) throw new Refusal('ERROR', `git commit failed: ${commit.out}`);
+  if (commit?.code !== 0) throw new Refusal('ERROR', `git commit failed: ${commit?.out || ''}`);
   const push = git(['push', '-u', 'origin', `HEAD:refs/heads/${ctx.branch}`], ctx.worktree);
-  if (push.code !== 0) throw new Refusal('ERROR', `git push failed: ${push.out}`);
+  if (push?.code !== 0) throw new Refusal('ERROR', `git push failed: ${push?.out || ''}`);
   const body = `Closes #${ctx.issueNum}\n\nDispatched by trm-dispatch (${ctx.cli}).`;
   const pr = gh(['pr', 'create', '--draft', '--title', msg, '--body', body, '--head', ctx.branch], ctx.worktree);
-  if (pr.code !== 0) throw new Refusal('ERROR', `gh pr create failed: ${pr.out}`);
-  const pr_url = (pr.out.match(/https:\/\/github\.com\/\S+\/pull\/\d+/) || [])[0] || pr.out.trim().split(/\s+/).pop() || null;
+  if (pr?.code !== 0) throw new Refusal('ERROR', `gh pr create failed: ${pr?.out || ''}`);
+  const prOut = pr.out || '';
+  const pr_url = (prOut.match(/https:\/\/github\.com\/\S+\/pull\/\d+/) || [])[0] || prOut.trim().split(/\s+/).pop() || null;
   return { pr_url, commitMessage: msg };
 }
 
@@ -388,6 +389,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
     await dispatch(o);
   } catch (e) {
     console.error(`REFUSED ${e.message}`);
+    if (!(e instanceof Refusal) && e.stack) console.error(e.stack);
     process.exit(e instanceof Refusal ? 3 : 1);
   }
 }

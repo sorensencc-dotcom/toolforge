@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {
   fetchCards, preflight, buildCommand, buildResume, fillTemplate, codexRulesContent, agySettings,
-  runFlow, writeReceipt, parseCriteria, resolveRepo, parseArgs, CLI_PATHS
+  runFlow, writeReceipt, parseCriteria, resolveRepo, parseArgs, CLI_PATHS, finalizeAfterVerify, Refusal
 } from '../scripts/trm-dispatch.mjs';
 import { checkRun, resolveScopedTestCmd } from '../scripts/trm-dispatch-checker.mjs';
 
@@ -177,6 +177,48 @@ test('dry-run spawns nothing and writes nothing', async () => {
   assert.equal(spawned, 0); assert.equal(wrote, 0); assert.equal(r.status, 'DRY_RUN');
   const text = out.join('\n');
   for (const k of ['repo:', 'branch:', 'worktree:', 'argv:', 'prompt_chars:']) assert.match(text, new RegExp(k));
+});
+
+test('preflight never throws a bare TypeError when the template cannot be read (ctx-building caller)', async () => {
+  const dir = tmp();
+  const cardPath = path.join(dir, 'card.md');
+  fs.writeFileSync(cardPath, CARD_MD);
+  const card = baseCard({ archived_path: cardPath });
+  const opts = {
+    cardId: card.id,
+    fetchImpl: async () => ({ ok: true, json: async () => ({ cards: [card] }) }),
+    repoDirs: { sigil: dir },
+    worktreeRoot: path.join(dir, 'wt'),
+    git: (args) => (args[0] === 'rev-parse' ? { code: 0, out: 'abc' } : { code: 0, out: '' }),
+    exists: () => true,
+    readFile: (p) => (p === cardPath ? fs.readFileSync(p, 'utf8') : undefined),
+  };
+  await assert.doesNotReject(preflight(opts), TypeError);
+});
+
+test('finalizeAfterVerify never throws a bare TypeError on a card missing target/intent and on git returning no out', () => {
+  const ctx = {
+    card: { id: 'ACT-X', title: 'Some title' }, // no target, intent, category, direction, action_type
+    repo: undefined, worktree: '/tmp/doesnotmatter', branch: 'trm/ACT-X', issueNum: 42,
+  };
+  const git = () => ({ code: 0 }); // no `out` on any call, incl. status
+  const gh = () => ({ code: 0 }); // no `out`
+  assert.throws(() => finalizeAfterVerify(ctx, { git, gh }), (e) => {
+    assert.ok(!(e instanceof TypeError), `expected a Refusal, got ${e.constructor.name}: ${e.message}`);
+    assert.ok(e instanceof Refusal);
+    return true;
+  });
+});
+
+test('finalizeAfterVerify never throws a bare TypeError when gh returns no out on success', () => {
+  const ctx = {
+    card: { id: 'ACT-X', title: 'Some title' },
+    repo: undefined, worktree: '/tmp/doesnotmatter', branch: 'trm/ACT-X', issueNum: 42,
+  };
+  const git = (args) => (args[0] === 'status' ? { code: 0, out: ' M src/file.js' } : { code: 0 });
+  const gh = () => ({ code: 0 }); // success, but no `out` to parse a pr_url from
+  const r = finalizeAfterVerify(ctx, { git, gh });
+  assert.equal(r.pr_url, null);
 });
 
 test('parseArgs reads flags and rejects unknown cli', () => {
