@@ -1,0 +1,22 @@
+STATUS.md
+  h_5c172e9b435f5a 20,47
+scripts/heal-quarantined-cards.mjs
+  h_5c172e9b435f5a 1-247
+scripts/reconcile-daily-reports.mjs
+  h_5c172e9b435f5a 17,465-479
+tests/heal-quarantined-cards.test.mjs
+  h_5c172e9b435f5a 1-109
+tests/reconcile-daily-reports.test.mjs
+  h_5c172e9b435f5a 278-319,602-665
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "66ad89de5ee0422aed5e280c968282f0823b300e",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
