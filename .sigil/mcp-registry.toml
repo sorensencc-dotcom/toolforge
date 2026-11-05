@@ -9,28 +9,28 @@ max_schema_tokens = 2500
 servers = ["kb-context-cache"]
 
 [profiles.dev-minimal]
-description = "Lightweight CLI profile with memory and core context only"
+description = "Lightweight CLI profile with core context only"
 max_tools = 6
 max_schema_tokens = 5000
-servers = ["kb-context-cache", "ijfw-memory"]
+servers = ["kb-context-cache"]
 
 [profiles.dev]
 description = "Standard developer profile for Codex CLI and Claude Code"
 max_tools = 12
 max_schema_tokens = 12000
-servers = ["kb-context-cache", "ijfw-memory", "sigil", "ironledger"]
+servers = ["kb-context-cache", "sigil", "ironledger"]
 
 [profiles.research]
 description = "Research and documentation focus with search and knowledge tools"
 max_tools = 15
 max_schema_tokens = 20000
-servers = ["kb-context-cache", "ijfw-memory", "notion", "open-notebook", "parallel-search"]
+servers = ["kb-context-cache", "notion", "open-notebook", "parallel-search"]
 
 [profiles.full]
 description = "Unconstrained profile for Antigravity IDE and Claude Desktop"
 max_tools = 50
 max_schema_tokens = 45000
-servers = ["kb-context-cache", "ijfw-memory", "github", "notion", "open-notebook", "chrome-devtools", "sigil", "ironledger"]
+servers = ["kb-context-cache", "github", "notion", "open-notebook", "chrome-devtools", "sigil", "ironledger"]
 
 # --- Servers ---
 
@@ -40,13 +40,6 @@ command = "node"
 args = ["C:/dev/kb-sync/scripts/mcp-context-server.mjs"]
 schema_weight = 600
 tags = ["knowledge", "memory", "core"]
-
-[servers.ijfw-memory]
-transport = "stdio"
-command = "node"
-args = ["C:/Users/soren/.ijfw/mcp-server/src/server.js"]
-schema_weight = 1200
-tags = ["memory", "governance"]
 
 [servers.sigil]
 transport = "stdio"
