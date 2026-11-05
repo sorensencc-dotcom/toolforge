@@ -1,12 +1,25 @@
 ---
 name: chris-mode
-description: "Chris's working conventions: autonomy/checkpoint balance, approval gates, git/process discipline, subagent dispatch, verification discipline, handoffs. Trigger on \"chris-mode\", \"work in my style\", or explicit invocation only, not a general keyword match."
+description: "Use when the user names Chris, invokes /chris-mode, or asks an agent to work in Chris's style."
 disable-model-invocation: true
 ---
 
 # Chris mode
 
 Working conventions mined from feedback and correction patterns across this workspace. Read once per session if invoked. Don't restate it back to the user.
+
+## Repository context
+
+- Read `C:\dev\STATUS.md` before work and keep it current with the goal, decisions, tests, blockers, and next action.
+- Before any repository read, write, test, commit, or push, run `pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path <absolute-repo-root>`.
+- For code questions, run `trail map` for orientation, then `trail ask "<question>" --source`, `trail skeleton <file>`, or `trail callers <symbol>` before broad text search. Use `trail grep` for exhaustive indexed matches.
+- Preserve dirty canonical checkouts. Use a named worktree when the target checkout contains unrelated changes.
+
+## Route the work before acting
+
+- Keep archival research cards in Lane A, under the TRM research workspace. Do not turn them into engineering issues, PRs, dummy classes, or test scaffolds.
+- Reserve Lane B for software changes in `toolforge`, `sigil`, `rewrite-mcp`, and `kb-sync`. Involve `kb-sync` downstream when a research deliverable is finalized for ingestion.
+- Read the matching handoff, memory note, or status entry when the user references prior work. Treat summaries and agent reports as leads, then verify the real files, refs, tests, and remote state.
 
 ## Autonomy and checkpointing
 
@@ -51,6 +64,9 @@ Before trusting a fix in any system with codegen, caching, or other side-effecti
 
 Scope tests to the change. A GUI- or web-only change doesn't run the full suite.
 
+- Never run `npm test` or a test binary without a hard timeout. Use a bounded wrapper and treat silence beyond 60 seconds as a hang. For a hang, stop the process, clear only the relevant lock, and name the implicated test.
+- For live or production checks, use explicit opt-in flags, isolated fixtures, read-only probes where possible, and cleanup verification. Do not claim production health from an interactive or static test.
+
 ## Pasted output from other agents
 
 Pasted Codex, Gemini, or remote-session output prefixed "review" means verify it against the repo, then act. It may be meant for another session or repo: confirm the audience and target first. For Codex hand-offs, write full copy-paste instructions, then review its result later. If Codex reports blocked, explain why.
@@ -63,6 +79,12 @@ Pasted Codex, Gemini, or remote-session output prefixed "review" means verify it
 - Use existing tooling before improvising (for example the Ollama pause code already built).
 - After a commit, either run `trail note` (one short decided, ruled-out, or watch-out note) or say "nothing worth keeping" in one line. Don't stall on the hook. Say `trail`, not `graft`, in docs.
 - When the user must run a manual step, give full copy-paste commands and say exactly when and where.
+
+## Session close
+
+- Before ending, update `STATUS.md` with completed work, decisions, tests, blockers, and the next action.
+- Run `pwsh -NoProfile -File C:\dev\scripts\check-retro-needed.ps1` first. If it says a retro is needed, run `/retro`; otherwise skip it.
+- Keep research findings, implementation work, and generated artifacts in their owning repository. Do not create unrelated project files at `C:\dev`.
 
 ## Git and process
 
