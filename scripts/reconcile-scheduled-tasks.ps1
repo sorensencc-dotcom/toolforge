@@ -24,7 +24,8 @@ Launches an elevated PowerShell session to apply changes with full Administrator
 param(
     [switch]$AuditOnly,
     [switch]$Apply,
-    [switch]$Elevate
+    [switch]$Elevate,
+    [string]$Password = $null
 )
 
 Set-StrictMode -Version Latest
@@ -74,6 +75,7 @@ $TaskDefinitions = @(
         Category = "\Ironbots\"
         Script = "$RepoRoot\scripts\schedule-task-wrapper-KB-Sentinel.ps1"
         Description = "Ironbots: Knowledge Base drift detection and autohealing sentinel."
+        LogonType = "S4U"
         TriggerType = "Daily"
         TriggerTime = "03:00"
         ActionExe = "pwsh.exe"
@@ -104,6 +106,7 @@ $TaskDefinitions = @(
         Category = "\Ironbots\"
         Script = "$RepoRoot\scripts\schedule-task-wrapper-Daemon-Healer.ps1"
         Description = "Ironbots: Port 8080 health supervisor and auto-recovery daemon."
+        LogonType = "S4U"
         TriggerType = "Repeating"
         RepetitionInterval = (New-TimeSpan -Minutes 15)
         ActionExe = "pwsh.exe"
@@ -133,6 +136,7 @@ $TaskDefinitions = @(
         TaskName = "Storage-Pruner"
         Category = "\Ironbots\"
         Description = "Ironbots: Storage bloat pruner and atomic log compactor."
+        LogonType = "S4U"
         TriggerType = "Weekly"
         TriggerDay = "Saturday"
         TriggerTime = "03:30"
@@ -143,10 +147,40 @@ $TaskDefinitions = @(
         TaskName = "TRM-Drive-Sync"
         Category = "\Ironbots\"
         Description = "Ironbots: TRM Google Drive transport and findings ingestion sync."
+        LogonType = "Password"
         TriggerType = "Repeating"
         RepetitionInterval = (New-TimeSpan -Hours 4)
         ActionExe = "pwsh.exe"
         ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-TRM-Drive-Sync.ps1`""
+    },
+    @{
+        TaskName = "IronLedger-Sentinel"
+        Category = "\Ironbots\"
+        Description = "Ironbots: Financial engine supervisor and transaction pipeline auditor."
+        LogonType = "S4U"
+        TriggerType = "Repeating"
+        RepetitionInterval = (New-TimeSpan -Minutes 15)
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command `"& 'node.exe' $RepoRoot\scripts\ironledger-sentinel-bot.mjs 1>> '$RepoRoot\logs\ironledger-sentinel-bot.stdout.log' 2>> '$RepoRoot\logs\ironledger-sentinel-bot.stderr.log'`""
+    },
+    @{
+        TaskName = "Daily-Report-Reconciliation"
+        Category = "\Ironbots\"
+        Description = "Ironbots: Daily report differential reconciler, zombie cleanser, and heartbeat monitor."
+        TriggerType = "Daily"
+        TriggerTimes = @("06:30", "11:15", "18:00")
+        LogonType = "Password"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\schedule-task-wrapper-Reconcile-Daily-Reports.ps1`""
+    },
+    @{
+        TaskName = "Ecosystem-Guide-Sync"
+        Category = "\Ironbots\"
+        Description = "Ironbots: Synchronizes authoritative ecosystem architecture guide with live code."
+        TriggerType = "Daily"
+        TriggerTime = "05:30"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\schedule-task-wrapper-Ecosystem-Guide-Sync.ps1`""
     },
 
     # --- \toolforge\ Tasks ---
@@ -225,6 +259,15 @@ $TaskDefinitions = @(
         ActionExe = "node.exe"
         ActionArgs = "C:\dev\sync-tools\multiRepoRoadmapSync.cjs"
     },
+    @{
+        TaskName = "toolforge-librarian-archive-daily"
+        Category = "\toolforge\"
+        Description = "Toolforge: Daily librarian archive pass."
+        TriggerType = "Daily"
+        TriggerTime = "18:00"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\librarian-archive-daily.ps1`""
+    },
 
     # --- \CIC\ Tasks ---
     @{
@@ -271,6 +314,15 @@ $TaskDefinitions = @(
 
     # --- \TRM\ Tasks ---
     @{
+        TaskName = "TRM-Notebooklm-Auth-Heartbeat"
+        Category = "\TRM\"
+        Description = "TRM: Automated 2-hour Google NotebookLM auth keep-alive heartbeat."
+        TriggerType = "Repeating"
+        RepetitionInterval = (New-TimeSpan -Hours 2)
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\trm\schedule-task-wrapper-TRM-Notebooklm-Auth-Heartbeat.ps1`""
+    },
+    @{
         TaskName = "toolforge-trm-sync-treatment"
         Category = "\TRM\"
         Description = "TRM: Sync treatment pipeline."
@@ -294,6 +346,7 @@ $TaskDefinitions = @(
         Description = "TRM: NotebookLM miner."
         TriggerType = "Daily"
         TriggerTime = "06:00"
+        ExecutionTimeLimitHours = 3
         ActionExe = "pwsh.exe"
         ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\trm\schedule-task-wrapper-TRM-Notebooklm-Mine.ps1`""
     },
@@ -381,6 +434,15 @@ $TaskDefinitions = @(
         ActionExe = "powershell.exe"
         ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"C:\dev\kb-sync\scripts\ensure-dashboard-server.ps1`""
     },
+    @{
+        TaskName = "KB-Sync-NLM-Pack-Count"
+        Category = "\KB-SYNC\"
+        Description = "KB-Sync: NotebookLM pack-count invariant verification."
+        TriggerType = "Daily"
+        TriggerTime = "20:45"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\kb-sync\scripts\schedule-task-wrapper-KB-Sync-NLM-Pack-Count.ps1`""
+    },
 
     # --- Subsystem Daemons ---
     @{
@@ -406,6 +468,7 @@ $TaskDefinitions = @(
         Category = "\RewriteLabs\"
         OldPath = "\"
         Description = "RewriteLabs: Daily automated system backup."
+        LogonType = "Password"
         TriggerType = "Daily"
         TriggerTime = "00:00"
         ActionExe = "powershell.exe"
@@ -416,6 +479,7 @@ $TaskDefinitions = @(
         Category = "\Cua\"
         OldPath = "\"
         Description = "CUA: Local automation driver service."
+        LogonType = "Interactive"
         TriggerType = "Logon"
         ActionExe = "powershell.exe"
         ActionArgs = "-NoProfile -WindowStyle Hidden -NonInteractive -Command `"Start-Process -FilePath 'C:\Users\soren\AppData\Local\Programs\Cua\cua-driver\bin\cua-driver.exe' -ArgumentList 'serve' -WindowStyle Hidden -WorkingDirectory 'C:\Users\soren'`""
@@ -439,9 +503,13 @@ if ($Elevate) {
     if ($isAdmin) {
         Write-Host "[INFO] Already running with Administrator privileges." -ForegroundColor Green
     } else {
-        Write-Host "[ELEVATING] Spawning Administrator PowerShell session to configure S4U..." -ForegroundColor Cyan
+        Write-Host "[ELEVATING] Spawning Administrator PowerShell session to configure scheduled tasks..." -ForegroundColor Cyan
         $scriptPath = $MyInvocation.MyCommand.Definition
-        Start-Process pwsh.exe -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -Apply"
+        $argList = "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -Apply"
+        if ($Password) {
+            $argList += " -Password `"$Password`""
+        }
+        Start-Process pwsh.exe -Verb RunAs -ArgumentList $argList
         exit 0
     }
 }
@@ -498,16 +566,17 @@ if ($AuditOnly -or (-not $Apply)) {
 
     Write-Host "--- Summary ---" -ForegroundColor Cyan
     Write-Host "Tasks needing category relocation: $($needsCat.Count)" -ForegroundColor $(if ($needsCat.Count -gt 0) { "Yellow" } else { "Green" })
-    Write-Host "Tasks needing S4U unattended mode: $($needsS4U.Count)" -ForegroundColor $(if ($needsS4U.Count -gt 0) { "Yellow" } else { "Green" })
-    Write-Host "Obsolete/stale tasks to clean up:   $($obsoletes.Count)" -ForegroundColor $(if ($obsoletes.Count -gt 0) { "Yellow" } else { "Green" })
+    Write-Host "Tasks needing unattended configuration: $($needsS4U.Count)" -ForegroundColor $(if ($needsS4U.Count -gt 0) { "Yellow" } else { "Green" })
+    Write-Host "Obsolete/stale tasks to clean up:        $($obsoletes.Count)" -ForegroundColor $(if ($obsoletes.Count -gt 0) { "Yellow" } else { "Green" })
     Write-Host ""
 
     if (-not $isAdmin) {
-        Write-Host "💡 To automatically apply all categories and S4U unattended settings across all tasks," -ForegroundColor Yellow
+        Write-Host "💡 To automatically apply categories and unattended settings across tasks," -ForegroundColor Yellow
         Write-Host "   run with -Elevate:" -ForegroundColor Yellow
         Write-Host "   pwsh -NoProfile -File scripts/reconcile-scheduled-tasks.ps1 -Elevate" -ForegroundColor Cyan
+        Write-Host "   Or with -Apply -Password '<YourWindowsPassword>' to store credentials for network/Drive tasks." -ForegroundColor Cyan
     } else {
-        Write-Host "💡 Run with -Apply to execute all changes." -ForegroundColor Cyan
+        Write-Host "💡 Run with -Apply -Password '<YourWindowsPassword>' to execute all changes." -ForegroundColor Cyan
     }
     exit 0
 }
@@ -528,7 +597,7 @@ foreach ($obs in $ObsoleteTasks) {
     }
 }
 
-# 2. Register / Re-register all tasks with desired category and S4U principal
+# 2. Register / Re-register all tasks with desired category and principal
 $settings = New-ScheduledTaskSettingsSet `
     -AllowStartIfOnBatteries `
     -DontStopIfGoingOnBatteries `
@@ -536,14 +605,25 @@ $settings = New-ScheduledTaskSettingsSet `
     -MultipleInstances IgnoreNew `
     -StartWhenAvailable
 
-$principal = if ($isAdmin) {
-    New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U -RunLevel Highest
-} else {
-    New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Limited
-}
-
 foreach ($def in $TaskDefinitions) {
     Ensure-TaskFolder -Path $def.Category
+
+    # Determine desired LogonType
+    $targetLogon = if ($def.ContainsKey('LogonType') -and $def['LogonType']) { $def['LogonType'] } else { 'Password' }
+    $taskPrincipal = $null
+    $registerPassword = $null
+    if ($isAdmin) {
+        if ($targetLogon -eq 'S4U') {
+            $taskPrincipal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U -RunLevel Highest
+        } elseif ($targetLogon -eq 'Password' -and $Password) {
+            $taskPrincipal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Password -RunLevel Highest
+            $registerPassword = $Password
+        } else {
+            $taskPrincipal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Highest
+        }
+    } else {
+        $taskPrincipal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Limited
+    }
 
     # Check if existing task exists in old path or old name
     if ($def.ContainsKey('OldPath') -and $def['OldPath']) {
@@ -574,7 +654,12 @@ foreach ($def in $TaskDefinitions) {
         $trigger = $null
 
         $triggerType = if ($def.ContainsKey('TriggerType')) { $def['TriggerType'] } else { "Daily" }
-        if ($triggerType -eq "Daily" -and $def.ContainsKey('TriggerTime')) {
+        if ($triggerType -eq "Daily" -and $def.ContainsKey('TriggerTimes')) {
+            $trigger = @()
+            foreach ($tStr in $def['TriggerTimes']) {
+                $trigger += New-ScheduledTaskTrigger -Daily -At ([datetime]::ParseExact($tStr, 'HH:mm', $null))
+            }
+        } elseif ($triggerType -eq "Daily" -and $def.ContainsKey('TriggerTime')) {
             $trigger = New-ScheduledTaskTrigger -Daily -At ([datetime]::ParseExact($def['TriggerTime'], 'HH:mm', $null))
         } elseif ($triggerType -eq "Weekly" -and $def.ContainsKey('TriggerTime') -and $def.ContainsKey('TriggerDay')) {
             $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $def['TriggerDay'] -At ([datetime]::ParseExact($def['TriggerTime'], 'HH:mm', $null))
@@ -584,27 +669,60 @@ foreach ($def in $TaskDefinitions) {
             $trigger = New-ScheduledTaskTrigger -AtLogOn
         }
 
+        $taskTimeLimit = if ($def.ContainsKey('ExecutionTimeLimitHours') -and $def.ExecutionTimeLimitHours) {
+            New-TimeSpan -Hours $def.ExecutionTimeLimitHours
+        } else {
+            New-TimeSpan -Hours 2
+        }
+        $taskSettings = New-ScheduledTaskSettingsSet `
+            -AllowStartIfOnBatteries `
+            -DontStopIfGoingOnBatteries `
+            -ExecutionTimeLimit $taskTimeLimit `
+            -MultipleInstances IgnoreNew `
+            -StartWhenAvailable
+
         try {
-            Register-ScheduledTask `
-                -TaskName $def.TaskName `
-                -TaskPath $def.Category `
-                -Action $action `
-                -Trigger $trigger `
-                -Settings $settings `
-                -Principal $principal `
-                -Description $def.Description `
-                -Force | Out-Null
-            Write-Host "[OK] Task '$($def.Category)$($def.TaskName)' configured (LogonType: $($principal.LogonType), Category: $($def.Category))" -ForegroundColor Green
+            if ($registerPassword) {
+                $runLevel = if ($isAdmin) { [Microsoft.PowerShell.Cmdletization.GeneratedTypes.ScheduledTask.RunLevelEnum]::Highest } else { [Microsoft.PowerShell.Cmdletization.GeneratedTypes.ScheduledTask.RunLevelEnum]::Limited }
+                Register-ScheduledTask `
+                    -TaskName $def.TaskName `
+                    -TaskPath $def.Category `
+                    -Action $action `
+                    -Trigger $trigger `
+                    -Settings $taskSettings `
+                    -User $env:USERNAME `
+                    -Password $registerPassword `
+                    -RunLevel $runLevel `
+                    -Description $def.Description `
+                    -Force | Out-Null
+                Write-Host "[OK] Task '$($def.Category)$($def.TaskName)' configured (LogonType: Password, Category: $($def.Category))" -ForegroundColor Green
+            } else {
+                Register-ScheduledTask `
+                    -TaskName $def.TaskName `
+                    -TaskPath $def.Category `
+                    -Action $action `
+                    -Trigger $trigger `
+                    -Settings $taskSettings `
+                    -Principal $taskPrincipal `
+                    -Description $def.Description `
+                    -Force | Out-Null
+                Write-Host "[OK] Task '$($def.Category)$($def.TaskName)' configured (LogonType: $($taskPrincipal.LogonType), Category: $($def.Category))" -ForegroundColor Green
+            }
         } catch {
             Write-Warning "Failed to register '$($def.Category)$($def.TaskName)': $_"
         }
     } elseif ($existing -and $isAdmin) {
-        # Update existing task principal to S4U
+        # Update existing task principal
         try {
-            Set-ScheduledTask -TaskName $def.TaskName -TaskPath $def.Category -Principal $principal | Out-Null
-            Write-Host "[UPDATED] Task '$($def.Category)$($def.TaskName)' updated to S4U unattended." -ForegroundColor Green
+            if ($registerPassword) {
+                Set-ScheduledTask -TaskName $def.TaskName -TaskPath $def.Category -User $env:USERNAME -Password $registerPassword | Out-Null
+                Write-Host "[UPDATED] Task '$($def.Category)$($def.TaskName)' updated (LogonType: Password)." -ForegroundColor Green
+            } else {
+                Set-ScheduledTask -TaskName $def.TaskName -TaskPath $def.Category -Principal $taskPrincipal | Out-Null
+                Write-Host "[UPDATED] Task '$($def.Category)$($def.TaskName)' updated (LogonType: $($taskPrincipal.LogonType))." -ForegroundColor Green
+            }
         } catch {
-            Write-Warning "Failed to update '$($def.Category)$($def.TaskName)' to S4U: $_"
+            Write-Warning "Failed to update '$($def.Category)$($def.TaskName)': $_"
         }
     }
 }

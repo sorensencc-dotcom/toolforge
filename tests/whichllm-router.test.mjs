@@ -4,7 +4,7 @@ import { DEFAULT_MODELS, FRONTIER_PRICING_BASELINE_V1 } from '../scripts/whichll
 
 test('whichllm-router exports valid model tiers and pricing baseline', () => {
   assert.equal(typeof DEFAULT_MODELS, 'object');
-  assert.ok(DEFAULT_MODELS.tier_0_local);
+  assert.equal(DEFAULT_MODELS.tier_0_local, 'qwen2.5:1.5b');
   assert.ok(DEFAULT_MODELS.tier_1_muscle);
   assert.ok(DEFAULT_MODELS.tier_2_frontier);
   assert.equal(FRONTIER_PRICING_BASELINE_V1.inputCostPer1M, 3.00);

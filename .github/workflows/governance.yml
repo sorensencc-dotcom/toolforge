@@ -94,16 +94,16 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install Graft CLI
-        run: npm install -g @nanonets/graft@0.21.1
+      - name: Install Trail CLI
+        run: npm install -g @trailhq/trail-code@0.28.1
 
       - name: Test clean-checkout graph lifecycle
         run: |
-          GRAFT_CLI_JS="$(npm root -g)/@nanonets/graft/dist/cli.js" timeout 60s node --test --test-timeout=30000 CIC-GOVERNANCE/packages/delivery-guard/tests/graft-freshness.test.js
+          TRAIL_CLI_JS="$(npm root -g)/@trailhq/trail-code/dist/cli.js" timeout 300s node --test --test-timeout=240000 CIC-GOVERNANCE/packages/delivery-guard/tests/graft-freshness.test.js
 
       # graft/ is an ignored local cache, so a clean checkout must build it first.
-      - name: Build deterministic Graft graph
-        run: graft build
+      - name: Build deterministic Trail graph
+        run: trail build
 
-      - name: Verify Graft Graph Freshness
-        run: graft check
+      - name: Verify Trail graph freshness
+        run: trail build --check

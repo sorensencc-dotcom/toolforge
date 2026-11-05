@@ -15,6 +15,7 @@
     "gdoc_filename": "2026-09-27T123004Z__action__act-04-frontier-lab-verification-standards-dissent.md.gdoc",
     "gdoc_stem": "2026-09-27T123004Z__action__act-04-frontier-lab-verification-standards-dissent",
     "rfc_path": "wiki/research/rfc-frontier-lab-verification-standards-dissent.md",
-    "resolution": "Drafted formal research RFC evaluating taxonomy of dissenting frontier lab verification standards and formalizing deterministic AST/sandbox gates over heuristic LLM judges."
+    "resolution": "RFC rewritten 2026-10-24 from the source card text (first draft used the filename only). Card claims fact-checked; pinning gap and failover conflict documented for Tier 1.",
+    "source_doc_id": "1qIlAwomiZf3cd2WkfWgadm7gUzPgl5c2wToBFyFAn-s"
   }
 }

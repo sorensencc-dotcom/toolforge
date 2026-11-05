@@ -102,7 +102,13 @@ try {
     }
     
     Log-Step 5 "Refreshing CIC Daily Project Status Report"
-    $StatusRunner = "C:\Users\soren\OneDrive\Documents\Claude\Projects\CIC\scripts\Run-DailyStatus.ps1"
+    $StatusRunner = "C:\dev\scripts\run_daily_pipeline.ps1"
+    if (-not (Test-Path -Path $StatusRunner)) {
+        $StatusRunner = "C:\dev\scripts\Run-DailyStatus.ps1"
+    }
+    if (-not (Test-Path -Path $StatusRunner)) {
+        $StatusRunner = "C:\Users\soren\OneDrive\Documents\Claude\Projects\CIC\scripts\run_daily_pipeline.ps1"
+    }
     if (Test-Path -Path $StatusRunner) {
         Log-Info "Regenerating CIC_Daily_Status.html..."
         & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $StatusRunner

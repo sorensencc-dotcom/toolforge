@@ -14,7 +14,14 @@ Audits third-party Git repositories across the workspace against upstream remote
 ## Trigger
 
 ```powershell
+# Audit repository freshness
 pwsh -NoProfile -File C:\dev\skills\third-party-repo-auditor\src\audit.ps1
+
+# Remediate / update all repositories to upstream
+pwsh -NoProfile -File C:\dev\skills\third-party-repo-auditor\src\update.ps1
+
+# Dry-run update preview
+pwsh -NoProfile -File C:\dev\skills\third-party-repo-auditor\src\update.ps1 -DryRun
 
 # Or via Toolforge runner
 pwsh -NoProfile -File C:\dev\run-tool.ps1 -Tool third-party-repo-auditor

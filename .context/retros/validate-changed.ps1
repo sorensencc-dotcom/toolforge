@@ -5,7 +5,7 @@
 ##>
 
 $ErrorActionPreference = 'Stop'
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+$repoRoot = (Resolve-Path (Join-Path (Join-Path $PSScriptRoot '..') '..')).Path
 $eventPath = $env:GITHUB_EVENT_PATH
 $event = if ($eventPath -and (Test-Path $eventPath)) { Get-Content $eventPath -Raw | ConvertFrom-Json } else { $null }
 $base = if ($event.pull_request.base.sha) { $event.pull_request.base.sha } elseif ($event.before) { $event.before } else { $null }

@@ -14,6 +14,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { validateCardIntegrity } from './trm-card-validation.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const DEV_ROOT = path.resolve(__dirname, '..');
@@ -25,20 +26,22 @@ export const REPO_LOCAL_PATHS = {
   'sigil': path.resolve(DEV_ROOT, 'sigil-repo'),
   'rewrite-mcp': path.resolve(DEV_ROOT, 'rewrite-mcp'),
   'rewrite': path.resolve(DEV_ROOT, 'rewrite-mcp'),
+  'rewrite-docs': path.resolve(DEV_ROOT, 'rewrite-docs'),
   'ironledger': path.resolve(DEV_ROOT, 'IronLedger'),
   'IronLedger': path.resolve(DEV_ROOT, 'IronLedger'),
   'personal-os': path.resolve(DEV_ROOT, 'personal-os')
 };
 
 export function resolveLocalRepoDir(target) {
-  if (!target) return DEV_ROOT;
+  if (!target) return null;
   const key = String(target).trim().toLowerCase();
+  const cleanKey = key.includes('/') ? key.split('/').pop().trim() : key;
   for (const [k, v] of Object.entries(REPO_LOCAL_PATHS)) {
-    if (k.toLowerCase() === key) {
+    if (k.toLowerCase() === cleanKey) {
       if (fs.existsSync(v)) return v;
     }
   }
-  return DEV_ROOT;
+  return null;
 }
 
 export function loadCardData(cardId, options = {}) {
@@ -46,6 +49,7 @@ export function loadCardData(cardId, options = {}) {
   const searchDirs = [
     ...customDirs,
     path.resolve(DEV_ROOT, '.harness/tasks/pending'),
+    path.resolve(DEV_ROOT, '.harness/tasks/in-progress'),
     path.resolve(DEV_ROOT, '.harness/tasks/completed'),
     path.resolve(DEV_ROOT, '.harness/tasks/archive'),
     path.resolve(DEV_ROOT, 'trm-drive/inbox/completed')
@@ -54,9 +58,10 @@ export function loadCardData(cardId, options = {}) {
   for (const dir of searchDirs) {
     if (!fs.existsSync(dir)) continue;
     try {
+      const targetId = String(cardId).toLowerCase();
       const files = fs.readdirSync(dir);
       for (const f of files) {
-        if (f.includes(cardId)) {
+        if (f.toLowerCase().includes(targetId)) {
           const fullPath = path.join(dir, f);
           const raw = fs.readFileSync(fullPath, 'utf8');
           if (f.endsWith('.json') || raw.trim().startsWith('{')) {
@@ -86,10 +91,11 @@ export function loadCardData(cardId, options = {}) {
   const ledgerPath = options.ledgerPath || (options.inboxDir ? path.resolve(options.inboxDir, 'ledger.jsonl') : path.resolve(DEV_ROOT, 'trm-drive/inbox/ledger.jsonl'));
   if (fs.existsSync(ledgerPath)) {
     const lines = fs.readFileSync(ledgerPath, 'utf8').split('\n').filter(Boolean);
+    const targetId = String(cardId).toLowerCase();
     for (const line of lines) {
       try {
         const row = JSON.parse(line);
-        if (row.id === cardId || row.action_id === cardId) {
+        if (String(row.id || '').toLowerCase() === targetId || String(row.action_id || '').toLowerCase() === targetId) {
           return row;
         }
       } catch {}
@@ -100,8 +106,13 @@ export function loadCardData(cardId, options = {}) {
 }
 
 export function generateTestScaffold(card) {
+  const integrity = validateCardIntegrity(card);
+  if (!integrity.valid && (card.source || card.action_type || card.acceptance_criteria || card.acceptanceCriteria || card.deliverables)) {
+    throw new Error(`${integrity.reason}: ${integrity.error}`);
+  }
   const cardId = card.id || card.action_id || 'unknown';
-  const title = card.title || card.intent || cardId;
+  const rawTitle = card.title || card.intent || cardId;
+  const title = String(rawTitle).replace(/[\r\n]+/g, ' ').replace(/'/g, "\\'").trim();
   const target = card.target || card.domain || 'core';
   const deliverables = card.deliverables || [];
   const acceptanceList = Array.isArray(deliverables) && deliverables.length > 0
@@ -151,14 +162,31 @@ test('TRM Contract: ${cardId} - ${title.replace(/'/g, "\\'")}', async () => {
 export function stagePr(cardId, options = {}) {
   const dryRun = Boolean(options.dryRun);
   const createBranch = Boolean(options.createBranch);
-  const card = loadCardData(cardId, options);
+  const card = options.cardData || loadCardData(cardId, options);
 
   if (!card) {
     throw new Error(`Card ${cardId} not found in pending, completed, or ledger`);
   }
 
+  const existingIds = [...(options.existingIds || [])];
+  if (options.ledgerPath && fs.existsSync(options.ledgerPath)) {
+    for (const line of fs.readFileSync(options.ledgerPath, 'utf8').split('\n').filter(Boolean)) {
+      try {
+        const row = JSON.parse(line);
+        existingIds.push(row.id || row.action_id);
+      } catch {}
+    }
+  }
+  const integrity = validateCardIntegrity(card, { existingIds });
+  if (!integrity.valid && (card.source || card.action_type || card.acceptance_criteria || card.acceptanceCriteria || card.deliverables)) {
+    throw new Error(`${integrity.reason}: ${integrity.error}`);
+  }
+
   const target = card.target || card.domain || 'core';
   const repoDir = resolveLocalRepoDir(target);
+  if (!repoDir) {
+    throw new Error(`UNRESOLVED_LOCAL_REPO: Cannot stage PR for target '${target}'. No valid local repository directory resolved.`);
+  }
   const branchName = `trm/${cardId}`;
   const isPython = target.toLowerCase() === 'ironledger';
 

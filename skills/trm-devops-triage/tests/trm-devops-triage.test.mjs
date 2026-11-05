@@ -73,6 +73,15 @@ describe('trm-devops-triage Skill Pack Test Suite', () => {
       assert.ok(match.remediation.includes('Node 20'));
     });
 
+    it('matches Node runner deprecation warning for future versions', () => {
+      const log = 'Node.js 20 actions are deprecated. Please update the following actions to use Node.js 24';
+      const match = matchLocalSignature(log);
+
+      assert.ok(match);
+      assert.equal(match.status, 'resolved');
+      assert.ok(match.remediation.includes('Node 20+'));
+    });
+
     it('escalates unknown log signatures to Tier-2', async () => {
       const unknownLog = 'Internal unknown compiler error 0xDEADBEEF in vendor kernel';
       const result = await runTinyFishTriage({ logExtract: unknownLog });

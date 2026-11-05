@@ -87,6 +87,11 @@ export function classifyCardLane(card) {
   const direction = String(card.direction || '').toUpperCase();
   const target = String(card.target || card.domain || '').toLowerCase();
 
+  // Lane A takes precedence for CIC research cards regardless of direction keyword false-positives
+  if (target === 'cic' || target === 'cic-kb' || category === 'RESEARCH' || target === 'research') {
+    return 'LANE_A_SPIKE';
+  }
+
   const isCodeDirection = direction.includes('REFACTOR') ||
                           direction.includes('IMPLEMENT') ||
                           direction.includes('FIX') ||
@@ -97,7 +102,7 @@ export function classifyCardLane(card) {
     return 'LANE_B_CODING';
   }
 
-  if (category === 'RESEARCH' || target === 'cic-kb' || target === 'research' || direction === 'FEASIBILITY_SPIKE') {
+  if (direction === 'FEASIBILITY_SPIKE') {
     return 'LANE_A_SPIKE';
   }
 
@@ -139,6 +144,9 @@ export function getPendingCards(options = {}) {
         const normalized = normalizeCard(data, raw);
         const cardId = normalized.id || normalized.action_id || file.replace(/\.(json|md|gdoc)$/i, '');
         normalized.id = cardId;
+        if (cardId.startsWith('invalid-') || String(normalized.intent || '').toLowerCase() === 'validation_error') {
+          continue;
+        }
         cardsMap.set(cardId, normalized);
       } catch (err) {
         // Skip unparseable
@@ -154,8 +162,14 @@ export function getPendingCards(options = {}) {
         const row = JSON.parse(line);
         const id = row.id || row.action_id;
         if (!id) continue;
+        if (id.startsWith('invalid-') || String(row.intent || '').toLowerCase() === 'validation_error') {
+          continue;
+        }
         const status = String(row.status || '').toUpperCase();
-        const isOpen = !['DONE', 'COMPLETED', 'ARCHIVED', 'REJECTED'].includes(status);
+        const isTerminalOrQuarantined = [
+          'DONE', 'COMPLETED', 'ARCHIVED', 'REJECTED', 'IN_PROGRESS', 'PROMOTED'
+        ].includes(status) || status.startsWith('QUARANTINED') || status.startsWith('VALIDATION_FAILED');
+        const isOpen = !isTerminalOrQuarantined && !row.issue_url;
         if (isOpen) {
           if (cardsMap.has(id)) {
             const existing = cardsMap.get(id);
@@ -214,6 +228,8 @@ export async function processBatchTriage(options = {}) {
   const outputDir = path.resolve(kbSyncRoot, 'obsidian/vault/wiki/research');
   const outboxDir = path.resolve(trmInboxDir, 'outbox');
   const completedHarnessDir = path.resolve(DEV_ROOT, '.harness/tasks/completed');
+  const inProgressHarnessDir = path.resolve(DEV_ROOT, '.harness/tasks/in-progress');
+  const quarantineDir = path.resolve(trmInboxDir, 'quarantine');
 
   // Load gap-triage-engine for Lane A
   const gapEngineUrl = pathToFileURL(path.resolve(kbSyncRoot, 'modules/trm/gap-triage-engine.mjs')).href;
@@ -231,6 +247,50 @@ export async function processBatchTriage(options = {}) {
     const cardId = card.id || card.action_id;
     const lane = classifyCardLane(card);
     const itemResult = { cardId, lane, title: card.title || card.intent, target: card.target, status: 'SKIPPED' };
+
+    // Universal Quality Gate (both Lane A Spikes & Lane B Coding)
+    if (cardId.startsWith('invalid-') || String(card.intent || '').toLowerCase() === 'validation_error') {
+      console.warn(`[batch-triage] Skipping invalid failure record ${cardId} (intent: ${card.intent}).`);
+      itemResult.status = 'REJECTED';
+      itemResult.error = 'Invalid card ID or validation error failure record';
+      results.details.push(itemResult);
+      continue;
+    }
+
+    const rawText = card.raw_content || card.summary || card.body || '';
+    const isBodyFetchFailure = Boolean(
+      card.context?.body_fetch_failed ||
+      (card.context?.note && /fetch failed|standalone Google Drive \.gdoc/i.test(card.context.note)) ||
+      card.title === 'Unknown Title' ||
+      card.intent === 'triage_mobile_request' ||
+      (rawText.replace(/\s+/g, ' ').trim().length < 50 && !card.context?.body)
+    );
+    if (isBodyFetchFailure) {
+      console.warn(`[batch-triage] Incomplete card ${cardId}: body fetch failed or content missing (<50 chars).`);
+      itemResult.status = 'QUARANTINED_INSUFFICIENT_DATA';
+      itemResult.error = 'Incomplete card (body fetch failure or missing directives)';
+      if (!dryRun) {
+        if (card._filePath && fs.existsSync(card._filePath)) {
+          if (!fs.existsSync(quarantineDir)) fs.mkdirSync(quarantineDir, { recursive: true });
+          const destPath = path.join(quarantineDir, card._fileName || path.basename(card._filePath));
+          try {
+            fs.renameSync(card._filePath, destPath);
+          } catch {
+            try { fs.copyFileSync(card._filePath, destPath); fs.unlinkSync(card._filePath); } catch {}
+          }
+        }
+        const ledgerPath = path.resolve(trmInboxDir, 'ledger.jsonl');
+        if (fs.existsSync(ledgerPath)) {
+          updateLedgerRow(ledgerPath, cardId, {
+            status: 'QUARANTINED_INSUFFICIENT_DATA',
+            error: itemResult.error,
+            quarantined_at: new Date().toISOString()
+          });
+        }
+      }
+      results.details.push(itemResult);
+      continue;
+    }
 
     try {
       if (lane === 'LANE_A_SPIKE') {
@@ -289,6 +349,14 @@ export async function processBatchTriage(options = {}) {
       } else {
         // Lane B: Coding Card Promotion & Context Pack
         const repo = resolveTargetRepo(card.target || card.domain);
+        if (!repo) {
+          console.warn(`[batch-triage] Skipping promotion for ${cardId}: unmapped target '${card.target || card.domain}' needs explicit routing.`);
+          itemResult.status = 'NEEDS_ROUTING';
+          itemResult.error = `Unroutable target '${card.target || card.domain}'`;
+          results.details.push(itemResult);
+          continue;
+        }
+
         console.log(`[batch-triage] Lane B: Promoting coding card ${cardId} to ${repo}...`);
 
         let issueUrl = card.issue_url || null;
@@ -296,7 +364,9 @@ export async function processBatchTriage(options = {}) {
           if (dryRun) {
             issueUrl = `https://github.com/${repo}/issues/mock-batch-${Date.now()}`;
           } else {
-            const tmpFile = path.join(os.tmpdir(), `trm-batch-${cardId}-${Date.now()}.md`);
+            const tmpDir = path.resolve(os.homedir(), '.tmp');
+            fs.mkdirSync(tmpDir, { recursive: true });
+            const tmpFile = path.join(tmpDir, `trm-batch-${cardId}-${Date.now()}.md`);
             const commitType = commitTypeForCard(card);
             const intent = card.intent || card.title || cardId;
             const title = `${commitType}(${card.target || card.domain || 'core'}): ${intent}`;
@@ -311,10 +381,23 @@ export async function processBatchTriage(options = {}) {
                 issueUrl = out.trim().split(/\r?\n/).pop();
               }
             } catch (ghErr) {
-              console.warn(`[batch-triage] gh issue create failed for ${cardId}: ${ghErr.message}`);
-              issueUrl = `https://github.com/${repo}/issues/staged-${Date.now()}`;
+              console.error(`[batch-triage] gh issue create failed for ${cardId}: ${ghErr.message}`);
+              itemResult.status = 'ERROR';
+              itemResult.error = `gh issue create failed: ${ghErr.message}`;
+              results.errors.push({ cardId, error: ghErr.message });
+              results.details.push(itemResult);
+              continue;
             } finally {
               try { fs.unlinkSync(tmpFile); } catch {}
+            }
+
+            if (!issueUrl || !issueUrl.startsWith('http')) {
+              console.error(`[batch-triage] Invalid issue URL received for ${cardId}: ${issueUrl}`);
+              itemResult.status = 'ERROR';
+              itemResult.error = `Invalid issue URL: ${issueUrl}`;
+              results.errors.push({ cardId, error: itemResult.error });
+              results.details.push(itemResult);
+              continue;
             }
 
             // Update ledger with issue_url and IN_PROGRESS
@@ -341,8 +424,8 @@ export async function processBatchTriage(options = {}) {
           }
 
           if (card._filePath && fs.existsSync(card._filePath)) {
-            if (!fs.existsSync(completedHarnessDir)) fs.mkdirSync(completedHarnessDir, { recursive: true });
-            const destPath = path.join(completedHarnessDir, card._fileName || path.basename(card._filePath));
+            if (!fs.existsSync(inProgressHarnessDir)) fs.mkdirSync(inProgressHarnessDir, { recursive: true });
+            const destPath = path.join(inProgressHarnessDir, card._fileName || path.basename(card._filePath));
             try {
               fs.renameSync(card._filePath, destPath);
             } catch {

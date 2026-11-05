@@ -760,14 +760,25 @@ const mainFile = process.argv[1] ? fs.realpathSync(process.argv[1]) : '';
 const thisFile = fs.realpathSync(__filename);
 
 if (mainFile === thisFile) {
-  const args = Object.fromEntries(
-    process.argv.slice(2)
-      .filter((a) => a.startsWith('--'))
-      .map((a) => {
-        const [k, ...v] = a.slice(2).split('=');
-        return [k, v.length ? v.join('=') : true];
-      })
-  );
+  const argv = process.argv.slice(2);
+  const args = {};
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (!a.startsWith('--')) continue;
+    const eq = a.indexOf('=');
+    if (eq !== -1) {
+      args[a.slice(2, eq)] = a.slice(eq + 1);
+    } else {
+      const k = a.slice(2);
+      const next = argv[i + 1];
+      if (next !== undefined && !next.startsWith('--')) {
+        args[k] = next;
+        i++;
+      } else {
+        args[k] = true;
+      }
+    }
+  }
 
   if (args.help) {
     console.log(`

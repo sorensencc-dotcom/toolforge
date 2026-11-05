@@ -23,6 +23,22 @@ if [ -f "CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-poli
   node CIC-GOVERNANCE/packages/delivery-guard/scripts/evaluate-automation-policy.mjs --staged || { echo "[Pre-Commit Blocked] Delivery guard: pair every automation change with a regression test in the same commit."; exit 1; }
 fi
 
+if [ -f "scripts/validate-retro-inbox.mjs" ] && git diff --cached --name-only | grep -q "^\.context/retros/inbox/"; then
+  node scripts/validate-retro-inbox.mjs || { echo "[Pre-Commit Blocked] Retro inbox entries are invalid."; exit 1; }
+fi
+
+# Retro rec 1: governance matrix workflow edits must pass the delivery-guard suite locally.
+STAGED_FILES="$(git diff --cached --name-only)"
+if echo "$STAGED_FILES" | grep -qx "\.github/workflows/ci-governance-matrix\.yml" && [ -d "CIC-GOVERNANCE/packages/delivery-guard" ]; then
+  echo "[Pre-Commit] ci-governance-matrix.yml staged: running delivery-guard tests..."
+  (cd CIC-GOVERNANCE/packages/delivery-guard && timeout 180 npm test) || { echo "[Pre-Commit Blocked] delivery-guard tests failed for ci-governance-matrix.yml change."; exit 1; }
+fi
+
+# Retro rec 2: nudge (non-blocking) when code changes without a trail learning in the same commit.
+if echo "$STAGED_FILES" | grep -qE "^(scripts|src|CIC-GOVERNANCE|\.github/workflows)/" && ! echo "$STAGED_FILES" | grep -q "^\.trail/learnings/"; then
+  echo "[Pre-Commit Note] No .trail/learnings entry staged. Run 'trail note' and stage it, or ignore if nothing worth keeping."
+fi
+
 if [ -f "$(dirname "$0")/pre-commit.ps1" ]; then
   pwsh -NoProfile -File "$(dirname "$0")/pre-commit.ps1" "$@" || exit 1
 fi

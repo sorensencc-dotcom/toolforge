@@ -59,16 +59,31 @@ function makeMockDb(handlers = {}) {
 }
 
 async function withServer(mockDb, fn) {
-  const app = createApp(mockDb);
-  const server = await new Promise((resolve) => {
-    const s = app.listen(0, '127.0.0.1', () => resolve(s));
-  });
-  const { port } = server.address();
-  const base = `http://127.0.0.1:${port}`;
+  const previous = {
+    NODE_ENV: process.env.NODE_ENV,
+    TOOLFORGE_DEV_HEADER_AUTH: process.env.TOOLFORGE_DEV_HEADER_AUTH,
+  };
+  process.env.NODE_ENV = 'development';
+  process.env.TOOLFORGE_DEV_HEADER_AUTH = '1';
+
+  let server;
   try {
+    const app = createApp(mockDb);
+    server = await new Promise((resolve) => {
+      const s = app.listen(0, '127.0.0.1', () => resolve(s));
+    });
+    const { port } = server.address();
+    const base = `http://127.0.0.1:${port}`;
     return await fn(base);
   } finally {
-    await new Promise((resolve) => server.close(resolve));
+    try {
+      if (server) await new Promise((resolve) => server.close(resolve));
+    } finally {
+      for (const [key, value] of Object.entries(previous)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+    }
   }
 }
 
@@ -524,5 +539,4 @@ test('API Endpoints under Database Failure & Resilient DB Fallback', async (t) =
     });
   });
 });
-
 

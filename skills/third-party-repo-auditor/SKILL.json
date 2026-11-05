@@ -9,7 +9,7 @@
   "tags": ["git", "third-party", "audit", "upstream"],
   "id": "third-party-repo-auditor",
   "timeout": 60000,
-  "description": "Audits third-party Git repositories against upstream remotes for pending commits, tags, and patch status",
+  "description": "Audits and updates third-party Git repositories against upstream remotes for pending commits, tags, and patch status",
   "entrypoint": "src/audit.ps1",
   "name": "Third-Party Repository Auditor",
   "dependencies": {
@@ -17,7 +17,7 @@
     "internal": []
   },
   "owner": "soren",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "integrations": {
     "cowork": {
       "registered": false,

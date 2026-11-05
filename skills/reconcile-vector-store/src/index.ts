@@ -3,6 +3,22 @@
  * Reconciles vector database state with canonical knowledge base
  */
 
+export class VectorStore {
+  private store = new Map<string, number[]>();
+
+  insert(id: string, vector: number[]): void {
+    this.store.set(id, vector);
+  }
+
+  delete(id: string): void {
+    this.store.delete(id);
+  }
+
+  has(id: string): boolean {
+    return this.store.has(id);
+  }
+}
+
 export function validateEmbedding(embedding: number[], expectedDimension: number = 1536): void {
   if (!Array.isArray(embedding)) {
     throw new Error("Invalid embedding: must be an array");

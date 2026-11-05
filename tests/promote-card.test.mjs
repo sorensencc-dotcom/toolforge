@@ -15,10 +15,10 @@ import {
 } from '../scripts/trm-promote-card.mjs';
 
 test('resolveTargetRepo correctly maps known domains and handles custom pass-through', () => {
-  // Default fallback when empty / null
-  assert.equal(resolveTargetRepo(null), 'sorensencc-dotcom/toolforge');
-  assert.equal(resolveTargetRepo(''), 'sorensencc-dotcom/toolforge');
-  assert.equal(resolveTargetRepo(undefined), 'sorensencc-dotcom/toolforge');
+  // Hardened behavior: no default fallback to toolforge when empty / null
+  assert.equal(resolveTargetRepo(null), null);
+  assert.equal(resolveTargetRepo(''), null);
+  assert.equal(resolveTargetRepo(undefined), null);
 
   // Known repository mappings
   assert.equal(resolveTargetRepo('sigil'), 'sorensencc-dotcom/sigil');
@@ -38,8 +38,8 @@ test('resolveTargetRepo correctly maps known domains and handles custom pass-thr
   assert.equal(resolveTargetRepo('my-org/my-repo'), 'my-org/my-repo');
   assert.equal(resolveTargetRepo('upstream/project'), 'upstream/project');
 
-  // Fallback to sorensencc-dotcom/<name>
-  assert.equal(resolveTargetRepo('custom-service'), 'sorensencc-dotcom/custom-service');
+  // Unmapped target returns null (requires explicit mapping or slash)
+  assert.equal(resolveTargetRepo('custom-service'), null);
 
   // Custom map override and extension
   assert.equal(resolveTargetRepo('custom', { custom: 'org/custom' }), 'org/custom');

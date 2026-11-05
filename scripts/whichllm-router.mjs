@@ -26,7 +26,7 @@ export const FRONTIER_PRICING_BASELINE_V1 = {
 };
 
 export const DEFAULT_MODELS = {
-  tier_0_local: 'llama3.1:8b',
+  tier_0_local: 'qwen2.5:1.5b',
   tier_0_5_freellmapi: 'freellm/auto',
   tier_1_muscle: 'mistralai/mistral-large-2407',
   tier_2_frontier: 'claude-3-5-sonnet-20241022'

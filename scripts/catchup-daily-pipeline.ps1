@@ -139,9 +139,15 @@ Run-Task "STAGE 4" "Daily-Roadmap-Sync" {
 }
 
 Run-Task "STAGE 4" "CIC-Daily-Status" {
-    $script = "C:\Users\soren\OneDrive\Documents\Claude\Projects\CIC\scripts\Run-DailyStatus.ps1"
+    $script = "$RepoRoot\scripts\run_daily_pipeline.ps1"
+    if (-not (Test-Path $script)) {
+        $script = "$RepoRoot\scripts\Run-DailyStatus.ps1"
+    }
+    if (-not (Test-Path $script)) {
+        $script = "C:\Users\soren\OneDrive\Documents\Claude\Projects\CIC\scripts\run_daily_pipeline.ps1"
+    }
     if (Test-Path $script) {
-        pwsh -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File $script -OutHtml "C:\Users\soren\OneDrive\Documents\Claude\Projects\CIC\CIC_Daily_Status.html"
+        pwsh -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File $script
     }
 }
 

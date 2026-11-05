@@ -97,6 +97,14 @@ npm run wiki:publish
 
 ---
 
+### 5. Battery Freshness, Entropy & Telemetry Invariants
+When mining notebooks or modifying the mining CLI:
+- **Immediate-Prior Entropy Window**: Calculate question entropy strictly against the immediate previous run's battery (`.slice(-10)`), capping persisted history to 100 entries. Do not calculate entropy against the full historical union of prior questions.
+- **Dynamic Source & Chat Anchoring**: Rank notebook sources in reverse chronological order (`sources.slice().reverse()`) to prioritize recent materials, and parse the latest conversation turn from `conversations/<date>/<slug>.md` to seed synthesis queries.
+- **Immediate Telemetry Flushing**: Any process that updates or ingests chat sessions must invoke `flushChattedAt(notebookId, timestamp)` immediately so partition health monitors recognize active notebooks.
+
+---
+
 ## Verifying & Testing
 ```bash
 # Run TRM query expander unit tests (25 tests)

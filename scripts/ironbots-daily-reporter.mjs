@@ -40,8 +40,26 @@ const BOT_ARTIFACTS = {
   ironledgerHealth: 'ironledger_health.json',
   ciWatchdog: 'ci_alerts.json',
   trmIngress: 'trm_ingress_status.json',
-  storagePruner: 'storage_pruner_status.json'
+  storagePruner: 'storage_pruner_status.json',
+  copilotReconcile: 'copilot_reconcile.json'
 };
+
+export function summarizeCopilotReconcile(snapshot, now = Date.now()) {
+  if (!snapshot || snapshot.missing || !snapshot.summary) return { status: 'UNKNOWN' };
+  const snapshotAgeHours = snapshot.timestamp
+    ? Math.round(((now - Date.parse(snapshot.timestamp)) / 36e5) * 10) / 10
+    : null;
+  return {
+    status: snapshot.status,
+    mapped: snapshot.summary.mapped,
+    match: snapshot.summary.match,
+    drift: snapshot.summary.drift,
+    unmappedCopilot: snapshot.summary.unmappedCopilot,
+    projectionAgeHours: snapshot.projection?.ageHours ?? null,
+    projectionStale: snapshot.projection?.stale ?? null,
+    snapshotAgeHours
+  };
+}
 
 export const FLEET_SCORING_POLICY = {
   weights: {
@@ -334,6 +352,7 @@ export async function aggregateFleetActivity(options = {}) {
     activeBots,
     hostHeartbeat,
     roomEvent,
+    financeReconcile: summarizeCopilotReconcile(results.copilotReconcile),
     summaryMetrics: {
       totalDocsIndexed: results.notebookIngester?.totalFiles || 0,
       wikiHealthScore: results.kbSentinel?.healthScore || 100,

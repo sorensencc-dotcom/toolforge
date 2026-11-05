@@ -26,6 +26,8 @@ test('icf/dashboard/index.html contains TRM action backlog UI elements and promo
   assert.ok(dashboardHtml.includes('id="btnBacklogFilterCompleted"'), 'Missing btnBacklogFilterCompleted button');
   assert.ok(dashboardHtml.includes("let currentTrmBacklogFilter = 'OPEN';"), 'Default backlog filter must be OPEN');
   assert.ok(dashboardHtml.includes("currentTrmBacklogFilter === 'COMPLETED'"), 'Missing COMPLETED filter handling');
+  assert.ok(dashboardHtml.includes('Promote RFC →'), 'Missing Promote RFC button for researched cards');
+  assert.ok(dashboardHtml.includes('🔬 RFC Ready'), 'Missing RFC Ready status tag for researched cards');
 
   // Verify Tab 04 gaps matrix controls exist
   assert.ok(dashboardHtml.includes('id="trmGapsSearchInput"'), 'Missing trmGapsSearchInput');
@@ -47,4 +49,20 @@ test('icf/dashboard/index.html contains TRM action backlog UI elements and promo
   assert.ok(!dashboardHtml.includes("card.repo || 'IronLedger'"), 'Must not fall back to hardcoded IronLedger');
   assert.ok(dashboardHtml.includes('BACKLOG_DOMAIN_TO_REPO'), 'Missing BACKLOG_DOMAIN_TO_REPO mapping');
   assert.ok(dashboardHtml.includes('resolveRepoForCard'), 'Missing resolveRepoForCard helper');
+
+  // Verify backlog cards and issues display creation date
+  assert.ok(dashboardHtml.includes('Created: ${escapeHtml(cardDate)}'), 'Missing card creation date label in Card ID column');
+  assert.ok(dashboardHtml.includes('cardDate ? ` (${escapeHtml(cardDate)})` : \'\''), 'Missing creation date on issue links');
+
+  // Verify sortable table headers
+  assert.ok(dashboardHtml.includes('function sortTrmBacklog'), 'Missing sortTrmBacklog function');
+  assert.ok(dashboardHtml.includes("onclick=\"sortTrmBacklog('priority')\""), 'Missing priority sort handler');
+  assert.ok(dashboardHtml.includes("onclick=\"sortTrmBacklog('id')\""), 'Missing id sort handler');
+  assert.ok(dashboardHtml.includes("onclick=\"sortTrmBacklog('intent')\""), 'Missing intent sort handler');
+  assert.ok(dashboardHtml.includes("onclick=\"sortTrmBacklog('status')\""), 'Missing status sort handler');
+  assert.ok(dashboardHtml.includes("onclick=\"sortTrmBacklog('actions')\""), 'Missing actions sort handler');
+
+  const serverPath = path.resolve('c:/dev/icf/src/server.mjs');
+  const serverJs = fs.readFileSync(serverPath, 'utf8');
+  assert.ok(serverJs.includes('card.created_date = m[1];'), 'Server must extract card.created_date');
 });

@@ -1,0 +1,7 @@
+{
+  "id": "act-inprogress-fixture",
+  "target": "sigil",
+  "intent": "verify_inprogress_discovery",
+  "status": "IN_PROGRESS",
+  "summary": "Ensuring stage-pr and server loadCardData can locate active cards in in-progress dir."
+}

@@ -16,10 +16,32 @@ import path from 'node:path';
 
 export const REPO_ROOT = path.resolve(import.meta.dirname, '..');
 
-export const DEFAULT_OLLAMA_HOST = process.env.OLLAMA_HOST || '127.0.0.1';
-export const DEFAULT_OLLAMA_PORT = parseInt(process.env.OLLAMA_PORT || '11434', 10) || 11434;
-export const DEFAULT_OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || `http://${DEFAULT_OLLAMA_HOST}:${DEFAULT_OLLAMA_PORT}`;
-export const PREFERRED_MODELS = ['qwen2.5:latest', 'qwen2.5:7b', 'llama3.2:latest', 'llama3.2:3b', 'qwen2.5:3b', 'mistral:latest'];
+export function resolveOllamaEndpoint() {
+  if (process.env.OLLAMA_BASE_URL) return process.env.OLLAMA_BASE_URL;
+  let rawHost = process.env.OLLAMA_HOST || '127.0.0.1';
+  let defaultPort = process.env.OLLAMA_PORT || '11434';
+  if (rawHost.startsWith('0.0.0.0')) {
+    rawHost = rawHost.replace('0.0.0.0', '127.0.0.1');
+  }
+  if (!rawHost.startsWith('http://') && !rawHost.startsWith('https://')) {
+    rawHost = `http://${rawHost}`;
+  }
+  try {
+    const u = new URL(rawHost);
+    if (u.hostname === '0.0.0.0') {
+      u.hostname = '127.0.0.1';
+    }
+    if (!u.port) {
+      u.port = defaultPort;
+    }
+    return u.origin;
+  } catch {
+    return `http://127.0.0.1:${defaultPort}`;
+  }
+}
+
+export const DEFAULT_OLLAMA_BASE_URL = resolveOllamaEndpoint();
+export const PREFERRED_MODELS = ['qwen2.5:7b', 'qwen2.5:3b', 'qwen2.5:1.5b', 'llama3.2:3b', 'llama3.2:1b', 'qwen2.5:latest', 'mistral:latest'];
 
 /**
  * Validate that host is strictly a loopback address to ensure zero-token, privacy-preserving local execution.
@@ -236,6 +258,32 @@ export function extractIntentDeterministic(rawText, metadata = {}) {
   };
 }
 
+export const DESTRUCTIVE_COMMAND_PATTERNS = [
+  /\brm\s+(-[a-zA-Z]*r[a-zA-Z]*\s+|--recursive\s+)/i,
+  /\bsudo\b/i,
+  /\bDROP\s+(TABLE|DATABASE|SCHEMA)\b/i,
+  /\b(format|mkfs|dd\s+if=)\b/i,
+  /\bcurl\s+.*\|\s*(sh|bash|pwsh|cmd)\b/i,
+  /\bgit\s+(reset\s+--hard|clean\s+-[fFxdD]+)\b/i,
+];
+
+export function isDestructiveCommand(cmd) {
+  if (!cmd || typeof cmd !== 'string') return false;
+  return DESTRUCTIVE_COMMAND_PATTERNS.some(p => p.test(cmd));
+}
+
+export function sanitizeExecutionPlan(plan) {
+  if (!Array.isArray(plan)) return [];
+  return plan.filter(step => {
+    if (!step || typeof step !== 'object') return false;
+    if (step.command && isDestructiveCommand(step.command)) {
+      console.warn(`[SMALL-MODEL-BRIDGE] Blocked destructive command in execution plan: ${step.command}`);
+      return false;
+    }
+    return true;
+  });
+}
+
 /**
  * Extract structured mobile intent using local LLM with deterministic fallback.
  */
@@ -292,9 +340,11 @@ Respond with raw JSON only. No markdown fences. No explanations.`;
 
     // Validate required fields
     if (parsed.action_type && parsed.intent) {
+      const executionPlan = sanitizeExecutionPlan(parsed.execution_plan);
       return {
         $schema: parsed.$schema || 'urn:toolforge:schema:base-sync-task:v1',
         ...parsed,
+        execution_plan: executionPlan,
         id: parsed.id || `act-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
         timestamp: parsed.timestamp || new Date().toISOString(),
         source: metadata.source || parsed.source || 'mobile-voice',

@@ -9,6 +9,7 @@ import pluginsCmd from './commands/plugins.js';
 import execCmd from './commands/exec.js';
 import memoryCmd from './commands/memory.js';
 import reviewCmd from './commands/review.js';
+import worktreeCmd from './commands/worktree.js';
 
 // Intercept dynamic plugin namespace commands
 import { resolve } from 'node:path';
@@ -17,7 +18,7 @@ import os from 'os';
 
 const args = process.argv.slice(2);
 const firstArg = args[0];
-const builtInCommands = ['install', 'list', 'search', 'plugins', 'exec', 'memory', 'review', '-h', '--help', '-v', '--verbose', '--version'];
+const builtInCommands = ['install', 'list', 'search', 'plugins', 'exec', 'memory', 'review', 'worktree', '-h', '--help', '-v', '--verbose', '--version'];
 
 if (firstArg && !builtInCommands.includes(firstArg) && !firstArg.startsWith('-')) {
   const namespace = firstArg;
@@ -50,6 +51,7 @@ if (firstArg && !builtInCommands.includes(firstArg) && !firstArg.startsWith('-')
       .command(execCmd)
       .command(memoryCmd)
       .command(reviewCmd)
+      .command(worktreeCmd)
       .showHelp();
     process.exit(1);
   }
@@ -78,6 +80,7 @@ yargs(hideBin(process.argv))
   .command(execCmd)
   .command(memoryCmd)
   .command(reviewCmd)
+  .command(worktreeCmd)
   .option('api-url', {
     describe: 'Marketplace API URL',
     default: 'http://localhost:3000',

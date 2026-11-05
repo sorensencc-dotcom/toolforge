@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 import { fileURLToPath } from 'url';
 
 export const DEFAULT_REPO_ROOTS = [
@@ -15,6 +16,39 @@ export const DEFAULT_MCP_DIR = 'C:\\Users\\soren\\.gemini\\antigravity\\mcp';
 export const DEFAULT_REGISTRY_PATH = 'C:\\dev\\notebooklm-registry.json';
 export const DEFAULT_GUIDE_OUTPUT_PATH = 'C:\\dev\\docs\\Ecosystem Architecture Guide (Current).md';
 export const DRIVE_MASTER_URL = 'https://docs.google.com/document/d/1zTiYlA6NIhJRDsr0_9s0I_oQKUnW6l8eJX6xqYGRM_M/edit?usp=drivesdk&ouid=108918430137219217175';
+
+export const DEFAULT_CONTRACT_HUBS = [
+  {
+    subsystem: 'sigil-repo',
+    repo: 'C:\\dev\\sigil-repo',
+    file: 'sigil/relay/v1/room-routes.mjs',
+    role: 'Room message dispatch & SSE stream session lifecycle'
+  },
+  {
+    subsystem: 'sigil-repo',
+    repo: 'C:\\dev\\sigil-repo',
+    file: 'sigil/relay/v1/accept-envelope.mjs',
+    role: 'Federation envelope cryptographic verification & resend handling'
+  },
+  {
+    subsystem: 'icf',
+    repo: 'C:\\dev\\icf',
+    file: 'src/server.mjs',
+    role: 'Port 8080/3000 telemetry hub & action dispatcher'
+  },
+  {
+    subsystem: 'kb-sync',
+    repo: 'C:\\dev\\kb-sync',
+    file: 'watch-competitors-v2.mjs',
+    role: 'Competitor watchlist monitor & diff engine'
+  },
+  {
+    subsystem: 'marketplace',
+    repo: 'C:\\dev',
+    file: 'src/api/server.js',
+    role: 'Registry API endpoints & install telemetry'
+  }
+];
 
 export function extractRepoTopology(repoRoots = DEFAULT_REPO_ROOTS) {
   const repos = [];
@@ -190,7 +224,100 @@ export function extractNotebookDirectory(registryPath = DEFAULT_REGISTRY_PATH) {
   };
 }
 
-export function compileEcosystemGuide({ repos = [], mcps = [], notebooks = {}, timestamp = new Date() }) {
+export function extractTrailSkeletons(hubs = DEFAULT_CONTRACT_HUBS) {
+  const results = [];
+  for (const hub of hubs) {
+    if (!fs.existsSync(hub.repo)) {
+      continue;
+    }
+    const fullPath = path.resolve(hub.repo, hub.file);
+    if (!fs.existsSync(fullPath)) {
+      continue;
+    }
+
+    let signatures = [];
+    try {
+      const stdout = execSync(`trail skeleton --no-refresh "${hub.file}" "${hub.repo}"`, {
+        encoding: 'utf8',
+        stdio: ['pipe', 'pipe', 'pipe']
+      });
+
+      signatures = stdout
+        .split('\n')
+        .map(l => l.trim())
+        .filter(l => l && !l.startsWith('[trail]') && !l.startsWith('trail skeleton'))
+        .filter(l => !l.includes('no definitions indexed for this file'));
+
+      if (signatures.length === 0) {
+        signatures = ['// No symbol definitions extracted from AST'];
+      }
+    } catch (err) {
+      signatures = [`// Extraction fallback: ${err.message}`];
+    }
+
+    results.push({
+      subsystem: hub.subsystem,
+      file: hub.file,
+      repo: hub.repo,
+      role: hub.role,
+      signatures
+    });
+  }
+  return results;
+}
+
+export async function synthesizeWithGemini({ repos = [], skeletons = [], apiKey = null, timeoutMs = 8000 } = {}) {
+  const key = apiKey || process.env.GEMINI_API_KEY;
+  if (!key) {
+    return null;
+  }
+
+  const repoSummary = repos.map(r => `- ${r.name} (${r.branch}): \`${r.lastCommitHash}\` ${r.lastCommitMessage}`).join('\n');
+  const skeletonSummary = skeletons.map(s => `### ${s.subsystem} (${s.file}) - ${s.role}\n${s.signatures.slice(0, 6).join('\n')}`).join('\n\n');
+
+  const prompt = `You are the chief systems architect for the CIC Rewrite Labs ecosystem.
+Given the latest repository commit topology and current Trail AST contract skeletons below, generate an authoritative daily architectural advisory (maximum 3 concise markdown paragraphs):
+1. **Architectural Delta & Invariants**: Highlight active interface changes or confirmed stability in core contracts.
+2. **Cross-Subsystem Protocol & Routing**: Address how Sigil, ICF, IronLedger, and NotebookLM clusters bind together today.
+3. **Agent & CLI Advisory**: Concrete guidance and watch-outs for Claude Code, Grok Bot, and NotebookLM queries.
+
+Active Repos:
+${repoSummary}
+
+Trail AST Contract Skeletons:
+${skeletonSummary}
+`;
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
+      }),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    return text ? text.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+export function compileEcosystemGuide({ repos = [], mcps = [], notebooks = {}, skeletons = [], geminiSynthesis = null, timestamp = new Date() }) {
   const isoTimestamp = timestamp instanceof Date ? timestamp.toISOString() : String(timestamp);
 
   let notebookList = [];
@@ -223,6 +350,30 @@ export function compileEcosystemGuide({ repos = [], mcps = [], notebooks = {}, t
     ? '| _None registered_ | - | - |\n'
     : notebookList.map(n => `| ${n.category || 'General'} | \`${n.id}\` | ${n.title} |`).join('\n') + '\n';
 
+  const skeletonSections = skeletons.length === 0
+    ? '_No contract hubs extracted._\n'
+    : skeletons.map(s => `### Subsystem: \`${s.subsystem}\`
+> **File:** \`${s.file}\`  
+> **Role:** ${s.role}  
+> **Repo Root:** \`${s.repo}\`
+
+\`\`\`javascript
+${s.signatures.join('\n')}
+\`\`\`
+`).join('\n');
+
+  const geminiBlock = geminiSynthesis
+    ? `---
+
+## Daily Architectural Delta & Agent Advisory (Gemini Synthesized)
+
+> **Synthesis Engine:** Gemini 2.5 Flash | **Status:** Live Daily Delta  
+
+${geminiSynthesis}
+
+`
+    : '';
+
   return `# Ecosystem Architecture Guide (Current)
 
 > **Document Status:** Authoritative Architectural Standard  
@@ -230,7 +381,7 @@ export function compileEcosystemGuide({ repos = [], mcps = [], notebooks = {}, t
 > **Drive Master:** [Ecosystem Architecture Guide (Current).md](${DRIVE_MASTER_URL})  
 > **Target Alignment:** CIC Historical, Core Software Architecture, Personal OS & Organization Repositories
 
----
+${geminiBlock}---
 
 ## 1. Core Repositories & Engine Status (Knowledge Plane Partitioning)
 
@@ -273,7 +424,7 @@ ${mcpRows}
 
 | Service / Subsystem | Local Port(s) | Topology Role & Endpoint Details |
 |---|---|---|
-| **ICF (Iron Core Fabric)** | \`3000\` | Local dashboard, orchestrator, and telemetry frontend |
+| **ICF (Iron Core Fabric)** | \`3000 / 8080\` | Local dashboard, orchestrator, and telemetry frontend |
 | **IronLedger Workbench** | \`5000 / 5050\` | Double-entry core accounting API and administration workbench |
 | **Sigil Loopback Relay** | \`8765\` | Cryptographic identity relay and federated protocol broker |
 | **Ollama Inference Engine** | \`11434\` | Local model inference provider and embeddings service |
@@ -284,43 +435,229 @@ ${mcpRows}
 
 | Category | Notebook ID | Title |
 |---|---|---|
-${notebookRows}`;
+${notebookRows}
+---
+
+## 6. Cross-Subsystem Architectural & Sequence Flow Diagrams
+
+### A. Subsystem Topology & Port Architecture
+\`\`\`mermaid
+flowchart TD
+    subgraph Agents["Autonomous Agent Runtime & CLIs"]
+        AG["Antigravity / Gemini 3.8"]
+        CC["Claude Code"]
+        GB["Grok Bot"]
+        NLMC["NotebookLM CLI (nlm)"]
+    end
+
+    subgraph CoreServices["Local Service Invariants & Ports"]
+        Sigil["Sigil Loopback Relay\\n(sigil-repo :8765)"]
+        ICF["ICF Hub & Dispatcher\\n(icf/src/server.mjs :3000 / :8080)"]
+        IL["IronLedger API\\n(journal.py :5000 / :5050)"]
+        Ollama["Ollama Inference Engine\\n(:11434)"]
+    end
+
+    subgraph Storage["Knowledge Plane & Storage Hubs"]
+        CIC["1. CIC Historical Workstreams\\n(CIC-KB, Sorensen Archive)"]
+        DEV["2. Core Software Architecture\\n(IronLedger, Sigil, Rewrite Labs)"]
+        POS["3. Personal OS & Operations\\n(Household, Utilities, Florida)"]
+    end
+
+    AG -->|Signed Envelopes| Sigil
+    CC -->|Signed Envelopes| Sigil
+    GB -->|Signed Envelopes| Sigil
+    Sigil -->|Room Events| ICF
+    ICF -->|Dispatch Actions| IL
+    ICF -->|Ingest & Resync| NLMC
+    NLMC -->|Direct Sync| CIC
+    NLMC -->|Direct Sync| DEV
+    NLMC -->|Direct Sync| POS
+\`\`\`
+
+### B. Agent Task Routing & Federation Protocol
+\`\`\`mermaid
+sequenceDiagram
+    autonumber
+    participant Agent as Agent / CLI Client
+    participant Sigil as Sigil Relay (:8765)
+    participant ICF as ICF Dispatcher (:8080)
+    participant NLM as NotebookLM Clusters (31 Notebooks)
+
+    Agent->>Sigil: POST /rooms/:id/messages (Ed25519 Signed Envelope)
+    Sigil->>Sigil: accept-envelope.mjs (Verify Signature & Sequence)
+    Sigil->>ICF: notifyRoomChange(roomId, changed)
+    ICF->>ICF: refreshPullRequestsAsync() & Action Dispatcher
+    ICF->>NLM: nlm source sync / nlm source add
+    NLM-->>Agent: Authoritative Grounded Context & Citations
+\`\`\`
+
+### C. Knowledge Plane Domain Isolation
+\`\`\`mermaid
+flowchart LR
+    subgraph P1["Plane 1: Historical Workstreams (CIC)"]
+        direction TB
+        CIC1["Willow Run & Aviation"]
+        CIC2["Ford Executive Dynamics"]
+        CIC3["CIC-KB Master"]
+    end
+
+    subgraph P2["Plane 2: Core Software Architecture"]
+        direction TB
+        DEV1["IronLedger Architecture"]
+        DEV2["Sigil Protocol & Federation"]
+        DEV3["Rewrite Labs SSG Platform"]
+        DEV4["Open Dev Triage Buffer"]
+    end
+
+    subgraph P3["Plane 3: Personal OS & Operations"]
+        direction TB
+        POS1["Household & Utilities"]
+        POS2["Florida Logistics"]
+    end
+
+    P1 -.->|STRICT BARRIER: No Cross-Domain Leakage| P2
+    P2 -.->|STRICT BARRIER: No Cross-Domain Leakage| P3
+\`\`\`
+
+---
+
+## 7. High-Gravity Architectural Contract Hubs (Trail AST Skeletons)
+
+${skeletonSections}
+---
+
+## 8. Authoritative Agent & CLI Invariant Rules (Source of Truth)
+
+1. **Deterministic Search Policy**:
+   - Before performing workspace-wide text searches (\`grep\`, \`rg\`, \`findstr\`), consult the deterministic codebase indexes: run \`trail skeleton <file>\` or \`trail callers <symbol>\`.
+   - Raw file greps across entire repositories are blocked by governance policy.
+2. **Local Port & Dashboard Surface Allocation**:
+   - \`3000 / 8080\`: ICF Dashboard & Action Server. Strictly modify \`icf/dashboard/index.html\`. Never copy root legacy \`dashboard.html\`.
+   - \`5000 / 5050\`: IronLedger core accounting API and administration workbench.
+   - \`8765\`: Sigil loopback cryptographic identity relay.
+   - \`11434\`: Local Ollama inference engine.
+3. **Knowledge Plane Partitioning Protocol**:
+   - Never cross-pollinate concepts across Historical CIC, Core Software Architecture, and Personal OS.
+   - Historical research queries must bind strictly to the 15 Historical CIC notebooks (\`CIC-KB\`, etc.).
+   - Software development tasks must bind strictly to Core Software Architecture notebooks.
+4. **NotebookLM CLI Synchronization Commands**:
+   - Synchronize master Drive source in place: \`nlm source sync "<notebook-id>" --confirm\`
+   - Upload new architectural guide version: \`nlm source add "<notebook-id>" --file "C:\\dev\\docs\\Ecosystem Architecture Guide (Current).md"\`
+`;
+}
+
+function writeGuideFile(outputPath, { repos, mcps, notebooks, skeletons, geminiSynthesis, timestamp }) {
+  const content = compileEcosystemGuide({
+    repos,
+    mcps,
+    notebooks,
+    skeletons,
+    geminiSynthesis,
+    timestamp
+  });
+
+  try {
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  } catch {
+    // directory already exists or permission restricted
+  }
+
+  let finalPath = outputPath;
+  const tempPath = path.join(os.tmpdir(), `${path.basename(outputPath)}.tmp.${process.pid}.${Date.now()}`);
+
+  try {
+    fs.writeFileSync(tempPath, content, 'utf8');
+    try {
+      fs.copyFileSync(tempPath, outputPath);
+      fs.unlinkSync(tempPath);
+    } catch (copyErr) {
+      if (copyErr.code === 'EPERM' || copyErr.code === 'EACCES') {
+        // Fall back to writing directly or using temp location in restricted sandbox
+        try {
+          fs.writeFileSync(outputPath, content, 'utf8');
+        } catch {
+          finalPath = tempPath;
+        }
+      } else {
+        throw copyErr;
+      }
+    }
+  } catch (err) {
+    if (err.code === 'EPERM' || err.code === 'EACCES') {
+      finalPath = path.join(os.tmpdir(), path.basename(outputPath));
+      fs.writeFileSync(finalPath, content, 'utf8');
+    } else {
+      throw err;
+    }
+  }
+
+  return {
+    outputPath: finalPath,
+    repoCount: repos.length,
+    mcpCount: mcps.length,
+    notebookCount: notebooks.totalCount !== undefined ? notebooks.totalCount : (Array.isArray(notebooks) ? notebooks.length : 0),
+    skeletonCount: skeletons.length,
+    hasGeminiSynthesis: !!geminiSynthesis,
+    bytesWritten: Buffer.byteLength(content, 'utf8'),
+    timestamp: timestamp || new Date()
+  };
 }
 
 export function generateAndWriteGuide(outputPath = DEFAULT_GUIDE_OUTPUT_PATH, options = {}) {
   const repos = extractRepoTopology(options.repoRoots);
   const mcps = extractMcpTopology(options.mcpDir);
   const notebooks = extractNotebookDirectory(options.registryPath);
-  const content = compileEcosystemGuide({ repos, mcps, notebooks, timestamp: options.timestamp });
+  const skeletons = extractTrailSkeletons(options.contractHubs);
 
-  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-
-  const tempPath = `${outputPath}.tmp.${process.pid}.${Date.now()}`;
-  fs.writeFileSync(tempPath, content, 'utf8');
-  fs.copyFileSync(tempPath, outputPath);
-  try {
-    fs.unlinkSync(tempPath);
-  } catch {
-    // cleanup
+  if (options.withGemini && process.env.GEMINI_API_KEY) {
+    return (async () => {
+      const geminiSynthesis = await synthesizeWithGemini({ repos, skeletons, apiKey: options.geminiApiKey });
+      return writeGuideFile(outputPath, { repos, mcps, notebooks, skeletons, geminiSynthesis, timestamp: options.timestamp });
+    })();
   }
 
-  return {
-    outputPath,
-    repoCount: repos.length,
-    mcpCount: mcps.length,
-    notebookCount: notebooks.totalCount !== undefined ? notebooks.totalCount : (Array.isArray(notebooks) ? notebooks.length : 0),
-    bytesWritten: Buffer.byteLength(content, 'utf8'),
-    timestamp: options.timestamp || new Date()
-  };
+  return writeGuideFile(outputPath, {
+    repos,
+    mcps,
+    notebooks,
+    skeletons,
+    geminiSynthesis: options.geminiSynthesis || null,
+    timestamp: options.timestamp
+  });
+}
+
+export async function generateAndWriteGuideAsync(outputPath = DEFAULT_GUIDE_OUTPUT_PATH, options = {}) {
+  const repos = extractRepoTopology(options.repoRoots);
+  const mcps = extractMcpTopology(options.mcpDir);
+  const notebooks = extractNotebookDirectory(options.registryPath);
+  const skeletons = extractTrailSkeletons(options.contractHubs);
+
+  let geminiSynthesis = options.geminiSynthesis || null;
+  if (!options.noGemini && (options.withGemini || process.env.GEMINI_API_KEY)) {
+    geminiSynthesis = await synthesizeWithGemini({ repos, skeletons, apiKey: options.geminiApiKey });
+  }
+
+  return writeGuideFile(outputPath, {
+    repos,
+    mcps,
+    notebooks,
+    skeletons,
+    geminiSynthesis,
+    timestamp: options.timestamp
+  });
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
-  try {
-    const summary = generateAndWriteGuide();
-    console.log(`[OK] Generated guide at: ${summary.outputPath}`);
-    console.log(`     Bytes: ${summary.bytesWritten}, Repos: ${summary.repoCount}, MCPs: ${summary.mcpCount}, Notebooks: ${summary.notebookCount}`);
-  } catch (err) {
-    console.error(`[ERROR] Failed to generate guide:`, err.message);
-    process.exit(1);
-  }
+  (async () => {
+    try {
+      const args = process.argv.slice(2);
+      const withGemini = args.includes('--with-gemini');
+      const summary = await generateAndWriteGuideAsync(DEFAULT_GUIDE_OUTPUT_PATH, { withGemini });
+      console.log(`[OK] Generated guide at: ${summary.outputPath}`);
+      console.log(`     Bytes: ${summary.bytesWritten}, Repos: ${summary.repoCount}, MCPs: ${summary.mcpCount}, Notebooks: ${summary.notebookCount}, Skeletons: ${summary.skeletonCount}, Gemini: ${summary.hasGeminiSynthesis}`);
+    } catch (err) {
+      console.error(`[ERROR] Failed to generate guide:`, err.message);
+      process.exit(1);
+    }
+  })();
 }

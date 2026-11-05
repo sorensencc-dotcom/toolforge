@@ -19,8 +19,8 @@ test('blocks broad recursive grep across directory', () => {
   const result = runInterceptor(['grep -rn "mySymbol" .']);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /TOOL REDIRECT: DETERMINISTIC CODE GRAPH/);
-  assert.match(result.stderr, /mcp__graft__graft_trace_calls/);
-  assert.match(result.stderr, /mcp__graft__graft_file_api/);
+  assert.match(result.stderr, /mcp__trail__trail_trace_calls/);
+  assert.match(result.stderr, /mcp__trail__trail_file_api/);
 });
 
 test('blocks broad ripgrep across workspace', () => {
