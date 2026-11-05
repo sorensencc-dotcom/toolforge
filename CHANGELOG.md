@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.119.2
+Date: 2026-11-05
+
+### Changes
+- 0e96843f - Merge pull request #278 from sorensencc-dotcom/chore/graft-to-trail-config (Chris Sorensen)
+- 1398da2f - Merge pull request #280 from sorensencc-dotcom/fix/trm-dispatch-commit-and-scoped-checker (Chris Sorensen)
+- 8a086036 - fix(trm-dispatch): commit after scoped checker; Codex leaves work uncommitted (Chris Sorensen)
+- 701b8eb6 - chore: remove leftover IJFW references (Chris Sorensen)
+- 78ff0062 - chore(mcp): replace graft with trail in agent configs (Chris Sorensen)
+
 ## Version 2.119.1
 Date: 2026-11-05
 
