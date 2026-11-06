@@ -22,6 +22,8 @@ import {
   commitTypeForCard,
   logToLedger,
   refreshLedgerMarkdown,
+  normalizeActionCardIdentity,
+  matchesActionCardIdentity,
   findExistingGitHubIssueOrPr,
   getValidAccessToken,
   resetTokenCacheForTesting
@@ -651,6 +653,14 @@ test('findExistingGitHubIssueOrPr handles null, empty, or unresolvable targets s
   assert.equal(findExistingGitHubIssueOrPr(null, 'test'), null);
   assert.equal(findExistingGitHubIssueOrPr('sorensencc-dotcom/kb-sync', null), null);
   assert.equal(findExistingGitHubIssueOrPr('sorensencc-dotcom/kb-sync', ''), null);
+});
+
+test('action card identity matching treats title and body punctuation variants as the same card', () => {
+  const identity = 'act-trm-ingest-action-type-fallback';
+  assert.equal(normalizeActionCardIdentity(identity), 'act_trm_ingest_action_type_fallback');
+  assert.equal(matchesActionCardIdentity({ title: 'feat(kb-sync): act_trm_ingest_action_type_fallback' }, identity), true);
+  assert.equal(matchesActionCardIdentity({ body: '- **Card ID**: `act-trm-ingest-action-type-fallback`' }, identity), true);
+  assert.equal(matchesActionCardIdentity({ title: 'feat(kb-sync): unrelated-card' }, identity), false);
 });
 
 test('refreshLedgerMarkdown renders PR links as [repo#prNum (PR)](url)', () => {
