@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.120.0
+Date: 2026-11-06
+
+### Changes
+- 1b5b8c77 - Merge pull request #283 from sorensencc-dotcom/feat/notebook-api-client (Chris Sorensen)
+- 22b7c6c9 - feat(notebook): add native Google Notebook API client (Chris Sorensen)
+
 ## Version 2.119.4
 Date: 2026-11-05
 
