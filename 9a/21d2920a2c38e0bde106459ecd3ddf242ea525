@@ -1,0 +1,30 @@
+scripts/trm-ingress-watcher.mjs
+  s_1b50fca0832bb1::t_50c70d1b358645 788-803,806,811,820,830,839,858
+tests/trm-ingress-routing.test.mjs
+  s_1b50fca0832bb1::t_50c70d1b358645 25-26,644-649
+  s_8d757b145ec218::t_43fca57f8bc561 650-651
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9a21d2920a2c38e0bde106459ecd3ddf242ea525",
+  "prompts": {},
+  "sessions": {
+    "s_1b50fca0832bb1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1b1df-3e1f-7ff0-b46a-87611dafc28e",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_8d757b145ec218": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "75548f70-11f7-48aa-917a-1db9219a4bcb",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
