@@ -1,0 +1,19 @@
+scripts/trm-ingress-watcher.mjs
+  s_31dd115102abc1::t_7efb6a89755534 1312-1321,1323,1327,1330,1408-1412,1415,1424,1438,1449-1452,1479-1503
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d89522064230d74aebf981ba2d0e7b86e918b39b",
+  "prompts": {},
+  "sessions": {
+    "s_31dd115102abc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8fca7f9-825e-43b8-b4ec-b1d0da188afa",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
