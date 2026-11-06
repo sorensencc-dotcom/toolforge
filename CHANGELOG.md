@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 2.121.0
+Date: 2026-11-06
+
+### Changes
+- fa8e36ee - Merge pull request #285 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- c74d5a4e - Merge branch 'main' into fix/mcp-playwright-package (Chris Sorensen)
+- 5b8d5484 - feat(trm): embed enrichment header and commit PR scaffold to remote branch (Chris Sorensen)
+- d8952206 - fix(trm): sync outbox receipt and ledger on card completion (Chris Sorensen)
+- 49daf6a4 - feat(trm): heal gdoc outbox receipts and add containment gate (Chris Sorensen)
+- 05ea5411 - docs(report): add daily report for 2026-11-06 (Chris Sorensen)
+- 66ad89de - feat(reconcile): auto-heal quarantined mobile cards into pending backlog (Chris Sorensen)
+- bc124553 - docs(report): add daily report for 2026-11-05 (Chris Sorensen)
+
 ## Version 2.120.1
 Date: 2026-11-06
 
