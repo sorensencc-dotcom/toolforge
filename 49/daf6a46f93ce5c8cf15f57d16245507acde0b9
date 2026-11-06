@@ -1,0 +1,46 @@
+tests/trm-ingress-routing.test.mjs
+  s_1b50fca0832bb1::t_f2aa39c23e11dd 25-26,659-664
+  s_1b50fca0832bb1::t_e52a5875e226f9 665-666
+  s_45860e0aff8248::t_69a0cc659c3a3c 768-793
+scripts/trm-ingress-watcher.mjs
+  s_1b50fca0832bb1::t_f2aa39c23e11dd 469,479,878-885,888,893,902,912,921,940
+  s_45860e0aff8248::t_ea970c754009cf 261-275,386-389,393,398-399,456,458-468,470-478,480-484,487,489-513,516-519,521-525,527-528,531-532,870-877,1392-1393,1397-1464,1707-1735
+scripts/lib/security-containment-gate.mjs
+  s_45860e0aff8248::t_830874503c28b8 1-171
+tests/run-daily-notebook-mining.test.mjs
+  s_354d1af2f80499::t_049ef3192722a1 4,6-7,14,18-27,30-42,45-57,60-68,71-84,87-96,99-102,105-111,114-122
+tests/trm-act-01-security-containment-deployment-prompt-gate.test.mjs
+  s_45860e0aff8248::t_58734770f60ed8 1-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "49daf6a46f93ce5c8cf15f57d16245507acde0b9",
+  "prompts": {},
+  "sessions": {
+    "s_1b50fca0832bb1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1b1df-3e1f-7ff0-b46a-87611dafc28e",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_354d1af2f80499": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1b1db-d0f9-7d53-8e10-1c72ddf986cd",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_45860e0aff8248": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1b228-a699-7f32-aa3e-ea172d8ec003",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
