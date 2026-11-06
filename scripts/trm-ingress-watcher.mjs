@@ -1309,16 +1309,25 @@ export function syncCompletionReceipts(options = {}) {
     }
 
     // Check if task was completed in .harness/tasks/completed
-    if (!isFinished && item.id) {
-      const completedTaskPath = path.join(HARNESS_COMPLETED_DIR, `${item.id}.json`);
+    if (!isFinished && item.id && fs.existsSync(HARNESS_COMPLETED_DIR)) {
+      let completedTaskPath = path.join(HARNESS_COMPLETED_DIR, `${item.id}.json`);
+      if (!fs.existsSync(completedTaskPath)) {
+        try {
+          const matchFile = fs.readdirSync(HARNESS_COMPLETED_DIR).find(
+            f => f.includes(`__${item.id}.`) || f.startsWith(`${item.id}.`)
+          );
+          if (matchFile) completedTaskPath = path.join(HARNESS_COMPLETED_DIR, matchFile);
+        } catch {}
+      }
       if (fs.existsSync(completedTaskPath)) {
+        const matchedName = path.basename(completedTaskPath);
         try {
           const taskData = JSON.parse(fs.readFileSync(completedTaskPath, 'utf8'));
           isFinished = true;
-          completionSummary = taskData.completion_details || taskData.output || taskData.summary || `Task completed in .harness/tasks/completed/${item.id}.json`;
+          completionSummary = taskData.completion_details || taskData.output || taskData.summary || `Task completed in .harness/tasks/completed/${matchedName}`;
         } catch {
           isFinished = true;
-          completionSummary = `Task completed in .harness/tasks/completed/${item.id}.json`;
+          completionSummary = `Task completed in .harness/tasks/completed/${matchedName}`;
         }
       }
     }
@@ -1396,9 +1405,14 @@ export function syncCompletionReceipts(options = {}) {
 
 export function reconcileQuarantinedOutboxReceipts(options = {}) {
   const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
+  const pendingDir = options.pendingDir || HARNESS_PENDING_DIR;
+  const inProgressDir = options.inProgressDir || HARNESS_IN_PROGRESS_DIR;
+  const completedDir = options.completedDir || HARNESS_COMPLETED_DIR;
+  const outboxDirs = options.outboxDirs || getActiveOutboxDirs();
+  const ledgerPath = options.ledgerPath !== undefined ? options.ledgerPath : LEDGER_JSONL;
   const healedCards = new Map();
 
-  for (const dir of [HARNESS_PENDING_DIR, HARNESS_IN_PROGRESS_DIR, HARNESS_COMPLETED_DIR]) {
+  for (const dir of [pendingDir, inProgressDir, completedDir]) {
     if (!fs.existsSync(dir)) continue;
     try {
       for (const file of fs.readdirSync(dir)) {
@@ -1407,7 +1421,7 @@ export function reconcileQuarantinedOutboxReceipts(options = {}) {
           const raw = fs.readFileSync(fp, 'utf8');
           const parsed = JSON.parse(raw);
           if (parsed && parsed.context?.body_fetch_failed === false && (parsed.body || parsed.context?.body)) {
-            const targetStatus = dir === HARNESS_COMPLETED_DIR
+            const targetStatus = dir === completedDir
               ? 'COMPLETED'
               : (String(parsed.category || '').toUpperCase() === 'RESEARCH' ? 'STAGED_FOR_RESEARCH' : 'STAGED_FOR_TRIAGE');
             if (parsed.id) healedCards.set(String(parsed.id).toLowerCase(), { card: parsed, status: targetStatus, file });
@@ -1421,7 +1435,7 @@ export function reconcileQuarantinedOutboxReceipts(options = {}) {
   if (healedCards.size === 0) return [];
   const updated = [];
 
-  for (const outbox of getActiveOutboxDirs()) {
+  for (const outbox of outboxDirs) {
     if (!fs.existsSync(outbox)) continue;
     try {
       for (const file of fs.readdirSync(outbox)) {
@@ -1429,10 +1443,13 @@ export function reconcileQuarantinedOutboxReceipts(options = {}) {
         const jsonPath = path.join(outbox, file);
         try {
           const rcpt = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-          if (rcpt.status !== 'QUARANTINED_INSUFFICIENT_DATA') continue;
           const match = healedCards.get(String(rcpt.action_id || '').toLowerCase()) ||
                         healedCards.get(String(rcpt.intent || '').toLowerCase());
           if (!match) continue;
+          const needsUpdate =
+            rcpt.status === 'QUARANTINED_INSUFFICIENT_DATA' ||
+            (match.status === 'COMPLETED' && rcpt.status !== 'COMPLETED');
+          if (!needsUpdate) continue;
 
           rcpt.status = match.status;
           rcpt.summary = match.card.summary || rcpt.summary;
@@ -1455,6 +1472,31 @@ export function reconcileQuarantinedOutboxReceipts(options = {}) {
           }
           updated.push({ file, action_id: rcpt.action_id, status: rcpt.status });
         } catch {}
+      }
+    } catch {}
+  }
+
+  if (ledgerPath && fs.existsSync(ledgerPath)) {
+    try {
+      const lines = fs.readFileSync(ledgerPath, 'utf8').trim().split('\n').filter(Boolean);
+      let ledgerMutated = false;
+      const rows = lines.map(line => {
+        try {
+          const row = JSON.parse(line);
+          const match = healedCards.get(String(row.id || '').toLowerCase()) ||
+                        healedCards.get(String(row.intent || '').toLowerCase());
+          if (match && (row.status === 'QUARANTINED_INSUFFICIENT_DATA' || (match.status === 'COMPLETED' && row.status !== 'COMPLETED'))) {
+            row.status = match.status;
+            row.summary = match.card.summary || row.summary;
+            ledgerMutated = true;
+          }
+          return JSON.stringify(row);
+        } catch {
+          return line;
+        }
+      });
+      if (ledgerMutated && !dryRun) {
+        fs.writeFileSync(ledgerPath, rows.join('\n') + '\n', 'utf8');
       }
     } catch {}
   }
