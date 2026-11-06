@@ -22,6 +22,8 @@ import {
   commitTypeForCard,
   logToLedger,
   refreshLedgerMarkdown,
+  normalizeActionCardIdentity,
+  matchesActionCardIdentity,
   findExistingGitHubIssueOrPr,
   getValidAccessToken,
   resetTokenCacheForTesting
@@ -654,6 +656,14 @@ test('findExistingGitHubIssueOrPr handles null, empty, or unresolvable targets s
   assert.equal(findExistingGitHubIssueOrPr('sorensencc-dotcom/kb-sync', ''), null);
 });
 
+test('action card identity matching treats title and body punctuation variants as the same card', () => {
+  const identity = 'act-trm-ingest-action-type-fallback';
+  assert.equal(normalizeActionCardIdentity(identity), 'act_trm_ingest_action_type_fallback');
+  assert.equal(matchesActionCardIdentity({ title: 'feat(kb-sync): act_trm_ingest_action_type_fallback' }, identity), true);
+  assert.equal(matchesActionCardIdentity({ body: '- **Card ID**: `act-trm-ingest-action-type-fallback`' }, identity), true);
+  assert.equal(matchesActionCardIdentity({ title: 'feat(kb-sync): unrelated-card' }, identity), false);
+});
+
 test('refreshLedgerMarkdown renders PR links as [repo#prNum (PR)](url)', () => {
   const tmpLedger = path.join(os.tmpdir(), `trm-ledger-pr-test-${Date.now()}.jsonl`);
   const tmpMd = path.join(os.tmpdir(), 'LEDGER.md');
@@ -754,4 +764,30 @@ test('parsePayload strips a UTF-8 BOM before JSON.parse', async () => {
   const { stripBom } = await import('../scripts/trm-ingress-watcher.mjs');
   assert.equal(stripBom('﻿{"a":1}'), '{"a":1}');
   assert.deepEqual(parsePayload('﻿{"a":1}', '.json'), { a: 1 });
+});
+
+test('parsePayload and processFile extract plain-text .gdoc content without YAML frontmatter fences', async () => {
+  const mockPlainFetcher = async () => ({
+    ok: true,
+    content: '\uFEFF# Security Containment Deployment Prompt Gate\n\nEnforce socket-level IP allowlisting and out-of-band process termination for high-privilege diagnostic agents.'
+  });
+
+  const parsed = await parsePayload('{"doc_id":"doc_plain_ok"}', '.gdoc', { docFetcher: mockPlainFetcher });
+  assert.equal(parsed.source, 'mobile-gemini-gdoc');
+  assert.equal(parsed.context.body_fetch_failed, false);
+  assert.ok(parsed.body.includes('socket-level IP allowlisting'));
+
+  const tmpGdoc = path.join(os.tmpdir(), '2026-11-06T135501Z__action__toolforge__act-01-security-containment-deployment-prompt-gate.md.gdoc');
+  fs.writeFileSync(tmpGdoc, JSON.stringify({ doc_id: 'doc_plain_ok' }), 'utf8');
+  try {
+    const res = await processFile(tmpGdoc, { dryRun: true, docFetcher: mockPlainFetcher, useSmallModel: false });
+    assert.ok(res);
+    assert.equal(res.id, 'act-01-security-containment-deployment-prompt-gate');
+    assert.equal(res.intent, 'security_containment_deployment_prompt_gate');
+    assert.equal(res.status, 'INSPECTED_DRY_RUN');
+    assert.equal(res.context.body_fetch_failed, false);
+    assert.ok(res.context.body.includes('socket-level IP allowlisting'));
+  } finally {
+    try { fs.unlinkSync(tmpGdoc); } catch {}
+  }
 });

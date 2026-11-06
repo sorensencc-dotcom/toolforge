@@ -274,6 +274,10 @@ $TaskDefinitions = @(
         TaskName = "CIC-Daily-Status"
         Category = "\CIC\"
         Description = "Cast Iron Charlie: Daily status generation."
+        TriggerType = "Daily"
+        TriggerTime = "06:45"
+        ActionExe = "pwsh.exe"
+        ActionArgs = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RepoRoot\scripts\Run-DailyStatus.ps1`""
     },
     @{
         TaskName = "CIC-ImageBuild-Daily"

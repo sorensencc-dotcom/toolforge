@@ -85,6 +85,23 @@ if (Test-Path "C:\dev\_status-feed\trm_history") {
 }
 
 Write-Log "Step 3/3: Rendering HTML artifact..."
-& $python.Path (Join-Path $ScriptDir "render_status_html.py") "C:\dev\_status-feed\daily_status.json" $OutHtml
+$localFeedHtml = "C:\dev\_status-feed\CIC_Daily_Status.html"
+& $python.Path (Join-Path $ScriptDir "render_status_html.py") "C:\dev\_status-feed\daily_status.json" $localFeedHtml
 
-Write-Log "Done. Open: $OutHtml"
+if ($OutHtml -and ($OutHtml -ne $localFeedHtml)) {
+    $outDir = Split-Path -Parent $OutHtml
+    if ($outDir -and (Test-Path $outDir)) {
+        Copy-Item -Path $localFeedHtml -Destination $OutHtml -Force -ErrorAction SilentlyContinue
+        Write-Log "Synced HTML artifact to $OutHtml"
+    }
+}
+
+foreach ($gdriveHtml in @("G:\My Drive\TRM-Research\CIC_Daily_Status.html", "G:\My Drive\Admin\CIC_Daily_Status.html", "G:\My Drive\CIC_Daily_Status.html")) {
+    $gDir = Split-Path -Parent $gdriveHtml
+    if (Test-Path $gDir) {
+        Copy-Item -Path $localFeedHtml -Destination $gdriveHtml -Force -ErrorAction SilentlyContinue
+        Write-Log "Synced HTML artifact to Google Drive: $gdriveHtml"
+    }
+}
+
+Write-Log "Done. Open: $localFeedHtml"
