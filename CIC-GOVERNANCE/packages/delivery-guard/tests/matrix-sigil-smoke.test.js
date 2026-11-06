@@ -45,7 +45,7 @@ test('Sigil matrix smoke keeps all owned test locations and excludes copied gove
     assert.ok(result.stdout.includes(label), `must run ${label}`);
   }
   assert.doesNotMatch(result.stdout + result.stderr, /FOREIGN_TOOLFORGE_SUITE_RAN/);
-  assert.match(smoke, /timeout 60s node --test --test-timeout=30000/);
+  assert.match(smoke, /timeout 180s node --test --test-timeout=30000/);
 });
 
 test('Sigil matrix smoke still fails when an owned test fails', (t) => {

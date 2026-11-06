@@ -42,7 +42,7 @@ test('block-lockfile-edit tolerates malformed stdin', () => {
 test('token-budget-gate denies via JSON and exits 0 when thresholds hit without a plan', () => {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'budget-gate-'));
   try {
-    const r = runHook('token-budget-gate.js', {}, { cwd, env: { LOC_THRESHOLD: '-1', COMMIT_THRESHOLD: '-1' } });
+    const r = runHook('token-budget-gate.js', {}, { cwd, env: { COMMIT_THRESHOLD: '-1' } });
     assert.equal(r.status, 0);
     assert.equal(JSON.parse(r.stdout).hookSpecificOutput.permissionDecision, 'deny');
   } finally {

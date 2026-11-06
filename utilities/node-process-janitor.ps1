@@ -13,9 +13,9 @@
     2. Singleton classes — keep newest CreationDate only; mark older as
        duplicate-singleton:
          - dashboard-server
-         - mcp-memory-server
-         - ijfw-mcp-server  (paths containing mcp-server/src/server.js)
          - http-server
+       mcp-memory-server and ijfw-mcp-server are stdio servers, one per live
+       client session, so they are only cleaned by Rule 1 (dead parent).
     3. Kill node --test / vitest workers older than -TestMaxAgeMinutes (default 30).
 
   Sigil-related node processes are left alone unless -IncludeSigil is set.
@@ -114,10 +114,11 @@ Write-Host ("TestMaxAgeMinutes: {0}" -f $TestMaxAgeMinutes)
 Write-Host ''
 
 $now = Get-Date
-$livePids = Get-LivePidSet
 $protectedDaemonPids = Get-ProtectedDaemonPidSet
 
 $nodeProcs = @(Get-CimInstance Win32_Process -Filter "Name = 'node.exe'" -ErrorAction SilentlyContinue)
+# Snapshot live PIDs after the node query so a parent that starts mid-scan reads as alive, not dead.
+$livePids = Get-LivePidSet
 if (-not $nodeProcs -or $nodeProcs.Count -eq 0) {
   Write-Host 'No node.exe processes found.' -ForegroundColor DarkGray
   if ($Apply) {
@@ -206,9 +207,12 @@ foreach ($r in $records) {
 }
 
 # Rule 2: singleton duplicates (keep newest CreationDate)
+# Opt-in: only machine-wide singletons. Per-session stdio MCP servers (ijfw, mcp-memory) are
+# never Rule 2 kills; Rule 1 (dead parent) handles their orphans.
+$singletonClasses = @('dashboard-server', 'http-server')
 $singletonGroups = $records |
   Where-Object {
-    $_.SingletonClass -and
+    $singletonClasses -contains $_.SingletonClass -and
     ($IncludeSigil -or -not $_.IsSigil)
   } |
   Group-Object -Property SingletonClass

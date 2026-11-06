@@ -256,7 +256,7 @@ cd C:\dev\toolforge\daemons
 
 ## Node Process Janitor
 
-Conservative cleaner for orphaned / duplicate Node daemons (dashboard-server, mcp-memory, ijfw mcp-server, http-server, hung `node --test` / vitest). Default is dry-run; sigil processes are excluded unless `-IncludeSigil`.
+Conservative cleaner for orphaned / duplicate Node daemons (dashboard-server, mcp-memory, http-server, hung `node --test` / vitest). Default is dry-run; sigil processes are excluded unless `-IncludeSigil`.
 
 ```powershell
 cd C:\dev\toolforge\utilities

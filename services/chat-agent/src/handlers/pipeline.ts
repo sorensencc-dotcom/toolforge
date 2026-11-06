@@ -15,6 +15,10 @@ export interface PipelineRequest {
 export interface PipelineResponse {
   success: boolean;
   result: any;
+  /** Set when cic-ingestion answered 400, 404, or 502; the structured error from its body. */
+  error?: string;
+  /** HTTP status from cic-ingestion. */
+  httpStatus?: number;
   quality: QualityMetrics;
   model: ModelSelection;
   executionTime: number;
@@ -31,10 +35,22 @@ export async function executePipeline(
 ): Promise<PipelineResponse> {
   const startTime = Date.now();
 
+  // Credentialed adapters (familysearch) require this shared secret; other adapters ignore it.
+  const routeKey = process.env.CIC_CREDENTIALED_ROUTE_KEY;
+
   const adapterResult = await axios.post(
     `${CIC_INGESTION_URL}/execute/${request.adapter}`,
     { key: request.key, payload: request.context || {} },
-    { timeout: 15000 }
+    {
+      timeout: 15000,
+      headers: routeKey ? { "x-cic-route-key": routeKey } : {},
+      // 400/404/502 carry a structured body; let them through instead of throwing.
+      validateStatus: (status) =>
+        (status >= 200 && status < 300) ||
+        status === 400 ||
+        status === 404 ||
+        status === 502,
+    }
   );
 
   const quality: QualityMetrics = {
@@ -49,6 +65,10 @@ export async function executePipeline(
   return {
     success: adapterResult.data.success,
     result: adapterResult.data.data,
+    ...(adapterResult.status >= 400 && {
+      error: adapterResult.data.error ?? `cic-ingestion returned ${adapterResult.status}`,
+      httpStatus: adapterResult.status,
+    }),
     quality,
     model,
     executionTime: Date.now() - startTime,

@@ -13,26 +13,27 @@ const EDITS_FILE = '.ijfw/.session-edits.jsonl';
 const WORK_DIR = path.join(__dirname, 'test-workdir');
 
 function runHook(env = {}) {
-  // The hook is ESM; copy it to .mjs so it runs as an ES module in isolated test workdir.
+  // Execute the ESM hook inside a package boundary that declares module semantics.
   fs.mkdirSync(WORK_DIR, { recursive: true });
-  const mjsPath = path.join(WORK_DIR, 'hook.mjs');
-  fs.copyFileSync(HOOK_PATH, mjsPath);
-  const result = spawnSync(process.execPath, [mjsPath], {
+  fs.writeFileSync(path.join(WORK_DIR, 'package.json'), '{"type":"module"}\n');
+  const modulePath = path.join(WORK_DIR, 'hook.mjs');
+  fs.copyFileSync(HOOK_PATH, modulePath);
+  const result = spawnSync(process.execPath, [modulePath], {
     env: { ...process.env, ...env },
     cwd: WORK_DIR,
-    encoding: 'utf8'
+    encoding: 'utf8',
   });
   return { status: result.status, output: result.stdout || '', stderr: result.stderr || '' };
 }
 
-test('token-budget-gate.js handles malformed JSON lines in .session-edits.jsonl gracefully', (t) => {
+test('token-budget-gate.js handles malformed JSON lines in .session-edits.jsonl gracefully', () => {
   fs.mkdirSync(path.join(WORK_DIR, '.ijfw'), { recursive: true });
   const editsPath = path.join(WORK_DIR, EDITS_FILE);
 
   const fileContent = [
     '{"added": 10}',
     'THIS IS A MALFORMED JSON LINE THAT WOULD CAUSE JSON.parse TO CRASH',
-    '{"added": 20, "removed": 5}'
+    '{"added": 20, "removed": 5}',
   ].join('\n');
   fs.writeFileSync(editsPath, fileContent);
 
@@ -44,7 +45,7 @@ test('token-budget-gate.js handles malformed JSON lines in .session-edits.jsonl 
   assert.ok(fullOutput.includes('Session LOC: 35'), `Should correctly sum LOC from valid lines. Output: ${fullOutput}`);
 });
 
-test('token-budget-gate.js handles missing edits log gracefully', (t) => {
+test('token-budget-gate.js handles missing edits log gracefully', () => {
   fs.mkdirSync(path.join(WORK_DIR, '.ijfw'), { recursive: true });
 
   const result = runHook({ LOC_THRESHOLD: '100', COMMIT_THRESHOLD: '999' });

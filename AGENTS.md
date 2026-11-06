@@ -146,7 +146,7 @@ Everything (voidtools) runs in the background on this machine, indexing NTFS fil
 **Use `es -path "C:\dev" <pattern>` via Bash instead of Glob when either is true:**
 
 - The search has no known parent directory (would otherwise need `**/` from repo root).
-- The target may live under a rarely-loaded subtree (`docs/archive/`, `.claude/worktrees/`, `.ijfw/`) where a full Glob walk is disproportionately expensive relative to the lookup.
+- The target may live under a rarely-loaded subtree (`docs/archive/`, `.claude/worktrees/`) where a full Glob walk is disproportionately expensive relative to the lookup.
 
 Otherwise keep using Glob — it's already fast for scoped, known-subtree patterns.
 
@@ -249,7 +249,7 @@ Any change to skill approval rules or tier classification requires Tier 1 approv
 2. **Charter before dispatch** — test contract locked before Builder waves; prevents fix-chains post-dispatch
 3. **Metrics hygiene** — exclude lockfiles (package-lock.json, yarn.lock, etc.) from LOC; tracking noise = bad signal
 4. **Test-tag hygiene** — commit primarily adding/fixing test coverage → `test:` prefix (or co-tag), even if it touches non-test files. Prevents test investment hiding inside `fix:`/`feat:` commits and undercounting in commit-type breakdown.
-5. **Bulk-sync tagging** — bulk/automated resync or session-state commits (e.g. large `.ijfw/` regen) → `chore(sync):` prefix, distinct from authored work. Lets retro tooling filter them by prefix instead of hand-auditing shortstat output; keeps LOC/commit-type metrics honest.
+5. **Bulk-sync tagging** — bulk/automated resync or session-state commits (e.g. large `.trail/` or wiki regen) → `chore(sync):` prefix, distinct from authored work. Lets retro tooling filter them by prefix instead of hand-auditing shortstat output; keeps LOC/commit-type metrics honest.
 
 ## Operational workflows
 

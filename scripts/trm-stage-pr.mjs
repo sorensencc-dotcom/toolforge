@@ -15,6 +15,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { validateCardIntegrity } from './trm-card-validation.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const DEV_ROOT = path.resolve(__dirname, '..');
@@ -151,6 +152,10 @@ export function commitScaffoldToBranch(repoDir, branchName, testFilePath, cardId
 }
 
 export function generateTestScaffold(card) {
+  const integrity = validateCardIntegrity(card);
+  if (!integrity.valid && (card.source || card.action_type || card.acceptance_criteria || card.acceptanceCriteria || card.deliverables)) {
+    throw new Error(`${integrity.reason}: ${integrity.error}`);
+  }
   const cardId = card.id || card.action_id || 'unknown';
   const rawTitle = card.title || card.intent || cardId;
   const title = String(rawTitle).replace(/[\r\n]+/g, ' ').replace(/'/g, "\\'").trim();
@@ -208,6 +213,20 @@ export function stagePr(cardId, options = {}) {
 
   if (!card) {
     throw new Error(`Card ${cardId} not found in pending, completed, or ledger`);
+  }
+
+  const existingIds = [...(options.existingIds || [])];
+  if (options.ledgerPath && fs.existsSync(options.ledgerPath)) {
+    for (const line of fs.readFileSync(options.ledgerPath, 'utf8').split('\n').filter(Boolean)) {
+      try {
+        const row = JSON.parse(line);
+        existingIds.push(row.id || row.action_id);
+      } catch {}
+    }
+  }
+  const integrity = validateCardIntegrity(card, { existingIds });
+  if (!integrity.valid && (card.source || card.action_type || card.acceptance_criteria || card.acceptanceCriteria || card.deliverables)) {
+    throw new Error(`${integrity.reason}: ${integrity.error}`);
   }
 
   const target = card.target || card.domain || 'core';

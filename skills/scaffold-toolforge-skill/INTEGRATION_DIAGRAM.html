@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scaffold Toolforge Skill Integration</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&amp;family=Barlow+Condensed:wght@400;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --paper: #f2ece2; --ink: #2c2420; --muted: #5c5349; --accent: #c4501a; }
+body { background: var(--paper); color: var(--ink); min-height: 100vh; display: flex; justify-content: center; padding: 3rem 2rem; }
+.frame { max-width: 720px; width: 100%; }
+.eyebrow { font-family: 'Geist Mono', monospace; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+h1 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+svg { width: 100%; display: block; }
+</style>
+</head>
+<body>
+<div class="frame">
+<p class="eyebrow">Flowchart · Integration</p>
+<h1>Scaffold Toolforge Skill</h1>
+<svg viewBox="0 0 640 656" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="scaffold-toolforge-skill-title scaffold-toolforge-skill-desc">
+<title id="scaffold-toolforge-skill-title">Scaffold Toolforge Skill integration flow</title>
+<desc id="scaffold-toolforge-skill-desc">Flowchart of scaffold-toolforge-skill: an id is validated, the skill directory is generated, registered in the manifest, the pinned count is bumped, and validators run.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#5c5349"/></marker></defs>
+<rect width="100%" height="100%" fill="#f2ece2"/>
+<line x1="320" y1="88" x2="320" y2="128" stroke="#5c5349" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="320" y1="184" x2="320" y2="224" stroke="#5c5349" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="320" y1="280" x2="320" y2="320" stroke="#5c5349" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="332" y="292" width="64" height="16" rx="2" fill="#f2ece2"/><text x="364" y="304" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">REGISTER</text>
+<line x1="320" y1="376" x2="320" y2="416" stroke="#5c5349" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="320" y1="472" x2="320" y2="512" stroke="#5c5349" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="160" y="32" width="320" height="56" rx="6" fill="#f2ece2"/>
+<rect x="160" y="32" width="320" height="56" rx="6" fill="#fbf7f0" stroke="#2c2420" stroke-width="1"/>
+<text x="320" y="56" fill="#2c2420" font-size="16" font-weight="600" font-family="'Barlow Condensed', sans-serif" text-anchor="middle">Request</text>
+<text x="320" y="72" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">scaffold a skill</text>
+<rect x="160" y="128" width="320" height="56" rx="6" fill="#f2ece2"/>
+<rect x="160" y="128" width="320" height="56" rx="6" fill="#fbf7f0" stroke="#2c2420" stroke-width="1"/>
+<text x="320" y="152" fill="#2c2420" font-size="16" font-weight="600" font-family="'Barlow Condensed', sans-serif" text-anchor="middle">validateSkillId</text>
+<text x="320" y="168" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">kebab-case · no duplicate</text>
+<rect x="160" y="224" width="320" height="56" rx="6" fill="#f2ece2"/>
+<rect x="160" y="224" width="320" height="56" rx="6" fill="#f6dfd0" stroke="#c4501a" stroke-width="1"/>
+<text x="320" y="248" fill="#2c2420" font-size="16" font-weight="600" font-family="'Barlow Condensed', sans-serif" text-anchor="middle">scaffoldSkill</text>
+<text x="320" y="264" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">skill.json · SKILL.md · README · src · tests</text>
+<rect x="160" y="320" width="320" height="56" rx="6" fill="#f2ece2"/>
+<rect x="160" y="320" width="320" height="56" rx="6" fill="#fbf7f0" stroke="#2c2420" stroke-width="1"/>
+<text x="320" y="344" fill="#2c2420" font-size="16" font-weight="600" font-family="'Barlow Condensed', sans-serif" text-anchor="middle">insertManifestEntry</text>
+<text x="320" y="360" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">manifest.json · status candidate</text>
+<rect x="160" y="416" width="320" height="56" rx="6" fill="#f2ece2"/>
+<rect x="160" y="416" width="320" height="56" rx="6" fill="#fbf7f0" stroke="#2c2420" stroke-width="1"/>
+<text x="320" y="440" fill="#2c2420" font-size="16" font-weight="600" font-family="'Barlow Condensed', sans-serif" text-anchor="middle">bumpPinnedCount</text>
+<text x="320" y="456" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">manifest-skills-integrity test</text>
+<rect x="160" y="512" width="320" height="56" rx="6" fill="#f2ece2"/>
+<rect x="160" y="512" width="320" height="56" rx="6" fill="#fbf7f0" stroke="#2c2420" stroke-width="1"/>
+<text x="320" y="536" fill="#2c2420" font-size="16" font-weight="600" font-family="'Barlow Condensed', sans-serif" text-anchor="middle">Validators</text>
+<text x="320" y="552" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">doc · toolforge · security auditor</text>
+<line x1="32" y1="608" x2="608" y2="608" stroke="rgba(44,36,32,0.12)" stroke-width="0.8"/>
+<text x="32" y="628" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND</text>
+<rect x="104" y="620" width="12" height="12" rx="2" fill="#f6dfd0" stroke="#c4501a"/>
+<text x="124" y="628" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace">CORE STEP</text>
+<rect x="212" y="620" width="12" height="12" rx="2" fill="#fbf7f0" stroke="#2c2420"/>
+<text x="232" y="628" fill="#5c5349" font-size="8" font-family="'Geist Mono', monospace">STEP</text>
+</svg>
+</div>
+</body>
+</html>

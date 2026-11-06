@@ -3,6 +3,9 @@ import * as path from 'node:path';
 import * as os from 'node:os';
 import { execSync, execFileSync } from 'node:child_process';
 import { extractMobileIntent, sanitizeExecutionPlan } from './local-small-model-bridge.mjs';
+import { validateCardIntegrity } from './trm-card-validation.mjs';
+
+export { validateCardIntegrity };
 
 const ALLOWED_TRIAGE_PRIORITIES = ['P1', 'P2', 'P3'];
 
@@ -731,17 +734,11 @@ export function inferDomain(item) {
 
 export function validateIngressQuality(item, rawContent = '') {
   if (item?.context?.body_fetch_failed === true) {
-    const hasActionableTriage = Boolean(
-      (item?.execution_plan && item.execution_plan.length > 0) ||
-      (item?.intent && item.intent !== 'triage_mobile_request' && item.intent !== 'validation_error' && item.intent !== 'unknown')
-    );
-    if (!hasActionableTriage) {
-      return {
-        valid: false,
-        reason: 'GDOC_BODY_FETCH_FAILED',
-        error: 'Document body extraction failed; only filename metadata is present.'
-      };
-    }
+    return {
+      valid: false,
+      reason: 'GDOC_BODY_FETCH_FAILED',
+      error: 'Document body extraction failed; only filename metadata is present.'
+    };
   }
   const content = rawContent || item?.raw_content || item?.summary || item?.body || item?.context?.body || '';
   const stripped = String(content).replace(/\s+/g, ' ').trim();
@@ -1830,6 +1827,17 @@ export async function processFile(filePath, options = {}) {
         console.warn(`[TRM-INGRESS] Small-model triage notice: ${triageErr.message} (preserved deterministic validation)`);
       }
     }
+
+    const existingIds = [];
+    if (fs.existsSync(LEDGER_JSONL)) {
+      for (const line of fs.readFileSync(LEDGER_JSONL, 'utf8').split('\n').filter(Boolean)) {
+        try {
+          const row = JSON.parse(line);
+          existingIds.push(row.id || row.action_id);
+        } catch {}
+      }
+    }
+    item._integrityFailure = validateCardIntegrity(item, { existingIds });
   } catch (err) {
     console.error(`[ERROR] Ingress unparseable receipt: Validation failed for ${filename}: ${err.stack}`);
     if (dryRun) {
@@ -1865,7 +1873,13 @@ export async function processFile(filePath, options = {}) {
   const itemId = item.id || `act-${Date.now()}`;
   console.log(`[TRM-INGRESS] Dispatching action: ${itemId} | Type: ${item.action_type} | Intent: ${item.intent}`);
 
-  const quality = validateIngressQuality(item, raw);
+  const preQualityZombie = isZombieIncident(itemId, item.created_at) || (item.intent && isZombieIncident(item.intent, item.created_at));
+  const quality = preQualityZombie
+    ? { valid: true }
+    : item._integrityFailure?.valid === false
+    ? item._integrityFailure
+    : validateIngressQuality(item, raw);
+  delete item._integrityFailure;
   if (!quality.valid) {
     console.warn(`[TRM-INGRESS] Quality Gate REJECTED: Card ${itemId} (${filename}): ${quality.reason} - ${quality.error}`);
     if (dryRun) {
@@ -1875,6 +1889,7 @@ export async function processFile(filePath, options = {}) {
         action_type: item?.action_type || 'unknown',
         intent: item?.intent || 'unknown',
         status: 'QUARANTINED_INSUFFICIENT_DATA',
+        reason: quality.reason,
         error: quality.error,
         execution_plan: item?.execution_plan,
         context: item?.context
@@ -1893,6 +1908,7 @@ export async function processFile(filePath, options = {}) {
       target_notebook_name: item?.target_notebook_name,
       summary: item?.summary || '',
       status: moved ? 'QUARANTINED_INSUFFICIENT_DATA' : 'QUARANTINE_MOVE_FAILED',
+      reason: quality.reason,
       error: quality.error,
       archived_path: moved ? qTarget : null,
       context: item?.context,
@@ -2404,6 +2420,33 @@ export function processGDocStub(filePath, inboxDir, options = {}) {
   // Handle standalone unhandled .gdoc
   const item = parseGDocFilenameMetadata(filename);
   console.log(`[TRM-INGRESS] Ingesting standalone .gdoc card: ${item.id} | Intent: ${item.intent} | Domain: ${item.domain} | Category: ${item.category} (Dry-Run: ${dryRun})`);
+
+  const integrity = validateCardIntegrity(item);
+  if (!integrity.valid) {
+    const rejection = {
+      id: item.id,
+      status: 'QUARANTINED_INSUFFICIENT_DATA',
+      reason: integrity.reason,
+      error: integrity.error
+    };
+    if (dryRun) return rejection;
+
+    const qTarget = path.join(QUARANTINE_DIR, `${Date.now()}-${filename}`);
+    const moved = safeMoveFile(filePath, qTarget);
+    logToLedger({
+      id: item.id,
+      processed_at: new Date().toISOString(),
+      source: item.source,
+      action_type: item.action_type,
+      intent: item.intent,
+      status: moved ? rejection.status : 'QUARANTINE_MOVE_FAILED',
+      reason: integrity.reason,
+      error: integrity.error,
+      archived_path: moved ? qTarget : null
+    });
+    dispatchRejectionReceipt(filename, integrity.error, item, { dryRun });
+    return { ...rejection, moved };
+  }
 
   if (dryRun) {
     return { id: item.id, status: 'STAGED_STANDALONE_GDOC_DRY_RUN' };

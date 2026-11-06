@@ -65,19 +65,19 @@ def current_subject() -> str:
     return _subject.get()
 
 
-def send_mutation(post):
+async def send_mutation(post):
     """Resend once, and only for `idempotency_in_progress`.
 
     `post` must send the same bytes both times. Any other `MCPError`, including
     every other `-32602`, propagates on the first call.
     """
     try:
-        return post()
+        return await post()
     except MCPError as exc:
         data = exc.data if isinstance(exc.data, dict) else {}
         if exc.code == -32602 and data.get("reason") == "idempotency_in_progress":
-            time.sleep(data["retryAfterSeconds"])
-            return post()
+            await asyncio.sleep(data["retryAfterSeconds"])
+            return await post()
         raise
 
 

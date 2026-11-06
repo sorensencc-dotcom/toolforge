@@ -1,0 +1,7 @@
+{
+  "Assets:Citizens:Checking": [{ "institution": "Citizens Bank", "mask": "9032" }],
+  "Assets:Fidelity:JointChecking": [{ "institution": "Fidelity", "mask": "6626" }],
+  "Assets:Fidelity:Checking": [{ "institution": "Fidelity", "mask": "5403" }],
+  "Assets:Fidelity:Brokerage401k": [{ "institution": "Fidelity", "mask": "4631" }],
+  "Assets:Fidelity:FactSet401k": [{ "institution": "Fidelity", "mask": "2965" }]
+}

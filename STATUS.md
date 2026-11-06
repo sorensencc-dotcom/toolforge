@@ -86,6 +86,60 @@ Evaluate the official Google Gemini Notebook API (`notebook.googleapis.com/v1`) 
 
 1. Prune the 3 benchmark test sources (`API Migration Test Source`, `Bench NLM`, `Bench API`) from `KB - Testing Sandbox` (`d721ed70-5b37-497f-a279-10ba362c744e`).
 2. Cut `scripts/run-daily-notebook-mining.mjs` over to `google-notebook-client.mjs` once `deleteSource()` returns `supported: true`.
+## Issue #256 post-turn self-assessment auditor
+
+### Active goal
+
+Implement the post-turn self-assessment feature with deterministic entropy, repeat detection, response-difference metrics, and fail-closed span halting.
+
+### Completed work
+
+- Added `lib/auditors/turn-self-assessment.mjs` with normalized response assessment, Shannon entropy, repeat counting, and token-set difference metrics.
+- Added `config/audit.json` with a repeat threshold of 3, minimum entropy of 1 bit per character, and a 16,000-character response ceiling.
+- Added `DynamicToolScopingHook.endTurn()` and per-span response history. Failed audits halt the span before turn-state persistence.
+- Added pure auditor tests and dynamic-scoping lifecycle regressions.
+
+### Verification
+
+- `npm run test:turn-audit -- --test-timeout=10000`: 4 passed.
+- `node --check lib/auditors/turn-self-assessment.mjs`: passed.
+- `node --check modules/mcp-scoping/scoping-hook.mjs`: passed.
+- `node --test --test-timeout=10000 modules/mcp-scoping/scoping-hook.test.mjs`: 18 passed after dependency installation.
+
+### Blockers
+
+- None for the scoped implementation. The dependency installation emitted Windows cleanup warnings, but the required test dependency loaded and the focused suite passed.
+
+### Next action
+
+Review the scoped diff and decide whether to commit or publish the implementation.
+## TRM card-intake clean cards (2026-11-04)
+
+### Active goal
+
+Complete strict TDD validation for TRM intake, staging, and promotion without touching ICF or real ingress data.
+
+### Completed work
+
+- Added shared validation for body extraction, real acceptance criteria, case-insensitive duplicate IDs, and repository consistency.
+- Routed failed `.gdoc` pointer extraction through the existing quarantine path with machine-readable reasons.
+- Preserved closed-zombie suppression precedence and summary-only content handling.
+- Added fixture-backed tests and updated stale ingress expectations for the strict acceptance contract.
+
+### Tests
+
+- Focused intake and promotion tests: 21/21 passed.
+- Existing ingress routing tests: 37/37 passed.
+- Existing promotion tests: 11/11 passed.
+- Full `npm test` attempt stopped at the 60-second bound while unrelated tests were still running.
+
+### Blockers
+
+- `tests/trm-hardened-gates.test.mjs` cannot load because this worktree does not contain the sibling `icf/src/server.mjs` checkout.
+
+### Next action
+
+Review the three commits and `DONE.md`; no push or PR was performed.
 
 ## Software Factory Closed-Loop & Runner Remediation (2026-11-03)
 

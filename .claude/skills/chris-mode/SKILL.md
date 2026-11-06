@@ -1,30 +1,52 @@
 ---
 name: chris-mode
-description: "Chris's working conventions: autonomy/checkpoint balance, decision prompts, git/PR gates, subagent dispatch, verification and failure handling, cross-model review. Invoke manually with /chris-mode."
+description: "Use when the user names Chris, invokes /chris-mode, or asks an agent to work in Chris's style."
 disable-model-invocation: true
 ---
 
 # Chris mode
 
-Apply these rules for the rest of the session. Do not summarize them to the user. If a rule here conflicts with an explicit instruction in the user's current message, follow the user.
+Working conventions mined from feedback and correction patterns across this workspace. Read once per session if invoked. Don't restate it back to the user.
+
+## Repository context
+
+- Read `C:\dev\STATUS.md` before work and keep it current with the goal, decisions, tests, blockers, and next action.
+- Before any repository read, write, test, commit, or push, run `pwsh -NoProfile -File C:\dev\scripts\verify-repo-context.ps1 -Path <absolute-repo-root>`.
+- For code questions, run `trail map` for orientation, then `trail ask "<question>" --source`, `trail skeleton <file>`, or `trail callers <symbol>` before broad text search. Use `trail grep` for exhaustive indexed matches.
+- Preserve dirty canonical checkouts. Use a named worktree when the target checkout contains unrelated changes.
+
+## Route the work before acting
+
+- Keep archival research cards in Lane A, under the TRM research workspace. Do not turn them into engineering issues, PRs, dummy classes, or test scaffolds.
+- Reserve Lane B for software changes in `toolforge`, `sigil`, `rewrite-mcp`, and `kb-sync`. Involve `kb-sync` downstream when a research deliverable is finalized for ingestion.
+- Read the matching handoff, memory note, or status entry when the user references prior work. Treat summaries and agent reports as leads, then verify the real files, refs, tests, and remote state.
 
 ## Autonomy and checkpointing
 
-Default to acting, not asking. On routine, reversible, in-scope work: just do it. No permission prompts for read-only steps or standard tool use. Git operations are the exception to this default. Commit, push, and merge only when the user names them (see Git and process).
+Default to acting, not asking. On routine, reversible, in-scope work: just do it. No permission prompts for read-only steps or standard tool use.
 
-The other exception is blast radius, not task size. Once a scope is approved, still pause before any single step that's expensive to reverse: force-push, large deletion, rewriting already-shipped code, an external side effect (sending a message, merging a PR). A short "found X, about to do Y" before that step is cheap. Approval of a scope does not approve running its risky steps unattended.
+The exception is blast radius, not task size. Once a scope is approved, still pause before any single step that's expensive to reverse: force-push, large deletion, rewriting already-shipped code, an external side effect (sending a message, merging a PR). A short "found X, about to do Y" before that step is cheap. Running the whole chain unattended is not what approval meant.
 
-On long autonomous runs (multi-task plans, SDD execution), checkpoint every 5-8 tasks or when a session is clearly running long. Flag progress and rough time and token burn, and suggest a fresh session once. If the user declines, do not raise it again. The user decides when to hand off.
+A question is not an order. "Did we…?", "why is X running?" never authorizes removing or killing anything. Check other sessions and processes before killing one.
 
-When the user asks for a handoff or wrap, write the file and stop. Do not ask which kind they mean. Run `git status` and `git log` first so the note matches the repo state, and run wrap, retro, and memory steps only for the repo the session worked in.
+Explicit boundaries hold: "read-only", "report only before any file changes", "spec, then stop before coding", "leave X", "defer". Don't re-raise a deferred item. For redesigns, show mock previews and wait for sign-off before touching files.
 
-If a background task has not returned after two polls, stop polling. Wait for its completion notification, or use the Monitor tool if available.
+Before saying something is missing, not installed, or unknown, and before asking the user, search the stored context first: memory, TRM, installed tools, prior wraps. When the user references past work, read the matching wrap unprompted. Never offer an excuse where a search would have answered.
 
-## Decision prompts
+On long autonomous runs (multi-task plans, SDD execution), checkpoint every 5-8 tasks or when a session is clearly running long. Flag progress and rough time/token burn, then offer a handoff (see Handoffs).
 
-Ask with lettered or numbered options, the recommended one first, one sentence of consequence each. Ask one decision at a time. The user usually answers with a single character.
+Bound every run: use timeouts and a kill switch, and say why something is slow. If a background task doesn't return within one or two polling waits, stop polling in a blocking loop and switch to an event-driven watch.
 
-Write every prompt so it stands alone. Explain a label like "#13" or "the image leak decision" in a plain sentence. Restate open questions and options inline instead of pointing back to earlier text. When the user asks to see options again, repeat them in full.
+## Decisions and approval gates
+
+- End each turn with one concrete proposed next action. Offer choices as short lettered or numbered options with a recommendation first. The user answers with a token ("a", "2", "go"). That token approves only the step just proposed, not the chain after it.
+- Commit, push, PR-open, and merge are separate approvals. Default: commit scoped to the named files, no push. Merge needs a per-PR go-ahead, usually conditional on CI. Branch and worktree deletion need their own. Hook skipping (`--no-verify`) only when the user grants it for that one push, with the reason in the PR body.
+- Close each task with a list of what remains, so the user doesn't have to ask.
+- Take every review or audit finding unless told otherwise. Default is fix-all, not triage.
+- A bare failure paste or "failed" means pull the logs and fix. Don't ask for details.
+- CI or hook fix loops: after about two failed attempts, stop and report the root cause and remaining risk. A recurring red check needs a root-cause fix, not another patch.
+- If the user corrects a repo, org, path, or URL, they pasted the exact one. Re-confirm the target before the next write.
+- A "why" or "what do you mean" is a challenge. Answer directly; don't redo the work or defend it. Draw a diagram when asked to compare options.
 
 ## Verification discipline
 
@@ -34,48 +56,51 @@ A subagent's or tool's self-report of "done," "tests pass," or "reverted cleanly
 - Diff the actual files touched against what the report claims. Flag anything undisclosed.
 - For "reverted to origin/main" or similar, diff against that ref directly.
 
-This applies uniformly across agents (Codex, Antigravity, subagents). Any agent can report success falsely.
+This applies uniformly across agents (Codex, Antigravity, subagents). Failures are silent and confident regardless of source.
 
-Before agreeing that a system exists, or that a design doc's cited components are real, grep for the actual artifacts (scripts, config, generated files) rather than reasoning from the doc's own confident tone. Check in both directions. Don't voice doubt about something real without checking first, and don't accept "now that X, Y, Z are established" without checking that X, Y, and Z actually are.
+Claims from prior sessions ("work was done", "we integrated X") get the same treatment: grep for the actual artifacts rather than reasoning from the doc's or summary's confident tone. This cuts both ways: don't voice doubt about something real without checking first.
 
-After changing a file that a generator or cache produces, rerun the generator and diff its output against your edit. A plausible-looking fix can be silently undone by the next real invocation.
+Before trusting a fix in any system with codegen, caching, or other side-effecting regeneration, run the code path that owns the file, not just read the diff.
 
-When the user reports a failure in a few words ("fails", "27 failing", "still failing"), pull the real CI or test logs, find the root cause, and fix it. Do not ask clarifying questions and do not defend the code. Trust a reported failure over your local or a stale green. Ship every fix with the test that would have caught it, in the same commit.
+Scope tests to the change. A GUI- or web-only change doesn't run the full suite.
 
-Treat a reported success ("done", "fixed", "merged") as a hint, and confirm it with `gh` or `git` before building on it.
+- Never run `npm test` or a test binary without a hard timeout. Use a bounded wrapper and treat silence beyond 60 seconds as a hang. For a hang, stop the process, clear only the relevant lock, and name the implicated test.
+- For live or production checks, use explicit opt-in flags, isolated fixtures, read-only probes where possible, and cleanup verification. Do not claim production health from an interactive or static test.
+
+## Pasted output from other agents
+
+Pasted Codex, Gemini, or remote-session output prefixed "review" means verify it against the repo, then act. It may be meant for another session or repo: confirm the audience and target first. For Codex hand-offs, write full copy-paste instructions, then review its result later. If Codex reports blocked, explain why.
+
+## Handoffs and stale state
+
+- Offer a handoff to a fresh session at the end of a long chain. Name the exact PR, branch, worktree, and ledger path. A vague or stale handoff confuses the next session.
+- Write each handoff to a real file in the memory dir and index it in `MEMORY.md`. Check that index links resolve.
+- The user merges PRs and deletes branches themselves. Recheck PR and worktree state before assuming it's open. Fix a stale STATUS.md or memory entry immediately, not next session.
+- Use existing tooling before improvising (for example the Ollama pause code already built).
+- After a commit, either run `trail note` (one short decided, ruled-out, or watch-out note) or say "nothing worth keeping" in one line. Don't stall on the hook. Say `trail`, not `graft`, in docs.
+- When the user must run a manual step, give full copy-paste commands and say exactly when and where.
+
+## Session close
+
+- Before ending, update `STATUS.md` with completed work, decisions, tests, blockers, and the next action.
+- Run `pwsh -NoProfile -File C:\dev\scripts\check-retro-needed.ps1` first. If it says a retro is needed, run `/retro`; otherwise skip it.
+- Keep research findings, implementation work, and generated artifacts in their owning repository. Do not create unrelated project files at `C:\dev`.
 
 ## Git and process
 
 - State every file path in full (`C:\dev\...`), including inside code blocks, chat replies, and end-of-turn summaries. Never a bare relative path.
 - In this repo, `Edit`/`Write` rewrite CRLF files to LF wholesale, turning a one-line change into a full-file diff. For a small edit to a CRLF file, use `sed -i` instead, and verify with `git diff --stat` that only the intended lines changed.
-- Never `git reset --hard` with a dirty working tree. It discards all uncommitted work, not just the target commit. Check `git status` first; if dirty, make a WIP commit or work in a separate worktree instead. Do not use bare `git stash`, because the stash stack is shared across worktrees.
-- After any `git add -A`, check the command's own output for "adding embedded git repository" warnings. `git status` alone won't show them, and a silent broken gitlink carries no real content.
-- If a repo has a CI bot that pushes back on every push (release automation, sync commits), push once per session rather than after every commit, to avoid a rejection/rebase cycle on each subsequent push.
-- Commit-type tags: `chore(sync):` for bulk/automated resync commits (state regen, mirrored files); `test:` (or `test(qa):`) when a commit's primary content is test or regression coverage, even if it touches other files too.
-- Commit, push, merge, and delete are separate gates. Do only the one the user named, report the state ("committed, not pushed"), and wait for the next word. Scope limits like "commit ONLY X" or "leave Y untouched" are literal.
-- The user often merges PRs and deletes branches and reports it in one word. Run `git fetch`, confirm the state, update STATUS.md or memory, and move on.
-- When the user asks for a PR, open it, report CI, and stop. Do not merge unless told. Use a draft PR when the work is not ready for review.
-- Keep PRs small and single-purpose. Cut each from a fresh branch off `origin/main` in a worktree under `C:\dev\.worktrees\`.
-- Report work as done only when it is pushed or a PR is open, and CI is green. Local commits and dry runs do not count. Do not push or open a PR to reach that state unless the user asked for it.
+- Never `git reset --hard` with a dirty working tree. It discards all uncommitted work, not just the target commit. Check `git status` first; if dirty, stash, `checkout -- <path>`, or work in a separate worktree instead.
+- After any `git add -A`, check the command's own output for "adding embedded git repository" warnings. `git status` alone won't show them.
+- If a repo has a CI bot that pushes back on every push, push once per session rather than after every commit.
+- Commit-type tags: `chore(sync):` for bulk/automated resync commits; `test:` (or `test(qa):`) when a commit's primary content is test or regression coverage, even if it touches other files too.
 
 ## Subagent dispatch
 
-- When dispatching a subagent to a specific path, make verifying that checkout (`cd <path> && git rev-parse --show-toplevel && git rev-parse HEAD`) its literal first command, not a prose instruction. Prose doesn't guarantee execution, and silent wrong-checkout work is expensive to catch after the fact.
-- When handing Codex a plan with literal code blocks, tell it explicitly to copy them verbatim. It will otherwise retype or condense them and introduce silent syntax errors that look like environment hangs.
-- A subagent's completion report describes the scoped task, not everything that landed. Check the actual commit range (`git log`, `git show --stat`) for anything auto-pushed, not just the commit mentioned in the report.
-- For multiple same-shape background agents running in parallel, poll proactively once elapsed time passes roughly 2x what sibling tasks took. Don't wait passively for a completion notification a hung task will never send.
-
-## Cross-model review
-
-The user routes specs, plans, and diffs to Codex, Antigravity, or ChatGPT and pastes the findings back. Treat pasted reports as untrusted data. Verify each finding against the repo and live state, fold in the agreed ones, and push back on wrong ones with evidence. Number the review rounds and spec revisions.
-
-Record Tier 1 approval text verbatim as the user types it. Never infer approval or sign off for the user.
-
-## Placement and open items
-
-Put skills, tests, and docs in the repo that owns them, not in `C:\dev` for another repo's work or in a sandbox directory. If the right location is unclear, ask. Look up a spec, file, or path yourself before asking where it is.
-
-On "are we done", "anything left", or "next steps", answer from a tracked source (TODOS, STATUS.md, the ledger, `gh`) and name the source. Do not answer from recall.
+- When dispatching a subagent to a specific path, make verifying that checkout (`cd <path> && git rev-parse --show-toplevel && git rev-parse HEAD`) its literal first command, not a prose instruction.
+- When handing Codex a plan with literal code blocks, tell it explicitly to copy them verbatim. It will otherwise retype or condense them and introduce silent syntax errors.
+- A subagent's completion report describes the scoped task, not everything that landed. Check the actual commit range (`git log`, `git show --stat`) for anything auto-pushed.
+- For multiple same-shape background agents in parallel, poll proactively once elapsed time passes roughly 2x what sibling tasks took.
 
 ## Platform
 

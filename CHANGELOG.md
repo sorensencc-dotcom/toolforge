@@ -1,5 +1,375 @@
 # Changelog
 
+## Version 2.120.1
+Date: 2026-11-06
+
+### Changes
+- 3f19d43c - Merge pull request #284 from sorensencc-dotcom/codex/trm-ingress-dedupe-fix (Chris Sorensen)
+- 9a21d292 - fix(trm): deduplicate action card issue promotion (Chris Sorensen)
+
+## Version 2.120.0
+Date: 2026-11-06
+
+### Changes
+- 1b5b8c77 - Merge pull request #283 from sorensencc-dotcom/feat/notebook-api-client (Chris Sorensen)
+- 22b7c6c9 - feat(notebook): add native Google Notebook API client (Chris Sorensen)
+
+## Version 2.119.4
+Date: 2026-11-05
+
+### Changes
+- 28129a0e - Merge pull request #282 from sorensencc-dotcom/fix/trm-dispatch-checker-namestatus (Chris Sorensen)
+- fc7b0a32 - fix(trm-dispatch): harden checker against nameless nameStatus lines (Grok Bot)
+
+## Version 2.119.3
+Date: 2026-11-05
+
+### Changes
+- e5aadcb5 - Merge pull request #281 from sorensencc-dotcom/fix/trm-dispatch-finalize-replace (Chris Sorensen)
+- 74fd939d - fix(trm-dispatch): guard finalize against undefined fields (Grok Bot)
+
+## Version 2.119.2
+Date: 2026-11-05
+
+### Changes
+- 0e96843f - Merge pull request #278 from sorensencc-dotcom/chore/graft-to-trail-config (Chris Sorensen)
+- 1398da2f - Merge pull request #280 from sorensencc-dotcom/fix/trm-dispatch-commit-and-scoped-checker (Chris Sorensen)
+- 8a086036 - fix(trm-dispatch): commit after scoped checker; Codex leaves work uncommitted (Chris Sorensen)
+- 701b8eb6 - chore: remove leftover IJFW references (Chris Sorensen)
+- 78ff0062 - chore(mcp): replace graft with trail in agent configs (Chris Sorensen)
+
+## Version 2.119.1
+Date: 2026-11-05
+
+### Changes
+- 121ebcc3 - Merge pull request #279 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- 04b38f8d - docs(trail): note empty enrichment issue cause for card 146 (Chris Sorensen)
+- 52650ff1 - fix(enricher): render test scaffold as text and skip research cards (Chris Sorensen)
+
+## Version 2.119.0
+Date: 2026-11-05
+
+### Changes
+- 001da04d - Merge pull request #276 from sorensencc-dotcom/feat/session-workflow-skills (Chris Sorensen)
+- 25f4947b - fix(ci): ignore historical test fixture findings (Chris Sorensen)
+- c68ba32c - fix(ci): clear PR documentation and secret gates (Chris Sorensen)
+- cc44e0d7 - fix(pr-276): resolve main conflicts and repair gate tests (Chris Sorensen)
+- 03fe32ae - feat(audit): add post-turn self-assessment (Chris Sorensen)
+- ee55fea7 - test(chat-agent): send x-cic-route-key and surface 400/404/502 from executePipeline (Chris Sorensen)
+- f756f92f - docs(skills): diagram-design integration diagrams for three new skills (Chris Sorensen)
+- e60fef51 - docs(skills): add INTEGRATION_DIAGRAM for run-tests-safe, triage-skill-health-warnings, scaffold-toolforge-skill (Chris Sorensen)
+- a1f21619 - fix(skills): clear validator and auditor findings for new skills (Chris Sorensen)
+- 0c534164 - feat(skills): add run-tests-safe, triage-skill-health-warnings, scaffold-toolforge-skill (Chris Sorensen)
+- f556ede9 - feat(skills): register start-session-preflight, wrap-session, open-trm-act-pr (Chris Sorensen)
+
+## Version 2.118.2
+Date: 2026-11-05
+
+### Changes
+- ce64bde0 - Merge pull request #277 from sorensencc-dotcom/audit/2026-11-01 (Chris Sorensen)
+- 03a26c2b - chore(audit): fix carried finding id and first_seen in 2026-11-01 record (Claude)
+- 04295f82 - chore(audit): correct carried finding id and first_seen dates in 2026-11-01 record (Claude)
+- ea6b75d1 - chore(audit): weekly session audit 2026-11-01 (Claude)
+
+## Version 2.118.1
+Date: 2026-11-05
+
+### Changes
+- 9c4ae34e - Merge pull request #273 from sorensencc-dotcom/fix/trm-dispatch-codex-mxc (Chris Sorensen)
+- dca8999d - fix(trm-dispatch): run codex with per-run windows.sandbox=mxc (avoid elevated DPAPI failure) (Chris Sorensen)
+
+## Version 2.118.0
+Date: 2026-11-05
+
+### Changes
+- 5ba7b6a0 - Merge pull request #275 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- 7628bc30 - chore(retro): log finding for Stage 1.5 dynamic grounding gate (Chris Sorensen)
+- f8ccd010 - feat(scheduler): fix task parameter sets, support password logon, and decouple handoff (Chris Sorensen)
+- 4b83c156 - docs(report): add daily report for 2026-11-04 (Chris Sorensen)
+- b6096a82 - chore(hooks): enforce delivery-guard on matrix workflow edits, nudge trail learning, test BOM strip (Chris Sorensen)
+- 7133b89c - feat(factory): deploy runner, isolate harvest timeouts, and harden fleet reconciliation (Chris Sorensen)
+
+## Version 2.117.1
+Date: 2026-11-05
+
+### Changes
+- 6038fa2e - Merge pull request #274 from sorensencc-dotcom/codex/chris-mode-refresh (Chris Sorensen)
+- 6ab61bba - docs(retro): record chris-mode refresh session (Chris Sorensen)
+- a804cb6a - docs(skills): refresh chris-mode conventions (Chris Sorensen)
+
+## Version 2.117.0
+Date: 2026-11-04
+
+### Changes
+- 9456bb5c - Merge pull request #272 from sorensencc-dotcom/feat/trm-dispatch (Chris Sorensen)
+- 305f7092 - Merge pull request #271 from sorensencc-dotcom/fix/trm-intake-clean-cards (Chris Sorensen)
+- a7119213 - feat(trm): trm-dispatch dispatcher (Chris Sorensen)
+- 01f4f171 - test(trm): dispatcher contract (Chris Sorensen)
+- fc71dba1 - chore(retro): record trm intake verification finding (Chris Sorensen)
+- 1c5dc2c1 - docs(trm): add clean card completion report (Chris Sorensen)
+- ab12ae7c - docs(trm): record clean card intake evidence (Chris Sorensen)
+- 27a5ff0a - fix(trm): preserve intake gate ordering (Chris Sorensen)
+- 182bff78 - fix(trm): reject dirty mobile action cards (Chris Sorensen)
+- 5b446db7 - test(trm): cover clean card intake gates (Chris Sorensen)
+
+## Version 2.116.5
+Date: 2026-11-04
+
+### Changes
+- 76b55974 - Merge pull request #270 from sorensencc-dotcom/chore/trail-workspace (Chris Sorensen)
+- 1e726536 - chore(trail): link repo to team Trail workspace (Chris Sorensen)
+
+## Version 2.116.4
+Date: 2026-11-04
+
+### Changes
+- 4a35000b - Merge pull request #269 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- d21472a3 - Merge pull request #268 from sorensencc-dotcom/fix/smoke-test-timeout-pin (Chris Sorensen)
+- 38e921d0 - docs(trail): note smoke timeout is pinned by delivery-guard test (Chris Sorensen)
+- 313837cd - docs: update STATUS.md with software factory wrap and handoff (Chris Sorensen)
+- df63a4e5 - fix(model): pin qwen2.5:7b in local small model bridge (Chris Sorensen)
+- c8730bb1 - fix(trm): block invalid cards from triage (Chris Sorensen)
+- 5dc5dcdb - docs(retro): add engineering retro for 2026-11-03 (Chris Sorensen)
+- 62033d21 - chore(retro): file 2026-11-03 retro findings and align pre-commit retro gate (Chris Sorensen)
+- b6461a06 - docs(report): add daily report for 2026-11-03 (Chris Sorensen)
+- d0c8b8dc - docs(skills): codify battery freshness, entropy, and telemetry invariants in trm skill (Chris Sorensen)
+
+## Version 2.116.3
+Date: 2026-11-04
+
+### Changes
+- bb685f19 - Merge pull request #267 from sorensencc-dotcom/fix/smoke-test-timeout-pin (Chris Sorensen)
+- 17c7e4b0 - test(delivery-guard): update pinned sigil smoke timeout to 180s (Chris Sorensen)
+
+## Version 2.116.2
+Date: 2026-11-04
+
+### Changes
+- e6ceb350 - Merge pull request #266 from sorensencc-dotcom/fix/sigil-smoke-timeout (Chris Sorensen)
+- 1fe596ac - fix(ci): raise sigil governance smoke timeout to 180s (Chris Sorensen)
+
+## Version 2.116.1
+Date: 2026-11-04
+
+### Changes
+- 47e7777e - Merge pull request #265 from sorensencc-dotcom/fix/pin-qwen25-7b (Chris Sorensen)
+- 9902be38 - fix(routing): pin qwen2.5:7b as validated local model (Chris Sorensen)
+
+## Version 2.116.0
+Date: 2026-11-04
+
+### Changes
+- ef9d7d3b - Merge pull request #264 from sorensencc-dotcom/chore/remove-ijfw (Chris Sorensen)
+- 5779560d - feat(hooks): git-based edit-size check in token-budget-gate (Grok Bot)
+- 0ed54178 - chore: remove IJFW leftovers (Grok Bot)
+
+## Version 2.115.1
+Date: 2026-11-03
+
+### Changes
+- e4948328 - Merge pull request #263 from sorensencc-dotcom/fix/restore-model-selection-record (Chris Sorensen)
+- a07ef6a7 - fix(whichllm): restore local-only routing fields dropped from model_selection.json (Chris Sorensen)
+- 1f324c44 - Merge pull request #262 from sorensencc-dotcom/docs/chris-mode-nov-update (Chris Sorensen)
+- 2eaa037d - docs(skills): add approval gates, handoff, and pasted-output rules to chris-mode (Chris Sorensen)
+
+## Version 2.115.0
+Date: 2026-11-03
+
+### Changes
+- 06d9e753 - Merge pull request #261 from sorensencc-dotcom/chore/verify-toolforge-marketplace-feature-map (Chris Sorensen)
+- 851148c1 - docs(verify): reconcile toolforge marketplace feature map with source (Chris Sorensen)
+- 530f3961 - docs(governance): scope zombie card suppression and codify entropy invariants (Chris Sorensen)
+- b08ee639 - fix(ingress): scope Issue #140 zombie check to legacy cards (Chris Sorensen)
+- 5f120b41 - docs(report): add daily report for 2026-11-02 (Chris Sorensen)
+- 1a6ef643 - docs(governance): finalize global operating rules v2.2 (Chris Sorensen)
+- 11a563bc - docs(report): add weekly report for 2026-W44 (Chris Sorensen)
+- 1100ceb7 - feat(triage): enforce lane a vs b triage isolation and add cork research deliverable (Chris Sorensen)
+- 156f39a8 - docs(governance): add outage escalation and automation test pairing protocols (Chris Sorensen)
+- 0bbef4df - docs(governance): codify daily report reconciliation cadence and operational guide (Chris Sorensen)
+- 9abbd844 - feat(reports): add closed-loop daily report reconciliation engine and scheduled task (Chris Sorensen)
+
+## Version 2.114.2
+Date: 2026-11-01
+
+### Changes
+- 95ef7db2 - Merge pull request #260 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- b0e55b2f - fix(ingress): suppress zombie issue 140 cards with regression test (Chris Sorensen)
+- 5376cb98 - chore(sync): Wave D gate marked resolved, task table synchronized (Chris Sorensen)
+- 9763ad3a - test(container): accept BuildKit cache-mount RUN in Dockerfile dependency test (Chris Sorensen)
+- 82af4859 - ci: switch graph freshness job from graft to trail (Chris Sorensen)
+- 28c6b9ae - chore: remove IJFW artifacts, keep two one-off scripts, rename graft to trail in docs and hook (Chris Sorensen)
+- 1ddc0c76 - docs(agents): remove IJFW, dedupe, fix hub paths, move reference tables to docs/meta (Chris Sorensen)
+- d5f8104d - docs(agents): fix stale retro, validator, and CI claims in AGENTS.md (Chris Sorensen)
+- be61fa15 - docs(report): add daily report for 2026-11-01 (Chris Sorensen)
+
+## Version 2.114.1
+Date: 2026-11-01
+
+### Changes
+- 8bc89187 - Merge pull request #259 from sorensencc-dotcom/codex/issue-230-span-hash-gate (Chris Sorensen)
+- c8c18470 - fix(trm): validate structured ingestion span hashes (Chris Sorensen)
+
+## Version 2.114.0
+Date: 2026-11-01
+
+### Changes
+- 8c67a41a - Merge pull request #258 from sorensencc-dotcom/codex/issue-231-worktree-mvp (Chris Sorensen)
+- e49d0d2f - feat: add isolated worktree runner (Chris Sorensen)
+- 045d4aa4 - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+
+## Version 2.113.0
+Date: 2026-11-01
+
+### Changes
+- 9c9a8d8f - Merge pull request #257 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- bfb7b8c2 - fix(trm-ingress): reconcile mobile outbox on PR resolution and add dedup gate (Chris Sorensen)
+- 6906045d - feat(trm): harden 380 KiB pack boundary, add size telemetry, and tighten ingress SLA (Chris Sorensen)
+- bc779e01 - feat(ecosystem): integrate trail skeletons, diagrams, and pointer into ecosystem guide (Chris Sorensen)
+- 4252cad4 - docs: add second-pass contract and engine hubs for trail skeleton (Chris Sorensen)
+- c360748d - docs(report): add daily report for 2026-10-31 (Chris Sorensen)
+- 0252968b - docs: add high-gravity contract hubs for trail skeleton (Chris Sorensen)
+- a624c8a9 - feat(trail): configure trail-code, windows statechart runtime, and scaffold generator (Chris Sorensen)
+- 02588f25 - fix(cli): support space-separated flags in nlm-pack-replace-gate and ignore dev-worktrees in diagram-sync (Chris Sorensen)
+- 48d42510 - docs(cic): reconcile master inventory with living matrix appends through GAP-39 (Chris Sorensen)
+- 3c2d637e - docs(report): add daily report for 2026-10-30 (Chris Sorensen)
+- a8ce541e - test(trm): add live proof test suite for trm backlog and icf dashboard (Chris Sorensen)
+- 638fa162 - feat(wiki): upgrade global pre-push hook and publisher for dynamic multi-repo wiki support (Chris Sorensen)
+- 2bc66734 - fix(trm): drop duplicate syntax error block in batch triage runner and add regression test (Chris Sorensen)
+- 2addedd8 - feat(hooks): install toolforge wiki pre-push hook across all repos and templates (Chris Sorensen)
+- a33a9899 - feat(skills): add automated update runner and daily status reports for third-party-repo-auditor (Chris Sorensen)
+- 3ca2f88d - fix(diagram-sync): ignore PR review workspaces in visual parity scanner (Chris Sorensen)
+- 79cebed2 - feat(trm): add automated backlog reconciliation tool (Chris Sorensen)
+- 8c6e3444 - fix(trm): harden ingest quality and routing gates (Chris Sorensen)
+- ec15c98b - docs(report): add daily report for 2026-10-26 (Chris Sorensen)
+- cf3f56b7 - docs(report): add weekly report for 2026-W43 (Chris Sorensen)
+
+## Version 2.112.6
+Date: 2026-10-31
+
+### Changes
+- 3e7093cb - Merge pull request #252 from sorensencc-dotcom/perf/fix-n1-seed-installs-2413063419031487865 (Chris Sorensen)
+- e5ad7745 - Merge origin/main to resolve PR #252 conflicts (Chris Sorensen)
+- 93f1d321 - perf: resolve N+1 query issue in seedInstalls by utilizing batched bulk inserts (google-labs-jules[bot])
+- 799df16f - perf: resolve N+1 query issue in seedInstalls by utilizing batched bulk inserts (google-labs-jules[bot])
+- a153e2a4 - perf: resolve N+1 query issue in seedInstalls by utilizing batched bulk inserts (google-labs-jules[bot])
+- c702d623 - perf: resolve N+1 query issue in seedInstalls by utilizing batched bulk inserts (google-labs-jules[bot])
+
+## Version 2.112.5
+Date: 2026-10-30
+
+### Changes
+- 4e9e7993 - Merge pull request #255 from sorensencc-dotcom/optimize-blend-loop-5409133096194349565 (Chris Sorensen)
+- b61a2bd1 - Optimize loop logic in blend function (google-labs-jules[bot])
+
+## Version 2.112.4
+Date: 2026-10-30
+
+### Changes
+- bfa0a41a - Merge pull request #254 from sorensencc-dotcom/optimize-send-mutation-async-3891107885754259279 (Chris Sorensen)
+- f783dc6a - ⚡ Optimize send_mutation to use async/await to prevent blocking I/O (google-labs-jules[bot])
+
+## Version 2.112.3
+Date: 2026-10-30
+
+### Changes
+- f2726646 - Merge pull request #253 from sorensencc-dotcom/perf-fix-n-plus-1-queries-248052672334964187 (Chris Sorensen)
+- d0ed080a - Merge pull request #251 from sorensencc-dotcom/perf/optimize-recommendation-excludes-15492995178946584509 (Chris Sorensen)
+- 105868ba - ⚡ Fix N+1 queries in seedInstalls by batching database inserts (google-labs-jules[bot])
+- 10e06659 - perf: optimize data structure for exclude checks in recommendations (google-labs-jules[bot])
+
+## Version 2.112.2
+Date: 2026-10-29
+
+### Changes
+- 54f501db - Merge pull request #250 from sorensencc-dotcom/fix/x-user-id-dev-gate (Chris Sorensen)
+- 7aec9265 - fix(auth): honor x-user-id only in dev with TOOLFORGE_DEV_HEADER_AUTH=1 (Chris Sorensen)
+- 13c5f437 - Merge pull request #249 from sorensencc-dotcom/chore/parallel-search-deferred-minors (Chris Sorensen)
+- 27d899dd - chore(parallel-search): clear deferred cleanup minors (Chris Sorensen)
+
+## Version 2.112.1
+Date: 2026-10-28
+
+### Changes
+- c59ce25f - Merge pull request #248 from sorensencc-dotcom/claude/machine-performance-tasks-b76098 (Chris Sorensen)
+- 8b624c03 - fix(janitor): stop killing live per-session MCP servers (Chris Sorensen)
+
+## Version 2.112.0
+Date: 2026-10-27
+
+### Changes
+- f769d222 - Merge pull request #247 from sorensencc-dotcom/claude/mcp-ironleger-integration-700493 (Chris Sorensen)
+- be3e3b60 - feat(ironbots): surface Copilot reconcile summary in daily report (Chris Sorensen)
+- 17bca24c - refactor(ironledger): rename reconcile entrypoint to avoid main collision (Chris Sorensen)
+- 8a6a3a06 - feat(ironledger): add read-only Copilot reconciliation spike (Chris Sorensen)
+
+## Version 2.111.3
+Date: 2026-10-27
+
+### Changes
+- de2639c7 - Merge pull request #199 from sorensencc-dotcom/fix-vector-deletion-test-5816378410706720232 (Chris Sorensen)
+- bec0086d - merge: resolve PR 199 main conflicts (Chris Sorensen)
+- 7431590c - test: implement vector deletion test and basic VectorStore class (google-labs-jules[bot])
+
+## Version 2.111.2
+Date: 2026-10-27
+
+### Changes
+- c1ece039 - Merge pull request #202 from sorensencc-dotcom/performance-improve-marketplace-load-1527620147398857578 (Chris Sorensen)
+- ed08c6b7 - merge: resolve PR 202 main conflicts (Chris Sorensen)
+- 21038c3e - test: cover bounded marketplace seed batches (Chris Sorensen)
+- 7e34fc9a - chore: keep load test dependency scope focused (Chris Sorensen)
+- 66268eab - fix: chunk marketplace seed inserts (Chris Sorensen)
+- a0b2b3e9 - Performance improvement: batch marketplace load DB insertions (google-labs-jules[bot])
+
+## Version 2.111.1
+Date: 2026-10-27
+
+### Changes
+- a4ab470a - Merge pull request #204 from sorensencc-dotcom/perf-optimize-load-test-seeding-14094330525025906589 (Chris Sorensen)
+- 7b7f91b7 - merge: resolve PR 204 main conflicts (Chris Sorensen)
+- 29501589 - test: cover bounded rating seed batches (Chris Sorensen)
+- f71f0e11 - fix: chunk marketplace rating inserts (Chris Sorensen)
+- f2a41c26 - Optimize database seed query for marketplace load tests (google-labs-jules[bot])
+
+## Version 2.111.0
+Date: 2026-10-25
+
+### Changes
+- edd02bb8 - Merge pull request #246 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- e1a77c21 - chore(sync): update project journal with session learning state (Chris Sorensen)
+- 56d7f976 - feat(whichllm): integrate dynamic hardware detection and align local models to qwen2.5:1.5b (Chris Sorensen)
+
+## Version 2.110.1
+Date: 2026-10-25
+
+### Changes
+- a93bdfb3 - Merge pull request #245 from sorensencc-dotcom/audit/2026-10-25 (Chris Sorensen)
+- eae94e0e - chore(audit): weekly session audit 2026-10-25 (Claude)
+
+## Version 2.110.0
+Date: 2026-10-25
+
+### Changes
+- a82d7d93 - Merge pull request #243 from sorensencc-dotcom/fix/mcp-playwright-package (Chris Sorensen)
+- ce747db2 - test(governance): align token-budget-gate test with ESM hook and keep planned CI note (Chris Sorensen)
+- 3519e7aa - Merge branch 'main' into fix/mcp-playwright-package (Chris Sorensen)
+- 3cc780a4 - fix(grok): normalize direct CLI execution path and relax fast test timing (Chris Sorensen)
+- fe8f6157 - fix(toolforge): anchor PID lookup in tasklist output and harden stale lock test cleanup (Chris Sorensen)
+- 957479af - feat(toolforge): auto-recover stale AST knowledge graph locks and add ijfw project marker (Chris Sorensen)
+- 23350912 - docs(report): add daily report for 2026-10-25 (Chris Sorensen)
+- 6ba7fdf8 - docs(retro): add engineering retro for 2026-10-25 (Chris Sorensen)
+- 74be163f - test(grok): add hook guardrail validator and test suite (Chris Sorensen)
+- b3744505 - feat(pipeline): relocate CIC status pipeline to scripts (Chris Sorensen)
+
+## Version 2.109.2
+Date: 2026-10-25
+
+### Changes
+- 1afb6565 - Merge pull request #244 from sorensencc-dotcom/claude/chris-mode-review-1097cc (Chris Sorensen)
+- ca975ff0 - fix(retro): allow legacy optional keys in retro schema; point ICF section at icf repo (Chris Sorensen)
+- 5bd221ae - fix(governance): apply 2026-10-25 audit fixes (Chris Sorensen)
+- ceaea75a - chore(slop-sweep): update drift/SLOP-REPORT.md (github-actions[bot])
+
 ## Version 2.109.1
 Date: 2026-10-25
 

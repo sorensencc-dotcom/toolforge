@@ -165,7 +165,7 @@ export class DeterministicVerificationFloor {
    * Layer 2: Span SHA-256 Hash Verification
    * Validates exact content slices using bounds-checked byte spans (default) or UTF-16 code units.
    *
-   * @param {string | number} fileOrFd Path string or open file descriptor
+   * @param {string | number | Buffer} fileOrFd Path string, open file descriptor, or source bytes
    * @param {number} startOffset Start index
    * @param {number} endOffset End index
    * @param {string} expectedSha256 Expected hex hash
@@ -180,8 +180,29 @@ export class DeterministicVerificationFloor {
       throw new Error(`[BOUNDS_ERROR] Invalid slice range: [${startOffset}:${endOffset}]`);
     }
 
+    if (typeof expectedSha256 !== 'string' || expectedSha256.trim() === '') {
+      throw new Error('[HASH_INVALID] expectedSha256 must be a non-empty SHA-256 hash');
+    }
+
+    const expectedWireHash = expectedSha256.trim();
+    let expectedNormalized;
+    if (/^sha256:/.test(expectedWireHash)) {
+      if (!/^sha256:[0-9a-f]{64}$/.test(expectedWireHash)) {
+        throw new Error('[HASH_INVALID] expectedSha256 must use sha256:<lowercase-hex>');
+      }
+      expectedNormalized = expectedWireHash;
+    } else if (/^[0-9a-fA-F]{64}$/.test(expectedWireHash)) {
+      // Existing callers use the unprefixed digest. Keep that legacy form while
+      // requiring the structured-ingestion wire format at its resolver boundary.
+      expectedNormalized = `sha256:${expectedWireHash.toLowerCase()}`;
+    } else {
+      throw new Error('[HASH_INVALID] expectedSha256 must be a SHA-256 hex digest');
+    }
+
     let buffer;
-    if (typeof fileOrFd === 'number') {
+    if (Buffer.isBuffer(fileOrFd)) {
+      buffer = fileOrFd;
+    } else if (typeof fileOrFd === 'number') {
       buffer = fs.readFileSync(fileOrFd);
     } else {
       const safePath = this.resolveSafePath(fileOrFd);
@@ -196,7 +217,7 @@ export class DeterministicVerificationFloor {
         );
       }
       const slice = buffer.subarray(startOffset, endOffset);
-      actualHash = crypto.createHash('sha256').update(slice).digest('hex');
+      actualHash = `sha256:${crypto.createHash('sha256').update(slice).digest('hex')}`;
     } else if (unit === 'utf16-code-units') {
       const text = buffer.toString('utf8');
       if (endOffset > text.length) {
@@ -205,20 +226,18 @@ export class DeterministicVerificationFloor {
         );
       }
       const slice = text.slice(startOffset, endOffset);
-      actualHash = crypto.createHash('sha256').update(slice, 'utf8').digest('hex');
+      actualHash = `sha256:${crypto.createHash('sha256').update(slice, 'utf8').digest('hex')}`;
     } else {
       throw new Error(`[UNIT_ERROR] Unsupported offset unit: ${unit}`);
     }
 
-    if (typeof expectedSha256 !== 'string' || expectedSha256.trim() === '') {
-      throw new Error('[HASH_INVALID] expectedSha256 must be a non-empty hex string');
-    }
-
-    const expectedNormalized = expectedSha256.trim().toLowerCase();
     if (actualHash !== expectedNormalized) {
-      throw new Error(
+      const error = new Error(
         `[SPAN_HASH_MISMATCH] Target [${startOffset}:${endOffset}] expected ${expectedNormalized}, got ${actualHash}`
       );
+      error.expectedHash = expectedNormalized;
+      error.actualHash = actualHash;
+      throw error;
     }
 
     return true;
