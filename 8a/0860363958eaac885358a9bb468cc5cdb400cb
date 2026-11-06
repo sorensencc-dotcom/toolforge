@@ -1,0 +1,22 @@
+docs/trm-dispatch/codex-brief.template.md
+  h_5c172e9b435f5a 14-15,21-24,33,35,37-38,41
+scripts/trm-dispatch-checker.mjs
+  h_5c172e9b435f5a 8,16,20-21,23-27,32-52,55,62-64,83-85,87,95-108,111-117,119-128,133
+scripts/trm-dispatch.mjs
+  h_5c172e9b435f5a 3,160-162,171-172,291-318,324-325,356,358-370,373-375,377
+scripts/trm-dispatch/codex-brief.template.md
+  h_5c172e9b435f5a 14-15,21-24,33,35,37-38,41
+tests/trm-dispatch.test.mjs
+  h_5c172e9b435f5a 10,93-94,104,134,199-299
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8a0860363958eaac885358a9bb468cc5cdb400cb",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
