@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.120.1
+Date: 2026-11-06
+
+### Changes
+- 3f19d43c - Merge pull request #284 from sorensencc-dotcom/codex/trm-ingress-dedupe-fix (Chris Sorensen)
+- 9a21d292 - fix(trm): deduplicate action card issue promotion (Chris Sorensen)
+
 ## Version 2.120.0
 Date: 2026-11-06
 
