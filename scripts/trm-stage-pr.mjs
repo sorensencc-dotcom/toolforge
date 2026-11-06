@@ -11,6 +11,7 @@
  */
 
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -105,6 +106,51 @@ export function loadCardData(cardId, options = {}) {
   return null;
 }
 
+export function formatEnrichmentHeader(card, commentPrefix = ' * ') {
+  const lines = [];
+  if (card.issue_url) {
+    lines.push(`${commentPrefix}Issue: ${card.issue_url}`);
+  }
+  const enr = card.enrichment;
+  if (enr) {
+    if (enr.tier) lines.push(`${commentPrefix}Triage Tier: ${enr.tier}`);
+    if (enr.rationale) lines.push(`${commentPrefix}Rationale: ${String(enr.rationale).replace(/[\r\n]+/g, ' ')}`);
+    if (Array.isArray(enr.astResults) && enr.astResults.length > 0) {
+      lines.push(`${commentPrefix}AST Touchpoints:`);
+      for (const ast of enr.astResults) {
+        const snippet = ast.ast ? String(ast.ast).replace(/[\r\n]+/g, ' ').slice(0, 160) : '';
+        lines.push(`${commentPrefix}  - ${ast.path} (${ast.status || 'UNKNOWN'})${snippet ? `: ${snippet}` : ''}`);
+      }
+    }
+    if (Array.isArray(enr.deltaPlan) && enr.deltaPlan.length > 0) {
+      lines.push(`${commentPrefix}Delta Plan:`);
+      for (const step of enr.deltaPlan) {
+        const text = typeof step === 'string' ? step : JSON.stringify(step);
+        lines.push(`${commentPrefix}  - ${text.replace(/[\r\n]+/g, ' ')}`);
+      }
+    }
+  }
+  return lines.join('\n').replace(/\*\//g, '* /').replace(/"""/g, "'''");
+}
+
+export function commitScaffoldToBranch(repoDir, branchName, testFilePath, cardId) {
+  const tmpIndex = path.join(os.tmpdir(), `trm-idx-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  const env = { ...process.env, GIT_INDEX_FILE: tmpIndex };
+  const relTestPath = path.relative(repoDir, testFilePath).replace(/\\/g, '/');
+  try {
+    const parentSha = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repoDir, encoding: 'utf8', stdio: 'pipe' }).trim();
+    execFileSync('git', ['read-tree', parentSha], { cwd: repoDir, env, stdio: 'pipe' });
+    const blobSha = execFileSync('git', ['hash-object', '-w', testFilePath], { cwd: repoDir, env, encoding: 'utf8', stdio: 'pipe' }).trim();
+    execFileSync('git', ['update-index', '--add', '--cacheinfo', `100644,${blobSha},${relTestPath}`], { cwd: repoDir, env, stdio: 'pipe' });
+    const treeSha = execFileSync('git', ['write-tree'], { cwd: repoDir, env, encoding: 'utf8', stdio: 'pipe' }).trim();
+    const commitSha = execFileSync('git', ['commit-tree', treeSha, '-p', parentSha, '-m', `test(trm): stage contract scaffold for ${cardId}`], { cwd: repoDir, env, encoding: 'utf8', stdio: 'pipe' }).trim();
+    execFileSync('git', ['update-ref', `refs/heads/${branchName}`, commitSha], { cwd: repoDir, env, stdio: 'pipe' });
+    return commitSha;
+  } finally {
+    fs.rmSync(tmpIndex, { force: true });
+  }
+}
+
 export function generateTestScaffold(card) {
   const integrity = validateCardIntegrity(card);
   if (!integrity.valid && (card.source || card.action_type || card.acceptance_criteria || card.acceptanceCriteria || card.deliverables)) {
@@ -115,18 +161,19 @@ export function generateTestScaffold(card) {
   const title = String(rawTitle).replace(/[\r\n]+/g, ' ').replace(/'/g, "\\'").trim();
   const target = card.target || card.domain || 'core';
   const deliverables = card.deliverables || [];
-  const acceptanceList = Array.isArray(deliverables) && deliverables.length > 0
-    ? deliverables.map(d => ` * - ${d}`).join('\n')
-    : ' * - Implements requirements according to specifications\n * - Tests pass with zero regressions';
-
   const isPython = target.toLowerCase() === 'ironledger';
+  const prefix = isPython ? '' : ' * ';
+  const acceptanceList = Array.isArray(deliverables) && deliverables.length > 0
+    ? deliverables.map(d => `${prefix}- ${d}`).join('\n')
+    : `${prefix}- Implements requirements according to specifications\n${prefix}- Tests pass with zero regressions`;
+  const enrichmentBlock = formatEnrichmentHeader(card, prefix);
 
   if (isPython) {
     return `"""
 TRM TDD Test Contract: ${cardId}
 Intent: ${title}
 Target: ${target}
-
+${enrichmentBlock ? `${enrichmentBlock}\n` : ''}
 Acceptance Criteria:
 ${acceptanceList}
 """
@@ -143,8 +190,7 @@ def test_${cardId.replace(/[^a-zA-Z0-9_]/g, '_')}_contract():
  * TRM TDD Test Contract: ${cardId}
  * Intent: ${title}
  * Target: ${target}
- *
- * Acceptance Criteria:
+${enrichmentBlock ? `${enrichmentBlock}\n *\n` : ' *\n'} * Acceptance Criteria:
 ${acceptanceList}
  */
 
@@ -161,7 +207,8 @@ test('TRM Contract: ${cardId} - ${title.replace(/'/g, "\\'")}', async () => {
 
 export function stagePr(cardId, options = {}) {
   const dryRun = Boolean(options.dryRun);
-  const createBranch = Boolean(options.createBranch);
+  const createBranch = Boolean(options.createBranch || options.push);
+  const push = Boolean(options.push);
   const card = options.cardData || loadCardData(cardId, options);
 
   if (!card) {
@@ -183,18 +230,20 @@ export function stagePr(cardId, options = {}) {
   }
 
   const target = card.target || card.domain || 'core';
-  const repoDir = resolveLocalRepoDir(target);
+  const repoDir = options.repoDir || resolveLocalRepoDir(target);
   if (!repoDir) {
     throw new Error(`UNRESOLVED_LOCAL_REPO: Cannot stage PR for target '${target}'. No valid local repository directory resolved.`);
   }
   const branchName = `trm/${cardId}`;
   const isPython = target.toLowerCase() === 'ironledger';
 
-  const testDir = isPython ? path.join(repoDir, 'tests') : path.join(repoDir, 'tests');
+  const testDir = path.join(repoDir, 'tests');
   const testFileName = isPython ? `test_trm_${cardId.replace(/[^a-zA-Z0-9_]/g, '_')}.py` : `trm-${cardId}.test.mjs`;
   const testFilePath = path.join(testDir, testFileName);
 
   const testContent = generateTestScaffold(card);
+  let commitSha = null;
+  let pushed = false;
 
   console.log(`[stage-pr] Staging PR bridge for ${cardId}`);
   console.log(`[stage-pr] Target Repo Dir: ${repoDir}`);
@@ -202,25 +251,35 @@ export function stagePr(cardId, options = {}) {
   console.log(`[stage-pr] Test Scaffold: ${testFilePath}`);
 
   if (!dryRun) {
-    if (createBranch && fs.existsSync(path.join(repoDir, '.git'))) {
-      try {
-        console.log(`[stage-pr] Creating git branch ${branchName} in ${repoDir}...`);
-        execFileSync('git', ['branch', branchName], { cwd: repoDir, stdio: 'pipe' });
-      } catch (err) {
-        // If branch exists, ignore error
-        console.log(`[stage-pr] Branch notice: ${err.message}`);
-      }
-    }
-
     if (!fs.existsSync(testDir)) {
       fs.mkdirSync(testDir, { recursive: true });
     }
 
-    if (!fs.existsSync(testFilePath)) {
+    const existingScaffold = fs.existsSync(testFilePath) ? fs.readFileSync(testFilePath, 'utf8') : null;
+    const isUnenrichedStub = existingScaffold !== null &&
+      !existingScaffold.includes('Triage Tier:') &&
+      (existingScaffold.includes('Test harness initial scaffold active') || existingScaffold.includes('Contract scaffold for TRM implementation'));
+
+    if (existingScaffold === null || (card.enrichment && isUnenrichedStub)) {
       fs.writeFileSync(testFilePath, testContent, 'utf8');
       console.log(`[stage-pr] Wrote test scaffold to ${testFilePath}`);
     } else {
       console.log(`[stage-pr] Test scaffold already exists at ${testFilePath}`);
+    }
+
+    if (createBranch && fs.existsSync(path.join(repoDir, '.git'))) {
+      try {
+        console.log(`[stage-pr] Committing test scaffold onto ${branchName} in ${repoDir}...`);
+        commitSha = commitScaffoldToBranch(repoDir, branchName, testFilePath, cardId);
+        if (push) {
+          const pushRunner = options.pushRunner || ((dir, br) => execFileSync('git', ['push', '-u', 'origin', `refs/heads/${br}:refs/heads/${br}`], { cwd: dir, stdio: 'pipe' }));
+          pushRunner(repoDir, branchName);
+          pushed = true;
+          console.log(`[stage-pr] Pushed ${branchName} (${commitSha.slice(0, 8)}) to origin`);
+        }
+      } catch (err) {
+        console.log(`[stage-pr] Branch notice: ${err.message}`);
+      }
     }
 
     // Update ledger row with PR staging metadata
@@ -236,6 +295,8 @@ export function stagePr(cardId, options = {}) {
             return JSON.stringify({
               ...row,
               pr_branch: branchName,
+              pr_commit: commitSha,
+              pr_pushed: pushed,
               pr_stage: 'STAGED_FOR_DEV',
               pr_staged_at: new Date().toISOString(),
               test_scaffold: path.relative(repoDir, testFilePath).replace(/\\/g, '/')
@@ -258,6 +319,8 @@ export function stagePr(cardId, options = {}) {
     target,
     repoDir,
     branchName,
+    commitSha,
+    pushed,
     testFilePath,
     dryRun
   };
@@ -267,22 +330,24 @@ async function main() {
   const args = process.argv.slice(2);
   let cardId = null;
   let createBranch = false;
+  let push = false;
   let dryRun = false;
 
   for (const arg of args) {
     if (arg.startsWith('--card-id=')) cardId = arg.slice('--card-id='.length);
     else if (arg.startsWith('--card=')) cardId = arg.slice('--card='.length);
     else if (arg === '--create-branch') createBranch = true;
+    else if (arg === '--push') push = true;
     else if (arg === '--dry-run') dryRun = true;
   }
 
   if (!cardId) {
-    console.error('Usage: node scripts/trm-stage-pr.mjs --card-id=<cardId> [--create-branch] [--dry-run]');
+    console.error('Usage: node scripts/trm-stage-pr.mjs --card-id=<cardId> [--create-branch] [--push] [--dry-run]');
     process.exit(1);
   }
 
   try {
-    const res = stagePr(cardId, { createBranch, dryRun });
+    const res = stagePr(cardId, { createBranch, push, dryRun });
     console.log('[stage-pr] PR stage successful:', JSON.stringify(res, null, 2));
   } catch (err) {
     console.error('[stage-pr] Error staging PR:', err.message);

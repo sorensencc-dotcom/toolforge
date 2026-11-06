@@ -53,21 +53,23 @@ function loadCardData(cardId) {
 
   let card = { id: cardId };
 
-  // Check .harness/tasks/pending
-  const pendingDir = path.join(DEV_ROOT, '.harness', 'tasks', 'pending');
-  if (fs.existsSync(pendingDir)) {
-    const files = fs.readdirSync(pendingDir);
-    const match = files.find(f => f.toLowerCase().includes(cleanId));
-    if (match) {
-      try {
-        const content = fs.readFileSync(path.join(pendingDir, match), 'utf8');
-        if (match.endsWith('.json') || match.endsWith('.gdoc')) {
-          const parsed = JSON.parse(content);
-          card = { ...card, ...parsed };
-        } else {
-          card.raw_content = content;
-        }
-      } catch {}
+  // Check .harness/tasks/pending and .harness/tasks/in-progress
+  for (const sub of ['pending', 'in-progress']) {
+    const taskDir = path.join(DEV_ROOT, '.harness', 'tasks', sub);
+    if (fs.existsSync(taskDir)) {
+      const files = fs.readdirSync(taskDir);
+      const match = files.find(f => f.toLowerCase().includes(cleanId));
+      if (match) {
+        try {
+          const content = fs.readFileSync(path.join(taskDir, match), 'utf8');
+          if (match.endsWith('.json') || match.endsWith('.gdoc')) {
+            const parsed = JSON.parse(content);
+            card = { ...card, ...parsed };
+          } else {
+            card.raw_content = content;
+          }
+        } catch {}
+      }
     }
   }
 
@@ -496,6 +498,25 @@ export function formatMarkdownComment(card, astResults, knowledgeHits, hostProbe
   return lines.join('\n');
 }
 
+export function persistEnrichmentToTaskDirs(cardId, enrichment, tasksRoot = path.join(DEV_ROOT, '.harness', 'tasks')) {
+  const updatedPaths = [];
+  for (const sub of ['pending', 'in-progress']) {
+    const taskFile = path.join(tasksRoot, sub, `${cardId}.json`);
+    if (fs.existsSync(taskFile)) {
+      try {
+        const current = JSON.parse(fs.readFileSync(taskFile, 'utf8'));
+        current.enrichment = enrichment;
+        fs.writeFileSync(taskFile, JSON.stringify(current, null, 2), 'utf8');
+        updatedPaths.push(taskFile);
+        console.log(`[enricher] Updated task payload in ${taskFile}`);
+      } catch (err) {
+        console.warn(`[enricher] Failed to update task file ${taskFile}: ${err.message}`);
+      }
+    }
+  }
+  return updatedPaths;
+}
+
 // 8. Main execution
 async function main() {
   const args = parseArgs();
@@ -540,25 +561,16 @@ async function main() {
     console.log('--- End of Comment ---\n');
   }
 
-  // Update .harness/tasks/pending/<cardId>.json if present
-  const pendingFile = path.join(DEV_ROOT, '.harness', 'tasks', 'pending', `${card.id}.json`);
-  if (fs.existsSync(pendingFile)) {
-    try {
-      const current = JSON.parse(fs.readFileSync(pendingFile, 'utf8'));
-      current.enrichment = {
-        tier: synthesis.tier,
-        rationale: synthesis.rationale,
-        priorArtSummary: synthesis.priorArtSummary,
-        astResults,
-        hostProbes,
-        enrichedAt: new Date().toISOString()
-      };
-      fs.writeFileSync(pendingFile, JSON.stringify(current, null, 2), 'utf8');
-      console.log(`[enricher] Updated task payload in ${pendingFile}`);
-    } catch (err) {
-      console.warn(`[enricher] Failed to update pending task file: ${err.message}`);
-    }
-  }
+  // Update .harness/tasks/{pending,in-progress}/<cardId>.json if present
+  persistEnrichmentToTaskDirs(card.id, {
+    tier: synthesis.tier,
+    rationale: synthesis.rationale,
+    priorArtSummary: synthesis.priorArtSummary,
+    astResults,
+    hostProbes,
+    deltaPlan: synthesis.deltaPlan,
+    enrichedAt: new Date().toISOString()
+  });
 
   // Post comment to GitHub if issue-url provided and not dry-run
   const issueUrl = args.issueUrl || card.issue_url;

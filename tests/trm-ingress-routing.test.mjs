@@ -764,3 +764,106 @@ test('parsePayload strips a UTF-8 BOM before JSON.parse', async () => {
   assert.equal(stripBom('﻿{"a":1}'), '{"a":1}');
   assert.deepEqual(parsePayload('﻿{"a":1}', '.json'), { a: 1 });
 });
+
+test('parsePayload and processFile extract plain-text .gdoc content without YAML frontmatter fences', async () => {
+  const mockPlainFetcher = async () => ({
+    ok: true,
+    content: '\uFEFF# Security Containment Deployment Prompt Gate\n\nEnforce socket-level IP allowlisting and out-of-band process termination for high-privilege diagnostic agents.'
+  });
+
+  const parsed = await parsePayload('{"doc_id":"doc_plain_ok"}', '.gdoc', { docFetcher: mockPlainFetcher });
+  assert.equal(parsed.source, 'mobile-gemini-gdoc');
+  assert.equal(parsed.context.body_fetch_failed, false);
+  assert.ok(parsed.body.includes('socket-level IP allowlisting'));
+
+  const tmpGdoc = path.join(os.tmpdir(), '2026-11-06T135501Z__action__toolforge__act-01-security-containment-deployment-prompt-gate.md.gdoc');
+  fs.writeFileSync(tmpGdoc, JSON.stringify({ doc_id: 'doc_plain_ok' }), 'utf8');
+  try {
+    const res = await processFile(tmpGdoc, { dryRun: true, docFetcher: mockPlainFetcher, useSmallModel: false });
+    assert.ok(res);
+    assert.equal(res.id, 'act-01-security-containment-deployment-prompt-gate');
+    assert.equal(res.intent, 'security_containment_deployment_prompt_gate');
+    assert.equal(res.status, 'INSPECTED_DRY_RUN');
+    assert.equal(res.context.body_fetch_failed, false);
+    assert.ok(res.context.body.includes('socket-level IP allowlisting'));
+  } finally {
+    try { fs.unlinkSync(tmpGdoc); } catch {}
+  }
+});
+
+test('reconcileQuarantinedOutboxReceipts satisfies CompletedCardHasCompletedReceipt and SyncedLedgerMatchesReceipt invariants', async () => {
+  const { reconcileQuarantinedOutboxReceipts } = await import('../scripts/trm-ingress-watcher.mjs');
+  const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trm-statechart-repro-'));
+  const pendingDir = path.join(tmpRoot, 'pending');
+  const inProgressDir = path.join(tmpRoot, 'in-progress');
+  const completedDir = path.join(tmpRoot, 'completed');
+  const outboxDir = path.join(tmpRoot, 'outbox');
+  const ledgerPath = path.join(tmpRoot, 'trm-action-ledger.jsonl');
+  for (const d of [pendingDir, inProgressDir, completedDir, outboxDir]) {
+    fs.mkdirSync(d, { recursive: true });
+  }
+
+  try {
+    // Replay TLC Bug Path 2 (SyncedLedgerMatchesReceipt): quarantined card healed into pending, then synced
+    const cardFile = '2026-11-06T135504Z__research__cic-kb__act-04-anthropic-ai-rd-acceleration-metr-audit.md';
+    const cardPayload = {
+      id: 'act-04-anthropic-ai-rd-acceleration-metr-audit',
+      intent: 'anthropic_ai_rd_acceleration_metr_audit',
+      category: 'RESEARCH',
+      summary: 'Catalog METR 11-week empirical audit of Anthropic 1.9x AI R&D velocity acceleration.',
+      body: '# Action Task\nEmpirical METR audit.',
+      context: { body_fetch_failed: false, body: '# Action Task\nEmpirical METR audit.' }
+    };
+    fs.writeFileSync(path.join(pendingDir, cardFile), JSON.stringify(cardPayload, null, 2), 'utf8');
+
+    const rcptPath = path.join(outboxDir, 'receipt-1793982917589-anthropic_ai_rd_acceleration_metr_audit.json');
+    fs.writeFileSync(rcptPath, JSON.stringify({
+      receipt_id: 'rcpt-1',
+      action_id: 'act-04-anthropic-ai-rd-acceleration-metr-audit',
+      intent: 'anthropic_ai_rd_acceleration_metr_audit',
+      source: 'mobile-gemini-gdoc',
+      status: 'QUARANTINED_INSUFFICIENT_DATA',
+      summary: 'Old quarantined summary'
+    }, null, 2), 'utf8');
+
+    fs.writeFileSync(ledgerPath, JSON.stringify({
+      id: 'act-04-anthropic-ai-rd-acceleration-metr-audit',
+      intent: 'anthropic_ai_rd_acceleration_metr_audit',
+      status: 'QUARANTINED_INSUFFICIENT_DATA',
+      summary: 'Old quarantined summary'
+    }) + '\n', 'utf8');
+
+    reconcileQuarantinedOutboxReceipts({
+      dryRun: false,
+      pendingDir,
+      inProgressDir,
+      completedDir,
+      outboxDirs: [outboxDir],
+      ledgerPath
+    });
+
+    const syncedPendingReceipt = JSON.parse(fs.readFileSync(rcptPath, 'utf8'));
+    const syncedPendingLedger = JSON.parse(fs.readFileSync(ledgerPath, 'utf8').trim());
+    assert.equal(syncedPendingReceipt.status, 'STAGED_FOR_RESEARCH');
+    assert.equal(syncedPendingLedger.status, 'STAGED_FOR_RESEARCH');
+
+    // Replay TLC Bug Path 1 (CompletedCardHasCompletedReceipt): staged card moved to completed, then synced
+    fs.renameSync(path.join(pendingDir, cardFile), path.join(completedDir, cardFile));
+
+    reconcileQuarantinedOutboxReceipts({
+      dryRun: false,
+      pendingDir,
+      inProgressDir,
+      completedDir,
+      outboxDirs: [outboxDir],
+      ledgerPath
+    });
+
+    const syncedCompletedReceipt = JSON.parse(fs.readFileSync(rcptPath, 'utf8'));
+    const syncedCompletedLedger = JSON.parse(fs.readFileSync(ledgerPath, 'utf8').trim());
+    assert.equal(syncedCompletedReceipt.status, 'COMPLETED');
+    assert.equal(syncedCompletedLedger.status, 'COMPLETED');
+  } finally {
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  }
+});

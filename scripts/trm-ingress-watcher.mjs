@@ -261,6 +261,21 @@ function loadEnvCredentials() {
       } catch {}
     }
   }
+
+  // Fallback to Google Cloud Application Default Credentials (ADC) when env lacks OAuth/Refresh credentials
+  if (!process.env.GOOGLE_OAUTH_TOKEN && (!process.env.GOOGLE_REFRESH_TOKEN || !process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET)) {
+    try {
+      const adcPath = process.env.GOOGLE_APPLICATION_CREDENTIALS ||
+        path.join(process.env.APPDATA || '', 'gcloud', 'application_default_credentials.json');
+      if (adcPath && fs.existsSync(adcPath)) {
+        const adc = JSON.parse(fs.readFileSync(adcPath, 'utf8'));
+        if (adc.client_id && !process.env.GOOGLE_CLIENT_ID) process.env.GOOGLE_CLIENT_ID = adc.client_id;
+        if (adc.client_secret && !process.env.GOOGLE_CLIENT_SECRET) process.env.GOOGLE_CLIENT_SECRET = adc.client_secret;
+        if (adc.refresh_token && !process.env.GOOGLE_REFRESH_TOKEN) process.env.GOOGLE_REFRESH_TOKEN = adc.refresh_token;
+        if (adc.quota_project_id && !process.env.GOOGLE_QUOTA_PROJECT_ID) process.env.GOOGLE_QUOTA_PROJECT_ID = adc.quota_project_id;
+      }
+    } catch {}
+  }
 }
 
 export async function getValidAccessToken(forceRefresh = false) {
@@ -371,16 +386,20 @@ export function parsePayload(raw, ext, options = {}) {
           const docsWebUrl = `https://docs.google.com/document/d/${encodeURIComponent(docId)}/export?format=txt`;
           // Prefer Google Drive API v3 when token is available, fallback to Docs web URL
           const targetUrl = token ? driveApiUrl : docsWebUrl;
+          const driveHeaders = { ...headers };
+          if (process.env.GOOGLE_QUOTA_PROJECT_ID) {
+            driveHeaders['x-goog-user-project'] = process.env.GOOGLE_QUOTA_PROJECT_ID;
+          }
 
           try {
             res = await fetch(targetUrl, {
-              headers,
+              headers: targetUrl === driveApiUrl ? driveHeaders : headers,
               redirect: 'manual',
               signal: AbortSignal.timeout(30000)
             });
 
-            // If Drive API returned 404 or unsupported method, fall back to docs.google.com web export
-            if (!res.ok && res.status !== 401 && res.status !== 403 && targetUrl === driveApiUrl) {
+            // If Drive API returned non-OK (including 401/403/404 when token scope is Docs-only), fall back to docs.google.com web export
+            if (!res.ok && targetUrl === driveApiUrl) {
               res = await fetch(docsWebUrl, {
                 headers,
                 redirect: 'manual',
@@ -437,26 +456,83 @@ export function parsePayload(raw, ext, options = {}) {
         }
       }
 
+      text = stripBom(text);
       const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-      if (!match) {
+      if (match) {
+        const lines = match[1].split(/\r?\n/);
+        const frontmatter = {};
+        for (const line of lines) {
+          const idx = line.indexOf(':');
+          if (idx > 0) {
+            const key = line.slice(0, idx).trim();
+            const val = line.slice(idx + 1).trim();
+            frontmatter[key] = val;
+          }
+        }
+        const body = text.slice(match[0].length).trim();
+        return {
+          ...frontmatter,
+          body,
+          raw_content: text.trim(),
+          context: {
+            ...(frontmatter.context ? (typeof frontmatter.context === 'string' ? JSON.parse(frontmatter.context) : frontmatter.context) : {}),
+            body,
+            body_fetch_failed: false
+          }
+        };
+      }
+
+      // Plain-text Google Doc fallback: extract inline key: value header lines or markdown heading without requiring --- fences
+      const trimmedText = text.trim();
+      if (!trimmedText) {
         throw new Error('Markdown action item missing frontmatter block');
       }
-      const lines = match[1].split(/\r?\n/);
+      const allLines = trimmedText.split(/\r?\n/);
       const frontmatter = {};
-      for (const line of lines) {
-        const idx = line.indexOf(':');
-        if (idx > 0) {
-          const key = line.slice(0, idx).trim();
-          const val = line.slice(idx + 1).trim();
-          frontmatter[key] = val;
+      const KNOWN_HEADER_KEYS = new Set([
+        'id', 'action_id', 'source', 'action_type', 'category', 'domain',
+        'target', 'target_notebook', 'target_notebook_name', 'intent',
+        'title', 'summary', 'priority', 'direction', 'topic', 'skill', 'status'
+      ]);
+      let bodyStartIndex = 0;
+      for (let i = 0; i < allLines.length; i++) {
+        const line = allLines[i].trim();
+        if (!line) {
+          if (Object.keys(frontmatter).length > 0) {
+            bodyStartIndex = i + 1;
+            break;
+          }
+          continue;
+        }
+        if (line.startsWith('#')) {
+          bodyStartIndex = i;
+          break;
+        }
+        const kvMatch = line.match(/^([a-zA-Z0-9_-]+)\s*:\s*(.+)$/);
+        if (kvMatch && KNOWN_HEADER_KEYS.has(kvMatch[1].toLowerCase())) {
+          frontmatter[kvMatch[1].toLowerCase()] = kvMatch[2].trim();
+          bodyStartIndex = i + 1;
+        } else {
+          break;
         }
       }
-      const body = text.slice(match[0].length).trim();
+      const body = (Object.keys(frontmatter).length > 0 ? allLines.slice(bodyStartIndex).join('\n').trim() : trimmedText) || trimmedText;
+      const firstLine = allLines.find(l => l.trim().length > 0) || '';
+      const cleanTitle = frontmatter.title || firstLine.replace(/^#+\s*/, '').slice(0, 120).trim();
+      const cleanIntent = frontmatter.intent || (cleanTitle ? cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') : 'gdoc_action_item');
       return {
+        source: frontmatter.source || 'mobile-gemini-gdoc',
+        action_type: frontmatter.action_type || 'antigravity_triage',
+        intent: cleanIntent,
+        title: cleanTitle || undefined,
+        summary: frontmatter.summary || cleanTitle || trimmedText.slice(0, 140),
         ...frontmatter,
+        body,
+        raw_content: trimmedText,
         context: {
           ...(frontmatter.context ? (typeof frontmatter.context === 'string' ? JSON.parse(frontmatter.context) : frontmatter.context) : {}),
-          body
+          body,
+          body_fetch_failed: false
         }
       };
     })();
@@ -1230,16 +1306,25 @@ export function syncCompletionReceipts(options = {}) {
     }
 
     // Check if task was completed in .harness/tasks/completed
-    if (!isFinished && item.id) {
-      const completedTaskPath = path.join(HARNESS_COMPLETED_DIR, `${item.id}.json`);
+    if (!isFinished && item.id && fs.existsSync(HARNESS_COMPLETED_DIR)) {
+      let completedTaskPath = path.join(HARNESS_COMPLETED_DIR, `${item.id}.json`);
+      if (!fs.existsSync(completedTaskPath)) {
+        try {
+          const matchFile = fs.readdirSync(HARNESS_COMPLETED_DIR).find(
+            f => f.includes(`__${item.id}.`) || f.startsWith(`${item.id}.`)
+          );
+          if (matchFile) completedTaskPath = path.join(HARNESS_COMPLETED_DIR, matchFile);
+        } catch {}
+      }
       if (fs.existsSync(completedTaskPath)) {
+        const matchedName = path.basename(completedTaskPath);
         try {
           const taskData = JSON.parse(fs.readFileSync(completedTaskPath, 'utf8'));
           isFinished = true;
-          completionSummary = taskData.completion_details || taskData.output || taskData.summary || `Task completed in .harness/tasks/completed/${item.id}.json`;
+          completionSummary = taskData.completion_details || taskData.output || taskData.summary || `Task completed in .harness/tasks/completed/${matchedName}`;
         } catch {
           isFinished = true;
-          completionSummary = `Task completed in .harness/tasks/completed/${item.id}.json`;
+          completionSummary = `Task completed in .harness/tasks/completed/${matchedName}`;
         }
       }
     }
@@ -1310,7 +1395,110 @@ export function syncCompletionReceipts(options = {}) {
     refreshLedgerMarkdown();
   }
 
+  reconcileQuarantinedOutboxReceipts({ dryRun });
+
   return emittedReceipts;
+}
+
+export function reconcileQuarantinedOutboxReceipts(options = {}) {
+  const dryRun = options.dryRun !== undefined ? options.dryRun : isDryRun;
+  const pendingDir = options.pendingDir || HARNESS_PENDING_DIR;
+  const inProgressDir = options.inProgressDir || HARNESS_IN_PROGRESS_DIR;
+  const completedDir = options.completedDir || HARNESS_COMPLETED_DIR;
+  const outboxDirs = options.outboxDirs || getActiveOutboxDirs();
+  const ledgerPath = options.ledgerPath !== undefined ? options.ledgerPath : LEDGER_JSONL;
+  const healedCards = new Map();
+
+  for (const dir of [pendingDir, inProgressDir, completedDir]) {
+    if (!fs.existsSync(dir)) continue;
+    try {
+      for (const file of fs.readdirSync(dir)) {
+        const fp = path.join(dir, file);
+        try {
+          const raw = fs.readFileSync(fp, 'utf8');
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.context?.body_fetch_failed === false && (parsed.body || parsed.context?.body)) {
+            const targetStatus = dir === completedDir
+              ? 'COMPLETED'
+              : (String(parsed.category || '').toUpperCase() === 'RESEARCH' ? 'STAGED_FOR_RESEARCH' : 'STAGED_FOR_TRIAGE');
+            if (parsed.id) healedCards.set(String(parsed.id).toLowerCase(), { card: parsed, status: targetStatus, file });
+            if (parsed.intent) healedCards.set(String(parsed.intent).toLowerCase(), { card: parsed, status: targetStatus, file });
+          }
+        } catch {}
+      }
+    } catch {}
+  }
+
+  if (healedCards.size === 0) return [];
+  const updated = [];
+
+  for (const outbox of outboxDirs) {
+    if (!fs.existsSync(outbox)) continue;
+    try {
+      for (const file of fs.readdirSync(outbox)) {
+        if (!file.endsWith('.json')) continue;
+        const jsonPath = path.join(outbox, file);
+        try {
+          const rcpt = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+          const match = healedCards.get(String(rcpt.action_id || '').toLowerCase()) ||
+                        healedCards.get(String(rcpt.intent || '').toLowerCase());
+          if (!match) continue;
+          const needsUpdate =
+            rcpt.status === 'QUARANTINED_INSUFFICIENT_DATA' ||
+            (match.status === 'COMPLETED' && rcpt.status !== 'COMPLETED');
+          if (!needsUpdate) continue;
+
+          rcpt.status = match.status;
+          rcpt.summary = match.card.summary || rcpt.summary;
+          rcpt.execution_details = `Normalized and staged to .harness/tasks/${match.file}`;
+          rcpt.healed_at = new Date().toISOString();
+
+          const mdPath = jsonPath.replace(/\.json$/, '.md');
+          const mdContent = `# Action Receipt: \`${rcpt.receipt_id}\`\n\n` +
+            `- **Original Action ID**: \`${rcpt.action_id}\`\n` +
+            `- **Status**: \`${rcpt.status}\`\n` +
+            `- **Intent**: \`${rcpt.intent}\`\n` +
+            `- **Source**: \`${rcpt.source}\`\n` +
+            `- **Dispatched At**: \`${rcpt.dispatched_at}\`\n` +
+            `- **Duration**: \`${rcpt.duration_ms || 0}ms\`\n` +
+            `\n### Summary\n${rcpt.summary || 'No summary provided.'}\n`;
+
+          if (!dryRun) {
+            fs.writeFileSync(jsonPath, JSON.stringify(rcpt, null, 2), 'utf8');
+            fs.writeFileSync(mdPath, mdContent, 'utf8');
+          }
+          updated.push({ file, action_id: rcpt.action_id, status: rcpt.status });
+        } catch {}
+      }
+    } catch {}
+  }
+
+  if (ledgerPath && fs.existsSync(ledgerPath)) {
+    try {
+      const lines = fs.readFileSync(ledgerPath, 'utf8').trim().split('\n').filter(Boolean);
+      let ledgerMutated = false;
+      const rows = lines.map(line => {
+        try {
+          const row = JSON.parse(line);
+          const match = healedCards.get(String(row.id || '').toLowerCase()) ||
+                        healedCards.get(String(row.intent || '').toLowerCase());
+          if (match && (row.status === 'QUARANTINED_INSUFFICIENT_DATA' || (match.status === 'COMPLETED' && row.status !== 'COMPLETED'))) {
+            row.status = match.status;
+            row.summary = match.card.summary || row.summary;
+            ledgerMutated = true;
+          }
+          return JSON.stringify(row);
+        } catch {
+          return line;
+        }
+      });
+      if (ledgerMutated && !dryRun) {
+        fs.writeFileSync(ledgerPath, rows.join('\n') + '\n', 'utf8');
+      }
+    } catch {}
+  }
+
+  return updated;
 }
 
 export function sweepOutboxRetention(maxAgeDays = 7, options = {}) {
@@ -1555,6 +1743,35 @@ export async function processFile(filePath, options = {}) {
     }
     try {
       item = await parsePayload(ext === '.gdoc' ? { docId } : raw, ext, options);
+      if (ext === '.gdoc' && item) {
+        const fileMeta = parseGDocFilenameMetadata(filename);
+        const extractedBody = item.body || item.context?.body || '';
+        const isGenericIntent = !item.intent || item.intent === 'gdoc_action_item';
+        item = {
+          ...fileMeta,
+          ...item,
+          id: item.id || fileMeta.id,
+          action_id: item.action_id || item.id || fileMeta.id,
+          timestamp: item.timestamp || fileMeta.timestamp,
+          domain: item.domain || fileMeta.domain,
+          target: item.target || fileMeta.target,
+          category: item.category || fileMeta.category,
+          parent_action_id: item.parent_action_id || fileMeta.parent_action_id,
+          intent: isGenericIntent ? fileMeta.intent : item.intent,
+          title: item.title || fileMeta.title,
+          summary: (item.summary && !item.summary.startsWith('Mobile action item')) ? item.summary : (extractedBody.slice(0, 200).replace(/\s+/g, ' ').trim() || fileMeta.summary),
+          body: extractedBody,
+          raw_content: item.raw_content || extractedBody,
+          context: {
+            ...fileMeta.context,
+            ...(item.context || {}),
+            doc_id: docId,
+            body: extractedBody,
+            body_fetch_failed: false,
+            note: 'Ingested from .gdoc with plain-text body extraction.'
+          }
+        };
+      }
     } catch (parseErr) {
       if (ext === '.gdoc') {
         console.warn(`[TRM-INGRESS] GDoc body fetch failed (${parseErr.message}), falling back to filename metadata for ${filename}`);

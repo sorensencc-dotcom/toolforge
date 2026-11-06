@@ -9,6 +9,83 @@
 - Repository Target: dev
 <!-- TOOLFORGE-VAULT-POINTER-END -->
 
+## Daily Intelligence Briefing Remediation & Action Card Execution (2026-11-06)
+
+### Active goal
+
+Execute all five remediation and engineering priorities from the November 6, 2026 Daily Intelligence Briefing: fix `.gdoc` OAuth/ADC extraction and heal quarantined outbox receipts, re-enable `\CIC\CIC-Nightly-Notebook-Mining` and inject dynamic questions into `Open Dev Issues` (`cb0498ce-1ea5-4668-9f65-ac368753404e`), regenerate and sync `CIC_Daily_Status.html` to Google Drive, implement and verify the 4 staged Nov 6 action cards (`act-01` through `act-04`), and wire `google-notebook-client.mjs` into `run-daily-notebook-mining.mjs` while pruning sandbox benchmark sources.
+
+### Completed work
+
+- **`.gdoc` OAuth/ADC Extraction & Outbox Quarantine Reconciliation:** Updated `loadEnvCredentials()` and `parsePayload()` in [`scripts/trm-ingress-watcher.mjs`](file:///C:/dev/scripts/trm-ingress-watcher.mjs) to load Google Cloud ADC credentials (`%APPDATA%\gcloud\application_default_credentials.json`), pass `x-goog-user-project`, fall back to `docs.google.com/document/d/.../export?format=txt` on Drive API `401`/`403` responses, strip UTF-8 BOMs, and parse plain-text Google Docs without requiring YAML frontmatter fences. Added `reconcileQuarantinedOutboxReceipts()` and reconciled all 4 Nov 6 receipts (`act-01`..`act-03` → `STAGED_FOR_TRIAGE`, `act-04` → `COMPLETED`) across local and Google Drive outboxes. Verified state-machine invariants (`CompletedCardHasCompletedReceipt` and `SyncedLedgerMatchesReceipt`) via TLC (`/statechart`), updating `syncCompletionReceipts()` to match timestamp-prefixed `.md` files in `.harness/tasks/completed/` and `reconcileQuarantinedOutboxReceipts()` to synchronize both `STAGED_*` → `COMPLETED` outbox transitions and `trm-action-ledger.jsonl` rows.
+- **4 Nov 6 Action Cards Implemented & Verified (`act-01`..`act-04`):**
+  - `act-01` (`toolforge`): Shipped [`scripts/lib/security-containment-gate.mjs`](file:///C:/dev/scripts/lib/security-containment-gate.mjs) and [`tests/trm-act-01-security-containment-deployment-prompt-gate.test.mjs`](file:///C:/dev/tests/trm-act-01-security-containment-deployment-prompt-gate.test.mjs) (3/3 PASS), enforcing HMAC-SHA256 signed scope manifests, default-deny IPv4/CIDR socket allowlists, and external process kill gates.
+  - `act-02` (`sigil`): Shipped [`sigil-repo/sigil/ingress/v1/agentmail-polling-webhook-queue.mjs`](file:///C:/dev/sigil-repo/sigil/ingress/v1/agentmail-polling-webhook-queue.mjs) and [`sigil-repo/tests/trm-act-02-polling-webhook-queue-agentmail.test.mjs`](file:///C:/dev/sigil-repo/tests/trm-act-02-polling-webhook-queue-agentmail.test.mjs) (1/1 PASS), providing Svix-signed polling webhook ingestion with replay window enforcement and idempotent deduplication.
+  - `act-03` (`rewrite-mcp`): Shipped `rewrite-mcp/tools/outcome-transformation-metrics.mjs` and `rewrite-mcp/tests/trm-act-03-enterprise-ai-transformation-metrics.test.mjs` (2/2 PASS), rejecting vanity hours-saved metrics in favor of verified workflow completion, conversion delta, and transaction volume scoring.
+  - `act-04` (`cic-kb`): Authored [`kb-sync/obsidian/vault/wiki/research/act-04-anthropic-ai-rd-acceleration-metr-audit.md`](file:///C:/dev/kb-sync/obsidian/vault/wiki/research/act-04-anthropic-ai-rd-acceleration-metr-audit.md) and [`wiki/research/act-04-anthropic-ai-rd-acceleration-metr-audit.md`](file:///C:/dev/wiki/research/act-04-anthropic-ai-rd-acceleration-metr-audit.md), transitioned card to `.harness/tasks/completed/`, and verified 7,906 wiki nodes pass contract validation with 0 defects.
+- **Native Notebook API Client Wired & Sandbox Pruned:** Integrated `listSources`, `addTextSource`, and `deleteSource` (with hybrid `nlm source delete` fallback when HTTP `DELETE` returns `501 UNIMPLEMENTED`) into [`scripts/run-daily-notebook-mining.mjs`](file:///C:/dev/scripts/run-daily-notebook-mining.mjs). Pruned the 3 benchmark sources (`API Migration Test Source`, `Bench API`, `Bench NLM`) from `KB - Testing Sandbox` (`d721ed70-5b37-497f-a279-10ba362c744e`).
+- **Live Chat Injection & Staleness Remediation (`cb0498ce-1ea5-4668-9f65-ac368753404e`):** Updated `runNotebookSweep()` in [`kb-sync/scripts/pipeline/cluster-sync-runner.mjs`](file:///C:/dev/kb-sync/scripts/pipeline/cluster-sync-runner.mjs) to dispatch `defaultQueryNotebook` (`nlm notebook query`) for generated dynamic question batteries during live cluster sweeps, re-enabled `\CIC\CIC-Nightly-Notebook-Mining`, and executed live sync against `Open Dev Issues (CI/CD Triage Buffer)` (`cb0498ce-1ea5-4668-9f65-ac368753404e`).
+- **Dashboard Regeneration & Google Drive Sync (`CIC_Daily_Status.html`):** Updated [`scripts/Run-DailyStatus.ps1`](file:///C:/dev/scripts/Run-DailyStatus.ps1) and [`scripts/reconcile-scheduled-tasks.ps1`](file:///C:/dev/scripts/reconcile-scheduled-tasks.ps1), regenerated `_status-feed/daily_status.json` and `_status-feed/CIC_Daily_Status.html`, and pushed the updated HTML directly to Google Drive (`1uUkvj1I3hLF5W3v1wEjtidf90cYBmnLh`), clearing the 22-day reporting lag.
+- **Lane B Remote Agent PR Staging (`trm-stage-pr.mjs` & `trm-post-promote-enricher.mjs`):** Updated [`scripts/trm-stage-pr.mjs`](file:///C:/dev/scripts/trm-stage-pr.mjs) with `formatEnrichmentHeader()` and `commitScaffoldToBranch()` to inline `card.issue_url` and `card.enrichment` (`tier`, `rationale`, `astResults`, `deltaPlan`) into the test contract header, upgrade pre-existing bare stubs once enrichment arrives, commit the scaffold onto `refs/heads/trm/<cardId>` via isolated `GIT_INDEX_FILE` plumbing without touching the active checkout, and support `--push` to `origin/trm/<cardId>`. Updated [`scripts/trm-post-promote-enricher.mjs`](file:///C:/dev/scripts/trm-post-promote-enricher.mjs) with `persistEnrichmentToTaskDirs()` so out-of-band enrichment persists across both `.harness/tasks/pending/` and `.harness/tasks/in-progress/`.
+
+### Decisions
+
+- Plain-text `.gdoc` exports without YAML frontmatter fences synthesize canonical metadata from the structured `.gdoc` filename (`<timestamp>__<category>__<target>__<slug>.md.gdoc`) and merge the extracted body with `body_fetch_failed: false`.
+- `runNotebookSweep()` in `cluster-sync-runner.mjs` dispatches up to `maxQuestionsToInject` (default `2`) high-entropy questions via `nlm notebook query` during live runs while skipping subprocess invocation during dry runs or mocked unit runs.
+- `stagePr()` embeds enrichment context directly into the `tests/trm-<cardId>.test.mjs` header, upgrades unenriched stubs when `card.enrichment` arrives later, and commits via temporary Git index plumbing so Antigravity Remote Agents receive a self-contained branch without dirtying local `C:\dev` working trees.
+
+### Tests
+
+- `node --test --test-timeout=60000 tests/trm-stage-pr.test.mjs tests/trm-batch-triage.test.mjs tests/trm-post-promote-enricher.test.mjs`: PASS (9/9)
+- `node --test --test-timeout=15000 tests/trm-ingress-routing.test.mjs tests/google-notebook-client.test.mjs`: PASS (45/45)
+- `node --test --test-timeout=15000 tests/run-daily-notebook-mining.test.mjs`: PASS (10/10)
+- `node --test --test-timeout=15000 tests/trm-act-01-security-containment-deployment-prompt-gate.test.mjs`: PASS (3/3)
+- `node --test --test-timeout=15000 sigil-repo/tests/trm-act-02-polling-webhook-queue-agentmail.test.mjs`: PASS (1/1)
+- `node --test --test-timeout=15000 rewrite-mcp/tests/trm-act-03-enterprise-ai-transformation-metrics.test.mjs`: PASS (2/2)
+- `node --test --test-timeout=15000 kb-sync/tests/cluster-sync-staging.test.mjs kb-sync/tests/cluster-sync-quarantine-audit.test.mjs`: PASS (21/21)
+- `node kb-sync/modules/wiki/validate-contract.mjs kb-sync/obsidian/vault/wiki`: PASS (7,906 nodes, 0 defects)
+
+### Blockers
+
+- Full retirement of `nlm.exe` for source deletion in [`scripts/run-daily-notebook-mining.mjs`](file:///C:/dev/scripts/run-daily-notebook-mining.mjs) remains gated on Google enabling HTTP `DELETE` (`501 UNIMPLEMENTED`) on `notebook.googleapis.com/v1`.
+
+### Next action
+
+1. [x] Prune the 3 benchmark test sources (`API Migration Test Source`, `Bench NLM`, `Bench API`) from `KB - Testing Sandbox` (`d721ed70-5b37-497f-a279-10ba362c744e`).
+2. [x] Wire hybrid `google-notebook-client.mjs` into `scripts/run-daily-notebook-mining.mjs`.
+3. Review and merge staged branches for `act-01` (`toolforge`), `act-02` (`sigil`), and `act-03` (`rewrite-mcp`).
+
+## Google Notebook API Native Client & Staged Migration (2026-11-06)
+
+### Active goal
+
+Evaluate the official Google Gemini Notebook API (`notebook.googleapis.com/v1`) as a replacement for the reverse-engineered `nlm` CLI and stage Phase 1 native read/write integration.
+
+### Completed work
+
+- **Live API & Store Verification:** Enabled `notebook.googleapis.com`, configured a Desktop OAuth client with ADC refresh tokens (`https://www.googleapis.com/auth/notebook`), and verified that the official `v1` endpoint shares the live store with `notebooklm.google.com` across all 31 canonical cluster notebooks.
+- **50-Source Quota Trap Identified:** Probed `DELETE /v1/notebooks/{id}/sources/{sourceId}` and `PATCH` against `KB - Testing Sandbox` (`d721ed70-5b37-497f-a279-10ba362c744e`). Confirmed `DELETE` returns `501 UNIMPLEMENTED` and `PATCH` returns `404 Not Found` in the current public preview, which would breach the 50-source ceiling if daily mining cut over before `DELETE` ships.
+- **Performance Benchmark:** Measured list latency at `581.93 ms` (official API) vs `2,142.86 ms` (`nlm` CLI, 3.68x speedup) and single pack upload at `2,668.65 ms` (API `POST`, excluding processing wait) vs `8,341.26 ms` (`nlm source add --wait`).
+- **Native Client Merged (PR #283 / v2.120.0):** Shipped [`scripts/lib/google-notebook-client.mjs`](file:///c:/dev/scripts/lib/google-notebook-client.mjs) and [`tests/google-notebook-client.test.mjs`](file:///c:/dev/tests/google-notebook-client.test.mjs) (4/4 PASS) in commit `22b7c6c9` (merged as `1b5b8c77`).
+
+### Decisions
+
+- Adopt a staged hybrid migration: use [`scripts/lib/google-notebook-client.mjs`](file:///c:/dev/scripts/lib/google-notebook-client.mjs) for read/listing and append operations, while retaining `nlm source delete` for daily pack pruning until Google ships `DELETE /v1/{name=notebooks/*/sources/*}`.
+- Track the `DELETE` endpoint release via a weekly scheduled Gemini task emitting a frontmatter-compliant card to `TRM-Research/mobile-inbox`.
+
+### Tests
+
+- `node --test tests/google-notebook-client.test.mjs`: PASS (4/4)
+- Live smoke check (`listNotebooks`, `listSources`, `addTextSource`, `deleteSource` 501 check) against `d721ed70-5b37-497f-a279-10ba362c744e`: PASS
+
+### Blockers
+
+- Full retirement of `nlm.exe` in [`scripts/run-daily-notebook-mining.mjs`](file:///c:/dev/scripts/run-daily-notebook-mining.mjs) is gated on Google enabling HTTP `DELETE` for notebook sources (`501 UNIMPLEMENTED`).
+
+### Next action
+
+1. Prune the 3 benchmark test sources (`API Migration Test Source`, `Bench NLM`, `Bench API`) from `KB - Testing Sandbox` (`d721ed70-5b37-497f-a279-10ba362c744e`).
+2. Cut `scripts/run-daily-notebook-mining.mjs` over to `google-notebook-client.mjs` once `deleteSource()` returns `supported: true`.
 ## Issue #256 post-turn self-assessment auditor
 
 ### Active goal
@@ -72,6 +149,7 @@ Incorporate Matt Pocock's software factory model into the TRM mobile inbox pipel
 
 ### Completed work
 
+- **Quarantine Auto-Healing Folded into Reconciliation Engine:** Integrated `healCardFile` from [`scripts/heal-quarantined-cards.mjs`](file:///c:/dev/scripts/heal-quarantined-cards.mjs) directly into Phase 1 of [`scripts/reconcile-daily-reports.mjs`](file:///c:/dev/scripts/reconcile-daily-reports.mjs). Operates cleanly on the existing 3x daily cadence (06:30, 11:15, 18:00 EST) without registering redundant background tasks. Swept and healed all 11 quarantined mobile `.gdoc` cards into `.harness/tasks/pending/`. Verified via [`tests/heal-quarantined-cards.test.mjs`](file:///c:/dev/tests/heal-quarantined-cards.test.mjs) (3/3 PASS) and [`tests/reconcile-daily-reports.test.mjs`](file:///c:/dev/tests/reconcile-daily-reports.test.mjs) (8/8 PASS).
 - **Software Factory Pipeline Architecture:** Mapped five canonical service slots (Ticket Source, Ticket Tracker, Git Host, Orchestrator, Runner, Observability Platform) and three brakes (60s test timeout, cold diff review, Tier 1 manual merge).
 - **Local Small-Model Synchronization:** Pinned `qwen2.5:7b` as primary model in [`scripts/local-small-model-bridge.mjs`](file:///c:/dev/scripts/local-small-model-bridge.mjs), aligning with Toolforge PR #265 BFCL benchmark rankings (0.750). Added destructive command sanitization.
 - **Unit Verification & Git Sync:** Updated [`tests/local-small-model-bridge.test.mjs`](file:///c:/dev/tests/local-small-model-bridge.test.mjs), passed unit suites, committed `df63a4e5` (`fix(model): pin qwen2.5:7b in local small model bridge`), and pushed to remote origin.
@@ -98,6 +176,7 @@ Incorporate Matt Pocock's software factory model into the TRM mobile inbox pipel
 
 ### Tests
 
+- `node --test tests/heal-quarantined-cards.test.mjs`: PASS (3/3)
 - `node --test tests/schedule-trm-miner.test.mjs`: PASS (3/3)
 - `node --test tests/reconcile-daily-reports.test.mjs`: PASS (7/7)
 - `node --test tests/trm-factory-runner.test.mjs`: PASS (5/5)
