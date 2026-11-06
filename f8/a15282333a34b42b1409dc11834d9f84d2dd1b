@@ -1,0 +1,19 @@
+scripts/trm-stage-pr.mjs
+  s_c74226617cd7b9::t_771d1c8dadfb0f 18,114-116,229-241,299-300,325,336-337,345-346,350,355-358
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f8a15282333a34b42b1409dc11834d9f84d2dd1b",
+  "prompts": {},
+  "sessions": {
+    "s_c74226617cd7b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15648-52f1-74e1-9328-bfd34e28d815",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
