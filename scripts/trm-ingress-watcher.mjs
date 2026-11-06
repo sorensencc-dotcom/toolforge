@@ -785,14 +785,30 @@ export function commitTypeForCard(card = {}) {
   return 'feat';
 }
 
+export function normalizeActionCardIdentity(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+export function matchesActionCardIdentity(record, identity) {
+  const normalizedIdentity = normalizeActionCardIdentity(identity);
+  if (!normalizedIdentity) return false;
+  return [record?.title, record?.body]
+    .filter(Boolean)
+    .some(value => normalizeActionCardIdentity(value).includes(normalizedIdentity));
+}
+
 export function findExistingGitHubIssueOrPr(repo, intentOrId) {
   if (!repo || !intentOrId) return null;
-  const cleanSearch = String(intentOrId).replace(/[^a-zA-Z0-9_\-]/g, ' ').trim();
+  const cleanSearch = normalizeActionCardIdentity(intentOrId);
   if (!cleanSearch) return null;
 
   // 1. Check existing issues
   try {
-    const issueListOut = execFileSync('gh', ['issue', 'list', '--repo', repo, '--state', 'all', '--search', cleanSearch, '--limit', '5', '--json', 'number,title,state,url'], {
+    const issueListOut = execFileSync('gh', ['issue', 'list', '--repo', repo, '--state', 'all', '--search', cleanSearch, '--limit', '5', '--json', 'number,title,body,state,url'], {
       cwd: REPO_ROOT,
       encoding: 'utf8',
       shell: false,
@@ -801,7 +817,7 @@ export function findExistingGitHubIssueOrPr(repo, intentOrId) {
     if (issueListOut) {
       const issues = JSON.parse(issueListOut);
       if (Array.isArray(issues) && issues.length > 0) {
-        const matched = issues.find(i => (i.title && i.title.toLowerCase().includes(cleanSearch.toLowerCase())) || (i.number && cleanSearch.includes(String(i.number))));
+        const matched = issues.find(i => matchesActionCardIdentity(i, cleanSearch));
         if (matched) {
           return { type: 'issue', url: matched.url, state: matched.state, number: matched.number, title: matched.title };
         }
@@ -811,7 +827,7 @@ export function findExistingGitHubIssueOrPr(repo, intentOrId) {
 
   // 2. Check existing PRs
   try {
-    const prListOut = execFileSync('gh', ['pr', 'list', '--repo', repo, '--state', 'all', '--search', cleanSearch, '--limit', '5', '--json', 'number,title,state,url'], {
+    const prListOut = execFileSync('gh', ['pr', 'list', '--repo', repo, '--state', 'all', '--search', cleanSearch, '--limit', '5', '--json', 'number,title,body,state,url'], {
       cwd: REPO_ROOT,
       encoding: 'utf8',
       shell: false,
@@ -820,7 +836,7 @@ export function findExistingGitHubIssueOrPr(repo, intentOrId) {
     if (prListOut) {
       const prs = JSON.parse(prListOut);
       if (Array.isArray(prs) && prs.length > 0) {
-        const matched = prs.find(p => (p.title && p.title.toLowerCase().includes(cleanSearch.toLowerCase())) || (p.number && cleanSearch.includes(String(p.number))));
+        const matched = prs.find(p => matchesActionCardIdentity(p, cleanSearch));
         if (matched) {
           return { type: 'pr', url: matched.url, state: matched.state, number: matched.number, title: matched.title };
         }
@@ -839,7 +855,7 @@ export function createGitHubIssue(item, explicitRepo = null) {
       return null;
     }
 
-    const existing = findExistingGitHubIssueOrPr(repo, item.intent || item.id);
+    const existing = findExistingGitHubIssueOrPr(repo, item.id || item.intent);
     if (existing) {
       console.log(`[TRM-INGRESS] Found existing GitHub ${existing.type.toUpperCase()} #${existing.number} (${existing.state}): ${existing.url}`);
       return existing.url;
