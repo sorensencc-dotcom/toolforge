@@ -125,3 +125,52 @@ test('stagePr upgrades an existing unenriched stub when card.enrichment arrives 
     fs.rmSync(repoDir, { recursive: true, force: true });
   }
 });
+
+test('stagePr evaluates merge_risk and enforces high risk gate when requested', () => {
+  const baseDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trm-risk-test-'));
+  const ledgerPath = path.join(baseDir, 'ledger.jsonl');
+  const repoDir = path.join(baseDir, 'repo');
+  fs.mkdirSync(repoDir, { recursive: true });
+
+  try {
+    fs.writeFileSync(ledgerPath, JSON.stringify({ id: 'act-risk-01', status: 'PROMOTED' }) + '\n', 'utf8');
+
+    // Low/medium risk card with tests
+    const res = stagePr('act-risk-01', {
+      repoDir,
+      ledgerPath,
+      cardData: {
+        id: 'act-risk-01',
+        title: 'Add safe helper util',
+        target: 'toolforge',
+        files: ['src/utils/safe-helper.js', 'tests/safe-helper.test.js']
+      }
+    });
+
+    assert.ok(res.risk);
+    assert.ok(res.risk.score < 2.25);
+    assert.equal(res.risk.risk, 'low');
+
+    const ledgerLine = JSON.parse(fs.readFileSync(ledgerPath, 'utf8').trim());
+    assert.equal(ledgerLine.merge_risk, 'low');
+    assert.equal(ledgerLine.merge_risk_score, res.risk.score);
+
+    // High risk card with sensitive auth touchpoint, schema migration, and no tests
+    assert.throws(() => {
+      stagePr('act-risk-high', {
+        repoDir,
+        ledgerPath,
+        enforceRiskGate: true,
+        cardData: {
+          id: 'act-risk-high',
+          title: 'Alter authentication token verification and schema',
+          target: 'toolforge',
+          files: ['src/api/auth-tokens.js', 'migrations/002_drop_auth.sql']
+        }
+      });
+    }, /HIGH_MERGE_RISK_GATE/);
+  } finally {
+    fs.rmSync(baseDir, { recursive: true, force: true });
+  }
+});
+

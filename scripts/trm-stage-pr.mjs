@@ -15,6 +15,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { evaluateMergeRisk } from '../skills/merge-risk/src/index.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const DEV_ROOT = path.resolve(__dirname, '..');
@@ -109,6 +110,9 @@ export function formatEnrichmentHeader(card, commentPrefix = ' * ') {
   const lines = [];
   if (card.issue_url) {
     lines.push(`${commentPrefix}Issue: ${card.issue_url}`);
+  }
+  if (card.merge_risk) {
+    lines.push(`${commentPrefix}Merge Risk: ${card.merge_risk.toUpperCase()}${card.merge_risk_score !== undefined ? ` (score: ${card.merge_risk_score})` : ''}`);
   }
   const enr = card.enrichment;
   if (enr) {
@@ -222,6 +226,19 @@ export function stagePr(cardId, options = {}) {
   const testFileName = isPython ? `test_trm_${cardId.replace(/[^a-zA-Z0-9_]/g, '_')}.py` : `trm-${cardId}.test.mjs`;
   const testFilePath = path.join(testDir, testFileName);
 
+  const implementationFiles = [
+    ...(card.enrichment?.astResults?.map(r => r.path) || []),
+    ...(card.files || [])
+  ];
+  const filesToEvaluate = implementationFiles.length > 0 ? implementationFiles : [testFilePath];
+  const riskResult = options.riskResult || evaluateMergeRisk({ cardData: card, files: filesToEvaluate });
+  card.merge_risk = riskResult.risk;
+  card.merge_risk_score = riskResult.score;
+
+  if (options.enforceRiskGate && riskResult.risk === 'high') {
+    throw new Error(`HIGH_MERGE_RISK_GATE: Card ${cardId} has risk score ${riskResult.score} (${riskResult.risk}). Remote push blocked pending Tier 1 review.`);
+  }
+
   const testContent = generateTestScaffold(card);
   let commitSha = null;
   let pushed = false;
@@ -279,6 +296,8 @@ export function stagePr(cardId, options = {}) {
               pr_commit: commitSha,
               pr_pushed: pushed,
               pr_stage: 'STAGED_FOR_DEV',
+              merge_risk: riskResult.risk,
+              merge_risk_score: riskResult.score,
               pr_staged_at: new Date().toISOString(),
               test_scaffold: path.relative(repoDir, testFilePath).replace(/\\/g, '/')
             });
@@ -303,6 +322,7 @@ export function stagePr(cardId, options = {}) {
     commitSha,
     pushed,
     testFilePath,
+    risk: riskResult,
     dryRun
   };
 }
@@ -313,6 +333,8 @@ async function main() {
   let createBranch = false;
   let push = false;
   let dryRun = false;
+  let checkRisk = false;
+  let enforceRiskGate = false;
 
   for (const arg of args) {
     if (arg.startsWith('--card-id=')) cardId = arg.slice('--card-id='.length);
@@ -320,15 +342,20 @@ async function main() {
     else if (arg === '--create-branch') createBranch = true;
     else if (arg === '--push') push = true;
     else if (arg === '--dry-run') dryRun = true;
+    else if (arg === '--check-risk') checkRisk = true;
+    else if (arg === '--enforce-risk-gate') enforceRiskGate = true;
   }
 
   if (!cardId) {
-    console.error('Usage: node scripts/trm-stage-pr.mjs --card-id=<cardId> [--create-branch] [--push] [--dry-run]');
+    console.error('Usage: node scripts/trm-stage-pr.mjs --card-id=<cardId> [--create-branch] [--push] [--check-risk] [--enforce-risk-gate] [--dry-run]');
     process.exit(1);
   }
 
   try {
-    const res = stagePr(cardId, { createBranch, push, dryRun });
+    const res = stagePr(cardId, { createBranch, push, dryRun, checkRisk, enforceRiskGate });
+    if (checkRisk) {
+      console.log(`[stage-pr] Risk Assessment:\n${res.risk.formatted}`);
+    }
     console.log('[stage-pr] PR stage successful:', JSON.stringify(res, null, 2));
   } catch (err) {
     console.error('[stage-pr] Error staging PR:', err.message);

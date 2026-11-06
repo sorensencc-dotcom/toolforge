@@ -1,0 +1,30 @@
+{
+  "id": "merge-risk",
+  "name": "Merge Risk Evaluator",
+  "version": "0.1.0",
+  "description": "Evaluates pull request merge safety across 5 weighted dimensions and flags sensitive pathways.",
+  "category": "governance",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "tags": ["governance", "review", "merge", "trm", "safety"],
+  "keywords": ["merge-risk", "pull-request", "blast-radius", "verification", "tla"],
+  "commands": {
+    "run": "node src/index.mjs",
+    "test": "node --test tests/index.test.mjs"
+  },
+  "inputs": {
+    "base": "string (default: origin/main)",
+    "head": "string (default: HEAD)",
+    "cardId": "string (optional)"
+  },
+  "outputs": {
+    "status": "string",
+    "risk": "string",
+    "score": "number",
+    "formatted": "string"
+  },
+  "dependencies": {
+    "internal": [],
+    "external": []
+  }
+}
