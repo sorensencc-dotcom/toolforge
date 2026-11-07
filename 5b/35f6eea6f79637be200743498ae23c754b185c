@@ -1,0 +1,38 @@
+notebooklm-uploader.js
+  s_5979629bcd9533::t_f7941f1db83f5d 148,152
+tests/nlm-pack-replace-gate.test.mjs
+  s_5979629bcd9533::t_a76257af757a35 15-16,19-42
+  s_5979629bcd9533::t_8627c647c7ecd0 141,143-149
+  s_5979629bcd9533::t_cb0ef96bf9fa76 43
+scripts/nlm-pack-replace-gate.mjs
+  s_5979629bcd9533::t_1aa1e1e00a5b9b 435
+  s_5979629bcd9533::t_7241de8dc9a5f2 770,774
+  s_5979629bcd9533::t_21bf16538e2447 823
+  s_5979629bcd9533::t_4b2c8e8441fd73 396,403
+  s_5979629bcd9533::t_5b0506b2cfd24e 37-41
+  s_5979629bcd9533::t_dfcbd5e05f6281 312-376
+  s_5979629bcd9533::t_286905af5444d1 583
+  s_5979629bcd9533::t_756145b2abb64b 633
+  s_5979629bcd9533::t_9fb229c08e41cd 738-746
+  s_5979629bcd9533::t_e3a88fe8ae88f5 710-715
+  s_5979629bcd9533::t_f0bc47140b483d 558
+  s_5979629bcd9533::t_b2ebf2291cb8e5 790
+.trail/learnings/2026-11-07-moved-notebooklm-pack-sync-off-the-chris.md
+  s_5979629bcd9533::t_80fec7ef1b67ba 1-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5b35f6eea6f79637be200743498ae23c754b185c",
+  "prompts": {},
+  "sessions": {
+    "s_5979629bcd9533": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0bd5f0ee-cf5f-459a-86ab-6cd48bd0b6f2",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
