@@ -1,0 +1,19 @@
+.trail/learnings/2026-11-07-cluster-sync-failures-came-from-a-chris.md
+  s_5979629bcd9533::t_472c27d4cdbc42 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cf483b8c15e2f46d7249375909aa888c7acff2b5",
+  "prompts": {},
+  "sessions": {
+    "s_5979629bcd9533": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0bd5f0ee-cf5f-459a-86ab-6cd48bd0b6f2",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
