@@ -7,6 +7,12 @@ import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { commitTypeForCard } from './trm-promote-card.mjs';
 import { checkRun, gatherEvidence } from './trm-dispatch-checker.mjs';
+import {
+  Refusal, UUID_RE, childEnv, readQuestionArtifact, clearQuestionArtifact, readAnswerFile, loadSession, saveSession,
+  newSessionRecord, assertNoCollision, claimRequest, eventConfig, emitEvent, reconcileSession, testsStatus
+} from './trm-dispatch/session-events.mjs';
+
+export { Refusal };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const ICF_URL = 'http://127.0.0.1:8080/api/reporting/trm-backlog?refresh=1';
@@ -28,10 +34,6 @@ const PLACEHOLDER = /^(tbd|todo|n\/?a|none|tests pass|all tests pass|works|done|
 const DEFAULT_TEMPLATE = path.join(__dirname, 'trm-dispatch', 'codex-brief.template.md');
 export const STATUS_DIR = 'C:\\dev\\_status-feed';
 
-export class Refusal extends Error {
-  constructor(code, message) { super(`${code}: ${message}`); this.code = code; }
-}
-
 export function parseArgs(argv) {
   const o = { cli: 'codex', effort: 'medium', timeoutMin: 45, dryRun: false, model: null, cardId: null };
   for (let i = 0; i < argv.length; i++) {
@@ -41,9 +43,19 @@ export function parseArgs(argv) {
     else if (a === '--effort') o.effort = argv[++i];
     else if (a === '--timeout-min') o.timeoutMin = Number(argv[++i]);
     else if (a === '--dry-run') o.dryRun = true;
+    else if (a === '--resume-session') o.resumeSession = argv[++i];
+    else if (a === '--run-id') o.runId = argv[++i];
+    else if (a === '--request-id') o.requestId = argv[++i];
+    else if (a === '--answer-file') o.answerFile = argv[++i];
+    else if (a === '--reconcile-session') o.reconcileSession = argv[++i];
     else if (!o.cardId) o.cardId = a;
   }
   if (!CLI_PATHS[o.cli]) throw new Refusal('BAD_ARGS', `unknown --cli ${o.cli}`);
+  if (o.resumeSession !== undefined) {
+    if (!o.resumeSession || !o.runId || !o.requestId || !o.answerFile) throw new Refusal('BAD_ARGS', '--resume-session needs --run-id, --request-id and --answer-file');
+    if (!UUID_RE.test(o.runId) || !UUID_RE.test(o.requestId)) throw new Refusal('BAD_ARGS', '--run-id and --request-id must be UUIDs');
+  }
+  if (o.reconcileSession === '') throw new Refusal('BAD_ARGS', '--reconcile-session needs a name');
   return o;
 }
 
@@ -119,6 +131,8 @@ export async function preflight(opts) {
     git = defaultGit, exists = defaultExists, readFile = (p) => fs.readFileSync(p, 'utf8'),
     templatePath = DEFAULT_TEMPLATE, testCmd = 'npm test', model = null, effort = 'medium'
   } = opts;
+  // Questions are only offered where the dispatcher can record WAITING_INPUT and resume the exact thread (codex).
+  const questionBridge = cli === 'codex' && opts.questionBridge !== false;
   const cards = await fetchCards({ fetchImpl });
   const card = cards.find((c) => c.id === cardId);
   if (!card) throw new Refusal('NOT_FOUND', `no ICF card with id ${cardId} (exact case)`);
